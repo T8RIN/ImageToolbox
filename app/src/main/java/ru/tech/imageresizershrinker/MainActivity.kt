@@ -44,10 +44,11 @@ import java.util.*
 @Suppress("DEPRECATION")
 @ExperimentalMaterial3Api
 class MainActivity : ComponentActivity() {
+
+    private val bitmap = mutableStateOf<Bitmap?>(null)
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        val bitmap = mutableStateOf<Bitmap?>(null)
 
         setContent {
             ImageResizerShrinkerTheme {
