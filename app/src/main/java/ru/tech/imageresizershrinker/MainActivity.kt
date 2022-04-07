@@ -272,19 +272,18 @@ fun RadioGroup(
     options: List<String>?,
     selectedOption: Int?,
     onOptionSelected: (Int) -> Unit
-) =
-    options?.forEachIndexed { index, item ->
-        Row(
-            Modifier.padding(top = 16.dp),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            RadioButton(
-                selected = (index == selectedOption),
-                onClick = { onOptionSelected(index) },
-            )
+) = options?.forEachIndexed { index, item ->
+    Row(
+        Modifier.padding(top = 16.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        RadioButton(
+            selected = (index == selectedOption),
+            onClick = { onOptionSelected(index) },
+        )
 
-            Text(item, color = MaterialTheme.colorScheme.onBackground)
+        Text(item, color = MaterialTheme.colorScheme.onBackground)
 
-        }
     }
+}
 
