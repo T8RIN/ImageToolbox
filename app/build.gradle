@@ -11,8 +11,8 @@ android {
         applicationId "ru.tech.imageresizershrinker"
         minSdk 21
         targetSdk 32
-        versionCode 2
-        versionName "1.0.1"
+        versionCode 3
+        versionName "1.0.2"
     }
 
     buildTypes {
@@ -47,5 +47,8 @@ dependencies {
     implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.4.1'
     implementation 'androidx.activity:activity-compose:1.4.0'
     implementation "androidx.compose.ui:ui:1.2.0-alpha07"
+    implementation "androidx.compose.foundation:foundation:1.2.0-alpha07"
     implementation 'androidx.compose.material3:material3:1.0.0-alpha09'
+    implementation "androidx.compose.material:material-icons-extended:1.2.0-alpha07"
+    implementation "com.google.accompanist:accompanist-systemuicontroller:0.24.5-alpha"
 }

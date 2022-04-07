@@ -8,6 +8,7 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.ImageDecoder.createSource
 import android.graphics.ImageDecoder.decodeBitmap
+import android.graphics.Matrix
 import android.os.Build
 import android.os.Bundle
 import android.os.Environment
@@ -24,25 +25,28 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Flip
+import androidx.compose.material.icons.filled.RotateLeft
+import androidx.compose.material.icons.filled.RotateRight
+import androidx.compose.material.icons.twotone.Image
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.asImageBitmap
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat.checkSelfPermission
 import androidx.core.text.isDigitsOnly
+import androidx.core.view.WindowCompat
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import ru.tech.imageresizershrinker.ui.theme.ImageResizerShrinkerTheme
 import java.io.*
 import java.text.SimpleDateFormat
 import java.util.*
@@ -55,6 +59,7 @@ class MainActivity : ComponentActivity() {
     private val viewModel by viewModels<MainViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        WindowCompat.setDecorFitsSystemWindows(window, false)
         super.onCreate(savedInstanceState)
         setContent {
 
@@ -63,6 +68,8 @@ class MainActivity : ComponentActivity() {
             var quality by rememberSaveable { mutableStateOf(0f) }
             var mime by rememberSaveable { mutableStateOf(0) }
             var resize by rememberSaveable { mutableStateOf(0) }
+            var rotation by rememberSaveable { mutableStateOf(0f) }
+            var isFlipped by rememberSaveable { mutableStateOf(false) }
 
 
             ImageResizerShrinkerTheme {
@@ -102,7 +109,13 @@ class MainActivity : ComponentActivity() {
                 ) {
                     LazyColumn(
                         reverseLayout = true,
-                        contentPadding = PaddingValues(horizontal = 40.dp)
+                        contentPadding = PaddingValues(
+                            top = WindowInsets.statusBars.asPaddingValues()
+                                .calculateBottomPadding(),
+                            bottom = WindowInsets.navigationBars.asPaddingValues()
+                                .calculateBottomPadding(),
+                            start = 40.dp, end = 40.dp
+                        )
                     ) {
                         item {
                             Column(
@@ -116,7 +129,7 @@ class MainActivity : ComponentActivity() {
                                     bitmap.value?.asImageBitmap()?.let { Image(it, null) }
                                 } else {
                                     Icon(
-                                        ImageVector.vectorResource(id = R.drawable.ic_twotone_image_24),
+                                        Icons.TwoTone.Image,
                                         null,
                                         modifier = Modifier.size(100.dp)
                                     )
@@ -125,6 +138,61 @@ class MainActivity : ComponentActivity() {
                                     Spacer(Modifier.size(20.dp))
                                 }
                                 Spacer(Modifier.size(40.dp))
+                                if (viewModel.globalBitmap.value != null) {
+                                    Row {
+                                        SmallFloatingActionButton(onClick = {
+                                            rotation -= 90f
+                                            checkBitmapAndUpdate(
+                                                scope,
+                                                bitmap,
+                                                quality,
+                                                width,
+                                                height,
+                                                mime,
+                                                resize,
+                                                rotation,
+                                                isFlipped
+                                            )
+                                        }) {
+                                            Icon(Icons.Default.RotateLeft, null)
+                                        }
+
+                                        SmallFloatingActionButton(onClick = {
+                                            isFlipped = !isFlipped
+                                            checkBitmapAndUpdate(
+                                                scope,
+                                                bitmap,
+                                                quality,
+                                                width,
+                                                height,
+                                                mime,
+                                                resize,
+                                                rotation,
+                                                isFlipped
+                                            )
+                                        }) {
+                                            Icon(Icons.Default.Flip, null)
+                                        }
+
+                                        SmallFloatingActionButton(onClick = {
+                                            rotation += 90f
+                                            checkBitmapAndUpdate(
+                                                scope,
+                                                bitmap,
+                                                quality,
+                                                width,
+                                                height,
+                                                mime,
+                                                resize,
+                                                rotation,
+                                                isFlipped
+                                            )
+                                        }) {
+                                            Icon(Icons.Default.RotateRight, null)
+                                        }
+                                    }
+                                }
+                                Spacer(Modifier.size(10.dp))
                                 Row {
                                     TextField(
                                         value = width,
@@ -137,7 +205,9 @@ class MainActivity : ComponentActivity() {
                                                 width,
                                                 height,
                                                 mime,
-                                                resize
+                                                resize,
+                                                rotation,
+                                                isFlipped
                                             )
                                         },
                                         keyboardOptions = KeyboardOptions(
@@ -158,7 +228,9 @@ class MainActivity : ComponentActivity() {
                                                 width,
                                                 height,
                                                 mime,
-                                                resize
+                                                resize,
+                                                rotation,
+                                                isFlipped
                                             )
                                         },
                                         keyboardOptions = KeyboardOptions(
@@ -182,7 +254,9 @@ class MainActivity : ComponentActivity() {
                                             width,
                                             height,
                                             mime,
-                                            resize
+                                            resize,
+                                            rotation,
+                                            isFlipped
                                         )
                                     },
                                     valueRange = 0f..100f,
@@ -204,7 +278,9 @@ class MainActivity : ComponentActivity() {
                                                 width,
                                                 height,
                                                 mime,
-                                                resize
+                                                resize,
+                                                rotation,
+                                                isFlipped
                                             )
                                         }
                                     )
@@ -224,7 +300,9 @@ class MainActivity : ComponentActivity() {
                                                 width,
                                                 height,
                                                 mime,
-                                                resize
+                                                resize,
+                                                rotation,
+                                                isFlipped
                                             )
                                         }
                                     )
@@ -240,7 +318,9 @@ class MainActivity : ComponentActivity() {
                                                     width.toIntOrNull(),
                                                     height.toIntOrNull(),
                                                     mime,
-                                                    resize
+                                                    resize,
+                                                    rotation,
+                                                    isFlipped
                                                 )?.let { bmp ->
                                                     viewModel.globalBitmap.value = bmp
                                                     Toast.makeText(
@@ -275,7 +355,9 @@ class MainActivity : ComponentActivity() {
         widthValue: Int?,
         heightValue: Int?,
         mime: Int,
-        resize: Int
+        resize: Int,
+        rotation: Float,
+        isFlipped: Boolean
     ): Bitmap? {
         return if (isExternalStorageWritable()) {
             val ext = if (mime == 1) "jpg" else "png"
@@ -296,7 +378,8 @@ class MainActivity : ComponentActivity() {
                 )
             } else {
                 bitmap.resizeBitmap(max(tWidth, tHeight))
-            }
+            }.rotate(rotation).flip(isFlipped)
+
             val fos: OutputStream? = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
                 val resolver: ContentResolver = contentResolver
                 val contentValues = ContentValues().apply {
@@ -359,11 +442,14 @@ class MainActivity : ComponentActivity() {
         width: String,
         height: String,
         mime: Int,
-        resize: Int
+        resize: Int,
+        rotation: Float,
+        isFlipped: Boolean
     ) {
         scope.launch {
             viewModel.globalBitmap.value?.let { bmp ->
-                bitmap.value = updatePreview(bmp, quality, width, height, mime, resize)
+                bitmap.value =
+                    updatePreview(bmp, quality, width, height, mime, resize, rotation, isFlipped)
             }
         }
     }
@@ -374,7 +460,9 @@ class MainActivity : ComponentActivity() {
         width: String,
         height: String,
         mime: Int,
-        resize: Int
+        resize: Int,
+        rotation: Float,
+        isFlipped: Boolean
     ): Bitmap = withContext(Dispatchers.IO) {
         globalBitmap.let {
             it.previewBitmap(
@@ -382,7 +470,9 @@ class MainActivity : ComponentActivity() {
                 width.toIntOrNull(),
                 height.toIntOrNull(),
                 mime,
-                resize
+                resize,
+                rotation,
+                isFlipped
             ).let { bmp ->
                 return@withContext bmp
             }
@@ -394,7 +484,9 @@ class MainActivity : ComponentActivity() {
         widthValue: Int?,
         heightValue: Int?,
         mime: Int,
-        resize: Int
+        resize: Int,
+        rotation: Float,
+        isFlipped: Boolean
     ): Bitmap {
         val out = ByteArrayOutputStream()
         val explicit = resize == 0
@@ -410,21 +502,35 @@ class MainActivity : ComponentActivity() {
             )
         } else {
             this.resizeBitmap(max(tWidth, tHeight))
-        }.compress(
-            if (mime == 1) Bitmap.CompressFormat.JPEG else Bitmap.CompressFormat.PNG,
-            quality.toInt(), out
-        )
+        }.rotate(rotation)
+            .flip(isFlipped)
+            .compress(
+                if (mime == 1) Bitmap.CompressFormat.JPEG else Bitmap.CompressFormat.PNG,
+                quality.toInt(), out
+            )
         return BitmapFactory.decodeStream(ByteArrayInputStream(out.toByteArray()))
     }
 
     private fun String.restrict(): String {
         if (isEmpty()) return this
 
-        return if ((this.toIntOrNull() ?: 0) > 4200) "4200"
-        else if (this.isDigitsOnly() && (this.toIntOrNull() ?: 0) == 0) ""
-        else filter {
+        return if ((this.trim().toIntOrNull() ?: 0) > 4200) "4200"
+        else if (this.trim().isDigitsOnly() && (this.toIntOrNull() ?: 0) == 0) ""
+        else this.trim().filter {
             !listOf('-', '.', ',', ' ').contains(it)
         }
+    }
+
+    private fun Bitmap.rotate(degrees: Float): Bitmap {
+        val matrix = Matrix().apply { postRotate(degrees) }
+        return Bitmap.createBitmap(this, 0, 0, width, height, matrix, true)
+    }
+
+    private fun Bitmap.flip(value: Boolean): Bitmap {
+        return if (value) {
+            val matrix = Matrix().apply { postScale(-1f, 1f, width / 2f, width / 2f) }
+            Bitmap.createBitmap(this, 0, 0, width, height, matrix, true)
+        } else this
     }
 
     private fun Bitmap.resizeBitmap(maxLength: Int): Bitmap {
