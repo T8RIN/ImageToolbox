@@ -1,17 +1,19 @@
 package ru.tech.imageresizershrinker
 
 import android.Manifest
-import android.annotation.SuppressLint
 import android.content.ContentResolver
 import android.content.ContentValues
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-import android.graphics.ImageDecoder
+import android.graphics.ImageDecoder.createSource
+import android.graphics.ImageDecoder.decodeBitmap
 import android.os.Build
 import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
+import android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI
+import android.provider.MediaStore.Images.Media.getBitmap
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.rememberLauncherForActivityResult
@@ -42,29 +44,20 @@ import java.util.*
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         setContent {
             ImageResizerShrinkerTheme {
                 val ctx = LocalContext.current
-
                 val bitmap = remember { mutableStateOf<Bitmap?>(null) }
-
                 val launcher =
                     rememberLauncherForActivityResult(contract = ActivityResultContracts.GetContent()) { uri ->
                         uri?.let {
-                            bitmap.value = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-                                ImageDecoder.decodeBitmap(
-                                    ImageDecoder.createSource(
-                                        ctx.contentResolver,
-                                        it
-                                    )
+                            bitmap.value =
+                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) decodeBitmap(
+                                    createSource(ctx.contentResolver, it)
                                 )
-                            } else {
-                                MediaStore.Images.Media.getBitmap(ctx.contentResolver, it)
-                            }
+                                else getBitmap(ctx.contentResolver, it)
                         }
                     }
-
                 Surface(
                     color = MaterialTheme.colorScheme.background,
                     modifier = Modifier.fillMaxSize()
@@ -78,7 +71,6 @@ class MainActivity : ComponentActivity() {
                                 verticalArrangement = Arrangement.Center,
                                 horizontalAlignment = Alignment.CenterHorizontally
                             ) {
-
                                 bitmap.value?.let {
                                     Image(
                                         it.asImageBitmap(),
@@ -86,7 +78,6 @@ class MainActivity : ComponentActivity() {
                                     )
                                     Spacer(Modifier.size(40.dp))
                                 }
-
                                 Column {
                                     var width by rememberSaveable { mutableStateOf("") }
                                     var height by rememberSaveable { mutableStateOf("") }
@@ -99,52 +90,34 @@ class MainActivity : ComponentActivity() {
                                         keyboardOptions = KeyboardOptions(
                                             keyboardType = KeyboardType.Number
                                         ),
-                                        label = {
-                                            Text("Width")
-                                        }
+                                        label = { Text("Width") }
                                     )
-
                                     Spacer(Modifier.size(20.dp))
-
                                     TextField(
                                         value = height,
                                         onValueChange = { height = it },
                                         keyboardOptions = KeyboardOptions(
                                             keyboardType = KeyboardType.Number
                                         ),
-                                        label = {
-                                            Text("Height")
-                                        }
+                                        label = { Text("Height") }
                                     )
-
                                     Spacer(Modifier.size(40.dp))
-
                                     TextField(
                                         value = quality,
                                         onValueChange = {
                                             quality =
                                                 if ((it.toIntOrNull() ?: 0) > 100) "100" else it
                                         },
-                                        keyboardOptions = KeyboardOptions(
-                                            keyboardType = KeyboardType.Number
-                                        ),
-                                        label = {
-                                            Text("Quality")
-                                        }
+                                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                                        label = { Text("Quality") }
                                     )
-
                                     Spacer(Modifier.size(20.dp))
-
                                     RadioGroup(
                                         options = listOf("PNG", "JPEG"),
                                         selectedOption = mime,
-                                        onOptionSelected = {
-                                            mime = it
-                                        }
+                                        onOptionSelected = { mime = it }
                                     )
-
                                     Spacer(Modifier.size(20.dp))
-
                                     TextButton(
                                         onClick = {
                                             bitmap.value?.let {
@@ -168,12 +141,10 @@ class MainActivity : ComponentActivity() {
                                         Text("SAVE")
                                     }
                                 }
-
                                 Spacer(Modifier.size(20.dp))
                                 FilledTonalButton(onClick = { launcher.launch("image/*") }) {
                                     Text("PICK IMAGE")
                                 }
-
                                 Spacer(Modifier.size(40.dp))
                             }
                         }
@@ -210,26 +181,24 @@ class MainActivity : ComponentActivity() {
     }
 
     private fun saveImage(b: Bitmap, quality: Int?, width: Int?, height: Int?, mime: Int): Bitmap {
-
         val timeStamp: String =
             SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(Date())
         val name = "ResizedImage$timeStamp.jpg"
-
         val bitmap = Bitmap.createScaledBitmap(
             b,
             width ?: b.width,
             height ?: b.height,
             false
         )
-
         val fos: OutputStream? = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
             val resolver: ContentResolver = contentResolver
-            val contentValues = ContentValues()
-            contentValues.put(MediaStore.MediaColumns.DISPLAY_NAME, name)
-            contentValues.put(MediaStore.MediaColumns.MIME_TYPE, "image/jpeg")
-            contentValues.put(MediaStore.MediaColumns.RELATIVE_PATH, "DCIM/ResizedImages")
+            val contentValues = ContentValues().apply {
+                put(MediaStore.MediaColumns.DISPLAY_NAME, name)
+                put(MediaStore.MediaColumns.MIME_TYPE, "image/jpeg")
+                put(MediaStore.MediaColumns.RELATIVE_PATH, "DCIM/ResizedImages")
+            }
             val imageUri =
-                resolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, contentValues)
+                resolver.insert(EXTERNAL_CONTENT_URI, contentValues)
             resolver.openOutputStream(imageUri!!)
         } else {
             val imagesDir = Environment.getExternalStoragePublicDirectory(
@@ -247,14 +216,12 @@ class MainActivity : ComponentActivity() {
             quality ?: 100,
             fos
         )
-
         val out = ByteArrayOutputStream()
         bitmap.compress(
             if (mime == 1) Bitmap.CompressFormat.JPEG else Bitmap.CompressFormat.PNG,
             quality ?: 100, out
         )
         val decoded = BitmapFactory.decodeStream(ByteArrayInputStream(out.toByteArray()))
-
         out.flush()
         out.close()
         fos!!.flush()
@@ -263,25 +230,24 @@ class MainActivity : ComponentActivity() {
     }
 }
 
-@SuppressLint("ComposableNaming")
 @ExperimentalMaterial3Api
 @Composable
 fun RadioGroup(
     options: List<String>?,
     selectedOption: Int?,
     onOptionSelected: (Int) -> Unit
-) = options?.forEachIndexed { index, item ->
-    Row(
-        Modifier.padding(top = 16.dp),
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        RadioButton(
-            selected = (index == selectedOption),
-            onClick = { onOptionSelected(index) },
-        )
-
-        Text(item, color = MaterialTheme.colorScheme.onBackground)
-
+) {
+    options?.forEachIndexed { index, item ->
+        Row(
+            Modifier.padding(top = 16.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            RadioButton(
+                selected = (index == selectedOption),
+                onClick = { onOptionSelected(index) },
+            )
+            Text(item, color = MaterialTheme.colorScheme.onBackground)
+        }
     }
 }
 
