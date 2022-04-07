@@ -210,7 +210,7 @@ class MainActivity : ComponentActivity() {
 
         val timeStamp: String =
             SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(Date())
-        val name = "SHAKALENO$timeStamp.jpg"
+        val name = "ResizedImage$timeStamp.jpg"
 
         val bitmap = Bitmap.createScaledBitmap(
             b,
@@ -231,7 +231,7 @@ class MainActivity : ComponentActivity() {
         } else {
             val imagesDir = Environment.getExternalStoragePublicDirectory(
                 Environment.DIRECTORY_DCIM
-            ).toString() + File.separator + "ESearch"
+            ).toString() + File.separator + "ResizedImages"
             val file = File(imagesDir)
             if (!file.exists()) {
                 file.mkdir()
