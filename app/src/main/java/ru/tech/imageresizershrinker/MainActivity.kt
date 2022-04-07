@@ -41,13 +41,11 @@ import java.io.*
 import java.text.SimpleDateFormat
 import java.util.*
 
+private val bitmap = mutableStateOf<Bitmap?>(null)
 
 @Suppress("DEPRECATION")
 @ExperimentalMaterial3Api
 class MainActivity : ComponentActivity() {
-
-    private val bitmap = mutableStateOf<Bitmap?>(null)
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         WindowCompat.setDecorFitsSystemWindows(window, false)
@@ -74,7 +72,7 @@ class MainActivity : ComponentActivity() {
 
                 Surface(
                     color = MaterialTheme.colorScheme.background,
-                    modifier = Modifier.fillMaxSize().systemBarsPadding()
+                    modifier = Modifier.fillMaxSize()
                 ) {
                     LazyColumn(reverseLayout = true) {
                         item {
