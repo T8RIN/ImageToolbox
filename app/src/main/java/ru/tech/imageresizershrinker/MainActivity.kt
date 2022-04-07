@@ -35,6 +35,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat.checkSelfPermission
+import androidx.core.view.WindowCompat
 import ru.tech.imageresizershrinker.ui.theme.ImageResizerShrinkerTheme
 import java.io.*
 import java.text.SimpleDateFormat
@@ -49,6 +50,7 @@ class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        WindowCompat.setDecorFitsSystemWindows(window, false)
 
         setContent {
             ImageResizerShrinkerTheme {
@@ -72,7 +74,7 @@ class MainActivity : ComponentActivity() {
 
                 Surface(
                     color = MaterialTheme.colorScheme.background,
-                    modifier = Modifier.fillMaxSize()
+                    modifier = Modifier.fillMaxSize().systemBarsPadding()
                 ) {
                     LazyColumn(reverseLayout = true) {
                         item {
