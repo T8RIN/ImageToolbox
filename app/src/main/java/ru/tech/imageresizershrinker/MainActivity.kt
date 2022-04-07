@@ -227,7 +227,7 @@ class MainActivity : ComponentActivity() {
             val contentValues = ContentValues()
             contentValues.put(MediaStore.MediaColumns.DISPLAY_NAME, name)
             contentValues.put(MediaStore.MediaColumns.MIME_TYPE, "image/jpeg")
-            contentValues.put(MediaStore.MediaColumns.RELATIVE_PATH, "DCIM/ESearch")
+            contentValues.put(MediaStore.MediaColumns.RELATIVE_PATH, "DCIM/ResizedImages")
             val imageUri =
                 resolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, contentValues)
             resolver.openOutputStream(imageUri!!)
