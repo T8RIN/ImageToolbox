@@ -84,6 +84,7 @@ class MainActivity : ComponentActivity() {
                                         it.asImageBitmap(),
                                         null
                                     )
+                                    Spacer(Modifier.size(40.dp))
                                 }
 
                                 Column {
@@ -172,6 +173,8 @@ class MainActivity : ComponentActivity() {
                                 FilledTonalButton(onClick = { launcher.launch("image/*") }) {
                                     Text("PICK IMAGE")
                                 }
+
+                                Spacer(Modifier.size(40.dp))
                             }
                         }
                     }
