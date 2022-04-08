@@ -1,58 +1,55 @@
 package ru.tech.imageresizershrinker
 
 import android.Manifest
-import android.content.ContentResolver
-import android.content.ContentValues
 import android.content.pm.PackageManager
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.graphics.ImageDecoder.createSource
 import android.graphics.ImageDecoder.decodeBitmap
-import android.graphics.Matrix
 import android.os.Build
 import android.os.Bundle
-import android.os.Environment
-import android.provider.MediaStore
-import android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI
 import android.provider.MediaStore.Images.Media.getBitmap
 import android.widget.Toast
 import androidx.activity.ComponentActivity
+import androidx.activity.compose.BackHandler
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.compose.setContent
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Flip
 import androidx.compose.material.icons.filled.RotateLeft
 import androidx.compose.material.icons.filled.RotateRight
+import androidx.compose.material.icons.outlined.DoorBack
+import androidx.compose.material.icons.outlined.SettingsBackupRestore
 import androidx.compose.material.icons.twotone.Image
 import androidx.compose.material3.*
-import androidx.compose.runtime.*
-import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat.checkSelfPermission
-import androidx.core.text.isDigitsOnly
+import androidx.core.content.ContextCompat
 import androidx.core.view.WindowCompat
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
+import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-import java.io.*
-import java.text.SimpleDateFormat
-import java.util.*
-import kotlin.math.max
+import ru.tech.imageresizershrinker.MainViewModel.Companion.restrict
 
-@Suppress("DEPRECATION")
+@ExperimentalFoundationApi
 @ExperimentalMaterial3Api
 class MainActivity : ComponentActivity() {
 
@@ -63,39 +60,30 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
 
-            var width by rememberSaveable { mutableStateOf("") }
-            var height by rememberSaveable { mutableStateOf("") }
-            var quality by rememberSaveable { mutableStateOf(0f) }
-            var mime by rememberSaveable { mutableStateOf(0) }
-            var resize by rememberSaveable { mutableStateOf(0) }
-            var rotation by rememberSaveable { mutableStateOf(0f) }
-            var isFlipped by rememberSaveable { mutableStateOf(false) }
-
+            BackHandler { viewModel.showDialog = true }
 
             ImageResizerShrinkerTheme {
                 val ctx = LocalContext.current
 
-                val bitmap = remember { mutableStateOf<Bitmap?>(null) }
+                val bitmap = remember { mutableStateOf(viewModel.globalBitmap.value) }
                 when (val s = viewModel.globalBitmap.value) {
                     else -> bitmap.value = s
                 }
-
-                val scope = rememberCoroutineScope()
 
                 val launcher =
                     rememberLauncherForActivityResult(contract = ActivityResultContracts.GetContent()) { uri ->
                         uri?.let {
                             val temp =
                                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) decodeBitmap(
-                                    createSource(ctx.contentResolver, it)
+                                    createSource(contentResolver, it)
                                 )
-                                else getBitmap(ctx.contentResolver, it)
+                                else @Suppress("DEPRECATION") getBitmap(contentResolver, it)
 
                             viewModel.globalBitmap.value =
                                 if (temp.allocationByteCount < 100000000) {
-                                    width = temp.width.toString()
-                                    height = temp.height.toString()
-                                    quality = 100f
+                                    viewModel.width = temp.width.toString()
+                                    viewModel.height = temp.height.toString()
+                                    viewModel.quality = 100f
                                     temp
                                 } else {
                                     Toast.makeText(ctx, "TOO LARGE", Toast.LENGTH_SHORT).show()
@@ -103,6 +91,7 @@ class MainActivity : ComponentActivity() {
                                 }
                         }
                     }
+
                 Surface(
                     color = MaterialTheme.colorScheme.background,
                     modifier = Modifier.fillMaxSize()
@@ -141,52 +130,22 @@ class MainActivity : ComponentActivity() {
                                 if (viewModel.globalBitmap.value != null) {
                                     Row {
                                         SmallFloatingActionButton(onClick = {
-                                            rotation -= 90f
-                                            checkBitmapAndUpdate(
-                                                scope,
-                                                bitmap,
-                                                quality,
-                                                width,
-                                                height,
-                                                mime,
-                                                resize,
-                                                rotation,
-                                                isFlipped
-                                            )
+                                            viewModel.rotation -= 90f
+                                            viewModel.checkBitmapAndUpdate(bitmap)
                                         }) {
                                             Icon(Icons.Default.RotateLeft, null)
                                         }
 
                                         SmallFloatingActionButton(onClick = {
-                                            isFlipped = !isFlipped
-                                            checkBitmapAndUpdate(
-                                                scope,
-                                                bitmap,
-                                                quality,
-                                                width,
-                                                height,
-                                                mime,
-                                                resize,
-                                                rotation,
-                                                isFlipped
-                                            )
+                                            viewModel.isFlipped = !viewModel.isFlipped
+                                            viewModel.checkBitmapAndUpdate(bitmap)
                                         }) {
                                             Icon(Icons.Default.Flip, null)
                                         }
 
                                         SmallFloatingActionButton(onClick = {
-                                            rotation += 90f
-                                            checkBitmapAndUpdate(
-                                                scope,
-                                                bitmap,
-                                                quality,
-                                                width,
-                                                height,
-                                                mime,
-                                                resize,
-                                                rotation,
-                                                isFlipped
-                                            )
+                                            viewModel.rotation += 90f
+                                            viewModel.checkBitmapAndUpdate(bitmap)
                                         }) {
                                             Icon(Icons.Default.RotateRight, null)
                                         }
@@ -195,69 +154,40 @@ class MainActivity : ComponentActivity() {
                                 Spacer(Modifier.size(10.dp))
                                 Row {
                                     TextField(
-                                        value = width,
+                                        value = viewModel.width,
                                         onValueChange = {
-                                            width = it.restrict()
-                                            checkBitmapAndUpdate(
-                                                scope,
-                                                bitmap,
-                                                quality,
-                                                width,
-                                                height,
-                                                mime,
-                                                resize,
-                                                rotation,
-                                                isFlipped
-                                            )
+                                            viewModel.width = it.restrict()
+                                            viewModel.checkBitmapAndUpdate(bitmap)
                                         },
                                         keyboardOptions = KeyboardOptions(
                                             keyboardType = KeyboardType.Number
                                         ),
-                                        label = { Text("Width") },
-                                        modifier = Modifier.weight(1f)
-                                    )
+                                        label = { Text("Width ${viewModel.globalBitmap.value?.width ?: ""}") },
+                                        modifier = Modifier.weight(1f),
+
+                                        )
                                     Spacer(Modifier.size(20.dp))
                                     TextField(
-                                        value = height,
+                                        value = viewModel.height,
                                         onValueChange = {
-                                            height = it.restrict()
-                                            checkBitmapAndUpdate(
-                                                scope,
-                                                bitmap,
-                                                quality,
-                                                width,
-                                                height,
-                                                mime,
-                                                resize,
-                                                rotation,
-                                                isFlipped
-                                            )
+                                            viewModel.height = it.restrict()
+                                            viewModel.checkBitmapAndUpdate(bitmap)
                                         },
                                         keyboardOptions = KeyboardOptions(
                                             keyboardType = KeyboardType.Number
                                         ),
-                                        label = { Text("Height") },
-                                        modifier = Modifier.weight(1f)
+                                        label = { Text("Height ${viewModel.globalBitmap.value?.height ?: ""}") },
+                                        modifier = Modifier.weight(1f),
                                     )
                                 }
                                 Spacer(Modifier.size(40.dp))
 
                                 Text("Quality")
                                 Slider(
-                                    value = quality,
+                                    value = viewModel.quality,
                                     onValueChange = {
-                                        quality = it
-                                        checkBitmapAndUpdate(
-                                            scope,
-                                            bitmap,
-                                            quality,
-                                            width,
-                                            height,
-                                            mime,
-                                            resize,
-                                            rotation,
-                                            isFlipped
-                                        )
+                                        viewModel.quality = it
+                                        viewModel.checkBitmapAndUpdate(bitmap)
                                     },
                                     valueRange = 0f..100f,
                                     steps = 100
@@ -267,21 +197,11 @@ class MainActivity : ComponentActivity() {
                                 Row {
                                     RadioGroup(
                                         title = "Extension",
-                                        options = listOf("PNG", "JPEG"),
-                                        selectedOption = mime,
+                                        options = listOf("PNG", "WEBP", "JPEG"),
+                                        selectedOption = viewModel.mime,
                                         onOptionSelected = {
-                                            mime = it
-                                            checkBitmapAndUpdate(
-                                                scope,
-                                                bitmap,
-                                                quality,
-                                                width,
-                                                height,
-                                                mime,
-                                                resize,
-                                                rotation,
-                                                isFlipped
-                                            )
+                                            viewModel.mime = it
+                                            viewModel.checkBitmapAndUpdate(bitmap)
                                         }
                                     )
 
@@ -290,44 +210,79 @@ class MainActivity : ComponentActivity() {
                                     RadioGroup(
                                         title = "Resize type",
                                         options = listOf("Explicit", "Flexible"),
-                                        selectedOption = resize,
+                                        selectedOption = viewModel.resize,
                                         onOptionSelected = {
-                                            resize = it
-                                            checkBitmapAndUpdate(
-                                                scope,
-                                                bitmap,
-                                                quality,
-                                                width,
-                                                height,
-                                                mime,
-                                                resize,
-                                                rotation,
-                                                isFlipped
-                                            )
+                                            viewModel.resize = it
+                                            viewModel.checkBitmapAndUpdate(bitmap)
+                                        },
+                                        outer = {
+                                            if (viewModel.globalBitmap.value != null) {
+                                                Spacer(Modifier.size(20.dp))
+                                                Box(
+                                                    modifier = Modifier
+                                                        .shadow(
+                                                            6.dp,
+                                                            shape = RoundedCornerShape(12.dp)
+                                                        )
+                                                        .clip(RoundedCornerShape(12.dp))
+                                                        .background(MaterialTheme.colorScheme.primaryContainer)
+                                                        .combinedClickable(
+                                                            onDoubleClick = {
+                                                                viewModel.resetValues()
+                                                                viewModel.checkBitmapAndUpdate(
+                                                                    bitmap
+                                                                )
+                                                                Toast
+                                                                    .makeText(
+                                                                        ctx,
+                                                                        "Values properly reset",
+                                                                        Toast.LENGTH_SHORT
+                                                                    )
+                                                                    .show()
+                                                            },
+                                                            onClick = {
+                                                                Toast
+                                                                    .makeText(
+                                                                        ctx,
+                                                                        "Click twice to reset image state",
+                                                                        Toast.LENGTH_SHORT
+                                                                    )
+                                                                    .show()
+                                                            }
+                                                        )
+                                                ) {
+                                                    Icon(
+                                                        Icons.Outlined.SettingsBackupRestore,
+                                                        null,
+                                                        tint = MaterialTheme.colorScheme.onPrimaryContainer,
+                                                        modifier = Modifier
+                                                            .align(Alignment.Center)
+                                                            .padding(8.dp)
+                                                    )
+                                                }
+                                            }
                                         }
                                     )
                                 }
-                                Spacer(Modifier.size(20.dp))
+                                Spacer(Modifier.size(50.dp))
                                 Row {
                                     FilledTonalButton(
                                         onClick = {
-                                            viewModel.globalBitmap.value?.let {
-                                                saveBitmap(
-                                                    it,
-                                                    quality,
-                                                    width.toIntOrNull(),
-                                                    height.toIntOrNull(),
-                                                    mime,
-                                                    resize,
-                                                    rotation,
-                                                    isFlipped
-                                                )?.let { bmp ->
-                                                    viewModel.globalBitmap.value = bmp
-                                                    Toast.makeText(
-                                                        ctx,
-                                                        "SAVED",
-                                                        Toast.LENGTH_SHORT
-                                                    ).show()
+                                            lifecycleScope.launch {
+                                                viewModel.globalBitmap.value?.let {
+                                                    val success = viewModel.saveBitmap(
+                                                        it,
+                                                        isExternalStorageWritable(),
+                                                        contentResolver
+                                                    )
+                                                    if (!success) requestPermission()
+                                                    else {
+                                                        Toast.makeText(
+                                                            ctx,
+                                                            "SAVED",
+                                                            Toast.LENGTH_SHORT
+                                                        ).show()
+                                                    }
                                                 }
                                             }
                                         },
@@ -344,209 +299,51 @@ class MainActivity : ComponentActivity() {
                             }
                         }
                     }
+
+                    if (viewModel.showDialog) {
+                        AlertDialog(
+                            onDismissRequest = { viewModel.showDialog = false },
+                            dismissButton = {
+                                TextButton(onClick = {
+                                    viewModel.showDialog = false
+                                    finishAffinity()
+                                }) {
+                                    Text("Close")
+                                }
+                            },
+                            confirmButton = {
+                                TextButton(onClick = { viewModel.showDialog = false }) {
+                                    Text("Stay")
+                                }
+                            },
+                            title = { Text("App closing") },
+                            text = {
+                                Text(
+                                    "Are you really want to close the app, unsaved changes in the current image will be ignored",
+                                    textAlign = TextAlign.Center
+                                )
+                            },
+                            icon = { Icon(Icons.Outlined.DoorBack, null) }
+                        )
+                    }
                 }
             }
         }
     }
 
-    private fun saveBitmap(
-        bitmap: Bitmap,
-        quality: Float,
-        widthValue: Int?,
-        heightValue: Int?,
-        mime: Int,
-        resize: Int,
-        rotation: Float,
-        isFlipped: Boolean
-    ): Bitmap? {
-        return if (isExternalStorageWritable()) {
-            val ext = if (mime == 1) "jpg" else "png"
-            val explicit = resize == 0
-
-            val tWidth = widthValue ?: bitmap.width
-            val tHeight = heightValue ?: bitmap.height
-
-            val timeStamp: String =
-                SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(Date())
-            val name = "ResizedImage$timeStamp.$ext"
-            val localBitmap = if (explicit) {
-                Bitmap.createScaledBitmap(
-                    bitmap,
-                    tWidth,
-                    tHeight,
-                    false
-                )
-            } else {
-                bitmap.resizeBitmap(max(tWidth, tHeight))
-            }.rotate(rotation).flip(isFlipped)
-
-            val fos: OutputStream? = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                val resolver: ContentResolver = contentResolver
-                val contentValues = ContentValues().apply {
-                    put(MediaStore.MediaColumns.DISPLAY_NAME, name)
-                    put(MediaStore.MediaColumns.MIME_TYPE, "image/$ext")
-                    put(MediaStore.MediaColumns.RELATIVE_PATH, "DCIM/ResizedImages")
-                }
-                val imageUri =
-                    resolver.insert(EXTERNAL_CONTENT_URI, contentValues)
-                resolver.openOutputStream(imageUri!!)
-            } else {
-                val imagesDir = Environment.getExternalStoragePublicDirectory(
-                    Environment.DIRECTORY_DCIM
-                ).toString() + File.separator + "ResizedImages"
-                val file = File(imagesDir)
-                if (!file.exists()) {
-                    file.mkdir()
-                }
-                val image = File(imagesDir, "$name.$ext")
-                FileOutputStream(image)
-            }
-            localBitmap.compress(
-                if (mime == 1) Bitmap.CompressFormat.JPEG else Bitmap.CompressFormat.PNG,
-                quality.toInt(),
-                fos
-            )
-            val out = ByteArrayOutputStream()
-            localBitmap.compress(
-                if (mime == 1) Bitmap.CompressFormat.JPEG else Bitmap.CompressFormat.PNG,
-                quality.toInt(), out
-            )
-            val decoded = BitmapFactory.decodeStream(ByteArrayInputStream(out.toByteArray()))
-            out.flush()
-            out.close()
-            fos!!.flush()
-            fos.close()
-
-            decoded
-        } else {
-            ActivityCompat.requestPermissions(
-                this,
-                arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE),
-                1
-            )
-            null
-        }
+    private fun requestPermission() {
+        ActivityCompat.requestPermissions(
+            this,
+            arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE),
+            1
+        )
     }
 
     private fun isExternalStorageWritable(): Boolean {
-        return checkSelfPermission(
+        return ContextCompat.checkSelfPermission(
             this,
             Manifest.permission.WRITE_EXTERNAL_STORAGE
         ) == PackageManager.PERMISSION_GRANTED
-    }
-
-    private fun checkBitmapAndUpdate(
-        scope: CoroutineScope,
-        bitmap: MutableState<Bitmap?>,
-        quality: Float,
-        width: String,
-        height: String,
-        mime: Int,
-        resize: Int,
-        rotation: Float,
-        isFlipped: Boolean
-    ) {
-        scope.launch {
-            viewModel.globalBitmap.value?.let { bmp ->
-                bitmap.value =
-                    updatePreview(bmp, quality, width, height, mime, resize, rotation, isFlipped)
-            }
-        }
-    }
-
-    private suspend fun updatePreview(
-        globalBitmap: Bitmap,
-        quality: Float,
-        width: String,
-        height: String,
-        mime: Int,
-        resize: Int,
-        rotation: Float,
-        isFlipped: Boolean
-    ): Bitmap = withContext(Dispatchers.IO) {
-        globalBitmap.let {
-            it.previewBitmap(
-                quality,
-                width.toIntOrNull(),
-                height.toIntOrNull(),
-                mime,
-                resize,
-                rotation,
-                isFlipped
-            ).let { bmp ->
-                return@withContext bmp
-            }
-        }
-    }
-
-    private fun Bitmap.previewBitmap(
-        quality: Float,
-        widthValue: Int?,
-        heightValue: Int?,
-        mime: Int,
-        resize: Int,
-        rotation: Float,
-        isFlipped: Boolean
-    ): Bitmap {
-        val out = ByteArrayOutputStream()
-        val explicit = resize == 0
-        val tWidth = widthValue ?: width
-        val tHeight = heightValue ?: height
-
-        if (explicit) {
-            Bitmap.createScaledBitmap(
-                this,
-                tWidth,
-                tHeight,
-                false
-            )
-        } else {
-            this.resizeBitmap(max(tWidth, tHeight))
-        }.rotate(rotation)
-            .flip(isFlipped)
-            .compress(
-                if (mime == 1) Bitmap.CompressFormat.JPEG else Bitmap.CompressFormat.PNG,
-                quality.toInt(), out
-            )
-        return BitmapFactory.decodeStream(ByteArrayInputStream(out.toByteArray()))
-    }
-
-    private fun String.restrict(): String {
-        if (isEmpty()) return this
-
-        return if ((this.trim().toIntOrNull() ?: 0) > 4200) "4200"
-        else if (this.trim().isDigitsOnly() && (this.toIntOrNull() ?: 0) == 0) ""
-        else this.trim().filter {
-            !listOf('-', '.', ',', ' ').contains(it)
-        }
-    }
-
-    private fun Bitmap.rotate(degrees: Float): Bitmap {
-        val matrix = Matrix().apply { postRotate(degrees) }
-        return Bitmap.createBitmap(this, 0, 0, width, height, matrix, true)
-    }
-
-    private fun Bitmap.flip(value: Boolean): Bitmap {
-        return if (value) {
-            val matrix = Matrix().apply { postScale(-1f, 1f, width / 2f, width / 2f) }
-            Bitmap.createBitmap(this, 0, 0, width, height, matrix, true)
-        } else this
-    }
-
-    private fun Bitmap.resizeBitmap(maxLength: Int): Bitmap {
-        return try {
-            if (height >= width) {
-                val aspectRatio = width.toDouble() / height.toDouble()
-                val targetWidth = (maxLength * aspectRatio).toInt()
-                Bitmap.createScaledBitmap(this, targetWidth, maxLength, false)
-            } else {
-                val aspectRatio = height.toDouble() / width.toDouble()
-                val targetHeight = (maxLength * aspectRatio).toInt()
-                Bitmap.createScaledBitmap(this, maxLength, targetHeight, false)
-            }
-        } catch (_: Exception) {
-            this
-        }
     }
 }
 
@@ -556,22 +353,26 @@ fun RadioGroup(
     title: String?,
     options: List<String>?,
     selectedOption: Int?,
-    onOptionSelected: (Int) -> Unit
+    onOptionSelected: (Int) -> Unit,
+    outer: @Composable (() -> Unit)? = null
 ) {
-    Column {
-        title?.let { Text(title) }
-        options?.forEachIndexed { index, item ->
-            Row(
-                Modifier.padding(top = 16.dp),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                RadioButton(
-                    selected = (index == selectedOption),
-                    onClick = { onOptionSelected(index) },
-                )
-                Text(item)
+    Column(horizontalAlignment = Alignment.End) {
+        Column {
+            title?.let { Text(title) }
+            options?.forEachIndexed { index, item ->
+                Row(
+                    Modifier.padding(top = 16.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    RadioButton(
+                        selected = (index == selectedOption),
+                        onClick = { onOptionSelected(index) },
+                    )
+                    Text(item)
+                }
             }
         }
+        outer?.invoke()
     }
 
 }
