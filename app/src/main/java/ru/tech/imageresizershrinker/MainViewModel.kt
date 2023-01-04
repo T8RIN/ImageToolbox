@@ -10,7 +10,6 @@ import android.provider.MediaStore
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
 import androidx.core.text.isDigitsOnly
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -26,119 +25,188 @@ import kotlin.math.max
 
 class MainViewModel : ViewModel() {
 
-    var showDialog by mutableStateOf(false)
-    val globalBitmap = mutableStateOf<Bitmap?>(null)
+    private val _bitmap: MutableState<Bitmap?> = mutableStateOf(null)
+    val bitmap: Bitmap? by _bitmap
 
-    var width by mutableStateOf("")
-    var height by mutableStateOf("")
-    var quality by mutableStateOf(0f)
-    var mime by mutableStateOf(0)
-    var resize by mutableStateOf(0)
-    var rotation by mutableStateOf(0f)
-    var isFlipped by mutableStateOf(false)
+    private val _previewBitmap: MutableState<Bitmap?> = mutableStateOf(null)
+    val previewBitmap: Bitmap? by _previewBitmap
 
-    fun checkBitmapAndUpdate(bitmap: MutableState<Bitmap?>) {
-        val context = Dispatchers.IO + SupervisorJob()
-        viewModelScope.launch(context = context) {
-            globalBitmap.value?.let { bmp ->
-                bitmap.value = updatePreview(bmp)
-                context.cancelChildren()
+    private val _bitmapInfo: MutableState<BitmapInfo> = mutableStateOf(BitmapInfo())
+    val bitmapInfo: BitmapInfo by _bitmapInfo
+
+    private val _isLoading: MutableState<Boolean> = mutableStateOf(false)
+    val isLoading: Boolean by _isLoading
+
+    private var job: Job? = null
+
+    private fun checkBitmapAndUpdate() {
+        job?.cancel()
+        job = viewModelScope.launch {
+            delay(400)
+            _isLoading.value = true
+            _bitmap.value?.let { bmp ->
+                _previewBitmap.value = updatePreview(bmp)
             }
+            _isLoading.value = false
         }
     }
 
-    suspend fun saveBitmap(
+    fun saveBitmap(
         bitmap: Bitmap,
         isExternalStorageWritable: Boolean,
-        contentResolver: ContentResolver
-    ): Boolean = withContext(Dispatchers.IO) {
-        if (!isExternalStorageWritable) return@withContext false
+        contentResolver: ContentResolver,
+        onSuccess: (Boolean) -> Unit
+    ) = viewModelScope.launch {
+        bitmapInfo.apply {
+            if (!isExternalStorageWritable) onSuccess(false)
 
-        val ext = if (mime == 1) "webp" else if (mime == 0) "png" else "jpg"
-        val explicit = resize == 0
+            val ext = if (mime == 1) "webp" else if (mime == 0) "png" else "jpg"
+            val explicit = resizeType == 0
 
-        val tWidth = width.toIntOrNull() ?: bitmap.width
-        val tHeight = height.toIntOrNull() ?: bitmap.height
+            val tWidth = width.toIntOrNull() ?: bitmap.width
+            val tHeight = height.toIntOrNull() ?: bitmap.height
 
-        val timeStamp: String =
-            SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(Date())
-        val name = "ResizedImage$timeStamp.$ext"
-        val localBitmap = if (explicit) {
-            Bitmap.createScaledBitmap(
-                bitmap,
-                tWidth,
-                tHeight,
-                false
+            val timeStamp: String =
+                SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(Date())
+            val name = "ResizedImage$timeStamp.$ext"
+            val localBitmap = if (explicit) {
+                Bitmap.createScaledBitmap(
+                    bitmap,
+                    tWidth,
+                    tHeight,
+                    false
+                )
+            } else {
+                bitmap.resizeBitmap(max(tWidth, tHeight))
+            }.rotate(rotation).flip(isFlipped)
+
+            val fos: OutputStream? = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                val resolver: ContentResolver = contentResolver
+                val contentValues = ContentValues().apply {
+                    put(MediaStore.MediaColumns.DISPLAY_NAME, name)
+                    put(MediaStore.MediaColumns.MIME_TYPE, "image/$ext")
+                    put(MediaStore.MediaColumns.RELATIVE_PATH, "DCIM/ResizedImages")
+                }
+                val imageUri =
+                    resolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, contentValues)
+                resolver.openOutputStream(imageUri!!)
+            } else {
+                val imagesDir =
+                    "${Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM)}${File.separator}ResizedImages"
+                val file = File(imagesDir)
+                if (!file.exists()) {
+                    file.mkdir()
+                }
+                val image = File(imagesDir, "$name.$ext")
+                FileOutputStream(image)
+            }
+            localBitmap.compress(
+                if (mime == 1) Bitmap.CompressFormat.WEBP else if (mime == 0) Bitmap.CompressFormat.PNG else Bitmap.CompressFormat.JPEG,
+                quality.toInt(),
+                fos
             )
-        } else {
-            bitmap.resizeBitmap(max(tWidth, tHeight))
-        }.rotate(rotation).flip(isFlipped)
+            val out = ByteArrayOutputStream()
+            localBitmap.compress(
+                if (mime == 1) Bitmap.CompressFormat.WEBP else if (mime == 0) Bitmap.CompressFormat.PNG else Bitmap.CompressFormat.JPEG,
+                quality.toInt(), out
+            )
+            val decoded = BitmapFactory.decodeStream(ByteArrayInputStream(out.toByteArray()))
+            out.flush()
+            out.close()
+            fos!!.flush()
+            fos.close()
 
-        val fos: OutputStream? = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-            val resolver: ContentResolver = contentResolver
-            val contentValues = ContentValues().apply {
-                put(MediaStore.MediaColumns.DISPLAY_NAME, name)
-                put(MediaStore.MediaColumns.MIME_TYPE, "image/$ext")
-                put(MediaStore.MediaColumns.RELATIVE_PATH, "DCIM/ResizedImages")
-            }
-            val imageUri =
-                resolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, contentValues)
-            resolver.openOutputStream(imageUri!!)
-        } else {
-            val imagesDir =
-                "${Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM)}${File.separator}ResizedImages"
-            val file = File(imagesDir)
-            if (!file.exists()) {
-                file.mkdir()
-            }
-            val image = File(imagesDir, "$name.$ext")
-            FileOutputStream(image)
+            _bitmap.value = decoded
+            _bitmapInfo.value = _bitmapInfo.value.copy(
+                isFlipped = false,
+                rotation = 0f
+            )
         }
-        localBitmap.compress(
-            if (mime == 1) Bitmap.CompressFormat.WEBP else if (mime == 0) Bitmap.CompressFormat.PNG else Bitmap.CompressFormat.JPEG,
-            quality.toInt(),
-            fos
-        )
-        val out = ByteArrayOutputStream()
-        localBitmap.compress(
-            if (mime == 1) Bitmap.CompressFormat.WEBP else if (mime == 0) Bitmap.CompressFormat.PNG else Bitmap.CompressFormat.JPEG,
-            quality.toInt(), out
-        )
-        val decoded = BitmapFactory.decodeStream(ByteArrayInputStream(out.toByteArray()))
-        out.flush()
-        out.close()
-        fos!!.flush()
-        fos.close()
 
-        globalBitmap.value = decoded
-        isFlipped = false
-        rotation = 0f
-
-        return@withContext true
+        onSuccess(true)
     }
 
     private suspend fun updatePreview(
         bitmap: Bitmap
     ): Bitmap = withContext(Dispatchers.IO) {
-        return@withContext bitmap.previewBitmap(
-            quality,
-            width.toIntOrNull(),
-            height.toIntOrNull(),
-            mime,
-            resize,
-            rotation,
-            isFlipped
-        )
+        return@withContext bitmapInfo.run {
+            bitmap.previewBitmap(
+                quality,
+                width.toIntOrNull(),
+                height.toIntOrNull(),
+                mime,
+                resizeType,
+                rotation,
+                isFlipped
+            ) {
+                _bitmapInfo.value = _bitmapInfo.value.copy(size = it)
+            }
+        }
     }
 
     fun resetValues() {
-        width = globalBitmap.value?.width?.toString() ?: ""
-        height = globalBitmap.value?.height?.toString() ?: ""
-        quality = 100f
-        rotation = 0f
-        isFlipped = false
-        mime = 0
-        resize = 0
+        _bitmapInfo.value = BitmapInfo(
+            width = _bitmap.value?.width?.toString() ?: "",
+            height = _bitmap.value?.height?.toString() ?: "",
+            size = _bitmap.value?.byteCount ?: 0
+        )
+        checkBitmapAndUpdate()
+    }
+
+    fun updateBitmap(bitmap: Bitmap?) {
+        _bitmap.value = bitmap
+        _previewBitmap.value = bitmap
+        resetValues()
+    }
+
+    fun rotateLeft() {
+        _bitmapInfo.value = _bitmapInfo.value.copy(rotation = _bitmapInfo.value.rotation - 90f)
+        checkBitmapAndUpdate()
+    }
+
+    fun rotateRight() {
+        _bitmapInfo.value = _bitmapInfo.value.copy(rotation = _bitmapInfo.value.rotation + 90f)
+        checkBitmapAndUpdate()
+    }
+
+    fun flip() {
+        _bitmapInfo.value = _bitmapInfo.value.copy(isFlipped = !_bitmapInfo.value.isFlipped)
+        checkBitmapAndUpdate()
+    }
+
+    fun updateWidth(width: String) {
+        _bitmapInfo.value = _bitmapInfo.value.copy(width = width)
+        checkBitmapAndUpdate()
+    }
+
+    fun updateHeight(height: String) {
+        _bitmapInfo.value = _bitmapInfo.value.copy(height = height)
+        checkBitmapAndUpdate()
+    }
+
+    fun setQuality(quality: Float) {
+        _bitmapInfo.value = _bitmapInfo.value.copy(quality = quality)
+        checkBitmapAndUpdate()
+    }
+
+    fun setMime(mime: Int) {
+        _bitmapInfo.value = _bitmapInfo.value.copy(mime = mime)
+        checkBitmapAndUpdate()
+    }
+
+    fun setResizeType(type: Int) {
+        _bitmapInfo.value = _bitmapInfo.value.copy(resizeType = type)
+        checkBitmapAndUpdate()
+    }
+
+    fun setTelegramSpecs() {
+        _bitmapInfo.value = _bitmapInfo.value.copy(
+            width = "512",
+            height = "512",
+            mime = 0,
+            resizeType = 1
+        )
+        checkBitmapAndUpdate()
     }
 
     companion object {

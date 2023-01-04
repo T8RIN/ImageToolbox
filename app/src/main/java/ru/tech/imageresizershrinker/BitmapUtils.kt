@@ -45,7 +45,8 @@ object BitmapUtils {
         mime: Int,
         resize: Int,
         rotation: Float,
-        isFlipped: Boolean
+        isFlipped: Boolean,
+        onByteCount: (Int) -> Unit
     ): Bitmap {
         val out = ByteArrayOutputStream()
         val explicit = resize == 0
@@ -68,7 +69,9 @@ object BitmapUtils {
                 if (mime == 1) Bitmap.CompressFormat.WEBP else if (mime == 0) Bitmap.CompressFormat.PNG else Bitmap.CompressFormat.JPEG,
                 quality.toInt(), out
             )
-        val decoded = BitmapFactory.decodeStream(ByteArrayInputStream(out.toByteArray()))
+        val b = out.toByteArray()
+        onByteCount(b.size)
+        val decoded = BitmapFactory.decodeStream(ByteArrayInputStream(b))
 
         out.flush()
         out.close()
