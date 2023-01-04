@@ -44,8 +44,6 @@ android {
 
 dependencies {
     implementation 'androidx.activity:activity-compose:1.6.1'
-    implementation "androidx.compose.ui:ui:1.4.0-alpha03"
-    implementation "androidx.compose.foundation:foundation:1.4.0-alpha03"
     implementation 'androidx.compose.material3:material3:1.1.0-alpha03'
     implementation "androidx.compose.material:material-icons-extended:1.4.0-alpha03"
     implementation "com.google.accompanist:accompanist-systemuicontroller:0.28.0"
