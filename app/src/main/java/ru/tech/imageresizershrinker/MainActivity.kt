@@ -15,16 +15,17 @@ import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.compose.animation.*
-import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
+import androidx.compose.animation.core.tween
+import androidx.compose.foundation.*
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Flip
+import androidx.compose.material.icons.filled.History
 import androidx.compose.material.icons.filled.RotateLeft
 import androidx.compose.material.icons.filled.RotateRight
 import androidx.compose.material.icons.outlined.DoorBack
@@ -78,6 +79,8 @@ class MainActivity : ComponentActivity() {
                 val scope = rememberCoroutineScope()
                 var showDialog by remember { mutableStateOf(false) }
                 var showSaveLoading by remember { mutableStateOf(false) }
+                var showOriginal by remember { mutableStateOf(false) }
+                val state = rememberLazyListState()
 
                 val bitmapInfo = viewModel.bitmapInfo
 
@@ -123,9 +126,6 @@ class MainActivity : ComponentActivity() {
                         .fillMaxSize()
                         .pointerInput(Unit) {
                             detectTapGestures(
-                                onLongPress = {
-
-                                },
                                 onTap = {
                                     focus.clearFocus()
                                 }
@@ -185,6 +185,7 @@ class MainActivity : ComponentActivity() {
                                 }
                             )
                             LazyColumn(
+                                state = state,
                                 reverseLayout = true,
                                 contentPadding = PaddingValues(
                                     top = WindowInsets.statusBars.asPaddingValues()
@@ -209,14 +210,33 @@ class MainActivity : ComponentActivity() {
                                             val bmp = pair.first
                                             val loading = pair.second
                                             Box {
-                                                bmp?.asImageBitmap()?.let {
-                                                    Image(
-                                                        bitmap = it,
-                                                        contentDescription = null,
-                                                        modifier = Modifier.clip(
-                                                            RoundedCornerShape(4.dp)
-                                                        )
-                                                    )
+                                                AnimatedContent(
+                                                    targetState = showOriginal,
+                                                    transitionSpec = {
+                                                        fadeIn(tween(0)) with fadeOut(tween(0))
+                                                    }
+                                                ) { showOrig ->
+                                                    if (showOrig) {
+                                                        viewModel.bitmap?.asImageBitmap()?.let {
+                                                            Image(
+                                                                bitmap = it,
+                                                                contentDescription = null,
+                                                                modifier = Modifier.clip(
+                                                                    RoundedCornerShape(4.dp)
+                                                                )
+                                                            )
+                                                        }
+                                                    } else {
+                                                        bmp?.asImageBitmap()?.let {
+                                                            Image(
+                                                                bitmap = it,
+                                                                contentDescription = null,
+                                                                modifier = Modifier.clip(
+                                                                    RoundedCornerShape(4.dp)
+                                                                )
+                                                            )
+                                                        }
+                                                    }
                                                 }
                                                 if (loading) {
                                                     Box(
@@ -262,6 +282,36 @@ class MainActivity : ComponentActivity() {
                                                     containerColor = MaterialTheme.colorScheme.surfaceVariant
                                                 ) {
                                                     Icon(Icons.Default.RotateRight, null)
+                                                }
+
+                                                Spacer(Modifier.weight(1f))
+
+                                                Box(
+                                                    modifier = Modifier
+                                                        .clip(RoundedCornerShape(12.dp))
+                                                        .background(MaterialTheme.colorScheme.surfaceVariant)
+                                                        .pointerInput(Unit) {
+                                                            detectTapGestures(
+                                                                onPress = {
+                                                                    state.animateScrollToItem(
+                                                                        0,
+                                                                        10000
+                                                                    )
+                                                                    showOriginal = true
+                                                                    tryAwaitRelease()
+                                                                    showOriginal = false
+                                                                }
+                                                            )
+                                                        }
+                                                ) {
+                                                    Icon(
+                                                        Icons.Default.History,
+                                                        null,
+                                                        tint = MaterialTheme.colorScheme.onSurfaceVariant,
+                                                        modifier = Modifier
+                                                            .align(Alignment.Center)
+                                                            .padding(8.dp)
+                                                    )
                                                 }
                                             }
                                         } else if (!viewModel.isLoading) {
