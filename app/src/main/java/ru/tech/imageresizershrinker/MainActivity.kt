@@ -7,7 +7,6 @@ import android.graphics.ImageDecoder.decodeBitmap
 import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore.Images.Media.getBitmap
-import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.BackHandler
 import androidx.activity.compose.rememberLauncherForActivityResult
@@ -19,6 +18,7 @@ import androidx.compose.animation.*
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -29,9 +29,7 @@ import androidx.compose.material.icons.filled.RotateLeft
 import androidx.compose.material.icons.filled.RotateRight
 import androidx.compose.material.icons.outlined.DoorBack
 import androidx.compose.material.icons.outlined.SettingsBackupRestore
-import androidx.compose.material.icons.rounded.AddPhotoAlternate
-import androidx.compose.material.icons.rounded.Save
-import androidx.compose.material.icons.rounded.Send
+import androidx.compose.material.icons.rounded.*
 import androidx.compose.material.icons.twotone.Image
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -42,13 +40,16 @@ import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.graphics.graphicsLayer
-import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.window.Dialog
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.view.WindowCompat
+import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.MainViewModel.Companion.restrict
 import java.text.CharacterIterator
 import java.text.StringCharacterIterator
@@ -67,41 +68,75 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             ImageResizerShrinkerTheme {
-                Surface(
-                    color = MaterialTheme.colorScheme.background,
-                    modifier = Modifier.fillMaxSize()
-                ) {
-                    Box(Modifier.fillMaxSize()) {
-                        val ctx = LocalContext.current
-                        var showDialog by remember { mutableStateOf(false) }
+                val focus = LocalFocusManager.current
+                val toastHostState = rememberToastHostState()
+                val scope = rememberCoroutineScope()
+                var showDialog by remember { mutableStateOf(false) }
+                var showSaveLoading by remember { mutableStateOf(false) }
 
-                        val bitmapInfo = viewModel.bitmapInfo
+                val bitmapInfo = viewModel.bitmapInfo
 
-                        val pickImageLauncher =
-                            rememberLauncherForActivityResult(
-                                contract = ActivityResultContracts.PickVisualMedia()
-                            ) { uri ->
-                                uri?.let {
-                                    val bmp = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+                val pickImageLauncher =
+                    rememberLauncherForActivityResult(
+                        contract = ActivityResultContracts.PickVisualMedia()
+                    ) { uri ->
+                        uri?.let {
+                            try {
+                                val bmp =
+                                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
                                         decodeBitmap(createSource(contentResolver, uri))
                                     } else {
-                                        @Suppress("DEPRECATION") getBitmap(contentResolver, uri)
+                                        @Suppress("DEPRECATION") getBitmap(
+                                            contentResolver,
+                                            uri
+                                        )
                                     }
-                                    if (bmp.allocationByteCount < 100000000) {
-                                        viewModel.updateBitmap(bmp)
-                                    } else {
-                                        Toast.makeText(ctx, "TOO LARGE", Toast.LENGTH_SHORT).show()
+                                if (bmp.allocationByteCount < 100000000) {
+                                    viewModel.updateBitmap(bmp)
+                                } else {
+                                    scope.launch {
+                                        toastHostState.showToast(
+                                            "Too large image",
+                                            Icons.Rounded.ErrorOutline
+                                        )
                                     }
                                 }
+                            } catch (e: Exception) {
+                                scope.launch {
+                                    toastHostState.showToast(
+                                        "Something went wrong: ${e.localizedMessage}",
+                                        Icons.Rounded.ErrorOutline
+                                    )
+                                }
                             }
+                        }
+                    }
 
+                Surface(
+                    color = MaterialTheme.colorScheme.background,
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .pointerInput(Unit) {
+                            detectTapGestures(
+                                onLongPress = {
+
+                                },
+                                onTap = {
+                                    focus.clearFocus()
+                                }
+                            )
+                        }
+                ) {
+                    Box(Modifier.fillMaxSize()) {
                         Column(Modifier.fillMaxSize()) {
                             CenterAlignedTopAppBar(
                                 title = {
                                     if (viewModel.bitmap == null) {
                                         Text("Image Resizer")
-                                    } else {
+                                    } else if (!viewModel.isLoading) {
                                         Text("Size ${byteCount(bitmapInfo.size)}")
+                                    } else {
+                                        Text("Loading...")
                                     }
                                 },
                                 colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
@@ -110,16 +145,17 @@ class MainActivity : ComponentActivity() {
                                     )
                                 ),
                                 actions = {
-                                    IconButton(onClick = {
-                                        viewModel.resetValues()
-                                        Toast
-                                            .makeText(
-                                                ctx,
-                                                "Values properly reset",
-                                                Toast.LENGTH_SHORT
-                                            )
-                                            .show()
-                                    }) {
+                                    IconButton(
+                                        onClick = {
+                                            viewModel.resetValues()
+                                            scope.launch {
+                                                toastHostState.showToast(
+                                                    "Values properly reset",
+                                                    Icons.Rounded.DoneOutline
+                                                )
+                                            }
+                                        }
+                                    ) {
                                         Icon(
                                             Icons.Outlined.SettingsBackupRestore,
                                             null
@@ -168,21 +204,29 @@ class MainActivity : ComponentActivity() {
                                             val bmp = pair.first
                                             val loading = pair.second
                                             Box {
-                                                bmp?.asImageBitmap()?.let { Image(it, null) }
+                                                bmp?.asImageBitmap()?.let {
+                                                    Image(
+                                                        bitmap = it,
+                                                        contentDescription = null,
+                                                        modifier = Modifier.clip(
+                                                            RoundedCornerShape(4.dp)
+                                                        )
+                                                    )
+                                                }
                                                 if (loading) {
                                                     Box(
                                                         Modifier
                                                             .size(84.dp)
                                                             .clip(RoundedCornerShape(24.dp))
                                                             .shadow(8.dp, RoundedCornerShape(24.dp))
-                                                            .background(MaterialTheme.colorScheme.tertiaryContainer)
+                                                            .background(MaterialTheme.colorScheme.secondaryContainer)
                                                             .align(Alignment.Center)
                                                     ) {
                                                         CircularProgressIndicator(
                                                             Modifier.align(
                                                                 Alignment.Center
                                                             ),
-                                                            color = MaterialTheme.colorScheme.onTertiaryContainer
+                                                            color = MaterialTheme.colorScheme.onSecondaryContainer
                                                         )
                                                     }
                                                 }
@@ -192,33 +236,30 @@ class MainActivity : ComponentActivity() {
                                             Spacer(Modifier.size(20.dp))
                                             Row {
                                                 SmallFloatingActionButton(
-                                                    onClick = {
-                                                        viewModel.rotateLeft()
-                                                    },
-                                                    containerColor = MaterialTheme.colorScheme.secondaryContainer
+                                                    onClick = { viewModel.rotateLeft() },
+                                                    elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
+                                                    containerColor = MaterialTheme.colorScheme.surfaceVariant
                                                 ) {
                                                     Icon(Icons.Default.RotateLeft, null)
                                                 }
 
                                                 SmallFloatingActionButton(
-                                                    onClick = {
-                                                        viewModel.flip()
-                                                    },
-                                                    containerColor = MaterialTheme.colorScheme.secondaryContainer
+                                                    onClick = { viewModel.flip() },
+                                                    elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
+                                                    containerColor = MaterialTheme.colorScheme.surfaceVariant
                                                 ) {
                                                     Icon(Icons.Default.Flip, null)
                                                 }
 
                                                 SmallFloatingActionButton(
-                                                    onClick = {
-                                                        viewModel.rotateRight()
-                                                    },
-                                                    containerColor = MaterialTheme.colorScheme.secondaryContainer
+                                                    onClick = { viewModel.rotateRight() },
+                                                    elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
+                                                    containerColor = MaterialTheme.colorScheme.surfaceVariant
                                                 ) {
                                                     Icon(Icons.Default.RotateRight, null)
                                                 }
                                             }
-                                        } else {
+                                        } else if (!viewModel.isLoading) {
                                             Spacer(Modifier.height(60.dp))
                                             Icon(
                                                 Icons.TwoTone.Image,
@@ -230,7 +271,7 @@ class MainActivity : ComponentActivity() {
                                         }
                                         Spacer(Modifier.size(30.dp))
                                         Row {
-                                            OutlinedTextField(
+                                            RoundedTextField(
                                                 value = bitmapInfo.width,
                                                 onValueChange = {
                                                     viewModel.updateWidth(it.restrict())
@@ -242,7 +283,7 @@ class MainActivity : ComponentActivity() {
                                                 modifier = Modifier.weight(1f)
                                             )
                                             Spacer(Modifier.size(20.dp))
-                                            OutlinedTextField(
+                                            RoundedTextField(
                                                 value = bitmapInfo.height,
                                                 onValueChange = {
                                                     viewModel.updateHeight(it.restrict())
@@ -302,23 +343,24 @@ class MainActivity : ComponentActivity() {
                             if (viewModel.bitmap != null) {
                                 FloatingActionButton(
                                     onClick = {
-                                        viewModel.bitmap?.let {
-                                            viewModel.saveBitmap(
-                                                it,
-                                                isExternalStorageWritable(),
-                                                contentResolver
-                                            ) { success ->
-                                                if (!success) requestPermission()
-                                                else {
-                                                    Toast.makeText(
-                                                        ctx,
-                                                        "SAVED",
-                                                        Toast.LENGTH_SHORT
-                                                    ).show()
+                                        showSaveLoading = true
+                                        viewModel.saveBitmap(
+                                            isExternalStorageWritable(),
+                                            contentResolver
+                                        ) { success ->
+                                            if (!success) requestPermission()
+                                            else {
+                                                scope.launch {
+                                                    toastHostState.showToast(
+                                                        "Saved to DCIM/ResizedImages folder",
+                                                        Icons.Rounded.Save
+                                                    )
                                                 }
                                             }
+                                            showSaveLoading = false
                                         }
-                                    }
+                                    },
+                                    containerColor = MaterialTheme.colorScheme.tertiaryContainer
                                 ) {
                                     Icon(Icons.Rounded.Save, null)
                                 }
@@ -367,6 +409,30 @@ class MainActivity : ComponentActivity() {
                             )
                         }
 
+                        if (showSaveLoading) {
+                            Dialog(onDismissRequest = { }) {
+                                Box(Modifier.fillMaxSize()) {
+                                    Box(
+                                        Modifier
+                                            .size(84.dp)
+                                            .clip(RoundedCornerShape(24.dp))
+                                            .shadow(8.dp, RoundedCornerShape(24.dp))
+                                            .background(MaterialTheme.colorScheme.secondaryContainer)
+                                            .align(Alignment.Center)
+                                    ) {
+                                        CircularProgressIndicator(
+                                            Modifier.align(
+                                                Alignment.Center
+                                            ),
+                                            color = MaterialTheme.colorScheme.onSecondaryContainer
+                                        )
+                                    }
+                                }
+                            }
+                        }
+
+                        ToastHost(hostState = toastHostState)
+
                         BackHandler { showDialog = true }
                     }
                 }
@@ -403,7 +469,6 @@ fun RadioGroup(
             title?.let { Text(title) }
             options?.forEachIndexed { index, item ->
                 Row(
-                    Modifier.padding(top = 8.dp),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     RadioButton(
@@ -431,14 +496,14 @@ data class BitmapInfo(
 )
 
 fun byteCount(bytes: Int): String {
-    var bytes = bytes
-    if (-1000 < bytes && bytes < 1000) {
-        return "$bytes B"
+    var tempBytes = bytes
+    if (-1000 < tempBytes && tempBytes < 1000) {
+        return "$tempBytes B"
     }
     val ci: CharacterIterator = StringCharacterIterator("kMGTPE")
-    while (bytes <= -999950 || bytes >= 999950) {
-        bytes /= 1000
+    while (tempBytes <= -999950 || tempBytes >= 999950) {
+        tempBytes /= 1000
         ci.next()
     }
-    return java.lang.String.format(Locale.getDefault(), "%.1f %cB", bytes / 1000.0, ci.current())
+    return java.lang.String.format(Locale.getDefault(), "%.1f %cB", tempBytes / 1000.0, ci.current())
 }

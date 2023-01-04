@@ -52,78 +52,87 @@ class MainViewModel : ViewModel() {
     }
 
     fun saveBitmap(
-        bitmap: Bitmap,
         isExternalStorageWritable: Boolean,
         contentResolver: ContentResolver,
         onSuccess: (Boolean) -> Unit
     ) = viewModelScope.launch {
-        bitmapInfo.apply {
-            if (!isExternalStorageWritable) onSuccess(false)
+        withContext(Dispatchers.IO) {
+            _bitmap.value?.let { bitmap ->
+                bitmapInfo.apply {
+                    if (!isExternalStorageWritable) {
+                        onSuccess(false)
+                        cancel()
+                    }
 
-            val ext = if (mime == 1) "webp" else if (mime == 0) "png" else "jpg"
-            val explicit = resizeType == 0
+                    val ext = if (mime == 1) "webp" else if (mime == 0) "png" else "jpg"
+                    val explicit = resizeType == 0
 
-            val tWidth = width.toIntOrNull() ?: bitmap.width
-            val tHeight = height.toIntOrNull() ?: bitmap.height
+                    val tWidth = width.toIntOrNull() ?: bitmap.width
+                    val tHeight = height.toIntOrNull() ?: bitmap.height
 
-            val timeStamp: String =
-                SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(Date())
-            val name = "ResizedImage$timeStamp.$ext"
-            val localBitmap = if (explicit) {
-                Bitmap.createScaledBitmap(
-                    bitmap,
-                    tWidth,
-                    tHeight,
-                    false
-                )
-            } else {
-                bitmap.resizeBitmap(max(tWidth, tHeight))
-            }.rotate(rotation).flip(isFlipped)
+                    val timeStamp: String =
+                        SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(Date())
+                    val name = "ResizedImage$timeStamp.$ext"
+                    val localBitmap = if (explicit) {
+                        Bitmap.createScaledBitmap(
+                            bitmap,
+                            tWidth,
+                            tHeight,
+                            false
+                        )
+                    } else {
+                        bitmap.resizeBitmap(max(tWidth, tHeight))
+                    }.rotate(rotation).flip(isFlipped)
 
-            val fos: OutputStream? = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                val resolver: ContentResolver = contentResolver
-                val contentValues = ContentValues().apply {
-                    put(MediaStore.MediaColumns.DISPLAY_NAME, name)
-                    put(MediaStore.MediaColumns.MIME_TYPE, "image/$ext")
-                    put(MediaStore.MediaColumns.RELATIVE_PATH, "DCIM/ResizedImages")
+                    val fos: OutputStream? = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                        val resolver: ContentResolver = contentResolver
+                        val contentValues = ContentValues().apply {
+                            put(MediaStore.MediaColumns.DISPLAY_NAME, name)
+                            put(MediaStore.MediaColumns.MIME_TYPE, "image/$ext")
+                            put(MediaStore.MediaColumns.RELATIVE_PATH, "DCIM/ResizedImages")
+                        }
+                        val imageUri =
+                            resolver.insert(
+                                MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+                                contentValues
+                            )
+                        resolver.openOutputStream(imageUri!!)
+                    } else {
+                        val imagesDir =
+                            "${Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM)}${File.separator}ResizedImages"
+                        val file = File(imagesDir)
+                        if (!file.exists()) {
+                            file.mkdir()
+                        }
+                        val image = File(imagesDir, "$name.$ext")
+                        FileOutputStream(image)
+                    }
+                    localBitmap.compress(
+                        if (mime == 1) Bitmap.CompressFormat.WEBP else if (mime == 0) Bitmap.CompressFormat.PNG else Bitmap.CompressFormat.JPEG,
+                        quality.toInt(),
+                        fos
+                    )
+                    val out = ByteArrayOutputStream()
+                    localBitmap.compress(
+                        if (mime == 1) Bitmap.CompressFormat.WEBP else if (mime == 0) Bitmap.CompressFormat.PNG else Bitmap.CompressFormat.JPEG,
+                        quality.toInt(), out
+                    )
+                    val decoded =
+                        BitmapFactory.decodeStream(ByteArrayInputStream(out.toByteArray()))
+                    out.flush()
+                    out.close()
+                    fos!!.flush()
+                    fos.close()
+
+                    _bitmap.value = decoded
+                    _bitmapInfo.value = _bitmapInfo.value.copy(
+                        isFlipped = false,
+                        rotation = 0f
+                    )
                 }
-                val imageUri =
-                    resolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, contentValues)
-                resolver.openOutputStream(imageUri!!)
-            } else {
-                val imagesDir =
-                    "${Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM)}${File.separator}ResizedImages"
-                val file = File(imagesDir)
-                if (!file.exists()) {
-                    file.mkdir()
-                }
-                val image = File(imagesDir, "$name.$ext")
-                FileOutputStream(image)
+                onSuccess(true)
             }
-            localBitmap.compress(
-                if (mime == 1) Bitmap.CompressFormat.WEBP else if (mime == 0) Bitmap.CompressFormat.PNG else Bitmap.CompressFormat.JPEG,
-                quality.toInt(),
-                fos
-            )
-            val out = ByteArrayOutputStream()
-            localBitmap.compress(
-                if (mime == 1) Bitmap.CompressFormat.WEBP else if (mime == 0) Bitmap.CompressFormat.PNG else Bitmap.CompressFormat.JPEG,
-                quality.toInt(), out
-            )
-            val decoded = BitmapFactory.decodeStream(ByteArrayInputStream(out.toByteArray()))
-            out.flush()
-            out.close()
-            fos!!.flush()
-            fos.close()
-
-            _bitmap.value = decoded
-            _bitmapInfo.value = _bitmapInfo.value.copy(
-                isFlipped = false,
-                rotation = 0f
-            )
         }
-
-        onSuccess(true)
     }
 
     private suspend fun updatePreview(
@@ -155,7 +164,6 @@ class MainViewModel : ViewModel() {
 
     fun updateBitmap(bitmap: Bitmap?) {
         _bitmap.value = bitmap
-        _previewBitmap.value = bitmap
         resetValues()
     }
 
@@ -210,7 +218,7 @@ class MainViewModel : ViewModel() {
     }
 
     companion object {
-        fun String.restrict(`by`: Int = 4200): String {
+        fun String.restrict(`by`: Int = 6000): String {
             if (isEmpty()) return this
 
             return if ((this.toIntOrNull() ?: 0) > `by`) `by`.toString()
