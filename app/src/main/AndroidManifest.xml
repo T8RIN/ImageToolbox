@@ -16,12 +16,11 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.ImageResizerShrinker"
-        tools:targetApi="31">
+        android:theme="@style/Theme.ImageResizerShrinker.Launcher"
+        tools:targetApi="s">
         <activity
             android:name=".MainActivity"
-            android:exported="true"
-            android:theme="@style/Theme.ImageResizerShrinker">
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

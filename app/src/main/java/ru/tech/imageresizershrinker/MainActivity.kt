@@ -48,6 +48,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.WindowCompat
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.MainViewModel.Companion.restrict
@@ -63,8 +64,12 @@ class MainActivity : ComponentActivity() {
 
     @OptIn(ExperimentalAnimationApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
-        WindowCompat.setDecorFitsSystemWindows(window, false)
+
+        installSplashScreen()
         super.onCreate(savedInstanceState)
+        actionBar?.hide()
+
+        WindowCompat.setDecorFitsSystemWindows(window, false)
 
         setContent {
             ImageResizerShrinkerTheme {
@@ -505,5 +510,10 @@ fun byteCount(bytes: Int): String {
         tempBytes /= 1000
         ci.next()
     }
-    return java.lang.String.format(Locale.getDefault(), "%.1f %cB", tempBytes / 1000.0, ci.current())
+    return java.lang.String.format(
+        Locale.getDefault(),
+        "%.1f %cB",
+        tempBytes / 1000.0,
+        ci.current()
+    )
 }
