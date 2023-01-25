@@ -48,12 +48,13 @@ class MainViewModel : ViewModel() {
     }
 
     fun saveBitmap(
+        bitmap: Bitmap? = _bitmap.value,
         isExternalStorageWritable: Boolean,
         getFileOutputStream: (name: String, ext: String) -> OutputStream?,
         onSuccess: (Boolean) -> Unit
     ) = viewModelScope.launch {
         withContext(Dispatchers.IO) {
-            _bitmap.value?.let { bitmap ->
+            bitmap?.let { bitmap ->
                 bitmapInfo.apply {
                     if (!isExternalStorageWritable) {
                         onSuccess(false)
@@ -161,39 +162,52 @@ class MainViewModel : ViewModel() {
     }
 
     fun updateWidth(width: String) {
-        _bitmapInfo.value = _bitmapInfo.value.copy(width = width)
-        checkBitmapAndUpdate()
+        if (_bitmapInfo.value.width != width) {
+            _bitmapInfo.value = _bitmapInfo.value.copy(width = width)
+            checkBitmapAndUpdate()
+        }
     }
 
     fun updateHeight(height: String) {
-        _bitmapInfo.value = _bitmapInfo.value.copy(height = height)
-        checkBitmapAndUpdate()
+        if (_bitmapInfo.value.height != height) {
+            _bitmapInfo.value = _bitmapInfo.value.copy(height = height)
+            checkBitmapAndUpdate()
+        }
     }
 
     fun setQuality(quality: Float) {
-        _bitmapInfo.value = _bitmapInfo.value.copy(quality = quality)
-        checkBitmapAndUpdate()
+        if (_bitmapInfo.value.quality != quality) {
+            _bitmapInfo.value = _bitmapInfo.value.copy(quality = quality)
+            checkBitmapAndUpdate()
+        }
     }
 
     fun setMime(mime: Int) {
-        _bitmapInfo.value = _bitmapInfo.value.copy(mime = mime)
-        checkBitmapAndUpdate()
+        if (_bitmapInfo.value.mime != mime) {
+            _bitmapInfo.value = _bitmapInfo.value.copy(mime = mime)
+            checkBitmapAndUpdate()
+        }
     }
 
     fun setResizeType(type: Int) {
-        _bitmapInfo.value = _bitmapInfo.value.copy(resizeType = type)
-        checkBitmapAndUpdate()
+        if (_bitmapInfo.value.resizeType != type) {
+            _bitmapInfo.value = _bitmapInfo.value.copy(resizeType = type)
+            checkBitmapAndUpdate()
+        }
     }
 
     fun setTelegramSpecs() {
-        _bitmapInfo.value = _bitmapInfo.value.copy(
+        val new = _bitmapInfo.value.copy(
             width = "512",
             height = "512",
             mime = 0,
             resizeType = 1,
             quality = 100f
         )
-        checkBitmapAndUpdate()
+        if (new != _bitmapInfo.value) {
+            _bitmapInfo.value = new
+            checkBitmapAndUpdate()
+        }
     }
 
     companion object {

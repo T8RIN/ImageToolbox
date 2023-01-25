@@ -33,8 +33,8 @@ object BitmapUtils {
         return if (!adaptiveResize) {
             Bitmap.createScaledBitmap(
                 this,
-                width,
-                height,
+                width_,
+                height_,
                 false
             )
         } else {
