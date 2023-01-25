@@ -1,12 +1,10 @@
 package ru.tech.imageresizershrinker
 
 import android.Manifest
+import android.content.ContentValues
 import android.content.pm.PackageManager
-import android.graphics.ImageDecoder.createSource
-import android.graphics.ImageDecoder.decodeBitmap
-import android.os.Build
 import android.os.Bundle
-import android.provider.MediaStore.Images.Media.getBitmap
+import android.provider.MediaStore
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.BackHandler
 import androidx.activity.compose.rememberLauncherForActivityResult
@@ -51,7 +49,9 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.WindowCompat
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import ru.tech.imageresizershrinker.BitmapUtils.decodeBitmapFromUri
 import ru.tech.imageresizershrinker.MainViewModel.Companion.restrict
 import java.text.CharacterIterator
 import java.text.StringCharacterIterator
@@ -90,24 +90,8 @@ class MainActivity : ComponentActivity() {
                     ) { uri ->
                         uri?.let {
                             try {
-                                val bmp =
-                                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-                                        decodeBitmap(createSource(contentResolver, uri))
-                                    } else {
-                                        @Suppress("DEPRECATION") getBitmap(
-                                            contentResolver,
-                                            uri
-                                        )
-                                    }
-                                if (bmp.allocationByteCount < 100000000) {
+                                decodeBitmapFromUri(it)?.let { bmp ->
                                     viewModel.updateBitmap(bmp)
-                                } else {
-                                    scope.launch {
-                                        toastHostState.showToast(
-                                            "Too large image",
-                                            Icons.Rounded.ErrorOutline
-                                        )
-                                    }
                                 }
                             } catch (e: Exception) {
                                 scope.launch {
@@ -293,11 +277,12 @@ class MainActivity : ComponentActivity() {
                                                         .pointerInput(Unit) {
                                                             detectTapGestures(
                                                                 onPress = {
+                                                                    showOriginal = true
+                                                                    delay(100)
                                                                     state.animateScrollToItem(
                                                                         0,
                                                                         10000
                                                                     )
-                                                                    showOriginal = true
                                                                     tryAwaitRelease()
                                                                     showOriginal = false
                                                                 }
@@ -400,8 +385,25 @@ class MainActivity : ComponentActivity() {
                                     onClick = {
                                         showSaveLoading = true
                                         viewModel.saveBitmap(
-                                            isExternalStorageWritable(),
-                                            contentResolver
+                                            isExternalStorageWritable = isExternalStorageWritable(),
+                                            getFileOutputStream = { name, ext ->
+                                                val contentValues = ContentValues().apply {
+                                                    put(MediaStore.MediaColumns.DISPLAY_NAME, name)
+                                                    put(
+                                                        MediaStore.MediaColumns.MIME_TYPE,
+                                                        "image/$ext"
+                                                    )
+                                                    put(
+                                                        MediaStore.MediaColumns.RELATIVE_PATH,
+                                                        "DCIM/ResizedImages"
+                                                    )
+                                                }
+                                                val imageUri = contentResolver.insert(
+                                                    MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+                                                    contentValues
+                                                )
+                                                contentResolver.openOutputStream(imageUri!!)
+                                            }
                                         ) { success ->
                                             if (!success) requestPermission()
                                             else {

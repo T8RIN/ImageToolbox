@@ -1,12 +1,9 @@
 package ru.tech.imageresizershrinker
 
-import android.content.ContentResolver
-import android.content.ContentValues
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.Build
 import android.os.Environment
-import android.provider.MediaStore
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -21,7 +18,6 @@ import ru.tech.imageresizershrinker.BitmapUtils.rotate
 import java.io.*
 import java.text.SimpleDateFormat
 import java.util.*
-import kotlin.math.max
 
 class MainViewModel : ViewModel() {
 
@@ -53,7 +49,7 @@ class MainViewModel : ViewModel() {
 
     fun saveBitmap(
         isExternalStorageWritable: Boolean,
-        contentResolver: ContentResolver,
+        getFileOutputStream: (name: String, ext: String) -> OutputStream?,
         onSuccess: (Boolean) -> Unit
     ) = viewModelScope.launch {
         withContext(Dispatchers.IO) {
@@ -71,31 +67,13 @@ class MainViewModel : ViewModel() {
                         val timeStamp: String =
                             SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(Date())
                         val name = "ResizedImage$timeStamp.$ext"
-                        val localBitmap = if (explicit) {
-                            Bitmap.createScaledBitmap(
-                                bitmap,
-                                tWidth,
-                                tHeight,
-                                false
-                            )
-                        } else {
-                            bitmap.resizeBitmap(max(tWidth, tHeight))
-                        }.rotate(rotation).flip(isFlipped)
+                        val localBitmap =
+                            bitmap.resizeBitmap(tWidth, tHeight, !explicit).rotate(rotation)
+                                .flip(isFlipped)
 
                         val fos: OutputStream? =
                             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                                val resolver: ContentResolver = contentResolver
-                                val contentValues = ContentValues().apply {
-                                    put(MediaStore.MediaColumns.DISPLAY_NAME, name)
-                                    put(MediaStore.MediaColumns.MIME_TYPE, "image/$ext")
-                                    put(MediaStore.MediaColumns.RELATIVE_PATH, "DCIM/ResizedImages")
-                                }
-                                val imageUri =
-                                    resolver.insert(
-                                        MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
-                                        contentValues
-                                    )
-                                resolver.openOutputStream(imageUri!!)
+                                getFileOutputStream(name, ext)
                             } else {
                                 val imagesDir =
                                     "${Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM)}${File.separator}ResizedImages"

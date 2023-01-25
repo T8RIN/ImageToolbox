@@ -1,11 +1,18 @@
 package ru.tech.imageresizershrinker
 
+import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Matrix
+import android.graphics.Rect
+import android.net.Uri
+import android.os.ParcelFileDescriptor
+import android.util.Size
 import java.io.ByteArrayInputStream
 import java.io.ByteArrayOutputStream
+import java.io.FileDescriptor
 import kotlin.math.max
+
 
 object BitmapUtils {
 
@@ -21,22 +28,78 @@ object BitmapUtils {
         } else this
     }
 
-    fun Bitmap.resizeBitmap(maxLength: Int): Bitmap {
-        return try {
-            if (height >= width) {
-                val aspectRatio = width.toDouble() / height.toDouble()
-                val targetWidth = (maxLength * aspectRatio).toInt()
-                Bitmap.createScaledBitmap(this, targetWidth, maxLength, false)
-            } else {
-                val aspectRatio = height.toDouble() / width.toDouble()
-                val targetHeight = (maxLength * aspectRatio).toInt()
-                Bitmap.createScaledBitmap(this, maxLength, targetHeight, false)
-            }
-        } catch (_: Exception) {
-            this
+    fun Bitmap.resizeBitmap(width: Int, height: Int, adaptiveResize: Boolean): Bitmap {
+        return if (!adaptiveResize) {
+            Bitmap.createScaledBitmap(
+                this,
+                width,
+                height,
+                false
+            )
+        } else {
+            val max = max(width, height)
+            kotlin.runCatching {
+                if (height >= width) {
+                    val aspectRatio = width.toDouble() / height.toDouble()
+                    val targetWidth = (max * aspectRatio).toInt()
+                    Bitmap.createScaledBitmap(this, targetWidth, max, false)
+                } else {
+                    val aspectRatio = height.toDouble() / width.toDouble()
+                    val targetHeight = (max * aspectRatio).toInt()
+                    Bitmap.createScaledBitmap(this, max, targetHeight, false)
+                }
+            }.getOrNull() ?: this
         }
     }
 
+    fun calculateInSampleSize(options: BitmapFactory.Options, requiredSize: Size): Int {
+        val (height: Int, width: Int) = options.run { outHeight to outWidth }
+        var inSampleSize = 1
+        if (height * width > requiredSize.height * requiredSize.width) {
+            val halfHeight: Int = height / 2
+            val halfWidth: Int = width / 2
+
+            do {
+                inSampleSize *= 2
+            } while ((halfHeight * halfWidth) / (inSampleSize * inSampleSize) >= requiredSize.height * requiredSize.width)
+
+        }
+
+        return inSampleSize
+    }
+
+    fun Context.decodeSampledBitmap(
+        uri: Uri,
+        requiredSize: Size,
+        outPadding: Rect? = null,
+        options: BitmapFactory.Options = BitmapFactory.Options()
+    ): Bitmap? {
+        return options.run {
+            // First decode with inJustDecodeBounds=true to check dimensions
+            inJustDecodeBounds = true
+            decodeBitmapFromUri(uri, outPadding, this)
+
+            // Calculate inSampleSize
+            inSampleSize = calculateInSampleSize(this, requiredSize)
+
+            // Decode bitmap with inSampleSize set
+            inJustDecodeBounds = false
+            decodeBitmapFromUri(uri, outPadding, this)
+        }
+    }
+
+    fun Context.decodeBitmapFromUri(
+        uri: Uri,
+        outPadding: Rect? = null,
+        options: BitmapFactory.Options = BitmapFactory.Options()
+    ): Bitmap? = kotlin.runCatching {
+        val parcelFileDescriptor: ParcelFileDescriptor? =
+            contentResolver.openFileDescriptor(uri, "r")
+        val fileDescriptor: FileDescriptor? = parcelFileDescriptor?.fileDescriptor
+        BitmapFactory.decodeFileDescriptor(fileDescriptor, outPadding, options).also {
+            parcelFileDescriptor?.close()
+        }
+    }.getOrNull()
 
     fun Bitmap.previewBitmap(
         quality: Float,
@@ -53,16 +116,7 @@ object BitmapUtils {
         val tWidth = widthValue ?: width
         val tHeight = heightValue ?: height
 
-        if (explicit) {
-            Bitmap.createScaledBitmap(
-                this,
-                tWidth,
-                tHeight,
-                false
-            )
-        } else {
-            this.resizeBitmap(max(tWidth, tHeight))
-        }
+        resizeBitmap(tWidth, tHeight, !explicit)
             .rotate(rotation)
             .flip(isFlipped)
             .compress(
