@@ -16,9 +16,12 @@ import androidx.compose.animation.*
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.*
 import androidx.compose.foundation.gestures.detectTapGestures
+import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.interaction.PressInteraction
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
@@ -27,7 +30,6 @@ import androidx.compose.material.icons.filled.History
 import androidx.compose.material.icons.filled.RotateLeft
 import androidx.compose.material.icons.filled.RotateRight
 import androidx.compose.material.icons.outlined.DoorBack
-import androidx.compose.material.icons.outlined.SettingsBackupRestore
 import androidx.compose.material.icons.rounded.*
 import androidx.compose.material.icons.twotone.Image
 import androidx.compose.material3.*
@@ -78,6 +80,7 @@ class MainActivity : ComponentActivity() {
                 val toastHostState = rememberToastHostState()
                 val scope = rememberCoroutineScope()
                 var showDialog by remember { mutableStateOf(false) }
+                var showResetDialog by remember { mutableStateOf(false) }
                 var showSaveLoading by remember { mutableStateOf(false) }
                 var showOriginal by remember { mutableStateOf(false) }
                 val state = rememberLazyListState()
@@ -134,20 +137,50 @@ class MainActivity : ComponentActivity() {
                                     )
                                 ),
                                 actions = {
-                                    IconButton(
-                                        onClick = {
-                                            viewModel.resetValues()
-                                            scope.launch {
-                                                toastHostState.showToast(
-                                                    "Values properly reset",
-                                                    Icons.Rounded.DoneOutline
+                                    val interactionSource = remember { MutableInteractionSource() }
+                                    Box(
+                                        modifier = Modifier
+                                            .clip(CircleShape)
+                                            .indication(interactionSource, LocalIndication.current)
+                                            .pointerInput(Unit) {
+                                                detectTapGestures(
+                                                    onPress = {
+                                                        val press = PressInteraction.Press(it)
+                                                        interactionSource.emit(press)
+                                                        val pos =
+                                                            state.firstVisibleItemIndex to state.firstVisibleItemScrollOffset
+                                                        showOriginal = true
+                                                        delay(100)
+                                                        state.animateScrollToItem(
+                                                            0,
+                                                            10000
+                                                        )
+                                                        tryAwaitRelease()
+                                                        showOriginal = false
+                                                        interactionSource.emit(
+                                                            PressInteraction.Release(
+                                                                press
+                                                            )
+                                                        )
+                                                        state.animateScrollToItem(
+                                                            pos.first,
+                                                            pos.second
+                                                        )
+                                                    },
+                                                    onDoubleTap = {
+                                                        showResetDialog = true
+                                                    }
                                                 )
                                             }
-                                        }
+
                                     ) {
                                         Icon(
-                                            Icons.Outlined.SettingsBackupRestore,
-                                            null
+                                            Icons.Default.History,
+                                            null,
+                                            tint = MaterialTheme.colorScheme.onSurfaceVariant,
+                                            modifier = Modifier
+                                                .align(Alignment.Center)
+                                                .padding(8.dp)
                                         )
                                     }
                                 },
@@ -266,37 +299,6 @@ class MainActivity : ComponentActivity() {
                                                     containerColor = MaterialTheme.colorScheme.surfaceVariant
                                                 ) {
                                                     Icon(Icons.Default.RotateRight, null)
-                                                }
-
-                                                Spacer(Modifier.weight(1f))
-
-                                                Box(
-                                                    modifier = Modifier
-                                                        .clip(RoundedCornerShape(12.dp))
-                                                        .background(MaterialTheme.colorScheme.surfaceVariant)
-                                                        .pointerInput(Unit) {
-                                                            detectTapGestures(
-                                                                onPress = {
-                                                                    showOriginal = true
-                                                                    delay(100)
-                                                                    state.animateScrollToItem(
-                                                                        0,
-                                                                        10000
-                                                                    )
-                                                                    tryAwaitRelease()
-                                                                    showOriginal = false
-                                                                }
-                                                            )
-                                                        }
-                                                ) {
-                                                    Icon(
-                                                        Icons.Default.History,
-                                                        null,
-                                                        tint = MaterialTheme.colorScheme.onSurfaceVariant,
-                                                        modifier = Modifier
-                                                            .align(Alignment.Center)
-                                                            .padding(8.dp)
-                                                    )
                                                 }
                                             }
                                         } else if (!viewModel.isLoading) {
@@ -486,6 +488,32 @@ class MainActivity : ComponentActivity() {
                                     }
                                 }
                             }
+                        } else if (showResetDialog) {
+                            AlertDialog(
+                                icon = { Icon(Icons.Rounded.LockReset, null) },
+                                title = { Text("Reset image") },
+                                text = { Text("Image changes will be rollback to start values") },
+                                onDismissRequest = { showResetDialog = false },
+                                confirmButton = {
+                                    TextButton(onClick = { showResetDialog = false }) {
+                                        Text("Cancel")
+                                    }
+                                },
+                                dismissButton = {
+                                    TextButton(onClick = {
+                                        viewModel.resetValues()
+                                        showResetDialog = false
+                                        scope.launch {
+                                            toastHostState.showToast(
+                                                "Values properly reset",
+                                                Icons.Rounded.DoneOutline
+                                            )
+                                        }
+                                    }) {
+                                        Text("Reset")
+                                    }
+                                }
+                            )
                         }
 
                         ToastHost(hostState = toastHostState)

@@ -28,7 +28,8 @@ object BitmapUtils {
         } else this
     }
 
-    fun Bitmap.resizeBitmap(width: Int, height: Int, adaptiveResize: Boolean): Bitmap {
+    fun Bitmap.resizeBitmap(width_: Int, height_: Int, adaptiveResize: Boolean): Bitmap {
+        val max = max(width_, height_)
         return if (!adaptiveResize) {
             Bitmap.createScaledBitmap(
                 this,
@@ -37,7 +38,6 @@ object BitmapUtils {
                 false
             )
         } else {
-            val max = max(width, height)
             kotlin.runCatching {
                 if (height >= width) {
                     val aspectRatio = width.toDouble() / height.toDouble()

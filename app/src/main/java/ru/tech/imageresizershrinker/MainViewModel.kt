@@ -190,7 +190,8 @@ class MainViewModel : ViewModel() {
             width = "512",
             height = "512",
             mime = 0,
-            resizeType = 1
+            resizeType = 1,
+            quality = 100f
         )
         checkBitmapAndUpdate()
     }
