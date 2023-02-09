@@ -11,6 +11,9 @@ Simple image resizer with width/height selection, quality and output image type 
 # Download
 Go to the [Releases](https://github.com/t8rin/imageresizer/releases/latest) and download latest apk.
 
+
+
+
 ## Find this repository useful? :heart:
 Support it by joining __[stargazers](https://github.com/t8rin/ImageResizer/stargazers)__ for this repository. :star: <br>
 And __[follow](https://github.com/t8rin)__ me for my next creations! 🤩
