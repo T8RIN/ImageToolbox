@@ -1,17 +1,27 @@
 
-# Download
-Go to the [Releases](https://github.com/t8rin/imageresizer/releases/latest) and download latest apk.
+<h1 align="center">ImageResizer</h1>
 
+<p align="center">
+ <img alt="material" src="https://custom-icon-badges.demolab.com/badge/material%20you-palegreen?style=for-the-badge&logoColor=black&logo=material-you"/></a>
+  <img alt="API" src="https://img.shields.io/badge/Api%2021+-50f270?logo=android&logoColor=black&style=for-the-badge"/></a>
+  <img alt="Kotlin" src="https://img.shields.io/badge/Kotlin-a503fc?logo=kotlin&logoColor=white&style=for-the-badge"/></a>
+  <img alt="Jetpack Compose" src="https://img.shields.io/static/v1?style=for-the-badge&message=Jetpack+Compose&color=4285F4&logo=Jetpack+Compose&logoColor=FFFFFF&label="/></a> 
+  <a href="https://github.com/t8rin"><img alt="Profile" src="https://img.shields.io/badge/Github-T8RIN-002200?logo=github&logoColor=white&style=for-the-badge"/></a> 
+</p>
 
-
-# ImageResizer
-
+<p align="">  
 Simple image resizer with width/height selection, quality and output image type picking, telegram sticker pattern and output image size prediction.
+</p>
+
 
 <p align="center">
   <img src="https://user-images.githubusercontent.com/52178347/210658280-7fb973ee-c184-4587-b3de-33cdf2ac95ff.png" width="30%"/>
   <img src="https://user-images.githubusercontent.com/52178347/210658303-86d6b49d-f883-4b3c-b87e-814d8bb9385a.png" width="30%"/>
 </p>
+
+# Download
+Go to the [Releases](https://github.com/t8rin/imageresizer/releases/latest) and download latest apk.
+
 
 
 ## Find this repository useful? :heart:
