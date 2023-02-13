@@ -1,0 +1,1 @@
+<p><i>ImageResizer</i> is a simple image resizer with width/height selection, quality and output image type picking, telegram sticker pattern and output image size prediction.</p>
