@@ -32,6 +32,7 @@ import androidx.compose.material.icons.filled.RotateLeft
 import androidx.compose.material.icons.filled.RotateRight
 import androidx.compose.material.icons.outlined.DoorBack
 import androidx.compose.material.icons.rounded.*
+import androidx.compose.material.icons.twotone.BrokenImage
 import androidx.compose.material.icons.twotone.Image
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -74,6 +75,7 @@ class MainActivity : ComponentActivity() {
         actionBar?.hide()
 
         WindowCompat.setDecorFitsSystemWindows(window, false)
+        GlobalExceptionHandler.initialize(applicationContext, CrashActivity::class.java)
 
         setContent {
             ImageResizerShrinkerTheme {
@@ -245,14 +247,33 @@ class MainActivity : ComponentActivity() {
                                                             )
                                                         }
                                                     } else {
-                                                        bmp?.asImageBitmap()?.let {
-                                                            Image(
-                                                                bitmap = it,
-                                                                contentDescription = null,
-                                                                modifier = Modifier.clip(
-                                                                    RoundedCornerShape(4.dp)
+                                                        bmp?.asImageBitmap()
+                                                            ?.takeIf { viewModel.shouldShowPreview }
+                                                            ?.let {
+                                                                Image(
+                                                                    bitmap = it,
+                                                                    contentDescription = null,
+                                                                    modifier = Modifier.clip(
+                                                                        RoundedCornerShape(4.dp)
+                                                                    )
                                                                 )
-                                                            )
+                                                            }
+                                                        if (!viewModel.shouldShowPreview && !loading && bmp != null) Box {
+                                                            Column(
+                                                                horizontalAlignment = Alignment.CenterHorizontally,
+                                                                modifier = Modifier.padding(8.dp)
+                                                            ) {
+                                                                Text(
+                                                                    "Image is too large to preview, but it will be saved anyway",
+                                                                    textAlign = TextAlign.Center
+                                                                )
+                                                                Spacer(Modifier.height(8.dp))
+                                                                Icon(
+                                                                    Icons.TwoTone.BrokenImage,
+                                                                    null,
+                                                                    modifier = Modifier.size(100.dp)
+                                                                )
+                                                            }
                                                         }
                                                     }
                                                 }

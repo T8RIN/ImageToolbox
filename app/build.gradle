@@ -44,8 +44,8 @@ android {
 
 dependencies {
     implementation 'androidx.activity:activity-compose:1.7.0-alpha04'
-    implementation 'androidx.compose.material3:material3:1.1.0-alpha05'
-    implementation "androidx.compose.material:material-icons-extended:1.4.0-alpha05"
+    implementation 'androidx.compose.material3:material3:1.1.0-alpha06'
+    implementation "androidx.compose.material:material-icons-extended:1.4.0-beta01"
     implementation "com.google.accompanist:accompanist-systemuicontroller:0.28.0"
     implementation("io.coil-kt:coil-compose:2.2.2")
     implementation("androidx.core:core-splashscreen:1.0.0")

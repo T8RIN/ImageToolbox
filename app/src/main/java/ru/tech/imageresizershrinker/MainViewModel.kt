@@ -33,6 +33,9 @@ class MainViewModel : ViewModel() {
     private val _isLoading: MutableState<Boolean> = mutableStateOf(false)
     val isLoading: Boolean by _isLoading
 
+    private val _shouldShowPreview: MutableState<Boolean> = mutableStateOf(false)
+    val shouldShowPreview by _shouldShowPreview
+
     private var job: Job? = null
 
     private fun checkBitmapAndUpdate() {
@@ -41,7 +44,9 @@ class MainViewModel : ViewModel() {
             delay(400)
             _isLoading.value = true
             _bitmap.value?.let { bmp ->
-                _previewBitmap.value = updatePreview(bmp)
+                _shouldShowPreview.value = (bitmapInfo.height.toIntOrNull() ?: 0)
+                    .plus(bitmapInfo.width.toIntOrNull() ?: 0) <= 10000
+                if (shouldShowPreview) _previewBitmap.value = updatePreview(bmp)
             }
             _isLoading.value = false
         }
@@ -211,7 +216,7 @@ class MainViewModel : ViewModel() {
     }
 
     companion object {
-        fun String.restrict(`by`: Int = 6000): String {
+        fun String.restrict(`by`: Int = 20000): String {
             if (isEmpty()) return this
 
             return if ((this.toIntOrNull() ?: 0) > `by`) `by`.toString()
