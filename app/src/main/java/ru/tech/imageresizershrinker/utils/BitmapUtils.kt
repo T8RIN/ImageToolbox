@@ -7,7 +7,7 @@ import android.graphics.Matrix
 import android.graphics.Rect
 import android.net.Uri
 import android.os.ParcelFileDescriptor
-import android.util.Size
+import androidx.exifinterface.media.ExifInterface
 import java.io.ByteArrayInputStream
 import java.io.ByteArrayOutputStream
 import java.io.FileDescriptor
@@ -52,54 +52,25 @@ object BitmapUtils {
         }
     }
 
-    fun calculateInSampleSize(options: BitmapFactory.Options, requiredSize: Size): Int {
-        val (height: Int, width: Int) = options.run { outHeight to outWidth }
-        var inSampleSize = 1
-        if (height * width > requiredSize.height * requiredSize.width) {
-            val halfHeight: Int = height / 2
-            val halfWidth: Int = width / 2
-
-            do {
-                inSampleSize *= 2
-            } while ((halfHeight * halfWidth) / (inSampleSize * inSampleSize) >= requiredSize.height * requiredSize.width)
-
-        }
-
-        return inSampleSize
-    }
-
-    fun Context.decodeSampledBitmap(
-        uri: Uri,
-        requiredSize: Size,
-        outPadding: Rect? = null,
-        options: BitmapFactory.Options = BitmapFactory.Options()
-    ): Bitmap? {
-        return options.run {
-            // First decode with inJustDecodeBounds=true to check dimensions
-            inJustDecodeBounds = true
-            decodeBitmapFromUri(uri, outPadding, this)
-
-            // Calculate inSampleSize
-            inSampleSize = calculateInSampleSize(this, requiredSize)
-
-            // Decode bitmap with inSampleSize set
-            inJustDecodeBounds = false
-            decodeBitmapFromUri(uri, outPadding, this)
-        }
-    }
-
     fun Context.decodeBitmapFromUri(
         uri: Uri,
         outPadding: Rect? = null,
-        options: BitmapFactory.Options = BitmapFactory.Options()
-    ): Bitmap? = kotlin.runCatching {
-        val parcelFileDescriptor: ParcelFileDescriptor? =
-            contentResolver.openFileDescriptor(uri, "r")
-        val fileDescriptor: FileDescriptor? = parcelFileDescriptor?.fileDescriptor
-        BitmapFactory.decodeFileDescriptor(fileDescriptor, outPadding, options).also {
-            parcelFileDescriptor?.close()
-        }
-    }.getOrNull()
+        options: BitmapFactory.Options = BitmapFactory.Options(),
+        onGetExif: (ExifInterface?) -> Unit
+    ): Bitmap? {
+        val bmp = kotlin.runCatching {
+            val parcelFileDescriptor: ParcelFileDescriptor? =
+                contentResolver.openFileDescriptor(uri, "r")
+            val fileDescriptor: FileDescriptor? = parcelFileDescriptor?.fileDescriptor
+            BitmapFactory.decodeFileDescriptor(fileDescriptor, outPadding, options).also {
+                parcelFileDescriptor?.close()
+            }
+        }.getOrNull()
+        val fd = contentResolver.openFileDescriptor(uri, "r")
+        onGetExif(fd?.fileDescriptor?.let { ExifInterface(it) })
+        fd?.close()
+        return bmp
+    }
 
     fun Bitmap.previewBitmap(
         quality: Float,
@@ -120,7 +91,7 @@ object BitmapUtils {
             .rotate(rotation)
             .flip(isFlipped)
             .compress(
-                if (mime == 1) Bitmap.CompressFormat.WEBP else if (mime == 0) Bitmap.CompressFormat.PNG else Bitmap.CompressFormat.JPEG,
+                if (mime == 1) Bitmap.CompressFormat.WEBP else if (mime == 2) Bitmap.CompressFormat.PNG else Bitmap.CompressFormat.JPEG,
                 quality.toInt(), out
             )
         val b = out.toByteArray()
@@ -133,4 +104,34 @@ object BitmapUtils {
         return decoded
 
     }
+
+    val tags = listOf(
+        ExifInterface.TAG_DATETIME,
+        ExifInterface.TAG_EXPOSURE_TIME,
+        ExifInterface.TAG_FOCAL_LENGTH,
+        ExifInterface.TAG_GPS_ALTITUDE,
+        ExifInterface.TAG_GPS_LATITUDE,
+        ExifInterface.TAG_GPS_LONGITUDE,
+        ExifInterface.TAG_GPS_PROCESSING_METHOD,
+        ExifInterface.TAG_MAKE,
+        ExifInterface.TAG_MODEL,
+        ExifInterface.TAG_EXPOSURE_TIME,
+        ExifInterface.TAG_DATETIME_DIGITIZED
+    )
+
+    infix fun ExifInterface.copyTo(newExif: ExifInterface) {
+        tags.forEach { attr ->
+            getAttribute(attr)?.let { newExif.setAttribute(attr, it) }
+        }
+        newExif.saveAttributes()
+    }
+
+    fun ExifInterface.toMap(): Map<String, String> {
+        val hashMap = HashMap<String, String>()
+        tags.forEach { tag ->
+            getAttribute(tag)?.let { hashMap[tag] = it }
+        }
+        return hashMap
+    }
+
 }

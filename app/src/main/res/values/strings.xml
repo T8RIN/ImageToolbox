@@ -26,4 +26,8 @@
     <string name="restart_app">Restart app</string>
     <string name="copied">Copied to clipboard</string>
     <string name="exception">Exception</string>
+    <string name="edit_exif">Edit EXIF</string>
+    <string name="ok">Ok</string>
+    <string name="no_exif">No exif found</string>
+    <string name="add_tag">Add tag</string>
 </resources>

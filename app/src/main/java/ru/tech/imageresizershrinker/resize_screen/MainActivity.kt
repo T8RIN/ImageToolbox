@@ -36,6 +36,7 @@ import androidx.compose.material.icons.twotone.BrokenImage
 import androidx.compose.material.icons.twotone.Image
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -46,10 +47,14 @@ import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
+import androidx.compose.ui.window.DialogProperties
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
@@ -63,7 +68,9 @@ import ru.tech.imageresizershrinker.crash_screen.GlobalExceptionHandler
 import ru.tech.imageresizershrinker.resize_screen.components.*
 import ru.tech.imageresizershrinker.resize_screen.viewModel.MainViewModel
 import ru.tech.imageresizershrinker.resize_screen.viewModel.MainViewModel.Companion.restrict
+import ru.tech.imageresizershrinker.utils.BitmapUtils
 import ru.tech.imageresizershrinker.utils.BitmapUtils.decodeBitmapFromUri
+import ru.tech.imageresizershrinker.utils.BitmapUtils.toMap
 import java.util.*
 
 @ExperimentalFoundationApi
@@ -87,10 +94,12 @@ class MainActivity : ComponentActivity() {
                 val focus = LocalFocusManager.current
                 val toastHostState = rememberToastHostState()
                 val scope = rememberCoroutineScope()
-                var showExitDialog by remember { mutableStateOf(false) }
-                var showResetDialog by remember { mutableStateOf(false) }
-                var showSaveLoading by remember { mutableStateOf(false) }
-                var showOriginal by remember { mutableStateOf(false) }
+                var showExitDialog by rememberSaveable { mutableStateOf(false) }
+                var showResetDialog by rememberSaveable { mutableStateOf(false) }
+                var showSaveLoading by rememberSaveable { mutableStateOf(false) }
+                var showOriginal by rememberSaveable { mutableStateOf(false) }
+                var showEditExifDialog by rememberSaveable { mutableStateOf(false) }
+
                 val state = rememberLazyListState()
 
                 val bitmapInfo = viewModel.bitmapInfo
@@ -101,7 +110,12 @@ class MainActivity : ComponentActivity() {
                     ) { uri ->
                         uri?.let {
                             try {
-                                decodeBitmapFromUri(it)?.let { bmp ->
+                                decodeBitmapFromUri(
+                                    uri = it,
+                                    onGetExif = { exif ->
+                                        viewModel.updateExif(exif)
+                                    }
+                                )?.let { bmp ->
                                     viewModel.updateBitmap(bmp)
                                 }
                             } catch (e: Exception) {
@@ -403,7 +417,7 @@ class MainActivity : ComponentActivity() {
                                         Row {
                                             RadioGroup(
                                                 title = stringResource(R.string.extension),
-                                                options = listOf("PNG", "JPEG", "WEBP"),
+                                                options = listOf("JPEG", "WEBP", "PNG"),
                                                 selectedOption = bitmapInfo.mime,
                                                 onOptionSelected = {
                                                     viewModel.setMime(it)
@@ -412,19 +426,36 @@ class MainActivity : ComponentActivity() {
 
                                             Spacer(Modifier.weight(1f))
 
-                                            RadioGroup(
-                                                title = stringResource(R.string.resize_type),
-                                                options = listOf(
-                                                    stringResource(R.string.explicit),
-                                                    stringResource(
-                                                        R.string.flexible
-                                                    )
-                                                ),
-                                                selectedOption = bitmapInfo.resizeType,
-                                                onOptionSelected = {
-                                                    viewModel.setResizeType(it)
+                                            Column {
+                                                RadioGroup(
+                                                    title = stringResource(R.string.resize_type),
+                                                    options = listOf(
+                                                        stringResource(R.string.explicit),
+                                                        stringResource(
+                                                            R.string.flexible
+                                                        )
+                                                    ),
+                                                    selectedOption = bitmapInfo.resizeType,
+                                                    onOptionSelected = {
+                                                        viewModel.setResizeType(it)
+                                                    }
+                                                )
+                                                if (viewModel.exif != null) {
+                                                    FilledTonalButton(
+                                                        onClick = {
+                                                            showEditExifDialog = true
+                                                        },
+                                                        enabled = bitmapInfo.quality == 100f && bitmapInfo.mime == 0
+                                                    ) {
+                                                        Icon(
+                                                            imageVector = Icons.Rounded.Dataset,
+                                                            contentDescription = null
+                                                        )
+                                                        Spacer(Modifier.width(8.dp))
+                                                        Text(stringResource(R.string.edit_exif))
+                                                    }
                                                 }
-                                            )
+                                            }
                                         }
 
                                     }
@@ -568,6 +599,209 @@ class MainActivity : ComponentActivity() {
                                     }
                                 }
                             )
+                        } else if (showEditExifDialog) {
+                            var showAddExifDialog by rememberSaveable { mutableStateOf(false) }
+                            var map by remember(viewModel.exif) {
+                                mutableStateOf(viewModel.exif?.toMap())
+                            }
+                            AlertDialog(
+                                modifier = Modifier
+                                    .systemBarsPadding()
+                                    .animateContentSize()
+                                    .widthIn(max = 640.dp)
+                                    .padding(16.dp),
+                                onDismissRequest = { showEditExifDialog = false },
+                                title = { Text(stringResource(R.string.edit_exif)) },
+                                icon = { Icon(Icons.Rounded.Dataset, null) },
+                                confirmButton = {
+                                    TextButton(
+                                        onClick = { showEditExifDialog = false }
+                                    ) {
+                                        Text(stringResource(R.string.ok))
+                                    }
+                                },
+                                dismissButton = {
+                                    val count =
+                                        remember(map) {
+                                            BitmapUtils.tags.count {
+                                                it !in (map?.keys ?: emptyList())
+                                            }
+                                        }
+                                    if (count > 0) {
+                                        FilledTonalButton(
+                                            onClick = { showAddExifDialog = true }
+                                        ) {
+                                            Text(stringResource(R.string.add_tag))
+                                        }
+                                    }
+                                },
+                                properties = DialogProperties(usePlatformDefaultWidth = false),
+                                text = {
+                                    if (map?.isEmpty() == false) {
+                                        Box {
+                                            Divider(Modifier.align(Alignment.TopCenter))
+                                            Column(Modifier.verticalScroll(rememberScrollState())) {
+                                                map?.forEach { (tag, value) ->
+                                                    Card(
+                                                        modifier = Modifier
+                                                            .padding(vertical = 4.dp),
+                                                        colors = CardDefaults.cardColors(
+                                                            containerColor = MaterialTheme.colorScheme.surfaceVariant.copy(
+                                                                alpha = 0.5f
+                                                            )
+                                                        )
+                                                    ) {
+                                                        Column(Modifier.fillMaxWidth()) {
+                                                            Row {
+                                                                Text(
+                                                                    text = tag,
+                                                                    fontSize = 16.sp,
+                                                                    modifier = Modifier
+                                                                        .padding(12.dp)
+                                                                        .weight(1f)
+                                                                )
+                                                                IconButton(
+                                                                    onClick = {
+                                                                        viewModel.removeExifTag(
+                                                                            tag
+                                                                        )
+                                                                        map =
+                                                                            map?.toMutableMap()
+                                                                                ?.apply {
+                                                                                    remove(tag)
+                                                                                }
+                                                                    }
+                                                                ) {
+                                                                    Icon(
+                                                                        Icons.Rounded.RemoveCircleOutline,
+                                                                        null
+                                                                    )
+                                                                }
+                                                            }
+                                                            OutlinedTextField(
+                                                                onValueChange = {
+                                                                    viewModel.updateExifByTag(
+                                                                        tag,
+                                                                        it
+                                                                    )
+                                                                    map =
+                                                                        map?.toMutableMap()
+                                                                            ?.apply {
+                                                                                this[tag] = it
+                                                                            }
+                                                                },
+                                                                value = value,
+                                                                textStyle = LocalTextStyle.current.copy(
+                                                                    fontSize = 16.sp,
+                                                                    fontWeight = FontWeight.Bold
+                                                                ),
+                                                                keyboardOptions = KeyboardOptions.Default.copy(
+                                                                    imeAction = ImeAction.Next
+                                                                ),
+                                                                modifier = Modifier
+                                                                    .fillMaxWidth()
+                                                                    .padding(8.dp)
+                                                            )
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                            Divider(Modifier.align(Alignment.BottomCenter))
+                                        }
+                                    } else {
+                                        Text(
+                                            stringResource(R.string.no_exif),
+                                            modifier = Modifier
+                                                .fillMaxWidth()
+                                                .padding(12.dp),
+                                            textAlign = TextAlign.Center
+                                        )
+                                    }
+                                }
+                            )
+
+                            if (showAddExifDialog) {
+                                AlertDialog(
+                                    modifier = Modifier
+                                        .systemBarsPadding()
+                                        .animateContentSize()
+                                        .widthIn(max = 640.dp)
+                                        .padding(16.dp),
+                                    onDismissRequest = { showAddExifDialog = false },
+                                    title = { Text(stringResource(R.string.add_tag)) },
+                                    icon = { Icon(Icons.Rounded.Dataset, null) },
+                                    confirmButton = {
+                                        TextButton(
+                                            onClick = { showAddExifDialog = false }
+                                        ) {
+                                            Text(stringResource(R.string.ok))
+                                        }
+                                    },
+                                    properties = DialogProperties(usePlatformDefaultWidth = false),
+                                    text = {
+                                        Box {
+                                            Divider(Modifier.align(Alignment.TopCenter))
+                                            Column(
+                                                Modifier.verticalScroll(rememberScrollState())
+                                            ) {
+                                                val tags =
+                                                    remember(map) {
+                                                        BitmapUtils.tags.filter {
+                                                            it !in (map?.keys ?: emptyList())
+                                                        }
+                                                    }
+                                                if (tags.isEmpty()) {
+                                                    SideEffect {
+                                                        showAddExifDialog = false
+                                                    }
+                                                }
+                                                tags.forEach { tag ->
+                                                    Card(
+                                                        modifier = Modifier
+                                                            .padding(vertical = 4.dp),
+                                                        colors = CardDefaults.cardColors(
+                                                            containerColor = MaterialTheme.colorScheme.surfaceVariant.copy(
+                                                                alpha = 0.5f
+                                                            )
+                                                        )
+                                                    ) {
+                                                        Column(Modifier.fillMaxWidth()) {
+                                                            Row {
+                                                                Text(
+                                                                    text = tag,
+                                                                    fontSize = 16.sp,
+                                                                    modifier = Modifier
+                                                                        .padding(12.dp)
+                                                                        .weight(1f)
+                                                                )
+                                                                IconButton(
+                                                                    onClick = {
+                                                                        viewModel.removeExifTag(
+                                                                            tag
+                                                                        )
+                                                                        map =
+                                                                            map?.toMutableMap()
+                                                                                ?.apply {
+                                                                                    this[tag] =
+                                                                                        ""
+                                                                                }
+                                                                    }
+                                                                ) {
+                                                                    Icon(
+                                                                        Icons.Rounded.AddCircle,
+                                                                        null
+                                                                    )
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                            Divider(Modifier.align(Alignment.BottomCenter))
+                                        }
+                                    }
+                                )
+                            }
                         }
 
                         ToastHost(hostState = toastHostState)

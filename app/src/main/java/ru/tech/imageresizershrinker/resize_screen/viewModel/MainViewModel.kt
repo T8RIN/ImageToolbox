@@ -8,10 +8,12 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.core.text.isDigitsOnly
+import androidx.exifinterface.media.ExifInterface
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.*
 import ru.tech.imageresizershrinker.resize_screen.components.BitmapInfo
+import ru.tech.imageresizershrinker.utils.BitmapUtils.copyTo
 import ru.tech.imageresizershrinker.utils.BitmapUtils.flip
 import ru.tech.imageresizershrinker.utils.BitmapUtils.previewBitmap
 import ru.tech.imageresizershrinker.utils.BitmapUtils.resizeBitmap
@@ -24,6 +26,9 @@ class MainViewModel : ViewModel() {
 
     private val _bitmap: MutableState<Bitmap?> = mutableStateOf(null)
     val bitmap: Bitmap? by _bitmap
+
+    private val _exif: MutableState<ExifInterface?> = mutableStateOf(null)
+    val exif by _exif
 
     private val _previewBitmap: MutableState<Bitmap?> = mutableStateOf(null)
     val previewBitmap: Bitmap? by _previewBitmap
@@ -65,7 +70,7 @@ class MainViewModel : ViewModel() {
                     if (!isExternalStorageWritable) {
                         onSuccess(false)
                     } else {
-                        val ext = if (mime == 1) "webp" else if (mime == 0) "png" else "jpg"
+                        val ext = if (mime == 1) "webp" else if (mime == 2) "png" else "jpg"
                         val explicit = resizeType == 0
 
                         val tWidth = width.toIntOrNull() ?: bitmap.width
@@ -77,7 +82,6 @@ class MainViewModel : ViewModel() {
                         val localBitmap =
                             bitmap.resizeBitmap(tWidth, tHeight, !explicit).rotate(rotation)
                                 .flip(isFlipped)
-
                         val fos: OutputStream? =
                             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
                                 getFileOutputStream(name, ext)
@@ -85,28 +89,36 @@ class MainViewModel : ViewModel() {
                                 val imagesDir =
                                     "${Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM)}${File.separator}ResizedImages"
                                 val file = File(imagesDir)
-                                if (!file.exists()) {
-                                    file.mkdir()
-                                }
-                                val image = File(imagesDir, "$name.$ext")
+                                if (!file.exists()) file.mkdir()
+                                val image = File(imagesDir, name)
                                 FileOutputStream(image)
                             }
                         localBitmap.compress(
-                            if (mime == 2) Bitmap.CompressFormat.WEBP else if (mime == 0) Bitmap.CompressFormat.PNG else Bitmap.CompressFormat.JPEG,
+                            if (mime == 1) Bitmap.CompressFormat.WEBP else if (mime == 2) Bitmap.CompressFormat.PNG else Bitmap.CompressFormat.JPEG,
                             quality.toInt(),
                             fos
                         )
                         val out = ByteArrayOutputStream()
                         localBitmap.compress(
-                            if (mime == 2) Bitmap.CompressFormat.WEBP else if (mime == 0) Bitmap.CompressFormat.PNG else Bitmap.CompressFormat.JPEG,
+                            if (mime == 1) Bitmap.CompressFormat.WEBP else if (mime == 2) Bitmap.CompressFormat.PNG else Bitmap.CompressFormat.JPEG,
                             quality.toInt(), out
                         )
                         val decoded =
                             BitmapFactory.decodeStream(ByteArrayInputStream(out.toByteArray()))
+
                         out.flush()
                         out.close()
                         fos!!.flush()
                         fos.close()
+
+                        if (mime == 0) {
+                            val dir =
+                                "${Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM)}${File.separator}ResizedImages"
+                            val image = File(dir, name)
+                            val ex = ExifInterface(image)
+                            exif?.copyTo(ex)
+                            ex.saveAttributes()
+                        }
 
                         _bitmap.value = decoded
                         _bitmapInfo.value = _bitmapInfo.value.copy(
@@ -206,7 +218,7 @@ class MainViewModel : ViewModel() {
         val new = _bitmapInfo.value.copy(
             width = "512",
             height = "512",
-            mime = 0,
+            mime = 2,
             resizeType = 1,
             quality = 100f
         )
@@ -214,6 +226,22 @@ class MainViewModel : ViewModel() {
             _bitmapInfo.value = new
             checkBitmapAndUpdate()
         }
+    }
+
+    fun updateExif(exifInterface: ExifInterface?) {
+        _exif.value = exifInterface
+    }
+
+    fun removeExifTag(tag: String) {
+        val exifInterface = _exif.value
+        exifInterface?.setAttribute(tag, null)
+        updateExif(exifInterface)
+    }
+
+    fun updateExifByTag(tag: String, value: String) {
+        val exifInterface = _exif.value
+        exifInterface?.setAttribute(tag, value)
+        updateExif(exifInterface)
     }
 
     companion object {
