@@ -1,4 +1,4 @@
-package ru.tech.imageresizershrinker
+package ru.tech.imageresizershrinker.resize_screen
 
 import android.Manifest
 import android.content.ContentValues
@@ -45,6 +45,7 @@ import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -55,10 +56,14 @@ import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.WindowCompat
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import ru.tech.imageresizershrinker.BitmapUtils.decodeBitmapFromUri
-import ru.tech.imageresizershrinker.MainViewModel.Companion.restrict
-import java.text.CharacterIterator
-import java.text.StringCharacterIterator
+import ru.tech.imageresizershrinker.ImageResizerShrinkerTheme
+import ru.tech.imageresizershrinker.R
+import ru.tech.imageresizershrinker.crash_screen.CrashActivity
+import ru.tech.imageresizershrinker.crash_screen.GlobalExceptionHandler
+import ru.tech.imageresizershrinker.resize_screen.components.*
+import ru.tech.imageresizershrinker.resize_screen.viewModel.MainViewModel
+import ru.tech.imageresizershrinker.resize_screen.viewModel.MainViewModel.Companion.restrict
+import ru.tech.imageresizershrinker.utils.BitmapUtils.decodeBitmapFromUri
 import java.util.*
 
 @ExperimentalFoundationApi
@@ -82,7 +87,7 @@ class MainActivity : ComponentActivity() {
                 val focus = LocalFocusManager.current
                 val toastHostState = rememberToastHostState()
                 val scope = rememberCoroutineScope()
-                var showDialog by remember { mutableStateOf(false) }
+                var showExitDialog by remember { mutableStateOf(false) }
                 var showResetDialog by remember { mutableStateOf(false) }
                 var showSaveLoading by remember { mutableStateOf(false) }
                 var showOriginal by remember { mutableStateOf(false) }
@@ -102,7 +107,10 @@ class MainActivity : ComponentActivity() {
                             } catch (e: Exception) {
                                 scope.launch {
                                     toastHostState.showToast(
-                                        "Something went wrong: ${e.localizedMessage}",
+                                        getString(
+                                            R.string.smth_went_wrong,
+                                            e.localizedMessage ?: ""
+                                        ),
                                         Icons.Rounded.ErrorOutline
                                     )
                                 }
@@ -127,11 +135,16 @@ class MainActivity : ComponentActivity() {
                             CenterAlignedTopAppBar(
                                 title = {
                                     if (viewModel.bitmap == null) {
-                                        Text("Image Resizer")
+                                        Text(stringResource(R.string.app_name))
                                     } else if (!viewModel.isLoading) {
-                                        Text("Size ${byteCount(bitmapInfo.size)}")
+                                        Text(
+                                            stringResource(
+                                                R.string.size,
+                                                byteCount(bitmapInfo.size)
+                                            )
+                                        )
                                     } else {
-                                        Text("Loading...")
+                                        Text(stringResource(R.string.loading))
                                     }
                                 },
                                 colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
@@ -175,7 +188,6 @@ class MainActivity : ComponentActivity() {
                                                     }
                                                 )
                                             }
-
                                     ) {
                                         Icon(
                                             Icons.Default.History,
@@ -264,7 +276,7 @@ class MainActivity : ComponentActivity() {
                                                                 modifier = Modifier.padding(8.dp)
                                                             ) {
                                                                 Text(
-                                                                    "Image is too large to preview, but it will be saved anyway",
+                                                                    stringResource(R.string.image_too_large_preview),
                                                                     textAlign = TextAlign.Center
                                                                 )
                                                                 Spacer(Modifier.height(8.dp))
@@ -331,7 +343,7 @@ class MainActivity : ComponentActivity() {
                                                 modifier = Modifier.size(100.dp)
                                             )
                                             Spacer(Modifier.height(10.dp))
-                                            Text("Pick image to start")
+                                            Text(stringResource(R.string.pick_image))
                                         }
                                         Spacer(Modifier.size(30.dp))
                                         Row {
@@ -343,7 +355,15 @@ class MainActivity : ComponentActivity() {
                                                 keyboardOptions = KeyboardOptions(
                                                     keyboardType = KeyboardType.Number
                                                 ),
-                                                label = { Text("Width ${viewModel.bitmap?.width ?: ""}") },
+                                                label = {
+                                                    Text(
+                                                        stringResource(
+                                                            R.string.width,
+                                                            viewModel.bitmap?.width?.toString()
+                                                                ?: ""
+                                                        )
+                                                    )
+                                                },
                                                 modifier = Modifier.weight(1f)
                                             )
                                             Spacer(Modifier.size(20.dp))
@@ -355,13 +375,21 @@ class MainActivity : ComponentActivity() {
                                                 keyboardOptions = KeyboardOptions(
                                                     keyboardType = KeyboardType.Number
                                                 ),
-                                                label = { Text("Height ${viewModel.bitmap?.height ?: ""}") },
+                                                label = {
+                                                    Text(
+                                                        stringResource(
+                                                            R.string.height,
+                                                            viewModel.bitmap?.height?.toString()
+                                                                ?: ""
+                                                        )
+                                                    )
+                                                },
                                                 modifier = Modifier.weight(1f),
                                             )
                                         }
                                         Spacer(Modifier.size(40.dp))
 
-                                        Text("Quality")
+                                        Text(stringResource(R.string.quality))
                                         Slider(
                                             value = bitmapInfo.quality,
                                             onValueChange = {
@@ -374,8 +402,8 @@ class MainActivity : ComponentActivity() {
 
                                         Row {
                                             RadioGroup(
-                                                title = "Extension",
-                                                options = listOf("PNG", "WEBP", "JPEG"),
+                                                title = stringResource(R.string.extension),
+                                                options = listOf("PNG", "JPEG", "WEBP"),
                                                 selectedOption = bitmapInfo.mime,
                                                 onOptionSelected = {
                                                     viewModel.setMime(it)
@@ -385,8 +413,13 @@ class MainActivity : ComponentActivity() {
                                             Spacer(Modifier.weight(1f))
 
                                             RadioGroup(
-                                                title = "Resize type",
-                                                options = listOf("Explicit", "Flexible"),
+                                                title = stringResource(R.string.resize_type),
+                                                options = listOf(
+                                                    stringResource(R.string.explicit),
+                                                    stringResource(
+                                                        R.string.flexible
+                                                    )
+                                                ),
                                                 selectedOption = bitmapInfo.resizeType,
                                                 onOptionSelected = {
                                                     viewModel.setResizeType(it)
@@ -434,7 +467,7 @@ class MainActivity : ComponentActivity() {
                                             else {
                                                 scope.launch {
                                                     toastHostState.showToast(
-                                                        "Saved to DCIM/ResizedImages folder",
+                                                        getString(R.string.saved_to),
                                                         Icons.Rounded.Save
                                                     )
                                                 }
@@ -455,7 +488,7 @@ class MainActivity : ComponentActivity() {
                                     )
                                 },
                                 text = {
-                                    Text("Pick Image")
+                                    Text(stringResource(R.string.pick_image_alt))
                                 },
                                 icon = {
                                     Icon(Icons.Rounded.AddPhotoAlternate, null)
@@ -463,35 +496,33 @@ class MainActivity : ComponentActivity() {
                             )
                         }
 
-                        if (showDialog) {
+                        if (showExitDialog) {
                             AlertDialog(
-                                onDismissRequest = { showDialog = false },
+                                onDismissRequest = { showExitDialog = false },
                                 dismissButton = {
                                     TextButton(
                                         onClick = {
                                             finishAffinity()
                                         }
                                     ) {
-                                        Text("Close")
+                                        Text(stringResource(R.string.close))
                                     }
                                 },
                                 confirmButton = {
-                                    TextButton(onClick = { showDialog = false }) {
-                                        Text("Stay")
+                                    TextButton(onClick = { showExitDialog = false }) {
+                                        Text(stringResource(R.string.stay))
                                     }
                                 },
-                                title = { Text("App closing") },
+                                title = { Text(stringResource(R.string.app_closing)) },
                                 text = {
                                     Text(
-                                        "Are you really want to close the app, unsaved changes in the current image will be ignored",
+                                        stringResource(R.string.app_closing_sub),
                                         textAlign = TextAlign.Center
                                     )
                                 },
                                 icon = { Icon(Icons.Outlined.DoorBack, null) }
                             )
-                        }
-
-                        if (showSaveLoading) {
+                        } else if (showSaveLoading) {
                             Dialog(onDismissRequest = { }) {
                                 Box(Modifier.fillMaxSize()) {
                                     Box(
@@ -514,12 +545,12 @@ class MainActivity : ComponentActivity() {
                         } else if (showResetDialog) {
                             AlertDialog(
                                 icon = { Icon(Icons.Rounded.LockReset, null) },
-                                title = { Text("Reset image") },
-                                text = { Text("Image changes will be rollback to start values") },
+                                title = { Text(stringResource(R.string.reset_image)) },
+                                text = { Text(stringResource(R.string.reset_image_sub)) },
                                 onDismissRequest = { showResetDialog = false },
                                 confirmButton = {
                                     TextButton(onClick = { showResetDialog = false }) {
-                                        Text("Cancel")
+                                        Text(stringResource(R.string.close))
                                     }
                                 },
                                 dismissButton = {
@@ -528,12 +559,12 @@ class MainActivity : ComponentActivity() {
                                         showResetDialog = false
                                         scope.launch {
                                             toastHostState.showToast(
-                                                "Values properly reset",
+                                                getString(R.string.values_reset),
                                                 Icons.Rounded.DoneOutline
                                             )
                                         }
                                     }) {
-                                        Text("Reset")
+                                        Text(stringResource(R.string.reset))
                                     }
                                 }
                             )
@@ -541,7 +572,7 @@ class MainActivity : ComponentActivity() {
 
                         ToastHost(hostState = toastHostState)
 
-                        BackHandler { showDialog = true }
+                        BackHandler { showExitDialog = true }
                     }
                 }
             }
@@ -563,61 +594,4 @@ class MainActivity : ComponentActivity() {
             Manifest.permission.WRITE_EXTERNAL_STORAGE
         ) == PackageManager.PERMISSION_GRANTED
     }
-}
-
-@ExperimentalMaterial3Api
-@Composable
-fun RadioGroup(
-    title: String?,
-    options: List<String>?,
-    selectedOption: Int?,
-    onOptionSelected: (Int) -> Unit
-) {
-    Column(horizontalAlignment = Alignment.End) {
-        Column {
-            title?.let { Text(title) }
-            options?.forEachIndexed { index, item ->
-                Row(
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    RadioButton(
-                        selected = (index == selectedOption),
-                        onClick = { onOptionSelected(index) },
-                    )
-                    Text(item)
-                }
-            }
-        }
-    }
-
-}
-
-@Stable
-data class BitmapInfo(
-    val width: String = "",
-    val height: String = "",
-    val quality: Float = 100f,
-    val mime: Int = 0,
-    val resizeType: Int = 0,
-    val rotation: Float = 0f,
-    val isFlipped: Boolean = false,
-    val size: Int = 0
-)
-
-fun byteCount(bytes: Int): String {
-    var tempBytes = bytes
-    if (-1000 < tempBytes && tempBytes < 1000) {
-        return "$tempBytes B"
-    }
-    val ci: CharacterIterator = StringCharacterIterator("kMGTPE")
-    while (tempBytes <= -999950 || tempBytes >= 999950) {
-        tempBytes /= 1000
-        ci.next()
-    }
-    return java.lang.String.format(
-        Locale.getDefault(),
-        "%.1f %cB",
-        tempBytes / 1000.0,
-        ci.current()
-    )
 }

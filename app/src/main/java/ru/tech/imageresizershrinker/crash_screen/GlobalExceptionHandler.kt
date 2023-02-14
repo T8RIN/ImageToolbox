@@ -1,4 +1,4 @@
-package ru.tech.imageresizershrinker
+package ru.tech.imageresizershrinker.crash_screen
 
 import android.app.Activity
 import android.content.Context

@@ -1,4 +1,4 @@
-package ru.tech.imageresizershrinker
+package ru.tech.imageresizershrinker.utils
 
 import android.content.Context
 import android.graphics.Bitmap

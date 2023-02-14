@@ -1,4 +1,4 @@
-package ru.tech.imageresizershrinker
+package ru.tech.imageresizershrinker.resize_screen.components
 
 import androidx.compose.animation.*
 import androidx.compose.foundation.layout.*

@@ -1,4 +1,4 @@
-package ru.tech.imageresizershrinker
+package ru.tech.imageresizershrinker.resize_screen.components
 
 import androidx.annotation.FloatRange
 import androidx.compose.animation.Animatable

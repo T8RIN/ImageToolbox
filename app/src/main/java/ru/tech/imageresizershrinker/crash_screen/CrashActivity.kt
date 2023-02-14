@@ -1,4 +1,4 @@
-package ru.tech.imageresizershrinker
+package ru.tech.imageresizershrinker.crash_screen
 
 import android.content.ClipData
 import android.content.ClipboardManager
@@ -20,6 +20,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -28,7 +29,12 @@ import androidx.compose.ui.unit.sp
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.WindowCompat
 import kotlinx.coroutines.launch
-import ru.tech.imageresizershrinker.GlobalExceptionHandler.Companion.getExceptionString
+import ru.tech.imageresizershrinker.ImageResizerShrinkerTheme
+import ru.tech.imageresizershrinker.R
+import ru.tech.imageresizershrinker.crash_screen.GlobalExceptionHandler.Companion.getExceptionString
+import ru.tech.imageresizershrinker.resize_screen.MainActivity
+import ru.tech.imageresizershrinker.resize_screen.components.ToastHost
+import ru.tech.imageresizershrinker.resize_screen.components.rememberToastHostState
 
 class CrashActivity : ComponentActivity() {
 
@@ -65,7 +71,7 @@ class CrashActivity : ComponentActivity() {
                             )
                             Spacer(modifier = Modifier.height(8.dp))
                             Text(
-                                text = "Something went wrong",
+                                text = stringResource(R.string.something_went_wrong),
                                 fontWeight = FontWeight.SemiBold,
                                 fontSize = 26.sp
                             )
@@ -106,14 +112,14 @@ class CrashActivity : ComponentActivity() {
                                     contentDescription = null
                                 )
                                 Spacer(modifier = Modifier.width(8.dp))
-                                Text(text = "Restart app")
+                                Text(text = stringResource(R.string.restart_app))
                             }
                             Spacer(Modifier.width(8.dp))
                             FilledIconButton(onClick = {
                                 (getSystemService(CLIPBOARD_SERVICE) as ClipboardManager).apply {
                                     setPrimaryClip(
                                         ClipData.newPlainText(
-                                            "Exception",
+                                            getString(R.string.exception),
                                             crashReason
                                         )
                                     )
@@ -121,7 +127,7 @@ class CrashActivity : ComponentActivity() {
                                 scope.launch {
                                     toastHostState.showToast(
                                         icon = Icons.Rounded.ContentCopy,
-                                        message = "Copied to clipboard",
+                                        message = getString(R.string.copied),
                                     )
                                 }
                             }) {

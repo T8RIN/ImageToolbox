@@ -1,4 +1,4 @@
-package ru.tech.imageresizershrinker
+package ru.tech.imageresizershrinker.resize_screen.viewModel
 
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
@@ -11,10 +11,11 @@ import androidx.core.text.isDigitsOnly
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.*
-import ru.tech.imageresizershrinker.BitmapUtils.flip
-import ru.tech.imageresizershrinker.BitmapUtils.previewBitmap
-import ru.tech.imageresizershrinker.BitmapUtils.resizeBitmap
-import ru.tech.imageresizershrinker.BitmapUtils.rotate
+import ru.tech.imageresizershrinker.resize_screen.components.BitmapInfo
+import ru.tech.imageresizershrinker.utils.BitmapUtils.flip
+import ru.tech.imageresizershrinker.utils.BitmapUtils.previewBitmap
+import ru.tech.imageresizershrinker.utils.BitmapUtils.resizeBitmap
+import ru.tech.imageresizershrinker.utils.BitmapUtils.rotate
 import java.io.*
 import java.text.SimpleDateFormat
 import java.util.*
@@ -91,13 +92,13 @@ class MainViewModel : ViewModel() {
                                 FileOutputStream(image)
                             }
                         localBitmap.compress(
-                            if (mime == 1) Bitmap.CompressFormat.WEBP else if (mime == 0) Bitmap.CompressFormat.PNG else Bitmap.CompressFormat.JPEG,
+                            if (mime == 2) Bitmap.CompressFormat.WEBP else if (mime == 0) Bitmap.CompressFormat.PNG else Bitmap.CompressFormat.JPEG,
                             quality.toInt(),
                             fos
                         )
                         val out = ByteArrayOutputStream()
                         localBitmap.compress(
-                            if (mime == 1) Bitmap.CompressFormat.WEBP else if (mime == 0) Bitmap.CompressFormat.PNG else Bitmap.CompressFormat.JPEG,
+                            if (mime == 2) Bitmap.CompressFormat.WEBP else if (mime == 0) Bitmap.CompressFormat.PNG else Bitmap.CompressFormat.JPEG,
                             quality.toInt(), out
                         )
                         val decoded =

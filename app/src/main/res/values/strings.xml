@@ -1,3 +1,29 @@
 <resources>
-    <string name="app_name">Image Resizer (Shrinker)</string>
+    <string name="app_name">Image Resizer</string>
+    <string name="smth_went_wrong">Something went wrong: %1$s</string>
+    <string name="size">Size %1$s</string>
+    <string name="loading">Loading…</string>
+    <string name="image_too_large_preview">Image is too large to preview, but it will be tried to save it anyway</string>
+    <string name="pick_image">Pick image to start</string>
+    <string name="width">Width %1$s</string>
+    <string name="height">Height %1$s</string>
+    <string name="quality">Quality</string>
+    <string name="extension">Extension</string>
+    <string name="resize_type">Resize type</string>
+    <string name="explicit">Explicit</string>
+    <string name="flexible">Flexible</string>
+    <string name="saved_to">Saved to DCIM/ResizedImages folder</string>
+    <string name="pick_image_alt">Pick Image</string>
+    <string name="app_closing_sub">Are you really want to close the app, unsaved changes in the current image will be ignored</string>
+    <string name="app_closing">App closing</string>
+    <string name="stay">Stay</string>
+    <string name="close">Close</string>
+    <string name="reset_image">Reset image</string>
+    <string name="reset_image_sub">Image changes will be rollback to start values</string>
+    <string name="values_reset">Values properly reset</string>
+    <string name="reset">Reset</string>
+    <string name="something_went_wrong">Something went wrong</string>
+    <string name="restart_app">Restart app</string>
+    <string name="copied">Copied to clipboard</string>
+    <string name="exception">Exception</string>
 </resources>
