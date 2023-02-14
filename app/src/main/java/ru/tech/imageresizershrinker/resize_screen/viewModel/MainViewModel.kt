@@ -3,7 +3,6 @@ package ru.tech.imageresizershrinker.resize_screen.viewModel
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.Build
-import android.os.Environment
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -62,6 +61,7 @@ class MainViewModel : ViewModel() {
         bitmap: Bitmap? = _bitmap.value,
         isExternalStorageWritable: Boolean,
         getFileOutputStream: (name: String, ext: String) -> OutputStream?,
+        getExternalStorageDir: () -> File?,
         onSuccess: (Boolean) -> Unit
     ) = viewModelScope.launch {
         withContext(Dispatchers.IO) {
@@ -86,10 +86,8 @@ class MainViewModel : ViewModel() {
                             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
                                 getFileOutputStream(name, ext)
                             } else {
-                                val imagesDir =
-                                    "${Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM)}${File.separator}ResizedImages"
-                                val file = File(imagesDir)
-                                if (!file.exists()) file.mkdir()
+                                val imagesDir = getExternalStorageDir()
+                                if (imagesDir?.exists() == false) imagesDir.mkdir()
                                 val image = File(imagesDir, name)
                                 FileOutputStream(image)
                             }
@@ -111,14 +109,11 @@ class MainViewModel : ViewModel() {
                         fos!!.flush()
                         fos.close()
 
-                        if (mime == 0) {
-                            val dir =
-                                "${Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM)}${File.separator}ResizedImages"
-                            val image = File(dir, name)
-                            val ex = ExifInterface(image)
-                            exif?.copyTo(ex)
-                            ex.saveAttributes()
-                        }
+                        val dir = getExternalStorageDir()
+                        val image = File(dir, name)
+                        val ex = ExifInterface(image)
+                        exif?.copyTo(ex)
+                        ex.saveAttributes()
 
                         _bitmap.value = decoded
                         _bitmapInfo.value = _bitmapInfo.value.copy(

@@ -1,5 +1,6 @@
 package ru.tech.imageresizershrinker.utils
 
+import android.content.ContentResolver
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
@@ -7,10 +8,12 @@ import android.graphics.Matrix
 import android.graphics.Rect
 import android.net.Uri
 import android.os.ParcelFileDescriptor
+import android.webkit.MimeTypeMap
 import androidx.exifinterface.media.ExifInterface
 import java.io.ByteArrayInputStream
 import java.io.ByteArrayOutputStream
 import java.io.FileDescriptor
+import java.util.*
 import kotlin.math.max
 
 
@@ -56,8 +59,10 @@ object BitmapUtils {
         uri: Uri,
         outPadding: Rect? = null,
         options: BitmapFactory.Options = BitmapFactory.Options(),
-        onGetExif: (ExifInterface?) -> Unit
-    ): Bitmap? {
+        onGetBitmap: (Bitmap) -> Unit,
+        onGetExif: (ExifInterface?) -> Unit,
+        onGetMimeType: (Int) -> Unit,
+    ) {
         val bmp = kotlin.runCatching {
             val parcelFileDescriptor: ParcelFileDescriptor? =
                 contentResolver.openFileDescriptor(uri, "r")
@@ -66,10 +71,26 @@ object BitmapUtils {
                 parcelFileDescriptor?.close()
             }
         }.getOrNull()
+        bmp?.let { onGetBitmap(it) }
+
         val fd = contentResolver.openFileDescriptor(uri, "r")
         onGetExif(fd?.fileDescriptor?.let { ExifInterface(it) })
+        val mime = contentResolver.getMimeType(uri) ?: ""
+        val mimeInt = if ("png" in mime) 2 else if ("webp" in mime) 1 else 0
+        onGetMimeType(mimeInt)
         fd?.close()
-        return bmp
+    }
+
+    private fun ContentResolver.getMimeType(uri: Uri): String? {
+        return if (ContentResolver.SCHEME_CONTENT == uri.scheme) getType(uri)
+        else {
+            MimeTypeMap.getSingleton()
+                .getMimeTypeFromExtension(
+                    MimeTypeMap.getFileExtensionFromUrl(
+                        uri.toString()
+                    ).lowercase(Locale.getDefault())
+                )
+        }
     }
 
     fun Bitmap.previewBitmap(

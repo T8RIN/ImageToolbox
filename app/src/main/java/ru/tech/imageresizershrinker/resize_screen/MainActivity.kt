@@ -5,6 +5,7 @@ import android.content.ContentValues
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
+import android.os.Environment
 import android.provider.MediaStore
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.BackHandler
@@ -27,7 +28,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Flip
-import androidx.compose.material.icons.filled.History
 import androidx.compose.material.icons.filled.RotateLeft
 import androidx.compose.material.icons.filled.RotateRight
 import androidx.compose.material.icons.outlined.DoorBack
@@ -71,6 +71,7 @@ import ru.tech.imageresizershrinker.resize_screen.viewModel.MainViewModel.Compan
 import ru.tech.imageresizershrinker.utils.BitmapUtils
 import ru.tech.imageresizershrinker.utils.BitmapUtils.decodeBitmapFromUri
 import ru.tech.imageresizershrinker.utils.BitmapUtils.toMap
+import java.io.File
 import java.util.*
 
 @ExperimentalFoundationApi
@@ -112,12 +113,10 @@ class MainActivity : ComponentActivity() {
                             try {
                                 decodeBitmapFromUri(
                                     uri = it,
-                                    onGetExif = { exif ->
-                                        viewModel.updateExif(exif)
-                                    }
-                                )?.let { bmp ->
-                                    viewModel.updateBitmap(bmp)
-                                }
+                                    onGetBitmap = viewModel::updateBitmap,
+                                    onGetExif = viewModel::updateExif,
+                                    onGetMimeType = viewModel::setMime
+                                )
                             } catch (e: Exception) {
                                 scope.launch {
                                     toastHostState.showToast(
@@ -168,6 +167,12 @@ class MainActivity : ComponentActivity() {
                                 ),
                                 actions = {
                                     val interactionSource = remember { MutableInteractionSource() }
+                                    IconButton(onClick = { showResetDialog = true }) {
+                                        Icon(
+                                            imageVector = Icons.Rounded.RestartAlt,
+                                            contentDescription = null
+                                        )
+                                    }
                                     Box(
                                         modifier = Modifier
                                             .clip(CircleShape)
@@ -196,15 +201,12 @@ class MainActivity : ComponentActivity() {
                                                             pos.first,
                                                             pos.second
                                                         )
-                                                    },
-                                                    onDoubleTap = {
-                                                        showResetDialog = true
                                                     }
                                                 )
                                             }
                                     ) {
                                         Icon(
-                                            Icons.Default.History,
+                                            Icons.Rounded.History,
                                             null,
                                             tint = MaterialTheme.colorScheme.onSurfaceVariant,
                                             modifier = Modifier
@@ -420,6 +422,15 @@ class MainActivity : ComponentActivity() {
                                                 options = listOf("JPEG", "WEBP", "PNG"),
                                                 selectedOption = bitmapInfo.mime,
                                                 onOptionSelected = {
+                                                    if (it != 0 && bitmapInfo.mime != it && viewModel.bitmap != null) {
+                                                        scope.launch {
+                                                            toastHostState.showToast(
+                                                                icon = Icons.Rounded.Dataset,
+                                                                message = getString(R.string.might_be_error_with_exif),
+                                                                duration = ToastDuration.Long
+                                                            )
+                                                        }
+                                                    }
                                                     viewModel.setMime(it)
                                                 }
                                             )
@@ -444,8 +455,7 @@ class MainActivity : ComponentActivity() {
                                                     FilledTonalButton(
                                                         onClick = {
                                                             showEditExifDialog = true
-                                                        },
-                                                        enabled = bitmapInfo.quality == 100f && bitmapInfo.mime == 0
+                                                        }
                                                     ) {
                                                         Icon(
                                                             imageVector = Icons.Rounded.Dataset,
@@ -492,6 +502,13 @@ class MainActivity : ComponentActivity() {
                                                     contentValues
                                                 )
                                                 contentResolver.openOutputStream(imageUri!!)
+                                            },
+                                            getExternalStorageDir = {
+                                                File(
+                                                    Environment.getExternalStoragePublicDirectory(
+                                                        Environment.DIRECTORY_DCIM
+                                                    ), "ResizedImages"
+                                                )
                                             }
                                         ) { success ->
                                             if (!success) requestPermission()
