@@ -3,6 +3,7 @@ package ru.tech.imageresizershrinker.resize_screen.viewModel
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.Build
+import android.os.ParcelFileDescriptor
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -61,6 +62,7 @@ class MainViewModel : ViewModel() {
         bitmap: Bitmap? = _bitmap.value,
         isExternalStorageWritable: Boolean,
         getFileOutputStream: (name: String, ext: String) -> OutputStream?,
+        getFileDescriptor: (name: String) -> ParcelFileDescriptor?,
         getExternalStorageDir: () -> File?,
         onSuccess: (Boolean) -> Unit
     ) = viewModelScope.launch {
@@ -109,11 +111,21 @@ class MainViewModel : ViewModel() {
                         fos!!.flush()
                         fos.close()
 
-                        val dir = getExternalStorageDir()
-                        val image = File(dir, name)
-                        val ex = ExifInterface(image)
-                        exif?.copyTo(ex)
-                        ex.saveAttributes()
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                            val fd = getFileDescriptor(name)
+                            fd?.fileDescriptor?.let {
+                                val ex = ExifInterface(it)
+                                exif?.copyTo(ex)
+                                ex.saveAttributes()
+                            }
+                            fd?.close()
+                        } else {
+                            val dir = getExternalStorageDir()
+                            val image = File(dir, name)
+                            val ex = ExifInterface(image)
+                            exif?.copyTo(ex)
+                            ex.saveAttributes()
+                        }
 
                         _bitmap.value = decoded
                         _bitmapInfo.value = _bitmapInfo.value.copy(

@@ -9,7 +9,6 @@ import android.os.Build
 import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
-import android.provider.Settings
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.BackHandler
 import androidx.activity.compose.rememberLauncherForActivityResult
@@ -76,6 +75,7 @@ import ru.tech.imageresizershrinker.theme.Github
 import ru.tech.imageresizershrinker.theme.Telegram
 import ru.tech.imageresizershrinker.utils.BitmapUtils
 import ru.tech.imageresizershrinker.utils.BitmapUtils.decodeBitmapFromUri
+import ru.tech.imageresizershrinker.utils.BitmapUtils.getUriByName
 import ru.tech.imageresizershrinker.utils.BitmapUtils.toMap
 import java.io.File
 
@@ -168,6 +168,11 @@ class MainActivity : ComponentActivity() {
                                     Environment.DIRECTORY_DCIM
                                 ), "ResizedImages"
                             )
+                        },
+                        getFileDescriptor = { name ->
+                            getUriByName(name)?.let {
+                                contentResolver.openFileDescriptor(it, "rw", null)
+                            }
                         }
                     ) { success ->
                         if (!success) requestPermission()
@@ -914,33 +919,6 @@ class MainActivity : ComponentActivity() {
                                     }
                                 }
                             )
-                        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-                            var showDialog by remember(
-                                !Environment.isExternalStorageManager()
-                            ) { mutableStateOf(!Environment.isExternalStorageManager()) }
-
-                            if (showDialog) {
-                                AlertDialog(
-                                    icon = { Icon(Icons.Rounded.Folder, null) },
-                                    title = { Text(stringResource(R.string.memory)) },
-                                    text = { Text(stringResource(R.string.memory_text)) },
-                                    onDismissRequest = {},
-                                    confirmButton = {
-                                        Button(onClick = { startActivity(Intent(Settings.ACTION_MANAGE_ALL_FILES_ACCESS_PERMISSION)) }) {
-                                            Text(stringResource(R.string.grant))
-                                        }
-                                    },
-                                    dismissButton = {
-                                        FilledTonalButton(
-                                            onClick = {
-                                                showDialog = !Environment.isExternalStorageManager()
-                                            }
-                                        ) {
-                                            Text(stringResource(R.string.done))
-                                        }
-                                    }
-                                )
-                            }
                         }
 
                         ToastHost(hostState = toastHostState)

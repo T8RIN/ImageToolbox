@@ -1,14 +1,18 @@
 package ru.tech.imageresizershrinker.utils
 
 import android.content.ContentResolver
+import android.content.ContentUris
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Matrix
 import android.graphics.Rect
 import android.net.Uri
+import android.os.Build
 import android.os.ParcelFileDescriptor
+import android.provider.MediaStore
 import android.webkit.MimeTypeMap
+import androidx.annotation.RequiresApi
 import androidx.exifinterface.media.ExifInterface
 import java.io.ByteArrayInputStream
 import java.io.ByteArrayOutputStream
@@ -283,6 +287,31 @@ object BitmapUtils {
             getAttribute(tag)?.let { hashMap[tag] = it }
         }
         return hashMap
+    }
+
+    @RequiresApi(Build.VERSION_CODES.Q)
+    fun Context.getUriByName(fileName: String?): Uri? {
+        applicationContext.contentResolver.query(
+            MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+            arrayOf(MediaStore.Images.Media.DISPLAY_NAME, MediaStore.Images.Media._ID),
+            null, null
+        )?.use { cursor ->
+            while (cursor.moveToNext()) {
+                val index =
+                    cursor.getColumnIndex(MediaStore.Images.Media.DISPLAY_NAME).takeIf { it != -1 }
+                        ?: 0
+                val name = cursor.getString(index)
+                if (name == fileName) {
+                    val pIndex = cursor.getColumnIndex(MediaStore.Images.Media._ID)
+                        .takeIf { it != -1 } ?: 0
+                    return ContentUris.withAppendedId(
+                        MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+                        cursor.getLong(pIndex)
+                    )
+                }
+            }
+        }
+        return null
     }
 
 }
