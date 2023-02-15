@@ -63,22 +63,23 @@ object BitmapUtils {
         onGetExif: (ExifInterface?) -> Unit,
         onGetMimeType: (Int) -> Unit,
     ) {
+        val fd = contentResolver.openFileDescriptor(uri, "r")
+        val exif = fd?.fileDescriptor?.let { ExifInterface(it) }
+        onGetExif(exif)
+        val mime = contentResolver.getMimeType(uri) ?: ""
+        val mimeInt = if ("png" in mime) 2 else if ("webp" in mime) 1 else 0
+        onGetMimeType(mimeInt)
+        fd?.close()
+
         val bmp = kotlin.runCatching {
             val parcelFileDescriptor: ParcelFileDescriptor? =
                 contentResolver.openFileDescriptor(uri, "r")
             val fileDescriptor: FileDescriptor? = parcelFileDescriptor?.fileDescriptor
             BitmapFactory.decodeFileDescriptor(fileDescriptor, outPadding, options).also {
                 parcelFileDescriptor?.close()
-            }
+            }.rotate(exif?.rotationDegrees?.toFloat() ?: 0f)
         }.getOrNull()
         bmp?.let { onGetBitmap(it) }
-
-        val fd = contentResolver.openFileDescriptor(uri, "r")
-        onGetExif(fd?.fileDescriptor?.let { ExifInterface(it) })
-        val mime = contentResolver.getMimeType(uri) ?: ""
-        val mimeInt = if ("png" in mime) 2 else if ("webp" in mime) 1 else 0
-        onGetMimeType(mimeInt)
-        fd?.close()
     }
 
     private fun ContentResolver.getMimeType(uri: Uri): String? {
@@ -108,8 +109,8 @@ object BitmapUtils {
         val tWidth = widthValue ?: width
         val tHeight = heightValue ?: height
 
-        resizeBitmap(tWidth, tHeight, !explicit)
-            .rotate(rotation)
+        rotate(rotation)
+            .resizeBitmap(tWidth, tHeight, !explicit)
             .flip(isFlipped)
             .compress(
                 if (mime == 1) Bitmap.CompressFormat.WEBP else if (mime == 2) Bitmap.CompressFormat.PNG else Bitmap.CompressFormat.JPEG,

@@ -160,12 +160,24 @@ class MainViewModel : ViewModel() {
     }
 
     fun rotateLeft() {
-        _bitmapInfo.value = _bitmapInfo.value.copy(rotation = _bitmapInfo.value.rotation - 90f)
+        _bitmapInfo.value = _bitmapInfo.value.run {
+            copy(
+                rotation = _bitmapInfo.value.rotation - 90f,
+                height = width,
+                width = height
+            )
+        }
         checkBitmapAndUpdate()
     }
 
     fun rotateRight() {
-        _bitmapInfo.value = _bitmapInfo.value.copy(rotation = _bitmapInfo.value.rotation + 90f)
+        _bitmapInfo.value = _bitmapInfo.value.run {
+            copy(
+                rotation = _bitmapInfo.value.rotation + 90f,
+                height = width,
+                width = height
+            )
+        }
         checkBitmapAndUpdate()
     }
 

@@ -45,11 +45,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.asImageBitmap
+import androidx.compose.ui.graphics.compositeOver
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
@@ -126,9 +129,9 @@ class MainActivity : ComponentActivity() {
                             try {
                                 decodeBitmapFromUri(
                                     uri = it,
-                                    onGetBitmap = viewModel::updateBitmap,
+                                    onGetMimeType = viewModel::setMime,
                                     onGetExif = viewModel::updateExif,
-                                    onGetMimeType = viewModel::setMime
+                                    onGetBitmap = viewModel::updateBitmap,
                                 )
                             } catch (e: Exception) {
                                 scope.launch {
@@ -306,14 +309,13 @@ class MainActivity : ComponentActivity() {
                                 state = state,
                                 reverseLayout = true,
                                 contentPadding = PaddingValues(
-                                    top = WindowInsets.statusBars.asPaddingValues()
-                                        .calculateBottomPadding(),
                                     bottom = WindowInsets.navigationBars.asPaddingValues()
                                         .calculateBottomPadding() + 108.dp,
                                     start = 40.dp, end = 40.dp
                                 )
                             ) {
                                 item {
+
                                     Column(
                                         modifier = Modifier
                                             .fillMaxSize()
@@ -331,19 +333,24 @@ class MainActivity : ComponentActivity() {
                                                 AnimatedContent(
                                                     targetState = showOriginal,
                                                     transitionSpec = {
-                                                        fadeIn(tween(0)) with fadeOut(tween(0))
+                                                        fadeIn(tween(0)) with fadeOut(
+                                                            tween(
+                                                                0
+                                                            )
+                                                        )
                                                     }
                                                 ) { showOrig ->
                                                     if (showOrig) {
-                                                        viewModel.bitmap?.asImageBitmap()?.let {
-                                                            Image(
-                                                                bitmap = it,
-                                                                contentDescription = null,
-                                                                modifier = Modifier.clip(
-                                                                    RoundedCornerShape(4.dp)
+                                                        viewModel.bitmap?.asImageBitmap()
+                                                            ?.let {
+                                                                Image(
+                                                                    bitmap = it,
+                                                                    contentDescription = null,
+                                                                    modifier = Modifier.clip(
+                                                                        RoundedCornerShape(4.dp)
+                                                                    )
                                                                 )
-                                                            )
-                                                        }
+                                                            }
                                                     } else {
                                                         bmp?.asImageBitmap()
                                                             ?.takeIf { viewModel.shouldShowPreview }
@@ -359,7 +366,9 @@ class MainActivity : ComponentActivity() {
                                                         if (!viewModel.shouldShowPreview && !loading && bmp != null) Box {
                                                             Column(
                                                                 horizontalAlignment = Alignment.CenterHorizontally,
-                                                                modifier = Modifier.padding(8.dp)
+                                                                modifier = Modifier.padding(
+                                                                    8.dp
+                                                                )
                                                             ) {
                                                                 Text(
                                                                     stringResource(R.string.image_too_large_preview),
@@ -369,7 +378,9 @@ class MainActivity : ComponentActivity() {
                                                                 Icon(
                                                                     Icons.TwoTone.BrokenImage,
                                                                     null,
-                                                                    modifier = Modifier.size(100.dp)
+                                                                    modifier = Modifier.size(
+                                                                        100.dp
+                                                                    )
                                                                 )
                                                             }
                                                         }
@@ -380,7 +391,10 @@ class MainActivity : ComponentActivity() {
                                                         Modifier
                                                             .size(84.dp)
                                                             .clip(RoundedCornerShape(24.dp))
-                                                            .shadow(8.dp, RoundedCornerShape(24.dp))
+                                                            .shadow(
+                                                                8.dp,
+                                                                RoundedCornerShape(24.dp)
+                                                            )
                                                             .background(MaterialTheme.colorScheme.secondaryContainer)
                                                             .align(Alignment.Center)
                                                     ) {
@@ -422,7 +436,7 @@ class MainActivity : ComponentActivity() {
                                                 }
                                             }
                                         } else if (!viewModel.isLoading) {
-                                            Spacer(Modifier.height(60.dp))
+                                            Spacer(Modifier.height(48.dp))
                                             Icon(
                                                 Icons.TwoTone.Image,
                                                 null,
@@ -475,65 +489,79 @@ class MainActivity : ComponentActivity() {
                                                 modifier = Modifier.weight(1f),
                                             )
                                         }
-                                        Spacer(Modifier.size(40.dp))
-
-                                        Text(stringResource(R.string.quality))
-                                        Slider(
-                                            enabled = viewModel.bitmap != null,
-                                            value = bitmapInfo.quality,
-                                            onValueChange = {
-                                                viewModel.setQuality(it)
-                                            },
-                                            valueRange = 0f..100f,
-                                            steps = 100
-                                        )
                                         Spacer(Modifier.size(20.dp))
 
-                                        Row {
-                                            RadioGroup(
-                                                enabled = viewModel.bitmap != null,
-                                                title = stringResource(R.string.extension),
-                                                options = listOf("JPEG", "WEBP", "PNG"),
-                                                selectedOption = bitmapInfo.mime,
-                                                onOptionSelected = {
-                                                    viewModel.setMime(it)
-                                                }
+                                        ProvideTextStyle(
+                                            value = TextStyle(
+                                                color = if (viewModel.bitmap == null) {
+                                                    MaterialTheme.colorScheme.onSurface
+                                                        .copy(alpha = 0.38f)
+                                                        .compositeOver(MaterialTheme.colorScheme.surface)
+                                                } else Color.Unspecified
                                             )
-
-                                            Spacer(Modifier.weight(1f))
-
-                                            Column {
-                                                RadioGroup(
+                                        ) {
+                                            Column(
+                                                verticalArrangement = Arrangement.Center,
+                                                horizontalAlignment = Alignment.CenterHorizontally
+                                            ) {
+                                                Text(stringResource(R.string.quality))
+                                                Slider(
                                                     enabled = viewModel.bitmap != null,
-                                                    title = stringResource(R.string.resize_type),
-                                                    options = listOf(
-                                                        stringResource(R.string.explicit),
-                                                        stringResource(
-                                                            R.string.flexible
-                                                        )
-                                                    ),
-                                                    selectedOption = bitmapInfo.resizeType,
-                                                    onOptionSelected = {
-                                                        viewModel.setResizeType(it)
-                                                    }
+                                                    value = bitmapInfo.quality,
+                                                    onValueChange = {
+                                                        viewModel.setQuality(it)
+                                                    },
+                                                    valueRange = 0f..100f,
+                                                    steps = 100
                                                 )
-                                                if (viewModel.exif != null) {
-                                                    FilledTonalButton(
-                                                        onClick = {
-                                                            showEditExifDialog = true
+                                                Spacer(Modifier.size(30.dp))
+
+                                                Row {
+                                                    RadioGroup(
+                                                        enabled = viewModel.bitmap != null,
+                                                        title = stringResource(R.string.extension),
+                                                        options = listOf("JPEG", "WEBP", "PNG"),
+                                                        selectedOption = bitmapInfo.mime,
+                                                        onOptionSelected = {
+                                                            viewModel.setMime(it)
                                                         }
-                                                    ) {
-                                                        Icon(
-                                                            imageVector = Icons.Rounded.Dataset,
-                                                            contentDescription = null
+                                                    )
+
+                                                    Spacer(Modifier.weight(1f))
+
+                                                    Column {
+                                                        RadioGroup(
+                                                            enabled = viewModel.bitmap != null,
+                                                            title = stringResource(R.string.resize_type),
+                                                            options = listOf(
+                                                                stringResource(R.string.explicit),
+                                                                stringResource(
+                                                                    R.string.flexible
+                                                                )
+                                                            ),
+                                                            selectedOption = bitmapInfo.resizeType,
+                                                            onOptionSelected = {
+                                                                viewModel.setResizeType(it)
+                                                            }
                                                         )
-                                                        Spacer(Modifier.width(8.dp))
-                                                        Text(stringResource(R.string.edit_exif))
+                                                        if (viewModel.exif != null) {
+                                                                FilledTonalButton(
+                                                                    onClick = {
+                                                                        showEditExifDialog = true
+                                                                    }
+                                                                ) {
+                                                                    Icon(
+                                                                        imageVector = Icons.Rounded.Dataset,
+                                                                        contentDescription = null
+                                                                    )
+                                                                    Spacer(Modifier.width(8.dp))
+                                                                    Text(stringResource(R.string.edit_exif))
+                                                                }
+                                                            }
                                                     }
                                                 }
                                             }
                                         }
-
                                     }
                                 }
                             }
