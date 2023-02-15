@@ -9,19 +9,28 @@
   <a href="https://github.com/t8rin"><img alt="Profile" src="https://img.shields.io/badge/Github-T8RIN-002200?logo=github&logoColor=white&style=for-the-badge"/></a> 
 </p>
 
-<p align="">  
-Simple image resizer with width/height selection, quality and output image type picking, telegram sticker pattern and output image size prediction.
-</p>
-
-
 <p align="center">
-  <img src="https://user-images.githubusercontent.com/52178347/210658280-7fb973ee-c184-4587-b3de-33cdf2ac95ff.png" width="30%"/>
+  <img src="https://user-images.githubusercontent.com/52178347/218951584-21f8b4d1-8ac3-452f-a9fc-d17afa64a8be.png" width="30%"/>
   <img src="https://user-images.githubusercontent.com/52178347/210658303-86d6b49d-f883-4b3c-b87e-814d8bb9385a.png" width="30%"/>
+  <img src="https://user-images.githubusercontent.com/52178347/210658280-7fb973ee-c184-4587-b3de-33cdf2ac95ff.png" width="30%"/>
 </p>
+
+# Functions
+- Width changing
+- Height changing
+- Adaptive resize
+- Quality compressing
+- Convertion
+  - WEBP
+  - PNG
+  - JPEG
+  - Telegram sticker PNG format
+- EXIF metadata editing
+- Rotating
+- Flipping
 
 # Download
 Go to the [Releases](https://github.com/t8rin/imageresizer/releases/latest) and download latest apk.
-
 
 
 ## Find this repository useful? :heart:
