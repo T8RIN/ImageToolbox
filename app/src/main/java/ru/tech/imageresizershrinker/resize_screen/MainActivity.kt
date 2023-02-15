@@ -92,8 +92,8 @@ class MainActivity : ComponentActivity() {
         WindowCompat.setDecorFitsSystemWindows(window, false)
         GlobalExceptionHandler.initialize(applicationContext, CrashActivity::class.java)
 
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-            if(!Environment.isExternalStorageManager()) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            if (!Environment.isExternalStorageManager()) {
                 startActivity(Intent(Settings.ACTION_MANAGE_ALL_FILES_ACCESS_PERMISSION))
             }
         }
@@ -108,10 +108,14 @@ class MainActivity : ComponentActivity() {
                 var showSaveLoading by rememberSaveable { mutableStateOf(false) }
                 var showOriginal by rememberSaveable { mutableStateOf(false) }
                 var showEditExifDialog by rememberSaveable { mutableStateOf(false) }
+                var showExifEditingDialog by rememberSaveable { mutableStateOf(false) }
 
                 val state = rememberLazyListState()
 
                 val bitmapInfo = viewModel.bitmapInfo
+                var map by remember(viewModel.exif) {
+                    mutableStateOf(viewModel.exif?.toMap())
+                }
 
                 val pickImageLauncher =
                     rememberLauncherForActivityResult(
@@ -138,6 +142,49 @@ class MainActivity : ComponentActivity() {
                             }
                         }
                     }
+
+                val saveBitmap = {
+                    showSaveLoading = true
+                    viewModel.saveBitmap(
+                        isExternalStorageWritable = isExternalStorageWritable(),
+                        getFileOutputStream = { name, ext ->
+                            val contentValues = ContentValues().apply {
+                                put(MediaStore.MediaColumns.DISPLAY_NAME, name)
+                                put(
+                                    MediaStore.MediaColumns.MIME_TYPE,
+                                    "image/$ext"
+                                )
+                                put(
+                                    MediaStore.MediaColumns.RELATIVE_PATH,
+                                    "DCIM/ResizedImages"
+                                )
+                            }
+                            val imageUri = contentResolver.insert(
+                                MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+                                contentValues
+                            )
+                            contentResolver.openOutputStream(imageUri!!)
+                        },
+                        getExternalStorageDir = {
+                            File(
+                                Environment.getExternalStoragePublicDirectory(
+                                    Environment.DIRECTORY_DCIM
+                                ), "ResizedImages"
+                            )
+                        }
+                    ) { success ->
+                        if (!success) requestPermission()
+                        else {
+                            scope.launch {
+                                toastHostState.showToast(
+                                    getString(R.string.saved_to),
+                                    Icons.Rounded.Save
+                                )
+                            }
+                        }
+                        showSaveLoading = false
+                    }
+                }
 
                 Surface(
                     color = MaterialTheme.colorScheme.background,
@@ -430,15 +477,6 @@ class MainActivity : ComponentActivity() {
                                                 options = listOf("JPEG", "WEBP", "PNG"),
                                                 selectedOption = bitmapInfo.mime,
                                                 onOptionSelected = {
-                                                    if (it != 0 && bitmapInfo.mime != it && viewModel.bitmap != null) {
-                                                        scope.launch {
-                                                            toastHostState.showToast(
-                                                                icon = Icons.Rounded.Dataset,
-                                                                message = getString(R.string.might_be_error_with_exif),
-                                                                duration = ToastDuration.Long
-                                                            )
-                                                        }
-                                                    }
                                                     viewModel.setMime(it)
                                                 }
                                             )
@@ -490,50 +528,27 @@ class MainActivity : ComponentActivity() {
                             if (viewModel.bitmap != null) {
                                 FloatingActionButton(
                                     onClick = {
-                                        showSaveLoading = true
-                                        viewModel.saveBitmap(
-                                            isExternalStorageWritable = isExternalStorageWritable(),
-                                            getFileOutputStream = { name, ext ->
-                                                val contentValues = ContentValues().apply {
-                                                    put(MediaStore.MediaColumns.DISPLAY_NAME, name)
-                                                    put(
-                                                        MediaStore.MediaColumns.MIME_TYPE,
-                                                        "image/$ext"
-                                                    )
-                                                    put(
-                                                        MediaStore.MediaColumns.RELATIVE_PATH,
-                                                        "DCIM/ResizedImages"
-                                                    )
-                                                }
-                                                val imageUri = contentResolver.insert(
-                                                    MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
-                                                    contentValues
-                                                )
-                                                contentResolver.openOutputStream(imageUri!!)
-                                            },
-                                            getExternalStorageDir = {
-                                                File(
-                                                    Environment.getExternalStoragePublicDirectory(
-                                                        Environment.DIRECTORY_DCIM
-                                                    ), "ResizedImages"
-                                                )
-                                            }
-                                        ) { success ->
-                                            if (!success) requestPermission()
-                                            else {
-                                                scope.launch {
-                                                    toastHostState.showToast(
-                                                        getString(R.string.saved_to),
-                                                        Icons.Rounded.Save
-                                                    )
-                                                }
-                                            }
-                                            showSaveLoading = false
+                                        if (bitmapInfo.mime != 0 && viewModel.bitmap != null && map?.isNotEmpty() == true) {
+                                            showExifEditingDialog = true
+                                        } else {
+                                            saveBitmap()
                                         }
                                     },
                                     containerColor = MaterialTheme.colorScheme.tertiaryContainer
                                 ) {
-                                    Icon(Icons.Rounded.Save, null)
+                                    BadgedBox(
+                                        badge = {
+                                            androidx.compose.animation.AnimatedVisibility(
+                                                visible = bitmapInfo.mime != 0 && map?.isNotEmpty() == true,
+                                                enter = fadeIn() + scaleIn(),
+                                                exit = fadeOut() + scaleOut()
+                                            ) {
+                                                Badge(modifier = Modifier.size(8.dp))
+                                            }
+                                        }
+                                    ) {
+                                        Icon(Icons.Rounded.Save, null)
+                                    }
                                 }
                                 Spacer(Modifier.width(16.dp))
                             }
@@ -556,7 +571,7 @@ class MainActivity : ComponentActivity() {
                             AlertDialog(
                                 onDismissRequest = { showExitDialog = false },
                                 dismissButton = {
-                                    TextButton(
+                                    FilledTonalButton(
                                         onClick = {
                                             finishAffinity()
                                         }
@@ -565,7 +580,7 @@ class MainActivity : ComponentActivity() {
                                     }
                                 },
                                 confirmButton = {
-                                    TextButton(onClick = { showExitDialog = false }) {
+                                    Button(onClick = { showExitDialog = false }) {
                                         Text(stringResource(R.string.stay))
                                     }
                                 },
@@ -605,12 +620,12 @@ class MainActivity : ComponentActivity() {
                                 text = { Text(stringResource(R.string.reset_image_sub)) },
                                 onDismissRequest = { showResetDialog = false },
                                 confirmButton = {
-                                    TextButton(onClick = { showResetDialog = false }) {
+                                    Button(onClick = { showResetDialog = false }) {
                                         Text(stringResource(R.string.close))
                                     }
                                 },
                                 dismissButton = {
-                                    TextButton(onClick = {
+                                    FilledTonalButton(onClick = {
                                         viewModel.resetValues()
                                         showResetDialog = false
                                         scope.launch {
@@ -626,9 +641,6 @@ class MainActivity : ComponentActivity() {
                             )
                         } else if (showEditExifDialog) {
                             var showAddExifDialog by rememberSaveable { mutableStateOf(false) }
-                            var map by remember(viewModel.exif) {
-                                mutableStateOf(viewModel.exif?.toMap())
-                            }
                             AlertDialog(
                                 modifier = Modifier
                                     .systemBarsPadding()
@@ -639,7 +651,7 @@ class MainActivity : ComponentActivity() {
                                 title = { Text(stringResource(R.string.edit_exif)) },
                                 icon = { Icon(Icons.Rounded.Dataset, null) },
                                 confirmButton = {
-                                    TextButton(
+                                    Button(
                                         onClick = { showEditExifDialog = false }
                                     ) {
                                         Text(stringResource(R.string.ok))
@@ -666,6 +678,7 @@ class MainActivity : ComponentActivity() {
                                         Box {
                                             Divider(Modifier.align(Alignment.TopCenter))
                                             Column(Modifier.verticalScroll(rememberScrollState())) {
+                                                Spacer(Modifier.height(8.dp))
                                                 map?.forEach { (tag, value) ->
                                                     Card(
                                                         modifier = Modifier
@@ -730,6 +743,7 @@ class MainActivity : ComponentActivity() {
                                                         }
                                                     }
                                                 }
+                                                Spacer(Modifier.height(8.dp))
                                             }
                                             Divider(Modifier.align(Alignment.BottomCenter))
                                         }
@@ -756,7 +770,7 @@ class MainActivity : ComponentActivity() {
                                     title = { Text(stringResource(R.string.add_tag)) },
                                     icon = { Icon(Icons.Rounded.Dataset, null) },
                                     confirmButton = {
-                                        TextButton(
+                                        Button(
                                             onClick = { showAddExifDialog = false }
                                         ) {
                                             Text(stringResource(R.string.ok))
@@ -773,13 +787,14 @@ class MainActivity : ComponentActivity() {
                                                     remember(map) {
                                                         BitmapUtils.tags.filter {
                                                             it !in (map?.keys ?: emptyList())
-                                                        }
+                                                        }.sorted()
                                                     }
                                                 if (tags.isEmpty()) {
                                                     SideEffect {
                                                         showAddExifDialog = false
                                                     }
                                                 }
+                                                Spacer(Modifier.height(8.dp))
                                                 tags.forEach { tag ->
                                                     Card(
                                                         modifier = Modifier
@@ -821,12 +836,35 @@ class MainActivity : ComponentActivity() {
                                                         }
                                                     }
                                                 }
+                                                Spacer(Modifier.height(8.dp))
                                             }
                                             Divider(Modifier.align(Alignment.BottomCenter))
                                         }
                                     }
                                 )
                             }
+                        } else if (showExifEditingDialog) {
+                            AlertDialog(
+                                icon = { Icon(Icons.Rounded.Save, null) },
+                                title = { Text(stringResource(R.string.exif)) },
+                                text = { Text(stringResource(R.string.might_be_error_with_exif)) },
+                                onDismissRequest = { showExifEditingDialog = false },
+                                confirmButton = {
+                                    Button(onClick = { showExifEditingDialog = false }) {
+                                        Text(stringResource(R.string.close))
+                                    }
+                                },
+                                dismissButton = {
+                                    FilledTonalButton(
+                                        onClick = {
+                                            showExifEditingDialog = false
+                                            saveBitmap()
+                                        }
+                                    ) {
+                                        Text(stringResource(R.string.save))
+                                    }
+                                }
+                            )
                         }
 
                         ToastHost(hostState = toastHostState)

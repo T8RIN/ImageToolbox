@@ -31,4 +31,6 @@
     <string name="no_exif">No exif found</string>
     <string name="add_tag">Add tag</string>
     <string name="might_be_error_with_exif">If not jpeg compress format chosen, EXIF metadata can be saved incorrectly</string>
+    <string name="exif">EXIF</string>
+    <string name="save">Save</string>
 </resources>
