@@ -1,0 +1,34 @@
+<resources>
+    <string name="smth_went_wrong">Что-то пошло не так: %1$s</string>
+    <string name="size">Размер %1$s</string>
+    <string name="loading">Загрузка…</string>
+    <string name="image_too_large_preview">Изображение слишком большое для предпросмотра, но мы постараемся сохранить его в любом случае</string>
+    <string name="pick_image">Выберите изображение, чтобы начать</string>
+    <string name="width">Ширина %1$s</string>
+    <string name="height">Высота %1$s</string>
+    <string name="quality">Качество</string>
+    <string name="extension">Расширение</string>
+    <string name="resize_type">Тип изменения</string>
+    <string name="explicit">Строгий</string>
+    <string name="flexible">Гибкий</string>
+    <string name="saved_to">Сохранено в папку DCIM/ResizedImages</string>
+    <string name="pick_image_alt">Выбрать изображение</string>
+    <string name="app_closing_sub">Если вы закроете приложение сейчас, то все несохраненные изменения будут отменены</string>
+    <string name="app_closing">Закрытие приложения</string>
+    <string name="stay">Остаться</string>
+    <string name="close">Закрыть</string>
+    <string name="reset_image">Сбросить изображение</string>
+    <string name="reset_image_sub">Все изменения будут отменены, а вы увидите исходное изображение</string>
+    <string name="values_reset">Значения сброшены</string>
+    <string name="reset">Сброс</string>
+    <string name="something_went_wrong">Что-то пошло не так</string>
+    <string name="restart_app">Перезапустить приложение</string>
+    <string name="copied">Сохранено в буфер обмена</string>
+    <string name="exception">Исключение</string>
+    <string name="edit_exif">EXIF</string>
+    <string name="ok">Ок</string>
+    <string name="no_exif">EXIF информация не найдена</string>
+    <string name="add_tag">Добавить тег</string>
+    <string name="might_be_error_with_exif">Если выбран формат сжатия не JPEG, то данные EXIF могут не отображаться в других приложениях</string>
+    <string name="save">Сохранить</string>
+</resources>
