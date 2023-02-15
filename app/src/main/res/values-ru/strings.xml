@@ -31,4 +31,8 @@
     <string name="add_tag">Добавить тег</string>
     <string name="might_be_error_with_exif">Если выбран формат сжатия не JPEG, то данные EXIF могут не отображаться в других приложениях</string>
     <string name="save">Сохранить</string>
+    <string name="grant">Предоставить</string>
+    <string name="memory">Хранилище</string>
+    <string name="memory_text">Разрешение для просмотра всех файлов на устройстве необходимо для правильного сохранения данных EXIF, пролистайте вниз и предоставьте полный доступ для продолжения работы</string>
+    <string name="done">Готово</string>
 </resources>

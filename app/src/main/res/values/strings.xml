@@ -33,4 +33,8 @@
     <string name="might_be_error_with_exif">If not JPEG compress format chosen, then EXIF metadata can be showed incorrectly in other apps</string>
     <string name="exif" translatable="false">EXIF</string>
     <string name="save">Save</string>
+    <string name="grant">Grant</string>
+    <string name="memory">Memory</string>
+    <string name="memory_text">Access all files is needed to properly save EXIF, without this permission app wont work, scroll down and then found ImageResizer app</string>
+    <string name="done">Done</string>
 </resources>

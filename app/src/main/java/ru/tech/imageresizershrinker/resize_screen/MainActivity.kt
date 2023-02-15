@@ -43,12 +43,10 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.graphics.compositeOver
-import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
@@ -75,6 +73,7 @@ import ru.tech.imageresizershrinker.resize_screen.components.*
 import ru.tech.imageresizershrinker.resize_screen.viewModel.MainViewModel
 import ru.tech.imageresizershrinker.resize_screen.viewModel.MainViewModel.Companion.restrict
 import ru.tech.imageresizershrinker.theme.Github
+import ru.tech.imageresizershrinker.theme.Telegram
 import ru.tech.imageresizershrinker.utils.BitmapUtils
 import ru.tech.imageresizershrinker.utils.BitmapUtils.decodeBitmapFromUri
 import ru.tech.imageresizershrinker.utils.BitmapUtils.toMap
@@ -95,12 +94,6 @@ class MainActivity : ComponentActivity() {
 
         WindowCompat.setDecorFitsSystemWindows(window, false)
         GlobalExceptionHandler.initialize(applicationContext, CrashActivity::class.java)
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-            if (!Environment.isExternalStorageManager()) {
-                startActivity(Intent(Settings.ACTION_MANAGE_ALL_FILES_ACCESS_PERMISSION))
-            }
-        }
 
         setContent {
             ImageResizerShrinkerTheme {
@@ -292,16 +285,7 @@ class MainActivity : ComponentActivity() {
                                         enabled = viewModel.bitmap != null,
                                         onClick = { viewModel.setTelegramSpecs() }
                                     ) {
-                                        Icon(
-                                            Icons.Rounded.Send,
-                                            null,
-                                            modifier = Modifier
-                                                .graphicsLayer(
-                                                    translationX = 4f,
-                                                    translationY = -2f
-                                                )
-                                                .rotate(-45f)
-                                        )
+                                        Icon(Icons.Rounded.Telegram, null)
                                     }
                                 }
                             )
@@ -443,7 +427,10 @@ class MainActivity : ComponentActivity() {
                                                 modifier = Modifier.size(100.dp)
                                             )
                                             Spacer(Modifier.height(10.dp))
-                                            Text(stringResource(R.string.pick_image))
+                                            Text(
+                                                stringResource(R.string.pick_image),
+                                                textAlign = TextAlign.Center
+                                            )
                                         }
                                         Spacer(Modifier.size(30.dp))
                                         Row {
@@ -545,19 +532,19 @@ class MainActivity : ComponentActivity() {
                                                             }
                                                         )
                                                         if (viewModel.exif != null) {
-                                                                FilledTonalButton(
-                                                                    onClick = {
-                                                                        showEditExifDialog = true
-                                                                    }
-                                                                ) {
-                                                                    Icon(
-                                                                        imageVector = Icons.Rounded.Dataset,
-                                                                        contentDescription = null
-                                                                    )
-                                                                    Spacer(Modifier.width(8.dp))
-                                                                    Text(stringResource(R.string.edit_exif))
+                                                            FilledTonalButton(
+                                                                onClick = {
+                                                                    showEditExifDialog = true
                                                                 }
+                                                            ) {
+                                                                Icon(
+                                                                    imageVector = Icons.Rounded.Dataset,
+                                                                    contentDescription = null
+                                                                )
+                                                                Spacer(Modifier.width(8.dp))
+                                                                Text(stringResource(R.string.edit_exif))
                                                             }
+                                                        }
                                                     }
                                                 }
                                             }
@@ -927,6 +914,33 @@ class MainActivity : ComponentActivity() {
                                     }
                                 }
                             )
+                        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                            var showDialog by remember(
+                                !Environment.isExternalStorageManager()
+                            ) { mutableStateOf(!Environment.isExternalStorageManager()) }
+
+                            if (showDialog) {
+                                AlertDialog(
+                                    icon = { Icon(Icons.Rounded.Folder, null) },
+                                    title = { Text(stringResource(R.string.memory)) },
+                                    text = { Text(stringResource(R.string.memory_text)) },
+                                    onDismissRequest = {},
+                                    confirmButton = {
+                                        Button(onClick = { startActivity(Intent(Settings.ACTION_MANAGE_ALL_FILES_ACCESS_PERMISSION)) }) {
+                                            Text(stringResource(R.string.grant))
+                                        }
+                                    },
+                                    dismissButton = {
+                                        FilledTonalButton(
+                                            onClick = {
+                                                showDialog = !Environment.isExternalStorageManager()
+                                            }
+                                        ) {
+                                            Text(stringResource(R.string.done))
+                                        }
+                                    }
+                                )
+                            }
                         }
 
                         ToastHost(hostState = toastHostState)
