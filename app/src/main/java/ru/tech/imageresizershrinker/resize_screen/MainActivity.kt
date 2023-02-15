@@ -17,6 +17,7 @@ import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.compose.animation.*
+import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.*
 import androidx.compose.foundation.gestures.detectTapGestures
@@ -24,6 +25,7 @@ import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.PressInteraction
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -606,19 +608,28 @@ class MainActivity : ComponentActivity() {
                                 }
                             }
                             Spacer(Modifier.width(16.dp))
-                            ExtendedFloatingActionButton(
+                            FloatingActionButton(
                                 onClick = {
                                     pickImageLauncher.launch(
                                         PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly)
                                     )
-                                },
-                                text = {
-                                    Text(stringResource(R.string.pick_image_alt))
-                                },
-                                icon = {
-                                    Icon(Icons.Rounded.AddPhotoAlternate, null)
                                 }
-                            )
+                            ) {
+                                val expanded = state.isScrollingUp()
+                                val horizontalPadding by animateDpAsState(targetValue = if (expanded) 16.dp else 0.dp)
+                                Row(
+                                    modifier = Modifier.padding(horizontal = horizontalPadding),
+                                    verticalAlignment = Alignment.CenterVertically
+                                ) {
+                                    Icon(Icons.Rounded.AddPhotoAlternate, null)
+                                    AnimatedVisibility(visible = expanded) {
+                                        Row {
+                                            Spacer(Modifier.width(8.dp))
+                                            Text(stringResource(R.string.pick_image_alt))
+                                        }
+                                    }
+                                }
+                            }
                         }
 
                         if (showExitDialog) {
@@ -945,4 +956,22 @@ class MainActivity : ComponentActivity() {
             Manifest.permission.WRITE_EXTERNAL_STORAGE
         ) == PackageManager.PERMISSION_GRANTED
     }
+}
+
+@Composable
+fun LazyListState.isScrollingUp(): Boolean {
+    var previousIndex by remember(this) { mutableStateOf(firstVisibleItemIndex) }
+    var previousScrollOffset by remember(this) { mutableStateOf(firstVisibleItemScrollOffset) }
+    return remember(this) {
+        derivedStateOf {
+            if (previousIndex != firstVisibleItemIndex) {
+                previousIndex > firstVisibleItemIndex
+            } else {
+                previousScrollOffset >= firstVisibleItemScrollOffset
+            }.also {
+                previousIndex = firstVisibleItemIndex
+                previousScrollOffset = firstVisibleItemScrollOffset
+            }
+        }
+    }.value
 }
