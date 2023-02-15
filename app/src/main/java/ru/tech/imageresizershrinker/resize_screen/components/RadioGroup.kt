@@ -11,6 +11,7 @@ import androidx.compose.ui.Alignment
 @ExperimentalMaterial3Api
 @Composable
 fun RadioGroup(
+    enabled: Boolean,
     title: String?,
     options: List<String>?,
     selectedOption: Int?,
@@ -24,6 +25,7 @@ fun RadioGroup(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     RadioButton(
+                        enabled = enabled,
                         selected = (index == selectedOption),
                         onClick = { onOptionSelected(index) },
                     )

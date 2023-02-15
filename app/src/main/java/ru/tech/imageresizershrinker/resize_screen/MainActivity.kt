@@ -4,6 +4,7 @@ import android.Manifest
 import android.content.ContentValues
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.os.Environment
@@ -70,11 +71,11 @@ import ru.tech.imageresizershrinker.crash_screen.GlobalExceptionHandler
 import ru.tech.imageresizershrinker.resize_screen.components.*
 import ru.tech.imageresizershrinker.resize_screen.viewModel.MainViewModel
 import ru.tech.imageresizershrinker.resize_screen.viewModel.MainViewModel.Companion.restrict
+import ru.tech.imageresizershrinker.theme.Github
 import ru.tech.imageresizershrinker.utils.BitmapUtils
 import ru.tech.imageresizershrinker.utils.BitmapUtils.decodeBitmapFromUri
 import ru.tech.imageresizershrinker.utils.BitmapUtils.toMap
 import java.io.File
-import java.util.*
 
 @ExperimentalFoundationApi
 @ExperimentalMaterial3Api
@@ -82,7 +83,7 @@ class MainActivity : ComponentActivity() {
 
     private val viewModel by viewModels<MainViewModel>()
 
-    @OptIn(ExperimentalAnimationApi::class)
+    @OptIn(ExperimentalAnimationApi::class, ExperimentalLayoutApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
 
         installSplashScreen()
@@ -222,56 +223,70 @@ class MainActivity : ComponentActivity() {
                                 ),
                                 actions = {
                                     val interactionSource = remember { MutableInteractionSource() }
-                                    IconButton(onClick = { showResetDialog = true }) {
+                                    IconButton(
+                                        enabled = viewModel.bitmap != null,
+                                        onClick = { showResetDialog = true }
+                                    ) {
                                         Icon(
                                             imageVector = Icons.Rounded.RestartAlt,
                                             contentDescription = null
                                         )
                                     }
-                                    Box(
-                                        modifier = Modifier
-                                            .clip(CircleShape)
-                                            .indication(interactionSource, LocalIndication.current)
-                                            .pointerInput(Unit) {
-                                                detectTapGestures(
-                                                    onPress = {
-                                                        val press = PressInteraction.Press(it)
-                                                        interactionSource.emit(press)
-                                                        val pos =
-                                                            state.firstVisibleItemIndex to state.firstVisibleItemScrollOffset
-                                                        showOriginal = true
-                                                        delay(100)
-                                                        state.animateScrollToItem(
-                                                            0,
-                                                            10000
-                                                        )
-                                                        tryAwaitRelease()
-                                                        showOriginal = false
-                                                        interactionSource.emit(
-                                                            PressInteraction.Release(
-                                                                press
-                                                            )
-                                                        )
-                                                        state.animateScrollToItem(
-                                                            pos.first,
-                                                            pos.second
-                                                        )
-                                                    }
-                                                )
-                                            }
-                                    ) {
-                                        Icon(
-                                            Icons.Rounded.History,
-                                            null,
-                                            tint = MaterialTheme.colorScheme.onSurfaceVariant,
+                                    if (viewModel.bitmap != null) {
+                                        Box(
                                             modifier = Modifier
-                                                .align(Alignment.Center)
-                                                .padding(8.dp)
-                                        )
+                                                .clip(CircleShape)
+                                                .indication(
+                                                    interactionSource,
+                                                    LocalIndication.current
+                                                )
+                                                .pointerInput(Unit) {
+                                                    detectTapGestures(
+                                                        onPress = {
+                                                            val press = PressInteraction.Press(it)
+                                                            interactionSource.emit(press)
+                                                            val pos =
+                                                                state.firstVisibleItemIndex to state.firstVisibleItemScrollOffset
+                                                            showOriginal = true
+                                                            delay(100)
+                                                            state.animateScrollToItem(
+                                                                0,
+                                                                10000
+                                                            )
+                                                            tryAwaitRelease()
+                                                            showOriginal = false
+                                                            interactionSource.emit(
+                                                                PressInteraction.Release(
+                                                                    press
+                                                                )
+                                                            )
+                                                            state.animateScrollToItem(
+                                                                pos.first,
+                                                                pos.second
+                                                            )
+                                                        }
+                                                    )
+                                                }
+                                        ) {
+                                            Icon(
+                                                Icons.Rounded.History,
+                                                null,
+                                                tint = MaterialTheme.colorScheme.onSurfaceVariant,
+                                                modifier = Modifier
+                                                    .align(Alignment.Center)
+                                                    .padding(8.dp)
+                                            )
+                                        }
+                                    } else {
+                                        IconButton(
+                                            enabled = false,
+                                            onClick = {}
+                                        ) { Icon(Icons.Rounded.History, null) }
                                     }
                                 },
                                 navigationIcon = {
                                     IconButton(
+                                        enabled = viewModel.bitmap != null,
                                         onClick = { viewModel.setTelegramSpecs() }
                                     ) {
                                         Icon(
@@ -419,6 +434,7 @@ class MainActivity : ComponentActivity() {
                                         Spacer(Modifier.size(30.dp))
                                         Row {
                                             RoundedTextField(
+                                                enabled = viewModel.bitmap != null,
                                                 value = bitmapInfo.width,
                                                 onValueChange = {
                                                     viewModel.updateWidth(it.restrict())
@@ -439,6 +455,7 @@ class MainActivity : ComponentActivity() {
                                             )
                                             Spacer(Modifier.size(20.dp))
                                             RoundedTextField(
+                                                enabled = viewModel.bitmap != null,
                                                 value = bitmapInfo.height,
                                                 onValueChange = {
                                                     viewModel.updateHeight(it.restrict())
@@ -462,6 +479,7 @@ class MainActivity : ComponentActivity() {
 
                                         Text(stringResource(R.string.quality))
                                         Slider(
+                                            enabled = viewModel.bitmap != null,
                                             value = bitmapInfo.quality,
                                             onValueChange = {
                                                 viewModel.setQuality(it)
@@ -473,6 +491,7 @@ class MainActivity : ComponentActivity() {
 
                                         Row {
                                             RadioGroup(
+                                                enabled = viewModel.bitmap != null,
                                                 title = stringResource(R.string.extension),
                                                 options = listOf("JPEG", "WEBP", "PNG"),
                                                 selectedOption = bitmapInfo.mime,
@@ -485,6 +504,7 @@ class MainActivity : ComponentActivity() {
 
                                             Column {
                                                 RadioGroup(
+                                                    enabled = viewModel.bitmap != null,
                                                     title = stringResource(R.string.resize_type),
                                                     options = listOf(
                                                         stringResource(R.string.explicit),
@@ -519,7 +539,7 @@ class MainActivity : ComponentActivity() {
                             }
                         }
 
-                        Row(
+                        FlowRow(
                             Modifier
                                 .align(Alignment.BottomEnd)
                                 .padding(16.dp)
@@ -550,8 +570,22 @@ class MainActivity : ComponentActivity() {
                                         Icon(Icons.Rounded.Save, null)
                                     }
                                 }
-                                Spacer(Modifier.width(16.dp))
+                            } else {
+                                FloatingActionButton(
+                                    onClick = {
+                                        startActivity(
+                                            Intent(
+                                                Intent.ACTION_VIEW,
+                                                Uri.parse("https://github.com/T8RIN/ImageResizer")
+                                            )
+                                        )
+                                    },
+                                    containerColor = MaterialTheme.colorScheme.tertiaryContainer
+                                ) {
+                                    Icon(Icons.Rounded.Github, null)
+                                }
                             }
+                            Spacer(Modifier.width(16.dp))
                             ExtendedFloatingActionButton(
                                 onClick = {
                                     pickImageLauncher.launch(
