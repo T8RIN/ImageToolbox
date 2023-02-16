@@ -6,8 +6,10 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Build
+import android.os.Build.VERSION.SDK_INT
 import android.os.Bundle
 import android.os.Environment
+import android.os.Parcelable
 import android.provider.MediaStore
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.BackHandler
@@ -96,6 +98,8 @@ class MainActivity : ComponentActivity() {
 
         WindowCompat.setDecorFitsSystemWindows(window, false)
         GlobalExceptionHandler.initialize(applicationContext, CrashActivity::class.java)
+
+        parseImageFromIntent(intent)
 
         setContent {
             ImageResizerShrinkerTheme {
@@ -680,7 +684,7 @@ class MainActivity : ComponentActivity() {
                             }
                         } else if (showResetDialog) {
                             AlertDialog(
-                                icon = { Icon(Icons.Rounded.LockReset, null) },
+                                icon = { Icon(Icons.Rounded.RestartAlt, null) },
                                 title = { Text(stringResource(R.string.reset_image)) },
                                 text = { Text(stringResource(R.string.reset_image_sub)) },
                                 onDismissRequest = { showResetDialog = false },
@@ -950,11 +954,35 @@ class MainActivity : ComponentActivity() {
     }
 
     private fun isExternalStorageWritable(): Boolean {
-        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) true
+        return if (SDK_INT >= Build.VERSION_CODES.TIRAMISU) true
         else ContextCompat.checkSelfPermission(
             this,
             Manifest.permission.WRITE_EXTERNAL_STORAGE
         ) == PackageManager.PERMISSION_GRANTED
+    }
+
+    override fun onNewIntent(intent: Intent?) {
+        super.onNewIntent(intent)
+        parseImageFromIntent(intent)
+    }
+
+    private fun parseImageFromIntent(intent: Intent?) {
+        when (intent?.action) {
+            Intent.ACTION_SEND -> {
+                if (intent.type?.startsWith("image/") == true) {
+                    intent.parcelable<Uri>(Intent.EXTRA_STREAM)?.let {
+                        kotlin.runCatching {
+                            decodeBitmapFromUri(
+                                uri = it,
+                                onGetMimeType = viewModel::setMime,
+                                onGetExif = viewModel::updateExif,
+                                onGetBitmap = viewModel::updateBitmap,
+                            )
+                        }
+                    }
+                }
+            }
+        }
     }
 }
 
@@ -974,4 +1002,9 @@ fun LazyListState.isScrollingUp(): Boolean {
             }
         }
     }.value
+}
+
+inline fun <reified T : Parcelable> Intent.parcelable(key: String): T? = when {
+    SDK_INT >= 33 -> getParcelableExtra(key, T::class.java)
+    else -> @Suppress("DEPRECATION") getParcelableExtra(key) as? T
 }
