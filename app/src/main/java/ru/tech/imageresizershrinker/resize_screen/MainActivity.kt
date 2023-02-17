@@ -111,7 +111,7 @@ class MainActivity : ComponentActivity() {
                 var showSaveLoading by rememberSaveable { mutableStateOf(false) }
                 var showOriginal by rememberSaveable { mutableStateOf(false) }
                 var showEditExifDialog by rememberSaveable { mutableStateOf(false) }
-                var showExifEditingDialog by rememberSaveable { mutableStateOf(false) }
+                var showExifSavingDialog by rememberSaveable { mutableStateOf(false) }
 
                 val state = rememberLazyListState()
 
@@ -305,12 +305,11 @@ class MainActivity : ComponentActivity() {
                                 reverseLayout = true,
                                 contentPadding = PaddingValues(
                                     bottom = WindowInsets.navigationBars.asPaddingValues()
-                                        .calculateBottomPadding() + 108.dp,
+                                        .calculateBottomPadding() + 88.dp,
                                     start = 40.dp, end = 40.dp
                                 )
                             ) {
                                 item {
-
                                     Column(
                                         modifier = Modifier
                                             .fillMaxSize()
@@ -406,6 +405,32 @@ class MainActivity : ComponentActivity() {
                                         if (viewModel.previewBitmap != null) {
                                             Spacer(Modifier.size(20.dp))
                                             Row {
+                                                SmallFloatingActionButton(
+                                                    onClick = {
+                                                        showEditExifDialog = true
+                                                    },
+                                                    elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
+                                                    containerColor = MaterialTheme.colorScheme.surfaceVariant
+                                                ) {
+                                                    Row(
+                                                        verticalAlignment = Alignment.CenterVertically,
+                                                        horizontalArrangement = Arrangement.Center
+                                                    ) {
+                                                        Spacer(Modifier.width(8.dp))
+                                                        Icon(
+                                                            imageVector = Icons.Rounded.Dataset,
+                                                            contentDescription = null
+                                                        )
+                                                        Spacer(Modifier.width(8.dp))
+                                                        Text(stringResource(R.string.edit_exif))
+                                                        Spacer(Modifier.width(8.dp))
+                                                    }
+                                                }
+                                                Spacer(
+                                                    Modifier
+                                                        .weight(1f)
+                                                        .padding(4.dp)
+                                                )
                                                 SmallFloatingActionButton(
                                                     onClick = { viewModel.rotateLeft() },
                                                     elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
@@ -512,52 +537,29 @@ class MainActivity : ComponentActivity() {
                                                     valueRange = 0f..100f,
                                                     steps = 100
                                                 )
-                                                Spacer(Modifier.size(30.dp))
 
-                                                Row {
-                                                    RadioGroup(
-                                                        enabled = viewModel.bitmap != null,
-                                                        title = stringResource(R.string.extension),
-                                                        options = listOf("JPEG", "WEBP", "PNG"),
-                                                        selectedOption = bitmapInfo.mime,
-                                                        onOptionSelected = {
-                                                            viewModel.setMime(it)
-                                                        }
-                                                    )
-
-                                                    Spacer(Modifier.weight(1f))
-
-                                                    Column {
-                                                        RadioGroup(
-                                                            enabled = viewModel.bitmap != null,
-                                                            title = stringResource(R.string.resize_type),
-                                                            options = listOf(
-                                                                stringResource(R.string.explicit),
-                                                                stringResource(
-                                                                    R.string.flexible
-                                                                )
-                                                            ),
-                                                            selectedOption = bitmapInfo.resizeType,
-                                                            onOptionSelected = {
-                                                                viewModel.setResizeType(it)
-                                                            }
-                                                        )
-                                                        if (viewModel.exif != null) {
-                                                            FilledTonalButton(
-                                                                onClick = {
-                                                                    showEditExifDialog = true
-                                                                }
-                                                            ) {
-                                                                Icon(
-                                                                    imageVector = Icons.Rounded.Dataset,
-                                                                    contentDescription = null
-                                                                )
-                                                                Spacer(Modifier.width(8.dp))
-                                                                Text(stringResource(R.string.edit_exif))
-                                                            }
-                                                        }
+                                                ToggleGroupButton(
+                                                    title = stringResource(R.string.extension),
+                                                    enabled = viewModel.bitmap != null,
+                                                    items = listOf("JPEG", "WEBP", "PNG"),
+                                                    selectedIndex = bitmapInfo.mime,
+                                                    indexChanged = {
+                                                        viewModel.setMime(it)
                                                     }
-                                                }
+                                                )
+
+                                                ToggleGroupButton(
+                                                    enabled = viewModel.bitmap != null,
+                                                    title = stringResource(R.string.resize_type),
+                                                    items = listOf(
+                                                        stringResource(R.string.explicit),
+                                                        stringResource(R.string.flexible)
+                                                    ),
+                                                    selectedIndex = bitmapInfo.resizeType,
+                                                    indexChanged = {
+                                                        viewModel.setResizeType(it)
+                                                    }
+                                                )
                                             }
                                         }
                                     }
@@ -575,7 +577,7 @@ class MainActivity : ComponentActivity() {
                                 FloatingActionButton(
                                     onClick = {
                                         if (bitmapInfo.mime != 0 && viewModel.bitmap != null && map?.isNotEmpty() == true) {
-                                            showExifEditingDialog = true
+                                            showExifSavingDialog = true
                                         } else {
                                             saveBitmap()
                                         }
@@ -912,21 +914,21 @@ class MainActivity : ComponentActivity() {
                                     }
                                 )
                             }
-                        } else if (showExifEditingDialog) {
+                        } else if (showExifSavingDialog) {
                             AlertDialog(
                                 icon = { Icon(Icons.Rounded.Save, null) },
                                 title = { Text(stringResource(R.string.exif)) },
                                 text = { Text(stringResource(R.string.might_be_error_with_exif)) },
-                                onDismissRequest = { showExifEditingDialog = false },
+                                onDismissRequest = { showExifSavingDialog = false },
                                 confirmButton = {
-                                    Button(onClick = { showExifEditingDialog = false }) {
+                                    Button(onClick = { showExifSavingDialog = false }) {
                                         Text(stringResource(R.string.close))
                                     }
                                 },
                                 dismissButton = {
                                     FilledTonalButton(
                                         onClick = {
-                                            showExifEditingDialog = false
+                                            showExifSavingDialog = false
                                             saveBitmap()
                                         }
                                     ) {
