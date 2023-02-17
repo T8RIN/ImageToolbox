@@ -263,7 +263,6 @@ object BitmapUtils {
         ExifInterface.TAG_INTEROPERABILITY_INDEX,
         ExifInterface.TAG_DNG_VERSION,
         ExifInterface.TAG_DEFAULT_CROP_SIZE,
-        ExifInterface.TAG_ORF_THUMBNAIL_IMAGE,
         ExifInterface.TAG_ORF_PREVIEW_IMAGE_START,
         ExifInterface.TAG_ORF_PREVIEW_IMAGE_LENGTH,
         ExifInterface.TAG_ORF_ASPECT_FRAME,
