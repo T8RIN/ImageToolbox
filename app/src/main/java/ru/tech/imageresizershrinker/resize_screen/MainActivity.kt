@@ -20,6 +20,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.compose.animation.*
 import androidx.compose.animation.core.animateDpAsState
+import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.*
 import androidx.compose.foundation.gestures.detectTapGestures
@@ -45,6 +46,7 @@ import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
@@ -81,6 +83,7 @@ import ru.tech.imageresizershrinker.utils.BitmapUtils
 import ru.tech.imageresizershrinker.utils.BitmapUtils.decodeBitmapFromUri
 import ru.tech.imageresizershrinker.utils.BitmapUtils.getUriByName
 import ru.tech.imageresizershrinker.utils.BitmapUtils.toMap
+import ru.tech.imageresizershrinker.utils.BitmapUtils.with
 import java.io.File
 
 @ExperimentalFoundationApi
@@ -313,7 +316,8 @@ class MainActivity : ComponentActivity() {
                                     Column(
                                         modifier = Modifier
                                             .fillMaxSize()
-                                            .padding(top = 40.dp),
+                                            .padding(top = 40.dp)
+                                            .imePadding(),
                                         verticalArrangement = Arrangement.Center,
                                         horizontalAlignment = Alignment.CenterHorizontally
                                     ) {
@@ -455,6 +459,41 @@ class MainActivity : ComponentActivity() {
                                                     Icon(Icons.Default.RotateRight, null)
                                                 }
                                             }
+
+                                            Spacer(Modifier.size(20.dp))
+                                            Text(
+                                                stringResource(R.string.presets),
+                                                Modifier.fillMaxWidth(),
+                                                textAlign = TextAlign.Center
+                                            )
+                                            Spacer(Modifier.height(8.dp))
+                                            Row(Modifier.fillMaxWidth()) {
+                                                val data = remember { List(7) { 100 - it * 10 } }
+                                                Spacer(Modifier.width(4.dp))
+                                                data.forEach {
+                                                    val selected = viewModel.presetSelected == it
+                                                    FilledIconButton(
+                                                        modifier = Modifier.weight(1f),
+                                                        onClick = {
+                                                            viewModel.setBitmapInfo(
+                                                                it.with(
+                                                                    viewModel.bitmap,
+                                                                    bitmapInfo
+                                                                )
+                                                            )
+                                                        },
+                                                        colors = IconButtonDefaults.filledIconButtonColors(
+                                                            containerColor = if (selected) MaterialTheme.colorScheme.primaryContainer
+                                                            else MaterialTheme.colorScheme.surfaceColorAtElevation(
+                                                                1.dp
+                                                            )
+                                                        )
+                                                    ) {
+                                                        Text(it.toString())
+                                                    }
+                                                    Spacer(Modifier.width(4.dp))
+                                                }
+                                            }
                                         } else if (!viewModel.isLoading) {
                                             Spacer(Modifier.height(48.dp))
                                             Icon(
@@ -512,8 +551,6 @@ class MainActivity : ComponentActivity() {
                                                 modifier = Modifier.weight(1f),
                                             )
                                         }
-                                        Spacer(Modifier.size(20.dp))
-
                                         ProvideTextStyle(
                                             value = TextStyle(
                                                 color = if (viewModel.bitmap == null) {
@@ -527,9 +564,22 @@ class MainActivity : ComponentActivity() {
                                                 verticalArrangement = Arrangement.Center,
                                                 horizontalAlignment = Alignment.CenterHorizontally
                                             ) {
-                                                Text(stringResource(R.string.quality))
+                                                val sliderHeight = animateDpAsState(
+                                                    targetValue = if(bitmapInfo.mime != 2) 40.dp else 0.dp
+                                                ).value
+
+                                                val alpha = animateFloatAsState(
+                                                    targetValue = if(bitmapInfo.mime != 2) 1f else 0f
+                                                ).value
+
+                                                Spacer(Modifier.size(sliderHeight / 2))
+                                                Text(text = stringResource(R.string.quality), modifier = Modifier.alpha(alpha))
+
                                                 Slider(
-                                                    enabled = viewModel.bitmap != null,
+                                                    modifier = Modifier
+                                                        .height(sliderHeight)
+                                                        .alpha(alpha),
+                                                    enabled = viewModel.bitmap != null && bitmapInfo.mime != 2,
                                                     value = bitmapInfo.quality,
                                                     onValueChange = {
                                                         viewModel.setQuality(it)
@@ -553,7 +603,8 @@ class MainActivity : ComponentActivity() {
                                                     title = stringResource(R.string.resize_type),
                                                     items = listOf(
                                                         stringResource(R.string.explicit),
-                                                        stringResource(R.string.flexible)
+                                                        stringResource(R.string.flexible),
+                                                        stringResource(R.string.ratio)
                                                     ),
                                                     selectedIndex = bitmapInfo.resizeType,
                                                     indexChanged = {
@@ -712,6 +763,7 @@ class MainActivity : ComponentActivity() {
                             )
                         } else if (showEditExifDialog) {
                             var showAddExifDialog by rememberSaveable { mutableStateOf(false) }
+                            var showClearExifDialog by rememberSaveable { mutableStateOf(false) }
                             AlertDialog(
                                 modifier = Modifier
                                     .systemBarsPadding()
@@ -735,11 +787,21 @@ class MainActivity : ComponentActivity() {
                                                 it !in (map?.keys ?: emptyList())
                                             }
                                         }
-                                    if (count > 0) {
-                                        FilledTonalButton(
-                                            onClick = { showAddExifDialog = true }
-                                        ) {
-                                            Text(stringResource(R.string.add_tag))
+                                    Row {
+                                        if (map?.isEmpty() == false) {
+                                            OutlinedButton(onClick = {
+                                                showClearExifDialog = true
+                                            }) {
+                                                Text(stringResource(R.string.clear))
+                                            }
+                                            Spacer(Modifier.width(8.dp))
+                                        }
+                                        if (count > 0) {
+                                            FilledTonalButton(
+                                                onClick = { showAddExifDialog = true }
+                                            ) {
+                                                Text(stringResource(R.string.add_tag))
+                                            }
                                         }
                                     }
                                 },
@@ -911,6 +973,33 @@ class MainActivity : ComponentActivity() {
                                             }
                                             Divider(Modifier.align(Alignment.BottomCenter))
                                         }
+                                    }
+                                )
+                            } else if (showClearExifDialog) {
+                                AlertDialog(
+                                    onDismissRequest = { showClearExifDialog = false },
+                                    title = { Text(stringResource(R.string.clear_exif)) },
+                                    icon = { Icon(Icons.Rounded.Delete, null) },
+                                    confirmButton = {
+                                        Button(
+                                            onClick = { showClearExifDialog = false }
+                                        ) {
+                                            Text(stringResource(R.string.cancel))
+                                        }
+                                    },
+                                    dismissButton = {
+                                        FilledTonalButton(
+                                            onClick = {
+                                                showClearExifDialog = false
+                                                map = emptyMap()
+                                                viewModel.clearExif()
+                                            }
+                                        ) {
+                                            Text(stringResource(R.string.clear))
+                                        }
+                                    },
+                                    text = {
+                                        Text(stringResource(R.string.clear_exif_sub))
                                     }
                                 )
                             }

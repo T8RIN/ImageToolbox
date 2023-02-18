@@ -13,6 +13,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.*
 import ru.tech.imageresizershrinker.resize_screen.components.BitmapInfo
+import ru.tech.imageresizershrinker.utils.BitmapUtils
 import ru.tech.imageresizershrinker.utils.BitmapUtils.copyTo
 import ru.tech.imageresizershrinker.utils.BitmapUtils.flip
 import ru.tech.imageresizershrinker.utils.BitmapUtils.previewBitmap
@@ -42,9 +43,15 @@ class MainViewModel : ViewModel() {
     private val _shouldShowPreview: MutableState<Boolean> = mutableStateOf(false)
     val shouldShowPreview by _shouldShowPreview
 
+    private val _presetSelected: MutableState<Int> = mutableStateOf(-1)
+    val presetSelected by _presetSelected
+
     private var job: Job? = null
 
-    private fun checkBitmapAndUpdate() {
+    private fun checkBitmapAndUpdate(resetPreset: Boolean) {
+        if (resetPreset) {
+            _presetSelected.value = -1
+        }
         job?.cancel()
         job = viewModelScope.launch {
             delay(400)
@@ -53,6 +60,13 @@ class MainViewModel : ViewModel() {
                 _shouldShowPreview.value = (bitmapInfo.height.toIntOrNull() ?: 0)
                     .plus(bitmapInfo.width.toIntOrNull() ?: 0) <= 10000
                 if (shouldShowPreview) _previewBitmap.value = updatePreview(bmp)
+
+                _bitmapInfo.value = _bitmapInfo.value.run {
+                    if (resizeType == 2) copy(
+                        height = previewBitmap?.height?.toString() ?: height,
+                        width = previewBitmap?.width?.toString() ?: width
+                    ) else this
+                }
             }
             _isLoading.value = false
         }
@@ -73,7 +87,6 @@ class MainViewModel : ViewModel() {
                         onSuccess(false)
                     } else {
                         val ext = if (mime == 1) "webp" else if (mime == 2) "png" else "jpg"
-                        val explicit = resizeType == 0
 
                         val tWidth = width.toIntOrNull() ?: bitmap.width
                         val tHeight = height.toIntOrNull() ?: bitmap.height
@@ -82,7 +95,8 @@ class MainViewModel : ViewModel() {
                             SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(Date())
                         val name = "ResizedImage$timeStamp.$ext"
                         val localBitmap =
-                            bitmap.resizeBitmap(tWidth, tHeight, !explicit).rotate(rotation)
+                            bitmap.resizeBitmap(tWidth, tHeight, resizeType)
+                                .rotate(rotation)
                                 .flip(isFlipped)
                         val fos: OutputStream? =
                             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
@@ -157,13 +171,27 @@ class MainViewModel : ViewModel() {
         }
     }
 
+    fun clearExif() {
+        val t = _exif.value
+        BitmapUtils.tags.forEach {
+            t?.setAttribute(it, null)
+        }
+        _exif.value = t
+    }
+
+    fun setBitmapInfo(newInfo: BitmapInfo) {
+        _bitmapInfo.value = newInfo
+        checkBitmapAndUpdate(resetPreset = false)
+        _presetSelected.value = newInfo.quality.toInt()
+    }
+
     fun resetValues() {
         _bitmapInfo.value = BitmapInfo(
             width = _bitmap.value?.width?.toString() ?: "",
             height = _bitmap.value?.height?.toString() ?: "",
             size = _bitmap.value?.byteCount ?: 0
         )
-        checkBitmapAndUpdate()
+        checkBitmapAndUpdate(resetPreset = true)
     }
 
     fun updateBitmap(bitmap: Bitmap?) {
@@ -179,7 +207,7 @@ class MainViewModel : ViewModel() {
                 width = height
             )
         }
-        checkBitmapAndUpdate()
+        checkBitmapAndUpdate(resetPreset = false)
     }
 
     fun rotateRight() {
@@ -190,46 +218,46 @@ class MainViewModel : ViewModel() {
                 width = height
             )
         }
-        checkBitmapAndUpdate()
+        checkBitmapAndUpdate(resetPreset = false)
     }
 
     fun flip() {
         _bitmapInfo.value = _bitmapInfo.value.copy(isFlipped = !_bitmapInfo.value.isFlipped)
-        checkBitmapAndUpdate()
+        checkBitmapAndUpdate(resetPreset = false)
     }
 
     fun updateWidth(width: String) {
         if (_bitmapInfo.value.width != width) {
             _bitmapInfo.value = _bitmapInfo.value.copy(width = width)
-            checkBitmapAndUpdate()
+            checkBitmapAndUpdate(resetPreset = true)
         }
     }
 
     fun updateHeight(height: String) {
         if (_bitmapInfo.value.height != height) {
             _bitmapInfo.value = _bitmapInfo.value.copy(height = height)
-            checkBitmapAndUpdate()
+            checkBitmapAndUpdate(resetPreset = true)
         }
     }
 
     fun setQuality(quality: Float) {
         if (_bitmapInfo.value.quality != quality) {
             _bitmapInfo.value = _bitmapInfo.value.copy(quality = quality)
-            checkBitmapAndUpdate()
+            checkBitmapAndUpdate(resetPreset = true)
         }
     }
 
     fun setMime(mime: Int) {
         if (_bitmapInfo.value.mime != mime) {
             _bitmapInfo.value = _bitmapInfo.value.copy(mime = mime)
-            checkBitmapAndUpdate()
+            checkBitmapAndUpdate(resetPreset = false)
         }
     }
 
     fun setResizeType(type: Int) {
         if (_bitmapInfo.value.resizeType != type) {
             _bitmapInfo.value = _bitmapInfo.value.copy(resizeType = type)
-            checkBitmapAndUpdate()
+            checkBitmapAndUpdate(resetPreset = false)
         }
     }
 
@@ -243,7 +271,7 @@ class MainViewModel : ViewModel() {
         )
         if (new != _bitmapInfo.value) {
             _bitmapInfo.value = new
-            checkBitmapAndUpdate()
+            checkBitmapAndUpdate(resetPreset = true)
         }
     }
 

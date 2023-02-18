@@ -44,7 +44,7 @@ fun ToggleGroupButton(
                 OutlinedButton(
                     enabled = enabled,
                     onClick = { indexChanged(index) },
-                    contentPadding = PaddingValues(horizontal = 16.dp),
+                    contentPadding = PaddingValues(horizontal = 8.dp),
                     modifier = Modifier
                         .widthIn(min = 48.dp)
                         .weight(1f)

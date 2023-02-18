@@ -33,4 +33,10 @@
     <string name="might_be_error_with_exif">If not JPEG compress format chosen, then EXIF metadata can be showed incorrectly in other apps</string>
     <string name="exif" translatable="false">EXIF</string>
     <string name="save">Save</string>
+    <string name="clear">Clear</string>
+    <string name="clear_exif">Clear EXIF</string>
+    <string name="cancel">Cancel</string>
+    <string name="clear_exif_sub">All EXIF data of image will be cleared, this action can not be undone!</string>
+    <string name="presets">Presets</string>
+    <string name="ratio">Ratio</string>
 </resources>

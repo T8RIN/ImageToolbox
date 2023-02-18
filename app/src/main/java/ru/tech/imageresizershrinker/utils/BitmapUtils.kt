@@ -14,10 +14,12 @@ import android.provider.MediaStore
 import android.webkit.MimeTypeMap
 import androidx.annotation.RequiresApi
 import androidx.exifinterface.media.ExifInterface
+import ru.tech.imageresizershrinker.resize_screen.components.BitmapInfo
 import java.io.ByteArrayInputStream
 import java.io.ByteArrayOutputStream
 import java.io.FileDescriptor
 import java.util.*
+import kotlin.math.abs
 import kotlin.math.max
 
 
@@ -35,27 +37,33 @@ object BitmapUtils {
         } else this
     }
 
-    fun Bitmap.resizeBitmap(width_: Int, height_: Int, adaptiveResize: Boolean): Bitmap {
+    fun Bitmap.resizeBitmap(width_: Int, height_: Int, resize: Int): Bitmap {
         val max = max(width_, height_)
-        return if (!adaptiveResize) {
-            Bitmap.createScaledBitmap(
-                this,
-                width_,
-                height_,
-                false
-            )
-        } else {
-            kotlin.runCatching {
-                if (height >= width) {
-                    val aspectRatio = width.toDouble() / height.toDouble()
-                    val targetWidth = (max * aspectRatio).toInt()
-                    Bitmap.createScaledBitmap(this, targetWidth, max, false)
-                } else {
-                    val aspectRatio = height.toDouble() / width.toDouble()
-                    val targetHeight = (max * aspectRatio).toInt()
-                    Bitmap.createScaledBitmap(this, max, targetHeight, false)
-                }
-            }.getOrNull() ?: this
+        return when (resize) {
+            0 -> {
+                Bitmap.createScaledBitmap(
+                    this,
+                    width_,
+                    height_,
+                    false
+                )
+            }
+            1 -> {
+                kotlin.runCatching {
+                    if (height >= width) {
+                        val aspectRatio = width.toDouble() / height.toDouble()
+                        val targetWidth = (max * aspectRatio).toInt()
+                        Bitmap.createScaledBitmap(this, targetWidth, max, false)
+                    } else {
+                        val aspectRatio = height.toDouble() / width.toDouble()
+                        val targetHeight = (max * aspectRatio).toInt()
+                        Bitmap.createScaledBitmap(this, max, targetHeight, false)
+                    }
+                }.getOrNull() ?: this
+            }
+            else -> {
+                resizeWithAspectRatio(width_, height_) ?: this
+            }
         }
     }
 
@@ -109,12 +117,11 @@ object BitmapUtils {
         onByteCount: (Int) -> Unit
     ): Bitmap {
         val out = ByteArrayOutputStream()
-        val explicit = resize == 0
         val tWidth = widthValue ?: width
         val tHeight = heightValue ?: height
 
         rotate(rotation)
-            .resizeBitmap(tWidth, tHeight, !explicit)
+            .resizeBitmap(tWidth, tHeight, resize)
             .flip(isFlipped)
             .compress(
                 if (mime == 1) Bitmap.CompressFormat.WEBP else if (mime == 2) Bitmap.CompressFormat.PNG else Bitmap.CompressFormat.JPEG,
@@ -313,4 +320,54 @@ object BitmapUtils {
         return null
     }
 
+    fun Int.with(bitmap: Bitmap?, currentInfo: BitmapInfo): BitmapInfo {
+        if (bitmap == null) return currentInfo
+
+
+        val rotated = abs(currentInfo.rotation) % 180 != 0f
+        fun Bitmap.width() = if (rotated) height else width
+        fun Bitmap.height() = if (rotated) width else height
+        fun Int.calc(cnt: Int): String = (this * (cnt / 100f)).toInt().toString()
+
+        return when (val percent = this) {
+            100 -> {
+                currentInfo.copy(
+                    quality = percent.toFloat(),
+                    width = bitmap.width().toString(),
+                    height = bitmap.height().toString()
+                )
+            }
+            in 90 downTo 70 -> currentInfo.copy(
+                width = bitmap.width().calc(percent),
+                height = bitmap.height().calc(percent),
+                quality = percent.toFloat()
+            )
+            in 60 downTo 30 -> currentInfo.run {
+                copy(
+                    width = bitmap.width().calc(percent + 15),
+                    height = bitmap.height().calc(percent + 15),
+                    quality = percent.toFloat()
+                )
+            }
+            else -> currentInfo
+        }
+    }
+
+    fun Bitmap.resizeWithAspectRatio(maxWidth: Int, maxHeight: Int): Bitmap? {
+        val image = this
+        return if (maxHeight > 0 && maxWidth > 0) {
+            val width = image.width
+            val height = image.height
+            val ratioBitmap = width.toFloat() / height.toFloat()
+            val ratioMax = maxWidth.toFloat() / maxHeight.toFloat()
+            var finalWidth = maxWidth
+            var finalHeight = maxHeight
+            if (ratioMax > ratioBitmap) {
+                finalWidth = (maxHeight.toFloat() * ratioBitmap).toInt()
+            } else {
+                finalHeight = (maxWidth.toFloat() / ratioBitmap).toInt()
+            }
+            Bitmap.createScaledBitmap(image, finalWidth, finalHeight, true)
+        } else image
+    }
 }

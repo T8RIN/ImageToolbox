@@ -28,7 +28,7 @@
     <string name="edit_exif">EXIF</string>
     <string name="ok">Ок</string>
     <string name="no_exif">EXIF информация не найдена</string>
-    <string name="add_tag">Добавить тег</string>
+    <string name="add_tag">Добавить</string>
     <string name="might_be_error_with_exif">Если выбран формат сжатия не JPEG, то данные EXIF могут не отображаться в других приложениях</string>
     <string name="save">Сохранить</string>
 </resources>
