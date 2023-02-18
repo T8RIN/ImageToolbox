@@ -438,6 +438,8 @@ class MainActivity : ComponentActivity() {
                                                     }
                                                 }
 
+                                                Spacer(Modifier.width(4.dp))
+
                                                 SmallFloatingActionButton(
                                                     onClick = { showCropDialog = true },
                                                     elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
