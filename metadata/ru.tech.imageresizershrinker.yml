@@ -12,14 +12,14 @@ RepoType: git
 Repo: https://github.com/T8RIN/ImageResizer
 
 Builds:
-  - versionName: 1.4
-    versionCode: 11
-    commit: 1.4
+  - versionName: 1.5
+    versionCode: 12
+    commit: 1.5
     subdir: app
     gradle:
       - yes
 
 AutoUpdateMode: Version
 UpdateCheckMode: Tags
-CurrentVersion: 1.4
-CurrentVersionCode: 11
+CurrentVersion: 1.5
+CurrentVersionCode: 12
