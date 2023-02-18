@@ -350,35 +350,23 @@ object BitmapUtils {
         }
     }
 
-    private fun Bitmap.resizeWithAspectRatio(maxWidth: Int, maxHeight: Int): Bitmap? {
-        val bitmap = this
-        val width: Int
-        val height: Int
-        val widthRatio = bitmap.width.toFloat() / maxWidth
-        val heightRatio = bitmap.height.toFloat() / maxHeight
-        // Width constrained.
-        if (widthRatio >= heightRatio) {
-            width = maxWidth
-            height = (width.toFloat() / bitmap.width * bitmap.height).toInt()
+    private fun Bitmap.resizeWithAspectRatio(w: Int, h: Int): Bitmap {
+        val image = this
+        return if (h > 0 && w > 0) {
+            val width: Int = image.width
+            val height: Int = image.height
+            val ratioBitmap = width.toFloat() / height.toFloat()
+            val ratioMax = w.toFloat() / h.toFloat()
+            var finalWidth = w
+            var finalHeight = h
+            if (ratioMax > ratioBitmap) {
+                finalWidth = (h.toFloat() * ratioBitmap).toInt()
+            } else {
+                finalHeight = (w.toFloat() / ratioBitmap).toInt()
+            }
+            Bitmap.createScaledBitmap(image, finalWidth, finalHeight, true)
         } else {
-            height = maxHeight
-            width = (height.toFloat() / bitmap.height * bitmap.width).toInt()
+            image
         }
-        val scaledBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
-        val ratioX = width.toFloat() / bitmap.width
-        val ratioY = height.toFloat() / bitmap.height
-        val middleX = width / 2.0f
-        val middleY = height / 2.0f
-        val scaleMatrix = Matrix()
-        scaleMatrix.setScale(ratioX, ratioY, middleX, middleY)
-        val canvas = Canvas(scaledBitmap)
-        canvas.setMatrix(scaleMatrix)
-        canvas.drawBitmap(
-            bitmap,
-            middleX - bitmap.width / 2,
-            middleY - bitmap.height / 2,
-            Paint(Paint.FILTER_BITMAP_FLAG)
-        )
-        return scaledBitmap
     }
 }

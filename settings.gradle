@@ -16,3 +16,4 @@ dependencyResolutionManagement {
 }
 rootProject.name = "Image Resizer (Shrinker)"
 include ':app'
+include ':cropper'

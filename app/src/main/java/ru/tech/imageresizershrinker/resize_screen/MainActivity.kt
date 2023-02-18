@@ -1060,7 +1060,6 @@ class MainActivity : ComponentActivity() {
                                     onDismissRequest = { showCropDialog = false },
                                     text = {
                                         ImageCropper(
-                                            modifier = Modifier.fillMaxHeight(0.7f),
                                             imageBitmap = bmp,
                                             contentDescription = null,
                                             cropProperties = CropDefaults.properties(
