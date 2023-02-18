@@ -353,38 +353,31 @@ object BitmapUtils {
     private var lastModification: Pair<Int, Int> = 0 to 0
 
     private fun Bitmap.resizeWithAspectRatio(w: Int, h: Int): Bitmap? {
-        if (w > 0 && h > 0) {
-            val originalWidth = this.width
-            val originalHeight = this.height
-            val newWidth: Int
-            val newHeight: Int
-            val ratio: Float
-            if (originalHeight > originalWidth) {
-                if (h != lastModification.second) {
-                    newHeight = h
-                    ratio = originalWidth.toFloat() / originalHeight.toFloat()
-                    newWidth = (newHeight * ratio).toInt()
-                } else {
-                    newWidth = w
-                    ratio = originalHeight.toFloat() / originalWidth.toFloat()
-                    newHeight = (newWidth * ratio).toInt()
-                }
-            } else if (originalWidth > originalHeight) {
-                if (w != lastModification.first) {
-                    newWidth = w
-                    ratio = originalHeight.toFloat() / originalWidth.toFloat()
-                    newHeight = (newWidth * ratio).toInt()
-                } else {
-                    newHeight = h
-                    ratio = originalWidth.toFloat() / originalHeight.toFloat()
-                    newWidth = (newHeight * ratio).toInt()
-                }
-            } else {
-                newHeight = h
-                newWidth = w
+        return if (w > 0 && h > 0) {
+            val (originalWidth, originalHeight) = width to height
+            var (newWidth, newHeight) = w to h
+
+            fun updateByHeight() {
+                val ratio = originalWidth.toFloat() / originalHeight.toFloat()
+                newWidth = (newHeight * ratio).toInt()
             }
+
+            fun updateByWidth() {
+                val ratio = originalHeight.toFloat() / originalWidth.toFloat()
+                newHeight = (newWidth * ratio).toInt()
+            }
+
+            if (originalHeight > originalWidth) {
+                if (h != lastModification.second) updateByHeight()
+                else updateByWidth()
+            } else if (originalWidth > originalHeight) {
+                if (w != lastModification.first) updateByWidth()
+                else updateByHeight()
+            }
+
             lastModification = newWidth to newHeight
-            return Bitmap.createScaledBitmap(this, newWidth, newHeight, false)
-        } else return this
+
+            Bitmap.createScaledBitmap(this, newWidth, newHeight, false)
+        } else this
     }
 }

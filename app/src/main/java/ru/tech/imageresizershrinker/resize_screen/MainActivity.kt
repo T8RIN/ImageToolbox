@@ -324,8 +324,7 @@ class MainActivity : ComponentActivity() {
                                     Column(
                                         modifier = Modifier
                                             .fillMaxSize()
-                                            .padding(top = 40.dp)
-                                            .imePadding(),
+                                            .padding(top = 40.dp),
                                         verticalArrangement = Arrangement.Center,
                                         horizontalAlignment = Alignment.CenterHorizontally
                                     ) {
@@ -634,6 +633,7 @@ class MainActivity : ComponentActivity() {
                                             }
                                         }
                                     }
+                                    Spacer(modifier = Modifier.imePadding())
                                 }
                             }
                         }
@@ -1045,8 +1045,7 @@ class MainActivity : ComponentActivity() {
                                     }
                                 }
                             )
-                        }
-                        else if (viewModel.bitmap != null && showCropDialog) {
+                        } else if (viewModel.bitmap != null && showCropDialog) {
                             viewModel.bitmap?.let {
                                 val bmp = remember(it) { it.asImageBitmap() }
                                 var crop by remember { mutableStateOf(false) }
