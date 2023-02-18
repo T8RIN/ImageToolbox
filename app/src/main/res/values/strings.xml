@@ -39,4 +39,5 @@
     <string name="clear_exif_sub">All EXIF data of image will be cleared, this action can not be undone!</string>
     <string name="presets">Presets</string>
     <string name="ratio">Ratio</string>
+    <string name="crop">Crop</string>
 </resources>

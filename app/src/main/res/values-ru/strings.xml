@@ -36,5 +36,5 @@
     <string name="cancel">Отмена</string>
     <string name="clear_exif_sub">Все данные EXIF будут очищены</string>
     <string name="presets">Предустановки</string>
-    <string name="ratio">Отношение</string>
+    <string name="ratio">Аспект</string>
 </resources>

@@ -3,10 +3,7 @@ package ru.tech.imageresizershrinker.utils
 import android.content.ContentResolver
 import android.content.ContentUris
 import android.content.Context
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
-import android.graphics.Matrix
-import android.graphics.Rect
+import android.graphics.*
 import android.net.Uri
 import android.os.Build
 import android.os.ParcelFileDescriptor
@@ -353,21 +350,35 @@ object BitmapUtils {
         }
     }
 
-    fun Bitmap.resizeWithAspectRatio(maxWidth: Int, maxHeight: Int): Bitmap? {
-        val image = this
-        return if (maxHeight > 0 && maxWidth > 0) {
-            val width = image.width
-            val height = image.height
-            val ratioBitmap = width.toFloat() / height.toFloat()
-            val ratioMax = maxWidth.toFloat() / maxHeight.toFloat()
-            var finalWidth = maxWidth
-            var finalHeight = maxHeight
-            if (ratioMax > ratioBitmap) {
-                finalWidth = (maxHeight.toFloat() * ratioBitmap).toInt()
-            } else {
-                finalHeight = (maxWidth.toFloat() / ratioBitmap).toInt()
-            }
-            Bitmap.createScaledBitmap(image, finalWidth, finalHeight, true)
-        } else image
+    private fun Bitmap.resizeWithAspectRatio(maxWidth: Int, maxHeight: Int): Bitmap? {
+        val bitmap = this
+        val width: Int
+        val height: Int
+        val widthRatio = bitmap.width.toFloat() / maxWidth
+        val heightRatio = bitmap.height.toFloat() / maxHeight
+        // Width constrained.
+        if (widthRatio >= heightRatio) {
+            width = maxWidth
+            height = (width.toFloat() / bitmap.width * bitmap.height).toInt()
+        } else {
+            height = maxHeight
+            width = (height.toFloat() / bitmap.height * bitmap.width).toInt()
+        }
+        val scaledBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
+        val ratioX = width.toFloat() / bitmap.width
+        val ratioY = height.toFloat() / bitmap.height
+        val middleX = width / 2.0f
+        val middleY = height / 2.0f
+        val scaleMatrix = Matrix()
+        scaleMatrix.setScale(ratioX, ratioY, middleX, middleY)
+        val canvas = Canvas(scaledBitmap)
+        canvas.setMatrix(scaleMatrix)
+        canvas.drawBitmap(
+            bitmap,
+            middleX - bitmap.width / 2,
+            middleY - bitmap.height / 2,
+            Paint(Paint.FILTER_BITMAP_FLAG)
+        )
+        return scaledBitmap
     }
 }

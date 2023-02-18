@@ -34,6 +34,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Crop
 import androidx.compose.material.icons.filled.Flip
 import androidx.compose.material.icons.filled.RotateLeft
 import androidx.compose.material.icons.filled.RotateRight
@@ -50,6 +51,7 @@ import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.asAndroidBitmap
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.graphics.compositeOver
 import androidx.compose.ui.input.pointer.pointerInput
@@ -68,6 +70,11 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.WindowCompat
+import com.smarttoolfactory.cropper.ImageCropper
+import com.smarttoolfactory.cropper.model.OutlineType
+import com.smarttoolfactory.cropper.model.RectCropShape
+import com.smarttoolfactory.cropper.settings.CropDefaults
+import com.smarttoolfactory.cropper.settings.CropOutlineProperty
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.ImageResizerShrinkerTheme
@@ -115,6 +122,7 @@ class MainActivity : ComponentActivity() {
                 var showOriginal by rememberSaveable { mutableStateOf(false) }
                 var showEditExifDialog by rememberSaveable { mutableStateOf(false) }
                 var showExifSavingDialog by rememberSaveable { mutableStateOf(false) }
+                var showCropDialog by rememberSaveable { mutableStateOf(false) }
 
                 val state = rememberLazyListState()
 
@@ -308,7 +316,7 @@ class MainActivity : ComponentActivity() {
                                 reverseLayout = true,
                                 contentPadding = PaddingValues(
                                     bottom = WindowInsets.navigationBars.asPaddingValues()
-                                        .calculateBottomPadding() + 88.dp,
+                                        .calculateBottomPadding() + 120.dp,
                                     start = 40.dp, end = 40.dp
                                 )
                             ) {
@@ -430,6 +438,15 @@ class MainActivity : ComponentActivity() {
                                                         Spacer(Modifier.width(8.dp))
                                                     }
                                                 }
+
+                                                SmallFloatingActionButton(
+                                                    onClick = { showCropDialog = true },
+                                                    elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
+                                                    containerColor = MaterialTheme.colorScheme.surfaceVariant
+                                                ) {
+                                                    Icon(Icons.Default.Crop, null)
+                                                }
+
                                                 Spacer(
                                                     Modifier
                                                         .weight(1f)
@@ -565,15 +582,18 @@ class MainActivity : ComponentActivity() {
                                                 horizontalAlignment = Alignment.CenterHorizontally
                                             ) {
                                                 val sliderHeight = animateDpAsState(
-                                                    targetValue = if(bitmapInfo.mime != 2) 40.dp else 0.dp
+                                                    targetValue = if (bitmapInfo.mime != 2) 40.dp else 0.dp
                                                 ).value
 
                                                 val alpha = animateFloatAsState(
-                                                    targetValue = if(bitmapInfo.mime != 2) 1f else 0f
+                                                    targetValue = if (bitmapInfo.mime != 2) 1f else 0f
                                                 ).value
 
                                                 Spacer(Modifier.size(sliderHeight / 2))
-                                                Text(text = stringResource(R.string.quality), modifier = Modifier.alpha(alpha))
+                                                Text(
+                                                    text = stringResource(R.string.quality),
+                                                    modifier = Modifier.alpha(alpha)
+                                                )
 
                                                 Slider(
                                                     modifier = Modifier
@@ -1025,6 +1045,50 @@ class MainActivity : ComponentActivity() {
                                     }
                                 }
                             )
+                        }
+                        else if (viewModel.bitmap != null && showCropDialog) {
+                            viewModel.bitmap?.let {
+                                val bmp = remember(it) { it.asImageBitmap() }
+                                var crop by remember { mutableStateOf(false) }
+                                AlertDialog(
+                                    modifier = Modifier
+                                        .systemBarsPadding()
+                                        .animateContentSize()
+                                        .widthIn(max = 640.dp)
+                                        .padding(16.dp),
+                                    properties = DialogProperties(usePlatformDefaultWidth = false),
+                                    onDismissRequest = { showCropDialog = false },
+                                    text = {
+                                        ImageCropper(
+                                            modifier = Modifier.fillMaxHeight(0.7f),
+                                            imageBitmap = bmp,
+                                            contentDescription = null,
+                                            cropProperties = CropDefaults.properties(
+                                                cropOutlineProperty = CropOutlineProperty(
+                                                    OutlineType.Rect,
+                                                    RectCropShape(0, "")
+                                                )
+                                            ),
+                                            onCropStart = {},
+                                            crop = crop,
+                                            onCropSuccess = { image ->
+                                                viewModel.updateBitmap(image.asAndroidBitmap())
+                                                showCropDialog = false
+                                            }
+                                        )
+                                    },
+                                    confirmButton = {
+                                        Button(onClick = { crop = true }) {
+                                            Text(stringResource(R.string.crop))
+                                        }
+                                    },
+                                    dismissButton = {
+                                        FilledTonalButton(onClick = { showCropDialog = false }) {
+                                            Text(stringResource(R.string.cancel))
+                                        }
+                                    }
+                                )
+                            }
                         }
 
                         ToastHost(hostState = toastHostState)
