@@ -37,4 +37,5 @@
     <string name="clear_exif_sub">Все данные EXIF будут очищены</string>
     <string name="presets">Предустановки</string>
     <string name="ratio">Аспект</string>
+    <string name="crop">Обрезать</string>
 </resources>

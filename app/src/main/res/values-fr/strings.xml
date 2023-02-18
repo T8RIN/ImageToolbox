@@ -37,4 +37,5 @@
     <string name="clear_exif_sub">Toutes les données EXIF de l\'image seront effacées, cette action ne peut pas être annulée !</string>
     <string name="presets">Préconfigurations</string>
     <string name="ratio">Rapport</string>
+    <string name="crop">Recadrer</string>
 </resources>
