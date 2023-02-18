@@ -1,0 +1,36 @@
+<resources>
+    <string name="app_name" translatable="false">Image Resizer</string>
+    <string name="smth_went_wrong">Quelque chose s\'est mal passé: %1$s</string>
+    <string name="size">Dimension %1$s</string>
+    <string name="loading">Chargement…</string>
+    <string name="image_too_large_preview">L\'image est trop grande pour être prévisualisée, mais on essaiera quand même de l\'enregistrer</string>
+    <string name="pick_image">Pour commencer, sélectionnez une image</string>
+    <string name="width">Largeur %1$s</string>
+    <string name="height">Hauteur %1$s</string>
+    <string name="quality">Qualité</string>
+    <string name="extension">Extension</string>
+    <string name="resize_type">Type de redimensionnement</string>
+    <string name="explicit">Spécifique</string>
+    <string name="flexible">Flexible</string>
+    <string name="saved_to">Enregistré dans le dossier DCIM/ResizedImages</string>
+    <string name="pick_image_alt">Choisir une image</string>
+    <string name="app_closing_sub">Souhaitez-vous vraiment fermer l\'application, les modifications non enregistrées dans l\'image actuelle seront ignorées</string>
+    <string name="app_closing">Fermeture de l\'application</string>
+    <string name="stay">Rester</string>
+    <string name="close">Fermer</string>
+    <string name="reset_image">Réinitialiser l\'image</string>
+    <string name="reset_image_sub">Les valeurs de l\'image seront restaurés aux valeurs de départ</string>
+    <string name="values_reset">Les valeurs ont été correctement réinitialisées</string>
+    <string name="reset">Réinitialiser</string>
+    <string name="something_went_wrong">une erreur c\'est produite</string>
+    <string name="restart_app">Redémarrer l'application</string>
+    <string name="copied">Copié dans le presse-papier</string>
+    <string name="exception">Exception</string>
+    <string name="edit_exif">Modifier les données EXIFs</string>
+    <string name="ok">Ok</string>
+    <string name="no_exif">Aucune donnée exif trouvée</string>
+    <string name="add_tag">Ajouter une balise</string>
+    <string name="might_be_error_with_exif">Si le format de compression JPEG n\'est pas choisi, les métadonnées EXIF peuvent être affichées de manière incorrecte dans d\'autres applications.</string>
+    <string name="exif" translatable="false">EXIF</string>
+    <string name="save">Sauvegarder</string>
+</resources>
