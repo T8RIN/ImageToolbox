@@ -1,5 +1,6 @@
 package ru.tech.imageresizershrinker.resize_screen.components
 
+import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -76,19 +77,21 @@ fun ToggleGroupButton(
                         else -> RoundedCornerShape(0.dp)
                     },
                     border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant),
-                    colors = if (!enabled) ButtonDefaults.outlinedButtonColors(
-                        containerColor = disColor
+                    colors = ButtonDefaults.outlinedButtonColors(
+                        containerColor = animateColorAsState(
+                            if (!enabled) disColor
+                            else if (selectedIndex == index) MaterialTheme.colorScheme.mixedColor
+                            else Color.Transparent
+                        ).value
                     )
-                    else if (selectedIndex == index) ButtonDefaults.outlinedButtonColors(
-                        containerColor = MaterialTheme.colorScheme.mixedColor
-                    )
-                    else ButtonDefaults.outlinedButtonColors()
                 ) {
                     Text(
                         text = item,
-                        color = if (!enabled) disColor
-                        else if (selectedIndex == index) MaterialTheme.colorScheme.onMixedColor
-                        else MaterialTheme.colorScheme.onSurface,
+                        color = animateColorAsState(
+                            if (!enabled) disColor
+                            else if (selectedIndex == index) MaterialTheme.colorScheme.onMixedColor
+                            else MaterialTheme.colorScheme.onSurface
+                        ).value,
                         modifier = Modifier.padding(horizontal = 8.dp),
                         overflow = TextOverflow.Ellipsis
                     )

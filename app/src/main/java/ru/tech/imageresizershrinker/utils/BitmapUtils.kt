@@ -373,6 +373,9 @@ object BitmapUtils {
             } else if (originalWidth > originalHeight) {
                 if (w != lastModification.first) updateByWidth()
                 else updateByHeight()
+            } else {
+                if (w != lastModification.first) newHeight = w
+                else newWidth = h
             }
 
             lastModification = newWidth to newHeight

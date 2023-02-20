@@ -46,9 +46,13 @@ class MainViewModel : ViewModel() {
     private val _presetSelected: MutableState<Int> = mutableStateOf(-1)
     val presetSelected by _presetSelected
 
+    private val _isTelegramSpecs: MutableState<Boolean> = mutableStateOf(false)
+    val isTelegramSpecs by _isTelegramSpecs
+
     private var job: Job? = null
 
     private fun checkBitmapAndUpdate(resetPreset: Boolean) {
+        _isTelegramSpecs.value = false
         if (resetPreset) {
             _presetSelected.value = -1
         }
@@ -180,9 +184,11 @@ class MainViewModel : ViewModel() {
     }
 
     fun setBitmapInfo(newInfo: BitmapInfo) {
-        _bitmapInfo.value = newInfo
-        checkBitmapAndUpdate(resetPreset = false)
-        _presetSelected.value = newInfo.quality.toInt()
+        if(_bitmapInfo.value != newInfo) {
+            _bitmapInfo.value = newInfo
+            checkBitmapAndUpdate(resetPreset = false)
+            _presetSelected.value = newInfo.quality.toInt()
+        }
     }
 
     fun resetValues() {
@@ -273,6 +279,7 @@ class MainViewModel : ViewModel() {
             _bitmapInfo.value = new
             checkBitmapAndUpdate(resetPreset = true)
         }
+        _isTelegramSpecs.value = true
     }
 
     fun updateExif(exifInterface: ExifInterface?) {

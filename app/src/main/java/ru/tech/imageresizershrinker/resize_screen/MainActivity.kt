@@ -157,6 +157,12 @@ class MainActivity : ComponentActivity() {
                         }
                     }
 
+                val pickImage = {
+                    pickImageLauncher.launch(
+                        PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly)
+                    )
+                }
+
                 val saveBitmap = {
                     showSaveLoading = true
                     viewModel.saveBitmap(
@@ -221,17 +227,22 @@ class MainActivity : ComponentActivity() {
                         Column(Modifier.fillMaxSize()) {
                             CenterAlignedTopAppBar(
                                 title = {
-                                    if (viewModel.bitmap == null) {
-                                        Text(stringResource(R.string.app_name))
-                                    } else if (!viewModel.isLoading) {
-                                        Text(
-                                            stringResource(
-                                                R.string.size,
-                                                byteCount(bitmapInfo.size)
+                                    AnimatedContent(
+                                        targetState = viewModel.bitmap to viewModel.isLoading,
+                                        transitionSpec = { fadeIn() with fadeOut() }
+                                    ) { (bmp, loading) ->
+                                        if (bmp == null) {
+                                            Text(stringResource(R.string.app_name))
+                                        } else if (!loading) {
+                                            Text(
+                                                stringResource(
+                                                    R.string.size,
+                                                    byteCount(bitmapInfo.size)
+                                                )
                                             )
-                                        )
-                                    } else {
-                                        Text(stringResource(R.string.loading))
+                                        } else {
+                                            Text(stringResource(R.string.loading))
+                                        }
                                     }
                                 },
                                 colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
@@ -303,9 +314,20 @@ class MainActivity : ComponentActivity() {
                                     }
                                 },
                                 navigationIcon = {
-                                    IconButton(
+                                    FilledIconButton(
                                         enabled = viewModel.bitmap != null,
-                                        onClick = { viewModel.setTelegramSpecs() }
+                                        onClick = { viewModel.setTelegramSpecs() },
+                                        colors = IconButtonDefaults.filledIconButtonColors(
+                                            containerColor = animateColorAsState(
+                                                if (viewModel.isTelegramSpecs) MaterialTheme.colorScheme.primaryContainer
+                                                else Color.Transparent
+                                            ).value,
+                                            contentColor = animateColorAsState(
+                                                if (viewModel.isTelegramSpecs) MaterialTheme.colorScheme.onPrimaryContainer
+                                                else MaterialTheme.colorScheme.onSurface
+                                            ).value,
+                                            disabledContainerColor = Color.Transparent
+                                        )
                                     ) {
                                         Icon(Icons.Rounded.Telegram, null)
                                     }
@@ -371,9 +393,7 @@ class MainActivity : ComponentActivity() {
                                                         if (!viewModel.shouldShowPreview && !loading && bmp != null) Box {
                                                             Column(
                                                                 horizontalAlignment = Alignment.CenterHorizontally,
-                                                                modifier = Modifier.padding(
-                                                                    8.dp
-                                                                )
+                                                                modifier = Modifier.padding(8.dp)
                                                             ) {
                                                                 Text(
                                                                     stringResource(R.string.image_too_large_preview),
@@ -383,9 +403,7 @@ class MainActivity : ComponentActivity() {
                                                                 Icon(
                                                                     Icons.TwoTone.BrokenImage,
                                                                     null,
-                                                                    modifier = Modifier.size(
-                                                                        100.dp
-                                                                    )
+                                                                    modifier = Modifier.size(100.dp)
                                                                 )
                                                             }
                                                         }
@@ -501,10 +519,14 @@ class MainActivity : ComponentActivity() {
                                                             )
                                                         },
                                                         colors = IconButtonDefaults.filledIconButtonColors(
-                                                            containerColor = if (selected) MaterialTheme.colorScheme.primaryContainer
-                                                            else MaterialTheme.colorScheme.surfaceColorAtElevation(
-                                                                1.dp
-                                                            )
+                                                            containerColor = animateColorAsState(
+                                                                if (selected) MaterialTheme.colorScheme.primaryContainer
+                                                                else MaterialTheme.colorScheme.surfaceColorAtElevation(1.dp)
+                                                            ).value,
+                                                            contentColor = animateColorAsState(
+                                                                if (selected) MaterialTheme.colorScheme.onPrimaryContainer
+                                                                else MaterialTheme.colorScheme.onSurface
+                                                            ).value
                                                         )
                                                     ) {
                                                         Text(it.toString())
@@ -514,12 +536,26 @@ class MainActivity : ComponentActivity() {
                                             }
                                         } else if (!viewModel.isLoading) {
                                             Spacer(Modifier.height(48.dp))
-                                            Icon(
-                                                Icons.TwoTone.Image,
-                                                null,
-                                                modifier = Modifier.size(100.dp)
-                                            )
-                                            Spacer(Modifier.height(10.dp))
+                                            FilledIconButton(
+                                                onClick = pickImage,
+                                                modifier = Modifier.size(100.dp),
+                                                shape = RoundedCornerShape(16.dp),
+                                                colors = IconButtonDefaults.filledTonalIconButtonColors(
+                                                    containerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(
+                                                        2.dp
+                                                    ),
+                                                    contentColor = MaterialTheme.colorScheme.onSurface
+                                                )
+                                            ) {
+                                                Icon(
+                                                    Icons.TwoTone.Image,
+                                                    null,
+                                                    modifier = Modifier
+                                                        .fillMaxSize()
+                                                        .padding(12.dp)
+                                                )
+                                            }
+                                            Spacer(Modifier.height(24.dp))
                                             Text(
                                                 stringResource(R.string.pick_image),
                                                 textAlign = TextAlign.Center
@@ -687,13 +723,7 @@ class MainActivity : ComponentActivity() {
                                 }
                             }
                             Spacer(Modifier.width(16.dp))
-                            FloatingActionButton(
-                                onClick = {
-                                    pickImageLauncher.launch(
-                                        PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly)
-                                    )
-                                }
-                            ) {
+                            FloatingActionButton(onClick = pickImage) {
                                 val expanded = state.isScrollingUp()
                                 val horizontalPadding by animateDpAsState(targetValue = if (expanded) 16.dp else 0.dp)
                                 Row(
