@@ -1,6 +1,5 @@
 package ru.tech.imageresizershrinker.resize_screen.components
 
-import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -27,7 +26,7 @@ fun ToggleGroupButton(
     title: String? = null,
     indexChanged: (Int) -> Unit
 ) {
-    val cornerRadius = 24.dp
+    val cornerRadius = 12.dp
 
     val disColor = MaterialTheme.colorScheme.onSurface
         .copy(alpha = 0.38f)
@@ -37,6 +36,7 @@ fun ToggleGroupButton(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         title?.let {
+            Spacer(modifier = Modifier.height(8.dp))
             Text(it, Modifier.fillMaxWidth(), textAlign = TextAlign.Center)
             Spacer(modifier = Modifier.height(8.dp))
         }
@@ -78,20 +78,16 @@ fun ToggleGroupButton(
                     },
                     border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant),
                     colors = ButtonDefaults.outlinedButtonColors(
-                        containerColor = animateColorAsState(
-                            if (!enabled) disColor
-                            else if (selectedIndex == index) MaterialTheme.colorScheme.mixedColor
-                            else Color.Transparent
-                        ).value
+                        containerColor = if (!enabled) disColor
+                        else if (selectedIndex == index) MaterialTheme.colorScheme.mixedColor
+                        else Color.Transparent
                     )
                 ) {
                     Text(
                         text = item,
-                        color = animateColorAsState(
-                            if (!enabled) disColor
-                            else if (selectedIndex == index) MaterialTheme.colorScheme.onMixedColor
-                            else MaterialTheme.colorScheme.onSurface
-                        ).value,
+                        color = if (!enabled) disColor
+                        else if (selectedIndex == index) MaterialTheme.colorScheme.onMixedColor
+                        else MaterialTheme.colorScheme.onSurface,
                         modifier = Modifier.padding(horizontal = 8.dp),
                         overflow = TextOverflow.Ellipsis
                     )

@@ -20,51 +20,37 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.compose.animation.*
 import androidx.compose.animation.core.animateDpAsState
-import androidx.compose.animation.core.animateFloatAsState
-import androidx.compose.animation.core.tween
 import androidx.compose.foundation.*
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.PressInteraction
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Crop
-import androidx.compose.material.icons.filled.Flip
-import androidx.compose.material.icons.filled.RotateLeft
-import androidx.compose.material.icons.filled.RotateRight
 import androidx.compose.material.icons.outlined.DoorBack
 import androidx.compose.material.icons.rounded.*
 import androidx.compose.material.icons.twotone.BrokenImage
-import androidx.compose.material.icons.twotone.Image
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.composed
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.shadow
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.asAndroidBitmap
-import androidx.compose.ui.graphics.asImageBitmap
-import androidx.compose.ui.graphics.compositeOver
+import androidx.compose.ui.graphics.*
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
-import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -83,14 +69,12 @@ import ru.tech.imageresizershrinker.crash_screen.CrashActivity
 import ru.tech.imageresizershrinker.crash_screen.GlobalExceptionHandler
 import ru.tech.imageresizershrinker.resize_screen.components.*
 import ru.tech.imageresizershrinker.resize_screen.viewModel.MainViewModel
-import ru.tech.imageresizershrinker.resize_screen.viewModel.MainViewModel.Companion.restrict
 import ru.tech.imageresizershrinker.theme.Github
 import ru.tech.imageresizershrinker.theme.Telegram
 import ru.tech.imageresizershrinker.utils.BitmapUtils
 import ru.tech.imageresizershrinker.utils.BitmapUtils.decodeBitmapFromUri
 import ru.tech.imageresizershrinker.utils.BitmapUtils.getUriByName
 import ru.tech.imageresizershrinker.utils.BitmapUtils.toMap
-import ru.tech.imageresizershrinker.utils.BitmapUtils.with
 import java.io.File
 
 @ExperimentalFoundationApi
@@ -339,14 +323,14 @@ class MainActivity : ComponentActivity() {
                                 contentPadding = PaddingValues(
                                     bottom = WindowInsets.navigationBars.asPaddingValues()
                                         .calculateBottomPadding() + 120.dp,
-                                    start = 40.dp, end = 40.dp
+                                    top = 48.dp,
+                                    start = 20.dp,
+                                    end = 20.dp
                                 )
                             ) {
                                 item {
                                     Column(
-                                        modifier = Modifier
-                                            .fillMaxSize()
-                                            .padding(top = 40.dp),
+                                        modifier = Modifier.fillMaxSize(),
                                         verticalArrangement = Arrangement.Center,
                                         horizontalAlignment = Alignment.CenterHorizontally
                                     ) {
@@ -360,12 +344,9 @@ class MainActivity : ComponentActivity() {
                                                 AnimatedContent(
                                                     targetState = showOriginal,
                                                     transitionSpec = {
-                                                        fadeIn(tween(0)) with fadeOut(
-                                                            tween(
-                                                                0
-                                                            )
-                                                        )
-                                                    }
+                                                        fadeIn() with fadeOut()
+                                                    },
+                                                    modifier = Modifier.align(Alignment.Center)
                                                 ) { showOrig ->
                                                     if (showOrig) {
                                                         viewModel.bitmap?.asImageBitmap()
@@ -409,202 +390,36 @@ class MainActivity : ComponentActivity() {
                                                         }
                                                     }
                                                 }
-                                                if (loading) {
-                                                    Box(
-                                                        Modifier
-                                                            .size(84.dp)
-                                                            .clip(RoundedCornerShape(24.dp))
-                                                            .shadow(
-                                                                8.dp,
-                                                                RoundedCornerShape(24.dp)
-                                                            )
-                                                            .background(MaterialTheme.colorScheme.secondaryContainer)
-                                                            .align(Alignment.Center)
-                                                    ) {
-                                                        CircularProgressIndicator(
-                                                            Modifier.align(
-                                                                Alignment.Center
-                                                            ),
-                                                            color = MaterialTheme.colorScheme.onSecondaryContainer
-                                                        )
-                                                    }
-                                                }
+                                                if (loading) Loading()
                                             }
                                         }
                                         if (viewModel.previewBitmap != null) {
                                             Spacer(Modifier.size(20.dp))
-                                            Row {
-                                                SmallFloatingActionButton(
-                                                    onClick = {
-                                                        showEditExifDialog = true
-                                                    },
-                                                    elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
-                                                    containerColor = MaterialTheme.colorScheme.surfaceVariant
-                                                ) {
-                                                    Row(
-                                                        verticalAlignment = Alignment.CenterVertically,
-                                                        horizontalArrangement = Arrangement.Center
-                                                    ) {
-                                                        Spacer(Modifier.width(8.dp))
-                                                        Icon(
-                                                            imageVector = Icons.Rounded.Dataset,
-                                                            contentDescription = null
-                                                        )
-                                                        Spacer(Modifier.width(8.dp))
-                                                        Text(stringResource(R.string.edit_exif))
-                                                        Spacer(Modifier.width(8.dp))
-                                                    }
-                                                }
-
-                                                Spacer(Modifier.width(4.dp))
-
-                                                SmallFloatingActionButton(
-                                                    onClick = { showCropDialog = true },
-                                                    elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
-                                                    containerColor = MaterialTheme.colorScheme.surfaceVariant
-                                                ) {
-                                                    Icon(Icons.Default.Crop, null)
-                                                }
-
-                                                Spacer(
-                                                    Modifier
-                                                        .weight(1f)
-                                                        .padding(4.dp)
-                                                )
-                                                SmallFloatingActionButton(
-                                                    onClick = { viewModel.rotateLeft() },
-                                                    elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
-                                                    containerColor = MaterialTheme.colorScheme.surfaceVariant
-                                                ) {
-                                                    Icon(Icons.Default.RotateLeft, null)
-                                                }
-
-                                                SmallFloatingActionButton(
-                                                    onClick = { viewModel.flip() },
-                                                    elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
-                                                    containerColor = MaterialTheme.colorScheme.surfaceVariant
-                                                ) {
-                                                    Icon(Icons.Default.Flip, null)
-                                                }
-
-                                                SmallFloatingActionButton(
-                                                    onClick = { viewModel.rotateRight() },
-                                                    elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
-                                                    containerColor = MaterialTheme.colorScheme.surfaceVariant
-                                                ) {
-                                                    Icon(Icons.Default.RotateRight, null)
-                                                }
-                                            }
-
-                                            Spacer(Modifier.size(20.dp))
-                                            Text(
-                                                stringResource(R.string.presets),
-                                                Modifier.fillMaxWidth(),
-                                                textAlign = TextAlign.Center
+                                            ImageTransformBar(
+                                                onEditExif = { showEditExifDialog = true },
+                                                onCrop = { showCropDialog = true },
+                                                onRotateLeft = viewModel::rotateLeft,
+                                                onFlip = viewModel::flip,
+                                                onRotateRight = viewModel::rotateRight
                                             )
-                                            Spacer(Modifier.height(8.dp))
-                                            Row(Modifier.fillMaxWidth()) {
-                                                val data = remember { List(7) { 100 - it * 10 } }
-                                                Spacer(Modifier.width(4.dp))
-                                                data.forEach {
-                                                    val selected = viewModel.presetSelected == it
-                                                    FilledIconButton(
-                                                        modifier = Modifier.weight(1f),
-                                                        onClick = {
-                                                            viewModel.setBitmapInfo(
-                                                                it.with(
-                                                                    viewModel.bitmap,
-                                                                    bitmapInfo
-                                                                )
-                                                            )
-                                                        },
-                                                        colors = IconButtonDefaults.filledIconButtonColors(
-                                                            containerColor = animateColorAsState(
-                                                                if (selected) MaterialTheme.colorScheme.primaryContainer
-                                                                else MaterialTheme.colorScheme.surfaceColorAtElevation(1.dp)
-                                                            ).value,
-                                                            contentColor = animateColorAsState(
-                                                                if (selected) MaterialTheme.colorScheme.onPrimaryContainer
-                                                                else MaterialTheme.colorScheme.onSurface
-                                                            ).value
-                                                        )
-                                                    ) {
-                                                        Text(it.toString())
-                                                    }
-                                                    Spacer(Modifier.width(4.dp))
-                                                }
-                                            }
+                                            Spacer(Modifier.size(8.dp))
+                                            PresetWidget(
+                                                selectedPreset = viewModel.presetSelected,
+                                                bitmap = viewModel.bitmap,
+                                                bitmapInfo = bitmapInfo,
+                                                onChangeBitmapInfo = viewModel::setBitmapInfo
+                                            )
                                         } else if (!viewModel.isLoading) {
-                                            Spacer(Modifier.height(48.dp))
-                                            FilledIconButton(
-                                                onClick = pickImage,
-                                                modifier = Modifier.size(100.dp),
-                                                shape = RoundedCornerShape(16.dp),
-                                                colors = IconButtonDefaults.filledTonalIconButtonColors(
-                                                    containerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(
-                                                        2.dp
-                                                    ),
-                                                    contentColor = MaterialTheme.colorScheme.onSurface
-                                                )
-                                            ) {
-                                                Icon(
-                                                    Icons.TwoTone.Image,
-                                                    null,
-                                                    modifier = Modifier
-                                                        .fillMaxSize()
-                                                        .padding(12.dp)
-                                                )
-                                            }
-                                            Spacer(Modifier.height(24.dp))
-                                            Text(
-                                                stringResource(R.string.pick_image),
-                                                textAlign = TextAlign.Center
-                                            )
+                                            ImageNotPickedWidget(onPickImage = pickImage)
+                                            Spacer(Modifier.size(8.dp))
                                         }
-                                        Spacer(Modifier.size(30.dp))
-                                        Row {
-                                            RoundedTextField(
-                                                enabled = viewModel.bitmap != null,
-                                                value = bitmapInfo.width,
-                                                onValueChange = {
-                                                    viewModel.updateWidth(it.restrict())
-                                                },
-                                                keyboardOptions = KeyboardOptions(
-                                                    keyboardType = KeyboardType.Number
-                                                ),
-                                                label = {
-                                                    Text(
-                                                        stringResource(
-                                                            R.string.width,
-                                                            viewModel.bitmap?.width?.toString()
-                                                                ?: ""
-                                                        )
-                                                    )
-                                                },
-                                                modifier = Modifier.weight(1f)
-                                            )
-                                            Spacer(Modifier.size(20.dp))
-                                            RoundedTextField(
-                                                enabled = viewModel.bitmap != null,
-                                                value = bitmapInfo.height,
-                                                onValueChange = {
-                                                    viewModel.updateHeight(it.restrict())
-                                                },
-                                                keyboardOptions = KeyboardOptions(
-                                                    keyboardType = KeyboardType.Number
-                                                ),
-                                                label = {
-                                                    Text(
-                                                        stringResource(
-                                                            R.string.height,
-                                                            viewModel.bitmap?.height?.toString()
-                                                                ?: ""
-                                                        )
-                                                    )
-                                                },
-                                                modifier = Modifier.weight(1f),
-                                            )
-                                        }
+                                        Spacer(Modifier.size(8.dp))
+                                        ResizeImageField(
+                                            bitmapInfo = bitmapInfo,
+                                            bitmap = viewModel.bitmap,
+                                            onHeightChange = viewModel::updateHeight,
+                                            onWidthChange = viewModel::updateWidth
+                                        )
                                         ProvideTextStyle(
                                             value = TextStyle(
                                                 color = if (viewModel.bitmap == null) {
@@ -614,38 +429,19 @@ class MainActivity : ComponentActivity() {
                                                 } else Color.Unspecified
                                             )
                                         ) {
-                                            Column(
-                                                verticalArrangement = Arrangement.Center,
-                                                horizontalAlignment = Alignment.CenterHorizontally
-                                            ) {
-                                                val sliderHeight = animateDpAsState(
-                                                    targetValue = if (bitmapInfo.mime != 2) 40.dp else 0.dp
-                                                ).value
-
-                                                val alpha = animateFloatAsState(
-                                                    targetValue = if (bitmapInfo.mime != 2) 1f else 0f
-                                                ).value
-
-                                                Spacer(Modifier.size(sliderHeight / 2))
-                                                Text(
-                                                    text = stringResource(R.string.quality),
-                                                    modifier = Modifier.alpha(alpha)
+                                            Column {
+                                                if(bitmapInfo.mime != 2) Spacer(Modifier.height(8.dp))
+                                                QualityWidget(
+                                                    visible = bitmapInfo.mime != 2,
+                                                    enabled = viewModel.bitmap != null,
+                                                    quality = bitmapInfo.quality,
+                                                    onQualityChange = viewModel::setQuality
                                                 )
-
-                                                Slider(
-                                                    modifier = Modifier
-                                                        .height(sliderHeight)
-                                                        .alpha(alpha),
-                                                    enabled = viewModel.bitmap != null && bitmapInfo.mime != 2,
-                                                    value = bitmapInfo.quality,
-                                                    onValueChange = {
-                                                        viewModel.setQuality(it)
-                                                    },
-                                                    valueRange = 0f..100f,
-                                                    steps = 100
-                                                )
-
+                                                Spacer(Modifier.height(8.dp))
                                                 ToggleGroupButton(
+                                                    modifier = Modifier
+                                                        .block()
+                                                        .padding(horizontal = 2.dp),
                                                     title = stringResource(R.string.extension),
                                                     enabled = viewModel.bitmap != null,
                                                     items = listOf("JPEG", "WEBP", "PNG"),
@@ -654,8 +450,11 @@ class MainActivity : ComponentActivity() {
                                                         viewModel.setMime(it)
                                                     }
                                                 )
-
+                                                Spacer(Modifier.height(8.dp))
                                                 ToggleGroupButton(
+                                                    modifier = Modifier
+                                                        .block()
+                                                        .padding(horizontal = 2.dp),
                                                     enabled = viewModel.bitmap != null,
                                                     title = stringResource(R.string.resize_type),
                                                     items = listOf(
@@ -768,25 +567,7 @@ class MainActivity : ComponentActivity() {
                                 icon = { Icon(Icons.Outlined.DoorBack, null) }
                             )
                         } else if (showSaveLoading) {
-                            Dialog(onDismissRequest = { }) {
-                                Box(Modifier.fillMaxSize()) {
-                                    Box(
-                                        Modifier
-                                            .size(84.dp)
-                                            .clip(RoundedCornerShape(24.dp))
-                                            .shadow(8.dp, RoundedCornerShape(24.dp))
-                                            .background(MaterialTheme.colorScheme.secondaryContainer)
-                                            .align(Alignment.Center)
-                                    ) {
-                                        CircularProgressIndicator(
-                                            Modifier.align(
-                                                Alignment.Center
-                                            ),
-                                            color = MaterialTheme.colorScheme.onSecondaryContainer
-                                        )
-                                    }
-                                }
-                            }
+                            LoadingDialog()
                         } else if (showResetDialog) {
                             AlertDialog(
                                 icon = { Icon(Icons.Rounded.RestartAlt, null) },
@@ -1171,25 +952,14 @@ class MainActivity : ComponentActivity() {
     }
 }
 
-@Composable
-fun LazyListState.isScrollingUp(): Boolean {
-    var previousIndex by remember(this) { mutableStateOf(firstVisibleItemIndex) }
-    var previousScrollOffset by remember(this) { mutableStateOf(firstVisibleItemScrollOffset) }
-    return remember(this) {
-        derivedStateOf {
-            if (previousIndex != firstVisibleItemIndex) {
-                previousIndex > firstVisibleItemIndex
-            } else {
-                previousScrollOffset >= firstVisibleItemScrollOffset
-            }.also {
-                previousIndex = firstVisibleItemIndex
-                previousScrollOffset = firstVisibleItemScrollOffset
-            }
-        }
-    }.value
-}
-
 inline fun <reified T : Parcelable> Intent.parcelable(key: String): T? = when {
     SDK_INT >= 33 -> getParcelableExtra(key, T::class.java)
     else -> @Suppress("DEPRECATION") getParcelableExtra(key) as? T
+}
+
+fun Modifier.block(shape: Shape = RoundedCornerShape(16.dp)) = composed {
+    background(
+        MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f),
+        shape = shape
+    ).padding(4.dp)
 }

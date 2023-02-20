@@ -51,10 +51,12 @@ class MainViewModel : ViewModel() {
 
     private var job: Job? = null
 
-    private fun checkBitmapAndUpdate(resetPreset: Boolean) {
-        _isTelegramSpecs.value = false
+    private fun checkBitmapAndUpdate(resetPreset: Boolean, resetTelegram: Boolean) {
         if (resetPreset) {
             _presetSelected.value = -1
+        }
+        if(resetTelegram) {
+            _isTelegramSpecs.value = false
         }
         job?.cancel()
         job = viewModelScope.launch {
@@ -186,7 +188,7 @@ class MainViewModel : ViewModel() {
     fun setBitmapInfo(newInfo: BitmapInfo) {
         if(_bitmapInfo.value != newInfo) {
             _bitmapInfo.value = newInfo
-            checkBitmapAndUpdate(resetPreset = false)
+            checkBitmapAndUpdate(resetPreset = false, resetTelegram = true)
             _presetSelected.value = newInfo.quality.toInt()
         }
     }
@@ -197,7 +199,7 @@ class MainViewModel : ViewModel() {
             height = _bitmap.value?.height?.toString() ?: "",
             size = _bitmap.value?.byteCount ?: 0
         )
-        checkBitmapAndUpdate(resetPreset = true)
+        checkBitmapAndUpdate(resetPreset = true, resetTelegram = true)
     }
 
     fun updateBitmap(bitmap: Bitmap?) {
@@ -213,7 +215,7 @@ class MainViewModel : ViewModel() {
                 width = height
             )
         }
-        checkBitmapAndUpdate(resetPreset = false)
+        checkBitmapAndUpdate(resetPreset = false, resetTelegram = false)
     }
 
     fun rotateRight() {
@@ -224,46 +226,48 @@ class MainViewModel : ViewModel() {
                 width = height
             )
         }
-        checkBitmapAndUpdate(resetPreset = false)
+        checkBitmapAndUpdate(resetPreset = false, resetTelegram = false)
     }
 
     fun flip() {
         _bitmapInfo.value = _bitmapInfo.value.copy(isFlipped = !_bitmapInfo.value.isFlipped)
-        checkBitmapAndUpdate(resetPreset = false)
+        checkBitmapAndUpdate(resetPreset = false, resetTelegram = false)
     }
 
     fun updateWidth(width: String) {
         if (_bitmapInfo.value.width != width) {
             _bitmapInfo.value = _bitmapInfo.value.copy(width = width)
-            checkBitmapAndUpdate(resetPreset = true)
+            checkBitmapAndUpdate(resetPreset = true, resetTelegram = true)
         }
     }
 
     fun updateHeight(height: String) {
         if (_bitmapInfo.value.height != height) {
             _bitmapInfo.value = _bitmapInfo.value.copy(height = height)
-            checkBitmapAndUpdate(resetPreset = true)
+            checkBitmapAndUpdate(resetPreset = true, resetTelegram = true)
         }
     }
 
     fun setQuality(quality: Float) {
         if (_bitmapInfo.value.quality != quality) {
             _bitmapInfo.value = _bitmapInfo.value.copy(quality = quality)
-            checkBitmapAndUpdate(resetPreset = true)
+            checkBitmapAndUpdate(resetPreset = true, resetTelegram = false)
         }
     }
 
     fun setMime(mime: Int) {
         if (_bitmapInfo.value.mime != mime) {
             _bitmapInfo.value = _bitmapInfo.value.copy(mime = mime)
-            checkBitmapAndUpdate(resetPreset = false)
+            if(mime != 2) checkBitmapAndUpdate(resetPreset = false, resetTelegram = true)
+            else checkBitmapAndUpdate(resetPreset = false, resetTelegram = false)
         }
     }
 
     fun setResizeType(type: Int) {
         if (_bitmapInfo.value.resizeType != type) {
             _bitmapInfo.value = _bitmapInfo.value.copy(resizeType = type)
-            checkBitmapAndUpdate(resetPreset = false)
+            if(type != 2) checkBitmapAndUpdate(resetPreset = false, resetTelegram = false)
+            else checkBitmapAndUpdate(resetPreset = false, resetTelegram = true)
         }
     }
 
@@ -277,7 +281,7 @@ class MainViewModel : ViewModel() {
         )
         if (new != _bitmapInfo.value) {
             _bitmapInfo.value = new
-            checkBitmapAndUpdate(resetPreset = true)
+            checkBitmapAndUpdate(resetPreset = true, resetTelegram = false)
         }
         _isTelegramSpecs.value = true
     }
