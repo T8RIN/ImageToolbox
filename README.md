@@ -10,9 +10,9 @@
 </p>
 
 <p align="center">
-  <img src="https://user-images.githubusercontent.com/52178347/218951584-21f8b4d1-8ac3-452f-a9fc-d17afa64a8be.png" width="30%"/>
-  <img src="https://user-images.githubusercontent.com/52178347/210658303-86d6b49d-f883-4b3c-b87e-814d8bb9385a.png" width="30%"/>
-  <img src="https://user-images.githubusercontent.com/52178347/210658280-7fb973ee-c184-4587-b3de-33cdf2ac95ff.png" width="30%"/>
+  <img src="https://user-images.githubusercontent.com/52178347/220034706-2ea4860c-899b-4d0e-801d-c34bd23d2471.png" width="30%"/>
+  <img src="https://user-images.githubusercontent.com/52178347/220034728-eb995db5-5b5a-4345-9444-b775f8952b4d.png" width="30%"/>
+  <img src="https://user-images.githubusercontent.com/52178347/220034742-43c2d6b8-8ed7-48f7-9928-faac3b63e60f.png" width="30%"/>
 </p>
 
 # Functions
