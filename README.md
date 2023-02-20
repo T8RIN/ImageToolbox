@@ -19,6 +19,7 @@
 - Width changing
 - Height changing
 - Adaptive resize
+- Resize retaining aspect ratio
 - Quality compressing
 - Convertion
   - WEBP
@@ -28,6 +29,8 @@
 - EXIF metadata editing
 - Rotating
 - Flipping
+- Cropping
+- Preset shrinking
 
 # Download
 Go to the [Releases](https://github.com/t8rin/imageresizer/releases/latest) and download latest apk.
