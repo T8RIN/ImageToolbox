@@ -11,6 +11,7 @@ import android.os.Bundle
 import android.os.Environment
 import android.os.Parcelable
 import android.provider.MediaStore
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.BackHandler
 import androidx.activity.compose.rememberLauncherForActivityResult
@@ -430,7 +431,7 @@ class MainActivity : ComponentActivity() {
                                             )
                                         ) {
                                             Column {
-                                                if(bitmapInfo.mime != 2) Spacer(Modifier.height(8.dp))
+                                                if (bitmapInfo.mime != 2) Spacer(Modifier.height(8.dp))
                                                 QualityWidget(
                                                     visible = bitmapInfo.mime != 2,
                                                     enabled = viewModel.bitmap != null,

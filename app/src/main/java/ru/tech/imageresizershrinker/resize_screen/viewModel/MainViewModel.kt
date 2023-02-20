@@ -55,7 +55,7 @@ class MainViewModel : ViewModel() {
         if (resetPreset) {
             _presetSelected.value = -1
         }
-        if(resetTelegram) {
+        if (resetTelegram) {
             _isTelegramSpecs.value = false
         }
         job?.cancel()
@@ -66,7 +66,6 @@ class MainViewModel : ViewModel() {
                 _shouldShowPreview.value = (bitmapInfo.height.toIntOrNull() ?: 0)
                     .plus(bitmapInfo.width.toIntOrNull() ?: 0) <= 10000
                 if (shouldShowPreview) _previewBitmap.value = updatePreview(bmp)
-
                 _bitmapInfo.value = _bitmapInfo.value.run {
                     if (resizeType == 2) copy(
                         height = previewBitmap?.height?.toString() ?: height,
@@ -186,25 +185,26 @@ class MainViewModel : ViewModel() {
     }
 
     fun setBitmapInfo(newInfo: BitmapInfo) {
-        if(_bitmapInfo.value != newInfo) {
+        if (_bitmapInfo.value != newInfo) {
             _bitmapInfo.value = newInfo
             checkBitmapAndUpdate(resetPreset = false, resetTelegram = true)
             _presetSelected.value = newInfo.quality.toInt()
         }
     }
 
-    fun resetValues() {
+    fun resetValues(saveMime: Boolean = false) {
         _bitmapInfo.value = BitmapInfo(
             width = _bitmap.value?.width?.toString() ?: "",
             height = _bitmap.value?.height?.toString() ?: "",
-            size = _bitmap.value?.byteCount ?: 0
+            size = _bitmap.value?.byteCount ?: 0,
+            mime = if (saveMime) bitmapInfo.mime else 0
         )
         checkBitmapAndUpdate(resetPreset = true, resetTelegram = true)
     }
 
     fun updateBitmap(bitmap: Bitmap?) {
         _bitmap.value = bitmap
-        resetValues()
+        resetValues(saveMime = true)
     }
 
     fun rotateLeft() {
@@ -258,7 +258,7 @@ class MainViewModel : ViewModel() {
     fun setMime(mime: Int) {
         if (_bitmapInfo.value.mime != mime) {
             _bitmapInfo.value = _bitmapInfo.value.copy(mime = mime)
-            if(mime != 2) checkBitmapAndUpdate(resetPreset = false, resetTelegram = true)
+            if (mime != 2) checkBitmapAndUpdate(resetPreset = false, resetTelegram = true)
             else checkBitmapAndUpdate(resetPreset = false, resetTelegram = false)
         }
     }
@@ -266,7 +266,7 @@ class MainViewModel : ViewModel() {
     fun setResizeType(type: Int) {
         if (_bitmapInfo.value.resizeType != type) {
             _bitmapInfo.value = _bitmapInfo.value.copy(resizeType = type)
-            if(type != 2) checkBitmapAndUpdate(resetPreset = false, resetTelegram = false)
+            if (type != 2) checkBitmapAndUpdate(resetPreset = false, resetTelegram = false)
             else checkBitmapAndUpdate(resetPreset = false, resetTelegram = true)
         }
     }
