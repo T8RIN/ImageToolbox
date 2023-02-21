@@ -185,7 +185,7 @@ class MainViewModel : ViewModel() {
     }
 
     fun setBitmapInfo(newInfo: BitmapInfo) {
-        if (_bitmapInfo.value != newInfo) {
+        if (_bitmapInfo.value != newInfo || _bitmapInfo.value.quality == 100f) {
             _bitmapInfo.value = newInfo
             checkBitmapAndUpdate(resetPreset = false, resetTelegram = true)
             _presetSelected.value = newInfo.quality.toInt()

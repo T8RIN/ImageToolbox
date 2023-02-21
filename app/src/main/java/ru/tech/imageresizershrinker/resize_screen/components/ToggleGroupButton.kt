@@ -106,7 +106,7 @@ inline val androidx.compose.material3.ColorScheme.mixedColor: Color
     @Composable get() = run {
         tertiaryContainer.blend(
             primaryContainer,
-            0.25f
+            0.3f
         )
     }
 
@@ -114,6 +114,6 @@ inline val androidx.compose.material3.ColorScheme.onMixedColor: Color
     @Composable get() = run {
         onTertiaryContainer.blend(
             onPrimaryContainer,
-            0.25f
+            0.3f
         )
     }

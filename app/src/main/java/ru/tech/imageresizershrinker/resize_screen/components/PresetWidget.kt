@@ -2,14 +2,14 @@ package ru.tech.imageresizershrinker.resize_screen.components
 
 import android.graphics.Bitmap
 import androidx.compose.animation.animateColorAsState
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.*
-import androidx.compose.material3.FilledIconButton
-import androidx.compose.material3.IconButtonDefaults
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -38,7 +38,8 @@ fun PresetWidget(
             Spacer(Modifier.width(4.dp))
             data.forEach {
                 val selected = selectedPreset == it
-                FilledIconButton(
+                OutlinedIconButton(
+                    shape = RoundedCornerShape(12.dp),
                     modifier = Modifier.weight(1f),
                     onClick = {
                         onChangeBitmapInfo(
@@ -48,15 +49,21 @@ fun PresetWidget(
                             )
                         )
                     },
-                    colors = IconButtonDefaults.filledIconButtonColors(
+                    border = BorderStroke(
+                        1.dp, animateColorAsState(
+                            if (selected) MaterialTheme.colorScheme.outlineVariant
+                            else Color.Transparent
+                        ).value
+                    ),
+                    colors = IconButtonDefaults.outlinedIconButtonColors(
                         containerColor = animateColorAsState(
-                            if (selected) MaterialTheme.colorScheme.primaryContainer
+                            if (selected) MaterialTheme.colorScheme.mixedColor
                             else MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f)
                         ).value,
                         contentColor = animateColorAsState(
-                            if (selected) MaterialTheme.colorScheme.onPrimaryContainer
+                            if (selected) MaterialTheme.colorScheme.onMixedColor
                             else MaterialTheme.colorScheme.onSurface
-                        ).value
+                        ).value,
                     )
                 ) {
                     Text(it.toString())

@@ -11,7 +11,6 @@ import android.os.Bundle
 import android.os.Environment
 import android.os.Parcelable
 import android.provider.MediaStore
-import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.BackHandler
 import androidx.activity.compose.rememberLauncherForActivityResult
@@ -42,6 +41,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.*
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalFocusManager
@@ -211,6 +211,7 @@ class MainActivity : ComponentActivity() {
                     Box(Modifier.fillMaxSize()) {
                         Column(Modifier.fillMaxSize()) {
                             CenterAlignedTopAppBar(
+                                modifier = Modifier.shadow(6.dp),
                                 title = {
                                     AnimatedContent(
                                         targetState = viewModel.bitmap to viewModel.isLoading,
@@ -299,20 +300,26 @@ class MainActivity : ComponentActivity() {
                                     }
                                 },
                                 navigationIcon = {
-                                    FilledIconButton(
+                                    OutlinedIconButton(
                                         enabled = viewModel.bitmap != null,
                                         onClick = { viewModel.setTelegramSpecs() },
                                         colors = IconButtonDefaults.filledIconButtonColors(
                                             containerColor = animateColorAsState(
-                                                if (viewModel.isTelegramSpecs) MaterialTheme.colorScheme.primaryContainer
+                                                if (viewModel.isTelegramSpecs) MaterialTheme.colorScheme.mixedColor
                                                 else Color.Transparent
                                             ).value,
                                             contentColor = animateColorAsState(
-                                                if (viewModel.isTelegramSpecs) MaterialTheme.colorScheme.onPrimaryContainer
+                                                if (viewModel.isTelegramSpecs) MaterialTheme.colorScheme.onMixedColor
                                                 else MaterialTheme.colorScheme.onSurface
                                             ).value,
                                             disabledContainerColor = Color.Transparent
-                                        )
+                                        ),
+                                        border = BorderStroke(
+                                            1.dp, animateColorAsState(
+                                                if (viewModel.isTelegramSpecs) MaterialTheme.colorScheme.outlineVariant
+                                                else Color.Transparent
+                                            ).value
+                                        ),
                                     ) {
                                         Icon(Icons.Rounded.Telegram, null)
                                     }
@@ -322,7 +329,11 @@ class MainActivity : ComponentActivity() {
                                 state = state,
                                 reverseLayout = true,
                                 contentPadding = PaddingValues(
-                                    bottom = WindowInsets.navigationBars.asPaddingValues()
+                                    bottom = WindowInsets
+                                        .navigationBars
+                                        .asPaddingValues()
+                                        .calculateBottomPadding() + WindowInsets.ime
+                                        .asPaddingValues()
                                         .calculateBottomPadding() + 120.dp,
                                     top = 48.dp,
                                     start = 20.dp,
@@ -442,7 +453,7 @@ class MainActivity : ComponentActivity() {
                                                 ToggleGroupButton(
                                                     modifier = Modifier
                                                         .block()
-                                                        .padding(horizontal = 2.dp),
+                                                        .padding(start = 3.dp, end = 2.dp),
                                                     title = stringResource(R.string.extension),
                                                     enabled = viewModel.bitmap != null,
                                                     items = listOf("JPEG", "WEBP", "PNG"),
@@ -455,7 +466,7 @@ class MainActivity : ComponentActivity() {
                                                 ToggleGroupButton(
                                                     modifier = Modifier
                                                         .block()
-                                                        .padding(horizontal = 2.dp),
+                                                        .padding(start = 3.dp, end = 2.dp),
                                                     enabled = viewModel.bitmap != null,
                                                     title = stringResource(R.string.resize_type),
                                                     items = listOf(
@@ -471,7 +482,6 @@ class MainActivity : ComponentActivity() {
                                             }
                                         }
                                     }
-                                    Spacer(modifier = Modifier.imePadding())
                                 }
                             }
                         }

@@ -3,6 +3,7 @@ package ru.tech.imageresizershrinker.resize_screen.components
 import android.graphics.Bitmap
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -28,6 +29,7 @@ fun ResizeImageField(
             onValueChange = {
                 onWidthChange(it.restrict())
             },
+            shape = RoundedCornerShape(12.dp),
             keyboardOptions = KeyboardOptions(
                 keyboardType = KeyboardType.Number
             ),
@@ -57,6 +59,7 @@ fun ResizeImageField(
             keyboardOptions = KeyboardOptions(
                 keyboardType = KeyboardType.Number
             ),
+            shape = RoundedCornerShape(12.dp),
             label = {
                 Text(
                     stringResource(
