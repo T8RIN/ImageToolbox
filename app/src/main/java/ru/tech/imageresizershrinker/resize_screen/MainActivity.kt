@@ -33,7 +33,6 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.DoorBack
 import androidx.compose.material.icons.rounded.*
-import androidx.compose.material.icons.twotone.BrokenImage
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -46,7 +45,6 @@ import androidx.compose.ui.graphics.*
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextAlign
@@ -71,7 +69,6 @@ import ru.tech.imageresizershrinker.crash_screen.GlobalExceptionHandler
 import ru.tech.imageresizershrinker.resize_screen.components.*
 import ru.tech.imageresizershrinker.resize_screen.viewModel.MainViewModel
 import ru.tech.imageresizershrinker.theme.Github
-import ru.tech.imageresizershrinker.theme.Telegram
 import ru.tech.imageresizershrinker.utils.BitmapUtils
 import ru.tech.imageresizershrinker.utils.BitmapUtils.decodeBitmapFromUri
 import ru.tech.imageresizershrinker.utils.BitmapUtils.getUriByName
@@ -300,29 +297,11 @@ class MainActivity : ComponentActivity() {
                                     }
                                 },
                                 navigationIcon = {
-                                    OutlinedIconButton(
+                                    TelegramButton(
                                         enabled = viewModel.bitmap != null,
+                                        isTelegramSpecs = viewModel.isTelegramSpecs,
                                         onClick = { viewModel.setTelegramSpecs() },
-                                        colors = IconButtonDefaults.filledIconButtonColors(
-                                            containerColor = animateColorAsState(
-                                                if (viewModel.isTelegramSpecs) MaterialTheme.colorScheme.mixedColor
-                                                else Color.Transparent
-                                            ).value,
-                                            contentColor = animateColorAsState(
-                                                if (viewModel.isTelegramSpecs) MaterialTheme.colorScheme.onMixedColor
-                                                else MaterialTheme.colorScheme.onSurface
-                                            ).value,
-                                            disabledContainerColor = Color.Transparent
-                                        ),
-                                        border = BorderStroke(
-                                            1.dp, animateColorAsState(
-                                                if (viewModel.isTelegramSpecs) MaterialTheme.colorScheme.outlineVariant
-                                                else Color.Transparent
-                                            ).value
-                                        ),
-                                    ) {
-                                        Icon(Icons.Rounded.Telegram, null)
-                                    }
+                                    )
                                 }
                             )
                             LazyColumn(
@@ -361,45 +340,13 @@ class MainActivity : ComponentActivity() {
                                                     modifier = Modifier.align(Alignment.Center)
                                                 ) { showOrig ->
                                                     if (showOrig) {
-                                                        viewModel.bitmap?.asImageBitmap()
-                                                            ?.let {
-                                                                Image(
-                                                                    bitmap = it,
-                                                                    contentDescription = null,
-                                                                    modifier = Modifier.clip(
-                                                                        RoundedCornerShape(4.dp)
-                                                                    )
-                                                                )
-                                                            }
+                                                        Picture(bitmap = viewModel.bitmap)
                                                     } else {
-                                                        bmp?.asImageBitmap()
-                                                            ?.takeIf { viewModel.shouldShowPreview }
-                                                            ?.let {
-                                                                Image(
-                                                                    bitmap = it,
-                                                                    contentDescription = null,
-                                                                    modifier = Modifier.clip(
-                                                                        RoundedCornerShape(4.dp)
-                                                                    )
-                                                                )
-                                                            }
-                                                        if (!viewModel.shouldShowPreview && !loading && bmp != null) Box {
-                                                            Column(
-                                                                horizontalAlignment = Alignment.CenterHorizontally,
-                                                                modifier = Modifier.padding(8.dp)
-                                                            ) {
-                                                                Text(
-                                                                    stringResource(R.string.image_too_large_preview),
-                                                                    textAlign = TextAlign.Center
-                                                                )
-                                                                Spacer(Modifier.height(8.dp))
-                                                                Icon(
-                                                                    Icons.TwoTone.BrokenImage,
-                                                                    null,
-                                                                    modifier = Modifier.size(100.dp)
-                                                                )
-                                                            }
-                                                        }
+                                                        Picture(
+                                                            bitmap = bmp,
+                                                            visible = viewModel.shouldShowPreview
+                                                        )
+                                                        if (!viewModel.shouldShowPreview && !loading && bmp != null) BadImageWidget()
                                                     }
                                                 }
                                                 if (loading) Loading()
@@ -432,55 +379,43 @@ class MainActivity : ComponentActivity() {
                                             onHeightChange = viewModel::updateHeight,
                                             onWidthChange = viewModel::updateWidth
                                         )
-                                        ProvideTextStyle(
-                                            value = TextStyle(
-                                                color = if (viewModel.bitmap == null) {
-                                                    MaterialTheme.colorScheme.onSurface
-                                                        .copy(alpha = 0.38f)
-                                                        .compositeOver(MaterialTheme.colorScheme.surface)
-                                                } else Color.Unspecified
-                                            )
-                                        ) {
-                                            Column {
-                                                if (bitmapInfo.mime != 2) Spacer(Modifier.height(8.dp))
-                                                QualityWidget(
-                                                    visible = bitmapInfo.mime != 2,
-                                                    enabled = viewModel.bitmap != null,
-                                                    quality = bitmapInfo.quality,
-                                                    onQualityChange = viewModel::setQuality
-                                                )
-                                                Spacer(Modifier.height(8.dp))
-                                                ToggleGroupButton(
-                                                    modifier = Modifier
-                                                        .block()
-                                                        .padding(start = 3.dp, end = 2.dp),
-                                                    title = stringResource(R.string.extension),
-                                                    enabled = viewModel.bitmap != null,
-                                                    items = listOf("JPEG", "WEBP", "PNG"),
-                                                    selectedIndex = bitmapInfo.mime,
-                                                    indexChanged = {
-                                                        viewModel.setMime(it)
-                                                    }
-                                                )
-                                                Spacer(Modifier.height(8.dp))
-                                                ToggleGroupButton(
-                                                    modifier = Modifier
-                                                        .block()
-                                                        .padding(start = 3.dp, end = 2.dp),
-                                                    enabled = viewModel.bitmap != null,
-                                                    title = stringResource(R.string.resize_type),
-                                                    items = listOf(
-                                                        stringResource(R.string.explicit),
-                                                        stringResource(R.string.flexible),
-                                                        stringResource(R.string.ratio)
-                                                    ),
-                                                    selectedIndex = bitmapInfo.resizeType,
-                                                    indexChanged = {
-                                                        viewModel.setResizeType(it)
-                                                    }
-                                                )
+                                        if (bitmapInfo.mime != 2) Spacer(Modifier.height(8.dp))
+                                        QualityWidget(
+                                            visible = bitmapInfo.mime != 2,
+                                            enabled = viewModel.bitmap != null,
+                                            quality = bitmapInfo.quality,
+                                            onQualityChange = viewModel::setQuality
+                                        )
+                                        Spacer(Modifier.height(8.dp))
+                                        ToggleGroupButton(
+                                            modifier = Modifier
+                                                .block()
+                                                .padding(start = 3.dp, end = 2.dp),
+                                            title = stringResource(R.string.extension),
+                                            enabled = viewModel.bitmap != null,
+                                            items = listOf("JPEG", "WEBP", "PNG"),
+                                            selectedIndex = bitmapInfo.mime,
+                                            indexChanged = {
+                                                viewModel.setMime(it)
                                             }
-                                        }
+                                        )
+                                        Spacer(Modifier.height(8.dp))
+                                        ToggleGroupButton(
+                                            modifier = Modifier
+                                                .block()
+                                                .padding(start = 3.dp, end = 2.dp),
+                                            enabled = viewModel.bitmap != null,
+                                            title = stringResource(R.string.resize_type),
+                                            items = listOf(
+                                                stringResource(R.string.explicit),
+                                                stringResource(R.string.flexible),
+                                                stringResource(R.string.ratio)
+                                            ),
+                                            selectedIndex = bitmapInfo.resizeType,
+                                            indexChanged = {
+                                                viewModel.setResizeType(it)
+                                            }
+                                        )
                                     }
                                 }
                             }

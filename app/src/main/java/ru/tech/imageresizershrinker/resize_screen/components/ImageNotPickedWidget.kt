@@ -1,13 +1,18 @@
 package ru.tech.imageresizershrinker.resize_screen.components
 
+import android.graphics.Bitmap
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.twotone.BrokenImage
 import androidx.compose.material.icons.twotone.Image
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -45,4 +50,36 @@ fun ColumnScope.ImageNotPickedWidget(onPickImage: () -> Unit) {
             textAlign = TextAlign.Center
         )
     }
+}
+
+@Composable
+fun BadImageWidget() {
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
+        modifier = Modifier.padding(8.dp)
+    ) {
+        Text(
+            stringResource(R.string.image_too_large_preview),
+            textAlign = TextAlign.Center
+        )
+        Spacer(Modifier.height(8.dp))
+        Icon(
+            Icons.TwoTone.BrokenImage,
+            null,
+            modifier = Modifier.size(100.dp)
+        )
+    }
+}
+
+@Composable
+fun Picture(bitmap: Bitmap?, visible: Boolean = true) {
+    bitmap?.asImageBitmap()
+        ?.takeIf { visible }
+        ?.let {
+            Image(
+                bitmap = it,
+                contentDescription = null,
+                modifier = Modifier.clip(RoundedCornerShape(4.dp))
+            )
+        }
 }
