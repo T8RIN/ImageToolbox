@@ -108,7 +108,7 @@ private var defaultModifier = Modifier
     .fillMaxWidth()
     .padding(8.dp)
 
-inline val androidx.compose.material3.ColorScheme.mixedColor: Color
+inline val ColorScheme.mixedColor: Color
     @Composable get() = run {
         tertiaryContainer.blend(
             primaryContainer,
@@ -116,7 +116,7 @@ inline val androidx.compose.material3.ColorScheme.mixedColor: Color
         )
     }
 
-inline val androidx.compose.material3.ColorScheme.onMixedColor: Color
+inline val ColorScheme.onMixedColor: Color
     @Composable get() = run {
         onTertiaryContainer.blend(
             onPrimaryContainer,
