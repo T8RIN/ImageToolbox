@@ -1,12 +1,22 @@
 
 <h1 align="center">ImageResizer</h1>
 
+
 <p align="center">
  <img alt="material" src="https://custom-icon-badges.demolab.com/badge/material%20you-palegreen?style=for-the-badge&logoColor=black&logo=material-you"/></a>
   <img alt="API" src="https://img.shields.io/badge/Api%2021+-50f270?logo=android&logoColor=black&style=for-the-badge"/></a>
   <img alt="Kotlin" src="https://img.shields.io/badge/Kotlin-a503fc?logo=kotlin&logoColor=white&style=for-the-badge"/></a>
   <img alt="Jetpack Compose" src="https://img.shields.io/static/v1?style=for-the-badge&message=Jetpack+Compose&color=4285F4&logo=Jetpack+Compose&logoColor=FFFFFF&label="/></a> 
   <a href="https://github.com/t8rin"><img alt="Profile" src="https://img.shields.io/badge/Github-T8RIN-002200?logo=github&logoColor=white&style=for-the-badge"/></a> 
+</p>
+
+<p align="center">
+  <a href="https://apt.izzysoft.de/fdroid/index/apk/ru.tech.imageresizershrinker">
+    <img src="https://gitlab.com/IzzyOnDroid/repo/-/raw/master/assets/IzzyOnDroid.png" width="170"/>
+  </a>
+  <a href="https://f-droid.org/ru/packages/ru.tech.imageresizershrinker">
+    <img src="https://gitlab.com/fdroid/artwork/-/raw/master/badge/get-it-on-en-au.png" width="170"/>
+  </a>
 </p>
 
 <p align="center">
