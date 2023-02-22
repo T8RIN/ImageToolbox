@@ -64,7 +64,7 @@ fun QualityWidget(
                     .height(sliderHeight)
                     .alpha(alpha),
                 enabled = enabled,
-                value = quality,
+                value = animateFloatAsState(quality).value,
                 onValueChange = onQualityChange,
                 valueRange = 0f..100f,
                 steps = 100

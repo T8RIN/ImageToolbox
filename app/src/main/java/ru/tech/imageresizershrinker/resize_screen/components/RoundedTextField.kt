@@ -134,13 +134,13 @@ fun RoundedTextField(
     val focus = LocalFocusManager.current
 
     val colorScheme = MaterialTheme.colorScheme
-    val borderColor = remember { Animatable(initialValue = colorScheme.outline) }
+    val borderColor = remember { Animatable(initialValue = colorScheme.outline.blend(Color.Black, 0.2f)) }
 
     val focused = interactionSource.collectIsFocusedAsState().value
 
     val scope = rememberCoroutineScope()
     LaunchedEffect(isError) {
-        borderColor.animateTo(if (isError && focused) colorScheme.error else if (focused) colorScheme.primary else colorScheme.outline)
+        borderColor.animateTo(if (isError && focused) colorScheme.error else if (focused) colorScheme.primary else colorScheme.outline.blend(Color.Black, 0.2f))
     }
 
     val mergedModifier = Modifier
@@ -158,7 +158,7 @@ fun RoundedTextField(
                 }
                 if (it.isFocused) borderColor.animateTo(if (isError) colorScheme.error else colorScheme.primary)
                 else {
-                    if (!isError) borderColor.animateTo(colorScheme.outline)
+                    if (!isError) borderColor.animateTo(colorScheme.outline.blend(Color.Black, 0.2f))
                     onValueChange(value.onLoseFocusTransformation())
                 }
                 cancel()
@@ -230,7 +230,7 @@ fun RoundedTextFieldColors(isError: Boolean): TextFieldColors =
             focusedTrailingIconColor = if (isError) error else onSurfaceVariant,
             unfocusedTrailingIconColor = if (isError) error else onSurfaceVariant,
             unfocusedLabelColor = if (isError) error else onSurfaceVariant,
-            containerColor = if (isError) surfaceVariant.blend(error, 0.2f) else surfaceVariant
+            containerColor = if (isError) surfaceVariant.blend(error, 0.2f) else surfaceVariant,
         )
     }
 

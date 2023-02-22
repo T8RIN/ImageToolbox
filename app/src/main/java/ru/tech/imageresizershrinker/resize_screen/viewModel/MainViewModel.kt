@@ -60,7 +60,7 @@ class MainViewModel : ViewModel() {
         }
         job?.cancel()
         job = viewModelScope.launch {
-            delay(400)
+            delay(500)
             _isLoading.value = true
             _bitmap.value?.let { bmp ->
                 _shouldShowPreview.value = (bitmapInfo.height.toIntOrNull() ?: 0)

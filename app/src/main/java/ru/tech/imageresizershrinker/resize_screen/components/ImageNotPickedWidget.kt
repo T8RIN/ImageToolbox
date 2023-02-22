@@ -32,7 +32,7 @@ fun ColumnScope.ImageNotPickedWidget(onPickImage: () -> Unit) {
             modifier = Modifier.size(100.dp),
             shape = RoundedCornerShape(16.dp),
             colors = IconButtonDefaults.filledTonalIconButtonColors(
-                containerColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f),
+                containerColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.7f),
                 contentColor = MaterialTheme.colorScheme.onSurface
             )
         ) {

@@ -387,34 +387,16 @@ class MainActivity : ComponentActivity() {
                                             onQualityChange = viewModel::setQuality
                                         )
                                         Spacer(Modifier.height(8.dp))
-                                        ToggleGroupButton(
-                                            modifier = Modifier
-                                                .block()
-                                                .padding(start = 3.dp, end = 2.dp),
-                                            title = stringResource(R.string.extension),
+                                        ExtensionGroup(
                                             enabled = viewModel.bitmap != null,
-                                            items = listOf("JPEG", "WEBP", "PNG"),
-                                            selectedIndex = bitmapInfo.mime,
-                                            indexChanged = {
-                                                viewModel.setMime(it)
-                                            }
+                                            mime = bitmapInfo.mime,
+                                            onMimeChange = viewModel::setMime
                                         )
                                         Spacer(Modifier.height(8.dp))
-                                        ToggleGroupButton(
-                                            modifier = Modifier
-                                                .block()
-                                                .padding(start = 3.dp, end = 2.dp),
+                                        ResizeGroup(
                                             enabled = viewModel.bitmap != null,
-                                            title = stringResource(R.string.resize_type),
-                                            items = listOf(
-                                                stringResource(R.string.explicit),
-                                                stringResource(R.string.flexible),
-                                                stringResource(R.string.ratio)
-                                            ),
-                                            selectedIndex = bitmapInfo.resizeType,
-                                            indexChanged = {
-                                                viewModel.setResizeType(it)
-                                            }
+                                            resizeType = bitmapInfo.resizeType,
+                                            onResizeChange = viewModel::setResizeType
                                         )
                                     }
                                 }
