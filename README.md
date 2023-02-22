@@ -10,10 +10,11 @@
 </p>
 
 <p align="center">
-  <img src="https://user-images.githubusercontent.com/52178347/220034706-2ea4860c-899b-4d0e-801d-c34bd23d2471.png" width="30%"/>
-  <img src="https://user-images.githubusercontent.com/52178347/220034728-eb995db5-5b5a-4345-9444-b775f8952b4d.png" width="30%"/>
-  <img src="https://user-images.githubusercontent.com/52178347/220034742-43c2d6b8-8ed7-48f7-9928-faac3b63e60f.png" width="30%"/>
+  <img src="https://user-images.githubusercontent.com/52178347/220598377-d41805eb-9512-4b70-92ef-0065c14edde6.png" width="33%"/>
+  <img src="https://user-images.githubusercontent.com/52178347/220598388-eebc1600-1285-4f8d-8af9-32ec522de471.png" width="33%"/>
+  <img src="https://user-images.githubusercontent.com/52178347/220598393-75280114-865d-48ee-9780-71c1194a0ad7.png" width="33%"/>
 </p>
+
 
 # Functions
 - Width changing
