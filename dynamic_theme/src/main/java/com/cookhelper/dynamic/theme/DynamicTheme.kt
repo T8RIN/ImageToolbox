@@ -106,12 +106,12 @@ public fun rememberColorScheme(isDarkTheme: Boolean, bitmap: Bitmap): ColorSchem
     val palette = Palette.from(bitmap).generate()
     fun Int.blend(
         color: Int,
-        @FloatRange(from = 0.0, to = 1.0) fraction: Float = 0.2f
+        @FloatRange(from = 0.0, to = 1.0) fraction: Float = 1f
     ): Int = ColorUtils.blendARGB(this, color, fraction)
 
     return remember(bitmap, isDarkTheme) {
-        palette.getVibrantColor(Color.Transparent.toArgb())
-            .blend(palette.getDarkVibrantColor(Color.Transparent.toArgb()))
+        palette.getDominantColor(Color.Transparent.toArgb())
+            .blend(palette.getVibrantColor(Color.Transparent.toArgb()))
             .let { Color(it).toArgb() }
             .let { colorArgb ->
                 if (isDarkTheme) {

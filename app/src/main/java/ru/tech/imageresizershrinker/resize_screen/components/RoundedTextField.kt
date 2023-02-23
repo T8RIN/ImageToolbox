@@ -132,15 +132,26 @@ fun RoundedTextField(
     minLines: Int = 1
 ) {
     val focus = LocalFocusManager.current
+    val focused = interactionSource.collectIsFocusedAsState().value
 
     val colorScheme = MaterialTheme.colorScheme
-    val borderColor = remember(colorScheme) { Animatable(initialValue = colorScheme.outline.blend(Color.Black, 0.2f)) }
-
-    val focused = interactionSource.collectIsFocusedAsState().value
+    val borderColor by remember(colorScheme) {
+        derivedStateOf {
+            Animatable(
+                initialValue = if (!focused) colorScheme.outline.blend(Color.Black, 0.2f)
+                else colorScheme.primary
+            )
+        }
+    }
 
     val scope = rememberCoroutineScope()
     LaunchedEffect(isError) {
-        borderColor.animateTo(if (isError && focused) colorScheme.error else if (focused) colorScheme.primary else colorScheme.outline.blend(Color.Black, 0.2f))
+        borderColor.animateTo(
+            if (isError && focused) colorScheme.error else if (focused) colorScheme.primary else colorScheme.outline.blend(
+                Color.Black,
+                0.2f
+            )
+        )
     }
 
     val mergedModifier = Modifier
@@ -158,7 +169,12 @@ fun RoundedTextField(
                 }
                 if (it.isFocused) borderColor.animateTo(if (isError) colorScheme.error else colorScheme.primary)
                 else {
-                    if (!isError) borderColor.animateTo(colorScheme.outline.blend(Color.Black, 0.2f))
+                    if (!isError) borderColor.animateTo(
+                        colorScheme.outline.blend(
+                            Color.Black,
+                            0.2f
+                        )
+                    )
                     onValueChange(value.onLoseFocusTransformation())
                 }
                 cancel()

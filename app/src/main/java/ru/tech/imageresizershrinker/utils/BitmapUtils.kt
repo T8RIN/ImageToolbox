@@ -12,9 +12,7 @@ import android.webkit.MimeTypeMap
 import androidx.annotation.RequiresApi
 import androidx.exifinterface.media.ExifInterface
 import ru.tech.imageresizershrinker.resize_screen.components.BitmapInfo
-import java.io.ByteArrayInputStream
-import java.io.ByteArrayOutputStream
-import java.io.FileDescriptor
+import java.io.*
 import java.util.*
 import kotlin.math.abs
 import kotlin.math.max
@@ -382,5 +380,13 @@ object BitmapUtils {
 
             Bitmap.createScaledBitmap(this, newWidth, newHeight, false)
         } else this
+    }
+
+    fun Bitmap.size(): Int {
+        return width * height * (if (config == Bitmap.Config.RGB_565) 2 else 4)
+    }
+
+    fun Bitmap.checkBitmapFitsInMemory(): Boolean {
+        return size() < 4096 * 4096 * 4
     }
 }

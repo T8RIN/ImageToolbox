@@ -14,6 +14,7 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.*
 import ru.tech.imageresizershrinker.resize_screen.components.BitmapInfo
 import ru.tech.imageresizershrinker.utils.BitmapUtils
+import ru.tech.imageresizershrinker.utils.BitmapUtils.checkBitmapFitsInMemory
 import ru.tech.imageresizershrinker.utils.BitmapUtils.copyTo
 import ru.tech.imageresizershrinker.utils.BitmapUtils.flip
 import ru.tech.imageresizershrinker.utils.BitmapUtils.previewBitmap
@@ -63,13 +64,13 @@ class MainViewModel : ViewModel() {
             delay(500)
             _isLoading.value = true
             _bitmap.value?.let { bmp ->
-                _shouldShowPreview.value = (bitmapInfo.height.toIntOrNull() ?: 0)
-                    .plus(bitmapInfo.width.toIntOrNull() ?: 0) <= 10000
-                if (shouldShowPreview) _previewBitmap.value = updatePreview(bmp)
+                val preview = updatePreview(bmp)
+                _shouldShowPreview.value = preview.checkBitmapFitsInMemory()
+                if (shouldShowPreview) _previewBitmap.value = preview
                 _bitmapInfo.value = _bitmapInfo.value.run {
                     if (resizeType == 2) copy(
-                        height = previewBitmap?.height?.toString() ?: height,
-                        width = previewBitmap?.width?.toString() ?: width
+                        height = preview.height.toString(),
+                        width = preview.width.toString()
                     ) else this
                 }
             }
