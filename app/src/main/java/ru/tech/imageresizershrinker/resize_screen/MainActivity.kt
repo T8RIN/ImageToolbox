@@ -81,7 +81,7 @@ class MainActivity : ComponentActivity() {
 
     private val viewModel by viewModels<MainViewModel>()
 
-    @OptIn(ExperimentalAnimationApi::class, ExperimentalLayoutApi::class)
+    @OptIn(ExperimentalAnimationApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
 
         installSplashScreen()
@@ -306,15 +306,14 @@ class MainActivity : ComponentActivity() {
                             )
                             LazyColumn(
                                 state = state,
-                                reverseLayout = true,
                                 contentPadding = PaddingValues(
                                     bottom = WindowInsets
                                         .navigationBars
                                         .asPaddingValues()
                                         .calculateBottomPadding() + WindowInsets.ime
                                         .asPaddingValues()
-                                        .calculateBottomPadding() + 120.dp,
-                                    top = 48.dp,
+                                        .calculateBottomPadding() + 160.dp,
+                                    top = 20.dp,
                                     start = 20.dp,
                                     end = 20.dp
                                 )
@@ -403,11 +402,12 @@ class MainActivity : ComponentActivity() {
                             }
                         }
 
-                        FlowRow(
-                            Modifier
+                        Column(
+                            modifier = Modifier
                                 .align(Alignment.BottomEnd)
                                 .padding(16.dp)
-                                .navigationBarsPadding()
+                                .navigationBarsPadding(),
+                            horizontalAlignment = Alignment.End
                         ) {
                             if (viewModel.bitmap != null) {
                                 FloatingActionButton(
@@ -449,7 +449,7 @@ class MainActivity : ComponentActivity() {
                                     Icon(Icons.Rounded.Github, null)
                                 }
                             }
-                            Spacer(Modifier.width(16.dp))
+                            Spacer(Modifier.height(16.dp))
                             FloatingActionButton(onClick = pickImage) {
                                 val expanded = state.isScrollingUp()
                                 val horizontalPadding by animateDpAsState(targetValue = if (expanded) 16.dp else 0.dp)
