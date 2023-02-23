@@ -4,6 +4,7 @@ import android.Manifest
 import android.content.ContentValues
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.content.res.Configuration
 import android.net.Uri
 import android.os.Build
 import android.os.Build.VERSION.SDK_INT
@@ -14,7 +15,6 @@ import android.provider.MediaStore
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.BackHandler
 import androidx.activity.compose.rememberLauncherForActivityResult
-import androidx.activity.compose.setContent
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
@@ -34,6 +34,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.DoorBack
 import androidx.compose.material.icons.rounded.*
 import androidx.compose.material3.*
+import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
@@ -43,6 +44,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.*
 import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -73,6 +75,8 @@ import ru.tech.imageresizershrinker.utils.BitmapUtils
 import ru.tech.imageresizershrinker.utils.BitmapUtils.decodeBitmapFromUri
 import ru.tech.imageresizershrinker.utils.BitmapUtils.getUriByName
 import ru.tech.imageresizershrinker.utils.BitmapUtils.toMap
+import ru.tech.imageresizershrinker.utils.LocalWindowSizeClass
+import ru.tech.imageresizershrinker.utils.setContentWithWindowSizeClass
 import java.io.File
 
 @ExperimentalFoundationApi
@@ -93,8 +97,8 @@ class MainActivity : ComponentActivity() {
 
         parseImageFromIntent(intent)
 
-        setContent {
-            ImageResizerShrinkerTheme {
+        setContentWithWindowSizeClass {
+            ImageResizerShrinkerTheme(bitmap = viewModel.bitmap) {
                 val focus = LocalFocusManager.current
                 val toastHostState = rememberToastHostState()
                 val scope = rememberCoroutineScope()
@@ -190,6 +194,107 @@ class MainActivity : ComponentActivity() {
                             }
                         }
                         showSaveLoading = false
+                    }
+                }
+
+                val imageInside =
+                    LocalConfiguration.current.orientation != Configuration.ORIENTATION_LANDSCAPE || LocalWindowSizeClass.current.widthSizeClass == WindowWidthSizeClass.Compact
+
+                val imageBlock = @Composable {
+                    AnimatedContent(
+                        targetState = viewModel.previewBitmap to viewModel.isLoading,
+                        transitionSpec = { fadeIn() with fadeOut() }
+                    ) { pair ->
+                        val bmp = pair.first
+                        val loading = pair.second
+                        Box {
+                            AnimatedContent(
+                                targetState = showOriginal,
+                                transitionSpec = {
+                                    fadeIn() with fadeOut()
+                                },
+                                modifier = Modifier.align(Alignment.Center)
+                            ) { showOrig ->
+                                if (showOrig) {
+                                    Picture(bitmap = viewModel.bitmap)
+                                } else {
+                                    Picture(
+                                        bitmap = bmp,
+                                        visible = viewModel.shouldShowPreview
+                                    )
+                                    if (!viewModel.shouldShowPreview && !loading && bmp != null) BadImageWidget()
+                                }
+                            }
+                            if (loading) Loading()
+                        }
+                    }
+                }
+
+                val buttons = @Composable {
+                    Column(
+                        modifier = Modifier
+                            .padding(16.dp)
+                            .navigationBarsPadding(),
+                        horizontalAlignment = Alignment.End
+                    ) {
+                        if (viewModel.bitmap != null) {
+                            FloatingActionButton(
+                                onClick = {
+                                    if (bitmapInfo.mime != 0 && viewModel.bitmap != null && map?.isNotEmpty() == true) {
+                                        showExifSavingDialog = true
+                                    } else {
+                                        saveBitmap()
+                                    }
+                                },
+                                containerColor = MaterialTheme.colorScheme.tertiaryContainer
+                            ) {
+                                BadgedBox(
+                                    badge = {
+                                        androidx.compose.animation.AnimatedVisibility(
+                                            visible = bitmapInfo.mime != 0 && map?.isNotEmpty() == true,
+                                            enter = fadeIn() + scaleIn(),
+                                            exit = fadeOut() + scaleOut()
+                                        ) {
+                                            Badge(modifier = Modifier.size(8.dp))
+                                        }
+                                    }
+                                ) {
+                                    Icon(Icons.Rounded.Save, null)
+                                }
+                            }
+                        } else {
+                            FloatingActionButton(
+                                onClick = {
+                                    startActivity(
+                                        Intent(
+                                            Intent.ACTION_VIEW,
+                                            Uri.parse("https://github.com/T8RIN/ImageResizer")
+                                        )
+                                    )
+                                },
+                                containerColor = MaterialTheme.colorScheme.tertiaryContainer
+                            ) {
+                                Icon(Icons.Rounded.Github, null)
+                            }
+                        }
+                        Spacer(Modifier.height(16.dp))
+                        FloatingActionButton(onClick = pickImage) {
+                            val expanded =
+                                state.isScrollingUp() && (imageInside || viewModel.bitmap == null)
+                            val horizontalPadding by animateDpAsState(targetValue = if (expanded) 16.dp else 0.dp)
+                            Row(
+                                modifier = Modifier.padding(horizontal = horizontalPadding),
+                                verticalAlignment = Alignment.CenterVertically
+                            ) {
+                                Icon(Icons.Rounded.AddPhotoAlternate, null)
+                                AnimatedVisibility(visible = expanded) {
+                                    Row {
+                                        Spacer(Modifier.width(8.dp))
+                                        Text(stringResource(R.string.pick_image_alt))
+                                    }
+                                }
+                            }
+                        }
                     }
                 }
 
@@ -304,167 +409,116 @@ class MainActivity : ComponentActivity() {
                                     )
                                 }
                             )
-                            LazyColumn(
-                                state = state,
-                                contentPadding = PaddingValues(
-                                    bottom = WindowInsets
-                                        .navigationBars
-                                        .asPaddingValues()
-                                        .calculateBottomPadding() + WindowInsets.ime
-                                        .asPaddingValues()
-                                        .calculateBottomPadding() + 160.dp,
-                                    top = 20.dp,
-                                    start = 20.dp,
-                                    end = 20.dp
-                                )
+                            Row(
+                                verticalAlignment = Alignment.CenterVertically,
+                                horizontalArrangement = Arrangement.Center,
                             ) {
-                                item {
-                                    Column(
-                                        modifier = Modifier.fillMaxSize(),
-                                        verticalArrangement = Arrangement.Center,
-                                        horizontalAlignment = Alignment.CenterHorizontally
+                                if (!imageInside && viewModel.bitmap != null) {
+                                    Box(
+                                        Modifier
+                                            .weight(0.8f)
+                                            .padding(20.dp)
                                     ) {
-                                        AnimatedContent(
-                                            targetState = viewModel.previewBitmap to viewModel.isLoading,
-                                            transitionSpec = { fadeIn() with fadeOut() }
-                                        ) { pair ->
-                                            val bmp = pair.first
-                                            val loading = pair.second
-                                            Box {
-                                                AnimatedContent(
-                                                    targetState = showOriginal,
-                                                    transitionSpec = {
-                                                        fadeIn() with fadeOut()
-                                                    },
-                                                    modifier = Modifier.align(Alignment.Center)
-                                                ) { showOrig ->
-                                                    if (showOrig) {
-                                                        Picture(bitmap = viewModel.bitmap)
-                                                    } else {
-                                                        Picture(
-                                                            bitmap = bmp,
-                                                            visible = viewModel.shouldShowPreview
-                                                        )
-                                                        if (!viewModel.shouldShowPreview && !loading && bmp != null) BadImageWidget()
-                                                    }
-                                                }
-                                                if (loading) Loading()
-                                            }
+                                        Box(Modifier.align(Alignment.Center)) {
+                                            imageBlock()
                                         }
-                                        if (viewModel.previewBitmap != null) {
-                                            Spacer(Modifier.size(20.dp))
-                                            ImageTransformBar(
-                                                onEditExif = { showEditExifDialog = true },
-                                                onCrop = { showCropDialog = true },
-                                                onRotateLeft = viewModel::rotateLeft,
-                                                onFlip = viewModel::flip,
-                                                onRotateRight = viewModel::rotateRight
-                                            )
-                                            Spacer(Modifier.size(8.dp))
-                                            PresetWidget(
-                                                selectedPreset = viewModel.presetSelected,
-                                                bitmap = viewModel.bitmap,
-                                                bitmapInfo = bitmapInfo,
-                                                onChangeBitmapInfo = viewModel::setBitmapInfo
-                                            )
-                                        } else if (!viewModel.isLoading) {
-                                            ImageNotPickedWidget(onPickImage = pickImage)
-                                            Spacer(Modifier.size(8.dp))
-                                        }
-                                        Spacer(Modifier.size(8.dp))
-                                        ResizeImageField(
-                                            bitmapInfo = bitmapInfo,
-                                            bitmap = viewModel.bitmap,
-                                            onHeightChange = viewModel::updateHeight,
-                                            onWidthChange = viewModel::updateWidth
-                                        )
-                                        if (bitmapInfo.mime != 2) Spacer(Modifier.height(8.dp))
-                                        QualityWidget(
-                                            visible = bitmapInfo.mime != 2,
-                                            enabled = viewModel.bitmap != null,
-                                            quality = bitmapInfo.quality,
-                                            onQualityChange = viewModel::setQuality
-                                        )
-                                        Spacer(Modifier.height(8.dp))
-                                        ExtensionGroup(
-                                            enabled = viewModel.bitmap != null,
-                                            mime = bitmapInfo.mime,
-                                            onMimeChange = viewModel::setMime
-                                        )
-                                        Spacer(Modifier.height(8.dp))
-                                        ResizeGroup(
-                                            enabled = viewModel.bitmap != null,
-                                            resizeType = bitmapInfo.resizeType,
-                                            onResizeChange = viewModel::setResizeType
-                                        )
                                     }
+                                    Box(
+                                        Modifier
+                                            .fillMaxHeight()
+                                            .width(1.dp)
+                                            .background(MaterialTheme.colorScheme.surfaceVariant)
+                                    )
+                                }
+                                LazyColumn(
+                                    state = state,
+                                    contentPadding = PaddingValues(
+                                        bottom = WindowInsets
+                                            .navigationBars
+                                            .asPaddingValues()
+                                            .calculateBottomPadding() + WindowInsets.ime
+                                            .asPaddingValues()
+                                            .calculateBottomPadding() + (if (!imageInside && viewModel.bitmap != null) 20.dp else 160.dp),
+                                        top = 20.dp,
+                                        start = 20.dp,
+                                        end = 20.dp
+                                    ),
+                                    modifier = Modifier.weight(1f)
+                                ) {
+                                    item {
+                                        Column(
+                                            modifier = Modifier.fillMaxSize(),
+                                            verticalArrangement = Arrangement.Center,
+                                            horizontalAlignment = Alignment.CenterHorizontally
+                                        ) {
+                                            if (imageInside) imageBlock()
+                                            if (viewModel.previewBitmap != null) {
+                                                if (imageInside) Spacer(Modifier.size(20.dp))
+                                                ImageTransformBar(
+                                                    onEditExif = { showEditExifDialog = true },
+                                                    onCrop = { showCropDialog = true },
+                                                    onRotateLeft = viewModel::rotateLeft,
+                                                    onFlip = viewModel::flip,
+                                                    onRotateRight = viewModel::rotateRight
+                                                )
+                                                Spacer(Modifier.size(8.dp))
+                                                PresetWidget(
+                                                    selectedPreset = viewModel.presetSelected,
+                                                    bitmap = viewModel.bitmap,
+                                                    bitmapInfo = bitmapInfo,
+                                                    onChangeBitmapInfo = viewModel::setBitmapInfo
+                                                )
+                                            } else if (!viewModel.isLoading) {
+                                                ImageNotPickedWidget(onPickImage = pickImage)
+                                                Spacer(Modifier.size(8.dp))
+                                            }
+                                            Spacer(Modifier.size(8.dp))
+                                            ResizeImageField(
+                                                bitmapInfo = bitmapInfo,
+                                                bitmap = viewModel.bitmap,
+                                                onHeightChange = viewModel::updateHeight,
+                                                onWidthChange = viewModel::updateWidth
+                                            )
+                                            if (bitmapInfo.mime != 2) Spacer(Modifier.height(8.dp))
+                                            QualityWidget(
+                                                visible = bitmapInfo.mime != 2,
+                                                enabled = viewModel.bitmap != null,
+                                                quality = bitmapInfo.quality,
+                                                onQualityChange = viewModel::setQuality
+                                            )
+                                            Spacer(Modifier.height(8.dp))
+                                            ExtensionGroup(
+                                                enabled = viewModel.bitmap != null,
+                                                mime = bitmapInfo.mime,
+                                                onMimeChange = viewModel::setMime
+                                            )
+                                            Spacer(Modifier.height(8.dp))
+                                            ResizeGroup(
+                                                enabled = viewModel.bitmap != null,
+                                                resizeType = bitmapInfo.resizeType,
+                                                onResizeChange = viewModel::setResizeType
+                                            )
+                                        }
+                                    }
+                                }
+                                if (!imageInside && viewModel.bitmap != null) {
+                                    Box(
+                                        Modifier
+                                            .fillMaxHeight()
+                                            .width(1.dp)
+                                            .background(MaterialTheme.colorScheme.surfaceVariant)
+                                            .padding(start = 20.dp)
+                                    )
+                                    buttons()
                                 }
                             }
                         }
 
-                        Column(
-                            modifier = Modifier
-                                .align(Alignment.BottomEnd)
-                                .padding(16.dp)
-                                .navigationBarsPadding(),
-                            horizontalAlignment = Alignment.End
-                        ) {
-                            if (viewModel.bitmap != null) {
-                                FloatingActionButton(
-                                    onClick = {
-                                        if (bitmapInfo.mime != 0 && viewModel.bitmap != null && map?.isNotEmpty() == true) {
-                                            showExifSavingDialog = true
-                                        } else {
-                                            saveBitmap()
-                                        }
-                                    },
-                                    containerColor = MaterialTheme.colorScheme.tertiaryContainer
-                                ) {
-                                    BadgedBox(
-                                        badge = {
-                                            androidx.compose.animation.AnimatedVisibility(
-                                                visible = bitmapInfo.mime != 0 && map?.isNotEmpty() == true,
-                                                enter = fadeIn() + scaleIn(),
-                                                exit = fadeOut() + scaleOut()
-                                            ) {
-                                                Badge(modifier = Modifier.size(8.dp))
-                                            }
-                                        }
-                                    ) {
-                                        Icon(Icons.Rounded.Save, null)
-                                    }
-                                }
-                            } else {
-                                FloatingActionButton(
-                                    onClick = {
-                                        startActivity(
-                                            Intent(
-                                                Intent.ACTION_VIEW,
-                                                Uri.parse("https://github.com/T8RIN/ImageResizer")
-                                            )
-                                        )
-                                    },
-                                    containerColor = MaterialTheme.colorScheme.tertiaryContainer
-                                ) {
-                                    Icon(Icons.Rounded.Github, null)
-                                }
-                            }
-                            Spacer(Modifier.height(16.dp))
-                            FloatingActionButton(onClick = pickImage) {
-                                val expanded = state.isScrollingUp()
-                                val horizontalPadding by animateDpAsState(targetValue = if (expanded) 16.dp else 0.dp)
-                                Row(
-                                    modifier = Modifier.padding(horizontal = horizontalPadding),
-                                    verticalAlignment = Alignment.CenterVertically
-                                ) {
-                                    Icon(Icons.Rounded.AddPhotoAlternate, null)
-                                    AnimatedVisibility(visible = expanded) {
-                                        Row {
-                                            Spacer(Modifier.width(8.dp))
-                                            Text(stringResource(R.string.pick_image_alt))
-                                        }
-                                    }
-                                }
+                        if (imageInside || viewModel.bitmap == null) {
+                            Box(
+                                modifier = Modifier.align(Alignment.BottomEnd)
+                            ) {
+                                buttons()
                             }
                         }
 

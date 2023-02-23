@@ -134,7 +134,7 @@ fun RoundedTextField(
     val focus = LocalFocusManager.current
 
     val colorScheme = MaterialTheme.colorScheme
-    val borderColor = remember { Animatable(initialValue = colorScheme.outline.blend(Color.Black, 0.2f)) }
+    val borderColor = remember(colorScheme) { Animatable(initialValue = colorScheme.outline.blend(Color.Black, 0.2f)) }
 
     val focused = interactionSource.collectIsFocusedAsState().value
 

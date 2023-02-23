@@ -42,6 +42,8 @@ class CrashActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         installSplashScreen()
         super.onCreate(savedInstanceState)
+        actionBar?.hide()
+
         WindowCompat.setDecorFitsSystemWindows(window, false)
         val crashReason = getExceptionString()
 
@@ -49,7 +51,7 @@ class CrashActivity : ComponentActivity() {
             val toastHostState = rememberToastHostState()
             val scope = rememberCoroutineScope()
 
-            ImageResizerShrinkerTheme() {
+            ImageResizerShrinkerTheme {
                 val conf = LocalConfiguration.current
                 val size = min(conf.screenWidthDp.dp, conf.screenHeightDp.dp)
                 Surface(modifier = Modifier.fillMaxSize()) {
