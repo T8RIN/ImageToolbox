@@ -11,7 +11,6 @@ import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.*
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.luminance
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalContext
 import androidx.core.graphics.ColorUtils
@@ -19,6 +18,7 @@ import androidx.palette.graphics.Palette
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import material.util.color.scheme.Scheme
+import kotlin.math.abs
 
 /**
  * DynamicTheme allows you to dynamically change the color scheme of the content hierarchy.
@@ -107,20 +107,23 @@ public fun rememberColorScheme(isDarkTheme: Boolean, bitmap: Bitmap): ColorSchem
     val palette = Palette.from(bitmap).generate()
     fun Int.blend(
         color: Int,
-        @FloatRange(from = 0.0, to = 1.0) fraction: Float = 1f
+        @FloatRange(from = 0.0, to = 1.0) fraction: Float = 0.5f
     ): Int = ColorUtils.blendARGB(this, color, fraction)
 
     return remember(bitmap, isDarkTheme) {
         palette.getDominantColor(Color.Transparent.toArgb())
             .blend(palette.getVibrantColor(Color.Transparent.toArgb()))
-            .takeIf { Color(it).luminance() in 0.1f..0.9f }
-            ?.let { Color(it).toArgb() }
-            ?.let { colorArgb ->
+            .let { Color(it).toArgb() }
+            .let { colorArgb ->
                 if (isDarkTheme) {
                     Scheme.darkContent(colorArgb).toDarkThemeColorScheme()
                 } else {
                     Scheme.lightContent(colorArgb).toLightThemeColorScheme()
                 }
+            }.takeIf {
+                val (r, g, b) = it.primaryContainer.run { Triple(red, green, blue) }
+                val (r1, g1, b1) = it.tertiaryContainer.run { Triple(red, green, blue) }
+                abs(r - r1) >= 0.01 && abs(b - b1) >= 0.01 && abs(g - g1) >= 0.01
             }
     }
 }
