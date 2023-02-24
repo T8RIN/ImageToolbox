@@ -20,7 +20,7 @@ import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.resize_screen.block
 
 @Composable
-fun ColumnScope.ImageNotPickedWidget(onPickImage: () -> Unit) {
+fun ImageNotPickedWidget(onPickImage: () -> Unit) {
     Column(
         Modifier.block(),
         verticalArrangement = Arrangement.Center,
@@ -56,7 +56,9 @@ fun ColumnScope.ImageNotPickedWidget(onPickImage: () -> Unit) {
 fun BadImageWidget() {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = Modifier.block().padding(8.dp)
+        modifier = Modifier
+            .block()
+            .padding(8.dp)
     ) {
         Text(
             stringResource(R.string.image_too_large_preview),
@@ -76,11 +78,16 @@ fun Picture(bitmap: Bitmap?, visible: Boolean = true) {
     bitmap?.asImageBitmap()
         ?.takeIf { visible }
         ?.let {
-            Image(
-                bitmap = it,
-                contentDescription = null,
-                modifier = Modifier
-                    .clip(RoundedCornerShape(4.dp))
-            )
+            Box(
+                modifier = Modifier.block(RoundedCornerShape(6.dp)),
+                contentAlignment = Alignment.Center
+            ) {
+                Image(
+                    bitmap = it,
+                    contentDescription = null,
+                    modifier = Modifier
+                        .clip(RoundedCornerShape(4.dp))
+                )
+            }
         }
 }

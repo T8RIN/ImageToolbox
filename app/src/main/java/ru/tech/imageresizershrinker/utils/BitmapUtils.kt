@@ -1,8 +1,6 @@
 package ru.tech.imageresizershrinker.utils
 
-import android.content.ContentResolver
-import android.content.ContentUris
-import android.content.Context
+import android.content.*
 import android.graphics.*
 import android.net.Uri
 import android.os.Build
@@ -389,4 +387,5 @@ object BitmapUtils {
     fun Bitmap.checkBitmapFitsInMemory(): Boolean {
         return size() < 4096 * 4096 * 5
     }
+
 }

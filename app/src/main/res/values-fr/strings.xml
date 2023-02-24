@@ -38,4 +38,5 @@
     <string name="presets">Préconfigurations</string>
     <string name="ratio">Rapport d\'aspect</string>
     <string name="crop">Rogner</string>
+    <string name="cannot_paste">Ces données de clip ne sont pas une image</string>
 </resources>

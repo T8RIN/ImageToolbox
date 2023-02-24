@@ -38,4 +38,5 @@
     <string name="presets">Предустановки</string>
     <string name="ratio">Аспект</string>
     <string name="crop">Обрезать</string>
+    <string name="cannot_paste">Вы пытаетесь вставить не изображение</string>
 </resources>
