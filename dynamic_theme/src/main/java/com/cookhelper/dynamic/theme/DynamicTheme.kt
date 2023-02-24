@@ -19,7 +19,6 @@ import androidx.palette.graphics.Palette
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import material.util.color.scheme.Scheme
-import kotlin.random.Random
 
 /**
  * DynamicTheme allows you to dynamically change the color scheme of the content hierarchy.
