@@ -11,6 +11,7 @@ import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.*
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.luminance
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalContext
 import androidx.core.graphics.ColorUtils
@@ -102,7 +103,7 @@ public fun rememberColorScheme(isDarkTheme: Boolean, color: Color): ColorScheme 
 
 
 @Composable
-public fun rememberColorScheme(isDarkTheme: Boolean, bitmap: Bitmap): ColorScheme {
+public fun rememberColorScheme(isDarkTheme: Boolean, bitmap: Bitmap): ColorScheme? {
     val palette = Palette.from(bitmap).generate()
     fun Int.blend(
         color: Int,
@@ -112,8 +113,9 @@ public fun rememberColorScheme(isDarkTheme: Boolean, bitmap: Bitmap): ColorSchem
     return remember(bitmap, isDarkTheme) {
         palette.getDominantColor(Color.Transparent.toArgb())
             .blend(palette.getVibrantColor(Color.Transparent.toArgb()))
-            .let { Color(it).toArgb() }
-            .let { colorArgb ->
+            .takeIf { Color(it).luminance() in 0.1f..0.9f }
+            ?.let { Color(it).toArgb() }
+            ?.let { colorArgb ->
                 if (isDarkTheme) {
                     Scheme.darkContent(colorArgb).toDarkThemeColorScheme()
                 } else {
