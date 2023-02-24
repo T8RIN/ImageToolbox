@@ -9,21 +9,21 @@
         tools:ignore="ScopedStorage" />
 
     <application
-        android:largeHeap="true"
-        android:hardwareAccelerated="true"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
+        android:hardwareAccelerated="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
+        android:largeHeap="true"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.ImageResizerShrinker.Launcher"
         tools:targetApi="s">
         <activity
-            android:launchMode="singleTask"
             android:name=".resize_screen.MainActivity"
-            android:exported="true">
+            android:exported="true"
+            android:launchMode="singleTask">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -35,6 +35,16 @@
             </intent-filter>
         </activity>
         <activity android:name=".crash_screen.CrashActivity" />
+
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="ru.tech.imageresizershrinker.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
     </application>
 
 </manifest>

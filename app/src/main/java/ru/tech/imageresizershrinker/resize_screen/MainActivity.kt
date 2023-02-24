@@ -32,6 +32,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.DoorBack
+import androidx.compose.material.icons.outlined.Share
 import androidx.compose.material.icons.rounded.*
 import androidx.compose.material3.*
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
@@ -64,7 +65,7 @@ import com.smarttoolfactory.cropper.settings.CropDefaults
 import com.smarttoolfactory.cropper.settings.CropOutlineProperty
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import ru.tech.imageresizershrinker.ImageResizerShrinkerTheme
+import ru.tech.imageresizershrinker.ImageResizerTheme
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.crash_screen.CrashActivity
 import ru.tech.imageresizershrinker.crash_screen.GlobalExceptionHandler
@@ -74,6 +75,7 @@ import ru.tech.imageresizershrinker.theme.Github
 import ru.tech.imageresizershrinker.utils.BitmapUtils
 import ru.tech.imageresizershrinker.utils.BitmapUtils.decodeBitmapFromUri
 import ru.tech.imageresizershrinker.utils.BitmapUtils.getUriByName
+import ru.tech.imageresizershrinker.utils.BitmapUtils.shareBitmap
 import ru.tech.imageresizershrinker.utils.BitmapUtils.toMap
 import ru.tech.imageresizershrinker.utils.LocalWindowSizeClass
 import ru.tech.imageresizershrinker.utils.setContentWithWindowSizeClass
@@ -98,7 +100,7 @@ class MainActivity : ComponentActivity() {
         parseImageFromIntent(intent)
 
         setContentWithWindowSizeClass {
-            ImageResizerShrinkerTheme(bitmap = viewModel.bitmap) {
+            ImageResizerTheme(bitmap = viewModel.bitmap) {
                 val focus = LocalFocusManager.current
                 val toastHostState = rememberToastHostState()
                 val scope = rememberCoroutineScope()
@@ -402,11 +404,24 @@ class MainActivity : ComponentActivity() {
                                     }
                                 },
                                 navigationIcon = {
-                                    TelegramButton(
-                                        enabled = viewModel.bitmap != null,
-                                        isTelegramSpecs = viewModel.isTelegramSpecs,
-                                        onClick = { viewModel.setTelegramSpecs() },
-                                    )
+                                    Row {
+                                        TelegramButton(
+                                            enabled = viewModel.bitmap != null,
+                                            isTelegramSpecs = viewModel.isTelegramSpecs,
+                                            onClick = { viewModel.setTelegramSpecs() },
+                                        )
+                                        IconButton(
+                                            onClick = {
+                                                shareBitmap(
+                                                    bitmap = viewModel.previewBitmap,
+                                                    bitmapInfo = viewModel.bitmapInfo
+                                                )
+                                            },
+                                            enabled = viewModel.previewBitmap != null
+                                        ) {
+                                            Icon(Icons.Outlined.Share, null)
+                                        }
+                                    }
                                 }
                             )
                             Row(

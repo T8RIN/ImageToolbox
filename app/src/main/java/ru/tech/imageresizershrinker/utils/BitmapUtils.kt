@@ -8,6 +8,7 @@ import android.os.ParcelFileDescriptor
 import android.provider.MediaStore
 import android.webkit.MimeTypeMap
 import androidx.annotation.RequiresApi
+import androidx.core.content.FileProvider
 import androidx.exifinterface.media.ExifInterface
 import ru.tech.imageresizershrinker.resize_screen.components.BitmapInfo
 import java.io.*
@@ -386,6 +387,40 @@ object BitmapUtils {
 
     fun Bitmap.checkBitmapFitsInMemory(): Boolean {
         return size() < 4096 * 4096 * 5
+    }
+
+    private fun Context.saveImage(image: Bitmap, bitmapInfo: BitmapInfo): Uri? {
+        val imagesFolder = File(cacheDir, "images")
+        return kotlin.runCatching {
+            imagesFolder.mkdirs()
+            val mime = bitmapInfo.mime
+            val ext = if (mime == 2) "png" else if (mime == 1) "webp" else "jpg"
+            val file = File(imagesFolder, "shared_image.$ext")
+            val stream = FileOutputStream(file)
+            image.compress(
+                if (mime == 1) Bitmap.CompressFormat.WEBP else if (mime == 2) Bitmap.CompressFormat.PNG else Bitmap.CompressFormat.JPEG,
+                bitmapInfo.quality.toInt(), stream
+            )
+            stream.flush()
+            stream.close()
+            FileProvider.getUriForFile(this, "ru.tech.imageresizershrinker.fileprovider", file)
+        }.getOrNull()
+    }
+
+    fun Context.shareImageUri(uri: Uri) {
+        val intent = Intent(Intent.ACTION_SEND).apply {
+            putExtra(Intent.EXTRA_STREAM, uri)
+            addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+            type = "image/*"
+        }
+        startActivity(intent)
+    }
+
+    fun Context.shareBitmap(
+        bitmap: Bitmap?,
+        bitmapInfo: BitmapInfo
+    ) = bitmap?.let {
+        saveImage(it, bitmapInfo)?.let { uri -> shareImageUri(uri) }
     }
 
 }

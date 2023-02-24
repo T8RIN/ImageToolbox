@@ -29,7 +29,7 @@ import androidx.compose.ui.unit.sp
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.WindowCompat
 import kotlinx.coroutines.launch
-import ru.tech.imageresizershrinker.ImageResizerShrinkerTheme
+import ru.tech.imageresizershrinker.ImageResizerTheme
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.crash_screen.GlobalExceptionHandler.Companion.getExceptionString
 import ru.tech.imageresizershrinker.resize_screen.MainActivity
@@ -51,7 +51,7 @@ class CrashActivity : ComponentActivity() {
             val toastHostState = rememberToastHostState()
             val scope = rememberCoroutineScope()
 
-            ImageResizerShrinkerTheme {
+            ImageResizerTheme {
                 val conf = LocalConfiguration.current
                 val size = min(conf.screenWidthDp.dp, conf.screenHeightDp.dp)
                 Surface(modifier = Modifier.fillMaxSize()) {

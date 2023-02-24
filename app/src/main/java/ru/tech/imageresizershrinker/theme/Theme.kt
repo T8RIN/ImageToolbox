@@ -77,7 +77,7 @@ private val DarkColorScheme = darkColorScheme(
 )
 
 @Composable
-fun ImageResizerShrinkerTheme(
+fun ImageResizerTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
     dynamicColor: Boolean = true,
     bitmap: Bitmap? = null,
