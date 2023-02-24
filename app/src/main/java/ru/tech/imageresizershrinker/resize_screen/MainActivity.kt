@@ -368,7 +368,7 @@ class MainActivity : ComponentActivity() {
                                                             delay(100)
                                                             state.animateScrollToItem(
                                                                 0,
-                                                                10000
+                                                                -10000
                                                             )
                                                             tryAwaitRelease()
                                                             showOriginal = false

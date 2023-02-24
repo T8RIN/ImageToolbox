@@ -387,6 +387,6 @@ object BitmapUtils {
     }
 
     fun Bitmap.checkBitmapFitsInMemory(): Boolean {
-        return size() < 4096 * 4096 * 4
+        return size() < 4096 * 4096 * 5
     }
 }

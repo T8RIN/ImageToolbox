@@ -66,7 +66,7 @@ class MainViewModel : ViewModel() {
             _bitmap.value?.let { bmp ->
                 val preview = updatePreview(bmp)
                 _shouldShowPreview.value = preview.checkBitmapFitsInMemory()
-                if (shouldShowPreview) _previewBitmap.value = preview
+                _previewBitmap.value = preview
                 _bitmapInfo.value = _bitmapInfo.value.run {
                     if (resizeType == 2) copy(
                         height = preview.height.toString(),
