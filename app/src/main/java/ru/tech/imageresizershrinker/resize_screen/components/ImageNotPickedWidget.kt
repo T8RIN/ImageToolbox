@@ -56,7 +56,7 @@ fun ColumnScope.ImageNotPickedWidget(onPickImage: () -> Unit) {
 fun BadImageWidget() {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = Modifier.padding(8.dp)
+        modifier = Modifier.block().padding(8.dp)
     ) {
         Text(
             stringResource(R.string.image_too_large_preview),
@@ -79,7 +79,8 @@ fun Picture(bitmap: Bitmap?, visible: Boolean = true) {
             Image(
                 bitmap = it,
                 contentDescription = null,
-                modifier = Modifier.clip(RoundedCornerShape(4.dp))
+                modifier = Modifier
+                    .clip(RoundedCornerShape(4.dp))
             )
         }
 }

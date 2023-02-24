@@ -222,7 +222,7 @@ class MainActivity : ComponentActivity() {
                                         bitmap = bmp,
                                         visible = viewModel.shouldShowPreview
                                     )
-                                    if (!viewModel.shouldShowPreview && !loading && bmp != null) BadImageWidget()
+                                    if (!viewModel.shouldShowPreview && !loading && viewModel.bitmap != null && viewModel.previewBitmap == null) BadImageWidget()
                                 }
                             }
                             if (loading) Loading()
@@ -452,7 +452,7 @@ class MainActivity : ComponentActivity() {
                                             horizontalAlignment = Alignment.CenterHorizontally
                                         ) {
                                             if (imageInside) imageBlock()
-                                            if (viewModel.previewBitmap != null) {
+                                            if (viewModel.bitmap != null) {
                                                 if (imageInside) Spacer(Modifier.size(20.dp))
                                                 ImageTransformBar(
                                                     onEditExif = { showEditExifDialog = true },
