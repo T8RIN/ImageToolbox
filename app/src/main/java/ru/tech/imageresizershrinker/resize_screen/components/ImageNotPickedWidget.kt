@@ -17,7 +17,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.R
-import ru.tech.imageresizershrinker.resize_screen.block
+import ru.tech.imageresizershrinker.main_screen.block
 
 @Composable
 fun ImageNotPickedWidget(onPickImage: () -> Unit) {
@@ -85,8 +85,7 @@ fun Picture(bitmap: Bitmap?, visible: Boolean = true) {
                 Image(
                     bitmap = it,
                     contentDescription = null,
-                    modifier = Modifier
-                        .clip(RoundedCornerShape(4.dp))
+                    modifier = Modifier.clip(RoundedCornerShape(4.dp))
                 )
             }
         }

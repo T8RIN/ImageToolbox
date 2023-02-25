@@ -1,14 +1,19 @@
 package ru.tech.imageresizershrinker
 
-import android.graphics.Bitmap
 import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
-import androidx.compose.material3.*
+import androidx.compose.material3.darkColorScheme
+import androidx.compose.material3.dynamicDarkColorScheme
+import androidx.compose.material3.dynamicLightColorScheme
+import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
-import com.cookhelper.dynamic.theme.rememberColorScheme
+import com.cookhelper.dynamic.theme.DynamicTheme
+import com.cookhelper.dynamic.theme.LocalDynamicThemeState
+import com.cookhelper.dynamic.theme.rememberDynamicThemeState
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
 private val LightColorScheme = lightColorScheme(
@@ -80,22 +85,15 @@ private val DarkColorScheme = darkColorScheme(
 fun ImageResizerTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
     dynamicColor: Boolean = true,
-    bitmap: Bitmap? = null,
     content: @Composable () -> Unit
 ) {
-    val standard = when {
+    val colorScheme = when {
         dynamicColor && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S -> {
             val context = LocalContext.current
             if (darkTheme) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
         }
         darkTheme -> DarkColorScheme
         else -> LightColorScheme
-    }
-    val colorScheme = when {
-        bitmap != null -> {
-            rememberColorScheme(isDarkTheme = darkTheme, bitmap = bitmap) ?: standard
-        }
-        else -> standard
     }
 
     val systemUiController = rememberSystemUiController()
@@ -108,8 +106,18 @@ fun ImageResizerTheme(
         )
     }
 
-    MaterialTheme(
-        colorScheme = colorScheme,
-        content = content
+    val state = rememberDynamicThemeState(
+        initialPrimaryColor = colorScheme.primary,
+        defaultColorScheme = colorScheme
+    )
+    DynamicTheme(
+        state = state,
+        isDarkTheme = isSystemInDarkTheme(),
+        content = {
+            CompositionLocalProvider(
+                LocalDynamicThemeState provides state,
+                content = content
+            )
+        }
     )
 }

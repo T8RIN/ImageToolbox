@@ -32,7 +32,7 @@ import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.ImageResizerTheme
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.crash_screen.GlobalExceptionHandler.Companion.getExceptionString
-import ru.tech.imageresizershrinker.resize_screen.MainActivity
+import ru.tech.imageresizershrinker.main_screen.MainActivity
 import ru.tech.imageresizershrinker.resize_screen.components.ToastHost
 import ru.tech.imageresizershrinker.resize_screen.components.rememberToastHostState
 

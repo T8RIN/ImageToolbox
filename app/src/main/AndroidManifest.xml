@@ -21,7 +21,7 @@
         android:theme="@style/Theme.ImageResizerShrinker.Launcher"
         tools:targetApi="s">
         <activity
-            android:name=".resize_screen.MainActivity"
+            android:name=".main_screen.MainActivity"
             android:exported="true"
             android:launchMode="singleTask">
             <intent-filter>

@@ -41,4 +41,15 @@
     <string name="ratio">Ratio</string>
     <string name="crop">Crop</string>
     <string name="cannot_paste">This clip data is not an image</string>
+    <string name="image_not_saved">Image Not Saved</string>
+    <string name="image_not_saved_sub">Image not saved, all changes will be lost, if you leave now</string>
+    <string name="check_source_code">Check source code</string>
+    <string name="check_source_code_sub">Get the latest updates, discuss issues and more</string>
+    <string name="single_resize">Single resize</string>
+    <string name="resize_single_image">Change specs of single given image</string>
+    <string name="pick_color">Pick color</string>
+    <string name="pick_color_sub">Pick color from image, copy or share</string>
+    <string name="image">Image</string>
+    <string name="color">Color</string>
+    <string name="color_copied">Color copied</string>
 </resources>

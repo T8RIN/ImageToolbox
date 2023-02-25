@@ -47,9 +47,10 @@ public fun DynamicTheme(
 @Composable
 public fun rememberDynamicThemeState(
     initialPrimaryColor: Color = MaterialTheme.colorScheme.primary,
+    defaultColorScheme: ColorScheme
 ): DynamicThemeState {
     val context = LocalContext.current
-    return remember { DynamicThemeState(initialPrimaryColor, context) }
+    return remember { DynamicThemeState(initialPrimaryColor, defaultColorScheme, context) }
 }
 
 /**
@@ -58,13 +59,15 @@ public fun rememberDynamicThemeState(
 @Composable
 public fun rememberDynamicThemeState(
     initialPrimaryColor: Int,
+    defaultColorScheme: ColorScheme
 ): DynamicThemeState {
-    return rememberDynamicThemeState(Color(initialPrimaryColor))
+    return rememberDynamicThemeState(Color(initialPrimaryColor), defaultColorScheme)
 }
 
 @Stable
 public class DynamicThemeState(
     initialPrimaryColor: Color,
+    private val defaultColorScheme: ColorScheme,
     private val context: Context,
 ) {
 
@@ -85,7 +88,27 @@ public class DynamicThemeState(
 
     public fun updateColorByImage(bitmap: Bitmap) {
         val palette = Palette.from(bitmap).generate()
-        palette.dominantSwatch?.rgb?.let { primaryColor = Color(it) }
+        fun Int.blend(
+            color: Int,
+            @FloatRange(from = 0.0, to = 1.0) fraction: Float = 0.5f
+        ): Int = ColorUtils.blendARGB(this, color, fraction)
+
+        palette.getDominantColor(Color.Transparent.toArgb())
+            .blend(palette.getVibrantColor(Color.Transparent.toArgb()))
+            .let { Color(it).toArgb() }
+            .takeIf {
+                val scheme = Scheme.darkContent(it).toDarkThemeColorScheme()
+                val (r, g, b) = scheme.primaryContainer.run { Triple(red, green, blue) }
+                val (r1, g1, b1) = scheme.tertiaryContainer.run { Triple(red, green, blue) }
+                abs(r - r1) >= 0.01 && abs(b - b1) >= 0.01 && abs(g - g1) >= 0.01
+            }.let {
+                primaryColor = if (it != null) Color(it)
+                else defaultColorScheme.primary
+            }
+    }
+
+    public fun reset() {
+        primaryColor = defaultColorScheme.primary
     }
 }
 
@@ -195,3 +218,5 @@ private fun Scheme.toLightThemeColorScheme(): ColorScheme {
         scrim = Color(scrim),
     )
 }
+
+public val LocalDynamicThemeState: ProvidableCompositionLocal<DynamicThemeState> = compositionLocalOf { error("Not present") }
