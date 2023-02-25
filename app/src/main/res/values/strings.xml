@@ -14,7 +14,7 @@
     <string name="flexible">Flexible</string>
     <string name="saved_to">Saved to DCIM/ResizedImages folder</string>
     <string name="pick_image_alt">Pick Image</string>
-    <string name="app_closing_sub">Are you really want to close the app, unsaved changes in the current image will be ignored</string>
+    <string name="app_closing_sub">Are you really want to close the app?</string>
     <string name="app_closing">App closing</string>
     <string name="stay">Stay</string>
     <string name="close">Close</string>
@@ -41,7 +41,7 @@
     <string name="ratio">Ratio</string>
     <string name="crop">Crop</string>
     <string name="cannot_paste">This clip data is not an image</string>
-    <string name="image_not_saved">Image Not Saved</string>
+    <string name="image_not_saved">Saving</string>
     <string name="image_not_saved_sub">Image not saved, all changes will be lost, if you leave now</string>
     <string name="check_source_code">Check source code</string>
     <string name="check_source_code_sub">Get the latest updates, discuss issues and more</string>
@@ -52,4 +52,5 @@
     <string name="image">Image</string>
     <string name="color">Color</string>
     <string name="color_copied">Color copied</string>
+    <string name="crop_sub">Crop image to any bounds</string>
 </resources>

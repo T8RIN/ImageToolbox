@@ -1,4 +1,4 @@
-package ru.tech.imageresizershrinker.pcik_color
+package ru.tech.imageresizershrinker.pick_color
 
 import android.content.ClipData
 import android.content.ClipboardManager
@@ -44,7 +44,7 @@ import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.main_screen.Screen
 import ru.tech.imageresizershrinker.main_screen.block
-import ru.tech.imageresizershrinker.pcik_color.viewModel.PickColorViewModel
+import ru.tech.imageresizershrinker.pick_color.viewModel.PickColorViewModel
 import ru.tech.imageresizershrinker.resize_screen.components.ImageNotPickedWidget
 import ru.tech.imageresizershrinker.resize_screen.components.ToastHost
 import ru.tech.imageresizershrinker.resize_screen.components.rememberToastHostState
@@ -210,6 +210,7 @@ fun PickColorScreen(
         FloatingActionButton(
             onClick = pickImage,
             modifier = Modifier
+                .navigationBarsPadding()
                 .padding(16.dp)
                 .align(Alignment.BottomEnd)
         ) {

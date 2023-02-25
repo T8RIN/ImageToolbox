@@ -39,11 +39,13 @@ import ru.tech.imageresizershrinker.ImageResizerTheme
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.crash_screen.CrashActivity
 import ru.tech.imageresizershrinker.crash_screen.GlobalExceptionHandler
+import ru.tech.imageresizershrinker.crop_screen.CropScreen
+import ru.tech.imageresizershrinker.main_screen.components.CropPreference
 import ru.tech.imageresizershrinker.main_screen.components.MainScreen
 import ru.tech.imageresizershrinker.main_screen.components.PickColorPreference
 import ru.tech.imageresizershrinker.main_screen.components.SingleResizePreference
 import ru.tech.imageresizershrinker.main_screen.viewModel.MainViewModel
-import ru.tech.imageresizershrinker.pcik_color.PickColorScreen
+import ru.tech.imageresizershrinker.pick_color.PickColorScreen
 import ru.tech.imageresizershrinker.resize_screen.SingleResizeScreen
 import ru.tech.imageresizershrinker.resize_screen.components.*
 import ru.tech.imageresizershrinker.utils.setContentWithWindowSizeClass
@@ -111,8 +113,15 @@ class MainActivity : ComponentActivity() {
                                     onGoBack = { viewModel.updateUri(null) }
                                 )
                             }
-                            Screen.PickColor -> {
+                            is Screen.PickColor -> {
                                 PickColorScreen(
+                                    uriState = viewModel.uri,
+                                    navController = viewModel.navController,
+                                    onGoBack = { viewModel.updateUri(null) }
+                                )
+                            }
+                            is Screen.Crop -> {
+                                CropScreen(
                                     uriState = viewModel.uri,
                                     navController = viewModel.navController,
                                     onGoBack = { viewModel.updateUri(null) }
@@ -148,6 +157,14 @@ class MainActivity : ComponentActivity() {
                                     },
                                     color = MaterialTheme.colorScheme.secondaryContainer
                                 )
+                                Spacer(modifier = Modifier.height(8.dp))
+                                CropPreference(
+                                    onClick = {
+                                        viewModel.navController.navigate(Screen.Crop)
+                                        viewModel.hideSelectDialog()
+                                    },
+                                    color = MaterialTheme.colorScheme.secondaryContainer
+                                )
                             }
                         }
                     )
@@ -179,6 +196,7 @@ sealed class Screen {
     object Main : Screen()
     object SingleResize : Screen()
     object PickColor : Screen()
+    object Crop : Screen()
 }
 
 inline fun <reified T : Parcelable> Intent.parcelable(key: String): T? = when {

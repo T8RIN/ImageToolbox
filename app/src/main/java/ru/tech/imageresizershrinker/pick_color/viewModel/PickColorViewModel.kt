@@ -1,4 +1,4 @@
-package ru.tech.imageresizershrinker.pcik_color.viewModel
+package ru.tech.imageresizershrinker.pick_color.viewModel
 
 import android.graphics.Bitmap
 import androidx.compose.runtime.MutableState

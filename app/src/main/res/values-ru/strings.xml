@@ -13,7 +13,7 @@
     <string name="flexible">Гибкий</string>
     <string name="saved_to">Сохранено в папку DCIM/ResizedImages</string>
     <string name="pick_image_alt">Выбрать изображение</string>
-    <string name="app_closing_sub">Если вы закроете приложение сейчас, то все несохраненные изменения будут отменены</string>
+    <string name="app_closing_sub">Вы действительно хотите закрыть приложение?</string>
     <string name="app_closing">Закрытие приложения</string>
     <string name="stay">Остаться</string>
     <string name="close">Закрыть</string>
@@ -39,4 +39,16 @@
     <string name="ratio">Аспект</string>
     <string name="crop">Обрезать</string>
     <string name="cannot_paste">Вы пытаетесь вставить не изображение</string>
+    <string name="image_not_saved">Сохранение</string>
+    <string name="image_not_saved_sub">Изображение не сохранено, все изменения будут отменены, если вы выйдете сейчас</string>
+    <string name="check_source_code">Просмотреть иcходный код</string>
+    <string name="check_source_code_sub">Получайте последние обновления и следите за проектом</string>
+    <string name="single_resize">Одиночное изменение</string>
+    <string name="resize_single_image">Изменение характеристик одного изображения</string>
+    <string name="pick_color">Выбрать цвет</string>
+    <string name="pick_color_sub">Воспользуйтесь пипеткой и выберите цвет с изображения</string>
+    <string name="image">Изображение</string>
+    <string name="color">Цвет</string>
+    <string name="color_copied">Цвет скопирован</string>
+    <string name="crop_sub">Обрежьте изображение до произвольных границ</string>
 </resources>

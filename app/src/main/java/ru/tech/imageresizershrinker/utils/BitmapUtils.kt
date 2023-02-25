@@ -2,6 +2,7 @@ package ru.tech.imageresizershrinker.utils
 
 import android.content.*
 import android.graphics.*
+import android.graphics.Bitmap.CompressFormat
 import android.net.Uri
 import android.os.Build
 import android.os.ParcelFileDescriptor
@@ -118,7 +119,7 @@ object BitmapUtils {
             .resizeBitmap(tWidth, tHeight, resize)
             .flip(isFlipped)
             .compress(
-                if (mime == 1) Bitmap.CompressFormat.WEBP else if (mime == 2) Bitmap.CompressFormat.PNG else Bitmap.CompressFormat.JPEG,
+                if (mime == 1) CompressFormat.WEBP else if (mime == 2) CompressFormat.PNG else CompressFormat.JPEG,
                 quality.toInt(), out
             )
         val b = out.toByteArray()
@@ -398,8 +399,27 @@ object BitmapUtils {
             val file = File(imagesFolder, "shared_image.$ext")
             val stream = FileOutputStream(file)
             image.compress(
-                if (mime == 1) Bitmap.CompressFormat.WEBP else if (mime == 2) Bitmap.CompressFormat.PNG else Bitmap.CompressFormat.JPEG,
+                if (mime == 1) CompressFormat.WEBP else if (mime == 2) CompressFormat.PNG else CompressFormat.JPEG,
                 bitmapInfo.quality.toInt(), stream
+            )
+            stream.flush()
+            stream.close()
+            FileProvider.getUriForFile(this, "ru.tech.imageresizershrinker.fileprovider", file)
+        }.getOrNull()
+    }
+
+    private fun Context.saveImage(image: Bitmap, compressFormat: CompressFormat): Uri? {
+        val imagesFolder = File(cacheDir, "images")
+        return kotlin.runCatching {
+            imagesFolder.mkdirs()
+            val mime =
+                if (compressFormat == CompressFormat.PNG) 2 else if (compressFormat == CompressFormat.WEBP) 1 else 0
+            val ext = if (mime == 2) "png" else if (mime == 1) "webp" else "jpg"
+            val file = File(imagesFolder, "shared_image.$ext")
+            val stream = FileOutputStream(file)
+            image.compress(
+                if (mime == 1) CompressFormat.WEBP else if (mime == 2) CompressFormat.PNG else CompressFormat.JPEG,
+                100, stream
             )
             stream.flush()
             stream.close()
@@ -421,6 +441,13 @@ object BitmapUtils {
         bitmapInfo: BitmapInfo
     ) = bitmap?.let {
         saveImage(it, bitmapInfo)?.let { uri -> shareImageUri(uri) }
+    }
+
+    fun Context.shareBitmap(
+        bitmap: Bitmap?,
+        compressFormat: CompressFormat
+    ) = bitmap?.let {
+        saveImage(it, compressFormat)?.let { uri -> shareImageUri(uri) }
     }
 
 }

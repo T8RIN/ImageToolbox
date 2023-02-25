@@ -174,11 +174,11 @@ fun Context.SingleResizeScreen(
                         "DCIM/ResizedImages"
                     )
                 }
-                val imageUri = contentResolver.insert(
+                val imageUri = context.contentResolver.insert(
                     MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
                     contentValues
                 )
-                contentResolver.openOutputStream(imageUri!!)
+                context.contentResolver.openOutputStream(imageUri!!)
             },
             getExternalStorageDir = {
                 File(

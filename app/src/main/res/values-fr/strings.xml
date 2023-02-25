@@ -13,7 +13,7 @@
     <string name="flexible">Flexible</string>
     <string name="saved_to">Enregistré dans le dossier DCIM/ResizedImages</string>
     <string name="pick_image_alt">Choisir une image</string>
-    <string name="app_closing_sub">Souhaitez-vous vraiment fermer l\'application, les modifications non enregistrées dans l\'image actuelle seront ignorées</string>
+    <string name="app_closing_sub">Souhaitez-vous vraiment fermer l\'application?</string>
     <string name="app_closing">Fermeture de l\'application</string>
     <string name="stay">Rester</string>
     <string name="close">Fermer</string>

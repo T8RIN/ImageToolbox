@@ -49,7 +49,7 @@ import kotlinx.coroutines.flow.*
 fun ImageCropper(
     modifier: Modifier = Modifier,
     imageBitmap: ImageBitmap,
-    contentDescription: String?,
+    contentDescription: String? = null,
     cropStyle: CropStyle = CropDefaults.style(),
     cropProperties: CropProperties,
     filterQuality: FilterQuality = DrawScope.DefaultFilterQuality,
