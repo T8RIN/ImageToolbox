@@ -10,51 +10,52 @@ import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.Save
 import androidx.compose.material.icons.rounded.AddPhotoAlternate
 import androidx.compose.material.icons.rounded.ContentPaste
 import androidx.compose.material.icons.rounded.ErrorOutline
 import androidx.compose.material3.*
-import androidx.compose.runtime.*
-import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.cookhelper.dynamic.theme.LocalDynamicThemeState
-import com.github.skydoves.colorpicker.compose.ImageColorPicker
-import com.github.skydoves.colorpicker.compose.PaletteContentScale
-import com.github.skydoves.colorpicker.compose.rememberColorPickerController
+import com.smarttoolfactory.colordetector.ImageColorDetector
 import dev.olshevski.navigation.reimagined.NavController
 import dev.olshevski.navigation.reimagined.pop
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.main_screen.Screen
+import ru.tech.imageresizershrinker.main_screen.block
 import ru.tech.imageresizershrinker.pcik_color.viewModel.PickColorViewModel
 import ru.tech.imageresizershrinker.resize_screen.components.ImageNotPickedWidget
 import ru.tech.imageresizershrinker.resize_screen.components.ToastHost
 import ru.tech.imageresizershrinker.resize_screen.components.rememberToastHostState
 import ru.tech.imageresizershrinker.utils.BitmapUtils.decodeBitmapFromUri
 
-@OptIn(ExperimentalAnimationApi::class, ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalAnimationApi::class)
 @Composable
 fun PickColorScreen(
     uriState: Uri?,
     navController: NavController<Screen>,
+    onGoBack: () -> Unit,
     viewModel: PickColorViewModel = viewModel()
 ) {
     val context = LocalContext.current
@@ -123,9 +124,12 @@ fun PickColorScreen(
     }
     Box(Modifier.fillMaxSize()) {
         val color = viewModel.color
-        Column {
+        Column(horizontalAlignment = Alignment.CenterHorizontally) {
             Surface(
                 color = MaterialTheme.colorScheme.surfaceColorAtElevation(3.dp),
+                modifier = Modifier
+                    .animateContentSize()
+                    .shadow(6.dp),
             ) {
                 Column {
                     Spacer(modifier = Modifier.height(30.dp))
@@ -136,76 +140,71 @@ fun PickColorScreen(
                                 .statusBarsPadding()
                                 .padding(16.dp)
                         ) {
-                            if (color != Color.Unspecified) Text(stringResource(R.string.color))
-                            else Text(stringResource(R.string.pick_color))
+                            Text(stringResource(R.string.color))
 
-                            if (color != Color.Unspecified) {
-                                Text(
-                                    modifier = Modifier
-                                        .padding(horizontal = 8.dp)
-                                        .clip(RoundedCornerShape(8.dp))
-                                        .background(MaterialTheme.colorScheme.secondaryContainer)
-                                        .padding(vertical = 2.dp, horizontal = 4.dp)
-                                        .clickable {
-                                            context.copyColorIntoClipboard(
-                                                context.getString(R.string.color),
-                                                color.format()
+                            Text(
+                                modifier = Modifier
+                                    .padding(horizontal = 8.dp)
+                                    .clip(RoundedCornerShape(8.dp))
+                                    .clickable {
+                                        context.copyColorIntoClipboard(
+                                            context.getString(R.string.color),
+                                            color.format()
+                                        )
+                                        scope.launch {
+                                            toastHostState.showToast(
+                                                icon = Icons.Rounded.ContentPaste,
+                                                message = context.getString(R.string.color_copied)
                                             )
-                                            scope.launch {
-                                                toastHostState.showToast(
-                                                    icon = Icons.Rounded.ContentPaste,
-                                                    message = context.getString(R.string.color_copied)
-                                                )
-                                            }
-                                        },
-                                    text = color.format(),
-                                    style = LocalTextStyle.current.copy(
-                                        fontWeight = FontWeight.Bold,
-                                        color = MaterialTheme.colorScheme.onSecondaryContainer
-                                    )
+                                        }
+                                    }
+                                    .background(MaterialTheme.colorScheme.secondaryContainer)
+                                    .padding(horizontal = 4.dp),
+                                text = color.format(),
+                                style = LocalTextStyle.current.copy(
+                                    fontWeight = FontWeight.Bold,
+                                    color = MaterialTheme.colorScheme.onSecondaryContainer
                                 )
-                            }
+                            )
 
                             Spacer(
                                 modifier = Modifier
                                     .weight(1f)
                                     .padding(2.dp)
                             )
-                            if (color != Color.Unspecified) {
-                                Box(
-                                    Modifier
-                                        .background(color, RoundedCornerShape(12.dp))
-                                        .size(40.dp)
-                                        .border(
-                                            2.dp,
-                                            MaterialTheme.colorScheme.secondaryContainer.copy(alpha = 0.5f),
-                                            RoundedCornerShape(12.dp)
-                                        )
-                                )
-                            }
+
+                            Box(
+                                Modifier
+                                    .background(color, RoundedCornerShape(12.dp))
+                                    .size(48.dp)
+                                    .border(
+                                        2.dp,
+                                        MaterialTheme.colorScheme.secondaryContainer.copy(alpha = 0.5f),
+                                        RoundedCornerShape(12.dp)
+                                    )
+                            )
                         }
                     }
                 }
             }
             AnimatedContent(targetState = viewModel.bitmap) { bitmap ->
                 bitmap?.let {
-                    ImageColorPicker(
-                        paletteContentScale = PaletteContentScale.CROP,
-                        paletteImageBitmap = it.asImageBitmap(),
+                    ImageColorDetector(
+                        imageBitmap = it.asImageBitmap(),
                         modifier = Modifier
-                            .fillMaxSize()
-                            .padding(bottom = 88.dp),
-                        onColorChanged = {
-                            viewModel.updateColor(it.color)
-                        },
-                        controller = rememberColorPickerController()
+                            .padding(bottom = 72.dp)
+                            .padding(16.dp)
+                            .block(RoundedCornerShape(4.dp))
+                            .padding(4.dp),
+                        onColorChange = viewModel::updateColor
                     )
-                } ?: ImageNotPickedWidget(
-                    onPickImage = pickImage
-                )
+                } ?: Column {
+                    Spacer(Modifier.height(16.dp))
+                    ImageNotPickedWidget(
+                        onPickImage = pickImage
+                    )
+                }
             }
-            Spacer(modifier = Modifier.height(8.dp))
-            Divider()
         }
 
         FloatingActionButton(
@@ -225,42 +224,11 @@ fun PickColorScreen(
         }
     }
 
-    var showExitDialog by rememberSaveable { mutableStateOf(false) }
-
-    if (showExitDialog) {
-        AlertDialog(
-            onDismissRequest = { showExitDialog = false },
-            dismissButton = {
-                FilledTonalButton(
-                    onClick = {
-                        showExitDialog = false
-                        if (navController.backstack.entries.isNotEmpty()) navController.pop()
-                        themeState.reset()
-                    }
-                ) {
-                    Text(stringResource(R.string.close))
-                }
-            },
-            confirmButton = {
-                Button(onClick = { showExitDialog = false }) {
-                    Text(stringResource(R.string.stay))
-                }
-            },
-            title = { Text(stringResource(R.string.image_not_saved)) },
-            text = {
-                Text(
-                    stringResource(R.string.image_not_saved_sub),
-                    textAlign = TextAlign.Center
-                )
-            },
-            icon = { Icon(Icons.Outlined.Save, null) }
-        )
-    }
-
     ToastHost(hostState = toastHostState)
     BackHandler {
-        if (viewModel.bitmap != null) showExitDialog = true
-        else if (navController.backstack.entries.isNotEmpty()) navController.pop()
+        if (navController.backstack.entries.isNotEmpty()) navController.pop()
+        onGoBack()
+        themeState.reset()
     }
 }
 

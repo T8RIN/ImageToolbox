@@ -20,7 +20,8 @@ class MainViewModel : ViewModel() {
     fun updateUri(uri: Uri?) {
         _uri.value = null
         _uri.value = uri
-        if(uri != null && navController.backstack.entries.lastOrNull()?.destination == Screen.Main) _showSelectDialog.value = true
+        if (uri != null && navController.backstack.entries.lastOrNull()?.destination == Screen.Main) _showSelectDialog.value =
+            true
     }
 
     fun hideSelectDialog() {

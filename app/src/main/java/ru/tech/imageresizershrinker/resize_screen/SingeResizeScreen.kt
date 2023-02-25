@@ -76,6 +76,7 @@ import java.io.File
 @Composable
 fun Context.SingleResizeScreen(
     viewModel: SingleResizeViewModel = viewModel(),
+    onGoBack: () -> Unit,
     uriState: Uri?, navController: NavController<Screen>
 ) {
     val toastHostState = rememberToastHostState()
@@ -540,6 +541,7 @@ fun Context.SingleResizeScreen(
                                 showExitDialog = false
                                 if (navController.backstack.entries.isNotEmpty()) navController.pop()
                                 themeState.reset()
+                                onGoBack()
                             }
                         ) {
                             Text(stringResource(R.string.close))
@@ -897,7 +899,10 @@ fun Context.SingleResizeScreen(
             ToastHost(hostState = toastHostState)
             BackHandler {
                 if (viewModel.bitmap != null) showExitDialog = true
-                else if (navController.backstack.entries.isNotEmpty()) navController.pop()
+                else if (navController.backstack.entries.isNotEmpty()) {
+                    navController.pop()
+                    onGoBack()
+                }
             }
 
         }

@@ -12,6 +12,7 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
@@ -30,12 +31,13 @@ import ru.tech.imageresizershrinker.theme.Github
 fun MainScreen(navController: NavController<Screen>) {
     Column(Modifier.fillMaxSize()) {
         LargeTopAppBar(
-            title = { Text(stringResource(R.string.app_name)) },
+            title = { Text(stringResource(R.string.app_name) + " ✨") },
             colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
                 containerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(
                     3.dp
                 )
-            )
+            ),
+            modifier = Modifier.shadow(6.dp),
         )
         Column(
             Modifier

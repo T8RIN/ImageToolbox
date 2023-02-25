@@ -34,9 +34,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.WindowCompat
 import dev.olshevski.navigation.reimagined.AnimatedNavHost
-import dev.olshevski.navigation.reimagined.NavController
 import dev.olshevski.navigation.reimagined.navigate
-import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.ImageResizerTheme
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.crash_screen.CrashActivity
@@ -48,7 +46,6 @@ import ru.tech.imageresizershrinker.main_screen.viewModel.MainViewModel
 import ru.tech.imageresizershrinker.pcik_color.PickColorScreen
 import ru.tech.imageresizershrinker.resize_screen.SingleResizeScreen
 import ru.tech.imageresizershrinker.resize_screen.components.*
-import ru.tech.imageresizershrinker.utils.BitmapUtils.decodeBitmapFromUri
 import ru.tech.imageresizershrinker.utils.setContentWithWindowSizeClass
 
 @ExperimentalFoundationApi
@@ -110,13 +107,15 @@ class MainActivity : ComponentActivity() {
                             is Screen.SingleResize -> {
                                 SingleResizeScreen(
                                     uriState = viewModel.uri,
-                                    navController = viewModel.navController
+                                    navController = viewModel.navController,
+                                    onGoBack = { viewModel.updateUri(null) }
                                 )
                             }
                             Screen.PickColor -> {
                                 PickColorScreen(
                                     uriState = viewModel.uri,
-                                    navController = viewModel.navController
+                                    navController = viewModel.navController,
+                                    onGoBack = { viewModel.updateUri(null) }
                                 )
                             }
                         }
