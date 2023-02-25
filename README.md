@@ -20,10 +20,11 @@
 </p>
 
 <p align="center">
-  <img src="https://user-images.githubusercontent.com/52178347/220598377-d41805eb-9512-4b70-92ef-0065c14edde6.png" width="30%"/>
-  <img src="https://user-images.githubusercontent.com/52178347/220598388-eebc1600-1285-4f8d-8af9-32ec522de471.png" width="30%"/>
-  <img src="https://user-images.githubusercontent.com/52178347/220598393-75280114-865d-48ee-9780-71c1194a0ad7.png" width="30%"/>
+  <img src="https://user-images.githubusercontent.com/52178347/221382589-62f57e73-20a0-4797-89ff-e1ed138d2d85.png" width="30%"/>
+  <img src="https://user-images.githubusercontent.com/52178347/221382592-420ed0b3-d15b-49c6-b9fb-03a216cd74a3.png" width="30%"/>
+  <img src="https://user-images.githubusercontent.com/52178347/221382590-711dc165-a197-4cc8-9bd7-ffa5c1d88b20.png" width="30%"/>
 </p>
+
 
 
 # Functions
