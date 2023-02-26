@@ -14,7 +14,7 @@
   <a href="https://apt.izzysoft.de/fdroid/index/apk/ru.tech.imageresizershrinker">
     <img src="https://gitlab.com/IzzyOnDroid/repo/-/raw/master/assets/IzzyOnDroid.png" width="170"/>
   </a>
-  <a href="https://f-droid.org/ru/packages/ru.tech.imageresizershrinker">
+  <a href="https://f-droid.org/packages/ru.tech.imageresizershrinker">
     <img src="https://gitlab.com/fdroid/artwork/-/raw/master/badge/get-it-on-en-au.png" width="170"/>
   </a>
 </p>
