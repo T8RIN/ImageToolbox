@@ -11,6 +11,8 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import ru.tech.imageresizershrinker.utils.BitmapUtils.canShow
+import ru.tech.imageresizershrinker.utils.BitmapUtils.resizeBitmap
 import java.io.*
 import java.text.SimpleDateFormat
 import java.util.*
@@ -24,8 +26,33 @@ class CropViewModel : ViewModel() {
     var mimeType = Bitmap.CompressFormat.PNG
         private set
 
+    private val _isLoading: MutableState<Boolean> = mutableStateOf(false)
+    val isLoading: Boolean by _isLoading
+
     fun updateBitmap(bitmap: Bitmap?) {
-        _bitmap.value = bitmap
+        viewModelScope.launch {
+            _isLoading.value = true
+            var bmp: Bitmap?
+            withContext(Dispatchers.IO) {
+                bmp = if (bitmap?.canShow() == false) {
+                    bitmap.resizeBitmap(
+                        height_ = (bitmap.height * 0.9f).toInt(),
+                        width_ = (bitmap.width * 0.9f).toInt(),
+                        resize = 1
+                    )
+                } else bitmap
+
+                while (bmp?.canShow() == false) {
+                    bmp = bmp?.resizeBitmap(
+                        height_ = (bmp!!.height * 0.9f).toInt(),
+                        width_ = (bmp!!.width * 0.9f).toInt(),
+                        resize = 1
+                    )
+                }
+            }
+            _bitmap.value = bmp
+            _isLoading.value = false
+        }
     }
 
     fun updateMimeType(mime: Int) {

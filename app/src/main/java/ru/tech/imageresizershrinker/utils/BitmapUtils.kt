@@ -386,7 +386,7 @@ object BitmapUtils {
         return width * height * (if (config == Bitmap.Config.RGB_565) 2 else 4)
     }
 
-    fun Bitmap.checkBitmapFitsInMemory(): Boolean {
+    fun Bitmap.canShow(): Boolean {
         return size() < 4096 * 4096 * 5
     }
 

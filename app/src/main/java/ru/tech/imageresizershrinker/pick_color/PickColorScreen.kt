@@ -46,6 +46,7 @@ import ru.tech.imageresizershrinker.main_screen.Screen
 import ru.tech.imageresizershrinker.main_screen.block
 import ru.tech.imageresizershrinker.pick_color.viewModel.PickColorViewModel
 import ru.tech.imageresizershrinker.resize_screen.components.ImageNotPickedWidget
+import ru.tech.imageresizershrinker.resize_screen.components.LoadingDialog
 import ru.tech.imageresizershrinker.resize_screen.components.ToastHost
 import ru.tech.imageresizershrinker.resize_screen.components.rememberToastHostState
 import ru.tech.imageresizershrinker.utils.BitmapUtils.decodeBitmapFromUri
@@ -224,6 +225,8 @@ fun PickColorScreen(
             }
         }
     }
+
+    if(viewModel.isLoading) LoadingDialog()
 
     ToastHost(hostState = toastHostState)
     BackHandler {

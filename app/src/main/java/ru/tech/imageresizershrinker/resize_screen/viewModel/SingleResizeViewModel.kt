@@ -14,7 +14,7 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.*
 import ru.tech.imageresizershrinker.resize_screen.components.BitmapInfo
 import ru.tech.imageresizershrinker.utils.BitmapUtils
-import ru.tech.imageresizershrinker.utils.BitmapUtils.checkBitmapFitsInMemory
+import ru.tech.imageresizershrinker.utils.BitmapUtils.canShow
 import ru.tech.imageresizershrinker.utils.BitmapUtils.copyTo
 import ru.tech.imageresizershrinker.utils.BitmapUtils.flip
 import ru.tech.imageresizershrinker.utils.BitmapUtils.previewBitmap
@@ -66,7 +66,7 @@ class SingleResizeViewModel : ViewModel() {
             _bitmap.value?.let { bmp ->
                 val preview = updatePreview(bmp)
                 _previewBitmap.value = null
-                _shouldShowPreview.value = preview.checkBitmapFitsInMemory()
+                _shouldShowPreview.value = preview.canShow()
                 if (shouldShowPreview) _previewBitmap.value = preview
 
                 _bitmapInfo.value = _bitmapInfo.value.run {

@@ -275,7 +275,7 @@ fun CropScreen(
         }
     }
 
-    if (showSaveLoading) {
+    if (showSaveLoading || viewModel.isLoading) {
         LoadingDialog()
     }
 

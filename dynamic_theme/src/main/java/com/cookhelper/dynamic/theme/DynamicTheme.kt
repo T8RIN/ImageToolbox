@@ -96,14 +96,8 @@ public class DynamicThemeState(
         palette.getDominantColor(Color.Transparent.toArgb())
             .blend(palette.getVibrantColor(Color.Transparent.toArgb()))
             .let { Color(it).toArgb() }
-            .takeIf {
-                val scheme = Scheme.darkContent(it).toDarkThemeColorScheme()
-                val (r, g, b) = scheme.primaryContainer.run { Triple(red, green, blue) }
-                val (r1, g1, b1) = scheme.tertiaryContainer.run { Triple(red, green, blue) }
-                abs(r - r1) >= 0.01 && abs(b - b1) >= 0.01 && abs(g - g1) >= 0.01
-            }.let {
-                primaryColor = if (it != null) Color(it)
-                else defaultColorScheme.primary
+            .let {
+                primaryColor = Color(it)
             }
     }
 

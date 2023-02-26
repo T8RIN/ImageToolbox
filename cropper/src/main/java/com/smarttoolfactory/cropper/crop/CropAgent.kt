@@ -44,7 +44,6 @@ class CropAgent {
                 .copy(Bitmap.Config.ARGB_8888, true)!!
                 .asImageBitmap()
 
-            drawCroppedImage(cropOutline, cropRect, layoutDirection, density, imageToCrop)
 
             imageToCrop
         }.getOrNull() ?: imageBitmap

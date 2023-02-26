@@ -67,6 +67,7 @@ import ru.tech.imageresizershrinker.resize_screen.viewModel.SingleResizeViewMode
 import ru.tech.imageresizershrinker.utils.BitmapUtils
 import ru.tech.imageresizershrinker.utils.BitmapUtils.decodeBitmapFromUri
 import ru.tech.imageresizershrinker.utils.BitmapUtils.getUriByName
+import ru.tech.imageresizershrinker.utils.BitmapUtils.resizeBitmap
 import ru.tech.imageresizershrinker.utils.BitmapUtils.shareBitmap
 import ru.tech.imageresizershrinker.utils.BitmapUtils.toMap
 import ru.tech.imageresizershrinker.utils.LocalWindowSizeClass
@@ -854,7 +855,7 @@ fun Context.SingleResizeScreen(
                 )
             } else if (viewModel.bitmap != null && showCropDialog) {
                 viewModel.bitmap?.let {
-                    val bmp = remember(it) { it.asImageBitmap() }
+                    val bmp = remember(it) { it.resizeBitmap(4000, 4000, 1).asImageBitmap() }
                     var crop by remember { mutableStateOf(false) }
                     AlertDialog(
                         modifier = Modifier
