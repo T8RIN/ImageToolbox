@@ -18,7 +18,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Shadow
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.input.pointer.pointerInput
@@ -29,6 +31,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import dev.olshevski.navigation.reimagined.NavController
 import dev.olshevski.navigation.reimagined.navigate
+import kotlinx.coroutines.delay
+import ru.tech.imageresizershrinker.BuildConfig
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.main_screen.Screen
 import ru.tech.imageresizershrinker.theme.Github
@@ -46,25 +50,37 @@ fun MainScreen(navController: NavController<Screen>) {
     ) {
         LargeTopAppBar(
             title = {
-                var pressed by remember { mutableStateOf(false) }
-                val scale by animateFloatAsState(if (pressed) 1.2f else 1f)
+                var scaleState by remember { mutableStateOf(1f) }
+                val scale by animateFloatAsState(scaleState)
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     Text(stringResource(R.string.app_name))
-                    Spacer(Modifier.width(8.dp))
+                    Spacer(Modifier.width(12.dp))
                     Box(
                         Modifier
                             .scale(scale)
                             .pointerInput(Unit) {
                                 detectTapGestures(
                                     onPress = {
-                                        pressed = true
+                                        scaleState = 1.3f
+                                        delay(200)
                                         tryAwaitRelease()
-                                        pressed = false
+                                        scaleState = 0.8f
+                                        delay(200)
+                                        scaleState = 1f
                                     }
                                 )
                             }
                     ) {
-                        Text("✨")
+                        Text(
+                            text = "✨",
+                            style = LocalTextStyle.current.copy(
+                                shadow = Shadow(
+                                    color = MaterialTheme.colorScheme.scrim,
+                                    offset = Offset(0f, 0f),
+                                    blurRadius = 2f
+                                )
+                            )
+                        )
                     }
                 }
             },
@@ -76,14 +92,25 @@ fun MainScreen(navController: NavController<Screen>) {
             modifier = Modifier.shadow(6.dp),
             scrollBehavior = scrollBehavior,
         )
-        if (!isGrid) {
-            Column(
-                Modifier
-                    .fillMaxSize()
-                    .navigationBarsPadding()
-                    .verticalScroll(rememberScrollState()),
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
+
+        val footer: @Composable ColumnScope.() -> Unit = {
+            Spacer(modifier = Modifier.weight(1f))
+            Divider(color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f))
+            Spacer(modifier = Modifier.height(8.dp))
+            Text(
+                stringResource(R.string.version) + " ${BuildConfig.VERSION_NAME} (${BuildConfig.VERSION_CODE})",
+                color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f)
+            )
+            Spacer(modifier = Modifier.height(8.dp))
+        }
+        Column(
+            Modifier
+                .fillMaxSize()
+                .navigationBarsPadding()
+                .verticalScroll(rememberScrollState()),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            if (!isGrid) {
                 Spacer(modifier = Modifier.height(16.dp))
                 SingleResizePreference(onClick = { navController.navigate(Screen.SingleResize) })
                 Spacer(modifier = Modifier.height(16.dp))
@@ -93,15 +120,8 @@ fun MainScreen(navController: NavController<Screen>) {
                 Spacer(modifier = Modifier.height(32.dp))
                 SourceCodePreference()
                 Spacer(modifier = Modifier.height(16.dp))
-            }
-        } else {
-            Column(
-                Modifier
-                    .fillMaxSize()
-                    .navigationBarsPadding()
-                    .verticalScroll(rememberScrollState()),
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
+                footer()
+            } else {
                 Spacer(modifier = Modifier.height(16.dp))
                 Row(
                     Modifier
@@ -144,6 +164,7 @@ fun MainScreen(navController: NavController<Screen>) {
                     )
                 }
                 Spacer(modifier = Modifier.height(16.dp))
+                footer()
             }
         }
     }

@@ -53,4 +53,5 @@
     <string name="color">Color</string>
     <string name="color_copied">Color copied</string>
     <string name="crop_sub">Crop image to any bounds</string>
+    <string name="version">Version</string>
 </resources>

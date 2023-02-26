@@ -51,4 +51,5 @@
     <string name="color">Цвет</string>
     <string name="color_copied">Цвет скопирован</string>
     <string name="crop_sub">Обрежьте изображение до произвольных границ</string>
+    <string name="version">Версия</string>
 </resources>
