@@ -4,7 +4,7 @@ plugins {
 }
 
 android {
-    namespace = "com.cookhelper.dynamic.dynamictheme"
+    namespace = "com.cookhelper.dynamic.theme"
     compileSdk = 33
 
     defaultConfig {
@@ -44,6 +44,5 @@ dependencies {
     implementation(platform("androidx.compose:compose-bom:2023.01.00"))
     implementation("androidx.core:core-ktx:1.9.0")
     implementation("androidx.compose.material3:material3")
-    implementation(files("libs/material-color-util.jar"))
     implementation("androidx.palette:palette:1.0.0")
 }

@@ -15,9 +15,9 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalContext
 import androidx.core.graphics.ColorUtils
 import androidx.palette.graphics.Palette
+import com.cookhelper.dynamic.theme.scheme.Scheme
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import material.util.color.scheme.Scheme
 import kotlin.math.abs
 
 /**
@@ -124,33 +124,6 @@ public fun rememberColorScheme(isDarkTheme: Boolean, color: Color): ColorScheme 
     }
 }
 
-
-@Composable
-public fun rememberColorScheme(isDarkTheme: Boolean, bitmap: Bitmap): ColorScheme? {
-    val palette = Palette.from(bitmap).generate()
-    fun Int.blend(
-        color: Int,
-        @FloatRange(from = 0.0, to = 1.0) fraction: Float = 0.5f
-    ): Int = ColorUtils.blendARGB(this, color, fraction)
-
-    return remember(bitmap, isDarkTheme) {
-        palette.getDominantColor(Color.Transparent.toArgb())
-            .blend(palette.getVibrantColor(Color.Transparent.toArgb()))
-            .let { Color(it).toArgb() }
-            .let { colorArgb ->
-                if (isDarkTheme) {
-                    Scheme.darkContent(colorArgb).toDarkThemeColorScheme()
-                } else {
-                    Scheme.lightContent(colorArgb).toLightThemeColorScheme()
-                }
-            }.takeIf {
-                val (r, g, b) = it.primaryContainer.run { Triple(red, green, blue) }
-                val (r1, g1, b1) = it.tertiaryContainer.run { Triple(red, green, blue) }
-                abs(r - r1) >= 0.01 && abs(b - b1) >= 0.01 && abs(g - g1) >= 0.01
-            }
-    }
-}
-
 private fun Scheme.toDarkThemeColorScheme(): ColorScheme {
     return darkColorScheme(
         primary = Color(primary),
@@ -219,4 +192,5 @@ private fun Scheme.toLightThemeColorScheme(): ColorScheme {
     )
 }
 
-public val LocalDynamicThemeState: ProvidableCompositionLocal<DynamicThemeState> = compositionLocalOf { error("Not present") }
+public val LocalDynamicThemeState: ProvidableCompositionLocal<DynamicThemeState> =
+    compositionLocalOf { error("Not present") }
