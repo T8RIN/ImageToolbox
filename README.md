@@ -28,6 +28,8 @@
 
 
 # Functions
+- Color picking
+- Batch processing
 - Width changing
 - Height changing
 - Adaptive resize
