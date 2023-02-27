@@ -108,7 +108,7 @@ fun ImageResizerTheme(
 
     val state = rememberDynamicThemeState(
         initialPrimaryColor = colorScheme.primary,
-        defaultColorScheme = colorScheme
+        defColor = colorScheme.primary
     )
     DynamicTheme(
         state = state,

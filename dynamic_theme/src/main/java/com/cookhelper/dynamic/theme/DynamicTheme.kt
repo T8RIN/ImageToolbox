@@ -1,24 +1,20 @@
 package com.cookhelper.dynamic.theme
 
-import android.content.Context
 import android.graphics.Bitmap
-import android.graphics.BitmapFactory
-import androidx.annotation.DrawableRes
 import androidx.annotation.FloatRange
 import androidx.compose.material3.ColorScheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.*
+import androidx.compose.runtime.saveable.Saver
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalContext
 import androidx.core.graphics.ColorUtils
 import androidx.palette.graphics.Palette
 import com.cookhelper.dynamic.theme.scheme.Scheme
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
-import kotlin.math.abs
 
 /**
  * DynamicTheme allows you to dynamically change the color scheme of the content hierarchy.
@@ -33,7 +29,7 @@ public fun DynamicTheme(
 ) {
     val scheme = rememberColorScheme(
         isDarkTheme = isDarkTheme,
-        color = state.primaryColor
+        color = state.primaryColor.value
     )
     MaterialTheme(
         colorScheme = scheme,
@@ -47,11 +43,27 @@ public fun DynamicTheme(
 @Composable
 public fun rememberDynamicThemeState(
     initialPrimaryColor: Color = MaterialTheme.colorScheme.primary,
-    defaultColorScheme: ColorScheme
+    defColor: Color
 ): DynamicThemeState {
-    val context = LocalContext.current
-    return remember { DynamicThemeState(initialPrimaryColor, defaultColorScheme, context) }
+    return rememberSaveable(saver = DynamicThemeSaver) {
+        DynamicThemeState(
+            initialPrimaryColor,
+            defColor
+        )
+    }
 }
+
+private val DynamicThemeSaver: Saver<DynamicThemeState, String> = Saver(
+    save = {
+        "${it.primaryColor.value.toArgb()} ${it.defColor.toArgb()}"
+    }, restore = {
+        val vals = it.split(" ")
+        DynamicThemeState(
+            initialPrimaryColor = Color(vals[0].toInt()),
+            defColor = Color(vals[1].toInt())
+        )
+    }
+)
 
 /**
  * Creates and remember [DynamicThemeState] instance
@@ -59,32 +71,29 @@ public fun rememberDynamicThemeState(
 @Composable
 public fun rememberDynamicThemeState(
     initialPrimaryColor: Int,
-    defaultColorScheme: ColorScheme
+    defColor: Color
 ): DynamicThemeState {
-    return rememberDynamicThemeState(Color(initialPrimaryColor), defaultColorScheme)
+    return rememberDynamicThemeState(Color(initialPrimaryColor), defColor)
 }
 
 @Stable
 public class DynamicThemeState(
     initialPrimaryColor: Color,
-    private val defaultColorScheme: ColorScheme,
-    private val context: Context,
+    public var defColor: Color
 ) {
 
-    public var primaryColor: Color by mutableStateOf(initialPrimaryColor)
+    public val primaryColor: MutableState<Color> = mutableStateOf(initialPrimaryColor)
+
+    public fun updateColor(color: Color) {
+        defColor = color
+        primaryColor.value = color
+    }
 
     public var primaryColorArgb: Int
         set(value) {
-            primaryColor = Color(value)
+            primaryColor.value = Color(value)
         }
-        get() = primaryColor.toArgb()
-
-    public suspend fun updateColorByImage(@DrawableRes imageRes: Int) {
-        withContext(Dispatchers.IO) {
-            val bitmap = BitmapFactory.decodeResource(context.resources, imageRes)
-            updateColorByImage(bitmap)
-        }
-    }
+        get() = primaryColor.value.toArgb()
 
     public fun updateColorByImage(bitmap: Bitmap) {
         val palette = Palette.from(bitmap).generate()
@@ -97,12 +106,12 @@ public class DynamicThemeState(
             .blend(palette.getVibrantColor(Color.Transparent.toArgb()))
             .let { Color(it).toArgb() }
             .let {
-                primaryColor = Color(it)
+                primaryColor.value = Color(it)
             }
     }
 
     public fun reset() {
-        primaryColor = defaultColorScheme.primary
+        updateColor(defColor)
     }
 }
 

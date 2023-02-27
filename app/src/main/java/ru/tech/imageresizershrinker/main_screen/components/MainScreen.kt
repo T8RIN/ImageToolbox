@@ -29,12 +29,14 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.cookhelper.dynamic.theme.LocalDynamicThemeState
 import dev.olshevski.navigation.reimagined.NavController
 import dev.olshevski.navigation.reimagined.navigate
 import kotlinx.coroutines.delay
 import ru.tech.imageresizershrinker.BuildConfig
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.main_screen.Screen
+import ru.tech.imageresizershrinker.resize_screen.components.blend
 import ru.tech.imageresizershrinker.theme.Github
 import ru.tech.imageresizershrinker.utils.LocalWindowSizeClass
 
@@ -43,6 +45,27 @@ import ru.tech.imageresizershrinker.utils.LocalWindowSizeClass
 fun MainScreen(navController: NavController<Screen>) {
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(rememberTopAppBarState())
     val isGrid = LocalWindowSizeClass.current.widthSizeClass != WindowWidthSizeClass.Compact
+    val colorScheme = MaterialTheme.colorScheme
+    val themeState = LocalDynamicThemeState.current
+
+    val colors = remember(colorScheme) {
+        colorScheme.run {
+            listOf(
+                primary,
+                secondary,
+                tertiary,
+                primaryContainer,
+                secondaryContainer,
+                tertiaryContainer,
+                Color.Red.blend(primary, 0.4f),
+                Color.Green.blend(primary, 0.4f),
+                Color.Yellow.blend(primary, 0.4f),
+                Color.Magenta.blend(primary, 0.4f),
+                Color.Cyan.blend(primary, 0.4f),
+                Color.Red.blend(Color.Yellow, 1f).blend(primary),
+            )
+        }
+    }
     Column(
         Modifier
             .fillMaxSize()
@@ -64,6 +87,7 @@ fun MainScreen(navController: NavController<Screen>) {
                                         scaleState = 1.3f
                                         delay(200)
                                         tryAwaitRelease()
+                                        themeState.updateColor(colors.random())
                                         scaleState = 0.8f
                                         delay(200)
                                         scaleState = 1f
