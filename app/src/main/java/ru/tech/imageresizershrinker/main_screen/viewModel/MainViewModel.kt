@@ -5,13 +5,18 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import dev.olshevski.navigation.reimagined.navController
+import dev.olshevski.navigation.reimagined.navigate
 import ru.tech.imageresizershrinker.main_screen.Screen
 
 class MainViewModel : ViewModel() {
 
     val navController = navController<Screen>(Screen.Main)
+
     private val _uri = mutableStateOf<Uri?>(null)
     val uri by _uri
+
+    private val _uris = mutableStateOf<List<Uri>?>(null)
+    val uris by _uris
 
     private val _showSelectDialog = mutableStateOf(false)
     val showSelectDialog by _showSelectDialog
@@ -27,4 +32,13 @@ class MainViewModel : ViewModel() {
     fun hideSelectDialog() {
         _showSelectDialog.value = false
     }
+
+    fun updateUris(uris: List<Uri>?) {
+        _uris.value = null
+        _uris.value = uris
+        if (uris != null && navController.backstack.entries.lastOrNull()?.destination != Screen.BatchResize) navController.navigate(
+            Screen.BatchResize
+        )
+    }
+
 }

@@ -37,6 +37,7 @@ import dev.olshevski.navigation.reimagined.AnimatedNavHost
 import dev.olshevski.navigation.reimagined.navigate
 import ru.tech.imageresizershrinker.ImageResizerTheme
 import ru.tech.imageresizershrinker.R
+import ru.tech.imageresizershrinker.batch_resize.BatchResizeScreen
 import ru.tech.imageresizershrinker.crash_screen.CrashActivity
 import ru.tech.imageresizershrinker.crash_screen.GlobalExceptionHandler
 import ru.tech.imageresizershrinker.crop_screen.CropScreen
@@ -127,6 +128,13 @@ class MainActivity : ComponentActivity() {
                                     onGoBack = { viewModel.updateUri(null) }
                                 )
                             }
+                            is Screen.BatchResize -> {
+                                BatchResizeScreen(
+                                    uriState = viewModel.uris,
+                                    navController = viewModel.navController,
+                                    onGoBack = { viewModel.updateUris(null) }
+                                )
+                            }
                         }
                     }
                 }
@@ -188,6 +196,13 @@ class MainActivity : ComponentActivity() {
                     }
                 }
             }
+            Intent.ACTION_SEND_MULTIPLE -> {
+                if (intent.type?.startsWith("image/") == true) {
+                    intent.parcelableArrayList<Uri>(Intent.EXTRA_STREAM)?.let {
+                        viewModel.updateUris(it)
+                    }
+                }
+            }
         }
     }
 }
@@ -195,6 +210,7 @@ class MainActivity : ComponentActivity() {
 sealed class Screen {
     object Main : Screen()
     object SingleResize : Screen()
+    object BatchResize : Screen()
     object PickColor : Screen()
     object Crop : Screen()
 }
@@ -202,6 +218,11 @@ sealed class Screen {
 inline fun <reified T : Parcelable> Intent.parcelable(key: String): T? = when {
     SDK_INT >= 33 -> getParcelableExtra(key, T::class.java)
     else -> @Suppress("DEPRECATION") getParcelableExtra(key) as? T
+}
+
+inline fun <reified T : Parcelable> Intent.parcelableArrayList(key: String): ArrayList<T>? = when {
+    SDK_INT >= 33 -> getParcelableArrayListExtra(key, T::class.java)
+    else -> @Suppress("DEPRECATION") getParcelableArrayListExtra(key)
 }
 
 fun Modifier.block(shape: Shape = RoundedCornerShape(16.dp)) = composed {

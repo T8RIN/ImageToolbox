@@ -86,3 +86,50 @@ fun ImageTransformBar(
         }
     }
 }
+
+@Composable
+fun ImageTransformBar(
+    onCrop: () -> Unit,
+    onRotateLeft: () -> Unit,
+    onFlip: () -> Unit,
+    onRotateRight: () -> Unit,
+) {
+    Row(Modifier.block()) {
+        SmallFloatingActionButton(
+            onClick = onCrop,
+            elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
+            containerColor = MaterialTheme.colorScheme.surfaceVariant
+        ) {
+            Icon(Icons.Default.Crop, null)
+        }
+
+        Spacer(
+            Modifier
+                .weight(1f)
+                .padding(4.dp)
+        )
+        SmallFloatingActionButton(
+            onClick = onRotateLeft,
+            elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
+            containerColor = MaterialTheme.colorScheme.surfaceVariant
+        ) {
+            Icon(Icons.Default.RotateLeft, null)
+        }
+
+        SmallFloatingActionButton(
+            onClick = onFlip,
+            elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
+            containerColor = MaterialTheme.colorScheme.surfaceVariant
+        ) {
+            Icon(Icons.Default.Flip, null)
+        }
+
+        SmallFloatingActionButton(
+            onClick = onRotateRight,
+            elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
+            containerColor = MaterialTheme.colorScheme.surfaceVariant
+        ) {
+            Icon(Icons.Default.RotateRight, null)
+        }
+    }
+}

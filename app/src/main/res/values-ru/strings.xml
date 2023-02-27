@@ -52,4 +52,8 @@
     <string name="color_copied">Цвет скопирован</string>
     <string name="crop_sub">Обрежьте изображение до произвольных границ</string>
     <string name="version">Версия</string>
+    <string name="resize_batch_image">Изменение изображений в пакетах любых размеров</string>
+    <string name="batch_resize">Пакетная обработка</string>
+    <string name="keep_exif">Сохранить EXIF</string>
+    <string name="images">Изображения: %d</string>
 </resources>

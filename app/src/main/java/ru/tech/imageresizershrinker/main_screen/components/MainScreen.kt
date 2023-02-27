@@ -17,7 +17,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shadow
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.layout.onSizeChanged
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.ExperimentalTextApi
 import androidx.compose.ui.unit.dp
 import com.cookhelper.dynamic.theme.LocalDynamicThemeState
 import dev.olshevski.navigation.reimagined.NavController
@@ -32,12 +35,14 @@ import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.main_screen.Screen
 import ru.tech.imageresizershrinker.resize_screen.components.blend
 import ru.tech.imageresizershrinker.utils.LocalWindowSizeClass
+import java.lang.Integer.max
 import java.util.concurrent.TimeUnit
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalTextApi::class)
 @Composable
 fun MainScreen(navController: NavController<Screen>) {
-    val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(rememberTopAppBarState())
+    val scrollBehavior =
+        TopAppBarDefaults.exitUntilCollapsedScrollBehavior(rememberTopAppBarState())
     val isGrid = LocalWindowSizeClass.current.widthSizeClass != WindowWidthSizeClass.Compact
     val colorScheme = MaterialTheme.colorScheme
     val themeState = LocalDynamicThemeState.current
@@ -82,9 +87,9 @@ fun MainScreen(navController: NavController<Screen>) {
                                 detectTapGestures(
                                     onPress = {
                                         scaleState = 1.3f
-                                        showConfetti = true
                                         delay(200)
                                         tryAwaitRelease()
+                                        showConfetti = true
                                         themeState.updateColor(colors.random())
                                         scaleState = 0.8f
                                         delay(200)
@@ -94,7 +99,7 @@ fun MainScreen(navController: NavController<Screen>) {
                             }
                     ) {
                         Text(
-                            text = "✨",
+                            text = stringResource(R.string.star_symbol),
                             style = LocalTextStyle.current.copy(
                                 shadow = Shadow(
                                     color = MaterialTheme.colorScheme.scrim,
@@ -137,6 +142,8 @@ fun MainScreen(navController: NavController<Screen>) {
                 Spacer(modifier = Modifier.height(16.dp))
                 SingleResizePreference(onClick = { navController.navigate(Screen.SingleResize) })
                 Spacer(modifier = Modifier.height(16.dp))
+                BatchResizePreference(onClick = { navController.navigate(Screen.BatchResize) })
+                Spacer(modifier = Modifier.height(16.dp))
                 CropPreference(onClick = { navController.navigate(Screen.Crop) })
                 Spacer(modifier = Modifier.height(16.dp))
                 PickColorPreference(onClick = { navController.navigate(Screen.PickColor) })
@@ -152,18 +159,44 @@ fun MainScreen(navController: NavController<Screen>) {
                         .padding(horizontal = 16.dp),
                     horizontalArrangement = Arrangement.Center
                 ) {
+                    var heightOne by remember { mutableStateOf(0) }
+                    var heightTwo by remember { mutableStateOf(0) }
                     SingleResizePreference(
                         onClick = { navController.navigate(Screen.SingleResize) },
                         modifier = Modifier
+                            .then(
+                                if (heightOne != 0 && heightTwo != 0) {
+                                    Modifier.height(
+                                        with(LocalDensity.current) {
+                                            max(heightOne, heightTwo).toDp()
+                                        }
+                                    )
+                                } else Modifier
+                            )
                             .widthIn(max = 350.dp)
-                            .weight(1f)
+                            .fillMaxWidth()
+                            .onSizeChanged {
+                                heightOne = it.height
+                            }
                     )
                     Spacer(modifier = Modifier.width(16.dp))
-                    CropPreference(
-                        onClick = { navController.navigate(Screen.Crop) },
+                    BatchResizePreference(
+                        onClick = { navController.navigate(Screen.BatchResize) },
                         modifier = Modifier
+                            .then(
+                                if (heightOne != 0 && heightTwo != 0) {
+                                    Modifier.height(
+                                        with(LocalDensity.current) {
+                                            max(heightOne, heightTwo).toDp()
+                                        }
+                                    )
+                                } else Modifier
+                            )
                             .widthIn(max = 350.dp)
-                            .weight(1f)
+                            .fillMaxWidth()
+                            .onSizeChanged {
+                                heightTwo = it.height
+                            }
                     )
                 }
                 Spacer(modifier = Modifier.height(16.dp))
@@ -173,19 +206,52 @@ fun MainScreen(navController: NavController<Screen>) {
                         .padding(horizontal = 16.dp),
                     horizontalArrangement = Arrangement.Center
                 ) {
+                    var heightOne by remember { mutableStateOf(0) }
+                    var heightTwo by remember { mutableStateOf(0) }
                     PickColorPreference(
                         onClick = { navController.navigate(Screen.PickColor) },
                         modifier = Modifier
+                            .then(
+                                if (heightOne != 0 && heightTwo != 0) {
+                                    Modifier.height(
+                                        with(LocalDensity.current) {
+                                            max(heightOne, heightTwo).toDp()
+                                        }
+                                    )
+                                } else Modifier
+                            )
                             .widthIn(max = 350.dp)
-                            .weight(1f)
+                            .fillMaxWidth()
+                            .onSizeChanged {
+                                heightOne = it.height
+                            }
                     )
                     Spacer(modifier = Modifier.width(16.dp))
-                    SourceCodePreference(
+                    CropPreference(
+                        onClick = { navController.navigate(Screen.Crop) },
                         modifier = Modifier
+                            .then(
+                                if (heightOne != 0 && heightTwo != 0) {
+                                    Modifier.height(
+                                        with(LocalDensity.current) {
+                                            max(heightOne, heightTwo).toDp()
+                                        }
+                                    )
+                                } else Modifier
+                            )
                             .widthIn(max = 350.dp)
-                            .weight(1f)
+                            .fillMaxWidth()
+                            .onSizeChanged {
+                                heightTwo = it.height
+                            }
                     )
                 }
+                Spacer(modifier = Modifier.height(32.dp))
+                SourceCodePreference(
+                    modifier = Modifier
+                        .widthIn(max = 350.dp)
+                        .fillMaxWidth()
+                )
                 Spacer(modifier = Modifier.height(16.dp))
                 footer()
             }

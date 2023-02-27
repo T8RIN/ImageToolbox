@@ -4,9 +4,7 @@ import android.content.Intent
 import android.net.Uri
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.Crop
-import androidx.compose.material.icons.rounded.Palette
-import androidx.compose.material.icons.rounded.PhotoSizeSelectLarge
+import androidx.compose.material.icons.rounded.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -59,6 +57,22 @@ fun SingleResizePreference(
         title = stringResource(R.string.single_resize),
         subtitle = stringResource(R.string.resize_single_image),
         color = color,
+        modifier = modifier
+    )
+}
+
+@Composable
+fun BatchResizePreference(
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier
+        .fillMaxWidth()
+        .padding(horizontal = 16.dp)
+) {
+    PreferenceItem(
+        onClick = onClick,
+        icon = Icons.Rounded.PhotoLibrary,
+        title = stringResource(R.string.batch_resize),
+        subtitle = stringResource(R.string.resize_batch_image),
         modifier = modifier
     )
 }

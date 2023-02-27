@@ -190,8 +190,8 @@ fun Context.SingleResizeScreen(
                 )
             },
             getFileDescriptor = { name ->
-                getUriByName(name)?.let {
-                    contentResolver.openFileDescriptor(it, "rw", null)
+                context.getUriByName(name)?.let {
+                    context.contentResolver.openFileDescriptor(it, "rw", null)
                 }
             }
         ) { success ->
@@ -213,28 +213,18 @@ fun Context.SingleResizeScreen(
 
     val imageBlock = @Composable {
         AnimatedContent(
-            targetState = viewModel.previewBitmap to viewModel.isLoading,
+            targetState = Triple(viewModel.previewBitmap, viewModel.isLoading, showOriginal),
             transitionSpec = { fadeIn() with fadeOut() }
-        ) { pair ->
-            val bmp = pair.first
-            val loading = pair.second
+        ) { (bmp, loading, showOrig) ->
             Box {
-                AnimatedContent(
-                    targetState = showOriginal,
-                    transitionSpec = {
-                        fadeIn() with fadeOut()
-                    },
-                    modifier = Modifier.align(Alignment.Center)
-                ) { showOrig ->
-                    if (showOrig) {
-                        Picture(bitmap = viewModel.bitmap)
-                    } else {
-                        Picture(
-                            bitmap = bmp,
-                            visible = viewModel.shouldShowPreview
-                        )
-                        if (!viewModel.shouldShowPreview && !loading && viewModel.bitmap != null && viewModel.previewBitmap == null) BadImageWidget()
-                    }
+                if (showOrig) {
+                    Picture(bitmap = viewModel.bitmap)
+                } else {
+                    Picture(
+                        bitmap = bmp,
+                        visible = viewModel.shouldShowPreview
+                    )
+                    if (!viewModel.shouldShowPreview && !loading && viewModel.bitmap != null && bmp == null) BadImageWidget()
                 }
                 if (loading) Loading()
             }
@@ -346,7 +336,7 @@ fun Context.SingleResizeScreen(
                                 contentDescription = null
                             )
                         }
-                        if (viewModel.bitmap != null) {
+                        if (viewModel.bitmap != null && viewModel.bitmap?.canShow() == true) {
                             Box(
                                 modifier = Modifier
                                     .clip(CircleShape)
@@ -361,12 +351,16 @@ fun Context.SingleResizeScreen(
                                                 interactionSource.emit(press)
                                                 val pos =
                                                     state.firstVisibleItemIndex to state.firstVisibleItemScrollOffset
-                                                showOriginal = true
-                                                delay(100)
-                                                state.animateScrollToItem(
-                                                    0,
-                                                    -10000
-                                                )
+                                                if (viewModel.bitmap?.canShow() == true) {
+                                                    showOriginal = true
+                                                    delay(100)
+                                                    if (imageInside) {
+                                                        state.animateScrollToItem(
+                                                            0,
+                                                            -10000
+                                                        )
+                                                    }
+                                                }
                                                 tryAwaitRelease()
                                                 showOriginal = false
                                                 interactionSource.emit(

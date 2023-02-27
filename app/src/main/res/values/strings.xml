@@ -54,4 +54,9 @@
     <string name="color_copied">Color copied</string>
     <string name="crop_sub">Crop image to any bounds</string>
     <string name="version">Version</string>
+    <string name="star_symbol" translatable="false">✨</string>
+    <string name="resize_batch_image">Change specs of given image batches</string>
+    <string name="batch_resize">Batch resize</string>
+    <string name="keep_exif">Keep EXIF</string>
+    <string name="images">Images: %d</string>
 </resources>

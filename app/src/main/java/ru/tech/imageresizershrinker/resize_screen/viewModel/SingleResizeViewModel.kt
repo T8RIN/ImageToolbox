@@ -1,7 +1,6 @@
 package ru.tech.imageresizershrinker.resize_screen.viewModel
 
 import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.os.Build
 import android.os.ParcelFileDescriptor
 import androidx.compose.runtime.MutableState
@@ -20,7 +19,9 @@ import ru.tech.imageresizershrinker.utils.BitmapUtils.flip
 import ru.tech.imageresizershrinker.utils.BitmapUtils.previewBitmap
 import ru.tech.imageresizershrinker.utils.BitmapUtils.resizeBitmap
 import ru.tech.imageresizershrinker.utils.BitmapUtils.rotate
-import java.io.*
+import java.io.File
+import java.io.FileOutputStream
+import java.io.OutputStream
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -120,16 +121,6 @@ class SingleResizeViewModel : ViewModel() {
                             quality.toInt(),
                             fos
                         )
-                        val out = ByteArrayOutputStream()
-                        localBitmap.compress(
-                            if (mime == 1) Bitmap.CompressFormat.WEBP else if (mime == 2) Bitmap.CompressFormat.PNG else Bitmap.CompressFormat.JPEG,
-                            quality.toInt(), out
-                        )
-                        val decoded =
-                            BitmapFactory.decodeStream(ByteArrayInputStream(out.toByteArray()))
-
-                        out.flush()
-                        out.close()
                         fos!!.flush()
                         fos.close()
 
@@ -149,7 +140,7 @@ class SingleResizeViewModel : ViewModel() {
                             ex.saveAttributes()
                         }
 
-                        _bitmap.value = decoded
+                        _bitmap.value = _previewBitmap.value
                         _bitmapInfo.value = _bitmapInfo.value.copy(
                             isFlipped = false,
                             rotation = 0f
@@ -306,7 +297,7 @@ class SingleResizeViewModel : ViewModel() {
     }
 
     companion object {
-        fun String.restrict(`by`: Int = 20000): String {
+        fun String.restrict(`by`: Int = 32000): String {
             if (isEmpty()) return this
 
             return if ((this.toIntOrNull() ?: 0) > `by`) `by`.toString()
