@@ -1,16 +1,10 @@
 package ru.tech.imageresizershrinker.main_screen.components
 
-import android.content.Intent
-import android.net.Uri
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.Crop
-import androidx.compose.material.icons.rounded.Palette
-import androidx.compose.material.icons.rounded.PhotoSizeSelectLarge
 import androidx.compose.material3.*
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.*
@@ -21,24 +15,24 @@ import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shadow
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.input.pointer.pointerInput
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.cookhelper.dynamic.theme.LocalDynamicThemeState
 import dev.olshevski.navigation.reimagined.NavController
 import dev.olshevski.navigation.reimagined.navigate
 import kotlinx.coroutines.delay
+import nl.dionsegijn.konfetti.compose.KonfettiView
+import nl.dionsegijn.konfetti.compose.OnParticleSystemUpdateListener
+import nl.dionsegijn.konfetti.core.*
+import nl.dionsegijn.konfetti.core.emitter.Emitter
 import ru.tech.imageresizershrinker.BuildConfig
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.main_screen.Screen
 import ru.tech.imageresizershrinker.resize_screen.components.blend
-import ru.tech.imageresizershrinker.theme.Github
 import ru.tech.imageresizershrinker.utils.LocalWindowSizeClass
+import java.util.concurrent.TimeUnit
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -47,6 +41,8 @@ fun MainScreen(navController: NavController<Screen>) {
     val isGrid = LocalWindowSizeClass.current.widthSizeClass != WindowWidthSizeClass.Compact
     val colorScheme = MaterialTheme.colorScheme
     val themeState = LocalDynamicThemeState.current
+
+    var showConfetti by remember { mutableStateOf(false) }
 
     val colors = remember(colorScheme) {
         colorScheme.run {
@@ -66,6 +62,7 @@ fun MainScreen(navController: NavController<Screen>) {
             )
         }
     }
+
     Column(
         Modifier
             .fillMaxSize()
@@ -85,6 +82,7 @@ fun MainScreen(navController: NavController<Screen>) {
                                 detectTapGestures(
                                     onPress = {
                                         scaleState = 1.3f
+                                        showConfetti = true
                                         delay(200)
                                         tryAwaitRelease()
                                         themeState.updateColor(colors.random())
@@ -192,121 +190,62 @@ fun MainScreen(navController: NavController<Screen>) {
             }
         }
     }
-}
 
-@Composable
-fun SourceCodePreference(
-    modifier: Modifier = Modifier
-        .fillMaxWidth()
-        .padding(horizontal = 16.dp)
-) {
-    val context = LocalContext.current
-    PreferenceItem(
-        onClick = {
-            context.startActivity(
-                Intent(
-                    Intent.ACTION_VIEW,
-                    Uri.parse("https://github.com/T8RIN/ImageResizer")
-                )
-            )
-        },
-        icon = Icons.Rounded.Github,
-        title = stringResource(R.string.check_source_code),
-        subtitle = stringResource(R.string.check_source_code_sub),
-        color = MaterialTheme.colorScheme.tertiaryContainer,
-        modifier = modifier
-    )
-}
-
-@Composable
-fun SingleResizePreference(
-    onClick: () -> Unit,
-    color: Color = MaterialTheme.colorScheme.surfaceVariant,
-    modifier: Modifier = Modifier
-        .fillMaxWidth()
-        .padding(horizontal = 16.dp)
-) {
-    PreferenceItem(
-        onClick = onClick,
-        icon = Icons.Rounded.PhotoSizeSelectLarge,
-        title = stringResource(R.string.single_resize),
-        subtitle = stringResource(R.string.resize_single_image),
-        color = color,
-        modifier = modifier
-    )
-}
-
-@Composable
-fun CropPreference(
-    onClick: () -> Unit,
-    color: Color = MaterialTheme.colorScheme.surfaceVariant,
-    modifier: Modifier = Modifier
-        .fillMaxWidth()
-        .padding(horizontal = 16.dp)
-) {
-    PreferenceItem(
-        onClick = onClick,
-        icon = Icons.Rounded.Crop,
-        title = stringResource(R.string.crop),
-        subtitle = stringResource(R.string.crop_sub),
-        color = color,
-        modifier = modifier
-    )
-}
-
-@Composable
-fun PickColorPreference(
-    onClick: () -> Unit,
-    color: Color = MaterialTheme.colorScheme.surfaceVariant,
-    modifier: Modifier = Modifier
-        .fillMaxWidth()
-        .padding(horizontal = 16.dp)
-) {
-    PreferenceItem(
-        onClick = onClick,
-        icon = Icons.Rounded.Palette,
-        title = stringResource(R.string.pick_color),
-        subtitle = stringResource(R.string.pick_color_sub),
-        color = color,
-        modifier = modifier
-    )
-}
-
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun PreferenceItem(
-    onClick: () -> Unit,
-    title: String,
-    subtitle: String,
-    icon: ImageVector,
-    color: Color = MaterialTheme.colorScheme.surfaceVariant,
-    modifier: Modifier = Modifier
-        .fillMaxWidth()
-        .padding(horizontal = 16.dp)
-) {
-    Card(
-        modifier = modifier,
-        onClick = onClick,
-        colors = CardDefaults.cardColors(containerColor = color)
-    ) {
-        Row(Modifier.padding(16.dp)) {
-            Icon(imageVector = icon, contentDescription = null)
-            Spacer(modifier = Modifier.width(16.dp))
-            Column {
-                Text(
-                    text = title,
-                    fontSize = 16.sp,
-                    fontWeight = FontWeight.Medium
-                )
-                Spacer(modifier = Modifier.height(2.dp))
-                Text(
-                    text = subtitle,
-                    fontSize = 12.sp,
-                    fontWeight = FontWeight.Normal,
-                    lineHeight = 14.sp,
-                    color = LocalContentColor.current.copy(alpha = 0.5f)
-                )
+    if (showConfetti) {
+        val primary = MaterialTheme.colorScheme.primary
+        KonfettiView(
+            modifier = Modifier.fillMaxSize(),
+            parties = remember { particles(primary) },
+            updateListener = object : OnParticleSystemUpdateListener {
+                override fun onParticleSystemEnded(system: PartySystem, activeSystems: Int) {
+                    if (activeSystems == 0) showConfetti = false
+                }
             }
-        }
+        )
     }
 }
+
+private fun particles(primary: Color) = listOf(
+    Party(
+        speed = 0f,
+        maxSpeed = 15f,
+        damping = 0.9f,
+        angle = Angle.BOTTOM,
+        spread = Spread.ROUND,
+        colors = listOf(0xfce18a, 0xff726d, 0xf4306d, 0xb48def).map {
+            it.blend(
+                primary
+            )
+        },
+        emitter = Emitter(duration = 2, TimeUnit.SECONDS).perSecond(100),
+        position = Position.Relative(0.0, 0.0).between(Position.Relative(1.0, 0.0))
+    ),
+    Party(
+        speed = 10f,
+        maxSpeed = 30f,
+        damping = 0.9f,
+        angle = Angle.RIGHT - 45,
+        spread = Spread.SMALL,
+        colors = listOf(0xfce18a, 0xff726d, 0xf4306d, 0xb48def).map {
+            it.blend(
+                primary
+            )
+        },
+        emitter = Emitter(duration = 2, TimeUnit.SECONDS).perSecond(30),
+        position = Position.Relative(0.0, 1.0)
+    ),
+    Party(
+        speed = 10f,
+        maxSpeed = 30f,
+        damping = 0.9f,
+        angle = Angle.RIGHT - 135,
+        spread = Spread.SMALL,
+        colors = listOf(0xfce18a, 0xff726d, 0xf4306d, 0xb48def).map {
+            it.blend(
+                primary
+            )
+        },
+        emitter = Emitter(duration = 2, TimeUnit.SECONDS).perSecond(30),
+        position = Position.Relative(1.0, 1.0)
+    )
+)

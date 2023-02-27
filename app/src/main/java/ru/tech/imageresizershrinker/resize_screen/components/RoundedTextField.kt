@@ -254,3 +254,9 @@ fun Color.blend(
     color: Color,
     @FloatRange(from = 0.0, to = 1.0) fraction: Float = 0.2f
 ): Color = Color(ColorUtils.blendARGB(this.toArgb(), color.toArgb(), fraction))
+
+
+fun Int.blend(
+    color: Color,
+    @FloatRange(from = 0.0, to = 1.0) fraction: Float = 0.2f
+): Int = ColorUtils.blendARGB(this, color.toArgb(), fraction)

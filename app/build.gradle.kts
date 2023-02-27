@@ -11,8 +11,8 @@ android {
         applicationId = "ru.tech.imageresizershrinker"
         minSdk = 21
         targetSdk = 33
-        versionCode = 18
-        versionName = "1.6.2"
+        versionCode = 19
+        versionName = "1.6.3"
     }
 
     buildTypes {
@@ -60,4 +60,5 @@ dependencies {
     implementation(project(":colordetector"))
     implementation("dev.olshevski.navigation:reimagined:1.3.1")
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.6.0-rc01")
+    implementation("nl.dionsegijn:konfetti-compose:2.0.2")
 }
