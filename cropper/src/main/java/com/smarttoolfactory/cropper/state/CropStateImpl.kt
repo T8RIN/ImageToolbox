@@ -93,6 +93,10 @@ abstract class CropState internal constructor(
         )
         private set
 
+    fun setCropRect(rect: Rect) {
+        cropRect = rect
+    }
+
 
     private var initialized: Boolean = false
 

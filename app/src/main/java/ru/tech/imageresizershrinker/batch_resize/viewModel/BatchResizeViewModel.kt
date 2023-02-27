@@ -56,6 +56,14 @@ class BatchResizeViewModel : ViewModel() {
     private val _done: MutableState<Int> = mutableStateOf(0)
     val done by _done
 
+//    private val _cropRect: MutableState<Rect?> = mutableStateOf(null)
+//    val cropRect by _cropRect
+//    TODO: Create Batch Cropping mode
+//    fun updateCropRect(rect: Rect) {
+//        _cropRect.value = rect
+//    }
+
+
     private var job: Job? = null
 
     fun updateUris(uris: List<Uri>?) {

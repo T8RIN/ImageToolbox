@@ -33,8 +33,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
-import androidx.compose.ui.graphics.asAndroidBitmap
-import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
@@ -42,14 +40,8 @@ import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.window.DialogProperties
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.cookhelper.dynamic.theme.LocalDynamicThemeState
-import com.smarttoolfactory.cropper.ImageCropper
-import com.smarttoolfactory.cropper.model.OutlineType
-import com.smarttoolfactory.cropper.model.RectCropShape
-import com.smarttoolfactory.cropper.settings.CropDefaults
-import com.smarttoolfactory.cropper.settings.CropOutlineProperty
 import dev.olshevski.navigation.reimagined.NavController
 import dev.olshevski.navigation.reimagined.pop
 import kotlinx.coroutines.delay
@@ -65,7 +57,6 @@ import ru.tech.imageresizershrinker.resize_screen.components.*
 import ru.tech.imageresizershrinker.utils.BitmapUtils.canShow
 import ru.tech.imageresizershrinker.utils.BitmapUtils.decodeBitmapFromUri
 import ru.tech.imageresizershrinker.utils.BitmapUtils.getUriByName
-import ru.tech.imageresizershrinker.utils.BitmapUtils.resizeBitmap
 import ru.tech.imageresizershrinker.utils.LocalWindowSizeClass
 import java.io.File
 
@@ -199,7 +190,6 @@ fun BatchResizeScreen(
     val focus = LocalFocusManager.current
     var showResetDialog by rememberSaveable { mutableStateOf(false) }
     var showOriginal by rememberSaveable { mutableStateOf(false) }
-    var showCropDialog by rememberSaveable { mutableStateOf(false) }
 
     val state = rememberLazyListState()
 
@@ -213,7 +203,7 @@ fun BatchResizeScreen(
             targetState = Triple(viewModel.previewBitmap, viewModel.isLoading, showOriginal),
             transitionSpec = { fadeIn() with fadeOut() }
         ) { (bmp, loading, showOrig) ->
-            Column {
+            Column(horizontalAlignment = Alignment.CenterHorizontally) {
                 viewModel.uris?.size?.takeIf { it > 1 && !viewModel.isLoading }?.let {
                     Text(
                         stringResource(R.string.images, it),
@@ -436,7 +426,6 @@ fun BatchResizeScreen(
                                 if (viewModel.bitmap != null) {
                                     if (imageInside) Spacer(Modifier.size(20.dp))
                                     ImageTransformBar(
-                                        onCrop = { showCropDialog = true },
                                         onRotateLeft = viewModel::rotateLeft,
                                         onFlip = viewModel::flip,
                                         onRotateRight = viewModel::rotateRight
@@ -566,51 +555,6 @@ fun BatchResizeScreen(
                         }
                     }
                 )
-            } else if (viewModel.bitmap != null && showCropDialog) {
-                viewModel.bitmap?.let {
-                    val bmp = remember(it) {
-                        if (!it.canShow()) it.resizeBitmap(4000, 4000, 1).asImageBitmap()
-                        else it.asImageBitmap()
-                    }
-                    var crop by remember { mutableStateOf(false) }
-                    AlertDialog(
-                        modifier = Modifier
-                            .systemBarsPadding()
-                            .animateContentSize()
-                            .widthIn(max = 640.dp)
-                            .padding(16.dp),
-                        properties = DialogProperties(usePlatformDefaultWidth = false),
-                        onDismissRequest = { showCropDialog = false },
-                        text = {
-                            ImageCropper(
-                                imageBitmap = bmp,
-                                contentDescription = null,
-                                cropProperties = CropDefaults.properties(
-                                    cropOutlineProperty = CropOutlineProperty(
-                                        OutlineType.Rect,
-                                        RectCropShape(0, "")
-                                    )
-                                ),
-                                onCropStart = {},
-                                crop = crop,
-                                onCropSuccess = { image ->
-                                    viewModel.updateBitmap(image.asAndroidBitmap())
-                                    showCropDialog = false
-                                }
-                            )
-                        },
-                        confirmButton = {
-                            Button(onClick = { crop = true }) {
-                                Text(stringResource(R.string.crop))
-                            }
-                        },
-                        dismissButton = {
-                            FilledTonalButton(onClick = { showCropDialog = false }) {
-                                Text(stringResource(R.string.cancel))
-                            }
-                        }
-                    )
-                }
             }
 
             ToastHost(hostState = toastHostState)
