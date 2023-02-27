@@ -1,43 +1,46 @@
 plugins {
-    id 'com.android.application'
-    id 'org.jetbrains.kotlin.android'
+    id("com.android.application")
+    id("org.jetbrains.kotlin.android")
 }
 
 android {
-    namespace 'ru.tech.imageresizershrinker'
-    compileSdk 33
+    namespace = "ru.tech.imageresizershrinker"
+    compileSdk = 33
 
     defaultConfig {
-        applicationId "ru.tech.imageresizershrinker"
-        minSdk 21
-        targetSdk 33
-        versionCode 18
-        versionName "1.6.2"
+        applicationId = "ru.tech.imageresizershrinker"
+        minSdk = 21
+        targetSdk = 33
+        versionCode = 18
+        versionName = "1.6.2"
     }
 
     buildTypes {
         release {
-            minifyEnabled true
-            shrinkResources true
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            isMinifyEnabled = false
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
         }
     }
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_11
-        targetCompatibility JavaVersion.VERSION_11
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
     }
     kotlinOptions {
-        jvmTarget = '11'
+        jvmTarget = "11"
     }
     buildFeatures {
-        compose true
+        compose = true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion '1.4.2'
+        kotlinCompilerExtensionVersion = "1.4.2"
     }
+
     packagingOptions {
         resources {
-            excludes += '/META-INF/{AL2.0,LGPL2.1}'
+            excludes += "/META-INF/{AL2.0,LGPL2.1}"
         }
     }
 }
@@ -51,9 +54,9 @@ dependencies {
     implementation("io.coil-kt:coil-compose:2.2.2")
     implementation("androidx.core:core-splashscreen:1.0.0")
     implementation("androidx.exifinterface:exifinterface:1.3.6")
-    implementation project(":cropper")
-    implementation project(":dynamic_theme")
-    implementation project(":colordetector")
+    implementation(project(":cropper"))
+    implementation(project(":dynamic_theme"))
+    implementation(project(":colordetector"))
     implementation("dev.olshevski.navigation:reimagined:1.3.1")
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.6.0-rc01")
 }

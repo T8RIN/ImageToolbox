@@ -3,7 +3,7 @@ pluginManagement {
         gradlePluginPortal()
         google()
         mavenCentral()
-        maven { url 'https://jitpack.io' }
+        maven { setUrl("https://jitpack.io") }
     }
 }
 dependencyResolutionManagement {
@@ -11,11 +11,11 @@ dependencyResolutionManagement {
     repositories {
         google()
         mavenCentral()
-        maven { url 'https://jitpack.io' }
+        maven { setUrl("https://jitpack.io") }
     }
 }
-rootProject.name = "Image Resizer (Shrinker)"
-include ':app'
-include ':cropper'
-include ":dynamic_theme"
-include ":colordetector"
+rootProject.name = "Image Resizer"
+include(":app")
+include(":cropper")
+include(":dynamic_theme")
+include(":colordetector")
