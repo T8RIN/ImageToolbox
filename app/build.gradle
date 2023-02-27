@@ -11,8 +11,8 @@ android {
         applicationId "ru.tech.imageresizershrinker"
         minSdk 21
         targetSdk 33
-        versionCode 17
-        versionName "1.6.1"
+        versionCode 18
+        versionName "1.6.2"
     }
 
     buildTypes {
@@ -23,11 +23,11 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
     }
     kotlinOptions {
-        jvmTarget = '1.8'
+        jvmTarget = '11'
     }
     buildFeatures {
         compose true
