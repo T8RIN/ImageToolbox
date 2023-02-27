@@ -150,17 +150,17 @@ class MainActivity : ComponentActivity() {
                                     color = MaterialTheme.colorScheme.secondaryContainer
                                 )
                                 Spacer(modifier = Modifier.height(8.dp))
-                                PickColorPreference(
+                                CropPreference(
                                     onClick = {
-                                        viewModel.navController.navigate(Screen.PickColor)
+                                        viewModel.navController.navigate(Screen.Crop)
                                         viewModel.hideSelectDialog()
                                     },
                                     color = MaterialTheme.colorScheme.secondaryContainer
                                 )
                                 Spacer(modifier = Modifier.height(8.dp))
-                                CropPreference(
+                                PickColorPreference(
                                     onClick = {
-                                        viewModel.navController.navigate(Screen.Crop)
+                                        viewModel.navController.navigate(Screen.PickColor)
                                         viewModel.hideSelectDialog()
                                     },
                                     color = MaterialTheme.colorScheme.secondaryContainer

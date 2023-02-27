@@ -125,6 +125,7 @@ fun MainScreen(navController: NavController<Screen>) {
             )
             Spacer(modifier = Modifier.height(8.dp))
         }
+
         Column(
             Modifier
                 .fillMaxSize()
