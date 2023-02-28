@@ -56,4 +56,8 @@
     <string name="batch_resize">Пакетная обработка</string>
     <string name="keep_exif">Сохранить EXIF</string>
     <string name="images">Изображения: %d</string>
+    <string name="change_preview">Изменить превью</string>
+    <string name="remove">Убрать</string>
+    <string name="palette_sub">Создать образец цветовой палитры из данного изображения</string>
+    <string name="palette">Сгенерировать палитру</string>
 </resources>

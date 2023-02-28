@@ -56,4 +56,8 @@
     <string name="batch_resize">Redimensionnement par lots</string>
     <string name="keep_exif">Conserver EXIF</string>
     <string name="images">Images : %d</string>
+    <string name="change_preview">Modifier l\'aperçu</string>
+    <string name="remove">Retirer</string>
+    <string name="palette_sub">Générer un échantillon de palette de couleurs à partir d\'une image donnée</string>
+    <string name="palette">Générer la palette</string>
 </resources>

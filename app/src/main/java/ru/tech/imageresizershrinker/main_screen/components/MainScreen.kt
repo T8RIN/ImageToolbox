@@ -146,6 +146,8 @@ fun MainScreen(navController: NavController<Screen>) {
                 CropPreference(onClick = { navController.navigate(Screen.Crop) })
                 Spacer(modifier = Modifier.height(16.dp))
                 PickColorPreference(onClick = { navController.navigate(Screen.PickColor) })
+                Spacer(modifier = Modifier.height(16.dp))
+                GeneratePalettePreference(onClick = { navController.navigate(Screen.GeneratePalette) })
                 Spacer(modifier = Modifier.height(32.dp))
                 SourceCodePreference()
                 Spacer(modifier = Modifier.height(16.dp))
@@ -245,12 +247,52 @@ fun MainScreen(navController: NavController<Screen>) {
                             }
                     )
                 }
-                Spacer(modifier = Modifier.height(32.dp))
-                SourceCodePreference(
-                    modifier = Modifier
-                        .widthIn(max = 350.dp)
+                Spacer(modifier = Modifier.height(16.dp))
+                Row(
+                    Modifier
                         .fillMaxWidth()
-                )
+                        .padding(horizontal = 16.dp),
+                    horizontalArrangement = Arrangement.Center
+                ) {
+                    var heightOne by remember { mutableStateOf(0) }
+                    var heightTwo by remember { mutableStateOf(0) }
+                    GeneratePalettePreference(
+                        onClick = { navController.navigate(Screen.GeneratePalette) },
+                        modifier = Modifier
+                            .then(
+                                if (heightOne != 0 && heightTwo != 0) {
+                                    Modifier.height(
+                                        with(LocalDensity.current) {
+                                            max(heightOne, heightTwo).toDp()
+                                        }
+                                    )
+                                } else Modifier
+                            )
+                            .widthIn(max = 350.dp)
+                            .fillMaxWidth()
+                            .onSizeChanged {
+                                heightOne = it.height
+                            }
+                    )
+                    Spacer(modifier = Modifier.width(16.dp))
+                    SourceCodePreference(
+                        modifier = Modifier
+                            .then(
+                                if (heightOne != 0 && heightTwo != 0) {
+                                    Modifier.height(
+                                        with(LocalDensity.current) {
+                                            max(heightOne, heightTwo).toDp()
+                                        }
+                                    )
+                                } else Modifier
+                            )
+                            .widthIn(max = 350.dp)
+                            .fillMaxWidth()
+                            .onSizeChanged {
+                                heightTwo = it.height
+                            }
+                    )
+                }
                 Spacer(modifier = Modifier.height(16.dp))
                 footer()
             }

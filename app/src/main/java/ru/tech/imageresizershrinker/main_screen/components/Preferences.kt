@@ -17,6 +17,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.theme.Github
+import ru.tech.imageresizershrinker.theme.PaletteSwatch
 
 
 @Composable
@@ -82,14 +83,16 @@ fun GeneratePalettePreference(
     onClick: () -> Unit,
     modifier: Modifier = Modifier
         .fillMaxWidth()
-        .padding(horizontal = 16.dp)
+        .padding(horizontal = 16.dp),
+    color: Color = MaterialTheme.colorScheme.surfaceVariant
 ) {
     PreferenceItem(
         onClick = onClick,
-        icon = Icons.Rounded.PhotoLibrary,
-        title = stringResource(R.string.batch_resize),
-        subtitle = stringResource(R.string.resize_batch_image),
-        modifier = modifier
+        icon = Icons.Rounded.PaletteSwatch,
+        title = stringResource(R.string.palette),
+        subtitle = stringResource(R.string.palette_sub),
+        modifier = modifier,
+        color = color
     )
 }
 

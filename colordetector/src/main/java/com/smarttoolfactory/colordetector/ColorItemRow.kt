@@ -1,6 +1,7 @@
 package com.smarttoolfactory.colordetector
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
@@ -17,7 +18,6 @@ internal fun ColorItemRow(
     modifier: Modifier = Modifier,
     contentColor: Color = Color.Unspecified,
     containerColor: Color = Color.Unspecified,
-    profile: String = "",
     populationPercent: String,
     colorData: ColorData,
     onClick: (ColorData) -> Unit,
@@ -28,13 +28,18 @@ internal fun ColorItemRow(
             .clickable {
                 onClick(colorData)
             }
-            .padding(top = 4.dp, bottom = 4.dp, start = 12.dp, end = 16.dp),
+            .padding(top = 4.dp, bottom = 4.dp, start = 4.dp, end = 16.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
         Box(
             modifier = Modifier
                 .size(38.dp)
                 .background(colorData.color, shape = CircleShape)
+                .border(
+                    1.dp,
+                    androidx.compose.material3.MaterialTheme.colorScheme.outline,
+                    CircleShape
+                )
         )
 
         Spacer(modifier = Modifier.width(20.dp))
@@ -43,20 +48,6 @@ internal fun ColorItemRow(
             modifier = Modifier.fillMaxHeight(),
             verticalArrangement = Arrangement.SpaceEvenly
         ) {
-            Row {
-                if (profile.isNotEmpty()) {
-                    Text(
-                        text = profile,
-                        fontSize = 12.sp,
-                        color = contentColor
-                    )
-                }
-                Text(
-                    text = colorData.name,
-                    fontSize = 12.sp,
-                    color = contentColor
-                )
-            }
             Text(
                 text = colorData.hexText,
                 fontSize = 16.sp,

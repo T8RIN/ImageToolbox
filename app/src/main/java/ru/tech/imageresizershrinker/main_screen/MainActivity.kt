@@ -41,10 +41,8 @@ import ru.tech.imageresizershrinker.batch_resize.BatchResizeScreen
 import ru.tech.imageresizershrinker.crash_screen.CrashActivity
 import ru.tech.imageresizershrinker.crash_screen.GlobalExceptionHandler
 import ru.tech.imageresizershrinker.crop_screen.CropScreen
-import ru.tech.imageresizershrinker.main_screen.components.CropPreference
-import ru.tech.imageresizershrinker.main_screen.components.MainScreen
-import ru.tech.imageresizershrinker.main_screen.components.PickColorPreference
-import ru.tech.imageresizershrinker.main_screen.components.SingleResizePreference
+import ru.tech.imageresizershrinker.generate_palette.GeneratePaletteScreen
+import ru.tech.imageresizershrinker.main_screen.components.*
 import ru.tech.imageresizershrinker.main_screen.viewModel.MainViewModel
 import ru.tech.imageresizershrinker.pick_color.PickColorScreen
 import ru.tech.imageresizershrinker.resize_screen.SingleResizeScreen
@@ -135,6 +133,13 @@ class MainActivity : ComponentActivity() {
                                     onGoBack = { viewModel.updateUris(null) }
                                 )
                             }
+                            Screen.GeneratePalette -> {
+                                GeneratePaletteScreen(
+                                    uriState = viewModel.uri,
+                                    navController = viewModel.navController,
+                                    onGoBack = { viewModel.updateUri(null) }
+                                )
+                            }
                         }
                     }
                 }
@@ -149,7 +154,7 @@ class MainActivity : ComponentActivity() {
                             }
                         },
                         text = {
-                            Column {
+                            Column(Modifier.verticalScroll(rememberScrollState())) {
                                 SingleResizePreference(
                                     onClick = {
                                         viewModel.navController.navigate(Screen.SingleResize)
@@ -169,6 +174,14 @@ class MainActivity : ComponentActivity() {
                                 PickColorPreference(
                                     onClick = {
                                         viewModel.navController.navigate(Screen.PickColor)
+                                        viewModel.hideSelectDialog()
+                                    },
+                                    color = MaterialTheme.colorScheme.secondaryContainer
+                                )
+                                Spacer(modifier = Modifier.height(8.dp))
+                                GeneratePalettePreference(
+                                    onClick = {
+                                        viewModel.navController.navigate(Screen.GeneratePalette)
                                         viewModel.hideSelectDialog()
                                     },
                                     color = MaterialTheme.colorScheme.secondaryContainer
@@ -212,6 +225,7 @@ sealed class Screen {
     object SingleResize : Screen()
     object BatchResize : Screen()
     object PickColor : Screen()
+    object GeneratePalette : Screen()
     object Crop : Screen()
 }
 
