@@ -16,7 +16,29 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 
 @Composable
-fun BoxScope.Loading(modifier: Modifier = Modifier) {
+fun BoxScope.Loading() {
+    Box(
+        Modifier
+            .size(84.dp)
+            .clip(RoundedCornerShape(24.dp))
+            .shadow(
+                8.dp,
+                RoundedCornerShape(24.dp)
+            )
+            .background(MaterialTheme.colorScheme.secondaryContainer)
+            .align(Alignment.Center)
+    ) {
+        CircularProgressIndicator(
+            Modifier.align(
+                Alignment.Center
+            ),
+            color = MaterialTheme.colorScheme.onSecondaryContainer
+        )
+    }
+}
+
+@Composable
+fun Loading(modifier: Modifier = Modifier) {
     Box(
         modifier
             .size(84.dp)
@@ -26,7 +48,6 @@ fun BoxScope.Loading(modifier: Modifier = Modifier) {
                 RoundedCornerShape(24.dp)
             )
             .background(MaterialTheme.colorScheme.secondaryContainer)
-            .align(Alignment.Center)
     ) {
         CircularProgressIndicator(
             Modifier.align(

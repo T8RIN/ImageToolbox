@@ -78,6 +78,22 @@ fun BatchResizePreference(
 }
 
 @Composable
+fun GeneratePalettePreference(
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier
+        .fillMaxWidth()
+        .padding(horizontal = 16.dp)
+) {
+    PreferenceItem(
+        onClick = onClick,
+        icon = Icons.Rounded.PhotoLibrary,
+        title = stringResource(R.string.batch_resize),
+        subtitle = stringResource(R.string.resize_batch_image),
+        modifier = modifier
+    )
+}
+
+@Composable
 fun CropPreference(
     onClick: () -> Unit,
     color: Color = MaterialTheme.colorScheme.surfaceVariant,
@@ -105,7 +121,7 @@ fun PickColorPreference(
 ) {
     PreferenceItem(
         onClick = onClick,
-        icon = Icons.Rounded.Palette,
+        icon = Icons.Rounded.Colorize,
         title = stringResource(R.string.pick_color),
         subtitle = stringResource(R.string.pick_color_sub),
         color = color,

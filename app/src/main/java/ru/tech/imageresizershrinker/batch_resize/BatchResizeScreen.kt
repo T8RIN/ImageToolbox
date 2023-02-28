@@ -22,6 +22,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -45,6 +46,7 @@ import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.window.DialogProperties
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.cookhelper.dynamic.theme.LocalDynamicThemeState
 import dev.olshevski.navigation.reimagined.NavController
@@ -62,6 +64,7 @@ import ru.tech.imageresizershrinker.resize_screen.components.*
 import ru.tech.imageresizershrinker.utils.BitmapUtils.canShow
 import ru.tech.imageresizershrinker.utils.BitmapUtils.decodeBitmapFromUri
 import ru.tech.imageresizershrinker.utils.BitmapUtils.decodeSampledBitmapFromUri
+import ru.tech.imageresizershrinker.utils.BitmapUtils.getBitmapByUri
 import ru.tech.imageresizershrinker.utils.BitmapUtils.getUriByName
 import ru.tech.imageresizershrinker.utils.LocalWindowSizeClass
 import java.io.File
@@ -588,87 +591,135 @@ fun BatchResizeScreen(
                         }
                     }
                 )
-            } else if (showPickImageFromUrisDialog && viewModel.uris?.isNotEmpty() == true) {
-                AlertDialog(
-                    modifier = Modifier.systemBarsPadding(),
-                    icon = { Icon(Icons.Rounded.PhotoLibrary, null) },
-                    title = { Text(stringResource(R.string.pick_image_alt)) },
-                    text = {
-                        val pixs = with(LocalDensity.current) { 100.dp.roundToPx() }
-                        Box {
-                            Divider(Modifier.align(Alignment.TopCenter))
-                            LazyVerticalGrid(
-                                columns = GridCells.Adaptive(100.dp),
-                                modifier = Modifier.padding(horizontal = 4.dp),
-                            ) {
-                                viewModel.uris?.let { uris ->
-                                    items(uris, key = { it.toString() }) { uri ->
-                                        var bmp: Bitmap? by remember(uri) {
-                                            mutableStateOf(null)
-                                        }
+            } else if (showPickImageFromUrisDialog) {
+                if((viewModel.uris?.size ?: 0) > 1) {
+                    AlertDialog(
+                        properties = DialogProperties(usePlatformDefaultWidth = false),
+                        modifier = Modifier
+                            .systemBarsPadding()
+                            .padding(vertical = 4.dp, horizontal = 8.dp)
+                            .fillMaxWidth(),
+                        icon = { Icon(Icons.Rounded.PhotoLibrary, null) },
+                        title = { Text(stringResource(R.string.change_preview)) },
+                        text = {
+                            val pix = with(LocalDensity.current) { 100.dp.roundToPx() }
+                            val gridState = rememberLazyGridState()
+                            LaunchedEffect(Unit) {
+                                gridState.scrollToItem(
+                                    viewModel.uris?.indexOf(viewModel.selectedUri) ?: 0
+                                )
+                            }
+                            Box {
+                                Divider(Modifier.align(Alignment.TopCenter))
+                                LazyVerticalGrid(
+                                    columns = GridCells.Fixed(if (imageInside) 2 else 4),
+                                    modifier = Modifier.padding(horizontal = 4.dp),
+                                    state = gridState
+                                ) {
+                                    viewModel.uris?.let { uris ->
+                                        items(uris, key = { it.toString() }) { uri ->
+                                            var bmp: Bitmap? by remember(uri) {
+                                                mutableStateOf(null)
+                                            }
 
-                                        LaunchedEffect(uri) {
-                                            viewModel.loadBitmapAsync(
-                                                loader = {
-                                                    context.decodeSampledBitmapFromUri(
-                                                        uri = uri,
-                                                        reqWidth = pixs,
-                                                        reqHeight = pixs
-                                                    )
-                                                },
-                                                onGetBitmap = { bmp = it }
-                                            )
-                                        }
+                                            LaunchedEffect(uri) {
+                                                viewModel.loadBitmapAsync(
+                                                    loader = {
+                                                        context.decodeSampledBitmapFromUri(
+                                                            uri = uri,
+                                                            reqWidth = pix,
+                                                            reqHeight = pix
+                                                        )
+                                                    },
+                                                    onGetBitmap = { bmp = it }
+                                                )
+                                            }
 
-                                        bmp?.asImageBitmap()?.let { bitmap ->
-                                            Image(
-                                                modifier = Modifier
-                                                    .padding(4.dp)
-                                                    .aspectRatio(1f)
-                                                    .clip(RoundedCornerShape(16.dp))
-                                                    .clickable {
-                                                        try {
-                                                            context.decodeBitmapFromUri(
-                                                                uri = uri,
-                                                                onGetMimeType = viewModel::setMime,
-                                                                onGetExif = {},
-                                                                onGetBitmap = viewModel::updateBitmap,
-                                                            )
-                                                        } catch (e: Exception) {
-                                                            scope.launch {
-                                                                toastHostState.showToast(
-                                                                    context.getString(
-                                                                        R.string.smth_went_wrong,
-                                                                        e.localizedMessage ?: ""
-                                                                    ),
-                                                                    Icons.Rounded.ErrorOutline
-                                                                )
+                                            Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                                                bmp?.asImageBitmap()?.let { bitmap ->
+                                                    Image(
+                                                        modifier = Modifier
+                                                            .padding(top = 8.dp)
+                                                            .padding(4.dp)
+                                                            .aspectRatio(1f)
+                                                            .clip(RoundedCornerShape(8.dp))
+                                                            .clickable {
+                                                                try {
+                                                                    viewModel.setBitmap(
+                                                                        loader = {
+                                                                            context.getBitmapByUri(uri)
+                                                                        },
+                                                                        uri = uri
+                                                                    )
+                                                                } catch (e: Exception) {
+                                                                    scope.launch {
+                                                                        toastHostState.showToast(
+                                                                            context.getString(
+                                                                                R.string.smth_went_wrong,
+                                                                                e.localizedMessage
+                                                                                    ?: ""
+                                                                            ),
+                                                                            Icons.Rounded.ErrorOutline
+                                                                        )
+                                                                    }
+                                                                }
+                                                                showPickImageFromUrisDialog = false
                                                             }
-                                                        }
-                                                        showPickImageFromUrisDialog = false
-                                                    }
-                                                    .block(),
-                                                bitmap = bitmap,
-                                                contentDescription = null
-                                            )
-                                        } ?: Loading(
-                                            modifier = Modifier
-                                                .padding(4.dp)
-                                                .aspectRatio(1f)
-                                        )
+                                                            .then(
+                                                                if (uri == viewModel.selectedUri) {
+                                                                    Modifier.border(
+                                                                        4.dp,
+                                                                        MaterialTheme.colorScheme.outline,
+                                                                        RoundedCornerShape(8.dp)
+                                                                    )
+                                                                } else Modifier
+                                                            )
+                                                            .block(RoundedCornerShape(8.dp)),
+                                                        bitmap = bitmap,
+                                                        contentDescription = null
+                                                    )
+                                                } ?: Loading(
+                                                    modifier = Modifier
+                                                        .padding(top = 8.dp)
+                                                        .padding(4.dp)
+                                                        .aspectRatio(1f)
+                                                        .fillMaxWidth()
+                                                )
+                                                FilledTonalButton(
+                                                    onClick = {
+                                                        viewModel.updateUrisSilently(
+                                                            removedUri = uri,
+                                                            loader = {
+                                                                context.getBitmapByUri(it)
+                                                            }
+                                                        )
+                                                    },
+                                                    contentPadding = PaddingValues(
+                                                        horizontal = 8.dp,
+                                                        vertical = 2.dp
+                                                    ),
+                                                    modifier = Modifier.defaultMinSize(minHeight = 10.dp)
+                                                ) {
+                                                    Text(stringResource(R.string.remove))
+                                                }
+                                                Divider()
+                                            }
+                                        }
                                     }
                                 }
+                                Divider(Modifier.align(Alignment.BottomCenter))
                             }
-                            Divider(Modifier.align(Alignment.BottomCenter))
+                        },
+                        onDismissRequest = { showPickImageFromUrisDialog = false },
+                        confirmButton = {
+                            TextButton(onClick = { showPickImageFromUrisDialog = false }) {
+                                Text(stringResource(R.string.close))
+                            }
                         }
-                    },
-                    onDismissRequest = { showPickImageFromUrisDialog = false },
-                    confirmButton = {
-                        FilledTonalButton(onClick = { showPickImageFromUrisDialog = false }) {
-                            Text(stringResource(R.string.close))
-                        }
-                    }
-                )
+                    )
+                } else {
+                    showPickImageFromUrisDialog = false
+                }
             }
 
             ToastHost(hostState = toastHostState)

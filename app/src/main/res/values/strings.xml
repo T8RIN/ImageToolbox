@@ -59,4 +59,6 @@
     <string name="batch_resize">Batch resize</string>
     <string name="keep_exif">Keep EXIF</string>
     <string name="images">Images: %d</string>
+    <string name="change_preview">Change preview</string>
+    <string name="remove">Remove</string>
 </resources>

@@ -58,6 +58,9 @@ class BatchResizeViewModel : ViewModel() {
     private val _done: MutableState<Int> = mutableStateOf(0)
     val done by _done
 
+    private val _selectedUri: MutableState<Uri?> = mutableStateOf(null)
+    val selectedUri by _selectedUri
+
 //    private val _cropRect: MutableState<Rect?> = mutableStateOf(null)
 //    val cropRect by _cropRect
 //    TODO: Create Batch Cropping mode
@@ -71,6 +74,37 @@ class BatchResizeViewModel : ViewModel() {
     fun updateUris(uris: List<Uri>?) {
         _uris.value = null
         _uris.value = uris
+        _selectedUri.value = uris?.firstOrNull()
+    }
+
+    fun updateUrisSilently(
+        removedUri: Uri,
+        loader: (Uri) -> Bitmap?
+    ) {
+        viewModelScope.launch {
+            withContext(Dispatchers.IO) {
+                _uris.value = uris
+                if (_selectedUri.value == removedUri) {
+                    val index = uris?.indexOf(removedUri) ?: -1
+                    if (index == 0) {
+                        uris?.getOrNull(1)?.let {
+                            _selectedUri.value = it
+                            _bitmap.value = loader(it)
+                        }
+                    } else {
+                        uris?.getOrNull(index - 1)?.let {
+                            _selectedUri.value = it
+                            _bitmap.value = loader(it)
+                        }
+                    }
+                    resetValues(saveMime = true)
+                }
+                val u = _uris.value?.toMutableList()?.apply {
+                    remove(removedUri)
+                }
+                _uris.value = u
+            }
+        }
     }
 
     private fun checkBitmapAndUpdate(resetPreset: Boolean, resetTelegram: Boolean) {
@@ -310,6 +344,16 @@ class BatchResizeViewModel : ViewModel() {
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
                 onGetBitmap(loader())
+            }
+        }
+    }
+
+    fun setBitmap(loader: () -> Bitmap?, uri: Uri) {
+        viewModelScope.launch {
+            withContext(Dispatchers.IO) {
+                _bitmap.value = loader()
+                resetValues(saveMime = true)
+                _selectedUri.value = uri
             }
         }
     }

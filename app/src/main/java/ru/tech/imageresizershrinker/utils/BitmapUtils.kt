@@ -93,6 +93,22 @@ object BitmapUtils {
         bmp?.let { onGetBitmap(it) }
     }
 
+    fun Context.getBitmapByUri(uri: Uri): Bitmap? {
+        val fd = contentResolver.openFileDescriptor(uri, "r")
+        val exif = fd?.fileDescriptor?.let { ExifInterface(it) }
+        fd?.close()
+
+        return kotlin.runCatching {
+            val parcelFileDescriptor: ParcelFileDescriptor? =
+                contentResolver.openFileDescriptor(uri, "r")
+            val fileDescriptor: FileDescriptor? = parcelFileDescriptor?.fileDescriptor
+            BitmapFactory.decodeFileDescriptor(fileDescriptor, null, BitmapFactory.Options()).also {
+                parcelFileDescriptor?.close()
+            }.rotate(exif?.rotationDegrees?.toFloat() ?: 0f)
+        }.getOrNull()
+
+    }
+
     fun Context.decodeBitmapFromUri(
         uri: Uri,
         outPadding: Rect? = null,
