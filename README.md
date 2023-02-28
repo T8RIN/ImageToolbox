@@ -28,6 +28,7 @@
 
 
 # Functions
+- Palette generation
 - Color picking
 - Batch processing
 - Width changing
@@ -39,6 +40,7 @@
   - WEBP
   - PNG
   - JPEG
+  - JPG
   - Telegram sticker PNG format
 - EXIF metadata editing
 - Rotating
