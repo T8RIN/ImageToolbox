@@ -226,7 +226,8 @@ fun BatchResizeScreen(
                             stringResource(R.string.images, it),
                             Modifier
                                 .block()
-                                .padding(vertical = 4.dp, horizontal = 8.dp)
+                                .padding(vertical = 4.dp, horizontal = 8.dp),
+                            color = MaterialTheme.colorScheme.onSurfaceVariant
                         )
                         SmallFloatingActionButton(
                             onClick = {
@@ -238,7 +239,7 @@ fun BatchResizeScreen(
                             elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
                             containerColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f),
                             contentColor = MaterialTheme.colorScheme.onSurfaceVariant,
-                            modifier = Modifier.padding(vertical = 4.dp)
+                            modifier = Modifier.offset(x = 0.dp, y = (-6).dp)
                         ) {
                             Icon(Icons.Rounded.ChangeCircle, null)
                         }

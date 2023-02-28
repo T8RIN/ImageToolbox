@@ -41,13 +41,15 @@ fun ImageNotPickedWidget(onPickImage: () -> Unit) {
                 null,
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(12.dp)
+                    .padding(12.dp),
+                tint = MaterialTheme.colorScheme.onSurfaceVariant
             )
         }
         Text(
             stringResource(R.string.pick_image),
             Modifier.padding(16.dp),
-            textAlign = TextAlign.Center
+            textAlign = TextAlign.Center,
+            color = MaterialTheme.colorScheme.onSurfaceVariant
         )
     }
 }
@@ -62,13 +64,15 @@ fun BadImageWidget() {
     ) {
         Text(
             stringResource(R.string.image_too_large_preview),
-            textAlign = TextAlign.Center
+            textAlign = TextAlign.Center,
+            color = MaterialTheme.colorScheme.onSurfaceVariant
         )
         Spacer(Modifier.height(8.dp))
         Icon(
             Icons.TwoTone.BrokenImage,
             null,
-            modifier = Modifier.size(100.dp)
+            modifier = Modifier.size(100.dp),
+            tint = MaterialTheme.colorScheme.onSurfaceVariant
         )
     }
 }
