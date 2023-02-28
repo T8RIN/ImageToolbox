@@ -51,7 +51,7 @@ fun ToggleGroupButton(
                 Spacer(modifier = Modifier.height(8.dp))
             }
             CompositionLocalProvider(
-                LocalRippleTheme provides Ripple
+                LocalRippleTheme provides GroupRipple
             ) {
                 Row(modifier = Modifier.fillMaxWidth()) {
                     items.forEachIndexed { index, item ->
@@ -132,7 +132,7 @@ inline val ColorScheme.onMixedColor: Color
         )
     }
 
-private object Ripple : RippleTheme {
+object GroupRipple : RippleTheme {
     private val alpha = 0.1f
 
     @Composable

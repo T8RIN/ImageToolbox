@@ -1,5 +1,6 @@
 package ru.tech.imageresizershrinker.resize_screen.components
 
+import android.graphics.Bitmap
 import androidx.compose.runtime.Stable
 import java.text.CharacterIterator
 import java.text.StringCharacterIterator
@@ -16,6 +17,12 @@ data class BitmapInfo(
     val isFlipped: Boolean = false,
     val size: Int = 0
 )
+
+val Int.extension: String get() = if (this == 0) "jpg" else if (this == 1) "webp" else if (this == 2) "jpeg" else "png"
+
+val String.compressFormat: Bitmap.CompressFormat get() = if (this == "jpg" || this == "jpeg") Bitmap.CompressFormat.JPEG else if (this == "webp") Bitmap.CompressFormat.WEBP else Bitmap.CompressFormat.PNG
+
+val String.index: Int get() = if ("jpg" in this) 0 else if ("webp" in this) 1 else if ("jpeg" in this) 2 else 3
 
 fun byteCount(bytes: Int): String {
     var tempBytes = bytes

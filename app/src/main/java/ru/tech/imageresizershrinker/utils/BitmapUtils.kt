@@ -12,6 +12,9 @@ import androidx.annotation.RequiresApi
 import androidx.core.content.FileProvider
 import androidx.exifinterface.media.ExifInterface
 import ru.tech.imageresizershrinker.resize_screen.components.BitmapInfo
+import ru.tech.imageresizershrinker.resize_screen.components.compressFormat
+import ru.tech.imageresizershrinker.resize_screen.components.extension
+import ru.tech.imageresizershrinker.resize_screen.components.index
 import java.io.*
 import java.util.*
 import kotlin.math.abs
@@ -73,8 +76,9 @@ object BitmapUtils {
         val fd = contentResolver.openFileDescriptor(uri, "r")
         val exif = fd?.fileDescriptor?.let { ExifInterface(it) }
         onGetExif(exif)
-        val mime = contentResolver.getMimeType(uri) ?: ""
-        val mimeInt = if ("png" in mime) 2 else if ("webp" in mime) 1 else 0
+        var mime = contentResolver.getMimeType(uri) ?: ""
+        if ("jpeg" in mime) mime = "image/jpg"
+        val mimeInt = mime.index
         onGetMimeType(mimeInt)
         fd?.close()
 
@@ -137,10 +141,7 @@ object BitmapUtils {
         rotate(rotation)
             .resizeBitmap(tWidth, tHeight, resize)
             .flip(isFlipped)
-            .compress(
-                if (mime == 1) CompressFormat.WEBP else if (mime == 2) CompressFormat.PNG else CompressFormat.JPEG,
-                quality.toInt(), out
-            )
+            .compress(mime.extension.compressFormat, quality.toInt(), out)
         val b = out.toByteArray()
         onByteCount(b.size)
         val decoded = BitmapFactory.decodeStream(ByteArrayInputStream(b))

@@ -213,7 +213,7 @@ fun BatchResizeScreen(
                     )
                     Spacer(Modifier.height(4.dp))
                 }
-                Box {
+                Box(contentAlignment = Alignment.Center) {
                     if (showOrig) {
                         Picture(bitmap = viewModel.bitmap)
                     } else {
@@ -453,9 +453,9 @@ fun BatchResizeScreen(
                                     onHeightChange = viewModel::updateHeight,
                                     onWidthChange = viewModel::updateWidth
                                 )
-                                if (bitmapInfo.mime != 2) Spacer(Modifier.height(8.dp))
+                                if (bitmapInfo.mime.extension != "png") Spacer(Modifier.height(8.dp))
                                 QualityWidget(
-                                    visible = bitmapInfo.mime != 2,
+                                    visible = bitmapInfo.mime.extension != "png",
                                     enabled = viewModel.bitmap != null,
                                     quality = bitmapInfo.quality,
                                     onQualityChange = viewModel::setQuality

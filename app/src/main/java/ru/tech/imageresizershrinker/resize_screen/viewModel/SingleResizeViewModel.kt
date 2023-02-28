@@ -12,6 +12,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.*
 import ru.tech.imageresizershrinker.resize_screen.components.BitmapInfo
+import ru.tech.imageresizershrinker.resize_screen.components.compressFormat
+import ru.tech.imageresizershrinker.resize_screen.components.extension
 import ru.tech.imageresizershrinker.utils.BitmapUtils
 import ru.tech.imageresizershrinker.utils.BitmapUtils.canShow
 import ru.tech.imageresizershrinker.utils.BitmapUtils.copyTo
@@ -95,7 +97,7 @@ class SingleResizeViewModel : ViewModel() {
                     if (!isExternalStorageWritable) {
                         onSuccess(false)
                     } else {
-                        val ext = if (mime == 1) "webp" else if (mime == 2) "png" else "jpg"
+                        val ext = mime.extension
 
                         val tWidth = width.toIntOrNull() ?: bitmap.width
                         val tHeight = height.toIntOrNull() ?: bitmap.height
@@ -116,11 +118,7 @@ class SingleResizeViewModel : ViewModel() {
                                 val image = File(imagesDir, name)
                                 FileOutputStream(image)
                             }
-                        localBitmap.compress(
-                            if (mime == 1) Bitmap.CompressFormat.WEBP else if (mime == 2) Bitmap.CompressFormat.PNG else Bitmap.CompressFormat.JPEG,
-                            quality.toInt(),
-                            fos
-                        )
+                        localBitmap.compress(mime.extension.compressFormat, quality.toInt(), fos)
                         fos!!.flush()
                         fos.close()
 

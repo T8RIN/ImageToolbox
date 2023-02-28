@@ -12,6 +12,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.*
 import ru.tech.imageresizershrinker.resize_screen.components.BitmapInfo
+import ru.tech.imageresizershrinker.resize_screen.components.compressFormat
+import ru.tech.imageresizershrinker.resize_screen.components.extension
 import ru.tech.imageresizershrinker.utils.BitmapUtils.canShow
 import ru.tech.imageresizershrinker.utils.BitmapUtils.copyTo
 import ru.tech.imageresizershrinker.utils.BitmapUtils.flip
@@ -240,7 +242,7 @@ class BatchResizeViewModel : ViewModel() {
                         runCatching {
                             getBitmap(uri)
                         }.getOrNull()?.takeIf { it.first != null }?.let { (bitmap, exif) ->
-                            val ext = if (mime == 1) "webp" else if (mime == 2) "png" else "jpg"
+                            val ext = mime.extension
 
                             val tWidth = width.toIntOrNull() ?: bitmap!!.width
                             val tHeight = height.toIntOrNull() ?: bitmap!!.height
@@ -264,8 +266,9 @@ class BatchResizeViewModel : ViewModel() {
                                     val image = File(imagesDir, name)
                                     FileOutputStream(image)
                                 }
+
                             localBitmap.compress(
-                                if (mime == 1) Bitmap.CompressFormat.WEBP else if (mime == 2) Bitmap.CompressFormat.PNG else Bitmap.CompressFormat.JPEG,
+                                mime.extension.compressFormat,
                                 quality.toInt(),
                                 fos
                             )

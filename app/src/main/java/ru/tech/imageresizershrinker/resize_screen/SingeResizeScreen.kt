@@ -216,7 +216,7 @@ fun Context.SingleResizeScreen(
             targetState = Triple(viewModel.previewBitmap, viewModel.isLoading, showOriginal),
             transitionSpec = { fadeIn() with fadeOut() }
         ) { (bmp, loading, showOrig) ->
-            Box {
+            Box(contentAlignment = Alignment.Center) {
                 if (showOrig) {
                     Picture(bitmap = viewModel.bitmap)
                 } else {
@@ -241,7 +241,11 @@ fun Context.SingleResizeScreen(
             if (viewModel.bitmap != null) {
                 FloatingActionButton(
                     onClick = {
-                        if (bitmapInfo.mime != 0 && viewModel.bitmap != null && map?.isNotEmpty() == true) {
+                        if (bitmapInfo.mime.extension !in listOf(
+                                "jpg",
+                                "jpeg"
+                            ) && viewModel.bitmap != null && map?.isNotEmpty() == true
+                        ) {
                             showExifSavingDialog = true
                         } else {
                             saveBitmap()
@@ -252,7 +256,10 @@ fun Context.SingleResizeScreen(
                     BadgedBox(
                         badge = {
                             androidx.compose.animation.AnimatedVisibility(
-                                visible = bitmapInfo.mime != 0 && map?.isNotEmpty() == true,
+                                visible = bitmapInfo.mime.extension !in listOf(
+                                    "jpg",
+                                    "jpeg"
+                                ) && map?.isNotEmpty() == true,
                                 enter = fadeIn() + scaleIn(),
                                 exit = fadeOut() + scaleOut()
                             ) {
@@ -483,9 +490,9 @@ fun Context.SingleResizeScreen(
                                     onHeightChange = viewModel::updateHeight,
                                     onWidthChange = viewModel::updateWidth
                                 )
-                                if (bitmapInfo.mime != 2) Spacer(Modifier.height(8.dp))
+                                if (bitmapInfo.mime.extension != "png") Spacer(Modifier.height(8.dp))
                                 QualityWidget(
-                                    visible = bitmapInfo.mime != 2,
+                                    visible = bitmapInfo.mime.extension != "png",
                                     enabled = viewModel.bitmap != null,
                                     quality = bitmapInfo.quality,
                                     onQualityChange = viewModel::setQuality
