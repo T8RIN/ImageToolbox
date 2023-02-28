@@ -16,9 +16,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 
 @Composable
-fun BoxScope.Loading() {
+fun BoxScope.Loading(modifier: Modifier = Modifier) {
     Box(
-        Modifier
+        modifier
             .size(84.dp)
             .clip(RoundedCornerShape(24.dp))
             .shadow(

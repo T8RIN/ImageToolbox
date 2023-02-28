@@ -2,6 +2,7 @@ package ru.tech.imageresizershrinker.batch_resize
 
 import android.content.ContentValues
 import android.content.res.Configuration
+import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Environment
 import android.provider.MediaStore
@@ -12,16 +13,18 @@ import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.*
 import androidx.compose.animation.core.animateDpAsState
-import androidx.compose.foundation.LocalIndication
-import androidx.compose.foundation.background
+import androidx.compose.foundation.*
 import androidx.compose.foundation.gestures.detectTapGestures
-import androidx.compose.foundation.indication
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.PressInteraction
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Save
 import androidx.compose.material.icons.rounded.*
@@ -33,9 +36,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
@@ -56,6 +61,7 @@ import ru.tech.imageresizershrinker.main_screen.requestPermission
 import ru.tech.imageresizershrinker.resize_screen.components.*
 import ru.tech.imageresizershrinker.utils.BitmapUtils.canShow
 import ru.tech.imageresizershrinker.utils.BitmapUtils.decodeBitmapFromUri
+import ru.tech.imageresizershrinker.utils.BitmapUtils.decodeSampledBitmapFromUri
 import ru.tech.imageresizershrinker.utils.BitmapUtils.getUriByName
 import ru.tech.imageresizershrinker.utils.LocalWindowSizeClass
 import java.io.File
@@ -190,6 +196,7 @@ fun BatchResizeScreen(
     val focus = LocalFocusManager.current
     var showResetDialog by rememberSaveable { mutableStateOf(false) }
     var showOriginal by rememberSaveable { mutableStateOf(false) }
+    var showPickImageFromUrisDialog by rememberSaveable { mutableStateOf(false) }
 
     val state = rememberLazyListState()
 
@@ -200,17 +207,42 @@ fun BatchResizeScreen(
 
     val imageBlock = @Composable {
         AnimatedContent(
+            modifier = Modifier.pointerInput(Unit) {
+                detectTapGestures(
+                    onTap = {
+                        if ((viewModel.uris?.size ?: 0) > 1) {
+                            showPickImageFromUrisDialog = true
+                        }
+                    }
+                )
+            },
             targetState = Triple(viewModel.previewBitmap, viewModel.isLoading, showOriginal),
             transitionSpec = { fadeIn() with fadeOut() }
         ) { (bmp, loading, showOrig) ->
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
                 viewModel.uris?.size?.takeIf { it > 1 && !viewModel.isLoading }?.let {
-                    Text(
-                        stringResource(R.string.images, it),
-                        Modifier
-                            .block()
-                            .padding(vertical = 4.dp, horizontal = 8.dp)
-                    )
+                    Row {
+                        Text(
+                            stringResource(R.string.images, it),
+                            Modifier
+                                .block()
+                                .padding(vertical = 4.dp, horizontal = 8.dp)
+                        )
+                        SmallFloatingActionButton(
+                            onClick = {
+                                if ((viewModel.uris?.size ?: 0) > 1) {
+                                    showPickImageFromUrisDialog = true
+                                }
+                            },
+                            shape = RoundedCornerShape(16.dp),
+                            elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
+                            containerColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f),
+                            contentColor = MaterialTheme.colorScheme.onSurfaceVariant,
+                            modifier = Modifier.padding(vertical = 4.dp)
+                        ) {
+                            Icon(Icons.Rounded.ChangeCircle, null)
+                        }
+                    }
                     Spacer(Modifier.height(4.dp))
                 }
                 Box(contentAlignment = Alignment.Center) {
@@ -552,6 +584,87 @@ fun BatchResizeScreen(
                             }
                         }) {
                             Text(stringResource(R.string.reset))
+                        }
+                    }
+                )
+            } else if (showPickImageFromUrisDialog && viewModel.uris?.isNotEmpty() == true) {
+                AlertDialog(
+                    modifier = Modifier.systemBarsPadding(),
+                    icon = { Icon(Icons.Rounded.PhotoLibrary, null) },
+                    title = { Text(stringResource(R.string.pick_image_alt)) },
+                    text = {
+                        val pixs = with(LocalDensity.current) { 100.dp.roundToPx() }
+                        Box {
+                            Divider(Modifier.align(Alignment.TopCenter))
+                            LazyVerticalGrid(
+                                columns = GridCells.Adaptive(100.dp),
+                                modifier = Modifier.padding(horizontal = 4.dp),
+                            ) {
+                                viewModel.uris?.let { uris ->
+                                    items(uris, key = { it.toString() }) { uri ->
+                                        var bmp: Bitmap? by remember(uri) {
+                                            mutableStateOf(null)
+                                        }
+
+                                        LaunchedEffect(uri) {
+                                            viewModel.loadBitmapAsync(
+                                                loader = {
+                                                    context.decodeSampledBitmapFromUri(
+                                                        uri = uri,
+                                                        reqWidth = pixs,
+                                                        reqHeight = pixs
+                                                    )
+                                                },
+                                                onGetBitmap = { bmp = it }
+                                            )
+                                        }
+
+                                        bmp?.asImageBitmap()?.let { bitmap ->
+                                            Image(
+                                                modifier = Modifier
+                                                    .padding(4.dp)
+                                                    .aspectRatio(1f)
+                                                    .clip(RoundedCornerShape(16.dp))
+                                                    .clickable {
+                                                        try {
+                                                            context.decodeBitmapFromUri(
+                                                                uri = uri,
+                                                                onGetMimeType = viewModel::setMime,
+                                                                onGetExif = {},
+                                                                onGetBitmap = viewModel::updateBitmap,
+                                                            )
+                                                        } catch (e: Exception) {
+                                                            scope.launch {
+                                                                toastHostState.showToast(
+                                                                    context.getString(
+                                                                        R.string.smth_went_wrong,
+                                                                        e.localizedMessage ?: ""
+                                                                    ),
+                                                                    Icons.Rounded.ErrorOutline
+                                                                )
+                                                            }
+                                                        }
+                                                        showPickImageFromUrisDialog = false
+                                                    }
+                                                    .block(),
+                                                bitmap = bitmap,
+                                                contentDescription = null
+                                            )
+                                        } ?: Loading(
+                                            modifier = Modifier
+                                                .padding(4.dp)
+                                                .aspectRatio(1f)
+                                        )
+                                    }
+                                }
+                            }
+                            Divider(Modifier.align(Alignment.BottomCenter))
+                        }
+                    },
+                    onDismissRequest = { showPickImageFromUrisDialog = false },
+                    confirmButton = {
+                        FilledTonalButton(onClick = { showPickImageFromUrisDialog = false }) {
+                            Text(stringResource(R.string.close))
                         }
                     }
                 )

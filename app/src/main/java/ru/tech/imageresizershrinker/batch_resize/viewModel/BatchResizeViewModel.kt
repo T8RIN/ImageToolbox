@@ -303,4 +303,15 @@ class BatchResizeViewModel : ViewModel() {
         }
     }
 
+    fun loadBitmapAsync(
+        loader: suspend () -> Bitmap?,
+        onGetBitmap: (Bitmap?) -> Unit
+    ) {
+        viewModelScope.launch {
+            withContext(Dispatchers.IO) {
+                onGetBitmap(loader())
+            }
+        }
+    }
+
 }
