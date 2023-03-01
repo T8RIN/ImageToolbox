@@ -49,7 +49,7 @@ internal fun ColorItemRow(
             verticalArrangement = Arrangement.SpaceEvenly
         ) {
             Text(
-                text = colorData.hexText,
+                text = colorData.hexText.uppercase(),
                 fontSize = 16.sp,
                 color = contentColor
             )

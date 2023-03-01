@@ -9,6 +9,7 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.geometry.isFinite
 import androidx.compose.ui.geometry.isSpecified
+import androidx.compose.ui.graphics.BlendMode
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.asAndroidBitmap
@@ -107,14 +108,16 @@ internal fun ColorSelectionDrawing(
             // Draw touch position circle
             drawCircle(
                 color,
-                radius = radius * 0.2f,
+                radius = radius * 0.3f,
                 center = offset,
+                blendMode = BlendMode.Difference
             )
             drawCircle(
                 color,
-                radius = radius * 1.4f,
+                radius = radius * 1.6f,
                 center = offset,
-                style = Stroke(radius * 0.4f)
+                style = Stroke(radius * 0.6f),
+                blendMode = BlendMode.Difference
             )
 
         }

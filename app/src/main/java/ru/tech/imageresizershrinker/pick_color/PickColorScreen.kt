@@ -132,7 +132,7 @@ fun PickColorScreen(
                 transitionSpec = { fadeIn() with fadeOut() }
             ) { noBmp ->
                 if (noBmp) {
-                    MediumTopAppBar(
+                    LargeTopAppBar(
                         navigationIcon = {
                             IconButton(
                                 onClick = {

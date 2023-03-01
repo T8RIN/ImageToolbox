@@ -41,7 +41,7 @@ import java.util.concurrent.TimeUnit
 @Composable
 fun MainScreen(navController: NavController<Screen>) {
     val scrollBehavior =
-        TopAppBarDefaults.exitUntilCollapsedScrollBehavior(rememberTopAppBarState())
+        TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
     val isGrid = LocalWindowSizeClass.current.widthSizeClass != WindowWidthSizeClass.Compact
     val colorScheme = MaterialTheme.colorScheme
     val themeState = LocalDynamicThemeState.current

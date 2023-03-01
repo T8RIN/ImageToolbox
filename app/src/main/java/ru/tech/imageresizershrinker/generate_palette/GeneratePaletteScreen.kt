@@ -25,6 +25,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.asImageBitmap
+import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
@@ -124,9 +125,12 @@ fun GeneratePaletteScreen(
     }
     val scrollState = rememberScrollState()
 
-    Box(Modifier.fillMaxSize()) {
+    val topAppBarScrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
+
+    Box(Modifier.fillMaxSize().nestedScroll(topAppBarScrollBehavior.nestedScrollConnection)) {
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
-            TopAppBar(
+            LargeTopAppBar(
+                scrollBehavior = topAppBarScrollBehavior,
                 colors = TopAppBarDefaults.mediumTopAppBarColors(
                     containerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(3.dp)
                 ),
@@ -180,7 +184,7 @@ fun GeneratePaletteScreen(
                             Column(
                                 Modifier
                                     .weight(1f)
-                                    .verticalScroll(rememberScrollState())
+                                    .verticalScroll(scrollState)
                             ) {
                                 ImageColorPalette(
                                     imageBitmap = bmp,
@@ -207,7 +211,8 @@ fun GeneratePaletteScreen(
                         }
                     } else {
                         Column(
-                            Modifier.verticalScroll(scrollState),
+                            Modifier
+                                .verticalScroll(scrollState),
                             horizontalAlignment = Alignment.CenterHorizontally
                         ) {
                             Image(
