@@ -6,6 +6,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import dev.olshevski.navigation.reimagined.navController
 import dev.olshevski.navigation.reimagined.navigate
+import dev.olshevski.navigation.reimagined.popUpTo
 import ru.tech.imageresizershrinker.main_screen.components.Screen
 
 class MainViewModel : ViewModel() {
@@ -36,9 +37,12 @@ class MainViewModel : ViewModel() {
     fun updateUris(uris: List<Uri>?) {
         _uris.value = null
         _uris.value = uris
-        if (uris != null && navController.backstack.entries.lastOrNull()?.destination != Screen.BatchResize) navController.navigate(
-            Screen.BatchResize
-        )
+        val dest = navController.backstack.entries.lastOrNull()?.destination
+
+        if (uris != null && dest != Screen.BatchResize) {
+            navController.popUpTo { it == Screen.Main }
+            navController.navigate(Screen.BatchResize)
+        }
     }
 
 }

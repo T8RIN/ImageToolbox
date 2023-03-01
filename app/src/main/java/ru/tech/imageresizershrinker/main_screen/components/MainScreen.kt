@@ -161,10 +161,18 @@ fun MainScreen(navController: NavController<Screen>) {
                 )
                 Spacer(modifier = Modifier.height(16.dp))
                 PickColorPreference(
-                    onClick = { navController.navigate(Screen.PickColorFromImage) }
+                    onClick = {
+                        navController.popUpTo { it == Screen.Main }
+                        navController.navigate(Screen.PickColorFromImage)
+                    }
                 )
                 Spacer(modifier = Modifier.height(16.dp))
-                GeneratePalettePreference(onClick = { navController.navigate(Screen.GeneratePalette) })
+                GeneratePalettePreference(
+                    onClick = {
+                        navController.popUpTo { it == Screen.Main }
+                        navController.navigate(Screen.GeneratePalette)
+                    }
+                )
                 Spacer(modifier = Modifier.height(32.dp))
                 SourceCodePreference()
                 Spacer(modifier = Modifier.height(16.dp))
@@ -180,7 +188,10 @@ fun MainScreen(navController: NavController<Screen>) {
                     var heightOne by remember { mutableStateOf(0) }
                     var heightTwo by remember { mutableStateOf(0) }
                     SingleResizePreference(
-                        onClick = { navController.navigate(Screen.SingleResize) },
+                        onClick = {
+                            navController.popUpTo { it == Screen.Main }
+                            navController.navigate(Screen.SingleResize)
+                        },
                         modifier = Modifier
                             .then(
                                 if (heightOne != 0 && heightTwo != 0) {
@@ -199,7 +210,10 @@ fun MainScreen(navController: NavController<Screen>) {
                     )
                     Spacer(modifier = Modifier.width(16.dp))
                     BatchResizePreference(
-                        onClick = { navController.navigate(Screen.BatchResize) },
+                        onClick = {
+                            navController.popUpTo { it == Screen.Main }
+                            navController.navigate(Screen.BatchResize)
+                        },
                         modifier = Modifier
                             .then(
                                 if (heightOne != 0 && heightTwo != 0) {
@@ -227,7 +241,10 @@ fun MainScreen(navController: NavController<Screen>) {
                     var heightOne by remember { mutableStateOf(0) }
                     var heightTwo by remember { mutableStateOf(0) }
                     PickColorPreference(
-                        onClick = { navController.navigate(Screen.PickColorFromImage) },
+                        onClick = {
+                            navController.popUpTo { it == Screen.Main }
+                            navController.navigate(Screen.PickColorFromImage)
+                        },
                         modifier = Modifier
                             .then(
                                 if (heightOne != 0 && heightTwo != 0) {
@@ -246,7 +263,10 @@ fun MainScreen(navController: NavController<Screen>) {
                     )
                     Spacer(modifier = Modifier.width(16.dp))
                     CropPreference(
-                        onClick = { navController.navigate(Screen.Crop) },
+                        onClick = {
+                            navController.popUpTo { it == Screen.Main }
+                            navController.navigate(Screen.Crop)
+                        },
                         modifier = Modifier
                             .then(
                                 if (heightOne != 0 && heightTwo != 0) {
@@ -274,7 +294,10 @@ fun MainScreen(navController: NavController<Screen>) {
                     var heightOne by remember { mutableStateOf(0) }
                     var heightTwo by remember { mutableStateOf(0) }
                     GeneratePalettePreference(
-                        onClick = { navController.navigate(Screen.GeneratePalette) },
+                        onClick = {
+                            navController.popUpTo { it == Screen.Main }
+                            navController.navigate(Screen.GeneratePalette)
+                        },
                         modifier = Modifier
                             .then(
                                 if (heightOne != 0 && heightTwo != 0) {
