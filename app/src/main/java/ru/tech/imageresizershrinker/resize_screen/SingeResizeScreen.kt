@@ -87,24 +87,23 @@ fun Context.SingleResizeScreen(
     val themeState = LocalDynamicThemeState.current
     LaunchedEffect(uriState) {
         uriState?.let {
-            try {
-                decodeBitmapFromUri(
-                    uri = it,
-                    onGetMimeType = viewModel::setMime,
-                    onGetExif = viewModel::updateExif,
-                    onGetBitmap = viewModel::updateBitmap,
-                )
-            } catch (e: Exception) {
-                scope.launch {
-                    toastHostState.showToast(
-                        getString(
-                            R.string.smth_went_wrong,
-                            e.localizedMessage ?: ""
-                        ),
-                        Icons.Rounded.ErrorOutline
-                    )
+            decodeBitmapFromUri(
+                uri = it,
+                onGetMimeType = viewModel::setMime,
+                onGetExif = viewModel::updateExif,
+                onGetBitmap = viewModel::updateBitmap,
+                onError = {
+                    scope.launch {
+                        toastHostState.showToast(
+                            context.getString(
+                                R.string.smth_went_wrong,
+                                it.localizedMessage ?: ""
+                            ),
+                            Icons.Rounded.ErrorOutline
+                        )
+                    }
                 }
-            }
+            )
         }
     }
     LaunchedEffect(viewModel.bitmap) {
@@ -133,24 +132,23 @@ fun Context.SingleResizeScreen(
             contract = ActivityResultContracts.PickVisualMedia()
         ) { uri ->
             uri?.let {
-                try {
-                    decodeBitmapFromUri(
-                        uri = it,
-                        onGetMimeType = viewModel::setMime,
-                        onGetExif = viewModel::updateExif,
-                        onGetBitmap = viewModel::updateBitmap,
-                    )
-                } catch (e: Exception) {
-                    scope.launch {
-                        toastHostState.showToast(
-                            context.getString(
-                                R.string.smth_went_wrong,
-                                e.localizedMessage ?: ""
-                            ),
-                            Icons.Rounded.ErrorOutline
-                        )
+                decodeBitmapFromUri(
+                    uri = it,
+                    onGetMimeType = viewModel::setMime,
+                    onGetExif = viewModel::updateExif,
+                    onGetBitmap = viewModel::updateBitmap,
+                    onError = {
+                        scope.launch {
+                            toastHostState.showToast(
+                                context.getString(
+                                    R.string.smth_went_wrong,
+                                    it.localizedMessage ?: ""
+                                ),
+                                Icons.Rounded.ErrorOutline
+                            )
+                        }
                     }
-                }
+                )
             }
         }
 

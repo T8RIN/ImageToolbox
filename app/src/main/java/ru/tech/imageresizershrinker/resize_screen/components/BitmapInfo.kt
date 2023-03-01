@@ -22,6 +22,8 @@ val Int.extension: String get() = if (this == 0) "jpg" else if (this == 1) "webp
 
 val String.compressFormat: Bitmap.CompressFormat get() = if (this == "jpg" || this == "jpeg") Bitmap.CompressFormat.JPEG else if (this == "webp") Bitmap.CompressFormat.WEBP else Bitmap.CompressFormat.PNG
 
+val Bitmap.CompressFormat.extension: String get() = if (this == Bitmap.CompressFormat.JPEG) "jpg" else if (this == Bitmap.CompressFormat.WEBP) "webp" else "png"
+
 val String.index: Int get() = if ("jpg" in this) 0 else if ("webp" in this) 1 else if ("jpeg" in this) 2 else 3
 
 fun byteCount(bytes: Int): String {

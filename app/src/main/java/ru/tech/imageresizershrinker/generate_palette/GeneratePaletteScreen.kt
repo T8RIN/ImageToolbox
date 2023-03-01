@@ -67,24 +67,23 @@ fun GeneratePaletteScreen(
 
     LaunchedEffect(uriState) {
         uriState?.let {
-            try {
-                context.decodeBitmapFromUri(
-                    uri = it,
-                    onGetMimeType = {},
-                    onGetExif = {},
-                    onGetBitmap = viewModel::updateBitmap,
-                )
-            } catch (e: Exception) {
-                scope.launch {
-                    toastHostState.showToast(
-                        context.getString(
-                            R.string.smth_went_wrong,
-                            e.localizedMessage ?: ""
-                        ),
-                        Icons.Rounded.ErrorOutline
-                    )
+            context.decodeBitmapFromUri(
+                uri = it,
+                onGetMimeType = {},
+                onGetExif = {},
+                onGetBitmap = viewModel::updateBitmap,
+                onError = {
+                    scope.launch {
+                        toastHostState.showToast(
+                            context.getString(
+                                R.string.smth_went_wrong,
+                                it.localizedMessage ?: ""
+                            ),
+                            Icons.Rounded.ErrorOutline
+                        )
+                    }
                 }
-            }
+            )
         }
     }
     LaunchedEffect(viewModel.bitmap) {
@@ -98,24 +97,23 @@ fun GeneratePaletteScreen(
             contract = ActivityResultContracts.PickVisualMedia()
         ) { uri ->
             uri?.let {
-                try {
-                    context.decodeBitmapFromUri(
-                        uri = it,
-                        onGetMimeType = {},
-                        onGetExif = {},
-                        onGetBitmap = viewModel::updateBitmap,
-                    )
-                } catch (e: Exception) {
-                    scope.launch {
-                        toastHostState.showToast(
-                            context.getString(
-                                R.string.smth_went_wrong,
-                                e.localizedMessage ?: ""
-                            ),
-                            Icons.Rounded.ErrorOutline
-                        )
+                context.decodeBitmapFromUri(
+                    uri = it,
+                    onGetMimeType = {},
+                    onGetExif = {},
+                    onGetBitmap = viewModel::updateBitmap,
+                    onError = {
+                        scope.launch {
+                            toastHostState.showToast(
+                                context.getString(
+                                    R.string.smth_went_wrong,
+                                    it.localizedMessage ?: ""
+                                ),
+                                Icons.Rounded.ErrorOutline
+                            )
+                        }
                     }
-                }
+                )
             }
         }
 

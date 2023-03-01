@@ -83,26 +83,25 @@ fun BatchResizeScreen(
     val themeState = LocalDynamicThemeState.current
 
     LaunchedEffect(uriState) {
-        uriState?.let {
-            try {
-                viewModel.updateUris(it)
-                context.decodeBitmapFromUri(
-                    uri = it[0],
-                    onGetMimeType = viewModel::setMime,
-                    onGetExif = {},
-                    onGetBitmap = viewModel::updateBitmap,
-                )
-            } catch (e: Exception) {
-                scope.launch {
-                    toastHostState.showToast(
-                        context.getString(
-                            R.string.smth_went_wrong,
-                            e.localizedMessage ?: ""
-                        ),
-                        Icons.Rounded.ErrorOutline
-                    )
+        uriState?.takeIf { it.isNotEmpty() }?.let {
+            viewModel.updateUris(it)
+            context.decodeBitmapFromUri(
+                uri = it[0],
+                onGetMimeType = viewModel::setMime,
+                onGetExif = {},
+                onGetBitmap = viewModel::updateBitmap,
+                onError = {
+                    scope.launch {
+                        toastHostState.showToast(
+                            context.getString(
+                                R.string.smth_went_wrong,
+                                it.localizedMessage ?: ""
+                            ),
+                            Icons.Rounded.ErrorOutline
+                        )
+                    }
                 }
-            }
+            )
         }
     }
     LaunchedEffect(viewModel.bitmap) {
@@ -116,25 +115,24 @@ fun BatchResizeScreen(
             contract = ActivityResultContracts.PickMultipleVisualMedia()
         ) { list ->
             list.takeIf { it.isNotEmpty() }?.let {
-                try {
-                    viewModel.updateUris(list)
-                    context.decodeBitmapFromUri(
-                        uri = it[0],
-                        onGetMimeType = viewModel::setMime,
-                        onGetExif = {},
-                        onGetBitmap = viewModel::updateBitmap,
-                    )
-                } catch (e: Exception) {
-                    scope.launch {
-                        toastHostState.showToast(
-                            context.getString(
-                                R.string.smth_went_wrong,
-                                e.localizedMessage ?: ""
-                            ),
-                            Icons.Rounded.ErrorOutline
-                        )
+                viewModel.updateUris(list)
+                context.decodeBitmapFromUri(
+                    uri = it[0],
+                    onGetMimeType = viewModel::setMime,
+                    onGetExif = {},
+                    onGetBitmap = viewModel::updateBitmap,
+                    onError = {
+                        scope.launch {
+                            toastHostState.showToast(
+                                context.getString(
+                                    R.string.smth_went_wrong,
+                                    it.localizedMessage ?: ""
+                                ),
+                                Icons.Rounded.ErrorOutline
+                            )
+                        }
                     }
-                }
+                )
             }
         }
 
@@ -592,7 +590,7 @@ fun BatchResizeScreen(
                     }
                 )
             } else if (showPickImageFromUrisDialog) {
-                if((viewModel.uris?.size ?: 0) > 1) {
+                if ((viewModel.uris?.size ?: 0) > 1) {
                     AlertDialog(
                         properties = DialogProperties(usePlatformDefaultWidth = false),
                         modifier = Modifier
@@ -647,7 +645,9 @@ fun BatchResizeScreen(
                                                                 try {
                                                                     viewModel.setBitmap(
                                                                         loader = {
-                                                                            context.getBitmapByUri(uri)
+                                                                            context.getBitmapByUri(
+                                                                                uri
+                                                                            )
                                                                         },
                                                                         uri = uri
                                                                     )
