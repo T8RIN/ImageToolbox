@@ -210,11 +210,9 @@ fun PickColorScreen(
                                             .background(color, RoundedCornerShape(12.dp))
                                             .size(48.dp)
                                             .border(
-                                                2.dp,
-                                                MaterialTheme.colorScheme.secondaryContainer.copy(
-                                                    alpha = 0.5f
-                                                ),
-                                                RoundedCornerShape(12.dp)
+                                                width = 1.dp,
+                                                color = MaterialTheme.colorScheme.outlineVariant,
+                                                shape = RoundedCornerShape(11.dp)
                                             )
                                     )
                                 }
