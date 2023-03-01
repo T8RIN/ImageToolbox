@@ -232,7 +232,10 @@ fun PickColorScreen(
                                     Box(
                                         Modifier
                                             .padding(vertical = 4.dp)
-                                            .background(color, RoundedCornerShape(12.dp))
+                                            .background(
+                                                color = animateColorAsState(color).value,
+                                                shape = RoundedCornerShape(12.dp)
+                                            )
                                             .height(40.dp)
                                             .width(72.dp)
                                             .border(
