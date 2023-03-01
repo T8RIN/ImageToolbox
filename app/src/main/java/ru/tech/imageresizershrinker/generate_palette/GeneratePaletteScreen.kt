@@ -250,10 +250,15 @@ fun GeneratePaletteScreen(
                             )
                         }
                     }
-                } ?: Column {
+                } ?: Column(Modifier.verticalScroll(scrollState)) {
                     Spacer(Modifier.height(16.dp))
                     ImageNotPickedWidget(
                         onPickImage = pickImage
+                    )
+                    Spacer(
+                        Modifier
+                            .padding(bottom = 88.dp)
+                            .navigationBarsPadding()
                     )
                 }
             }

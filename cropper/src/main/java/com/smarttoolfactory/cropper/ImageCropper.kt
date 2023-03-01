@@ -55,7 +55,8 @@ fun ImageCropper(
     filterQuality: FilterQuality = DrawScope.DefaultFilterQuality,
     crop: Boolean = false,
     onCropStart: () -> Unit,
-    onCropSuccess: (ImageBitmap) -> Unit
+    onCropSuccess: (ImageBitmap) -> Unit,
+    background: Color = MaterialTheme.colorScheme.surfaceColorAtElevation(3.dp)
 ) {
 
     ImageWithConstraints(
@@ -175,7 +176,8 @@ fun ImageCropper(
             cropType = cropType,
             cropOutline = cropOutline,
             cropStyle = cropStyle,
-            transparentColor = transparentColor
+            transparentColor = transparentColor,
+            background = background
         )
     }
 }
@@ -191,7 +193,8 @@ fun ImageCropper(
     filterQuality: FilterQuality = DrawScope.DefaultFilterQuality,
     crop: Boolean = false,
     onCropStart: () -> Unit,
-    onCropSuccess: (ImageBitmap, Rect) -> Unit
+    onCropSuccess: (ImageBitmap, Rect) -> Unit,
+    background: Color = MaterialTheme.colorScheme.surfaceColorAtElevation(3.dp)
 ) {
 
     ImageWithConstraints(
@@ -317,7 +320,8 @@ fun ImageCropper(
             cropType = cropType,
             cropOutline = cropOutline,
             cropStyle = cropStyle,
-            transparentColor = transparentColor
+            transparentColor = transparentColor,
+            background = background
         )
     }
 }
@@ -339,12 +343,13 @@ private fun ImageCropper(
     cropStyle: CropStyle,
     overlayRect: Rect,
     transparentColor: Color,
+    background: Color
 ) {
     Box(
         modifier = Modifier
             .fillMaxSize()
             .clip(RoundedCornerShape(4.dp))
-            .background(MaterialTheme.colorScheme.surfaceColorAtElevation(3.dp))
+            .background(background)
     ) {
 
         AnimatedVisibility(

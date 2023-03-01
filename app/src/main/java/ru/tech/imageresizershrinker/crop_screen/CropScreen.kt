@@ -11,7 +11,11 @@ import androidx.activity.compose.BackHandler
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Share
 import androidx.compose.material.icons.rounded.AddPhotoAlternate
@@ -26,6 +30,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.asAndroidBitmap
 import androidx.compose.ui.graphics.asImageBitmap
+import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -41,6 +46,7 @@ import dev.olshevski.navigation.reimagined.pop
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.crop_screen.viewModel.CropViewModel
+import ru.tech.imageresizershrinker.generate_palette.isScrollingUp
 import ru.tech.imageresizershrinker.main_screen.components.Screen
 import ru.tech.imageresizershrinker.resize_screen.components.ImageNotPickedWidget
 import ru.tech.imageresizershrinker.resize_screen.components.LoadingDialog
@@ -168,47 +174,95 @@ fun CropScreen(
         }
     }
 
+
+    val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
+    val scrollState = rememberScrollState()
+
     var crop by remember { mutableStateOf(false) }
     var share by remember { mutableStateOf(false) }
-    Box(Modifier.fillMaxSize()) {
+    Box(
+        Modifier
+            .fillMaxSize()
+            .nestedScroll(scrollBehavior.nestedScrollConnection)
+    ) {
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
-            TopAppBar(
-                modifier = Modifier.shadow(6.dp),
-                title = {
-                    Text(stringResource(R.string.crop))
-                },
-                colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
-                    containerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(
-                        3.dp
-                    )
-                ),
-                navigationIcon = {
-                    IconButton(
-                        onClick = {
-                            if (navController.backstack.entries.isNotEmpty()) navController.pop()
-                            onGoBack()
-                            themeState.reset()
+            if (viewModel.bitmap == null) {
+                LargeTopAppBar(
+                    scrollBehavior = scrollBehavior,
+                    modifier = Modifier.shadow(6.dp),
+                    title = {
+                        Text(stringResource(R.string.crop))
+                    },
+                    colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
+                        containerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(
+                            3.dp
+                        )
+                    ),
+                    navigationIcon = {
+                        IconButton(
+                            onClick = {
+                                if (navController.backstack.entries.isNotEmpty()) navController.pop()
+                                onGoBack()
+                                themeState.reset()
+                            }
+                        ) {
+                            Icon(Icons.Rounded.ArrowBack, null)
                         }
-                    ) {
-                        Icon(Icons.Rounded.ArrowBack, null)
+                    },
+                    actions = {
+                        IconButton(
+                            onClick = {
+                                share = true
+                                crop = true
+                            },
+                            enabled = viewModel.bitmap != null
+                        ) {
+                            Icon(Icons.Outlined.Share, null)
+                        }
                     }
-                },
-                actions = {
-                    IconButton(
-                        onClick = {
-                            share = true
-                            crop = true
-                        },
-                        enabled = viewModel.bitmap != null
-                    ) {
-                        Icon(Icons.Outlined.Share, null)
+                )
+            } else {
+                TopAppBar(
+                    modifier = Modifier.shadow(6.dp),
+                    title = {
+                        Text(stringResource(R.string.crop))
+                    },
+                    colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
+                        containerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(
+                            3.dp
+                        )
+                    ),
+                    navigationIcon = {
+                        IconButton(
+                            onClick = {
+                                if (navController.backstack.entries.isNotEmpty()) navController.pop()
+                                onGoBack()
+                                themeState.reset()
+                            }
+                        ) {
+                            Icon(Icons.Rounded.ArrowBack, null)
+                        }
+                    },
+                    actions = {
+                        IconButton(
+                            onClick = {
+                                share = true
+                                crop = true
+                            },
+                            enabled = viewModel.bitmap != null
+                        ) {
+                            Icon(Icons.Outlined.Share, null)
+                        }
                     }
-                }
-            )
+                )
+            }
             viewModel.bitmap?.let {
                 val bmp = remember(it) { it.asImageBitmap() }
                 ImageCropper(
-                    modifier = Modifier.padding(bottom = 120.dp),
+                    background = MaterialTheme.colorScheme.surface,
+                    modifier = Modifier
+                        .padding(bottom = 88.dp)
+                        .navigationBarsPadding(),
                     imageBitmap = bmp,
                     contentDescription = null,
                     cropProperties = CropDefaults.properties(
@@ -232,10 +286,15 @@ fun CropScreen(
                         share = false
                     }
                 )
-            } ?: Column {
+            } ?: Column(Modifier.verticalScroll(scrollState)) {
                 Spacer(Modifier.height(16.dp))
                 ImageNotPickedWidget(
                     onPickImage = pickImage
+                )
+                Spacer(
+                    Modifier
+                        .padding(bottom = 88.dp)
+                        .navigationBarsPadding()
                 )
             }
         }
@@ -250,13 +309,19 @@ fun CropScreen(
                 onClick = pickImage,
                 modifier = Modifier.navigationBarsPadding()
             ) {
+                val expanded = scrollState.isScrollingUp()
+                val horizontalPadding by animateDpAsState(targetValue = if (expanded) 16.dp else 0.dp)
                 Row(
-                    modifier = Modifier.padding(horizontal = 16.dp),
+                    modifier = Modifier.padding(horizontal = horizontalPadding),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Icon(Icons.Rounded.AddPhotoAlternate, null)
-                    Spacer(Modifier.width(8.dp))
-                    Text(stringResource(R.string.pick_image_alt))
+                    AnimatedVisibility(visible = expanded) {
+                        Row {
+                            Spacer(Modifier.width(8.dp))
+                            Text(stringResource(R.string.pick_image_alt))
+                        }
+                    }
                 }
             }
             if (viewModel.bitmap != null) {

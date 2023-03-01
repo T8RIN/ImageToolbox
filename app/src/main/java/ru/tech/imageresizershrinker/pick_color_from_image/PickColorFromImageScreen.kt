@@ -9,9 +9,8 @@ import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.*
-import androidx.compose.foundation.background
-import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
+import androidx.compose.animation.core.animateDpAsState
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -22,6 +21,7 @@ import androidx.compose.material.icons.rounded.ErrorOutline
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -30,6 +30,7 @@ import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.graphics.toArgb
+import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -42,6 +43,7 @@ import dev.olshevski.navigation.reimagined.navigate
 import dev.olshevski.navigation.reimagined.pop
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.R
+import ru.tech.imageresizershrinker.generate_palette.isScrollingUp
 import ru.tech.imageresizershrinker.main_screen.components.Screen
 import ru.tech.imageresizershrinker.main_screen.components.block
 import ru.tech.imageresizershrinker.pick_color_from_image.viewModel.PickColorViewModel
@@ -124,7 +126,15 @@ fun PickColorFromImageScreen(
             PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly)
         )
     }
-    Box(Modifier.fillMaxSize()) {
+
+    val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
+    val scrollState = rememberScrollState()
+
+    Box(
+        Modifier
+            .fillMaxSize()
+            .nestedScroll(scrollBehavior.nestedScrollConnection)
+    ) {
         val color = viewModel.color
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
             AnimatedContent(
@@ -133,6 +143,7 @@ fun PickColorFromImageScreen(
             ) { noBmp ->
                 if (noBmp) {
                     LargeTopAppBar(
+                        scrollBehavior = scrollBehavior,
                         navigationIcon = {
                             IconButton(
                                 onClick = {
@@ -274,10 +285,15 @@ fun PickColorFromImageScreen(
                             .padding(4.dp),
                         onColorChange = viewModel::updateColor
                     )
-                } ?: Column {
+                } ?: Column(Modifier.verticalScroll(scrollState)) {
                     Spacer(Modifier.height(16.dp))
                     ImageNotPickedWidget(
                         onPickImage = pickImage
+                    )
+                    Spacer(
+                        Modifier
+                            .padding(bottom = 88.dp)
+                            .navigationBarsPadding()
                     )
                 }
             }
@@ -290,13 +306,19 @@ fun PickColorFromImageScreen(
                 .padding(16.dp)
                 .align(Alignment.BottomEnd)
         ) {
+            val expanded = scrollState.isScrollingUp()
+            val horizontalPadding by animateDpAsState(targetValue = if (expanded) 16.dp else 0.dp)
             Row(
-                modifier = Modifier.padding(horizontal = 16.dp),
+                modifier = Modifier.padding(horizontal = horizontalPadding),
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Icon(Icons.Rounded.AddPhotoAlternate, null)
-                Spacer(Modifier.width(8.dp))
-                Text(stringResource(R.string.pick_image_alt))
+                AnimatedVisibility(visible = expanded) {
+                    Row {
+                        Spacer(Modifier.width(8.dp))
+                        Text(stringResource(R.string.pick_image_alt))
+                    }
+                }
             }
         }
     }
