@@ -6,7 +6,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import dev.olshevski.navigation.reimagined.navController
 import dev.olshevski.navigation.reimagined.navigate
-import ru.tech.imageresizershrinker.main_screen.Screen
+import ru.tech.imageresizershrinker.main_screen.components.Screen
 
 class MainViewModel : ViewModel() {
 

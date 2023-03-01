@@ -56,16 +56,16 @@ import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.batch_resize.components.SaveExifWidget
 import ru.tech.imageresizershrinker.batch_resize.viewModel.BatchResizeViewModel
-import ru.tech.imageresizershrinker.main_screen.Screen
-import ru.tech.imageresizershrinker.main_screen.block
-import ru.tech.imageresizershrinker.main_screen.isExternalStorageWritable
-import ru.tech.imageresizershrinker.main_screen.requestPermission
+import ru.tech.imageresizershrinker.main_screen.components.Screen
+import ru.tech.imageresizershrinker.main_screen.components.block
 import ru.tech.imageresizershrinker.resize_screen.components.*
 import ru.tech.imageresizershrinker.utils.BitmapUtils.canShow
 import ru.tech.imageresizershrinker.utils.BitmapUtils.decodeBitmapFromUri
 import ru.tech.imageresizershrinker.utils.BitmapUtils.decodeSampledBitmapFromUri
 import ru.tech.imageresizershrinker.utils.BitmapUtils.getBitmapByUri
 import ru.tech.imageresizershrinker.utils.BitmapUtils.getUriByName
+import ru.tech.imageresizershrinker.utils.ContextUtils.isExternalStorageWritable
+import ru.tech.imageresizershrinker.utils.ContextUtils.requestPermission
 import ru.tech.imageresizershrinker.utils.LocalWindowSizeClass
 import java.io.File
 

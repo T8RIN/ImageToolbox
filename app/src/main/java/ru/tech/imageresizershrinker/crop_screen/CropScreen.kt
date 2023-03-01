@@ -41,15 +41,15 @@ import dev.olshevski.navigation.reimagined.pop
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.crop_screen.viewModel.CropViewModel
-import ru.tech.imageresizershrinker.main_screen.Screen
-import ru.tech.imageresizershrinker.main_screen.isExternalStorageWritable
-import ru.tech.imageresizershrinker.main_screen.requestPermission
+import ru.tech.imageresizershrinker.main_screen.components.Screen
 import ru.tech.imageresizershrinker.resize_screen.components.ImageNotPickedWidget
 import ru.tech.imageresizershrinker.resize_screen.components.LoadingDialog
 import ru.tech.imageresizershrinker.resize_screen.components.ToastHost
 import ru.tech.imageresizershrinker.resize_screen.components.rememberToastHostState
 import ru.tech.imageresizershrinker.utils.BitmapUtils.decodeBitmapFromUri
 import ru.tech.imageresizershrinker.utils.BitmapUtils.shareBitmap
+import ru.tech.imageresizershrinker.utils.ContextUtils.isExternalStorageWritable
+import ru.tech.imageresizershrinker.utils.ContextUtils.requestPermission
 import java.io.File
 
 @OptIn(ExperimentalMaterial3Api::class)

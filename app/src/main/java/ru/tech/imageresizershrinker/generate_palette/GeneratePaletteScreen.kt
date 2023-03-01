@@ -40,10 +40,10 @@ import dev.olshevski.navigation.reimagined.pop
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.generate_palette.viewModel.GeneratePaletteViewModel
-import ru.tech.imageresizershrinker.main_screen.Screen
-import ru.tech.imageresizershrinker.main_screen.block
-import ru.tech.imageresizershrinker.pick_color.copyColorIntoClipboard
-import ru.tech.imageresizershrinker.pick_color.format
+import ru.tech.imageresizershrinker.main_screen.components.Screen
+import ru.tech.imageresizershrinker.main_screen.components.block
+import ru.tech.imageresizershrinker.pick_color_from_image.copyColorIntoClipboard
+import ru.tech.imageresizershrinker.pick_color_from_image.format
 import ru.tech.imageresizershrinker.resize_screen.components.ImageNotPickedWidget
 import ru.tech.imageresizershrinker.resize_screen.components.LoadingDialog
 import ru.tech.imageresizershrinker.resize_screen.components.ToastHost
@@ -127,7 +127,10 @@ fun GeneratePaletteScreen(
 
     val topAppBarScrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
 
-    Box(Modifier.fillMaxSize().nestedScroll(topAppBarScrollBehavior.nestedScrollConnection)) {
+    Box(
+        Modifier
+            .fillMaxSize()
+            .nestedScroll(topAppBarScrollBehavior.nestedScrollConnection)) {
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
             LargeTopAppBar(
                 scrollBehavior = topAppBarScrollBehavior,
@@ -155,7 +158,7 @@ fun GeneratePaletteScreen(
                         IconButton(
                             onClick = {
                                 if (navController.backstack.entries.isNotEmpty()) navController.pop()
-                                navController.navigate(Screen.PickColor(viewModel.uri))
+                                navController.navigate(Screen.PickColorFromImage(viewModel.uri))
                             }
                         ) {
                             Icon(Icons.Rounded.Colorize, null)

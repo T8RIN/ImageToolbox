@@ -31,7 +31,6 @@ import nl.dionsegijn.konfetti.core.*
 import nl.dionsegijn.konfetti.core.emitter.Emitter
 import ru.tech.imageresizershrinker.BuildConfig
 import ru.tech.imageresizershrinker.R
-import ru.tech.imageresizershrinker.main_screen.Screen
 import ru.tech.imageresizershrinker.resize_screen.components.blend
 import ru.tech.imageresizershrinker.utils.LocalWindowSizeClass
 import java.lang.Integer.max
@@ -145,7 +144,7 @@ fun MainScreen(navController: NavController<Screen>) {
                 Spacer(modifier = Modifier.height(16.dp))
                 CropPreference(onClick = { navController.navigate(Screen.Crop) })
                 Spacer(modifier = Modifier.height(16.dp))
-                PickColorPreference(onClick = { navController.navigate(Screen.PickColor()) })
+                PickColorPreference(onClick = { navController.navigate(Screen.PickColorFromImage()) })
                 Spacer(modifier = Modifier.height(16.dp))
                 GeneratePalettePreference(onClick = { navController.navigate(Screen.GeneratePalette()) })
                 Spacer(modifier = Modifier.height(32.dp))
@@ -210,7 +209,7 @@ fun MainScreen(navController: NavController<Screen>) {
                     var heightOne by remember { mutableStateOf(0) }
                     var heightTwo by remember { mutableStateOf(0) }
                     PickColorPreference(
-                        onClick = { navController.navigate(Screen.PickColor()) },
+                        onClick = { navController.navigate(Screen.PickColorFromImage()) },
                         modifier = Modifier
                             .then(
                                 if (heightOne != 0 && heightTwo != 0) {

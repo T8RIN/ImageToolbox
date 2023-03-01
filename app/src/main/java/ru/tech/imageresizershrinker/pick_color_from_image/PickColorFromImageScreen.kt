@@ -1,4 +1,4 @@
-package ru.tech.imageresizershrinker.pick_color
+package ru.tech.imageresizershrinker.pick_color_from_image
 
 import android.content.ClipData
 import android.content.ClipboardManager
@@ -42,9 +42,9 @@ import dev.olshevski.navigation.reimagined.navigate
 import dev.olshevski.navigation.reimagined.pop
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.R
-import ru.tech.imageresizershrinker.main_screen.Screen
-import ru.tech.imageresizershrinker.main_screen.block
-import ru.tech.imageresizershrinker.pick_color.viewModel.PickColorViewModel
+import ru.tech.imageresizershrinker.main_screen.components.Screen
+import ru.tech.imageresizershrinker.main_screen.components.block
+import ru.tech.imageresizershrinker.pick_color_from_image.viewModel.PickColorViewModel
 import ru.tech.imageresizershrinker.resize_screen.components.ImageNotPickedWidget
 import ru.tech.imageresizershrinker.resize_screen.components.LoadingDialog
 import ru.tech.imageresizershrinker.resize_screen.components.ToastHost
@@ -54,7 +54,7 @@ import ru.tech.imageresizershrinker.utils.BitmapUtils.decodeBitmapFromUri
 
 @OptIn(ExperimentalAnimationApi::class, ExperimentalMaterial3Api::class)
 @Composable
-fun PickColorScreen(
+fun PickColorFromImageScreen(
     uriState: Uri?,
     navController: NavController<Screen>,
     onGoBack: () -> Unit,
