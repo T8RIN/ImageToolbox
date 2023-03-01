@@ -7,7 +7,10 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
@@ -16,10 +19,6 @@ import androidx.compose.ui.graphics.asAndroidBitmap
 import androidx.compose.ui.unit.dp
 import androidx.palette.graphics.Palette
 import com.smarttoolfactory.extendedcolors.util.fractionToIntPercent
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.flowOn
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.map
 
 /**
  * Composable that creates color lists [Palette.Swatch] using **Palette API**
@@ -36,20 +35,14 @@ fun ImageColorPalette(
     maximumColorCount: Int = 32,
     onColorChange: (ColorData) -> Unit
 ) {
-    val paletteData = remember {
-        mutableStateListOf<PaletteData>()
-    }
-
-    LaunchedEffect(key1 = imageBitmap) {
-        snapshotFlow {
-            imageBitmap
-        }.map {
+    val paletteData: List<PaletteData> by remember(imageBitmap) {
+        derivedStateOf {
+            val paletteData = mutableListOf<PaletteData>()
             val palette = Palette
                 .from(imageBitmap.asAndroidBitmap())
                 .maximumColorCount(maximumColorCount)
                 .generate()
 
-            paletteData.clear()
 
             val numberOfPixels: Float = palette.swatches.sumOf {
                 it.population
@@ -64,18 +57,13 @@ fun ImageColorPalette(
                     paletteData.add(PaletteData(colorData = colorData, percent))
                 }
             }
+            paletteData.sortedByDescending { it.percent }
         }
-            .flowOn(Dispatchers.Default)
-            .launchIn(this)
     }
 
     ColorProfileList(
         modifier = modifier,
-        paletteDataList = remember(paletteData) {
-            derivedStateOf {
-                paletteData.sortedByDescending { it.percent }
-            }
-        }.value,
+        paletteDataList = paletteData,
         onColorChange = onColorChange
     )
 }
