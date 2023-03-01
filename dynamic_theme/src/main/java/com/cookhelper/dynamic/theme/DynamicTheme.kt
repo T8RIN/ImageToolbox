@@ -2,6 +2,7 @@ package com.cookhelper.dynamic.theme
 
 import android.graphics.Bitmap
 import androidx.annotation.FloatRange
+import androidx.compose.animation.animateColorAsState
 import androidx.compose.material3.ColorScheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.darkColorScheme
@@ -11,7 +12,6 @@ import androidx.compose.runtime.saveable.Saver
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
-import androidx.compose.ui.platform.LocalContext
 import androidx.core.graphics.ColorUtils
 import androidx.palette.graphics.Palette
 import com.cookhelper.dynamic.theme.scheme.Scheme
@@ -29,7 +29,7 @@ public fun DynamicTheme(
 ) {
     val scheme = rememberColorScheme(
         isDarkTheme = isDarkTheme,
-        color = state.primaryColor.value
+        color = state.animatedPrimaryColor.value
     )
     MaterialTheme(
         colorScheme = scheme,
@@ -83,6 +83,9 @@ public class DynamicThemeState(
 ) {
 
     public val primaryColor: MutableState<Color> = mutableStateOf(initialPrimaryColor)
+
+    public inline val animatedPrimaryColor: State<Color>
+        @Composable get() = animateColorAsState(primaryColor.value)
 
     public fun updateColor(color: Color) {
         defColor = color
