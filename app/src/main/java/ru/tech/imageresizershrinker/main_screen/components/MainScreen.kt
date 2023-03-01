@@ -24,6 +24,7 @@ import androidx.compose.ui.unit.dp
 import com.cookhelper.dynamic.theme.LocalDynamicThemeState
 import dev.olshevski.navigation.reimagined.NavController
 import dev.olshevski.navigation.reimagined.navigate
+import dev.olshevski.navigation.reimagined.popUpTo
 import kotlinx.coroutines.delay
 import nl.dionsegijn.konfetti.compose.KonfettiView
 import nl.dionsegijn.konfetti.compose.OnParticleSystemUpdateListener
@@ -138,15 +139,32 @@ fun MainScreen(navController: NavController<Screen>) {
         ) {
             if (!isGrid) {
                 Spacer(modifier = Modifier.height(16.dp))
-                SingleResizePreference(onClick = { navController.navigate(Screen.SingleResize) })
+                SingleResizePreference(
+                    onClick = {
+                        navController.popUpTo { it == Screen.Main }
+                        navController.navigate(Screen.SingleResize)
+                    }
+                )
                 Spacer(modifier = Modifier.height(16.dp))
-                BatchResizePreference(onClick = { navController.navigate(Screen.BatchResize) })
+                BatchResizePreference(
+                    onClick = {
+                        navController.popUpTo { it == Screen.Main }
+                        navController.navigate(Screen.BatchResize)
+                    }
+                )
                 Spacer(modifier = Modifier.height(16.dp))
-                CropPreference(onClick = { navController.navigate(Screen.Crop) })
+                CropPreference(
+                    onClick = {
+                        navController.popUpTo { it == Screen.Main }
+                        navController.navigate(Screen.Crop)
+                    }
+                )
                 Spacer(modifier = Modifier.height(16.dp))
-                PickColorPreference(onClick = { navController.navigate(Screen.PickColorFromImage()) })
+                PickColorPreference(
+                    onClick = { navController.navigate(Screen.PickColorFromImage) }
+                )
                 Spacer(modifier = Modifier.height(16.dp))
-                GeneratePalettePreference(onClick = { navController.navigate(Screen.GeneratePalette()) })
+                GeneratePalettePreference(onClick = { navController.navigate(Screen.GeneratePalette) })
                 Spacer(modifier = Modifier.height(32.dp))
                 SourceCodePreference()
                 Spacer(modifier = Modifier.height(16.dp))
@@ -209,7 +227,7 @@ fun MainScreen(navController: NavController<Screen>) {
                     var heightOne by remember { mutableStateOf(0) }
                     var heightTwo by remember { mutableStateOf(0) }
                     PickColorPreference(
-                        onClick = { navController.navigate(Screen.PickColorFromImage()) },
+                        onClick = { navController.navigate(Screen.PickColorFromImage) },
                         modifier = Modifier
                             .then(
                                 if (heightOne != 0 && heightTwo != 0) {
@@ -256,7 +274,7 @@ fun MainScreen(navController: NavController<Screen>) {
                     var heightOne by remember { mutableStateOf(0) }
                     var heightTwo by remember { mutableStateOf(0) }
                     GeneratePalettePreference(
-                        onClick = { navController.navigate(Screen.GeneratePalette()) },
+                        onClick = { navController.navigate(Screen.GeneratePalette) },
                         modifier = Modifier
                             .then(
                                 if (heightOne != 0 && heightTwo != 0) {

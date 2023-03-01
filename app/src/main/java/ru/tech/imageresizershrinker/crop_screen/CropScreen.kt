@@ -64,6 +64,7 @@ fun CropScreen(
     uriState: Uri?,
     navController: NavController<Screen>,
     onGoBack: () -> Unit,
+    pushNewUri: (Uri?) -> Unit,
     viewModel: CropViewModel = viewModel()
 ) {
     val context = LocalContext.current as ComponentActivity
@@ -73,6 +74,7 @@ fun CropScreen(
 
     LaunchedEffect(uriState) {
         uriState?.let {
+            pushNewUri(null)
             context.decodeBitmapFromUri(
                 uri = it,
                 onGetMimeType = viewModel::updateMimeType,

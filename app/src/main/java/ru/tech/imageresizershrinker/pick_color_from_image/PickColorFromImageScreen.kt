@@ -60,6 +60,7 @@ fun PickColorFromImageScreen(
     uriState: Uri?,
     navController: NavController<Screen>,
     onGoBack: () -> Unit,
+    pushNewUri: (Uri?) -> Unit,
     viewModel: PickColorViewModel = viewModel()
 ) {
     val context = LocalContext.current
@@ -70,6 +71,7 @@ fun PickColorFromImageScreen(
     LaunchedEffect(uriState) {
         uriState?.let {
             viewModel.setUri(it)
+            pushNewUri(null)
             context.decodeBitmapFromUri(
                 uri = it,
                 onGetMimeType = {},
@@ -89,6 +91,7 @@ fun PickColorFromImageScreen(
             )
         }
     }
+
     LaunchedEffect(viewModel.bitmap) {
         viewModel.bitmap?.let {
             themeState.updateColorByImage(it)
@@ -193,7 +196,8 @@ fun PickColorFromImageScreen(
                                     IconButton(
                                         onClick = {
                                             if (navController.backstack.entries.isNotEmpty()) navController.pop()
-                                            navController.navigate(Screen.GeneratePalette(viewModel.uri))
+                                            navController.navigate(Screen.GeneratePalette)
+                                            pushNewUri(viewModel.uri)
                                         },
                                         modifier = Modifier.statusBarsPadding()
                                     ) {
@@ -201,6 +205,7 @@ fun PickColorFromImageScreen(
                                     }
                                 }
                             }
+                            Spacer(modifier = Modifier.height(8.dp))
                             ProvideTextStyle(value = LocalTextStyle.current.merge(MaterialTheme.typography.headlineSmall)) {
                                 Row(
                                     verticalAlignment = Alignment.CenterVertically,

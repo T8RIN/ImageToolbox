@@ -24,6 +24,7 @@ import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.WindowCompat
 import dev.olshevski.navigation.reimagined.AnimatedNavHost
 import dev.olshevski.navigation.reimagined.navigate
+import dev.olshevski.navigation.reimagined.popUpTo
 import ru.tech.imageresizershrinker.ImageResizerTheme
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.batch_resize.BatchResizeScreen
@@ -73,35 +74,40 @@ class MainActivity : ComponentActivity() {
                                 SingleResizeScreen(
                                     uriState = viewModel.uri,
                                     navController = viewModel.navController,
-                                    onGoBack = { viewModel.updateUri(null) }
+                                    onGoBack = { viewModel.updateUri(null) },
+                                    pushNewUri = viewModel::updateUri
                                 )
                             }
                             is Screen.PickColorFromImage -> {
                                 PickColorFromImageScreen(
-                                    uriState = screen.uri.takeIf { it != null } ?: viewModel.uri,
+                                    uriState = viewModel.uri,
                                     navController = viewModel.navController,
-                                    onGoBack = { viewModel.updateUri(null) }
+                                    onGoBack = { viewModel.updateUri(null) },
+                                    pushNewUri = viewModel::updateUri
                                 )
                             }
                             is Screen.Crop -> {
                                 CropScreen(
                                     uriState = viewModel.uri,
                                     navController = viewModel.navController,
-                                    onGoBack = { viewModel.updateUri(null) }
+                                    onGoBack = { viewModel.updateUri(null) },
+                                    pushNewUri = viewModel::updateUri
                                 )
                             }
                             is Screen.BatchResize -> {
                                 BatchResizeScreen(
                                     uriState = viewModel.uris,
                                     navController = viewModel.navController,
-                                    onGoBack = { viewModel.updateUris(null) }
+                                    onGoBack = { viewModel.updateUris(null) },
+                                    pushNewUris = viewModel::updateUris
                                 )
                             }
                             is Screen.GeneratePalette -> {
                                 GeneratePaletteScreen(
-                                    uriState = screen.uri.takeIf { it != null } ?: viewModel.uri,
+                                    uriState = viewModel.uri,
                                     navController = viewModel.navController,
-                                    onGoBack = { viewModel.updateUri(null) }
+                                    onGoBack = { viewModel.updateUri(null) },
+                                    pushNewUri = viewModel::updateUri
                                 )
                             }
                         }
@@ -147,6 +153,7 @@ class MainActivity : ComponentActivity() {
                             Column(Modifier.verticalScroll(rememberScrollState())) {
                                 SingleResizePreference(
                                     onClick = {
+                                        viewModel.navController.popUpTo { it == Screen.Main }
                                         viewModel.navController.navigate(Screen.SingleResize)
                                         viewModel.hideSelectDialog()
                                     },
@@ -155,6 +162,7 @@ class MainActivity : ComponentActivity() {
                                 Spacer(modifier = Modifier.height(8.dp))
                                 CropPreference(
                                     onClick = {
+                                        viewModel.navController.popUpTo { it == Screen.Main }
                                         viewModel.navController.navigate(Screen.Crop)
                                         viewModel.hideSelectDialog()
                                     },
@@ -163,9 +171,8 @@ class MainActivity : ComponentActivity() {
                                 Spacer(modifier = Modifier.height(8.dp))
                                 PickColorPreference(
                                     onClick = {
-                                        viewModel.navController.navigate(
-                                            Screen.PickColorFromImage(viewModel.uri)
-                                        )
+                                        viewModel.navController.popUpTo { it == Screen.Main }
+                                        viewModel.navController.navigate(Screen.PickColorFromImage)
                                         viewModel.hideSelectDialog()
                                     },
                                     color = MaterialTheme.colorScheme.secondaryContainer
@@ -173,9 +180,8 @@ class MainActivity : ComponentActivity() {
                                 Spacer(modifier = Modifier.height(8.dp))
                                 GeneratePalettePreference(
                                     onClick = {
-                                        viewModel.navController.navigate(
-                                            Screen.GeneratePalette(viewModel.uri)
-                                        )
+                                        viewModel.navController.popUpTo { it == Screen.Main }
+                                        viewModel.navController.navigate(Screen.GeneratePalette)
                                         viewModel.hideSelectDialog()
                                     },
                                     color = MaterialTheme.colorScheme.secondaryContainer

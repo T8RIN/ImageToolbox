@@ -57,6 +57,7 @@ fun GeneratePaletteScreen(
     uriState: Uri?,
     navController: NavController<Screen>,
     onGoBack: () -> Unit,
+    pushNewUri: (Uri?) -> Unit,
     viewModel: GeneratePaletteViewModel = viewModel()
 ) {
     val context = LocalContext.current
@@ -67,6 +68,7 @@ fun GeneratePaletteScreen(
     LaunchedEffect(uriState) {
         uriState?.let {
             viewModel.setUri(it)
+            pushNewUri(null)
             context.decodeBitmapFromUri(
                 uri = it,
                 onGetMimeType = {},
@@ -158,7 +160,8 @@ fun GeneratePaletteScreen(
                         IconButton(
                             onClick = {
                                 if (navController.backstack.entries.isNotEmpty()) navController.pop()
-                                navController.navigate(Screen.PickColorFromImage(viewModel.uri))
+                                navController.navigate(Screen.PickColorFromImage)
+                                pushNewUri(viewModel.uri)
                             }
                         ) {
                             Icon(Icons.Rounded.Colorize, null)

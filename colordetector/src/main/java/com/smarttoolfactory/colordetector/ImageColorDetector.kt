@@ -98,7 +98,7 @@ internal fun ColorSelectionDrawing(
     modifier: Modifier,
     offset: Offset,
 ) {
-    val color = androidx.compose.material3.MaterialTheme.colorScheme.onSurface
+    val color = Color.White
 
     androidx.compose.foundation.Canvas(modifier = modifier.fillMaxSize()) {
 

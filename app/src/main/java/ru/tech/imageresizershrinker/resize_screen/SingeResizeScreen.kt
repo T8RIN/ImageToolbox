@@ -79,6 +79,7 @@ import java.io.File
 fun Context.SingleResizeScreen(
     viewModel: SingleResizeViewModel = viewModel(),
     onGoBack: () -> Unit,
+    pushNewUri: (Uri?) -> Unit,
     uriState: Uri?, navController: NavController<Screen>
 ) {
     val toastHostState = rememberToastHostState()
@@ -104,6 +105,7 @@ fun Context.SingleResizeScreen(
                     }
                 }
             )
+            pushNewUri(null)
         }
     }
     LaunchedEffect(viewModel.bitmap) {

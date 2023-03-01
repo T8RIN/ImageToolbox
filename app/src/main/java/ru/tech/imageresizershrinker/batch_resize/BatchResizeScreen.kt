@@ -75,6 +75,7 @@ fun BatchResizeScreen(
     uriState: List<Uri>?,
     navController: NavController<Screen>,
     onGoBack: () -> Unit,
+    pushNewUris: (List<Uri>?) -> Unit,
     viewModel: BatchResizeViewModel = viewModel()
 ) {
     val context = LocalContext.current as ComponentActivity
@@ -85,6 +86,7 @@ fun BatchResizeScreen(
     LaunchedEffect(uriState) {
         uriState?.takeIf { it.isNotEmpty() }?.let {
             viewModel.updateUris(it)
+            pushNewUris(null)
             context.decodeBitmapFromUri(
                 uri = it[0],
                 onGetMimeType = viewModel::setMime,
