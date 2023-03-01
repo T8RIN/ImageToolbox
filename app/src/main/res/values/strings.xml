@@ -62,5 +62,6 @@
     <string name="change_preview">Change preview</string>
     <string name="remove">Remove</string>
     <string name="palette_sub">Generate color palette swatch from given image</string>
-    <string name="palette">Generate palette</string>
+    <string name="generate_palette">Generate palette</string>
+    <string name="palette">Palette</string>
 </resources>

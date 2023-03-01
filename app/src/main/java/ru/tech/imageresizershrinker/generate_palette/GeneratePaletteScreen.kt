@@ -131,7 +131,10 @@ fun GeneratePaletteScreen(
                     containerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(3.dp)
                 ),
                 modifier = Modifier.shadow(6.dp),
-                title = { Text(stringResource(R.string.palette)) },
+                title = {
+                    if (viewModel.bitmap == null) Text(stringResource(R.string.generate_palette))
+                    else Text(stringResource(R.string.palette))
+                },
                 navigationIcon = {
                     IconButton(
                         onClick = {

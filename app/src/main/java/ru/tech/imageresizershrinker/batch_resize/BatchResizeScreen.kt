@@ -313,7 +313,7 @@ fun BatchResizeScreen(
     ) {
         Box(Modifier.fillMaxSize()) {
             Column(Modifier.fillMaxSize()) {
-                CenterAlignedTopAppBar(
+                TopAppBar(
                     modifier = Modifier.shadow(6.dp),
                     title = {
                         AnimatedContent(
@@ -321,7 +321,10 @@ fun BatchResizeScreen(
                             transitionSpec = { fadeIn() with fadeOut() }
                         ) { (bmp, loading) ->
                             if (bmp == null) {
-                                Text(stringResource(R.string.app_name))
+                                Text(
+                                    stringResource(R.string.batch_resize),
+                                    textAlign = TextAlign.Center
+                                )
                             } else if (!loading) {
                                 Text(
                                     stringResource(

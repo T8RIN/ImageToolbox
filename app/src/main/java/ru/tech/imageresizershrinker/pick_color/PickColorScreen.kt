@@ -8,9 +8,7 @@ import androidx.activity.compose.BackHandler
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.compose.animation.AnimatedContent
-import androidx.compose.animation.ExperimentalAnimationApi
-import androidx.compose.animation.animateContentSize
+import androidx.compose.animation.*
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -18,6 +16,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.AddPhotoAlternate
+import androidx.compose.material.icons.rounded.ArrowBack
 import androidx.compose.material.icons.rounded.ContentPaste
 import androidx.compose.material.icons.rounded.ErrorOutline
 import androidx.compose.material3.*
@@ -51,7 +50,7 @@ import ru.tech.imageresizershrinker.resize_screen.components.ToastHost
 import ru.tech.imageresizershrinker.resize_screen.components.rememberToastHostState
 import ru.tech.imageresizershrinker.utils.BitmapUtils.decodeBitmapFromUri
 
-@OptIn(ExperimentalAnimationApi::class)
+@OptIn(ExperimentalAnimationApi::class, ExperimentalMaterial3Api::class)
 @Composable
 fun PickColorScreen(
     uriState: Uri?,
@@ -124,64 +123,102 @@ fun PickColorScreen(
     Box(Modifier.fillMaxSize()) {
         val color = viewModel.color
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
-            Surface(
-                color = MaterialTheme.colorScheme.surfaceColorAtElevation(3.dp),
-                modifier = Modifier
-                    .animateContentSize()
-                    .shadow(6.dp),
-            ) {
-                Column {
-                    Spacer(modifier = Modifier.height(30.dp))
-                    ProvideTextStyle(value = LocalTextStyle.current.merge(MaterialTheme.typography.headlineSmall)) {
-                        Row(
-                            verticalAlignment = Alignment.CenterVertically,
-                            modifier = Modifier
-                                .statusBarsPadding()
-                                .padding(16.dp)
-                        ) {
-                            Text(stringResource(R.string.color))
+            AnimatedContent(
+                targetState = viewModel.bitmap == null,
+                transitionSpec = { fadeIn() with fadeOut() }
+            ) { noBmp ->
+                if (noBmp) {
+                    MediumTopAppBar(
+                        navigationIcon = {
+                            IconButton(
+                                onClick = {
+                                    if (navController.backstack.entries.isNotEmpty()) navController.pop()
+                                    onGoBack()
+                                    themeState.reset()
+                                }
+                            ) {
+                                Icon(Icons.Rounded.ArrowBack, null)
+                            }
+                        },
+                        title = { Text(stringResource(R.string.pick_color)) },
+                        colors = TopAppBarDefaults.mediumTopAppBarColors(
+                            containerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(3.dp)
+                        ),
+                        modifier = Modifier
+                            .shadow(6.dp)
+                    )
+                } else {
+                    Surface(
+                        color = MaterialTheme.colorScheme.surfaceColorAtElevation(3.dp),
+                        modifier = Modifier
+                            .animateContentSize()
+                            .shadow(6.dp),
+                    ) {
+                        Column {
+                            Spacer(modifier = Modifier.height(8.dp))
+                            IconButton(
+                                onClick = {
+                                    if (navController.backstack.entries.isNotEmpty()) navController.pop()
+                                    onGoBack()
+                                    themeState.reset()
+                                },
+                                modifier = Modifier.statusBarsPadding()
+                            ) {
+                                Icon(Icons.Rounded.ArrowBack, null)
+                            }
+                            ProvideTextStyle(value = LocalTextStyle.current.merge(MaterialTheme.typography.headlineSmall)) {
+                                Row(
+                                    verticalAlignment = Alignment.CenterVertically,
+                                    modifier = Modifier
+                                        .padding(start = 16.dp, end = 16.dp, bottom = 16.dp)
+                                ) {
+                                    Text(stringResource(R.string.color))
 
-                            Text(
-                                modifier = Modifier
-                                    .padding(horizontal = 8.dp)
-                                    .clip(RoundedCornerShape(8.dp))
-                                    .clickable {
-                                        context.copyColorIntoClipboard(
-                                            context.getString(R.string.color),
-                                            color.format()
+                                    Text(
+                                        modifier = Modifier
+                                            .padding(horizontal = 8.dp)
+                                            .clip(RoundedCornerShape(8.dp))
+                                            .clickable {
+                                                context.copyColorIntoClipboard(
+                                                    context.getString(R.string.color),
+                                                    color.format()
+                                                )
+                                                scope.launch {
+                                                    toastHostState.showToast(
+                                                        icon = Icons.Rounded.ContentPaste,
+                                                        message = context.getString(R.string.color_copied)
+                                                    )
+                                                }
+                                            }
+                                            .background(MaterialTheme.colorScheme.secondaryContainer)
+                                            .padding(horizontal = 4.dp),
+                                        text = color.format(),
+                                        style = LocalTextStyle.current.copy(
+                                            fontWeight = FontWeight.Bold,
+                                            color = MaterialTheme.colorScheme.onSecondaryContainer
                                         )
-                                        scope.launch {
-                                            toastHostState.showToast(
-                                                icon = Icons.Rounded.ContentPaste,
-                                                message = context.getString(R.string.color_copied)
-                                            )
-                                        }
-                                    }
-                                    .background(MaterialTheme.colorScheme.secondaryContainer)
-                                    .padding(horizontal = 4.dp),
-                                text = color.format(),
-                                style = LocalTextStyle.current.copy(
-                                    fontWeight = FontWeight.Bold,
-                                    color = MaterialTheme.colorScheme.onSecondaryContainer
-                                )
-                            )
-
-                            Spacer(
-                                modifier = Modifier
-                                    .weight(1f)
-                                    .padding(2.dp)
-                            )
-
-                            Box(
-                                Modifier
-                                    .background(color, RoundedCornerShape(12.dp))
-                                    .size(48.dp)
-                                    .border(
-                                        2.dp,
-                                        MaterialTheme.colorScheme.secondaryContainer.copy(alpha = 0.5f),
-                                        RoundedCornerShape(12.dp)
                                     )
-                            )
+
+                                    Spacer(
+                                        modifier = Modifier
+                                            .weight(1f)
+                                            .padding(2.dp)
+                                    )
+
+                                    Box(
+                                        Modifier
+                                            .background(color, RoundedCornerShape(12.dp))
+                                            .size(48.dp)
+                                            .border(
+                                                2.dp,
+                                                MaterialTheme.colorScheme.secondaryContainer.copy(
+                                                    alpha = 0.5f
+                                                ),
+                                                RoundedCornerShape(12.dp)
+                                            )
+                                    )
+                                }
+                            }
                         }
                     }
                 }

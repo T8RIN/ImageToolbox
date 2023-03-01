@@ -59,5 +59,6 @@
     <string name="change_preview">Modifier l\'aperçu</string>
     <string name="remove">Retirer</string>
     <string name="palette_sub">Générer un échantillon de palette de couleurs à partir d\'une image donnée</string>
-    <string name="palette">Générer la palette</string>
+    <string name="generate_palette">Générer la palette</string>
+    <string name="palette">Palette</string>
 </resources>

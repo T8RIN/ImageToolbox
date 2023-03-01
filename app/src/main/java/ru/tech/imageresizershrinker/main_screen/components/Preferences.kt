@@ -89,7 +89,7 @@ fun GeneratePalettePreference(
     PreferenceItem(
         onClick = onClick,
         icon = Icons.Rounded.PaletteSwatch,
-        title = stringResource(R.string.palette),
+        title = stringResource(R.string.generate_palette),
         subtitle = stringResource(R.string.palette_sub),
         modifier = modifier,
         color = color

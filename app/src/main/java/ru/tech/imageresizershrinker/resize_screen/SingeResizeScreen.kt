@@ -119,6 +119,7 @@ fun Context.SingleResizeScreen(
     var showEditExifDialog by rememberSaveable { mutableStateOf(false) }
     var showExifSavingDialog by rememberSaveable { mutableStateOf(false) }
     var showCropDialog by rememberSaveable { mutableStateOf(false) }
+    var showExitDialog by rememberSaveable { mutableStateOf(false) }
 
     val state = rememberLazyListState()
 
@@ -312,7 +313,10 @@ fun Context.SingleResizeScreen(
                             transitionSpec = { fadeIn() with fadeOut() }
                         ) { (bmp, loading) ->
                             if (bmp == null) {
-                                Text(stringResource(R.string.app_name))
+                                Text(
+                                    stringResource(R.string.single_resize),
+                                    textAlign = TextAlign.Center
+                                )
                             } else if (!loading) {
                                 Text(
                                     stringResource(
@@ -531,7 +535,6 @@ fun Context.SingleResizeScreen(
                 }
             }
 
-            var showExitDialog by rememberSaveable { mutableStateOf(false) }
 
             if (showExitDialog) {
                 AlertDialog(

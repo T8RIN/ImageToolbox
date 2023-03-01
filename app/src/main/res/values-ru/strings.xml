@@ -59,5 +59,6 @@
     <string name="change_preview">Изменить превью</string>
     <string name="remove">Убрать</string>
     <string name="palette_sub">Создать образец цветовой палитры из данного изображения</string>
-    <string name="palette">Сгенерировать палитру</string>
+    <string name="generate_palette">Сгенерировать палитру</string>
+    <string name="palette">Палитра</string>
 </resources>
