@@ -22,9 +22,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.WindowCompat
-import dev.olshevski.navigation.reimagined.AnimatedNavHost
-import dev.olshevski.navigation.reimagined.navigate
-import dev.olshevski.navigation.reimagined.popUpTo
+import dev.olshevski.navigation.reimagined.*
 import ru.tech.imageresizershrinker.ImageResizerTheme
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.batch_resize.BatchResizeScreen
@@ -65,7 +63,16 @@ class MainActivity : ComponentActivity() {
                 BackHandler { showExitDialog = true }
 
                 Surface(Modifier.fillMaxSize()) {
-                    AnimatedNavHost(controller = viewModel.navController) { screen ->
+                    AnimatedNavHost(
+                        controller = viewModel.navController,
+                        transitionSpec = { action, from, to ->
+                            if (to != Screen.Main) {
+                                slideInVertically() + fadeIn() with fadeOut()
+                            } else {
+                                fadeIn() with fadeOut() + slideOutVertically()
+                            }
+                        }
+                    ) { screen ->
                         when (screen) {
                             is Screen.Main -> {
                                 MainScreen(viewModel.navController)
