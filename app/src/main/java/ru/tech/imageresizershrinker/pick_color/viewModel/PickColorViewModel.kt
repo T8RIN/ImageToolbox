@@ -1,6 +1,7 @@
 package ru.tech.imageresizershrinker.pick_color.viewModel
 
 import android.graphics.Bitmap
+import android.net.Uri
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -23,6 +24,13 @@ class PickColorViewModel : ViewModel() {
 
     private val _isLoading: MutableState<Boolean> = mutableStateOf(false)
     val isLoading: Boolean by _isLoading
+
+    private val _uri = mutableStateOf<Uri?>(null)
+    val uri by _uri
+
+    fun setUri(uri: Uri) {
+        _uri.value = uri
+    }
 
     fun updateBitmap(bitmap: Bitmap?) {
         viewModelScope.launch {

@@ -145,9 +145,9 @@ fun MainScreen(navController: NavController<Screen>) {
                 Spacer(modifier = Modifier.height(16.dp))
                 CropPreference(onClick = { navController.navigate(Screen.Crop) })
                 Spacer(modifier = Modifier.height(16.dp))
-                PickColorPreference(onClick = { navController.navigate(Screen.PickColor) })
+                PickColorPreference(onClick = { navController.navigate(Screen.PickColor()) })
                 Spacer(modifier = Modifier.height(16.dp))
-                GeneratePalettePreference(onClick = { navController.navigate(Screen.GeneratePalette) })
+                GeneratePalettePreference(onClick = { navController.navigate(Screen.GeneratePalette()) })
                 Spacer(modifier = Modifier.height(32.dp))
                 SourceCodePreference()
                 Spacer(modifier = Modifier.height(16.dp))
@@ -210,7 +210,7 @@ fun MainScreen(navController: NavController<Screen>) {
                     var heightOne by remember { mutableStateOf(0) }
                     var heightTwo by remember { mutableStateOf(0) }
                     PickColorPreference(
-                        onClick = { navController.navigate(Screen.PickColor) },
+                        onClick = { navController.navigate(Screen.PickColor()) },
                         modifier = Modifier
                             .then(
                                 if (heightOne != 0 && heightTwo != 0) {
@@ -257,7 +257,7 @@ fun MainScreen(navController: NavController<Screen>) {
                     var heightOne by remember { mutableStateOf(0) }
                     var heightTwo by remember { mutableStateOf(0) }
                     GeneratePalettePreference(
-                        onClick = { navController.navigate(Screen.GeneratePalette) },
+                        onClick = { navController.navigate(Screen.GeneratePalette()) },
                         modifier = Modifier
                             .then(
                                 if (heightOne != 0 && heightTwo != 0) {

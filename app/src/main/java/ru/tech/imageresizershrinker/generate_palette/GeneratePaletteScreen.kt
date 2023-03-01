@@ -17,10 +17,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.AddPhotoAlternate
-import androidx.compose.material.icons.rounded.ArrowBack
-import androidx.compose.material.icons.rounded.ContentPaste
-import androidx.compose.material.icons.rounded.ErrorOutline
+import androidx.compose.material.icons.rounded.*
 import androidx.compose.material3.*
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.*
@@ -37,6 +34,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.cookhelper.dynamic.theme.LocalDynamicThemeState
 import com.smarttoolfactory.colordetector.ImageColorPalette
 import dev.olshevski.navigation.reimagined.NavController
+import dev.olshevski.navigation.reimagined.navigate
 import dev.olshevski.navigation.reimagined.pop
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.R
@@ -67,6 +65,7 @@ fun GeneratePaletteScreen(
 
     LaunchedEffect(uriState) {
         uriState?.let {
+            viewModel.setUri(it)
             context.decodeBitmapFromUri(
                 uri = it,
                 onGetMimeType = {},
@@ -97,6 +96,7 @@ fun GeneratePaletteScreen(
             contract = ActivityResultContracts.PickVisualMedia()
         ) { uri ->
             uri?.let {
+                viewModel.setUri(it)
                 context.decodeBitmapFromUri(
                     uri = it,
                     onGetMimeType = {},
@@ -144,6 +144,18 @@ fun GeneratePaletteScreen(
                         }
                     ) {
                         Icon(Icons.Rounded.ArrowBack, null)
+                    }
+                },
+                actions = {
+                    if (viewModel.uri != null) {
+                        IconButton(
+                            onClick = {
+                                if (navController.backstack.entries.isNotEmpty()) navController.pop()
+                                navController.navigate(Screen.PickColor(viewModel.uri))
+                            }
+                        ) {
+                            Icon(Icons.Rounded.Colorize, null)
+                        }
                     }
                 }
             )

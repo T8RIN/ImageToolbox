@@ -35,6 +35,7 @@ import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.WindowCompat
 import dev.olshevski.navigation.reimagined.AnimatedNavHost
 import dev.olshevski.navigation.reimagined.navigate
+import kotlinx.parcelize.Parcelize
 import ru.tech.imageresizershrinker.ImageResizerTheme
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.batch_resize.BatchResizeScreen
@@ -100,8 +101,8 @@ class MainActivity : ComponentActivity() {
                 BackHandler { showExitDialog = true }
 
                 Surface(Modifier.fillMaxSize()) {
-                    AnimatedNavHost(controller = viewModel.navController) {
-                        when (it) {
+                    AnimatedNavHost(controller = viewModel.navController) { screen ->
+                        when (screen) {
                             is Screen.Main -> {
                                 MainScreen(viewModel.navController)
                             }
@@ -114,7 +115,7 @@ class MainActivity : ComponentActivity() {
                             }
                             is Screen.PickColor -> {
                                 PickColorScreen(
-                                    uriState = viewModel.uri,
+                                    uriState = screen.uri.takeIf { it != null } ?: viewModel.uri,
                                     navController = viewModel.navController,
                                     onGoBack = { viewModel.updateUri(null) }
                                 )
@@ -133,9 +134,9 @@ class MainActivity : ComponentActivity() {
                                     onGoBack = { viewModel.updateUris(null) }
                                 )
                             }
-                            Screen.GeneratePalette -> {
+                            is Screen.GeneratePalette -> {
                                 GeneratePaletteScreen(
-                                    uriState = viewModel.uri,
+                                    uriState = screen.uri.takeIf { it != null } ?: viewModel.uri,
                                     navController = viewModel.navController,
                                     onGoBack = { viewModel.updateUri(null) }
                                 )
@@ -173,7 +174,9 @@ class MainActivity : ComponentActivity() {
                                 Spacer(modifier = Modifier.height(8.dp))
                                 PickColorPreference(
                                     onClick = {
-                                        viewModel.navController.navigate(Screen.PickColor)
+                                        viewModel.navController.navigate(
+                                            Screen.PickColor(viewModel.uri)
+                                        )
                                         viewModel.hideSelectDialog()
                                     },
                                     color = MaterialTheme.colorScheme.secondaryContainer
@@ -181,7 +184,9 @@ class MainActivity : ComponentActivity() {
                                 Spacer(modifier = Modifier.height(8.dp))
                                 GeneratePalettePreference(
                                     onClick = {
-                                        viewModel.navController.navigate(Screen.GeneratePalette)
+                                        viewModel.navController.navigate(
+                                            Screen.GeneratePalette(viewModel.uri)
+                                        )
                                         viewModel.hideSelectDialog()
                                     },
                                     color = MaterialTheme.colorScheme.secondaryContainer
@@ -220,12 +225,22 @@ class MainActivity : ComponentActivity() {
     }
 }
 
-sealed class Screen {
+@Parcelize
+sealed class Screen : Parcelable {
     object Main : Screen()
     object SingleResize : Screen()
     object BatchResize : Screen()
-    object PickColor : Screen()
-    object GeneratePalette : Screen()
+
+    @Parcelize
+    class PickColor(
+        val uri: Uri? = null
+    ) : Screen()
+
+    @Parcelize
+    class GeneratePalette(
+        val uri: Uri? = null
+    ) : Screen()
+
     object Crop : Screen()
 }
 

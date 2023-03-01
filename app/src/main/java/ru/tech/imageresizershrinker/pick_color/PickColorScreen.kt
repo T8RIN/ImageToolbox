@@ -38,6 +38,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.cookhelper.dynamic.theme.LocalDynamicThemeState
 import com.smarttoolfactory.colordetector.ImageColorDetector
 import dev.olshevski.navigation.reimagined.NavController
+import dev.olshevski.navigation.reimagined.navigate
 import dev.olshevski.navigation.reimagined.pop
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.R
@@ -48,6 +49,7 @@ import ru.tech.imageresizershrinker.resize_screen.components.ImageNotPickedWidge
 import ru.tech.imageresizershrinker.resize_screen.components.LoadingDialog
 import ru.tech.imageresizershrinker.resize_screen.components.ToastHost
 import ru.tech.imageresizershrinker.resize_screen.components.rememberToastHostState
+import ru.tech.imageresizershrinker.theme.PaletteSwatch
 import ru.tech.imageresizershrinker.utils.BitmapUtils.decodeBitmapFromUri
 
 @OptIn(ExperimentalAnimationApi::class, ExperimentalMaterial3Api::class)
@@ -65,6 +67,7 @@ fun PickColorScreen(
 
     LaunchedEffect(uriState) {
         uriState?.let {
+            viewModel.setUri(it)
             context.decodeBitmapFromUri(
                 uri = it,
                 onGetMimeType = {},
@@ -95,6 +98,7 @@ fun PickColorScreen(
             contract = ActivityResultContracts.PickVisualMedia()
         ) { uri ->
             uri?.let {
+                viewModel.setUri(it)
                 context.decodeBitmapFromUri(
                     uri = it,
                     onGetMimeType = {},
@@ -156,15 +160,35 @@ fun PickColorScreen(
                     ) {
                         Column {
                             Spacer(modifier = Modifier.height(8.dp))
-                            IconButton(
-                                onClick = {
-                                    if (navController.backstack.entries.isNotEmpty()) navController.pop()
-                                    onGoBack()
-                                    themeState.reset()
-                                },
-                                modifier = Modifier.statusBarsPadding()
+                            Row(
+                                verticalAlignment = Alignment.CenterVertically
                             ) {
-                                Icon(Icons.Rounded.ArrowBack, null)
+                                IconButton(
+                                    onClick = {
+                                        if (navController.backstack.entries.isNotEmpty()) navController.pop()
+                                        onGoBack()
+                                        themeState.reset()
+                                    },
+                                    modifier = Modifier.statusBarsPadding()
+                                ) {
+                                    Icon(Icons.Rounded.ArrowBack, null)
+                                }
+                                Spacer(
+                                    Modifier
+                                        .weight(1f)
+                                        .padding(start = 8.dp)
+                                )
+                                if (viewModel.uri != null) {
+                                    IconButton(
+                                        onClick = {
+                                            if (navController.backstack.entries.isNotEmpty()) navController.pop()
+                                            navController.navigate(Screen.GeneratePalette(viewModel.uri))
+                                        },
+                                        modifier = Modifier.statusBarsPadding()
+                                    ) {
+                                        Icon(Icons.Rounded.PaletteSwatch, null)
+                                    }
+                                }
                             }
                             ProvideTextStyle(value = LocalTextStyle.current.merge(MaterialTheme.typography.headlineSmall)) {
                                 Row(
@@ -207,13 +231,28 @@ fun PickColorScreen(
 
                                     Box(
                                         Modifier
+                                            .padding(vertical = 4.dp)
                                             .background(color, RoundedCornerShape(12.dp))
-                                            .size(48.dp)
+                                            .height(40.dp)
+                                            .width(72.dp)
                                             .border(
                                                 width = 1.dp,
                                                 color = MaterialTheme.colorScheme.outlineVariant,
                                                 shape = RoundedCornerShape(11.dp)
                                             )
+                                            .clip(RoundedCornerShape(12.dp))
+                                            .clickable {
+                                                context.copyColorIntoClipboard(
+                                                    context.getString(R.string.color),
+                                                    color.format()
+                                                )
+                                                scope.launch {
+                                                    toastHostState.showToast(
+                                                        icon = Icons.Rounded.ContentPaste,
+                                                        message = context.getString(R.string.color_copied)
+                                                    )
+                                                }
+                                            }
                                     )
                                 }
                             }
