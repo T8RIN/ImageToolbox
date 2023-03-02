@@ -23,4 +23,4 @@ jobs:
       - uses: actions/upload-artifact@v3
         with:
           name: Unsigned apk
-          path: app/release/*.apk
+          path: app/build/output/apk/release/*.apk
