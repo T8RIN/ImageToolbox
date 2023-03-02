@@ -300,7 +300,10 @@ fun CropScreen(
                             verticalAlignment = Alignment.CenterVertically,
                             horizontalArrangement = Arrangement.End
                         ) {
-                            FloatingActionButton(onClick = pickImage) {
+                            FloatingActionButton(
+                                onClick = pickImage,
+                                elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation()
+                            ) {
                                 val expanded = scrollState.isScrollingUp()
                                 val horizontalPadding by animateDpAsState(targetValue = if (expanded) 16.dp else 0.dp)
                                 Row(
@@ -321,7 +324,8 @@ fun CropScreen(
                                 onClick = {
                                     crop = true
                                 },
-                                containerColor = MaterialTheme.colorScheme.tertiaryContainer
+                                containerColor = MaterialTheme.colorScheme.tertiaryContainer,
+                                elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation()
                             ) {
                                 Icon(Icons.Rounded.Save, null)
                             }
