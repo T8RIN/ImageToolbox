@@ -18,6 +18,7 @@ import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.asAndroidBitmap
 import androidx.compose.ui.unit.dp
 import androidx.palette.graphics.Palette
+import com.smarttoolfactory.extendedcolors.util.ColorUtil
 import com.smarttoolfactory.extendedcolors.util.fractionToIntPercent
 
 /**
@@ -48,8 +49,8 @@ fun ImageColorPalette(
                 it.population
             }.toFloat()
 
-            palette.swatches.forEach { paletteSwatch: Palette.Swatch? ->
-                paletteSwatch?.let { swatch: Palette.Swatch ->
+            palette.swatches.forEach { paletteSwatch ->
+                paletteSwatch?.let { swatch ->
                     val color = Color(swatch.rgb)
                     val name = ""
                     val colorData = ColorData(color, name)
@@ -57,7 +58,9 @@ fun ImageColorPalette(
                     paletteData.add(PaletteData(colorData = colorData, percent))
                 }
             }
-            paletteData.sortedByDescending { it.percent }
+            paletteData.sortedByDescending {
+                ColorUtil.colorToHSV(it.colorData.color).let { it[0] }
+            }
         }
     }
 
