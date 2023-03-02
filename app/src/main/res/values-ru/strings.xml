@@ -61,4 +61,7 @@
     <string name="palette_sub">Создать образец цветовой палитры из данного изображения</string>
     <string name="generate_palette">Сгенерировать палитру</string>
     <string name="palette">Палитра</string>
+    <string name="new_version">Обновление %1$s</string>
+    <string name="new_version_sub">Похоже, что вышла новая версия приложения, она отличается, от версии %1$s установленной на устройстве </string>
+    <string name="update">Обновить</string>
 </resources>

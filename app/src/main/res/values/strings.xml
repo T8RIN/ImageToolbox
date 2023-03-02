@@ -64,4 +64,7 @@
     <string name="palette_sub">Generate color palette swatch from given image</string>
     <string name="generate_palette">Generate palette</string>
     <string name="palette">Palette</string>
+    <string name="update">Update</string>
+    <string name="new_version">New version %1$s</string>
+    <string name="new_version_sub">Looks like there is new version of the app available, it differs from installed version %1$s</string>
 </resources>

@@ -12,8 +12,8 @@ android {
         applicationId = "ru.tech.imageresizershrinker"
         minSdk = 21
         targetSdk = 33
-        versionCode = 23
-        versionName = "1.7.4"
+        versionCode = 24
+        versionName = "1.7.5"
     }
 
     buildTypes {

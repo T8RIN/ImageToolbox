@@ -23,6 +23,7 @@ import androidx.compose.ui.unit.dp
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.WindowCompat
 import dev.olshevski.navigation.reimagined.*
+import ru.tech.imageresizershrinker.BuildConfig
 import ru.tech.imageresizershrinker.ImageResizerTheme
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.batch_resize.BatchResizeScreen
@@ -35,6 +36,7 @@ import ru.tech.imageresizershrinker.main_screen.viewModel.MainViewModel
 import ru.tech.imageresizershrinker.pick_color_from_image.PickColorFromImageScreen
 import ru.tech.imageresizershrinker.resize_screen.SingleResizeScreen
 import ru.tech.imageresizershrinker.resize_screen.components.*
+import ru.tech.imageresizershrinker.theme.Github
 import ru.tech.imageresizershrinker.utils.IntentUtils.parcelable
 import ru.tech.imageresizershrinker.utils.IntentUtils.parcelableArrayList
 import ru.tech.imageresizershrinker.utils.setContentWithWindowSizeClass
@@ -196,7 +198,39 @@ class MainActivity : ComponentActivity() {
                             }
                         }
                     )
+                } else if (viewModel.showUpdateDialog) {
+                    AlertDialog(
+                        onDismissRequest = {},
+                        icon = {
+                            Icon(Icons.Rounded.Github, null)
+                        },
+                        title = { Text(stringResource(R.string.new_version, viewModel.tag)) },
+                        text = {
+                            Text(stringResource(R.string.new_version_sub, BuildConfig.VERSION_NAME))
+                        },
+                        confirmButton = {
+                            Button(
+                                onClick = {
+                                    startActivity(
+                                        Intent(
+                                            Intent.ACTION_VIEW,
+                                            Uri.parse("https://github.com/t8rin/imageresizer/releases/tag/${viewModel.tag}")
+                                        )
+                                    )
+                                }
+                            ) {
+                                Text(stringResource(id = R.string.update))
+                            }
+                        },
+                        dismissButton = {
+                            FilledTonalButton(onClick = { viewModel.cancelledUpdate() }) {
+                                Text(stringResource(id = R.string.close))
+                            }
+                        }
+                    )
                 }
+
+                SideEffect { viewModel.tryGetUpdate() }
             }
         }
     }
