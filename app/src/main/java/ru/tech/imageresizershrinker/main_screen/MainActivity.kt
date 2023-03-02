@@ -24,7 +24,6 @@ import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.WindowCompat
 import dev.olshevski.navigation.reimagined.*
 import ru.tech.imageresizershrinker.BuildConfig
-import ru.tech.imageresizershrinker.ImageResizerTheme
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.batch_resize.BatchResizeScreen
 import ru.tech.imageresizershrinker.crash_screen.CrashActivity
@@ -37,6 +36,7 @@ import ru.tech.imageresizershrinker.pick_color_from_image.PickColorFromImageScre
 import ru.tech.imageresizershrinker.resize_screen.SingleResizeScreen
 import ru.tech.imageresizershrinker.resize_screen.components.*
 import ru.tech.imageresizershrinker.theme.Github
+import ru.tech.imageresizershrinker.theme.ImageResizerTheme
 import ru.tech.imageresizershrinker.utils.IntentUtils.parcelable
 import ru.tech.imageresizershrinker.utils.IntentUtils.parcelableArrayList
 import ru.tech.imageresizershrinker.utils.setContentWithWindowSizeClass
