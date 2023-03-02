@@ -260,34 +260,75 @@ fun CropScreen(
             }
             viewModel.bitmap?.let {
                 val bmp = remember(it) { it.asImageBitmap() }
-                ImageCropper(
-                    background = MaterialTheme.colorScheme.surface,
-                    modifier = Modifier
-                        .padding(bottom = 88.dp)
-                        .navigationBarsPadding(),
-                    imageBitmap = bmp,
-                    contentDescription = null,
-                    cropProperties = CropDefaults.properties(
-                        cropOutlineProperty = CropOutlineProperty(
-                            OutlineType.Rect,
-                            RectCropShape(0, "")
-                        )
-                    ),
-                    onCropStart = {},
-                    crop = crop,
-                    onCropSuccess = { image ->
-                        if (share) {
-                            context.shareBitmap(
-                                bitmap = image.asAndroidBitmap(),
-                                compressFormat = viewModel.mimeType
+                Column {
+                    ImageCropper(
+                        background = MaterialTheme.colorScheme.surface,
+                        modifier = Modifier
+                            .weight(1f),
+                        imageBitmap = bmp,
+                        contentDescription = null,
+                        cropProperties = CropDefaults.properties(
+                            cropOutlineProperty = CropOutlineProperty(
+                                OutlineType.Rect,
+                                RectCropShape(0, "")
                             )
-                        } else {
-                            saveBitmap(image.asAndroidBitmap())
+                        ),
+                        onCropStart = {},
+                        crop = crop,
+                        onCropSuccess = { image ->
+                            if (share) {
+                                context.shareBitmap(
+                                    bitmap = image.asAndroidBitmap(),
+                                    compressFormat = viewModel.mimeType
+                                )
+                            } else {
+                                saveBitmap(image.asAndroidBitmap())
+                            }
+                            crop = false
+                            share = false
                         }
-                        crop = false
-                        share = false
+                    )
+                    Surface(
+                        color = MaterialTheme.colorScheme.surfaceColorAtElevation(3.dp),
+                        shadowElevation = 6.dp
+                    ) {
+                        Row(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .height(88.dp)
+                                .navigationBarsPadding(),
+                            verticalAlignment = Alignment.CenterVertically,
+                            horizontalArrangement = Arrangement.End
+                        ) {
+                            FloatingActionButton(onClick = pickImage) {
+                                val expanded = scrollState.isScrollingUp()
+                                val horizontalPadding by animateDpAsState(targetValue = if (expanded) 16.dp else 0.dp)
+                                Row(
+                                    modifier = Modifier.padding(horizontal = horizontalPadding),
+                                    verticalAlignment = Alignment.CenterVertically
+                                ) {
+                                    Icon(Icons.Rounded.AddPhotoAlternate, null)
+                                    AnimatedVisibility(visible = expanded) {
+                                        Row {
+                                            Spacer(Modifier.width(8.dp))
+                                            Text(stringResource(R.string.pick_image_alt))
+                                        }
+                                    }
+                                }
+                            }
+                            Spacer(modifier = Modifier.width(16.dp))
+                            FloatingActionButton(
+                                onClick = {
+                                    crop = true
+                                },
+                                containerColor = MaterialTheme.colorScheme.tertiaryContainer
+                            ) {
+                                Icon(Icons.Rounded.Save, null)
+                            }
+                            Spacer(modifier = Modifier.width(16.dp))
+                        }
                     }
-                )
+                }
             } ?: Column(Modifier.verticalScroll(scrollState)) {
                 Spacer(Modifier.height(16.dp))
                 ImageNotPickedWidget(
@@ -301,40 +342,41 @@ fun CropScreen(
             }
         }
 
-        Row(
-            modifier = Modifier
-                .padding(16.dp)
-                .navigationBarsPadding()
-                .align(Alignment.BottomEnd)
-        ) {
-            FloatingActionButton(
-                onClick = pickImage,
-                modifier = Modifier.navigationBarsPadding()
+        if (viewModel.bitmap == null) {
+            Row(
+                modifier = Modifier
+                    .padding(16.dp)
+                    .navigationBarsPadding()
+                    .align(Alignment.BottomEnd)
             ) {
-                val expanded = scrollState.isScrollingUp()
-                val horizontalPadding by animateDpAsState(targetValue = if (expanded) 16.dp else 0.dp)
-                Row(
-                    modifier = Modifier.padding(horizontal = horizontalPadding),
-                    verticalAlignment = Alignment.CenterVertically
+                FloatingActionButton(
+                    onClick = pickImage
                 ) {
-                    Icon(Icons.Rounded.AddPhotoAlternate, null)
-                    AnimatedVisibility(visible = expanded) {
-                        Row {
-                            Spacer(Modifier.width(8.dp))
-                            Text(stringResource(R.string.pick_image_alt))
+                    val expanded = scrollState.isScrollingUp()
+                    val horizontalPadding by animateDpAsState(targetValue = if (expanded) 16.dp else 0.dp)
+                    Row(
+                        modifier = Modifier.padding(horizontal = horizontalPadding),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Icon(Icons.Rounded.AddPhotoAlternate, null)
+                        AnimatedVisibility(visible = expanded) {
+                            Row {
+                                Spacer(Modifier.width(8.dp))
+                                Text(stringResource(R.string.pick_image_alt))
+                            }
                         }
                     }
                 }
-            }
-            if (viewModel.bitmap != null) {
-                Spacer(modifier = Modifier.width(16.dp))
-                FloatingActionButton(
-                    onClick = {
-                        crop = true
-                    },
-                    containerColor = MaterialTheme.colorScheme.tertiaryContainer
-                ) {
-                    Icon(Icons.Rounded.Save, null)
+                if (viewModel.bitmap != null) {
+                    Spacer(modifier = Modifier.width(16.dp))
+                    FloatingActionButton(
+                        onClick = {
+                            crop = true
+                        },
+                        containerColor = MaterialTheme.colorScheme.tertiaryContainer
+                    ) {
+                        Icon(Icons.Rounded.Save, null)
+                    }
                 }
             }
         }
