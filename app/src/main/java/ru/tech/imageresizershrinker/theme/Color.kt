@@ -1,4 +1,4 @@
-package ru.tech.imageresizershrinker.theme
+package ru.tech.imageresizershrinker
 
 import androidx.compose.ui.graphics.Color
 

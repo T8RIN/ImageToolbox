@@ -1,4 +1,4 @@
-package ru.tech.imageresizershrinker.theme
+package ru.tech.imageresizershrinker
 
 import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
@@ -8,7 +8,6 @@ import androidx.compose.material3.dynamicLightColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
@@ -88,9 +87,8 @@ fun ImageResizerTheme(
     dynamicColor: Boolean = true,
     content: @Composable () -> Unit
 ) {
-    val dynamic = dynamicColor && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S
     val colorScheme = when {
-        dynamic -> {
+        dynamicColor && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S -> {
             val context = LocalContext.current
             if (darkTheme) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
         }
@@ -110,13 +108,8 @@ fun ImageResizerTheme(
 
     val state = rememberDynamicThemeState(
         initialPrimaryColor = colorScheme.primary,
-        defColor = colorScheme.primary,
+        defColor = colorScheme.primary
     )
-    LaunchedEffect(colorScheme) {
-        if (colorScheme.primary != state.primaryColor.value && dynamic) {
-            state.primaryColor.value = colorScheme.primary
-        }
-    }
     DynamicTheme(
         state = state,
         isDarkTheme = isSystemInDarkTheme(),
