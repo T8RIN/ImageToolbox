@@ -80,9 +80,7 @@ class MainViewModel : ViewModel() {
                             }
                         }
 
-                        if (tag != BuildConfig.VERSION_NAME) {
-                            _showUpdateDialog.value = true
-                        }
+                        if (tag != BuildConfig.VERSION_NAME) { _showUpdateDialog.value = true }
                     }
                 }
             }
