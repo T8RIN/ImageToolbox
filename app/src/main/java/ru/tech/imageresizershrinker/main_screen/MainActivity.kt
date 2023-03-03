@@ -62,7 +62,10 @@ class MainActivity : ComponentActivity() {
         setContentWithWindowSizeClass {
             var showExitDialog by rememberSaveable { mutableStateOf(false) }
             ImageResizerTheme {
-                BackHandler { showExitDialog = true }
+                BackHandler {
+                    if(viewModel.shouldShowDialog) showExitDialog = true
+                    else finishAffinity()
+                }
 
                 Surface(Modifier.fillMaxSize()) {
                     AnimatedNavHost(
@@ -249,6 +252,9 @@ class MainActivity : ComponentActivity() {
     }
 
     private fun parseImageFromIntent(intent: Intent?) {
+        if(intent?.type != null && (viewModel.uri == null || viewModel.uris == null)) {
+            viewModel.shouldShowExitDialog(false)
+        }
         if (intent?.type?.startsWith("image/") == true) {
             when (intent.action) {
                 Intent.ACTION_SEND -> {
