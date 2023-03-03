@@ -30,6 +30,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.cookhelper.dynamic.theme.LocalDynamicThemeState
@@ -48,6 +49,7 @@ import ru.tech.imageresizershrinker.resize_screen.components.ImageNotPickedWidge
 import ru.tech.imageresizershrinker.resize_screen.components.LoadingDialog
 import ru.tech.imageresizershrinker.resize_screen.components.ToastHost
 import ru.tech.imageresizershrinker.resize_screen.components.rememberToastHostState
+import ru.tech.imageresizershrinker.theme.PaletteSwatch
 import ru.tech.imageresizershrinker.utils.BitmapUtils.decodeBitmapFromUri
 import ru.tech.imageresizershrinker.utils.LocalWindowSizeClass
 
@@ -129,10 +131,48 @@ fun GeneratePaletteScreen(
 
     val topAppBarScrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
 
+    val noPalette: @Composable ColumnScope.() -> Unit = {
+        Column(
+            Modifier.block(),
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Spacer(Modifier.height(16.dp))
+            FilledIconButton(
+                enabled = false,
+                onClick = {},
+                modifier = Modifier.size(100.dp),
+                shape = RoundedCornerShape(16.dp),
+                colors = IconButtonDefaults.filledTonalIconButtonColors(
+                    containerColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.7f),
+                    contentColor = MaterialTheme.colorScheme.onSurface,
+                    disabledContainerColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.7f),
+                    disabledContentColor = MaterialTheme.colorScheme.onSurface,
+                )
+            ) {
+                Icon(
+                    Icons.Rounded.PaletteSwatch,
+                    null,
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(12.dp),
+                    tint = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+            }
+            Text(
+                stringResource(R.string.no_palette),
+                Modifier.padding(16.dp),
+                textAlign = TextAlign.Center,
+                color = MaterialTheme.colorScheme.onSurfaceVariant
+            )
+        }
+    }
+
     Box(
         Modifier
             .fillMaxSize()
-            .nestedScroll(topAppBarScrollBehavior.nestedScrollConnection)) {
+            .nestedScroll(topAppBarScrollBehavior.nestedScrollConnection)
+    ) {
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
             LargeTopAppBar(
                 scrollBehavior = topAppBarScrollBehavior,
@@ -200,6 +240,7 @@ fun GeneratePaletteScreen(
                                         .padding(16.dp)
                                         .block(RoundedCornerShape(24.dp))
                                         .padding(4.dp),
+                                    onEmpty = { noPalette() },
                                     onColorChange = {
                                         context.copyColorIntoClipboard(
                                             context.getString(R.string.color),
@@ -238,6 +279,7 @@ fun GeneratePaletteScreen(
                                     .padding(16.dp)
                                     .block(RoundedCornerShape(24.dp))
                                     .padding(4.dp),
+                                onEmpty = { noPalette() },
                                 onColorChange = {
                                     context.copyColorIntoClipboard(
                                         context.getString(R.string.color),

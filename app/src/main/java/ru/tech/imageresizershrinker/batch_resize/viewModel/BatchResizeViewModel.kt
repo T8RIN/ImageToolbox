@@ -116,7 +116,7 @@ class BatchResizeViewModel : ViewModel() {
         }
         job?.cancel()
         job = viewModelScope.launch {
-            delay(500)
+            delay(600)
             _isLoading.value = true
             _bitmap.value?.let { bmp ->
                 val preview = updatePreview(bmp)

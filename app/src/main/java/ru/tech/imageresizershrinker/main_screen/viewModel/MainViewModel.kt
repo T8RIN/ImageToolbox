@@ -3,6 +3,7 @@ package ru.tech.imageresizershrinker.main_screen.viewModel
 import android.net.Uri
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dev.olshevski.navigation.reimagined.navController
@@ -14,6 +15,7 @@ import kotlinx.coroutines.withContext
 import org.w3c.dom.Element
 import ru.tech.imageresizershrinker.BuildConfig
 import ru.tech.imageresizershrinker.main_screen.components.Screen
+import ru.tech.imageresizershrinker.resize_screen.components.ToastHostState
 import java.net.URL
 import javax.xml.parsers.DocumentBuilderFactory
 
@@ -37,6 +39,8 @@ class MainViewModel : ViewModel() {
 
     private val _tag = mutableStateOf("")
     val tag by _tag
+
+    val toastHostState = ToastHostState()
 
     init {
         tryGetUpdate()
@@ -100,6 +104,18 @@ class MainViewModel : ViewModel() {
         if (uris != null && dest != Screen.BatchResize) {
             navController.popUpTo { it == Screen.Main }
             navController.navigate(Screen.BatchResize)
+        }
+    }
+
+    fun showToast(
+        message: String,
+        icon: ImageVector? = null,
+    ) {
+        viewModelScope.launch {
+            toastHostState.showToast(
+                message = message,
+                icon = icon
+            )
         }
     }
 

@@ -74,16 +74,15 @@ object BitmapUtils {
         onGetMimeType: (Int) -> Unit,
         onError: (Throwable) -> Unit
     ) {
-        val fd = contentResolver.openFileDescriptor(uri, "r")
-        val exif = fd?.fileDescriptor?.let { ExifInterface(it) }
-        onGetExif(exif)
-        var mime = contentResolver.getMimeType(uri) ?: ""
-        if ("jpeg" in mime) mime = "image/jpg"
-        val mimeInt = mime.index
-        onGetMimeType(mimeInt)
-        fd?.close()
-
         val bmp = kotlin.runCatching {
+            val fd = contentResolver.openFileDescriptor(uri, "r")
+            val exif = fd?.fileDescriptor?.let { ExifInterface(it) }
+            onGetExif(exif)
+            var mime = contentResolver.getMimeType(uri) ?: ""
+            if ("jpeg" in mime) mime = "image/jpg"
+            val mimeInt = mime.index
+            onGetMimeType(mimeInt)
+            fd?.close()
             val parcelFileDescriptor: ParcelFileDescriptor? =
                 contentResolver.openFileDescriptor(uri, "r")
             val fileDescriptor: FileDescriptor? = parcelFileDescriptor?.fileDescriptor
@@ -451,13 +450,10 @@ object BitmapUtils {
         return kotlin.runCatching {
             imagesFolder.mkdirs()
             val mime = bitmapInfo.mime
-            val ext = if (mime == 2) "png" else if (mime == 1) "webp" else "jpg"
+            val ext = mime.extension
             val file = File(imagesFolder, "shared_image.$ext")
             val stream = FileOutputStream(file)
-            image.compress(
-                if (mime == 1) CompressFormat.WEBP else if (mime == 2) CompressFormat.PNG else CompressFormat.JPEG,
-                bitmapInfo.quality.toInt(), stream
-            )
+            image.compress(ext.compressFormat, bitmapInfo.quality.toInt(), stream)
             stream.flush()
             stream.close()
             FileProvider.getUriForFile(this, "ru.tech.imageresizershrinker.fileprovider", file)

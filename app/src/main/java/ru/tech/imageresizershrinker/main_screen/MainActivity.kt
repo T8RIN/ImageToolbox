@@ -154,7 +154,12 @@ class MainActivity : ComponentActivity() {
                         onDismissRequest = {},
                         title = { stringResource(R.string.image) },
                         confirmButton = {
-                            TextButton(onClick = { viewModel.updateUri(null) }) {
+                            TextButton(
+                                onClick = {
+                                    viewModel.hideSelectDialog()
+                                    viewModel.updateUri(null)
+                                }
+                            ) {
                                 Text(stringResource(id = R.string.cancel))
                             }
                         },
@@ -230,6 +235,8 @@ class MainActivity : ComponentActivity() {
                     )
                 }
 
+                ToastHost(hostState = viewModel.toastHostState)
+
                 SideEffect { viewModel.tryGetUpdate() }
             }
         }
@@ -242,22 +249,29 @@ class MainActivity : ComponentActivity() {
     }
 
     private fun parseImageFromIntent(intent: Intent?) {
-        when (intent?.action) {
-            Intent.ACTION_SEND -> {
-                if (intent.type?.startsWith("image/") == true) {
+        if (intent?.type?.startsWith("image/") == true) {
+            when (intent.action) {
+                Intent.ACTION_SEND -> {
                     intent.parcelable<Uri>(Intent.EXTRA_STREAM)?.let {
                         viewModel.updateUri(it)
                     }
                 }
-            }
-            Intent.ACTION_SEND_MULTIPLE -> {
-                if (intent.type?.startsWith("image/") == true) {
+                Intent.ACTION_SEND_MULTIPLE -> {
                     intent.parcelableArrayList<Uri>(Intent.EXTRA_STREAM)?.let {
                         viewModel.updateUris(it)
                     }
                 }
+                else -> {
+                    intent.data?.let { viewModel.updateUri(it) }
+                }
             }
+        } else if (intent?.type != null) {
+            viewModel.showToast(
+                message = getString(R.string.unsupported_type, intent.type),
+                icon = Icons.Rounded.ErrorOutline
+            )
         }
     }
+
 }
 

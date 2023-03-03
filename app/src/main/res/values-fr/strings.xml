@@ -64,4 +64,6 @@
     <string name="new_version">Nouvelle version %1$s</string>
     <string name="new_version_sub">Il semble qu\'une nouvelle version de l\'application soit disponible, elle diffère de la version installée %1$s</string>
     <string name="update">Mise à jour</string>
+    <string name="unsupported_type">Unsupported type: %1$s</string>
+    <string name="no_palette">Can not generate palette for given image</string>
 </resources>

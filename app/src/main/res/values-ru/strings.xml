@@ -64,4 +64,6 @@
     <string name="new_version">Обновление %1$s</string>
     <string name="new_version_sub">Похоже, что вышла новая версия приложения, она отличается, от версии %1$s установленной на устройстве </string>
     <string name="update">Обновить</string>
+    <string name="unsupported_type">Неподдерживаемый тип: %1$s</string>
+    <string name="no_palette">По данному изображению не удалось сгенерировать палитру</string>
 </resources>

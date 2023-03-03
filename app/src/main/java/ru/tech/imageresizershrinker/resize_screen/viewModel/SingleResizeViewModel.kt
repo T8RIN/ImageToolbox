@@ -1,6 +1,7 @@
 package ru.tech.imageresizershrinker.resize_screen.viewModel
 
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.os.Build
 import android.os.ParcelFileDescriptor
 import androidx.compose.runtime.MutableState
@@ -21,9 +22,7 @@ import ru.tech.imageresizershrinker.utils.BitmapUtils.flip
 import ru.tech.imageresizershrinker.utils.BitmapUtils.previewBitmap
 import ru.tech.imageresizershrinker.utils.BitmapUtils.resizeBitmap
 import ru.tech.imageresizershrinker.utils.BitmapUtils.rotate
-import java.io.File
-import java.io.FileOutputStream
-import java.io.OutputStream
+import java.io.*
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -64,7 +63,7 @@ class SingleResizeViewModel : ViewModel() {
         }
         job?.cancel()
         job = viewModelScope.launch {
-            delay(500)
+            delay(600)
             _isLoading.value = true
             _bitmap.value?.let { bmp ->
                 val preview = updatePreview(bmp)
@@ -119,6 +118,14 @@ class SingleResizeViewModel : ViewModel() {
                                 FileOutputStream(image)
                             }
                         localBitmap.compress(mime.extension.compressFormat, quality.toInt(), fos)
+
+                        val out = ByteArrayOutputStream()
+                        localBitmap.compress(mime.extension.compressFormat, quality.toInt(), out)
+                        val decoded =
+                            BitmapFactory.decodeStream(ByteArrayInputStream(out.toByteArray()))
+
+                        out.flush()
+                        out.close()
                         fos!!.flush()
                         fos.close()
 
@@ -138,7 +145,7 @@ class SingleResizeViewModel : ViewModel() {
                             ex.saveAttributes()
                         }
 
-                        _bitmap.value = _previewBitmap.value
+                        _bitmap.value = decoded
                         _bitmapInfo.value = _bitmapInfo.value.copy(
                             isFlipped = false,
                             rotation = 0f
@@ -295,7 +302,7 @@ class SingleResizeViewModel : ViewModel() {
     }
 
     companion object {
-        fun String.restrict(`by`: Int = 32000): String {
+        fun String.restrict(`by`: Int = 24000): String {
             if (isEmpty()) return this
 
             return if ((this.toIntOrNull() ?: 0) > `by`) `by`.toString()

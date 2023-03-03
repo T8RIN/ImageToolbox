@@ -1,10 +1,7 @@
 package com.smarttoolfactory.colordetector
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
@@ -34,6 +31,7 @@ fun ImageColorPalette(
     modifier: Modifier = Modifier,
     imageBitmap: ImageBitmap,
     maximumColorCount: Int = 32,
+    onEmpty: @Composable ColumnScope.() -> Unit,
     onColorChange: (ColorData) -> Unit
 ) {
     val paletteData: List<PaletteData> by remember(imageBitmap) {
@@ -67,7 +65,8 @@ fun ImageColorPalette(
     ColorProfileList(
         modifier = modifier,
         paletteDataList = paletteData,
-        onColorChange = onColorChange
+        onColorChange = onColorChange,
+        onEmpty = onEmpty
     )
 }
 
@@ -75,6 +74,7 @@ fun ImageColorPalette(
 private fun ColorProfileList(
     modifier: Modifier,
     paletteDataList: List<PaletteData>,
+    onEmpty: @Composable ColumnScope.() -> Unit,
     onColorChange: (ColorData) -> Unit
 ) {
     Column(
@@ -97,6 +97,7 @@ private fun ColorProfileList(
                 contentColor = MaterialTheme.colorScheme.onSurface
             )
         }
+        if (paletteDataList.isEmpty()) onEmpty()
     }
 }
 
