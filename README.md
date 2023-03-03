@@ -43,6 +43,7 @@
 - Rotating
 - Flipping
 - Cropping
+- Aspect Ratio cropping
 - Preset shrinking
 
 # Download
