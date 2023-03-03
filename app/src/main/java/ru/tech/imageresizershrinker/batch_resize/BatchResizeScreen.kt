@@ -39,7 +39,10 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.input.pointer.pointerInput
-import androidx.compose.ui.platform.*
+import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -455,7 +458,9 @@ fun BatchResizeScreen(
                     ) {
                         item {
                             Column(
-                                modifier = Modifier.fillMaxSize().navBarsLandscapePadding(viewModel.bitmap == null),
+                                modifier = Modifier
+                                    .fillMaxSize()
+                                    .navBarsLandscapePadding(viewModel.bitmap == null),
                                 verticalArrangement = Arrangement.Center,
                                 horizontalAlignment = Alignment.CenterHorizontally
                             ) {

@@ -463,7 +463,9 @@ fun Context.SingleResizeScreen(
                     ) {
                         item {
                             Column(
-                                modifier = Modifier.fillMaxSize().navBarsLandscapePadding(viewModel.bitmap == null),
+                                modifier = Modifier
+                                    .fillMaxSize()
+                                    .navBarsLandscapePadding(viewModel.bitmap == null),
                                 verticalArrangement = Arrangement.Center,
                                 horizontalAlignment = Alignment.CenterHorizontally
                             ) {

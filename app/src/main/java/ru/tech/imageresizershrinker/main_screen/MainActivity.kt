@@ -63,7 +63,7 @@ class MainActivity : ComponentActivity() {
             var showExitDialog by rememberSaveable { mutableStateOf(false) }
             ImageResizerTheme {
                 BackHandler {
-                    if(viewModel.shouldShowDialog) showExitDialog = true
+                    if (viewModel.shouldShowDialog) showExitDialog = true
                     else finishAffinity()
                 }
 
@@ -252,7 +252,7 @@ class MainActivity : ComponentActivity() {
     }
 
     private fun parseImageFromIntent(intent: Intent?) {
-        if(intent?.type != null && (viewModel.uri == null || viewModel.uris == null)) {
+        if (intent?.type != null && (viewModel.uri == null || viewModel.uris == null)) {
             viewModel.shouldShowExitDialog(false)
         }
         if (intent?.type?.startsWith("image/") == true) {
