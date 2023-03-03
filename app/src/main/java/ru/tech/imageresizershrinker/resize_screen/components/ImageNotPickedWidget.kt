@@ -20,9 +20,9 @@ import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.main_screen.components.block
 
 @Composable
-fun ImageNotPickedWidget(onPickImage: () -> Unit) {
+fun ImageNotPickedWidget(modifier: Modifier = Modifier, onPickImage: () -> Unit) {
     Column(
-        Modifier.block(),
+        modifier = modifier.block(),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {

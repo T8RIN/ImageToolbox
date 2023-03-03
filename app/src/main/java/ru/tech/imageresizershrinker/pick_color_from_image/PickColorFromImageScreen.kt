@@ -46,6 +46,7 @@ import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.generate_palette.isScrollingUp
 import ru.tech.imageresizershrinker.main_screen.components.Screen
 import ru.tech.imageresizershrinker.main_screen.components.block
+import ru.tech.imageresizershrinker.main_screen.components.navBarsLandscapePadding
 import ru.tech.imageresizershrinker.pick_color_from_image.viewModel.PickColorViewModel
 import ru.tech.imageresizershrinker.resize_screen.components.ImageNotPickedWidget
 import ru.tech.imageresizershrinker.resize_screen.components.LoadingDialog
@@ -172,7 +173,7 @@ fun PickColorFromImageScreen(
                             .animateContentSize()
                             .shadow(6.dp),
                     ) {
-                        Column {
+                        Column(Modifier.navBarsLandscapePadding()) {
                             Spacer(modifier = Modifier.height(8.dp))
                             Row(
                                 verticalAlignment = Alignment.CenterVertically
@@ -286,18 +287,16 @@ fun PickColorFromImageScreen(
                         modifier = Modifier
                             .padding(bottom = 72.dp)
                             .padding(16.dp)
+                            .navBarsLandscapePadding()
                             .block(RoundedCornerShape(4.dp))
                             .padding(4.dp),
                         onColorChange = viewModel::updateColor
                     )
                 } ?: Column(Modifier.verticalScroll(scrollState)) {
-                    Spacer(Modifier.height(16.dp))
                     ImageNotPickedWidget(
-                        onPickImage = pickImage
-                    )
-                    Spacer(
-                        Modifier
-                            .padding(bottom = 88.dp)
+                        onPickImage = pickImage,
+                        modifier = Modifier
+                            .padding(bottom = 88.dp, top = 16.dp)
                             .navigationBarsPadding()
                     )
                 }

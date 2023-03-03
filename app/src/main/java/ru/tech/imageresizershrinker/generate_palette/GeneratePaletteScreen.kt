@@ -238,6 +238,7 @@ fun GeneratePaletteScreen(
                                         .fillMaxSize()
                                         .padding(bottom = 72.dp)
                                         .padding(16.dp)
+                                        .navigationBarsPadding()
                                         .block(RoundedCornerShape(24.dp))
                                         .padding(4.dp),
                                     onEmpty = { noPalette() },
@@ -277,6 +278,7 @@ fun GeneratePaletteScreen(
                                 modifier = Modifier
                                     .padding(bottom = 72.dp)
                                     .padding(16.dp)
+                                    .navigationBarsPadding()
                                     .block(RoundedCornerShape(24.dp))
                                     .padding(4.dp),
                                 onEmpty = { noPalette() },
@@ -296,13 +298,10 @@ fun GeneratePaletteScreen(
                         }
                     }
                 } ?: Column(Modifier.verticalScroll(scrollState)) {
-                    Spacer(Modifier.height(16.dp))
                     ImageNotPickedWidget(
-                        onPickImage = pickImage
-                    )
-                    Spacer(
-                        Modifier
-                            .padding(bottom = 88.dp)
+                        onPickImage = pickImage,
+                        modifier = Modifier
+                            .padding(bottom = 88.dp, top = 16.dp)
                             .navigationBarsPadding()
                     )
                 }
@@ -313,7 +312,7 @@ fun GeneratePaletteScreen(
             onClick = pickImage,
             modifier = Modifier
                 .navigationBarsPadding()
-                .padding(16.dp)
+                .padding(12.dp)
                 .align(Alignment.BottomEnd)
         ) {
             val expanded = scrollState.isScrollingUp()

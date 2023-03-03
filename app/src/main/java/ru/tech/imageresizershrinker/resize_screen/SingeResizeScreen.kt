@@ -60,6 +60,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.main_screen.components.Screen
+import ru.tech.imageresizershrinker.main_screen.components.navBarsLandscapePadding
 import ru.tech.imageresizershrinker.resize_screen.components.*
 import ru.tech.imageresizershrinker.resize_screen.viewModel.SingleResizeViewModel
 import ru.tech.imageresizershrinker.utils.BitmapUtils
@@ -462,7 +463,7 @@ fun Context.SingleResizeScreen(
                     ) {
                         item {
                             Column(
-                                modifier = Modifier.fillMaxSize(),
+                                modifier = Modifier.fillMaxSize().navBarsLandscapePadding(viewModel.bitmap == null),
                                 verticalArrangement = Arrangement.Center,
                                 horizontalAlignment = Alignment.CenterHorizontally
                             ) {

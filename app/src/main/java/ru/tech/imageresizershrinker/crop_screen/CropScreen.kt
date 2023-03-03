@@ -294,9 +294,9 @@ fun CropScreen(
                     ) {
                         Row(
                             modifier = Modifier
+                                .navigationBarsPadding()
                                 .fillMaxWidth()
-                                .height(88.dp)
-                                .navigationBarsPadding(),
+                                .height(88.dp),
                             verticalAlignment = Alignment.CenterVertically,
                             horizontalArrangement = Arrangement.End
                         ) {
@@ -334,13 +334,10 @@ fun CropScreen(
                     }
                 }
             } ?: Column(Modifier.verticalScroll(scrollState)) {
-                Spacer(Modifier.height(16.dp))
                 ImageNotPickedWidget(
-                    onPickImage = pickImage
-                )
-                Spacer(
-                    Modifier
-                        .padding(bottom = 88.dp)
+                    onPickImage = pickImage,
+                    modifier = Modifier
+                        .padding(bottom = 88.dp, top = 16.dp)
                         .navigationBarsPadding()
                 )
             }
