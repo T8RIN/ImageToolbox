@@ -66,4 +66,5 @@
     <string name="update">Mise à jour</string>
     <string name="unsupported_type">Unsupported type: %1$s</string>
     <string name="no_palette">Can not generate palette for given image</string>
+    <string name="original">Original</string>
 </resources>

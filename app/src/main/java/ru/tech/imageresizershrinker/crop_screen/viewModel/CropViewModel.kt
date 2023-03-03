@@ -8,6 +8,11 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.smarttoolfactory.cropper.model.AspectRatio
+import com.smarttoolfactory.cropper.model.OutlineType
+import com.smarttoolfactory.cropper.model.RectCropShape
+import com.smarttoolfactory.cropper.settings.CropDefaults
+import com.smarttoolfactory.cropper.settings.CropOutlineProperty
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -19,6 +24,16 @@ import java.util.*
 
 
 class CropViewModel : ViewModel() {
+
+    private val _cropProperties = mutableStateOf(
+        CropDefaults.properties(
+            cropOutlineProperty = CropOutlineProperty(
+                OutlineType.Rect,
+                RectCropShape(0, "")
+            )
+        )
+    )
+    val cropProperties by _cropProperties
 
     private val _bitmap: MutableState<Bitmap?> = mutableStateOf(null)
     val bitmap: Bitmap? by _bitmap
@@ -107,6 +122,10 @@ class CropViewModel : ViewModel() {
                 }
             }
         }
+    }
+
+    fun setCropAspectRatio(aspectRatio: AspectRatio) {
+        _cropProperties.value = _cropProperties.value.copy(aspectRatio = aspectRatio)
     }
 
 }

@@ -66,4 +66,5 @@
     <string name="update">Обновить</string>
     <string name="unsupported_type">Неподдерживаемый тип: %1$s</string>
     <string name="no_palette">По данному изображению не удалось сгенерировать палитру</string>
+    <string name="original">Оригинал</string>
 </resources>

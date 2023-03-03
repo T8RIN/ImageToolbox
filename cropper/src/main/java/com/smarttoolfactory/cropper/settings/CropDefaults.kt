@@ -32,7 +32,7 @@ object CropDefaults {
         contentScale: ContentScale = ContentScale.Fit,
         cropOutlineProperty: CropOutlineProperty,
         aspectRatio: AspectRatio = aspectRatios[2].aspectRatio,
-        overlayRatio:Float = .9f,
+        overlayRatio: Float = .9f,
         pannable: Boolean = true,
         fling: Boolean = false,
         zoomable: Boolean = true,
@@ -108,7 +108,7 @@ data class CropStyle internal constructor(
     val overlayColor: Color,
     val handleColor: Color,
     val backgroundColor: Color,
-    val cropTheme: CropTheme = CropTheme.Dark
+    val cropTheme: CropTheme = CropTheme.System
 )
 
 /**

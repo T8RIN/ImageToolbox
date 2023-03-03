@@ -14,6 +14,7 @@ import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.drawscope.translate
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalLayoutDirection
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.smarttoolfactory.cropper.model.CropAspectRatio
@@ -72,7 +73,7 @@ fun AspectRatioSelectionCard(
                 )
             }
             if (cropAspectRatio.title.isNotEmpty()) {
-                Text(text = cropAspectRatio.title, color = color, fontSize = 14.sp)
+                Text(text = cropAspectRatio.title, color = color, fontSize = 14.sp, overflow = TextOverflow.Ellipsis, maxLines = 1)
             }
         }
     }

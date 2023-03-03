@@ -69,4 +69,5 @@
     <string name="new_version_sub">Looks like there is new version of the app available, it differs from installed version %1$s</string>
     <string name="unsupported_type">Unsupported type: %1$s</string>
     <string name="no_palette">Can not generate palette for given image</string>
+    <string name="original">Original</string>
 </resources>
