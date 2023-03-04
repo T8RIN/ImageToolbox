@@ -7,5 +7,5 @@ import java.io.OutputStream
 data class SavingFolder(
     val outputStream: OutputStream? = null,
     val file: File? = null,
-    val uri: Uri? = null,
+    val fileUri: Uri? = null,
 )

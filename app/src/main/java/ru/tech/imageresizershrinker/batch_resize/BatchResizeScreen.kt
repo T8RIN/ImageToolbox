@@ -1,11 +1,8 @@
 package ru.tech.imageresizershrinker.batch_resize
 
-import android.content.ContentValues
 import android.content.res.Configuration
 import android.graphics.Bitmap
 import android.net.Uri
-import android.os.Environment
-import android.provider.MediaStore
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.BackHandler
 import androidx.activity.compose.rememberLauncherForActivityResult
@@ -64,11 +61,10 @@ import ru.tech.imageresizershrinker.utils.BitmapUtils.canShow
 import ru.tech.imageresizershrinker.utils.BitmapUtils.decodeBitmapFromUri
 import ru.tech.imageresizershrinker.utils.BitmapUtils.decodeSampledBitmapFromUri
 import ru.tech.imageresizershrinker.utils.BitmapUtils.getBitmapByUri
-import ru.tech.imageresizershrinker.utils.BitmapUtils.getUriByName
 import ru.tech.imageresizershrinker.utils.ContextUtils.isExternalStorageWritable
 import ru.tech.imageresizershrinker.utils.ContextUtils.requestPermission
 import ru.tech.imageresizershrinker.utils.LocalWindowSizeClass
-import java.io.File
+import ru.tech.imageresizershrinker.utils.SavingFolder
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalAnimationApi::class)
 @Composable
@@ -77,6 +73,8 @@ fun BatchResizeScreen(
     navController: NavController<Screen>,
     onGoBack: () -> Unit,
     pushNewUris: (List<Uri>?) -> Unit,
+    getSavingFolder: (name: String, ext: String) -> SavingFolder,
+    savingPathString: String,
     viewModel: BatchResizeViewModel = viewModel()
 ) {
     val context = LocalContext.current as ComponentActivity
@@ -150,35 +148,9 @@ fun BatchResizeScreen(
         showSaveLoading = true
         viewModel.save(
             isExternalStorageWritable = context.isExternalStorageWritable(),
-            getFileOutputStream = { name, ext ->
-                val contentValues = ContentValues().apply {
-                    put(MediaStore.MediaColumns.DISPLAY_NAME, name)
-                    put(
-                        MediaStore.MediaColumns.MIME_TYPE,
-                        "image/$ext"
-                    )
-                    put(
-                        MediaStore.MediaColumns.RELATIVE_PATH,
-                        "DCIM/ResizedImages"
-                    )
-                }
-                val imageUri = context.contentResolver.insert(
-                    MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
-                    contentValues
-                )
-                context.contentResolver.openOutputStream(imageUri!!)
-            },
-            getExternalStorageDir = {
-                File(
-                    Environment.getExternalStoragePublicDirectory(
-                        Environment.DIRECTORY_DCIM
-                    ), "ResizedImages"
-                )
-            },
-            getFileDescriptor = { name ->
-                context.getUriByName(name)?.let {
-                    context.contentResolver.openFileDescriptor(it, "rw", null)
-                }
+            getSavingFolder = getSavingFolder,
+            getFileDescriptor = { uri ->
+                uri?.let { context.contentResolver.openFileDescriptor(uri, "rw", null) }
             },
             getBitmap = { uri ->
                 context.decodeBitmapFromUri(uri)
@@ -188,7 +160,10 @@ fun BatchResizeScreen(
             else {
                 scope.launch {
                     toastHostState.showToast(
-                        context.getString(R.string.saved_to),
+                        context.getString(
+                            R.string.saved_to,
+                            savingPathString
+                        ),
                         Icons.Rounded.Save
                     )
                 }

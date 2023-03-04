@@ -20,9 +20,7 @@ import ru.tech.imageresizershrinker.utils.BitmapUtils.flip
 import ru.tech.imageresizershrinker.utils.BitmapUtils.previewBitmap
 import ru.tech.imageresizershrinker.utils.BitmapUtils.resizeBitmap
 import ru.tech.imageresizershrinker.utils.BitmapUtils.rotate
-import java.io.File
-import java.io.FileOutputStream
-import java.io.OutputStream
+import ru.tech.imageresizershrinker.utils.SavingFolder
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -261,9 +259,8 @@ class BatchResizeViewModel : ViewModel() {
 
     fun save(
         isExternalStorageWritable: Boolean,
-        getFileOutputStream: (name: String, ext: String) -> OutputStream?,
-        getFileDescriptor: (name: String) -> ParcelFileDescriptor?,
-        getExternalStorageDir: () -> File?,
+        getSavingFolder: (name: String, ext: String) -> SavingFolder,
+        getFileDescriptor: (Uri?) -> ParcelFileDescriptor?,
         getBitmap: (Uri) -> Pair<Bitmap?, ExifInterface?>,
         onSuccess: (Boolean) -> Unit
     ) = viewModelScope.launch {
@@ -291,15 +288,9 @@ class BatchResizeViewModel : ViewModel() {
                             val localBitmap = bitmap!!.resizeBitmap(tWidth, tHeight, resizeType)
                                 .rotate(rotation)
                                 .flip(isFlipped)
-                            val fos: OutputStream? =
-                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                                    getFileOutputStream(name, ext)
-                                } else {
-                                    val imagesDir = getExternalStorageDir()
-                                    if (imagesDir?.exists() == false) imagesDir.mkdir()
-                                    val image = File(imagesDir, name)
-                                    FileOutputStream(image)
-                                }
+                            val savingFolder = getSavingFolder(name, ext)
+
+                            val fos = savingFolder.outputStream
 
                             localBitmap.compress(
                                 mime.extension.compressFormat,
@@ -312,7 +303,7 @@ class BatchResizeViewModel : ViewModel() {
 
                             if (keepExif) {
                                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                                    val fd = getFileDescriptor(name)
+                                    val fd = getFileDescriptor(savingFolder.fileUri)
                                     fd?.fileDescriptor?.let {
                                         val ex = ExifInterface(it)
                                         exif?.copyTo(ex)
@@ -320,8 +311,7 @@ class BatchResizeViewModel : ViewModel() {
                                     }
                                     fd?.close()
                                 } else {
-                                    val dir = getExternalStorageDir()
-                                    val image = File(dir, name)
+                                    val image = savingFolder.file!!
                                     val ex = ExifInterface(image)
                                     exif?.copyTo(ex)
                                     ex.saveAttributes()

@@ -2,7 +2,6 @@ package ru.tech.imageresizershrinker.crop_screen.viewModel
 
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-import android.os.Build
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -16,9 +15,13 @@ import com.smarttoolfactory.cropper.settings.CropOutlineProperty
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import ru.tech.imageresizershrinker.resize_screen.components.compressFormat
+import ru.tech.imageresizershrinker.resize_screen.components.extension
 import ru.tech.imageresizershrinker.utils.BitmapUtils.canShow
 import ru.tech.imageresizershrinker.utils.BitmapUtils.resizeBitmap
-import java.io.*
+import ru.tech.imageresizershrinker.utils.SavingFolder
+import java.io.ByteArrayInputStream
+import java.io.ByteArrayOutputStream
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -71,18 +74,13 @@ class CropViewModel : ViewModel() {
     }
 
     fun updateMimeType(mime: Int) {
-        when (mime) {
-            0 -> mimeType = Bitmap.CompressFormat.JPEG
-            1 -> mimeType = Bitmap.CompressFormat.WEBP
-            2 -> mimeType = Bitmap.CompressFormat.PNG
-        }
+        mimeType = mime.extension.compressFormat
     }
 
     fun saveBitmap(
         bitmap: Bitmap? = _bitmap.value,
         isExternalStorageWritable: Boolean,
-        getFileOutputStream: (name: String, ext: String) -> OutputStream?,
-        getExternalStorageDir: () -> File?,
+        getSavingFolder: (name: String, ext: String) -> SavingFolder,
         onSuccess: (Boolean) -> Unit
     ) = viewModelScope.launch {
         withContext(Dispatchers.IO) {
@@ -90,22 +88,17 @@ class CropViewModel : ViewModel() {
                 if (!isExternalStorageWritable) {
                     onSuccess(false)
                 } else {
-                    val ext =
-                        if (mimeType == Bitmap.CompressFormat.WEBP) "webp" else if (mimeType == Bitmap.CompressFormat.PNG) "png" else "jpg"
+                    val ext = mimeType.extension
 
                     val timeStamp: String =
                         SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(Date())
                     val name = "ResizedImage$timeStamp.$ext"
                     val localBitmap = bitmap
-                    val fos: OutputStream? =
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                            getFileOutputStream(name, ext)
-                        } else {
-                            val imagesDir = getExternalStorageDir()
-                            if (imagesDir?.exists() == false) imagesDir.mkdir()
-                            val image = File(imagesDir, name)
-                            FileOutputStream(image)
-                        }
+
+                    val savingFolder = getSavingFolder(name, ext)
+
+                    val fos = savingFolder.outputStream
+
                     localBitmap.compress(mimeType, 100, fos)
                     val out = ByteArrayOutputStream()
                     localBitmap.compress(mimeType, 100, out)

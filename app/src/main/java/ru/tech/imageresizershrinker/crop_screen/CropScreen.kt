@@ -1,11 +1,8 @@
 package ru.tech.imageresizershrinker.crop_screen
 
 
-import android.content.ContentValues
 import android.graphics.Bitmap
 import android.net.Uri
-import android.os.Environment
-import android.provider.MediaStore
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.BackHandler
 import androidx.activity.compose.rememberLauncherForActivityResult
@@ -37,7 +34,6 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.cookhelper.dynamic.theme.LocalDynamicThemeState
 import com.smarttoolfactory.cropper.ImageCropper
-import com.smarttoolfactory.cropper.settings.CropDefaults
 import dev.olshevski.navigation.reimagined.NavController
 import dev.olshevski.navigation.reimagined.pop
 import kotlinx.coroutines.launch
@@ -55,7 +51,7 @@ import ru.tech.imageresizershrinker.utils.BitmapUtils.decodeBitmapFromUri
 import ru.tech.imageresizershrinker.utils.BitmapUtils.shareBitmap
 import ru.tech.imageresizershrinker.utils.ContextUtils.isExternalStorageWritable
 import ru.tech.imageresizershrinker.utils.ContextUtils.requestPermission
-import java.io.File
+import ru.tech.imageresizershrinker.utils.SavingFolder
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -64,6 +60,8 @@ fun CropScreen(
     navController: NavController<Screen>,
     onGoBack: () -> Unit,
     pushNewUri: (Uri?) -> Unit,
+    getSavingFolder: (name: String, ext: String) -> SavingFolder,
+    savingPathString: String,
     viewModel: CropViewModel = viewModel()
 ) {
     val context = LocalContext.current as ComponentActivity
@@ -136,37 +134,16 @@ fun CropScreen(
         viewModel.saveBitmap(
             bitmap = it,
             isExternalStorageWritable = context.isExternalStorageWritable(),
-            getFileOutputStream = { name, ext ->
-                val contentValues = ContentValues().apply {
-                    put(MediaStore.MediaColumns.DISPLAY_NAME, name)
-                    put(
-                        MediaStore.MediaColumns.MIME_TYPE,
-                        "image/$ext"
-                    )
-                    put(
-                        MediaStore.MediaColumns.RELATIVE_PATH,
-                        "DCIM/ResizedImages"
-                    )
-                }
-                val imageUri = context.contentResolver.insert(
-                    MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
-                    contentValues
-                )
-                context.contentResolver.openOutputStream(imageUri!!)
-            },
-            getExternalStorageDir = {
-                File(
-                    Environment.getExternalStoragePublicDirectory(
-                        Environment.DIRECTORY_DCIM
-                    ), "ResizedImages"
-                )
-            }
+            getSavingFolder = getSavingFolder
         ) { success ->
             if (!success) context.requestPermission()
             else {
                 scope.launch {
                     toastHostState.showToast(
-                        context.getString(R.string.saved_to),
+                        context.getString(
+                            R.string.saved_to,
+                            savingPathString
+                        ),
                         Icons.Rounded.Save
                     )
                 }
@@ -286,8 +263,8 @@ fun CropScreen(
                     val aspectRatios = aspectRatios()
                     AspectRatioSelection(
                         modifier = Modifier.fillMaxWidth(),
-                        selectedIndex = aspectRatios.indexOfFirst {
-                            it.aspectRatio == viewModel.cropProperties.aspectRatio
+                        selectedIndex = aspectRatios.indexOfFirst { cr ->
+                            cr.aspectRatio == viewModel.cropProperties.aspectRatio
                         }
                     ) { aspect ->
                         viewModel.setCropAspectRatio(aspect.aspectRatio)

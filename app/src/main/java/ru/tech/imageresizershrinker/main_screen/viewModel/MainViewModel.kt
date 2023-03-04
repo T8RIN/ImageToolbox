@@ -14,7 +14,6 @@ import dev.olshevski.navigation.reimagined.navController
 import dev.olshevski.navigation.reimagined.navigate
 import dev.olshevski.navigation.reimagined.popUpTo
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
@@ -65,7 +64,7 @@ class MainViewModel(
         tryGetUpdate()
         dataStore.data.map {
             it[SAVE_FOLDER]?.let { uri ->
-                if(uri.isEmpty()) null
+                if (uri.isEmpty()) null
                 else Uri.parse(uri)
             }
         }.onEach {

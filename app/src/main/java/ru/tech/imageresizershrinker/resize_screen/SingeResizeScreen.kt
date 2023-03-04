@@ -58,13 +58,11 @@ import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.main_screen.components.Screen
 import ru.tech.imageresizershrinker.main_screen.components.navBarsLandscapePadding
-import ru.tech.imageresizershrinker.main_screen.toPath
 import ru.tech.imageresizershrinker.resize_screen.components.*
 import ru.tech.imageresizershrinker.resize_screen.viewModel.SingleResizeViewModel
 import ru.tech.imageresizershrinker.utils.BitmapUtils
 import ru.tech.imageresizershrinker.utils.BitmapUtils.canShow
 import ru.tech.imageresizershrinker.utils.BitmapUtils.decodeBitmapFromUri
-import ru.tech.imageresizershrinker.utils.BitmapUtils.getUriByName
 import ru.tech.imageresizershrinker.utils.BitmapUtils.resizeBitmap
 import ru.tech.imageresizershrinker.utils.BitmapUtils.shareBitmap
 import ru.tech.imageresizershrinker.utils.BitmapUtils.toMap
@@ -168,10 +166,8 @@ fun Context.SingleResizeScreen(
         viewModel.saveBitmap(
             isExternalStorageWritable = context.isExternalStorageWritable(),
             getSavingFolder = getSavingFolder,
-            getFileDescriptor = { name ->
-                context.getUriByName(name)?.let {
-                    context.contentResolver.openFileDescriptor(it, "rw", null)
-                }
+            getFileDescriptor = { uri ->
+                uri?.let { context.contentResolver.openFileDescriptor(it, "rw", null) }
             }
         ) { success ->
             if (!success) context.requestPermission()

@@ -33,7 +33,6 @@ import androidx.datastore.preferences.preferencesDataStore
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.anggrayudi.storage.file.DocumentFileCompat
-import com.anggrayudi.storage.file.search
 import dev.olshevski.navigation.reimagined.*
 import ru.tech.imageresizershrinker.BuildConfig
 import ru.tech.imageresizershrinker.R
@@ -62,6 +61,7 @@ class MainActivity : ComponentActivity() {
 
     private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "image_resizer")
 
+    @Suppress("UNCHECKED_CAST")
     private class MainViewModelFactory(
         private val dataStore: DataStore<Preferences>
     ) : ViewModelProvider.NewInstanceFactory() {
@@ -98,7 +98,7 @@ class MainActivity : ComponentActivity() {
                 Surface(Modifier.fillMaxSize()) {
                     AnimatedNavHost(
                         controller = viewModel.navController,
-                        transitionSpec = { action, from, to ->
+                        transitionSpec = { _, _, to ->
                             if (to != Screen.Main) {
                                 slideInVertically() + fadeIn() with fadeOut()
                             } else {
@@ -142,7 +142,12 @@ class MainActivity : ComponentActivity() {
                                     uriState = viewModel.uri,
                                     navController = viewModel.navController,
                                     onGoBack = { viewModel.updateUri(null) },
-                                    pushNewUri = viewModel::updateUri
+                                    pushNewUri = viewModel::updateUri,
+                                    getSavingFolder = { name, ext ->
+                                        getSavingFolder(name, ext)
+                                    },
+                                    savingPathString = saveFolderUri?.toPath(this@MainActivity)
+                                        ?: getString(R.string.default_folder)
                                 )
                             }
                             is Screen.BatchResize -> {
@@ -150,7 +155,12 @@ class MainActivity : ComponentActivity() {
                                     uriState = viewModel.uris,
                                     navController = viewModel.navController,
                                     onGoBack = { viewModel.updateUris(null) },
-                                    pushNewUris = viewModel::updateUris
+                                    pushNewUris = viewModel::updateUris,
+                                    getSavingFolder = { name, ext ->
+                                        getSavingFolder(name, ext)
+                                    },
+                                    savingPathString = saveFolderUri?.toPath(this@MainActivity)
+                                        ?: getString(R.string.default_folder)
                                 )
                             }
                             is Screen.GeneratePalette -> {
@@ -339,7 +349,8 @@ class MainActivity : ComponentActivity() {
                 )
 
                 SavingFolder(
-                    outputStream = contentResolver.openOutputStream(imageUri!!)
+                    outputStream = contentResolver.openOutputStream(imageUri!!),
+                    fileUri = imageUri
                 )
             } else {
                 val imagesDir = File(
@@ -355,12 +366,13 @@ class MainActivity : ComponentActivity() {
             }
         } else {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                val documentFile = DocumentFileCompat
+                val imageUri = DocumentFileCompat
                     .fromUri(this, uri)
-                    ?.createFile("image/$extension", name)
+                    ?.createFile("image/$extension", name)?.uri!!
 
                 SavingFolder(
-                    outputStream = contentResolver.openOutputStream(documentFile?.uri!!)
+                    outputStream = contentResolver.openOutputStream(imageUri),
+                    fileUri = imageUri
                 )
             } else {
                 val path = uri.toPath(this@MainActivity)?.split("/")?.let {
@@ -378,7 +390,7 @@ class MainActivity : ComponentActivity() {
                 )
             }
         }
-        return folder.copy(uri = uri)
+        return folder
     }
 
 }

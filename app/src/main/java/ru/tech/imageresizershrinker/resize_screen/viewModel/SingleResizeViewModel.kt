@@ -2,6 +2,7 @@ package ru.tech.imageresizershrinker.resize_screen.viewModel
 
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.net.Uri
 import android.os.Build
 import android.os.ParcelFileDescriptor
 import androidx.compose.runtime.MutableState
@@ -88,7 +89,7 @@ class SingleResizeViewModel : ViewModel() {
         bitmap: Bitmap? = _bitmap.value,
         isExternalStorageWritable: Boolean,
         getSavingFolder: (name: String, ext: String) -> SavingFolder,
-        getFileDescriptor: (name: String) -> ParcelFileDescriptor?,
+        getFileDescriptor: (Uri?) -> ParcelFileDescriptor?,
         onSuccess: (Boolean) -> Unit
     ) = viewModelScope.launch {
         withContext(Dispatchers.IO) {
@@ -126,7 +127,7 @@ class SingleResizeViewModel : ViewModel() {
                         fos.close()
 
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                            val fd = getFileDescriptor(name)
+                            val fd = getFileDescriptor(savingFolder.fileUri)
                             fd?.fileDescriptor?.let {
                                 val ex = ExifInterface(it)
                                 exif?.copyTo(ex)
