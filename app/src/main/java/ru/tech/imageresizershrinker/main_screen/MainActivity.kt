@@ -30,9 +30,9 @@ import androidx.core.view.WindowCompat
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStore
+import androidx.documentfile.provider.DocumentFile
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.anggrayudi.storage.file.DocumentFileCompat
 import dev.olshevski.navigation.reimagined.*
 import ru.tech.imageresizershrinker.BuildConfig
 import ru.tech.imageresizershrinker.R
@@ -366,8 +366,8 @@ class MainActivity : ComponentActivity() {
             }
         } else {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                val imageUri = DocumentFileCompat
-                    .fromUri(this, uri)
+                val imageUri = DocumentFile
+                    .fromTreeUri(this, uri)
                     ?.createFile("image/$extension", name)?.uri!!
 
                 SavingFolder(
@@ -395,7 +395,7 @@ class MainActivity : ComponentActivity() {
 
 }
 
-fun Uri.toPath(context: Context): String? = DocumentFileCompat
-    .fromUri(context, this)
+fun Uri.toPath(context: Context): String? = DocumentFile
+    .fromTreeUri(context, this)
     ?.uri?.path?.split(":")
     ?.lastOrNull()
