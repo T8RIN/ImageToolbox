@@ -11,7 +11,7 @@
     <string name="resize_type">Тип изменения</string>
     <string name="explicit">Строгий</string>
     <string name="flexible">Гибкий</string>
-    <string name="saved_to">Сохранено в папку DCIM/ResizedImages</string>
+    <string name="saved_to">Сохранено в папку %1$s</string>
     <string name="pick_image_alt">Выбрать изображение</string>
     <string name="app_closing_sub">Вы действительно хотите закрыть приложение?</string>
     <string name="app_closing">Закрытие приложения</string>

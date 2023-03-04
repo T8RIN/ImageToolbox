@@ -1,8 +1,13 @@
 package ru.tech.imageresizershrinker.main_screen
 
+import android.content.ContentValues
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
+import android.os.Environment
+import android.provider.MediaStore
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.BackHandler
 import androidx.activity.viewModels
@@ -22,6 +27,13 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.WindowCompat
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.preferencesDataStore
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
+import com.anggrayudi.storage.file.DocumentFileCompat
+import com.anggrayudi.storage.file.search
 import dev.olshevski.navigation.reimagined.*
 import ru.tech.imageresizershrinker.BuildConfig
 import ru.tech.imageresizershrinker.R
@@ -39,13 +51,26 @@ import ru.tech.imageresizershrinker.theme.Github
 import ru.tech.imageresizershrinker.theme.ImageResizerTheme
 import ru.tech.imageresizershrinker.utils.IntentUtils.parcelable
 import ru.tech.imageresizershrinker.utils.IntentUtils.parcelableArrayList
+import ru.tech.imageresizershrinker.utils.SavingFolder
 import ru.tech.imageresizershrinker.utils.setContentWithWindowSizeClass
+import java.io.File
+import java.io.FileOutputStream
 
 @ExperimentalFoundationApi
 @ExperimentalMaterial3Api
 class MainActivity : ComponentActivity() {
 
-    private val viewModel by viewModels<MainViewModel>()
+    private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "image_resizer")
+
+    private class MainViewModelFactory(
+        private val dataStore: DataStore<Preferences>
+    ) : ViewModelProvider.NewInstanceFactory() {
+        override fun <T : ViewModel> create(modelClass: Class<T>): T = MainViewModel(dataStore) as T
+    }
+
+    private val viewModel by viewModels<MainViewModel> {
+        MainViewModelFactory(dataStore)
+    }
 
     @OptIn(ExperimentalAnimationApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -61,6 +86,9 @@ class MainActivity : ComponentActivity() {
 
         setContentWithWindowSizeClass {
             var showExitDialog by rememberSaveable { mutableStateOf(false) }
+
+            val saveFolderUri = viewModel.saveFolderUri
+
             ImageResizerTheme {
                 BackHandler {
                     if (viewModel.shouldShowDialog) showExitDialog = true
@@ -80,14 +108,25 @@ class MainActivity : ComponentActivity() {
                     ) { screen ->
                         when (screen) {
                             is Screen.Main -> {
-                                MainScreen(viewModel.navController)
+                                MainScreen(
+                                    navController = viewModel.navController,
+                                    currentFolderUri = saveFolderUri,
+                                    onGetNewFolder = {
+                                        viewModel.updateSaveFolderUri(it)
+                                    }
+                                )
                             }
                             is Screen.SingleResize -> {
                                 SingleResizeScreen(
                                     uriState = viewModel.uri,
                                     navController = viewModel.navController,
                                     onGoBack = { viewModel.updateUri(null) },
-                                    pushNewUri = viewModel::updateUri
+                                    pushNewUri = viewModel::updateUri,
+                                    getSavingFolder = { name, ext ->
+                                        getSavingFolder(name, ext)
+                                    },
+                                    savingPathString = saveFolderUri?.toPath(this@MainActivity)
+                                        ?: getString(R.string.default_folder)
                                 )
                             }
                             is Screen.PickColorFromImage -> {
@@ -279,5 +318,72 @@ class MainActivity : ComponentActivity() {
         }
     }
 
+    private fun getSavingFolder(name: String, extension: String): SavingFolder {
+        val uri = viewModel.saveFolderUri
+        val folder = if (uri == null) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                val contentValues = ContentValues().apply {
+                    put(MediaStore.MediaColumns.DISPLAY_NAME, name)
+                    put(
+                        MediaStore.MediaColumns.MIME_TYPE,
+                        "image/$extension"
+                    )
+                    put(
+                        MediaStore.MediaColumns.RELATIVE_PATH,
+                        "DCIM/ResizedImages"
+                    )
+                }
+                val imageUri = contentResolver.insert(
+                    MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+                    contentValues
+                )
+
+                SavingFolder(
+                    outputStream = contentResolver.openOutputStream(imageUri!!)
+                )
+            } else {
+                val imagesDir = File(
+                    Environment.getExternalStoragePublicDirectory(
+                        Environment.DIRECTORY_DCIM
+                    ), "ResizedImages"
+                )
+                if (!imagesDir.exists()) imagesDir.mkdir()
+                SavingFolder(
+                    outputStream = FileOutputStream(File(imagesDir, name)),
+                    file = File(imagesDir, name)
+                )
+            }
+        } else {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                val documentFile = DocumentFileCompat
+                    .fromUri(this, uri)
+                    ?.createFile("image/$extension", name)
+
+                SavingFolder(
+                    outputStream = contentResolver.openOutputStream(documentFile?.uri!!)
+                )
+            } else {
+                val path = uri.toPath(this@MainActivity)?.split("/")?.let {
+                    it - it.last() to it.last()
+                }
+                val imagesDir = File(
+                    Environment.getExternalStoragePublicDirectory(
+                        "${path?.first?.joinToString("/")}"
+                    ), path?.second.toString()
+                )
+                if (!imagesDir.exists()) imagesDir.mkdir()
+                SavingFolder(
+                    outputStream = FileOutputStream(File(imagesDir, name)),
+                    file = File(imagesDir, name)
+                )
+            }
+        }
+        return folder.copy(uri = uri)
+    }
+
 }
 
+fun Uri.toPath(context: Context): String? = DocumentFileCompat
+    .fromUri(context, this)
+    ?.uri?.path?.split(":")
+    ?.lastOrNull()

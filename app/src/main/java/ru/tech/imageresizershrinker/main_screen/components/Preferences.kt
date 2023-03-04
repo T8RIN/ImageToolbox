@@ -138,7 +138,8 @@ fun PreferenceItem(
     onClick: () -> Unit,
     title: String,
     subtitle: String,
-    icon: ImageVector,
+    icon: ImageVector? = null,
+    endIcon: ImageVector? = null,
     color: Color = MaterialTheme.colorScheme.surfaceVariant,
     modifier: Modifier = Modifier
         .fillMaxWidth()
@@ -150,9 +151,11 @@ fun PreferenceItem(
         colors = CardDefaults.cardColors(containerColor = color)
     ) {
         Row(Modifier.padding(16.dp)) {
-            Icon(imageVector = icon, contentDescription = null)
-            Spacer(modifier = Modifier.width(16.dp))
-            Column {
+            icon?.let {
+                Icon(imageVector = icon, contentDescription = null)
+                Spacer(modifier = Modifier.width(16.dp))
+            }
+            Column(Modifier.weight(1f)) {
                 Text(
                     text = title,
                     fontSize = 16.sp,
@@ -166,6 +169,10 @@ fun PreferenceItem(
                     lineHeight = 14.sp,
                     color = LocalContentColor.current.copy(alpha = 0.5f)
                 )
+            }
+            endIcon?.let {
+                Spacer(modifier = Modifier.width(16.dp))
+                Icon(imageVector = endIcon, contentDescription = null)
             }
         }
     }

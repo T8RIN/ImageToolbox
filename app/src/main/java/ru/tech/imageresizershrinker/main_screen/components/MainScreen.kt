@@ -1,13 +1,23 @@
 package ru.tech.imageresizershrinker.main_screen.components
 
+import android.content.Context
+import android.content.Intent
+import android.net.Uri
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.foundation.border
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.Folder
 import androidx.compose.material3.*
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.*
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
@@ -18,9 +28,11 @@ import androidx.compose.ui.graphics.Shadow
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.onSizeChanged
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.window.DialogProperties
 import com.cookhelper.dynamic.theme.LocalDynamicThemeState
 import dev.olshevski.navigation.reimagined.NavController
 import dev.olshevski.navigation.reimagined.navigate
@@ -32,14 +44,21 @@ import nl.dionsegijn.konfetti.core.*
 import nl.dionsegijn.konfetti.core.emitter.Emitter
 import ru.tech.imageresizershrinker.BuildConfig
 import ru.tech.imageresizershrinker.R
+import ru.tech.imageresizershrinker.main_screen.toPath
 import ru.tech.imageresizershrinker.resize_screen.components.blend
+import ru.tech.imageresizershrinker.theme.CreateAlt
 import ru.tech.imageresizershrinker.utils.LocalWindowSizeClass
 import java.lang.Integer.max
 import java.util.concurrent.TimeUnit
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MainScreen(navController: NavController<Screen>) {
+fun MainScreen(
+    navController: NavController<Screen>,
+    currentFolderUri: Uri?,
+    onGetNewFolder: (Uri?) -> Unit
+) {
+    val context = LocalContext.current
     val scrollBehavior =
         TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
     val isGrid = LocalWindowSizeClass.current.widthSizeClass != WindowWidthSizeClass.Compact
@@ -47,6 +66,7 @@ fun MainScreen(navController: NavController<Screen>) {
     val themeState = LocalDynamicThemeState.current
 
     var showConfetti by remember { mutableStateOf(false) }
+    var showSelectFolderDialog by rememberSaveable { mutableStateOf(false) }
 
     val colors = remember(colorScheme) {
         colorScheme.run {
@@ -115,6 +135,11 @@ fun MainScreen(navController: NavController<Screen>) {
                     3.dp
                 )
             ),
+            actions = {
+                IconButton(onClick = { showSelectFolderDialog = true }) {
+                    Icon(Icons.Rounded.Folder, null)
+                }
+            },
             modifier = Modifier.shadow(6.dp),
             scrollBehavior = scrollBehavior,
         )
@@ -351,6 +376,89 @@ fun MainScreen(navController: NavController<Screen>) {
             }
         )
     }
+
+    if (showSelectFolderDialog) {
+        val launcher = rememberLauncherForActivityResult(
+            contract = object : ActivityResultContracts.OpenDocumentTree() {
+                override fun createIntent(context: Context, input: Uri?): Intent {
+                    val intent = super.createIntent(context, input)
+                    intent.addFlags(
+                        Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION or
+                                Intent.FLAG_GRANT_WRITE_URI_PERMISSION or
+                                Intent.FLAG_GRANT_READ_URI_PERMISSION
+                    )
+                    return intent
+                }
+            },
+            onResult = { uri ->
+                uri?.let {
+                    onGetNewFolder(uri)
+                }
+            }
+        )
+        AlertDialog(
+            properties = DialogProperties(usePlatformDefaultWidth = false),
+            modifier = Modifier
+                .systemBarsPadding()
+                .padding(20.dp)
+                .fillMaxWidth(),
+            onDismissRequest = { showSelectFolderDialog = false },
+            title = { Text(stringResource(R.string.folder)) },
+            icon = { Icon(Icons.Rounded.Folder, null) },
+            confirmButton = {
+                FilledTonalButton(onClick = { showSelectFolderDialog = false }) {
+                    Text(stringResource(R.string.close))
+                }
+            },
+            text = {
+                Column(Modifier.verticalScroll(rememberScrollState())) {
+                    PreferenceItem(
+                        onClick = {
+                            onGetNewFolder(null)
+                        },
+                        title = stringResource(R.string.def),
+                        subtitle = stringResource(R.string.default_folder),
+                        color = MaterialTheme.colorScheme.secondaryContainer,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 16.dp)
+                            .border(
+                                1.dp,
+                                if (currentFolderUri == null) MaterialTheme.colorScheme.onSecondaryContainer.copy(
+                                    alpha = 0.5f
+                                )
+                                else Color.Transparent,
+                                RoundedCornerShape(12.dp)
+                            )
+                    )
+                    Spacer(modifier = Modifier.height(8.dp))
+                    PreferenceItem(
+                        onClick = {
+                            launcher.launch(currentFolderUri)
+                        },
+                        title = stringResource(R.string.custom),
+                        subtitle = currentFolderUri?.toPath(LocalContext.current) ?: stringResource(
+                            R.string.unspecified
+                        ),
+                        color = MaterialTheme.colorScheme.secondaryContainer,
+                        endIcon = Icons.Rounded.CreateAlt,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 16.dp)
+                            .border(
+                                1.dp,
+                                if (currentFolderUri != null) MaterialTheme.colorScheme.onSecondaryContainer.copy(
+                                    alpha = 0.5f
+                                )
+                                else Color.Transparent,
+                                RoundedCornerShape(12.dp)
+                            )
+                    )
+                }
+            }
+        )
+    }
+
 }
 
 private fun particles(primary: Color) = listOf(

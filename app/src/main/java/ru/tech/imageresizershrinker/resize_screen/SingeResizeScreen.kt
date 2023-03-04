@@ -1,11 +1,8 @@
 package ru.tech.imageresizershrinker.resize_screen
 
-import android.content.ContentValues
 import android.content.Context
 import android.content.res.Configuration
 import android.net.Uri
-import android.os.Environment
-import android.provider.MediaStore
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.BackHandler
 import androidx.activity.compose.rememberLauncherForActivityResult
@@ -61,6 +58,7 @@ import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.main_screen.components.Screen
 import ru.tech.imageresizershrinker.main_screen.components.navBarsLandscapePadding
+import ru.tech.imageresizershrinker.main_screen.toPath
 import ru.tech.imageresizershrinker.resize_screen.components.*
 import ru.tech.imageresizershrinker.resize_screen.viewModel.SingleResizeViewModel
 import ru.tech.imageresizershrinker.utils.BitmapUtils
@@ -73,7 +71,7 @@ import ru.tech.imageresizershrinker.utils.BitmapUtils.toMap
 import ru.tech.imageresizershrinker.utils.ContextUtils.isExternalStorageWritable
 import ru.tech.imageresizershrinker.utils.ContextUtils.requestPermission
 import ru.tech.imageresizershrinker.utils.LocalWindowSizeClass
-import java.io.File
+import ru.tech.imageresizershrinker.utils.SavingFolder
 
 @OptIn(ExperimentalAnimationApi::class, ExperimentalMaterial3Api::class)
 @Composable
@@ -81,7 +79,10 @@ fun Context.SingleResizeScreen(
     viewModel: SingleResizeViewModel = viewModel(),
     onGoBack: () -> Unit,
     pushNewUri: (Uri?) -> Unit,
-    uriState: Uri?, navController: NavController<Screen>
+    uriState: Uri?,
+    getSavingFolder: (name: String, ext: String) -> SavingFolder,
+    savingPathString: String,
+    navController: NavController<Screen>
 ) {
     val toastHostState = rememberToastHostState()
     val scope = rememberCoroutineScope()
@@ -166,31 +167,7 @@ fun Context.SingleResizeScreen(
         showSaveLoading = true
         viewModel.saveBitmap(
             isExternalStorageWritable = context.isExternalStorageWritable(),
-            getFileOutputStream = { name, ext ->
-                val contentValues = ContentValues().apply {
-                    put(MediaStore.MediaColumns.DISPLAY_NAME, name)
-                    put(
-                        MediaStore.MediaColumns.MIME_TYPE,
-                        "image/$ext"
-                    )
-                    put(
-                        MediaStore.MediaColumns.RELATIVE_PATH,
-                        "DCIM/ResizedImages"
-                    )
-                }
-                val imageUri = context.contentResolver.insert(
-                    MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
-                    contentValues
-                )
-                context.contentResolver.openOutputStream(imageUri!!)
-            },
-            getExternalStorageDir = {
-                File(
-                    Environment.getExternalStoragePublicDirectory(
-                        Environment.DIRECTORY_DCIM
-                    ), "ResizedImages"
-                )
-            },
+            getSavingFolder = getSavingFolder,
             getFileDescriptor = { name ->
                 context.getUriByName(name)?.let {
                     context.contentResolver.openFileDescriptor(it, "rw", null)
@@ -201,7 +178,10 @@ fun Context.SingleResizeScreen(
             else {
                 scope.launch {
                     toastHostState.showToast(
-                        getString(R.string.saved_to),
+                        getString(
+                            R.string.saved_to,
+                            savingPathString
+                        ),
                         Icons.Rounded.Save
                     )
                 }

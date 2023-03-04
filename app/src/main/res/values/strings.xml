@@ -12,7 +12,7 @@
     <string name="resize_type">Resize type</string>
     <string name="explicit">Explicit</string>
     <string name="flexible">Flexible</string>
-    <string name="saved_to">Saved to DCIM/ResizedImages folder</string>
+    <string name="saved_to">Saved to %1$s folder</string>
     <string name="pick_image_alt">Pick Image</string>
     <string name="app_closing_sub">Are you really want to close the app?</string>
     <string name="app_closing">App closing</string>
@@ -70,4 +70,9 @@
     <string name="unsupported_type">Unsupported type: %1$s</string>
     <string name="no_palette">Can not generate palette for given image</string>
     <string name="original">Original</string>
+    <string name="folder">Output folder</string>
+    <string name="default_folder" translatable="false">DCIM/ResizedImages</string>
+    <string name="def">Default</string>
+    <string name="custom">Custom</string>
+    <string name="unspecified">Unspecified</string>
 </resources>
