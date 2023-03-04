@@ -25,6 +25,7 @@
 
 
 # Functions
+- Saving to given folder
 - Palette generation
 - Color picking
 - Batch processing
