@@ -58,7 +58,6 @@ fun MainScreen(
     currentFolderUri: Uri?,
     onGetNewFolder: (Uri?) -> Unit
 ) {
-    val context = LocalContext.current
     val scrollBehavior =
         TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
     val isGrid = LocalWindowSizeClass.current.widthSizeClass != WindowWidthSizeClass.Compact

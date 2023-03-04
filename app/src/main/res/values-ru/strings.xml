@@ -67,4 +67,8 @@
     <string name="unsupported_type">Неподдерживаемый тип: %1$s</string>
     <string name="no_palette">По данному изображению не удалось сгенерировать палитру</string>
     <string name="original">Оригинал</string>
+    <string name="folder">Путь сохранения</string>
+    <string name="def">По умолчанию</string>
+    <string name="custom">Произвольный</string>
+    <string name="unspecified">Не задан</string>
 </resources>

@@ -67,4 +67,8 @@
     <string name="unsupported_type">Unsupported type: %1$s</string>
     <string name="no_palette">Can not generate palette for given image</string>
     <string name="original">Original</string>
+    <string name="folder">Output folder</string>
+    <string name="def">Default</string>
+    <string name="custom">Custom</string>
+    <string name="unspecified">Unspecified</string>
 </resources>
