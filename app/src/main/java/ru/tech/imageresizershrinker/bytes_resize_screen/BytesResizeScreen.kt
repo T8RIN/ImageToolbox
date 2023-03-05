@@ -1,4 +1,4 @@
-package ru.tech.imageresizershrinker.batch_resize
+package ru.tech.imageresizershrinker.bytes_resize_screen
 
 import android.content.res.Configuration
 import android.graphics.Bitmap
@@ -10,10 +10,11 @@ import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.*
 import androidx.compose.animation.core.animateDpAsState
-import androidx.compose.foundation.*
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.detectTapGestures
-import androidx.compose.foundation.interaction.MutableInteractionSource
-import androidx.compose.foundation.interaction.PressInteraction
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.grid.GridCells
@@ -21,8 +22,8 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Save
 import androidx.compose.material.icons.rounded.*
@@ -35,12 +36,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.asImageBitmap
+import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.DialogProperties
@@ -48,18 +51,18 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.cookhelper.dynamic.theme.LocalDynamicThemeState
 import dev.olshevski.navigation.reimagined.NavController
 import dev.olshevski.navigation.reimagined.pop
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.batch_resize.components.SaveExifWidget
-import ru.tech.imageresizershrinker.batch_resize.viewModel.BatchResizeViewModel
+import ru.tech.imageresizershrinker.bytes_resize_screen.viewModel.BytesResizeViewModel
 import ru.tech.imageresizershrinker.main_screen.components.Screen
 import ru.tech.imageresizershrinker.main_screen.components.block
 import ru.tech.imageresizershrinker.main_screen.components.navBarsLandscapePadding
 import ru.tech.imageresizershrinker.resize_screen.components.*
-import ru.tech.imageresizershrinker.utils.BitmapUtils.canShow
+import ru.tech.imageresizershrinker.resize_screen.viewModel.SingleResizeViewModel.Companion.restrict
 import ru.tech.imageresizershrinker.utils.BitmapUtils.decodeBitmapFromUri
 import ru.tech.imageresizershrinker.utils.BitmapUtils.decodeSampledBitmapFromUri
+import ru.tech.imageresizershrinker.utils.BitmapUtils.fileSize
 import ru.tech.imageresizershrinker.utils.BitmapUtils.getBitmapByUri
 import ru.tech.imageresizershrinker.utils.ContextUtils.isExternalStorageWritable
 import ru.tech.imageresizershrinker.utils.ContextUtils.requestPermission
@@ -69,14 +72,14 @@ import ru.tech.imageresizershrinker.widget.Marquee
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalAnimationApi::class)
 @Composable
-fun BatchResizeScreen(
+fun BytesResizeScreen(
     uriState: List<Uri>?,
     navController: NavController<Screen>,
     onGoBack: () -> Unit,
     pushNewUris: (List<Uri>?) -> Unit,
     getSavingFolder: (name: String, ext: String) -> SavingFolder,
     savingPathString: String,
-    viewModel: BatchResizeViewModel = viewModel()
+    viewModel: BytesResizeViewModel = viewModel()
 ) {
     val context = LocalContext.current as ComponentActivity
     val toastHostState = rememberToastHostState()
@@ -89,7 +92,7 @@ fun BatchResizeScreen(
             pushNewUris(null)
             context.decodeBitmapFromUri(
                 uri = it[0],
-                onGetMimeType = viewModel::setMime,
+                onGetMimeType = {},
                 onGetExif = {},
                 onGetBitmap = viewModel::updateBitmap,
                 onError = {
@@ -120,7 +123,7 @@ fun BatchResizeScreen(
                 viewModel.updateUris(list)
                 context.decodeBitmapFromUri(
                     uri = it[0],
-                    onGetMimeType = viewModel::setMime,
+                    onGetMimeType = {},
                     onGetExif = {},
                     onGetBitmap = viewModel::updateBitmap,
                     onError = {
@@ -174,13 +177,9 @@ fun BatchResizeScreen(
     }
 
     val focus = LocalFocusManager.current
-    var showResetDialog by rememberSaveable { mutableStateOf(false) }
-    var showOriginal by rememberSaveable { mutableStateOf(false) }
     var showPickImageFromUrisDialog by rememberSaveable { mutableStateOf(false) }
 
     val state = rememberLazyListState()
-
-    val bitmapInfo = viewModel.bitmapInfo
 
     val imageInside =
         LocalConfiguration.current.orientation != Configuration.ORIENTATION_LANDSCAPE || LocalWindowSizeClass.current.widthSizeClass == WindowWidthSizeClass.Compact
@@ -196,11 +195,11 @@ fun BatchResizeScreen(
                     }
                 )
             },
-            targetState = Triple(viewModel.previewBitmap, viewModel.isLoading, showOriginal),
+            targetState = Triple(viewModel.isLoading, viewModel.bitmap, viewModel.previewBitmap),
             transitionSpec = { fadeIn() with fadeOut() }
-        ) { (bmp, loading, showOrig) ->
+        ) { (loading, _, _) ->
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                viewModel.uris?.size?.takeIf { it > 1 && !viewModel.isLoading }?.let {
+                viewModel.uris?.size?.takeIf { it > 1 && !loading }?.let {
                     Row(
                         verticalAlignment = Alignment.CenterVertically
                     ) {
@@ -240,15 +239,7 @@ fun BatchResizeScreen(
                         } else Modifier
                     )
                 ) {
-                    if (showOrig) {
-                        Picture(bitmap = viewModel.bitmap)
-                    } else {
-                        Picture(
-                            bitmap = bmp,
-                            visible = viewModel.shouldShowPreview
-                        )
-                        if (!viewModel.shouldShowPreview && !loading && viewModel.bitmap != null && bmp == null) BadImageWidget()
-                    }
+                    Picture(bitmap = viewModel.previewBitmap)
                     if (loading) Loading()
                 }
             }
@@ -262,10 +253,10 @@ fun BatchResizeScreen(
                 .navigationBarsPadding(),
             horizontalAlignment = Alignment.End
         ) {
-            if (viewModel.bitmap != null) {
+            AnimatedVisibility(viewModel.bitmap != null && viewModel.maxBytes != 0L) {
                 FloatingActionButton(
                     onClick = saveBitmaps,
-                    containerColor = MaterialTheme.colorScheme.tertiaryContainer
+                    containerColor = MaterialTheme.colorScheme.tertiaryContainer,
                 ) {
                     Icon(Icons.Rounded.Save, null)
                 }
@@ -303,29 +294,35 @@ fun BatchResizeScreen(
                 )
             }
     ) {
-        Box(Modifier.fillMaxSize()) {
+        val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
+        Box(
+            Modifier
+                .fillMaxSize()
+                .nestedScroll(scrollBehavior.nestedScrollConnection)
+        ) {
             Column(Modifier.fillMaxSize()) {
-                TopAppBar(
+                LargeTopAppBar(
+                    scrollBehavior = scrollBehavior,
                     modifier = Modifier.shadow(6.dp),
                     title = {
                         Marquee(
                             edgeColor = MaterialTheme.colorScheme.surfaceColorAtElevation(3.dp)
                         ) {
                             AnimatedContent(
-                                targetState = viewModel.bitmap to viewModel.isLoading,
+                                targetState = viewModel.isLoading to viewModel.bitmap,
                                 transitionSpec = { fadeIn() with fadeOut() }
-                            ) { (bmp, loading) ->
-
+                            ) { (loading, bmp) ->
+                                val size = viewModel.selectedUri?.fileSize(LocalContext.current)
                                 if (bmp == null) {
                                     Text(
-                                        stringResource(R.string.batch_resize),
+                                        stringResource(R.string.by_bytes_resize),
                                         textAlign = TextAlign.Center
                                     )
-                                } else if (!loading) {
+                                } else if (size != null && !loading) {
                                     Text(
                                         stringResource(
                                             R.string.size,
-                                            byteCount(bitmapInfo.size)
+                                            byteCount(size.toIntOrNull() ?: 0)
                                         )
                                     )
                                 } else {
@@ -339,79 +336,16 @@ fun BatchResizeScreen(
                             3.dp
                         )
                     ),
-                    actions = {
-                        val interactionSource = remember { MutableInteractionSource() }
-                        IconButton(
-                            enabled = viewModel.bitmap != null,
-                            onClick = { showResetDialog = true }
-                        ) {
-                            Icon(
-                                imageVector = Icons.Rounded.RestartAlt,
-                                contentDescription = null
-                            )
-                        }
-                        if (viewModel.bitmap != null && viewModel.bitmap?.canShow() == true) {
-                            Box(
-                                modifier = Modifier
-                                    .clip(CircleShape)
-                                    .indication(
-                                        interactionSource,
-                                        LocalIndication.current
-                                    )
-                                    .pointerInput(Unit) {
-                                        detectTapGestures(
-                                            onPress = {
-                                                val press = PressInteraction.Press(it)
-                                                interactionSource.emit(press)
-                                                val pos =
-                                                    state.firstVisibleItemIndex to state.firstVisibleItemScrollOffset
-                                                if (viewModel.bitmap?.canShow() == true) {
-                                                    showOriginal = true
-                                                    delay(100)
-                                                    if (imageInside) {
-                                                        state.animateScrollToItem(
-                                                            0,
-                                                            -10000
-                                                        )
-                                                    }
-                                                }
-                                                tryAwaitRelease()
-                                                showOriginal = false
-                                                interactionSource.emit(
-                                                    PressInteraction.Release(
-                                                        press
-                                                    )
-                                                )
-                                                state.animateScrollToItem(
-                                                    pos.first,
-                                                    pos.second
-                                                )
-                                            }
-                                        )
-                                    }
-                            ) {
-                                Icon(
-                                    Icons.Rounded.History,
-                                    null,
-                                    tint = MaterialTheme.colorScheme.onSurfaceVariant,
-                                    modifier = Modifier
-                                        .align(Alignment.Center)
-                                        .padding(8.dp)
-                                )
-                            }
-                        } else {
-                            IconButton(
-                                enabled = false,
-                                onClick = {}
-                            ) { Icon(Icons.Rounded.History, null) }
-                        }
-                    },
                     navigationIcon = {
-                        TelegramButton(
-                            enabled = viewModel.bitmap != null,
-                            isTelegramSpecs = viewModel.isTelegramSpecs,
-                            onClick = { viewModel.setTelegramSpecs() },
-                        )
+                        IconButton(
+                            onClick = {
+                                if (navController.backstack.entries.isNotEmpty()) navController.pop()
+                                onGoBack()
+                                themeState.reset()
+                            }
+                        ) {
+                            Icon(Icons.Rounded.ArrowBack, null)
+                        }
                     }
                 )
                 Row(
@@ -467,11 +401,21 @@ fun BatchResizeScreen(
                                         onRotateRight = viewModel::rotateRight
                                     )
                                     Spacer(Modifier.size(8.dp))
-                                    PresetWidget(
-                                        selectedPreset = viewModel.presetSelected,
-                                        bitmap = viewModel.bitmap,
-                                        bitmapInfo = bitmapInfo,
-                                        onChangeBitmapInfo = viewModel::setBitmapInfo
+                                    RoundedTextField(
+                                        modifier = Modifier
+                                            .block()
+                                            .padding(8.dp),
+                                        enabled = viewModel.bitmap != null,
+                                        value = (viewModel.maxBytes / 1024).toString()
+                                            .takeIf { it != "0" } ?: "",
+                                        onValueChange = {
+                                            viewModel.updateMaxBytes(it.restrict())
+                                        },
+                                        shape = RoundedCornerShape(12.dp),
+                                        keyboardOptions = KeyboardOptions(
+                                            keyboardType = KeyboardType.Number
+                                        ),
+                                        label = stringResource(R.string.max_bytes)
                                     )
                                     Spacer(Modifier.size(8.dp))
                                     SaveExifWidget(
@@ -482,32 +426,7 @@ fun BatchResizeScreen(
                                     ImageNotPickedWidget(onPickImage = pickImage)
                                     Spacer(Modifier.size(8.dp))
                                 }
-                                Spacer(Modifier.size(8.dp))
-                                ResizeImageField(
-                                    bitmapInfo = bitmapInfo,
-                                    bitmap = viewModel.bitmap,
-                                    onHeightChange = viewModel::updateHeight,
-                                    onWidthChange = viewModel::updateWidth
-                                )
-                                if (bitmapInfo.mime.extension != "png") Spacer(Modifier.height(8.dp))
-                                QualityWidget(
-                                    visible = bitmapInfo.mime.extension != "png",
-                                    enabled = viewModel.bitmap != null,
-                                    quality = bitmapInfo.quality,
-                                    onQualityChange = viewModel::setQuality
-                                )
                                 Spacer(Modifier.height(8.dp))
-                                ExtensionGroup(
-                                    enabled = viewModel.bitmap != null,
-                                    mime = bitmapInfo.mime,
-                                    onMimeChange = viewModel::setMime
-                                )
-                                Spacer(Modifier.height(8.dp))
-                                ResizeGroup(
-                                    enabled = viewModel.bitmap != null,
-                                    resizeType = bitmapInfo.resizeType,
-                                    onResizeChange = viewModel::setResizeType
-                                )
                             }
                         }
                     }
@@ -565,32 +484,6 @@ fun BatchResizeScreen(
                 )
             } else if (showSaveLoading) {
                 LoadingDialog(viewModel.done, viewModel.uris?.size ?: 1)
-            } else if (showResetDialog) {
-                AlertDialog(
-                    icon = { Icon(Icons.Rounded.RestartAlt, null) },
-                    title = { Text(stringResource(R.string.reset_image)) },
-                    text = { Text(stringResource(R.string.reset_image_sub)) },
-                    onDismissRequest = { showResetDialog = false },
-                    confirmButton = {
-                        Button(onClick = { showResetDialog = false }) {
-                            Text(stringResource(R.string.close))
-                        }
-                    },
-                    dismissButton = {
-                        FilledTonalButton(onClick = {
-                            viewModel.resetValues()
-                            showResetDialog = false
-                            scope.launch {
-                                toastHostState.showToast(
-                                    context.getString(R.string.values_reset),
-                                    Icons.Rounded.DoneOutline
-                                )
-                            }
-                        }) {
-                            Text(stringResource(R.string.reset))
-                        }
-                    }
-                )
             } else if (showPickImageFromUrisDialog) {
                 if ((viewModel.uris?.size ?: 0) > 1) {
                     AlertDialog(

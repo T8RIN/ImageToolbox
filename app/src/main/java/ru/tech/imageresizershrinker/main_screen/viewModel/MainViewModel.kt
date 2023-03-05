@@ -11,8 +11,6 @@ import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dev.olshevski.navigation.reimagined.navController
-import dev.olshevski.navigation.reimagined.navigate
-import dev.olshevski.navigation.reimagined.popUpTo
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
@@ -36,9 +34,6 @@ class MainViewModel(
     val saveFolderUri by _saveFolderUri
 
     val navController = navController<Screen>(Screen.Main)
-
-    private val _uri = mutableStateOf<Uri?>(null)
-    val uri by _uri
 
     private val _uris = mutableStateOf<List<Uri>?>(null)
     val uris by _uris
@@ -112,10 +107,10 @@ class MainViewModel(
     }
 
     fun updateUri(uri: Uri?) {
-        _uri.value = null
-        _uri.value = uri
-        if (uri != null && navController.backstack.entries.lastOrNull()?.destination == Screen.Main) _showSelectDialog.value =
-            true
+        _uris.value = null
+        uri?.let {
+            _uris.value = listOf(uri)
+        }
     }
 
     fun hideSelectDialog() {
@@ -125,12 +120,9 @@ class MainViewModel(
     fun updateUris(uris: List<Uri>?) {
         _uris.value = null
         _uris.value = uris
-        val dest = navController.backstack.entries.lastOrNull()?.destination
 
-        if (uris != null && dest != Screen.BatchResize) {
-            navController.popUpTo { it == Screen.Main }
-            navController.navigate(Screen.BatchResize)
-        }
+        val dest = navController.backstack.entries.lastOrNull()?.destination
+        if (uris != null && dest == Screen.Main) _showSelectDialog.value = true
     }
 
     fun showToast(

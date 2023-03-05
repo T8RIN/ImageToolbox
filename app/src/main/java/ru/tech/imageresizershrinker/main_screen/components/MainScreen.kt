@@ -162,7 +162,7 @@ fun MainScreen(
             ) {
                 Column(
                     horizontalAlignment = Alignment.CenterHorizontally
-                ){
+                ) {
                     Divider(color = MaterialTheme.colorScheme.onSecondaryContainer.copy(alpha = 0.25f))
                     Spacer(modifier = Modifier.height(8.dp))
                     Text(
@@ -201,6 +201,13 @@ fun MainScreen(
                     onClick = {
                         navController.popUpTo { it == Screen.Main }
                         navController.navigate(Screen.BatchResize)
+                    }
+                )
+                Spacer(modifier = Modifier.height(16.dp))
+                BytesResizePreference(
+                    onClick = {
+                        navController.popUpTo { it == Screen.Main }
+                        navController.navigate(Screen.ResizeByBytes)
                     }
                 )
                 Spacer(modifier = Modifier.height(16.dp))
@@ -291,10 +298,10 @@ fun MainScreen(
                 ) {
                     var heightOne by remember { mutableStateOf(0) }
                     var heightTwo by remember { mutableStateOf(0) }
-                    PickColorPreference(
+                    BytesResizePreference(
                         onClick = {
                             navController.popUpTo { it == Screen.Main }
-                            navController.navigate(Screen.PickColorFromImage)
+                            navController.navigate(Screen.ResizeByBytes)
                         },
                         modifier = Modifier
                             .then(
@@ -344,10 +351,10 @@ fun MainScreen(
                 ) {
                     var heightOne by remember { mutableStateOf(0) }
                     var heightTwo by remember { mutableStateOf(0) }
-                    GeneratePalettePreference(
+                    PickColorPreference(
                         onClick = {
                             navController.popUpTo { it == Screen.Main }
-                            navController.navigate(Screen.GeneratePalette)
+                            navController.navigate(Screen.PickColorFromImage)
                         },
                         modifier = Modifier
                             .then(
@@ -366,7 +373,7 @@ fun MainScreen(
                             }
                     )
                     Spacer(modifier = Modifier.width(16.dp))
-                    SourceCodePreference(
+                    GeneratePalettePreference(
                         modifier = Modifier
                             .then(
                                 if (heightOne != 0 && heightTwo != 0) {
@@ -381,9 +388,19 @@ fun MainScreen(
                             .fillMaxWidth()
                             .onSizeChanged {
                                 heightTwo = it.height
-                            }
+                            },
+                        onClick = {
+                            navController.popUpTo { it == Screen.Main }
+                            navController.navigate(Screen.GeneratePalette)
+                        }
                     )
                 }
+                Spacer(modifier = Modifier.height(16.dp))
+                SourceCodePreference(
+                    modifier = Modifier
+                        .widthIn(max = 350.dp)
+                        .fillMaxWidth()
+                )
                 Spacer(modifier = Modifier.height(16.dp))
                 footer()
             }

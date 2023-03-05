@@ -62,9 +62,30 @@ fun SingleResizePreference(
     )
 }
 
+
+@Composable
+fun BytesResizePreference(
+    onClick: () -> Unit,
+    color: Color = MaterialTheme.colorScheme.surfaceVariant,
+    modifier: Modifier = Modifier
+        .fillMaxWidth()
+        .padding(horizontal = 16.dp)
+) {
+    PreferenceItem(
+        onClick = onClick,
+        icon = Icons.Rounded.InsertDriveFile,
+        title = stringResource(R.string.by_bytes_resize),
+        subtitle = stringResource(R.string.by_bytes_resize_sub),
+        color = color,
+        modifier = modifier
+    )
+}
+
+
 @Composable
 fun BatchResizePreference(
     onClick: () -> Unit,
+    color: Color = MaterialTheme.colorScheme.surfaceVariant,
     modifier: Modifier = Modifier
         .fillMaxWidth()
         .padding(horizontal = 16.dp)
@@ -74,7 +95,8 @@ fun BatchResizePreference(
         icon = Icons.Rounded.PhotoLibrary,
         title = stringResource(R.string.batch_resize),
         subtitle = stringResource(R.string.resize_batch_image),
-        modifier = modifier
+        modifier = modifier,
+        color = color
     )
 }
 

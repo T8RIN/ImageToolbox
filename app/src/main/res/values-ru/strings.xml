@@ -72,4 +72,7 @@
     <string name="custom">Произвольный</string>
     <string name="unspecified">Не задан</string>
     <string name="device_storage">Память устройства</string>
+    <string name="by_bytes_resize">Сжатие по весу</string>
+    <string name="max_bytes">Максимальный вес в КБ</string>
+    <string name="by_bytes_resize_sub">Сожмите изображение, чтобы оно занимало не более n КБ</string>
 </resources>

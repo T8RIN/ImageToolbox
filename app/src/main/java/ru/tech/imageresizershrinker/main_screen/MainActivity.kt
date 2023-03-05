@@ -32,6 +32,7 @@ import dev.olshevski.navigation.reimagined.*
 import ru.tech.imageresizershrinker.BuildConfig
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.batch_resize.BatchResizeScreen
+import ru.tech.imageresizershrinker.bytes_resize_screen.BytesResizeScreen
 import ru.tech.imageresizershrinker.crash_screen.CrashActivity
 import ru.tech.imageresizershrinker.crash_screen.GlobalExceptionHandler
 import ru.tech.imageresizershrinker.crop_screen.CropScreen
@@ -112,9 +113,9 @@ class MainActivity : ComponentActivity() {
                             }
                             is Screen.SingleResize -> {
                                 SingleResizeScreen(
-                                    uriState = viewModel.uri,
+                                    uriState = viewModel.uris?.firstOrNull(),
                                     navController = viewModel.navController,
-                                    onGoBack = { viewModel.updateUri(null) },
+                                    onGoBack = { viewModel.updateUris(null) },
                                     pushNewUri = viewModel::updateUri,
                                     getSavingFolder = { name, ext ->
                                         getSavingFolder(
@@ -131,17 +132,17 @@ class MainActivity : ComponentActivity() {
                             }
                             is Screen.PickColorFromImage -> {
                                 PickColorFromImageScreen(
-                                    uriState = viewModel.uri,
+                                    uriState = viewModel.uris?.firstOrNull(),
                                     navController = viewModel.navController,
-                                    onGoBack = { viewModel.updateUri(null) },
+                                    onGoBack = { viewModel.updateUris(null) },
                                     pushNewUri = viewModel::updateUri
                                 )
                             }
                             is Screen.Crop -> {
                                 CropScreen(
-                                    uriState = viewModel.uri,
+                                    uriState = viewModel.uris?.firstOrNull(),
                                     navController = viewModel.navController,
-                                    onGoBack = { viewModel.updateUri(null) },
+                                    onGoBack = { viewModel.updateUris(null) },
                                     pushNewUri = viewModel::updateUri,
                                     getSavingFolder = { name, ext ->
                                         getSavingFolder(
@@ -177,10 +178,29 @@ class MainActivity : ComponentActivity() {
                             }
                             is Screen.GeneratePalette -> {
                                 GeneratePaletteScreen(
-                                    uriState = viewModel.uri,
+                                    uriState = viewModel.uris?.firstOrNull(),
                                     navController = viewModel.navController,
-                                    onGoBack = { viewModel.updateUri(null) },
+                                    onGoBack = { viewModel.updateUris(null) },
                                     pushNewUri = viewModel::updateUri
+                                )
+                            }
+                            Screen.ResizeByBytes -> {
+                                BytesResizeScreen(
+                                    uriState = viewModel.uris,
+                                    navController = viewModel.navController,
+                                    onGoBack = { viewModel.updateUris(null) },
+                                    pushNewUris = viewModel::updateUris,
+                                    getSavingFolder = { name, ext ->
+                                        getSavingFolder(
+                                            treeUri = saveFolderUri,
+                                            filename = name,
+                                            extension = ext
+                                        )
+                                    },
+                                    savingPathString = saveFolderUri.toUiPath(
+                                        context = this@MainActivity,
+                                        default = stringResource(R.string.default_folder)
+                                    )
                                 )
                             }
                         }
@@ -221,49 +241,80 @@ class MainActivity : ComponentActivity() {
                             TextButton(
                                 onClick = {
                                     viewModel.hideSelectDialog()
-                                    viewModel.updateUri(null)
+                                    viewModel.updateUris(null)
                                 }
                             ) {
                                 Text(stringResource(id = R.string.cancel))
                             }
                         },
                         text = {
-                            Column(Modifier.verticalScroll(rememberScrollState())) {
-                                SingleResizePreference(
-                                    onClick = {
-                                        viewModel.navController.popUpTo { it == Screen.Main }
-                                        viewModel.navController.navigate(Screen.SingleResize)
-                                        viewModel.hideSelectDialog()
-                                    },
-                                    color = MaterialTheme.colorScheme.secondaryContainer
-                                )
-                                Spacer(modifier = Modifier.height(8.dp))
-                                CropPreference(
-                                    onClick = {
-                                        viewModel.navController.popUpTo { it == Screen.Main }
-                                        viewModel.navController.navigate(Screen.Crop)
-                                        viewModel.hideSelectDialog()
-                                    },
-                                    color = MaterialTheme.colorScheme.secondaryContainer
-                                )
-                                Spacer(modifier = Modifier.height(8.dp))
-                                PickColorPreference(
-                                    onClick = {
-                                        viewModel.navController.popUpTo { it == Screen.Main }
-                                        viewModel.navController.navigate(Screen.PickColorFromImage)
-                                        viewModel.hideSelectDialog()
-                                    },
-                                    color = MaterialTheme.colorScheme.secondaryContainer
-                                )
-                                Spacer(modifier = Modifier.height(8.dp))
-                                GeneratePalettePreference(
-                                    onClick = {
-                                        viewModel.navController.popUpTo { it == Screen.Main }
-                                        viewModel.navController.navigate(Screen.GeneratePalette)
-                                        viewModel.hideSelectDialog()
-                                    },
-                                    color = MaterialTheme.colorScheme.secondaryContainer
-                                )
+                            if ((viewModel.uris?.size ?: 0) <= 1) {
+                                Column(Modifier.verticalScroll(rememberScrollState())) {
+                                    SingleResizePreference(
+                                        onClick = {
+                                            viewModel.navController.popUpTo { it == Screen.Main }
+                                            viewModel.navController.navigate(Screen.SingleResize)
+                                            viewModel.hideSelectDialog()
+                                        },
+                                        color = MaterialTheme.colorScheme.secondaryContainer
+                                    )
+                                    Spacer(modifier = Modifier.height(8.dp))
+                                    BytesResizePreference(
+                                        onClick = {
+                                            viewModel.navController.popUpTo { it == Screen.Main }
+                                            viewModel.navController.navigate(Screen.ResizeByBytes)
+                                            viewModel.hideSelectDialog()
+                                        },
+                                        color = MaterialTheme.colorScheme.secondaryContainer
+                                    )
+                                    Spacer(modifier = Modifier.height(8.dp))
+                                    CropPreference(
+                                        onClick = {
+                                            viewModel.navController.popUpTo { it == Screen.Main }
+                                            viewModel.navController.navigate(Screen.Crop)
+                                            viewModel.hideSelectDialog()
+                                        },
+                                        color = MaterialTheme.colorScheme.secondaryContainer
+                                    )
+                                    Spacer(modifier = Modifier.height(8.dp))
+                                    PickColorPreference(
+                                        onClick = {
+                                            viewModel.navController.popUpTo { it == Screen.Main }
+                                            viewModel.navController.navigate(Screen.PickColorFromImage)
+                                            viewModel.hideSelectDialog()
+                                        },
+                                        color = MaterialTheme.colorScheme.secondaryContainer
+                                    )
+                                    Spacer(modifier = Modifier.height(8.dp))
+                                    GeneratePalettePreference(
+                                        onClick = {
+                                            viewModel.navController.popUpTo { it == Screen.Main }
+                                            viewModel.navController.navigate(Screen.GeneratePalette)
+                                            viewModel.hideSelectDialog()
+                                        },
+                                        color = MaterialTheme.colorScheme.secondaryContainer
+                                    )
+                                }
+                            } else {
+                                Column(Modifier.verticalScroll(rememberScrollState())) {
+                                    BatchResizePreference(
+                                        onClick = {
+                                            viewModel.navController.popUpTo { it == Screen.Main }
+                                            viewModel.navController.navigate(Screen.BatchResize)
+                                            viewModel.hideSelectDialog()
+                                        },
+                                        color = MaterialTheme.colorScheme.secondaryContainer
+                                    )
+                                    Spacer(modifier = Modifier.height(8.dp))
+                                    BytesResizePreference(
+                                        onClick = {
+                                            viewModel.navController.popUpTo { it == Screen.Main }
+                                            viewModel.navController.navigate(Screen.ResizeByBytes)
+                                            viewModel.hideSelectDialog()
+                                        },
+                                        color = MaterialTheme.colorScheme.secondaryContainer
+                                    )
+                                }
                             }
                         }
                     )
@@ -313,14 +364,14 @@ class MainActivity : ComponentActivity() {
     }
 
     private fun parseImageFromIntent(intent: Intent?) {
-        if (intent?.type != null && (viewModel.uri == null || viewModel.uris == null)) {
+        if (intent?.type != null && viewModel.uris == null) {
             viewModel.shouldShowExitDialog(false)
         }
         if (intent?.type?.startsWith("image/") == true) {
             when (intent.action) {
                 Intent.ACTION_SEND -> {
                     intent.parcelable<Uri>(Intent.EXTRA_STREAM)?.let {
-                        viewModel.updateUri(it)
+                        viewModel.updateUris(listOf(it))
                     }
                 }
                 Intent.ACTION_SEND_MULTIPLE -> {
@@ -329,7 +380,7 @@ class MainActivity : ComponentActivity() {
                     }
                 }
                 else -> {
-                    intent.data?.let { viewModel.updateUri(it) }
+                    intent.data?.let { viewModel.updateUris(listOf(it)) }
                 }
             }
         } else if (intent?.type != null) {

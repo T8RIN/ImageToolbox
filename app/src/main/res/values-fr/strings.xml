@@ -72,4 +72,7 @@
     <string name="custom">Custom</string>
     <string name="unspecified">Unspecified</string>
     <string name="device_storage">Device storage</string>
+    <string name="by_bytes_resize">Resize by weight</string>
+    <string name="max_bytes">Max size in KB</string>
+    <string name="by_bytes_resize_sub">Resize an image following given size in KB</string>
 </resources>

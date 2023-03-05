@@ -269,6 +269,7 @@ class BatchResizeViewModel : ViewModel() {
                 if (!isExternalStorageWritable) {
                     onSuccess(false)
                 } else {
+                    _done.value = 0
                     uris?.forEach { uri ->
                         runCatching {
                             getBitmap(uri)

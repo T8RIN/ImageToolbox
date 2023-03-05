@@ -10,6 +10,7 @@ import android.graphics.Matrix
 import android.graphics.Rect
 import android.net.Uri
 import android.os.ParcelFileDescriptor
+import android.provider.OpenableColumns
 import android.webkit.MimeTypeMap
 import androidx.core.content.FileProvider
 import androidx.exifinterface.media.ExifInterface
@@ -474,6 +475,7 @@ object BitmapUtils {
         saveImage(it, compressFormat)?.let { uri -> shareImageUri(uri) }
     }
 
+
     private fun calculateInSampleSize(
         options: BitmapFactory.Options,
         reqWidth: Int,
@@ -516,6 +518,65 @@ object BitmapUtils {
 
             decodeBitmapUri(uri = uri, options = this)
         }
+    }
+
+    fun Bitmap.scaleByMaxBytes(maxBytes: Long): Pair<Bitmap, Int> {
+        if (this.size() > maxBytes) {
+            var streamLength = maxBytes
+            var compressQuality = 100
+            val bmpStream = ByteArrayOutputStream()
+            var newSize = width to height
+
+            while (streamLength >= maxBytes) {
+                compressQuality -= 1
+
+                if (compressQuality < 10) break
+
+                bmpStream.use {
+                    it.flush()
+                    it.reset()
+                }
+                compress(CompressFormat.JPEG, compressQuality, bmpStream)
+                streamLength = (bmpStream.toByteArray().size).toLong()
+            }
+            if (compressQuality < 10) {
+                compressQuality = 10
+                while (streamLength >= maxBytes) {
+
+                    bmpStream.use {
+                        it.flush()
+                        it.reset()
+                    }
+                    resizeBitmap(
+                        (newSize.first * 0.98).toInt(),
+                        (newSize.second * 0.98).toInt(),
+                        0
+                    ).compress(
+                        CompressFormat.JPEG,
+                        compressQuality,
+                        bmpStream
+                    )
+                    newSize = (newSize.first * 0.98).toInt() to (newSize.second * 0.98).toInt()
+                    streamLength = (bmpStream.toByteArray().size).toLong()
+                }
+            }
+            return BitmapFactory.decodeStream(ByteArrayInputStream(bmpStream.toByteArray())) to compressQuality
+        }
+        return this to 100
+    }
+
+    fun Uri.fileSize(context: Context): String? {
+        context.contentResolver
+            .query(this, null, null, null, null, null)
+            .use { cursor ->
+                if (cursor != null && cursor.moveToFirst()) {
+                    val sizeIndex: Int = cursor.getColumnIndex(OpenableColumns.SIZE)
+                    if (!cursor.isNull(sizeIndex)) {
+                        return cursor.getString(sizeIndex)
+                    }
+                }
+            }
+        return null
     }
 
 }

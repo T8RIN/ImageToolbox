@@ -74,10 +74,16 @@ fun BoxScope.Loading(done: Int, left: Int) {
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Spacer(Modifier.height(8.dp))
-        CircularProgressIndicator(
-            color = MaterialTheme.colorScheme.onSecondaryContainer,
-            progress = animateFloatAsState(targetValue = done / left.toFloat()).value
-        )
+        if (left == 1) {
+            CircularProgressIndicator(
+                color = MaterialTheme.colorScheme.onSecondaryContainer
+            )
+        } else {
+            CircularProgressIndicator(
+                color = MaterialTheme.colorScheme.onSecondaryContainer,
+                progress = animateFloatAsState(targetValue = done / left.toFloat()).value
+            )
+        }
         Spacer(Modifier.height(8.dp))
         Text("$done / $left")
     }

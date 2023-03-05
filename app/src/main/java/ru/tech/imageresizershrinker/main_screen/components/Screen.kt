@@ -11,4 +11,5 @@ sealed class Screen : Parcelable {
     object PickColorFromImage : Screen()
     object GeneratePalette : Screen()
     object Crop : Screen()
+    object ResizeByBytes : Screen()
 }
