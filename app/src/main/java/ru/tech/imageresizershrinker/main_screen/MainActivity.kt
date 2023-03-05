@@ -1,13 +1,9 @@
 package ru.tech.imageresizershrinker.main_screen
 
-import android.content.ContentValues
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
-import android.os.Build
 import android.os.Bundle
-import android.os.Environment
-import android.provider.MediaStore
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.BackHandler
 import androidx.activity.viewModels
@@ -30,7 +26,6 @@ import androidx.core.view.WindowCompat
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStore
-import androidx.documentfile.provider.DocumentFile
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import dev.olshevski.navigation.reimagined.*
@@ -50,10 +45,9 @@ import ru.tech.imageresizershrinker.theme.Github
 import ru.tech.imageresizershrinker.theme.ImageResizerTheme
 import ru.tech.imageresizershrinker.utils.IntentUtils.parcelable
 import ru.tech.imageresizershrinker.utils.IntentUtils.parcelableArrayList
-import ru.tech.imageresizershrinker.utils.SavingFolder
+import ru.tech.imageresizershrinker.utils.getSavingFolder
 import ru.tech.imageresizershrinker.utils.setContentWithWindowSizeClass
-import java.io.File
-import java.io.FileOutputStream
+import ru.tech.imageresizershrinker.utils.toUiPath
 
 @ExperimentalFoundationApi
 @ExperimentalMaterial3Api
@@ -123,10 +117,16 @@ class MainActivity : ComponentActivity() {
                                     onGoBack = { viewModel.updateUri(null) },
                                     pushNewUri = viewModel::updateUri,
                                     getSavingFolder = { name, ext ->
-                                        getSavingFolder(name, ext)
+                                        getSavingFolder(
+                                            treeUri = saveFolderUri,
+                                            filename = name,
+                                            extension = ext
+                                        )
                                     },
-                                    savingPathString = saveFolderUri?.toPath(this@MainActivity)
-                                        ?: getString(R.string.default_folder)
+                                    savingPathString = saveFolderUri.toUiPath(
+                                        context = this@MainActivity,
+                                        default = stringResource(R.string.default_folder)
+                                    )
                                 )
                             }
                             is Screen.PickColorFromImage -> {
@@ -144,10 +144,16 @@ class MainActivity : ComponentActivity() {
                                     onGoBack = { viewModel.updateUri(null) },
                                     pushNewUri = viewModel::updateUri,
                                     getSavingFolder = { name, ext ->
-                                        getSavingFolder(name, ext)
+                                        getSavingFolder(
+                                            treeUri = saveFolderUri,
+                                            filename = name,
+                                            extension = ext
+                                        )
                                     },
-                                    savingPathString = saveFolderUri?.toPath(this@MainActivity)
-                                        ?: getString(R.string.default_folder)
+                                    savingPathString = saveFolderUri.toUiPath(
+                                        context = this@MainActivity,
+                                        default = stringResource(R.string.default_folder)
+                                    )
                                 )
                             }
                             is Screen.BatchResize -> {
@@ -157,10 +163,16 @@ class MainActivity : ComponentActivity() {
                                     onGoBack = { viewModel.updateUris(null) },
                                     pushNewUris = viewModel::updateUris,
                                     getSavingFolder = { name, ext ->
-                                        getSavingFolder(name, ext)
+                                        getSavingFolder(
+                                            treeUri = saveFolderUri,
+                                            filename = name,
+                                            extension = ext
+                                        )
                                     },
-                                    savingPathString = saveFolderUri?.toPath(this@MainActivity)
-                                        ?: getString(R.string.default_folder)
+                                    savingPathString = saveFolderUri.toUiPath(
+                                        context = this@MainActivity,
+                                        default = stringResource(R.string.default_folder)
+                                    )
                                 )
                             }
                             is Screen.GeneratePalette -> {
@@ -327,75 +339,4 @@ class MainActivity : ComponentActivity() {
             )
         }
     }
-
-    private fun getSavingFolder(name: String, extension: String): SavingFolder {
-        val uri = viewModel.saveFolderUri
-        val folder = if (uri == null) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                val contentValues = ContentValues().apply {
-                    put(MediaStore.MediaColumns.DISPLAY_NAME, name)
-                    put(
-                        MediaStore.MediaColumns.MIME_TYPE,
-                        "image/$extension"
-                    )
-                    put(
-                        MediaStore.MediaColumns.RELATIVE_PATH,
-                        "DCIM/ResizedImages"
-                    )
-                }
-                val imageUri = contentResolver.insert(
-                    MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
-                    contentValues
-                )
-
-                SavingFolder(
-                    outputStream = contentResolver.openOutputStream(imageUri!!),
-                    fileUri = imageUri
-                )
-            } else {
-                val imagesDir = File(
-                    Environment.getExternalStoragePublicDirectory(
-                        Environment.DIRECTORY_DCIM
-                    ), "ResizedImages"
-                )
-                if (!imagesDir.exists()) imagesDir.mkdir()
-                SavingFolder(
-                    outputStream = FileOutputStream(File(imagesDir, name)),
-                    file = File(imagesDir, name)
-                )
-            }
-        } else {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                val imageUri = DocumentFile
-                    .fromTreeUri(this, uri)
-                    ?.createFile("image/$extension", name)?.uri!!
-
-                SavingFolder(
-                    outputStream = contentResolver.openOutputStream(imageUri),
-                    fileUri = imageUri
-                )
-            } else {
-                val path = uri.toPath(this@MainActivity)?.split("/")?.let {
-                    it - it.last() to it.last()
-                }
-                val imagesDir = File(
-                    Environment.getExternalStoragePublicDirectory(
-                        "${path?.first?.joinToString("/")}"
-                    ), path?.second.toString()
-                )
-                if (!imagesDir.exists()) imagesDir.mkdir()
-                SavingFolder(
-                    outputStream = FileOutputStream(File(imagesDir, name)),
-                    file = File(imagesDir, name)
-                )
-            }
-        }
-        return folder
-    }
-
 }
-
-fun Uri.toPath(context: Context): String? = DocumentFile
-    .fromTreeUri(context, this)
-    ?.uri?.path?.split(":")
-    ?.lastOrNull()

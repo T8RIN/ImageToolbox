@@ -5,6 +5,7 @@ import android.content.Intent
 import android.net.Uri
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.border
 import androidx.compose.foundation.gestures.detectTapGestures
@@ -44,10 +45,10 @@ import nl.dionsegijn.konfetti.core.*
 import nl.dionsegijn.konfetti.core.emitter.Emitter
 import ru.tech.imageresizershrinker.BuildConfig
 import ru.tech.imageresizershrinker.R
-import ru.tech.imageresizershrinker.main_screen.toPath
 import ru.tech.imageresizershrinker.resize_screen.components.blend
 import ru.tech.imageresizershrinker.theme.CreateAlt
 import ru.tech.imageresizershrinker.utils.LocalWindowSizeClass
+import ru.tech.imageresizershrinker.utils.toUiPath
 import java.lang.Integer.max
 import java.util.concurrent.TimeUnit
 
@@ -412,9 +413,7 @@ fun MainScreen(
             text = {
                 Column(Modifier.verticalScroll(rememberScrollState())) {
                     PreferenceItem(
-                        onClick = {
-                            onGetNewFolder(null)
-                        },
+                        onClick = { onGetNewFolder(null) },
                         title = stringResource(R.string.def),
                         subtitle = stringResource(R.string.default_folder),
                         color = MaterialTheme.colorScheme.secondaryContainer,
@@ -422,22 +421,23 @@ fun MainScreen(
                             .fillMaxWidth()
                             .padding(horizontal = 16.dp)
                             .border(
-                                1.dp,
-                                if (currentFolderUri == null) MaterialTheme.colorScheme.onSecondaryContainer.copy(
-                                    alpha = 0.5f
-                                )
-                                else Color.Transparent,
-                                RoundedCornerShape(12.dp)
+                                width = 1.dp,
+                                color = animateColorAsState(
+                                    if (currentFolderUri == null) MaterialTheme.colorScheme.onSecondaryContainer.copy(
+                                        alpha = 0.5f
+                                    )
+                                    else Color.Transparent
+                                ).value,
+                                shape = RoundedCornerShape(12.dp)
                             )
                     )
                     Spacer(modifier = Modifier.height(8.dp))
                     PreferenceItem(
-                        onClick = {
-                            launcher.launch(currentFolderUri)
-                        },
+                        onClick = { launcher.launch(currentFolderUri) },
                         title = stringResource(R.string.custom),
-                        subtitle = currentFolderUri?.toPath(LocalContext.current) ?: stringResource(
-                            R.string.unspecified
+                        subtitle = currentFolderUri.toUiPath(
+                            context = LocalContext.current,
+                            default = stringResource(R.string.unspecified)
                         ),
                         color = MaterialTheme.colorScheme.secondaryContainer,
                         endIcon = Icons.Rounded.CreateAlt,
@@ -445,12 +445,14 @@ fun MainScreen(
                             .fillMaxWidth()
                             .padding(horizontal = 16.dp)
                             .border(
-                                1.dp,
-                                if (currentFolderUri != null) MaterialTheme.colorScheme.onSecondaryContainer.copy(
-                                    alpha = 0.5f
-                                )
-                                else Color.Transparent,
-                                RoundedCornerShape(12.dp)
+                                width = 1.dp,
+                                color = animateColorAsState(
+                                    if (currentFolderUri != null) MaterialTheme.colorScheme.onSecondaryContainer.copy(
+                                        alpha = 0.5f
+                                    )
+                                    else Color.Transparent
+                                ).value,
+                                shape = RoundedCornerShape(12.dp)
                             )
                     )
                 }

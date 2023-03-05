@@ -75,4 +75,5 @@
     <string name="def">Default</string>
     <string name="custom">Custom</string>
     <string name="unspecified">Unspecified</string>
+    <string name="device_storage">Device storage</string>
 </resources>

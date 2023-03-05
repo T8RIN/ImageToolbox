@@ -71,4 +71,5 @@
     <string name="def">По умолчанию</string>
     <string name="custom">Произвольный</string>
     <string name="unspecified">Не задан</string>
+    <string name="device_storage">Память устройства</string>
 </resources>
