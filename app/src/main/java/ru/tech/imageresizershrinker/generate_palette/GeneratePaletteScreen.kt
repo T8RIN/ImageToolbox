@@ -43,6 +43,7 @@ import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.generate_palette.viewModel.GeneratePaletteViewModel
 import ru.tech.imageresizershrinker.main_screen.components.Screen
 import ru.tech.imageresizershrinker.main_screen.components.block
+import ru.tech.imageresizershrinker.main_screen.components.navBarsPaddingOnlyIfTheyAtTheBottom
 import ru.tech.imageresizershrinker.pick_color_from_image.copyColorIntoClipboard
 import ru.tech.imageresizershrinker.pick_color_from_image.format
 import ru.tech.imageresizershrinker.resize_screen.components.ImageNotPickedWidget
@@ -222,6 +223,7 @@ fun GeneratePaletteScreen(
                                     .weight(1f)
                                     .fillMaxHeight()
                                     .padding(16.dp)
+                                    .navBarsPaddingOnlyIfTheyAtTheBottom()
                                     .block(RoundedCornerShape(4.dp))
                                     .padding(4.dp),
                                 contentDescription = null,
@@ -257,7 +259,8 @@ fun GeneratePaletteScreen(
                                 )
                             }
                         }
-                    } else {
+                    }
+                    else {
                         Column(
                             Modifier
                                 .verticalScroll(scrollState),
@@ -301,7 +304,7 @@ fun GeneratePaletteScreen(
                     ImageNotPickedWidget(
                         onPickImage = pickImage,
                         modifier = Modifier
-                            .padding(bottom = 88.dp, top = 16.dp)
+                            .padding(bottom = 88.dp, top = 20.dp, start =  20.dp, end = 20.dp)
                             .navigationBarsPadding()
                     )
                 }

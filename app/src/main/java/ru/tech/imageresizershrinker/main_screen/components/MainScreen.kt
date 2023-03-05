@@ -152,13 +152,20 @@ fun MainScreen(
                 stringResource(R.string.version) + " ${BuildConfig.VERSION_NAME} (${BuildConfig.VERSION_CODE})",
                 color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f)
             )
-            Spacer(modifier = Modifier.height(8.dp))
+            Spacer(
+                modifier = Modifier.height(
+                    WindowInsets
+                        .navigationBars
+                        .asPaddingValues()
+                        .calculateBottomPadding() + 8.dp
+                )
+            )
         }
 
         Column(
             Modifier
                 .fillMaxSize()
-                .navigationBarsPadding()
+                .navBarsPaddingOnlyIfTheyAtTheEnd()
                 .verticalScroll(rememberScrollState()),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {

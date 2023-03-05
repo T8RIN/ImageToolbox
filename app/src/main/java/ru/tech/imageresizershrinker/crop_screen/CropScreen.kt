@@ -318,7 +318,7 @@ fun CropScreen(
                 ImageNotPickedWidget(
                     onPickImage = pickImage,
                     modifier = Modifier
-                        .padding(bottom = 88.dp, top = 16.dp)
+                        .padding(bottom = 88.dp, top = 20.dp, start =  20.dp, end = 20.dp)
                         .navigationBarsPadding()
                 )
             }

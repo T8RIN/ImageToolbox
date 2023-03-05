@@ -200,7 +200,9 @@ fun BatchResizeScreen(
         ) { (bmp, loading, showOrig) ->
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
                 viewModel.uris?.size?.takeIf { it > 1 && !viewModel.isLoading }?.let {
-                    Row {
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
                         Text(
                             stringResource(R.string.images, it),
                             Modifier
@@ -225,7 +227,17 @@ fun BatchResizeScreen(
                     }
                     Spacer(Modifier.height(4.dp))
                 }
-                Box(contentAlignment = Alignment.Center) {
+                Box(
+                    contentAlignment = Alignment.Center,
+                    modifier = Modifier.then(
+                        if (!imageInside) {
+                            Modifier.padding(
+                                bottom = WindowInsets.navigationBars.asPaddingValues()
+                                    .calculateBottomPadding()
+                            )
+                        } else Modifier
+                    )
+                ) {
                     if (showOrig) {
                         Picture(bitmap = viewModel.bitmap)
                     } else {

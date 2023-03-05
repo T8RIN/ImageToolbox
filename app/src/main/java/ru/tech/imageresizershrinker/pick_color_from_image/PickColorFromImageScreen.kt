@@ -287,7 +287,7 @@ fun PickColorFromImageScreen(
                         modifier = Modifier
                             .padding(bottom = 72.dp)
                             .padding(16.dp)
-                            .navBarsLandscapePadding()
+                            .navigationBarsPadding()
                             .block(RoundedCornerShape(4.dp))
                             .padding(4.dp),
                         onColorChange = viewModel::updateColor
@@ -296,7 +296,7 @@ fun PickColorFromImageScreen(
                     ImageNotPickedWidget(
                         onPickImage = pickImage,
                         modifier = Modifier
-                            .padding(bottom = 88.dp, top = 16.dp)
+                            .padding(bottom = 88.dp, top = 20.dp, start =  20.dp, end = 20.dp)
                             .navigationBarsPadding()
                     )
                 }

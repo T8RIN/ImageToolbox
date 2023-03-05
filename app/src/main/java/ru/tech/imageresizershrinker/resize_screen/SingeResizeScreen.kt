@@ -194,7 +194,17 @@ fun Context.SingleResizeScreen(
             targetState = Triple(viewModel.previewBitmap, viewModel.isLoading, showOriginal),
             transitionSpec = { fadeIn() with fadeOut() }
         ) { (bmp, loading, showOrig) ->
-            Box(contentAlignment = Alignment.Center) {
+            Box(
+                contentAlignment = Alignment.Center,
+                modifier = Modifier.then(
+                    if (!imageInside) {
+                        Modifier.padding(
+                            bottom = WindowInsets.navigationBars.asPaddingValues()
+                                .calculateBottomPadding()
+                        )
+                    } else Modifier
+                )
+            ) {
                 if (showOrig) {
                     Picture(bitmap = viewModel.bitmap)
                 } else {
