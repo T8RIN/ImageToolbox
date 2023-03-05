@@ -216,7 +216,7 @@ fun MainScreen(
                         navController.navigate(Screen.GeneratePalette)
                     }
                 )
-                Spacer(modifier = Modifier.height(32.dp))
+                Spacer(modifier = Modifier.height(24.dp))
                 SourceCodePreference()
                 Spacer(modifier = Modifier.height(16.dp))
                 footer()

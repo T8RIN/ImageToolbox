@@ -15,10 +15,10 @@ import androidx.compose.ui.graphics.compositeOver
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import ru.tech.imageresizershrinker.R
+import ru.tech.imageresizershrinker.widget.AutoSizeText
 
 @Composable
 fun ExtensionGroup(
@@ -107,13 +107,13 @@ fun ExtensionGroup(
                                     else Color.Transparent
                                 )
                             ) {
-                                Text(
+                                AutoSizeText(
                                     text = item,
                                     color = if (!enabled) disColor
                                     else if (mime == index) MaterialTheme.colorScheme.onMixedColor
                                     else MaterialTheme.colorScheme.onSurface,
                                     modifier = Modifier.padding(horizontal = 8.dp),
-                                    overflow = TextOverflow.Ellipsis
+                                    maxLines = 1
                                 )
                             }
                         }
@@ -164,13 +164,13 @@ fun ExtensionGroup(
                                     else Color.Transparent
                                 )
                             ) {
-                                Text(
+                                AutoSizeText(
                                     text = item,
                                     color = if (!enabled) disColor
                                     else if (mime == index) MaterialTheme.colorScheme.onMixedColor
                                     else MaterialTheme.colorScheme.onSurface,
                                     modifier = Modifier.padding(horizontal = 8.dp),
-                                    overflow = TextOverflow.Ellipsis
+                                    maxLines = 1
                                 )
                             }
                         }

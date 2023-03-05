@@ -16,9 +16,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.compositeOver
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
+import ru.tech.imageresizershrinker.widget.AutoSizeText
 
 @Composable
 fun ToggleGroupButton(
@@ -96,13 +96,13 @@ fun ToggleGroupButton(
                                 else Color.Transparent
                             )
                         ) {
-                            Text(
+                            AutoSizeText(
                                 text = item,
                                 color = if (!enabled) disColor
                                 else if (selectedIndex == index) MaterialTheme.colorScheme.onMixedColor
                                 else MaterialTheme.colorScheme.onSurface,
                                 modifier = Modifier.padding(horizontal = 8.dp),
-                                overflow = TextOverflow.Ellipsis
+                                maxLines = 1
                             )
                         }
                     }

@@ -49,11 +49,11 @@ import ru.tech.imageresizershrinker.utils.getSavingFolder
 import ru.tech.imageresizershrinker.utils.setContentWithWindowSizeClass
 import ru.tech.imageresizershrinker.utils.toUiPath
 
+val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "image_resizer")
+
 @ExperimentalFoundationApi
 @ExperimentalMaterial3Api
 class MainActivity : ComponentActivity() {
-
-    private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "image_resizer")
 
     @Suppress("UNCHECKED_CAST")
     private class MainViewModelFactory(
