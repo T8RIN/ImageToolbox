@@ -23,9 +23,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.draw.shadow
-import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.Shadow
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.onSizeChanged
@@ -47,6 +45,7 @@ import ru.tech.imageresizershrinker.BuildConfig
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.resize_screen.components.blend
 import ru.tech.imageresizershrinker.theme.CreateAlt
+import ru.tech.imageresizershrinker.theme.Sparkles
 import ru.tech.imageresizershrinker.utils.LocalWindowSizeClass
 import ru.tech.imageresizershrinker.utils.toUiPath
 import java.lang.Integer.max
@@ -117,15 +116,27 @@ fun MainScreen(
                                 )
                             }
                     ) {
-                        Text(
-                            text = stringResource(R.string.star_symbol),
-                            style = LocalTextStyle.current.copy(
-                                shadow = Shadow(
-                                    color = MaterialTheme.colorScheme.scrim,
-                                    offset = Offset(0f, 0f),
-                                    blurRadius = 2f
+                        Icon(
+                            imageVector = Icons.Rounded.Sparkles,
+                            contentDescription = null,
+                            modifier = Modifier
+                                .size(
+                                    with(LocalDensity.current) {
+                                        LocalTextStyle.current.fontSize.toDp()
+                                    }
                                 )
-                            )
+                                .offset(1.dp, 1.dp),
+                            tint = Color(0, 0, 0, 40)
+                        )
+                        Icon(
+                            imageVector = Icons.Rounded.Sparkles,
+                            contentDescription = null,
+                            modifier = Modifier.size(
+                                with(LocalDensity.current) {
+                                    LocalTextStyle.current.fontSize.toDp()
+                                }
+                            ),
+                            tint = Color.Unspecified
                         )
                     }
                 }
