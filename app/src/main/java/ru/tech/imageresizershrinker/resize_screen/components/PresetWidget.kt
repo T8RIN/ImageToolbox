@@ -19,6 +19,7 @@ import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.main_screen.components.block
 import ru.tech.imageresizershrinker.utils.BitmapUtils.with
+import ru.tech.imageresizershrinker.widget.AutoSizeText
 
 @Composable
 fun PresetWidget(
@@ -69,7 +70,7 @@ fun PresetWidget(
                         ).value,
                     )
                 ) {
-                    Text(it.toString())
+                    AutoSizeText(it.toString())
                 }
                 Spacer(Modifier.width(4.dp))
             }

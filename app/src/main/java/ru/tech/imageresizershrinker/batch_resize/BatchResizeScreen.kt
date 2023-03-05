@@ -65,6 +65,7 @@ import ru.tech.imageresizershrinker.utils.ContextUtils.isExternalStorageWritable
 import ru.tech.imageresizershrinker.utils.ContextUtils.requestPermission
 import ru.tech.imageresizershrinker.utils.LocalWindowSizeClass
 import ru.tech.imageresizershrinker.utils.SavingFolder
+import ru.tech.imageresizershrinker.widget.Marquee
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalAnimationApi::class)
 @Composable
@@ -306,24 +307,29 @@ fun BatchResizeScreen(
                 TopAppBar(
                     modifier = Modifier.shadow(6.dp),
                     title = {
-                        AnimatedContent(
-                            targetState = viewModel.bitmap to viewModel.isLoading,
-                            transitionSpec = { fadeIn() with fadeOut() }
-                        ) { (bmp, loading) ->
-                            if (bmp == null) {
-                                Text(
-                                    stringResource(R.string.batch_resize),
-                                    textAlign = TextAlign.Center
-                                )
-                            } else if (!loading) {
-                                Text(
-                                    stringResource(
-                                        R.string.size,
-                                        byteCount(bitmapInfo.size)
+                        Marquee(
+                            edgeColor = MaterialTheme.colorScheme.surfaceColorAtElevation(3.dp)
+                        ) {
+                            AnimatedContent(
+                                targetState = viewModel.bitmap to viewModel.isLoading,
+                                transitionSpec = { fadeIn() with fadeOut() }
+                            ) { (bmp, loading) ->
+
+                                if (bmp == null) {
+                                    Text(
+                                        stringResource(R.string.batch_resize),
+                                        textAlign = TextAlign.Center
                                     )
-                                )
-                            } else {
-                                Text(stringResource(R.string.loading))
+                                } else if (!loading) {
+                                    Text(
+                                        stringResource(
+                                            R.string.size,
+                                            byteCount(bitmapInfo.size)
+                                        )
+                                    )
+                                } else {
+                                    Text(stringResource(R.string.loading))
+                                }
                             }
                         }
                     },

@@ -53,6 +53,7 @@ import ru.tech.imageresizershrinker.resize_screen.components.rememberToastHostSt
 import ru.tech.imageresizershrinker.theme.PaletteSwatch
 import ru.tech.imageresizershrinker.utils.BitmapUtils.decodeBitmapFromUri
 import ru.tech.imageresizershrinker.utils.LocalWindowSizeClass
+import ru.tech.imageresizershrinker.widget.Marquee
 
 @OptIn(ExperimentalAnimationApi::class, ExperimentalMaterial3Api::class)
 @Composable
@@ -182,8 +183,12 @@ fun GeneratePaletteScreen(
                 ),
                 modifier = Modifier.shadow(6.dp),
                 title = {
-                    if (viewModel.bitmap == null) Text(stringResource(R.string.generate_palette))
-                    else Text(stringResource(R.string.palette))
+                    Marquee(
+                        edgeColor = MaterialTheme.colorScheme.surfaceColorAtElevation(3.dp)
+                    ) {
+                        if (viewModel.bitmap == null) Text(stringResource(R.string.generate_palette))
+                        else Text(stringResource(R.string.palette))
+                    }
                 },
                 navigationIcon = {
                     IconButton(

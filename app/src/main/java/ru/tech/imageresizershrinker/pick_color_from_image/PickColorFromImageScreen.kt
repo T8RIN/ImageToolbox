@@ -54,6 +54,7 @@ import ru.tech.imageresizershrinker.resize_screen.components.ToastHost
 import ru.tech.imageresizershrinker.resize_screen.components.rememberToastHostState
 import ru.tech.imageresizershrinker.theme.PaletteSwatch
 import ru.tech.imageresizershrinker.utils.BitmapUtils.decodeBitmapFromUri
+import ru.tech.imageresizershrinker.widget.Marquee
 
 @OptIn(ExperimentalAnimationApi::class, ExperimentalMaterial3Api::class)
 @Composable
@@ -159,12 +160,17 @@ fun PickColorFromImageScreen(
                                 Icon(Icons.Rounded.ArrowBack, null)
                             }
                         },
-                        title = { Text(stringResource(R.string.pick_color)) },
+                        title = {
+                            Marquee(
+                                edgeColor = MaterialTheme.colorScheme.surfaceColorAtElevation(3.dp)
+                            ) {
+                                Text(stringResource(R.string.pick_color))
+                            }
+                        },
                         colors = TopAppBarDefaults.mediumTopAppBarColors(
                             containerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(3.dp)
                         ),
-                        modifier = Modifier
-                            .shadow(6.dp)
+                        modifier = Modifier.shadow(6.dp)
                     )
                 } else {
                     Surface(
@@ -213,7 +219,11 @@ fun PickColorFromImageScreen(
                                     modifier = Modifier
                                         .padding(start = 16.dp, end = 16.dp, bottom = 16.dp)
                                 ) {
-                                    Text(stringResource(R.string.color))
+                                    Marquee(
+                                        edgeColor = MaterialTheme.colorScheme.surfaceColorAtElevation(3.dp)
+                                    ) {
+                                        Text(stringResource(R.string.color))
+                                    }
 
                                     Text(
                                         modifier = Modifier
@@ -296,7 +306,7 @@ fun PickColorFromImageScreen(
                     ImageNotPickedWidget(
                         onPickImage = pickImage,
                         modifier = Modifier
-                            .padding(bottom = 88.dp, top = 20.dp, start =  20.dp, end = 20.dp)
+                            .padding(bottom = 88.dp, top = 20.dp, start = 20.dp, end = 20.dp)
                             .navigationBarsPadding()
                     )
                 }

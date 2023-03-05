@@ -52,6 +52,7 @@ import ru.tech.imageresizershrinker.utils.BitmapUtils.shareBitmap
 import ru.tech.imageresizershrinker.utils.ContextUtils.isExternalStorageWritable
 import ru.tech.imageresizershrinker.utils.ContextUtils.requestPermission
 import ru.tech.imageresizershrinker.utils.SavingFolder
+import ru.tech.imageresizershrinker.widget.Marquee
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -169,7 +170,11 @@ fun CropScreen(
                     scrollBehavior = scrollBehavior,
                     modifier = Modifier.shadow(6.dp),
                     title = {
-                        Text(stringResource(R.string.crop))
+                        Marquee(
+                            edgeColor = MaterialTheme.colorScheme.surfaceColorAtElevation(3.dp)
+                        ) {
+                            Text(stringResource(R.string.crop))
+                        }
                     },
                     colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
                         containerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(
@@ -203,7 +208,11 @@ fun CropScreen(
                 TopAppBar(
                     modifier = Modifier.shadow(6.dp),
                     title = {
-                        Text(stringResource(R.string.crop))
+                        Marquee(
+                            edgeColor = MaterialTheme.colorScheme.surfaceColorAtElevation(3.dp)
+                        ) {
+                            Text(stringResource(R.string.crop))
+                        }
                     },
                     colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
                         containerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(
