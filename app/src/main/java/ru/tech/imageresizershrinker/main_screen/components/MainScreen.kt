@@ -157,20 +157,28 @@ fun MainScreen(
 
         val footer: @Composable ColumnScope.() -> Unit = {
             Spacer(modifier = Modifier.weight(1f))
-            Divider(color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f))
-            Spacer(modifier = Modifier.height(8.dp))
-            Text(
-                stringResource(R.string.version) + " ${BuildConfig.VERSION_NAME} (${BuildConfig.VERSION_CODE})",
-                color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f)
-            )
-            Spacer(
-                modifier = Modifier.height(
-                    WindowInsets
-                        .navigationBars
-                        .asPaddingValues()
-                        .calculateBottomPadding() + 8.dp
-                )
-            )
+            Surface(
+                color = MaterialTheme.colorScheme.surfaceColorAtElevation(3.dp)
+            ) {
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ){
+                    Divider(color = MaterialTheme.colorScheme.onSecondaryContainer.copy(alpha = 0.25f))
+                    Spacer(modifier = Modifier.height(8.dp))
+                    Text(
+                        stringResource(R.string.version) + " ${BuildConfig.VERSION_NAME} (${BuildConfig.VERSION_CODE})",
+                        color = MaterialTheme.colorScheme.onSecondaryContainer.copy(alpha = 0.5f)
+                    )
+                    Spacer(
+                        modifier = Modifier.height(
+                            WindowInsets
+                                .navigationBars
+                                .asPaddingValues()
+                                .calculateBottomPadding() + 8.dp
+                        )
+                    )
+                }
+            }
         }
 
         Column(
