@@ -40,7 +40,7 @@
     <string name="crop">Обрезать</string>
     <string name="cannot_paste">Вы пытаетесь вставить не изображение</string>
     <string name="image_not_saved">Сохранение</string>
-    <string name="image_not_saved_sub">Изображение не сохранено, все изменения будут отменены, если вы выйдете сейчас</string>
+    <string name="image_not_saved_sub">Все несохраненные изменения будут отменены, если вы выйдете сейчас</string>
     <string name="check_source_code">Просмотреть иcходный код</string>
     <string name="check_source_code_sub">Получайте последние обновления и следите за проектом</string>
     <string name="single_resize">Одиночное изменение</string>

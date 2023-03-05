@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.Save
 import androidx.compose.material.icons.outlined.Share
 import androidx.compose.material.icons.rounded.AddPhotoAlternate
 import androidx.compose.material.icons.rounded.ArrowBack
@@ -30,6 +31,7 @@ import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.cookhelper.dynamic.theme.LocalDynamicThemeState
@@ -69,6 +71,8 @@ fun CropScreen(
     val toastHostState = rememberToastHostState()
     val scope = rememberCoroutineScope()
     val themeState = LocalDynamicThemeState.current
+
+    var showExitDialog by rememberSaveable { mutableStateOf(false) }
 
     LaunchedEffect(uriState) {
         uriState?.let {
@@ -375,12 +379,43 @@ fun CropScreen(
 
     if (showSaveLoading || viewModel.isLoading) {
         LoadingDialog()
+    } else if (showExitDialog) {
+        AlertDialog(
+            onDismissRequest = { showExitDialog = false },
+            dismissButton = {
+                FilledTonalButton(
+                    onClick = {
+                        showExitDialog = false
+                        if (navController.backstack.entries.isNotEmpty()) navController.pop()
+                        themeState.reset()
+                        onGoBack()
+                    }
+                ) {
+                    Text(stringResource(R.string.close))
+                }
+            },
+            confirmButton = {
+                Button(onClick = { showExitDialog = false }) {
+                    Text(stringResource(R.string.stay))
+                }
+            },
+            title = { Text(stringResource(R.string.image_not_saved)) },
+            text = {
+                Text(
+                    stringResource(R.string.image_not_saved_sub),
+                    textAlign = TextAlign.Center
+                )
+            },
+            icon = { Icon(Icons.Outlined.Save, null) }
+        )
     }
 
     ToastHost(hostState = toastHostState)
     BackHandler {
-        if (navController.backstack.entries.isNotEmpty()) navController.pop()
-        onGoBack()
-        themeState.reset()
+        if (viewModel.bitmap != null) showExitDialog = true
+        else if (navController.backstack.entries.isNotEmpty()) {
+            navController.pop()
+            onGoBack()
+        }
     }
 }

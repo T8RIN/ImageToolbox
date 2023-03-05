@@ -496,9 +496,7 @@ private fun particles(primary: Color) = listOf(
         angle = Angle.BOTTOM,
         spread = Spread.ROUND,
         colors = listOf(0xfce18a, 0xff726d, 0xf4306d, 0xb48def).map {
-            it.blend(
-                primary
-            )
+            it.blend(primary)
         },
         emitter = Emitter(duration = 2, TimeUnit.SECONDS).perSecond(100),
         position = Position.Relative(0.0, 0.0).between(Position.Relative(1.0, 0.0))
@@ -508,13 +506,11 @@ private fun particles(primary: Color) = listOf(
         maxSpeed = 30f,
         damping = 0.9f,
         angle = Angle.RIGHT - 45,
-        spread = Spread.SMALL,
+        spread = 60,
         colors = listOf(0xfce18a, 0xff726d, 0xf4306d, 0xb48def).map {
-            it.blend(
-                primary
-            )
+            it.blend(primary)
         },
-        emitter = Emitter(duration = 2, TimeUnit.SECONDS).perSecond(30),
+        emitter = Emitter(duration = 2, TimeUnit.SECONDS).perSecond(100),
         position = Position.Relative(0.0, 1.0)
     ),
     Party(
@@ -522,13 +518,11 @@ private fun particles(primary: Color) = listOf(
         maxSpeed = 30f,
         damping = 0.9f,
         angle = Angle.RIGHT - 135,
-        spread = Spread.SMALL,
+        spread = 60,
         colors = listOf(0xfce18a, 0xff726d, 0xf4306d, 0xb48def).map {
-            it.blend(
-                primary
-            )
+            it.blend(primary)
         },
-        emitter = Emitter(duration = 2, TimeUnit.SECONDS).perSecond(30),
+        emitter = Emitter(duration = 2, TimeUnit.SECONDS).perSecond(100),
         position = Position.Relative(1.0, 1.0)
     )
 )
