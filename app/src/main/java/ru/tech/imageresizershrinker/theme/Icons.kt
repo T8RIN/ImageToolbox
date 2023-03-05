@@ -28,7 +28,13 @@ val Icons.Rounded.Github: ImageVector
                 pathFillType = NonZero
             ) {
                 moveTo(12.0f, 2.0f)
-                arcTo(10.0f, 10.0f, 0.0f, false, false, 2.0f, 12.0f)
+                arcTo(
+                    10.0f, 10.0f, 0.0f,
+                    isMoreThanHalf = false,
+                    isPositiveArc = false,
+                    x1 = 2.0f,
+                    y1 = 12.0f
+                )
                 curveTo(2.0f, 16.42f, 4.87f, 20.17f, 8.84f, 21.5f)
                 curveTo(9.34f, 21.58f, 9.5f, 21.27f, 9.5f, 21.0f)
                 curveTo(9.5f, 20.77f, 9.5f, 20.14f, 9.5f, 19.31f)
@@ -52,7 +58,13 @@ val Icons.Rounded.Github: ImageVector
                 curveTo(14.5f, 19.6f, 14.5f, 20.68f, 14.5f, 21.0f)
                 curveTo(14.5f, 21.27f, 14.66f, 21.59f, 15.17f, 21.5f)
                 curveTo(19.14f, 20.16f, 22.0f, 16.42f, 22.0f, 12.0f)
-                arcTo(10.0f, 10.0f, 0.0f, false, false, 12.0f, 2.0f)
+                arcTo(
+                    10.0f, 10.0f, 0.0f,
+                    isMoreThanHalf = false,
+                    isPositiveArc = false,
+                    x1 = 12.0f,
+                    y1 = 2.0f
+                )
                 close()
             }
         }
@@ -77,15 +89,51 @@ val Icons.Rounded.Telegram: ImageVector
                 pathFillType = NonZero
             ) {
                 moveTo(11.944f, 0.0f)
-                arcTo(12.0f, 12.0f, 0.0f, false, false, 0.0f, 12.0f)
-                arcToRelative(12.0f, 12.0f, 0.0f, false, false, 12.0f, 12.0f)
-                arcToRelative(12.0f, 12.0f, 0.0f, false, false, 12.0f, -12.0f)
-                arcTo(12.0f, 12.0f, 0.0f, false, false, 12.0f, 0.0f)
-                arcToRelative(12.0f, 12.0f, 0.0f, false, false, -0.056f, 0.0f)
+                arcTo(
+                    12.0f, 12.0f, 0.0f,
+                    isMoreThanHalf = false,
+                    isPositiveArc = false,
+                    x1 = 0.0f,
+                    y1 = 12.0f
+                )
+                arcToRelative(
+                    12.0f, 12.0f, 0.0f,
+                    isMoreThanHalf = false,
+                    isPositiveArc = false,
+                    dx1 = 12.0f,
+                    dy1 = 12.0f
+                )
+                arcToRelative(
+                    12.0f, 12.0f, 0.0f,
+                    isMoreThanHalf = false,
+                    isPositiveArc = false,
+                    dx1 = 12.0f,
+                    dy1 = -12.0f
+                )
+                arcTo(
+                    12.0f, 12.0f, 0.0f,
+                    isMoreThanHalf = false,
+                    isPositiveArc = false,
+                    x1 = 12.0f,
+                    y1 = 0.0f
+                )
+                arcToRelative(
+                    12.0f, 12.0f, 0.0f,
+                    isMoreThanHalf = false,
+                    isPositiveArc = false,
+                    dx1 = -0.056f,
+                    dy1 = 0.0f
+                )
                 close()
                 moveTo(16.906f, 7.224f)
                 curveToRelative(0.1f, -0.002f, 0.321f, 0.023f, 0.465f, 0.14f)
-                arcToRelative(0.506f, 0.506f, 0.0f, false, true, 0.171f, 0.325f)
+                arcToRelative(
+                    0.506f, 0.506f, 0.0f,
+                    isMoreThanHalf = false,
+                    isPositiveArc = true,
+                    dx1 = 0.171f,
+                    dy1 = 0.325f
+                )
                 curveToRelative(0.016f, 0.093f, 0.036f, 0.306f, 0.02f, 0.472f)
                 curveToRelative(-0.18f, 1.898f, -0.962f, 6.502f, -1.36f, 8.627f)
                 curveToRelative(-0.168f, 0.9f, -0.499f, 1.201f, -0.82f, 1.23f)
@@ -144,12 +192,30 @@ val Icons.Rounded.PaletteSwatch: ImageVector
                 lineTo(20.94f, 18.55f)
                 curveTo(21.96f, 18.13f, 22.45f, 16.96f, 22.03f, 15.95f)
                 moveTo(7.88f, 8.75f)
-                arcTo(1.0f, 1.0f, 0.0f, false, true, 6.88f, 7.75f)
-                arcTo(1.0f, 1.0f, 0.0f, false, true, 7.88f, 6.75f)
+                arcTo(
+                    1.0f, 1.0f, 0.0f,
+                    isMoreThanHalf = false,
+                    isPositiveArc = true,
+                    x1 = 6.88f,
+                    y1 = 7.75f
+                )
+                arcTo(
+                    1.0f, 1.0f, 0.0f,
+                    isMoreThanHalf = false,
+                    isPositiveArc = true,
+                    x1 = 7.88f,
+                    y1 = 6.75f
+                )
                 curveTo(8.43f, 6.75f, 8.88f, 7.2f, 8.88f, 7.75f)
                 curveTo(8.88f, 8.3f, 8.43f, 8.75f, 7.88f, 8.75f)
                 moveTo(5.88f, 19.75f)
-                arcTo(2.0f, 2.0f, 0.0f, false, false, 7.88f, 21.75f)
+                arcTo(
+                    2.0f, 2.0f, 0.0f,
+                    isMoreThanHalf = false,
+                    isPositiveArc = false,
+                    x1 = 7.88f,
+                    y1 = 21.75f
+                )
                 horizontalLineTo(9.33f)
                 lineTo(5.88f, 13.41f)
                 verticalLineTo(19.75f)
