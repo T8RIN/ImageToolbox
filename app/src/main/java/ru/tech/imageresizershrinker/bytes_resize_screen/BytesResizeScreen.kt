@@ -148,6 +148,8 @@ fun BytesResizeScreen(
     }
 
     var showSaveLoading by rememberSaveable { mutableStateOf(false) }
+    var showExitDialog by rememberSaveable { mutableStateOf(false) }
+
     val saveBitmaps: () -> Unit = {
         showSaveLoading = true
         viewModel.save(
@@ -322,7 +324,7 @@ fun BytesResizeScreen(
                                     Text(
                                         stringResource(
                                             R.string.size,
-                                            byteCount(size.toIntOrNull() ?: 0)
+                                            byteCount(size)
                                         )
                                     )
                                 } else {
@@ -339,9 +341,11 @@ fun BytesResizeScreen(
                     navigationIcon = {
                         IconButton(
                             onClick = {
-                                if (navController.backstack.entries.isNotEmpty()) navController.pop()
-                                onGoBack()
-                                themeState.reset()
+                                if (viewModel.uris?.isNotEmpty() == true) showExitDialog = true
+                                else if (navController.backstack.entries.isNotEmpty()) {
+                                    navController.pop()
+                                    onGoBack()
+                                }
                             }
                         ) {
                             Icon(Icons.Rounded.ArrowBack, null)
@@ -450,8 +454,6 @@ fun BytesResizeScreen(
                     buttons()
                 }
             }
-
-            var showExitDialog by rememberSaveable { mutableStateOf(false) }
 
             if (showExitDialog) {
                 AlertDialog(

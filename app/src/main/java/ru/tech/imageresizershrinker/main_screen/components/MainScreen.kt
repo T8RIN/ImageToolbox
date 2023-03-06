@@ -30,7 +30,9 @@ import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.DialogProperties
 import com.cookhelper.dynamic.theme.LocalDynamicThemeState
 import dev.olshevski.navigation.reimagined.NavController
@@ -45,6 +47,7 @@ import ru.tech.imageresizershrinker.BuildConfig
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.resize_screen.components.blend
 import ru.tech.imageresizershrinker.theme.CreateAlt
+import ru.tech.imageresizershrinker.theme.Github
 import ru.tech.imageresizershrinker.theme.Sparkles
 import ru.tech.imageresizershrinker.utils.LocalWindowSizeClass
 import ru.tech.imageresizershrinker.utils.toUiPath
@@ -155,35 +158,10 @@ fun MainScreen(
             scrollBehavior = scrollBehavior,
         )
 
-        val footer: @Composable ColumnScope.() -> Unit = {
-            Spacer(modifier = Modifier.weight(1f))
-            Surface(
-                color = MaterialTheme.colorScheme.surfaceColorAtElevation(3.dp)
-            ) {
-                Column(
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
-                    Divider(color = MaterialTheme.colorScheme.onSecondaryContainer.copy(alpha = 0.25f))
-                    Spacer(modifier = Modifier.height(8.dp))
-                    Text(
-                        stringResource(R.string.version) + " ${BuildConfig.VERSION_NAME} (${BuildConfig.VERSION_CODE})",
-                        color = MaterialTheme.colorScheme.onSecondaryContainer.copy(alpha = 0.5f)
-                    )
-                    Spacer(
-                        modifier = Modifier.height(
-                            WindowInsets
-                                .navigationBars
-                                .asPaddingValues()
-                                .calculateBottomPadding() + 8.dp
-                        )
-                    )
-                }
-            }
-        }
-
         Column(
             Modifier
-                .fillMaxSize()
+                .weight(1f)
+                .fillMaxWidth()
                 .navBarsPaddingOnlyIfTheyAtTheEnd()
                 .verticalScroll(rememberScrollState()),
             horizontalAlignment = Alignment.CenterHorizontally
@@ -231,10 +209,7 @@ fun MainScreen(
                         navController.navigate(Screen.GeneratePalette)
                     }
                 )
-                Spacer(modifier = Modifier.height(16.dp))
-                SourceCodePreference()
                 Spacer(modifier = Modifier.height(8.dp))
-                footer()
             } else {
                 Spacer(modifier = Modifier.height(8.dp))
                 Row(
@@ -396,15 +371,47 @@ fun MainScreen(
                     )
                 }
                 Spacer(modifier = Modifier.height(8.dp))
-                SourceCodePreference(
-                    modifier = Modifier
-                        .widthIn(max = 350.dp)
-                        .fillMaxWidth()
-                )
-                Spacer(modifier = Modifier.height(8.dp))
-                footer()
             }
         }
+
+        BottomAppBar(
+            modifier = Modifier.shadow(6.dp),
+            actions = {
+                Box(
+                    modifier = Modifier
+                        .padding(horizontal = 16.dp)
+                        .fillMaxHeight(),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Text(
+                        stringResource(R.string.version) + " ${BuildConfig.VERSION_NAME} (${BuildConfig.VERSION_CODE})",
+                        color = MaterialTheme.colorScheme.onSecondaryContainer.copy(alpha = 0.5f)
+                    )
+                }
+            },
+            floatingActionButton = {
+                val context = LocalContext.current
+                ExtendedFloatingActionButton(
+                    onClick = {
+                        context.startActivity(
+                            Intent(
+                                Intent.ACTION_VIEW,
+                                Uri.parse("https://github.com/T8RIN/ImageResizer")
+                            )
+                        )
+                    },
+                    elevation = FloatingActionButtonDefaults.elevation(1.dp, 1.dp, 1.dp, 1.dp),
+                    icon = { Icon(Icons.Rounded.Github, null) },
+                    text = {
+                        Text(
+                            text = stringResource(R.string.check_source_code),
+                            fontSize = 16.sp,
+                            fontWeight = FontWeight.Medium
+                        )
+                    }
+                )
+            }
+        )
     }
 
     if (showConfetti) {
@@ -443,7 +450,7 @@ fun MainScreen(
             properties = DialogProperties(usePlatformDefaultWidth = false),
             modifier = Modifier
                 .systemBarsPadding()
-                .padding(20.dp)
+                .padding(horizontal = 16.dp, vertical = 8.dp)
                 .fillMaxWidth(),
             onDismissRequest = { showSelectFolderDialog = false },
             title = { Text(stringResource(R.string.folder)) },

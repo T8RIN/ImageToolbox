@@ -325,7 +325,7 @@ fun BatchResizeScreen(
                                     Text(
                                         stringResource(
                                             R.string.size,
-                                            byteCount(bitmapInfo.size)
+                                            byteCount(bitmapInfo.size.toLong())
                                         )
                                     )
                                 } else {

@@ -41,7 +41,7 @@
     <string name="cannot_paste">Вы пытаетесь вставить не изображение</string>
     <string name="image_not_saved">Сохранение</string>
     <string name="image_not_saved_sub">Все несохраненные изменения будут отменены, если вы выйдете сейчас</string>
-    <string name="check_source_code">Просмотреть иcходный код</string>
+    <string name="check_source_code">Иcходный код</string>
     <string name="check_source_code_sub">Получайте последние обновления и следите за проектом</string>
     <string name="single_resize">Одиночное изменение</string>
     <string name="resize_single_image">Изменение характеристик одного изображения</string>
@@ -74,5 +74,5 @@
     <string name="device_storage">Память устройства</string>
     <string name="by_bytes_resize">Сжатие по весу</string>
     <string name="max_bytes">Максимальный вес в КБ</string>
-    <string name="by_bytes_resize_sub">Сожмите изображение, чтобы оно занимало не более n КБ</string>
+    <string name="by_bytes_resize_sub">Сожмите изображение, чтобы оно занимало не более заданного количества КБ</string>
 </resources>

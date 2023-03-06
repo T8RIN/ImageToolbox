@@ -530,7 +530,7 @@ object BitmapUtils {
             while (streamLength >= maxBytes) {
                 compressQuality -= 1
 
-                if (compressQuality < 10) break
+                if (compressQuality < 20) break
 
                 bmpStream.use {
                     it.flush()
@@ -539,8 +539,8 @@ object BitmapUtils {
                 compress(CompressFormat.JPEG, compressQuality, bmpStream)
                 streamLength = (bmpStream.toByteArray().size).toLong()
             }
-            if (compressQuality < 10) {
-                compressQuality = 10
+            if (compressQuality < 20) {
+                compressQuality = 20
                 while (streamLength >= maxBytes) {
 
                     bmpStream.use {
@@ -565,14 +565,14 @@ object BitmapUtils {
         return this to 100
     }
 
-    fun Uri.fileSize(context: Context): String? {
+    fun Uri.fileSize(context: Context): Long? {
         context.contentResolver
             .query(this, null, null, null, null, null)
             .use { cursor ->
                 if (cursor != null && cursor.moveToFirst()) {
                     val sizeIndex: Int = cursor.getColumnIndex(OpenableColumns.SIZE)
                     if (!cursor.isNull(sizeIndex)) {
-                        return cursor.getString(sizeIndex)
+                        return cursor.getLong(sizeIndex)
                     }
                 }
             }

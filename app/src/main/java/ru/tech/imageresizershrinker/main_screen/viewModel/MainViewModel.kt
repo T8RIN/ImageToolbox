@@ -67,8 +67,8 @@ class MainViewModel(
         }.launchIn(viewModelScope)
     }
 
-    fun cancelledUpdate() {
-        _cancelledUpdate.value = true
+    fun cancelledUpdate(showAgain: Boolean = false) {
+        if (!showAgain) _cancelledUpdate.value = true
         _showUpdateDialog.value = false
     }
 

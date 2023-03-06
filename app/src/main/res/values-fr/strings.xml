@@ -41,7 +41,7 @@
     <string name="cannot_paste">Ces données de clip ne sont pas une image</string>
     <string name="image_not_saved">Enregistrement</string>
     <string name="image_not_saved_sub">Toutes les modifications non enregistrées seront perdues si vous quittez maintenant</string>
-    <string name="check_source_code">Vérifier le code source</string>
+    <string name="check_source_code">Code source</string>
     <string name="check_source_code_sub">Recevez les dernières mises à jour, discutez des problèmes et plus encore</string>
     <string name="single_resize">Redimensionnement unique</string>
     <string name="resize_single_image">Modifier les spécifications d\'une seule image</string>

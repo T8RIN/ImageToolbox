@@ -320,7 +320,7 @@ class MainActivity : ComponentActivity() {
                     )
                 } else if (viewModel.showUpdateDialog) {
                     AlertDialog(
-                        onDismissRequest = {},
+                        onDismissRequest = { viewModel.cancelledUpdate(true) },
                         icon = {
                             Icon(Icons.Rounded.Github, null)
                         },

@@ -188,9 +188,11 @@ fun CropScreen(
                     navigationIcon = {
                         IconButton(
                             onClick = {
-                                if (navController.backstack.entries.isNotEmpty()) navController.pop()
-                                onGoBack()
-                                themeState.reset()
+                                if (viewModel.bitmap != null) showExitDialog = true
+                                else if (navController.backstack.entries.isNotEmpty()) {
+                                    navController.pop()
+                                    onGoBack()
+                                }
                             }
                         ) {
                             Icon(Icons.Rounded.ArrowBack, null)
@@ -226,9 +228,11 @@ fun CropScreen(
                     navigationIcon = {
                         IconButton(
                             onClick = {
-                                if (navController.backstack.entries.isNotEmpty()) navController.pop()
-                                onGoBack()
-                                themeState.reset()
+                                if (viewModel.bitmap != null) showExitDialog = true
+                                else if (navController.backstack.entries.isNotEmpty()) {
+                                    navController.pop()
+                                    onGoBack()
+                                }
                             }
                         ) {
                             Icon(Icons.Rounded.ArrowBack, null)
@@ -331,7 +335,7 @@ fun CropScreen(
                 ImageNotPickedWidget(
                     onPickImage = pickImage,
                     modifier = Modifier
-                        .padding(bottom = 88.dp, top = 20.dp, start =  20.dp, end = 20.dp)
+                        .padding(bottom = 88.dp, top = 20.dp, start = 20.dp, end = 20.dp)
                         .navigationBarsPadding()
                 )
             }

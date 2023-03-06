@@ -26,7 +26,7 @@ val Bitmap.CompressFormat.extension: String get() = if (this == Bitmap.CompressF
 
 val String.index: Int get() = if ("jpg" in this) 0 else if ("webp" in this) 1 else if ("jpeg" in this) 2 else 3
 
-fun byteCount(bytes: Int): String {
+fun byteCount(bytes: Long): String {
     var tempBytes = bytes
     if (-1000 < tempBytes && tempBytes < 1000) {
         return "$tempBytes B"

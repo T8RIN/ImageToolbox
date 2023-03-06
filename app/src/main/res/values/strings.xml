@@ -43,7 +43,7 @@
     <string name="cannot_paste">This clip data is not an image</string>
     <string name="image_not_saved">Saving</string>
     <string name="image_not_saved_sub">All unsaved changes will be lost, if you leave now</string>
-    <string name="check_source_code">Check source code</string>
+    <string name="check_source_code">Source code</string>
     <string name="check_source_code_sub">Get the latest updates, discuss issues and more</string>
     <string name="single_resize">Single resize</string>
     <string name="resize_single_image">Change specs of single given image</string>

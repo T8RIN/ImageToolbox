@@ -315,7 +315,7 @@ fun Context.SingleResizeScreen(
                                     Text(
                                         stringResource(
                                             R.string.size,
-                                            byteCount(bitmapInfo.size)
+                                            byteCount(bitmapInfo.size.toLong())
                                         ),
                                         textAlign = TextAlign.Center,
                                         modifier = Modifier.fillMaxWidth()
