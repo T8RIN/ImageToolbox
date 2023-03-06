@@ -5,6 +5,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
 import androidx.compose.ui.graphics.Color
@@ -17,8 +18,9 @@ fun Modifier.block(
     shape: Shape = RoundedCornerShape(16.dp),
     color: Color = Color.Unspecified,
 ) = composed {
-    val color1 =
-        if (color.isUnspecified) MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f) else color
+    val color1 = if (color.isUnspecified) {
+        MaterialTheme.colorScheme.surfaceColorAtElevation(1.dp)
+    } else color
     background(
         color = color1,
         shape = shape

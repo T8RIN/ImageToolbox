@@ -41,7 +41,7 @@ fun ExtensionGroup(
         Column(
             modifier = Modifier
                 .background(
-                    MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f),
+                    MaterialTheme.colorScheme.surfaceColorAtElevation(1.dp),
                     shape = RoundedCornerShape(16.dp)
                 )
                 .padding(4.dp)

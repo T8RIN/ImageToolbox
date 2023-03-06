@@ -32,8 +32,8 @@ fun ImageNotPickedWidget(modifier: Modifier = Modifier, onPickImage: () -> Unit)
             modifier = Modifier.size(100.dp),
             shape = RoundedCornerShape(16.dp),
             colors = IconButtonDefaults.filledTonalIconButtonColors(
-                containerColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.7f),
-                contentColor = MaterialTheme.colorScheme.onSurface
+                containerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(6.dp),
+                contentColor = MaterialTheme.colorScheme.onSurfaceVariant
             )
         ) {
             Icon(

@@ -102,7 +102,6 @@ fun RoundedTextField(
     )
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun RoundedTextField(
     modifier: Modifier = Modifier,
@@ -246,7 +245,10 @@ fun RoundedTextFieldColors(isError: Boolean): TextFieldColors =
             focusedTrailingIconColor = if (isError) error else onSurfaceVariant,
             unfocusedTrailingIconColor = if (isError) error else onSurfaceVariant,
             unfocusedLabelColor = if (isError) error else onSurfaceVariant,
-            containerColor = if (isError) surfaceVariant.blend(error, 0.2f) else surfaceVariant,
+            containerColor = if (isError) surfaceColorAtElevation(1.dp).blend(
+                error,
+                0.2f
+            ) else surfaceColorAtElevation(1.dp),
         )
     }
 

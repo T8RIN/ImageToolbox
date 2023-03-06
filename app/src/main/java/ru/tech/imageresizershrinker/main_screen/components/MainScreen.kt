@@ -401,7 +401,13 @@ fun MainScreen(
                             )
                         )
                     },
-                    elevation = FloatingActionButtonDefaults.elevation(1.dp, 1.dp, 1.dp, 1.dp),
+                    containerColor = MaterialTheme.colorScheme.primaryContainer,
+                    elevation = FloatingActionButtonDefaults.elevation(
+                        0.1.dp,
+                        0.1.dp,
+                        0.1.dp,
+                        0.1.dp
+                    ),
                     content = { Icon(Icons.Rounded.Github, null) }
                 )
             }
