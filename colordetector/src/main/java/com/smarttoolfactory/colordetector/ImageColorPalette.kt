@@ -4,6 +4,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
@@ -56,8 +57,8 @@ fun ImageColorPalette(
                     paletteData.add(PaletteData(colorData = colorData, percent))
                 }
             }
-            paletteData.sortedByDescending {
-                ColorUtil.colorToHSV(it.colorData.color).let { it[0] }
+            paletteData.sortedByDescending { data ->
+                ColorUtil.colorToHSV(data.colorData.color).let { it[0] }
             }
         }
     }
@@ -89,7 +90,7 @@ private fun ColorProfileList(
             ColorItemRow(
                 modifier = Modifier
                     .shadow(.5.dp, RoundedCornerShape(50))
-                    .background(MaterialTheme.colorScheme.surfaceVariant)
+                    .background(MaterialTheme.colorScheme.surfaceColorAtElevation(6.dp))
                     .fillMaxWidth(),
                 colorData = colorData,
                 populationPercent = "$percent%",
