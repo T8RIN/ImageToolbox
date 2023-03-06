@@ -18,18 +18,20 @@ package com.cookhelper.dynamic.theme.scheme;
 import com.cookhelper.dynamic.theme.hct.Hct;
 import com.cookhelper.dynamic.theme.palettes.TonalPalette;
 
-/** A theme that's slightly more chromatic than monochrome, which is purely black / white / gray. */
+/**
+ * A theme that's slightly more chromatic than monochrome, which is purely black / white / gray.
+ */
 public class SchemeNeutral extends DynamicScheme {
-  public SchemeNeutral(Hct sourceColorHct, boolean isDark, double contrastLevel) {
-    super(
-        sourceColorHct,
-        Variant.NEUTRAL,
-        isDark,
-        contrastLevel,
-        TonalPalette.fromHueAndChroma(sourceColorHct.getHue(), 12.0),
-        TonalPalette.fromHueAndChroma(sourceColorHct.getHue(), 8.0),
-        TonalPalette.fromHueAndChroma(sourceColorHct.getHue(), 16.0),
-        TonalPalette.fromHueAndChroma(sourceColorHct.getHue(), 2.0),
-        TonalPalette.fromHueAndChroma(sourceColorHct.getHue(), 2.0));
-  }
+    public SchemeNeutral(Hct sourceColorHct, boolean isDark, double contrastLevel) {
+        super(
+                sourceColorHct,
+                Variant.NEUTRAL,
+                isDark,
+                contrastLevel,
+                TonalPalette.fromHueAndChroma(sourceColorHct.getHue(), 12.0),
+                TonalPalette.fromHueAndChroma(sourceColorHct.getHue(), 8.0),
+                TonalPalette.fromHueAndChroma(sourceColorHct.getHue(), 16.0),
+                TonalPalette.fromHueAndChroma(sourceColorHct.getHue(), 2.0),
+                TonalPalette.fromHueAndChroma(sourceColorHct.getHue(), 2.0));
+    }
 }

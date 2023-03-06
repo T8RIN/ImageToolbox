@@ -35,33 +35,35 @@ fun AspectRatioSelectionCard(
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
             val density = LocalDensity.current
             val layoutDirection = LocalLayoutDirection.current
-            Box(modifier = Modifier
-                .fillMaxWidth()
-                .padding(4.dp)
-                .aspectRatio(1f)
-                .drawWithCache {
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(4.dp)
+                    .aspectRatio(1f)
+                    .drawWithCache {
 
-                    val outline = cropAspectRatio.shape.createOutline(
-                        size = size, layoutDirection = layoutDirection, density = density
-                    )
+                        val outline = cropAspectRatio.shape.createOutline(
+                            size = size, layoutDirection = layoutDirection, density = density
+                        )
 
-                    val width = size.width
-                    val height = size.height
-                    val outlineWidth = outline.bounds.width
-                    val outlineHeight = outline.bounds.height
+                        val width = size.width
+                        val height = size.height
+                        val outlineWidth = outline.bounds.width
+                        val outlineHeight = outline.bounds.height
 
-                    onDrawWithContent {
+                        onDrawWithContent {
 
-                        translate(
-                            left = (width - outlineWidth) / 2, top = (height - outlineHeight) / 2
-                        ) {
-                            drawOutline(
-                                outline = outline, color = color, style = Stroke(3.dp.toPx())
-                            )
+                            translate(
+                                left = (width - outlineWidth) / 2,
+                                top = (height - outlineHeight) / 2
+                            ) {
+                                drawOutline(
+                                    outline = outline, color = color, style = Stroke(3.dp.toPx())
+                                )
+                            }
+                            drawContent()
                         }
-                        drawContent()
-                    }
-                },
+                    },
                 contentAlignment = Alignment.Center
             ) {
                 GridImageLayout(
@@ -73,7 +75,13 @@ fun AspectRatioSelectionCard(
                 )
             }
             if (cropAspectRatio.title.isNotEmpty()) {
-                Text(text = cropAspectRatio.title, color = color, fontSize = 14.sp, overflow = TextOverflow.Ellipsis, maxLines = 1)
+                Text(
+                    text = cropAspectRatio.title,
+                    color = color,
+                    fontSize = 14.sp,
+                    overflow = TextOverflow.Ellipsis,
+                    maxLines = 1
+                )
             }
         }
     }

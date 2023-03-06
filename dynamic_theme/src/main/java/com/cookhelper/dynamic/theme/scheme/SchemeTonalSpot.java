@@ -19,19 +19,21 @@ import com.cookhelper.dynamic.theme.hct.Hct;
 import com.cookhelper.dynamic.theme.palettes.TonalPalette;
 import com.cookhelper.dynamic.theme.utils.MathUtils;
 
-/** A calm theme, sedated colors that aren't particularly chromatic. */
+/**
+ * A calm theme, sedated colors that aren't particularly chromatic.
+ */
 public class SchemeTonalSpot extends DynamicScheme {
-  public SchemeTonalSpot(Hct sourceColorHct, boolean isDark, double contrastLevel) {
-    super(
-        sourceColorHct,
-        Variant.TONAL_SPOT,
-        isDark,
-        contrastLevel,
-        TonalPalette.fromHueAndChroma(sourceColorHct.getHue(), 40.0),
-        TonalPalette.fromHueAndChroma(sourceColorHct.getHue(), 16.0),
-        TonalPalette.fromHueAndChroma(
-            MathUtils.sanitizeDegreesDouble(sourceColorHct.getHue() + 60.0), 24.0),
-        TonalPalette.fromHueAndChroma(sourceColorHct.getHue(), 6.0),
-        TonalPalette.fromHueAndChroma(sourceColorHct.getHue(), 8.0));
-  }
+    public SchemeTonalSpot(Hct sourceColorHct, boolean isDark, double contrastLevel) {
+        super(
+                sourceColorHct,
+                Variant.TONAL_SPOT,
+                isDark,
+                contrastLevel,
+                TonalPalette.fromHueAndChroma(sourceColorHct.getHue(), 40.0),
+                TonalPalette.fromHueAndChroma(sourceColorHct.getHue(), 16.0),
+                TonalPalette.fromHueAndChroma(
+                        MathUtils.sanitizeDegreesDouble(sourceColorHct.getHue() + 60.0), 24.0),
+                TonalPalette.fromHueAndChroma(sourceColorHct.getHue(), 6.0),
+                TonalPalette.fromHueAndChroma(sourceColorHct.getHue(), 8.0));
+    }
 }

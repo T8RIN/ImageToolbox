@@ -16,11 +16,13 @@
 
 package com.cookhelper.dynamic.theme.quantize;
 
-/** An interface to allow use of different color spaces by quantizers. */
+/**
+ * An interface to allow use of different color spaces by quantizers.
+ */
 public interface PointProvider {
-  public double[] fromInt(int argb);
+    double[] fromInt(int argb);
 
-  public int toInt(double[] point);
+    int toInt(double[] point);
 
-  public double distance(double[] a, double[] b);
+    double distance(double[] a, double[] b);
 }

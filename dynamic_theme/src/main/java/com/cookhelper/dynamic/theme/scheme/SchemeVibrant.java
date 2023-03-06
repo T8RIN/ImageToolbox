@@ -18,24 +18,26 @@ package com.cookhelper.dynamic.theme.scheme;
 import com.cookhelper.dynamic.theme.hct.Hct;
 import com.cookhelper.dynamic.theme.palettes.TonalPalette;
 
-/** A loud theme, colorfulness is maximum for Primary palette, increased for others. */
+/**
+ * A loud theme, colorfulness is maximum for Primary palette, increased for others.
+ */
 public class SchemeVibrant extends DynamicScheme {
-  private static final double[] HUES = {0, 41, 61, 101, 131, 181, 251, 301, 360};
-  private static final double[] SECONDARY_ROTATIONS = {18, 15, 10, 12, 15, 18, 15, 12, 12};
-  private static final double[] TERTIARY_ROTATIONS = {35, 30, 20, 25, 30, 35, 30, 25, 25};
+    private static final double[] HUES = {0, 41, 61, 101, 131, 181, 251, 301, 360};
+    private static final double[] SECONDARY_ROTATIONS = {18, 15, 10, 12, 15, 18, 15, 12, 12};
+    private static final double[] TERTIARY_ROTATIONS = {35, 30, 20, 25, 30, 35, 30, 25, 25};
 
-  public SchemeVibrant(Hct sourceColorHct, boolean isDark, double contrastLevel) {
-    super(
-        sourceColorHct,
-        Variant.VIBRANT,
-        isDark,
-        contrastLevel,
-        TonalPalette.fromHueAndChroma(sourceColorHct.getHue(), 200.0),
-        TonalPalette.fromHueAndChroma(
-            DynamicScheme.getRotatedHue(sourceColorHct, HUES, SECONDARY_ROTATIONS), 24.0),
-        TonalPalette.fromHueAndChroma(
-            DynamicScheme.getRotatedHue(sourceColorHct, HUES, TERTIARY_ROTATIONS), 32.0),
-        TonalPalette.fromHueAndChroma(sourceColorHct.getHue(), 8.0),
-        TonalPalette.fromHueAndChroma(sourceColorHct.getHue(), 12.0));
-  }
+    public SchemeVibrant(Hct sourceColorHct, boolean isDark, double contrastLevel) {
+        super(
+                sourceColorHct,
+                Variant.VIBRANT,
+                isDark,
+                contrastLevel,
+                TonalPalette.fromHueAndChroma(sourceColorHct.getHue(), 200.0),
+                TonalPalette.fromHueAndChroma(
+                        DynamicScheme.getRotatedHue(sourceColorHct, HUES, SECONDARY_ROTATIONS), 24.0),
+                TonalPalette.fromHueAndChroma(
+                        DynamicScheme.getRotatedHue(sourceColorHct, HUES, TERTIARY_ROTATIONS), 32.0),
+                TonalPalette.fromHueAndChroma(sourceColorHct.getHue(), 8.0),
+                TonalPalette.fromHueAndChroma(sourceColorHct.getHue(), 12.0));
+    }
 }

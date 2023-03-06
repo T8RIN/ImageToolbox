@@ -25,9 +25,6 @@ import com.cookhelper.dynamic.theme.utils.MathUtils;
  * A class that solves the HCT equation.
  */
 public class HctSolver {
-    private HctSolver() {
-    }
-
     static final double[][] SCALED_DISCOUNT_FROM_LINRGB =
             new double[][]{
                     new double[]{
@@ -40,7 +37,6 @@ public class HctSolver {
                             0.00010146692491640572, 0.0005364214359186694, 0.0032979401770712076,
                     },
             };
-
     static final double[][] LINRGB_FROM_SCALED_DISCOUNT =
             new double[][]{
                     new double[]{
@@ -53,9 +49,7 @@ public class HctSolver {
                             1.9622899599665666, -57.173814538844006, 308.7233197812385,
                     },
             };
-
     static final double[] Y_FROM_LINRGB = new double[]{0.2126, 0.7152, 0.0722};
-
     static final double[] CRITICAL_PLANES =
             new double[]{
                     0.015176349177441876,
@@ -314,6 +308,9 @@ public class HctSolver {
                     98.6670533535366,
                     99.55452497210776,
             };
+
+    private HctSolver() {
+    }
 
     /**
      * Sanitizes a small enough angle in radians.

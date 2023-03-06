@@ -17,5 +17,5 @@
 package com.cookhelper.dynamic.theme.quantize;
 
 interface Quantizer {
-  public QuantizerResult quantize(int[] pixels, int maxColors);
+    QuantizerResult quantize(int[] pixels, int maxColors);
 }

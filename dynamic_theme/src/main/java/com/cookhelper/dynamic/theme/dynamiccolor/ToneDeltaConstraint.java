@@ -21,19 +21,19 @@ package com.cookhelper.dynamic.theme.dynamiccolor;
  * distance from each other.
  */
 public final class ToneDeltaConstraint {
-  public final double delta;
-  public final DynamicColor keepAway;
-  public final TonePolarity keepAwayPolarity;
+    public final double delta;
+    public final DynamicColor keepAway;
+    public final TonePolarity keepAwayPolarity;
 
-  /**
-   * @param delta the difference in tone required
-   * @param keepAway the color to distance in tone from
-   * @param keepAwayPolarity whether the color to keep away from must be lighter, darker, or no
-   *     preference, in which case it should
-   */
-  public ToneDeltaConstraint(double delta, DynamicColor keepAway, TonePolarity keepAwayPolarity) {
-    this.delta = delta;
-    this.keepAway = keepAway;
-    this.keepAwayPolarity = keepAwayPolarity;
-  }
+    /**
+     * @param delta            the difference in tone required
+     * @param keepAway         the color to distance in tone from
+     * @param keepAwayPolarity whether the color to keep away from must be lighter, darker, or no
+     *                         preference, in which case it should
+     */
+    public ToneDeltaConstraint(double delta, DynamicColor keepAway, TonePolarity keepAwayPolarity) {
+        this.delta = delta;
+        this.keepAway = keepAway;
+        this.keepAwayPolarity = keepAwayPolarity;
+    }
 }

@@ -36,23 +36,23 @@ import com.cookhelper.dynamic.theme.temperature.TemperatureCache;
  * appearance.
  */
 public class SchemeContent extends DynamicScheme {
-  public SchemeContent(Hct sourceColorHct, boolean isDark, double contrastLevel) {
-    super(
-        sourceColorHct,
-        Variant.CONTENT,
-        isDark,
-        contrastLevel,
-        TonalPalette.fromHueAndChroma(sourceColorHct.getHue(), sourceColorHct.getChroma()),
-        TonalPalette.fromHueAndChroma(
-            sourceColorHct.getHue(),
-            max(sourceColorHct.getChroma() - 32.0, sourceColorHct.getChroma() * 0.5)),
-        TonalPalette.fromHct(
-            DislikeAnalyzer.fixIfDisliked(
-                new TemperatureCache(sourceColorHct)
-                    .getAnalogousColors(/* count= */ 3, /* divisions= */ 6)
-                    .get(2))),
-        TonalPalette.fromHueAndChroma(sourceColorHct.getHue(), sourceColorHct.getChroma() / 8.0),
-        TonalPalette.fromHueAndChroma(
-            sourceColorHct.getHue(), (sourceColorHct.getChroma() / 8.0) + 4.0));
-  }
+    public SchemeContent(Hct sourceColorHct, boolean isDark, double contrastLevel) {
+        super(
+                sourceColorHct,
+                Variant.CONTENT,
+                isDark,
+                contrastLevel,
+                TonalPalette.fromHueAndChroma(sourceColorHct.getHue(), sourceColorHct.getChroma()),
+                TonalPalette.fromHueAndChroma(
+                        sourceColorHct.getHue(),
+                        max(sourceColorHct.getChroma() - 32.0, sourceColorHct.getChroma() * 0.5)),
+                TonalPalette.fromHct(
+                        DislikeAnalyzer.fixIfDisliked(
+                                new TemperatureCache(sourceColorHct)
+                                        .getAnalogousColors(/* count= */ 3, /* divisions= */ 6)
+                                        .get(2))),
+                TonalPalette.fromHueAndChroma(sourceColorHct.getHue(), sourceColorHct.getChroma() / 8.0),
+                TonalPalette.fromHueAndChroma(
+                        sourceColorHct.getHue(), (sourceColorHct.getChroma() / 8.0) + 4.0));
+    }
 }

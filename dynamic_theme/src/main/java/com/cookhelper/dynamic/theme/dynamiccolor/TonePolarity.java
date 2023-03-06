@@ -16,9 +16,11 @@
 
 package com.cookhelper.dynamic.theme.dynamiccolor;
 
-/** Describes the relationship in lightness between two colors. */
+/**
+ * Describes the relationship in lightness between two colors.
+ */
 public enum TonePolarity {
-  DARKER,
-  LIGHTER,
-  NO_PREFERENCE;
+    DARKER,
+    LIGHTER,
+    NO_PREFERENCE
 }

@@ -62,7 +62,7 @@ fun ColorDisplayWithClipboard(
                     color = textColor
                 )
             }
-            Spacer(modifier=Modifier.weight(1f))
+            Spacer(modifier = Modifier.weight(1f))
             IconButton(
                 onClick = {
                     Toast.makeText(context, "Copied $hexText", Toast.LENGTH_SHORT).show()
