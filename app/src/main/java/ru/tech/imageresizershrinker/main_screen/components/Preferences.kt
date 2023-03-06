@@ -24,7 +24,7 @@ import ru.tech.imageresizershrinker.theme.PaletteSwatch
 fun SourceCodePreference(
     modifier: Modifier = Modifier
         .fillMaxWidth()
-        .padding(horizontal = 16.dp)
+        .padding(horizontal = 8.dp)
 ) {
     val context = LocalContext.current
     PreferenceItem(
@@ -50,7 +50,7 @@ fun SingleResizePreference(
     color: Color = MaterialTheme.colorScheme.surfaceVariant,
     modifier: Modifier = Modifier
         .fillMaxWidth()
-        .padding(horizontal = 16.dp)
+        .padding(horizontal = 8.dp)
 ) {
     PreferenceItem(
         onClick = onClick,
@@ -69,7 +69,7 @@ fun BytesResizePreference(
     color: Color = MaterialTheme.colorScheme.surfaceVariant,
     modifier: Modifier = Modifier
         .fillMaxWidth()
-        .padding(horizontal = 16.dp)
+        .padding(horizontal = 8.dp)
 ) {
     PreferenceItem(
         onClick = onClick,
@@ -88,7 +88,7 @@ fun BatchResizePreference(
     color: Color = MaterialTheme.colorScheme.surfaceVariant,
     modifier: Modifier = Modifier
         .fillMaxWidth()
-        .padding(horizontal = 16.dp)
+        .padding(horizontal = 8.dp)
 ) {
     PreferenceItem(
         onClick = onClick,
@@ -105,7 +105,7 @@ fun GeneratePalettePreference(
     onClick: () -> Unit,
     modifier: Modifier = Modifier
         .fillMaxWidth()
-        .padding(horizontal = 16.dp),
+        .padding(horizontal = 8.dp),
     color: Color = MaterialTheme.colorScheme.surfaceVariant
 ) {
     PreferenceItem(
@@ -124,7 +124,7 @@ fun CropPreference(
     color: Color = MaterialTheme.colorScheme.surfaceVariant,
     modifier: Modifier = Modifier
         .fillMaxWidth()
-        .padding(horizontal = 16.dp)
+        .padding(horizontal = 8.dp)
 ) {
     PreferenceItem(
         onClick = onClick,
@@ -142,7 +142,7 @@ fun PickColorPreference(
     color: Color = MaterialTheme.colorScheme.surfaceVariant,
     modifier: Modifier = Modifier
         .fillMaxWidth()
-        .padding(horizontal = 16.dp)
+        .padding(horizontal = 8.dp)
 ) {
     PreferenceItem(
         onClick = onClick,
@@ -165,7 +165,7 @@ fun PreferenceItem(
     color: Color = MaterialTheme.colorScheme.surfaceVariant,
     modifier: Modifier = Modifier
         .fillMaxWidth()
-        .padding(horizontal = 16.dp)
+        .padding(horizontal = 8.dp)
 ) {
     Card(
         modifier = modifier,

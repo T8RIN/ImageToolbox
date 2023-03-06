@@ -2,7 +2,6 @@ package ru.tech.imageresizershrinker.batch_resize.components
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Switch
@@ -29,11 +28,9 @@ fun SaveExifWidget(
             .padding(horizontal = 16.dp, vertical = 8.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        Text(text = stringResource(R.string.keep_exif))
-        Spacer(
-            Modifier
-                .padding(start = 8.dp)
-                .weight(1f)
+        Text(
+            text = stringResource(R.string.keep_exif),
+            modifier = Modifier.weight(1f)
         )
         Switch(
             checked = selected,

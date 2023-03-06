@@ -142,9 +142,9 @@ fun MainScreen(
                 }
             },
             colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
-                containerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(
-                    3.dp
-                )
+                containerColor = MaterialTheme
+                    .colorScheme
+                    .surfaceColorAtElevation(3.dp)
             ),
             actions = {
                 IconButton(onClick = { showSelectFolderDialog = true }) {
@@ -189,58 +189,58 @@ fun MainScreen(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             if (!isGrid) {
-                Spacer(modifier = Modifier.height(16.dp))
+                Spacer(modifier = Modifier.height(8.dp))
                 SingleResizePreference(
                     onClick = {
                         navController.popUpTo { it == Screen.Main }
                         navController.navigate(Screen.SingleResize)
                     }
                 )
-                Spacer(modifier = Modifier.height(16.dp))
+                Spacer(modifier = Modifier.height(8.dp))
                 BatchResizePreference(
                     onClick = {
                         navController.popUpTo { it == Screen.Main }
                         navController.navigate(Screen.BatchResize)
                     }
                 )
-                Spacer(modifier = Modifier.height(16.dp))
+                Spacer(modifier = Modifier.height(8.dp))
                 BytesResizePreference(
                     onClick = {
                         navController.popUpTo { it == Screen.Main }
                         navController.navigate(Screen.ResizeByBytes)
                     }
                 )
-                Spacer(modifier = Modifier.height(16.dp))
+                Spacer(modifier = Modifier.height(8.dp))
                 CropPreference(
                     onClick = {
                         navController.popUpTo { it == Screen.Main }
                         navController.navigate(Screen.Crop)
                     }
                 )
-                Spacer(modifier = Modifier.height(16.dp))
+                Spacer(modifier = Modifier.height(8.dp))
                 PickColorPreference(
                     onClick = {
                         navController.popUpTo { it == Screen.Main }
                         navController.navigate(Screen.PickColorFromImage)
                     }
                 )
-                Spacer(modifier = Modifier.height(16.dp))
+                Spacer(modifier = Modifier.height(8.dp))
                 GeneratePalettePreference(
                     onClick = {
                         navController.popUpTo { it == Screen.Main }
                         navController.navigate(Screen.GeneratePalette)
                     }
                 )
-                Spacer(modifier = Modifier.height(24.dp))
-                SourceCodePreference()
                 Spacer(modifier = Modifier.height(16.dp))
+                SourceCodePreference()
+                Spacer(modifier = Modifier.height(8.dp))
                 footer()
             } else {
-                Spacer(modifier = Modifier.height(16.dp))
+                Spacer(modifier = Modifier.height(8.dp))
                 Row(
                     Modifier
                         .fillMaxWidth()
-                        .padding(horizontal = 16.dp),
+                        .padding(horizontal = 8.dp),
                     horizontalArrangement = Arrangement.Center
                 ) {
                     var heightOne by remember { mutableStateOf(0) }
@@ -266,7 +266,7 @@ fun MainScreen(
                                 heightOne = it.height
                             }
                     )
-                    Spacer(modifier = Modifier.width(16.dp))
+                    Spacer(modifier = Modifier.width(8.dp))
                     BatchResizePreference(
                         onClick = {
                             navController.popUpTo { it == Screen.Main }
@@ -289,11 +289,11 @@ fun MainScreen(
                             }
                     )
                 }
-                Spacer(modifier = Modifier.height(16.dp))
+                Spacer(modifier = Modifier.height(8.dp))
                 Row(
                     Modifier
                         .fillMaxWidth()
-                        .padding(horizontal = 16.dp),
+                        .padding(horizontal = 8.dp),
                     horizontalArrangement = Arrangement.Center
                 ) {
                     var heightOne by remember { mutableStateOf(0) }
@@ -319,7 +319,7 @@ fun MainScreen(
                                 heightOne = it.height
                             }
                     )
-                    Spacer(modifier = Modifier.width(16.dp))
+                    Spacer(modifier = Modifier.width(8.dp))
                     CropPreference(
                         onClick = {
                             navController.popUpTo { it == Screen.Main }
@@ -342,11 +342,11 @@ fun MainScreen(
                             }
                     )
                 }
-                Spacer(modifier = Modifier.height(16.dp))
+                Spacer(modifier = Modifier.height(8.dp))
                 Row(
                     Modifier
                         .fillMaxWidth()
-                        .padding(horizontal = 16.dp),
+                        .padding(horizontal = 8.dp),
                     horizontalArrangement = Arrangement.Center
                 ) {
                     var heightOne by remember { mutableStateOf(0) }
@@ -372,7 +372,7 @@ fun MainScreen(
                                 heightOne = it.height
                             }
                     )
-                    Spacer(modifier = Modifier.width(16.dp))
+                    Spacer(modifier = Modifier.width(8.dp))
                     GeneratePalettePreference(
                         modifier = Modifier
                             .then(
@@ -395,13 +395,13 @@ fun MainScreen(
                         }
                     )
                 }
-                Spacer(modifier = Modifier.height(16.dp))
+                Spacer(modifier = Modifier.height(8.dp))
                 SourceCodePreference(
                     modifier = Modifier
                         .widthIn(max = 350.dp)
                         .fillMaxWidth()
                 )
-                Spacer(modifier = Modifier.height(16.dp))
+                Spacer(modifier = Modifier.height(8.dp))
                 footer()
             }
         }

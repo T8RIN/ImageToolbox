@@ -219,11 +219,7 @@ fun PickColorFromImageScreen(
                                     modifier = Modifier
                                         .padding(start = 16.dp, end = 16.dp, bottom = 16.dp)
                                 ) {
-                                    Marquee(
-                                        edgeColor = MaterialTheme.colorScheme.surfaceColorAtElevation(3.dp)
-                                    ) {
-                                        Text(stringResource(R.string.color))
-                                    }
+                                    Text(stringResource(R.string.color))
 
                                     Text(
                                         modifier = Modifier
