@@ -30,10 +30,9 @@ import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.DialogProperties
+import androidx.compose.ui.zIndex
 import com.cookhelper.dynamic.theme.LocalDynamicThemeState
 import dev.olshevski.navigation.reimagined.NavController
 import dev.olshevski.navigation.reimagined.navigate
@@ -154,7 +153,9 @@ fun MainScreen(
                     Icon(Icons.Rounded.Folder, null)
                 }
             },
-            modifier = Modifier.shadow(6.dp),
+            modifier = Modifier
+                .shadow(6.dp)
+                .zIndex(6f),
             scrollBehavior = scrollBehavior,
         )
 
@@ -391,7 +392,7 @@ fun MainScreen(
             },
             floatingActionButton = {
                 val context = LocalContext.current
-                ExtendedFloatingActionButton(
+                FloatingActionButton(
                     onClick = {
                         context.startActivity(
                             Intent(
@@ -401,14 +402,7 @@ fun MainScreen(
                         )
                     },
                     elevation = FloatingActionButtonDefaults.elevation(1.dp, 1.dp, 1.dp, 1.dp),
-                    icon = { Icon(Icons.Rounded.Github, null) },
-                    text = {
-                        Text(
-                            text = stringResource(R.string.check_source_code),
-                            fontSize = 16.sp,
-                            fontWeight = FontWeight.Medium
-                        )
-                    }
+                    content = { Icon(Icons.Rounded.Github, null) }
                 )
             }
         )
