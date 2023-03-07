@@ -664,7 +664,8 @@ fun Context.SingleResizeScreen(
                                                         fontSize = 16.sp,
                                                         modifier = Modifier
                                                             .padding(12.dp)
-                                                            .weight(1f)
+                                                            .weight(1f),
+                                                        textAlign = TextAlign.Start
                                                     )
                                                     IconButton(
                                                         onClick = {
@@ -779,7 +780,8 @@ fun Context.SingleResizeScreen(
                                                         fontSize = 16.sp,
                                                         modifier = Modifier
                                                             .padding(12.dp)
-                                                            .weight(1f)
+                                                            .weight(1f),
+                                                        textAlign = TextAlign.Start
                                                     )
                                                     IconButton(
                                                         onClick = {

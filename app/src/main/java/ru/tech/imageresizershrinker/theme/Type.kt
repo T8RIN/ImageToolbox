@@ -5,6 +5,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.sp
 import ru.tech.imageresizershrinker.R
 
@@ -59,6 +60,7 @@ val Typography = Typography(
         fontSize = 24.sp,
         lineHeight = 32.sp,
         letterSpacing = 0.sp,
+        textAlign = TextAlign.Center
     ),
     titleLarge = TextStyle(
         fontFamily = Montserrat,
@@ -94,6 +96,7 @@ val Typography = Typography(
         fontSize = 14.sp,
         lineHeight = 20.sp,
         letterSpacing = 0.25.sp,
+        textAlign = TextAlign.Center
     ),
     bodySmall = TextStyle(
         fontFamily = Montserrat,

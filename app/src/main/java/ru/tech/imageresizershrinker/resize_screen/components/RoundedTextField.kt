@@ -134,23 +134,23 @@ fun RoundedTextField(
     val focused = interactionSource.collectIsFocusedAsState().value
 
     val colorScheme = MaterialTheme.colorScheme
-    val borderColor by remember(colorScheme) {
+    val unfocusedColor = if (!enabled) colorScheme.outlineVariant
+    else colorScheme.outline.blend(Color.Black, 0.2f)
+
+    val focusedColor = if (isError) colorScheme.error else colorScheme.primary
+
+    val borderColor by remember(colorScheme, enabled) {
         derivedStateOf {
             Animatable(
-                initialValue = if (!focused) colorScheme.outline.blend(Color.Black, 0.2f)
-                else colorScheme.primary
+                initialValue = if (!focused) unfocusedColor
+                else focusedColor
             )
         }
     }
 
     val scope = rememberCoroutineScope()
     LaunchedEffect(isError) {
-        borderColor.animateTo(
-            if (isError && focused) colorScheme.error else if (focused) colorScheme.primary else colorScheme.outline.blend(
-                Color.Black,
-                0.2f
-            )
-        )
+        borderColor.animateTo(if (focused) focusedColor else unfocusedColor)
     }
 
     val mergedModifier = Modifier
@@ -166,14 +166,9 @@ fun RoundedTextField(
                     focus.clearFocus()
                     cancel()
                 }
-                if (it.isFocused) borderColor.animateTo(if (isError) colorScheme.error else colorScheme.primary)
+                if (it.isFocused) borderColor.animateTo(focusedColor)
                 else {
-                    if (!isError) borderColor.animateTo(
-                        colorScheme.outline.blend(
-                            Color.Black,
-                            0.2f
-                        )
-                    )
+                    if (!isError) borderColor.animateTo(unfocusedColor)
                     onValueChange(value.onLoseFocusTransformation())
                 }
                 cancel()
@@ -240,11 +235,11 @@ fun RoundedTextFieldColors(isError: Boolean): TextFieldColors =
             focusedIndicatorColor = Color.Transparent,
             cursorColor = if (isError) error else primary,
             focusedLabelColor = if (isError) error else primary,
-            focusedLeadingIconColor = if (isError) error else onSurfaceVariant,
-            unfocusedLeadingIconColor = if (isError) error else onSurfaceVariant,
-            focusedTrailingIconColor = if (isError) error else onSurfaceVariant,
-            unfocusedTrailingIconColor = if (isError) error else onSurfaceVariant,
-            unfocusedLabelColor = if (isError) error else onSurfaceVariant,
+            focusedLeadingIconColor = if (isError) error else onSurfaceVariant.copy(alpha = 0.9f),
+            unfocusedLeadingIconColor = if (isError) error else onSurfaceVariant.copy(alpha = 0.9f),
+            focusedTrailingIconColor = if (isError) error else onSurfaceVariant.copy(alpha = 0.9f),
+            unfocusedTrailingIconColor = if (isError) error else onSurfaceVariant.copy(alpha = 0.9f),
+            unfocusedLabelColor = if (isError) error else onSurfaceVariant.copy(alpha = 0.9f),
             containerColor = if (isError) surfaceColorAtElevation(1.dp).blend(
                 error,
                 0.2f

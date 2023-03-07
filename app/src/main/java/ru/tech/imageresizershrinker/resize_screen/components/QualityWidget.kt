@@ -37,6 +37,10 @@ fun QualityWidget(
         targetValue = if (visible) 1f else 0f
     ).value
 
+    val sliderAlpha = animateFloatAsState(
+        targetValue = if (visible && enabled) 1f else if (!enabled) 0.5f else 0f
+    ).value
+
     ProvideTextStyle(
         value = TextStyle(
             color = if (!enabled) {
@@ -62,7 +66,7 @@ fun QualityWidget(
                 modifier = Modifier
                     .padding(horizontal = 8.dp)
                     .height(sliderHeight)
-                    .alpha(alpha),
+                    .alpha(sliderAlpha),
                 enabled = enabled,
                 value = animateFloatAsState(quality).value,
                 onValueChange = onQualityChange,

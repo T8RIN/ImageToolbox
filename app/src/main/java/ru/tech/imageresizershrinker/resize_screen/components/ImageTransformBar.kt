@@ -24,12 +24,16 @@ fun ImageTransformBar(
     onFlip: () -> Unit,
     onRotateRight: () -> Unit,
 ) {
+    val contentColor = MaterialTheme.colorScheme.onSurfaceVariant
+    val containerColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.75f)
+
     Row(Modifier.block()) {
         Spacer(Modifier.width(4.dp))
         SmallFloatingActionButton(
             onClick = onEditExif,
             elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
-            containerColor = MaterialTheme.colorScheme.surfaceVariant
+            containerColor = containerColor,
+            contentColor = contentColor
         ) {
             Row(
                 verticalAlignment = Alignment.CenterVertically,
@@ -51,7 +55,8 @@ fun ImageTransformBar(
         SmallFloatingActionButton(
             onClick = onCrop,
             elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
-            containerColor = MaterialTheme.colorScheme.surfaceVariant
+            containerColor = containerColor,
+            contentColor = contentColor
         ) {
             Icon(Icons.Default.Crop, null)
         }
@@ -64,7 +69,8 @@ fun ImageTransformBar(
         SmallFloatingActionButton(
             onClick = onRotateLeft,
             elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
-            containerColor = MaterialTheme.colorScheme.surfaceVariant
+            containerColor = containerColor,
+            contentColor = contentColor
         ) {
             Icon(Icons.Default.RotateLeft, null)
         }
@@ -72,7 +78,8 @@ fun ImageTransformBar(
         SmallFloatingActionButton(
             onClick = onFlip,
             elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
-            containerColor = MaterialTheme.colorScheme.surfaceVariant
+            containerColor = containerColor,
+            contentColor = contentColor
         ) {
             Icon(Icons.Default.Flip, null)
         }
@@ -80,7 +87,8 @@ fun ImageTransformBar(
         SmallFloatingActionButton(
             onClick = onRotateRight,
             elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
-            containerColor = MaterialTheme.colorScheme.surfaceVariant
+            containerColor = containerColor,
+            contentColor = contentColor
         ) {
             Icon(Icons.Default.RotateRight, null)
         }
@@ -93,11 +101,15 @@ fun ImageTransformBar(
     onFlip: () -> Unit,
     onRotateRight: () -> Unit,
 ) {
+    val contentColor = MaterialTheme.colorScheme.onSurfaceVariant
+    val containerColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.75f)
+
     Row(Modifier.block()) {
         SmallFloatingActionButton(
             onClick = onRotateLeft,
             elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
-            containerColor = MaterialTheme.colorScheme.surfaceVariant
+            containerColor = containerColor,
+            contentColor = contentColor
         ) {
             Icon(Icons.Default.RotateLeft, null)
         }
@@ -105,7 +117,8 @@ fun ImageTransformBar(
         SmallFloatingActionButton(
             onClick = onFlip,
             elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
-            containerColor = MaterialTheme.colorScheme.surfaceVariant
+            containerColor = containerColor,
+            contentColor = contentColor
         ) {
             Icon(Icons.Default.Flip, null)
         }
@@ -113,7 +126,8 @@ fun ImageTransformBar(
         SmallFloatingActionButton(
             onClick = onRotateRight,
             elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
-            containerColor = MaterialTheme.colorScheme.surfaceVariant
+            containerColor = containerColor,
+            contentColor = contentColor
         ) {
             Icon(Icons.Default.RotateRight, null)
         }
