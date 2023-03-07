@@ -24,6 +24,7 @@ import com.cookhelper.dynamic.theme.scheme.Scheme
 @Composable
 public fun DynamicTheme(
     state: DynamicThemeState,
+    typography: androidx.compose.material3.Typography,
     isDarkTheme: Boolean,
     content: @Composable () -> Unit,
 ) {
@@ -32,6 +33,7 @@ public fun DynamicTheme(
         color = state.animatedPrimaryColor.value
     )
     MaterialTheme(
+        typography = typography,
         colorScheme = scheme,
         content = content
     )

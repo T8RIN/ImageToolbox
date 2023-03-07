@@ -118,6 +118,7 @@ fun ImageResizerTheme(
         }
     }
     DynamicTheme(
+        typography = Typography,
         state = state,
         isDarkTheme = isSystemInDarkTheme(),
         content = {
