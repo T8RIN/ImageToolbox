@@ -19,9 +19,9 @@
   </a>
 </p>
 
-<p align="center">
-<img src="https://user-images.githubusercontent.com/52178347/222531585-e4e76adc-d12d-4c20-920c-6b21f3e8825c.png"/>
-</p>
+
+![image](https://user-images.githubusercontent.com/52178347/223367539-f3b635a6-31e7-4521-abf1-78789403acba.png)
+
 
 
 # Functions
