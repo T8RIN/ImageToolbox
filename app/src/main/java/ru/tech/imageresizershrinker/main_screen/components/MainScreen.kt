@@ -376,7 +376,9 @@ fun MainScreen(
         }
 
         BottomAppBar(
-            modifier = Modifier.shadow(6.dp),
+            modifier = Modifier
+                .shadow(6.dp)
+                .zIndex(6f),
             actions = {
                 Box(
                     modifier = Modifier

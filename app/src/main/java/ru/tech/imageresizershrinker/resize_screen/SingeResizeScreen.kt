@@ -33,6 +33,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.asAndroidBitmap
 import androidx.compose.ui.graphics.asImageBitmap
+import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
@@ -44,6 +45,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.DialogProperties
+import androidx.compose.ui.zIndex
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.cookhelper.dynamic.theme.LocalDynamicThemeState
 import com.smarttoolfactory.cropper.ImageCropper
@@ -221,13 +223,157 @@ fun Context.SingleResizeScreen(
     }
 
     val buttons = @Composable {
-        Column(
-            modifier = Modifier
-                .padding(16.dp)
-                .navigationBarsPadding(),
-            horizontalAlignment = Alignment.End
-        ) {
-            if (viewModel.bitmap != null) {
+        if (viewModel.bitmap == null) {
+            FloatingActionButton(onClick = pickImage, modifier = Modifier.padding(16.dp)) {
+                val expanded =
+                    state.isScrollingUp() && (imageInside || viewModel.bitmap == null)
+                val horizontalPadding by animateDpAsState(targetValue = if (expanded) 16.dp else 0.dp)
+                Row(
+                    modifier = Modifier.padding(horizontal = horizontalPadding),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Icon(Icons.Rounded.AddPhotoAlternate, null)
+                    AnimatedVisibility(visible = expanded) {
+                        Row {
+                            Spacer(Modifier.width(8.dp))
+                            Text(stringResource(R.string.pick_image_alt))
+                        }
+                    }
+                }
+            }
+        } else if (imageInside) {
+            BottomAppBar(
+                modifier = Modifier
+                    .shadow(6.dp)
+                    .zIndex(6f),
+                actions = {
+                    TelegramButton(
+                        enabled = viewModel.bitmap != null,
+                        isTelegramSpecs = viewModel.isTelegramSpecs,
+                        onClick = { viewModel.setTelegramSpecs() },
+                    )
+                    IconButton(
+                        onClick = {
+                            shareBitmap(
+                                bitmap = viewModel.previewBitmap,
+                                bitmapInfo = viewModel.bitmapInfo
+                            )
+                        },
+                        enabled = viewModel.previewBitmap != null
+                    ) {
+                        Icon(Icons.Outlined.Share, null)
+                    }
+
+                    val interactionSource = remember { MutableInteractionSource() }
+                    IconButton(
+                        enabled = viewModel.bitmap != null,
+                        onClick = { showResetDialog = true }
+                    ) {
+                        Icon(
+                            imageVector = Icons.Rounded.RestartAlt,
+                            contentDescription = null
+                        )
+                    }
+                    if (viewModel.bitmap != null && viewModel.bitmap?.canShow() == true) {
+                        Box(
+                            modifier = Modifier
+                                .clip(CircleShape)
+                                .indication(
+                                    interactionSource,
+                                    LocalIndication.current
+                                )
+                                .pointerInput(Unit) {
+                                    detectTapGestures(
+                                        onPress = {
+                                            val press = PressInteraction.Press(it)
+                                            interactionSource.emit(press)
+                                            val pos =
+                                                state.firstVisibleItemIndex to state.firstVisibleItemScrollOffset
+                                            if (viewModel.bitmap?.canShow() == true) {
+                                                showOriginal = true
+                                                delay(100)
+                                                state.animateScrollToItem(
+                                                    0,
+                                                    -10000
+                                                )
+                                            }
+                                            tryAwaitRelease()
+                                            showOriginal = false
+                                            interactionSource.emit(
+                                                PressInteraction.Release(
+                                                    press
+                                                )
+                                            )
+                                            state.animateScrollToItem(
+                                                pos.first,
+                                                pos.second
+                                            )
+                                        }
+                                    )
+                                }
+                        ) {
+                            Icon(
+                                Icons.Rounded.History,
+                                null,
+                                tint = MaterialTheme.colorScheme.onSurfaceVariant,
+                                modifier = Modifier
+                                    .align(Alignment.Center)
+                                    .padding(8.dp)
+                            )
+                        }
+                    } else {
+                        IconButton(
+                            enabled = false,
+                            onClick = {}
+                        ) { Icon(Icons.Rounded.History, null) }
+                    }
+                },
+                floatingActionButton = {
+                    Row {
+                        FloatingActionButton(
+                            onClick = {
+                                if (bitmapInfo.mime.extension !in listOf(
+                                        "jpg",
+                                        "jpeg"
+                                    ) && viewModel.bitmap != null && map?.isNotEmpty() == true
+                                ) {
+                                    showExifSavingDialog = true
+                                } else {
+                                    saveBitmap()
+                                }
+                            },
+                            containerColor = MaterialTheme.colorScheme.tertiaryContainer,
+                            elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation()
+                        ) {
+                            BadgedBox(
+                                badge = {
+                                    androidx.compose.animation.AnimatedVisibility(
+                                        visible = bitmapInfo.mime.extension !in listOf(
+                                            "jpg",
+                                            "jpeg"
+                                        ) && map?.isNotEmpty() == true,
+                                        enter = fadeIn() + scaleIn(),
+                                        exit = fadeOut() + scaleOut()
+                                    ) {
+                                        Badge(modifier = Modifier.size(8.dp))
+                                    }
+                                }
+                            ) {
+                                Icon(Icons.Rounded.Save, null)
+                            }
+                        }
+                        Spacer(Modifier.width(16.dp))
+                        FloatingActionButton(
+                            onClick = pickImage,
+                            elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation()
+                        ) {
+                            Icon(Icons.Rounded.AddPhotoAlternate, null)
+                        }
+                    }
+                }
+            )
+        } else {
+            Column(Modifier.padding(horizontal = 16.dp)) {
                 FloatingActionButton(
                     onClick = {
                         if (bitmapInfo.mime.extension !in listOf(
@@ -259,27 +405,15 @@ fun Context.SingleResizeScreen(
                         Icon(Icons.Rounded.Save, null)
                     }
                 }
-            }
-            Spacer(Modifier.height(16.dp))
-            FloatingActionButton(onClick = pickImage) {
-                val expanded =
-                    state.isScrollingUp() && (imageInside || viewModel.bitmap == null)
-                val horizontalPadding by animateDpAsState(targetValue = if (expanded) 16.dp else 0.dp)
-                Row(
-                    modifier = Modifier.padding(horizontal = horizontalPadding),
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
+                Spacer(Modifier.height(16.dp))
+                FloatingActionButton(onClick = pickImage) {
                     Icon(Icons.Rounded.AddPhotoAlternate, null)
-                    AnimatedVisibility(visible = expanded) {
-                        Row {
-                            Spacer(Modifier.width(8.dp))
-                            Text(stringResource(R.string.pick_image_alt))
-                        }
-                    }
                 }
             }
         }
     }
+
+    val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
 
     Surface(
         color = MaterialTheme.colorScheme.background,
@@ -293,10 +427,17 @@ fun Context.SingleResizeScreen(
                 )
             }
     ) {
-        Box(Modifier.fillMaxSize()) {
+        Box(
+            Modifier
+                .fillMaxSize()
+                .nestedScroll(scrollBehavior.nestedScrollConnection)
+        ) {
             Column(Modifier.fillMaxSize()) {
-                CenterAlignedTopAppBar(
-                    modifier = Modifier.shadow(6.dp),
+                LargeTopAppBar(
+                    scrollBehavior = scrollBehavior,
+                    modifier = Modifier
+                        .shadow(6.dp)
+                        .zIndex(6f),
                     title = {
                         Marquee(
                             edgeColor = MaterialTheme.colorScheme.surfaceColorAtElevation(3.dp)
@@ -307,24 +448,18 @@ fun Context.SingleResizeScreen(
                             ) { (bmp, loading) ->
                                 if (bmp == null) {
                                     Text(
-                                        stringResource(R.string.single_resize),
-                                        textAlign = TextAlign.Center,
-                                        modifier = Modifier.fillMaxWidth()
+                                        stringResource(R.string.single_resize)
                                     )
                                 } else if (!loading) {
                                     Text(
                                         stringResource(
                                             R.string.size,
                                             byteCount(bitmapInfo.size.toLong())
-                                        ),
-                                        textAlign = TextAlign.Center,
-                                        modifier = Modifier.fillMaxWidth()
+                                        )
                                     )
                                 } else {
                                     Text(
-                                        stringResource(R.string.loading),
-                                        textAlign = TextAlign.Center,
-                                        modifier = Modifier.fillMaxWidth()
+                                        stringResource(R.string.loading)
                                     )
                                 }
                             }
@@ -335,75 +470,21 @@ fun Context.SingleResizeScreen(
                             3.dp
                         )
                     ),
-                    actions = {
-                        val interactionSource = remember { MutableInteractionSource() }
+                    navigationIcon = {
                         IconButton(
-                            enabled = viewModel.bitmap != null,
-                            onClick = { showResetDialog = true }
-                        ) {
-                            Icon(
-                                imageVector = Icons.Rounded.RestartAlt,
-                                contentDescription = null
-                            )
-                        }
-                        if (viewModel.bitmap != null && viewModel.bitmap?.canShow() == true) {
-                            Box(
-                                modifier = Modifier
-                                    .clip(CircleShape)
-                                    .indication(
-                                        interactionSource,
-                                        LocalIndication.current
-                                    )
-                                    .pointerInput(Unit) {
-                                        detectTapGestures(
-                                            onPress = {
-                                                val press = PressInteraction.Press(it)
-                                                interactionSource.emit(press)
-                                                val pos =
-                                                    state.firstVisibleItemIndex to state.firstVisibleItemScrollOffset
-                                                if (viewModel.bitmap?.canShow() == true) {
-                                                    showOriginal = true
-                                                    delay(100)
-                                                    if (imageInside) {
-                                                        state.animateScrollToItem(
-                                                            0,
-                                                            -10000
-                                                        )
-                                                    }
-                                                }
-                                                tryAwaitRelease()
-                                                showOriginal = false
-                                                interactionSource.emit(
-                                                    PressInteraction.Release(
-                                                        press
-                                                    )
-                                                )
-                                                state.animateScrollToItem(
-                                                    pos.first,
-                                                    pos.second
-                                                )
-                                            }
-                                        )
-                                    }
-                            ) {
-                                Icon(
-                                    Icons.Rounded.History,
-                                    null,
-                                    tint = MaterialTheme.colorScheme.onSurfaceVariant,
-                                    modifier = Modifier
-                                        .align(Alignment.Center)
-                                        .padding(8.dp)
-                                )
+                            onClick = {
+                                if (viewModel.bitmap != null) showExitDialog = true
+                                else if (navController.backstack.entries.isNotEmpty()) {
+                                    navController.pop()
+                                    onGoBack()
+                                }
                             }
-                        } else {
-                            IconButton(
-                                enabled = false,
-                                onClick = {}
-                            ) { Icon(Icons.Rounded.History, null) }
+                        ) {
+                            Icon(Icons.Rounded.ArrowBack, null)
                         }
                     },
-                    navigationIcon = {
-                        Row {
+                    actions = {
+                        if (!imageInside) {
                             TelegramButton(
                                 enabled = viewModel.bitmap != null,
                                 isTelegramSpecs = viewModel.isTelegramSpecs,
@@ -419,6 +500,66 @@ fun Context.SingleResizeScreen(
                                 enabled = viewModel.previewBitmap != null
                             ) {
                                 Icon(Icons.Outlined.Share, null)
+                            }
+
+                            val interactionSource = remember { MutableInteractionSource() }
+                            IconButton(
+                                enabled = viewModel.bitmap != null,
+                                onClick = { showResetDialog = true }
+                            ) {
+                                Icon(
+                                    imageVector = Icons.Rounded.RestartAlt,
+                                    contentDescription = null
+                                )
+                            }
+                            if (viewModel.bitmap != null && viewModel.bitmap?.canShow() == true) {
+                                Box(
+                                    modifier = Modifier
+                                        .clip(CircleShape)
+                                        .indication(
+                                            interactionSource,
+                                            LocalIndication.current
+                                        )
+                                        .pointerInput(Unit) {
+                                            detectTapGestures(
+                                                onPress = {
+                                                    val press = PressInteraction.Press(it)
+                                                    interactionSource.emit(press)
+                                                    val pos =
+                                                        state.firstVisibleItemIndex to state.firstVisibleItemScrollOffset
+                                                    if (viewModel.bitmap?.canShow() == true) {
+                                                        showOriginal = true
+                                                        delay(100)
+                                                    }
+                                                    tryAwaitRelease()
+                                                    showOriginal = false
+                                                    interactionSource.emit(
+                                                        PressInteraction.Release(
+                                                            press
+                                                        )
+                                                    )
+                                                    state.animateScrollToItem(
+                                                        pos.first,
+                                                        pos.second
+                                                    )
+                                                }
+                                            )
+                                        }
+                                ) {
+                                    Icon(
+                                        Icons.Rounded.History,
+                                        null,
+                                        tint = MaterialTheme.colorScheme.onSurfaceVariant,
+                                        modifier = Modifier
+                                            .align(Alignment.Center)
+                                            .padding(8.dp)
+                                    )
+                                }
+                            } else {
+                                IconButton(
+                                    enabled = false,
+                                    onClick = {}
+                                ) { Icon(Icons.Rounded.History, null) }
                             }
                         }
                     }
@@ -452,7 +593,7 @@ fun Context.SingleResizeScreen(
                                 .asPaddingValues()
                                 .calculateBottomPadding() + WindowInsets.ime
                                 .asPaddingValues()
-                                .calculateBottomPadding() + (if (!imageInside && viewModel.bitmap != null) 20.dp else 160.dp),
+                                .calculateBottomPadding() + (if (!imageInside && viewModel.bitmap != null) 20.dp else 100.dp),
                             top = 20.dp,
                             start = 20.dp,
                             end = 20.dp

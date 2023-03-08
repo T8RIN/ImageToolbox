@@ -35,6 +35,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.zIndex
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.cookhelper.dynamic.theme.LocalDynamicThemeState
 import com.smarttoolfactory.colordetector.ImageColorDetector
@@ -170,14 +171,17 @@ fun PickColorFromImageScreen(
                         colors = TopAppBarDefaults.mediumTopAppBarColors(
                             containerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(3.dp)
                         ),
-                        modifier = Modifier.shadow(6.dp)
+                        modifier = Modifier
+                            .shadow(6.dp)
+                            .zIndex(6f)
                     )
                 } else {
                     Surface(
                         color = MaterialTheme.colorScheme.surfaceColorAtElevation(3.dp),
                         modifier = Modifier
                             .animateContentSize()
-                            .shadow(6.dp),
+                            .shadow(6.dp)
+                            .zIndex(6f),
                     ) {
                         Column(Modifier.navBarsLandscapePadding()) {
                             Spacer(modifier = Modifier.height(8.dp))

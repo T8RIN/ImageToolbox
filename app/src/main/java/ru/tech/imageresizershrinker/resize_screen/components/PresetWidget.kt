@@ -61,11 +61,11 @@ fun PresetWidget(
                     ),
                     colors = IconButtonDefaults.outlinedIconButtonColors(
                         containerColor = animateColorAsState(
-                            if (selected) MaterialTheme.colorScheme.secondaryContainer
-                            else MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f)
+                            if (selected) MaterialTheme.colorScheme.mixedColor
+                            else MaterialTheme.colorScheme.secondaryContainer.copy(alpha = 0.3f)
                         ).value,
                         contentColor = animateColorAsState(
-                            if (selected) MaterialTheme.colorScheme.onSecondaryContainer
+                            if (selected) MaterialTheme.colorScheme.onMixedColor
                             else MaterialTheme.colorScheme.onSurface
                         ).value,
                     )

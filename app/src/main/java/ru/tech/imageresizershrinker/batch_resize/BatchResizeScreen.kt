@@ -35,6 +35,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.asImageBitmap
+import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
@@ -44,6 +45,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.DialogProperties
+import androidx.compose.ui.zIndex
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.cookhelper.dynamic.theme.LocalDynamicThemeState
 import dev.olshevski.navigation.reimagined.NavController
@@ -219,7 +221,7 @@ fun BatchResizeScreen(
                             },
                             shape = RoundedCornerShape(16.dp),
                             elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
-                            containerColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f),
+                            containerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(1.dp),
                             contentColor = MaterialTheme.colorScheme.onSurfaceVariant
                         ) {
                             Icon(Icons.Rounded.ChangeCircle, null)
@@ -255,23 +257,11 @@ fun BatchResizeScreen(
         }
     }
 
+    var showExitDialog by rememberSaveable { mutableStateOf(false) }
+
     val buttons = @Composable {
-        Column(
-            modifier = Modifier
-                .padding(16.dp)
-                .navigationBarsPadding(),
-            horizontalAlignment = Alignment.End
-        ) {
-            if (viewModel.bitmap != null) {
-                FloatingActionButton(
-                    onClick = saveBitmaps,
-                    containerColor = MaterialTheme.colorScheme.tertiaryContainer
-                ) {
-                    Icon(Icons.Rounded.Save, null)
-                }
-            }
-            Spacer(Modifier.height(16.dp))
-            FloatingActionButton(onClick = pickImage) {
+        if (viewModel.bitmap == null) {
+            FloatingActionButton(onClick = pickImage, modifier = Modifier.padding(16.dp)) {
                 val expanded =
                     state.isScrollingUp() && (imageInside || viewModel.bitmap == null)
                 val horizontalPadding by animateDpAsState(targetValue = if (expanded) 16.dp else 0.dp)
@@ -288,8 +278,120 @@ fun BatchResizeScreen(
                     }
                 }
             }
+        } else if (imageInside) {
+            BottomAppBar(
+                modifier = Modifier
+                    .shadow(6.dp)
+                    .zIndex(6f),
+                actions = {
+                    TelegramButton(
+                        enabled = viewModel.bitmap != null,
+                        isTelegramSpecs = viewModel.isTelegramSpecs,
+                        onClick = { viewModel.setTelegramSpecs() },
+                    )
+
+                    val interactionSource = remember { MutableInteractionSource() }
+                    IconButton(
+                        enabled = viewModel.bitmap != null,
+                        onClick = { showResetDialog = true }
+                    ) {
+                        Icon(
+                            imageVector = Icons.Rounded.RestartAlt,
+                            contentDescription = null
+                        )
+                    }
+                    if (viewModel.bitmap != null && viewModel.bitmap?.canShow() == true) {
+                        Box(
+                            modifier = Modifier
+                                .clip(CircleShape)
+                                .indication(
+                                    interactionSource,
+                                    LocalIndication.current
+                                )
+                                .pointerInput(Unit) {
+                                    detectTapGestures(
+                                        onPress = {
+                                            val press = PressInteraction.Press(it)
+                                            interactionSource.emit(press)
+                                            val pos =
+                                                state.firstVisibleItemIndex to state.firstVisibleItemScrollOffset
+                                            if (viewModel.bitmap?.canShow() == true) {
+                                                showOriginal = true
+                                                delay(100)
+                                                state.animateScrollToItem(
+                                                    0,
+                                                    -10000
+                                                )
+                                            }
+                                            tryAwaitRelease()
+                                            showOriginal = false
+                                            interactionSource.emit(
+                                                PressInteraction.Release(
+                                                    press
+                                                )
+                                            )
+                                            state.animateScrollToItem(
+                                                pos.first,
+                                                pos.second
+                                            )
+                                        }
+                                    )
+                                }
+                        ) {
+                            Icon(
+                                Icons.Rounded.History,
+                                null,
+                                tint = MaterialTheme.colorScheme.onSurfaceVariant,
+                                modifier = Modifier
+                                    .align(Alignment.Center)
+                                    .padding(8.dp)
+                            )
+                        }
+                    } else {
+                        IconButton(
+                            enabled = false,
+                            onClick = {}
+                        ) { Icon(Icons.Rounded.History, null) }
+                    }
+                },
+                floatingActionButton = {
+                    Row {
+                        FloatingActionButton(
+                            onClick = saveBitmaps,
+                            containerColor = MaterialTheme.colorScheme.tertiaryContainer,
+                            elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation()
+                        ) {
+                            Icon(Icons.Rounded.Save, null)
+                        }
+                        Spacer(Modifier.width(16.dp))
+                        FloatingActionButton(
+                            onClick = pickImage,
+                            elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation()
+                        ) {
+                            Icon(Icons.Rounded.AddPhotoAlternate, null)
+                        }
+                    }
+                }
+            )
+        } else {
+            Column(Modifier.padding(horizontal = 16.dp)) {
+                FloatingActionButton(
+                    onClick = saveBitmaps,
+                    containerColor = MaterialTheme.colorScheme.tertiaryContainer
+                ) {
+                    Icon(Icons.Rounded.Save, null)
+                }
+                Spacer(Modifier.height(16.dp))
+                FloatingActionButton(
+                    onClick = pickImage
+                ) {
+                    Icon(Icons.Rounded.AddPhotoAlternate, null)
+                }
+            }
         }
     }
+
+    val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
 
     Surface(
         color = MaterialTheme.colorScheme.background,
@@ -303,10 +405,17 @@ fun BatchResizeScreen(
                 )
             }
     ) {
-        Box(Modifier.fillMaxSize()) {
+        Box(
+            Modifier
+                .fillMaxSize()
+                .nestedScroll(scrollBehavior.nestedScrollConnection)
+        ) {
             Column(Modifier.fillMaxSize()) {
-                TopAppBar(
-                    modifier = Modifier.shadow(6.dp),
+                LargeTopAppBar(
+                    scrollBehavior = scrollBehavior,
+                    modifier = Modifier
+                        .shadow(6.dp)
+                        .zIndex(6f),
                     title = {
                         Marquee(
                             edgeColor = MaterialTheme.colorScheme.surfaceColorAtElevation(3.dp)
@@ -340,78 +449,86 @@ fun BatchResizeScreen(
                         )
                     ),
                     actions = {
-                        val interactionSource = remember { MutableInteractionSource() }
-                        IconButton(
-                            enabled = viewModel.bitmap != null,
-                            onClick = { showResetDialog = true }
-                        ) {
-                            Icon(
-                                imageVector = Icons.Rounded.RestartAlt,
-                                contentDescription = null
+                        if (!imageInside) {
+                            TelegramButton(
+                                enabled = viewModel.bitmap != null,
+                                isTelegramSpecs = viewModel.isTelegramSpecs,
+                                onClick = { viewModel.setTelegramSpecs() },
                             )
-                        }
-                        if (viewModel.bitmap != null && viewModel.bitmap?.canShow() == true) {
-                            Box(
-                                modifier = Modifier
-                                    .clip(CircleShape)
-                                    .indication(
-                                        interactionSource,
-                                        LocalIndication.current
-                                    )
-                                    .pointerInput(Unit) {
-                                        detectTapGestures(
-                                            onPress = {
-                                                val press = PressInteraction.Press(it)
-                                                interactionSource.emit(press)
-                                                val pos =
-                                                    state.firstVisibleItemIndex to state.firstVisibleItemScrollOffset
-                                                if (viewModel.bitmap?.canShow() == true) {
-                                                    showOriginal = true
-                                                    delay(100)
-                                                    if (imageInside) {
-                                                        state.animateScrollToItem(
-                                                            0,
-                                                            -10000
-                                                        )
-                                                    }
-                                                }
-                                                tryAwaitRelease()
-                                                showOriginal = false
-                                                interactionSource.emit(
-                                                    PressInteraction.Release(
-                                                        press
-                                                    )
-                                                )
-                                                state.animateScrollToItem(
-                                                    pos.first,
-                                                    pos.second
-                                                )
-                                            }
-                                        )
-                                    }
+
+                            val interactionSource = remember { MutableInteractionSource() }
+                            IconButton(
+                                enabled = viewModel.bitmap != null,
+                                onClick = { showResetDialog = true }
                             ) {
                                 Icon(
-                                    Icons.Rounded.History,
-                                    null,
-                                    tint = MaterialTheme.colorScheme.onSurfaceVariant,
-                                    modifier = Modifier
-                                        .align(Alignment.Center)
-                                        .padding(8.dp)
+                                    imageVector = Icons.Rounded.RestartAlt,
+                                    contentDescription = null
                                 )
                             }
-                        } else {
-                            IconButton(
-                                enabled = false,
-                                onClick = {}
-                            ) { Icon(Icons.Rounded.History, null) }
+                            if (viewModel.bitmap != null && viewModel.bitmap?.canShow() == true) {
+                                Box(
+                                    modifier = Modifier
+                                        .clip(CircleShape)
+                                        .indication(
+                                            interactionSource,
+                                            LocalIndication.current
+                                        )
+                                        .pointerInput(Unit) {
+                                            detectTapGestures(
+                                                onPress = {
+                                                    val press = PressInteraction.Press(it)
+                                                    interactionSource.emit(press)
+                                                    val pos =
+                                                        state.firstVisibleItemIndex to state.firstVisibleItemScrollOffset
+                                                    if (viewModel.bitmap?.canShow() == true) {
+                                                        showOriginal = true
+                                                        delay(100)
+                                                    }
+                                                    tryAwaitRelease()
+                                                    showOriginal = false
+                                                    interactionSource.emit(
+                                                        PressInteraction.Release(
+                                                            press
+                                                        )
+                                                    )
+                                                    state.animateScrollToItem(
+                                                        pos.first,
+                                                        pos.second
+                                                    )
+                                                }
+                                            )
+                                        }
+                                ) {
+                                    Icon(
+                                        Icons.Rounded.History,
+                                        null,
+                                        tint = MaterialTheme.colorScheme.onSurfaceVariant,
+                                        modifier = Modifier
+                                            .align(Alignment.Center)
+                                            .padding(8.dp)
+                                    )
+                                }
+                            } else {
+                                IconButton(
+                                    enabled = false,
+                                    onClick = {}
+                                ) { Icon(Icons.Rounded.History, null) }
+                            }
                         }
                     },
                     navigationIcon = {
-                        TelegramButton(
-                            enabled = viewModel.bitmap != null,
-                            isTelegramSpecs = viewModel.isTelegramSpecs,
-                            onClick = { viewModel.setTelegramSpecs() },
-                        )
+                        IconButton(
+                            onClick = {
+                                if (viewModel.uris?.isNotEmpty() == true) showExitDialog = true
+                                else if (navController.backstack.entries.isNotEmpty()) {
+                                    navController.pop()
+                                    onGoBack()
+                                }
+                            }
+                        ) {
+                            Icon(Icons.Rounded.ArrowBack, null)
+                        }
                     }
                 )
                 Row(
@@ -443,7 +560,7 @@ fun BatchResizeScreen(
                                 .asPaddingValues()
                                 .calculateBottomPadding() + WindowInsets.ime
                                 .asPaddingValues()
-                                .calculateBottomPadding() + (if (!imageInside && viewModel.bitmap != null) 20.dp else 160.dp),
+                                .calculateBottomPadding() + (if (!imageInside && viewModel.bitmap != null) 20.dp else 100.dp),
                             top = 20.dp,
                             start = 20.dp,
                             end = 20.dp
@@ -531,8 +648,6 @@ fun BatchResizeScreen(
                     buttons()
                 }
             }
-
-            var showExitDialog by rememberSaveable { mutableStateOf(false) }
 
             if (showExitDialog) {
                 AlertDialog(

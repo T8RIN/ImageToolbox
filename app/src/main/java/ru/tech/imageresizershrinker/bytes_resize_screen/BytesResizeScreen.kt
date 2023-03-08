@@ -47,6 +47,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.DialogProperties
+import androidx.compose.ui.zIndex
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.cookhelper.dynamic.theme.LocalDynamicThemeState
 import dev.olshevski.navigation.reimagined.NavController
@@ -220,7 +221,7 @@ fun BytesResizeScreen(
                             },
                             shape = RoundedCornerShape(16.dp),
                             elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
-                            containerColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f),
+                            containerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(1.dp),
                             contentColor = MaterialTheme.colorScheme.onSurfaceVariant
                         ) {
                             Icon(Icons.Rounded.ChangeCircle, null)
@@ -249,22 +250,8 @@ fun BytesResizeScreen(
     }
 
     val buttons = @Composable {
-        Column(
-            modifier = Modifier
-                .padding(16.dp)
-                .navigationBarsPadding(),
-            horizontalAlignment = Alignment.End
-        ) {
-            AnimatedVisibility(viewModel.bitmap != null && viewModel.maxBytes != 0L) {
-                FloatingActionButton(
-                    onClick = saveBitmaps,
-                    containerColor = MaterialTheme.colorScheme.tertiaryContainer,
-                ) {
-                    Icon(Icons.Rounded.Save, null)
-                }
-            }
-            Spacer(Modifier.height(16.dp))
-            FloatingActionButton(onClick = pickImage) {
+        if (viewModel.bitmap == null) {
+            FloatingActionButton(onClick = pickImage, modifier = Modifier.padding(16.dp)) {
                 val expanded =
                     state.isScrollingUp() && (imageInside || viewModel.bitmap == null)
                 val horizontalPadding by animateDpAsState(targetValue = if (expanded) 16.dp else 0.dp)
@@ -279,6 +266,50 @@ fun BytesResizeScreen(
                             Text(stringResource(R.string.pick_image_alt))
                         }
                     }
+                }
+            }
+        } else if (imageInside) {
+            BottomAppBar(
+                modifier = Modifier
+                    .shadow(6.dp)
+                    .zIndex(6f),
+                actions = {},
+                floatingActionButton = {
+                    Row {
+                        AnimatedVisibility(viewModel.bitmap != null && viewModel.maxBytes != 0L) {
+                            FloatingActionButton(
+                                onClick = saveBitmaps,
+                                containerColor = MaterialTheme.colorScheme.tertiaryContainer,
+                                elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation()
+                            ) {
+                                Icon(Icons.Rounded.Save, null)
+                            }
+                        }
+                        Spacer(Modifier.width(16.dp))
+                        FloatingActionButton(
+                            onClick = pickImage,
+                            elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation()
+                        ) {
+                            Icon(Icons.Rounded.AddPhotoAlternate, null)
+                        }
+                    }
+                }
+            )
+        } else {
+            Column(Modifier.padding(horizontal = 16.dp)) {
+                AnimatedVisibility(viewModel.bitmap != null && viewModel.maxBytes != 0L) {
+                    FloatingActionButton(
+                        onClick = saveBitmaps,
+                        containerColor = MaterialTheme.colorScheme.tertiaryContainer
+                    ) {
+                        Icon(Icons.Rounded.Save, null)
+                    }
+                }
+                Spacer(Modifier.height(16.dp))
+                FloatingActionButton(
+                    onClick = pickImage
+                ) {
+                    Icon(Icons.Rounded.AddPhotoAlternate, null)
                 }
             }
         }
@@ -305,7 +336,9 @@ fun BytesResizeScreen(
             Column(Modifier.fillMaxSize()) {
                 LargeTopAppBar(
                     scrollBehavior = scrollBehavior,
-                    modifier = Modifier.shadow(6.dp),
+                    modifier = Modifier
+                        .shadow(6.dp)
+                        .zIndex(6f),
                     title = {
                         Marquee(
                             edgeColor = MaterialTheme.colorScheme.surfaceColorAtElevation(3.dp)
@@ -381,7 +414,7 @@ fun BytesResizeScreen(
                                 .asPaddingValues()
                                 .calculateBottomPadding() + WindowInsets.ime
                                 .asPaddingValues()
-                                .calculateBottomPadding() + (if (!imageInside && viewModel.bitmap != null) 20.dp else 160.dp),
+                                .calculateBottomPadding() + (if (!imageInside && viewModel.bitmap != null) 20.dp else 100.dp),
                             top = 20.dp,
                             start = 20.dp,
                             end = 20.dp

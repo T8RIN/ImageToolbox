@@ -32,6 +32,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.zIndex
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.cookhelper.dynamic.theme.LocalDynamicThemeState
 import com.smarttoolfactory.colordetector.ImageColorPalette
@@ -181,7 +182,9 @@ fun GeneratePaletteScreen(
                 colors = TopAppBarDefaults.mediumTopAppBarColors(
                     containerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(3.dp)
                 ),
-                modifier = Modifier.shadow(6.dp),
+                modifier = Modifier
+                    .shadow(6.dp)
+                    .zIndex(6f),
                 title = {
                     Marquee(
                         edgeColor = MaterialTheme.colorScheme.surfaceColorAtElevation(3.dp)
@@ -309,7 +312,7 @@ fun GeneratePaletteScreen(
                     ImageNotPickedWidget(
                         onPickImage = pickImage,
                         modifier = Modifier
-                            .padding(bottom = 88.dp, top = 20.dp, start =  20.dp, end = 20.dp)
+                            .padding(bottom = 88.dp, top = 20.dp, start = 20.dp, end = 20.dp)
                             .navigationBarsPadding()
                     )
                 }

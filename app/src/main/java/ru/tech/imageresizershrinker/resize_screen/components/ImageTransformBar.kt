@@ -25,7 +25,7 @@ fun ImageTransformBar(
     onRotateRight: () -> Unit,
 ) {
     val contentColor = MaterialTheme.colorScheme.onSurfaceVariant
-    val containerColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.75f)
+    val containerColor = MaterialTheme.colorScheme.secondaryContainer.copy(alpha = 0.75f)
 
     Row(Modifier.block()) {
         Spacer(Modifier.width(4.dp))
@@ -102,7 +102,7 @@ fun ImageTransformBar(
     onRotateRight: () -> Unit,
 ) {
     val contentColor = MaterialTheme.colorScheme.onSurfaceVariant
-    val containerColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.75f)
+    val containerColor = MaterialTheme.colorScheme.secondaryContainer.copy(alpha = 0.75f)
 
     Row(Modifier.block()) {
         SmallFloatingActionButton(

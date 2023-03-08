@@ -25,11 +25,11 @@ fun TelegramButton(
         onClick = onClick,
         colors = IconButtonDefaults.filledIconButtonColors(
             containerColor = animateColorAsState(
-                if (isTelegramSpecs) MaterialTheme.colorScheme.secondaryContainer
+                if (isTelegramSpecs) MaterialTheme.colorScheme.mixedColor
                 else Color.Transparent
             ).value,
             contentColor = animateColorAsState(
-                if (isTelegramSpecs) MaterialTheme.colorScheme.onSecondaryContainer
+                if (isTelegramSpecs) MaterialTheme.colorScheme.onMixedColor
                 else MaterialTheme.colorScheme.onSurface
             ).value,
             disabledContainerColor = Color.Transparent
