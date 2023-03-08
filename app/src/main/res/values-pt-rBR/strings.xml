@@ -56,4 +56,23 @@
     <string name="check_source_code_sub">Receba as últimas atualizações, discuta assuntos e muito mais</string>
     <string name="new_version_sub">Parece que há uma nova versão do aplicativo disponível, diferente da versão instalada %1$s</string>
     <string name="image_too_large_preview">A imagem é muito grande para ser visualizada, mas tentaremos salvá-la mesmo assim</string>
+    <string name="flexible">Flexível</string>
+    <string name="explicit">Explícito</string>
+    <string name="app_closing">Fechar aplicativo</string>
+    <string name="reset_image">Redefinir imagem</string>
+    <string name="reset">Redefinir</string>
+    <string name="values_reset">Valores devidamente redefinidos</string>
+    <string name="reset_image_sub">As alterações de imagem serão revertidas para os valores iniciais</string>
+    <string name="might_be_error_with_exif">Se o formato de compressão JPEG não for escolhido, os metadados EXIF poderão ser exibidos incorretamente em outros aplicativos</string>
+    <string name="save">Salvar</string>
+    <string name="clear">Limpar</string>
+    <string name="pick_color">Escolher cor</string>
+    <string name="crop_sub">Corte imagem em qualquer limite</string>
+    <string name="single_resize">Redimensionar</string>
+    <string name="batch_resize">Redimensionar lote</string>
+    <string name="change_preview">Previsão de alteração</string>
+    <string name="update">Atualização</string>
+    <string name="no_palette">Não pode gerar paleta para determinada imagem</string>
+    <string name="custom">Definir local</string>
+    <string name="saved_to">Salvo na pasta %1$s</string>
 </resources>
