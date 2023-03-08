@@ -53,6 +53,10 @@ Go to the [Releases](https://github.com/t8rin/imageresizer/releases/latest) and 
   </a>
 </p>
 
+## 🌍 Translation
+You can help translate ImageResizer into your language on [Hosted Weblate](https://hosted.weblate.org/engage/image-resizer/)\
+[![Translation status](https://hosted.weblate.org/widgets/image-resizer/-/multi-auto.svg)](https://hosted.weblate.org/engage/image-resizer/)
+
 
 ## Find this repository useful? :heart:
 Support it by joining __[stargazers](https://github.com/t8rin/ImageResizer/stargazers)__ for this repository. :star: <br>
