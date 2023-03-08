@@ -10,7 +10,41 @@
   <a href="https://github.com/T8RIN/ImageResizer/actions"><img alt="Build" src="https://img.shields.io/github/actions/workflow/status/t8rin/imageresizer/android.yml?logo=github&style=for-the-badge"/></a> 
 </p>
 
-<p align="center">
+![Frame 1](https://user-images.githubusercontent.com/52178347/223509805-b7e78acc-76f3-4442-88bc-c27df296e87b.png)
+
+
+# Functions
+- Batch processing
+- Saving to any specific folder
+- EXIF metadata editing
+- Image Resizing
+  - Width changing
+  - Height changing
+  - Adaptive resize
+  - Resize retaining aspect ratio
+- Image Shrinking
+  - Quality compressing
+  - Preset shrinking
+  - Reducing size by given weight in KB
+- Cropping
+  - Reqular crop
+  - Crop by aspect ratio
+- Format Convertion
+  - WEBP
+  - PNG
+  - JPEG
+  - JPG
+  - Telegram sticker PNG format
+- Color Utils
+  - Palette generation
+  - Picking color from image
+- Additional Features
+  - Rotating
+  - Flipping
+
+# Download
+Go to the [Releases](https://github.com/t8rin/imageresizer/releases/latest) and download latest apk.
+<p align="start">
   <a href="https://apt.izzysoft.de/fdroid/index/apk/ru.tech.imageresizershrinker">
     <img src="https://gitlab.com/IzzyOnDroid/repo/-/raw/master/assets/IzzyOnDroid.png" width="170"/>
   </a>
@@ -18,36 +52,6 @@
     <img src="https://gitlab.com/fdroid/artwork/-/raw/master/badge/get-it-on-en-au.png" width="170"/>
   </a>
 </p>
-
-
-![Frame 1](https://user-images.githubusercontent.com/52178347/223509805-b7e78acc-76f3-4442-88bc-c27df296e87b.png)
-
-
-# Functions
-- Saving to given folder
-- Palette generation
-- Color picking
-- Batch processing
-- Width changing
-- Height changing
-- Adaptive resize
-- Resize retaining aspect ratio
-- Quality compressing
-- Convertion
-  - WEBP
-  - PNG
-  - JPEG
-  - JPG
-  - Telegram sticker PNG format
-- EXIF metadata editing
-- Rotating
-- Flipping
-- Cropping
-- Aspect Ratio cropping
-- Preset shrinking
-
-# Download
-Go to the [Releases](https://github.com/t8rin/imageresizer/releases/latest) and download latest apk.
 
 
 ## Find this repository useful? :heart:
