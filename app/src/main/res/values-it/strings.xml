@@ -39,7 +39,6 @@
     <string name="presets">Preconfigurazioni</string>
     <string name="ratio">Rapporto</string>
     <string name="crop">Ritaglia</string>
-    <string name="cannot_paste">Questa clip non è un\'immagine</string>
     <string name="image_not_saved">Salvataggio</string>
     <string name="image_not_saved_sub">Immagine non salvata, tutte le modifiche andranno perse se abbandoni adesso.</string>
     <string name="check_source_code">Consulta il codice sorgente</string>
