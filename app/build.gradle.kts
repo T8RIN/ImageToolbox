@@ -12,8 +12,8 @@ android {
         applicationId = "ru.tech.imageresizershrinker"
         minSdk = 21
         targetSdk = 33
-        versionCode = 30
-        versionName = "1.8.3"
+        versionCode = 31
+        versionName = "1.8.4"
     }
 
     buildTypes {
@@ -49,9 +49,9 @@ android {
 
 dependencies {
     implementation("androidx.activity:activity-compose:1.7.0-beta01")
-    implementation("androidx.compose.material3:material3:1.1.0-alpha07")
-    implementation("androidx.compose.material3:material3-window-size-class:1.1.0-alpha07")
-    implementation("androidx.compose.material:material-icons-extended:1.4.0-beta02")
+    implementation("androidx.compose.material3:material3:1.1.0-alpha08")
+    implementation("androidx.compose.material3:material3-window-size-class:1.1.0-alpha08")
+    implementation("androidx.compose.material:material-icons-extended:1.4.0-rc01")
     implementation("com.google.accompanist:accompanist-systemuicontroller:0.28.0")
     implementation("io.coil-kt:coil-compose:2.2.2")
     implementation("androidx.core:core-splashscreen:1.0.0")

@@ -16,6 +16,7 @@ import androidx.compose.material.icons.rounded.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.*
 import androidx.compose.ui.res.stringResource
@@ -29,7 +30,6 @@ import androidx.datastore.preferences.preferencesDataStore
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import dev.olshevski.navigation.reimagined.*
-import ru.tech.imageresizershrinker.BuildConfig
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.batch_resize.BatchResizeScreen
 import ru.tech.imageresizershrinker.bytes_resize_screen.BytesResizeScreen
@@ -326,7 +326,14 @@ class MainActivity : ComponentActivity() {
                         },
                         title = { Text(stringResource(R.string.new_version, viewModel.tag)) },
                         text = {
-                            Text(stringResource(R.string.new_version_sub, BuildConfig.VERSION_NAME))
+                            Box {
+                                Divider(Modifier.align(Alignment.TopCenter))
+                                Column(Modifier.verticalScroll(rememberScrollState())) {
+                                    Spacer(Modifier.height(16.dp))
+                                    HtmlText(viewModel.changelog)
+                                }
+                                Divider(Modifier.align(Alignment.BottomCenter))
+                            }
                         },
                         confirmButton = {
                             Button(

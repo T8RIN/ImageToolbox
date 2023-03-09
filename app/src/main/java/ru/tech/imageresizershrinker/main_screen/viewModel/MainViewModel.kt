@@ -53,6 +53,9 @@ class MainViewModel(
     private val _tag = mutableStateOf("")
     val tag by _tag
 
+    private val _changelog = mutableStateOf("")
+    val changelog by _changelog
+
     val toastHostState = ToastHostState()
 
     init {
@@ -93,6 +96,8 @@ class MainViewModel(
                                 val title = element.getElementsByTagName("entry")
                                 val line = (title.item(0) as Element)
                                 _tag.value = (line.getElementsByTagName("title")
+                                    .item(0) as Element).textContent
+                                _changelog.value = (line.getElementsByTagName("content")
                                     .item(0) as Element).textContent
                             }
                         }
