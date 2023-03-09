@@ -57,7 +57,6 @@
     <string name="clear">Очистити</string>
     <string name="save">Зберегти</string>
     <string name="clear_exif_sub">Всі EXIF-дані зображення будуть очищені, цю дію неможливо скасувати!</string>
-    <string name="cannot_paste">Дані кліпу не є зображенням</string>
     <string name="ratio">Співвідношення</string>
     <string name="image_not_saved">Збереження</string>
     <string name="check_source_code_sub">Отримуйте останні оновлення, обговорюйте проблеми та багато іншого</string>
