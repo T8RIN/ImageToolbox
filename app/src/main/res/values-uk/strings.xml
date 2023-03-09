@@ -73,6 +73,5 @@
     <string name="update">Оновлення</string>
     <string name="original">Оригінал</string>
     <string name="folder">Вихідна папка</string>
-    <string name="new_version_sub">Схоже, що доступна нова версія застосунку, яка відрізняється від встановленої версії %1$s</string>
     <string name="no_palette">Не вдається згенерувати палітру для заданого зображення</string>
 </resources>

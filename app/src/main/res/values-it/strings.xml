@@ -63,7 +63,6 @@
     <string name="palette">Palette</string>
     <string name="update">Aggiorna</string>
     <string name="new_version">Nuova versione %1$s</string>
-    <string name="new_version_sub">Sembra che ci sia una nuova versione disponibile, che è diversa dalla versione %1$s installata.</string>
     <string name="unsupported_type">Tipo non supportato: %1$s</string>
     <string name="no_palette">Impossibile generare una palette per l\'immagine specificata.</string>
     <string name="original">Originale</string>

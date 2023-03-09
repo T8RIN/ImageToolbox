@@ -54,7 +54,6 @@
     <string name="presets">Predefinições</string>
     <string name="image_not_saved_sub">Todas as alterações não salvas serão perdidas, se você sair agora</string>
     <string name="check_source_code_sub">Receba as últimas atualizações, discuta assuntos e muito mais</string>
-    <string name="new_version_sub">Parece que há uma nova versão do aplicativo disponível, diferente da versão instalada %1$s</string>
     <string name="image_too_large_preview">A imagem é muito grande para ser visualizada, mas tentaremos salvá-la mesmo assim</string>
     <string name="flexible">Flexível</string>
     <string name="explicit">Explícito</string>
