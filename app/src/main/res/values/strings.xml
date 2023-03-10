@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name" translatable="false">Image Resizer</string>
     <string name="smth_went_wrong">Something went wrong: %1$s</string>
@@ -28,7 +29,7 @@
     <string name="exception">Exception</string>
     <string name="edit_exif">Edit EXIF</string>
     <string name="ok">Ok</string>
-    <string name="no_exif">No exif found</string>
+    <string name="no_exif">No EXIF data found</string>
     <string name="add_tag">Add tag</string>
     <string name="might_be_error_with_exif">If not JPEG compress format chosen, then EXIF metadata can be showed incorrectly in other apps</string>
     <string name="exif" translatable="false">EXIF</string>
