@@ -12,7 +12,7 @@
     <string name="loading">Carregando…</string>
     <string name="width">Largura %1$s</string>
     <string name="height">Altura %1$s</string>
-    <string name="pick_image">Escolher imagem para começar</string>
+    <string name="pick_image">Escolha uma magem para começar</string>
     <string name="size">Tamanho %1$s</string>
     <string name="smth_went_wrong">Algo deu errado: %1$s</string>
     <string name="close">Fechar</string>
@@ -47,7 +47,7 @@
     <string name="folder">Pasta de saída</string>
     <string name="unspecified">Não especificado</string>
     <string name="device_storage">Dispositivo de armazenamento</string>
-    <string name="by_bytes_resize">Redimensionar por peso</string>
+    <string name="by_bytes_resize">Redimensionar pelo tamanho</string>
     <string name="max_bytes">Tamanho máximo em KB</string>
     <string name="by_bytes_resize_sub">Redimensione uma imagem de acordo com o tamanho especificado em KB</string>
     <string name="new_version">Nova versão %1$s</string>
@@ -61,17 +61,17 @@
     <string name="reset_image">Redefinir imagem</string>
     <string name="reset">Redefinir</string>
     <string name="values_reset">Valores devidamente redefinidos</string>
-    <string name="reset_image_sub">As alterações de imagem serão revertidas para os valores iniciais</string>
+    <string name="reset_image_sub">As alterações na imagem serão revertidas para os valores iniciais</string>
     <string name="might_be_error_with_exif">Se o formato de compressão JPEG não for escolhido, os metadados EXIF poderão ser exibidos incorretamente em outros aplicativos</string>
     <string name="save">Salvar</string>
     <string name="clear">Limpar</string>
     <string name="pick_color">Escolher cor</string>
-    <string name="crop_sub">Corte imagem em qualquer limite</string>
+    <string name="crop_sub">Corte a imagem em qualquer limite</string>
     <string name="single_resize">Redimensionar</string>
-    <string name="batch_resize">Redimensionar lote</string>
-    <string name="change_preview">Previsão de alteração</string>
+    <string name="batch_resize">Redimensionamento em lote</string>
+    <string name="change_preview">Alterar visualização</string>
     <string name="update">Atualização</string>
-    <string name="no_palette">Não pode gerar paleta para determinada imagem</string>
+    <string name="no_palette">Não foi possível gerar paleta para essa imagem</string>
     <string name="custom">Definir local</string>
     <string name="saved_to">Salvo na pasta %1$s</string>
 </resources>
