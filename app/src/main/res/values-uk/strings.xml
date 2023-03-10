@@ -10,7 +10,7 @@
     <string name="reset">Перезавантаження</string>
     <string name="copied">Копіювання до буфера обміну</string>
     <string name="edit_exif">Редагувати EXIF</string>
-    <string name="no_exif">Exif не знайдено</string>
+    <string name="no_exif">EXIF не знайдено</string>
     <string name="clear_exif">Очистити EXIF</string>
     <string name="crop">Обрізати</string>
     <string name="image_not_saved_sub">Всі незбережені зміни будуть втрачені, якщо ви підете зараз</string>
