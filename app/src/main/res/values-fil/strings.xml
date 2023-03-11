@@ -1,2 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<resources>
+    <string name="size">Laki %1$s</string>
+    <string name="loading">Ikinakarga…</string>
+    <string name="pick_image">Pumili ng larawan para magsimula</string>
+    <string name="width">Lapad %1$s</string>
+    <string name="height">Taas %1$s</string>
+    <string name="quality">Kalidad</string>
+    <string name="extension">Ekstensyon</string>
+    <string name="resize_type">Uri ng pag-resize</string>
+    <string name="explicit">Tahasan</string>
+    <string name="flexible">Flexible</string>
+    <string name="saved_to">Na-save sa folder na %1$s</string>
+    <string name="pick_image_alt">Pumili ng Larawan</string>
+    <string name="stay">Manatili</string>
+    <string name="app_closing">Pag-alis sa app</string>
+    <string name="close">Umalis</string>
+    <string name="reset_image">I-reset ang larawan</string>
+    <string name="reset_image_sub">Ibabalik sa default na value ang mga pagbabago sa larawan</string>
+    <string name="values_reset">Matagumpay na na-reset ang mga value</string>
+    <string name="reset">I-reset</string>
+    <string name="something_went_wrong">Nagkaproblema</string>
+    <string name="restart_app">I-restart ang app</string>
+    <string name="copied">Nakopya sa clipboard</string>
+    <string name="exception">Pagbubukod</string>
+    <string name="edit_exif">Baguhin ang EXIF</string>
+    <string name="ok">Sige</string>
+    <string name="add_tag">Magdagdag ng tag</string>
+    <string name="smth_went_wrong">Nagkaproblema: %1$s</string>
+    <string name="image_too_large_preview">Masyadong malaki ang larawan para maipasilip, pero susubukan pa rin itong i-save</string>
+    <string name="app_closing_sub">Sigurado ka bang gusto mong umalis sa app\?</string>
+    <string name="no_exif">Walang nakitang EXIF na datos</string>
+</resources>
