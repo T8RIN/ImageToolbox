@@ -1,12 +1,15 @@
 package ru.tech.imageresizershrinker.resize_screen.components
 
 import android.graphics.Bitmap
+import android.os.Parcelable
 import androidx.compose.runtime.Stable
+import kotlinx.parcelize.Parcelize
 import java.text.CharacterIterator
 import java.text.StringCharacterIterator
 import java.util.*
 
 @Stable
+@Parcelize
 data class BitmapInfo(
     val width: String = "",
     val height: String = "",
@@ -16,7 +19,7 @@ data class BitmapInfo(
     val rotation: Float = 0f,
     val isFlipped: Boolean = false,
     val size: Int = 0
-)
+) : Parcelable
 
 val Int.extension: String get() = if (this == 0) "jpg" else if (this == 1) "webp" else if (this == 2) "jpeg" else "png"
 

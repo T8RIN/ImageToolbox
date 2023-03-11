@@ -77,4 +77,5 @@
     <string name="by_bytes_resize">Resize by weight</string>
     <string name="max_bytes">Max size in KB</string>
     <string name="by_bytes_resize_sub">Resize an image following given size in KB</string>
+<!--    <string name="processing">Processing</string>-->
 </resources>

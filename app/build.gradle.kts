@@ -2,6 +2,8 @@ plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
     id("kotlin-parcelize")
+    id("kotlin-kapt")
+    id("com.google.dagger.hilt.android")
 }
 
 android {
@@ -60,8 +62,14 @@ dependencies {
     implementation(project(":dynamic_theme"))
     implementation(project(":colordetector"))
     implementation("dev.olshevski.navigation:reimagined:1.3.1")
-    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.6.0-rc01")
+    implementation("dev.olshevski.navigation:reimagined-hilt:1.3.1")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.6.0")
     implementation("nl.dionsegijn:konfetti-compose:2.0.2")
     implementation("androidx.datastore:datastore-preferences:1.1.0-alpha01")
     implementation("androidx.documentfile:documentfile:1.0.1")
+    implementation("com.google.dagger:hilt-android:2.45")
+    kapt("com.google.dagger:hilt-compiler:2.45")
+
+//    implementation("androidx.work:work-runtime-ktx:2.8.0")
+//    implementation("androidx.compose.runtime:runtime-livedata:1.3.3")
 }
