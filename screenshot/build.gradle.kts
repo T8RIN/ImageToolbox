@@ -4,7 +4,7 @@ plugins {
 }
 
 android {
-    namespace = "com.smarttoolfactory.colordetector"
+    namespace = "com.smarttoolfactory.screenshot"
     compileSdk = 33
 
     defaultConfig {
@@ -49,10 +49,6 @@ dependencies {
 
     implementation("androidx.core:core-ktx:1.9.0")
     implementation("androidx.palette:palette:1.0.0")
-
-    implementation(project(":gesture"))
-    implementation(project(":screenshot"))
-    implementation(project(":image"))
 
     // Jetpack Compose
     implementation("androidx.compose.ui:ui:1.3.3")

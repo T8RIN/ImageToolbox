@@ -17,6 +17,8 @@
             <option value="$PROJECT_DIR$/cropper" />
             <option value="$PROJECT_DIR$/dynamic_theme" />
             <option value="$PROJECT_DIR$/gesture" />
+            <option value="$PROJECT_DIR$/image" />
+            <option value="$PROJECT_DIR$/screenshot" />
           </set>
         </option>
       </GradleProjectSettings>
