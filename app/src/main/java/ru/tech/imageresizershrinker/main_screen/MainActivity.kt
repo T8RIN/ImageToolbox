@@ -169,7 +169,7 @@ class MainActivity : ComponentActivity() {
                                     pushNewUri = viewModel::updateUri
                                 )
                             }
-                            Screen.ResizeByBytes -> {
+                            is Screen.ResizeByBytes -> {
                                 BytesResizeScreen(
                                     uriState = viewModel.uris,
                                     navController = viewModel.navController,
@@ -187,6 +187,9 @@ class MainActivity : ComponentActivity() {
                                         default = stringResource(R.string.default_folder)
                                     )
                                 )
+                            }
+                            is Screen.Compare -> {
+
                             }
                         }
                     }

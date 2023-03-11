@@ -12,4 +12,5 @@ sealed class Screen : Parcelable {
     object GeneratePalette : Screen()
     object Crop : Screen()
     object ResizeByBytes : Screen()
+    object Compare : Screen()
 }

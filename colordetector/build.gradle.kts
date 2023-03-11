@@ -50,7 +50,7 @@ dependencies {
     implementation("androidx.core:core-ktx:1.9.0")
     implementation("androidx.palette:palette:1.0.0")
 
-    implementation("com.github.SmartToolFactory:Compose-Extended-Gestures:2.1.0")
+    implementation(project(":gesture"))
     implementation("com.github.SmartToolFactory:Compose-Screenshot:1.0.3")
     implementation("com.github.SmartToolFactory:Compose-Extended-Colors:1.0.0-alpha07")
     implementation("com.github.SmartToolFactory:Compose-Image:1.2.2")
@@ -60,5 +60,5 @@ dependencies {
     implementation("androidx.compose.ui:ui-tooling:1.3.3")
     implementation("androidx.compose.runtime:runtime:1.3.3")
     implementation("androidx.compose.material:material:1.3.1")
-    implementation("androidx.compose.material3:material3:1.1.0-alpha07")
+    implementation("androidx.compose.material3:material3:1.1.0-alpha08")
 }
