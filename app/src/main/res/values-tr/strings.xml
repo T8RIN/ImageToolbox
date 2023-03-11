@@ -1,2 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<resources>
+    <string name="size">Boyut %1$s</string>
+    <string name="pick_image">Başlamak için bir resim seçin</string>
+    <string name="height">Yükseklik %1$s</string>
+    <string name="loading">Yükleniyor…</string>
+    <string name="image_too_large_preview">Görüntü önizleme için çok büyük, ancak yine de kaydedilmeye çalışılacak</string>
+    <string name="smth_went_wrong">Bir şeyler ters gitti: %1$s</string>
+    <string name="quality">Kalite</string>
+    <string name="width">Genişlik %1$s</string>
+</resources>
