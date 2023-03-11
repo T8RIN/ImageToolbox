@@ -41,6 +41,7 @@
 - Additional Features
   - Rotating
   - Flipping
+  - Comparing images
 
 # Download
 Go to the [Releases](https://github.com/t8rin/imageresizer/releases/latest) and download latest apk.
