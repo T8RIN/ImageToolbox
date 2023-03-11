@@ -224,7 +224,12 @@ fun Context.SingleResizeScreen(
 
     val buttons = @Composable {
         if (viewModel.bitmap == null) {
-            FloatingActionButton(onClick = pickImage, modifier = Modifier.padding(16.dp)) {
+            FloatingActionButton(
+                onClick = pickImage,
+                modifier = Modifier
+                    .padding(16.dp)
+                    .navigationBarsPadding()
+            ) {
                 val expanded =
                     state.isScrollingUp() && (imageInside || viewModel.bitmap == null)
                 val horizontalPadding by animateDpAsState(targetValue = if (expanded) 16.dp else 0.dp)
