@@ -4,7 +4,7 @@ plugins {
 }
 
 android {
-    namespace = "com.smarttoolfactory.cropper"
+    namespace = "com.smarttoolfactory.beforeafter"
     compileSdk = 33
 
     defaultConfig {

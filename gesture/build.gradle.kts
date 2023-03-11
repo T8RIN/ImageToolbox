@@ -4,7 +4,7 @@ plugins {
 }
 
 android {
-    namespace = "com.smarttoolfactory.cropper"
+    namespace = "com.smarttoolfactory.gesture"
     compileSdk = 33
 
     defaultConfig {
@@ -47,8 +47,6 @@ android {
 
 dependencies {
     implementation("androidx.core:core-ktx:1.9.0")
-
-    implementation(project(":gesture"))
 
     // Jetpack Compose
     implementation("androidx.compose.ui:ui:1.3.3")
