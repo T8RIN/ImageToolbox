@@ -3,8 +3,8 @@ package com.smarttoolfactory.colordetector
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.Stable
 import androidx.compose.ui.graphics.Color
-import com.smarttoolfactory.extendedcolors.util.ColorUtil
-import com.smarttoolfactory.extendedcolors.util.fractionToIntPercent
+import com.smarttoolfactory.colordetector.util.ColorUtil
+import com.smarttoolfactory.colordetector.util.ColorUtil.fractionToIntPercent
 import kotlin.math.roundToInt
 
 @Immutable
