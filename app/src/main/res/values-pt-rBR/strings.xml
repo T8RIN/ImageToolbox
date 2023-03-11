@@ -2,7 +2,7 @@
 <resources>
     <string name="image">Imagem</string>
     <string name="original">Original</string>
-    <string name="palette">Paleta</string>
+    <string name="palette">Paleta de cores</string>
     <string name="cancel">Cancelar</string>
     <string name="clear_exif_sub">Todos os dados EXIF da imagem serão apagados, esta ação não pode ser desfeita!</string>
     <string name="quality">Qualidade</string>
@@ -36,18 +36,18 @@
     <string name="resize_single_image">Alterar especificações de uma determinada imagem</string>
     <string name="pick_color_sub">Escolha a cor da imagem, copie ou compartilhe</string>
     <string name="version">Versão</string>
-    <string name="resize_batch_image">Alterar especificações de determinados lotes de imagens</string>
+    <string name="resize_batch_image">Alterar especificações de várias imagens ao mesmo tempo</string>
     <string name="keep_exif">Manter EXIF</string>
     <string name="images">Imagens: %d</string>
     <string name="remove">Remover</string>
-    <string name="generate_palette">Gerar paleta</string>
-    <string name="palette_sub">Gerar amostra de paleta de cores de uma imagem</string>
+    <string name="generate_palette">Gerar paleta de cores</string>
+    <string name="palette_sub">Gerar uma paleta de cores a partir de uma imagem</string>
     <string name="def">Padrão</string>
     <string name="unsupported_type">Tipo não suportado: %1$s</string>
     <string name="folder">Pasta de saída</string>
     <string name="unspecified">Não especificado</string>
     <string name="device_storage">Dispositivo de armazenamento</string>
-    <string name="by_bytes_resize">Redimensionar pelo tamanho</string>
+    <string name="by_bytes_resize">Redimensionar tamanho</string>
     <string name="max_bytes">Tamanho máximo em KB</string>
     <string name="by_bytes_resize_sub">Redimensione uma imagem de acordo com o tamanho especificado em KB</string>
     <string name="new_version">Nova versão %1$s</string>
@@ -68,10 +68,14 @@
     <string name="pick_color">Escolher cor</string>
     <string name="crop_sub">Corte a imagem em qualquer limite</string>
     <string name="single_resize">Redimensionar</string>
-    <string name="batch_resize">Redimensionamento em lote</string>
+    <string name="batch_resize">Redimensionar várias</string>
     <string name="change_preview">Alterar visualização</string>
     <string name="update">Atualização</string>
-    <string name="no_palette">Não foi possível gerar paleta para essa imagem</string>
+    <string name="no_palette">Não foi possível gerar uma paleta para essa imagem</string>
     <string name="custom">Definir local</string>
     <string name="saved_to">Salvo na pasta %1$s</string>
+    <string name="compare">Comparar</string>
+    <string name="compare_sub">Comparar duas imagens</string>
+    <string name="pick_two_images">Escolha duas imagens para começar</string>
+    <string name="pick_images">Escolher imagens</string>
 </resources>
