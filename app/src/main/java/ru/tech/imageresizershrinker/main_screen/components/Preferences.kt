@@ -13,6 +13,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import ru.tech.imageresizershrinker.R
@@ -61,7 +62,6 @@ fun SingleResizePreference(
         modifier = modifier
     )
 }
-
 
 @Composable
 fun BytesResizePreference(
@@ -154,6 +154,24 @@ fun PickColorPreference(
     )
 }
 
+@Composable
+fun ComparePreference(
+    onClick: () -> Unit,
+    color: Color = MaterialTheme.colorScheme.surfaceColorAtElevation(1.dp),
+    modifier: Modifier = Modifier
+        .fillMaxWidth()
+        .padding(horizontal = 8.dp)
+) {
+    PreferenceItem(
+        onClick = onClick,
+        icon = Icons.Rounded.Compare,
+        title = stringResource(R.string.compare),
+        subtitle = stringResource(R.string.compare_sub),
+        color = color,
+        modifier = modifier
+    )
+}
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun PreferenceItem(
@@ -172,37 +190,39 @@ fun PreferenceItem(
             backgroundColor = MaterialTheme.colorScheme.surfaceVariant
         ) else contentColorFor(backgroundColor = color)
 
-    Card(
-        modifier = modifier,
-        onClick = onClick,
-        colors = CardDefaults.cardColors(
-            containerColor = color,
-            contentColor = contentColor
-        )
-    ) {
-        Row(Modifier.padding(16.dp)) {
-            icon?.let {
-                Icon(imageVector = icon, contentDescription = null)
-                Spacer(modifier = Modifier.width(16.dp))
-            }
-            Column(Modifier.weight(1f)) {
-                Text(
-                    text = title,
-                    fontSize = 16.sp,
-                    fontWeight = FontWeight.Medium
-                )
-                Spacer(modifier = Modifier.height(2.dp))
-                Text(
-                    text = subtitle,
-                    fontSize = 12.sp,
-                    fontWeight = FontWeight.Normal,
-                    lineHeight = 14.sp,
-                    color = LocalContentColor.current.copy(alpha = 0.5f)
-                )
-            }
-            endIcon?.let {
-                Spacer(modifier = Modifier.width(16.dp))
-                Icon(imageVector = endIcon, contentDescription = null)
+    ProvideTextStyle(value = LocalTextStyle.current.copy(textAlign = TextAlign.Start)) {
+        Card(
+            modifier = modifier,
+            onClick = onClick,
+            colors = CardDefaults.cardColors(
+                containerColor = color,
+                contentColor = contentColor
+            )
+        ) {
+            Row(Modifier.padding(16.dp)) {
+                icon?.let {
+                    Icon(imageVector = icon, contentDescription = null)
+                    Spacer(modifier = Modifier.width(16.dp))
+                }
+                Column(Modifier.weight(1f)) {
+                    Text(
+                        text = title,
+                        fontSize = 16.sp,
+                        fontWeight = FontWeight.Medium
+                    )
+                    Spacer(modifier = Modifier.height(2.dp))
+                    Text(
+                        text = subtitle,
+                        fontSize = 12.sp,
+                        fontWeight = FontWeight.Normal,
+                        lineHeight = 14.sp,
+                        color = LocalContentColor.current.copy(alpha = 0.5f)
+                    )
+                }
+                endIcon?.let {
+                    Spacer(modifier = Modifier.width(16.dp))
+                    Icon(imageVector = endIcon, contentDescription = null)
+                }
             }
         }
     }

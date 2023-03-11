@@ -211,6 +211,13 @@ fun MainScreen(
                     }
                 )
                 Spacer(modifier = Modifier.height(8.dp))
+                ComparePreference(
+                    onClick = {
+                        navController.popUpTo { it == Screen.Main }
+                        navController.navigate(Screen.Compare)
+                    }
+                )
+                Spacer(modifier = Modifier.height(8.dp))
             } else {
                 Spacer(modifier = Modifier.height(8.dp))
                 Row(
@@ -371,6 +378,17 @@ fun MainScreen(
                         }
                     )
                 }
+                Spacer(modifier = Modifier.height(8.dp))
+                ComparePreference(
+                    onClick = {
+                        navController.popUpTo { it == Screen.Main }
+                        navController.navigate(Screen.Compare)
+                    },
+                    modifier = Modifier
+                        .padding(horizontal = 8.dp)
+                        .widthIn(max = 350.dp)
+                        .fillMaxWidth()
+                )
                 Spacer(modifier = Modifier.height(8.dp))
             }
         }

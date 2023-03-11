@@ -140,11 +140,11 @@ internal fun BeforeAfterImageImpl(
 
         // Sales and interpolates from offset from dragging to user value in valueRange
         fun scaleToUserValue(offset: Float) =
-            scale(0f, boxWidth, offset, 0f, 100f)
+            scale(0f, imageWidth, offset, 0f, 100f)
 
         // Scales user value using valueRange to position on x axis on screen
         fun scaleToOffset(userValue: Float) =
-            scale(0f, 100f, userValue, 0f, boxWidth)
+            scale(0f, 100f, userValue, 0f, imageWidth)
 
         var rawOffset by remember {
             mutableStateOf(
@@ -187,11 +187,14 @@ internal fun BeforeAfterImageImpl(
                         ((rawOffset.x - xPos) * (rawOffset.x - xPos) < 5000)
                 },
                 onMove = {
-                    if (isHandleTouched) {
+                    if (rawOffset.x <= imageWidth) {
                         rawOffset = it.position
                         onProgressChange?.invoke(
                             scaleToUserValue(rawOffset.x)
                         )
+                        it.consume()
+                    } else {
+                        rawOffset = it.position
                         it.consume()
                     }
                 },

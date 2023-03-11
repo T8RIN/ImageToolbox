@@ -52,7 +52,6 @@ dependencies {
 
     implementation(project(":gesture"))
     implementation("com.github.SmartToolFactory:Compose-Screenshot:1.0.3")
-    implementation("com.github.SmartToolFactory:Compose-Extended-Colors:1.0.0-alpha07")
     implementation("com.github.SmartToolFactory:Compose-Image:1.2.2")
 
     // Jetpack Compose

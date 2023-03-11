@@ -28,6 +28,7 @@ import dev.olshevski.navigation.reimagined.*
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.batch_resize.BatchResizeScreen
 import ru.tech.imageresizershrinker.bytes_resize_screen.BytesResizeScreen
+import ru.tech.imageresizershrinker.compare_screen.CompareScreen
 import ru.tech.imageresizershrinker.crash_screen.CrashActivity
 import ru.tech.imageresizershrinker.crash_screen.GlobalExceptionHandler
 import ru.tech.imageresizershrinker.crop_screen.CropScreen
@@ -189,7 +190,10 @@ class MainActivity : ComponentActivity() {
                                 )
                             }
                             is Screen.Compare -> {
-
+                                CompareScreen(
+                                    navController = viewModel.navController,
+                                    onGoBack = { viewModel.updateUris(null) },
+                                )
                             }
                         }
                     }

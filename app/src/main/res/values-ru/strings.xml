@@ -74,4 +74,8 @@
     <string name="by_bytes_resize">Сжатие по весу</string>
     <string name="max_bytes">Максимальный вес в КБ</string>
     <string name="by_bytes_resize_sub">Сожмите изображение, чтобы оно занимало не более заданного количества КБ</string>
+    <string name="compare">Сравнить</string>
+    <string name="compare_sub">Сравните два заданных изображения</string>
+    <string name="pick_two_images">Выберите два изображения, чтобы начать</string>
+    <string name="pick_images">Выбрать изображения</string>
 </resources>

@@ -3,22 +3,20 @@ package com.smarttoolfactory.beforeafter
 import androidx.annotation.DrawableRes
 import androidx.annotation.FloatRange
 import androidx.compose.foundation.Canvas
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.platform.LocalDensity
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.Dp
-import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 
 /**
@@ -67,7 +65,7 @@ internal fun DefaultOverlay(
         val verticalOffset = imageHeightInPx / 2
 
         linePosition = thumbPosX.coerceIn(0f, imageWidthInPx)
-        thumbPosX -= horizontalOffset
+        thumbPosX = linePosition - horizontalOffset
 
         thumbPosY = if (verticalThumbMove) {
             (thumbPosY - verticalOffset)
@@ -94,19 +92,19 @@ internal fun DefaultOverlay(
             )
         }
 
-        Icon(
-            painter = painterResource(id = thumbResource),
-            contentDescription = null,
-            tint = thumbTintColor,
-            modifier = Modifier
-                .offset {
-                    IntOffset(thumbPosX.toInt(), thumbPosY.toInt())
-                }
-                .shadow(thumbElevation, thumbShape)
-                .background(thumbBackgroundColor)
-                .size(thumbSize)
-                .padding(4.dp)
-        )
+//        Icon(
+//            painter = painterResource(id = thumbResource),
+//            contentDescription = null,
+//            tint = thumbTintColor,
+//            modifier = Modifier
+//                .offset {
+//                    IntOffset(thumbPosX.toInt(), thumbPosY.toInt())
+//                }
+//                .shadow(thumbElevation, thumbShape)
+//                .background(thumbBackgroundColor)
+//                .size(thumbSize)
+//                .padding(4.dp)
+//        )
     }
 }
 

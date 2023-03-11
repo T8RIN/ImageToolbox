@@ -14,8 +14,8 @@ android {
         applicationId = "ru.tech.imageresizershrinker"
         minSdk = 21
         targetSdk = 33
-        versionCode = 31
-        versionName = "1.8.4"
+        versionCode = 32
+        versionName = "1.8.5"
     }
 
     buildTypes {
@@ -69,6 +69,8 @@ dependencies {
     implementation("androidx.documentfile:documentfile:1.0.1")
     implementation("com.google.dagger:hilt-android:2.45")
     kapt("com.google.dagger:hilt-compiler:2.45")
+
+    implementation(project(":beforeafter"))
 
 //    implementation("androidx.work:work-runtime-ktx:2.8.0")
 //    implementation("androidx.compose.runtime:runtime-livedata:1.3.3")

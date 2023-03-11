@@ -20,7 +20,11 @@ import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.main_screen.components.block
 
 @Composable
-fun ImageNotPickedWidget(modifier: Modifier = Modifier, onPickImage: () -> Unit) {
+fun ImageNotPickedWidget(
+    modifier: Modifier = Modifier,
+    onPickImage: () -> Unit,
+    text: String = stringResource(R.string.pick_image),
+) {
     Column(
         modifier = modifier.block(),
         verticalArrangement = Arrangement.Center,
@@ -46,7 +50,7 @@ fun ImageNotPickedWidget(modifier: Modifier = Modifier, onPickImage: () -> Unit)
             )
         }
         Text(
-            stringResource(R.string.pick_image),
+            text,
             Modifier.padding(16.dp),
             textAlign = TextAlign.Center,
             color = MaterialTheme.colorScheme.onSurfaceVariant
