@@ -16,8 +16,8 @@ import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.asAndroidBitmap
 import androidx.compose.ui.unit.dp
 import androidx.palette.graphics.Palette
-import com.smarttoolfactory.extendedcolors.util.ColorUtil
-import com.smarttoolfactory.extendedcolors.util.fractionToIntPercent
+import com.smarttoolfactory.colordetector.util.ColorUtil
+import com.smarttoolfactory.colordetector.util.ColorUtil.fractionToIntPercent
 
 /**
  * Composable that creates color lists [Palette.Swatch] using **Palette API**
