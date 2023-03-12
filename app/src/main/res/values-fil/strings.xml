@@ -74,4 +74,8 @@
     <string name="by_bytes_resize">I-resize ayon sa bigat</string>
     <string name="max_bytes">Pinakamabigat sa KB</string>
     <string name="by_bytes_resize_sub">Mag-resize ng larawan ayon sa ibinigay na bigat sa KB</string>
+    <string name="compare">Magkumpara</string>
+    <string name="pick_images">Pumili ng mga larawan</string>
+    <string name="compare_sub">Magkumpara ng dalawang larawan</string>
+    <string name="pick_two_images">Pumili ng dalawang larawan para magsimula</string>
 </resources>

@@ -74,4 +74,8 @@
     <string name="by_bytes_resize">Resize by weight</string>
     <string name="max_bytes">Max size in KB</string>
     <string name="by_bytes_resize_sub">Resize an image following given size in KB</string>
+    <string name="compare">Comparer</string>
+    <string name="compare_sub">Comparer deux images données</string>
+    <string name="pick_two_images">Choisissez deux images pour commencer</string>
+    <string name="pick_images">Choisir des images</string>
 </resources>
