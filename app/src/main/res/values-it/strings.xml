@@ -74,4 +74,8 @@
     <string name="by_bytes_resize">Riduci grandezza</string>
     <string name="max_bytes">Dimensione massima in KB</string>
     <string name="by_bytes_resize_sub">Ridimensiona un\'immagine in base alla grandezza specificata in KB.</string>
+    <string name="compare">Confrontare</string>
+    <string name="compare_sub">Confronto tra due immagini date</string>
+    <string name="pick_images">Scegli un\'immagine</string>
+    <string name="pick_two_images">Scegli un\'immagine per iniziare</string>
 </resources>
