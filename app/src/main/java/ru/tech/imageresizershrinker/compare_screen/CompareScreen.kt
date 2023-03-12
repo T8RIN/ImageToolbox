@@ -1,7 +1,6 @@
 package ru.tech.imageresizershrinker.compare_screen
 
 import android.net.Uri
-import android.util.Log
 import androidx.activity.compose.BackHandler
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.PickVisualMediaRequest
@@ -187,7 +186,6 @@ fun CompareScreen(
                             progress = animateFloatAsState(targetValue = progress).value,
                             onProgressChange = {
                                 progress = it
-                                Log.d("COCk", it.toString())
                             },
                             beforeImage = before,
                             afterImage = after,
@@ -253,7 +251,6 @@ fun CompareScreen(
                         value = animateFloatAsState(targetValue = progress).value,
                         onValueChange = {
                             progress = it
-                            Log.d("COCk", it.toString())
                         },
                         valueRange = 0f..100f,
                     )
