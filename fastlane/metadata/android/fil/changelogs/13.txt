@@ -1,0 +1,3 @@
+* Mga update sa `strings.xml` ni @Ilithy sa #11
+* Bagong disenyo
+* Pagsasaayos sa mga bug
