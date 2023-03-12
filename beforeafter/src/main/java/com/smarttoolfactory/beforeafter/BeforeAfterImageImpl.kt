@@ -187,14 +187,11 @@ internal fun BeforeAfterImageImpl(
                         ((rawOffset.x - xPos) * (rawOffset.x - xPos) < 5000)
                 },
                 onMove = {
-                    if (rawOffset.x <= imageWidth) {
+                    if (rawOffset.x <= imageWidth && isHandleTouched) {
                         rawOffset = it.position
                         onProgressChange?.invoke(
                             scaleToUserValue(rawOffset.x)
                         )
-                        it.consume()
-                    } else {
-                        rawOffset = it.position
                         it.consume()
                     }
                 },
