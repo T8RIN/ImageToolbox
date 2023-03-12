@@ -1,5 +1,6 @@
 package ru.tech.imageresizershrinker.compare_screen
 
+import android.net.Uri
 import android.util.Log
 import androidx.activity.compose.BackHandler
 import androidx.activity.compose.rememberLauncherForActivityResult
@@ -52,6 +53,8 @@ import ru.tech.imageresizershrinker.widget.Marquee
 @OptIn(ExperimentalAnimationApi::class, ExperimentalMaterial3Api::class)
 @Composable
 fun CompareScreen(
+    comparableUris: Pair<Uri, Uri>?,
+    pushNewUris: (List<Uri>?) -> Unit,
     navController: NavController<Screen>,
     onGoBack: () -> Unit,
     viewModel: CompareViewModel = viewModel()
@@ -64,6 +67,26 @@ fun CompareScreen(
     LaunchedEffect(viewModel.bitmapData) {
         viewModel.bitmapData?.first?.let {
             themeState.updateColorByImage(it)
+        }
+    }
+    LaunchedEffect(comparableUris) {
+        comparableUris?.let { (before, after) ->
+            pushNewUris(null)
+            val newBeforeBitmap = context.getBitmapByUri(before)
+            val newAfterBitmap = context.getBitmapByUri(after)
+            if (newAfterBitmap != null && newBeforeBitmap != null) {
+                viewModel.updateBitmapData(
+                    newBeforeBitmap = newBeforeBitmap,
+                    newAfterBitmap = newAfterBitmap
+                )
+            } else {
+                scope.launch {
+                    toastHostState.showToast(
+                        context.getString(R.string.something_went_wrong),
+                        Icons.Rounded.ErrorOutline
+                    )
+                }
+            }
         }
     }
 

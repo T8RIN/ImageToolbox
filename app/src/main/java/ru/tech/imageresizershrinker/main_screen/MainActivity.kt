@@ -191,6 +191,9 @@ class MainActivity : ComponentActivity() {
                             }
                             is Screen.Compare -> {
                                 CompareScreen(
+                                    comparableUris = viewModel.uris?.takeIf { it.size == 2 }
+                                        ?.let { it[0] to it[1] },
+                                    pushNewUris = viewModel::updateUris,
                                     navController = viewModel.navController,
                                     onGoBack = { viewModel.updateUris(null) },
                                 )
@@ -306,6 +309,17 @@ class MainActivity : ComponentActivity() {
                                         },
                                         color = MaterialTheme.colorScheme.secondaryContainer
                                     )
+                                    if (viewModel.uris?.size == 2) {
+                                        Spacer(modifier = Modifier.height(8.dp))
+                                        ComparePreference(
+                                            onClick = {
+                                                viewModel.navController.popUpTo { it == Screen.Main }
+                                                viewModel.navController.navigate(Screen.Compare)
+                                                viewModel.hideSelectDialog()
+                                            },
+                                            color = MaterialTheme.colorScheme.secondaryContainer
+                                        )
+                                    }
                                 }
                             }
                         }
