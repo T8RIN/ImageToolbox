@@ -50,8 +50,7 @@ import ru.tech.imageresizershrinker.generate_palette.isScrollingUp
 import ru.tech.imageresizershrinker.main_screen.components.Screen
 import ru.tech.imageresizershrinker.resize_screen.components.ImageNotPickedWidget
 import ru.tech.imageresizershrinker.resize_screen.components.LoadingDialog
-import ru.tech.imageresizershrinker.resize_screen.components.ToastHost
-import ru.tech.imageresizershrinker.resize_screen.components.rememberToastHostState
+import ru.tech.imageresizershrinker.resize_screen.components.LocalToastHost
 import ru.tech.imageresizershrinker.utils.BitmapUtils.decodeBitmapFromUri
 import ru.tech.imageresizershrinker.utils.BitmapUtils.shareBitmap
 import ru.tech.imageresizershrinker.utils.ContextUtils.isExternalStorageWritable
@@ -68,10 +67,11 @@ fun CropScreen(
     pushNewUri: (Uri?) -> Unit,
     getSavingFolder: (name: String, ext: String) -> SavingFolder,
     savingPathString: String,
+    showConfetti: () -> Unit,
     viewModel: CropViewModel = viewModel()
 ) {
     val context = LocalContext.current as ComponentActivity
-    val toastHostState = rememberToastHostState()
+    val toastHostState = LocalToastHost.current
     val scope = rememberCoroutineScope()
     val themeState = LocalDynamicThemeState.current
 
@@ -157,6 +157,7 @@ fun CropScreen(
                 }
             }
             showSaveLoading = false
+            showConfetti()
         }
     }
 
@@ -417,7 +418,6 @@ fun CropScreen(
         )
     }
 
-    ToastHost(hostState = toastHostState)
     BackHandler {
         if (viewModel.bitmap != null) showExitDialog = true
         else if (navController.backstack.entries.isNotEmpty()) {

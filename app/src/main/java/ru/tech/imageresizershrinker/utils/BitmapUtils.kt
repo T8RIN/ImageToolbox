@@ -521,6 +521,7 @@ object BitmapUtils {
     }
 
     fun Bitmap.scaleByMaxBytes(maxBytes: Long): Pair<Bitmap, Int> {
+        val maxBytes = maxBytes - 1024 * 8
         if (this.size() > maxBytes) {
             var streamLength = maxBytes
             var compressQuality = 100

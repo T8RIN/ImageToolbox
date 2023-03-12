@@ -18,6 +18,7 @@ import androidx.compose.ui.platform.LocalAccessibilityManager
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.zIndex
 import kotlinx.coroutines.*
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
@@ -42,6 +43,7 @@ fun ToastHost(
     }
 
     AnimatedContent(
+        modifier = Modifier.zIndex(100f),
         targetState = currentToastData,
         transitionSpec = { ToastDefaults.transition }
     ) {
@@ -241,3 +243,5 @@ private fun Color.harmonizeWithPrimary(
 
 @Composable
 fun rememberToastHostState() = remember { ToastHostState() }
+
+val LocalToastHost = compositionLocalOf { ToastHostState() }

@@ -42,8 +42,7 @@ import ru.tech.imageresizershrinker.main_screen.components.Screen
 import ru.tech.imageresizershrinker.main_screen.components.block
 import ru.tech.imageresizershrinker.resize_screen.components.ImageNotPickedWidget
 import ru.tech.imageresizershrinker.resize_screen.components.LoadingDialog
-import ru.tech.imageresizershrinker.resize_screen.components.ToastHost
-import ru.tech.imageresizershrinker.resize_screen.components.rememberToastHostState
+import ru.tech.imageresizershrinker.resize_screen.components.LocalToastHost
 import ru.tech.imageresizershrinker.utils.BitmapUtils.getBitmapByUri
 import ru.tech.imageresizershrinker.widget.Marquee
 
@@ -57,7 +56,7 @@ fun CompareScreen(
     viewModel: CompareViewModel = viewModel()
 ) {
     val context = LocalContext.current
-    val toastHostState = rememberToastHostState()
+    val toastHostState = LocalToastHost.current
     val scope = rememberCoroutineScope()
     val themeState = LocalDynamicThemeState.current
 
@@ -289,7 +288,6 @@ fun CompareScreen(
 
     if (viewModel.isLoading) LoadingDialog()
 
-    ToastHost(hostState = toastHostState)
     BackHandler {
         if (navController.backstack.entries.isNotEmpty()) navController.pop()
         onGoBack()

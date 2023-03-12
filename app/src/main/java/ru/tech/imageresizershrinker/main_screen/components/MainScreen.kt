@@ -38,10 +38,7 @@ import dev.olshevski.navigation.reimagined.NavController
 import dev.olshevski.navigation.reimagined.navigate
 import dev.olshevski.navigation.reimagined.popUpTo
 import kotlinx.coroutines.delay
-import nl.dionsegijn.konfetti.compose.KonfettiView
-import nl.dionsegijn.konfetti.compose.OnParticleSystemUpdateListener
 import nl.dionsegijn.konfetti.core.*
-import nl.dionsegijn.konfetti.core.emitter.Emitter
 import ru.tech.imageresizershrinker.BuildConfig
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.resize_screen.components.blend
@@ -51,14 +48,14 @@ import ru.tech.imageresizershrinker.theme.Sparkles
 import ru.tech.imageresizershrinker.utils.LocalWindowSizeClass
 import ru.tech.imageresizershrinker.utils.toUiPath
 import java.lang.Integer.max
-import java.util.concurrent.TimeUnit
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MainScreen(
     navController: NavController<Screen>,
     currentFolderUri: Uri?,
-    onGetNewFolder: (Uri?) -> Unit
+    onGetNewFolder: (Uri?) -> Unit,
+    showConfetti: () -> Unit
 ) {
     val scrollBehavior =
         TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
@@ -66,7 +63,6 @@ fun MainScreen(
     val colorScheme = MaterialTheme.colorScheme
     val themeState = LocalDynamicThemeState.current
 
-    var showConfetti by remember { mutableStateOf(false) }
     var showSelectFolderDialog by rememberSaveable { mutableStateOf(false) }
 
     val colors = remember(colorScheme) {
@@ -109,7 +105,7 @@ fun MainScreen(
                                         scaleState = 1.3f
                                         delay(200)
                                         tryAwaitRelease()
-                                        showConfetti = true
+                                        showConfetti()
                                         themeState.updateColor(colors.random())
                                         scaleState = 0.8f
                                         delay(200)
@@ -434,19 +430,6 @@ fun MainScreen(
         )
     }
 
-    if (showConfetti) {
-        val primary = MaterialTheme.colorScheme.primary
-        KonfettiView(
-            modifier = Modifier.fillMaxSize(),
-            parties = remember { particles(primary) },
-            updateListener = object : OnParticleSystemUpdateListener {
-                override fun onParticleSystemEnded(system: PartySystem, activeSystems: Int) {
-                    if (activeSystems == 0) showConfetti = false
-                }
-            }
-        )
-    }
-
     if (showSelectFolderDialog) {
         val launcher = rememberLauncherForActivityResult(
             contract = object : ActivityResultContracts.OpenDocumentTree() {
@@ -529,44 +512,4 @@ fun MainScreen(
             }
         )
     }
-
 }
-
-private fun particles(primary: Color) = listOf(
-    Party(
-        speed = 0f,
-        maxSpeed = 15f,
-        damping = 0.9f,
-        angle = Angle.BOTTOM,
-        spread = Spread.ROUND,
-        colors = listOf(0xfce18a, 0xff726d, 0xf4306d, 0xb48def).map {
-            it.blend(primary)
-        },
-        emitter = Emitter(duration = 2, TimeUnit.SECONDS).perSecond(100),
-        position = Position.Relative(0.0, 0.0).between(Position.Relative(1.0, 0.0))
-    ),
-    Party(
-        speed = 10f,
-        maxSpeed = 30f,
-        damping = 0.9f,
-        angle = Angle.RIGHT - 45,
-        spread = 60,
-        colors = listOf(0xfce18a, 0xff726d, 0xf4306d, 0xb48def).map {
-            it.blend(primary)
-        },
-        emitter = Emitter(duration = 2, TimeUnit.SECONDS).perSecond(100),
-        position = Position.Relative(0.0, 1.0)
-    ),
-    Party(
-        speed = 10f,
-        maxSpeed = 30f,
-        damping = 0.9f,
-        angle = Angle.RIGHT - 135,
-        spread = 60,
-        colors = listOf(0xfce18a, 0xff726d, 0xf4306d, 0xb48def).map {
-            it.blend(primary)
-        },
-        emitter = Emitter(duration = 2, TimeUnit.SECONDS).perSecond(100),
-        position = Position.Relative(1.0, 1.0)
-    )
-)
