@@ -1,6 +1,6 @@
 package ru.tech.imageresizershrinker.compare_screen
 
-import android.util.Log
+import android.net.Uri
 import androidx.activity.compose.BackHandler
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.PickVisualMediaRequest
@@ -26,7 +26,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.input.nestedscroll.nestedScroll
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -34,7 +33,6 @@ import androidx.compose.ui.zIndex
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.cookhelper.dynamic.theme.LocalDynamicThemeState
 import com.smarttoolfactory.beforeafter.BeforeAfterImage
-import com.smarttoolfactory.beforeafter.OverlayStyle
 import dev.olshevski.navigation.reimagined.NavController
 import dev.olshevski.navigation.reimagined.pop
 import kotlinx.coroutines.launch
@@ -44,26 +42,50 @@ import ru.tech.imageresizershrinker.main_screen.components.Screen
 import ru.tech.imageresizershrinker.main_screen.components.block
 import ru.tech.imageresizershrinker.resize_screen.components.ImageNotPickedWidget
 import ru.tech.imageresizershrinker.resize_screen.components.LoadingDialog
-import ru.tech.imageresizershrinker.resize_screen.components.ToastHost
-import ru.tech.imageresizershrinker.resize_screen.components.rememberToastHostState
+import ru.tech.imageresizershrinker.resize_screen.components.LocalToastHost
 import ru.tech.imageresizershrinker.utils.BitmapUtils.getBitmapByUri
 import ru.tech.imageresizershrinker.widget.Marquee
 
 @OptIn(ExperimentalAnimationApi::class, ExperimentalMaterial3Api::class)
 @Composable
 fun CompareScreen(
+    comparableUris: Pair<Uri, Uri>?,
+    pushNewUris: (List<Uri>?) -> Unit,
     navController: NavController<Screen>,
     onGoBack: () -> Unit,
     viewModel: CompareViewModel = viewModel()
 ) {
     val context = LocalContext.current
-    val toastHostState = rememberToastHostState()
+    val toastHostState = LocalToastHost.current
     val scope = rememberCoroutineScope()
     val themeState = LocalDynamicThemeState.current
+
+    var progress by rememberSaveable { mutableStateOf(50f) }
 
     LaunchedEffect(viewModel.bitmapData) {
         viewModel.bitmapData?.first?.let {
             themeState.updateColorByImage(it)
+        }
+    }
+    LaunchedEffect(comparableUris) {
+        comparableUris?.let { (before, after) ->
+            pushNewUris(null)
+            val newBeforeBitmap = context.getBitmapByUri(before)
+            val newAfterBitmap = context.getBitmapByUri(after)
+            if (newAfterBitmap != null && newBeforeBitmap != null) {
+                viewModel.updateBitmapData(
+                    newBeforeBitmap = newBeforeBitmap,
+                    newAfterBitmap = newAfterBitmap
+                )
+                progress = 50f
+            } else {
+                scope.launch {
+                    toastHostState.showToast(
+                        context.getString(R.string.something_went_wrong),
+                        Icons.Rounded.ErrorOutline
+                    )
+                }
+            }
         }
     }
 
@@ -87,6 +109,7 @@ fun CompareScreen(
                             newBeforeBitmap = newBeforeBitmap,
                             newAfterBitmap = newAfterBitmap
                         )
+                        progress = 50f
                     } else {
                         scope.launch {
                             toastHostState.showToast(
@@ -113,44 +136,71 @@ fun CompareScreen(
             .fillMaxSize()
             .nestedScroll(scrollBehavior.nestedScrollConnection)
     ) {
-        var progress by rememberSaveable { mutableStateOf(50f) }
-
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
-            LargeTopAppBar(
-                scrollBehavior = scrollBehavior,
-                navigationIcon = {
-                    IconButton(
-                        onClick = {
-                            if (navController.backstack.entries.isNotEmpty()) navController.pop()
-                            onGoBack()
-                            themeState.reset()
+            if (viewModel.bitmapData == null) {
+                LargeTopAppBar(
+                    scrollBehavior = scrollBehavior,
+                    navigationIcon = {
+                        IconButton(
+                            onClick = {
+                                if (navController.backstack.entries.isNotEmpty()) navController.pop()
+                                onGoBack()
+                                themeState.reset()
+                            }
+                        ) {
+                            Icon(Icons.Rounded.ArrowBack, null)
                         }
-                    ) {
-                        Icon(Icons.Rounded.ArrowBack, null)
-                    }
-                },
-                title = {
-                    Marquee(
-                        edgeColor = MaterialTheme.colorScheme.surfaceColorAtElevation(3.dp)
-                    ) {
-                        Text(stringResource(R.string.compare))
-                    }
-                },
-                colors = TopAppBarDefaults.mediumTopAppBarColors(
-                    containerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(3.dp)
-                ),
-                modifier = Modifier
-                    .shadow(6.dp)
-                    .zIndex(6f)
-            )
+                    },
+                    title = {
+                        Marquee(
+                            edgeColor = MaterialTheme.colorScheme.surfaceColorAtElevation(3.dp)
+                        ) {
+                            Text(stringResource(R.string.compare))
+                        }
+                    },
+                    colors = TopAppBarDefaults.mediumTopAppBarColors(
+                        containerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(3.dp)
+                    ),
+                    modifier = Modifier
+                        .shadow(6.dp)
+                        .zIndex(6f)
+                )
+            } else {
+                TopAppBar(
+                    scrollBehavior = scrollBehavior,
+                    navigationIcon = {
+                        IconButton(
+                            onClick = {
+                                if (navController.backstack.entries.isNotEmpty()) navController.pop()
+                                onGoBack()
+                                themeState.reset()
+                            }
+                        ) {
+                            Icon(Icons.Rounded.ArrowBack, null)
+                        }
+                    },
+                    title = {
+                        Marquee(
+                            edgeColor = MaterialTheme.colorScheme.surfaceColorAtElevation(3.dp)
+                        ) {
+                            Text(stringResource(R.string.compare))
+                        }
+                    },
+                    colors = TopAppBarDefaults.mediumTopAppBarColors(
+                        containerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(3.dp)
+                    ),
+                    modifier = Modifier
+                        .shadow(6.dp)
+                        .zIndex(6f)
+                )
+            }
             AnimatedContent(targetState = viewModel.bitmapData) { data ->
-                data?.let {
-                    val before = remember(data) { data.first?.asImageBitmap() }
-                    val after = remember(data) { data.second?.asImageBitmap() }
+                data?.let { (b, a) ->
+                    val before = remember(data) { b?.asImageBitmap() }
+                    val after = remember(data) { a?.asImageBitmap() }
 
                     if (before != null && after != null) {
                         BeforeAfterImage(
-                            contentScale = ContentScale.Fit,
                             modifier = Modifier
                                 .then(
                                     if (viewModel.bitmapData == null) Modifier.padding(bottom = 72.dp)
@@ -160,11 +210,9 @@ fun CompareScreen(
                                 .navigationBarsPadding()
                                 .block(RoundedCornerShape(4.dp))
                                 .padding(4.dp),
-                            overlayStyle = OverlayStyle(),
                             progress = animateFloatAsState(targetValue = progress).value,
                             onProgressChange = {
                                 progress = it
-                                Log.d("COCk", it.toString())
                             },
                             beforeImage = before,
                             afterImage = after,
@@ -230,9 +278,8 @@ fun CompareScreen(
                         value = animateFloatAsState(targetValue = progress).value,
                         onValueChange = {
                             progress = it
-                            Log.d("COCk", it.toString())
                         },
-                        valueRange = 0f..100f,
+                        valueRange = 0f..100f
                     )
                 }
             )
@@ -241,7 +288,6 @@ fun CompareScreen(
 
     if (viewModel.isLoading) LoadingDialog()
 
-    ToastHost(hostState = toastHostState)
     BackHandler {
         if (navController.backstack.entries.isNotEmpty()) navController.pop()
         onGoBack()

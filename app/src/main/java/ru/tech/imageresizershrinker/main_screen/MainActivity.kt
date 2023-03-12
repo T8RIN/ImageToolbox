@@ -25,6 +25,10 @@ import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.WindowCompat
 import dagger.hilt.android.AndroidEntryPoint
 import dev.olshevski.navigation.reimagined.*
+import nl.dionsegijn.konfetti.compose.KonfettiView
+import nl.dionsegijn.konfetti.compose.OnParticleSystemUpdateListener
+import nl.dionsegijn.konfetti.core.*
+import nl.dionsegijn.konfetti.core.emitter.Emitter
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.batch_resize.BatchResizeScreen
 import ru.tech.imageresizershrinker.bytes_resize_screen.BytesResizeScreen
@@ -45,6 +49,7 @@ import ru.tech.imageresizershrinker.utils.IntentUtils.parcelableArrayList
 import ru.tech.imageresizershrinker.utils.getSavingFolder
 import ru.tech.imageresizershrinker.utils.setContentWithWindowSizeClass
 import ru.tech.imageresizershrinker.utils.toUiPath
+import java.util.concurrent.TimeUnit
 
 @ExperimentalFoundationApi
 @ExperimentalMaterial3Api
@@ -66,292 +71,332 @@ class MainActivity : ComponentActivity() {
         parseImageFromIntent(intent)
 
         setContentWithWindowSizeClass {
+            var showConfetti by remember { mutableStateOf(false) }
             var showExitDialog by rememberSaveable { mutableStateOf(false) }
 
             val saveFolderUri = viewModel.saveFolderUri
 
             ImageResizerTheme {
-                BackHandler {
-                    if (viewModel.shouldShowDialog) showExitDialog = true
-                    else finishAffinity()
-                }
+                CompositionLocalProvider(
+                    LocalToastHost provides viewModel.toastHostState
+                ) {
+                    BackHandler {
+                        if (viewModel.shouldShowDialog) showExitDialog = true
+                        else finishAffinity()
+                    }
 
-                Surface(Modifier.fillMaxSize()) {
-                    AnimatedNavHost(
-                        controller = viewModel.navController,
-                        transitionSpec = { _, _, to ->
-                            if (to != Screen.Main) {
-                                slideInVertically() + fadeIn() with fadeOut()
-                            } else {
-                                fadeIn() with fadeOut() + slideOutVertically()
+                    Surface(Modifier.fillMaxSize()) {
+                        AnimatedNavHost(
+                            controller = viewModel.navController,
+                            transitionSpec = { _, _, to ->
+                                if (to != Screen.Main) {
+                                    slideInVertically() + fadeIn() with fadeOut()
+                                } else {
+                                    fadeIn() with fadeOut() + slideOutVertically()
+                                }
+                            }
+                        ) { screen ->
+                            when (screen) {
+                                is Screen.Main -> {
+                                    MainScreen(
+                                        navController = viewModel.navController,
+                                        currentFolderUri = saveFolderUri,
+                                        onGetNewFolder = {
+                                            viewModel.updateSaveFolderUri(it)
+                                        },
+                                        showConfetti = { showConfetti = true }
+                                    )
+                                }
+                                is Screen.SingleResize -> {
+                                    SingleResizeScreen(
+                                        uriState = viewModel.uris?.firstOrNull(),
+                                        navController = viewModel.navController,
+                                        onGoBack = { viewModel.updateUris(null) },
+                                        pushNewUri = viewModel::updateUri,
+                                        getSavingFolder = { name, ext ->
+                                            getSavingFolder(
+                                                treeUri = saveFolderUri,
+                                                filename = name,
+                                                extension = ext
+                                            )
+                                        },
+                                        savingPathString = saveFolderUri.toUiPath(
+                                            context = this@MainActivity,
+                                            default = stringResource(R.string.default_folder)
+                                        ),
+                                        showConfetti = { showConfetti = true }
+                                    )
+                                }
+                                is Screen.BatchResize -> {
+                                    BatchResizeScreen(
+                                        uriState = viewModel.uris,
+                                        navController = viewModel.navController,
+                                        onGoBack = { viewModel.updateUris(null) },
+                                        pushNewUris = viewModel::updateUris,
+                                        getSavingFolder = { name, ext ->
+                                            getSavingFolder(
+                                                treeUri = saveFolderUri,
+                                                filename = name,
+                                                extension = ext
+                                            )
+                                        },
+                                        savingPathString = saveFolderUri.toUiPath(
+                                            context = this@MainActivity,
+                                            default = stringResource(R.string.default_folder)
+                                        ),
+                                        showConfetti = { showConfetti = true }
+                                    )
+                                }
+                                is Screen.ResizeByBytes -> {
+                                    BytesResizeScreen(
+                                        uriState = viewModel.uris,
+                                        navController = viewModel.navController,
+                                        onGoBack = { viewModel.updateUris(null) },
+                                        pushNewUris = viewModel::updateUris,
+                                        getSavingFolder = { name, ext ->
+                                            getSavingFolder(
+                                                treeUri = saveFolderUri,
+                                                filename = name,
+                                                extension = ext
+                                            )
+                                        },
+                                        savingPathString = saveFolderUri.toUiPath(
+                                            context = this@MainActivity,
+                                            default = stringResource(R.string.default_folder)
+                                        ),
+                                        showConfetti = { showConfetti = true }
+                                    )
+                                }
+                                is Screen.Crop -> {
+                                    CropScreen(
+                                        uriState = viewModel.uris?.firstOrNull(),
+                                        navController = viewModel.navController,
+                                        onGoBack = { viewModel.updateUris(null) },
+                                        pushNewUri = viewModel::updateUri,
+                                        getSavingFolder = { name, ext ->
+                                            getSavingFolder(
+                                                treeUri = saveFolderUri,
+                                                filename = name,
+                                                extension = ext
+                                            )
+                                        },
+                                        savingPathString = saveFolderUri.toUiPath(
+                                            context = this@MainActivity,
+                                            default = stringResource(R.string.default_folder)
+                                        ),
+                                        showConfetti = { showConfetti = true }
+                                    )
+                                }
+                                is Screen.PickColorFromImage -> {
+                                    PickColorFromImageScreen(
+                                        uriState = viewModel.uris?.firstOrNull(),
+                                        navController = viewModel.navController,
+                                        onGoBack = { viewModel.updateUris(null) },
+                                        pushNewUri = viewModel::updateUri
+                                    )
+                                }
+                                is Screen.GeneratePalette -> {
+                                    GeneratePaletteScreen(
+                                        uriState = viewModel.uris?.firstOrNull(),
+                                        navController = viewModel.navController,
+                                        onGoBack = { viewModel.updateUris(null) },
+                                        pushNewUri = viewModel::updateUri
+                                    )
+                                }
+                                is Screen.Compare -> {
+                                    CompareScreen(
+                                        comparableUris = viewModel.uris?.takeIf { it.size == 2 }
+                                            ?.let { it[0] to it[1] },
+                                        pushNewUris = viewModel::updateUris,
+                                        navController = viewModel.navController,
+                                        onGoBack = { viewModel.updateUris(null) },
+                                    )
+                                }
                             }
                         }
-                    ) { screen ->
-                        when (screen) {
-                            is Screen.Main -> {
-                                MainScreen(
-                                    navController = viewModel.navController,
-                                    currentFolderUri = saveFolderUri,
-                                    onGetNewFolder = {
-                                        viewModel.updateSaveFolderUri(it)
+
+                        if (showConfetti) {
+                            val primary = MaterialTheme.colorScheme.primary
+                            KonfettiView(
+                                modifier = Modifier.fillMaxSize(),
+                                parties = remember { particles(primary) },
+                                updateListener = object : OnParticleSystemUpdateListener {
+                                    override fun onParticleSystemEnded(
+                                        system: PartySystem,
+                                        activeSystems: Int
+                                    ) {
+                                        if (activeSystems == 0) showConfetti = false
                                     }
-                                )
-                            }
-                            is Screen.SingleResize -> {
-                                SingleResizeScreen(
-                                    uriState = viewModel.uris?.firstOrNull(),
-                                    navController = viewModel.navController,
-                                    onGoBack = { viewModel.updateUris(null) },
-                                    pushNewUri = viewModel::updateUri,
-                                    getSavingFolder = { name, ext ->
-                                        getSavingFolder(
-                                            treeUri = saveFolderUri,
-                                            filename = name,
-                                            extension = ext
-                                        )
-                                    },
-                                    savingPathString = saveFolderUri.toUiPath(
-                                        context = this@MainActivity,
-                                        default = stringResource(R.string.default_folder)
-                                    )
-                                )
-                            }
-                            is Screen.PickColorFromImage -> {
-                                PickColorFromImageScreen(
-                                    uriState = viewModel.uris?.firstOrNull(),
-                                    navController = viewModel.navController,
-                                    onGoBack = { viewModel.updateUris(null) },
-                                    pushNewUri = viewModel::updateUri
-                                )
-                            }
-                            is Screen.Crop -> {
-                                CropScreen(
-                                    uriState = viewModel.uris?.firstOrNull(),
-                                    navController = viewModel.navController,
-                                    onGoBack = { viewModel.updateUris(null) },
-                                    pushNewUri = viewModel::updateUri,
-                                    getSavingFolder = { name, ext ->
-                                        getSavingFolder(
-                                            treeUri = saveFolderUri,
-                                            filename = name,
-                                            extension = ext
-                                        )
-                                    },
-                                    savingPathString = saveFolderUri.toUiPath(
-                                        context = this@MainActivity,
-                                        default = stringResource(R.string.default_folder)
-                                    )
-                                )
-                            }
-                            is Screen.BatchResize -> {
-                                BatchResizeScreen(
-                                    uriState = viewModel.uris,
-                                    navController = viewModel.navController,
-                                    onGoBack = { viewModel.updateUris(null) },
-                                    pushNewUris = viewModel::updateUris,
-                                    getSavingFolder = { name, ext ->
-                                        getSavingFolder(
-                                            treeUri = saveFolderUri,
-                                            filename = name,
-                                            extension = ext
-                                        )
-                                    },
-                                    savingPathString = saveFolderUri.toUiPath(
-                                        context = this@MainActivity,
-                                        default = stringResource(R.string.default_folder)
-                                    )
-                                )
-                            }
-                            is Screen.GeneratePalette -> {
-                                GeneratePaletteScreen(
-                                    uriState = viewModel.uris?.firstOrNull(),
-                                    navController = viewModel.navController,
-                                    onGoBack = { viewModel.updateUris(null) },
-                                    pushNewUri = viewModel::updateUri
-                                )
-                            }
-                            is Screen.ResizeByBytes -> {
-                                BytesResizeScreen(
-                                    uriState = viewModel.uris,
-                                    navController = viewModel.navController,
-                                    onGoBack = { viewModel.updateUris(null) },
-                                    pushNewUris = viewModel::updateUris,
-                                    getSavingFolder = { name, ext ->
-                                        getSavingFolder(
-                                            treeUri = saveFolderUri,
-                                            filename = name,
-                                            extension = ext
-                                        )
-                                    },
-                                    savingPathString = saveFolderUri.toUiPath(
-                                        context = this@MainActivity,
-                                        default = stringResource(R.string.default_folder)
-                                    )
-                                )
-                            }
-                            is Screen.Compare -> {
-                                CompareScreen(
-                                    navController = viewModel.navController,
-                                    onGoBack = { viewModel.updateUris(null) },
-                                )
-                            }
+                                }
+                            )
                         }
                     }
-                }
 
-                if (showExitDialog) {
-                    AlertDialog(
-                        onDismissRequest = { showExitDialog = false },
-                        dismissButton = {
-                            FilledTonalButton(
-                                onClick = {
-                                    finishAffinity()
+                    if (showExitDialog) {
+                        AlertDialog(
+                            onDismissRequest = { showExitDialog = false },
+                            dismissButton = {
+                                FilledTonalButton(
+                                    onClick = {
+                                        finishAffinity()
+                                    }
+                                ) {
+                                    Text(stringResource(R.string.close))
                                 }
-                            ) {
-                                Text(stringResource(R.string.close))
-                            }
-                        },
-                        confirmButton = {
-                            Button(onClick = { showExitDialog = false }) {
-                                Text(stringResource(R.string.stay))
-                            }
-                        },
-                        title = { Text(stringResource(R.string.app_closing)) },
-                        text = {
-                            Text(
-                                stringResource(R.string.app_closing_sub),
-                                textAlign = TextAlign.Center
-                            )
-                        },
-                        icon = { Icon(Icons.Outlined.DoorBack, null) }
-                    )
-                } else if (viewModel.showSelectDialog) {
-                    AlertDialog(
-                        onDismissRequest = {},
-                        title = { stringResource(R.string.image) },
-                        confirmButton = {
-                            TextButton(
-                                onClick = {
-                                    viewModel.hideSelectDialog()
-                                    viewModel.updateUris(null)
+                            },
+                            confirmButton = {
+                                Button(onClick = { showExitDialog = false }) {
+                                    Text(stringResource(R.string.stay))
                                 }
-                            ) {
-                                Text(stringResource(id = R.string.cancel))
-                            }
-                        },
-                        text = {
-                            if ((viewModel.uris?.size ?: 0) <= 1) {
-                                Column(Modifier.verticalScroll(rememberScrollState())) {
-                                    SingleResizePreference(
-                                        onClick = {
-                                            viewModel.navController.popUpTo { it == Screen.Main }
-                                            viewModel.navController.navigate(Screen.SingleResize)
-                                            viewModel.hideSelectDialog()
-                                        },
-                                        color = MaterialTheme.colorScheme.secondaryContainer
-                                    )
-                                    Spacer(modifier = Modifier.height(8.dp))
-                                    BytesResizePreference(
-                                        onClick = {
-                                            viewModel.navController.popUpTo { it == Screen.Main }
-                                            viewModel.navController.navigate(Screen.ResizeByBytes)
-                                            viewModel.hideSelectDialog()
-                                        },
-                                        color = MaterialTheme.colorScheme.secondaryContainer
-                                    )
-                                    Spacer(modifier = Modifier.height(8.dp))
-                                    CropPreference(
-                                        onClick = {
-                                            viewModel.navController.popUpTo { it == Screen.Main }
-                                            viewModel.navController.navigate(Screen.Crop)
-                                            viewModel.hideSelectDialog()
-                                        },
-                                        color = MaterialTheme.colorScheme.secondaryContainer
-                                    )
-                                    Spacer(modifier = Modifier.height(8.dp))
-                                    PickColorPreference(
-                                        onClick = {
-                                            viewModel.navController.popUpTo { it == Screen.Main }
-                                            viewModel.navController.navigate(Screen.PickColorFromImage)
-                                            viewModel.hideSelectDialog()
-                                        },
-                                        color = MaterialTheme.colorScheme.secondaryContainer
-                                    )
-                                    Spacer(modifier = Modifier.height(8.dp))
-                                    GeneratePalettePreference(
-                                        onClick = {
-                                            viewModel.navController.popUpTo { it == Screen.Main }
-                                            viewModel.navController.navigate(Screen.GeneratePalette)
-                                            viewModel.hideSelectDialog()
-                                        },
-                                        color = MaterialTheme.colorScheme.secondaryContainer
-                                    )
+                            },
+                            title = { Text(stringResource(R.string.app_closing)) },
+                            text = {
+                                Text(
+                                    stringResource(R.string.app_closing_sub),
+                                    textAlign = TextAlign.Center
+                                )
+                            },
+                            icon = { Icon(Icons.Outlined.DoorBack, null) }
+                        )
+                    } else if (viewModel.showSelectDialog) {
+                        AlertDialog(
+                            onDismissRequest = {},
+                            title = { stringResource(R.string.image) },
+                            confirmButton = {
+                                TextButton(
+                                    onClick = {
+                                        viewModel.hideSelectDialog()
+                                        viewModel.updateUris(null)
+                                    }
+                                ) {
+                                    Text(stringResource(id = R.string.cancel))
                                 }
-                            } else {
-                                Column(Modifier.verticalScroll(rememberScrollState())) {
-                                    BatchResizePreference(
-                                        onClick = {
-                                            viewModel.navController.popUpTo { it == Screen.Main }
-                                            viewModel.navController.navigate(Screen.BatchResize)
-                                            viewModel.hideSelectDialog()
-                                        },
-                                        color = MaterialTheme.colorScheme.secondaryContainer
-                                    )
-                                    Spacer(modifier = Modifier.height(8.dp))
-                                    BytesResizePreference(
-                                        onClick = {
-                                            viewModel.navController.popUpTo { it == Screen.Main }
-                                            viewModel.navController.navigate(Screen.ResizeByBytes)
-                                            viewModel.hideSelectDialog()
-                                        },
-                                        color = MaterialTheme.colorScheme.secondaryContainer
-                                    )
-                                }
-                            }
-                        }
-                    )
-                } else if (viewModel.showUpdateDialog) {
-                    AlertDialog(
-                        onDismissRequest = { viewModel.cancelledUpdate(true) },
-                        icon = {
-                            Icon(Icons.Rounded.Github, null)
-                        },
-                        title = { Text(stringResource(R.string.new_version, viewModel.tag)) },
-                        text = {
-                            Box {
-                                Divider(Modifier.align(Alignment.TopCenter))
-                                Column(Modifier.verticalScroll(rememberScrollState())) {
-                                    Spacer(Modifier.height(16.dp))
-                                    HtmlText(viewModel.changelog)
-                                }
-                                Divider(Modifier.align(Alignment.BottomCenter))
-                            }
-                        },
-                        confirmButton = {
-                            Button(
-                                onClick = {
-                                    startActivity(
-                                        Intent(
-                                            Intent.ACTION_VIEW,
-                                            Uri.parse("https://github.com/t8rin/imageresizer/releases/tag/${viewModel.tag}")
+                            },
+                            text = {
+                                if ((viewModel.uris?.size ?: 0) <= 1) {
+                                    Column(Modifier.verticalScroll(rememberScrollState())) {
+                                        SingleResizePreference(
+                                            onClick = {
+                                                viewModel.navController.popUpTo { it == Screen.Main }
+                                                viewModel.navController.navigate(Screen.SingleResize)
+                                                viewModel.hideSelectDialog()
+                                            },
+                                            color = MaterialTheme.colorScheme.secondaryContainer
                                         )
-                                    )
+                                        Spacer(modifier = Modifier.height(8.dp))
+                                        BytesResizePreference(
+                                            onClick = {
+                                                viewModel.navController.popUpTo { it == Screen.Main }
+                                                viewModel.navController.navigate(Screen.ResizeByBytes)
+                                                viewModel.hideSelectDialog()
+                                            },
+                                            color = MaterialTheme.colorScheme.secondaryContainer
+                                        )
+                                        Spacer(modifier = Modifier.height(8.dp))
+                                        CropPreference(
+                                            onClick = {
+                                                viewModel.navController.popUpTo { it == Screen.Main }
+                                                viewModel.navController.navigate(Screen.Crop)
+                                                viewModel.hideSelectDialog()
+                                            },
+                                            color = MaterialTheme.colorScheme.secondaryContainer
+                                        )
+                                        Spacer(modifier = Modifier.height(8.dp))
+                                        PickColorPreference(
+                                            onClick = {
+                                                viewModel.navController.popUpTo { it == Screen.Main }
+                                                viewModel.navController.navigate(Screen.PickColorFromImage)
+                                                viewModel.hideSelectDialog()
+                                            },
+                                            color = MaterialTheme.colorScheme.secondaryContainer
+                                        )
+                                        Spacer(modifier = Modifier.height(8.dp))
+                                        GeneratePalettePreference(
+                                            onClick = {
+                                                viewModel.navController.popUpTo { it == Screen.Main }
+                                                viewModel.navController.navigate(Screen.GeneratePalette)
+                                                viewModel.hideSelectDialog()
+                                            },
+                                            color = MaterialTheme.colorScheme.secondaryContainer
+                                        )
+                                    }
+                                } else {
+                                    Column(Modifier.verticalScroll(rememberScrollState())) {
+                                        BatchResizePreference(
+                                            onClick = {
+                                                viewModel.navController.popUpTo { it == Screen.Main }
+                                                viewModel.navController.navigate(Screen.BatchResize)
+                                                viewModel.hideSelectDialog()
+                                            },
+                                            color = MaterialTheme.colorScheme.secondaryContainer
+                                        )
+                                        Spacer(modifier = Modifier.height(8.dp))
+                                        BytesResizePreference(
+                                            onClick = {
+                                                viewModel.navController.popUpTo { it == Screen.Main }
+                                                viewModel.navController.navigate(Screen.ResizeByBytes)
+                                                viewModel.hideSelectDialog()
+                                            },
+                                            color = MaterialTheme.colorScheme.secondaryContainer
+                                        )
+                                        if (viewModel.uris?.size == 2) {
+                                            Spacer(modifier = Modifier.height(8.dp))
+                                            ComparePreference(
+                                                onClick = {
+                                                    viewModel.navController.popUpTo { it == Screen.Main }
+                                                    viewModel.navController.navigate(Screen.Compare)
+                                                    viewModel.hideSelectDialog()
+                                                },
+                                                color = MaterialTheme.colorScheme.secondaryContainer
+                                            )
+                                        }
+                                    }
                                 }
-                            ) {
-                                Text(stringResource(id = R.string.update))
                             }
-                        },
-                        dismissButton = {
-                            FilledTonalButton(onClick = { viewModel.cancelledUpdate() }) {
-                                Text(stringResource(id = R.string.close))
+                        )
+                    } else if (viewModel.showUpdateDialog) {
+                        AlertDialog(
+                            onDismissRequest = { viewModel.cancelledUpdate(true) },
+                            icon = {
+                                Icon(Icons.Rounded.Github, null)
+                            },
+                            title = { Text(stringResource(R.string.new_version, viewModel.tag)) },
+                            text = {
+                                Box {
+                                    Divider(Modifier.align(Alignment.TopCenter))
+                                    Column(Modifier.verticalScroll(rememberScrollState())) {
+                                        Spacer(Modifier.height(16.dp))
+                                        HtmlText(viewModel.changelog)
+                                    }
+                                    Divider(Modifier.align(Alignment.BottomCenter))
+                                }
+                            },
+                            confirmButton = {
+                                Button(
+                                    onClick = {
+                                        startActivity(
+                                            Intent(
+                                                Intent.ACTION_VIEW,
+                                                Uri.parse("https://github.com/t8rin/imageresizer/releases/tag/${viewModel.tag}")
+                                            )
+                                        )
+                                    }
+                                ) {
+                                    Text(stringResource(id = R.string.update))
+                                }
+                            },
+                            dismissButton = {
+                                FilledTonalButton(onClick = { viewModel.cancelledUpdate() }) {
+                                    Text(stringResource(id = R.string.close))
+                                }
                             }
-                        }
-                    )
+                        )
+                    }
+
+                    ToastHost(hostState = LocalToastHost.current)
+
+                    SideEffect { viewModel.tryGetUpdate() }
                 }
-
-                ToastHost(hostState = viewModel.toastHostState)
-
-                SideEffect { viewModel.tryGetUpdate() }
             }
         }
     }
@@ -390,3 +435,42 @@ class MainActivity : ComponentActivity() {
         }
     }
 }
+
+private fun particles(primary: Color) = listOf(
+    Party(
+        speed = 0f,
+        maxSpeed = 15f,
+        damping = 0.9f,
+        angle = Angle.BOTTOM,
+        spread = Spread.ROUND,
+        colors = listOf(0xfce18a, 0xff726d, 0xf4306d, 0xb48def).map {
+            it.blend(primary)
+        },
+        emitter = Emitter(duration = 2, TimeUnit.SECONDS).perSecond(100),
+        position = Position.Relative(0.0, 0.0).between(Position.Relative(1.0, 0.0))
+    ),
+    Party(
+        speed = 10f,
+        maxSpeed = 30f,
+        damping = 0.9f,
+        angle = Angle.RIGHT - 45,
+        spread = 60,
+        colors = listOf(0xfce18a, 0xff726d, 0xf4306d, 0xb48def).map {
+            it.blend(primary)
+        },
+        emitter = Emitter(duration = 2, TimeUnit.SECONDS).perSecond(100),
+        position = Position.Relative(0.0, 1.0)
+    ),
+    Party(
+        speed = 10f,
+        maxSpeed = 30f,
+        damping = 0.9f,
+        angle = Angle.RIGHT - 135,
+        spread = 60,
+        colors = listOf(0xfce18a, 0xff726d, 0xf4306d, 0xb48def).map {
+            it.blend(primary)
+        },
+        emitter = Emitter(duration = 2, TimeUnit.SECONDS).perSecond(100),
+        position = Position.Relative(1.0, 1.0)
+    )
+)

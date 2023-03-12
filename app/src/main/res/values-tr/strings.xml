@@ -74,4 +74,8 @@
     <string name="resize_single_image">Verilen tek bir görüntünün özelliklerini değiştirme</string>
     <string name="version">Versiyon</string>
     <string name="keep_exif">EXIF\'i sakla</string>
+    <string name="pick_two_images">Başlamak için iki resim seçin</string>
+    <string name="pick_images">Resim Seç</string>
+    <string name="compare">Karşılaştırmak</string>
+    <string name="compare_sub">Verilen iki resmi karşılaştırın</string>
 </resources>

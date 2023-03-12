@@ -14,8 +14,8 @@ android {
         applicationId = "ru.tech.imageresizershrinker"
         minSdk = 21
         targetSdk = 33
-        versionCode = 32
-        versionName = "1.8.5"
+        versionCode = 33
+        versionName = "1.8.6"
     }
 
     buildTypes {
@@ -58,9 +58,7 @@ dependencies {
     implementation("io.coil-kt:coil-compose:2.2.2")
     implementation("androidx.core:core-splashscreen:1.0.0")
     implementation("androidx.exifinterface:exifinterface:1.3.6")
-    implementation(project(":cropper"))
-    implementation(project(":dynamic_theme"))
-    implementation(project(":colordetector"))
+
     implementation("dev.olshevski.navigation:reimagined:1.3.1")
     implementation("dev.olshevski.navigation:reimagined-hilt:1.3.1")
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.6.0")
@@ -70,6 +68,9 @@ dependencies {
     implementation("com.google.dagger:hilt-android:2.45")
     kapt("com.google.dagger:hilt-compiler:2.45")
 
+    implementation(project(":cropper"))
+    implementation(project(":dynamic_theme"))
+    implementation(project(":colordetector"))
     implementation(project(":beforeafter"))
 
 //    implementation("androidx.work:work-runtime-ktx:2.8.0")

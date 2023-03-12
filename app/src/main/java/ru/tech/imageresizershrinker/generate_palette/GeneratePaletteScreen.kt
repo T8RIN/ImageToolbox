@@ -49,8 +49,7 @@ import ru.tech.imageresizershrinker.pick_color_from_image.copyColorIntoClipboard
 import ru.tech.imageresizershrinker.pick_color_from_image.format
 import ru.tech.imageresizershrinker.resize_screen.components.ImageNotPickedWidget
 import ru.tech.imageresizershrinker.resize_screen.components.LoadingDialog
-import ru.tech.imageresizershrinker.resize_screen.components.ToastHost
-import ru.tech.imageresizershrinker.resize_screen.components.rememberToastHostState
+import ru.tech.imageresizershrinker.resize_screen.components.LocalToastHost
 import ru.tech.imageresizershrinker.theme.PaletteSwatch
 import ru.tech.imageresizershrinker.utils.BitmapUtils.decodeBitmapFromUri
 import ru.tech.imageresizershrinker.utils.LocalWindowSizeClass
@@ -66,7 +65,7 @@ fun GeneratePaletteScreen(
     viewModel: GeneratePaletteViewModel = viewModel()
 ) {
     val context = LocalContext.current
-    val toastHostState = rememberToastHostState()
+    val toastHostState = LocalToastHost.current
     val scope = rememberCoroutineScope()
     val themeState = LocalDynamicThemeState.current
 
@@ -345,7 +344,6 @@ fun GeneratePaletteScreen(
 
     if (viewModel.isLoading) LoadingDialog()
 
-    ToastHost(hostState = toastHostState)
     BackHandler {
         if (navController.backstack.entries.isNotEmpty()) navController.pop()
         onGoBack()

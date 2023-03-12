@@ -80,10 +80,11 @@ fun BytesResizeScreen(
     pushNewUris: (List<Uri>?) -> Unit,
     getSavingFolder: (name: String, ext: String) -> SavingFolder,
     savingPathString: String,
+    showConfetti: () -> Unit,
     viewModel: BytesResizeViewModel = viewModel()
 ) {
     val context = LocalContext.current as ComponentActivity
-    val toastHostState = rememberToastHostState()
+    val toastHostState = LocalToastHost.current
     val scope = rememberCoroutineScope()
     val themeState = LocalDynamicThemeState.current
 
@@ -176,6 +177,7 @@ fun BytesResizeScreen(
                 }
             }
             showSaveLoading = false
+            showConfetti()
         }
     }
 
@@ -657,7 +659,6 @@ fun BytesResizeScreen(
                 }
             }
 
-            ToastHost(hostState = toastHostState)
             BackHandler {
                 if (viewModel.uris?.isNotEmpty() == true) showExitDialog = true
                 else if (navController.backstack.entries.isNotEmpty()) {

@@ -8,7 +8,9 @@ import androidx.activity.compose.BackHandler
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
@@ -48,8 +50,7 @@ import ru.tech.imageresizershrinker.generate_palette.isScrollingUp
 import ru.tech.imageresizershrinker.main_screen.components.Screen
 import ru.tech.imageresizershrinker.resize_screen.components.ImageNotPickedWidget
 import ru.tech.imageresizershrinker.resize_screen.components.LoadingDialog
-import ru.tech.imageresizershrinker.resize_screen.components.ToastHost
-import ru.tech.imageresizershrinker.resize_screen.components.rememberToastHostState
+import ru.tech.imageresizershrinker.resize_screen.components.LocalToastHost
 import ru.tech.imageresizershrinker.utils.BitmapUtils.decodeBitmapFromUri
 import ru.tech.imageresizershrinker.utils.BitmapUtils.shareBitmap
 import ru.tech.imageresizershrinker.utils.ContextUtils.isExternalStorageWritable
@@ -57,7 +58,7 @@ import ru.tech.imageresizershrinker.utils.ContextUtils.requestPermission
 import ru.tech.imageresizershrinker.utils.SavingFolder
 import ru.tech.imageresizershrinker.widget.Marquee
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalAnimationApi::class)
 @Composable
 fun CropScreen(
     uriState: Uri?,
@@ -66,10 +67,11 @@ fun CropScreen(
     pushNewUri: (Uri?) -> Unit,
     getSavingFolder: (name: String, ext: String) -> SavingFolder,
     savingPathString: String,
+    showConfetti: () -> Unit,
     viewModel: CropViewModel = viewModel()
 ) {
     val context = LocalContext.current as ComponentActivity
-    val toastHostState = rememberToastHostState()
+    val toastHostState = LocalToastHost.current
     val scope = rememberCoroutineScope()
     val themeState = LocalDynamicThemeState.current
 
@@ -155,6 +157,7 @@ fun CropScreen(
                 }
             }
             showSaveLoading = false
+            showConfetti()
         }
     }
 
@@ -258,27 +261,29 @@ fun CropScreen(
                 val bmp = remember(it) { it.asImageBitmap() }
                 Column {
                     val cropProperties = viewModel.cropProperties
-                    ImageCropper(
-                        background = MaterialTheme.colorScheme.surface,
-                        modifier = Modifier.weight(1f),
-                        imageBitmap = bmp,
-                        contentDescription = null,
-                        cropProperties = cropProperties,
-                        onCropStart = {},
-                        crop = crop,
-                        onCropSuccess = { image ->
-                            if (share) {
-                                context.shareBitmap(
-                                    bitmap = image.asAndroidBitmap(),
-                                    compressFormat = viewModel.mimeType
-                                )
-                            } else {
-                                saveBitmap(image.asAndroidBitmap())
+                    AnimatedContent(cropProperties.cropType, Modifier.weight(1f)) { type ->
+                        ImageCropper(
+                            background = MaterialTheme.colorScheme.surface,
+                            imageBitmap = bmp,
+                            contentDescription = null,
+                            cropProperties = cropProperties.copy(cropType = type),
+                            onCropStart = {},
+                            crop = crop,
+                            onCropSuccess = { image ->
+                                if (share) {
+                                    context.shareBitmap(
+                                        bitmap = image.asAndroidBitmap(),
+                                        compressFormat = viewModel.mimeType
+                                    )
+                                } else {
+                                    saveBitmap(image.asAndroidBitmap())
+                                }
+                                crop = false
+                                share = false
                             }
-                            crop = false
-                            share = false
-                        }
-                    )
+                        )
+                    }
+
 
                     val aspectRatios = aspectRatios()
                     AspectRatioSelection(
@@ -289,50 +294,46 @@ fun CropScreen(
                     ) { aspect ->
                         viewModel.setCropAspectRatio(aspect.aspectRatio)
                     }
-                    Surface(
-                        color = MaterialTheme.colorScheme.surfaceColorAtElevation(3.dp),
-                        shadowElevation = 6.dp
-                    ) {
-                        Row(
-                            modifier = Modifier
-                                .navigationBarsPadding()
-                                .fillMaxWidth()
-                                .height(88.dp),
-                            verticalAlignment = Alignment.CenterVertically,
-                            horizontalArrangement = Arrangement.End
-                        ) {
-                            FloatingActionButton(
-                                onClick = pickImage,
-                                elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation()
-                            ) {
-                                val expanded = scrollState.isScrollingUp()
-                                val horizontalPadding by animateDpAsState(targetValue = if (expanded) 16.dp else 0.dp)
-                                Row(
-                                    modifier = Modifier.padding(horizontal = horizontalPadding),
-                                    verticalAlignment = Alignment.CenterVertically
+                    BottomAppBar(
+                        modifier = Modifier
+                            .shadow(6.dp)
+                            .zIndex(6f),
+                        actions = {},
+                        floatingActionButton = {
+                            Row {
+                                FloatingActionButton(
+                                    onClick = pickImage,
+                                    elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation()
                                 ) {
-                                    Icon(Icons.Rounded.AddPhotoAlternate, null)
-                                    AnimatedVisibility(visible = expanded) {
-                                        Row {
-                                            Spacer(Modifier.width(8.dp))
-                                            Text(stringResource(R.string.pick_image_alt))
+                                    val expanded = scrollState.isScrollingUp()
+                                    val horizontalPadding by animateDpAsState(targetValue = if (expanded) 16.dp else 0.dp)
+                                    Row(
+                                        modifier = Modifier.padding(horizontal = horizontalPadding),
+                                        verticalAlignment = Alignment.CenterVertically
+                                    ) {
+                                        Icon(Icons.Rounded.AddPhotoAlternate, null)
+                                        AnimatedVisibility(visible = expanded) {
+                                            Row {
+                                                Spacer(Modifier.width(8.dp))
+                                                Text(stringResource(R.string.pick_image_alt))
+                                            }
                                         }
                                     }
                                 }
+                                Spacer(modifier = Modifier.width(16.dp))
+                                FloatingActionButton(
+                                    onClick = {
+                                        crop = true
+                                    },
+                                    containerColor = MaterialTheme.colorScheme.tertiaryContainer,
+                                    elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation()
+                                ) {
+                                    Icon(Icons.Rounded.Save, null)
+                                }
+                                Spacer(modifier = Modifier.width(16.dp))
                             }
-                            Spacer(modifier = Modifier.width(16.dp))
-                            FloatingActionButton(
-                                onClick = {
-                                    crop = true
-                                },
-                                containerColor = MaterialTheme.colorScheme.tertiaryContainer,
-                                elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation()
-                            ) {
-                                Icon(Icons.Rounded.Save, null)
-                            }
-                            Spacer(modifier = Modifier.width(16.dp))
                         }
-                    }
+                    )
                 }
             } ?: Column(Modifier.verticalScroll(scrollState)) {
                 ImageNotPickedWidget(
@@ -417,7 +418,6 @@ fun CropScreen(
         )
     }
 
-    ToastHost(hostState = toastHostState)
     BackHandler {
         if (viewModel.bitmap != null) showExitDialog = true
         else if (navController.backstack.entries.isNotEmpty()) {

@@ -83,9 +83,10 @@ fun Context.SingleResizeScreen(
     uriState: Uri?,
     getSavingFolder: (name: String, ext: String) -> SavingFolder,
     savingPathString: String,
-    navController: NavController<Screen>
+    navController: NavController<Screen>,
+    showConfetti: () -> Unit
 ) {
-    val toastHostState = rememberToastHostState()
+    val toastHostState = LocalToastHost.current
     val scope = rememberCoroutineScope()
     val context = LocalContext.current as ComponentActivity
     val themeState = LocalDynamicThemeState.current
@@ -186,6 +187,7 @@ fun Context.SingleResizeScreen(
                 }
             }
             showSaveLoading = false
+            showConfetti()
         }
     }
 
@@ -1054,7 +1056,6 @@ fun Context.SingleResizeScreen(
                 }
             }
 
-            ToastHost(hostState = toastHostState)
             BackHandler {
                 if (viewModel.bitmap != null) showExitDialog = true
                 else if (navController.backstack.entries.isNotEmpty()) {
