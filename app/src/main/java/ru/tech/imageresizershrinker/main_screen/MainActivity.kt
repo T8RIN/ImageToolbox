@@ -3,9 +3,9 @@ package ru.tech.imageresizershrinker.main_screen
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import androidx.activity.ComponentActivity
 import androidx.activity.compose.BackHandler
 import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.animation.*
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
@@ -55,7 +55,7 @@ import java.util.concurrent.TimeUnit
 @ExperimentalFoundationApi
 @ExperimentalMaterial3Api
 @AndroidEntryPoint
-class MainActivity : ComponentActivity() {
+class MainActivity : AppCompatActivity() {
 
     private val viewModel by viewModels<MainViewModel>()
 
@@ -64,7 +64,6 @@ class MainActivity : ComponentActivity() {
 
         installSplashScreen()
         super.onCreate(savedInstanceState)
-        actionBar?.hide()
 
         WindowCompat.setDecorFitsSystemWindows(window, false)
         GlobalExceptionHandler.initialize(applicationContext, CrashActivity::class.java)

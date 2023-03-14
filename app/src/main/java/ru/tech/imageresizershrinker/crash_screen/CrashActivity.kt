@@ -4,9 +4,9 @@ import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Intent
 import android.os.Bundle
-import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
@@ -81,15 +81,15 @@ class CrashViewModel @Inject constructor(
 }
 
 @AndroidEntryPoint
-class CrashActivity : ComponentActivity() {
+class CrashActivity : AppCompatActivity() {
 
     val viewModel by viewModels<CrashViewModel>()
 
     @OptIn(ExperimentalFoundationApi::class, ExperimentalMaterial3Api::class)
     override fun onCreate(savedInstanceState: Bundle?) {
+
         installSplashScreen()
         super.onCreate(savedInstanceState)
-        actionBar?.hide()
 
         WindowCompat.setDecorFitsSystemWindows(window, false)
         val crashReason = getExceptionString()
