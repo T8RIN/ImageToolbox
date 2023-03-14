@@ -260,8 +260,7 @@
     <string name="cache">Cache</string>
     <string name="features_sub">Criptarea fișierelor pe bază de parolă. Fișierele procesate pot fi stocate în directorul selectat sau partajate. De asemenea, fișierele decriptate pot fi deschise direct.</string>
     <string name="implementation_sub">AES-256, modul GCM, fără umplutură, IV-uri aleatoare de 12 octeți. Cheile sunt folosite ca hash-uri SHA-3 (256 de biți).</string>
-    <string name="file_size_sub">Dimensiunea maximă a fișierului este restricționată de sistemul de operare Android și de memoria disponibilă, care depinde în mod evident de dispozitivul dvs.
-\nVă rugăm să rețineți: memoria nu este stocare.</string>
+    <string name="file_size_sub">Dimensiunea maximă a fișierului este restricționată de sistemul de operare Android și de memoria disponibilă, care depinde în mod evident de dispozitivul dvs. \nVă rugăm să rețineți: memoria nu este stocare.</string>
     <string name="image_size_warning">Încercarea de a salva imaginea cu lățimea și înălțimea date poate cauza o eroare OOM. Faceți acest lucru pe propriul risc și să nu spuneți că nu v-am avertizat!</string>
     <string name="found_s">S-a găsit %1$s</string>
     <string name="auto_cache_clearing">Ștergerea automată a memoriei cache</string>
@@ -322,7 +321,7 @@
     <string name="backup_and_restore">Backup și restaurare</string>
     <string name="restore">Restaurare</string>
     <string name="backup_sub">Salvați setările aplicației într-un fișier</string>
-    <string name="alphabet_and_numbers">Aa Ăă Ââ Bb Cc Dd Ee Ff Gg Hh Ii Îî Jj Kk Ll Mm Nn Oo Pp Qq Rr Ss Șș Tt Țț Uu Vv Ww Xx Yy Zz 0123456789 !\?</string>
+    <string name="alphabet_and_numbers">Aa Ăă Ââ Bb Cc Dd Ee Ff Gg Hh Ii Îî Jj Kk Ll Mm Nn Oo Pp Qq Rr Ss Șș Tt Țț Uu Vv Ww Xx Yy Zz 0123456789 !?</string>
     <string name="emotions">Emoții</string>
     <string name="food_and_drink">Mâncare și băutură</string>
     <string name="nature_and_animals">Natură și Animale</string>
