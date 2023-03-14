@@ -35,6 +35,7 @@ fun BoxScope.Loading() {
             color = MaterialTheme.colorScheme.onSecondaryContainer
         )
     }
+    KeepScreenOn()
 }
 
 @Composable
@@ -56,6 +57,7 @@ fun Loading(modifier: Modifier = Modifier) {
             color = MaterialTheme.colorScheme.onSecondaryContainer
         )
     }
+    KeepScreenOn()
 }
 
 @Composable
@@ -87,6 +89,7 @@ fun BoxScope.Loading(done: Int, left: Int) {
         Spacer(Modifier.height(8.dp))
         Text("$done / $left")
     }
+    KeepScreenOn()
 }
 
 @Composable
@@ -94,6 +97,7 @@ fun LoadingDialog() {
     Dialog(onDismissRequest = { }) {
         Box(Modifier.fillMaxSize()) { Loading() }
     }
+    KeepScreenOn()
 }
 
 @Composable
@@ -103,4 +107,5 @@ fun LoadingDialog(done: Int, left: Int) {
             Loading(done, left)
         }
     }
+    KeepScreenOn()
 }

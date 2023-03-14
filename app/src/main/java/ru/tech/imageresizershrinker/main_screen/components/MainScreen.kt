@@ -13,6 +13,7 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
@@ -109,7 +110,9 @@ fun MainScreen(
                         }
                     }
                 }
-                ModalDrawerSheet {
+                ModalDrawerSheet(
+                    windowInsets = WindowInsets(0,0,0,0)
+                ) {
                     CompositionLocalProvider(LocalLayoutDirection provides layoutDirection) {
                         TopAppBar(
                             colors = TopAppBarDefaults.topAppBarColors(Color.Transparent),
@@ -127,145 +130,173 @@ fun MainScreen(
                             }
                         )
                         Divider()
-                        Column(Modifier.verticalScroll(rememberScrollState())) {
-                            Column {
-                                val launcher = rememberLauncherForActivityResult(
-                                    contract = object : ActivityResultContracts.OpenDocumentTree() {
-                                        override fun createIntent(
-                                            context: Context,
-                                            input: Uri?
-                                        ): Intent {
-                                            val intent = super.createIntent(context, input)
-                                            intent.addFlags(
-                                                Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION or
-                                                        Intent.FLAG_GRANT_WRITE_URI_PERMISSION or
-                                                        Intent.FLAG_GRANT_READ_URI_PERMISSION
+                        LazyColumn(contentPadding = WindowInsets.navigationBars.asPaddingValues()) {
+                            item {
+                                Column {
+                                    val launcher = rememberLauncherForActivityResult(
+                                        contract = object :
+                                            ActivityResultContracts.OpenDocumentTree() {
+                                            override fun createIntent(
+                                                context: Context,
+                                                input: Uri?
+                                            ): Intent {
+                                                val intent = super.createIntent(context, input)
+                                                intent.addFlags(
+                                                    Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION or
+                                                            Intent.FLAG_GRANT_WRITE_URI_PERMISSION or
+                                                            Intent.FLAG_GRANT_READ_URI_PERMISSION
+                                                )
+                                                return intent
+                                            }
+                                        },
+                                        onResult = { uri ->
+                                            uri?.let {
+                                                onGetNewFolder(uri)
+                                            }
+                                        }
+                                    )
+                                    Row(
+                                        Modifier.padding(16.dp),
+                                        verticalAlignment = Alignment.CenterVertically
+                                    ) {
+                                        Icon(Icons.Rounded.Folder, null)
+                                        Spacer(Modifier.width(8.dp))
+                                        Text(stringResource(R.string.folder))
+                                    }
+                                    PreferenceItem(
+                                        onClick = { onGetNewFolder(null) },
+                                        title = stringResource(R.string.def),
+                                        subtitle = stringResource(R.string.default_folder),
+                                        color = MaterialTheme.colorScheme.secondaryContainer,
+                                        modifier = Modifier
+                                            .fillMaxWidth()
+                                            .padding(horizontal = 16.dp)
+                                            .border(
+                                                width = 1.dp,
+                                                color = animateColorAsState(
+                                                    if (currentFolderUri == null) MaterialTheme.colorScheme.onSecondaryContainer.copy(
+                                                        alpha = 0.5f
+                                                    )
+                                                    else Color.Transparent
+                                                ).value,
+                                                shape = RoundedCornerShape(12.dp)
                                             )
-                                            return intent
-                                        }
-                                    },
-                                    onResult = { uri ->
-                                        uri?.let {
-                                            onGetNewFolder(uri)
-                                        }
+                                    )
+                                    Spacer(modifier = Modifier.height(8.dp))
+                                    PreferenceItem(
+                                        onClick = { launcher.launch(currentFolderUri) },
+                                        title = stringResource(R.string.custom),
+                                        subtitle = currentFolderUri.toUiPath(
+                                            context = LocalContext.current,
+                                            default = stringResource(R.string.unspecified)
+                                        ),
+                                        color = MaterialTheme.colorScheme.secondaryContainer,
+                                        endIcon = Icons.Rounded.CreateAlt,
+                                        modifier = Modifier
+                                            .fillMaxWidth()
+                                            .padding(horizontal = 16.dp)
+                                            .border(
+                                                width = 1.dp,
+                                                color = animateColorAsState(
+                                                    if (currentFolderUri != null) MaterialTheme.colorScheme.onSecondaryContainer.copy(
+                                                        alpha = 0.5f
+                                                    )
+                                                    else Color.Transparent
+                                                ).value,
+                                                shape = RoundedCornerShape(12.dp)
+                                            )
+                                    )
+                                    Spacer(Modifier.height(16.dp))
+                                }
+                                Divider()
+                                Column {
+                                    Row(
+                                        Modifier.padding(16.dp),
+                                        verticalAlignment = Alignment.CenterVertically
+                                    ) {
+                                        Icon(Icons.Rounded.DeveloperMode, null)
+                                        Spacer(Modifier.width(8.dp))
+                                        Text(stringResource(R.string.night_mode))
                                     }
-                                )
-                                Row(
-                                    Modifier.padding(16.dp),
-                                    verticalAlignment = Alignment.CenterVertically
-                                ) {
-                                    Icon(Icons.Rounded.Folder, null)
-                                    Spacer(Modifier.width(8.dp))
-                                    Text(stringResource(R.string.folder))
-                                }
-                                PreferenceItem(
-                                    onClick = { onGetNewFolder(null) },
-                                    title = stringResource(R.string.def),
-                                    subtitle = stringResource(R.string.default_folder),
-                                    color = MaterialTheme.colorScheme.secondaryContainer,
-                                    modifier = Modifier
-                                        .fillMaxWidth()
-                                        .padding(horizontal = 16.dp)
-                                        .border(
-                                            width = 1.dp,
-                                            color = animateColorAsState(
-                                                if (currentFolderUri == null) MaterialTheme.colorScheme.onSecondaryContainer.copy(
-                                                    alpha = 0.5f
-                                                )
-                                                else Color.Transparent
-                                            ).value,
-                                            shape = RoundedCornerShape(12.dp)
-                                        )
-                                )
-                                Spacer(modifier = Modifier.height(8.dp))
-                                PreferenceItem(
-                                    onClick = { launcher.launch(currentFolderUri) },
-                                    title = stringResource(R.string.custom),
-                                    subtitle = currentFolderUri.toUiPath(
-                                        context = LocalContext.current,
-                                        default = stringResource(R.string.unspecified)
-                                    ),
-                                    color = MaterialTheme.colorScheme.secondaryContainer,
-                                    endIcon = Icons.Rounded.CreateAlt,
-                                    modifier = Modifier
-                                        .fillMaxWidth()
-                                        .padding(horizontal = 16.dp)
-                                        .border(
-                                            width = 1.dp,
-                                            color = animateColorAsState(
-                                                if (currentFolderUri != null) MaterialTheme.colorScheme.onSecondaryContainer.copy(
-                                                    alpha = 0.5f
-                                                )
-                                                else Color.Transparent
-                                            ).value,
-                                            shape = RoundedCornerShape(12.dp)
-                                        )
-                                )
-                                Spacer(Modifier.height(16.dp))
-                            }
-                            Divider()
-                            Column {
-                                Row(
-                                    Modifier.padding(16.dp),
-                                    verticalAlignment = Alignment.CenterVertically
-                                ) {
-                                    Icon(Icons.Rounded.DeveloperMode, null)
-                                    Spacer(Modifier.width(8.dp))
-                                    Text(stringResource(R.string.night_mode))
-                                }
 
-                                Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                                    listOf(
-                                        stringResource(R.string.dark) to Icons.Rounded.ModeNight,
-                                        stringResource(R.string.light) to Icons.Rounded.WbSunny,
-                                        stringResource(R.string.system) to Icons.Rounded.SettingsSystemDaydream
-                                    ).forEachIndexed { index, (title, icon) ->
-                                        PreferenceItem(
-                                            onClick = { viewModel.setNightMode(index) },
-                                            title = title,
-                                            color = MaterialTheme.colorScheme.secondaryContainer.copy(
-                                                alpha = animateFloatAsState(
-                                                    if (index == viewModel.nightMode) 1f
-                                                    else 0.5f
-                                                ).value
-                                            ),
-                                            icon = icon,
-                                            modifier = Modifier
-                                                .fillMaxWidth()
-                                                .padding(horizontal = 16.dp)
-                                                .border(
-                                                    width = 1.dp,
-                                                    color = animateColorAsState(
-                                                        if (index == viewModel.nightMode) MaterialTheme.colorScheme.onSecondaryContainer.copy(
-                                                            alpha = 0.5f
-                                                        )
-                                                        else Color.Transparent
-                                                    ).value,
-                                                    shape = RoundedCornerShape(12.dp)
-                                                )
-                                        )
+                                    Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                                        listOf(
+                                            stringResource(R.string.dark) to Icons.Rounded.ModeNight,
+                                            stringResource(R.string.light) to Icons.Rounded.WbSunny,
+                                            stringResource(R.string.system) to Icons.Rounded.SettingsSystemDaydream
+                                        ).forEachIndexed { index, (title, icon) ->
+                                            PreferenceItem(
+                                                onClick = { viewModel.setNightMode(index) },
+                                                title = title,
+                                                color = MaterialTheme.colorScheme.secondaryContainer.copy(
+                                                    alpha = animateFloatAsState(
+                                                        if (index == viewModel.nightMode) 1f
+                                                        else 0.5f
+                                                    ).value
+                                                ),
+                                                icon = icon,
+                                                modifier = Modifier
+                                                    .fillMaxWidth()
+                                                    .padding(horizontal = 16.dp)
+                                                    .border(
+                                                        width = 1.dp,
+                                                        color = animateColorAsState(
+                                                            if (index == viewModel.nightMode) MaterialTheme.colorScheme.onSecondaryContainer.copy(
+                                                                alpha = 0.5f
+                                                            )
+                                                            else Color.Transparent
+                                                        ).value,
+                                                        shape = RoundedCornerShape(12.dp)
+                                                    )
+                                            )
+                                        }
                                     }
+                                    Spacer(Modifier.height(16.dp))
                                 }
-                                Spacer(Modifier.height(16.dp))
-                            }
-                            Divider()
-                            Column {
-                                Row(
-                                    Modifier.padding(16.dp),
-                                    verticalAlignment = Alignment.CenterVertically
-                                ) {
-                                    Icon(Icons.Rounded.Palette, null)
-                                    Spacer(Modifier.width(8.dp))
-                                    Text(stringResource(R.string.customization))
-                                }
-                                ChangeLanguagePreference()
-                                Spacer(Modifier.height(8.dp))
-                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                                Divider()
+                                Column {
+                                    Row(
+                                        Modifier.padding(16.dp),
+                                        verticalAlignment = Alignment.CenterVertically
+                                    ) {
+                                        Icon(Icons.Rounded.Palette, null)
+                                        Spacer(Modifier.width(8.dp))
+                                        Text(stringResource(R.string.customization))
+                                    }
+                                    ChangeLanguagePreference()
+                                    Spacer(Modifier.height(8.dp))
+                                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                                        Row(
+                                            modifier = Modifier
+                                                .padding(horizontal = 16.dp)
+                                                .clip(RoundedCornerShape(16.dp))
+                                                .clickable { viewModel.updateDynamicColors() }
+                                                .block(
+                                                    color = MaterialTheme.colorScheme.secondaryContainer.copy(
+                                                        alpha = 0.5f
+                                                    )
+                                                )
+                                                .padding(horizontal = 16.dp, vertical = 8.dp),
+                                            verticalAlignment = Alignment.CenterVertically
+                                        ) {
+                                            Text(
+                                                text = stringResource(R.string.dynamic_colors),
+                                                modifier = Modifier.weight(1f)
+                                            )
+                                            Switch(
+                                                checked = viewModel.dynamicColors,
+                                                onCheckedChange = {
+                                                    viewModel.updateDynamicColors()
+                                                }
+                                            )
+                                        }
+                                        Spacer(Modifier.height(8.dp))
+                                    }
                                     Row(
                                         modifier = Modifier
                                             .padding(horizontal = 16.dp)
                                             .clip(RoundedCornerShape(16.dp))
-                                            .clickable { viewModel.updateDynamicColors() }
+                                            .clickable { viewModel.updateAllowImageMonet() }
                                             .block(
                                                 color = MaterialTheme.colorScheme.secondaryContainer.copy(
                                                     alpha = 0.5f
@@ -274,53 +305,28 @@ fun MainScreen(
                                             .padding(horizontal = 16.dp, vertical = 8.dp),
                                         verticalAlignment = Alignment.CenterVertically
                                     ) {
-                                        Text(
-                                            text = stringResource(R.string.dynamic_colors),
-                                            modifier = Modifier.weight(1f)
-                                        )
+                                        Column(modifier = Modifier.weight(1f)) {
+                                            Text(text = stringResource(R.string.allow_image_monet))
+                                            Spacer(modifier = Modifier.height(2.dp))
+                                            Text(
+                                                text = stringResource(R.string.allow_image_monet_sub),
+                                                fontSize = 12.sp,
+                                                fontWeight = FontWeight.Normal,
+                                                lineHeight = 14.sp,
+                                                color = LocalContentColor.current.copy(alpha = 0.5f)
+                                            )
+                                        }
+                                        Spacer(Modifier.width(8.dp))
                                         Switch(
-                                            checked = viewModel.dynamicColors,
+                                            checked = viewModel.allowImageMonet,
                                             onCheckedChange = {
-                                                viewModel.updateDynamicColors()
+                                                viewModel.updateAllowImageMonet()
                                             }
                                         )
                                     }
-                                    Spacer(Modifier.height(16.dp))
                                 }
-                                Row(
-                                    modifier = Modifier
-                                        .padding(horizontal = 16.dp)
-                                        .clip(RoundedCornerShape(16.dp))
-                                        .clickable { viewModel.updateAllowImageMonet() }
-                                        .block(
-                                            color = MaterialTheme.colorScheme.secondaryContainer.copy(
-                                                alpha = 0.5f
-                                            )
-                                        )
-                                        .padding(horizontal = 16.dp, vertical = 8.dp),
-                                    verticalAlignment = Alignment.CenterVertically
-                                ) {
-                                    Column(modifier = Modifier.weight(1f)) {
-                                        Text(text = stringResource(R.string.allow_image_monet))
-                                        Spacer(modifier = Modifier.height(2.dp))
-                                        Text(
-                                            text = stringResource(R.string.allow_image_monet_sub),
-                                            fontSize = 12.sp,
-                                            fontWeight = FontWeight.Normal,
-                                            lineHeight = 14.sp,
-                                            color = LocalContentColor.current.copy(alpha = 0.5f)
-                                        )
-                                    }
-                                    Spacer(Modifier.width(8.dp))
-                                    Switch(
-                                        checked = viewModel.allowImageMonet,
-                                        onCheckedChange = {
-                                            viewModel.updateAllowImageMonet()
-                                        }
-                                    )
-                                }
+                                Spacer(Modifier.height(16.dp))
                             }
-                            Spacer(Modifier.height(16.dp))
                         }
                     }
                 }

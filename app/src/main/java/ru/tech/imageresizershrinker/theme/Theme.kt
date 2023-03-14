@@ -117,7 +117,7 @@ fun ImageResizerTheme(
         defColor = colorScheme.primary,
     )
     LaunchedEffect(colorScheme) {
-        if (colorScheme.primary != state.primaryColor.value && dynamic) {
+        if (colorScheme.primary != state.primaryColor.value) {
             state.primaryColor.value = colorScheme.primary
         }
     }
