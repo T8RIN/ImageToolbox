@@ -78,4 +78,9 @@
     <string name="compare_sub">Порівняння двох наведених зображень</string>
     <string name="pick_two_images">Виберіть два зображення для початку</string>
     <string name="pick_images">Виберіть зображення</string>
+    <string name="settings">Налаштування</string>
+    <string name="night_mode">Нічний режим</string>
+    <string name="dark">Темний</string>
+    <string name="light">Світлий</string>
+    <string name="system">Системний</string>
 </resources>
