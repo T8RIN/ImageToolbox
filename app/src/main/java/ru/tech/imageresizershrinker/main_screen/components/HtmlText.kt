@@ -4,7 +4,6 @@ import android.os.Build
 import android.text.method.LinkMovementMethod
 import android.util.TypedValue
 import android.widget.TextView
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
@@ -21,6 +20,7 @@ import ru.tech.imageresizershrinker.resize_screen.components.blend
 
 @Composable
 fun HtmlText(
+    nightMode: Boolean,
     html: String,
     color: Color = MaterialTheme.colorScheme.onSurfaceVariant,
     modifier: Modifier = Modifier
@@ -28,7 +28,7 @@ fun HtmlText(
     val style = LocalTextStyle.current
     val textColor = color.toArgb()
     val linkColor =
-        if (isSystemInDarkTheme()) Color.Cyan.blend(MaterialTheme.colorScheme.primary).toArgb()
+        if (nightMode) Color.Cyan.blend(MaterialTheme.colorScheme.primary).toArgb()
         else Color.Blue.blend(MaterialTheme.colorScheme.primary, 0.5f).toArgb()
 
     val density = LocalDensity.current
@@ -58,6 +58,8 @@ fun HtmlText(
                 }
         },
         update = {
+            it.setTextColor(textColor)
+            it.setLinkTextColor(linkColor)
             it.text = HtmlCompat.fromHtml(html, HtmlCompat.FROM_HTML_MODE_COMPACT)
         }
     )

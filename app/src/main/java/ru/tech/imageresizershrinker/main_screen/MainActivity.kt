@@ -77,10 +77,12 @@ class MainActivity : ComponentActivity() {
 
             val saveFolderUri = viewModel.saveFolderUri
 
-            ImageResizerTheme {
-                CompositionLocalProvider(
-                    LocalToastHost provides viewModel.toastHostState
-                ) {
+            CompositionLocalProvider(
+                LocalToastHost provides viewModel.toastHostState,
+                LocalNightMode provides viewModel.nightMode
+            ) {
+                ImageResizerTheme {
+
                     BackHandler {
                         if (viewModel.shouldShowDialog) showExitDialog = true
                         else finishAffinity()
@@ -105,7 +107,8 @@ class MainActivity : ComponentActivity() {
                                         onGetNewFolder = {
                                             viewModel.updateSaveFolderUri(it)
                                         },
-                                        showConfetti = { showConfetti = true }
+                                        showConfetti = { showConfetti = true },
+                                        viewModel = viewModel
                                     )
                                 }
                                 is Screen.SingleResize -> {
@@ -348,7 +351,7 @@ class MainActivity : ComponentActivity() {
                                     Divider(Modifier.align(Alignment.TopCenter))
                                     Column(Modifier.verticalScroll(rememberScrollState())) {
                                         Spacer(Modifier.height(16.dp))
-                                        HtmlText(viewModel.changelog)
+                                        HtmlText(viewModel.nightMode.toMode(), viewModel.changelog)
                                     }
                                     Divider(Modifier.align(Alignment.BottomCenter))
                                 }

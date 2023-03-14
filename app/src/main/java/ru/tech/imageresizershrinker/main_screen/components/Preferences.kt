@@ -177,7 +177,7 @@ fun ComparePreference(
 fun PreferenceItem(
     onClick: () -> Unit,
     title: String,
-    subtitle: String,
+    subtitle: String? = null,
     icon: ImageVector? = null,
     endIcon: ImageVector? = null,
     color: Color = MaterialTheme.colorScheme.surfaceColorAtElevation(1.dp),
@@ -210,14 +210,16 @@ fun PreferenceItem(
                         fontSize = 16.sp,
                         fontWeight = FontWeight.Medium
                     )
-                    Spacer(modifier = Modifier.height(2.dp))
-                    Text(
-                        text = subtitle,
-                        fontSize = 12.sp,
-                        fontWeight = FontWeight.Normal,
-                        lineHeight = 14.sp,
-                        color = LocalContentColor.current.copy(alpha = 0.5f)
-                    )
+                    subtitle?.let {
+                        Spacer(modifier = Modifier.height(2.dp))
+                        Text(
+                            text = subtitle,
+                            fontSize = 12.sp,
+                            fontWeight = FontWeight.Normal,
+                            lineHeight = 14.sp,
+                            color = LocalContentColor.current.copy(alpha = 0.5f)
+                        )
+                    }
                 }
                 endIcon?.let {
                     Spacer(modifier = Modifier.width(16.dp))

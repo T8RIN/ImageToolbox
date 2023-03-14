@@ -1,7 +1,6 @@
 package ru.tech.imageresizershrinker.theme
 
 import android.os.Build
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.dynamicDarkColorScheme
 import androidx.compose.material3.dynamicLightColorScheme
@@ -16,6 +15,8 @@ import com.cookhelper.dynamic.theme.DynamicTheme
 import com.cookhelper.dynamic.theme.LocalDynamicThemeState
 import com.cookhelper.dynamic.theme.rememberDynamicThemeState
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
+import ru.tech.imageresizershrinker.main_screen.components.LocalNightMode
+import ru.tech.imageresizershrinker.main_screen.components.toMode
 
 private val LightColorScheme = lightColorScheme(
     primary = md_theme_light_primary,
@@ -84,11 +85,13 @@ private val DarkColorScheme = darkColorScheme(
 
 @Composable
 fun ImageResizerTheme(
-    darkTheme: Boolean = isSystemInDarkTheme(),
     dynamicColor: Boolean = true,
     content: @Composable () -> Unit
 ) {
     val dynamic = dynamicColor && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S
+
+    val darkTheme = LocalNightMode.current.toMode()
+
     val colorScheme = when {
         dynamic -> {
             val context = LocalContext.current
@@ -99,7 +102,7 @@ fun ImageResizerTheme(
     }
 
     val systemUiController = rememberSystemUiController()
-    val useDarkIcons = !isSystemInDarkTheme()
+    val useDarkIcons = !darkTheme
 
     SideEffect {
         systemUiController.setSystemBarsColor(
@@ -120,7 +123,7 @@ fun ImageResizerTheme(
     DynamicTheme(
         typography = Typography,
         state = state,
-        isDarkTheme = isSystemInDarkTheme(),
+        isDarkTheme = darkTheme,
         content = {
             CompositionLocalProvider(
                 LocalDynamicThemeState provides state,

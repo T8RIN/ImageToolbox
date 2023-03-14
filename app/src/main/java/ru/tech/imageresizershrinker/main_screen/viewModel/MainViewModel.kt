@@ -7,6 +7,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
+import androidx.datastore.preferences.core.intPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -14,9 +15,9 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.olshevski.navigation.reimagined.navController
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 import org.w3c.dom.Element
 import ru.tech.imageresizershrinker.BuildConfig
@@ -32,9 +33,13 @@ class MainViewModel @Inject constructor(
 ) : ViewModel() {
 
     private val SAVE_FOLDER = stringPreferencesKey("saveFolder")
+    private val NIGHT_MODE = intPreferencesKey("nightMode")
 
     private val _saveFolderUri = mutableStateOf<Uri?>(null)
     val saveFolderUri by _saveFolderUri
+
+    private val _nightMode = mutableStateOf(2)
+    val nightMode by _nightMode
 
     val navController = navController<Screen>(Screen.Main)
 
@@ -63,14 +68,24 @@ class MainViewModel @Inject constructor(
 
     init {
         tryGetUpdate()
-        dataStore.data.map {
-            it[SAVE_FOLDER]?.let { uri ->
+        runBlocking {
+            dataStore.edit { _nightMode.value = it[NIGHT_MODE] ?: 2 }
+        }
+        dataStore.data.onEach {
+            _saveFolderUri.value = it[SAVE_FOLDER]?.let { uri ->
                 if (uri.isEmpty()) null
                 else Uri.parse(uri)
             }
-        }.onEach {
-            _saveFolderUri.value = it
+            _nightMode.value = it[NIGHT_MODE] ?: 2
         }.launchIn(viewModelScope)
+    }
+
+    fun setNightMode(mode: Int) {
+        viewModelScope.launch {
+            dataStore.edit {
+                it[NIGHT_MODE] = mode
+            }
+        }
     }
 
     fun cancelledUpdate(showAgain: Boolean = false) {
