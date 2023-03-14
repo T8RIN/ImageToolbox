@@ -10,7 +10,8 @@
   <a href="https://github.com/T8RIN/ImageResizer/actions"><img alt="Build" src="https://img.shields.io/github/actions/workflow/status/t8rin/imageresizer/android.yml?logo=github&style=for-the-badge"/></a> 
 </p>
 
-![Frame 1](https://user-images.githubusercontent.com/52178347/223509805-b7e78acc-76f3-4442-88bc-c27df296e87b.png)
+![Frame 3](https://user-images.githubusercontent.com/52178347/225084052-cde4fec5-94b8-4f2e-b479-421cb00cff8e.png)
+
 
 
 # Functions
