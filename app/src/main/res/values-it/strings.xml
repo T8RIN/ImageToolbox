@@ -78,4 +78,14 @@
     <string name="compare_sub">Confronto tra due immagini date</string>
     <string name="pick_images">Scegli un\'immagine</string>
     <string name="pick_two_images">Scegli un\'immagine per iniziare</string>
+    <string name="settings">Impostazioni</string>
+    <string name="night_mode">Modalità notturna</string>
+    <string name="dark">Oscuro</string>
+    <string name="light">Leggero</string>
+    <string name="system">Sistema</string>
+    <string name="allow_image_monet">Consenti monet immagine</string>
+    <string name="language">Lingua</string>
+    <string name="dynamic_colors">Colori dinamici</string>
+    <string name="customization">Personalizzazione</string>
+    <string name="allow_image_monet_sub">Se abilitato, quando scegli un\'immagine da modificare, i colori dell\'app verranno adottati per questa immagine</string>
 </resources>
