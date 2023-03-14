@@ -258,6 +258,8 @@ fun MainScreen(
                                     Spacer(Modifier.width(8.dp))
                                     Text(stringResource(R.string.customization))
                                 }
+                                ChangeLanguagePreference()
+                                Spacer(Modifier.height(8.dp))
                                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
                                     Row(
                                         modifier = Modifier
@@ -309,6 +311,7 @@ fun MainScreen(
                                             color = LocalContentColor.current.copy(alpha = 0.5f)
                                         )
                                     }
+                                    Spacer(Modifier.width(8.dp))
                                     Switch(
                                         checked = viewModel.allowImageMonet,
                                         onCheckedChange = {

@@ -14,8 +14,8 @@ android {
         applicationId = "ru.tech.imageresizershrinker"
         minSdk = 21
         targetSdk = 33
-        versionCode = 34
-        versionName = "1.8.7"
+        versionCode = 35
+        versionName = "1.9.0"
     }
 
     buildTypes {
@@ -67,6 +67,8 @@ dependencies {
     implementation("androidx.documentfile:documentfile:1.0.1")
     implementation("com.google.dagger:hilt-android:2.45")
     kapt("com.google.dagger:hilt-compiler:2.45")
+
+    implementation("androidx.appcompat:appcompat:1.7.0-alpha02")
 
     implementation(project(":cropper"))
     implementation(project(":dynamic_theme"))
