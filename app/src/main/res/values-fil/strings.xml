@@ -78,4 +78,14 @@
     <string name="pick_images">Pumili ng mga larawan</string>
     <string name="compare_sub">Magkumpara ng dalawang larawan</string>
     <string name="pick_two_images">Pumili ng dalawang larawan para magsimula</string>
+    <string name="settings">Mga setting</string>
+    <string name="night_mode">Mode ng gabi</string>
+    <string name="dark">Madilim</string>
+    <string name="light">Liwanag</string>
+    <string name="system">Sistema</string>
+    <string name="allow_image_monet">Payagan ang monet ng imahe</string>
+    <string name="language">Wika</string>
+    <string name="customization">Pagpapasadya</string>
+    <string name="dynamic_colors">Mga dynamic na kulay</string>
+    <string name="allow_image_monet_sub">Kung pinagana, kapag pumili ka ng isang imahe upang i edit, ang mga kulay ng app ay pinagtibay sa imaheng ito</string>
 </resources>
