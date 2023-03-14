@@ -33,11 +33,15 @@ fun Modifier.navBarsLandscapePadding(enabled: Boolean = true) = composed {
 }
 
 fun Modifier.navBarsPaddingOnlyIfTheyAtTheEnd(enabled: Boolean = true) = composed {
-    if (WindowInsets.navigationBars.asPaddingValues().calculateBottomPadding() == 0.dp && enabled) Modifier.navigationBarsPadding()
+    if (WindowInsets.navigationBars.asPaddingValues()
+            .calculateBottomPadding() == 0.dp && enabled
+    ) Modifier.navigationBarsPadding()
     else Modifier
 }
 
 fun Modifier.navBarsPaddingOnlyIfTheyAtTheBottom(enabled: Boolean = true) = composed {
-    if (WindowInsets.navigationBars.asPaddingValues().calculateBottomPadding() != 0.dp && enabled) Modifier.navigationBarsPadding()
+    if (WindowInsets.navigationBars.asPaddingValues()
+            .calculateBottomPadding() != 0.dp && enabled
+    ) Modifier.navigationBarsPadding()
     else Modifier
 }

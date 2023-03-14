@@ -268,8 +268,7 @@ fun GeneratePaletteScreen(
                                 )
                             }
                         }
-                    }
-                    else {
+                    } else {
                         Column(
                             Modifier
                                 .verticalScroll(scrollState),
