@@ -26,7 +26,7 @@
     <string name="restart_app">Перезапустить приложение</string>
     <string name="copied">Скопировано в буфер обмена</string>
     <string name="exception">Исключение</string>
-    <string name="edit_exif">Редактирвоание EXIF</string>
+    <string name="edit_exif">Ред. EXIF</string>
     <string name="ok">Ок</string>
     <string name="no_exif">EXIF информация не найдена</string>
     <string name="add_tag">Добавить тег</string>

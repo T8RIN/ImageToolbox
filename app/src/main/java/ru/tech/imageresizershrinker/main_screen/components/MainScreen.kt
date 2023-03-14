@@ -454,6 +454,7 @@ fun MainScreen(
             modifier = Modifier
                 .systemBarsPadding()
                 .padding(horizontal = 16.dp, vertical = 8.dp)
+                .widthIn(max = 480.dp)
                 .fillMaxWidth(),
             onDismissRequest = { showSelectFolderDialog = false },
             title = { Text(stringResource(R.string.folder)) },

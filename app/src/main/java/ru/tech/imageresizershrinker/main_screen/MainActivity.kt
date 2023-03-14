@@ -47,6 +47,7 @@ import ru.tech.imageresizershrinker.theme.ImageResizerTheme
 import ru.tech.imageresizershrinker.utils.IntentUtils.parcelable
 import ru.tech.imageresizershrinker.utils.IntentUtils.parcelableArrayList
 import ru.tech.imageresizershrinker.utils.getSavingFolder
+import ru.tech.imageresizershrinker.utils.invoke
 import ru.tech.imageresizershrinker.utils.setContentWithWindowSizeClass
 import ru.tech.imageresizershrinker.utils.toUiPath
 import java.util.concurrent.TimeUnit
@@ -90,9 +91,9 @@ class MainActivity : ComponentActivity() {
                             controller = viewModel.navController,
                             transitionSpec = { _, _, to ->
                                 if (to != Screen.Main) {
-                                    slideInVertically() + fadeIn() with fadeOut()
+                                    slideInHorizontally { it / 2 } + fadeIn() with fadeOut()
                                 } else {
-                                    fadeIn() with fadeOut() + slideOutVertically()
+                                    fadeIn() with fadeOut() + slideOutHorizontally { it / 2 }
                                 }
                             }
                         ) { screen ->
@@ -205,7 +206,8 @@ class MainActivity : ComponentActivity() {
                                 }
                                 is Screen.Compare -> {
                                     CompareScreen(
-                                        comparableUris = viewModel.uris?.takeIf { it.size == 2 }
+                                        comparableUris = viewModel.uris
+                                            ?.takeIf { it.size == 2 }
                                             ?.let { it[0] to it[1] },
                                         pushNewUris = viewModel::updateUris,
                                         navController = viewModel.navController,
@@ -265,89 +267,69 @@ class MainActivity : ComponentActivity() {
                             confirmButton = {
                                 TextButton(
                                     onClick = {
-                                        viewModel.hideSelectDialog()
-                                        viewModel.updateUris(null)
+                                        viewModel {
+                                            hideSelectDialog()
+                                            updateUris(null)
+                                        }
                                     }
                                 ) {
                                     Text(stringResource(id = R.string.cancel))
                                 }
                             },
                             text = {
+                                val navigate: (Screen) -> Unit = { screen ->
+                                    viewModel {
+                                        navController {
+                                            popUpTo { it == Screen.Main }
+                                            navigate(screen)
+                                        }
+                                        hideSelectDialog()
+                                    }
+                                }
+                                val color = MaterialTheme.colorScheme.secondaryContainer
                                 if ((viewModel.uris?.size ?: 0) <= 1) {
                                     Column(Modifier.verticalScroll(rememberScrollState())) {
                                         SingleResizePreference(
-                                            onClick = {
-                                                viewModel.navController.popUpTo { it == Screen.Main }
-                                                viewModel.navController.navigate(Screen.SingleResize)
-                                                viewModel.hideSelectDialog()
-                                            },
-                                            color = MaterialTheme.colorScheme.secondaryContainer
+                                            onClick = { navigate(Screen.SingleResize) },
+                                            color = color
                                         )
                                         Spacer(modifier = Modifier.height(8.dp))
                                         BytesResizePreference(
-                                            onClick = {
-                                                viewModel.navController.popUpTo { it == Screen.Main }
-                                                viewModel.navController.navigate(Screen.ResizeByBytes)
-                                                viewModel.hideSelectDialog()
-                                            },
-                                            color = MaterialTheme.colorScheme.secondaryContainer
+                                            onClick = { navigate(Screen.ResizeByBytes) },
+                                            color = color
                                         )
                                         Spacer(modifier = Modifier.height(8.dp))
                                         CropPreference(
-                                            onClick = {
-                                                viewModel.navController.popUpTo { it == Screen.Main }
-                                                viewModel.navController.navigate(Screen.Crop)
-                                                viewModel.hideSelectDialog()
-                                            },
-                                            color = MaterialTheme.colorScheme.secondaryContainer
+                                            onClick = { navigate(Screen.Crop) },
+                                            color = color
                                         )
                                         Spacer(modifier = Modifier.height(8.dp))
                                         PickColorPreference(
-                                            onClick = {
-                                                viewModel.navController.popUpTo { it == Screen.Main }
-                                                viewModel.navController.navigate(Screen.PickColorFromImage)
-                                                viewModel.hideSelectDialog()
-                                            },
-                                            color = MaterialTheme.colorScheme.secondaryContainer
+                                            onClick = { navigate(Screen.PickColorFromImage) },
+                                            color = color
                                         )
                                         Spacer(modifier = Modifier.height(8.dp))
                                         GeneratePalettePreference(
-                                            onClick = {
-                                                viewModel.navController.popUpTo { it == Screen.Main }
-                                                viewModel.navController.navigate(Screen.GeneratePalette)
-                                                viewModel.hideSelectDialog()
-                                            },
-                                            color = MaterialTheme.colorScheme.secondaryContainer
+                                            onClick = { navigate(Screen.GeneratePalette) },
+                                            color = color
                                         )
                                     }
                                 } else {
                                     Column(Modifier.verticalScroll(rememberScrollState())) {
                                         BatchResizePreference(
-                                            onClick = {
-                                                viewModel.navController.popUpTo { it == Screen.Main }
-                                                viewModel.navController.navigate(Screen.BatchResize)
-                                                viewModel.hideSelectDialog()
-                                            },
-                                            color = MaterialTheme.colorScheme.secondaryContainer
+                                            onClick = { navigate(Screen.BatchResize) },
+                                            color = color
                                         )
                                         Spacer(modifier = Modifier.height(8.dp))
                                         BytesResizePreference(
-                                            onClick = {
-                                                viewModel.navController.popUpTo { it == Screen.Main }
-                                                viewModel.navController.navigate(Screen.ResizeByBytes)
-                                                viewModel.hideSelectDialog()
-                                            },
-                                            color = MaterialTheme.colorScheme.secondaryContainer
+                                            onClick = { navigate(Screen.ResizeByBytes) },
+                                            color = color
                                         )
                                         if (viewModel.uris?.size == 2) {
                                             Spacer(modifier = Modifier.height(8.dp))
                                             ComparePreference(
-                                                onClick = {
-                                                    viewModel.navController.popUpTo { it == Screen.Main }
-                                                    viewModel.navController.navigate(Screen.Compare)
-                                                    viewModel.hideSelectDialog()
-                                                },
-                                                color = MaterialTheme.colorScheme.secondaryContainer
+                                                onClick = { navigate(Screen.Compare) },
+                                                color = color
                                             )
                                         }
                                     }
