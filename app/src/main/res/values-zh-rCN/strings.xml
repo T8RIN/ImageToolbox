@@ -80,12 +80,12 @@
     <string name="clear">清空</string>
     <string name="settings">设置</string>
     <string name="night_mode">夜间模式</string>
-    <string name="dark">黑暗</string>
-    <string name="light">光</string>
-    <string name="system">系统</string>
-    <string name="customization">定制化</string>
-    <string name="allow_image_monet">允许图像货币化</string>
-    <string name="allow_image_monet_sub">如果启用，当你选择一个要编辑的图像时，应用程序的颜色将被采用到这个图像上。</string>
+    <string name="dark">暗色</string>
+    <string name="light">亮色</string>
+    <string name="system">跟随系统</string>
+    <string name="customization">自定义</string>
+    <string name="allow_image_monet">来自图片的 Monet 色彩</string>
+    <string name="allow_image_monet_sub">如果启用，当你选择一张要编辑的图片时，应用程序的颜色将基于此图片变换</string>
     <string name="language">语言</string>
-    <string name="dynamic_colors">动态色彩</string>
+    <string name="dynamic_colors">Monet 色彩</string>
 </resources>
