@@ -83,4 +83,9 @@
     <string name="dark">Темний</string>
     <string name="light">Світлий</string>
     <string name="system">Системний</string>
+    <string name="dynamic_colors">Динамічні кольори</string>
+    <string name="allow_image_monet">Дозволити іміджеві монети</string>
+    <string name="language">Мова</string>
+    <string name="allow_image_monet_sub">Якщо увімкнено, коли ви вибираєте зображення для редагування, кольори програми буде застосовано до цього зображення</string>
+    <string name="customization">Налаштування</string>
 </resources>
