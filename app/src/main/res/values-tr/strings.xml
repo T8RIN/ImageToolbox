@@ -78,4 +78,14 @@
     <string name="pick_images">Resim Seç</string>
     <string name="compare">Karşılaştırmak</string>
     <string name="compare_sub">Verilen iki resmi karşılaştırın</string>
+    <string name="settings">Ayarlar</string>
+    <string name="night_mode">Gece modu</string>
+    <string name="dark">Karanlık</string>
+    <string name="light">Işık</string>
+    <string name="system">Sistem</string>
+    <string name="language">Dil</string>
+    <string name="dynamic_colors">Dinamik renkler</string>
+    <string name="allow_image_monet">Görüntü parasına izin ver</string>
+    <string name="customization">Özelleştirme</string>
+    <string name="allow_image_monet_sub">Etkinleştirilirse, düzenlemek için bir görüntü seçtiğinizde, uygulama renkleri bu görüntüye uyarlanır</string>
 </resources>

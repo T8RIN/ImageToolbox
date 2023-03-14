@@ -78,4 +78,14 @@
     <string name="compare_sub">Comparer deux images données</string>
     <string name="pick_two_images">Choisissez deux images pour commencer</string>
     <string name="pick_images">Choisir des images</string>
+    <string name="settings">Paramètres</string>
+    <string name="night_mode">Mode nuit</string>
+    <string name="dark">Sombre</string>
+    <string name="system">Système</string>
+    <string name="dynamic_colors">Couleurs dynamiques</string>
+    <string name="customization">Personnalisation</string>
+    <string name="language">Langue</string>
+    <string name="allow_image_monet">Permettre la monétisation des images</string>
+    <string name="light">Lumière</string>
+    <string name="allow_image_monet_sub">Si cette option est activée, lorsque vous choisissez une image à modifier, les couleurs de l\'application seront adoptées pour cette image.</string>
 </resources>

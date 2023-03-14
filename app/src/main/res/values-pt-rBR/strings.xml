@@ -78,4 +78,14 @@
     <string name="compare_sub">Comparar duas imagens</string>
     <string name="pick_two_images">Escolha duas imagens para começar</string>
     <string name="pick_images">Escolher imagens</string>
+    <string name="settings">Configurações</string>
+    <string name="night_mode">Modo noturno</string>
+    <string name="dark">Escuro</string>
+    <string name="light">Luz</string>
+    <string name="system">Sistema</string>
+    <string name="dynamic_colors">Cores dinâmicas</string>
+    <string name="customization">Personalização</string>
+    <string name="allow_image_monet">Permitir monet de imagem</string>
+    <string name="allow_image_monet_sub">Se ativado, quando você escolher uma imagem para editar, as cores do aplicativo serão adotadas para esta imagem</string>
+    <string name="language">Idioma</string>
 </resources>
