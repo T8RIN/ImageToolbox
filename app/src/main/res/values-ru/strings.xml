@@ -87,4 +87,5 @@
     <string name="customization">Кастомизация</string>
     <string name="allow_image_monet">Тема по изображению</string>
     <string name="allow_image_monet_sub">Если включено, то цвета приложения будут подстраиваться под выбранное изображение в режиме редактирования</string>
+    <string name="language">Язык</string>
 </resources>
