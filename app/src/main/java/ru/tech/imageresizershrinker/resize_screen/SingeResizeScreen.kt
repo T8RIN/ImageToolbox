@@ -58,6 +58,7 @@ import dev.olshevski.navigation.reimagined.pop
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.R
+import ru.tech.imageresizershrinker.main_screen.components.LocalAllowChangeColorByImage
 import ru.tech.imageresizershrinker.main_screen.components.Screen
 import ru.tech.imageresizershrinker.main_screen.components.navBarsLandscapePadding
 import ru.tech.imageresizershrinker.resize_screen.components.*
@@ -90,6 +91,8 @@ fun Context.SingleResizeScreen(
     val scope = rememberCoroutineScope()
     val context = LocalContext.current as ComponentActivity
     val themeState = LocalDynamicThemeState.current
+    val allowChangeColor = LocalAllowChangeColorByImage.current
+
     LaunchedEffect(uriState) {
         uriState?.let {
             decodeBitmapFromUri(
@@ -114,7 +117,7 @@ fun Context.SingleResizeScreen(
     }
     LaunchedEffect(viewModel.bitmap) {
         viewModel.bitmap?.let {
-            themeState.updateColorByImage(it)
+            if (allowChangeColor) themeState.updateColorByImage(it)
         }
     }
 

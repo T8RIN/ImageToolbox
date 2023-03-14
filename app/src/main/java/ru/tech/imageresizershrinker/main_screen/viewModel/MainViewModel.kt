@@ -7,8 +7,6 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
-import androidx.datastore.preferences.core.intPreferencesKey
-import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -23,6 +21,10 @@ import org.w3c.dom.Element
 import ru.tech.imageresizershrinker.BuildConfig
 import ru.tech.imageresizershrinker.main_screen.components.Screen
 import ru.tech.imageresizershrinker.resize_screen.components.ToastHostState
+import ru.tech.imageresizershrinker.utils.DYNAMIC_COLORS
+import ru.tech.imageresizershrinker.utils.IMAGE_MONET
+import ru.tech.imageresizershrinker.utils.NIGHT_MODE
+import ru.tech.imageresizershrinker.utils.SAVE_FOLDER
 import java.net.URL
 import javax.inject.Inject
 import javax.xml.parsers.DocumentBuilderFactory
@@ -32,14 +34,17 @@ class MainViewModel @Inject constructor(
     private val dataStore: DataStore<Preferences>
 ) : ViewModel() {
 
-    private val SAVE_FOLDER = stringPreferencesKey("saveFolder")
-    private val NIGHT_MODE = intPreferencesKey("nightMode")
-
     private val _saveFolderUri = mutableStateOf<Uri?>(null)
     val saveFolderUri by _saveFolderUri
 
     private val _nightMode = mutableStateOf(2)
     val nightMode by _nightMode
+
+    private val _dynamicColors = mutableStateOf(true)
+    val dynamicColors by _dynamicColors
+
+    private val _allowImageMonet = mutableStateOf(true)
+    val allowImageMonet by _allowImageMonet
 
     val navController = navController<Screen>(Screen.Main)
 
@@ -57,7 +62,6 @@ class MainViewModel @Inject constructor(
     private val _shouldShowDialog = mutableStateOf(true)
     val shouldShowDialog by _shouldShowDialog
 
-
     private val _tag = mutableStateOf("")
     val tag by _tag
 
@@ -69,7 +73,10 @@ class MainViewModel @Inject constructor(
     init {
         tryGetUpdate()
         runBlocking {
-            dataStore.edit { _nightMode.value = it[NIGHT_MODE] ?: 2 }
+            dataStore.edit {
+                _nightMode.value = it[NIGHT_MODE] ?: 2
+                _dynamicColors.value = it[DYNAMIC_COLORS] ?: true
+            }
         }
         dataStore.data.onEach {
             _saveFolderUri.value = it[SAVE_FOLDER]?.let { uri ->
@@ -77,7 +84,25 @@ class MainViewModel @Inject constructor(
                 else Uri.parse(uri)
             }
             _nightMode.value = it[NIGHT_MODE] ?: 2
+            _dynamicColors.value = it[DYNAMIC_COLORS] ?: true
+            _allowImageMonet.value = it[IMAGE_MONET] ?: true
         }.launchIn(viewModelScope)
+    }
+
+    fun updateDynamicColors() {
+        viewModelScope.launch {
+            dataStore.edit {
+                it[DYNAMIC_COLORS] = !dynamicColors
+            }
+        }
+    }
+
+    fun updateAllowImageMonet() {
+        viewModelScope.launch {
+            dataStore.edit {
+                it[IMAGE_MONET] = !allowImageMonet
+            }
+        }
     }
 
     fun setNightMode(mode: Int) {

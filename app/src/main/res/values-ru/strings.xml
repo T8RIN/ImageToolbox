@@ -83,4 +83,8 @@
     <string name="dark">Темный</string>
     <string name="light">Светлый</string>
     <string name="system">Системный</string>
+    <string name="dynamic_colors">Динамические цвета</string>
+    <string name="customization">Кастомизация</string>
+    <string name="allow_image_monet">Тема по изображению</string>
+    <string name="allow_image_monet_sub">Если включено, то цвета приложения будут подстраиваться под выбранное изображение в режиме редактирования</string>
 </resources>

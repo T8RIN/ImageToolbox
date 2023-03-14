@@ -3,12 +3,14 @@ package ru.tech.imageresizershrinker.main_screen.components
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import android.os.Build
 import androidx.activity.compose.BackHandler
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
@@ -21,6 +23,7 @@ import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
@@ -31,8 +34,10 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.compose.ui.zIndex
 import com.cookhelper.dynamic.theme.LocalDynamicThemeState
 import dev.olshevski.navigation.reimagined.NavController
@@ -107,6 +112,7 @@ fun MainScreen(
                 ModalDrawerSheet {
                     CompositionLocalProvider(LocalLayoutDirection provides layoutDirection) {
                         TopAppBar(
+                            colors = TopAppBarDefaults.topAppBarColors(Color.Transparent),
                             title = { Text(stringResource(R.string.settings)) },
                             actions = {
                                 IconButton(
@@ -219,7 +225,7 @@ fun MainScreen(
                                             title = title,
                                             color = MaterialTheme.colorScheme.secondaryContainer.copy(
                                                 alpha = animateFloatAsState(
-                                                    if (index == LocalNightMode.current) 1f
+                                                    if (index == viewModel.nightMode) 1f
                                                     else 0.5f
                                                 ).value
                                             ),
@@ -230,7 +236,7 @@ fun MainScreen(
                                                 .border(
                                                     width = 1.dp,
                                                     color = animateColorAsState(
-                                                        if (index == LocalNightMode.current) MaterialTheme.colorScheme.onSecondaryContainer.copy(
+                                                        if (index == viewModel.nightMode) MaterialTheme.colorScheme.onSecondaryContainer.copy(
                                                             alpha = 0.5f
                                                         )
                                                         else Color.Transparent
@@ -240,9 +246,78 @@ fun MainScreen(
                                         )
                                     }
                                 }
-
                                 Spacer(Modifier.height(16.dp))
                             }
+                            Divider()
+                            Column {
+                                Row(
+                                    Modifier.padding(16.dp),
+                                    verticalAlignment = Alignment.CenterVertically
+                                ) {
+                                    Icon(Icons.Rounded.Palette, null)
+                                    Spacer(Modifier.width(8.dp))
+                                    Text(stringResource(R.string.customization))
+                                }
+                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                                    Row(
+                                        modifier = Modifier
+                                            .padding(horizontal = 16.dp)
+                                            .clip(RoundedCornerShape(16.dp))
+                                            .clickable { viewModel.updateDynamicColors() }
+                                            .block(
+                                                color = MaterialTheme.colorScheme.secondaryContainer.copy(
+                                                    alpha = 0.5f
+                                                )
+                                            )
+                                            .padding(horizontal = 16.dp, vertical = 8.dp),
+                                        verticalAlignment = Alignment.CenterVertically
+                                    ) {
+                                        Text(
+                                            text = stringResource(R.string.dynamic_colors),
+                                            modifier = Modifier.weight(1f)
+                                        )
+                                        Switch(
+                                            checked = viewModel.dynamicColors,
+                                            onCheckedChange = {
+                                                viewModel.updateDynamicColors()
+                                            }
+                                        )
+                                    }
+                                    Spacer(Modifier.height(16.dp))
+                                }
+                                Row(
+                                    modifier = Modifier
+                                        .padding(horizontal = 16.dp)
+                                        .clip(RoundedCornerShape(16.dp))
+                                        .clickable { viewModel.updateAllowImageMonet() }
+                                        .block(
+                                            color = MaterialTheme.colorScheme.secondaryContainer.copy(
+                                                alpha = 0.5f
+                                            )
+                                        )
+                                        .padding(horizontal = 16.dp, vertical = 8.dp),
+                                    verticalAlignment = Alignment.CenterVertically
+                                ) {
+                                    Column(modifier = Modifier.weight(1f)) {
+                                        Text(text = stringResource(R.string.allow_image_monet))
+                                        Spacer(modifier = Modifier.height(2.dp))
+                                        Text(
+                                            text = stringResource(R.string.allow_image_monet_sub),
+                                            fontSize = 12.sp,
+                                            fontWeight = FontWeight.Normal,
+                                            lineHeight = 14.sp,
+                                            color = LocalContentColor.current.copy(alpha = 0.5f)
+                                        )
+                                    }
+                                    Switch(
+                                        checked = viewModel.allowImageMonet,
+                                        onCheckedChange = {
+                                            viewModel.updateAllowImageMonet()
+                                        }
+                                    )
+                                }
+                            }
+                            Spacer(Modifier.height(16.dp))
                         }
                     }
                 }

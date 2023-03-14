@@ -56,6 +56,7 @@ import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.batch_resize.components.SaveExifWidget
 import ru.tech.imageresizershrinker.bytes_resize_screen.viewModel.BytesResizeViewModel
+import ru.tech.imageresizershrinker.main_screen.components.LocalAllowChangeColorByImage
 import ru.tech.imageresizershrinker.main_screen.components.Screen
 import ru.tech.imageresizershrinker.main_screen.components.block
 import ru.tech.imageresizershrinker.main_screen.components.navBarsLandscapePadding
@@ -87,6 +88,7 @@ fun BytesResizeScreen(
     val toastHostState = LocalToastHost.current
     val scope = rememberCoroutineScope()
     val themeState = LocalDynamicThemeState.current
+    val allowChangeColor = LocalAllowChangeColorByImage.current
 
     LaunchedEffect(uriState) {
         uriState?.takeIf { it.isNotEmpty() }?.let {
@@ -113,7 +115,7 @@ fun BytesResizeScreen(
     }
     LaunchedEffect(viewModel.bitmap) {
         viewModel.bitmap?.let {
-            themeState.updateColorByImage(it)
+            if (allowChangeColor) themeState.updateColorByImage(it)
         }
     }
 

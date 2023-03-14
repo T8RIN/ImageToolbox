@@ -45,6 +45,7 @@ import dev.olshevski.navigation.reimagined.pop
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.generate_palette.isScrollingUp
+import ru.tech.imageresizershrinker.main_screen.components.LocalAllowChangeColorByImage
 import ru.tech.imageresizershrinker.main_screen.components.Screen
 import ru.tech.imageresizershrinker.main_screen.components.block
 import ru.tech.imageresizershrinker.main_screen.components.navBarsLandscapePadding
@@ -69,6 +70,7 @@ fun PickColorFromImageScreen(
     val toastHostState = LocalToastHost.current
     val scope = rememberCoroutineScope()
     val themeState = LocalDynamicThemeState.current
+    val allowChangeColor = LocalAllowChangeColorByImage.current
 
     LaunchedEffect(uriState) {
         uriState?.let {
@@ -96,7 +98,7 @@ fun PickColorFromImageScreen(
 
     LaunchedEffect(viewModel.bitmap) {
         viewModel.bitmap?.let {
-            themeState.updateColorByImage(it)
+            if (allowChangeColor) themeState.updateColorByImage(it)
         }
     }
 

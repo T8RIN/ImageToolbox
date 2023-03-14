@@ -47,6 +47,7 @@ import ru.tech.imageresizershrinker.crop_screen.components.AspectRatioSelection
 import ru.tech.imageresizershrinker.crop_screen.components.aspectRatios
 import ru.tech.imageresizershrinker.crop_screen.viewModel.CropViewModel
 import ru.tech.imageresizershrinker.generate_palette.isScrollingUp
+import ru.tech.imageresizershrinker.main_screen.components.LocalAllowChangeColorByImage
 import ru.tech.imageresizershrinker.main_screen.components.Screen
 import ru.tech.imageresizershrinker.resize_screen.components.ImageNotPickedWidget
 import ru.tech.imageresizershrinker.resize_screen.components.LoadingDialog
@@ -74,6 +75,7 @@ fun CropScreen(
     val toastHostState = LocalToastHost.current
     val scope = rememberCoroutineScope()
     val themeState = LocalDynamicThemeState.current
+    val allowChangeColor = LocalAllowChangeColorByImage.current
 
     var showExitDialog by rememberSaveable { mutableStateOf(false) }
 
@@ -101,7 +103,7 @@ fun CropScreen(
     }
     LaunchedEffect(viewModel.bitmap) {
         viewModel.bitmap?.let {
-            themeState.updateColorByImage(it)
+            if (allowChangeColor) themeState.updateColorByImage(it)
         }
     }
 

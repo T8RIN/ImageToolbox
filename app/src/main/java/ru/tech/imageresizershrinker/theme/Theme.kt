@@ -15,6 +15,7 @@ import com.cookhelper.dynamic.theme.DynamicTheme
 import com.cookhelper.dynamic.theme.LocalDynamicThemeState
 import com.cookhelper.dynamic.theme.rememberDynamicThemeState
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
+import ru.tech.imageresizershrinker.main_screen.components.LocalDynamicColors
 import ru.tech.imageresizershrinker.main_screen.components.LocalNightMode
 import ru.tech.imageresizershrinker.main_screen.components.toMode
 
@@ -85,7 +86,7 @@ private val DarkColorScheme = darkColorScheme(
 
 @Composable
 fun ImageResizerTheme(
-    dynamicColor: Boolean = true,
+    dynamicColor: Boolean = LocalDynamicColors.current,
     content: @Composable () -> Unit
 ) {
     val dynamic = dynamicColor && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S

@@ -79,10 +79,11 @@ class MainActivity : ComponentActivity() {
 
             CompositionLocalProvider(
                 LocalToastHost provides viewModel.toastHostState,
-                LocalNightMode provides viewModel.nightMode
+                LocalNightMode provides viewModel.nightMode,
+                LocalDynamicColors provides viewModel.dynamicColors,
+                LocalAllowChangeColorByImage provides viewModel.allowImageMonet
             ) {
                 ImageResizerTheme {
-
                     BackHandler {
                         if (viewModel.shouldShowDialog) showExitDialog = true
                         else finishAffinity()

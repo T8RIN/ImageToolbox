@@ -1,4 +1,4 @@
-package ru.tech.imageresizershrinker.compare_screen
+package ru.tech.imageresizershrinker.compare_screen.viewModel
 
 import android.graphics.Bitmap
 import androidx.compose.runtime.MutableState

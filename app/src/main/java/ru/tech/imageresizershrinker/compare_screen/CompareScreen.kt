@@ -37,7 +37,9 @@ import dev.olshevski.navigation.reimagined.NavController
 import dev.olshevski.navigation.reimagined.pop
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.R
+import ru.tech.imageresizershrinker.compare_screen.viewModel.CompareViewModel
 import ru.tech.imageresizershrinker.generate_palette.isScrollingUp
+import ru.tech.imageresizershrinker.main_screen.components.LocalAllowChangeColorByImage
 import ru.tech.imageresizershrinker.main_screen.components.Screen
 import ru.tech.imageresizershrinker.main_screen.components.block
 import ru.tech.imageresizershrinker.resize_screen.components.ImageNotPickedWidget
@@ -59,12 +61,13 @@ fun CompareScreen(
     val toastHostState = LocalToastHost.current
     val scope = rememberCoroutineScope()
     val themeState = LocalDynamicThemeState.current
+    val allowChangeColor = LocalAllowChangeColorByImage.current
 
     var progress by rememberSaveable { mutableStateOf(50f) }
 
     LaunchedEffect(viewModel.bitmapData) {
         viewModel.bitmapData?.first?.let {
-            themeState.updateColorByImage(it)
+            if (allowChangeColor) themeState.updateColorByImage(it)
         }
     }
     LaunchedEffect(comparableUris) {

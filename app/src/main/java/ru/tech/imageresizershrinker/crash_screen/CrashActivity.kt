@@ -35,7 +35,6 @@ import androidx.core.view.WindowCompat
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
-import androidx.datastore.preferences.core.intPreferencesKey
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.AndroidEntryPoint
@@ -47,27 +46,36 @@ import kotlinx.coroutines.runBlocking
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.crash_screen.GlobalExceptionHandler.Companion.getExceptionString
 import ru.tech.imageresizershrinker.main_screen.MainActivity
+import ru.tech.imageresizershrinker.main_screen.components.LocalDynamicColors
 import ru.tech.imageresizershrinker.main_screen.components.LocalNightMode
 import ru.tech.imageresizershrinker.resize_screen.components.ToastHost
 import ru.tech.imageresizershrinker.resize_screen.components.rememberToastHostState
 import ru.tech.imageresizershrinker.theme.ImageResizerTheme
+import ru.tech.imageresizershrinker.utils.DYNAMIC_COLORS
+import ru.tech.imageresizershrinker.utils.NIGHT_MODE
 import javax.inject.Inject
 
 @HiltViewModel
 class CrashViewModel @Inject constructor(
     dataStore: DataStore<Preferences>,
 ) : ViewModel() {
-    private val NIGHT_MODE = intPreferencesKey("nightMode")
 
     private val _nightMode = mutableStateOf(2)
     val nightMode by _nightMode
 
+    private val _dynamicColors = mutableStateOf(false)
+    val dynamicColors by _dynamicColors
+
     init {
         runBlocking {
-            dataStore.edit { _nightMode.value = it[NIGHT_MODE] ?: 2 }
+            dataStore.edit {
+                _nightMode.value = it[NIGHT_MODE] ?: 2
+                _dynamicColors.value = it[DYNAMIC_COLORS] ?: true
+            }
         }
         dataStore.data.onEach {
             _nightMode.value = it[NIGHT_MODE] ?: 2
+            _dynamicColors.value = it[DYNAMIC_COLORS] ?: true
         }.launchIn(viewModelScope)
     }
 }
@@ -90,7 +98,10 @@ class CrashActivity : ComponentActivity() {
             val toastHostState = rememberToastHostState()
             val scope = rememberCoroutineScope()
 
-            CompositionLocalProvider(LocalNightMode provides viewModel.nightMode) {
+            CompositionLocalProvider(
+                LocalNightMode provides viewModel.nightMode,
+                LocalDynamicColors provides viewModel.dynamicColors
+            ) {
                 ImageResizerTheme {
                     val conf = LocalConfiguration.current
                     val size = min(conf.screenWidthDp.dp, conf.screenHeightDp.dp)

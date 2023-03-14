@@ -86,5 +86,9 @@
     <string name="dark">Dark</string>
     <string name="light">Light</string>
     <string name="system">System</string>
+    <string name="dynamic_colors">Dynamic colors</string>
+    <string name="customization">Customization</string>
+    <string name="allow_image_monet">Allow image monet</string>
+    <string name="allow_image_monet_sub">If enabled, when you choose an image to edit, app colors will be adopted to this image</string>
     <!--    <string name="processing">Processing</string>-->
 </resources>

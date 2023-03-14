@@ -83,7 +83,6 @@ public class DynamicThemeState(
     initialPrimaryColor: Color,
     public var defColor: Color
 ) {
-
     public val primaryColor: MutableState<Color> = mutableStateOf(initialPrimaryColor)
 
     public inline val animatedPrimaryColor: State<Color>
