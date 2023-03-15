@@ -80,7 +80,9 @@ class MainActivity : AppCompatActivity() {
                 LocalToastHost provides viewModel.toastHostState,
                 LocalNightMode provides viewModel.nightMode,
                 LocalDynamicColors provides viewModel.dynamicColors,
-                LocalAllowChangeColorByImage provides viewModel.allowImageMonet
+                LocalAllowChangeColorByImage provides viewModel.allowImageMonet,
+                LocalAmoledMode provides viewModel.amoledMode,
+                LocalAppPrimaryColor provides viewModel.appPrimaryColor
             ) {
                 ImageResizerTheme {
                     BackHandler {

@@ -23,6 +23,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -46,11 +47,16 @@ import kotlinx.coroutines.runBlocking
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.crash_screen.GlobalExceptionHandler.Companion.getExceptionString
 import ru.tech.imageresizershrinker.main_screen.MainActivity
+import ru.tech.imageresizershrinker.main_screen.components.LocalAmoledMode
+import ru.tech.imageresizershrinker.main_screen.components.LocalAppPrimaryColor
 import ru.tech.imageresizershrinker.main_screen.components.LocalDynamicColors
 import ru.tech.imageresizershrinker.main_screen.components.LocalNightMode
 import ru.tech.imageresizershrinker.resize_screen.components.ToastHost
 import ru.tech.imageresizershrinker.resize_screen.components.rememberToastHostState
 import ru.tech.imageresizershrinker.theme.ImageResizerTheme
+import ru.tech.imageresizershrinker.theme.md_theme_dark_primary
+import ru.tech.imageresizershrinker.utils.AMOLED_MODE
+import ru.tech.imageresizershrinker.utils.APP_COLOR
 import ru.tech.imageresizershrinker.utils.DYNAMIC_COLORS
 import ru.tech.imageresizershrinker.utils.NIGHT_MODE
 import javax.inject.Inject
@@ -63,19 +69,29 @@ class CrashViewModel @Inject constructor(
     private val _nightMode = mutableStateOf(2)
     val nightMode by _nightMode
 
-    private val _dynamicColors = mutableStateOf(false)
+    private val _dynamicColors = mutableStateOf(true)
     val dynamicColors by _dynamicColors
+
+    private val _amoledMode = mutableStateOf(false)
+    val amoledMode by _amoledMode
+
+    private val _appPrimaryColor = mutableStateOf(md_theme_dark_primary)
+    val appPrimaryColor by _appPrimaryColor
 
     init {
         runBlocking {
             dataStore.edit {
                 _nightMode.value = it[NIGHT_MODE] ?: 2
                 _dynamicColors.value = it[DYNAMIC_COLORS] ?: true
+                _amoledMode.value = it[AMOLED_MODE] ?: false
+                _appPrimaryColor.value = (it[APP_COLOR]?.let { Color(it) }) ?: md_theme_dark_primary
             }
         }
         dataStore.data.onEach {
             _nightMode.value = it[NIGHT_MODE] ?: 2
             _dynamicColors.value = it[DYNAMIC_COLORS] ?: true
+            _amoledMode.value = it[AMOLED_MODE] ?: false
+            _appPrimaryColor.value = (it[APP_COLOR]?.let { Color(it) }) ?: md_theme_dark_primary
         }.launchIn(viewModelScope)
     }
 }
@@ -100,7 +116,9 @@ class CrashActivity : AppCompatActivity() {
 
             CompositionLocalProvider(
                 LocalNightMode provides viewModel.nightMode,
-                LocalDynamicColors provides viewModel.dynamicColors
+                LocalDynamicColors provides viewModel.dynamicColors,
+                LocalAmoledMode provides viewModel.amoledMode,
+                LocalAppPrimaryColor provides viewModel.appPrimaryColor
             ) {
                 ImageResizerTheme {
                     val conf = LocalConfiguration.current

@@ -9,14 +9,11 @@ import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.animateFloatAsState
-import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.*
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.*
 import androidx.compose.material3.*
@@ -40,7 +37,6 @@ import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.zIndex
-import com.cookhelper.dynamic.theme.LocalDynamicThemeState
 import dev.olshevski.navigation.reimagined.NavController
 import dev.olshevski.navigation.reimagined.navigate
 import dev.olshevski.navigation.reimagined.popUpTo
@@ -50,7 +46,6 @@ import nl.dionsegijn.konfetti.core.*
 import ru.tech.imageresizershrinker.BuildConfig
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.main_screen.viewModel.MainViewModel
-import ru.tech.imageresizershrinker.resize_screen.components.blend
 import ru.tech.imageresizershrinker.theme.CreateAlt
 import ru.tech.imageresizershrinker.theme.Github
 import ru.tech.imageresizershrinker.theme.Sparkles
@@ -70,27 +65,6 @@ fun MainScreen(
     val scrollBehavior =
         TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
     val isGrid = LocalWindowSizeClass.current.widthSizeClass != WindowWidthSizeClass.Compact
-    val colorScheme = MaterialTheme.colorScheme
-    val themeState = LocalDynamicThemeState.current
-
-    val colors = remember(colorScheme) {
-        colorScheme.run {
-            listOf(
-                primary,
-                secondary,
-                tertiary,
-                primaryContainer,
-                secondaryContainer,
-                tertiaryContainer,
-                Color.Red.blend(primary, 0.4f),
-                Color.Green.blend(primary, 0.4f),
-                Color.Yellow.blend(primary, 0.4f),
-                Color.Magenta.blend(primary, 0.4f),
-                Color.Cyan.blend(primary, 0.4f),
-                Color.Red.blend(Color.Yellow, 1f).blend(primary),
-            )
-        }
-    }
 
     val sideSheetState = rememberDrawerState(initialValue = DrawerValue.Closed)
     val layoutDirection = LocalLayoutDirection.current
@@ -111,7 +85,7 @@ fun MainScreen(
                     }
                 }
                 ModalDrawerSheet(
-                    windowInsets = WindowInsets(0,0,0,0)
+                    windowInsets = WindowInsets(0, 0, 0, 0)
                 ) {
                     CompositionLocalProvider(LocalLayoutDirection provides layoutDirection) {
                         TopAppBar(
@@ -296,6 +270,30 @@ fun MainScreen(
                                         modifier = Modifier
                                             .padding(horizontal = 16.dp)
                                             .clip(RoundedCornerShape(16.dp))
+                                            .clickable { showPickColorDialog = true }
+                                            .block(
+                                                color = MaterialTheme.colorScheme.secondaryContainer.copy(
+                                                    alpha = 0.5f
+                                                )
+                                            )
+                                            .padding(horizontal = 16.dp, vertical = 8.dp),
+                                        verticalAlignment = Alignment.CenterVertically
+                                    ) {
+                                        Text(
+                                            text = stringResource(R.string.color_scheme),
+                                            modifier = Modifier.weight(1f)
+                                        )
+                                        Box(
+                                            Modifier
+                                                .background(viewModel.appPrimaryColor)
+                                                .clip(RoundedCornerShape(30))
+                                                .size(64.dp)
+                                        )
+                                    }
+                                    Row(
+                                        modifier = Modifier
+                                            .padding(horizontal = 16.dp)
+                                            .clip(RoundedCornerShape(16.dp))
                                             .clickable { viewModel.updateAllowImageMonet() }
                                             .block(
                                                 color = MaterialTheme.colorScheme.secondaryContainer.copy(
@@ -321,6 +319,39 @@ fun MainScreen(
                                             checked = viewModel.allowImageMonet,
                                             onCheckedChange = {
                                                 viewModel.updateAllowImageMonet()
+                                            }
+                                        )
+                                    }
+                                    Spacer(Modifier.height(8.dp))
+                                    Row(
+                                        modifier = Modifier
+                                            .padding(horizontal = 16.dp)
+                                            .clip(RoundedCornerShape(16.dp))
+                                            .clickable { viewModel.updateAmoledMode() }
+                                            .block(
+                                                color = MaterialTheme.colorScheme.secondaryContainer.copy(
+                                                    alpha = 0.5f
+                                                )
+                                            )
+                                            .padding(horizontal = 16.dp, vertical = 8.dp),
+                                        verticalAlignment = Alignment.CenterVertically
+                                    ) {
+                                        Column(modifier = Modifier.weight(1f)) {
+                                            Text(text = stringResource(R.string.amoled_mode))
+                                            Spacer(modifier = Modifier.height(2.dp))
+                                            Text(
+                                                text = stringResource(R.string.amoled_mode_sub),
+                                                fontSize = 12.sp,
+                                                fontWeight = FontWeight.Normal,
+                                                lineHeight = 14.sp,
+                                                color = LocalContentColor.current.copy(alpha = 0.5f)
+                                            )
+                                        }
+                                        Spacer(Modifier.width(8.dp))
+                                        Switch(
+                                            checked = viewModel.amoledMode,
+                                            onCheckedChange = {
+                                                viewModel.updateAmoledMode()
                                             }
                                         )
                                     }
@@ -355,7 +386,6 @@ fun MainScreen(
                                                     delay(200)
                                                     tryAwaitRelease()
                                                     showConfetti()
-                                                    themeState.updateColor(colors.random())
                                                     scaleState = 0.8f
                                                     delay(200)
                                                     scaleState = 1f

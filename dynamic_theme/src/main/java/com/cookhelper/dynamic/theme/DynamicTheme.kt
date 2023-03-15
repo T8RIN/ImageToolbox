@@ -25,10 +25,12 @@ import com.cookhelper.dynamic.theme.scheme.Scheme
 public fun DynamicTheme(
     state: DynamicThemeState,
     typography: androidx.compose.material3.Typography,
+    amoledMode: Boolean,
     isDarkTheme: Boolean,
     content: @Composable () -> Unit,
 ) {
     val scheme = rememberColorScheme(
+        amoledMode = amoledMode,
         isDarkTheme = isDarkTheme,
         color = state.animatedPrimaryColor.value
     )
@@ -120,13 +122,21 @@ public class DynamicThemeState(
 }
 
 @Composable
-public fun rememberColorScheme(isDarkTheme: Boolean, color: Color): ColorScheme {
+public fun rememberColorScheme(
+    isDarkTheme: Boolean,
+    amoledMode: Boolean,
+    color: Color
+): ColorScheme {
     val colorArgb = color.toArgb()
-    return remember(color, isDarkTheme) {
+    return remember(color, isDarkTheme, amoledMode) {
         if (isDarkTheme) {
             Scheme.darkContent(colorArgb).toDarkThemeColorScheme()
         } else {
             Scheme.lightContent(colorArgb).toLightThemeColorScheme()
+        }.let {
+            if (amoledMode && isDarkTheme) {
+                it.copy(background = Color.Black, surface = Color.Black)
+            } else it
         }
     }
 }

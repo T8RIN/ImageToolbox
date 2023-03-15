@@ -91,5 +91,7 @@
     <string name="allow_image_monet">Allow image monet</string>
     <string name="allow_image_monet_sub">If enabled, when you choose an image to edit, app colors will be adopted to this image</string>
     <string name="language">Language</string>
+    <string name="amoled_mode">Amoled mode</string>
+    <string name="amoled_mode_sub">If enabled surfaces color will be set to absolute dark in night mode</string>
     <!--    <string name="processing">Processing</string>-->
 </resources>

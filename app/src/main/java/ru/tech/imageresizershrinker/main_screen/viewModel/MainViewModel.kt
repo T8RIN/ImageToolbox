@@ -3,6 +3,8 @@ package ru.tech.imageresizershrinker.main_screen.viewModel
 import android.net.Uri
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
@@ -21,10 +23,8 @@ import org.w3c.dom.Element
 import ru.tech.imageresizershrinker.BuildConfig
 import ru.tech.imageresizershrinker.main_screen.components.Screen
 import ru.tech.imageresizershrinker.resize_screen.components.ToastHostState
-import ru.tech.imageresizershrinker.utils.DYNAMIC_COLORS
-import ru.tech.imageresizershrinker.utils.IMAGE_MONET
-import ru.tech.imageresizershrinker.utils.NIGHT_MODE
-import ru.tech.imageresizershrinker.utils.SAVE_FOLDER
+import ru.tech.imageresizershrinker.theme.md_theme_dark_primary
+import ru.tech.imageresizershrinker.utils.*
 import java.net.URL
 import javax.inject.Inject
 import javax.xml.parsers.DocumentBuilderFactory
@@ -45,6 +45,12 @@ class MainViewModel @Inject constructor(
 
     private val _allowImageMonet = mutableStateOf(true)
     val allowImageMonet by _allowImageMonet
+
+    private val _amoledMode = mutableStateOf(false)
+    val amoledMode by _amoledMode
+
+    private val _appPrimaryColor = mutableStateOf(md_theme_dark_primary)
+    val appPrimaryColor by _appPrimaryColor
 
     val navController = navController<Screen>(Screen.Main)
 
@@ -76,6 +82,8 @@ class MainViewModel @Inject constructor(
             dataStore.edit {
                 _nightMode.value = it[NIGHT_MODE] ?: 2
                 _dynamicColors.value = it[DYNAMIC_COLORS] ?: true
+                _amoledMode.value = it[AMOLED_MODE] ?: false
+                _appPrimaryColor.value = (it[APP_COLOR]?.let { Color(it) }) ?: md_theme_dark_primary
             }
         }
         dataStore.data.onEach {
@@ -86,7 +94,17 @@ class MainViewModel @Inject constructor(
             _nightMode.value = it[NIGHT_MODE] ?: 2
             _dynamicColors.value = it[DYNAMIC_COLORS] ?: true
             _allowImageMonet.value = it[IMAGE_MONET] ?: true
+            _amoledMode.value = it[AMOLED_MODE] ?: false
+            _appPrimaryColor.value = (it[APP_COLOR]?.let { Color(it) }) ?: md_theme_dark_primary
         }.launchIn(viewModelScope)
+    }
+
+    fun updatePrimaryColor(color: Color) {
+        viewModelScope.launch {
+            dataStore.edit {
+                it[APP_COLOR] = color.toArgb()
+            }
+        }
     }
 
     fun updateDynamicColors() {
@@ -101,6 +119,14 @@ class MainViewModel @Inject constructor(
         viewModelScope.launch {
             dataStore.edit {
                 it[IMAGE_MONET] = !allowImageMonet
+            }
+        }
+    }
+
+    fun updateAmoledMode() {
+        viewModelScope.launch {
+            dataStore.edit {
+                it[AMOLED_MODE] = !amoledMode
             }
         }
     }
