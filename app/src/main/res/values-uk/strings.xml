@@ -88,4 +88,12 @@
     <string name="language">Мова</string>
     <string name="allow_image_monet_sub">Якщо увімкнено, коли ви вибираєте зображення для редагування, кольори програми буде застосовано до цього зображення</string>
     <string name="customization">Налаштування</string>
+    <string name="amoled_mode">Режим amoled</string>
+    <string name="color_red">Червоний</string>
+    <string name="color_green">Зелений</string>
+    <string name="color_blue">Синій</string>
+    <string name="clipboard_paste_invalid_color_code">Вставити допустимий aRGB-код.</string>
+    <string name="color_scheme">Колірна гамма</string>
+    <string name="amoled_mode_sub">Якщо ввімкнути, колір поверхонь буде встановлено на абсолютну темряву в нічному режимі</string>
+    <string name="clipboard_paste_invalid_empty">Нічого вставляти</string>
 </resources>
