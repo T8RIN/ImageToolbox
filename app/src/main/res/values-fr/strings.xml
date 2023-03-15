@@ -88,4 +88,12 @@
     <string name="allow_image_monet">Permettre la monétisation des images</string>
     <string name="light">Lumière</string>
     <string name="allow_image_monet_sub">Si cette option est activée, lorsque vous choisissez une image à modifier, les couleurs de l\'application seront adoptées pour cette image.</string>
+    <string name="amoled_mode">Mode Amoled</string>
+    <string name="amoled_mode_sub">Si la couleur des surfaces est activée, la couleur sera définie sur l’obscurité absolue en mode nuit</string>
+    <string name="color_red">Rouge</string>
+    <string name="color_green">Vert</string>
+    <string name="color_blue">Bleu</string>
+    <string name="color_scheme">Couleurs</string>
+    <string name="clipboard_paste_invalid_empty">Rien à coller</string>
+    <string name="clipboard_paste_invalid_color_code">Collez un code aRGB valide.</string>
 </resources>
