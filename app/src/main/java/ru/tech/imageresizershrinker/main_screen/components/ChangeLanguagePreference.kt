@@ -12,6 +12,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Translate
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -28,7 +29,7 @@ import java.util.*
 @Composable
 fun ChangeLanguagePreference() {
     val context = LocalContext.current
-    var showDialog by remember { mutableStateOf(false) }
+    var showDialog by rememberSaveable { mutableStateOf(false) }
     Column(Modifier.animateContentSize()) {
         Row(
             modifier = Modifier
@@ -84,38 +85,42 @@ private fun PickLanguageDialog(
         icon = { Icon(imageVector = Icons.Outlined.Translate, contentDescription = null) },
         title = { Text(stringResource(R.string.language)) },
         text = {
-            Spacer(modifier = Modifier.height(8.dp))
-            Column(
-                horizontalAlignment = Alignment.CenterHorizontally,
-                modifier = Modifier.verticalScroll(rememberScrollState())
-            ) {
-                entries.forEach { locale ->
-                    Row(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .clip(MaterialTheme.shapes.medium)
-                            .clickable {
-                                onSelect(locale.key)
-                                onDismiss()
-                            }
-                            .padding(start = 12.dp, end = 12.dp),
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        RadioButton(
-                            selected = selected == locale.value,
-                            onClick = {
-                                onSelect(locale.key)
-                                onDismiss()
-                            }
-                        )
-                        Text(locale.value)
+            Box {
+                Divider(Modifier.align(Alignment.TopCenter))
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    modifier = Modifier.verticalScroll(rememberScrollState())
+                ) {
+                    Spacer(modifier = Modifier.height(8.dp))
+                    entries.forEach { locale ->
+                        Row(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .clip(MaterialTheme.shapes.medium)
+                                .clickable {
+                                    onSelect(locale.key)
+                                    onDismiss()
+                                }
+                                .padding(start = 12.dp, end = 12.dp),
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            RadioButton(
+                                selected = selected == locale.value,
+                                onClick = {
+                                    onSelect(locale.key)
+                                    onDismiss()
+                                }
+                            )
+                            Text(locale.value)
+                        }
                     }
+                    Spacer(modifier = Modifier.height(8.dp))
                 }
+                Divider(Modifier.align(Alignment.BottomCenter))
             }
-            Spacer(modifier = Modifier.height(8.dp))
         },
         confirmButton = {
-            Button(onClick = onDismiss) {
+            FilledTonalButton(onClick = onDismiss) {
                 Text(stringResource(R.string.cancel))
             }
         }
