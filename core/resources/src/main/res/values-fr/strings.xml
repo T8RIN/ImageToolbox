@@ -567,7 +567,7 @@
     <string name="segmentation_mode_single_word">Un seul mot</string>
     <string name="segmentation_mode_circle_word">Mot de cercle</string>
     <string name="segmentation_mode_single_char">Caractère unique</string>
-    <string name="delete_language_sub">Souhaitez-vous supprimer les données de formation OCR de langue \"%1$s\" pour tous les types de reconnaissance, ou uniquement pour celui sélectionné (%2$s) ?</string>
+    <string name="delete_language_sub">Souhaitez-vous supprimer les données de formation OCR de langue \"%1$s\" pour tous les types de reconnaissance, ou uniquement pour celui sélectionné (%2$s) ?</string>
     <string name="current">Actuel</string>
     <string name="all">Tous</string>
     <string name="camera_sub">Prendre une photo avec l\'appareil photo. Notez qu\'il est possible d\'obtenir une seule image à partir de cette source d\'image.</string>
@@ -777,8 +777,7 @@
     <string name="standard">Standard</string>
     <string name="best">Meilleur</string>
     <string name="no_data">Pas de données</string>
-    <string name="download_description">Pour que Tesseract OCR fonctionne correctement, des données d\'entraînement supplémentaires (%1$s) doivent être téléchargées sur votre appareil.
-\nVoulez-vous télécharger des données %2$s ?</string>
+    <string name="download_description">Pour que Tesseract OCR fonctionne correctement, des données d\'entraînement supplémentaires (%1$s) doivent être téléchargées sur votre appareil. \nVoulez-vous télécharger des données %2$s ?</string>
     <string name="download">Télécharger</string>
     <string name="no_connection">Pas de connexion, vérifiez et réessayez afin de télécharger des modèles de train</string>
     <string name="downloaded_languages">Langues téléchargées</string>
