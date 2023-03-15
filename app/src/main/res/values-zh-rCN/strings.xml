@@ -96,4 +96,6 @@
     <string name="clipboard_paste_invalid_color_code">粘贴有效的aRGB-代码。</string>
     <string name="color_scheme">配色方案</string>
     <string name="clipboard_paste_invalid_empty">没有什么可粘贴的</string>
+    <string name="cannot_change_palette_while_dynamic_colors_applied">启用动态颜色时无法更改应用配色方案</string>
+    <string name="pick_accent_color">应用程序主题将基于颜色，您将选择</string>
 </resources>
