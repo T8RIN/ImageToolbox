@@ -290,7 +290,7 @@ fun MainScreen(
                                                     imageVector = Icons.Rounded.CreateAlt,
                                                     contentDescription = null,
                                                     tint = if (LocalNightMode.current.toMode()) {
-                                                        if (viewModel.appPrimaryColor.luminance() < 0.5f) {
+                                                        if (viewModel.appPrimaryColor.luminance() < 0.4f) {
                                                             MaterialTheme
                                                                 .colorScheme
                                                                 .primary
@@ -300,7 +300,7 @@ fun MainScreen(
                                                                 .secondaryContainer
                                                         }
                                                     } else {
-                                                        if (viewModel.appPrimaryColor.luminance() < 0.5f) {
+                                                        if (viewModel.appPrimaryColor.luminance() < 0.4f) {
                                                             MaterialTheme
                                                                 .colorScheme
                                                                 .primaryContainer
