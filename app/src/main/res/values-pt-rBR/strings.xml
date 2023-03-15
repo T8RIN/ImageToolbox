@@ -96,4 +96,6 @@
     <string name="clipboard_paste_invalid_color_code">Cole um código RGB válido.</string>
     <string name="clipboard_paste_invalid_empty">Nada para colar</string>
     <string name="color_scheme">Esquema de cores</string>
+    <string name="cannot_change_palette_while_dynamic_colors_applied">Não é possível alterar o esquema de cores do aplicativo enquanto as cores dinâmicas estão ativadas</string>
+    <string name="pick_accent_color">O tema do aplicativo será baseado na cor, que você selecionará</string>
 </resources>
