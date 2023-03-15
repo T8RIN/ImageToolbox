@@ -197,9 +197,7 @@ fun GeneratePaletteScreen(
                 navigationIcon = {
                     IconButton(
                         onClick = {
-                            if (navController.backstack.entries.isNotEmpty()) navController.pop()
                             onGoBack()
-                            themeState.reset()
                         }
                     ) {
                         Icon(Icons.Rounded.ArrowBack, null)
@@ -346,9 +344,7 @@ fun GeneratePaletteScreen(
     if (viewModel.isLoading) LoadingDialog()
 
     BackHandler {
-        if (navController.backstack.entries.isNotEmpty()) navController.pop()
         onGoBack()
-        themeState.reset()
     }
 }
 

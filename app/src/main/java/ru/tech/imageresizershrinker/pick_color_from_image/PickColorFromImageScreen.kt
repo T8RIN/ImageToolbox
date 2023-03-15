@@ -154,9 +154,7 @@ fun PickColorFromImageScreen(
                         navigationIcon = {
                             IconButton(
                                 onClick = {
-                                    if (navController.backstack.entries.isNotEmpty()) navController.pop()
                                     onGoBack()
-                                    themeState.reset()
                                 }
                             ) {
                                 Icon(Icons.Rounded.ArrowBack, null)
@@ -191,9 +189,7 @@ fun PickColorFromImageScreen(
                             ) {
                                 IconButton(
                                     onClick = {
-                                        if (navController.backstack.entries.isNotEmpty()) navController.pop()
                                         onGoBack()
-                                        themeState.reset()
                                     },
                                     modifier = Modifier.statusBarsPadding()
                                 ) {
@@ -341,9 +337,7 @@ fun PickColorFromImageScreen(
     if (viewModel.isLoading) LoadingDialog()
 
     BackHandler {
-        if (navController.backstack.entries.isNotEmpty()) navController.pop()
         onGoBack()
-        themeState.reset()
     }
 }
 

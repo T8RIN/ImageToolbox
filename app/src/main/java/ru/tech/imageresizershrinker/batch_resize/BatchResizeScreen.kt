@@ -48,15 +48,12 @@ import androidx.compose.ui.window.DialogProperties
 import androidx.compose.ui.zIndex
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.cookhelper.dynamic.theme.LocalDynamicThemeState
-import dev.olshevski.navigation.reimagined.NavController
-import dev.olshevski.navigation.reimagined.pop
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.batch_resize.components.SaveExifWidget
 import ru.tech.imageresizershrinker.batch_resize.viewModel.BatchResizeViewModel
 import ru.tech.imageresizershrinker.main_screen.components.LocalAllowChangeColorByImage
-import ru.tech.imageresizershrinker.main_screen.components.Screen
 import ru.tech.imageresizershrinker.main_screen.components.block
 import ru.tech.imageresizershrinker.main_screen.components.navBarsLandscapePadding
 import ru.tech.imageresizershrinker.resize_screen.components.*
@@ -74,7 +71,6 @@ import ru.tech.imageresizershrinker.widget.Marquee
 @Composable
 fun BatchResizeScreen(
     uriState: List<Uri>?,
-    navController: NavController<Screen>,
     onGoBack: () -> Unit,
     pushNewUris: (List<Uri>?) -> Unit,
     getSavingFolder: (name: String, ext: String) -> SavingFolder,
@@ -530,10 +526,7 @@ fun BatchResizeScreen(
                         IconButton(
                             onClick = {
                                 if (viewModel.uris?.isNotEmpty() == true) showExitDialog = true
-                                else if (navController.backstack.entries.isNotEmpty()) {
-                                    navController.pop()
-                                    onGoBack()
-                                }
+                                else onGoBack()
                             }
                         ) {
                             Icon(Icons.Rounded.ArrowBack, null)
@@ -665,8 +658,6 @@ fun BatchResizeScreen(
                         FilledTonalButton(
                             onClick = {
                                 showExitDialog = false
-                                if (navController.backstack.entries.isNotEmpty()) navController.pop()
-                                themeState.reset()
                                 onGoBack()
                             }
                         ) {
@@ -850,10 +841,7 @@ fun BatchResizeScreen(
 
             BackHandler {
                 if (viewModel.uris?.isNotEmpty() == true) showExitDialog = true
-                else if (navController.backstack.entries.isNotEmpty()) {
-                    navController.pop()
-                    onGoBack()
-                }
+                else onGoBack()
             }
         }
     }

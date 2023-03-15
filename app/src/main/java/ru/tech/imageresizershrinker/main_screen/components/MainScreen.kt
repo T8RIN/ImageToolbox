@@ -300,7 +300,7 @@ fun MainScreen(
                                                             ),
                                                             shape = RoundedCornerShape(30)
                                                         )
-                                                        .size(64.dp)
+                                                        .size(48.dp)
                                                 )
                                             }
                                             Spacer(Modifier.height(8.dp))
@@ -736,7 +736,7 @@ fun MainScreen(
         }
     }
 
-    if(showPickColorDialog) {
+    if (showPickColorDialog) {
         ColorDialog(
             viewModel.appPrimaryColor,
             onDismissRequest = { showPickColorDialog = false },

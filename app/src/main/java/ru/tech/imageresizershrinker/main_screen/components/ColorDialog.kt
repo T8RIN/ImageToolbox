@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.ContentPaste
 import androidx.compose.material.icons.outlined.Palette
 import androidx.compose.material.icons.rounded.ContentCopy
 import androidx.compose.material3.*

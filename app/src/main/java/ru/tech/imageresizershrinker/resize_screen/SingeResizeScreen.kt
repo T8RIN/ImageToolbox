@@ -53,13 +53,10 @@ import com.smarttoolfactory.cropper.model.OutlineType
 import com.smarttoolfactory.cropper.model.RectCropShape
 import com.smarttoolfactory.cropper.settings.CropDefaults
 import com.smarttoolfactory.cropper.settings.CropOutlineProperty
-import dev.olshevski.navigation.reimagined.NavController
-import dev.olshevski.navigation.reimagined.pop
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.main_screen.components.LocalAllowChangeColorByImage
-import ru.tech.imageresizershrinker.main_screen.components.Screen
 import ru.tech.imageresizershrinker.main_screen.components.navBarsLandscapePadding
 import ru.tech.imageresizershrinker.resize_screen.components.*
 import ru.tech.imageresizershrinker.resize_screen.viewModel.SingleResizeViewModel
@@ -84,7 +81,6 @@ fun Context.SingleResizeScreen(
     uriState: Uri?,
     getSavingFolder: (name: String, ext: String) -> SavingFolder,
     savingPathString: String,
-    navController: NavController<Screen>,
     showConfetti: () -> Unit
 ) {
     val toastHostState = LocalToastHost.current
@@ -484,10 +480,7 @@ fun Context.SingleResizeScreen(
                         IconButton(
                             onClick = {
                                 if (viewModel.bitmap != null) showExitDialog = true
-                                else if (navController.backstack.entries.isNotEmpty()) {
-                                    navController.pop()
-                                    onGoBack()
-                                }
+                                else onGoBack()
                             }
                         ) {
                             Icon(Icons.Rounded.ArrowBack, null)
@@ -697,8 +690,6 @@ fun Context.SingleResizeScreen(
                         FilledTonalButton(
                             onClick = {
                                 showExitDialog = false
-                                if (navController.backstack.entries.isNotEmpty()) navController.pop()
-                                themeState.reset()
                                 onGoBack()
                             }
                         ) {
@@ -1061,10 +1052,7 @@ fun Context.SingleResizeScreen(
 
             BackHandler {
                 if (viewModel.bitmap != null) showExitDialog = true
-                else if (navController.backstack.entries.isNotEmpty()) {
-                    navController.pop()
-                    onGoBack()
-                }
+                else onGoBack()
             }
 
         }

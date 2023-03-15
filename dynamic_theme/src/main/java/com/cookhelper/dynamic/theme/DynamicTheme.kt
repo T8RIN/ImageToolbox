@@ -8,8 +8,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.*
-import androidx.compose.runtime.saveable.Saver
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.core.graphics.ColorUtils
@@ -47,43 +45,25 @@ public fun DynamicTheme(
 @Composable
 public fun rememberDynamicThemeState(
     initialPrimaryColor: Color = MaterialTheme.colorScheme.primary,
-    defColor: Color
 ): DynamicThemeState {
-    return rememberSaveable(saver = DynamicThemeSaver) {
-        DynamicThemeState(
-            initialPrimaryColor,
-            defColor
-        )
+    return remember {
+        DynamicThemeState(initialPrimaryColor)
     }
 }
-
-private val DynamicThemeSaver: Saver<DynamicThemeState, String> = Saver(
-    save = {
-        "${it.primaryColor.value.toArgb()} ${it.defColor.toArgb()}"
-    }, restore = {
-        val vals = it.split(" ")
-        DynamicThemeState(
-            initialPrimaryColor = Color(vals[0].toInt()),
-            defColor = Color(vals[1].toInt())
-        )
-    }
-)
 
 /**
  * Creates and remember [DynamicThemeState] instance
  * */
 @Composable
 public fun rememberDynamicThemeState(
-    initialPrimaryColor: Int,
-    defColor: Color
+    initialPrimaryColor: Int
 ): DynamicThemeState {
-    return rememberDynamicThemeState(Color(initialPrimaryColor), defColor)
+    return rememberDynamicThemeState(Color(initialPrimaryColor))
 }
 
 @Stable
 public class DynamicThemeState(
-    initialPrimaryColor: Color,
-    public var defColor: Color
+    initialPrimaryColor: Color
 ) {
     public val primaryColor: MutableState<Color> = mutableStateOf(initialPrimaryColor)
 
@@ -91,7 +71,6 @@ public class DynamicThemeState(
         @Composable get() = animateColorAsState(primaryColor.value)
 
     public fun updateColor(color: Color) {
-        defColor = color
         primaryColor.value = color
     }
 
@@ -116,9 +95,6 @@ public class DynamicThemeState(
             }
     }
 
-    public fun reset() {
-        updateColor(defColor)
-    }
 }
 
 @Composable

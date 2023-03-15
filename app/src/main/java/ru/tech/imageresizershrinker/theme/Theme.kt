@@ -95,7 +95,9 @@ fun ImageResizerTheme(
     val primary = when {
         dynamic -> {
             val context = LocalContext.current
-            if (darkTheme) dynamicDarkColorScheme(context).primary else dynamicLightColorScheme(context).primary
+            if (darkTheme) dynamicDarkColorScheme(context).primary else dynamicLightColorScheme(
+                context
+            ).primary
         }
         else -> LocalAppPrimaryColor.current
     }
@@ -111,8 +113,7 @@ fun ImageResizerTheme(
     }
 
     val state = rememberDynamicThemeState(
-        initialPrimaryColor = primary,
-        defColor = primary,
+        initialPrimaryColor = primary
     )
     LaunchedEffect(primary) {
         if (primary != state.primaryColor.value) {

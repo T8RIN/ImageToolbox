@@ -23,6 +23,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.WindowCompat
+import com.cookhelper.dynamic.theme.LocalDynamicThemeState
 import dagger.hilt.android.AndroidEntryPoint
 import dev.olshevski.navigation.reimagined.*
 import nl.dionsegijn.konfetti.compose.KonfettiView
@@ -85,6 +86,14 @@ class MainActivity : AppCompatActivity() {
                 LocalAppPrimaryColor provides viewModel.appPrimaryColor
             ) {
                 ImageResizerTheme {
+                    val themeState = LocalDynamicThemeState.current
+                    val onGoBack: () -> Unit = {
+                        viewModel.updateUris(null)
+                        themeState.updateColor(viewModel.appPrimaryColor)
+                        viewModel.navController {
+                            if (backstack.entries.isNotEmpty()) pop()
+                        }
+                    }
                     BackHandler {
                         if (viewModel.shouldShowDialog) showExitDialog = true
                         else finishAffinity()
@@ -116,8 +125,7 @@ class MainActivity : AppCompatActivity() {
                                 is Screen.SingleResize -> {
                                     SingleResizeScreen(
                                         uriState = viewModel.uris?.firstOrNull(),
-                                        navController = viewModel.navController,
-                                        onGoBack = { viewModel.updateUris(null) },
+                                        onGoBack = onGoBack,
                                         pushNewUri = viewModel::updateUri,
                                         getSavingFolder = { name, ext ->
                                             getSavingFolder(
@@ -136,8 +144,7 @@ class MainActivity : AppCompatActivity() {
                                 is Screen.BatchResize -> {
                                     BatchResizeScreen(
                                         uriState = viewModel.uris,
-                                        navController = viewModel.navController,
-                                        onGoBack = { viewModel.updateUris(null) },
+                                        onGoBack = onGoBack,
                                         pushNewUris = viewModel::updateUris,
                                         getSavingFolder = { name, ext ->
                                             getSavingFolder(
@@ -156,8 +163,7 @@ class MainActivity : AppCompatActivity() {
                                 is Screen.ResizeByBytes -> {
                                     BytesResizeScreen(
                                         uriState = viewModel.uris,
-                                        navController = viewModel.navController,
-                                        onGoBack = { viewModel.updateUris(null) },
+                                        onGoBack = onGoBack,
                                         pushNewUris = viewModel::updateUris,
                                         getSavingFolder = { name, ext ->
                                             getSavingFolder(
@@ -176,8 +182,7 @@ class MainActivity : AppCompatActivity() {
                                 is Screen.Crop -> {
                                     CropScreen(
                                         uriState = viewModel.uris?.firstOrNull(),
-                                        navController = viewModel.navController,
-                                        onGoBack = { viewModel.updateUris(null) },
+                                        onGoBack = onGoBack,
                                         pushNewUri = viewModel::updateUri,
                                         getSavingFolder = { name, ext ->
                                             getSavingFolder(
@@ -197,7 +202,7 @@ class MainActivity : AppCompatActivity() {
                                     PickColorFromImageScreen(
                                         uriState = viewModel.uris?.firstOrNull(),
                                         navController = viewModel.navController,
-                                        onGoBack = { viewModel.updateUris(null) },
+                                        onGoBack = onGoBack,
                                         pushNewUri = viewModel::updateUri
                                     )
                                 }
@@ -205,7 +210,7 @@ class MainActivity : AppCompatActivity() {
                                     GeneratePaletteScreen(
                                         uriState = viewModel.uris?.firstOrNull(),
                                         navController = viewModel.navController,
-                                        onGoBack = { viewModel.updateUris(null) },
+                                        onGoBack = onGoBack,
                                         pushNewUri = viewModel::updateUri
                                     )
                                 }
@@ -215,8 +220,7 @@ class MainActivity : AppCompatActivity() {
                                             ?.takeIf { it.size == 2 }
                                             ?.let { it[0] to it[1] },
                                         pushNewUris = viewModel::updateUris,
-                                        navController = viewModel.navController,
-                                        onGoBack = { viewModel.updateUris(null) },
+                                        onGoBack = onGoBack,
                                     )
                                 }
                             }

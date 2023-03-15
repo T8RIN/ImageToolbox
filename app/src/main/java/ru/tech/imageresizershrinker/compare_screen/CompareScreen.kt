@@ -33,14 +33,11 @@ import androidx.compose.ui.zIndex
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.cookhelper.dynamic.theme.LocalDynamicThemeState
 import com.smarttoolfactory.beforeafter.BeforeAfterImage
-import dev.olshevski.navigation.reimagined.NavController
-import dev.olshevski.navigation.reimagined.pop
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.compare_screen.viewModel.CompareViewModel
 import ru.tech.imageresizershrinker.generate_palette.isScrollingUp
 import ru.tech.imageresizershrinker.main_screen.components.LocalAllowChangeColorByImage
-import ru.tech.imageresizershrinker.main_screen.components.Screen
 import ru.tech.imageresizershrinker.main_screen.components.block
 import ru.tech.imageresizershrinker.resize_screen.components.ImageNotPickedWidget
 import ru.tech.imageresizershrinker.resize_screen.components.LoadingDialog
@@ -53,7 +50,6 @@ import ru.tech.imageresizershrinker.widget.Marquee
 fun CompareScreen(
     comparableUris: Pair<Uri, Uri>?,
     pushNewUris: (List<Uri>?) -> Unit,
-    navController: NavController<Screen>,
     onGoBack: () -> Unit,
     viewModel: CompareViewModel = viewModel()
 ) {
@@ -146,9 +142,7 @@ fun CompareScreen(
                     navigationIcon = {
                         IconButton(
                             onClick = {
-                                if (navController.backstack.entries.isNotEmpty()) navController.pop()
                                 onGoBack()
-                                themeState.reset()
                             }
                         ) {
                             Icon(Icons.Rounded.ArrowBack, null)
@@ -174,9 +168,7 @@ fun CompareScreen(
                     navigationIcon = {
                         IconButton(
                             onClick = {
-                                if (navController.backstack.entries.isNotEmpty()) navController.pop()
                                 onGoBack()
-                                themeState.reset()
                             }
                         ) {
                             Icon(Icons.Rounded.ArrowBack, null)
@@ -292,8 +284,6 @@ fun CompareScreen(
     if (viewModel.isLoading) LoadingDialog()
 
     BackHandler {
-        if (navController.backstack.entries.isNotEmpty()) navController.pop()
         onGoBack()
-        themeState.reset()
     }
 }

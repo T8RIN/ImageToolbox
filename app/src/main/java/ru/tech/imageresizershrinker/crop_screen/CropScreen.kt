@@ -39,8 +39,6 @@ import androidx.compose.ui.zIndex
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.cookhelper.dynamic.theme.LocalDynamicThemeState
 import com.smarttoolfactory.cropper.ImageCropper
-import dev.olshevski.navigation.reimagined.NavController
-import dev.olshevski.navigation.reimagined.pop
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.crop_screen.components.AspectRatioSelection
@@ -48,7 +46,6 @@ import ru.tech.imageresizershrinker.crop_screen.components.aspectRatios
 import ru.tech.imageresizershrinker.crop_screen.viewModel.CropViewModel
 import ru.tech.imageresizershrinker.generate_palette.isScrollingUp
 import ru.tech.imageresizershrinker.main_screen.components.LocalAllowChangeColorByImage
-import ru.tech.imageresizershrinker.main_screen.components.Screen
 import ru.tech.imageresizershrinker.resize_screen.components.ImageNotPickedWidget
 import ru.tech.imageresizershrinker.resize_screen.components.LoadingDialog
 import ru.tech.imageresizershrinker.resize_screen.components.LocalToastHost
@@ -63,7 +60,6 @@ import ru.tech.imageresizershrinker.widget.Marquee
 @Composable
 fun CropScreen(
     uriState: Uri?,
-    navController: NavController<Screen>,
     onGoBack: () -> Unit,
     pushNewUri: (Uri?) -> Unit,
     getSavingFolder: (name: String, ext: String) -> SavingFolder,
@@ -195,10 +191,7 @@ fun CropScreen(
                         IconButton(
                             onClick = {
                                 if (viewModel.bitmap != null) showExitDialog = true
-                                else if (navController.backstack.entries.isNotEmpty()) {
-                                    navController.pop()
-                                    onGoBack()
-                                }
+                                else onGoBack()
                             }
                         ) {
                             Icon(Icons.Rounded.ArrowBack, null)
@@ -237,10 +230,7 @@ fun CropScreen(
                         IconButton(
                             onClick = {
                                 if (viewModel.bitmap != null) showExitDialog = true
-                                else if (navController.backstack.entries.isNotEmpty()) {
-                                    navController.pop()
-                                    onGoBack()
-                                }
+                                else onGoBack()
                             }
                         ) {
                             Icon(Icons.Rounded.ArrowBack, null)
@@ -396,8 +386,6 @@ fun CropScreen(
                 FilledTonalButton(
                     onClick = {
                         showExitDialog = false
-                        if (navController.backstack.entries.isNotEmpty()) navController.pop()
-                        themeState.reset()
                         onGoBack()
                     }
                 ) {
@@ -422,9 +410,6 @@ fun CropScreen(
 
     BackHandler {
         if (viewModel.bitmap != null) showExitDialog = true
-        else if (navController.backstack.entries.isNotEmpty()) {
-            navController.pop()
-            onGoBack()
-        }
+        else onGoBack()
     }
 }
