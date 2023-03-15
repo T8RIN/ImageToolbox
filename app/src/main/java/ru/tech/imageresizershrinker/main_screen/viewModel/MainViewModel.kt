@@ -1,6 +1,7 @@
 package ru.tech.imageresizershrinker.main_screen.viewModel
 
 import android.net.Uri
+import android.os.Build
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.graphics.Color
@@ -80,7 +81,8 @@ class MainViewModel @Inject constructor(
         runBlocking {
             dataStore.edit {
                 _nightMode.value = it[NIGHT_MODE] ?: 2
-                _dynamicColors.value = it[DYNAMIC_COLORS] ?: true
+                _dynamicColors.value =
+                    it[DYNAMIC_COLORS] ?: (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S)
                 _amoledMode.value = it[AMOLED_MODE] ?: false
                 _appPrimaryColor.value = (it[APP_COLOR]?.let { Color(it) }) ?: md_theme_dark_primary
             }
@@ -91,7 +93,8 @@ class MainViewModel @Inject constructor(
                 else Uri.parse(uri)
             }
             _nightMode.value = it[NIGHT_MODE] ?: 2
-            _dynamicColors.value = it[DYNAMIC_COLORS] ?: true
+            _dynamicColors.value =
+                it[DYNAMIC_COLORS] ?: (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S)
             _allowImageMonet.value = it[IMAGE_MONET] ?: true
             _amoledMode.value = it[AMOLED_MODE] ?: false
             _appPrimaryColor.value = (it[APP_COLOR]?.let { Color(it) }) ?: md_theme_dark_primary

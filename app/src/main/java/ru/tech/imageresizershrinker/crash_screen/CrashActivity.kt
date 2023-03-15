@@ -3,6 +3,7 @@ package ru.tech.imageresizershrinker.crash_screen
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
@@ -82,14 +83,16 @@ class CrashViewModel @Inject constructor(
         runBlocking {
             dataStore.edit {
                 _nightMode.value = it[NIGHT_MODE] ?: 2
-                _dynamicColors.value = it[DYNAMIC_COLORS] ?: true
+                _dynamicColors.value =
+                    it[DYNAMIC_COLORS] ?: (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S)
                 _amoledMode.value = it[AMOLED_MODE] ?: false
                 _appPrimaryColor.value = (it[APP_COLOR]?.let { Color(it) }) ?: md_theme_dark_primary
             }
         }
         dataStore.data.onEach {
             _nightMode.value = it[NIGHT_MODE] ?: 2
-            _dynamicColors.value = it[DYNAMIC_COLORS] ?: true
+            _dynamicColors.value =
+                it[DYNAMIC_COLORS] ?: (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S)
             _amoledMode.value = it[AMOLED_MODE] ?: false
             _appPrimaryColor.value = (it[APP_COLOR]?.let { Color(it) }) ?: md_theme_dark_primary
         }.launchIn(viewModelScope)
