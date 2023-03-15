@@ -96,4 +96,6 @@
     <string name="clipboard_paste_invalid_color_code">Geçerli aRGB-Code yapıştırın.</string>
     <string name="clipboard_paste_invalid_empty">Yapıştırılacak bir şey yok</string>
     <string name="color_scheme">Renk düzeni</string>
+    <string name="cannot_change_palette_while_dynamic_colors_applied">Dinamik renkler açıkken uygulama renk düzeni değiştirilemez</string>
+    <string name="pick_accent_color">Uygulama teması, seçeceğiniz renge dayalı olacaktır</string>
 </resources>

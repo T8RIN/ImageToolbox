@@ -96,4 +96,6 @@
     <string name="clipboard_paste_invalid_color_code">Lipiți codul aRGB valid.</string>
     <string name="clipboard_paste_invalid_empty">Nimic de lipit</string>
     <string name="color_scheme">Schema de culori</string>
+    <string name="cannot_change_palette_while_dynamic_colors_applied">Nu se poate schimba schema de culori a aplicației în timp ce culorile dinamice sunt activate</string>
+    <string name="pick_accent_color">Tema aplicației se va baza pe culoare, pe care o veți selecta</string>
 </resources>

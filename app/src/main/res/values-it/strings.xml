@@ -96,4 +96,6 @@
     <string name="color_blue">Blu</string>
     <string name="color_green">Verde</string>
     <string name="clipboard_paste_invalid_color_code">Incolla un codice RGB valido.</string>
+    <string name="cannot_change_palette_while_dynamic_colors_applied">Impossibile modificare la combinazione di colori dell\'app mentre i colori dinamici sono attivati</string>
+    <string name="pick_accent_color">Il tema dell\'app sarà basato sul colore, che selezionerai</string>
 </resources>
