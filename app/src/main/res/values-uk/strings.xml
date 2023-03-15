@@ -96,4 +96,6 @@
     <string name="color_scheme">Колірна гамма</string>
     <string name="amoled_mode_sub">Якщо ввімкнути, колір поверхонь буде встановлено на абсолютну темряву в нічному режимі</string>
     <string name="clipboard_paste_invalid_empty">Нічого вставляти</string>
+    <string name="cannot_change_palette_while_dynamic_colors_applied">Неможливо змінити колірну схему програми, якщо ввімкнено динамічні кольори</string>
+    <string name="pick_accent_color">Тема програми базуватиметься на кольорі, який ви виберете</string>
 </resources>
