@@ -7,7 +7,6 @@ import android.os.Build
 import androidx.activity.compose.BackHandler
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.*
@@ -23,6 +22,7 @@ import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.draw.shadow
@@ -35,11 +35,9 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.min
-import androidx.compose.ui.unit.sp
 import androidx.compose.ui.zIndex
 import dev.olshevski.navigation.reimagined.NavController
 import dev.olshevski.navigation.reimagined.navigate
@@ -50,11 +48,13 @@ import nl.dionsegijn.konfetti.core.*
 import ru.tech.imageresizershrinker.BuildConfig
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.main_screen.viewModel.MainViewModel
+import ru.tech.imageresizershrinker.resize_screen.components.LocalToastHost
 import ru.tech.imageresizershrinker.theme.CreateAlt
 import ru.tech.imageresizershrinker.theme.Github
 import ru.tech.imageresizershrinker.theme.Sparkles
 import ru.tech.imageresizershrinker.utils.LocalWindowSizeClass
 import ru.tech.imageresizershrinker.utils.toUiPath
+import ru.tech.imageresizershrinker.widget.Marquee
 import java.lang.Integer.max
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -66,6 +66,7 @@ fun MainScreen(
     showConfetti: () -> Unit,
     viewModel: MainViewModel
 ) {
+    val context = LocalContext.current
     val scrollBehavior =
         TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
     val isGrid = LocalWindowSizeClass.current.widthSizeClass != WindowWidthSizeClass.Compact
@@ -75,6 +76,7 @@ fun MainScreen(
     val sideSheetState = rememberDrawerState(initialValue = DrawerValue.Closed)
     val layoutDirection = LocalLayoutDirection.current
     val scope = rememberCoroutineScope()
+    val toastHost = LocalToastHost.current
 
     CompositionLocalProvider(
         LocalLayoutDirection provides if (layoutDirection == LayoutDirection.Ltr) LayoutDirection.Rtl
@@ -141,14 +143,10 @@ fun MainScreen(
                                             }
                                         }
                                     )
-                                    Row(
-                                        Modifier.padding(16.dp),
-                                        verticalAlignment = Alignment.CenterVertically
-                                    ) {
-                                        Icon(Icons.Rounded.Folder, null)
-                                        Spacer(Modifier.width(8.dp))
-                                        Text(stringResource(R.string.folder))
-                                    }
+                                    TitleItem(
+                                        icon = Icons.Rounded.Folder,
+                                        text = stringResource(R.string.folder),
+                                    )
                                     PreferenceItem(
                                         onClick = { onGetNewFolder(null) },
                                         title = stringResource(R.string.def),
@@ -196,15 +194,10 @@ fun MainScreen(
                                 }
                                 Divider()
                                 Column {
-                                    Row(
-                                        Modifier.padding(16.dp),
-                                        verticalAlignment = Alignment.CenterVertically
-                                    ) {
-                                        Icon(Icons.Rounded.DeveloperMode, null)
-                                        Spacer(Modifier.width(8.dp))
-                                        Text(stringResource(R.string.night_mode))
-                                    }
-
+                                    TitleItem(
+                                        icon = Icons.Rounded.DeveloperMode,
+                                        text = stringResource(R.string.night_mode),
+                                    )
                                     Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
                                         listOf(
                                             stringResource(R.string.dark) to Icons.Rounded.ModeNight,
@@ -240,145 +233,82 @@ fun MainScreen(
                                     Spacer(Modifier.height(16.dp))
                                 }
                                 Divider()
-                                Column {
-                                    Row(
-                                        Modifier.padding(16.dp),
-                                        verticalAlignment = Alignment.CenterVertically
-                                    ) {
-                                        Icon(Icons.Rounded.Palette, null)
-                                        Spacer(Modifier.width(8.dp))
-                                        Text(stringResource(R.string.customization))
-                                    }
+                                Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                                    TitleItem(
+                                        icon = Icons.Rounded.Palette,
+                                        text = stringResource(R.string.customization),
+                                    )
                                     ChangeLanguagePreference()
-                                    Spacer(Modifier.height(8.dp))
                                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-                                        Row(
-                                            modifier = Modifier
-                                                .padding(horizontal = 16.dp)
-                                                .clip(RoundedCornerShape(16.dp))
-                                                .clickable { viewModel.updateDynamicColors() }
-                                                .block(
-                                                    color = MaterialTheme.colorScheme.secondaryContainer.copy(
-                                                        alpha = 0.5f
-                                                    )
-                                                )
-                                                .padding(horizontal = 16.dp, vertical = 8.dp),
-                                            verticalAlignment = Alignment.CenterVertically
-                                        ) {
-                                            Text(
-                                                text = stringResource(R.string.dynamic_colors),
-                                                modifier = Modifier.weight(1f)
-                                            )
-                                            Switch(
-                                                checked = viewModel.dynamicColors,
-                                                onCheckedChange = {
-                                                    viewModel.updateDynamicColors()
-                                                }
-                                            )
-                                        }
-                                        Spacer(Modifier.height(8.dp))
+                                        PreferenceRowSwitch(
+                                            title = stringResource(R.string.dynamic_colors),
+                                            checked = viewModel.dynamicColors,
+                                            onClick = { viewModel.updateDynamicColors() }
+                                        )
                                     }
-                                    AnimatedVisibility(!viewModel.dynamicColors) {
-                                        Column {
-                                            Row(
-                                                modifier = Modifier
-                                                    .padding(horizontal = 16.dp)
-                                                    .clip(RoundedCornerShape(16.dp))
-                                                    .clickable { showPickColorDialog = true }
-                                                    .block(
-                                                        color = MaterialTheme.colorScheme.secondaryContainer.copy(
-                                                            alpha = 0.5f
-                                                        )
+                                    val enabled = !viewModel.dynamicColors
+                                    PreferenceRow(
+                                        modifier = Modifier.alpha(
+                                            animateFloatAsState(
+                                                if (enabled) 1f
+                                                else 0.5f
+                                            ).value
+                                        ),
+                                        title = stringResource(R.string.color_scheme),
+                                        subtitle = stringResource(R.string.pick_accent_color),
+                                        onClick = {
+                                            if (enabled) showPickColorDialog = true
+                                            else scope.launch {
+                                                toastHost.showToast(
+                                                    icon = Icons.Rounded.Palette,
+                                                    message = context.getString(R.string.cannot_change_palette_while_dynamic_colors_applied)
+                                                )
+                                            }
+                                        },
+                                        endContent = {
+                                            Box(
+                                                Modifier
+                                                    .clip(RoundedCornerShape(30))
+                                                    .background(viewModel.appPrimaryColor)
+                                                    .border(
+                                                        width = 1.dp,
+                                                        color = MaterialTheme
+                                                            .colorScheme
+                                                            .onSecondaryContainer
+                                                            .copy(alpha = 0.5f),
+                                                        shape = RoundedCornerShape(30)
                                                     )
-                                                    .padding(horizontal = 16.dp, vertical = 8.dp),
-                                                verticalAlignment = Alignment.CenterVertically
+                                                    .size(48.dp),
+                                                contentAlignment = Alignment.Center
                                             ) {
-                                                Text(
-                                                    text = stringResource(R.string.color_scheme),
-                                                    modifier = Modifier.weight(1f)
-                                                )
-                                                Box(
-                                                    Modifier
-                                                        .clip(RoundedCornerShape(30))
-                                                        .background(viewModel.appPrimaryColor)
-                                                        .border(
-                                                            width = 1.dp,
-                                                            color = MaterialTheme.colorScheme.onSecondaryContainer.copy(
-                                                                alpha = 0.5f
-                                                            ),
-                                                            shape = RoundedCornerShape(30)
-                                                        )
-                                                        .size(48.dp)
+                                                Icon(
+                                                    imageVector = Icons.Rounded.CreateAlt,
+                                                    contentDescription = null,
+                                                    tint = if (LocalNightMode.current.toMode()) {
+                                                        MaterialTheme
+                                                            .colorScheme
+                                                            .secondaryContainer
+                                                    } else {
+                                                        MaterialTheme
+                                                            .colorScheme
+                                                            .primary
+                                                    }
                                                 )
                                             }
-                                            Spacer(Modifier.height(8.dp))
                                         }
-                                    }
-                                    Row(
-                                        modifier = Modifier
-                                            .padding(horizontal = 16.dp)
-                                            .clip(RoundedCornerShape(16.dp))
-                                            .clickable { viewModel.updateAllowImageMonet() }
-                                            .block(
-                                                color = MaterialTheme.colorScheme.secondaryContainer.copy(
-                                                    alpha = 0.5f
-                                                )
-                                            )
-                                            .padding(horizontal = 16.dp, vertical = 8.dp),
-                                        verticalAlignment = Alignment.CenterVertically
-                                    ) {
-                                        Column(modifier = Modifier.weight(1f)) {
-                                            Text(text = stringResource(R.string.allow_image_monet))
-                                            Spacer(modifier = Modifier.height(2.dp))
-                                            Text(
-                                                text = stringResource(R.string.allow_image_monet_sub),
-                                                fontSize = 12.sp,
-                                                fontWeight = FontWeight.Normal,
-                                                lineHeight = 14.sp,
-                                                color = LocalContentColor.current.copy(alpha = 0.5f)
-                                            )
-                                        }
-                                        Spacer(Modifier.width(8.dp))
-                                        Switch(
-                                            checked = viewModel.allowImageMonet,
-                                            onCheckedChange = {
-                                                viewModel.updateAllowImageMonet()
-                                            }
-                                        )
-                                    }
-                                    Spacer(Modifier.height(8.dp))
-                                    Row(
-                                        modifier = Modifier
-                                            .padding(horizontal = 16.dp)
-                                            .clip(RoundedCornerShape(16.dp))
-                                            .clickable { viewModel.updateAmoledMode() }
-                                            .block(
-                                                color = MaterialTheme.colorScheme.secondaryContainer.copy(
-                                                    alpha = 0.5f
-                                                )
-                                            )
-                                            .padding(horizontal = 16.dp, vertical = 8.dp),
-                                        verticalAlignment = Alignment.CenterVertically
-                                    ) {
-                                        Column(modifier = Modifier.weight(1f)) {
-                                            Text(text = stringResource(R.string.amoled_mode))
-                                            Spacer(modifier = Modifier.height(2.dp))
-                                            Text(
-                                                text = stringResource(R.string.amoled_mode_sub),
-                                                fontSize = 12.sp,
-                                                fontWeight = FontWeight.Normal,
-                                                lineHeight = 14.sp,
-                                                color = LocalContentColor.current.copy(alpha = 0.5f)
-                                            )
-                                        }
-                                        Spacer(Modifier.width(8.dp))
-                                        Switch(
-                                            checked = viewModel.amoledMode,
-                                            onCheckedChange = {
-                                                viewModel.updateAmoledMode()
-                                            }
-                                        )
-                                    }
+                                    )
+                                    PreferenceRowSwitch(
+                                        title = stringResource(R.string.allow_image_monet),
+                                        subtitle = stringResource(R.string.allow_image_monet_sub),
+                                        checked = viewModel.allowImageMonet,
+                                        onClick = { viewModel.updateAllowImageMonet() }
+                                    )
+                                    PreferenceRowSwitch(
+                                        title = stringResource(R.string.amoled_mode),
+                                        subtitle = stringResource(R.string.amoled_mode_sub),
+                                        checked = viewModel.amoledMode,
+                                        onClick = { viewModel.updateAmoledMode() }
+                                    )
                                 }
                                 Spacer(Modifier.height(16.dp))
                             }
@@ -397,48 +327,54 @@ fun MainScreen(
                         title = {
                             var scaleState by remember { mutableStateOf(1f) }
                             val scale by animateFloatAsState(scaleState)
-                            Row(verticalAlignment = Alignment.CenterVertically) {
-                                Text(stringResource(R.string.app_name))
-                                Spacer(Modifier.width(12.dp))
-                                Box(
-                                    Modifier
-                                        .scale(scale)
-                                        .pointerInput(Unit) {
-                                            detectTapGestures(
-                                                onPress = {
-                                                    scaleState = 1.3f
-                                                    delay(200)
-                                                    tryAwaitRelease()
-                                                    showConfetti()
-                                                    scaleState = 0.8f
-                                                    delay(200)
-                                                    scaleState = 1f
-                                                }
-                                            )
-                                        }
-                                ) {
-                                    Icon(
-                                        imageVector = Icons.Rounded.Sparkles,
-                                        contentDescription = null,
-                                        modifier = Modifier
-                                            .size(
+                            Marquee(
+                                edgeColor = MaterialTheme
+                                    .colorScheme
+                                    .surfaceColorAtElevation(3.dp)
+                            ) {
+                                Row(verticalAlignment = Alignment.CenterVertically) {
+                                    Text(stringResource(R.string.app_name))
+                                    Spacer(Modifier.width(12.dp))
+                                    Box(
+                                        Modifier
+                                            .scale(scale)
+                                            .pointerInput(Unit) {
+                                                detectTapGestures(
+                                                    onPress = {
+                                                        scaleState = 1.3f
+                                                        delay(200)
+                                                        tryAwaitRelease()
+                                                        showConfetti()
+                                                        scaleState = 0.8f
+                                                        delay(200)
+                                                        scaleState = 1f
+                                                    }
+                                                )
+                                            }
+                                    ) {
+                                        Icon(
+                                            imageVector = Icons.Rounded.Sparkles,
+                                            contentDescription = null,
+                                            modifier = Modifier
+                                                .size(
+                                                    with(LocalDensity.current) {
+                                                        LocalTextStyle.current.fontSize.toDp()
+                                                    }
+                                                )
+                                                .offset(1.dp, 1.dp),
+                                            tint = Color(0, 0, 0, 40)
+                                        )
+                                        Icon(
+                                            imageVector = Icons.Rounded.Sparkles,
+                                            contentDescription = null,
+                                            modifier = Modifier.size(
                                                 with(LocalDensity.current) {
                                                     LocalTextStyle.current.fontSize.toDp()
                                                 }
-                                            )
-                                            .offset(1.dp, 1.dp),
-                                        tint = Color(0, 0, 0, 40)
-                                    )
-                                    Icon(
-                                        imageVector = Icons.Rounded.Sparkles,
-                                        contentDescription = null,
-                                        modifier = Modifier.size(
-                                            with(LocalDensity.current) {
-                                                LocalTextStyle.current.fontSize.toDp()
-                                            }
-                                        ),
-                                        tint = Color.Unspecified
-                                    )
+                                            ),
+                                            tint = Color.Unspecified
+                                        )
+                                    }
                                 }
                             }
                         },
@@ -718,7 +654,6 @@ fun MainScreen(
                             }
                         },
                         floatingActionButton = {
-                            val context = LocalContext.current
                             FloatingActionButton(
                                 onClick = {
                                     context.startActivity(

@@ -10,6 +10,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Palette
 import androidx.compose.material.icons.rounded.ContentCopy
+import androidx.compose.material.icons.rounded.ContentPaste
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -194,7 +195,7 @@ private fun ColorCustomInfoComponent(
                         Icon(Icons.Rounded.ContentCopy, null)
                     }
                     IconButton(onClick = onPasteCustomColor) {
-                        Icon(Icons.Rounded.ContentCopy, null)
+                        Icon(Icons.Rounded.ContentPaste, null)
                     }
                 }
             }
