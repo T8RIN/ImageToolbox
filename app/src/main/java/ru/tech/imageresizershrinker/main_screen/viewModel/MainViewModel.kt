@@ -99,10 +99,10 @@ class MainViewModel @Inject constructor(
         }.launchIn(viewModelScope)
     }
 
-    fun updatePrimaryColor(color: Color) {
+    fun updatePrimaryColor(color: Int) {
         viewModelScope.launch {
             dataStore.edit {
-                it[APP_COLOR] = color.toArgb()
+                it[APP_COLOR] = color
             }
         }
     }

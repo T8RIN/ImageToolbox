@@ -192,10 +192,10 @@ private fun ColorCustomInfoComponent(
                 if (colorPasteError.value == null) {
                     Spacer(modifier = Modifier.weight(1f))
                     IconButton(onClick = onCopyCustomColor) {
-                        Icons.Rounded.ContentCopy()
+                        Icon(Icons.Rounded.ContentCopy, null)
                     }
                     IconButton(onClick = onPasteCustomColor) {
-                        Icons.Outlined.ContentPaste()
+                        Icon(Icons.Rounded.ContentCopy, null)
                     }
                 }
             }

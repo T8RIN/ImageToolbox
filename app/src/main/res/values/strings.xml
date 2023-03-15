@@ -99,5 +99,6 @@
     <string name="color_blue">Blue</string>
     <string name="clipboard_paste_invalid_color_code">Paste valid aRGB-Code.</string>
     <string name="clipboard_paste_invalid_empty">Nothing to paste</string>
+    <string name="argb" translatable="false">ARGB</string>
     <!--    <string name="processing">Processing</string>-->
 </resources>

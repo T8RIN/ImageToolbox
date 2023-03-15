@@ -88,4 +88,12 @@
     <string name="allow_image_monet">Тема по изображению</string>
     <string name="allow_image_monet_sub">Если включено, то цвета приложения будут подстраиваться под выбранное изображение в режиме редактирования</string>
     <string name="language">Язык</string>
+    <string name="amoled_mode">Amoled режим</string>
+    <string name="amoled_mode_sub">"Если включено, то в темной теме поверхности будут иметь абсолютно черный "</string>
+    <string name="color_scheme">Цветовая палитра</string>
+    <string name="color_red">Красный</string>
+    <string name="color_green">Зеленый</string>
+    <string name="color_blue">Голубой</string>
+    <string name="clipboard_paste_invalid_color_code">Вставьте aRGB-Код</string>
+    <string name="clipboard_paste_invalid_empty">Нечего вставлять</string>
 </resources>

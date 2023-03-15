@@ -7,6 +7,7 @@ import android.os.Build
 import androidx.activity.compose.BackHandler
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.*
@@ -19,6 +20,7 @@ import androidx.compose.material.icons.rounded.*
 import androidx.compose.material3.*
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.*
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -65,6 +67,8 @@ fun MainScreen(
     val scrollBehavior =
         TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
     val isGrid = LocalWindowSizeClass.current.widthSizeClass != WindowWidthSizeClass.Compact
+
+    var showPickColorDialog by rememberSaveable { mutableStateOf(false) }
 
     val sideSheetState = rememberDrawerState(initialValue = DrawerValue.Closed)
     val layoutDirection = LocalLayoutDirection.current
@@ -266,29 +270,41 @@ fun MainScreen(
                                         }
                                         Spacer(Modifier.height(8.dp))
                                     }
-                                    Row(
-                                        modifier = Modifier
-                                            .padding(horizontal = 16.dp)
-                                            .clip(RoundedCornerShape(16.dp))
-                                            .clickable { showPickColorDialog = true }
-                                            .block(
-                                                color = MaterialTheme.colorScheme.secondaryContainer.copy(
-                                                    alpha = 0.5f
+                                    AnimatedVisibility(!viewModel.dynamicColors) {
+                                        Column {
+                                            Row(
+                                                modifier = Modifier
+                                                    .padding(horizontal = 16.dp)
+                                                    .clip(RoundedCornerShape(16.dp))
+                                                    .clickable { showPickColorDialog = true }
+                                                    .block(
+                                                        color = MaterialTheme.colorScheme.secondaryContainer.copy(
+                                                            alpha = 0.5f
+                                                        )
+                                                    )
+                                                    .padding(horizontal = 16.dp, vertical = 8.dp),
+                                                verticalAlignment = Alignment.CenterVertically
+                                            ) {
+                                                Text(
+                                                    text = stringResource(R.string.color_scheme),
+                                                    modifier = Modifier.weight(1f)
                                                 )
-                                            )
-                                            .padding(horizontal = 16.dp, vertical = 8.dp),
-                                        verticalAlignment = Alignment.CenterVertically
-                                    ) {
-                                        Text(
-                                            text = stringResource(R.string.color_scheme),
-                                            modifier = Modifier.weight(1f)
-                                        )
-                                        Box(
-                                            Modifier
-                                                .background(viewModel.appPrimaryColor)
-                                                .clip(RoundedCornerShape(30))
-                                                .size(64.dp)
-                                        )
+                                                Box(
+                                                    Modifier
+                                                        .clip(RoundedCornerShape(30))
+                                                        .background(viewModel.appPrimaryColor)
+                                                        .border(
+                                                            width = 1.dp,
+                                                            color = MaterialTheme.colorScheme.onSecondaryContainer.copy(
+                                                                alpha = 0.5f
+                                                            ),
+                                                            shape = RoundedCornerShape(30)
+                                                        )
+                                                        .size(64.dp)
+                                                )
+                                            }
+                                            Spacer(Modifier.height(8.dp))
+                                        }
                                     }
                                     Row(
                                         modifier = Modifier
@@ -718,5 +734,13 @@ fun MainScreen(
                 }
             }
         }
+    }
+
+    if(showPickColorDialog) {
+        ColorDialog(
+            viewModel.appPrimaryColor,
+            onDismissRequest = { showPickColorDialog = false },
+            onColorChange = { viewModel.updatePrimaryColor(it) }
+        )
     }
 }

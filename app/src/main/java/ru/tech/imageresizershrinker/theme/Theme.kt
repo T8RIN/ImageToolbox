@@ -15,10 +15,7 @@ import com.cookhelper.dynamic.theme.DynamicTheme
 import com.cookhelper.dynamic.theme.LocalDynamicThemeState
 import com.cookhelper.dynamic.theme.rememberDynamicThemeState
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
-import ru.tech.imageresizershrinker.main_screen.components.LocalAmoledMode
-import ru.tech.imageresizershrinker.main_screen.components.LocalDynamicColors
-import ru.tech.imageresizershrinker.main_screen.components.LocalNightMode
-import ru.tech.imageresizershrinker.main_screen.components.toMode
+import ru.tech.imageresizershrinker.main_screen.components.*
 
 private val LightColorScheme = lightColorScheme(
     primary = md_theme_light_primary,
@@ -95,13 +92,12 @@ fun ImageResizerTheme(
 
     val darkTheme = LocalNightMode.current.toMode()
 
-    val colorScheme = when {
+    val primary = when {
         dynamic -> {
             val context = LocalContext.current
-            if (darkTheme) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
+            if (darkTheme) dynamicDarkColorScheme(context).primary else dynamicLightColorScheme(context).primary
         }
-        darkTheme -> DarkColorScheme
-        else -> LightColorScheme
+        else -> LocalAppPrimaryColor.current
     }
 
     val systemUiController = rememberSystemUiController()
@@ -115,12 +111,12 @@ fun ImageResizerTheme(
     }
 
     val state = rememberDynamicThemeState(
-        initialPrimaryColor = colorScheme.primary,
-        defColor = colorScheme.primary,
+        initialPrimaryColor = primary,
+        defColor = primary,
     )
-    LaunchedEffect(colorScheme) {
-        if (colorScheme.primary != state.primaryColor.value) {
-            state.primaryColor.value = colorScheme.primary
+    LaunchedEffect(primary) {
+        if (primary != state.primaryColor.value) {
+            state.primaryColor.value = primary
         }
     }
     DynamicTheme(
