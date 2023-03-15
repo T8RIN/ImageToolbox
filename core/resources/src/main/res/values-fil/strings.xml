@@ -729,8 +729,7 @@
     <string name="standard">Pamantayan</string>
     <string name="best">Pinakamahusay</string>
     <string name="no_data">Walang Data</string>
-    <string name="download_description">Para sa wastong paggana ng Tesseract OCR, kailangang ma-download ang karagdagang data ng pagsasanay (%1$s) sa iyong device.
-\nGusto mo bang mag-download ng %2$s data?</string>
+    <string name="download_description">Para sa wastong paggana ng Tesseract OCR, kailangang ma-download ang karagdagang data ng pagsasanay (%1$s) sa iyong device. \nGusto mo bang mag-download ng %2$s data?</string>
     <string name="download">I-download</string>
     <string name="no_connection">Walang koneksyon, suriin ito at subukang muli upang mag-download ng mga modelo ng tren</string>
     <string name="downloaded_languages">Mga Na-download na Wika</string>
