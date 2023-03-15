@@ -95,4 +95,5 @@
     <string name="dark">Ciemny</string>
     <string name="light">Światło</string>
     <string name="dynamic_colors">Dynamiczne kolory</string>
+    <string name="no_exif">Nie znaleziono danych EXIF</string>
 </resources>
