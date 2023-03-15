@@ -104,7 +104,11 @@ fun MainScreen(
                     CompositionLocalProvider(LocalLayoutDirection provides layoutDirection) {
                         TopAppBar(
                             colors = TopAppBarDefaults.topAppBarColors(Color.Transparent),
-                            title = { Text(stringResource(R.string.settings)) },
+                            title = {
+                                Marquee(edgeColor = DrawerDefaults.containerColor) {
+                                    Text(stringResource(R.string.settings))
+                                }
+                            },
                             actions = {
                                 IconButton(
                                     onClick = {
