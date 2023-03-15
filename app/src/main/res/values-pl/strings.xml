@@ -8,4 +8,6 @@
     <string name="smth_went_wrong">Coś poszło nie tak: %1$s</string>
     <string name="height">Wysokość %1$s</string>
     <string name="quality">Jakość</string>
+    <string name="extension">Rozszerzenie</string>
+    <string name="resize_type">Typ skalowania</string>
 </resources>
