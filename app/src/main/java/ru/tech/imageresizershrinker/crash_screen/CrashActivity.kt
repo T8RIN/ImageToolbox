@@ -45,7 +45,7 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import ru.tech.imageresizershrinker.R
-import ru.tech.imageresizershrinker.crash_screen.GlobalExceptionHandler.Companion.getExceptionString
+import ru.tech.imageresizershrinker.crash_screen.components.GlobalExceptionHandler.Companion.getExceptionString
 import ru.tech.imageresizershrinker.main_screen.MainActivity
 import ru.tech.imageresizershrinker.main_screen.components.LocalAmoledMode
 import ru.tech.imageresizershrinker.main_screen.components.LocalAppPrimaryColor

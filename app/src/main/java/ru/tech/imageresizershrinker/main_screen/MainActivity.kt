@@ -35,7 +35,7 @@ import ru.tech.imageresizershrinker.batch_resize.BatchResizeScreen
 import ru.tech.imageresizershrinker.bytes_resize_screen.BytesResizeScreen
 import ru.tech.imageresizershrinker.compare_screen.CompareScreen
 import ru.tech.imageresizershrinker.crash_screen.CrashActivity
-import ru.tech.imageresizershrinker.crash_screen.GlobalExceptionHandler
+import ru.tech.imageresizershrinker.crash_screen.components.GlobalExceptionHandler
 import ru.tech.imageresizershrinker.crop_screen.CropScreen
 import ru.tech.imageresizershrinker.generate_palette.GeneratePaletteScreen
 import ru.tech.imageresizershrinker.main_screen.components.*
