@@ -1,2 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<resources>
+    <string name="size">Rozmiar %1$s</string>
+    <string name="width">Szerokość %1$s</string>
+    <string name="loading">Ładowanie…</string>
+    <string name="image_too_large_preview">Obraz jest zbyt duży do podglądu, ale i tak spróbujemy go zapisać</string>
+    <string name="pick_image">Wybierz zdjęcie aby zacząć</string>
+    <string name="smth_went_wrong">Coś poszło nie tak: %1$s</string>
+</resources>
