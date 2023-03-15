@@ -88,4 +88,12 @@
     <string name="allow_image_monet">Görüntü parasına izin ver</string>
     <string name="customization">Özelleştirme</string>
     <string name="allow_image_monet_sub">Etkinleştirilirse, düzenlemek için bir görüntü seçtiğinizde, uygulama renkleri bu görüntüye uyarlanır</string>
+    <string name="amoled_mode">Amoled modu</string>
+    <string name="amoled_mode_sub">Etkin yüzeylerin rengi gece modunda mutlak koyu olarak ayarlanırsa</string>
+    <string name="color_red">Kırmızı</string>
+    <string name="color_green">Yeşil</string>
+    <string name="color_blue">Mavi</string>
+    <string name="clipboard_paste_invalid_color_code">Geçerli aRGB-Code yapıştırın.</string>
+    <string name="clipboard_paste_invalid_empty">Yapıştırılacak bir şey yok</string>
+    <string name="color_scheme">Renk düzeni</string>
 </resources>
