@@ -93,5 +93,6 @@
     <string name="language">Language</string>
     <string name="amoled_mode">Amoled mode</string>
     <string name="amoled_mode_sub">If enabled surfaces color will be set to absolute dark in night mode</string>
+    <string name="color_scheme">Color scheme</string>
     <!--    <string name="processing">Processing</string>-->
 </resources>
