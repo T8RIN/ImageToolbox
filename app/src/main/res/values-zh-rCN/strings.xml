@@ -88,4 +88,12 @@
     <string name="allow_image_monet_sub">如果启用，当你选择一张要编辑的图片时，应用程序的颜色将基于此图片变换</string>
     <string name="language">语言</string>
     <string name="dynamic_colors">Monet 色彩</string>
+    <string name="amoled_mode">Amoled模式</string>
+    <string name="amoled_mode_sub">如果启用，表面颜色将在夜间模式下设置为绝对黑暗</string>
+    <string name="color_red">红色的</string>
+    <string name="color_green">绿色</string>
+    <string name="color_blue">蓝</string>
+    <string name="clipboard_paste_invalid_color_code">粘贴有效的aRGB-代码。</string>
+    <string name="color_scheme">配色方案</string>
+    <string name="clipboard_paste_invalid_empty">没有什么可粘贴的</string>
 </resources>

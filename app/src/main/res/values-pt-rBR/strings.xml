@@ -88,4 +88,12 @@
     <string name="allow_image_monet">Permitir monet de imagem</string>
     <string name="allow_image_monet_sub">Se ativado, quando você escolher uma imagem para editar, as cores do aplicativo serão adotadas para esta imagem</string>
     <string name="language">Idioma</string>
+    <string name="amoled_mode">Modo Amoled</string>
+    <string name="amoled_mode_sub">Se a cor das superfícies estiver ativada, será definido como escuro absoluto no modo noturno</string>
+    <string name="color_red">Vermelho</string>
+    <string name="color_green">Verde</string>
+    <string name="color_blue">Azul</string>
+    <string name="clipboard_paste_invalid_color_code">Cole um código RGB válido.</string>
+    <string name="clipboard_paste_invalid_empty">Nada para colar</string>
+    <string name="color_scheme">Esquema de cores</string>
 </resources>

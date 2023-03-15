@@ -88,4 +88,12 @@
     <string name="by_bytes_resize">Redimensionează după greutate</string>
     <string name="by_bytes_resize_sub">Redimensionează o imagine după dimensiunea dată în KB</string>
     <string name="allow_image_monet_sub">Dacă este activată, atunci când alegi o imagine pentru editare, culorile aplicației vor fi adoptate pentru această imagine</string>
+    <string name="amoled_mode">Modul Amoled</string>
+    <string name="amoled_mode_sub">Dacă suprafețele activate, culoarea suprafețelor va fi setată la întuneric absolut în modul de noapte</string>
+    <string name="color_red">Roșu</string>
+    <string name="color_green">Verde</string>
+    <string name="color_blue">Albastru</string>
+    <string name="clipboard_paste_invalid_color_code">Lipiți codul aRGB valid.</string>
+    <string name="clipboard_paste_invalid_empty">Nimic de lipit</string>
+    <string name="color_scheme">Schema de culori</string>
 </resources>
