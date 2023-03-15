@@ -88,4 +88,12 @@
     <string name="dynamic_colors">Colori dinamici</string>
     <string name="customization">Personalizzazione</string>
     <string name="allow_image_monet_sub">Se abilitato, quando scegli un\'immagine da modificare, i colori dell\'app verranno adottati per questa immagine</string>
+    <string name="amoled_mode">Modalità Amoled</string>
+    <string name="amoled_mode_sub">Se abilitato, il colore delle superfici verrà impostato su buio assoluto in modalità notturna</string>
+    <string name="color_red">Rosso</string>
+    <string name="clipboard_paste_invalid_empty">Niente da incollare</string>
+    <string name="color_scheme">Schema di colore</string>
+    <string name="color_blue">Blu</string>
+    <string name="color_green">Verde</string>
+    <string name="clipboard_paste_invalid_color_code">Incolla un codice RGB valido.</string>
 </resources>
