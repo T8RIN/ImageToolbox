@@ -30,6 +30,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.onSizeChanged
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalLayoutDirection
@@ -37,6 +38,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.min
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.zIndex
 import dev.olshevski.navigation.reimagined.NavController
@@ -89,7 +91,13 @@ fun MainScreen(
                     }
                 }
                 ModalDrawerSheet(
-                    windowInsets = WindowInsets(0, 0, 0, 0)
+                    modifier = Modifier.width(
+                        min(
+                            LocalConfiguration.current.screenWidthDp.dp * 0.85f,
+                            DrawerDefaults.MaximumDrawerWidth
+                        )
+                    ),
+                    windowInsets = WindowInsets(0)
                 ) {
                     CompositionLocalProvider(LocalLayoutDirection provides layoutDirection) {
                         TopAppBar(
