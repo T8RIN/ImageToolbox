@@ -27,6 +27,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.luminance
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.onSizeChanged
@@ -289,13 +290,25 @@ fun MainScreen(
                                                     imageVector = Icons.Rounded.CreateAlt,
                                                     contentDescription = null,
                                                     tint = if (LocalNightMode.current.toMode()) {
-                                                        MaterialTheme
-                                                            .colorScheme
-                                                            .secondaryContainer
+                                                        if (viewModel.appPrimaryColor.luminance() < 0.5f) {
+                                                            MaterialTheme
+                                                                .colorScheme
+                                                                .primary
+                                                        } else {
+                                                            MaterialTheme
+                                                                .colorScheme
+                                                                .secondaryContainer
+                                                        }
                                                     } else {
-                                                        MaterialTheme
-                                                            .colorScheme
-                                                            .primary
+                                                        if (viewModel.appPrimaryColor.luminance() < 0.5f) {
+                                                            MaterialTheme
+                                                                .colorScheme
+                                                                .primaryContainer
+                                                        } else {
+                                                            MaterialTheme
+                                                                .colorScheme
+                                                                .primary
+                                                        }
                                                     }
                                                 )
                                             }
