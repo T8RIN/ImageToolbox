@@ -88,4 +88,12 @@
     <string name="customization">Pagpapasadya</string>
     <string name="dynamic_colors">Mga dynamic na kulay</string>
     <string name="allow_image_monet_sub">Kung pinagana, kapag pumili ka ng isang imahe upang i edit, ang mga kulay ng app ay pinagtibay sa imaheng ito</string>
+    <string name="amoled_mode">Amoled mode</string>
+    <string name="amoled_mode_sub">Kung pinagana ang mga ibabaw ng kulay ay itakda sa ganap na madilim sa mode ng gabi</string>
+    <string name="color_red">Pula</string>
+    <string name="color_green">Berde</string>
+    <string name="color_blue">Asul</string>
+    <string name="clipboard_paste_invalid_color_code">I-paste ang wastong aRGB-Code.</string>
+    <string name="color_scheme">scheme ng kulay</string>
+    <string name="clipboard_paste_invalid_empty">Wala na bang ipapa paste</string>
 </resources>
