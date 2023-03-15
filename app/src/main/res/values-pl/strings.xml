@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="size">Rozmiar %1$s</string>
+    <string name="width">Szerokość %1$s</string>
+    <string name="loading">Ładowanie…</string>
+    <string name="image_too_large_preview">Obraz jest zbyt duży do podglądu, ale i tak spróbujemy go zapisać</string>
+    <string name="pick_image">Wybierz zdjęcie aby zacząć</string>
+    <string name="smth_went_wrong">Coś poszło nie tak: %1$s</string>
+    <string name="height">Wysokość %1$s</string>
+    <string name="quality">Jakość</string>
+    <string name="extension">Rozszerzenie</string>
+    <string name="resize_type">Typ skalowania</string>
+    <string name="restart_app">Zrestartuj aplikację</string>
+    <string name="pick_image_alt">Wybierz zdjęcie</string>
+    <string name="app_closing_sub">Czy na pewno chcesz wyjść z aplikacji\?</string>
+    <string name="app_closing">Zamykanie aplikacji</string>
+    <string name="stay">Zostań</string>
+    <string name="close">Zamknij</string>
+    <string name="reset_image">Zresetuj obraz</string>
+    <string name="reset_image_sub">Zmiany będą zresetowane do wartości początkowych</string>
+    <string name="values_reset">Zmiany zresetowane</string>
+    <string name="reset">Resetuj</string>
+    <string name="something_went_wrong">Coś poszło nie tak</string>
+    <string name="copied">Skopiowano do schowka</string>
+    <string name="exception">Wyjątek</string>
+    <string name="edit_exif">Modyfikuj EXIF</string>
+    <string name="ok">Ok</string>
+</resources>
