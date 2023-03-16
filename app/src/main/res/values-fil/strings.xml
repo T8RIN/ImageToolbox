@@ -98,4 +98,9 @@
     <string name="clipboard_paste_invalid_empty">Walang maipe-paste</string>
     <string name="cannot_change_palette_while_dynamic_colors_applied">Hindi mababago ang eskema ng kulay ng app habang gumagamit ng dynamikong kulay</string>
     <string name="pick_accent_color">Ibabatay sa kulay na pipiliin mo ang tema ng app</string>
+    <string name="about_app">Tungkol sa app</string>
+    <string name="no_updates">Walang nahanap na mga update</string>
+    <string name="issue_tracker">Tagasubaybay ng isyu</string>
+    <string name="issue_tracker_sub">Ipadala dito ang mga ulat ng bug at mga kahilingan sa tampok</string>
+    <string name="help_translate">Tumulong sa pagsasalin</string>
 </resources>
