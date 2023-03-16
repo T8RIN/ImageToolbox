@@ -15,9 +15,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.AddPhotoAlternate
-import androidx.compose.material.icons.rounded.ArrowBack
-import androidx.compose.material.icons.rounded.ErrorOutline
+import androidx.compose.material.icons.rounded.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -174,6 +172,22 @@ fun CompareScreen(
                             Icon(Icons.Rounded.ArrowBack, null)
                         }
                     },
+                    actions = {
+                        IconButton(
+                            onClick = {
+                                viewModel.rotate()
+                            }
+                        ) {
+                            AnimatedContent(
+                                viewModel.rotation
+                            ) { rotation ->
+                                Icon(
+                                    if (rotation == 90f) Icons.Rounded.RotateLeft
+                                    else Icons.Rounded.RotateRight, null
+                                )
+                            }
+                        }
+                    },
                     title = {
                         Marquee(
                             edgeColor = MaterialTheme.colorScheme.surfaceColorAtElevation(3.dp)
@@ -215,7 +229,6 @@ fun CompareScreen(
                             afterLabel = { }
                         )
                     }
-
                 } ?: Column(Modifier.verticalScroll(scrollState)) {
                     ImageNotPickedWidget(
                         onPickImage = pickImage,

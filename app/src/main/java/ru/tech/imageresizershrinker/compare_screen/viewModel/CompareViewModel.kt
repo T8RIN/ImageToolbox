@@ -11,6 +11,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import ru.tech.imageresizershrinker.utils.BitmapUtils.canShow
 import ru.tech.imageresizershrinker.utils.BitmapUtils.resizeBitmap
+import ru.tech.imageresizershrinker.utils.BitmapUtils.rotate
 
 class CompareViewModel : ViewModel() {
 
@@ -19,6 +20,9 @@ class CompareViewModel : ViewModel() {
 
     private val _isLoading: MutableState<Boolean> = mutableStateOf(false)
     val isLoading: Boolean by _isLoading
+
+    private val _rotation: MutableState<Float> = mutableStateOf(0f)
+    val rotation by _rotation
 
     fun updateBitmapData(newBeforeBitmap: Bitmap?, newAfterBitmap: Bitmap?) {
         viewModelScope.launch {
@@ -58,8 +62,22 @@ class CompareViewModel : ViewModel() {
                     )
                 }
             }
+            _rotation.value = 0f
             _bitmapData.value = bmp1 to bmp2
             _isLoading.value = false
+        }
+    }
+
+    fun rotate() {
+        val old = _rotation.value
+        _rotation.value = _rotation.value.let {
+            if (it == 90f) 0f
+            else 90f
+        }
+        _bitmapData.value?.let { (f, s) ->
+            if (f != null && s != null) {
+                _bitmapData.value = f.rotate(180f-old).rotate(rotation) to s.rotate(180f - old).rotate(rotation)
+            }
         }
     }
 
