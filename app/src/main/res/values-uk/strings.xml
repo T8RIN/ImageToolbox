@@ -98,4 +98,9 @@
     <string name="clipboard_paste_invalid_empty">Нічого вставляти</string>
     <string name="cannot_change_palette_while_dynamic_colors_applied">Неможливо змінити колірну схему програми, якщо ввімкнено динамічні кольори</string>
     <string name="pick_accent_color">Тема програми базуватиметься на кольорі, який ви виберете</string>
+    <string name="no_updates">Оновлень не знайдено</string>
+    <string name="about_app">Про додаток</string>
+    <string name="issue_tracker">Відстеження проблем</string>
+    <string name="issue_tracker_sub">Надсилайте сюди звіти про помилки та запити щодо функцій</string>
+    <string name="help_translate">Допоможіть перекласти</string>
 </resources>
