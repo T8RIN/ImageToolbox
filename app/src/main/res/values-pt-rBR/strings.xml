@@ -98,4 +98,9 @@
     <string name="color_scheme">Esquema de cores</string>
     <string name="cannot_change_palette_while_dynamic_colors_applied">Não é possível alterar o esquema de cores do aplicativo enquanto as cores dinâmicas estão ativadas</string>
     <string name="pick_accent_color">O tema do aplicativo será baseado na cor, que você selecionará</string>
+    <string name="about_app">Sobre o aplicativo</string>
+    <string name="no_updates">Nenhuma atualização encontrada</string>
+    <string name="issue_tracker">Rastreador de problemas</string>
+    <string name="issue_tracker_sub">Envie aqui relatórios de bugs e solicitações de recursos</string>
+    <string name="help_translate">Ajude a traduzir</string>
 </resources>

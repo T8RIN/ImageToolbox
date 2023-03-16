@@ -98,4 +98,9 @@
     <string name="color_scheme">Renk düzeni</string>
     <string name="cannot_change_palette_while_dynamic_colors_applied">Dinamik renkler açıkken uygulama renk düzeni değiştirilemez</string>
     <string name="pick_accent_color">Uygulama teması, seçeceğiniz renge dayalı olacaktır</string>
+    <string name="no_updates">Güncelleme bulunamadı</string>
+    <string name="about_app">Uygulama hakkında</string>
+    <string name="issue_tracker">Sorun izleyici</string>
+    <string name="issue_tracker_sub">Hata raporlarını ve özellik isteklerini buraya gönderin</string>
+    <string name="help_translate">Çeviriye yardım et</string>
 </resources>

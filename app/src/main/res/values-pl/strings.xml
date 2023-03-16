@@ -98,4 +98,9 @@
     <string name="no_exif">Nie znaleziono metadanych EXIF</string>
     <string name="cannot_change_palette_while_dynamic_colors_applied">Nie można zmienić schematu kolorów aplikacji, gdy kolory dynamiczne są włączone</string>
     <string name="pick_accent_color">Motyw aplikacji będzie oparty na kolorze, który wybierzesz</string>
+    <string name="about_app">O aplikacji</string>
+    <string name="no_updates">Nie znaleziono aktualizacji</string>
+    <string name="issue_tracker">Lista problemow</string>
+    <string name="issue_tracker_sub">Wysyłaj tutaj raporty o błędach i prośby o nowe funkcje</string>
+    <string name="help_translate">Pomóż przetłumaczyć</string>
 </resources>

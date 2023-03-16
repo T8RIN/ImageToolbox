@@ -98,4 +98,9 @@
     <string name="clipboard_paste_invalid_color_code">Incolla un codice RGB valido.</string>
     <string name="cannot_change_palette_while_dynamic_colors_applied">Impossibile modificare la combinazione di colori dell\'app mentre i colori dinamici sono attivati</string>
     <string name="pick_accent_color">Il tema dell\'app sarà basato sul colore, che selezionerai</string>
+    <string name="issue_tracker">Rilevatore di problemi</string>
+    <string name="help_translate">Aiuta a tradurre</string>
+    <string name="no_updates">Nessun aggiornamento trovato</string>
+    <string name="about_app">Informazioni sull\'app</string>
+    <string name="issue_tracker_sub">Invia qui segnalazioni di bug e richieste di funzionalità</string>
 </resources>

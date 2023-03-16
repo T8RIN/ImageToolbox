@@ -98,4 +98,9 @@
     <string name="customization">التخصيص</string>
     <string name="allow_image_monet">السماح بتحويل الصورة إلى نقود</string>
     <string name="allow_image_monet_sub">في حالة التمكين ، عند اختيار صورة لتحريرها ، سيتم اعتماد ألوان التطبيق على هذه الصورة</string>
+    <string name="about_app">حول التطبيق</string>
+    <string name="issue_tracker">تعقب المشكلة</string>
+    <string name="help_translate">مساعدة في الترجمة</string>
+    <string name="no_updates">لم يتم العثور على تحديثات</string>
+    <string name="issue_tracker_sub">أرسل هنا تقارير الشوائب وطلبات الميزات</string>
 </resources>
