@@ -98,4 +98,6 @@
     <string name="clipboard_paste_invalid_empty">Нечего вставлять</string>
     <string name="cannot_change_palette_while_dynamic_colors_applied">Невозможно изменить цвет приложения, если включены динамические цвета</string>
     <string name="pick_accent_color">Тема приложения будет основываться на том цвете, который вы выберете</string>
+    <string name="about_app">О приложении</string>
+    <string name="no_updates">Обновлений не найдено</string>
 </resources>

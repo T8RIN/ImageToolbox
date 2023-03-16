@@ -146,8 +146,8 @@ class MainViewModel @Inject constructor(
         _showUpdateDialog.value = false
     }
 
-    fun tryGetUpdate() {
-        if (!_cancelledUpdate.value) {
+    fun tryGetUpdate(newRequest: Boolean = false, onNoUpdates: () -> Unit = {}) {
+        if (!_cancelledUpdate.value || newRequest) {
             viewModelScope.launch {
                 withContext(Dispatchers.IO) {
                     kotlin.runCatching {
@@ -175,6 +175,8 @@ class MainViewModel @Inject constructor(
 
                         if (tag != BuildConfig.VERSION_NAME) {
                             _showUpdateDialog.value = true
+                        } else {
+                            onNoUpdates()
                         }
                     }
                 }

@@ -70,6 +70,15 @@ dependencies {
 
     implementation("androidx.appcompat:appcompat:1.7.0-alpha02")
 
+    //Accompanist
+    implementation("com.google.accompanist:accompanist-placeholder-material:0.28.0")
+
+    //Coil
+    implementation("io.coil-kt:coil:2.2.2")
+    implementation("io.coil-kt:coil-compose:2.2.2")
+    implementation("io.coil-kt:coil-gif:2.2.2")
+    implementation("io.coil-kt:coil-svg:2.2.2")
+
     implementation(project(":cropper"))
     implementation(project(":dynamic_theme"))
     implementation(project(":colordetector"))

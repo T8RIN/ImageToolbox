@@ -43,7 +43,6 @@ import ru.tech.imageresizershrinker.main_screen.viewModel.MainViewModel
 import ru.tech.imageresizershrinker.pick_color_from_image.PickColorFromImageScreen
 import ru.tech.imageresizershrinker.resize_screen.SingleResizeScreen
 import ru.tech.imageresizershrinker.resize_screen.components.*
-import ru.tech.imageresizershrinker.theme.Github
 import ru.tech.imageresizershrinker.theme.ImageResizerTheme
 import ru.tech.imageresizershrinker.theme.getAppPrimaryColor
 import ru.tech.imageresizershrinker.utils.IntentUtils.parcelable
@@ -349,9 +348,9 @@ class MainActivity : AppCompatActivity() {
                         )
                     } else if (viewModel.showUpdateDialog) {
                         AlertDialog(
-                            onDismissRequest = { viewModel.cancelledUpdate(true) },
+                            onDismissRequest = { },
                             icon = {
-                                Icon(Icons.Rounded.Github, null)
+                                Icon(Icons.Rounded.Download, null)
                             },
                             title = { Text(stringResource(R.string.new_version, viewModel.tag)) },
                             text = {

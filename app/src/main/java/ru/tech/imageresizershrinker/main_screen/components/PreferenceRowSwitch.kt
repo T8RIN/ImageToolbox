@@ -65,6 +65,7 @@ fun PreferenceRow(
     modifier: Modifier = Modifier,
     title: String,
     subtitle: String? = null,
+    startContent: (@Composable () -> Unit)? = null,
     endContent: (@Composable () -> Unit)? = null,
     onClick: () -> Unit
 ) {
@@ -78,9 +79,10 @@ fun PreferenceRow(
                     alpha = 0.5f
                 )
             )
-            .padding(horizontal = 16.dp, vertical = 8.dp),
+            .padding(horizontal = if (startContent != null) 0.dp else 16.dp, vertical = 8.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
+        startContent?.invoke()
         Column(modifier = Modifier.weight(1f)) {
             Text(text = title)
             Spacer(modifier = Modifier.height(2.dp))

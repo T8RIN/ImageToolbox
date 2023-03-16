@@ -56,6 +56,7 @@ import ru.tech.imageresizershrinker.theme.Sparkles
 import ru.tech.imageresizershrinker.utils.LocalWindowSizeClass
 import ru.tech.imageresizershrinker.utils.toUiPath
 import ru.tech.imageresizershrinker.widget.Marquee
+import ru.tech.imageresizershrinker.widget.Picture
 import java.lang.Integer.max
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -238,107 +239,151 @@ fun MainScreen(
                                     Spacer(Modifier.height(16.dp))
                                 }
                                 Divider()
-                                Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                                Column {
                                     TitleItem(
                                         icon = Icons.Rounded.Palette,
                                         text = stringResource(R.string.customization),
                                     )
-                                    ChangeLanguagePreference()
-                                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                                    Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                                        ChangeLanguagePreference()
+                                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                                            PreferenceRowSwitch(
+                                                title = stringResource(R.string.dynamic_colors),
+                                                checked = viewModel.dynamicColors,
+                                                onClick = { viewModel.updateDynamicColors() }
+                                            )
+                                        }
+                                        val enabled = !viewModel.dynamicColors
+                                        PreferenceRow(
+                                            modifier = Modifier.alpha(
+                                                animateFloatAsState(
+                                                    if (enabled) 1f
+                                                    else 0.5f
+                                                ).value
+                                            ),
+                                            title = stringResource(R.string.color_scheme),
+                                            subtitle = stringResource(R.string.pick_accent_color),
+                                            onClick = {
+                                                if (enabled) showPickColorDialog = true
+                                                else scope.launch {
+                                                    toastHost.showToast(
+                                                        icon = Icons.Rounded.Palette,
+                                                        message = context.getString(R.string.cannot_change_palette_while_dynamic_colors_applied)
+                                                    )
+                                                }
+                                            },
+                                            endContent = {
+                                                Box(
+                                                    Modifier
+                                                        .clip(RoundedCornerShape(30))
+                                                        .background(viewModel.appPrimaryColor)
+                                                        .border(
+                                                            width = 1.dp,
+                                                            color = MaterialTheme
+                                                                .colorScheme
+                                                                .onSecondaryContainer
+                                                                .copy(alpha = 0.5f),
+                                                            shape = RoundedCornerShape(30)
+                                                        )
+                                                        .size(48.dp),
+                                                    contentAlignment = Alignment.Center
+                                                ) {
+                                                    Icon(
+                                                        imageVector = Icons.Rounded.CreateAlt,
+                                                        contentDescription = null,
+                                                        tint = if (LocalNightMode.current.toMode()) {
+                                                            if (viewModel.appPrimaryColor.luminance() < 0.4f) {
+                                                                MaterialTheme
+                                                                    .colorScheme
+                                                                    .primary
+                                                            } else {
+                                                                MaterialTheme
+                                                                    .colorScheme
+                                                                    .secondaryContainer
+                                                            }
+                                                        } else {
+                                                            if (viewModel.appPrimaryColor.luminance() < 0.4f) {
+                                                                MaterialTheme
+                                                                    .colorScheme
+                                                                    .primaryContainer
+                                                            } else {
+                                                                MaterialTheme
+                                                                    .colorScheme
+                                                                    .primary
+                                                            }
+                                                        }
+                                                    )
+                                                }
+                                            }
+                                        )
                                         PreferenceRowSwitch(
-                                            title = stringResource(R.string.dynamic_colors),
-                                            checked = viewModel.dynamicColors,
-                                            onClick = { viewModel.updateDynamicColors() }
+                                            title = stringResource(R.string.allow_image_monet),
+                                            subtitle = stringResource(R.string.allow_image_monet_sub),
+                                            checked = viewModel.allowImageMonet,
+                                            onClick = { viewModel.updateAllowImageMonet() }
+                                        )
+                                        PreferenceRowSwitch(
+                                            title = stringResource(R.string.amoled_mode),
+                                            subtitle = stringResource(R.string.amoled_mode_sub),
+                                            checked = viewModel.amoledMode,
+                                            onClick = { viewModel.updateAmoledMode() }
                                         )
                                     }
-                                    val enabled = !viewModel.dynamicColors
-                                    PreferenceRow(
-                                        modifier = Modifier.alpha(
-                                            animateFloatAsState(
-                                                if (enabled) 1f
-                                                else 0.5f
-                                            ).value
-                                        ),
-                                        title = stringResource(R.string.color_scheme),
-                                        subtitle = stringResource(R.string.pick_accent_color),
-                                        onClick = {
-                                            if (enabled) showPickColorDialog = true
-                                            else scope.launch {
-                                                toastHost.showToast(
-                                                    icon = Icons.Rounded.Palette,
-                                                    message = context.getString(R.string.cannot_change_palette_while_dynamic_colors_applied)
-                                                )
-                                            }
-                                        },
-                                        endContent = {
-                                            Box(
-                                                Modifier
-                                                    .clip(RoundedCornerShape(30))
-                                                    .background(viewModel.appPrimaryColor)
-                                                    .border(
-                                                        width = 1.dp,
-                                                        color = MaterialTheme
-                                                            .colorScheme
-                                                            .onSecondaryContainer
-                                                            .copy(alpha = 0.5f),
-                                                        shape = RoundedCornerShape(30)
-                                                    )
-                                                    .size(48.dp),
-                                                contentAlignment = Alignment.Center
-                                            ) {
-                                                Icon(
-                                                    imageVector = Icons.Rounded.CreateAlt,
-                                                    contentDescription = null,
-                                                    tint = if (LocalNightMode.current.toMode()) {
-                                                        if (viewModel.appPrimaryColor.luminance() < 0.4f) {
-                                                            MaterialTheme
-                                                                .colorScheme
-                                                                .primary
-                                                        } else {
-                                                            MaterialTheme
-                                                                .colorScheme
-                                                                .secondaryContainer
-                                                        }
-                                                    } else {
-                                                        if (viewModel.appPrimaryColor.luminance() < 0.4f) {
-                                                            MaterialTheme
-                                                                .colorScheme
-                                                                .primaryContainer
-                                                        } else {
-                                                            MaterialTheme
-                                                                .colorScheme
-                                                                .primary
-                                                        }
-                                                    }
-                                                )
-                                            }
-                                        }
-                                    )
-                                    PreferenceRowSwitch(
-                                        title = stringResource(R.string.allow_image_monet),
-                                        subtitle = stringResource(R.string.allow_image_monet_sub),
-                                        checked = viewModel.allowImageMonet,
-                                        onClick = { viewModel.updateAllowImageMonet() }
-                                    )
-                                    PreferenceRowSwitch(
-                                        title = stringResource(R.string.amoled_mode),
-                                        subtitle = stringResource(R.string.amoled_mode_sub),
-                                        checked = viewModel.amoledMode,
-                                        onClick = { viewModel.updateAmoledMode() }
-                                    )
+                                    Spacer(Modifier.height(16.dp))
                                 }
-                                Spacer(Modifier.height(16.dp))
                                 Divider()
                                 Column {
                                     TitleItem(
                                         icon = Icons.Rounded.Info,
                                         text = stringResource(R.string.about_app)
                                     )
-                                    SourceCodePreference(
-                                        modifier = Modifier
-                                            .fillMaxWidth()
-                                            .padding(horizontal = 16.dp)
-                                    )
+                                    Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                                        PreferenceRow(
+                                            title = stringResource(R.string.version),
+                                            subtitle = "${BuildConfig.VERSION_NAME} (${BuildConfig.VERSION_CODE})",
+                                            endContent = {
+                                                Icon(Icons.Rounded.Download, null)
+                                            },
+                                            onClick = {
+                                                viewModel.tryGetUpdate(
+                                                    newRequest = true,
+                                                    onNoUpdates = {
+                                                        scope.launch {
+                                                            toastHost.showToast(
+                                                                icon = Icons.Rounded.FileDownloadOff,
+                                                                message = context.getString(R.string.no_updates)
+                                                            )
+                                                        }
+                                                    }
+                                                )
+                                            }
+                                        )
+                                        PreferenceRow(
+                                            title = stringResource(R.string.app_developer),
+                                            subtitle = stringResource(R.string.app_developer_nick),
+                                            startContent = {
+                                                Picture(
+                                                    model = "https://avatars.githubusercontent.com/u/52178347?v=4",
+                                                    modifier = Modifier
+                                                        .padding(horizontal = 8.dp)
+                                                        .size(48.dp),
+                                                )
+                                            },
+                                            onClick = {
+                                                context.startActivity(
+                                                    Intent(
+                                                        Intent.ACTION_VIEW,
+                                                        Uri.parse("https://github.com/T8RIN")
+                                                    )
+                                                )
+                                            }
+                                        )
+                                        SourceCodePreference(
+                                            modifier = Modifier
+                                                .fillMaxWidth()
+                                                .padding(horizontal = 16.dp)
+                                        )
+                                    }
                                     Spacer(Modifier.height(16.dp))
                                 }
                             }
