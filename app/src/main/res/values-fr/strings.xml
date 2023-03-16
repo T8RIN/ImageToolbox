@@ -98,4 +98,9 @@
     <string name="clipboard_paste_invalid_color_code">Collez un code aRGB valide.</string>
     <string name="cannot_change_palette_while_dynamic_colors_applied">Impossible de modifier le jeu de couleurs de l\'application lorsque les couleurs dynamiques sont activées</string>
     <string name="pick_accent_color">Le thème de l’application sera basé sur la couleur, que vous sélectionnerez</string>
+    <string name="about_app">À propos de l\'application</string>
+    <string name="no_updates">Aucune mise à jour trouvée</string>
+    <string name="issue_tracker">Traqueur d\'incidents</string>
+    <string name="issue_tracker_sub">Envoyez ici les rapports de bugs et les demandes de fonctionnalités</string>
+    <string name="help_translate">Aide à traduire</string>
 </resources>
