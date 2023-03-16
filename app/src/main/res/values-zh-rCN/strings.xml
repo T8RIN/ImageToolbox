@@ -98,4 +98,9 @@
     <string name="clipboard_paste_invalid_empty">没有什么可粘贴的</string>
     <string name="cannot_change_palette_while_dynamic_colors_applied">启用动态颜色时无法更改应用配色方案</string>
     <string name="pick_accent_color">应用程序主题将基于颜色，您将选择</string>
+    <string name="no_updates">未找到更新</string>
+    <string name="issue_tracker">问题跟踪器</string>
+    <string name="help_translate">帮助翻译</string>
+    <string name="about_app">关于应用</string>
+    <string name="issue_tracker_sub">在这里发送错误报告和功能请求</string>
 </resources>
