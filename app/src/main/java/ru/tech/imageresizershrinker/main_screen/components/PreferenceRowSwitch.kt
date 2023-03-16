@@ -15,6 +15,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import ru.tech.imageresizershrinker.resize_screen.components.blend
+import ru.tech.imageresizershrinker.widget.AutoSizeText
 
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
@@ -65,6 +66,7 @@ fun PreferenceRow(
     modifier: Modifier = Modifier,
     title: String,
     subtitle: String? = null,
+    maxLines: Int = Int.MAX_VALUE,
     startContent: (@Composable () -> Unit)? = null,
     endContent: (@Composable () -> Unit)? = null,
     onClick: () -> Unit
@@ -84,7 +86,7 @@ fun PreferenceRow(
     ) {
         startContent?.invoke()
         Column(modifier = Modifier.weight(1f)) {
-            Text(text = title)
+            AutoSizeText(text = title,  maxLines = maxLines)
             Spacer(modifier = Modifier.height(2.dp))
             subtitle?.let {
                 Text(

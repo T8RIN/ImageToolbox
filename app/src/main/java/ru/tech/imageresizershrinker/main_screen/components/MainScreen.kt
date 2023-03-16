@@ -157,7 +157,12 @@ fun MainScreen(
                                         onClick = { onGetNewFolder(null) },
                                         title = stringResource(R.string.def),
                                         subtitle = stringResource(R.string.default_folder),
-                                        color = MaterialTheme.colorScheme.secondaryContainer,
+                                        color = MaterialTheme.colorScheme.secondaryContainer.copy(
+                                            alpha = animateFloatAsState(
+                                                if (currentFolderUri == null) 1f
+                                                else 0.5f
+                                            ).value
+                                        ),
                                         modifier = Modifier
                                             .fillMaxWidth()
                                             .padding(horizontal = 16.dp)
@@ -180,7 +185,12 @@ fun MainScreen(
                                             context = LocalContext.current,
                                             default = stringResource(R.string.unspecified)
                                         ),
-                                        color = MaterialTheme.colorScheme.secondaryContainer,
+                                        color = MaterialTheme.colorScheme.secondaryContainer.copy(
+                                            alpha = animateFloatAsState(
+                                                if (currentFolderUri != null) 1f
+                                                else 0.5f
+                                            ).value
+                                        ),
                                         endIcon = Icons.Rounded.CreateAlt,
                                         modifier = Modifier
                                             .fillMaxWidth()
@@ -276,7 +286,9 @@ fun MainScreen(
                                                 Box(
                                                     Modifier
                                                         .clip(RoundedCornerShape(30))
-                                                        .background(viewModel.appPrimaryColor)
+                                                        .background(
+                                                            animateColorAsState(viewModel.appPrimaryColor).value
+                                                        )
                                                         .border(
                                                             width = 1.dp,
                                                             color = MaterialTheme
@@ -291,27 +303,29 @@ fun MainScreen(
                                                     Icon(
                                                         imageVector = Icons.Rounded.CreateAlt,
                                                         contentDescription = null,
-                                                        tint = if (LocalNightMode.current.toMode()) {
-                                                            if (viewModel.appPrimaryColor.luminance() < 0.4f) {
-                                                                MaterialTheme
-                                                                    .colorScheme
-                                                                    .primary
+                                                        tint = animateColorAsState(
+                                                            if (LocalNightMode.current.toMode()) {
+                                                                if (viewModel.appPrimaryColor.luminance() < 0.4f) {
+                                                                    MaterialTheme
+                                                                        .colorScheme
+                                                                        .primary
+                                                                } else {
+                                                                    MaterialTheme
+                                                                        .colorScheme
+                                                                        .secondaryContainer
+                                                                }
                                                             } else {
-                                                                MaterialTheme
-                                                                    .colorScheme
-                                                                    .secondaryContainer
+                                                                if (viewModel.appPrimaryColor.luminance() < 0.4f) {
+                                                                    MaterialTheme
+                                                                        .colorScheme
+                                                                        .primaryContainer
+                                                                } else {
+                                                                    MaterialTheme
+                                                                        .colorScheme
+                                                                        .primary
+                                                                }
                                                             }
-                                                        } else {
-                                                            if (viewModel.appPrimaryColor.luminance() < 0.4f) {
-                                                                MaterialTheme
-                                                                    .colorScheme
-                                                                    .primaryContainer
-                                                            } else {
-                                                                MaterialTheme
-                                                                    .colorScheme
-                                                                    .primary
-                                                            }
-                                                        }
+                                                        ).value
                                                     )
                                                 }
                                             }
@@ -390,6 +404,7 @@ fun MainScreen(
                                         PreferenceRow(
                                             title = stringResource(R.string.app_developer),
                                             subtitle = stringResource(R.string.app_developer_nick),
+                                            maxLines = 1,
                                             startContent = {
                                                 Picture(
                                                     model = "https://avatars.githubusercontent.com/u/52178347?v=4",
