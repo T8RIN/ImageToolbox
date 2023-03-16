@@ -106,5 +106,7 @@
     <string name="app_developer" translatable="false">Malik Mukhametzyanov</string>
     <string name="app_developer_nick" translatable="false">T8RIN</string>
     <string name="no_updates">No updates found</string>
+    <string name="issue_tracker">Issue tracker</string>
+    <string name="issue_tracker_sub">Send here bug reports and feature requests</string>
     <!--    <string name="processing">Processing</string>-->
 </resources>

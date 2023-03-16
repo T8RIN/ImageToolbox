@@ -378,6 +378,21 @@ fun MainScreen(
                                                 )
                                             }
                                         )
+                                        PreferenceRow(
+                                            title = stringResource(R.string.issue_tracker),
+                                            subtitle = stringResource(R.string.issue_tracker_sub),
+                                            startContent = {
+                                                Icon(Icons.Rounded.BugReport, null, Modifier.padding(horizontal=16.dp)
+                                            },
+                                            onClick = {
+                                                context.startActivity(
+                                                    Intent(
+                                                        Intent.ACTION_VIEW,
+                                                        Uri.parse("https://github.com/T8RIN/ImageResizer/issues")
+                                                    )
+                                                )
+                                            }
+                                        )
                                         SourceCodePreference(
                                             modifier = Modifier
                                                 .fillMaxWidth()
