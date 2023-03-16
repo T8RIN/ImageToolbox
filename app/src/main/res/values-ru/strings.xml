@@ -100,4 +100,7 @@
     <string name="pick_accent_color">Тема приложения будет основываться на том цвете, который вы выберете</string>
     <string name="about_app">О приложении</string>
     <string name="no_updates">Обновлений не найдено</string>
+    <string name="issue_tracker">Трекер ошибок</string>
+    <string name="issue_tracker_sub">Отправляйте отчеты об ошибках и предлагайте новые идеи для развития проекта</string>
+    <string name="help_translate">Помочь с переводом</string>
 </resources>

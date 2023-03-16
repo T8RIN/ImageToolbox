@@ -359,6 +359,35 @@ fun MainScreen(
                                             }
                                         )
                                         PreferenceRow(
+                                            title = stringResource(R.string.help_translate),
+                                            endContent = {
+                                                Icon(Icons.Rounded.Translate, null)
+                                            },
+                                            onClick = {
+                                                context.startActivity(
+                                                    Intent(
+                                                        Intent.ACTION_VIEW,
+                                                        Uri.parse("https://hosted.weblate.org/engage/image-resizer/")
+                                                    )
+                                                )
+                                            }
+                                        )
+                                        PreferenceRow(
+                                            title = stringResource(R.string.issue_tracker),
+                                            subtitle = stringResource(R.string.issue_tracker_sub),
+                                            endContent = {
+                                                Icon(Icons.Rounded.BugReport, null)
+                                            },
+                                            onClick = {
+                                                context.startActivity(
+                                                    Intent(
+                                                        Intent.ACTION_VIEW,
+                                                        Uri.parse("https://github.com/T8RIN/ImageResizer/issues")
+                                                    )
+                                                )
+                                            }
+                                        )
+                                        PreferenceRow(
                                             title = stringResource(R.string.app_developer),
                                             subtitle = stringResource(R.string.app_developer_nick),
                                             startContent = {
@@ -374,21 +403,6 @@ fun MainScreen(
                                                     Intent(
                                                         Intent.ACTION_VIEW,
                                                         Uri.parse("https://github.com/T8RIN")
-                                                    )
-                                                )
-                                            }
-                                        )
-                                        PreferenceRow(
-                                            title = stringResource(R.string.issue_tracker),
-                                            subtitle = stringResource(R.string.issue_tracker_sub),
-                                            startContent = {
-                                                Icon(Icons.Rounded.BugReport, null, Modifier.padding(horizontal=16.dp)
-                                            },
-                                            onClick = {
-                                                context.startActivity(
-                                                    Intent(
-                                                        Intent.ACTION_VIEW,
-                                                        Uri.parse("https://github.com/T8RIN/ImageResizer/issues")
                                                     )
                                                 )
                                             }
