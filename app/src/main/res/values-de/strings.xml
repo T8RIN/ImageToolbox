@@ -91,7 +91,7 @@
     <string name="unspecified">Nicht spezifiziert</string>
     <string name="device_storage">Gerätespeicher</string>
     <string name="max_bytes">Maximale Größe in KB</string>
-    <string name="by_bytes_resize">Größenänderung nach Gewichtung</string>
+    <string name="by_bytes_resize">Größenänderung nach Volumen</string>
     <string name="compare">Vergleichen</string>
     <string name="pick_two_images">Wähle zwei Bilder zum starten</string>
     <string name="pick_images">Wähle Bilder</string>
