@@ -25,7 +25,8 @@ import ru.tech.imageresizershrinker.theme.PaletteSwatch
 fun SourceCodePreference(
     modifier: Modifier = Modifier
         .fillMaxWidth()
-        .padding(horizontal = 8.dp)
+        .padding(horizontal = 8.dp),
+    color: Color = MaterialTheme.colorScheme.tertiaryContainer
 ) {
     val context = LocalContext.current
     PreferenceItem(
@@ -40,7 +41,7 @@ fun SourceCodePreference(
         icon = Icons.Rounded.Github,
         title = stringResource(R.string.check_source_code),
         subtitle = stringResource(R.string.check_source_code_sub),
-        color = MaterialTheme.colorScheme.tertiaryContainer,
+        color = color,
         modifier = modifier
     )
 }

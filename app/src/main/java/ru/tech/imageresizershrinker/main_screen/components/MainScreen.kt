@@ -328,6 +328,19 @@ fun MainScreen(
                                     )
                                 }
                                 Spacer(Modifier.height(16.dp))
+                                Divider()
+                                Column {
+                                    TitleItem(
+                                        icon = Icons.Rounded.Info,
+                                        text = stringResource(R.string.about_app)
+                                    )
+                                    SourceCodePreference(
+                                        modifier = Modifier
+                                            .fillMaxWidth()
+                                            .padding(horizontal = 16.dp)
+                                    )
+                                    Spacer(Modifier.height(16.dp))
+                                }
                             }
                         }
                     }

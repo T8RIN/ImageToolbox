@@ -102,5 +102,6 @@
     <string name="argb" translatable="false">ARGB</string>
     <string name="cannot_change_palette_while_dynamic_colors_applied">Can not change app color scheme while dynamic colors are turned on</string>
     <string name="pick_accent_color">App theme will be based on color, which you will select</string>
+    <string name="about_app">About app</string>
     <!--    <string name="processing">Processing</string>-->
 </resources>
