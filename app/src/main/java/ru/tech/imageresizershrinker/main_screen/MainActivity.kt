@@ -45,6 +45,7 @@ import ru.tech.imageresizershrinker.resize_screen.SingleResizeScreen
 import ru.tech.imageresizershrinker.resize_screen.components.*
 import ru.tech.imageresizershrinker.theme.Github
 import ru.tech.imageresizershrinker.theme.ImageResizerTheme
+import ru.tech.imageresizershrinker.theme.getAppPrimaryColor
 import ru.tech.imageresizershrinker.utils.IntentUtils.parcelable
 import ru.tech.imageresizershrinker.utils.IntentUtils.parcelableArrayList
 import ru.tech.imageresizershrinker.utils.getSavingFolder
@@ -87,9 +88,10 @@ class MainActivity : AppCompatActivity() {
             ) {
                 ImageResizerTheme {
                     val themeState = LocalDynamicThemeState.current
+                    val appPrimaryColor = getAppPrimaryColor()
                     val onGoBack: () -> Unit = {
                         viewModel.updateUris(null)
-                        themeState.updateColor(viewModel.appPrimaryColor)
+                        themeState.updateColor(appPrimaryColor)
                         viewModel.navController {
                             if (backstack.entries.isNotEmpty()) pop()
                         }

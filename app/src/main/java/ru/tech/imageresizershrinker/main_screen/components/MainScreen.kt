@@ -344,53 +344,57 @@ fun MainScreen(
                         title = {
                             var scaleState by remember { mutableStateOf(1f) }
                             val scale by animateFloatAsState(scaleState)
-                            Marquee(
-                                edgeColor = MaterialTheme
-                                    .colorScheme
-                                    .surfaceColorAtElevation(3.dp)
+                            CompositionLocalProvider(
+                                LocalLayoutDirection provides LayoutDirection.Ltr
                             ) {
-                                Row(verticalAlignment = Alignment.CenterVertically) {
-                                    Text(stringResource(R.string.app_name))
-                                    Spacer(Modifier.width(12.dp))
-                                    Box(
-                                        Modifier
-                                            .scale(scale)
-                                            .pointerInput(Unit) {
-                                                detectTapGestures(
-                                                    onPress = {
-                                                        scaleState = 1.3f
-                                                        delay(200)
-                                                        tryAwaitRelease()
-                                                        showConfetti()
-                                                        scaleState = 0.8f
-                                                        delay(200)
-                                                        scaleState = 1f
-                                                    }
-                                                )
-                                            }
-                                    ) {
-                                        Icon(
-                                            imageVector = Icons.Rounded.Sparkles,
-                                            contentDescription = null,
-                                            modifier = Modifier
-                                                .size(
+                                Marquee(
+                                    edgeColor = MaterialTheme
+                                        .colorScheme
+                                        .surfaceColorAtElevation(3.dp)
+                                ) {
+                                    Row(verticalAlignment = Alignment.CenterVertically) {
+                                        Text(stringResource(R.string.app_name))
+                                        Spacer(Modifier.width(12.dp))
+                                        Box(
+                                            Modifier
+                                                .scale(scale)
+                                                .pointerInput(Unit) {
+                                                    detectTapGestures(
+                                                        onPress = {
+                                                            scaleState = 1.3f
+                                                            delay(200)
+                                                            tryAwaitRelease()
+                                                            showConfetti()
+                                                            scaleState = 0.8f
+                                                            delay(200)
+                                                            scaleState = 1f
+                                                        }
+                                                    )
+                                                }
+                                        ) {
+                                            Icon(
+                                                imageVector = Icons.Rounded.Sparkles,
+                                                contentDescription = null,
+                                                modifier = Modifier
+                                                    .size(
+                                                        with(LocalDensity.current) {
+                                                            LocalTextStyle.current.fontSize.toDp()
+                                                        }
+                                                    )
+                                                    .offset(1.dp, 1.dp),
+                                                tint = Color(0, 0, 0, 40)
+                                            )
+                                            Icon(
+                                                imageVector = Icons.Rounded.Sparkles,
+                                                contentDescription = null,
+                                                modifier = Modifier.size(
                                                     with(LocalDensity.current) {
                                                         LocalTextStyle.current.fontSize.toDp()
                                                     }
-                                                )
-                                                .offset(1.dp, 1.dp),
-                                            tint = Color(0, 0, 0, 40)
-                                        )
-                                        Icon(
-                                            imageVector = Icons.Rounded.Sparkles,
-                                            contentDescription = null,
-                                            modifier = Modifier.size(
-                                                with(LocalDensity.current) {
-                                                    LocalTextStyle.current.fontSize.toDp()
-                                                }
-                                            ),
-                                            tint = Color.Unspecified
-                                        )
+                                                ),
+                                                tint = Color.Unspecified
+                                            )
+                                        }
                                     }
                                 }
                             }
