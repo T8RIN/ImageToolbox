@@ -96,6 +96,6 @@
     <string name="clipboard_paste_invalid_color_code">Mag-paste ng wastong aRGB-Code.</string>
     <string name="color_scheme">Eskema ng kulay</string>
     <string name="clipboard_paste_invalid_empty">Walang maipe-paste</string>
-    <string name="cannot_change_palette_while_dynamic_colors_applied">Hindi maaaring baguhin ang scheme ng kulay ng app habang ang mga dynamic na kulay ay nakabukas</string>
-    <string name="pick_accent_color">Ang tema ng app ay ibabatay sa kulay, na pipiliin mo</string>
+    <string name="cannot_change_palette_while_dynamic_colors_applied">Hindi mababago ang eskema ng kulay ng app habang gumagamit ng dynamikong kulay</string>
+    <string name="pick_accent_color">Ibabatay sa kulay na pipiliin mo ang tema ng app</string>
 </resources>
