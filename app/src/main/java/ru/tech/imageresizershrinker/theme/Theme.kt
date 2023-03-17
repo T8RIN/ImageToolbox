@@ -88,7 +88,7 @@ fun ImageResizerTheme(
     amoledMode: Boolean = LocalAmoledMode.current,
     content: @Composable () -> Unit
 ) {
-    val darkTheme = LocalNightMode.current.toMode()
+    val darkTheme = LocalNightMode.current.isNightMode()
 
     val primary = getAppPrimaryColor(dynamicColor)
 
@@ -127,7 +127,7 @@ fun ImageResizerTheme(
 @Composable
 fun getAppPrimaryColor(
     dynamicColor: Boolean = LocalDynamicColors.current,
-    darkTheme: Boolean = LocalNightMode.current.toMode()
+    darkTheme: Boolean = LocalNightMode.current.isNightMode()
 ): Color {
     return when {
         dynamicColor && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S -> {

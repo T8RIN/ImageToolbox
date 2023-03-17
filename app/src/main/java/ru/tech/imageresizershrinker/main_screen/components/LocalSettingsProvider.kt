@@ -17,7 +17,7 @@ val LocalAmoledMode = compositionLocalOf<Boolean> { error("Not present Amoled Mo
 val LocalAppPrimaryColor = compositionLocalOf<Color> { error("No color present") }
 
 @Composable
-fun Int.toMode(): Boolean = when (this) {
+fun Int.isNightMode(): Boolean = when (this) {
     0 -> true
     1 -> false
     else -> isSystemInDarkTheme()

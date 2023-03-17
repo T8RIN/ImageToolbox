@@ -74,7 +74,7 @@ import ru.tech.imageresizershrinker.widget.Marquee
 
 @OptIn(ExperimentalAnimationApi::class, ExperimentalMaterial3Api::class)
 @Composable
-fun Context.SingleResizeScreen(
+fun SingleResizeScreen(
     viewModel: SingleResizeViewModel = viewModel(),
     onGoBack: () -> Unit,
     pushNewUri: (Uri?) -> Unit,
@@ -91,7 +91,7 @@ fun Context.SingleResizeScreen(
 
     LaunchedEffect(uriState) {
         uriState?.let {
-            decodeBitmapFromUri(
+            context.decodeBitmapFromUri(
                 uri = it,
                 onGetMimeType = viewModel::setMime,
                 onGetExif = viewModel::updateExif,
@@ -138,7 +138,7 @@ fun Context.SingleResizeScreen(
             contract = ActivityResultContracts.PickVisualMedia()
         ) { uri ->
             uri?.let {
-                decodeBitmapFromUri(
+                context.decodeBitmapFromUri(
                     uri = it,
                     onGetMimeType = viewModel::setMime,
                     onGetExif = viewModel::updateExif,
@@ -177,16 +177,16 @@ fun Context.SingleResizeScreen(
             else {
                 scope.launch {
                     toastHostState.showToast(
-                        getString(
+                        context.getString(
                             R.string.saved_to,
                             savingPathString
                         ),
                         Icons.Rounded.Save
                     )
                 }
+                showConfetti()
             }
             showSaveLoading = false
-            showConfetti()
         }
     }
 
@@ -260,7 +260,7 @@ fun Context.SingleResizeScreen(
                     )
                     IconButton(
                         onClick = {
-                            shareBitmap(
+                            context.shareBitmap(
                                 bitmap = viewModel.previewBitmap,
                                 bitmapInfo = viewModel.bitmapInfo
                             )
@@ -495,7 +495,7 @@ fun Context.SingleResizeScreen(
                             )
                             IconButton(
                                 onClick = {
-                                    shareBitmap(
+                                    context.shareBitmap(
                                         bitmap = viewModel.previewBitmap,
                                         bitmapInfo = viewModel.bitmapInfo
                                     )
@@ -729,7 +729,7 @@ fun Context.SingleResizeScreen(
                             showResetDialog = false
                             scope.launch {
                                 toastHostState.showToast(
-                                    getString(R.string.values_reset),
+                                    context.getString(R.string.values_reset),
                                     Icons.Rounded.DoneOutline
                                 )
                             }

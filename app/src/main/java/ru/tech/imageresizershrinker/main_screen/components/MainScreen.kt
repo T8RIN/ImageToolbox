@@ -304,8 +304,8 @@ fun MainScreen(
                                                         imageVector = Icons.Rounded.CreateAlt,
                                                         contentDescription = null,
                                                         tint = animateColorAsState(
-                                                            if (LocalNightMode.current.toMode()) {
-                                                                if (viewModel.appPrimaryColor.luminance() < 0.4f) {
+                                                            if (LocalNightMode.current.isNightMode()) {
+                                                                if (viewModel.appPrimaryColor.luminance() < 0.3f) {
                                                                     MaterialTheme
                                                                         .colorScheme
                                                                         .primary
@@ -315,7 +315,7 @@ fun MainScreen(
                                                                         .secondaryContainer
                                                                 }
                                                             } else {
-                                                                if (viewModel.appPrimaryColor.luminance() < 0.4f) {
+                                                                if (viewModel.appPrimaryColor.luminance() < 0.3f) {
                                                                     MaterialTheme
                                                                         .colorScheme
                                                                         .primaryContainer
@@ -374,6 +374,7 @@ fun MainScreen(
                                         )
                                         PreferenceRow(
                                             title = stringResource(R.string.help_translate),
+                                            subtitle = stringResource(R.string.help_translate_sub),
                                             endContent = {
                                                 Icon(Icons.Rounded.Translate, null)
                                             },

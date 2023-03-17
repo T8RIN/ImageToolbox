@@ -153,9 +153,9 @@ fun CropScreen(
                         Icons.Rounded.Save
                     )
                 }
+                showConfetti()
             }
             showSaveLoading = false
-            showConfetti()
         }
     }
 

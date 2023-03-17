@@ -173,9 +173,9 @@ fun BytesResizeScreen(
                         Icons.Rounded.Save
                     )
                 }
+                showConfetti()
             }
             showSaveLoading = false
-            showConfetti()
         }
     }
 

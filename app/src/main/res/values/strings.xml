@@ -109,5 +109,6 @@
     <string name="issue_tracker">Issue tracker</string>
     <string name="issue_tracker_sub">Send here bug reports and feature requests</string>
     <string name="help_translate">Help translate</string>
+    <string name="help_translate_sub">Correct translation mistakes or localize project to another languages</string>
     <!--    <string name="processing">Processing</string>-->
 </resources>

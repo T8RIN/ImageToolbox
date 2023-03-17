@@ -103,4 +103,5 @@
     <string name="issue_tracker">Трекер ошибок</string>
     <string name="issue_tracker_sub">Отправляйте отчеты об ошибках и предлагайте новые идеи для развития проекта</string>
     <string name="help_translate">Помочь с переводом</string>
+    <string name="help_translate_sub">Исправляйте ошибки в написании слов или переводите проект на новые языки</string>
 </resources>

@@ -169,9 +169,9 @@ fun BatchResizeScreen(
                         Icons.Rounded.Save
                     )
                 }
+                showConfetti()
             }
             showSaveLoading = false
-            showConfetti()
         }
     }
 
