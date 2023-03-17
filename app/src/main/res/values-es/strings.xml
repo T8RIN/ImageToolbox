@@ -1,2 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<resources>
+    <string name="smth_went_wrong">Algo esta mal: %1$s</string>
+    <string name="size">Tamaño %1$s</string>
+    <string name="loading">Cargando…</string>
+    <string name="image_too_large_preview">La imagen es muy grande para visualizar, pero igualmente se intentara guardar.</string>
+    <string name="pick_image">Seleccione una imagen para iniciar</string>
+</resources>
