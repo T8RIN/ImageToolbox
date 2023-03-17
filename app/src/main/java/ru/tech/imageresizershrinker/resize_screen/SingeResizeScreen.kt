@@ -1,6 +1,5 @@
 package ru.tech.imageresizershrinker.resize_screen
 
-import android.content.Context
 import android.content.res.Configuration
 import android.net.Uri
 import androidx.activity.ComponentActivity
@@ -10,14 +9,19 @@ import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.*
 import androidx.compose.animation.core.animateDpAsState
-import androidx.compose.foundation.*
+import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.LocalIndication
+import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.detectTapGestures
+import androidx.compose.foundation.indication
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.PressInteraction
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Save
@@ -72,7 +76,10 @@ import ru.tech.imageresizershrinker.utils.LocalWindowSizeClass
 import ru.tech.imageresizershrinker.utils.SavingFolder
 import ru.tech.imageresizershrinker.widget.Marquee
 
-@OptIn(ExperimentalAnimationApi::class, ExperimentalMaterial3Api::class)
+@OptIn(
+    ExperimentalAnimationApi::class, ExperimentalMaterial3Api::class,
+    ExperimentalFoundationApi::class
+)
 @Composable
 fun SingleResizeScreen(
     viewModel: SingleResizeViewModel = viewModel(),
@@ -628,36 +635,35 @@ fun SingleResizeScreen(
                                         bitmapInfo = bitmapInfo,
                                         onChangeBitmapInfo = viewModel::setBitmapInfo
                                     )
+                                    Spacer(Modifier.size(8.dp))
+                                    ResizeImageField(
+                                        bitmapInfo = bitmapInfo,
+                                        bitmap = viewModel.bitmap,
+                                        onHeightChange = viewModel::updateHeight,
+                                        onWidthChange = viewModel::updateWidth
+                                    )
+                                    if (bitmapInfo.mime.extension != "png") Spacer(Modifier.height(8.dp))
+                                    QualityWidget(
+                                        visible = bitmapInfo.mime.extension != "png",
+                                        enabled = viewModel.bitmap != null,
+                                        quality = bitmapInfo.quality,
+                                        onQualityChange = viewModel::setQuality
+                                    )
+                                    Spacer(Modifier.height(8.dp))
+                                    ExtensionGroup(
+                                        enabled = viewModel.bitmap != null,
+                                        mime = bitmapInfo.mime,
+                                        onMimeChange = viewModel::setMime
+                                    )
+                                    Spacer(Modifier.height(8.dp))
+                                    ResizeGroup(
+                                        enabled = viewModel.bitmap != null,
+                                        resizeType = bitmapInfo.resizeType,
+                                        onResizeChange = viewModel::setResizeType
+                                    )
                                 } else if (!viewModel.isLoading) {
                                     ImageNotPickedWidget(onPickImage = pickImage)
-                                    Spacer(Modifier.size(8.dp))
                                 }
-                                Spacer(Modifier.size(8.dp))
-                                ResizeImageField(
-                                    bitmapInfo = bitmapInfo,
-                                    bitmap = viewModel.bitmap,
-                                    onHeightChange = viewModel::updateHeight,
-                                    onWidthChange = viewModel::updateWidth
-                                )
-                                if (bitmapInfo.mime.extension != "png") Spacer(Modifier.height(8.dp))
-                                QualityWidget(
-                                    visible = bitmapInfo.mime.extension != "png",
-                                    enabled = viewModel.bitmap != null,
-                                    quality = bitmapInfo.quality,
-                                    onQualityChange = viewModel::setQuality
-                                )
-                                Spacer(Modifier.height(8.dp))
-                                ExtensionGroup(
-                                    enabled = viewModel.bitmap != null,
-                                    mime = bitmapInfo.mime,
-                                    onMimeChange = viewModel::setMime
-                                )
-                                Spacer(Modifier.height(8.dp))
-                                ResizeGroup(
-                                    enabled = viewModel.bitmap != null,
-                                    resizeType = bitmapInfo.resizeType,
-                                    onResizeChange = viewModel::setResizeType
-                                )
                             }
                         }
                     }
@@ -786,10 +792,10 @@ fun SingleResizeScreen(
                     text = {
                         if (map?.isEmpty() == false) {
                             Box {
-                                Divider(Modifier.align(Alignment.TopCenter))
-                                Column(Modifier.verticalScroll(rememberScrollState())) {
-                                    Spacer(Modifier.height(8.dp))
-                                    map?.forEach { (tag, value) ->
+                                LazyColumn(
+                                    contentPadding = PaddingValues(vertical = 8.dp)
+                                ) {
+                                    items(map!!.toList()) { (tag, value) ->
                                         Card(
                                             modifier = Modifier
                                                 .padding(vertical = 4.dp),
@@ -854,7 +860,6 @@ fun SingleResizeScreen(
                                             }
                                         }
                                     }
-                                    Spacer(Modifier.height(8.dp))
                                 }
                                 Divider(Modifier.align(Alignment.BottomCenter))
                             }
@@ -889,23 +894,49 @@ fun SingleResizeScreen(
                         properties = DialogProperties(usePlatformDefaultWidth = false),
                         text = {
                             Box {
-                                Divider(Modifier.align(Alignment.TopCenter))
-                                Column(
-                                    Modifier.verticalScroll(rememberScrollState())
+                                val tags =
+                                    remember(map) {
+                                        BitmapUtils.tags.filter {
+                                            it !in (map?.keys ?: emptyList())
+                                        }.sorted()
+                                    }
+                                if (tags.isEmpty()) {
+                                    SideEffect {
+                                        showAddExifDialog = false
+                                    }
+                                }
+                                var query by rememberSaveable { mutableStateOf("") }
+                                val list = remember(tags, query) {
+                                    tags.filter {
+                                        query.lowercase() in it.lowercase()
+                                    }
+                                }
+                                LazyColumn(
+                                    contentPadding = PaddingValues(vertical = 8.dp)
                                 ) {
-                                    val tags =
-                                        remember(map) {
-                                            BitmapUtils.tags.filter {
-                                                it !in (map?.keys ?: emptyList())
-                                            }.sorted()
-                                        }
-                                    if (tags.isEmpty()) {
-                                        SideEffect {
-                                            showAddExifDialog = false
+                                    stickyHeader {
+                                        Column(
+                                            Modifier.background(
+                                                MaterialTheme.colorScheme.surfaceColorAtElevation(
+                                                    6.dp
+                                                )
+                                            )
+                                        ) {
+                                            RoundedTextField(
+                                                textStyle = LocalTextStyle.current.copy(textAlign = TextAlign.Start),
+                                                shape = RoundedCornerShape(30),
+                                                label = "Search",
+                                                onValueChange = { query = it },
+                                                value = query
+                                            )
+                                            Spacer(Modifier.height(8.dp))
+                                            Divider()
                                         }
                                     }
-                                    Spacer(Modifier.height(8.dp))
-                                    tags.forEach { tag ->
+                                    item {
+                                        Spacer(Modifier.height(8.dp))
+                                    }
+                                    items(list) { tag ->
                                         Card(
                                             modifier = Modifier
                                                 .padding(vertical = 4.dp),
@@ -947,7 +978,23 @@ fun SingleResizeScreen(
                                             }
                                         }
                                     }
-                                    Spacer(Modifier.height(8.dp))
+                                    if (list.isEmpty()) {
+                                        item {
+                                            Box(
+                                                Modifier
+                                                    .fillMaxWidth()
+                                                    .padding(
+                                                        top = 16.dp,
+                                                        bottom = 16.dp,
+                                                        start = 24.dp,
+                                                        end = 24.dp
+                                                    ),
+                                                contentAlignment = Alignment.Center
+                                            ) {
+                                                Text(stringResource(R.string.nothing_found_by_search))
+                                            }
+                                        }
+                                    }
                                 }
                                 Divider(Modifier.align(Alignment.BottomCenter))
                             }

@@ -597,36 +597,35 @@ fun BatchResizeScreen(
                                         selected = viewModel.keepExif,
                                         onCheckedChange = { viewModel.setKeepExif(!viewModel.keepExif) }
                                     )
+                                    Spacer(Modifier.size(8.dp))
+                                    ResizeImageField(
+                                        bitmapInfo = bitmapInfo,
+                                        bitmap = viewModel.bitmap,
+                                        onHeightChange = viewModel::updateHeight,
+                                        onWidthChange = viewModel::updateWidth
+                                    )
+                                    if (bitmapInfo.mime.extension != "png") Spacer(Modifier.height(8.dp))
+                                    QualityWidget(
+                                        visible = bitmapInfo.mime.extension != "png",
+                                        enabled = viewModel.bitmap != null,
+                                        quality = bitmapInfo.quality,
+                                        onQualityChange = viewModel::setQuality
+                                    )
+                                    Spacer(Modifier.height(8.dp))
+                                    ExtensionGroup(
+                                        enabled = viewModel.bitmap != null,
+                                        mime = bitmapInfo.mime,
+                                        onMimeChange = viewModel::setMime
+                                    )
+                                    Spacer(Modifier.height(8.dp))
+                                    ResizeGroup(
+                                        enabled = viewModel.bitmap != null,
+                                        resizeType = bitmapInfo.resizeType,
+                                        onResizeChange = viewModel::setResizeType
+                                    )
                                 } else if (!viewModel.isLoading) {
                                     ImageNotPickedWidget(onPickImage = pickImage)
-                                    Spacer(Modifier.size(8.dp))
                                 }
-                                Spacer(Modifier.size(8.dp))
-                                ResizeImageField(
-                                    bitmapInfo = bitmapInfo,
-                                    bitmap = viewModel.bitmap,
-                                    onHeightChange = viewModel::updateHeight,
-                                    onWidthChange = viewModel::updateWidth
-                                )
-                                if (bitmapInfo.mime.extension != "png") Spacer(Modifier.height(8.dp))
-                                QualityWidget(
-                                    visible = bitmapInfo.mime.extension != "png",
-                                    enabled = viewModel.bitmap != null,
-                                    quality = bitmapInfo.quality,
-                                    onQualityChange = viewModel::setQuality
-                                )
-                                Spacer(Modifier.height(8.dp))
-                                ExtensionGroup(
-                                    enabled = viewModel.bitmap != null,
-                                    mime = bitmapInfo.mime,
-                                    onMimeChange = viewModel::setMime
-                                )
-                                Spacer(Modifier.height(8.dp))
-                                ResizeGroup(
-                                    enabled = viewModel.bitmap != null,
-                                    resizeType = bitmapInfo.resizeType,
-                                    onResizeChange = viewModel::setResizeType
-                                )
                             }
                         }
                     }
