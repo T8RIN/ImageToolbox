@@ -48,6 +48,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.DialogProperties
 import androidx.compose.ui.zIndex
+import androidx.core.text.isDigitsOnly
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.cookhelper.dynamic.theme.LocalDynamicThemeState
 import kotlinx.coroutines.launch
@@ -448,7 +449,7 @@ fun BytesResizeScreen(
                                         value = (viewModel.maxBytes / 1024).toString()
                                             .takeIf { it != "0" } ?: "",
                                         onValueChange = {
-                                            viewModel.updateMaxBytes(it.restrict())
+                                            viewModel.updateMaxBytes(it.restrict(1_000_000))
                                         },
                                         shape = RoundedCornerShape(12.dp),
                                         keyboardOptions = KeyboardOptions(
