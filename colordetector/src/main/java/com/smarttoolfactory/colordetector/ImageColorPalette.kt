@@ -14,6 +14,7 @@ import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.asAndroidBitmap
+import androidx.compose.ui.graphics.luminance
 import androidx.compose.ui.unit.dp
 import androidx.palette.graphics.Palette
 import com.smarttoolfactory.colordetector.util.ColorUtil
@@ -57,9 +58,12 @@ fun ImageColorPalette(
                     paletteData.add(PaletteData(colorData = colorData, percent))
                 }
             }
-            paletteData.sortedByDescending { data ->
-                ColorUtil.colorToHSV(data.colorData.color).let { it[0] }
-            }
+            paletteData.sortedWith(
+                compareBy(
+                    { ColorUtil.colorToHSV(it.colorData.color)[0] },
+                    { it.colorData.color.luminance() },
+                )
+            )
         }
     }
 
