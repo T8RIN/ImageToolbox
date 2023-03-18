@@ -322,7 +322,6 @@ fun CropScreen(
                                 ) {
                                     Icon(Icons.Rounded.Save, null)
                                 }
-                                Spacer(modifier = Modifier.width(16.dp))
                             }
                         }
                     )
