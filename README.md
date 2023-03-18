@@ -48,10 +48,10 @@
 # Download
 Go to the [Releases](https://github.com/t8rin/imageresizer/releases/latest) and download latest apk.
 <p align="start">
-  <a href="https://play.google.com/store/apps/details?id=ru.tech.imageresizershrinker"><img alt="Google Play" src="https://upload.wikimedia.org/wikipedia/commons/7/78/Google_Play_Store_badge_EN.svg" width="32%"/></a>
-  <a href="https://f-droid.org/packages/ru.tech.imageresizershrinker">
+<a href="https://f-droid.org/packages/ru.tech.imageresizershrinker">
     <img src="https://gitlab.com/fdroid/artwork/-/raw/master/badge/get-it-on-en-au.png" width="32%"/>
   </a>
+  <a href="https://play.google.com/store/apps/details?id=ru.tech.imageresizershrinker"><img alt="Google Play" src="https://upload.wikimedia.org/wikipedia/commons/7/78/Google_Play_Store_badge_EN.svg" width="32%"/></a>
   <a href="https://apt.izzysoft.de/fdroid/index/apk/ru.tech.imageresizershrinker">
     <img src="https://gitlab.com/IzzyOnDroid/repo/-/raw/master/assets/IzzyOnDroid.png" width="32%"/>
   </a>
