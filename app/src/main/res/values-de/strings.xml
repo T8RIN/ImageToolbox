@@ -103,4 +103,7 @@
     <string name="color_red">Rot</string>
     <string name="color_green">Grün</string>
     <string name="color_blue">Blau</string>
+    <string name="search_here">Suche hier</string>
+    <string name="help_translate_sub">Korrektur von Übersetzungsfehlern oder Lokalisierung von Projekten in andere Sprachen</string>
+    <string name="nothing_found_by_search">Nichts gefunden von Ihrer Anfrage</string>
 </resources>
