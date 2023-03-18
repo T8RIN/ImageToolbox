@@ -728,8 +728,7 @@
     <string name="standard">Estándar</string>
     <string name="best">Mejor</string>
     <string name="no_data">Sin datos</string>
-    <string name="download_description">Para que Tesseract OCR funcione correctamente, es necesario descargar datos de entrenamiento adicionales (%1$s) en su dispositivo.
-\n¿Desea descargar %2$s datos?</string>
+    <string name="download_description">Para que Tesseract OCR funcione correctamente, es necesario descargar datos de entrenamiento adicionales (%1$s) en su dispositivo. \n¿Desea descargar %2$s datos?</string>
     <string name="download">Descargar</string>
     <string name="no_connection">No hay conexión, compruébalo y vuelve a intentarlo para descargar los modelos de trenes</string>
     <string name="downloaded_languages">Idiomas descargados</string>
