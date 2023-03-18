@@ -925,7 +925,7 @@ fun SingleResizeScreen(
                                             RoundedTextField(
                                                 textStyle = LocalTextStyle.current.copy(textAlign = TextAlign.Start),
                                                 shape = RoundedCornerShape(30),
-                                                label = "Search",
+                                                label = stringResource(R.string.search_here),
                                                 onValueChange = { query = it },
                                                 value = query
                                             )
