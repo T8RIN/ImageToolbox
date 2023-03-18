@@ -103,4 +103,7 @@
     <string name="issue_tracker">Detector de probleme</string>
     <string name="issue_tracker_sub">Trimiteți aici rapoarte de erori și solicitări de funcții</string>
     <string name="help_translate">Ajută la traducere</string>
+    <string name="search_here">Căutați aici</string>
+    <string name="help_translate_sub">Corectarea greșelilor de traducere sau localizarea proiectului în alte limbi</string>
+    <string name="nothing_found_by_search">Nimic găsit prin interogarea dvs.</string>
 </resources>
