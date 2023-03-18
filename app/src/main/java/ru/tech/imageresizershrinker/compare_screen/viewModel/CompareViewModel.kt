@@ -76,7 +76,8 @@ class CompareViewModel : ViewModel() {
         }
         _bitmapData.value?.let { (f, s) ->
             if (f != null && s != null) {
-                _bitmapData.value = f.rotate(180f-old).rotate(rotation) to s.rotate(180f - old).rotate(rotation)
+                _bitmapData.value =
+                    f.rotate(180f - old).rotate(rotation) to s.rotate(180f - old).rotate(rotation)
             }
         }
     }

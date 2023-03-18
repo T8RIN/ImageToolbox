@@ -86,7 +86,7 @@ fun PreferenceRow(
     ) {
         startContent?.invoke()
         Column(modifier = Modifier.weight(1f)) {
-            AutoSizeText(text = title,  maxLines = maxLines)
+            AutoSizeText(text = title, maxLines = maxLines)
             Spacer(modifier = Modifier.height(2.dp))
             subtitle?.let {
                 Text(

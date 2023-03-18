@@ -358,7 +358,10 @@ class MainActivity : AppCompatActivity() {
                                     Divider(Modifier.align(Alignment.TopCenter))
                                     Column(Modifier.verticalScroll(rememberScrollState())) {
                                         Spacer(Modifier.height(16.dp))
-                                        HtmlText(viewModel.nightMode.isNightMode(), viewModel.changelog)
+                                        HtmlText(
+                                            viewModel.nightMode.isNightMode(),
+                                            viewModel.changelog
+                                        )
                                     }
                                     Divider(Modifier.align(Alignment.BottomCenter))
                                 }
