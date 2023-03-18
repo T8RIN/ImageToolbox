@@ -103,4 +103,7 @@
     <string name="issue_tracker">Sorun izleyici</string>
     <string name="issue_tracker_sub">Hata raporlarını ve özellik isteklerini buraya gönderin</string>
     <string name="help_translate">Çeviriye yardım et</string>
+    <string name="search_here">Burada arama yapın</string>
+    <string name="help_translate_sub">Çeviri hatalarını düzeltin veya projeyi başka dillere yerelleştirin</string>
+    <string name="nothing_found_by_search">Sorgunuzda hiçbir şey bulunamadı</string>
 </resources>
