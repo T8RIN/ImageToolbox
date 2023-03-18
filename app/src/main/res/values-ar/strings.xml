@@ -103,4 +103,7 @@
     <string name="help_translate">مساعدة في الترجمة</string>
     <string name="no_updates">لم يتم العثور على تحديثات</string>
     <string name="issue_tracker_sub">أرسل هنا تقارير الشوائب وطلبات الميزات</string>
+    <string name="search_here">ابحث هنا</string>
+    <string name="help_translate_sub">تصحيح أخطاء الترجمة أو ترجمة المشروع إلى لغات أخرى</string>
+    <string name="nothing_found_by_search">لم يتم العثور على شيء من خلال الاستعلام الخاص بك</string>
 </resources>
