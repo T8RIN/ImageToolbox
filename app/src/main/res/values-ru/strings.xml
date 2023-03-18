@@ -105,4 +105,5 @@
     <string name="help_translate">Помочь с переводом</string>
     <string name="help_translate_sub">Исправляйте ошибки в написании слов или переводите проект на новые языки</string>
     <string name="nothing_found_by_search">Ничего не найдено по вашему запросу</string>
+    <string name="search_here">Ищите здесь</string>
 </resources>
