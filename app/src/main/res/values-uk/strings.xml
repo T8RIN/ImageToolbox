@@ -103,4 +103,7 @@
     <string name="issue_tracker">Відстеження проблем</string>
     <string name="issue_tracker_sub">Надсилайте сюди звіти про помилки та запити щодо функцій</string>
     <string name="help_translate">Допоможіть перекласти</string>
+    <string name="search_here">Шукайте тут</string>
+    <string name="help_translate_sub">Виправте помилки перекладу або локалізуйте проєкт іншими мовами</string>
+    <string name="nothing_found_by_search">За вашим запитом нічого не знайдено</string>
 </resources>
