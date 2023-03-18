@@ -103,4 +103,7 @@
     <string name="no_updates">Nessun aggiornamento trovato</string>
     <string name="about_app">Informazioni sull\'app</string>
     <string name="issue_tracker_sub">Invia qui segnalazioni di bug e richieste di funzionalità</string>
+    <string name="search_here">Cerca qui</string>
+    <string name="help_translate_sub">Correggi gli errori di traduzione o localizza il progetto in un\'altra lingua</string>
+    <string name="nothing_found_by_search">Niente trovato dalla tua query</string>
 </resources>

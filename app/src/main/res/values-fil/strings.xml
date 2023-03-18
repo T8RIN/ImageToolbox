@@ -103,4 +103,7 @@
     <string name="issue_tracker">Tagasubaybay ng isyu</string>
     <string name="issue_tracker_sub">Ipadala dito ang mga ulat ng bug at mga kahilingan sa tampok</string>
     <string name="help_translate">Tumulong sa pagsasalin</string>
+    <string name="search_here">Maghanap dito</string>
+    <string name="help_translate_sub">Itama ang mga pagkakamali sa pagsasalin o i-localize ang proyekto sa ibang mga wika</string>
+    <string name="nothing_found_by_search">Walang nakita sa iyong query</string>
 </resources>

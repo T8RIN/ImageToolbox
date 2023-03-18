@@ -103,4 +103,7 @@
     <string name="issue_tracker">Traqueur d\'incidents</string>
     <string name="issue_tracker_sub">Envoyez ici les rapports de bugs et les demandes de fonctionnalités</string>
     <string name="help_translate">Aide à traduire</string>
+    <string name="search_here">Rechercher ici</string>
+    <string name="help_translate_sub">Corriger les erreurs de traduction ou localiser le projet dans une autre langue</string>
+    <string name="nothing_found_by_search">Rien n\'a été trouvé lors de votre recherche</string>
 </resources>

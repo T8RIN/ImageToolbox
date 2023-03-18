@@ -103,4 +103,7 @@
     <string name="issue_tracker">Lista problemow</string>
     <string name="issue_tracker_sub">Wysyłaj tutaj raporty o błędach i prośby o nowe funkcje</string>
     <string name="help_translate">Pomóż przetłumaczyć</string>
+    <string name="search_here">Szukaj tutaj</string>
+    <string name="help_translate_sub">Poprawianie błędów w tłumaczeniu lub lokalizacja projektu na inne języki</string>
+    <string name="nothing_found_by_search">Nic nie znaleziono na podstawie Twojego zapytania</string>
 </resources>
