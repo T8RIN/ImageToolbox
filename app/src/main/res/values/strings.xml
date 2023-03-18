@@ -112,4 +112,5 @@
     <string name="help_translate_sub">Correct translation mistakes or localize project to another languages</string>
     <string name="nothing_found_by_search">Nothing found by your query</string>
     <!--    <string name="processing">Processing</string>-->
+    <string name="search_here">Search here</string>
 </resources>
