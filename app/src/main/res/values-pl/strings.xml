@@ -106,4 +106,5 @@
     <string name="search_here">Szukaj tutaj</string>
     <string name="help_translate_sub">Poprawianie błędów w tłumaczeniu lub lokalizacja projektu na inne języki</string>
     <string name="nothing_found_by_search">Nic nie znaleziono na podstawie Twojego zapytania</string>
+    <string name="dynamic_colors_sub">Jeśli ta opcja jest włączona, kolory aplikacji zostaną dostosowane do kolorów tapet</string>
 </resources>
