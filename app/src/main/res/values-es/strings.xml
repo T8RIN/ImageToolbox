@@ -106,4 +106,5 @@
     <string name="pick_two_images">Elige dos imágenes para empezar</string>
     <string name="pick_images">Elegir imágenes</string>
     <string name="nothing_found_by_search">No se ha encontrado nada con su consulta</string>
+    <string name="dynamic_colors_sub">Si está habilitado, los colores de la aplicación se adoptarán para empapelar los colores</string>
 </resources>

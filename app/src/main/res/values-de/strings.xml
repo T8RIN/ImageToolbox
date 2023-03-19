@@ -106,4 +106,5 @@
     <string name="search_here">Suche hier</string>
     <string name="help_translate_sub">Korrektur von Übersetzungsfehlern oder Lokalisierung von Projekten in andere Sprachen</string>
     <string name="nothing_found_by_search">Nichts gefunden von Ihrer Anfrage</string>
+    <string name="dynamic_colors_sub">Wenn aktiviert, werden die Farben der Anwendung an die Farben des Hintergrundbildes angepasst.</string>
 </resources>

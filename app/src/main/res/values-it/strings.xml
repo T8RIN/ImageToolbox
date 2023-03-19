@@ -106,4 +106,5 @@
     <string name="search_here">Cerca qui</string>
     <string name="help_translate_sub">Correggi gli errori di traduzione o localizza il progetto in un\'altra lingua</string>
     <string name="nothing_found_by_search">Niente trovato dalla tua query</string>
+    <string name="dynamic_colors_sub">Se abilitato, i colori dell\'app verranno adottati per i colori dello sfondo</string>
 </resources>
