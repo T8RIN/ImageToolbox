@@ -3,10 +3,9 @@ package com.cookhelper.dynamic.theme
 import android.graphics.Bitmap
 import androidx.annotation.FloatRange
 import androidx.compose.animation.animateColorAsState
-import androidx.compose.material3.ColorScheme
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.darkColorScheme
-import androidx.compose.material3.lightColorScheme
+import androidx.compose.animation.core.AnimationSpec
+import androidx.compose.animation.core.tween
+import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
@@ -22,7 +21,7 @@ import com.cookhelper.dynamic.theme.scheme.Scheme
 @Composable
 public fun DynamicTheme(
     state: DynamicThemeState,
-    typography: androidx.compose.material3.Typography,
+    typography: Typography,
     amoledMode: Boolean,
     isDarkTheme: Boolean,
     content: @Composable () -> Unit,
@@ -30,12 +29,65 @@ public fun DynamicTheme(
     val scheme = rememberColorScheme(
         amoledMode = amoledMode,
         isDarkTheme = isDarkTheme,
-        color = state.animatedPrimaryColor.value
-    )
+        color = state.primaryColor.value
+    ).animateAllColors(tween(150))
     MaterialTheme(
         typography = typography,
         colorScheme = scheme,
-        content = content
+        content = {
+            CompositionLocalProvider(
+                LocalDynamicThemeState provides state,
+                content = content
+            )
+        }
+    )
+}
+
+/**
+ * This function animates colors when current color scheme changes.
+ *
+ * @param animationSpec Animation that will be applied when theming option changes.
+ * @return [ColorScheme] with animated colors.
+ */
+@Composable
+private fun ColorScheme.animateAllColors(animationSpec: AnimationSpec<Color>): ColorScheme {
+
+    /**
+     * Wraps color into [animateColorAsState].
+     *
+     * @return Animated [Color].
+     */
+    @Composable
+    fun Color.animateColor() = animateColorAsState(this, animationSpec).value
+
+    return this.copy(
+        primary = primary.animateColor(),
+        onPrimary = onPrimary.animateColor(),
+        primaryContainer = primaryContainer.animateColor(),
+        onPrimaryContainer = onPrimaryContainer.animateColor(),
+        inversePrimary = inversePrimary.animateColor(),
+        secondary = secondary.animateColor(),
+        onSecondary = onSecondary.animateColor(),
+        secondaryContainer = secondaryContainer.animateColor(),
+        onSecondaryContainer = onSecondaryContainer.animateColor(),
+        tertiary = tertiary.animateColor(),
+        onTertiary = onTertiary.animateColor(),
+        tertiaryContainer = tertiaryContainer.animateColor(),
+        onTertiaryContainer = onTertiaryContainer.animateColor(),
+        background = background.animateColor(),
+        onBackground = onBackground.animateColor(),
+        surface = surface.animateColor(),
+        onSurface = onSurface.animateColor(),
+        surfaceVariant = surfaceVariant.animateColor(),
+        onSurfaceVariant = onSurfaceVariant.animateColor(),
+        surfaceTint = surfaceTint.animateColor(),
+        inverseSurface = inverseSurface.animateColor(),
+        inverseOnSurface = inverseOnSurface.animateColor(),
+        error = error.animateColor(),
+        onError = onError.animateColor(),
+        errorContainer = errorContainer.animateColor(),
+        onErrorContainer = onErrorContainer.animateColor(),
+        outline = outline.animateColor(),
     )
 }
 

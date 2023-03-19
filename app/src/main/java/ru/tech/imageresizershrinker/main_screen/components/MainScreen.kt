@@ -256,9 +256,10 @@ fun MainScreen(
                                     )
                                     Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
                                         ChangeLanguagePreference()
-                                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O_MR1) {
                                             PreferenceRowSwitch(
                                                 title = stringResource(R.string.dynamic_colors),
+                                                subtitle = stringResource(R.string.dynamic_colors_sub),
                                                 checked = viewModel.dynamicColors,
                                                 onClick = { viewModel.updateDynamicColors() }
                                             )

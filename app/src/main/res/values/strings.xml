@@ -113,4 +113,5 @@
     <string name="nothing_found_by_search">Nothing found by your query</string>
     <!--    <string name="processing">Processing</string>-->
     <string name="search_here">Search here</string>
+    <string name="dynamic_colors_sub">If enabled, then app colors will be adopted to wallpaper colors</string>
 </resources>

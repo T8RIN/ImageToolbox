@@ -1,18 +1,17 @@
 package ru.tech.imageresizershrinker.theme
 
+import android.app.WallpaperManager
 import android.os.Build
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.dynamicDarkColorScheme
 import androidx.compose.material3.dynamicLightColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import com.cookhelper.dynamic.theme.DynamicTheme
-import com.cookhelper.dynamic.theme.LocalDynamicThemeState
 import com.cookhelper.dynamic.theme.rememberDynamicThemeState
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import ru.tech.imageresizershrinker.main_screen.components.*
@@ -102,9 +101,8 @@ fun ImageResizerTheme(
         )
     }
 
-    val state = rememberDynamicThemeState(
-        initialPrimaryColor = primary
-    )
+    val state = rememberDynamicThemeState(primary)
+
     LaunchedEffect(primary) {
         if (primary != state.primaryColor.value) {
             state.primaryColor.value = primary
@@ -115,12 +113,7 @@ fun ImageResizerTheme(
         state = state,
         amoledMode = amoledMode,
         isDarkTheme = darkTheme,
-        content = {
-            CompositionLocalProvider(
-                LocalDynamicThemeState provides state,
-                content = content
-            )
-        }
+        content = content
     )
 }
 
@@ -129,12 +122,22 @@ fun getAppPrimaryColor(
     dynamicColor: Boolean = LocalDynamicColors.current,
     darkTheme: Boolean = LocalNightMode.current.isNightMode()
 ): Color {
+    val primaryColorFromWallpapers = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O_MR1) {
+        WallpaperManager
+            .getInstance(LocalContext.current)
+            .getWallpaperColors(WallpaperManager.FLAG_SYSTEM)
+            ?.primaryColor
+    } else null
+
     return when {
         dynamicColor && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S -> {
             val context = LocalContext.current
             if (darkTheme) dynamicDarkColorScheme(context).primary else dynamicLightColorScheme(
                 context
             ).primary
+        }
+        dynamicColor && primaryColorFromWallpapers != null && Build.VERSION.SDK_INT >= Build.VERSION_CODES.O_MR1 -> {
+            Color(primaryColorFromWallpapers.toArgb())
         }
         else -> LocalAppPrimaryColor.current
     }

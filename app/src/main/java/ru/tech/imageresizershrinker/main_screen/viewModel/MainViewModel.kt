@@ -1,7 +1,6 @@
 package ru.tech.imageresizershrinker.main_screen.viewModel
 
 import android.net.Uri
-import android.os.Build
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.graphics.Color
@@ -79,25 +78,23 @@ class MainViewModel @Inject constructor(
     init {
         tryGetUpdate()
         runBlocking {
-            dataStore.edit {
-                _nightMode.value = it[NIGHT_MODE] ?: 2
-                _dynamicColors.value =
-                    it[DYNAMIC_COLORS] ?: (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S)
-                _amoledMode.value = it[AMOLED_MODE] ?: false
-                _appPrimaryColor.value = (it[APP_COLOR]?.let { Color(it) }) ?: md_theme_dark_primary
+            dataStore.edit { prefs ->
+                _nightMode.value = prefs[NIGHT_MODE] ?: 2
+                _dynamicColors.value = prefs[DYNAMIC_COLORS] ?: true
+                _amoledMode.value = prefs[AMOLED_MODE] ?: false
+                _appPrimaryColor.value = (prefs[APP_COLOR]?.let { Color(it) }) ?: md_theme_dark_primary
             }
         }
-        dataStore.data.onEach {
-            _saveFolderUri.value = it[SAVE_FOLDER]?.let { uri ->
+        dataStore.data.onEach { prefs ->
+            _saveFolderUri.value = prefs[SAVE_FOLDER]?.let { uri ->
                 if (uri.isEmpty()) null
                 else Uri.parse(uri)
             }
-            _nightMode.value = it[NIGHT_MODE] ?: 2
-            _dynamicColors.value =
-                it[DYNAMIC_COLORS] ?: (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S)
-            _allowImageMonet.value = it[IMAGE_MONET] ?: true
-            _amoledMode.value = it[AMOLED_MODE] ?: false
-            _appPrimaryColor.value = (it[APP_COLOR]?.let { Color(it) }) ?: md_theme_dark_primary
+            _nightMode.value = prefs[NIGHT_MODE] ?: 2
+            _dynamicColors.value = prefs[DYNAMIC_COLORS] ?: true
+            _allowImageMonet.value = prefs[IMAGE_MONET] ?: true
+            _amoledMode.value = prefs[AMOLED_MODE] ?: false
+            _appPrimaryColor.value = (prefs[APP_COLOR]?.let { Color(it) }) ?: md_theme_dark_primary
         }.launchIn(viewModelScope)
     }
 
