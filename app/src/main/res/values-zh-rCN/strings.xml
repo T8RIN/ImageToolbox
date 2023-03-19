@@ -106,4 +106,5 @@
     <string name="search_here">在此搜索</string>
     <string name="help_translate_sub">纠正翻译错误或将项目本地化为其他语言</string>
     <string name="nothing_found_by_search">没有发现您所查询的内容</string>
+    <string name="dynamic_colors_sub">如果启用，则应用颜色将采用为墙纸颜色</string>
 </resources>
