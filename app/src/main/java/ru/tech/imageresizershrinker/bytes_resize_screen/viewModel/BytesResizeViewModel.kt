@@ -178,37 +178,38 @@ class BytesResizeViewModel : ViewModel() {
                         val name =
                             "ResizedImage$timeStamp-${Date().hashCode()}.$ext"
 
-                        val scaled = bitmap!!.scaleByMaxBytes(maxBytes = maxBytes)
+                        kotlin.runCatching {
+                            bitmap?.scaleByMaxBytes(maxBytes = maxBytes)
+                        }.getOrNull()?.let { scaled ->
+                            val localBitmap = scaled.first
+                                .rotate(rotation.toFloat())
+                                .flip(isFlipped)
+                            val savingFolder = getSavingFolder(name, ext)
 
-                        val localBitmap = scaled.first
-                            .rotate(rotation.toFloat())
-                            .flip(isFlipped)
-                        val savingFolder = getSavingFolder(name, ext)
+                            val fos = savingFolder.outputStream
 
-                        val fos = savingFolder.outputStream
+                            localBitmap.compress(ext.compressFormat, scaled.second, fos)
 
-                        localBitmap.compress(ext.compressFormat, scaled.second, fos)
+                            fos!!.flush()
+                            fos.close()
 
-                        fos!!.flush()
-                        fos.close()
-
-                        if (keepExif) {
-                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                                val fd = getFileDescriptor(savingFolder.fileUri)
-                                fd?.fileDescriptor?.let {
-                                    val ex = ExifInterface(it)
+                            if (keepExif) {
+                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                                    val fd = getFileDescriptor(savingFolder.fileUri)
+                                    fd?.fileDescriptor?.let {
+                                        val ex = ExifInterface(it)
+                                        exif?.copyTo(ex)
+                                        ex.saveAttributes()
+                                    }
+                                    fd?.close()
+                                } else {
+                                    val image = savingFolder.file!!
+                                    val ex = ExifInterface(image)
                                     exif?.copyTo(ex)
                                     ex.saveAttributes()
                                 }
-                                fd?.close()
-                            } else {
-                                val image = savingFolder.file!!
-                                val ex = ExifInterface(image)
-                                exif?.copyTo(ex)
-                                ex.saveAttributes()
                             }
                         }
-
                     }
                     _done.value += 1
                 }
