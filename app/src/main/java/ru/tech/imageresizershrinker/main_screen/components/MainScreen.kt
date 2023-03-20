@@ -105,12 +105,13 @@ fun MainScreen(
                 ) {
                     CompositionLocalProvider(LocalLayoutDirection provides layoutDirection) {
                         TopAppBar(
-                            colors = TopAppBarDefaults.topAppBarColors(Color.Transparent),
+                            colors = TopAppBarDefaults.topAppBarColors(DrawerDefaults.containerColor),
                             title = {
                                 Marquee(edgeColor = DrawerDefaults.containerColor) {
                                     Text(stringResource(R.string.settings))
                                 }
                             },
+                            modifier = Modifier.zIndex(6f),
                             actions = {
                                 IconButton(
                                     onClick = {
@@ -264,7 +265,7 @@ fun MainScreen(
                                                 onClick = { viewModel.updateDynamicColors() }
                                             )
                                         }
-                                        val enabled = !viewModel.dynamicColors
+                                        val enabled = !viewModel.dynamicColors || (Build.VERSION.SDK_INT < Build.VERSION_CODES.O_MR1)
                                         PreferenceRow(
                                             modifier = Modifier.alpha(
                                                 animateFloatAsState(
