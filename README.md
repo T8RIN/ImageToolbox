@@ -27,9 +27,9 @@
 - Image Shrinking
   - Quality compressing
   - Preset shrinking
-  - Reducing size by given weight in KB
+  - Reducing size by given weight (in KB)
 - Cropping
-  - Reqular crop
+  - Regular crop
   - Crop by aspect ratio
 - Format Convertion
   - WEBP
@@ -44,6 +44,16 @@
   - Rotating
   - Flipping
   - Comparing images
+  
+# UI tweaks
+- Custom app color scheme
+- Light/Dark mode
+- AMOLED mode
+- Monet implementation (Dynamic colors) for android 12 and above
+- Dynamic colors port for android greater than 5
+- Image based color scheme
+
+(Yes, app supports dynamic coloring based on wallpapers for every android version, where you can install it)
 
 # Download
 Go to the [Releases](https://github.com/t8rin/imageresizer/releases/latest) and download latest apk.
