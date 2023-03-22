@@ -6,7 +6,6 @@ import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.border
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsFocusedAsState
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
@@ -29,6 +28,8 @@ import androidx.compose.ui.unit.sp
 import androidx.core.graphics.ColorUtils
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
+import ru.tech.imageresizershrinker.main_screen.components.LocalNightMode
+import ru.tech.imageresizershrinker.main_screen.components.isNightMode
 
 @Composable
 fun RoundedTextField(
@@ -136,7 +137,7 @@ fun RoundedTextField(
 
     val colorScheme = MaterialTheme.colorScheme
     val unfocusedColor = if (!enabled) colorScheme.outlineVariant
-    else colorScheme.surfaceVariant.coolize(0.2f)
+    else colorScheme.surfaceVariant.inverse({ 0.2f })
 
     val focusedColor = if (isError) colorScheme.error else colorScheme.primary
 
@@ -236,11 +237,11 @@ fun RoundedTextFieldColors(isError: Boolean): TextFieldColors =
             focusedIndicatorColor = Color.Transparent,
             cursorColor = if (isError) error else primary,
             focusedLabelColor = if (isError) error else primary,
-            focusedLeadingIconColor = if (isError) error else surfaceVariant.coolize(),
-            unfocusedLeadingIconColor = if (isError) error else surfaceVariant.coolize(),
-            focusedTrailingIconColor = if (isError) error else surfaceVariant.coolize(),
-            unfocusedTrailingIconColor = if (isError) error else surfaceVariant.coolize(),
-            unfocusedLabelColor = if (isError) error else surfaceVariant.coolize(),
+            focusedLeadingIconColor = if (isError) error else surfaceVariant.inverse(),
+            unfocusedLeadingIconColor = if (isError) error else surfaceVariant.inverse(),
+            focusedTrailingIconColor = if (isError) error else surfaceVariant.inverse(),
+            unfocusedTrailingIconColor = if (isError) error else surfaceVariant.inverse(),
+            unfocusedLabelColor = if (isError) error else surfaceVariant.inverse(),
             containerColor = if (isError) {
                 surfaceColorAtElevation(1.dp).blend(error)
             } else surfaceColorAtElevation(1.dp),
@@ -253,10 +254,11 @@ fun Color.blend(
 ): Color = Color(ColorUtils.blendARGB(this.toArgb(), color.toArgb(), fraction))
 
 @Composable
-private fun Color.coolize(
-    @FloatRange(from = 0.0, to = 1.0) fraction: Float = 0.5f
-): Color = if (isSystemInDarkTheme()) blend(Color.White, fraction)
-else blend(Color.Black, fraction)
+fun Color.inverse(
+    fraction: (Boolean) -> Float = { 0.5f },
+    darkMode: Boolean = LocalNightMode.current.isNightMode(),
+): Color = if (darkMode) blend(Color.White, fraction(darkMode))
+else blend(Color.Black, fraction(darkMode))
 
 
 fun Int.blend(

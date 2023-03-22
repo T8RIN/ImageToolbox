@@ -49,6 +49,7 @@ import ru.tech.imageresizershrinker.BuildConfig
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.main_screen.viewModel.MainViewModel
 import ru.tech.imageresizershrinker.resize_screen.components.LocalToastHost
+import ru.tech.imageresizershrinker.resize_screen.components.inverse
 import ru.tech.imageresizershrinker.theme.CreateAlt
 import ru.tech.imageresizershrinker.theme.Github
 import ru.tech.imageresizershrinker.theme.Sparkles
@@ -295,10 +296,18 @@ fun MainScreen(
                                                         )
                                                         .border(
                                                             width = 1.dp,
-                                                            color = MaterialTheme
-                                                                .colorScheme
-                                                                .onSecondaryContainer
-                                                                .copy(alpha = 0.5f),
+                                                            color = animateColorAsState(
+                                                                viewModel
+                                                                    .appPrimaryColor
+                                                                    .inverse(
+                                                                        fraction = {
+                                                                            if (it) 0.8f
+                                                                            else 0.5f
+                                                                        },
+                                                                        darkMode = viewModel.appPrimaryColor.luminance() < 0.3f
+                                                                    )
+                                                                    .copy(alpha = 0.5f)
+                                                            ).value,
                                                             shape = RoundedCornerShape(30)
                                                         )
                                                         .size(48.dp),
@@ -308,27 +317,13 @@ fun MainScreen(
                                                         imageVector = Icons.Rounded.CreateAlt,
                                                         contentDescription = null,
                                                         tint = animateColorAsState(
-                                                            if (LocalNightMode.current.isNightMode()) {
-                                                                if (viewModel.appPrimaryColor.luminance() < 0.3f) {
-                                                                    MaterialTheme
-                                                                        .colorScheme
-                                                                        .primary
-                                                                } else {
-                                                                    MaterialTheme
-                                                                        .colorScheme
-                                                                        .secondaryContainer
-                                                                }
-                                                            } else {
-                                                                if (viewModel.appPrimaryColor.luminance() < 0.3f) {
-                                                                    MaterialTheme
-                                                                        .colorScheme
-                                                                        .primaryContainer
-                                                                } else {
-                                                                    MaterialTheme
-                                                                        .colorScheme
-                                                                        .primary
-                                                                }
-                                                            }
+                                                            viewModel.appPrimaryColor.inverse(
+                                                                fraction = {
+                                                                    if (it) 0.8f
+                                                                    else 0.5f
+                                                                },
+                                                                darkMode = viewModel.appPrimaryColor.luminance() < 0.3f
+                                                            )
                                                         ).value
                                                     )
                                                 }
