@@ -19,7 +19,7 @@
     <string name="save">Gøym</string>
     <string name="clear">Tøm</string>
     <string name="clear_exif">Tøm EXIF</string>
-    <string name="clear_exif_sub">Alle EXIF-opplysingar i dette biletet vil verta sletta. Du kan ikkje angre.</string>
+    <string name="clear_exif_sub">Alle EXIF-opplysingar i dette biletet vil verta sletta. Du kan ikkje angre!</string>
     <string name="ratio">Høve</string>
     <string name="crop">Skjer til</string>
     <string name="image_not_saved">Gøyming</string>
