@@ -9,6 +9,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Translate
+import androidx.compose.material.icons.rounded.Language
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -24,7 +25,6 @@ import androidx.compose.ui.unit.dp
 import androidx.core.os.LocaleListCompat
 import org.xmlpull.v1.XmlPullParser
 import ru.tech.imageresizershrinker.R
-import ru.tech.imageresizershrinker.theme.CreateAlt
 import java.util.*
 
 @Composable
@@ -37,7 +37,7 @@ fun ChangeLanguagePreference() {
             subtitle = context.getCurrentLocaleString(),
             endContent = {
                 Icon(
-                    imageVector = Icons.Rounded.CreateAlt,
+                    imageVector = Icons.Rounded.Language,
                     contentDescription = null,
                 )
             },
