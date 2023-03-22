@@ -27,9 +27,9 @@
 - Image Shrinking
   - Quality compressing
   - Preset shrinking
-  - Reducing size by given weight in KB
+  - Reducing size by given weight (in KB)
 - Cropping
-  - Reqular crop
+  - Regular crop
   - Crop by aspect ratio
 - Format Convertion
   - WEBP
