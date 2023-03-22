@@ -295,7 +295,12 @@ fun CropScreen(
                             Row {
                                 FloatingActionButton(
                                     onClick = pickImage,
-                                    elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation()
+                                    elevation = FloatingActionButtonDefaults.elevation(
+                                        defaultElevation = 0.1.dp,
+                                        pressedElevation = 0.1.dp,
+                                        focusedElevation = 0.1.dp,
+                                        hoveredElevation = 0.1.dp
+                                    ),
                                 ) {
                                     val expanded = scrollState.isScrollingUp()
                                     val horizontalPadding by animateDpAsState(targetValue = if (expanded) 16.dp else 0.dp)
@@ -318,7 +323,12 @@ fun CropScreen(
                                         crop = true
                                     },
                                     containerColor = MaterialTheme.colorScheme.tertiaryContainer,
-                                    elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation()
+                                    elevation = FloatingActionButtonDefaults.elevation(
+                                        defaultElevation = 0.1.dp,
+                                        pressedElevation = 0.1.dp,
+                                        focusedElevation = 0.1.dp,
+                                        hoveredElevation = 0.1.dp
+                                    ),
                                 ) {
                                     Icon(Icons.Rounded.Save, null)
                                 }
