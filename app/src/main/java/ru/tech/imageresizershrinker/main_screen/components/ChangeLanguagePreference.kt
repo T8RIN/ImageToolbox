@@ -6,7 +6,6 @@ import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Translate
@@ -21,12 +20,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.core.os.LocaleListCompat
 import org.xmlpull.v1.XmlPullParser
 import ru.tech.imageresizershrinker.R
+import ru.tech.imageresizershrinker.theme.CreateAlt
 import java.util.*
 
 @Composable
@@ -34,29 +32,19 @@ fun ChangeLanguagePreference() {
     val context = LocalContext.current
     var showDialog by rememberSaveable { mutableStateOf(false) }
     Column(Modifier.animateContentSize()) {
-        Row(
-            modifier = Modifier
-                .padding(horizontal = 16.dp)
-                .clip(RoundedCornerShape(16.dp))
-                .clickable { showDialog = true }
-                .block(
-                    color = MaterialTheme.colorScheme.secondaryContainer.copy(alpha = 0.5f)
+        PreferenceRow(
+            title = stringResource(R.string.language),
+            subtitle = context.getCurrentLocaleString(),
+            endContent = {
+                Icon(
+                    imageVector = Icons.Rounded.CreateAlt,
+                    contentDescription = null,
                 )
-                .padding(horizontal = 16.dp, vertical = 8.dp),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Column(modifier = Modifier.weight(1f)) {
-                Text(text = stringResource(R.string.language))
-                Spacer(modifier = Modifier.height(2.dp))
-                Text(
-                    text = context.getCurrentLocaleString(),
-                    fontSize = 12.sp,
-                    fontWeight = FontWeight.Normal,
-                    lineHeight = 14.sp,
-                    color = LocalContentColor.current.copy(alpha = 0.5f)
-                )
+            },
+            onClick = {
+                showDialog = true
             }
-        }
+        )
     }
 
     if (showDialog) {
