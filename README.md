@@ -50,7 +50,7 @@
 - Light/Dark mode
 - AMOLED mode
 - Monet implementation (Dynamic colors) for android 12 and above
-- Dynamic colors port for android greater than 5
+- Dynamic colors theming even for Android versions less than 12
 - Image based color scheme
 
 (Yes, app supports dynamic coloring based on wallpapers for every android version, where you can install it)
