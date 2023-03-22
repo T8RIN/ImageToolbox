@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="..\:/Users/malik/AndroidStudioProjects/ImageResizerShrinker/app/src/main/res/drawable/ic_launcher_background.xml" value="0.163" />
+        <entry key="..\:/Users/malik/AndroidStudioProjects/ImageResizerShrinker/app/src/main/res/drawable/ic_launcher_foreground.xml" value="0.163" />
+        <entry key="..\:/Users/malik/AndroidStudioProjects/ImageResizerShrinker/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.163" />
+      </map>
+    </option>
+  </component>
+  <component name="ExternalStorageConfigurationManager" enabled="true" />
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/build/classes" />
+  </component>
+  <component name="ProjectType">
+    <option name="id" value="Android" />
+  </component>
+</project>
