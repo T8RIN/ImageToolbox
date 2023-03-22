@@ -91,6 +91,26 @@ private fun ColorScheme.animateAllColors(animationSpec: AnimationSpec<Color>): C
     )
 }
 
+
+public fun Bitmap.extractPrimaryColor(default: Int = 0, blendWithVibrant: Boolean = true): Color {
+    fun Int.blend(
+        color: Int,
+        @FloatRange(from = 0.0, to = 1.0) fraction: Float = 0.5f
+    ): Int = ColorUtils.blendARGB(this, color, fraction)
+
+    val palette = Palette
+        .from(this)
+        .generate()
+
+    return Color(
+        palette.getDominantColor(default).run {
+            if (blendWithVibrant) blend(palette.getVibrantColor(default))
+            else this
+        }
+    )
+}
+
+
 /**
  * Creates and remember [DynamicThemeState] instance
  * */
@@ -133,17 +153,9 @@ public class DynamicThemeState(
         get() = primaryColor.value.toArgb()
 
     public fun updateColorByImage(bitmap: Bitmap) {
-        val palette = Palette.from(bitmap).generate()
-        fun Int.blend(
-            color: Int,
-            @FloatRange(from = 0.0, to = 1.0) fraction: Float = 0.5f
-        ): Int = ColorUtils.blendARGB(this, color, fraction)
-
-        palette.getDominantColor(Color.Transparent.toArgb())
-            .blend(palette.getVibrantColor(Color.Transparent.toArgb()))
-            .let { Color(it).toArgb() }
+        bitmap.extractPrimaryColor()
             .let {
-                primaryColor.value = Color(it)
+                primaryColor.value = it
             }
     }
 

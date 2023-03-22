@@ -1,17 +1,23 @@
 package ru.tech.imageresizershrinker.theme
 
+import android.Manifest
 import android.app.WallpaperManager
+import android.content.pm.PackageManager
+import android.graphics.drawable.BitmapDrawable
 import android.os.Build
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.dynamicDarkColorScheme
 import androidx.compose.material3.dynamicLightColorScheme
 import androidx.compose.material3.lightColorScheme
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.SideEffect
+import androidx.compose.runtime.*
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalLifecycleOwner
+import androidx.core.app.ActivityCompat
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleEventObserver
 import com.cookhelper.dynamic.theme.DynamicTheme
+import com.cookhelper.dynamic.theme.extractPrimaryColor
 import com.cookhelper.dynamic.theme.rememberDynamicThemeState
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import ru.tech.imageresizershrinker.main_screen.components.*
@@ -97,7 +103,8 @@ fun ImageResizerTheme(
     SideEffect {
         systemUiController.setSystemBarsColor(
             color = Color.Transparent,
-            darkIcons = useDarkIcons
+            darkIcons = useDarkIcons,
+            isNavigationBarContrastEnforced = false
         )
     }
 
@@ -122,23 +129,57 @@ fun getAppPrimaryColor(
     dynamicColor: Boolean = LocalDynamicColors.current,
     darkTheme: Boolean = LocalNightMode.current.isNightMode()
 ): Color {
-    val primaryColorFromWallpapers = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O_MR1) {
-        WallpaperManager
-            .getInstance(LocalContext.current)
-            .getWallpaperColors(WallpaperManager.FLAG_SYSTEM)
-            ?.primaryColor
-    } else null
+    val context = LocalContext.current
+    val appPrimary = LocalAppPrimaryColor.current
+    return remember(
+        LocalLifecycleOwner.current.lifecycle.observeAsState().value,
+        dynamicColor,
+        darkTheme,
+        appPrimary
+    ) {
+        derivedStateOf {
+            val wallpaperManager = WallpaperManager.getInstance(context)
+            val primaryColorFromWallpapers =
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O_MR1) {
+                    wallpaperManager
+                        .getWallpaperColors(WallpaperManager.FLAG_SYSTEM)
+                        ?.primaryColor
+                } else null
 
-    return when {
-        dynamicColor && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S -> {
-            val context = LocalContext.current
-            if (darkTheme) dynamicDarkColorScheme(context).primary else dynamicLightColorScheme(
-                context
-            ).primary
+            when {
+                dynamicColor && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S -> {
+                    if (darkTheme) {
+                        dynamicDarkColorScheme(context)
+                    } else {
+                        dynamicLightColorScheme(context)
+                    }.primary
+                }
+                dynamicColor && primaryColorFromWallpapers != null && Build.VERSION.SDK_INT >= Build.VERSION_CODES.O_MR1 -> {
+                    Color(primaryColorFromWallpapers.toArgb())
+                }
+                dynamicColor && ActivityCompat.checkSelfPermission(
+                    context,
+                    Manifest.permission.READ_EXTERNAL_STORAGE
+                ) == PackageManager.PERMISSION_GRANTED -> {
+                    (wallpaperManager.drawable as BitmapDrawable).bitmap.extractPrimaryColor()
+                }
+                else -> appPrimary
+            }
         }
-        dynamicColor && primaryColorFromWallpapers != null && Build.VERSION.SDK_INT >= Build.VERSION_CODES.O_MR1 -> {
-            Color(primaryColorFromWallpapers.toArgb())
+    }.value
+}
+
+@Composable
+fun Lifecycle.observeAsState(): State<Lifecycle.Event> {
+    val state = remember { mutableStateOf(Lifecycle.Event.ON_ANY) }
+    DisposableEffect(this) {
+        val observer = LifecycleEventObserver { _, event ->
+            state.value = event
         }
-        else -> LocalAppPrimaryColor.current
+        this@observeAsState.addObserver(observer)
+        onDispose {
+            this@observeAsState.removeObserver(observer)
+        }
     }
+    return state
 }

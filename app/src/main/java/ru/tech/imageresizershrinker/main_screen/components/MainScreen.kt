@@ -3,7 +3,6 @@ package ru.tech.imageresizershrinker.main_screen.components
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
-import android.os.Build
 import androidx.activity.compose.BackHandler
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
@@ -105,13 +104,19 @@ fun MainScreen(
                 ) {
                     CompositionLocalProvider(LocalLayoutDirection provides layoutDirection) {
                         TopAppBar(
-                            colors = TopAppBarDefaults.topAppBarColors(DrawerDefaults.containerColor),
+                            colors = TopAppBarDefaults.topAppBarColors(Color.Transparent),
                             title = {
-                                Marquee(edgeColor = DrawerDefaults.containerColor) {
+                                Marquee(
+                                    edgeColor = MaterialTheme.colorScheme.surfaceColorAtElevation(
+                                        1.dp
+                                    )
+                                ) {
                                     Text(stringResource(R.string.settings))
                                 }
                             },
-                            modifier = Modifier.zIndex(6f),
+                            modifier = Modifier
+                                .zIndex(6f)
+                                .background(MaterialTheme.colorScheme.surfaceColorAtElevation(1.dp)),
                             actions = {
                                 IconButton(
                                     onClick = {
@@ -257,15 +262,13 @@ fun MainScreen(
                                     )
                                     Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
                                         ChangeLanguagePreference()
-                                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O_MR1) {
-                                            PreferenceRowSwitch(
-                                                title = stringResource(R.string.dynamic_colors),
-                                                subtitle = stringResource(R.string.dynamic_colors_sub),
-                                                checked = viewModel.dynamicColors,
-                                                onClick = { viewModel.updateDynamicColors() }
-                                            )
-                                        }
-                                        val enabled = !viewModel.dynamicColors || (Build.VERSION.SDK_INT < Build.VERSION_CODES.O_MR1)
+                                        PreferenceRowSwitch(
+                                            title = stringResource(R.string.dynamic_colors),
+                                            subtitle = stringResource(R.string.dynamic_colors_sub),
+                                            checked = viewModel.dynamicColors,
+                                            onClick = { viewModel.updateDynamicColors() }
+                                        )
+                                        val enabled = !viewModel.dynamicColors
                                         PreferenceRow(
                                             modifier = Modifier.alpha(
                                                 animateFloatAsState(
