@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.Translate
 import androidx.compose.material.icons.rounded.Language
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
@@ -73,7 +72,7 @@ private fun PickLanguageDialog(
 ) {
     AlertDialog(
         onDismissRequest = onDismiss,
-        icon = { Icon(imageVector = Icons.Outlined.Translate, contentDescription = null) },
+        icon = { Icon(imageVector = Icons.Rounded.Language, contentDescription = null) },
         title = { Text(stringResource(R.string.language)) },
         text = {
             Box {
