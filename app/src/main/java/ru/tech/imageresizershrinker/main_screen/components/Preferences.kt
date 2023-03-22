@@ -19,6 +19,7 @@ import androidx.compose.ui.unit.sp
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.theme.Github
 import ru.tech.imageresizershrinker.theme.PaletteSwatch
+import ru.tech.imageresizershrinker.utils.APP_LINK
 
 
 @Composable
@@ -34,7 +35,7 @@ fun SourceCodePreference(
             context.startActivity(
                 Intent(
                     Intent.ACTION_VIEW,
-                    Uri.parse("https://github.com/T8RIN/ImageResizer")
+                    Uri.parse(APP_LINK)
                 )
             )
         },

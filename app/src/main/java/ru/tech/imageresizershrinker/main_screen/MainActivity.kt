@@ -45,12 +45,9 @@ import ru.tech.imageresizershrinker.resize_screen.SingleResizeScreen
 import ru.tech.imageresizershrinker.resize_screen.components.*
 import ru.tech.imageresizershrinker.theme.ImageResizerTheme
 import ru.tech.imageresizershrinker.theme.getAppPrimaryColor
+import ru.tech.imageresizershrinker.utils.*
 import ru.tech.imageresizershrinker.utils.IntentUtils.parcelable
 import ru.tech.imageresizershrinker.utils.IntentUtils.parcelableArrayList
-import ru.tech.imageresizershrinker.utils.getSavingFolder
-import ru.tech.imageresizershrinker.utils.invoke
-import ru.tech.imageresizershrinker.utils.setContentWithWindowSizeClass
-import ru.tech.imageresizershrinker.utils.toUiPath
 import java.util.concurrent.TimeUnit
 
 @ExperimentalFoundationApi
@@ -91,7 +88,7 @@ class MainActivity : AppCompatActivity() {
                     val onGoBack: () -> Unit = {
                         viewModel.updateUris(null)
                         themeState.updateColor(appPrimaryColor)
-                        viewModel.navController {
+                        viewModel.navController.apply {
                             if (backstack.entries.isNotEmpty()) pop()
                         }
                     }
@@ -277,7 +274,7 @@ class MainActivity : AppCompatActivity() {
                             confirmButton = {
                                 TextButton(
                                     onClick = {
-                                        viewModel {
+                                        viewModel.apply {
                                             hideSelectDialog()
                                             updateUris(null)
                                         }
@@ -288,8 +285,8 @@ class MainActivity : AppCompatActivity() {
                             },
                             text = {
                                 val navigate: (Screen) -> Unit = { screen ->
-                                    viewModel {
-                                        navController {
+                                    viewModel.apply {
+                                        navController.apply {
                                             popUpTo { it == Screen.Main }
                                             navigate(screen)
                                         }
@@ -372,7 +369,7 @@ class MainActivity : AppCompatActivity() {
                                         startActivity(
                                             Intent(
                                                 Intent.ACTION_VIEW,
-                                                Uri.parse("https://github.com/t8rin/imageresizer/releases/tag/${viewModel.tag}")
+                                                Uri.parse("$APP_RELEASES/tag/${viewModel.tag}")
                                             )
                                         )
                                     }

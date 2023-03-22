@@ -152,7 +152,7 @@ class MainViewModel @Inject constructor(
                             .newInstance()
                             .newDocumentBuilder()
                             .parse(
-                                URL("https://github.com/T8RIN/ImageResizer/releases.atom")
+                                URL("$APP_RELEASES.atom")
                                     .openConnection()
                                     .getInputStream()
                             )

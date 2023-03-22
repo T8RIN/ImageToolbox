@@ -52,8 +52,7 @@ import ru.tech.imageresizershrinker.resize_screen.components.LocalToastHost
 import ru.tech.imageresizershrinker.theme.CreateAlt
 import ru.tech.imageresizershrinker.theme.Github
 import ru.tech.imageresizershrinker.theme.Sparkles
-import ru.tech.imageresizershrinker.utils.LocalWindowSizeClass
-import ru.tech.imageresizershrinker.utils.toUiPath
+import ru.tech.imageresizershrinker.utils.*
 import ru.tech.imageresizershrinker.widget.Marquee
 import ru.tech.imageresizershrinker.widget.Picture
 import java.lang.Integer.max
@@ -387,7 +386,7 @@ fun MainScreen(
                                                 context.startActivity(
                                                     Intent(
                                                         Intent.ACTION_VIEW,
-                                                        Uri.parse("https://hosted.weblate.org/engage/image-resizer/")
+                                                        Uri.parse(WEBLATE_LINK)
                                                     )
                                                 )
                                             }
@@ -402,7 +401,7 @@ fun MainScreen(
                                                 context.startActivity(
                                                     Intent(
                                                         Intent.ACTION_VIEW,
-                                                        Uri.parse("https://github.com/T8RIN/ImageResizer/issues")
+                                                        Uri.parse(ISSUE_TRACKER)
                                                     )
                                                 )
                                             }
@@ -413,7 +412,7 @@ fun MainScreen(
                                             maxLines = 1,
                                             startContent = {
                                                 Picture(
-                                                    model = "https://avatars.githubusercontent.com/u/52178347?v=4",
+                                                    model = AUTHOR_AVATAR,
                                                     modifier = Modifier
                                                         .padding(horizontal = 8.dp)
                                                         .size(48.dp),
@@ -423,7 +422,7 @@ fun MainScreen(
                                                 context.startActivity(
                                                     Intent(
                                                         Intent.ACTION_VIEW,
-                                                        Uri.parse("https://github.com/T8RIN")
+                                                        Uri.parse(AUTHOR_LINK)
                                                     )
                                                 )
                                             }
@@ -788,7 +787,7 @@ fun MainScreen(
                                     context.startActivity(
                                         Intent(
                                             Intent.ACTION_VIEW,
-                                            Uri.parse("https://github.com/T8RIN/ImageResizer")
+                                            Uri.parse(APP_LINK)
                                         )
                                     )
                                 },
