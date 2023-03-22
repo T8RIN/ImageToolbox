@@ -54,7 +54,7 @@
     <string name="max_bytes">最大大小（KB）</string>
     <string name="device_storage">裝置儲存區</string>
     <string name="system">系統</string>
-    <string name="compare">壓縮</string>
+    <string name="compare">比較</string>
     <string name="night_mode">夜間模式</string>
     <string name="light">淺色</string>
     <string name="dark">深色</string>
@@ -82,12 +82,12 @@
     <string name="nothing_found_by_search">沒有發現任何您查詢的內容</string>
     <string name="allow_image_monet_sub">如果啟用，當您選擇一個圖片以編輯，將會採用此圖片色彩為應用程式色彩</string>
     <string name="dynamic_colors_sub">如果啟用，則將會採用桌布色彩為應用程式色彩</string>
-    <string name="by_bytes_resize_sub">依給予的檔案大小（KB）調整一個圖片大小</string>
+    <string name="by_bytes_resize_sub">依給予的檔案大小（KB）調整圖片大小</string>
     <string name="amoled_mode_sub">如果啟用，在夜間模式下背景色彩將會被設定為純黑</string>
     <string name="clipboard_paste_invalid_color_code">貼上有效的 aRGB 代碼。</string>
     <string name="batch_resize">批次調整大小</string>
     <string name="resize_type">調整大小方式</string>
-    <string name="by_bytes_resize">依高度調整大小</string>
+    <string name="by_bytes_resize">依檔案大小調整大小</string>
     <string name="ok">確定</string>
     <string name="resize_batch_image">批次更改給予圖片的規格</string>
     <string name="no_palette">無法從給予的圖片產生調色盤</string>
