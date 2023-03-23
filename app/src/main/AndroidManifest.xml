@@ -57,6 +57,7 @@
                 <data android:mimeType="image/*" />
             </intent-filter>
         </activity>
+
         <activity android:name=".crash_screen.CrashActivity" />
 
         <provider
