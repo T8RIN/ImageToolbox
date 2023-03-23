@@ -63,7 +63,19 @@ class CompareViewModel : ViewModel() {
                 }
             }
             _rotation.value = 0f
-            _bitmapData.value = bmp1 to bmp2
+            _bitmapData.value = (bmp1 to bmp2)
+                .let { (b, a) ->
+                    val (bW, bH) = b?.run { width to height } ?: (0 to 0)
+                    val (aW, aH) = a?.run { width to height } ?: (0 to 0)
+
+                    if (bW * bH > aH * aW) {
+                        b to a?.resizeBitmap(bW, bH, 1)
+                    } else if (bW * bH < aH * aW) {
+                        b?.resizeBitmap(aW, aH, 1) to a
+                    } else {
+                        b to a
+                    }
+                }
             _isLoading.value = false
         }
     }
