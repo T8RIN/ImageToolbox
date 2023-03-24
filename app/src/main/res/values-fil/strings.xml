@@ -99,12 +99,14 @@
     <string name="cannot_change_palette_while_dynamic_colors_applied">Hindi mababago ang eskema ng kulay ng app habang gumagamit ng dynamikong kulay</string>
     <string name="pick_accent_color">Ibabatay sa kulay na pipiliin mo ang tema ng app</string>
     <string name="about_app">Tungkol sa app</string>
-    <string name="no_updates">Walang nahanap na mga update</string>
-    <string name="issue_tracker">Tagasubaybay ng isyu</string>
-    <string name="issue_tracker_sub">Ipadala dito ang mga ulat ng bug at mga kahilingan sa tampok</string>
+    <string name="no_updates">Walang nakitang update</string>
+    <string name="issue_tracker">Tagasubaybay sa mga problema</string>
+    <string name="issue_tracker_sub">Magpadala rito ng mga ulat sa problema at kahilingan para sa mga feature</string>
     <string name="help_translate">Tumulong sa pagsasalin</string>
     <string name="search_here">Maghanap dito</string>
-    <string name="help_translate_sub">Itama ang mga pagkakamali sa pagsasalin o i-localize ang proyekto sa ibang mga wika</string>
-    <string name="nothing_found_by_search">Walang nakita sa iyong query</string>
-    <string name="dynamic_colors_sub">Kung pinagana, pagkatapos ay ang mga kulay ng app ay pinagtibay sa mga kulay ng wallpaper</string>
+    <string name="help_translate_sub">Ayusin ang mga pagkakamali sa pagsasalin o isalin ang proyekto sa iba pang wika</string>
+    <string name="nothing_found_by_search">Walang nakitang tugma sa query mo</string>
+    <string name="dynamic_colors_sub">Kung nakabukas, aangkop ang kulay ng app sa kulay ng wallpaper</string>
+    <string name="failed_to_save">Nagkaproblema sa pag-save ng %d larawan</string>
+    <string name="png_warning_bytes">Pwedeng magkaproblema sa pagse-save sa PNG, dahil isa itong loseless format</string>
 </resources>
