@@ -12,9 +12,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.*
 import ru.tech.imageresizershrinker.resize_screen.components.compressFormat
+import ru.tech.imageresizershrinker.resize_screen.components.extension
 import ru.tech.imageresizershrinker.utils.BitmapUtils.canShow
 import ru.tech.imageresizershrinker.utils.BitmapUtils.copyTo
 import ru.tech.imageresizershrinker.utils.BitmapUtils.flip
+import ru.tech.imageresizershrinker.utils.BitmapUtils.previewBitmap
 import ru.tech.imageresizershrinker.utils.BitmapUtils.resizeBitmap
 import ru.tech.imageresizershrinker.utils.BitmapUtils.rotate
 import ru.tech.imageresizershrinker.utils.BitmapUtils.scaleByMaxBytes
@@ -53,6 +55,16 @@ class BytesResizeViewModel : ViewModel() {
 
     private val _maxBytes = mutableStateOf(0L)
     val maxBytes by _maxBytes
+
+    private val _mime = mutableStateOf(0)
+    val mime by _mime
+
+    fun setMime(mime: Int) {
+        if (_mime.value != mime) {
+            _mime.value = mime
+            updatePreview()
+        }
+    }
 
     fun updateUris(uris: List<Uri>?) {
         _uris.value = null
@@ -126,8 +138,16 @@ class BytesResizeViewModel : ViewModel() {
                 delay(400)
                 _isLoading.value = true
                 _previewBitmap.value = _bitmap.value
-                    ?.rotate(rotation.toFloat())
-                    ?.flip(isFlipped)
+                    ?.previewBitmap(
+                        quality = 100f,
+                        widthValue = null,
+                        heightValue = null,
+                        mime = mime,
+                        resize = 0,
+                        rotation = rotation.toFloat(),
+                        isFlipped = isFlipped,
+                        onByteCount = {}
+                    )
                 _isLoading.value = false
             }
         }
@@ -157,18 +177,19 @@ class BytesResizeViewModel : ViewModel() {
         getSavingFolder: (name: String, ext: String) -> SavingFolder,
         getFileDescriptor: (Uri?) -> ParcelFileDescriptor?,
         getBitmap: (Uri) -> Pair<Bitmap?, ExifInterface?>,
-        onSuccess: (Boolean) -> Unit
+        onSuccess: (Int) -> Unit
     ) = viewModelScope.launch {
         withContext(Dispatchers.IO) {
+            var failed = 0
             if (!isExternalStorageWritable) {
-                onSuccess(false)
+                onSuccess(-1)
             } else {
                 _done.value = 0
                 uris?.forEach { uri ->
                     runCatching {
                         getBitmap(uri)
                     }.getOrNull()?.takeIf { it.first != null }?.let { (bitmap, exif) ->
-                        val ext = "jpg"
+                        val ext = mime.extension
 
                         val timeStamp: String =
                             SimpleDateFormat(
@@ -179,41 +200,47 @@ class BytesResizeViewModel : ViewModel() {
                             "ResizedImage$timeStamp-${Date().hashCode()}.$ext"
 
                         kotlin.runCatching {
-                            bitmap?.scaleByMaxBytes(maxBytes = maxBytes)
-                        }.getOrNull()?.let { scaled ->
-                            val localBitmap = scaled.first
-                                .rotate(rotation.toFloat())
-                                .flip(isFlipped)
-                            val savingFolder = getSavingFolder(name, ext)
+                            bitmap?.scaleByMaxBytes(
+                                maxBytes = maxBytes,
+                                compressFormat = mime.extension.compressFormat
+                            )
+                        }.let { result ->
+                            if (result.isSuccess && result.getOrNull() != null) {
+                                val scaled = result.getOrNull()!!
+                                val localBitmap = scaled.first
+                                    .rotate(rotation.toFloat())
+                                    .flip(isFlipped)
+                                val savingFolder = getSavingFolder(name, ext)
 
-                            val fos = savingFolder.outputStream
+                                val fos = savingFolder.outputStream
 
-                            localBitmap.compress(ext.compressFormat, scaled.second, fos)
+                                localBitmap.compress(ext.compressFormat, scaled.second, fos)
 
-                            fos!!.flush()
-                            fos.close()
+                                fos!!.flush()
+                                fos.close()
 
-                            if (keepExif) {
-                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                                    val fd = getFileDescriptor(savingFolder.fileUri)
-                                    fd?.fileDescriptor?.let {
-                                        val ex = ExifInterface(it)
+                                if (keepExif) {
+                                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                                        val fd = getFileDescriptor(savingFolder.fileUri)
+                                        fd?.fileDescriptor?.let {
+                                            val ex = ExifInterface(it)
+                                            exif?.copyTo(ex)
+                                            ex.saveAttributes()
+                                        }
+                                        fd?.close()
+                                    } else {
+                                        val image = savingFolder.file!!
+                                        val ex = ExifInterface(image)
                                         exif?.copyTo(ex)
                                         ex.saveAttributes()
                                     }
-                                    fd?.close()
-                                } else {
-                                    val image = savingFolder.file!!
-                                    val ex = ExifInterface(image)
-                                    exif?.copyTo(ex)
-                                    ex.saveAttributes()
                                 }
-                            }
+                            } else failed += 1
                         }
                     }
                     _done.value += 1
                 }
-                onSuccess(true)
+                onSuccess(failed)
             }
         }
     }

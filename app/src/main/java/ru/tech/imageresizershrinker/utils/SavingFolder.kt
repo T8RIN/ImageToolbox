@@ -18,10 +18,16 @@ data class SavingFolder(
     val fileUri: Uri? = null,
 )
 
-fun Uri.toPath(context: Context): String? = DocumentFile
-    .fromTreeUri(context, this)
-    ?.uri?.path?.split(":")
-    ?.lastOrNull()
+fun Uri.toPath(
+    context: Context,
+    isTreeUri: Boolean = true
+): String? {
+    return if (isTreeUri) {
+        DocumentFile.fromTreeUri(context, this)
+    } else {
+        DocumentFile.fromSingleUri(context, this)
+    }?.uri?.path?.split(":")?.lastOrNull()
+}
 
 fun Uri?.toUiPath(context: Context, default: String): String = this?.let { uri ->
     DocumentFile

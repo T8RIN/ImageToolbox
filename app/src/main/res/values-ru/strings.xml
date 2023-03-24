@@ -107,4 +107,6 @@
     <string name="nothing_found_by_search">Ничего не найдено по вашему запросу</string>
     <string name="search_here">Ищите здесь</string>
     <string name="dynamic_colors_sub">При включении тема приложения будет подстраиваться под ваши обои</string>
+    <string name="failed_to_save">Не удалось сохранить %d изображение(я)</string>
+    <string name="png_warning_bytes">Сохранение в формате PNG может быть крайне нестабильно, так как этот формат не поддерживает уменьшение качества</string>
 </resources>

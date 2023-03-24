@@ -48,7 +48,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.DialogProperties
 import androidx.compose.ui.zIndex
-import androidx.core.text.isDigitsOnly
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.cookhelper.dynamic.theme.LocalDynamicThemeState
 import kotlinx.coroutines.launch
@@ -64,8 +63,8 @@ import ru.tech.imageresizershrinker.utils.BitmapUtils.decodeBitmapFromUri
 import ru.tech.imageresizershrinker.utils.BitmapUtils.decodeSampledBitmapFromUri
 import ru.tech.imageresizershrinker.utils.BitmapUtils.fileSize
 import ru.tech.imageresizershrinker.utils.BitmapUtils.getBitmapByUri
+import ru.tech.imageresizershrinker.utils.ContextUtils.failedToSaveImages
 import ru.tech.imageresizershrinker.utils.ContextUtils.isExternalStorageWritable
-import ru.tech.imageresizershrinker.utils.ContextUtils.requestPermission
 import ru.tech.imageresizershrinker.utils.LocalWindowSizeClass
 import ru.tech.imageresizershrinker.utils.SavingFolder
 import ru.tech.imageresizershrinker.widget.Marquee
@@ -87,13 +86,18 @@ fun BytesResizeScreen(
     val themeState = LocalDynamicThemeState.current
     val allowChangeColor = LocalAllowChangeColorByImage.current
 
+    var showAlert by rememberSaveable { mutableStateOf(false) }
+
     LaunchedEffect(uriState) {
         uriState?.takeIf { it.isNotEmpty() }?.let {
             viewModel.updateUris(it)
             pushNewUris(null)
             context.decodeBitmapFromUri(
                 uri = it[0],
-                onGetMimeType = {},
+                onGetMimeType = {
+                    showAlert = it.extension == "png"
+                    viewModel.setMime(it)
+                },
                 onGetExif = {},
                 onGetBitmap = viewModel::updateBitmap,
                 onError = {
@@ -120,11 +124,14 @@ fun BytesResizeScreen(
         rememberLauncherForActivityResult(
             contract = ActivityResultContracts.PickMultipleVisualMedia()
         ) { list ->
-            list.takeIf { it.isNotEmpty() }?.let {
+            list.takeIf { it.isNotEmpty() }?.let { uris ->
                 viewModel.updateUris(list)
                 context.decodeBitmapFromUri(
-                    uri = it[0],
-                    onGetMimeType = {},
+                    uri = uris[0],
+                    onGetMimeType = {
+                        showAlert = it.extension == "png"
+                        viewModel.setMime(it)
+                    },
                     onGetExif = {},
                     onGetBitmap = viewModel::updateBitmap,
                     onError = {
@@ -162,20 +169,15 @@ fun BytesResizeScreen(
             getBitmap = { uri ->
                 context.decodeBitmapFromUri(uri)
             }
-        ) { success ->
-            if (!success) context.requestPermission()
-            else {
-                scope.launch {
-                    toastHostState.showToast(
-                        context.getString(
-                            R.string.saved_to,
-                            savingPathString
-                        ),
-                        Icons.Rounded.Save
-                    )
-                }
-                showConfetti()
-            }
+        ) { failed ->
+            context.failedToSaveImages(
+                scope = scope,
+                failed = failed,
+                done = viewModel.done,
+                toastHostState = toastHostState,
+                savingPathString = savingPathString,
+                showConfetti = showConfetti
+            )
             showSaveLoading = false
         }
     }
@@ -428,7 +430,8 @@ fun BytesResizeScreen(
                             Column(
                                 modifier = Modifier
                                     .fillMaxSize()
-                                    .navBarsLandscapePadding(viewModel.bitmap == null),
+                                    .navBarsLandscapePadding(viewModel.bitmap == null)
+                                    .animateContentSize(),
                                 verticalArrangement = Arrangement.Center,
                                 horizontalAlignment = Alignment.CenterHorizontally
                             ) {
@@ -462,6 +465,45 @@ fun BytesResizeScreen(
                                         selected = viewModel.keepExif,
                                         onCheckedChange = { viewModel.setKeepExif(!viewModel.keepExif) }
                                     )
+                                    Spacer(Modifier.size(8.dp))
+                                    ExtensionGroup(
+                                        enabled = viewModel.bitmap != null,
+                                        mime = viewModel.mime,
+                                        onMimeChange = {
+                                            showAlert = it.extension == "png"
+                                            viewModel.setMime(it)
+                                        }
+                                    )
+                                    LaunchedEffect(showAlert) {
+                                        if (showAlert) {
+                                            toastHostState.showToast(
+                                                icon = Icons.Rounded.ErrorOutline,
+                                                message = context.getString(
+                                                    R.string.png_warning_bytes
+                                                ),
+                                                duration = ToastDuration.Long
+                                            )
+                                        }
+                                    }
+                                    AnimatedVisibility(
+                                        visible = showAlert,
+                                        enter = fadeIn() + slideInVertically(),
+                                        exit = fadeOut() + slideOutVertically(),
+                                    ) {
+                                        Card(
+                                            colors = CardDefaults.cardColors(
+                                                containerColor = MaterialTheme.colorScheme.errorContainer,
+                                                contentColor = MaterialTheme.colorScheme.onErrorContainer
+                                            ),
+                                            modifier = Modifier.padding(8.dp)
+                                        ) {
+                                            Text(
+                                                text = stringResource(R.string.png_warning_bytes),
+                                                modifier = Modifier.padding(8.dp),
+                                                textAlign = TextAlign.Center,
+                                            )
+                                        }
+                                    }
                                 } else if (!viewModel.isLoading) {
                                     ImageNotPickedWidget(onPickImage = pickImage)
                                     Spacer(Modifier.size(8.dp))

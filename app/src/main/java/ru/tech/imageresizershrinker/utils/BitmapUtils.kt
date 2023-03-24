@@ -532,48 +532,55 @@ object BitmapUtils {
         }
     }
 
-    fun Bitmap.scaleByMaxBytes(maxBytes: Long): Pair<Bitmap, Int> {
+    fun Bitmap.scaleByMaxBytes(
+        compressFormat: CompressFormat,
+        maxBytes: Long
+    ): Pair<Bitmap, Int>? {
         val maxBytes = maxBytes - 1024 * 4
-        if (this.size() > maxBytes) {
-            var streamLength = maxBytes
-            var compressQuality = 100
-            val bmpStream = ByteArrayOutputStream()
-            var newSize = width to height
+        try {
+            if (this.size() > maxBytes) {
+                var streamLength = maxBytes
+                var compressQuality = 100
+                val bmpStream = ByteArrayOutputStream()
+                var newSize = width to height
 
-            while (streamLength >= maxBytes) {
-                compressQuality -= 1
-
-                if (compressQuality < 20) break
-
-                bmpStream.use {
-                    it.flush()
-                    it.reset()
-                }
-                compress(CompressFormat.JPEG, compressQuality, bmpStream)
-                streamLength = (bmpStream.toByteArray().size).toLong()
-            }
-            if (compressQuality < 20) {
-                compressQuality = 20
                 while (streamLength >= maxBytes) {
+                    compressQuality -= 1
+
+                    if (compressQuality < 20) break
 
                     bmpStream.use {
                         it.flush()
                         it.reset()
                     }
-                    resizeBitmap(
-                        (newSize.first * 0.98).toInt(),
-                        (newSize.second * 0.98).toInt(),
-                        0
-                    ).compress(
-                        CompressFormat.JPEG,
-                        compressQuality,
-                        bmpStream
-                    )
-                    newSize = (newSize.first * 0.98).toInt() to (newSize.second * 0.98).toInt()
+                    compress(compressFormat, compressQuality, bmpStream)
                     streamLength = (bmpStream.toByteArray().size).toLong()
                 }
+                if (compressQuality < 20) {
+                    compressQuality = 20
+                    while (streamLength >= maxBytes) {
+
+                        bmpStream.use {
+                            it.flush()
+                            it.reset()
+                        }
+                        resizeBitmap(
+                            (newSize.first * 0.98).toInt(),
+                            (newSize.second * 0.98).toInt(),
+                            0
+                        ).compress(
+                            compressFormat,
+                            compressQuality,
+                            bmpStream
+                        )
+                        newSize = (newSize.first * 0.98).toInt() to (newSize.second * 0.98).toInt()
+                        streamLength = (bmpStream.toByteArray().size).toLong()
+                    }
+                }
+                return BitmapFactory.decodeStream(ByteArrayInputStream(bmpStream.toByteArray())) to compressQuality
             }
-            return BitmapFactory.decodeStream(ByteArrayInputStream(bmpStream.toByteArray())) to compressQuality
+        } catch (t: Throwable) {
+            return null
         }
         return this to 100
     }
