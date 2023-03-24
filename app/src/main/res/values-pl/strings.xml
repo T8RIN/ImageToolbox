@@ -107,4 +107,6 @@
     <string name="help_translate_sub">Poprawianie błędów w tłumaczeniu lub lokalizacja projektu na inne języki</string>
     <string name="nothing_found_by_search">Nic nie znaleziono na podstawie Twojego zapytania</string>
     <string name="dynamic_colors_sub">Jeśli ta opcja jest włączona, kolory aplikacji zostaną dostosowane do kolorów tapet</string>
+    <string name="failed_to_save">Nie udało się zapisać obrazów %d</string>
+    <string name="png_warning_bytes">Zapisywanie w trybie PNG może być niestabilne, ponieważ jest to format bezstratny</string>
 </resources>
