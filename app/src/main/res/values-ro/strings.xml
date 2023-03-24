@@ -107,4 +107,6 @@
     <string name="help_translate_sub">Corectarea greșelilor de traducere sau localizarea proiectului în alte limbi</string>
     <string name="nothing_found_by_search">Nimic găsit prin interogarea dvs.</string>
     <string name="dynamic_colors_sub">Dacă este activată, atunci culorile aplicației vor fi adoptate pentru a tapeta culorile</string>
+    <string name="failed_to_save">Nu a reușit să salveze imagini %d</string>
+    <string name="png_warning_bytes">Salvarea în modul PNG poate fi instabilă, deoarece este format fără pierderi</string>
 </resources>
