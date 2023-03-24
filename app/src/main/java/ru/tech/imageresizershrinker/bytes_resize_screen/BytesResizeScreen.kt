@@ -43,9 +43,11 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.DialogProperties
 import androidx.compose.ui.zIndex
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -474,17 +476,6 @@ fun BytesResizeScreen(
                                             viewModel.setMime(it)
                                         }
                                     )
-                                    LaunchedEffect(showAlert) {
-                                        if (showAlert) {
-                                            toastHostState.showToast(
-                                                icon = Icons.Rounded.ErrorOutline,
-                                                message = context.getString(
-                                                    R.string.png_warning_bytes
-                                                ),
-                                                duration = ToastDuration.Long
-                                            )
-                                        }
-                                    }
                                     AnimatedVisibility(
                                         visible = showAlert,
                                         enter = fadeIn() + slideInVertically(),
@@ -492,15 +483,21 @@ fun BytesResizeScreen(
                                     ) {
                                         Card(
                                             colors = CardDefaults.cardColors(
-                                                containerColor = MaterialTheme.colorScheme.errorContainer,
+                                                containerColor = MaterialTheme.colorScheme.errorContainer.copy(
+                                                    alpha = 0.7f
+                                                ),
                                                 contentColor = MaterialTheme.colorScheme.onErrorContainer
                                             ),
-                                            modifier = Modifier.padding(8.dp)
+                                            modifier = Modifier.padding(16.dp)
                                         ) {
                                             Text(
                                                 text = stringResource(R.string.png_warning_bytes),
+                                                fontSize = 12.sp,
                                                 modifier = Modifier.padding(8.dp),
                                                 textAlign = TextAlign.Center,
+                                                fontWeight = FontWeight.SemiBold,
+                                                lineHeight = 14.sp,
+                                                color = LocalContentColor.current.copy(alpha = 0.5f)
                                             )
                                         }
                                     }

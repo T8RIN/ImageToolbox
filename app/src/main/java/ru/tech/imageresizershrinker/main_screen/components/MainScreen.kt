@@ -226,12 +226,13 @@ fun MainScreen(
                                             stringResource(R.string.light) to Icons.Rounded.WbSunny,
                                             stringResource(R.string.system) to Icons.Rounded.SettingsSystemDaydream
                                         ).forEachIndexed { index, (title, icon) ->
+                                            val selected = index == viewModel.nightMode
                                             PreferenceItem(
                                                 onClick = { viewModel.setNightMode(index) },
                                                 title = title,
                                                 color = MaterialTheme.colorScheme.secondaryContainer.copy(
                                                     alpha = animateFloatAsState(
-                                                        if (index == viewModel.nightMode) 1f
+                                                        if (selected) 1f
                                                         else 0.5f
                                                     ).value
                                                 ),
@@ -242,13 +243,15 @@ fun MainScreen(
                                                     .border(
                                                         width = 1.dp,
                                                         color = animateColorAsState(
-                                                            if (index == viewModel.nightMode) MaterialTheme.colorScheme.onSecondaryContainer.copy(
-                                                                alpha = 0.5f
-                                                            )
+                                                            if (selected) MaterialTheme
+                                                                .colorScheme
+                                                                .onSecondaryContainer
+                                                                .copy(alpha = 0.5f)
                                                             else Color.Transparent
                                                         ).value,
                                                         shape = RoundedCornerShape(12.dp)
-                                                    )
+                                                    ),
+                                                endIcon = if (selected) Icons.Rounded.Check else null
                                             )
                                         }
                                     }

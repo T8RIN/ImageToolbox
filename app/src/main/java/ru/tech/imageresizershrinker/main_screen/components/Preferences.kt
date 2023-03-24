@@ -2,6 +2,7 @@ package ru.tech.imageresizershrinker.main_screen.components
 
 import android.content.Intent
 import android.net.Uri
+import androidx.compose.animation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.*
@@ -174,7 +175,7 @@ fun ComparePreference(
     )
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalAnimationApi::class)
 @Composable
 fun PreferenceItem(
     onClick: () -> Unit,
@@ -212,20 +213,34 @@ fun PreferenceItem(
                         fontSize = 16.sp,
                         fontWeight = FontWeight.Medium
                     )
-                    subtitle?.let {
-                        Spacer(modifier = Modifier.height(2.dp))
-                        Text(
-                            text = subtitle,
-                            fontSize = 12.sp,
-                            fontWeight = FontWeight.Normal,
-                            lineHeight = 14.sp,
-                            color = LocalContentColor.current.copy(alpha = 0.5f)
-                        )
+                    AnimatedContent(
+                        targetState = subtitle,
+                        transitionSpec = { fadeIn() with fadeOut() }
+                    ) { sub ->
+                        sub?.let {
+                            Column {
+                                Spacer(modifier = Modifier.height(2.dp))
+                                Text(
+                                    text = sub,
+                                    fontSize = 12.sp,
+                                    fontWeight = FontWeight.Normal,
+                                    lineHeight = 14.sp,
+                                    color = LocalContentColor.current.copy(alpha = 0.5f)
+                                )
+                            }
+                        }
                     }
                 }
-                endIcon?.let {
-                    Spacer(modifier = Modifier.width(16.dp))
-                    Icon(imageVector = endIcon, contentDescription = null)
+                AnimatedContent(
+                    targetState = endIcon,
+                    transitionSpec = { fadeIn() with fadeOut() }
+                ) { icon ->
+                    icon?.let {
+                        Row {
+                            Spacer(modifier = Modifier.width(16.dp))
+                            Icon(imageVector = it, contentDescription = null)
+                        }
+                    }
                 }
             }
         }
