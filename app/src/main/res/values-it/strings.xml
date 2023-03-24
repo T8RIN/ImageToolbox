@@ -107,4 +107,6 @@
     <string name="help_translate_sub">Correggi gli errori di traduzione o localizza il progetto in un\'altra lingua</string>
     <string name="nothing_found_by_search">Niente trovato dalla tua query</string>
     <string name="dynamic_colors_sub">Se abilitato, i colori dell\'app verranno adottati per i colori dello sfondo</string>
+    <string name="failed_to_save">Impossibile salvare le immagini %d</string>
+    <string name="png_warning_bytes">Il salvataggio in modalità PNG può essere instabile, perché è un formato senza perdita di dati</string>
 </resources>
