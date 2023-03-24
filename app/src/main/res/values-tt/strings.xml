@@ -107,4 +107,6 @@
     <string name="nothing_found_by_search">Сезнең сорау буенча бернәрсә дә табылмады</string>
     <string name="search_here">Монда эзләгез</string>
     <string name="dynamic_colors_sub">Әгәр мөмкин булса, төсләр стена төсләренә кадәр кабул ителерләр.</string>
+    <string name="png_warning_bytes">PNG режимында саклап калу үзгәрүчән булырга мөмкин, чөнки ул югалтусыз формат</string>
+    <string name="failed_to_save">%d образын (сызыклар) коткара алмады</string>
 </resources>
