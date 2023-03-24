@@ -107,4 +107,6 @@
     <string name="help_translate_sub">Korrektur von Übersetzungsfehlern oder Lokalisierung von Projekten in andere Sprachen</string>
     <string name="nothing_found_by_search">Nichts gefunden von Ihrer Anfrage</string>
     <string name="dynamic_colors_sub">Wenn aktiviert, werden die Farben der Anwendung an die Farben des Hintergrundbildes angepasst.</string>
+    <string name="failed_to_save">Fehler beim Speichern von %d-Bildern</string>
+    <string name="png_warning_bytes">Das Speichern im PNG-Modus kann instabil sein, da es sich um ein verlustfreies Format handelt</string>
 </resources>

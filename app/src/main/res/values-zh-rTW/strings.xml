@@ -107,4 +107,6 @@
     <string name="exception">例外</string>
     <string name="single_resize">調整單一圖片大小</string>
     <string name="palette_sub">從給予的圖片產生調色盤樣本</string>
+    <string name="failed_to_save">無法儲存 %d 影像</string>
+    <string name="png_warning_bytes">以 PNG 模式保存可能不穩定，因為它是無損格式</string>
 </resources>

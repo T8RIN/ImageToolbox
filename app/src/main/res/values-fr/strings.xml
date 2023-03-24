@@ -107,4 +107,6 @@
     <string name="help_translate_sub">Corriger les erreurs de traduction ou localiser le projet dans une autre langue</string>
     <string name="nothing_found_by_search">Rien n\'a été trouvé lors de votre recherche</string>
     <string name="dynamic_colors_sub">Si cette option est activée, les couleurs de l’application seront adoptées pour les couleurs du fond d’écran.</string>
+    <string name="failed_to_save">Echec de l’enregistrement des images %d</string>
+    <string name="png_warning_bytes">L’enregistrement en mode PNG peut être instable, car il s’agit d’un format sans perte</string>
 </resources>

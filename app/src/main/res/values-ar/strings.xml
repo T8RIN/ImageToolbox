@@ -107,4 +107,6 @@
     <string name="help_translate_sub">تصحيح أخطاء الترجمة أو ترجمة المشروع إلى لغات أخرى</string>
     <string name="nothing_found_by_search">لم يتم العثور على شيء من خلال الاستعلام الخاص بك</string>
     <string name="dynamic_colors_sub">إذا تم تمكينه ، اعتماد ألوان التطبيق لألوان الخلفية</string>
+    <string name="failed_to_save">فشل حفظ %d صورة (صور)</string>
+    <string name="png_warning_bytes">يمكن أن يكون الحفظ في وضع PNG غير مستقر ، لأنه تنسيق غير ضياع</string>
 </resources>

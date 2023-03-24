@@ -107,4 +107,6 @@
     <string name="help_translate_sub">Çeviri hatalarını düzeltin veya projeyi başka dillere yerelleştirin</string>
     <string name="nothing_found_by_search">Sorgunuzda hiçbir şey bulunamadı</string>
     <string name="dynamic_colors_sub">Etkinleştirilirse, uygulama renkleri duvar kağıdı renklerine uyarlanır</string>
+    <string name="failed_to_save">%d resim(ler)i kaydedilemedi</string>
+    <string name="png_warning_bytes">PNG modunda kaydetmek, kayıpsız format olduğu için kararsız olabilir</string>
 </resources>
