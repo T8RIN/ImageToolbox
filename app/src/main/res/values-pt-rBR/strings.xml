@@ -107,4 +107,6 @@
     <string name="help_translate_sub">Corrigir erros de tradução ou localizar o projeto para outros idiomas</string>
     <string name="nothing_found_by_search">Nada encontrado por sua consulta</string>
     <string name="dynamic_colors_sub">Se habilitado, as cores do aplicativo serão adotadas para as cores do papel de parede</string>
+    <string name="failed_to_save">Falha ao salvar a(s) imagem(ns) %d</string>
+    <string name="png_warning_bytes">Salvar no modo PNG pode ser instável, porque é um formato sem perdas</string>
 </resources>
