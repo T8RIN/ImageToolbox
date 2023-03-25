@@ -53,7 +53,7 @@
 - Dynamic colors theming even for Android versions less than 12
 - Image based color scheme
 
-(Yes, app supports dynamic coloring based on wallpapers for every android version, where you can install it)
+(Yes, app supports dynamic coloring based on wallpapers for every android version)
 
 # Download
 Go to the [Releases](https://github.com/t8rin/imageresizer/releases/latest) and download latest apk.
