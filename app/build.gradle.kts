@@ -59,7 +59,7 @@ dependencies {
     implementation("androidx.exifinterface:exifinterface:1.3.6")
 
     implementation("dev.olshevski.navigation:reimagined:1.3.1")
-    implementation("dev.olshevski.navigation:reimagined-hilt:1.3.1")
+    implementation("dev.olshevski.navigation:reimagined-hilt:1.4.0")
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.6.1")
     implementation("nl.dionsegijn:konfetti-compose:2.0.2")
     implementation("androidx.datastore:datastore-preferences:1.1.0-alpha01")
