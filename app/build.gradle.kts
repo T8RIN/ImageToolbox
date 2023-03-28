@@ -74,10 +74,10 @@ dependencies {
     implementation("com.google.accompanist:accompanist-systemuicontroller:0.30.0")
 
     //Coil
-    implementation("io.coil-kt:coil:2.2.2")
+    implementation("io.coil-kt:coil:2.3.0")
     implementation("io.coil-kt:coil-compose:2.3.0")
     implementation("io.coil-kt:coil-gif:2.3.0")
-    implementation("io.coil-kt:coil-svg:2.2.2")
+    implementation("io.coil-kt:coil-svg:2.3.0")
 
     implementation(project(":cropper"))
     implementation(project(":dynamic_theme"))
