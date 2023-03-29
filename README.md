@@ -70,12 +70,43 @@ Go to the [Releases](https://github.com/t8rin/imageresizer/releases/latest) and 
   </a>
 </p>
 
+## Tech stack & Open-source libraries
+- Minimum SDK level 21
+
+- [Kotlin](https://kotlinlang.org/) based 
+
+- [Coroutines](https://github.com/Kotlin/kotlinx.coroutines) for asynchronous work
+
+- [Flow](https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.flow/) to emit values from data layer reactively.
+
+- [Accompanist](https://github.com/google/accompanist) to expand jetpack compose opportunities.
+
+- [Hilt](https://dagger.dev/hilt/) for dependency injection.
+
+- [Coil](https://github.com/coil-kt/coil) for loading images.
+
+- [Compose Navigation Reimagined](https://github.com/olshevski/compose-navigation-reimagined) - High intelligence navigation library for Jetpack Compose.
+
+- [Konfetti](https://github.com/DanielMartinus/Konfetti) to establish beatyfull particle system.
+
+- Jetpack
+  - [Compose](https://developer.android.com/jetpack/compose) - Modern Declarative UI style framework based on composable functions.
+  
+  - [Material You Kit](https://developer.android.com/jetpack/androidx/releases/compose-material3) - Material 3 powerful UI components.
+  
+  - [ViewModel](https://developer.android.com/topic/libraries/architecture/viewmodel) - Manages UI-related data holder and lifecycle aware. Allows data to survive configuration changes such as screen rotations.
+  
+  - [Data Store](https://developer.android.com/jetpack/androidx/releases/datastore) - Store data asynchronously, consistently, and transactionally.
+  
+  - [Lifecycle](https://developer.android.com/jetpack/androidx/releases/lifecycle) - Observe Android lifecycles and handle UI states upon the lifecycle changes.
+  
+  - [Exif Interface](https://developer.android.com/jetpack/androidx/releases/exifinterface) - Read and write image file EXIF tags.
+
 # Translation
 You can help translate ImageResizer into your language on [Hosted Weblate](https://hosted.weblate.org/engage/image-resizer/)
 
 [![Состояние перевода](https://hosted.weblate.org/widgets/image-resizer/-/image-resizer/multi-auto.svg)](https://hosted.weblate.org/engage/image-resizer/)
 [![Translation status](https://hosted.weblate.org/widgets/image-resizer/-/image-resizer/287x66-black.png)](https://hosted.weblate.org/engage/image-resizer/)
-
 
 
 ## Find this repository useful? :heart:
