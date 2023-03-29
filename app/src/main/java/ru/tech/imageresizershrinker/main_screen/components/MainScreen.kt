@@ -532,62 +532,62 @@ fun MainScreen(
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
                         if (!isGrid) {
-                            Spacer(modifier = Modifier.height(8.dp))
+                            Spacer(modifier = Modifier.height(12.dp))
                             SingleResizePreference(
                                 onClick = {
                                     navController.popUpTo { it == Screen.Main }
                                     navController.navigate(Screen.SingleResize)
                                 }
                             )
-                            Spacer(modifier = Modifier.height(8.dp))
+                            Spacer(modifier = Modifier.height(12.dp))
                             BatchResizePreference(
                                 onClick = {
                                     navController.popUpTo { it == Screen.Main }
                                     navController.navigate(Screen.BatchResize)
                                 }
                             )
-                            Spacer(modifier = Modifier.height(8.dp))
+                            Spacer(modifier = Modifier.height(12.dp))
                             BytesResizePreference(
                                 onClick = {
                                     navController.popUpTo { it == Screen.Main }
                                     navController.navigate(Screen.ResizeByBytes)
                                 }
                             )
-                            Spacer(modifier = Modifier.height(8.dp))
+                            Spacer(modifier = Modifier.height(12.dp))
                             CropPreference(
                                 onClick = {
                                     navController.popUpTo { it == Screen.Main }
                                     navController.navigate(Screen.Crop)
                                 }
                             )
-                            Spacer(modifier = Modifier.height(8.dp))
+                            Spacer(modifier = Modifier.height(12.dp))
                             PickColorPreference(
                                 onClick = {
                                     navController.popUpTo { it == Screen.Main }
                                     navController.navigate(Screen.PickColorFromImage)
                                 }
                             )
-                            Spacer(modifier = Modifier.height(8.dp))
+                            Spacer(modifier = Modifier.height(12.dp))
                             GeneratePalettePreference(
                                 onClick = {
                                     navController.popUpTo { it == Screen.Main }
                                     navController.navigate(Screen.GeneratePalette)
                                 }
                             )
-                            Spacer(modifier = Modifier.height(8.dp))
+                            Spacer(modifier = Modifier.height(12.dp))
                             ComparePreference(
                                 onClick = {
                                     navController.popUpTo { it == Screen.Main }
                                     navController.navigate(Screen.Compare)
                                 }
                             )
-                            Spacer(modifier = Modifier.height(8.dp))
+                            Spacer(modifier = Modifier.height(12.dp))
                         } else {
-                            Spacer(modifier = Modifier.height(8.dp))
+                            Spacer(modifier = Modifier.height(12.dp))
                             Row(
                                 Modifier
                                     .fillMaxWidth()
-                                    .padding(horizontal = 8.dp),
+                                    .padding(horizontal = 12.dp),
                                 horizontalArrangement = Arrangement.Center
                             ) {
                                 var heightOne by remember { mutableStateOf(0) }
@@ -636,11 +636,11 @@ fun MainScreen(
                                         }
                                 )
                             }
-                            Spacer(modifier = Modifier.height(8.dp))
+                            Spacer(modifier = Modifier.height(12.dp))
                             Row(
                                 Modifier
                                     .fillMaxWidth()
-                                    .padding(horizontal = 8.dp),
+                                    .padding(horizontal = 12.dp),
                                 horizontalArrangement = Arrangement.Center
                             ) {
                                 var heightOne by remember { mutableStateOf(0) }
@@ -689,11 +689,11 @@ fun MainScreen(
                                         }
                                 )
                             }
-                            Spacer(modifier = Modifier.height(8.dp))
+                            Spacer(modifier = Modifier.height(12.dp))
                             Row(
                                 Modifier
                                     .fillMaxWidth()
-                                    .padding(horizontal = 8.dp),
+                                    .padding(horizontal = 12.dp),
                                 horizontalArrangement = Arrangement.Center
                             ) {
                                 var heightOne by remember { mutableStateOf(0) }
@@ -742,18 +742,18 @@ fun MainScreen(
                                     }
                                 )
                             }
-                            Spacer(modifier = Modifier.height(8.dp))
+                            Spacer(modifier = Modifier.height(12.dp))
                             ComparePreference(
                                 onClick = {
                                     navController.popUpTo { it == Screen.Main }
                                     navController.navigate(Screen.Compare)
                                 },
                                 modifier = Modifier
-                                    .padding(horizontal = 8.dp)
+                                    .padding(horizontal = 12.dp)
                                     .widthIn(max = 350.dp)
                                     .fillMaxWidth()
                             )
-                            Spacer(modifier = Modifier.height(8.dp))
+                            Spacer(modifier = Modifier.height(12.dp))
                         }
                     }
 
@@ -762,17 +762,32 @@ fun MainScreen(
                             .shadow(6.dp)
                             .zIndex(6f),
                         actions = {
-                            Box(
-                                modifier = Modifier
-                                    .padding(horizontal = 16.dp)
-                                    .fillMaxHeight(),
-                                contentAlignment = Alignment.Center
-                            ) {
-                                Text(
-                                    stringResource(R.string.version) + " ${BuildConfig.VERSION_NAME} (${BuildConfig.VERSION_CODE})",
-                                    color = MaterialTheme.colorScheme.onSecondaryContainer.copy(
+                            FilledTonalButton(
+                                colors = ButtonDefaults.filledTonalButtonColors(
+                                    containerColor = MaterialTheme.colorScheme.secondaryContainer.copy(
+                                        alpha = 0.5f
+                                    ),
+                                    contentColor = MaterialTheme.colorScheme.onSecondaryContainer.copy(
                                         alpha = 0.5f
                                     )
+                                ),
+                                modifier = Modifier.padding(horizontal = 16.dp),
+                                onClick = {
+                                    viewModel.tryGetUpdate(
+                                        newRequest = true,
+                                        onNoUpdates = {
+                                            scope.launch {
+                                                toastHost.showToast(
+                                                    icon = Icons.Rounded.FileDownloadOff,
+                                                    message = context.getString(R.string.no_updates)
+                                                )
+                                            }
+                                        }
+                                    )
+                                }
+                            ) {
+                                Text(
+                                    stringResource(R.string.version) + " ${BuildConfig.VERSION_NAME} (${BuildConfig.VERSION_CODE})"
                                 )
                             }
                         },
