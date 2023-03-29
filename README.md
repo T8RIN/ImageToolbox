@@ -1,6 +1,8 @@
 
 <h1 align="center">ImageResizer</h1>
 
+<p align="center">Powerful image resizer with width/height selection, cropping, EXIF editing, quality and output image type picking and batch processing feature. Based on Material You design following official Google guidelines</p>
+
 
 <p align="center">
  <img alt="material" src="https://custom-icon-badges.demolab.com/badge/material%20you-palegreen?style=for-the-badge&logoColor=black&logo=material-you"/></a>
