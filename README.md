@@ -10,6 +10,9 @@
   <a href="https://github.com/T8RIN/ImageResizer/actions"><img alt="Build" src="https://img.shields.io/github/actions/workflow/status/t8rin/imageresizer/android.yml?logo=github&style=for-the-badge"/></a> 
 </p>
 
+<p align="center">Powerful image resizer with width/height selection, cropping, EXIF editing, quality and output image type picking and batch processing feature. Based on Material You design following official Google guidelines</p>
+
+
 
 ![Frame 3](https://user-images.githubusercontent.com/52178347/225127997-c932ef48-a59d-45d0-bf06-553075519b97.png)
 
@@ -53,7 +56,7 @@
 - Dynamic colors theming even for Android versions less than 12
 - Image based color scheme
 
-(Yes, app supports dynamic coloring based on wallpapers for every android version, where you can install it)
+(Yes, app supports dynamic coloring based on wallpapers for every android version)
 
 # Download
 Go to the [Releases](https://github.com/t8rin/imageresizer/releases/latest) and download latest apk.
