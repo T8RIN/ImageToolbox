@@ -196,17 +196,6 @@ fun CropScreen(
                         ) {
                             Icon(Icons.Rounded.ArrowBack, null)
                         }
-                    },
-                    actions = {
-                        IconButton(
-                            onClick = {
-                                share = true
-                                crop = true
-                            },
-                            enabled = viewModel.bitmap != null
-                        ) {
-                            Icon(Icons.Outlined.Share, null)
-                        }
                     }
                 )
             } else {
@@ -302,7 +291,8 @@ fun CropScreen(
                                         hoveredElevation = 0.1.dp
                                     ),
                                 ) {
-                                    val expanded = scrollState.isScrollingUp()
+                                    val expanded =
+                                        scrollState.isScrollingUp() && viewModel.bitmap == null
                                     val horizontalPadding by animateDpAsState(targetValue = if (expanded) 16.dp else 0.dp)
                                     Row(
                                         modifier = Modifier.padding(horizontal = horizontalPadding),

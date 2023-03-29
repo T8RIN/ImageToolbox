@@ -291,6 +291,7 @@ fun PickColorFromImageScreen(
                 bitmap?.let {
                     ImageColorDetector(
                         imageBitmap = it.asImageBitmap(),
+                        color = viewModel.color,
                         modifier = Modifier
                             .padding(bottom = 72.dp)
                             .padding(16.dp)
@@ -317,7 +318,8 @@ fun PickColorFromImageScreen(
                 .padding(16.dp)
                 .align(Alignment.BottomEnd)
         ) {
-            val expanded = scrollState.isScrollingUp()
+            val expanded = scrollState.isScrollingUp() && viewModel.bitmap == null
+
             val horizontalPadding by animateDpAsState(targetValue = if (expanded) 16.dp else 0.dp)
             Row(
                 modifier = Modifier.padding(horizontal = horizontalPadding),
