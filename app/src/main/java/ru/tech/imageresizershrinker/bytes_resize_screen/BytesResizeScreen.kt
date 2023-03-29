@@ -306,7 +306,11 @@ fun BytesResizeScreen(
                 }
             )
         } else {
-            Column(Modifier.padding(horizontal = 16.dp)) {
+            Column(
+                Modifier
+                    .padding(horizontal = 16.dp)
+                    .navigationBarsPadding()
+            ) {
                 AnimatedVisibility(viewModel.bitmap != null && viewModel.maxBytes != 0L) {
                     FloatingActionButton(
                         onClick = saveBitmaps,

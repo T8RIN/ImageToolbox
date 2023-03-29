@@ -379,7 +379,11 @@ fun BatchResizeScreen(
                 }
             )
         } else {
-            Column(Modifier.padding(horizontal = 16.dp)) {
+            Column(
+                Modifier
+                    .padding(horizontal = 16.dp)
+                    .navigationBarsPadding()
+            ) {
                 FloatingActionButton(
                     onClick = saveBitmaps,
                     containerColor = MaterialTheme.colorScheme.tertiaryContainer

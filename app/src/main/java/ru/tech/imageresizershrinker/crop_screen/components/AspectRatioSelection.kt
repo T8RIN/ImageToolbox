@@ -3,9 +3,7 @@ package ru.tech.imageresizershrinker.crop_screen.components
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -16,6 +14,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.smarttoolfactory.cropper.model.AspectRatio
@@ -36,7 +35,15 @@ fun AspectRatioSelection(
     LazyRow(
         modifier = modifier,
         horizontalArrangement = Arrangement.spacedBy(4.dp, Alignment.CenterHorizontally),
-        contentPadding = PaddingValues(4.dp)
+        contentPadding = PaddingValues(
+            start = 4.dp,
+            top = 4.dp,
+            bottom = 4.dp,
+            end = 4.dp + WindowInsets
+                .navigationBars
+                .asPaddingValues()
+                .calculateEndPadding(LocalLayoutDirection.current)
+        )
     ) {
         itemsIndexed(aspectRatios) { index, item ->
             AspectRatioSelectionCard(
