@@ -116,4 +116,8 @@
     <string name="dynamic_colors_sub">If enabled, then app colors will be adopted to wallpaper colors</string>
     <string name="failed_to_save">Failed to save %d image(s)</string>
     <string name="png_warning_bytes">Saving in PNG mode can be unstable, because it is lossless format</string>
+    <string name="telegram" translatable="false">Telegram</string>
+    <string name="email">Email</string>
+    <string name="github" translatable="false">GitHub</string>
+    <string name="developer_enail" translatable="false">t8rin@bk.ru</string>
 </resources>

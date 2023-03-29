@@ -8,6 +8,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -202,7 +203,7 @@ fun PreferenceItem(
                 contentColor = contentColor
             )
         ) {
-            Row(Modifier.padding(16.dp)) {
+            Row(Modifier.padding(16.dp), verticalAlignment = Alignment.CenterVertically) {
                 icon?.let {
                     Icon(imageVector = icon, contentDescription = null)
                     Spacer(modifier = Modifier.width(16.dp))

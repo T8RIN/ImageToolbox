@@ -53,6 +53,7 @@ import ru.tech.imageresizershrinker.resize_screen.components.inverse
 import ru.tech.imageresizershrinker.theme.CreateAlt
 import ru.tech.imageresizershrinker.theme.Github
 import ru.tech.imageresizershrinker.theme.Sparkles
+import ru.tech.imageresizershrinker.theme.Telegram
 import ru.tech.imageresizershrinker.utils.*
 import ru.tech.imageresizershrinker.widget.Marquee
 import ru.tech.imageresizershrinker.widget.Picture
@@ -73,6 +74,7 @@ fun MainScreen(
     val isGrid = LocalWindowSizeClass.current.widthSizeClass != WindowWidthSizeClass.Compact
 
     var showPickColorDialog by rememberSaveable { mutableStateOf(false) }
+    var showAuthorDialog by rememberSaveable { mutableStateOf(false) }
 
     val sideSheetState = rememberDrawerState(initialValue = DrawerValue.Closed)
     val layoutDirection = LocalLayoutDirection.current
@@ -417,12 +419,7 @@ fun MainScreen(
                                                 )
                                             },
                                             onClick = {
-                                                context.startActivity(
-                                                    Intent(
-                                                        Intent.ACTION_VIEW,
-                                                        Uri.parse(AUTHOR_LINK)
-                                                    )
-                                                )
+                                                showAuthorDialog = true
                                             }
                                         )
                                         SourceCodePreference(
@@ -810,6 +807,72 @@ fun MainScreen(
             viewModel.appPrimaryColor,
             onDismissRequest = { showPickColorDialog = false },
             onColorChange = { viewModel.updatePrimaryColor(it) }
+        )
+    } else if (showAuthorDialog) {
+        AlertDialog(
+            onDismissRequest = { showAuthorDialog = false },
+            title = { Text(stringResource(R.string.app_developer_nick)) },
+            icon = {
+                Icon(imageVector = Icons.Rounded.Person, contentDescription = null)
+            },
+            text = {
+                Box {
+                    Divider(Modifier.align(Alignment.TopCenter))
+                    Column {
+                        Spacer(Modifier.height(8.dp))
+                        PreferenceItem(
+                            color = MaterialTheme.colorScheme.secondaryContainer,
+                            onClick = {
+                                Intent(Intent.ACTION_VIEW).apply {
+                                    data =
+                                        Uri.parse("http://t.me/${context.getString(R.string.app_developer_nick)}")
+                                    setPackage("org.telegram.messenger")
+                                    context.startActivity(this)
+                                }
+                            },
+                            title = stringResource(R.string.telegram),
+                            icon = Icons.Rounded.Telegram,
+                            subtitle = stringResource(R.string.app_developer_nick)
+                        )
+                        Spacer(Modifier.height(8.dp))
+                        PreferenceItem(
+                            color = MaterialTheme.colorScheme.secondaryContainer,
+                            onClick = {
+                                Intent(Intent.ACTION_SENDTO).apply {
+                                    data =
+                                        Uri.parse("mailto:${context.getString(R.string.developer_enail)}")
+                                    context.startActivity(this)
+                                }
+                            },
+                            title = stringResource(R.string.email),
+                            icon = Icons.Rounded.AlternateEmail,
+                            subtitle = stringResource(R.string.developer_enail)
+                        )
+                        Spacer(Modifier.height(8.dp))
+                        PreferenceItem(
+                            color = MaterialTheme.colorScheme.secondaryContainer,
+                            onClick = {
+                                context.startActivity(
+                                    Intent(
+                                        Intent.ACTION_VIEW,
+                                        Uri.parse(AUTHOR_LINK)
+                                    )
+                                )
+                            },
+                            title = stringResource(R.string.github),
+                            icon = Icons.Rounded.Github,
+                            subtitle = stringResource(R.string.app_developer_nick)
+                        )
+                        Spacer(Modifier.height(8.dp))
+                    }
+                    Divider(Modifier.align(Alignment.BottomCenter))
+                }
+            },
+            confirmButton = {
+                FilledTonalButton(onClick = { showAuthorDialog = false }) {
+                    Text(stringResource(R.string.close))
+                }
+            }
         )
     }
 }
