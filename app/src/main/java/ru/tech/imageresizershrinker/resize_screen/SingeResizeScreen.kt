@@ -217,9 +217,10 @@ fun SingleResizeScreen(
                 )
             ) {
                 if (showOrig) {
-                    Picture(bitmap = viewModel.bitmap)
+                    Picture(bitmap = viewModel.bitmap, loading = loading)
                 } else {
                     Picture(
+                        loading = loading,
                         bitmap = bmp,
                         visible = viewModel.shouldShowPreview
                     )

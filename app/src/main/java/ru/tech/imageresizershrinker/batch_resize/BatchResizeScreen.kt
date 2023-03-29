@@ -243,11 +243,12 @@ fun BatchResizeScreen(
                     )
                 ) {
                     if (showOrig) {
-                        Picture(bitmap = viewModel.bitmap)
+                        Picture(bitmap = viewModel.bitmap, loading = loading)
                     } else {
                         Picture(
                             bitmap = bmp,
-                            visible = viewModel.shouldShowPreview
+                            visible = viewModel.shouldShowPreview,
+                            loading = loading
                         )
                         if (!viewModel.shouldShowPreview && !loading && viewModel.bitmap != null && bmp == null) BadImageWidget()
                     }

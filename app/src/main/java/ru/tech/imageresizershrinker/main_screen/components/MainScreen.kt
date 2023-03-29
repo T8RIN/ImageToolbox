@@ -869,7 +869,7 @@ fun MainScreen(
                 }
             },
             confirmButton = {
-                FilledTonalButton(onClick = { showAuthorDialog = false }) {
+                OutlinedButton(onClick = { showAuthorDialog = false }) {
                     Text(stringResource(R.string.close))
                 }
             }

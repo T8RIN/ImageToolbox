@@ -247,7 +247,7 @@ fun BytesResizeScreen(
                         } else Modifier
                     )
                 ) {
-                    Picture(bitmap = viewModel.previewBitmap)
+                    Picture(bitmap = viewModel.previewBitmap, loading = loading)
                     if (loading) Loading()
                 }
             }

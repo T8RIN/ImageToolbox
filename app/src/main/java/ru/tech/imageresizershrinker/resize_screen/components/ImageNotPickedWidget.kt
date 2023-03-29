@@ -18,6 +18,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.main_screen.components.block
+import ru.tech.imageresizershrinker.widget.shimmer
 
 @Composable
 fun ImageNotPickedWidget(
@@ -82,7 +83,7 @@ fun BadImageWidget() {
 }
 
 @Composable
-fun Picture(bitmap: Bitmap?, visible: Boolean = true) {
+fun Picture(bitmap: Bitmap?, loading: Boolean = false, visible: Boolean = true) {
     bitmap?.asImageBitmap()
         ?.takeIf { visible }
         ?.let {
@@ -93,7 +94,9 @@ fun Picture(bitmap: Bitmap?, visible: Boolean = true) {
                 Image(
                     bitmap = it,
                     contentDescription = null,
-                    modifier = Modifier.clip(RoundedCornerShape(4.dp))
+                    modifier = Modifier
+                        .clip(RoundedCornerShape(4.dp))
+                        .shimmer(loading, MaterialTheme.colorScheme.surfaceColorAtElevation(12.dp))
                 )
             }
         }
