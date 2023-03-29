@@ -1,8 +1,6 @@
 
 <h1 align="center">ImageResizer</h1>
 
-<p align="center">Powerful image resizer with width/height selection, cropping, EXIF editing, quality and output image type picking and batch processing feature. Based on Material You design following official Google guidelines</p>
-
 
 <p align="center">
  <img alt="material" src="https://custom-icon-badges.demolab.com/badge/material%20you-palegreen?style=for-the-badge&logoColor=black&logo=material-you"/></a>
@@ -11,6 +9,9 @@
   <img alt="Jetpack Compose" src="https://img.shields.io/static/v1?style=for-the-badge&message=Jetpack+Compose&color=4285F4&logo=Jetpack+Compose&logoColor=FFFFFF&label="/></a> 
   <a href="https://github.com/T8RIN/ImageResizer/actions"><img alt="Build" src="https://img.shields.io/github/actions/workflow/status/t8rin/imageresizer/android.yml?logo=github&style=for-the-badge"/></a> 
 </p>
+
+<p align="center">Powerful image resizer with width/height selection, cropping, EXIF editing, quality and output image type picking and batch processing feature. Based on Material You design following official Google guidelines</p>
+
 
 
 ![Frame 3](https://user-images.githubusercontent.com/52178347/225127997-c932ef48-a59d-45d0-bf06-553075519b97.png)
