@@ -765,7 +765,8 @@ fun MainScreen(
                             FilledTonalButton(
                                 colors = ButtonDefaults.filledTonalButtonColors(
                                     containerColor = MaterialTheme.colorScheme.secondaryContainer.copy(
-                                        alpha = 0.5f
+                                        alpha = if (LocalNightMode.current.isNightMode()) 0.5f
+                                        else 1f
                                     ),
                                     contentColor = MaterialTheme.colorScheme.onSecondaryContainer.copy(
                                         alpha = 0.5f
@@ -855,13 +856,13 @@ fun MainScreen(
                             onClick = {
                                 Intent(Intent.ACTION_SENDTO).apply {
                                     data =
-                                        Uri.parse("mailto:${context.getString(R.string.developer_enail)}")
+                                        Uri.parse("mailto:${context.getString(R.string.developer_email)}")
                                     context.startActivity(this)
                                 }
                             },
                             title = stringResource(R.string.email),
                             icon = Icons.Rounded.AlternateEmail,
-                            subtitle = stringResource(R.string.developer_enail)
+                            subtitle = stringResource(R.string.developer_email)
                         )
                         Spacer(Modifier.height(8.dp))
                         PreferenceItem(
