@@ -544,6 +544,7 @@ fun BytesResizeScreen(
 
             if (showExitDialog) {
                 AlertDialog(
+                    modifier = Modifier.alertDialog(),
                     onDismissRequest = { showExitDialog = false },
                     dismissButton = {
                         FilledTonalButton(
@@ -578,7 +579,8 @@ fun BytesResizeScreen(
                         modifier = Modifier
                             .systemBarsPadding()
                             .padding(vertical = 4.dp, horizontal = 8.dp)
-                            .fillMaxWidth(),
+                            .fillMaxWidth()
+                            .alertDialog(),
                         icon = { Icon(Icons.Rounded.PhotoLibrary, null) },
                         title = { Text(stringResource(R.string.change_preview)) },
                         text = {

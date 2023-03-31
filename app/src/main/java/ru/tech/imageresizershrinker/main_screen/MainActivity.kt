@@ -89,7 +89,7 @@ class MainActivity : AppCompatActivity() {
                         viewModel.updateUris(null)
                         themeState.updateColor(appPrimaryColor)
                         viewModel.navController.apply {
-                            if (backstack.entries.isNotEmpty()) pop()
+                            if (backstack.entries.size > 1) pop()
                         }
                     }
                     BackHandler {
@@ -243,6 +243,7 @@ class MainActivity : AppCompatActivity() {
 
                     if (showExitDialog) {
                         AlertDialog(
+                            modifier = Modifier.alertDialog(),
                             onDismissRequest = { showExitDialog = false },
                             dismissButton = {
                                 FilledTonalButton(
@@ -269,6 +270,7 @@ class MainActivity : AppCompatActivity() {
                         )
                     } else if (viewModel.showSelectDialog) {
                         AlertDialog(
+                            modifier = Modifier.alertDialog(),
                             onDismissRequest = {},
                             title = { stringResource(R.string.image) },
                             confirmButton = {
@@ -345,6 +347,7 @@ class MainActivity : AppCompatActivity() {
                         )
                     } else if (viewModel.showUpdateDialog) {
                         AlertDialog(
+                            modifier = Modifier.alertDialog(),
                             onDismissRequest = { },
                             icon = {
                                 Icon(Icons.Rounded.Download, null)

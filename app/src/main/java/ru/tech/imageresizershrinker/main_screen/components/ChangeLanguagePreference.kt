@@ -71,6 +71,7 @@ private fun PickLanguageDialog(
     onDismiss: () -> Unit
 ) {
     AlertDialog(
+        modifier = Modifier.alertDialog(),
         onDismissRequest = onDismiss,
         icon = { Icon(imageVector = Icons.Rounded.Language, contentDescription = null) },
         title = { Text(stringResource(R.string.language)) },

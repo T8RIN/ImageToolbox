@@ -44,6 +44,7 @@ import ru.tech.imageresizershrinker.crop_screen.components.aspectRatios
 import ru.tech.imageresizershrinker.crop_screen.viewModel.CropViewModel
 import ru.tech.imageresizershrinker.generate_palette.isScrollingUp
 import ru.tech.imageresizershrinker.main_screen.components.LocalAllowChangeColorByImage
+import ru.tech.imageresizershrinker.main_screen.components.alertDialog
 import ru.tech.imageresizershrinker.main_screen.components.drawHorizontalStroke
 import ru.tech.imageresizershrinker.main_screen.components.fabBorder
 import ru.tech.imageresizershrinker.resize_screen.components.ImageNotPickedWidget
@@ -359,6 +360,7 @@ fun CropScreen(
         LoadingDialog()
     } else if (showExitDialog) {
         AlertDialog(
+            modifier = Modifier.alertDialog(),
             onDismissRequest = { showExitDialog = false },
             dismissButton = {
                 FilledTonalButton(

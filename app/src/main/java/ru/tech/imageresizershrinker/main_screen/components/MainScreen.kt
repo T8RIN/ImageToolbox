@@ -90,12 +90,22 @@ fun MainScreen(
                     }
                 }
                 ModalDrawerSheet(
-                    modifier = Modifier.width(
-                        min(
-                            LocalConfiguration.current.screenWidthDp.dp * 0.85f,
-                            DrawerDefaults.MaximumDrawerWidth
+                    modifier = Modifier
+                        .offset(-(1.dp))
+                        .width(
+                            min(
+                                LocalConfiguration.current.screenWidthDp.dp * 0.85f,
+                                DrawerDefaults.MaximumDrawerWidth
+                            )
                         )
-                    ),
+                        .border(
+                            1.dp,
+                            MaterialTheme.colorScheme.outlineVariant(
+                                0.3f,
+                                DrawerDefaults.containerColor
+                            ),
+                            DrawerDefaults.shape
+                        ),
                     windowInsets = WindowInsets(0)
                 ) {
                     CompositionLocalProvider(LocalLayoutDirection provides layoutDirection) {
@@ -810,12 +820,14 @@ fun MainScreen(
 
     if (showPickColorDialog) {
         ColorDialog(
-            viewModel.appPrimaryColor,
+            modifier = Modifier.alertDialog(),
+            color = viewModel.appPrimaryColor,
             onDismissRequest = { showPickColorDialog = false },
             onColorChange = { viewModel.updatePrimaryColor(it) }
         )
     } else if (showAuthorDialog) {
         AlertDialog(
+            modifier = Modifier.alertDialog(),
             onDismissRequest = { showAuthorDialog = false },
             title = { Text(stringResource(R.string.app_developer_nick)) },
             icon = {

@@ -657,6 +657,7 @@ fun BatchResizeScreen(
 
             if (showExitDialog) {
                 AlertDialog(
+                    modifier = Modifier.alertDialog(),
                     onDismissRequest = { showExitDialog = false },
                     dismissButton = {
                         FilledTonalButton(
@@ -686,6 +687,7 @@ fun BatchResizeScreen(
                 LoadingDialog(viewModel.done, viewModel.uris?.size ?: 1)
             } else if (showResetDialog) {
                 AlertDialog(
+                    modifier = Modifier.alertDialog(),
                     icon = { Icon(Icons.Rounded.RestartAlt, null) },
                     title = { Text(stringResource(R.string.reset_image)) },
                     text = { Text(stringResource(R.string.reset_image_sub)) },
@@ -717,7 +719,8 @@ fun BatchResizeScreen(
                         modifier = Modifier
                             .systemBarsPadding()
                             .padding(vertical = 4.dp, horizontal = 8.dp)
-                            .fillMaxWidth(),
+                            .fillMaxWidth()
+                            .alertDialog(),
                         icon = { Icon(Icons.Rounded.PhotoLibrary, null) },
                         title = { Text(stringResource(R.string.change_preview)) },
                         text = {

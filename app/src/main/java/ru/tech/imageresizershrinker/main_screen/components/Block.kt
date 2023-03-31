@@ -5,10 +5,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.FloatingActionButtonDefaults
-import androidx.compose.material3.LocalContentColor
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.surfaceColorAtElevation
+import androidx.compose.material3.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
 import androidx.compose.ui.draw.drawWithContent
@@ -86,5 +83,16 @@ fun Modifier.fabBorder(height: Dp = 1.dp) = composed {
             onTopOf = MaterialTheme.colorScheme.suggestContainerColorBy(LocalContentColor.current)
         ),
         FloatingActionButtonDefaults.shape
+    )
+}
+
+fun Modifier.alertDialog() = composed {
+    border(
+        1.dp,
+        MaterialTheme.colorScheme.outlineVariant(
+            luminance = 0.3f,
+            onTopOf = MaterialTheme.colorScheme.surfaceColorAtElevation(6.dp)
+        ),
+        AlertDialogDefaults.shape
     )
 }

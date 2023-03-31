@@ -58,10 +58,7 @@ import com.smarttoolfactory.cropper.settings.CropOutlineProperty
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.R
-import ru.tech.imageresizershrinker.main_screen.components.LocalAllowChangeColorByImage
-import ru.tech.imageresizershrinker.main_screen.components.drawHorizontalStroke
-import ru.tech.imageresizershrinker.main_screen.components.fabBorder
-import ru.tech.imageresizershrinker.main_screen.components.navBarsLandscapePadding
+import ru.tech.imageresizershrinker.main_screen.components.*
 import ru.tech.imageresizershrinker.resize_screen.components.*
 import ru.tech.imageresizershrinker.resize_screen.viewModel.SingleResizeViewModel
 import ru.tech.imageresizershrinker.utils.BitmapUtils
@@ -702,6 +699,7 @@ fun SingleResizeScreen(
 
             if (showExitDialog) {
                 AlertDialog(
+                    modifier = Modifier.alertDialog(),
                     onDismissRequest = { showExitDialog = false },
                     dismissButton = {
                         FilledTonalButton(
@@ -731,6 +729,7 @@ fun SingleResizeScreen(
                 LoadingDialog()
             } else if (showResetDialog) {
                 AlertDialog(
+                    modifier = Modifier.alertDialog(),
                     icon = { Icon(Icons.Rounded.RestartAlt, null) },
                     title = { Text(stringResource(R.string.reset_image)) },
                     text = { Text(stringResource(R.string.reset_image_sub)) },
@@ -763,7 +762,8 @@ fun SingleResizeScreen(
                         .systemBarsPadding()
                         .animateContentSize()
                         .widthIn(max = 640.dp)
-                        .padding(16.dp),
+                        .padding(16.dp)
+                        .alertDialog(),
                     onDismissRequest = { showEditExifDialog = false },
                     title = { Text(stringResource(R.string.edit_exif)) },
                     icon = { Icon(Icons.Rounded.Dataset, null) },
@@ -891,7 +891,8 @@ fun SingleResizeScreen(
                             .systemBarsPadding()
                             .animateContentSize()
                             .widthIn(max = 640.dp)
-                            .padding(16.dp),
+                            .padding(16.dp)
+                            .alertDialog(),
                         onDismissRequest = { showAddExifDialog = false },
                         title = { Text(stringResource(R.string.add_tag)) },
                         icon = { Icon(Icons.Rounded.Dataset, null) },
@@ -1013,6 +1014,7 @@ fun SingleResizeScreen(
                     )
                 } else if (showClearExifDialog) {
                     AlertDialog(
+                        modifier = Modifier.alertDialog(),
                         onDismissRequest = { showClearExifDialog = false },
                         title = { Text(stringResource(R.string.clear_exif)) },
                         icon = { Icon(Icons.Rounded.Delete, null) },
@@ -1041,6 +1043,7 @@ fun SingleResizeScreen(
                 }
             } else if (showExifSavingDialog) {
                 AlertDialog(
+                    modifier = Modifier.alertDialog(),
                     icon = { Icon(Icons.Rounded.Save, null) },
                     title = { Text(stringResource(R.string.exif)) },
                     text = { Text(stringResource(R.string.might_be_error_with_exif)) },
@@ -1073,7 +1076,8 @@ fun SingleResizeScreen(
                             .systemBarsPadding()
                             .animateContentSize()
                             .widthIn(max = 640.dp)
-                            .padding(16.dp),
+                            .padding(16.dp)
+                            .alertDialog(),
                         properties = DialogProperties(usePlatformDefaultWidth = false),
                         onDismissRequest = { showCropDialog = false },
                         text = {

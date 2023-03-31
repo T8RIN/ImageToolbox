@@ -33,6 +33,7 @@ import ru.tech.imageresizershrinker.R
 @ExperimentalMaterial3Api
 @Composable
 fun ColorDialog(
+    modifier: Modifier = Modifier,
     color: Color?,
     title: String = stringResource(R.string.color_scheme),
     onColorChange: (Int) -> Unit,
@@ -40,6 +41,7 @@ fun ColorDialog(
 ) {
     var _color by rememberSaveable { mutableStateOf(color?.toArgb() ?: Color.Red.toArgb()) }
     AlertDialog(
+        modifier = modifier,
         onDismissRequest = onDismissRequest,
         title = { Text(title) },
         icon = { Icon(Icons.Outlined.Palette, null) },
