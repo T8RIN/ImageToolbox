@@ -21,15 +21,14 @@ import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.zIndex
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.cookhelper.dynamic.theme.LocalDynamicThemeState
+import com.cookhelper.dynamic.theme.extractPrimaryColor
 import com.smarttoolfactory.beforeafter.BeforeAfterImage
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.R
@@ -37,9 +36,12 @@ import ru.tech.imageresizershrinker.compare_screen.viewModel.CompareViewModel
 import ru.tech.imageresizershrinker.generate_palette.isScrollingUp
 import ru.tech.imageresizershrinker.main_screen.components.LocalAllowChangeColorByImage
 import ru.tech.imageresizershrinker.main_screen.components.block
+import ru.tech.imageresizershrinker.main_screen.components.drawStroke
+import ru.tech.imageresizershrinker.main_screen.components.fabBorder
 import ru.tech.imageresizershrinker.resize_screen.components.ImageNotPickedWidget
 import ru.tech.imageresizershrinker.resize_screen.components.LoadingDialog
 import ru.tech.imageresizershrinker.resize_screen.components.LocalToastHost
+import ru.tech.imageresizershrinker.resize_screen.components.blend
 import ru.tech.imageresizershrinker.utils.BitmapUtils.getBitmapByUri
 import ru.tech.imageresizershrinker.widget.Marquee
 
@@ -60,10 +62,13 @@ fun CompareScreen(
     var progress by rememberSaveable { mutableStateOf(50f) }
 
     LaunchedEffect(viewModel.bitmapData) {
-        viewModel.bitmapData?.first?.let {
-            if (allowChangeColor) themeState.updateColorByImage(it)
+        viewModel.bitmapData?.let { (b, a) ->
+            if (allowChangeColor && a != null && b != null) {
+                themeState.updateColor(a.extractPrimaryColor().blend(b.extractPrimaryColor(), 0.5f))
+            }
         }
     }
+
     LaunchedEffect(comparableUris) {
         comparableUris?.let { (before, after) ->
             pushNewUris(null)
@@ -156,9 +161,7 @@ fun CompareScreen(
                     colors = TopAppBarDefaults.mediumTopAppBarColors(
                         containerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(3.dp)
                     ),
-                    modifier = Modifier
-                        .shadow(6.dp)
-                        .zIndex(6f)
+                    modifier = Modifier.drawStroke()
                 )
             } else {
                 TopAppBar(
@@ -198,9 +201,7 @@ fun CompareScreen(
                     colors = TopAppBarDefaults.mediumTopAppBarColors(
                         containerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(3.dp)
                     ),
-                    modifier = Modifier
-                        .shadow(6.dp)
-                        .zIndex(6f)
+                    modifier = Modifier.drawStroke()
                 )
             }
             AnimatedContent(targetState = viewModel.bitmapData) { data ->
@@ -248,6 +249,8 @@ fun CompareScreen(
                     .navigationBarsPadding()
                     .padding(16.dp)
                     .align(Alignment.BottomEnd)
+                    .fabBorder(),
+                elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation()
             ) {
                 val expanded = scrollState.isScrollingUp()
                 val horizontalPadding by animateDpAsState(targetValue = if (expanded) 16.dp else 0.dp)
@@ -267,12 +270,12 @@ fun CompareScreen(
         } else {
             BottomAppBar(
                 modifier = Modifier
-                    .shadow(6.dp)
-                    .zIndex(6f)
+                    .drawStroke(true)
                     .align(Alignment.BottomCenter),
                 floatingActionButton = {
                     FloatingActionButton(
                         onClick = pickImage,
+                        modifier = Modifier.fabBorder(),
                         elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation()
                     ) {
                         Icon(Icons.Rounded.AddPhotoAlternate, null)

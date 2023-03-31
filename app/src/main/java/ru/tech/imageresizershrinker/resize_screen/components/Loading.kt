@@ -2,6 +2,7 @@ package ru.tech.imageresizershrinker.resize_screen.components
 
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.CircularProgressIndicator
@@ -11,7 +12,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 
@@ -21,8 +21,9 @@ fun BoxScope.Loading() {
         Modifier
             .size(84.dp)
             .clip(RoundedCornerShape(24.dp))
-            .shadow(
-                8.dp,
+            .border(
+                1.dp,
+                MaterialTheme.colorScheme.onSecondaryContainer.copy(0.4f),
                 RoundedCornerShape(24.dp)
             )
             .background(MaterialTheme.colorScheme.secondaryContainer)
@@ -44,8 +45,9 @@ fun Loading(modifier: Modifier = Modifier) {
         modifier
             .size(84.dp)
             .clip(RoundedCornerShape(24.dp))
-            .shadow(
-                8.dp,
+            .border(
+                1.dp,
+                MaterialTheme.colorScheme.onSecondaryContainer.copy(0.4f),
                 RoundedCornerShape(24.dp)
             )
             .background(MaterialTheme.colorScheme.secondaryContainer)
@@ -66,8 +68,9 @@ fun BoxScope.Loading(done: Int, left: Int) {
         Modifier
             .size(108.dp)
             .clip(RoundedCornerShape(24.dp))
-            .shadow(
-                8.dp,
+            .border(
+                1.dp,
+                MaterialTheme.colorScheme.onSecondaryContainer.copy(0.4f),
                 RoundedCornerShape(24.dp)
             )
             .background(MaterialTheme.colorScheme.secondaryContainer)

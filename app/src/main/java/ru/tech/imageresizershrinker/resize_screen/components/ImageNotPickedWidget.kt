@@ -2,6 +2,7 @@ package ru.tech.imageresizershrinker.resize_screen.components
 
 import android.graphics.Bitmap
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -46,6 +47,11 @@ fun ImageNotPickedWidget(
                 null,
                 modifier = Modifier
                     .fillMaxSize()
+                    .border(
+                        1.dp,
+                        MaterialTheme.colorScheme.onSecondaryContainer.copy(0.2f),
+                        RoundedCornerShape(16.dp)
+                    )
                     .padding(12.dp),
                 tint = MaterialTheme.colorScheme.onSurfaceVariant
             )

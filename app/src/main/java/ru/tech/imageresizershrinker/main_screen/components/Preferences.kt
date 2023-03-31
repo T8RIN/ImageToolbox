@@ -3,6 +3,7 @@ package ru.tech.imageresizershrinker.main_screen.components
 import android.content.Intent
 import android.net.Uri
 import androidx.compose.animation.*
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.*
@@ -196,7 +197,11 @@ fun PreferenceItem(
 
     ProvideTextStyle(value = LocalTextStyle.current.copy(textAlign = TextAlign.Start)) {
         Card(
-            modifier = modifier,
+            modifier = modifier.border(
+                1.dp,
+                MaterialTheme.colorScheme.onSecondaryContainer.copy(0.1f),
+                CardDefaults.shape
+            ),
             onClick = onClick,
             colors = CardDefaults.cardColors(
                 containerColor = color,

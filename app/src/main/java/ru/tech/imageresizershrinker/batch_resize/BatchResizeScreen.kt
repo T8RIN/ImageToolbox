@@ -33,7 +33,6 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.input.pointer.pointerInput
@@ -45,7 +44,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.DialogProperties
-import androidx.compose.ui.zIndex
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.cookhelper.dynamic.theme.LocalDynamicThemeState
 import kotlinx.coroutines.delay
@@ -53,9 +51,7 @@ import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.batch_resize.components.SaveExifWidget
 import ru.tech.imageresizershrinker.batch_resize.viewModel.BatchResizeViewModel
-import ru.tech.imageresizershrinker.main_screen.components.LocalAllowChangeColorByImage
-import ru.tech.imageresizershrinker.main_screen.components.block
-import ru.tech.imageresizershrinker.main_screen.components.navBarsLandscapePadding
+import ru.tech.imageresizershrinker.main_screen.components.*
 import ru.tech.imageresizershrinker.resize_screen.components.*
 import ru.tech.imageresizershrinker.utils.BitmapUtils.canShow
 import ru.tech.imageresizershrinker.utils.BitmapUtils.decodeBitmapFromUri
@@ -267,6 +263,8 @@ fun BatchResizeScreen(
                 modifier = Modifier
                     .padding(16.dp)
                     .navigationBarsPadding()
+                    .fabBorder(),
+                elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
             ) {
                 val expanded =
                     state.isScrollingUp() && (imageInside || viewModel.bitmap == null)
@@ -286,9 +284,7 @@ fun BatchResizeScreen(
             }
         } else if (imageInside) {
             BottomAppBar(
-                modifier = Modifier
-                    .shadow(6.dp)
-                    .zIndex(6f),
+                modifier = Modifier.drawStroke(true),
                 actions = {
                     TelegramButton(
                         enabled = viewModel.bitmap != null,
@@ -364,6 +360,7 @@ fun BatchResizeScreen(
                     Row {
                         FloatingActionButton(
                             onClick = saveBitmaps,
+                            modifier = Modifier.fabBorder(),
                             containerColor = MaterialTheme.colorScheme.tertiaryContainer,
                             elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation()
                         ) {
@@ -372,6 +369,7 @@ fun BatchResizeScreen(
                         Spacer(Modifier.width(16.dp))
                         FloatingActionButton(
                             onClick = pickImage,
+                            modifier = Modifier.fabBorder(),
                             elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation()
                         ) {
                             Icon(Icons.Rounded.AddPhotoAlternate, null)
@@ -387,13 +385,17 @@ fun BatchResizeScreen(
             ) {
                 FloatingActionButton(
                     onClick = saveBitmaps,
-                    containerColor = MaterialTheme.colorScheme.tertiaryContainer
+                    containerColor = MaterialTheme.colorScheme.tertiaryContainer,
+                    elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
+                    modifier = Modifier.fabBorder(),
                 ) {
                     Icon(Icons.Rounded.Save, null)
                 }
                 Spacer(Modifier.height(16.dp))
                 FloatingActionButton(
-                    onClick = pickImage
+                    onClick = pickImage,
+                    elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
+                    modifier = Modifier.fabBorder(),
                 ) {
                     Icon(Icons.Rounded.AddPhotoAlternate, null)
                 }
@@ -423,9 +425,7 @@ fun BatchResizeScreen(
             Column(Modifier.fillMaxSize()) {
                 LargeTopAppBar(
                     scrollBehavior = scrollBehavior,
-                    modifier = Modifier
-                        .shadow(6.dp)
-                        .zIndex(6f),
+                    modifier = Modifier.drawStroke(),
                     title = {
                         Marquee(
                             edgeColor = MaterialTheme.colorScheme.surfaceColorAtElevation(3.dp)

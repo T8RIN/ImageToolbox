@@ -23,7 +23,6 @@ import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.layout.ContentScale
@@ -32,7 +31,6 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.zIndex
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.cookhelper.dynamic.theme.LocalDynamicThemeState
 import com.smarttoolfactory.colordetector.ImageColorPalette
@@ -42,10 +40,7 @@ import dev.olshevski.navigation.reimagined.pop
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.generate_palette.viewModel.GeneratePaletteViewModel
-import ru.tech.imageresizershrinker.main_screen.components.LocalAllowChangeColorByImage
-import ru.tech.imageresizershrinker.main_screen.components.Screen
-import ru.tech.imageresizershrinker.main_screen.components.block
-import ru.tech.imageresizershrinker.main_screen.components.navBarsPaddingOnlyIfTheyAtTheBottom
+import ru.tech.imageresizershrinker.main_screen.components.*
 import ru.tech.imageresizershrinker.pick_color_from_image.copyColorIntoClipboard
 import ru.tech.imageresizershrinker.pick_color_from_image.format
 import ru.tech.imageresizershrinker.resize_screen.components.ImageNotPickedWidget
@@ -183,9 +178,7 @@ fun GeneratePaletteScreen(
                 colors = TopAppBarDefaults.mediumTopAppBarColors(
                     containerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(3.dp)
                 ),
-                modifier = Modifier
-                    .shadow(6.dp)
-                    .zIndex(6f),
+                modifier = Modifier.drawStroke(),
                 title = {
                     Marquee(
                         edgeColor = MaterialTheme.colorScheme.surfaceColorAtElevation(3.dp)
@@ -323,6 +316,8 @@ fun GeneratePaletteScreen(
                 .navigationBarsPadding()
                 .padding(12.dp)
                 .align(Alignment.BottomEnd)
+                .fabBorder(),
+            elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
         ) {
             val expanded = scrollState.isScrollingUp()
             val horizontalPadding by animateDpAsState(targetValue = if (expanded) 16.dp else 0.dp)

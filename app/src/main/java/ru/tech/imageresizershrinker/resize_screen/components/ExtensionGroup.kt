@@ -1,7 +1,6 @@
 package ru.tech.imageresizershrinker.resize_screen.components
 
 import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.ripple.LocalRippleTheme
@@ -18,6 +17,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import ru.tech.imageresizershrinker.R
+import ru.tech.imageresizershrinker.main_screen.components.block
 import ru.tech.imageresizershrinker.widget.AutoSizeText
 
 @Composable
@@ -40,11 +40,10 @@ fun ExtensionGroup(
     ) {
         Column(
             modifier = Modifier
-                .background(
-                    MaterialTheme.colorScheme.surfaceColorAtElevation(1.dp),
-                    shape = RoundedCornerShape(16.dp)
+                .block(
+                    shape = RoundedCornerShape(16.dp),
+                    color = MaterialTheme.colorScheme.surfaceColorAtElevation(1.dp),
                 )
-                .padding(4.dp)
                 .offset(x = 0.dp, y = 9.dp)
                 .padding(start = 3.dp, end = 2.dp),
             horizontalAlignment = Alignment.CenterHorizontally

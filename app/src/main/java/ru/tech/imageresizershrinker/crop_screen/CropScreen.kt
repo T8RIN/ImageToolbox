@@ -27,7 +27,6 @@ import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.asAndroidBitmap
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.input.nestedscroll.nestedScroll
@@ -35,7 +34,6 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.zIndex
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.cookhelper.dynamic.theme.LocalDynamicThemeState
 import com.smarttoolfactory.cropper.ImageCropper
@@ -46,6 +44,8 @@ import ru.tech.imageresizershrinker.crop_screen.components.aspectRatios
 import ru.tech.imageresizershrinker.crop_screen.viewModel.CropViewModel
 import ru.tech.imageresizershrinker.generate_palette.isScrollingUp
 import ru.tech.imageresizershrinker.main_screen.components.LocalAllowChangeColorByImage
+import ru.tech.imageresizershrinker.main_screen.components.drawStroke
+import ru.tech.imageresizershrinker.main_screen.components.fabBorder
 import ru.tech.imageresizershrinker.resize_screen.components.ImageNotPickedWidget
 import ru.tech.imageresizershrinker.resize_screen.components.LoadingDialog
 import ru.tech.imageresizershrinker.resize_screen.components.LocalToastHost
@@ -174,7 +174,7 @@ fun CropScreen(
             if (viewModel.bitmap == null) {
                 LargeTopAppBar(
                     scrollBehavior = scrollBehavior,
-                    modifier = Modifier.shadow(6.dp),
+                    modifier = Modifier.drawStroke(),
                     title = {
                         Marquee(
                             edgeColor = MaterialTheme.colorScheme.surfaceColorAtElevation(3.dp)
@@ -200,9 +200,7 @@ fun CropScreen(
                 )
             } else {
                 TopAppBar(
-                    modifier = Modifier
-                        .shadow(6.dp)
-                        .zIndex(6f),
+                    modifier = Modifier.drawStroke(),
                     title = {
                         Marquee(
                             edgeColor = MaterialTheme.colorScheme.surfaceColorAtElevation(3.dp)
@@ -276,20 +274,25 @@ fun CropScreen(
                         viewModel.setCropAspectRatio(aspect.aspectRatio)
                     }
                     BottomAppBar(
-                        modifier = Modifier
-                            .shadow(6.dp)
-                            .zIndex(6f),
+                        modifier = Modifier.drawStroke(true),
                         actions = {},
                         floatingActionButton = {
                             Row {
                                 FloatingActionButton(
+                                    onClick = {
+                                        crop = true
+                                    },
+                                    modifier = Modifier.fabBorder(),
+                                    containerColor = MaterialTheme.colorScheme.tertiaryContainer,
+                                    elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
+                                ) {
+                                    Icon(Icons.Rounded.Save, null)
+                                }
+                                Spacer(modifier = Modifier.width(16.dp))
+                                FloatingActionButton(
                                     onClick = pickImage,
-                                    elevation = FloatingActionButtonDefaults.elevation(
-                                        defaultElevation = 0.1.dp,
-                                        pressedElevation = 0.1.dp,
-                                        focusedElevation = 0.1.dp,
-                                        hoveredElevation = 0.1.dp
-                                    ),
+                                    modifier = Modifier.fabBorder(),
+                                    elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
                                 ) {
                                     val expanded =
                                         scrollState.isScrollingUp() && viewModel.bitmap == null
@@ -306,21 +309,6 @@ fun CropScreen(
                                             }
                                         }
                                     }
-                                }
-                                Spacer(modifier = Modifier.width(16.dp))
-                                FloatingActionButton(
-                                    onClick = {
-                                        crop = true
-                                    },
-                                    containerColor = MaterialTheme.colorScheme.tertiaryContainer,
-                                    elevation = FloatingActionButtonDefaults.elevation(
-                                        defaultElevation = 0.1.dp,
-                                        pressedElevation = 0.1.dp,
-                                        focusedElevation = 0.1.dp,
-                                        hoveredElevation = 0.1.dp
-                                    ),
-                                ) {
-                                    Icon(Icons.Rounded.Save, null)
                                 }
                             }
                         }
@@ -344,7 +332,9 @@ fun CropScreen(
                     .align(Alignment.BottomEnd)
             ) {
                 FloatingActionButton(
-                    onClick = pickImage
+                    onClick = pickImage,
+                    elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
+                    modifier = Modifier.fabBorder(),
                 ) {
                     val expanded = scrollState.isScrollingUp()
                     val horizontalPadding by animateDpAsState(targetValue = if (expanded) 16.dp else 0.dp)
@@ -359,17 +349,6 @@ fun CropScreen(
                                 Text(stringResource(R.string.pick_image_alt))
                             }
                         }
-                    }
-                }
-                if (viewModel.bitmap != null) {
-                    Spacer(modifier = Modifier.width(16.dp))
-                    FloatingActionButton(
-                        onClick = {
-                            crop = true
-                        },
-                        containerColor = MaterialTheme.colorScheme.tertiaryContainer
-                    ) {
-                        Icon(Icons.Rounded.Save, null)
                     }
                 }
             }

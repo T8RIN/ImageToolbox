@@ -1,6 +1,5 @@
 package ru.tech.imageresizershrinker.main_screen.components
 
-import androidx.compose.animation.*
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -17,7 +16,6 @@ import androidx.compose.ui.unit.sp
 import ru.tech.imageresizershrinker.resize_screen.components.blend
 import ru.tech.imageresizershrinker.widget.AutoSizeText
 
-@OptIn(ExperimentalAnimationApi::class)
 @Composable
 fun PreferenceRowSwitch(
     modifier: Modifier = Modifier,

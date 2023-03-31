@@ -26,16 +26,15 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.asImageBitmap
+import androidx.compose.ui.graphics.isUnspecified
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.zIndex
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.cookhelper.dynamic.theme.LocalDynamicThemeState
 import com.smarttoolfactory.colordetector.ImageColorDetector
@@ -45,10 +44,7 @@ import dev.olshevski.navigation.reimagined.pop
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.generate_palette.isScrollingUp
-import ru.tech.imageresizershrinker.main_screen.components.LocalAllowChangeColorByImage
-import ru.tech.imageresizershrinker.main_screen.components.Screen
-import ru.tech.imageresizershrinker.main_screen.components.block
-import ru.tech.imageresizershrinker.main_screen.components.navBarsLandscapePadding
+import ru.tech.imageresizershrinker.main_screen.components.*
 import ru.tech.imageresizershrinker.pick_color_from_image.viewModel.PickColorViewModel
 import ru.tech.imageresizershrinker.resize_screen.components.ImageNotPickedWidget
 import ru.tech.imageresizershrinker.resize_screen.components.LoadingDialog
@@ -99,6 +95,12 @@ fun PickColorFromImageScreen(
     LaunchedEffect(viewModel.bitmap) {
         viewModel.bitmap?.let {
             if (allowChangeColor) themeState.updateColorByImage(it)
+        }
+    }
+
+    LaunchedEffect(viewModel.color) {
+        if (!viewModel.color.isUnspecified) {
+            if (allowChangeColor) themeState.updateColor(viewModel.color)
         }
     }
 
@@ -170,119 +172,117 @@ fun PickColorFromImageScreen(
                         colors = TopAppBarDefaults.mediumTopAppBarColors(
                             containerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(3.dp)
                         ),
-                        modifier = Modifier
-                            .shadow(6.dp)
-                            .zIndex(6f)
+                        modifier = Modifier.drawStroke()
                     )
                 } else {
                     Surface(
                         color = MaterialTheme.colorScheme.surfaceColorAtElevation(3.dp),
-                        modifier = Modifier
-                            .animateContentSize()
-                            .shadow(6.dp)
-                            .zIndex(6f),
+                        modifier = Modifier.animateContentSize(),
                     ) {
-                        Column(Modifier.navBarsLandscapePadding()) {
-                            Spacer(modifier = Modifier.height(8.dp))
-                            Row(
-                                verticalAlignment = Alignment.CenterVertically
-                            ) {
-                                IconButton(
-                                    onClick = {
-                                        onGoBack()
-                                    },
-                                    modifier = Modifier.statusBarsPadding()
+                        Column {
+                            Column(Modifier.navBarsLandscapePadding()) {
+                                Spacer(modifier = Modifier.height(8.dp))
+                                Row(
+                                    verticalAlignment = Alignment.CenterVertically
                                 ) {
-                                    Icon(Icons.Rounded.ArrowBack, null)
-                                }
-                                Spacer(
-                                    Modifier
-                                        .weight(1f)
-                                        .padding(start = 8.dp)
-                                )
-                                if (viewModel.uri != null) {
                                     IconButton(
                                         onClick = {
-                                            if (navController.backstack.entries.isNotEmpty()) navController.pop()
-                                            navController.navigate(Screen.GeneratePalette)
-                                            pushNewUri(viewModel.uri)
+                                            onGoBack()
                                         },
                                         modifier = Modifier.statusBarsPadding()
                                     ) {
-                                        Icon(Icons.Rounded.PaletteSwatch, null)
+                                        Icon(Icons.Rounded.ArrowBack, null)
+                                    }
+                                    Spacer(
+                                        Modifier
+                                            .weight(1f)
+                                            .padding(start = 8.dp)
+                                    )
+                                    if (viewModel.uri != null) {
+                                        IconButton(
+                                            onClick = {
+                                                if (navController.backstack.entries.isNotEmpty()) navController.pop()
+                                                navController.navigate(Screen.GeneratePalette)
+                                                pushNewUri(viewModel.uri)
+                                            },
+                                            modifier = Modifier.statusBarsPadding()
+                                        ) {
+                                            Icon(Icons.Rounded.PaletteSwatch, null)
+                                        }
+                                    }
+                                }
+                                Spacer(modifier = Modifier.height(8.dp))
+                                ProvideTextStyle(value = LocalTextStyle.current.merge(MaterialTheme.typography.headlineSmall)) {
+                                    Row(
+                                        verticalAlignment = Alignment.CenterVertically,
+                                        modifier = Modifier
+                                            .padding(start = 16.dp, end = 16.dp, bottom = 16.dp)
+                                    ) {
+                                        Text(stringResource(R.string.color))
+
+                                        Text(
+                                            modifier = Modifier
+                                                .padding(horizontal = 8.dp)
+                                                .clip(RoundedCornerShape(8.dp))
+                                                .clickable {
+                                                    context.copyColorIntoClipboard(
+                                                        context.getString(R.string.color),
+                                                        color.format()
+                                                    )
+                                                    scope.launch {
+                                                        toastHostState.showToast(
+                                                            icon = Icons.Rounded.ContentPaste,
+                                                            message = context.getString(R.string.color_copied)
+                                                        )
+                                                    }
+                                                }
+                                                .background(MaterialTheme.colorScheme.secondaryContainer)
+                                                .padding(horizontal = 4.dp),
+                                            text = color.format(),
+                                            style = LocalTextStyle.current.copy(
+                                                fontWeight = FontWeight.Bold,
+                                                color = MaterialTheme.colorScheme.onSecondaryContainer
+                                            )
+                                        )
+
+                                        Spacer(
+                                            modifier = Modifier
+                                                .weight(1f)
+                                                .padding(2.dp)
+                                        )
+
+                                        Box(
+                                            Modifier
+                                                .padding(vertical = 4.dp)
+                                                .background(
+                                                    color = animateColorAsState(color).value,
+                                                    shape = RoundedCornerShape(12.dp)
+                                                )
+                                                .height(40.dp)
+                                                .width(72.dp)
+                                                .border(
+                                                    width = 1.dp,
+                                                    color = MaterialTheme.colorScheme.outlineVariant,
+                                                    shape = RoundedCornerShape(11.dp)
+                                                )
+                                                .clip(RoundedCornerShape(12.dp))
+                                                .clickable {
+                                                    context.copyColorIntoClipboard(
+                                                        context.getString(R.string.color),
+                                                        color.format()
+                                                    )
+                                                    scope.launch {
+                                                        toastHostState.showToast(
+                                                            icon = Icons.Rounded.ContentPaste,
+                                                            message = context.getString(R.string.color_copied)
+                                                        )
+                                                    }
+                                                }
+                                        )
                                     }
                                 }
                             }
-                            Spacer(modifier = Modifier.height(8.dp))
-                            ProvideTextStyle(value = LocalTextStyle.current.merge(MaterialTheme.typography.headlineSmall)) {
-                                Row(
-                                    verticalAlignment = Alignment.CenterVertically,
-                                    modifier = Modifier
-                                        .padding(start = 16.dp, end = 16.dp, bottom = 16.dp)
-                                ) {
-                                    Text(stringResource(R.string.color))
-
-                                    Text(
-                                        modifier = Modifier
-                                            .padding(horizontal = 8.dp)
-                                            .clip(RoundedCornerShape(8.dp))
-                                            .clickable {
-                                                context.copyColorIntoClipboard(
-                                                    context.getString(R.string.color),
-                                                    color.format()
-                                                )
-                                                scope.launch {
-                                                    toastHostState.showToast(
-                                                        icon = Icons.Rounded.ContentPaste,
-                                                        message = context.getString(R.string.color_copied)
-                                                    )
-                                                }
-                                            }
-                                            .background(MaterialTheme.colorScheme.secondaryContainer)
-                                            .padding(horizontal = 4.dp),
-                                        text = color.format(),
-                                        style = LocalTextStyle.current.copy(
-                                            fontWeight = FontWeight.Bold,
-                                            color = MaterialTheme.colorScheme.onSecondaryContainer
-                                        )
-                                    )
-
-                                    Spacer(
-                                        modifier = Modifier
-                                            .weight(1f)
-                                            .padding(2.dp)
-                                    )
-
-                                    Box(
-                                        Modifier
-                                            .padding(vertical = 4.dp)
-                                            .background(
-                                                color = animateColorAsState(color).value,
-                                                shape = RoundedCornerShape(12.dp)
-                                            )
-                                            .height(40.dp)
-                                            .width(72.dp)
-                                            .border(
-                                                width = 1.dp,
-                                                color = MaterialTheme.colorScheme.outlineVariant,
-                                                shape = RoundedCornerShape(11.dp)
-                                            )
-                                            .clip(RoundedCornerShape(12.dp))
-                                            .clickable {
-                                                context.copyColorIntoClipboard(
-                                                    context.getString(R.string.color),
-                                                    color.format()
-                                                )
-                                                scope.launch {
-                                                    toastHostState.showToast(
-                                                        icon = Icons.Rounded.ContentPaste,
-                                                        message = context.getString(R.string.color_copied)
-                                                    )
-                                                }
-                                            }
-                                    )
-                                }
-                            }
+                            Divider(color = MaterialTheme.colorScheme.onSecondaryContainer.copy(0.3f))
                         }
                     }
                 }
@@ -317,6 +317,8 @@ fun PickColorFromImageScreen(
                 .navigationBarsPadding()
                 .padding(16.dp)
                 .align(Alignment.BottomEnd)
+                .fabBorder(),
+            elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation()
         ) {
             val expanded = scrollState.isScrollingUp() && viewModel.bitmap == null
 

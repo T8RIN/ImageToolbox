@@ -21,10 +21,7 @@ import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.alpha
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.scale
-import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.draw.*
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.luminance
 import androidx.compose.ui.input.nestedscroll.nestedScroll
@@ -517,9 +514,7 @@ fun MainScreen(
                                 Icon(Icons.Rounded.Settings, null)
                             }
                         },
-                        modifier = Modifier
-                            .shadow(6.dp)
-                            .zIndex(6f),
+                        modifier = Modifier.drawStroke(),
                         scrollBehavior = scrollBehavior,
                     )
 
@@ -758,21 +753,23 @@ fun MainScreen(
                     }
 
                     BottomAppBar(
-                        modifier = Modifier
-                            .shadow(6.dp)
-                            .zIndex(6f),
+                        modifier = Modifier.drawStroke(top = true),
                         actions = {
-                            FilledTonalButton(
-                                colors = ButtonDefaults.filledTonalButtonColors(
+                            OutlinedButton(
+                                colors = ButtonDefaults.outlinedButtonColors(
                                     containerColor = MaterialTheme.colorScheme.secondaryContainer.copy(
                                         alpha = if (LocalNightMode.current.isNightMode()) 0.5f
                                         else 1f
                                     ),
                                     contentColor = MaterialTheme.colorScheme.onSecondaryContainer.copy(
                                         alpha = 0.5f
-                                    )
+                                    ),
                                 ),
-                                modifier = Modifier.padding(horizontal = 16.dp),
+                                modifier = Modifier
+                                    .padding(horizontal = 16.dp),
+                                border = BorderStroke(
+                                    1.dp, MaterialTheme.colorScheme.onSecondaryContainer.copy(0.3f)
+                                ),
                                 onClick = {
                                     viewModel.tryGetUpdate(
                                         newRequest = true,
@@ -802,13 +799,9 @@ fun MainScreen(
                                         )
                                     )
                                 },
+                                modifier = Modifier.fabBorder(),
                                 containerColor = MaterialTheme.colorScheme.primaryContainer,
-                                elevation = FloatingActionButtonDefaults.elevation(
-                                    defaultElevation = 0.1.dp,
-                                    pressedElevation = 0.1.dp,
-                                    focusedElevation = 0.1.dp,
-                                    hoveredElevation = 0.1.dp
-                                ),
+                                elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
                                 content = { Icon(Icons.Rounded.Github, null) }
                             )
                         }

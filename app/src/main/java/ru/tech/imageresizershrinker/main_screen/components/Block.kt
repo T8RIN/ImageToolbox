@@ -2,17 +2,24 @@ package ru.tech.imageresizershrinker.main_screen.components
 
 import android.content.res.Configuration
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.FloatingActionButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
+import androidx.compose.ui.draw.drawWithContent
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.isUnspecified
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.zIndex
 
 fun Modifier.block(
     shape: Shape = RoundedCornerShape(16.dp),
@@ -24,7 +31,13 @@ fun Modifier.block(
     background(
         color = color1,
         shape = shape
-    ).padding(4.dp)
+    )
+        .border(
+            1.dp,
+            MaterialTheme.colorScheme.onSecondaryContainer.copy(0.1f),
+            shape
+        )
+        .padding(4.dp)
 }
 
 fun Modifier.navBarsLandscapePadding(enabled: Boolean = true) = composed {
@@ -44,4 +57,27 @@ fun Modifier.navBarsPaddingOnlyIfTheyAtTheBottom(enabled: Boolean = true) = comp
             .calculateBottomPadding() != 0.dp && enabled
     ) Modifier.navigationBarsPadding()
     else Modifier
+}
+
+fun Modifier.drawStroke(top: Boolean = false) = composed {
+    val color = MaterialTheme.colorScheme.onSecondaryContainer.copy(0.3f)
+
+    val height = with(LocalDensity.current) { 1.dp.toPx() }
+
+    drawWithContent {
+        drawContent()
+        drawRect(
+            color,
+            topLeft = if (top) Offset(0f, 0f) else Offset(0f, this.size.height),
+            size = Size(this.size.width, height)
+        )
+    }.zIndex(100f)
+}
+
+fun Modifier.fabBorder() = composed {
+    border(
+        1.dp,
+        MaterialTheme.colorScheme.onSecondaryContainer.copy(0.3f),
+        FloatingActionButtonDefaults.shape
+    )
 }
