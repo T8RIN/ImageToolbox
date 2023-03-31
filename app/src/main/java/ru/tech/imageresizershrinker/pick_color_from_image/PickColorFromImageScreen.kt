@@ -44,7 +44,6 @@ import ru.tech.imageresizershrinker.pick_color_from_image.viewModel.PickColorVie
 import ru.tech.imageresizershrinker.resize_screen.components.ImageNotPickedWidget
 import ru.tech.imageresizershrinker.resize_screen.components.LoadingDialog
 import ru.tech.imageresizershrinker.resize_screen.components.LocalToastHost
-import ru.tech.imageresizershrinker.resize_screen.components.blend
 import ru.tech.imageresizershrinker.theme.PaletteSwatch
 import ru.tech.imageresizershrinker.theme.outlineVariant
 import ru.tech.imageresizershrinker.utils.BitmapUtils.decodeBitmapFromUri
@@ -346,13 +345,10 @@ fun PickColorFromImageScreen(
                     Switch(
                         modifier = Modifier.padding(horizontal = 16.dp),
                         colors = SwitchDefaults.colors(
-                            uncheckedBorderColor = MaterialTheme.colorScheme.outline.blend(
-                                MaterialTheme.colorScheme.secondaryContainer, 0.5f
-                            ),
-                            uncheckedThumbColor = MaterialTheme.colorScheme.outline.blend(
-                                MaterialTheme.colorScheme.secondaryContainer, 0.4f
-                            ),
-                            uncheckedTrackColor = MaterialTheme.colorScheme.secondaryContainer
+                            uncheckedBorderColor = MaterialTheme.colorScheme.primary,
+                            uncheckedThumbColor = MaterialTheme.colorScheme.onPrimary,
+                            uncheckedTrackColor = MaterialTheme.colorScheme.primary,
+                            uncheckedIconColor = MaterialTheme.colorScheme.primary,
                         ),
                         checked = !canZoom,
                         onCheckedChange = { canZoom = !canZoom },

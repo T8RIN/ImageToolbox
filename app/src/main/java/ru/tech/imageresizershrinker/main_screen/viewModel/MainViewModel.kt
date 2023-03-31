@@ -82,7 +82,8 @@ class MainViewModel @Inject constructor(
                 _nightMode.value = prefs[NIGHT_MODE] ?: 2
                 _dynamicColors.value = prefs[DYNAMIC_COLORS] ?: true
                 _amoledMode.value = prefs[AMOLED_MODE] ?: false
-                _appPrimaryColor.value = (prefs[APP_COLOR]?.let { Color(it) }) ?: md_theme_dark_primary
+                _appPrimaryColor.value =
+                    (prefs[APP_COLOR]?.let { Color(it) }) ?: md_theme_dark_primary
             }
         }
         dataStore.data.onEach { prefs ->

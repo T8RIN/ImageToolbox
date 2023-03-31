@@ -8,7 +8,9 @@ import androidx.compose.animation.core.tween
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.compositeOver
 import androidx.compose.ui.graphics.toArgb
+import androidx.compose.ui.unit.dp
 import androidx.core.graphics.ColorUtils
 import androidx.palette.graphics.Palette
 import com.cookhelper.dynamic.theme.scheme.Scheme
@@ -177,6 +179,12 @@ public fun rememberColorScheme(
             if (amoledMode && isDarkTheme) {
                 it.copy(background = Color.Black, surface = Color.Black)
             } else it
+        }.run {
+            copy(
+                outlineVariant = onSecondaryContainer
+                    .copy(alpha = 0.2f)
+                    .compositeOver(surfaceColorAtElevation(6.dp))
+            )
         }
     }
 }

@@ -68,7 +68,6 @@ object BitmapUtils {
         }
     }
 
-   
 
     fun Context.decodeBitmapFromUri(
         uri: Uri,
