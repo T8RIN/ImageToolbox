@@ -68,10 +68,7 @@ object BitmapUtils {
         }
     }
 
-    fun Context.takePermission(uri: Uri) = contentResolver.takePersistableUriPermission(
-        uri,
-        Intent.FLAG_GRANT_READ_URI_PERMISSION or Intent.FLAG_GRANT_WRITE_URI_PERMISSION
-    )
+   
 
     fun Context.decodeBitmapFromUri(
         uri: Uri,
@@ -83,7 +80,6 @@ object BitmapUtils {
         onError: (Throwable) -> Unit
     ) {
         val bmp = kotlin.runCatching {
-            takePermission(uri)
             val fd = contentResolver.openFileDescriptor(uri, "r")
             val exif = fd?.fileDescriptor?.let { ExifInterface(it) }
             onGetExif(exif)
@@ -104,8 +100,6 @@ object BitmapUtils {
     }
 
     fun Context.getBitmapByUri(uri: Uri): Bitmap? {
-        takePermission(uri)
-
         val fd = contentResolver.openFileDescriptor(uri, "r")
         val exif = fd?.fileDescriptor?.let { ExifInterface(it) }
         fd?.close()
@@ -126,8 +120,6 @@ object BitmapUtils {
         outPadding: Rect? = null,
         options: BitmapFactory.Options = BitmapFactory.Options(),
     ): Pair<Bitmap?, ExifInterface?> {
-        takePermission(uri)
-
         val fd = contentResolver.openFileDescriptor(uri, "r")
         val exif = fd?.fileDescriptor?.let { ExifInterface(it) }
         fd?.close()
@@ -146,8 +138,6 @@ object BitmapUtils {
         uri: Uri,
         options: BitmapFactory.Options = BitmapFactory.Options(),
     ): Bitmap? {
-        takePermission(uri)
-
         val fd = contentResolver.openFileDescriptor(uri, "r")
         val exif = fd?.fileDescriptor?.let { ExifInterface(it) }
         fd?.close()
