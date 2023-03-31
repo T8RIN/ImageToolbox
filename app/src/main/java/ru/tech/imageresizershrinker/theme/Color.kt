@@ -1,6 +1,10 @@
 package ru.tech.imageresizershrinker.theme
 
+import androidx.compose.material3.ColorScheme
+import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.compositeOver
+import androidx.compose.ui.unit.dp
 
 
 val md_theme_light_primary = Color(0xFF3D6A00)
@@ -62,3 +66,25 @@ val md_theme_dark_inversePrimary = Color(0xFF3D6A00)
 val md_theme_dark_surfaceTint = Color(0xFF8FDB3A)
 val md_theme_dark_outlineVariant = Color(0xFF44483D)
 val md_theme_dark_scrim = Color(0xFF000000)
+
+fun ColorScheme.outlineVariant(
+    luminance: Float = 0.3f,
+    onTopOf: Color = surfaceColorAtElevation(3.dp)
+) = onSecondaryContainer
+    .copy(alpha = luminance)
+    .compositeOver(onTopOf)
+
+
+fun ColorScheme.suggestContainerColorBy(color: Color) = when (color) {
+    onPrimary -> primary
+    onSecondary -> secondary
+    onTertiary -> tertiary
+    onPrimaryContainer -> primaryContainer
+    onSecondaryContainer -> secondaryContainer
+    onTertiaryContainer -> tertiaryContainer
+    onError -> error
+    onErrorContainer -> errorContainer
+    onSurfaceVariant -> surfaceVariant
+    inverseOnSurface -> inverseSurface
+    else -> surface
+}

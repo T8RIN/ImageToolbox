@@ -36,7 +36,7 @@ import ru.tech.imageresizershrinker.compare_screen.viewModel.CompareViewModel
 import ru.tech.imageresizershrinker.generate_palette.isScrollingUp
 import ru.tech.imageresizershrinker.main_screen.components.LocalAllowChangeColorByImage
 import ru.tech.imageresizershrinker.main_screen.components.block
-import ru.tech.imageresizershrinker.main_screen.components.drawStroke
+import ru.tech.imageresizershrinker.main_screen.components.drawHorizontalStroke
 import ru.tech.imageresizershrinker.main_screen.components.fabBorder
 import ru.tech.imageresizershrinker.resize_screen.components.ImageNotPickedWidget
 import ru.tech.imageresizershrinker.resize_screen.components.LoadingDialog
@@ -161,7 +161,7 @@ fun CompareScreen(
                     colors = TopAppBarDefaults.mediumTopAppBarColors(
                         containerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(3.dp)
                     ),
-                    modifier = Modifier.drawStroke()
+                    modifier = Modifier.drawHorizontalStroke()
                 )
             } else {
                 TopAppBar(
@@ -201,7 +201,7 @@ fun CompareScreen(
                     colors = TopAppBarDefaults.mediumTopAppBarColors(
                         containerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(3.dp)
                     ),
-                    modifier = Modifier.drawStroke()
+                    modifier = Modifier.drawHorizontalStroke()
                 )
             }
             AnimatedContent(targetState = viewModel.bitmapData) { data ->
@@ -270,7 +270,7 @@ fun CompareScreen(
         } else {
             BottomAppBar(
                 modifier = Modifier
-                    .drawStroke(true)
+                    .drawHorizontalStroke(true)
                     .align(Alignment.BottomCenter),
                 floatingActionButton = {
                     FloatingActionButton(

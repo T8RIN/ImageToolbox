@@ -50,6 +50,7 @@ import ru.tech.imageresizershrinker.resize_screen.components.ImageNotPickedWidge
 import ru.tech.imageresizershrinker.resize_screen.components.LoadingDialog
 import ru.tech.imageresizershrinker.resize_screen.components.LocalToastHost
 import ru.tech.imageresizershrinker.theme.PaletteSwatch
+import ru.tech.imageresizershrinker.theme.outlineVariant
 import ru.tech.imageresizershrinker.utils.BitmapUtils.decodeBitmapFromUri
 import ru.tech.imageresizershrinker.widget.Marquee
 
@@ -172,7 +173,7 @@ fun PickColorFromImageScreen(
                         colors = TopAppBarDefaults.mediumTopAppBarColors(
                             containerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(3.dp)
                         ),
-                        modifier = Modifier.drawStroke()
+                        modifier = Modifier.drawHorizontalStroke()
                     )
                 } else {
                     Surface(
@@ -282,7 +283,7 @@ fun PickColorFromImageScreen(
                                     }
                                 }
                             }
-                            Divider(color = MaterialTheme.colorScheme.onSecondaryContainer.copy(0.3f))
+                            Divider(color = MaterialTheme.colorScheme.outlineVariant(0.3f))
                         }
                     }
                 }
@@ -297,7 +298,8 @@ fun PickColorFromImageScreen(
                             .padding(16.dp)
                             .navigationBarsPadding()
                             .block(RoundedCornerShape(4.dp))
-                            .padding(4.dp),
+                            .padding(4.dp)
+                            .clip(RoundedCornerShape(4.dp)),
                         onColorChange = viewModel::updateColor
                     )
                 } ?: Column(Modifier.verticalScroll(scrollState)) {

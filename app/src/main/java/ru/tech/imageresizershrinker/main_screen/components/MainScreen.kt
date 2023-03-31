@@ -47,10 +47,7 @@ import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.main_screen.viewModel.MainViewModel
 import ru.tech.imageresizershrinker.resize_screen.components.LocalToastHost
 import ru.tech.imageresizershrinker.resize_screen.components.inverse
-import ru.tech.imageresizershrinker.theme.CreateAlt
-import ru.tech.imageresizershrinker.theme.Github
-import ru.tech.imageresizershrinker.theme.Sparkles
-import ru.tech.imageresizershrinker.theme.Telegram
+import ru.tech.imageresizershrinker.theme.*
 import ru.tech.imageresizershrinker.utils.*
 import ru.tech.imageresizershrinker.widget.Marquee
 import ru.tech.imageresizershrinker.widget.Picture
@@ -514,7 +511,7 @@ fun MainScreen(
                                 Icon(Icons.Rounded.Settings, null)
                             }
                         },
-                        modifier = Modifier.drawStroke(),
+                        modifier = Modifier.drawHorizontalStroke(),
                         scrollBehavior = scrollBehavior,
                     )
 
@@ -753,7 +750,7 @@ fun MainScreen(
                     }
 
                     BottomAppBar(
-                        modifier = Modifier.drawStroke(top = true),
+                        modifier = Modifier.drawHorizontalStroke(top = true),
                         actions = {
                             OutlinedButton(
                                 colors = ButtonDefaults.outlinedButtonColors(
@@ -768,7 +765,7 @@ fun MainScreen(
                                 modifier = Modifier
                                     .padding(horizontal = 16.dp),
                                 border = BorderStroke(
-                                    1.dp, MaterialTheme.colorScheme.onSecondaryContainer.copy(0.3f)
+                                    1.dp, MaterialTheme.colorScheme.outlineVariant()
                                 ),
                                 onClick = {
                                     viewModel.tryGetUpdate(

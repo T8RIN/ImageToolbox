@@ -6,6 +6,7 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.FloatingActionButtonDefaults
+import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.ui.Modifier
@@ -18,8 +19,11 @@ import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.isUnspecified
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
+import ru.tech.imageresizershrinker.theme.outlineVariant
+import ru.tech.imageresizershrinker.theme.suggestContainerColorBy
 
 fun Modifier.block(
     shape: Shape = RoundedCornerShape(16.dp),
@@ -34,7 +38,7 @@ fun Modifier.block(
     )
         .border(
             1.dp,
-            MaterialTheme.colorScheme.onSecondaryContainer.copy(0.1f),
+            MaterialTheme.colorScheme.outlineVariant(0.1f, color1),
             shape
         )
         .padding(4.dp)
@@ -59,25 +63,28 @@ fun Modifier.navBarsPaddingOnlyIfTheyAtTheBottom(enabled: Boolean = true) = comp
     else Modifier
 }
 
-fun Modifier.drawStroke(top: Boolean = false) = composed {
-    val color = MaterialTheme.colorScheme.onSecondaryContainer.copy(0.3f)
+fun Modifier.drawHorizontalStroke(top: Boolean = false, height: Dp = 1.dp) = composed {
+    val color = MaterialTheme.colorScheme.outlineVariant(0.3f)
 
-    val height = with(LocalDensity.current) { 1.dp.toPx() }
+    val heightPx = with(LocalDensity.current) { height.toPx() }
 
     drawWithContent {
         drawContent()
         drawRect(
             color,
             topLeft = if (top) Offset(0f, 0f) else Offset(0f, this.size.height),
-            size = Size(this.size.width, height)
+            size = Size(this.size.width, heightPx)
         )
     }.zIndex(100f)
 }
 
-fun Modifier.fabBorder() = composed {
+fun Modifier.fabBorder(height: Dp = 1.dp) = composed {
     border(
-        1.dp,
-        MaterialTheme.colorScheme.onSecondaryContainer.copy(0.3f),
+        height,
+        MaterialTheme.colorScheme.outlineVariant(
+            luminance = 0.3f,
+            onTopOf = MaterialTheme.colorScheme.suggestContainerColorBy(LocalContentColor.current)
+        ),
         FloatingActionButtonDefaults.shape
     )
 }

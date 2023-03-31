@@ -284,7 +284,7 @@ fun BatchResizeScreen(
             }
         } else if (imageInside) {
             BottomAppBar(
-                modifier = Modifier.drawStroke(true),
+                modifier = Modifier.drawHorizontalStroke(true),
                 actions = {
                     TelegramButton(
                         enabled = viewModel.bitmap != null,
@@ -425,7 +425,7 @@ fun BatchResizeScreen(
             Column(Modifier.fillMaxSize()) {
                 LargeTopAppBar(
                     scrollBehavior = scrollBehavior,
-                    modifier = Modifier.drawStroke(),
+                    modifier = Modifier.drawHorizontalStroke(),
                     title = {
                         Marquee(
                             edgeColor = MaterialTheme.colorScheme.surfaceColorAtElevation(3.dp)

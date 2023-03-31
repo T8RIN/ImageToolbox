@@ -178,7 +178,7 @@ fun GeneratePaletteScreen(
                 colors = TopAppBarDefaults.mediumTopAppBarColors(
                     containerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(3.dp)
                 ),
-                modifier = Modifier.drawStroke(),
+                modifier = Modifier.drawHorizontalStroke(),
                 title = {
                     Marquee(
                         edgeColor = MaterialTheme.colorScheme.surfaceColorAtElevation(3.dp)

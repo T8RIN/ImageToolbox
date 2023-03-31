@@ -44,7 +44,7 @@ import ru.tech.imageresizershrinker.crop_screen.components.aspectRatios
 import ru.tech.imageresizershrinker.crop_screen.viewModel.CropViewModel
 import ru.tech.imageresizershrinker.generate_palette.isScrollingUp
 import ru.tech.imageresizershrinker.main_screen.components.LocalAllowChangeColorByImage
-import ru.tech.imageresizershrinker.main_screen.components.drawStroke
+import ru.tech.imageresizershrinker.main_screen.components.drawHorizontalStroke
 import ru.tech.imageresizershrinker.main_screen.components.fabBorder
 import ru.tech.imageresizershrinker.resize_screen.components.ImageNotPickedWidget
 import ru.tech.imageresizershrinker.resize_screen.components.LoadingDialog
@@ -174,7 +174,7 @@ fun CropScreen(
             if (viewModel.bitmap == null) {
                 LargeTopAppBar(
                     scrollBehavior = scrollBehavior,
-                    modifier = Modifier.drawStroke(),
+                    modifier = Modifier.drawHorizontalStroke(),
                     title = {
                         Marquee(
                             edgeColor = MaterialTheme.colorScheme.surfaceColorAtElevation(3.dp)
@@ -200,7 +200,7 @@ fun CropScreen(
                 )
             } else {
                 TopAppBar(
-                    modifier = Modifier.drawStroke(),
+                    modifier = Modifier.drawHorizontalStroke(),
                     title = {
                         Marquee(
                             edgeColor = MaterialTheme.colorScheme.surfaceColorAtElevation(3.dp)
@@ -274,7 +274,7 @@ fun CropScreen(
                         viewModel.setCropAspectRatio(aspect.aspectRatio)
                     }
                     BottomAppBar(
-                        modifier = Modifier.drawStroke(true),
+                        modifier = Modifier.drawHorizontalStroke(true),
                         actions = {},
                         floatingActionButton = {
                             Row {

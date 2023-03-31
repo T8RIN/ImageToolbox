@@ -19,6 +19,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.main_screen.components.block
+import ru.tech.imageresizershrinker.theme.outlineVariant
 import ru.tech.imageresizershrinker.widget.shimmer
 
 @Composable
@@ -49,7 +50,7 @@ fun ImageNotPickedWidget(
                     .fillMaxSize()
                     .border(
                         1.dp,
-                        MaterialTheme.colorScheme.onSecondaryContainer.copy(0.2f),
+                        MaterialTheme.colorScheme.outlineVariant(0.2f),
                         RoundedCornerShape(16.dp)
                     )
                     .padding(12.dp),

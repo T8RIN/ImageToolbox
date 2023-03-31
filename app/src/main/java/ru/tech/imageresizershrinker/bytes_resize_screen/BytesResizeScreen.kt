@@ -278,7 +278,7 @@ fun BytesResizeScreen(
             }
         } else if (imageInside) {
             BottomAppBar(
-                modifier = Modifier.drawStroke(true),
+                modifier = Modifier.drawHorizontalStroke(true),
                 actions = {},
                 floatingActionButton = {
                     Row {
@@ -352,7 +352,7 @@ fun BytesResizeScreen(
             Column(Modifier.fillMaxSize()) {
                 LargeTopAppBar(
                     scrollBehavior = scrollBehavior,
-                    modifier = Modifier.drawStroke(),
+                    modifier = Modifier.drawHorizontalStroke(),
                     title = {
                         Marquee(
                             edgeColor = MaterialTheme.colorScheme.surfaceColorAtElevation(3.dp)

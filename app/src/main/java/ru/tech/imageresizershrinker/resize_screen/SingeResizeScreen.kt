@@ -59,7 +59,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.main_screen.components.LocalAllowChangeColorByImage
-import ru.tech.imageresizershrinker.main_screen.components.drawStroke
+import ru.tech.imageresizershrinker.main_screen.components.drawHorizontalStroke
 import ru.tech.imageresizershrinker.main_screen.components.fabBorder
 import ru.tech.imageresizershrinker.main_screen.components.navBarsLandscapePadding
 import ru.tech.imageresizershrinker.resize_screen.components.*
@@ -259,7 +259,7 @@ fun SingleResizeScreen(
             }
         } else if (imageInside) {
             BottomAppBar(
-                modifier = Modifier.drawStroke(true),
+                modifier = Modifier.drawHorizontalStroke(true),
                 actions = {
                     TelegramButton(
                         enabled = viewModel.bitmap != null,
@@ -461,7 +461,7 @@ fun SingleResizeScreen(
             Column(Modifier.fillMaxSize()) {
                 LargeTopAppBar(
                     scrollBehavior = scrollBehavior,
-                    modifier = Modifier.drawStroke(),
+                    modifier = Modifier.drawHorizontalStroke(),
                     title = {
                         Marquee(
                             edgeColor = MaterialTheme.colorScheme.surfaceColorAtElevation(3.dp)

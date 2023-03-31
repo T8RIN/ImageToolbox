@@ -22,6 +22,7 @@ import androidx.compose.ui.unit.sp
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.theme.Github
 import ru.tech.imageresizershrinker.theme.PaletteSwatch
+import ru.tech.imageresizershrinker.theme.outlineVariant
 import ru.tech.imageresizershrinker.utils.APP_LINK
 
 
@@ -199,7 +200,7 @@ fun PreferenceItem(
         Card(
             modifier = modifier.border(
                 1.dp,
-                MaterialTheme.colorScheme.onSecondaryContainer.copy(0.1f),
+                MaterialTheme.colorScheme.outlineVariant(0.1f, color),
                 CardDefaults.shape
             ),
             onClick = onClick,
