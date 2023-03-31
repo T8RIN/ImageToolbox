@@ -18,8 +18,10 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.*
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.dp
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.WindowCompat
@@ -44,12 +46,13 @@ import ru.tech.imageresizershrinker.pick_color_from_image.PickColorFromImageScre
 import ru.tech.imageresizershrinker.resize_screen.SingleResizeScreen
 import ru.tech.imageresizershrinker.resize_screen.components.*
 import ru.tech.imageresizershrinker.theme.ImageResizerTheme
-import ru.tech.imageresizershrinker.theme.getAppPrimaryColor
+import ru.tech.imageresizershrinker.theme.getAppColorTuple
 import ru.tech.imageresizershrinker.theme.outlineVariant
 import ru.tech.imageresizershrinker.utils.*
 import ru.tech.imageresizershrinker.utils.IntentUtils.parcelable
 import ru.tech.imageresizershrinker.utils.IntentUtils.parcelableArrayList
 import java.util.concurrent.TimeUnit
+import kotlin.math.min
 
 @ExperimentalFoundationApi
 @ExperimentalMaterial3Api
@@ -81,14 +84,17 @@ class MainActivity : AppCompatActivity() {
                 LocalDynamicColors provides viewModel.dynamicColors,
                 LocalAllowChangeColorByImage provides viewModel.allowImageMonet,
                 LocalAmoledMode provides viewModel.amoledMode,
-                LocalAppPrimaryColor provides viewModel.appPrimaryColor
+                LocalAppPrimaryColor provides viewModel.appPrimaryColor,
+                LocalDensity provides LocalDensity.current.run {
+                    Density(density, min(fontScale, 1f))
+                }
             ) {
                 ImageResizerTheme {
                     val themeState = LocalDynamicThemeState.current
-                    val appPrimaryColor = getAppPrimaryColor()
+                    val appColorTuple = getAppColorTuple()
                     val onGoBack: () -> Unit = {
                         viewModel.updateUris(null)
-                        themeState.updateColor(appPrimaryColor)
+                        themeState.updateColorTuple(appColorTuple)
                         viewModel.navController.apply {
                             if (backstack.entries.size > 1) pop()
                         }

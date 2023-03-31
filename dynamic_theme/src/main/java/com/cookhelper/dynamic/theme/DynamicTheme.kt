@@ -13,6 +13,8 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.unit.dp
 import androidx.core.graphics.ColorUtils
 import androidx.palette.graphics.Palette
+import com.cookhelper.dynamic.theme.hct.Hct
+import com.cookhelper.dynamic.theme.palettes.TonalPalette
 import com.cookhelper.dynamic.theme.scheme.Scheme
 
 /**
@@ -31,7 +33,7 @@ public fun DynamicTheme(
     val scheme = rememberColorScheme(
         amoledMode = amoledMode,
         isDarkTheme = isDarkTheme,
-        color = state.primaryColor.value
+        colorTuple = state.colorTuple.value
     ).animateAllColors(tween(150))
     MaterialTheme(
         typography = typography,
@@ -112,69 +114,58 @@ public fun Bitmap.extractPrimaryColor(default: Int = 0, blendWithVibrant: Boolea
     )
 }
 
+public data class ColorTuple(
+    val primary: Color,
+    val secondary: Color?,
+    val tertiary: Color?
+)
 
 /**
  * Creates and remember [DynamicThemeState] instance
  * */
 @Composable
 public fun rememberDynamicThemeState(
-    initialPrimaryColor: Color = MaterialTheme.colorScheme.primary,
+    initialColorTuple: ColorTuple = ColorTuple(
+        primary = MaterialTheme.colorScheme.primary,
+        secondary = MaterialTheme.colorScheme.secondary,
+        tertiary = MaterialTheme.colorScheme.tertiary,
+    )
 ): DynamicThemeState {
     return remember {
-        DynamicThemeState(initialPrimaryColor)
+        DynamicThemeState(initialColorTuple)
     }
-}
-
-/**
- * Creates and remember [DynamicThemeState] instance
- * */
-@Composable
-public fun rememberDynamicThemeState(
-    initialPrimaryColor: Int
-): DynamicThemeState {
-    return rememberDynamicThemeState(Color(initialPrimaryColor))
 }
 
 @Stable
 public class DynamicThemeState(
-    initialPrimaryColor: Color
+    initialColorTuple: ColorTuple
 ) {
-    public val primaryColor: MutableState<Color> = mutableStateOf(initialPrimaryColor)
-
-    public inline val animatedPrimaryColor: State<Color>
-        @Composable get() = animateColorAsState(primaryColor.value)
+    public val colorTuple: MutableState<ColorTuple> = mutableStateOf(initialColorTuple)
 
     public fun updateColor(color: Color) {
-        primaryColor.value = color
+        colorTuple.value = ColorTuple(primary = color, secondary = null, tertiary = null)
     }
 
-    public var primaryColorArgb: Int
-        set(value) {
-            primaryColor.value = Color(value)
-        }
-        get() = primaryColor.value.toArgb()
+    public fun updateColorTuple(newColorTuple: ColorTuple) {
+        colorTuple.value = newColorTuple
+    }
 
     public fun updateColorByImage(bitmap: Bitmap) {
-        bitmap.extractPrimaryColor()
-            .let {
-                primaryColor.value = it
-            }
+        updateColor(bitmap.extractPrimaryColor())
     }
-
 }
 
 @Composable
 public fun rememberColorScheme(
     isDarkTheme: Boolean,
     amoledMode: Boolean,
-    color: Color
+    colorTuple: ColorTuple
 ): ColorScheme {
-    val colorArgb = color.toArgb()
-    return remember(color, isDarkTheme, amoledMode) {
+    return remember(colorTuple, isDarkTheme, amoledMode) {
         if (isDarkTheme) {
-            Scheme.darkContent(colorArgb).toDarkThemeColorScheme()
+            Scheme.darkContent(colorTuple.primary.toArgb()).toDarkThemeColorScheme(colorTuple)
         } else {
-            Scheme.lightContent(colorArgb).toLightThemeColorScheme()
+            Scheme.lightContent(colorTuple.primary.toArgb()).toLightThemeColorScheme(colorTuple)
         }.let {
             if (amoledMode && isDarkTheme) {
                 it.copy(background = Color.Black, surface = Color.Black)
@@ -189,21 +180,42 @@ public fun rememberColorScheme(
     }
 }
 
-private fun Scheme.toDarkThemeColorScheme(): ColorScheme {
+private fun Scheme.toDarkThemeColorScheme(
+    colorTuple: ColorTuple
+): ColorScheme {
+    val hct = Hct.fromInt(colorTuple.primary.toArgb())
+    val hue = hct.hue
+    val chroma = hct.chroma
+
+    val a2 = colorTuple.secondary?.toArgb().let {
+        if (it != null) {
+            TonalPalette.fromInt(it)
+        } else {
+            TonalPalette.fromHueAndChroma(hue, chroma / 3.0)
+        }
+    }
+    val a3 = colorTuple.tertiary?.toArgb().let {
+        if (it != null) {
+            TonalPalette.fromInt(it)
+        } else {
+            TonalPalette.fromHueAndChroma(hue + 60.0, chroma / 2.0)
+        }
+    }
+
     return darkColorScheme(
         primary = Color(primary),
         onPrimary = Color(onPrimary),
         primaryContainer = Color(primaryContainer),
         onPrimaryContainer = Color(onPrimaryContainer),
         inversePrimary = Color(inversePrimary),
-        secondary = Color(secondary),
-        onSecondary = Color(onSecondary),
-        secondaryContainer = Color(secondaryContainer),
-        onSecondaryContainer = Color(onSecondaryContainer),
-        tertiary = Color(tertiary),
-        onTertiary = Color(onTertiary),
-        tertiaryContainer = Color(tertiaryContainer),
-        onTertiaryContainer = Color(onTertiaryContainer),
+        secondary = Color(a2?.tone(80) ?: secondary),
+        onSecondary = Color(a2?.tone(20) ?: onSecondary),
+        secondaryContainer = Color(a2?.tone(30) ?: secondaryContainer),
+        onSecondaryContainer = Color(a2?.tone(90) ?: onSecondaryContainer),
+        tertiary = Color(a3?.tone(80) ?: tertiary),
+        onTertiary = Color(a3?.tone(20) ?: onTertiary),
+        tertiaryContainer = Color(a3?.tone(30) ?: tertiaryContainer),
+        onTertiaryContainer = Color(a3?.tone(90) ?: onTertiaryContainer),
         background = Color(background),
         onBackground = Color(onBackground),
         surface = Color(surface),
@@ -223,21 +235,42 @@ private fun Scheme.toDarkThemeColorScheme(): ColorScheme {
     )
 }
 
-private fun Scheme.toLightThemeColorScheme(): ColorScheme {
+private fun Scheme.toLightThemeColorScheme(
+    colorTuple: ColorTuple
+): ColorScheme {
+    val hct = Hct.fromInt(colorTuple.primary.toArgb())
+    val hue = hct.hue
+    val chroma = hct.chroma
+
+    val a2 = colorTuple.secondary?.toArgb().let {
+        if (it != null) {
+            TonalPalette.fromInt(it)
+        } else {
+            TonalPalette.fromHueAndChroma(hue, chroma / 3.0)
+        }
+    }
+    val a3 = colorTuple.tertiary?.toArgb().let {
+        if (it != null) {
+            TonalPalette.fromInt(it)
+        } else {
+            TonalPalette.fromHueAndChroma(hue + 60.0, chroma / 2.0)
+        }
+    }
+
     return lightColorScheme(
         primary = Color(primary),
         onPrimary = Color(onPrimary),
         primaryContainer = Color(primaryContainer),
         onPrimaryContainer = Color(onPrimaryContainer),
         inversePrimary = Color(inversePrimary),
-        secondary = Color(secondary),
-        onSecondary = Color(onSecondary),
-        secondaryContainer = Color(secondaryContainer),
-        onSecondaryContainer = Color(onSecondaryContainer),
-        tertiary = Color(tertiary),
-        onTertiary = Color(onTertiary),
-        tertiaryContainer = Color(tertiaryContainer),
-        onTertiaryContainer = Color(onTertiaryContainer),
+        secondary = Color(a2?.tone(40) ?: secondary),
+        onSecondary = Color(a2?.tone(100) ?: onSecondary),
+        secondaryContainer = Color(a2?.tone(90) ?: secondaryContainer),
+        onSecondaryContainer = Color(a2?.tone(10) ?: onSecondaryContainer),
+        tertiary = Color(a3?.tone(40) ?: tertiary),
+        onTertiary = Color(a3?.tone(100) ?: onTertiary),
+        tertiaryContainer = Color(a3?.tone(90) ?: tertiaryContainer),
+        onTertiaryContainer = Color(a3?.tone(10) ?: onTertiaryContainer),
         background = Color(background),
         onBackground = Color(onBackground),
         surface = Color(surface),

@@ -16,6 +16,7 @@ import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.core.app.ActivityCompat
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
+import com.cookhelper.dynamic.theme.ColorTuple
 import com.cookhelper.dynamic.theme.DynamicTheme
 import com.cookhelper.dynamic.theme.extractPrimaryColor
 import com.cookhelper.dynamic.theme.rememberDynamicThemeState
@@ -95,7 +96,7 @@ fun ImageResizerTheme(
 ) {
     val darkTheme = LocalNightMode.current.isNightMode()
 
-    val primary = getAppPrimaryColor(dynamicColor)
+    val colorTuple = getAppColorTuple(dynamicColor)
 
     val systemUiController = rememberSystemUiController()
     val useDarkIcons = !darkTheme
@@ -108,13 +109,12 @@ fun ImageResizerTheme(
         )
     }
 
-    val state = rememberDynamicThemeState(primary)
+    val state = rememberDynamicThemeState(colorTuple)
 
-    LaunchedEffect(primary) {
-        if (primary != state.primaryColor.value) {
-            state.primaryColor.value = primary
-        }
+    LaunchedEffect(colorTuple) {
+        state.updateColorTuple(colorTuple)
     }
+
     DynamicTheme(
         typography = Typography,
         state = state,
@@ -125,10 +125,10 @@ fun ImageResizerTheme(
 }
 
 @Composable
-fun getAppPrimaryColor(
+fun getAppColorTuple(
     dynamicColor: Boolean = LocalDynamicColors.current,
     darkTheme: Boolean = LocalNightMode.current.isNightMode()
-): Color {
+): ColorTuple {
     val context = LocalContext.current
     val appPrimary = LocalAppPrimaryColor.current
     return remember(
@@ -138,12 +138,12 @@ fun getAppPrimaryColor(
         appPrimary
     ) {
         derivedStateOf {
+            var colorTuple: ColorTuple
             val wallpaperManager = WallpaperManager.getInstance(context)
-            val primaryColorFromWallpapers =
+            val wallColors =
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O_MR1) {
                     wallpaperManager
                         .getWallpaperColors(WallpaperManager.FLAG_SYSTEM)
-                        ?.primaryColor
                 } else null
 
             when {
@@ -152,19 +152,36 @@ fun getAppPrimaryColor(
                         dynamicDarkColorScheme(context)
                     } else {
                         dynamicLightColorScheme(context)
-                    }.primary
+                    }.run {
+                        colorTuple = ColorTuple(
+                            primary = primary,
+                            secondary = secondary,
+                            tertiary = tertiary
+                        )
+                    }
                 }
-                dynamicColor && primaryColorFromWallpapers != null && Build.VERSION.SDK_INT >= Build.VERSION_CODES.O_MR1 -> {
-                    Color(primaryColorFromWallpapers.toArgb())
+                dynamicColor && wallColors != null && Build.VERSION.SDK_INT >= Build.VERSION_CODES.O_MR1 -> {
+                    colorTuple = ColorTuple(
+                        primary = Color(wallColors.primaryColor.toArgb()),
+                        secondary = wallColors.secondaryColor?.toArgb()?.let { Color(it) },
+                        tertiary = wallColors.tertiaryColor?.toArgb()?.let { Color(it) }
+                    )
                 }
                 dynamicColor && ActivityCompat.checkSelfPermission(
                     context,
                     Manifest.permission.READ_EXTERNAL_STORAGE
                 ) == PackageManager.PERMISSION_GRANTED -> {
-                    (wallpaperManager.drawable as BitmapDrawable).bitmap.extractPrimaryColor()
+                    colorTuple = ColorTuple(
+                        primary = (wallpaperManager.drawable as BitmapDrawable).bitmap.extractPrimaryColor(),
+                        secondary = null,
+                        tertiary = null
+                    )
                 }
-                else -> appPrimary
+                else -> {
+                    colorTuple = ColorTuple(primary = appPrimary, secondary = null, tertiary = null)
+                }
             }
+            colorTuple
         }
     }.value
 }
