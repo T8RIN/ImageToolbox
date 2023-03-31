@@ -53,6 +53,7 @@ import ru.tech.imageresizershrinker.batch_resize.components.SaveExifWidget
 import ru.tech.imageresizershrinker.batch_resize.viewModel.BatchResizeViewModel
 import ru.tech.imageresizershrinker.main_screen.components.*
 import ru.tech.imageresizershrinker.resize_screen.components.*
+import ru.tech.imageresizershrinker.theme.outlineVariant
 import ru.tech.imageresizershrinker.utils.BitmapUtils.canShow
 import ru.tech.imageresizershrinker.utils.BitmapUtils.decodeBitmapFromUri
 import ru.tech.imageresizershrinker.utils.BitmapUtils.decodeSampledBitmapFromUri
@@ -660,7 +661,15 @@ fun BatchResizeScreen(
                     modifier = Modifier.alertDialog(),
                     onDismissRequest = { showExitDialog = false },
                     dismissButton = {
-                        FilledTonalButton(
+                        OutlinedButton(
+                            colors = ButtonDefaults.outlinedButtonColors(
+                                containerColor = MaterialTheme.colorScheme.secondaryContainer,
+                                contentColor = MaterialTheme.colorScheme.onSecondaryContainer,
+                            ),
+                            border = BorderStroke(
+                                1.dp,
+                                MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.secondaryContainer)
+                            ),
                             onClick = {
                                 showExitDialog = false
                                 onGoBack()
@@ -670,7 +679,17 @@ fun BatchResizeScreen(
                         }
                     },
                     confirmButton = {
-                        Button(onClick = { showExitDialog = false }) {
+                        OutlinedButton(
+                            onClick = { showExitDialog = false },
+                            colors = ButtonDefaults.buttonColors(
+                                containerColor = MaterialTheme.colorScheme.primary,
+                                contentColor = MaterialTheme.colorScheme.onPrimary
+                            ),
+                            border = BorderStroke(
+                                1.dp,
+                                MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.primary)
+                            )
+                        ) {
                             Text(stringResource(R.string.stay))
                         }
                     },
@@ -693,21 +712,40 @@ fun BatchResizeScreen(
                     text = { Text(stringResource(R.string.reset_image_sub)) },
                     onDismissRequest = { showResetDialog = false },
                     confirmButton = {
-                        Button(onClick = { showResetDialog = false }) {
+                        OutlinedButton(
+                            colors = ButtonDefaults.outlinedButtonColors(
+                                containerColor = MaterialTheme.colorScheme.primary,
+                                contentColor = MaterialTheme.colorScheme.onPrimary,
+                            ),
+                            border = BorderStroke(
+                                1.dp,
+                                MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.primary)
+                            ),
+                            onClick = { showResetDialog = false }
+                        ) {
                             Text(stringResource(R.string.close))
                         }
                     },
                     dismissButton = {
-                        FilledTonalButton(onClick = {
-                            viewModel.resetValues()
-                            showResetDialog = false
-                            scope.launch {
-                                toastHostState.showToast(
-                                    context.getString(R.string.values_reset),
-                                    Icons.Rounded.DoneOutline
-                                )
-                            }
-                        }) {
+                        OutlinedButton(
+                            colors = ButtonDefaults.outlinedButtonColors(
+                                containerColor = MaterialTheme.colorScheme.secondaryContainer,
+                                contentColor = MaterialTheme.colorScheme.onSecondaryContainer,
+                            ),
+                            border = BorderStroke(
+                                1.dp,
+                                MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.secondaryContainer)
+                            ),
+                            onClick = {
+                                viewModel.resetValues()
+                                showResetDialog = false
+                                scope.launch {
+                                    toastHostState.showToast(
+                                        context.getString(R.string.values_reset),
+                                        Icons.Rounded.DoneOutline
+                                    )
+                                }
+                            }) {
                             Text(stringResource(R.string.reset))
                         }
                     }
@@ -809,7 +847,17 @@ fun BatchResizeScreen(
                                                         .aspectRatio(1f)
                                                         .fillMaxWidth()
                                                 )
-                                                FilledTonalButton(
+                                                OutlinedButton(
+                                                    colors = ButtonDefaults.outlinedButtonColors(
+                                                        containerColor = MaterialTheme.colorScheme.secondaryContainer,
+                                                        contentColor = MaterialTheme.colorScheme.onSecondaryContainer,
+                                                    ),
+                                                    border = BorderStroke(
+                                                        1.dp,
+                                                        MaterialTheme.colorScheme.outlineVariant(
+                                                            onTopOf = MaterialTheme.colorScheme.secondaryContainer
+                                                        )
+                                                    ),
                                                     onClick = {
                                                         viewModel.updateUrisSilently(
                                                             removedUri = uri,
@@ -836,7 +884,7 @@ fun BatchResizeScreen(
                         },
                         onDismissRequest = { showPickImageFromUrisDialog = false },
                         confirmButton = {
-                            TextButton(onClick = { showPickImageFromUrisDialog = false }) {
+                            OutlinedButton(onClick = { showPickImageFromUrisDialog = false }) {
                                 Text(stringResource(R.string.close))
                             }
                         }

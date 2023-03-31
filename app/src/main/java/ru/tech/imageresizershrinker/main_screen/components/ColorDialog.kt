@@ -4,6 +4,7 @@ package ru.tech.imageresizershrinker.main_screen.components
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -29,6 +30,7 @@ import androidx.core.graphics.green
 import androidx.core.graphics.red
 import kotlinx.coroutines.delay
 import ru.tech.imageresizershrinker.R
+import ru.tech.imageresizershrinker.theme.outlineVariant
 
 @ExperimentalMaterial3Api
 @Composable
@@ -56,7 +58,15 @@ fun ColorDialog(
             }
         },
         confirmButton = {
-            Button(
+            OutlinedButton(
+                colors = ButtonDefaults.outlinedButtonColors(
+                    containerColor = MaterialTheme.colorScheme.primary,
+                    contentColor = MaterialTheme.colorScheme.onPrimary,
+                ),
+                border = BorderStroke(
+                    1.dp,
+                    MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.primary)
+                ),
                 onClick = {
                     onColorChange(_color)
                     onDismissRequest()
@@ -66,7 +76,16 @@ fun ColorDialog(
             }
         },
         dismissButton = {
-            FilledTonalButton(onClick = onDismissRequest) {
+            OutlinedButton(
+                colors = ButtonDefaults.outlinedButtonColors(
+                    containerColor = MaterialTheme.colorScheme.secondaryContainer,
+                    contentColor = MaterialTheme.colorScheme.onSecondaryContainer,
+                ),
+                border = BorderStroke(
+                    1.dp,
+                    MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.secondaryContainer)
+                ), onClick = onDismissRequest
+            ) {
                 Text(stringResource(R.string.cancel))
             }
         }

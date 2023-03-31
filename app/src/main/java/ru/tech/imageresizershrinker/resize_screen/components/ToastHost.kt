@@ -3,6 +3,7 @@ package ru.tech.imageresizershrinker.resize_screen.components
 import androidx.annotation.FloatRange
 import androidx.compose.animation.*
 import androidx.compose.animation.core.tween
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -22,6 +23,7 @@ import androidx.compose.ui.zIndex
 import kotlinx.coroutines.*
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
+import ru.tech.imageresizershrinker.theme.outlineVariant
 import kotlin.coroutines.resume
 
 @OptIn(ExperimentalAnimationApi::class)
@@ -84,6 +86,11 @@ fun Toast(
                 )
                 .imePadding()
                 .systemBarsPadding()
+                .border(
+                    width = 1.dp,
+                    color = MaterialTheme.colorScheme.outlineVariant(0.3f, contentColor),
+                    shape = shape
+                )
                 .alpha(0.95f),
         shape = shape
     ) {

@@ -3,6 +3,7 @@ package ru.tech.imageresizershrinker.main_screen.components
 import android.content.Context
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.compose.animation.animateContentSize
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
@@ -24,6 +25,7 @@ import androidx.compose.ui.unit.dp
 import androidx.core.os.LocaleListCompat
 import org.xmlpull.v1.XmlPullParser
 import ru.tech.imageresizershrinker.R
+import ru.tech.imageresizershrinker.theme.outlineVariant
 import java.util.*
 
 @Composable
@@ -111,7 +113,16 @@ private fun PickLanguageDialog(
             }
         },
         confirmButton = {
-            FilledTonalButton(onClick = onDismiss) {
+            OutlinedButton(
+                colors = ButtonDefaults.outlinedButtonColors(
+                    containerColor = MaterialTheme.colorScheme.secondaryContainer,
+                    contentColor = MaterialTheme.colorScheme.onSecondaryContainer,
+                ),
+                border = BorderStroke(
+                    1.dp,
+                    MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.secondaryContainer)
+                ), onClick = onDismiss
+            ) {
                 Text(stringResource(R.string.cancel))
             }
         }

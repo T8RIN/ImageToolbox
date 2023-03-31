@@ -9,11 +9,8 @@ import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.*
 import androidx.compose.animation.core.animateDpAsState
-import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.LocalIndication
-import androidx.compose.foundation.background
+import androidx.compose.foundation.*
 import androidx.compose.foundation.gestures.detectTapGestures
-import androidx.compose.foundation.indication
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.PressInteraction
 import androidx.compose.foundation.layout.*
@@ -61,6 +58,7 @@ import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.main_screen.components.*
 import ru.tech.imageresizershrinker.resize_screen.components.*
 import ru.tech.imageresizershrinker.resize_screen.viewModel.SingleResizeViewModel
+import ru.tech.imageresizershrinker.theme.outlineVariant
 import ru.tech.imageresizershrinker.utils.BitmapUtils
 import ru.tech.imageresizershrinker.utils.BitmapUtils.canShow
 import ru.tech.imageresizershrinker.utils.BitmapUtils.decodeBitmapFromUri
@@ -702,7 +700,15 @@ fun SingleResizeScreen(
                     modifier = Modifier.alertDialog(),
                     onDismissRequest = { showExitDialog = false },
                     dismissButton = {
-                        FilledTonalButton(
+                        OutlinedButton(
+                            colors = ButtonDefaults.outlinedButtonColors(
+                                containerColor = MaterialTheme.colorScheme.secondaryContainer,
+                                contentColor = MaterialTheme.colorScheme.onSecondaryContainer
+                            ),
+                            border = BorderStroke(
+                                1.dp,
+                                MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.secondaryContainer)
+                            ),
                             onClick = {
                                 showExitDialog = false
                                 onGoBack()
@@ -712,7 +718,16 @@ fun SingleResizeScreen(
                         }
                     },
                     confirmButton = {
-                        Button(onClick = { showExitDialog = false }) {
+                        OutlinedButton(
+                            colors = ButtonDefaults.buttonColors(
+                                containerColor = MaterialTheme.colorScheme.primary,
+                                contentColor = MaterialTheme.colorScheme.onPrimary
+                            ),
+                            border = BorderStroke(
+                                1.dp,
+                                MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.primary)
+                            ), onClick = { showExitDialog = false }
+                        ) {
                             Text(stringResource(R.string.stay))
                         }
                     },
@@ -735,21 +750,38 @@ fun SingleResizeScreen(
                     text = { Text(stringResource(R.string.reset_image_sub)) },
                     onDismissRequest = { showResetDialog = false },
                     confirmButton = {
-                        Button(onClick = { showResetDialog = false }) {
+                        OutlinedButton(
+                            colors = ButtonDefaults.outlinedButtonColors(
+                                containerColor = MaterialTheme.colorScheme.primary,
+                                contentColor = MaterialTheme.colorScheme.onPrimary,
+                            ),
+                            border = BorderStroke(
+                                1.dp,
+                                MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.primary)
+                            ), onClick = { showResetDialog = false }) {
                             Text(stringResource(R.string.close))
                         }
                     },
                     dismissButton = {
-                        FilledTonalButton(onClick = {
-                            viewModel.resetValues()
-                            showResetDialog = false
-                            scope.launch {
-                                toastHostState.showToast(
-                                    context.getString(R.string.values_reset),
-                                    Icons.Rounded.DoneOutline
-                                )
-                            }
-                        }) {
+                        OutlinedButton(
+                            colors = ButtonDefaults.outlinedButtonColors(
+                                containerColor = MaterialTheme.colorScheme.secondaryContainer,
+                                contentColor = MaterialTheme.colorScheme.onSecondaryContainer,
+                            ),
+                            border = BorderStroke(
+                                1.dp,
+                                MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.secondaryContainer)
+                            ),
+                            onClick = {
+                                viewModel.resetValues()
+                                showResetDialog = false
+                                scope.launch {
+                                    toastHostState.showToast(
+                                        context.getString(R.string.values_reset),
+                                        Icons.Rounded.DoneOutline
+                                    )
+                                }
+                            }) {
                             Text(stringResource(R.string.reset))
                         }
                     }
@@ -768,7 +800,15 @@ fun SingleResizeScreen(
                     title = { Text(stringResource(R.string.edit_exif)) },
                     icon = { Icon(Icons.Rounded.Dataset, null) },
                     confirmButton = {
-                        Button(
+                        OutlinedButton(
+                            colors = ButtonDefaults.outlinedButtonColors(
+                                containerColor = MaterialTheme.colorScheme.primary,
+                                contentColor = MaterialTheme.colorScheme.onPrimary,
+                            ),
+                            border = BorderStroke(
+                                1.dp,
+                                MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.primary)
+                            ),
                             onClick = { showEditExifDialog = false }
                         ) {
                             Text(stringResource(R.string.ok))
@@ -791,7 +831,15 @@ fun SingleResizeScreen(
                                 Spacer(Modifier.width(8.dp))
                             }
                             if (count > 0) {
-                                FilledTonalButton(
+                                OutlinedButton(
+                                    colors = ButtonDefaults.outlinedButtonColors(
+                                        containerColor = MaterialTheme.colorScheme.secondaryContainer,
+                                        contentColor = MaterialTheme.colorScheme.onSecondaryContainer,
+                                    ),
+                                    border = BorderStroke(
+                                        1.dp,
+                                        MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.secondaryContainer)
+                                    ),
                                     onClick = { showAddExifDialog = true }
                                 ) {
                                     Text(stringResource(R.string.add_tag))
@@ -897,7 +945,15 @@ fun SingleResizeScreen(
                         title = { Text(stringResource(R.string.add_tag)) },
                         icon = { Icon(Icons.Rounded.Dataset, null) },
                         confirmButton = {
-                            Button(
+                            OutlinedButton(
+                                colors = ButtonDefaults.outlinedButtonColors(
+                                    containerColor = MaterialTheme.colorScheme.primary,
+                                    contentColor = MaterialTheme.colorScheme.onPrimary,
+                                ),
+                                border = BorderStroke(
+                                    1.dp,
+                                    MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.primary)
+                                ),
                                 onClick = { showAddExifDialog = false }
                             ) {
                                 Text(stringResource(R.string.ok))
@@ -1019,14 +1075,30 @@ fun SingleResizeScreen(
                         title = { Text(stringResource(R.string.clear_exif)) },
                         icon = { Icon(Icons.Rounded.Delete, null) },
                         confirmButton = {
-                            Button(
+                            OutlinedButton(
+                                colors = ButtonDefaults.outlinedButtonColors(
+                                    containerColor = MaterialTheme.colorScheme.primary,
+                                    contentColor = MaterialTheme.colorScheme.onPrimary,
+                                ),
+                                border = BorderStroke(
+                                    1.dp,
+                                    MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.primary)
+                                ),
                                 onClick = { showClearExifDialog = false }
                             ) {
                                 Text(stringResource(R.string.cancel))
                             }
                         },
                         dismissButton = {
-                            FilledTonalButton(
+                            OutlinedButton(
+                                colors = ButtonDefaults.outlinedButtonColors(
+                                    containerColor = MaterialTheme.colorScheme.secondaryContainer,
+                                    contentColor = MaterialTheme.colorScheme.onSecondaryContainer,
+                                ),
+                                border = BorderStroke(
+                                    1.dp,
+                                    MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.secondaryContainer)
+                                ),
                                 onClick = {
                                     showClearExifDialog = false
                                     map = emptyMap()
@@ -1049,12 +1121,29 @@ fun SingleResizeScreen(
                     text = { Text(stringResource(R.string.might_be_error_with_exif)) },
                     onDismissRequest = { showExifSavingDialog = false },
                     confirmButton = {
-                        Button(onClick = { showExifSavingDialog = false }) {
+                        OutlinedButton(
+                            colors = ButtonDefaults.outlinedButtonColors(
+                                containerColor = MaterialTheme.colorScheme.primary,
+                                contentColor = MaterialTheme.colorScheme.onPrimary,
+                            ),
+                            border = BorderStroke(
+                                1.dp,
+                                MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.primary)
+                            ),
+                            onClick = { showExifSavingDialog = false }) {
                             Text(stringResource(R.string.close))
                         }
                     },
                     dismissButton = {
-                        FilledTonalButton(
+                        OutlinedButton(
+                            colors = ButtonDefaults.outlinedButtonColors(
+                                containerColor = MaterialTheme.colorScheme.secondaryContainer,
+                                contentColor = MaterialTheme.colorScheme.onSecondaryContainer,
+                            ),
+                            border = BorderStroke(
+                                1.dp,
+                                MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.secondaryContainer)
+                            ),
                             onClick = {
                                 showExifSavingDialog = false
                                 saveBitmap()
@@ -1099,12 +1188,28 @@ fun SingleResizeScreen(
                             )
                         },
                         confirmButton = {
-                            Button(onClick = { crop = true }) {
+                            OutlinedButton(
+                                colors = ButtonDefaults.outlinedButtonColors(
+                                    containerColor = MaterialTheme.colorScheme.primary,
+                                    contentColor = MaterialTheme.colorScheme.onPrimary,
+                                ),
+                                border = BorderStroke(
+                                    1.dp,
+                                    MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.primary)
+                                ), onClick = { crop = true }) {
                                 Text(stringResource(R.string.crop))
                             }
                         },
                         dismissButton = {
-                            FilledTonalButton(onClick = { showCropDialog = false }) {
+                            OutlinedButton(
+                                colors = ButtonDefaults.outlinedButtonColors(
+                                    containerColor = MaterialTheme.colorScheme.secondaryContainer,
+                                    contentColor = MaterialTheme.colorScheme.onSecondaryContainer,
+                                ),
+                                border = BorderStroke(
+                                    1.dp,
+                                    MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.secondaryContainer)
+                                ), onClick = { showCropDialog = false }) {
                                 Text(stringResource(R.string.cancel))
                             }
                         }

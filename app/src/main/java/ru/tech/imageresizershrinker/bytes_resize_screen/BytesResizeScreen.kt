@@ -10,10 +10,7 @@ import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.*
 import androidx.compose.animation.core.animateDpAsState
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
-import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.*
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -57,6 +54,7 @@ import ru.tech.imageresizershrinker.bytes_resize_screen.viewModel.BytesResizeVie
 import ru.tech.imageresizershrinker.main_screen.components.*
 import ru.tech.imageresizershrinker.resize_screen.components.*
 import ru.tech.imageresizershrinker.resize_screen.viewModel.SingleResizeViewModel.Companion.restrict
+import ru.tech.imageresizershrinker.theme.outlineVariant
 import ru.tech.imageresizershrinker.utils.BitmapUtils.decodeBitmapFromUri
 import ru.tech.imageresizershrinker.utils.BitmapUtils.decodeSampledBitmapFromUri
 import ru.tech.imageresizershrinker.utils.BitmapUtils.fileSize
@@ -547,7 +545,15 @@ fun BytesResizeScreen(
                     modifier = Modifier.alertDialog(),
                     onDismissRequest = { showExitDialog = false },
                     dismissButton = {
-                        FilledTonalButton(
+                        OutlinedButton(
+                            colors = ButtonDefaults.outlinedButtonColors(
+                                containerColor = MaterialTheme.colorScheme.secondaryContainer,
+                                contentColor = MaterialTheme.colorScheme.onSecondaryContainer,
+                            ),
+                            border = BorderStroke(
+                                1.dp,
+                                MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.secondaryContainer)
+                            ),
                             onClick = {
                                 showExitDialog = false
                                 onGoBack()
@@ -557,7 +563,15 @@ fun BytesResizeScreen(
                         }
                     },
                     confirmButton = {
-                        Button(onClick = { showExitDialog = false }) {
+                        OutlinedButton(
+                            colors = ButtonDefaults.outlinedButtonColors(
+                                containerColor = MaterialTheme.colorScheme.primary,
+                                contentColor = MaterialTheme.colorScheme.onPrimary,
+                            ),
+                            border = BorderStroke(
+                                1.dp,
+                                MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.primary)
+                            ), onClick = { showExitDialog = false }) {
                             Text(stringResource(R.string.stay))
                         }
                     },
@@ -696,7 +710,7 @@ fun BytesResizeScreen(
                         },
                         onDismissRequest = { showPickImageFromUrisDialog = false },
                         confirmButton = {
-                            TextButton(onClick = { showPickImageFromUrisDialog = false }) {
+                            OutlinedButton(onClick = { showPickImageFromUrisDialog = false }) {
                                 Text(stringResource(R.string.close))
                             }
                         }

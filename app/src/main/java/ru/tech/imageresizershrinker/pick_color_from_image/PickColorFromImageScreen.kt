@@ -292,11 +292,12 @@ fun PickColorFromImageScreen(
                         imageBitmap = it.asImageBitmap(),
                         color = viewModel.color,
                         modifier = Modifier
-                            .padding(bottom = 72.dp)
+                            .padding(bottom = 80.dp)
                             .padding(16.dp)
-                            .navigationBarsPadding()
+                            .navBarsPaddingOnlyIfTheyAtTheEnd()
                             .block(RoundedCornerShape(4.dp))
-                            .padding(4.dp),
+                            .padding(4.dp)
+                            .clip(RoundedCornerShape(4.dp)),
                         onColorChange = viewModel::updateColor
                     )
                 } ?: Column(Modifier.verticalScroll(scrollState)) {

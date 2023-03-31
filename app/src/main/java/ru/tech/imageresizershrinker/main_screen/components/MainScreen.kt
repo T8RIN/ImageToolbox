@@ -772,11 +772,11 @@ fun MainScreen(
                                         alpha = 0.5f
                                     ),
                                 ),
-                                modifier = Modifier
-                                    .padding(horizontal = 16.dp),
                                 border = BorderStroke(
                                     1.dp, MaterialTheme.colorScheme.outlineVariant()
                                 ),
+                                modifier = Modifier
+                                    .padding(horizontal = 16.dp),
                                 onClick = {
                                     viewModel.tryGetUpdate(
                                         newRequest = true,

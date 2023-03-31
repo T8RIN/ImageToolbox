@@ -45,6 +45,7 @@ import ru.tech.imageresizershrinker.resize_screen.SingleResizeScreen
 import ru.tech.imageresizershrinker.resize_screen.components.*
 import ru.tech.imageresizershrinker.theme.ImageResizerTheme
 import ru.tech.imageresizershrinker.theme.getAppPrimaryColor
+import ru.tech.imageresizershrinker.theme.outlineVariant
 import ru.tech.imageresizershrinker.utils.*
 import ru.tech.imageresizershrinker.utils.IntentUtils.parcelable
 import ru.tech.imageresizershrinker.utils.IntentUtils.parcelableArrayList
@@ -246,7 +247,15 @@ class MainActivity : AppCompatActivity() {
                             modifier = Modifier.alertDialog(),
                             onDismissRequest = { showExitDialog = false },
                             dismissButton = {
-                                FilledTonalButton(
+                                OutlinedButton(
+                                    colors = ButtonDefaults.outlinedButtonColors(
+                                        containerColor = MaterialTheme.colorScheme.secondaryContainer,
+                                        contentColor = MaterialTheme.colorScheme.onSecondaryContainer,
+                                    ),
+                                    border = BorderStroke(
+                                        1.dp,
+                                        MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.secondaryContainer)
+                                    ),
                                     onClick = {
                                         finishAffinity()
                                     }
@@ -255,7 +264,15 @@ class MainActivity : AppCompatActivity() {
                                 }
                             },
                             confirmButton = {
-                                Button(onClick = { showExitDialog = false }) {
+                                OutlinedButton(
+                                    colors = ButtonDefaults.outlinedButtonColors(
+                                        containerColor = MaterialTheme.colorScheme.primary,
+                                        contentColor = MaterialTheme.colorScheme.onPrimary,
+                                    ),
+                                    border = BorderStroke(
+                                        1.dp,
+                                        MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.primary)
+                                    ), onClick = { showExitDialog = false }) {
                                     Text(stringResource(R.string.stay))
                                 }
                             },
@@ -274,7 +291,7 @@ class MainActivity : AppCompatActivity() {
                             onDismissRequest = {},
                             title = { stringResource(R.string.image) },
                             confirmButton = {
-                                TextButton(
+                                OutlinedButton(
                                     onClick = {
                                         viewModel.apply {
                                             hideSelectDialog()
@@ -367,7 +384,15 @@ class MainActivity : AppCompatActivity() {
                                 }
                             },
                             confirmButton = {
-                                Button(
+                                OutlinedButton(
+                                    colors = ButtonDefaults.outlinedButtonColors(
+                                        containerColor = MaterialTheme.colorScheme.primary,
+                                        contentColor = MaterialTheme.colorScheme.onPrimary,
+                                    ),
+                                    border = BorderStroke(
+                                        1.dp,
+                                        MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.primary)
+                                    ),
                                     onClick = {
                                         startActivity(
                                             Intent(
@@ -381,7 +406,15 @@ class MainActivity : AppCompatActivity() {
                                 }
                             },
                             dismissButton = {
-                                FilledTonalButton(onClick = { viewModel.cancelledUpdate() }) {
+                                OutlinedButton(
+                                    colors = ButtonDefaults.outlinedButtonColors(
+                                        containerColor = MaterialTheme.colorScheme.secondaryContainer,
+                                        contentColor = MaterialTheme.colorScheme.onSecondaryContainer,
+                                    ),
+                                    border = BorderStroke(
+                                        1.dp,
+                                        MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.secondaryContainer)
+                                    ), onClick = { viewModel.cancelledUpdate() }) {
                                     Text(stringResource(id = R.string.close))
                                 }
                             }
