@@ -285,14 +285,13 @@ fun PickColorFromImageScreen(
                     }
                 }
             }
-            AnimatedContent(targetState = viewModel.bitmap) { bitmap ->
+            AnimatedContent(targetState = viewModel.bitmap, modifier = Modifier.weight(1f)) { bitmap ->
                 bitmap?.let {
                     ImageColorDetector(
                         canZoom = canZoom,
                         imageBitmap = it.asImageBitmap(),
                         color = viewModel.color,
                         modifier = Modifier
-                            .padding(bottom = 80.dp)
                             .padding(16.dp)
                             .navBarsPaddingOnlyIfTheyAtTheEnd()
                             .block(RoundedCornerShape(4.dp))
@@ -308,6 +307,43 @@ fun PickColorFromImageScreen(
                             .navigationBarsPadding()
                     )
                 }
+            }
+            if (viewModel.bitmap != null) {
+                BottomAppBar(
+                    modifier = Modifier
+                        .drawHorizontalStroke(true),
+                    actions = {
+                        Switch(
+                            modifier = Modifier.padding(horizontal = 16.dp),
+                            colors = SwitchDefaults.colors(
+                                uncheckedBorderColor = MaterialTheme.colorScheme.primary,
+                                uncheckedThumbColor = MaterialTheme.colorScheme.onPrimary,
+                                uncheckedTrackColor = MaterialTheme.colorScheme.primary,
+                                uncheckedIconColor = MaterialTheme.colorScheme.primary,
+                            ),
+                            checked = !canZoom,
+                            onCheckedChange = { canZoom = !canZoom },
+                            thumbContent = {
+                                AnimatedContent(canZoom) { zoom ->
+                                    Icon(
+                                        if (!zoom) Icons.Rounded.Colorize else Icons.Rounded.ZoomIn,
+                                        null,
+                                        Modifier.size(SwitchDefaults.IconSize)
+                                    )
+                                }
+                            }
+                        )
+                    },
+                    floatingActionButton = {
+                        FloatingActionButton(
+                            onClick = pickImage,
+                            modifier = Modifier.fabBorder(),
+                            elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation()
+                        ) {
+                            Icon(Icons.Rounded.AddPhotoAlternate, null)
+                        }
+                    }
+                )
             }
         }
 
@@ -337,43 +373,6 @@ fun PickColorFromImageScreen(
                     }
                 }
             }
-        } else {
-            BottomAppBar(
-                modifier = Modifier
-                    .align(Alignment.BottomEnd)
-                    .drawHorizontalStroke(true),
-                actions = {
-                    Switch(
-                        modifier = Modifier.padding(horizontal = 16.dp),
-                        colors = SwitchDefaults.colors(
-                            uncheckedBorderColor = MaterialTheme.colorScheme.primary,
-                            uncheckedThumbColor = MaterialTheme.colorScheme.onPrimary,
-                            uncheckedTrackColor = MaterialTheme.colorScheme.primary,
-                            uncheckedIconColor = MaterialTheme.colorScheme.primary,
-                        ),
-                        checked = !canZoom,
-                        onCheckedChange = { canZoom = !canZoom },
-                        thumbContent = {
-                            AnimatedContent(canZoom) { zoom ->
-                                Icon(
-                                    if (!zoom) Icons.Rounded.Colorize else Icons.Rounded.ZoomIn,
-                                    null,
-                                    Modifier.size(SwitchDefaults.IconSize)
-                                )
-                            }
-                        }
-                    )
-                },
-                floatingActionButton = {
-                    FloatingActionButton(
-                        onClick = pickImage,
-                        modifier = Modifier.fabBorder(),
-                        elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation()
-                    ) {
-                        Icon(Icons.Rounded.AddPhotoAlternate, null)
-                    }
-                }
-            )
         }
     }
 

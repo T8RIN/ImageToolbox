@@ -91,7 +91,7 @@ fun MainScreen(
                 }
                 ModalDrawerSheet(
                     modifier = Modifier
-                        .offset(-(1.dp))
+                        .offset(-(2.dp))
                         .width(
                             min(
                                 LocalConfiguration.current.screenWidthDp.dp * 0.85f,
@@ -171,8 +171,8 @@ fun MainScreen(
                                         subtitle = stringResource(R.string.default_folder),
                                         color = MaterialTheme.colorScheme.secondaryContainer.copy(
                                             alpha = animateFloatAsState(
-                                                if (currentFolderUri == null) 1f
-                                                else 0.5f
+                                                if (currentFolderUri == null) 0.7f
+                                                else 0.2f
                                             ).value
                                         ),
                                         modifier = Modifier
@@ -199,8 +199,8 @@ fun MainScreen(
                                         ),
                                         color = MaterialTheme.colorScheme.secondaryContainer.copy(
                                             alpha = animateFloatAsState(
-                                                if (currentFolderUri != null) 1f
-                                                else 0.5f
+                                                if (currentFolderUri != null) 0.7f
+                                                else 0.2f
                                             ).value
                                         ),
                                         endIcon = Icons.Rounded.CreateAlt,
@@ -238,8 +238,8 @@ fun MainScreen(
                                                 title = title,
                                                 color = MaterialTheme.colorScheme.secondaryContainer.copy(
                                                     alpha = animateFloatAsState(
-                                                        if (selected) 1f
-                                                        else 0.5f
+                                                        if (selected) 0.7f
+                                                        else 0.2f
                                                     ).value
                                                 ),
                                                 icon = icon,

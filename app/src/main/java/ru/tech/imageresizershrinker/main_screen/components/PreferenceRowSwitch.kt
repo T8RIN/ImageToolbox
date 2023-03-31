@@ -43,10 +43,10 @@ fun PreferenceRowSwitch(
                 thumbContent = thumbIcon,
                 colors = SwitchDefaults.colors(
                     uncheckedBorderColor = MaterialTheme.colorScheme.outline.blend(
-                        MaterialTheme.colorScheme.secondaryContainer, 0.5f
+                        MaterialTheme.colorScheme.secondaryContainer, 0.3f
                     ),
                     uncheckedThumbColor = MaterialTheme.colorScheme.outline.blend(
-                        MaterialTheme.colorScheme.secondaryContainer, 0.4f
+                        MaterialTheme.colorScheme.secondaryContainer, 0.2f
                     ),
                     uncheckedTrackColor = MaterialTheme.colorScheme.secondaryContainer
                 ),
@@ -76,7 +76,7 @@ fun PreferenceRow(
             .clickable { onClick() }
             .block(
                 color = MaterialTheme.colorScheme.secondaryContainer.copy(
-                    alpha = 0.5f
+                    alpha = 0.2f
                 )
             )
             .padding(horizontal = if (startContent != null) 0.dp else 16.dp, vertical = 8.dp),
