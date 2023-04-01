@@ -46,13 +46,13 @@ fun ColorDialog(
     onColorChange: (ColorTuple) -> Unit,
     onDismissRequest: () -> Unit
 ) {
-    var _primary by rememberSaveable { mutableStateOf(colorTuple.primary.toArgb()) }
-    var _secondary by rememberSaveable {
+    var primary by rememberSaveable { mutableStateOf(colorTuple.primary.toArgb()) }
+    var secondary by rememberSaveable {
         mutableStateOf(
             colorTuple.secondary?.toArgb() ?: colorTuple.primary.calculateSecondaryColor()
         )
     }
-    var _tertiary by rememberSaveable {
+    var tertiary by rememberSaveable {
         mutableStateOf(
             colorTuple.tertiary?.toArgb() ?: colorTuple.primary.calculateTertiaryColor()
         )
@@ -73,24 +73,24 @@ fun ColorDialog(
                     Spacer(Modifier.height(8.dp))
                     TitleItem(text = stringResource(R.string.primary))
                     ColorCustomComponent(
-                        color = _primary,
+                        color = primary,
                         onColorChange = {
-                            _primary = it
-                            _secondary = Color(it).calculateSecondaryColor()
-                            _tertiary = Color(it).calculateTertiaryColor()
+                            primary = it
+                            secondary = Color(it).calculateSecondaryColor()
+                            tertiary = Color(it).calculateTertiaryColor()
                         }
                     )
                     Divider()
                     TitleItem(text = stringResource(R.string.secondary))
                     ColorCustomComponent(
-                        color = _secondary,
-                        onColorChange = { _secondary = it }
+                        color = secondary,
+                        onColorChange = { secondary = it }
                     )
                     Divider()
                     TitleItem(text = stringResource(R.string.tertiary))
                     ColorCustomComponent(
-                        color = _tertiary,
-                        onColorChange = { _tertiary = it }
+                        color = tertiary,
+                        onColorChange = { tertiary = it }
                     )
                     Spacer(Modifier.height(8.dp))
                 }
@@ -110,9 +110,9 @@ fun ColorDialog(
                 onClick = {
                     onColorChange(
                         ColorTuple(
-                            Color(_primary),
-                            Color(_secondary),
-                            Color(_tertiary)
+                            Color(primary),
+                            Color(secondary),
+                            Color(tertiary)
                         )
                     )
                     onDismissRequest()
