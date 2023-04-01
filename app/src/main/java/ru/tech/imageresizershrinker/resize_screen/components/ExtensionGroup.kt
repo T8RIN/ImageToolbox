@@ -18,7 +18,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.main_screen.components.block
+import ru.tech.imageresizershrinker.theme.mixedColor
+import ru.tech.imageresizershrinker.theme.onMixedColor
 import ru.tech.imageresizershrinker.widget.AutoSizeText
+import ru.tech.imageresizershrinker.widget.GroupRipple
 
 @Composable
 fun ExtensionGroup(

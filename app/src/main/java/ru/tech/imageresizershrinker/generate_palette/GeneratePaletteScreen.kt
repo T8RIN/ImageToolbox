@@ -45,10 +45,10 @@ import ru.tech.imageresizershrinker.pick_color_from_image.copyColorIntoClipboard
 import ru.tech.imageresizershrinker.pick_color_from_image.format
 import ru.tech.imageresizershrinker.resize_screen.components.ImageNotPickedWidget
 import ru.tech.imageresizershrinker.resize_screen.components.LoadingDialog
-import ru.tech.imageresizershrinker.widget.LocalToastHost
 import ru.tech.imageresizershrinker.theme.PaletteSwatch
 import ru.tech.imageresizershrinker.utils.BitmapUtils.decodeBitmapFromUri
 import ru.tech.imageresizershrinker.utils.LocalWindowSizeClass
+import ru.tech.imageresizershrinker.widget.LocalToastHost
 import ru.tech.imageresizershrinker.widget.Marquee
 
 @OptIn(ExperimentalAnimationApi::class, ExperimentalMaterial3Api::class)

@@ -13,7 +13,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import ru.tech.imageresizershrinker.resize_screen.components.blend
+import ru.tech.imageresizershrinker.theme.blend
 import ru.tech.imageresizershrinker.widget.AutoSizeText
 
 @Composable

@@ -1,10 +1,17 @@
 package ru.tech.imageresizershrinker.theme
 
+import androidx.annotation.FloatRange
 import androidx.compose.material3.ColorScheme
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.surfaceColorAtElevation
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.compositeOver
+import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.unit.dp
+import androidx.core.graphics.ColorUtils
+import ru.tech.imageresizershrinker.main_screen.components.LocalNightMode
+import ru.tech.imageresizershrinker.main_screen.components.isNightMode
 
 
 val md_theme_light_primary = Color(0xFF3D6A00)
@@ -88,3 +95,45 @@ fun ColorScheme.suggestContainerColorBy(color: Color) = when (color) {
     inverseOnSurface -> inverseSurface
     else -> surface
 }
+
+inline val ColorScheme.mixedColor: Color
+    @Composable get() = run {
+        tertiaryContainer.blend(
+            primaryContainer,
+            0.15f
+        )
+    }
+
+inline val ColorScheme.onMixedColor: Color
+    @Composable get() = run {
+        onTertiaryContainer.blend(
+            onPrimaryContainer,
+            0.15f
+        )
+    }
+
+fun Color.blend(
+    color: Color,
+    @FloatRange(from = 0.0, to = 1.0) fraction: Float = 0.2f
+): Color = Color(ColorUtils.blendARGB(this.toArgb(), color.toArgb(), fraction))
+
+@Composable
+fun Color.inverse(
+    fraction: (Boolean) -> Float = { 0.5f },
+    darkMode: Boolean = LocalNightMode.current.isNightMode(),
+): Color = if (darkMode) blend(Color.White, fraction(darkMode))
+else blend(Color.Black, fraction(darkMode))
+
+
+fun Int.blend(
+    color: Color,
+    @FloatRange(from = 0.0, to = 1.0) fraction: Float = 0.2f
+): Int = ColorUtils.blendARGB(this, color.toArgb(), fraction)
+
+@Composable
+fun Color.harmonizeWithPrimary(
+    @FloatRange(
+        from = 0.0,
+        to = 1.0
+    ) fraction: Float = 0.2f
+): Color = blend(MaterialTheme.colorScheme.primary, fraction)

@@ -1,5 +1,6 @@
 package ru.tech.imageresizershrinker.main_screen.components
 
+import android.annotation.SuppressLint
 import android.os.Build
 import android.text.method.LinkMovementMethod
 import android.util.TypedValue
@@ -16,14 +17,14 @@ import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.text.HtmlCompat
 import ru.tech.imageresizershrinker.R
-import ru.tech.imageresizershrinker.resize_screen.components.blend
+import ru.tech.imageresizershrinker.theme.blend
 
 @Composable
 fun HtmlText(
     nightMode: Boolean,
     html: String,
     color: Color = MaterialTheme.colorScheme.onSurfaceVariant,
-    modifier: Modifier = Modifier
+    @SuppressLint("ModifierParameter") modifier: Modifier = Modifier
 ) {
     val style = LocalTextStyle.current
     val textColor = color.toArgb()

@@ -37,11 +37,11 @@ import ru.tech.imageresizershrinker.main_screen.components.LocalAmoledMode
 import ru.tech.imageresizershrinker.main_screen.components.LocalAppPrimaryColor
 import ru.tech.imageresizershrinker.main_screen.components.LocalDynamicColors
 import ru.tech.imageresizershrinker.main_screen.components.LocalNightMode
-import ru.tech.imageresizershrinker.widget.ToastHost
-import ru.tech.imageresizershrinker.widget.rememberToastHostState
 import ru.tech.imageresizershrinker.theme.ImageResizerTheme
 import ru.tech.imageresizershrinker.widget.AutoSizeText
+import ru.tech.imageresizershrinker.widget.ToastHost
 import ru.tech.imageresizershrinker.widget.activity.M3Activity
+import ru.tech.imageresizershrinker.widget.rememberToastHostState
 
 @AndroidEntryPoint
 class CrashActivity : M3Activity() {

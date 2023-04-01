@@ -12,6 +12,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.theme.Telegram
+import ru.tech.imageresizershrinker.theme.mixedColor
+import ru.tech.imageresizershrinker.theme.onMixedColor
 
 @Composable
 fun TelegramButton(

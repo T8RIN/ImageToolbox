@@ -1,5 +1,6 @@
 package ru.tech.imageresizershrinker.main_screen.components
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.net.Uri
 import androidx.compose.animation.*
@@ -28,7 +29,7 @@ import ru.tech.imageresizershrinker.utils.APP_LINK
 
 @Composable
 fun SourceCodePreference(
-    modifier: Modifier = Modifier
+    @SuppressLint("ModifierParameter") modifier: Modifier = Modifier
         .fillMaxWidth()
         .padding(horizontal = 12.dp),
     color: Color = MaterialTheme.colorScheme.tertiaryContainer
@@ -55,7 +56,7 @@ fun SourceCodePreference(
 fun SingleResizePreference(
     onClick: () -> Unit,
     color: Color = MaterialTheme.colorScheme.surfaceColorAtElevation(1.dp),
-    modifier: Modifier = Modifier
+    @SuppressLint("ModifierParameter") modifier: Modifier = Modifier
         .fillMaxWidth()
         .padding(horizontal = 12.dp)
 ) {
@@ -73,7 +74,7 @@ fun SingleResizePreference(
 fun BytesResizePreference(
     onClick: () -> Unit,
     color: Color = MaterialTheme.colorScheme.surfaceColorAtElevation(1.dp),
-    modifier: Modifier = Modifier
+    @SuppressLint("ModifierParameter") modifier: Modifier = Modifier
         .fillMaxWidth()
         .padding(horizontal = 12.dp)
 ) {
@@ -92,7 +93,7 @@ fun BytesResizePreference(
 fun BatchResizePreference(
     onClick: () -> Unit,
     color: Color = MaterialTheme.colorScheme.surfaceColorAtElevation(1.dp),
-    modifier: Modifier = Modifier
+    @SuppressLint("ModifierParameter") modifier: Modifier = Modifier
         .fillMaxWidth()
         .padding(horizontal = 12.dp)
 ) {
@@ -109,7 +110,7 @@ fun BatchResizePreference(
 @Composable
 fun GeneratePalettePreference(
     onClick: () -> Unit,
-    modifier: Modifier = Modifier
+    @SuppressLint("ModifierParameter") modifier: Modifier = Modifier
         .fillMaxWidth()
         .padding(horizontal = 12.dp),
     color: Color = MaterialTheme.colorScheme.surfaceColorAtElevation(1.dp)
@@ -128,7 +129,7 @@ fun GeneratePalettePreference(
 fun CropPreference(
     onClick: () -> Unit,
     color: Color = MaterialTheme.colorScheme.surfaceColorAtElevation(1.dp),
-    modifier: Modifier = Modifier
+    @SuppressLint("ModifierParameter") modifier: Modifier = Modifier
         .fillMaxWidth()
         .padding(horizontal = 12.dp)
 ) {
@@ -146,7 +147,7 @@ fun CropPreference(
 fun PickColorPreference(
     onClick: () -> Unit,
     color: Color = MaterialTheme.colorScheme.surfaceColorAtElevation(1.dp),
-    modifier: Modifier = Modifier
+    @SuppressLint("ModifierParameter") modifier: Modifier = Modifier
         .fillMaxWidth()
         .padding(horizontal = 12.dp)
 ) {
@@ -164,7 +165,7 @@ fun PickColorPreference(
 fun ComparePreference(
     onClick: () -> Unit,
     color: Color = MaterialTheme.colorScheme.surfaceColorAtElevation(1.dp),
-    modifier: Modifier = Modifier
+    @SuppressLint("ModifierParameter") modifier: Modifier = Modifier
         .fillMaxWidth()
         .padding(horizontal = 12.dp)
 ) {
@@ -187,7 +188,7 @@ fun PreferenceItem(
     icon: ImageVector? = null,
     endIcon: ImageVector? = null,
     color: Color = MaterialTheme.colorScheme.surfaceColorAtElevation(1.dp),
-    modifier: Modifier = Modifier
+    @SuppressLint("ModifierParameter") modifier: Modifier = Modifier
         .fillMaxWidth()
         .padding(horizontal = 12.dp)
 ) {

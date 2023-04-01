@@ -45,10 +45,9 @@ import nl.dionsegijn.konfetti.core.*
 import ru.tech.imageresizershrinker.BuildConfig
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.main_screen.viewModel.MainViewModel
-import ru.tech.imageresizershrinker.widget.LocalToastHost
-import ru.tech.imageresizershrinker.resize_screen.components.inverse
 import ru.tech.imageresizershrinker.theme.*
 import ru.tech.imageresizershrinker.utils.*
+import ru.tech.imageresizershrinker.widget.LocalToastHost
 import ru.tech.imageresizershrinker.widget.Marquee
 import ru.tech.imageresizershrinker.widget.Picture
 import java.lang.Integer.max
@@ -806,7 +805,9 @@ fun MainScreen(
                                         )
                                     )
                                 },
-                                modifier = Modifier.fabBorder().requiredSize(size=56.dp),
+                                modifier = Modifier
+                                    .fabBorder()
+                                    .requiredSize(size = 56.dp),
                                 containerColor = MaterialTheme.colorScheme.primaryContainer,
                                 elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
                                 content = { Icon(Icons.Rounded.Github, null) }

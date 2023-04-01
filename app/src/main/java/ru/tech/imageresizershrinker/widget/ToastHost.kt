@@ -1,6 +1,6 @@
 package ru.tech.imageresizershrinker.widget
 
-import androidx.annotation.FloatRange
+import android.annotation.SuppressLint
 import androidx.compose.animation.*
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.border
@@ -23,7 +23,7 @@ import androidx.compose.ui.zIndex
 import kotlinx.coroutines.*
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
-import ru.tech.imageresizershrinker.resize_screen.components.blend
+import ru.tech.imageresizershrinker.theme.harmonizeWithPrimary
 import ru.tech.imageresizershrinker.theme.outlineVariant
 import kotlin.coroutines.resume
 
@@ -31,7 +31,7 @@ import kotlin.coroutines.resume
 @Composable
 fun ToastHost(
     hostState: ToastHostState,
-    modifier: Modifier = Modifier.fillMaxSize(),
+    @SuppressLint("ModifierParameter") modifier: Modifier = Modifier.fillMaxSize(),
     alignment: Alignment = Alignment.BottomCenter,
     toast: @Composable (ToastData) -> Unit = { Toast(it) }
 ) {
@@ -240,14 +240,6 @@ private fun ToastDuration.toMillis(
         containsText = true
     ) ?: original
 }
-
-@Composable
-private fun Color.harmonizeWithPrimary(
-    @FloatRange(
-        from = 0.0,
-        to = 1.0
-    ) fraction: Float = 0.2f
-): Color = blend(MaterialTheme.colorScheme.primary, fraction)
 
 @Composable
 fun rememberToastHostState() = remember { ToastHostState() }

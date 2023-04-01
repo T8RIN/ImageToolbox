@@ -1,5 +1,6 @@
 package ru.tech.imageresizershrinker.widget
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
@@ -18,11 +19,12 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
-import ru.tech.imageresizershrinker.widget.AutoSizeText
+import ru.tech.imageresizershrinker.theme.mixedColor
+import ru.tech.imageresizershrinker.theme.onMixedColor
 
 @Composable
 fun ToggleGroupButton(
-    modifier: Modifier = defaultModifier,
+    @SuppressLint("ModifierParameter") modifier: Modifier = defaultModifier,
     enabled: Boolean,
     items: List<String>,
     selectedIndex: Int,
@@ -116,24 +118,9 @@ private var defaultModifier = Modifier
     .fillMaxWidth()
     .padding(8.dp)
 
-inline val ColorScheme.mixedColor: Color
-    @Composable get() = run {
-        tertiaryContainer.blend(
-            primaryContainer,
-            0.15f
-        )
-    }
-
-inline val ColorScheme.onMixedColor: Color
-    @Composable get() = run {
-        onTertiaryContainer.blend(
-            onPrimaryContainer,
-            0.15f
-        )
-    }
 
 object GroupRipple : RippleTheme {
-    private val alpha = 0.1f
+    private const val alpha = 0.1f
 
     @Composable
     override fun defaultColor(): Color = if (isSystemInDarkTheme()) Color.White
@@ -141,5 +128,4 @@ object GroupRipple : RippleTheme {
 
     @Composable
     override fun rippleAlpha(): RippleAlpha = RippleAlpha(alpha, alpha, alpha, alpha)
-
 }

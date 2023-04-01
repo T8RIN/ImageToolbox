@@ -1,6 +1,5 @@
 package ru.tech.imageresizershrinker.resize_screen.components
 
-import androidx.annotation.FloatRange
 import androidx.compose.animation.Animatable
 import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.border
@@ -17,7 +16,6 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
-import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.TextStyle
@@ -25,11 +23,10 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.core.graphics.ColorUtils
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
-import ru.tech.imageresizershrinker.main_screen.components.LocalNightMode
-import ru.tech.imageresizershrinker.main_screen.components.isNightMode
+import ru.tech.imageresizershrinker.theme.blend
+import ru.tech.imageresizershrinker.theme.inverse
 
 @Composable
 fun RoundedTextField(
@@ -247,21 +244,3 @@ fun RoundedTextFieldColors(isError: Boolean): TextFieldColors =
             } else surfaceColorAtElevation(1.dp),
         )
     }
-
-fun Color.blend(
-    color: Color,
-    @FloatRange(from = 0.0, to = 1.0) fraction: Float = 0.2f
-): Color = Color(ColorUtils.blendARGB(this.toArgb(), color.toArgb(), fraction))
-
-@Composable
-fun Color.inverse(
-    fraction: (Boolean) -> Float = { 0.5f },
-    darkMode: Boolean = LocalNightMode.current.isNightMode(),
-): Color = if (darkMode) blend(Color.White, fraction(darkMode))
-else blend(Color.Black, fraction(darkMode))
-
-
-fun Int.blend(
-    color: Color,
-    @FloatRange(from = 0.0, to = 1.0) fraction: Float = 0.2f
-): Int = ColorUtils.blendARGB(this, color.toArgb(), fraction)

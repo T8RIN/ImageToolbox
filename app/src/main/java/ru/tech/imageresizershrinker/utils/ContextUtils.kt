@@ -15,6 +15,7 @@ import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.widget.ToastDuration
 import ru.tech.imageresizershrinker.widget.ToastHostState
+import kotlin.math.min
 
 object ContextUtils {
     fun Activity.requestPermission() {
@@ -80,7 +81,9 @@ object ContextUtils {
         }
     }
 
-    fun Context.adjustFontSize(scale: Float = 1f): Context {
+    fun Context.adjustFontSize(
+        scale: Float = min(resources.configuration.fontScale, 1f)
+    ): Context {
         val configuration = resources.configuration
         configuration.fontScale = scale
         return createConfigurationContext(configuration)

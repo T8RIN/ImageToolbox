@@ -39,6 +39,7 @@ import ru.tech.imageresizershrinker.pick_color_from_image.PickColorFromImageScre
 import ru.tech.imageresizershrinker.resize_screen.SingleResizeScreen
 import ru.tech.imageresizershrinker.resize_screen.components.*
 import ru.tech.imageresizershrinker.theme.ImageResizerTheme
+import ru.tech.imageresizershrinker.theme.blend
 import ru.tech.imageresizershrinker.theme.getAppColorTuple
 import ru.tech.imageresizershrinker.theme.outlineVariant
 import ru.tech.imageresizershrinker.utils.*
