@@ -98,6 +98,7 @@ fun DynamicTheme(
     )
 }
 
+/**Composable representing ColorTuple object **/
 @Composable
 fun ColorTupleItem(
     modifier: Modifier = Modifier,
@@ -345,6 +346,11 @@ fun Bitmap.extractPrimaryColor(default: Int = 0, blendWithVibrant: Boolean = tru
     )
 }
 
+/** Class that represents App color scheme based on three main colors
+ *  @param primary primary color
+ *  @param secondary secondary color
+ *  @param tertiary tertiary color
+ */
 data class ColorTuple(
     val primary: Color,
     val secondary: Color? = null,
@@ -522,4 +528,4 @@ private fun Scheme.toLightThemeColorScheme(
 }
 
 val LocalDynamicThemeState: ProvidableCompositionLocal<DynamicThemeState> =
-    compositionLocalOf { error("Not present") }
+    compositionLocalOf { error("DynamicThemeState not present") }
