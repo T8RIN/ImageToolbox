@@ -4,6 +4,7 @@ package ru.tech.imageresizershrinker.main_screen.components
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
+import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
@@ -28,6 +29,9 @@ import androidx.compose.ui.unit.dp
 import androidx.core.graphics.blue
 import androidx.core.graphics.green
 import androidx.core.graphics.red
+import com.cookhelper.dynamic.theme.ColorTuple
+import com.cookhelper.dynamic.theme.calculateSecondaryColor
+import com.cookhelper.dynamic.theme.calculateTertiaryColor
 import kotlinx.coroutines.delay
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.theme.outlineVariant
@@ -36,25 +40,60 @@ import ru.tech.imageresizershrinker.theme.outlineVariant
 @Composable
 fun ColorDialog(
     modifier: Modifier = Modifier,
-    color: Color?,
+    colorTuple: ColorTuple,
     title: String = stringResource(R.string.color_scheme),
-    onColorChange: (Int) -> Unit,
+    onColorChange: (ColorTuple) -> Unit,
     onDismissRequest: () -> Unit
 ) {
-    var _color by rememberSaveable { mutableStateOf(color?.toArgb() ?: Color.Red.toArgb()) }
+    var _primary by rememberSaveable { mutableStateOf(colorTuple.primary.toArgb()) }
+    var _secondary by rememberSaveable {
+        mutableStateOf(
+            colorTuple.secondary?.toArgb() ?: colorTuple.primary.calculateSecondaryColor()
+        )
+    }
+    var _tertiary by rememberSaveable {
+        mutableStateOf(
+            colorTuple.tertiary?.toArgb() ?: colorTuple.primary.calculateTertiaryColor()
+        )
+    }
+
     AlertDialog(
         modifier = modifier,
         onDismissRequest = onDismissRequest,
         title = { Text(title) },
         icon = { Icon(Icons.Outlined.Palette, null) },
         text = {
-            Box(modifier = Modifier.verticalScroll(rememberScrollState())) {
-                MaterialTheme(shapes = Shapes()) {
+            Box {
+                Divider(Modifier.align(Alignment.TopCenter))
+                Column(
+                    modifier = Modifier.verticalScroll(rememberScrollState()),
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    Spacer(Modifier.height(8.dp))
+                    TitleItem(text = stringResource(R.string.primary))
                     ColorCustomComponent(
-                        color = _color,
-                        onColorChange = { _color = it }
+                        color = _primary,
+                        onColorChange = {
+                            _primary = it
+                            _secondary = Color(it).calculateSecondaryColor()
+                            _tertiary = Color(it).calculateTertiaryColor()
+                        }
                     )
+                    Divider()
+                    TitleItem(text = stringResource(R.string.secondary))
+                    ColorCustomComponent(
+                        color = _secondary,
+                        onColorChange = { _secondary = it }
+                    )
+                    Divider()
+                    TitleItem(text = stringResource(R.string.tertiary))
+                    ColorCustomComponent(
+                        color = _tertiary,
+                        onColorChange = { _tertiary = it }
+                    )
+                    Spacer(Modifier.height(8.dp))
                 }
+                Divider(Modifier.align(Alignment.BottomCenter))
             }
         },
         confirmButton = {
@@ -68,7 +107,13 @@ fun ColorDialog(
                     MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.primary)
                 ),
                 onClick = {
-                    onColorChange(_color)
+                    onColorChange(
+                        ColorTuple(
+                            Color(_primary),
+                            Color(_secondary),
+                            Color(_tertiary)
+                        )
+                    )
                     onDismissRequest()
                 }
             ) {
@@ -297,7 +342,7 @@ private fun ColorCustomControlItemComponent(
                 .weight(1f)
                 .padding(horizontal = 16.dp),
             valueRange = 0f..255f,
-            value = value.toFloat(),
+            value = animateFloatAsState(targetValue = value.toFloat()).value,
             onValueChange = { onValueChange(it.toInt()) },
         )
 

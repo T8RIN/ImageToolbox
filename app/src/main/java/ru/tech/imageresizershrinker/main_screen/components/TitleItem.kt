@@ -16,15 +16,17 @@ import androidx.compose.ui.unit.dp
 @Composable
 fun TitleItem(
     modifier: Modifier = Modifier.padding(16.dp),
-    icon: ImageVector,
+    icon: ImageVector? = null,
     text: String
 ) {
     Row(
         modifier = modifier,
         verticalAlignment = Alignment.CenterVertically
     ) {
-        Icon(icon, null)
-        Spacer(Modifier.width(8.dp))
+        icon?.let {
+            Icon(it, null)
+            Spacer(Modifier.width(8.dp))
+        }
         Text(text = text, fontWeight = FontWeight.Bold)
     }
 }

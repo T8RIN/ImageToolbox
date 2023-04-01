@@ -185,6 +185,22 @@ public fun ColorTupleItem(
     }
 }
 
+public fun Color.calculateSecondaryColor(): Int {
+    val hct = Hct.fromInt(this.toArgb())
+    val hue = hct.hue
+    val chroma = hct.chroma
+
+    return TonalPalette.fromHueAndChroma(hue, chroma / 3.0).tone(80)
+}
+
+public fun Color.calculateTertiaryColor(): Int {
+    val hct = Hct.fromInt(this.toArgb())
+    val hue = hct.hue
+    val chroma = hct.chroma
+
+    return TonalPalette.fromHueAndChroma(hue + 60.0, chroma / 2.0).tone(80)
+}
+
 @Composable
 public fun getAppColorTuple(
     defaultColorTuple: ColorTuple,

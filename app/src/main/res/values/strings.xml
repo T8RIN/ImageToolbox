@@ -120,4 +120,7 @@
     <string name="email" translatable="false">Email</string>
     <string name="github" translatable="false">GitHub</string>
     <string name="developer_email" translatable="false">t8rin@bk.ru</string>
+    <string name="primary">Primary</string>
+    <string name="tertiary">Tertiary</string>
+    <string name="secondary">Secondary</string>
 </resources>

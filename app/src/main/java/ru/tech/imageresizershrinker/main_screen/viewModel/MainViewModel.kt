@@ -104,7 +104,7 @@ class MainViewModel @Inject constructor(
             }
             _nightMode.value = prefs[NIGHT_MODE] ?: 2
             _dynamicColors.value = prefs[DYNAMIC_COLORS] ?: true
-            _allowImageMonet.value = prefs[IMAGE_MONET] ?: true
+            _allowImageMonet.value = prefs[IMAGE_MONET] ?: false
             _amoledMode.value = prefs[AMOLED_MODE] ?: false
             _appColorTuple.value = (prefs[APP_COLOR]?.let { tuple ->
                 val colorTuple = tuple.split("*")

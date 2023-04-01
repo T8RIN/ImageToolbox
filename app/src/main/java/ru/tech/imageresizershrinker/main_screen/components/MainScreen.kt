@@ -821,9 +821,9 @@ fun MainScreen(
     if (showPickColorDialog) {
         ColorDialog(
             modifier = Modifier.alertDialog(),
-            color = viewModel.appColorTuple.primary,
+            colorTuple = viewModel.appColorTuple,
             onDismissRequest = { showPickColorDialog = false },
-            onColorChange = { viewModel.updateColorTuple(ColorTuple(Color(it))) }
+            onColorChange = { viewModel.updateColorTuple(it) }
         )
     } else if (showAuthorDialog) {
         AlertDialog(
