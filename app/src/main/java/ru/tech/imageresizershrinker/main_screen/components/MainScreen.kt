@@ -309,7 +309,11 @@ fun MainScreen(
                                                             ),
                                                             MaterialTheme.shapes.medium
                                                         ),
-                                                    colorTuple = viewModel.appColorTuple
+                                                    colorTuple = viewModel.appColorTuple,
+                                                    backgroundColor = MaterialTheme
+                                                        .colorScheme
+                                                        .surfaceVariant
+                                                        .copy(alpha = 0.5f)
                                                 ) {
                                                     Box(
                                                         modifier = Modifier

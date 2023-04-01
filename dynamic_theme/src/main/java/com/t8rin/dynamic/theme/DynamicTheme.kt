@@ -102,6 +102,7 @@ fun DynamicTheme(
 @Composable
 fun ColorTupleItem(
     modifier: Modifier = Modifier,
+    backgroundColor: Color = MaterialTheme.colorScheme.surface,
     colorTuple: ColorTuple,
     content: (@Composable BoxScope.() -> Unit)? = null
 ) {
@@ -144,6 +145,7 @@ fun ColorTupleItem(
 
     Surface(
         modifier = modifier,
+        color = backgroundColor,
         shape = MaterialTheme.shapes.medium,
     ) {
         Box(
