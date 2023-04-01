@@ -75,7 +75,9 @@ Go to the [Releases](https://github.com/t8rin/imageresizer/releases/latest) and 
 
 - [Kotlin](https://kotlinlang.org/) based 
 
-- [Coroutines](https://github.com/Kotlin/kotlinx.coroutines) for asynchronous work
+- [Dynamic Theme](https://github.com/T8RIN/DynamicTheme) - library, which allows you to easily implement custom color theming.
+
+- [Coroutines](https://github.com/Kotlin/kotlinx.coroutines) for asynchronous work.
 
 - [Flow](https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.flow/) to emit values from data layer reactively.
 
