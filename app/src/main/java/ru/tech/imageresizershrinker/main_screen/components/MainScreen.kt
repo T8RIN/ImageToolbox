@@ -806,7 +806,7 @@ fun MainScreen(
                                         )
                                     )
                                 },
-                                modifier = Modifier.fabBorder(),
+                                modifier = Modifier.fabBorder().requiredSize(size=56.dp),
                                 containerColor = MaterialTheme.colorScheme.primaryContainer,
                                 elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
                                 content = { Icon(Icons.Rounded.Github, null) }

@@ -59,6 +59,7 @@ import ru.tech.imageresizershrinker.utils.AMOLED_MODE
 import ru.tech.imageresizershrinker.utils.APP_COLOR
 import ru.tech.imageresizershrinker.utils.DYNAMIC_COLORS
 import ru.tech.imageresizershrinker.utils.NIGHT_MODE
+import ru.tech.imageresizershrinker.widget.AutoSizeText
 import javax.inject.Inject
 
 @HiltViewModel
@@ -164,7 +165,7 @@ class CrashActivity : AppCompatActivity() {
                             }
                             Row(
                                 Modifier
-                                    .padding(bottom = 16.dp)
+                                    .padding(8.dp)
                                     .navigationBarsPadding()
                                     .align(Alignment.BottomCenter)
                             ) {
@@ -183,7 +184,10 @@ class CrashActivity : AppCompatActivity() {
                                         contentDescription = null
                                     )
                                     Spacer(modifier = Modifier.width(8.dp))
-                                    Text(text = stringResource(R.string.restart_app))
+                                    AutoSizeText(
+                                        text = stringResource(R.string.restart_app),
+                                        maxLines = 1
+                                    )
                                 }
                                 Spacer(Modifier.width(8.dp))
                                 FilledIconButton(onClick = {

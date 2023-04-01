@@ -18,17 +18,18 @@ private val Montserrat = FontFamily(
     Font(R.font.montserrat_bold, weight = FontWeight.Bold),
 )
 
-val Typography = Typography(
-    displayLarge = TextStyle(
-        fontFamily = Montserrat,
-        fontWeight = FontWeight.Normal,
-        fontSize = 57.sp,
-        lineHeight = 64.sp,
-        letterSpacing = (-0.25).sp,
-    ),
-    displayMedium = TextStyle(
-        fontFamily = Montserrat,
-        fontWeight = FontWeight.Normal,
+val Typography: Typography
+    get() = Typography(
+        displayLarge = TextStyle(
+            fontFamily = Montserrat,
+            fontWeight = FontWeight.Normal,
+            fontSize = 57.sp,
+            lineHeight = 64.sp,
+            letterSpacing = (-0.25).sp,
+        ),
+        displayMedium = TextStyle(
+            fontFamily = Montserrat,
+            fontWeight = FontWeight.Normal,
         fontSize = 45.sp,
         lineHeight = 52.sp,
         letterSpacing = 0.sp,

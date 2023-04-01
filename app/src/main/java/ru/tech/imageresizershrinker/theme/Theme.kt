@@ -12,7 +12,9 @@ import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.*
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalLifecycleOwner
+import androidx.compose.ui.unit.Density
 import androidx.core.app.ActivityCompat
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
@@ -22,6 +24,7 @@ import com.cookhelper.dynamic.theme.extractPrimaryColor
 import com.cookhelper.dynamic.theme.rememberDynamicThemeState
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import ru.tech.imageresizershrinker.main_screen.components.*
+import kotlin.math.min
 
 private val LightColorScheme = lightColorScheme(
     primary = md_theme_light_primary,
@@ -115,13 +118,19 @@ fun ImageResizerTheme(
         state.updateColorTuple(colorTuple)
     }
 
-    DynamicTheme(
-        typography = Typography,
-        state = state,
-        amoledMode = amoledMode,
-        isDarkTheme = darkTheme,
-        content = content
-    )
+    CompositionLocalProvider(
+        LocalDensity provides LocalDensity.current.run {
+            Density(density, min(fontScale, 1f))
+        }
+    ) {
+        DynamicTheme(
+            typography = Typography,
+            state = state,
+            amoledMode = amoledMode,
+            isDarkTheme = darkTheme,
+            content = content
+        )
+    }
 }
 
 @Composable

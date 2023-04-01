@@ -239,8 +239,9 @@ fun PreferenceItem(
                     }
                 }
                 AnimatedContent(
+                    modifier = Modifier.size(width = 40.dp, height = 24.dp),
                     targetState = endIcon,
-                    transitionSpec = { fadeIn() with fadeOut() }
+                    transitionSpec = { fadeIn() + scaleIn() with fadeOut() + scaleOut() }
                 ) { icon ->
                     icon?.let {
                         Row {
