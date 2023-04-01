@@ -45,7 +45,7 @@ import nl.dionsegijn.konfetti.core.*
 import ru.tech.imageresizershrinker.BuildConfig
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.main_screen.viewModel.MainViewModel
-import ru.tech.imageresizershrinker.resize_screen.components.LocalToastHost
+import ru.tech.imageresizershrinker.widget.LocalToastHost
 import ru.tech.imageresizershrinker.resize_screen.components.inverse
 import ru.tech.imageresizershrinker.theme.*
 import ru.tech.imageresizershrinker.utils.*

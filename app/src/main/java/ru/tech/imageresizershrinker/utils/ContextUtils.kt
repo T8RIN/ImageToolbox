@@ -13,8 +13,8 @@ import androidx.core.content.ContextCompat
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.R
-import ru.tech.imageresizershrinker.resize_screen.components.ToastDuration
-import ru.tech.imageresizershrinker.resize_screen.components.ToastHostState
+import ru.tech.imageresizershrinker.widget.ToastDuration
+import ru.tech.imageresizershrinker.widget.ToastHostState
 
 object ContextUtils {
     fun Activity.requestPermission() {
@@ -78,5 +78,11 @@ object ContextUtils {
                 )
             }
         }
+    }
+
+    fun Context.adjustFontSize(scale: Float = 1f): Context {
+        val configuration = resources.configuration
+        configuration.fontScale = scale
+        return createConfigurationContext(configuration)
     }
 }

@@ -43,7 +43,7 @@ import ru.tech.imageresizershrinker.main_screen.components.*
 import ru.tech.imageresizershrinker.pick_color_from_image.viewModel.PickColorViewModel
 import ru.tech.imageresizershrinker.resize_screen.components.ImageNotPickedWidget
 import ru.tech.imageresizershrinker.resize_screen.components.LoadingDialog
-import ru.tech.imageresizershrinker.resize_screen.components.LocalToastHost
+import ru.tech.imageresizershrinker.widget.LocalToastHost
 import ru.tech.imageresizershrinker.theme.PaletteSwatch
 import ru.tech.imageresizershrinker.theme.outlineVariant
 import ru.tech.imageresizershrinker.utils.BitmapUtils.decodeBitmapFromUri

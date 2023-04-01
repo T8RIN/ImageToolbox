@@ -21,7 +21,7 @@ import kotlinx.coroutines.withContext
 import org.w3c.dom.Element
 import ru.tech.imageresizershrinker.BuildConfig
 import ru.tech.imageresizershrinker.main_screen.components.Screen
-import ru.tech.imageresizershrinker.resize_screen.components.ToastHostState
+import ru.tech.imageresizershrinker.widget.ToastHostState
 import ru.tech.imageresizershrinker.theme.md_theme_dark_primary
 import ru.tech.imageresizershrinker.utils.*
 import java.net.URL

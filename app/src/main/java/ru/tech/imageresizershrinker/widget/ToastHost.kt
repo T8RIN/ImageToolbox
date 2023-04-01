@@ -1,4 +1,4 @@
-package ru.tech.imageresizershrinker.resize_screen.components
+package ru.tech.imageresizershrinker.widget
 
 import androidx.annotation.FloatRange
 import androidx.compose.animation.*
@@ -23,6 +23,7 @@ import androidx.compose.ui.zIndex
 import kotlinx.coroutines.*
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
+import ru.tech.imageresizershrinker.resize_screen.components.blend
 import ru.tech.imageresizershrinker.theme.outlineVariant
 import kotlin.coroutines.resume
 

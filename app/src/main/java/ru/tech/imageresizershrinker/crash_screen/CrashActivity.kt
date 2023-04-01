@@ -6,7 +6,6 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
-import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
@@ -18,12 +17,9 @@ import androidx.compose.material.icons.rounded.RestartAlt
 import androidx.compose.material.icons.twotone.ErrorOutline
 import androidx.compose.material3.*
 import androidx.compose.runtime.CompositionLocalProvider
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -31,84 +27,31 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.min
 import androidx.compose.ui.unit.sp
-import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
-import androidx.core.view.WindowCompat
-import androidx.datastore.core.DataStore
-import androidx.datastore.preferences.core.Preferences
-import androidx.datastore.preferences.core.edit
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.AndroidEntryPoint
-import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.crash_screen.components.GlobalExceptionHandler.Companion.getExceptionString
+import ru.tech.imageresizershrinker.crash_screen.viewModel.CrashViewModel
 import ru.tech.imageresizershrinker.main_screen.MainActivity
 import ru.tech.imageresizershrinker.main_screen.components.LocalAmoledMode
 import ru.tech.imageresizershrinker.main_screen.components.LocalAppPrimaryColor
 import ru.tech.imageresizershrinker.main_screen.components.LocalDynamicColors
 import ru.tech.imageresizershrinker.main_screen.components.LocalNightMode
-import ru.tech.imageresizershrinker.resize_screen.components.ToastHost
-import ru.tech.imageresizershrinker.resize_screen.components.rememberToastHostState
+import ru.tech.imageresizershrinker.widget.ToastHost
+import ru.tech.imageresizershrinker.widget.rememberToastHostState
 import ru.tech.imageresizershrinker.theme.ImageResizerTheme
-import ru.tech.imageresizershrinker.theme.md_theme_dark_primary
-import ru.tech.imageresizershrinker.utils.AMOLED_MODE
-import ru.tech.imageresizershrinker.utils.APP_COLOR
-import ru.tech.imageresizershrinker.utils.DYNAMIC_COLORS
-import ru.tech.imageresizershrinker.utils.NIGHT_MODE
 import ru.tech.imageresizershrinker.widget.AutoSizeText
-import javax.inject.Inject
-
-@HiltViewModel
-class CrashViewModel @Inject constructor(
-    dataStore: DataStore<Preferences>,
-) : ViewModel() {
-
-    private val _nightMode = mutableStateOf(2)
-    val nightMode by _nightMode
-
-    private val _dynamicColors = mutableStateOf(true)
-    val dynamicColors by _dynamicColors
-
-    private val _amoledMode = mutableStateOf(false)
-    val amoledMode by _amoledMode
-
-    private val _appPrimaryColor = mutableStateOf(md_theme_dark_primary)
-    val appPrimaryColor by _appPrimaryColor
-
-    init {
-        runBlocking {
-            dataStore.edit {
-                _nightMode.value = it[NIGHT_MODE] ?: 2
-                _dynamicColors.value = it[DYNAMIC_COLORS] ?: true
-                _amoledMode.value = it[AMOLED_MODE] ?: false
-                _appPrimaryColor.value = (it[APP_COLOR]?.let { Color(it) }) ?: md_theme_dark_primary
-            }
-        }
-        dataStore.data.onEach {
-            _nightMode.value = it[NIGHT_MODE] ?: 2
-            _dynamicColors.value = it[DYNAMIC_COLORS] ?: true
-            _amoledMode.value = it[AMOLED_MODE] ?: false
-            _appPrimaryColor.value = (it[APP_COLOR]?.let { Color(it) }) ?: md_theme_dark_primary
-        }.launchIn(viewModelScope)
-    }
-}
+import ru.tech.imageresizershrinker.widget.activity.M3Activity
 
 @AndroidEntryPoint
-class CrashActivity : AppCompatActivity() {
+class CrashActivity : M3Activity() {
 
     val viewModel by viewModels<CrashViewModel>()
 
     @OptIn(ExperimentalFoundationApi::class, ExperimentalMaterial3Api::class)
     override fun onCreate(savedInstanceState: Bundle?) {
-
-        installSplashScreen()
         super.onCreate(savedInstanceState)
 
-        WindowCompat.setDecorFitsSystemWindows(window, false)
         val crashReason = getExceptionString()
 
         setContent {

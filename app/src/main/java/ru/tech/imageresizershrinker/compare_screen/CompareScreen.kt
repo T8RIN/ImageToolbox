@@ -40,7 +40,7 @@ import ru.tech.imageresizershrinker.main_screen.components.drawHorizontalStroke
 import ru.tech.imageresizershrinker.main_screen.components.fabBorder
 import ru.tech.imageresizershrinker.resize_screen.components.ImageNotPickedWidget
 import ru.tech.imageresizershrinker.resize_screen.components.LoadingDialog
-import ru.tech.imageresizershrinker.resize_screen.components.LocalToastHost
+import ru.tech.imageresizershrinker.widget.LocalToastHost
 import ru.tech.imageresizershrinker.resize_screen.components.blend
 import ru.tech.imageresizershrinker.utils.BitmapUtils.getBitmapByUri
 import ru.tech.imageresizershrinker.widget.Marquee
