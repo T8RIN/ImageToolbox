@@ -37,8 +37,7 @@ import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.min
 import androidx.compose.ui.zIndex
-import com.cookhelper.dynamic.theme.ColorTuple
-import com.cookhelper.dynamic.theme.ColorTupleItem
+import com.t8rin.dynamic.theme.ColorTupleItem
 import dev.olshevski.navigation.reimagined.NavController
 import dev.olshevski.navigation.reimagined.navigate
 import dev.olshevski.navigation.reimagined.popUpTo

@@ -31,7 +31,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.cookhelper.dynamic.theme.LocalDynamicThemeState
+import com.t8rin.dynamic.theme.LocalDynamicThemeState
 import com.smarttoolfactory.colordetector.ImageColorDetector
 import dev.olshevski.navigation.reimagined.NavController
 import dev.olshevski.navigation.reimagined.navigate

@@ -3,8 +3,7 @@ package ru.tech.imageresizershrinker.main_screen.components
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.compositionLocalOf
-import androidx.compose.ui.graphics.Color
-import com.cookhelper.dynamic.theme.ColorTuple
+import com.t8rin.dynamic.theme.ColorTuple
 
 val LocalNightMode = compositionLocalOf<Int> { error("Not present Night Mode") }
 

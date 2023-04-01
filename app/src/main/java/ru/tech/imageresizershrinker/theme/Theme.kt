@@ -1,9 +1,9 @@
 package ru.tech.imageresizershrinker.theme
 
 import androidx.compose.runtime.Composable
-import com.cookhelper.dynamic.theme.DynamicTheme
-import com.cookhelper.dynamic.theme.getAppColorTuple
-import com.cookhelper.dynamic.theme.rememberDynamicThemeState
+import com.t8rin.dynamic.theme.DynamicTheme
+import com.t8rin.dynamic.theme.getAppColorTuple
+import com.t8rin.dynamic.theme.rememberDynamicThemeState
 import ru.tech.imageresizershrinker.main_screen.components.*
 
 @Composable

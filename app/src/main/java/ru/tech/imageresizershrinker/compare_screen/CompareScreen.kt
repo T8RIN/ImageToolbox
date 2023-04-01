@@ -27,8 +27,8 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.cookhelper.dynamic.theme.LocalDynamicThemeState
-import com.cookhelper.dynamic.theme.extractPrimaryColor
+import com.t8rin.dynamic.theme.LocalDynamicThemeState
+import com.t8rin.dynamic.theme.extractPrimaryColor
 import com.smarttoolfactory.beforeafter.BeforeAfterImage
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.R

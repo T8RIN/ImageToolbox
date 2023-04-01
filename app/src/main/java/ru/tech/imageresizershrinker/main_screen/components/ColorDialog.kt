@@ -29,9 +29,9 @@ import androidx.compose.ui.unit.dp
 import androidx.core.graphics.blue
 import androidx.core.graphics.green
 import androidx.core.graphics.red
-import com.cookhelper.dynamic.theme.ColorTuple
-import com.cookhelper.dynamic.theme.calculateSecondaryColor
-import com.cookhelper.dynamic.theme.calculateTertiaryColor
+import com.t8rin.dynamic.theme.ColorTuple
+import com.t8rin.dynamic.theme.calculateSecondaryColor
+import com.t8rin.dynamic.theme.calculateTertiaryColor
 import kotlinx.coroutines.delay
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.theme.outlineVariant

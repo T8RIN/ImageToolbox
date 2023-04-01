@@ -20,8 +20,8 @@ import androidx.compose.ui.graphics.*
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import com.cookhelper.dynamic.theme.LocalDynamicThemeState
-import com.cookhelper.dynamic.theme.getAppColorTuple
+import com.t8rin.dynamic.theme.LocalDynamicThemeState
+import com.t8rin.dynamic.theme.getAppColorTuple
 import dagger.hilt.android.AndroidEntryPoint
 import dev.olshevski.navigation.reimagined.*
 import nl.dionsegijn.konfetti.compose.KonfettiView
