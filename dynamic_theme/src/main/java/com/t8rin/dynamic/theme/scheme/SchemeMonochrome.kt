@@ -13,26 +13,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package com.t8rin.dynamic.theme.scheme
 
-package com.t8rin.dynamic.theme.scheme;
-
-import com.t8rin.dynamic.theme.hct.Hct;
-import com.t8rin.dynamic.theme.palettes.TonalPalette;
+import com.t8rin.dynamic.theme.hct.Hct
+import com.t8rin.dynamic.theme.palettes.TonalPalette.Companion.fromHueAndChroma
 
 /**
  * A monochrome theme, colors are purely black / white / gray.
  */
-public class SchemeMonochrome extends DynamicScheme {
-    public SchemeMonochrome(Hct sourceColorHct, boolean isDark, double contrastLevel) {
-        super(
-                sourceColorHct,
-                Variant.MONOCHROME,
-                isDark,
-                contrastLevel,
-                TonalPalette.fromHueAndChroma(sourceColorHct.getHue(), 0.0),
-                TonalPalette.fromHueAndChroma(sourceColorHct.getHue(), 0.0),
-                TonalPalette.fromHueAndChroma(sourceColorHct.getHue(), 0.0),
-                TonalPalette.fromHueAndChroma(sourceColorHct.getHue(), 0.0),
-                TonalPalette.fromHueAndChroma(sourceColorHct.getHue(), 0.0));
-    }
-}
+class SchemeMonochrome(sourceColorHct: Hct, isDark: Boolean, contrastLevel: Double) : DynamicScheme(
+    sourceColorHct,
+    Variant.MONOCHROME,
+    isDark,
+    contrastLevel,
+    fromHueAndChroma(sourceColorHct.hue, 0.0),
+    fromHueAndChroma(sourceColorHct.hue, 0.0),
+    fromHueAndChroma(sourceColorHct.hue, 0.0),
+    fromHueAndChroma(sourceColorHct.hue, 0.0),
+    fromHueAndChroma(sourceColorHct.hue, 0.0)
+)

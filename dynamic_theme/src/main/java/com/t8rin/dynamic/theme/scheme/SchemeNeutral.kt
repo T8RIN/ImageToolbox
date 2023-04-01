@@ -13,25 +13,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.t8rin.dynamic.theme.scheme;
+package com.t8rin.dynamic.theme.scheme
 
-import com.t8rin.dynamic.theme.hct.Hct;
-import com.t8rin.dynamic.theme.palettes.TonalPalette;
+import com.t8rin.dynamic.theme.hct.Hct
+import com.t8rin.dynamic.theme.palettes.TonalPalette.Companion.fromHueAndChroma
 
 /**
  * A theme that's slightly more chromatic than monochrome, which is purely black / white / gray.
  */
-public class SchemeNeutral extends DynamicScheme {
-    public SchemeNeutral(Hct sourceColorHct, boolean isDark, double contrastLevel) {
-        super(
-                sourceColorHct,
-                Variant.NEUTRAL,
-                isDark,
-                contrastLevel,
-                TonalPalette.fromHueAndChroma(sourceColorHct.getHue(), 12.0),
-                TonalPalette.fromHueAndChroma(sourceColorHct.getHue(), 8.0),
-                TonalPalette.fromHueAndChroma(sourceColorHct.getHue(), 16.0),
-                TonalPalette.fromHueAndChroma(sourceColorHct.getHue(), 2.0),
-                TonalPalette.fromHueAndChroma(sourceColorHct.getHue(), 2.0));
-    }
-}
+class SchemeNeutral(sourceColorHct: Hct, isDark: Boolean, contrastLevel: Double) : DynamicScheme(
+    sourceColorHct,
+    Variant.NEUTRAL,
+    isDark,
+    contrastLevel,
+    fromHueAndChroma(sourceColorHct.hue, 12.0),
+    fromHueAndChroma(sourceColorHct.hue, 8.0),
+    fromHueAndChroma(sourceColorHct.hue, 16.0),
+    fromHueAndChroma(sourceColorHct.hue, 2.0),
+    fromHueAndChroma(sourceColorHct.hue, 2.0)
+)

@@ -13,71 +13,72 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package com.t8rin.dynamic.theme.scheme
 
-package com.t8rin.dynamic.theme.scheme;
-
-import com.t8rin.dynamic.theme.hct.Hct;
-import com.t8rin.dynamic.theme.palettes.TonalPalette;
-import com.t8rin.dynamic.theme.utils.MathUtils;
+import com.t8rin.dynamic.theme.hct.Hct
+import com.t8rin.dynamic.theme.palettes.TonalPalette
+import com.t8rin.dynamic.theme.palettes.TonalPalette.Companion.fromHueAndChroma
+import com.t8rin.dynamic.theme.utils.MathUtils.sanitizeDegreesDouble
 
 /**
  * Provides important settings for creating colors dynamically, and 6 color palettes. Requires: 1. A
  * color. (source color) 2. A theme. (Variant) 3. Whether or not its dark mode. 4. Contrast level.
  * (-1 to 1, currently contrast ratio 3.0 and 7.0)
  */
-public class DynamicScheme {
-    public final int sourceColorArgb;
-    public final Hct sourceColorHct;
-    public final Variant variant;
-    public final boolean isDark;
-    public final double contrastLevel;
+open class DynamicScheme(
+    sourceColorHct: Hct,
+    variant: Variant,
+    isDark: Boolean,
+    contrastLevel: Double,
+    primaryPalette: TonalPalette,
+    secondaryPalette: TonalPalette,
+    tertiaryPalette: TonalPalette,
+    neutralPalette: TonalPalette,
+    neutralVariantPalette: TonalPalette
+) {
+    val sourceColorArgb: Int
+    val sourceColorHct: Hct
+    val variant: Variant
+    val isDark: Boolean
+    val contrastLevel: Double
+    val primaryPalette: TonalPalette
+    val secondaryPalette: TonalPalette
+    val tertiaryPalette: TonalPalette
+    val neutralPalette: TonalPalette
+    val neutralVariantPalette: TonalPalette
+    val errorPalette: TonalPalette
 
-    public final TonalPalette primaryPalette;
-    public final TonalPalette secondaryPalette;
-    public final TonalPalette tertiaryPalette;
-    public final TonalPalette neutralPalette;
-    public final TonalPalette neutralVariantPalette;
-    public final TonalPalette errorPalette;
-
-    public DynamicScheme(
-            Hct sourceColorHct,
-            Variant variant,
-            boolean isDark,
-            double contrastLevel,
-            TonalPalette primaryPalette,
-            TonalPalette secondaryPalette,
-            TonalPalette tertiaryPalette,
-            TonalPalette neutralPalette,
-            TonalPalette neutralVariantPalette) {
-        this.sourceColorArgb = sourceColorHct.toInt();
-        this.sourceColorHct = sourceColorHct;
-        this.variant = variant;
-        this.isDark = isDark;
-        this.contrastLevel = contrastLevel;
-
-        this.primaryPalette = primaryPalette;
-        this.secondaryPalette = secondaryPalette;
-        this.tertiaryPalette = tertiaryPalette;
-        this.neutralPalette = neutralPalette;
-        this.neutralVariantPalette = neutralVariantPalette;
-        this.errorPalette = TonalPalette.fromHueAndChroma(25.0, 84.0);
+    init {
+        sourceColorArgb = sourceColorHct.toInt()
+        this.sourceColorHct = sourceColorHct
+        this.variant = variant
+        this.isDark = isDark
+        this.contrastLevel = contrastLevel
+        this.primaryPalette = primaryPalette
+        this.secondaryPalette = secondaryPalette
+        this.tertiaryPalette = tertiaryPalette
+        this.neutralPalette = neutralPalette
+        this.neutralVariantPalette = neutralVariantPalette
+        errorPalette = fromHueAndChroma(25.0, 84.0)
     }
 
-    public static double getRotatedHue(Hct sourceColorHct, double[] hues, double[] rotations) {
-        final double sourceHue = sourceColorHct.getHue();
-        if (rotations.length == 1) {
-            return MathUtils.sanitizeDegreesDouble(sourceHue + rotations[0]);
-        }
-        final int size = hues.length;
-        for (int i = 0; i <= (size - 2); i++) {
-            final double thisHue = hues[i];
-            final double nextHue = hues[i + 1];
-            if (thisHue < sourceHue && sourceHue < nextHue) {
-                return MathUtils.sanitizeDegreesDouble(sourceHue + rotations[i]);
+    companion object {
+        fun getRotatedHue(sourceColorHct: Hct, hues: DoubleArray, rotations: DoubleArray): Double {
+            val sourceHue = sourceColorHct.hue
+            if (rotations.size == 1) {
+                return sanitizeDegreesDouble(sourceHue + rotations[0])
             }
+            val size = hues.size
+            for (i in 0..size - 2) {
+                val thisHue = hues[i]
+                val nextHue = hues[i + 1]
+                if (thisHue < sourceHue && sourceHue < nextHue) {
+                    return sanitizeDegreesDouble(sourceHue + rotations[i])
+                }
+            }
+            // If this statement executes, something is wrong, there should have been a rotation
+            // found using the arrays.
+            return sourceHue
         }
-        // If this statement executes, something is wrong, there should have been a rotation
-        // found using the arrays.
-        return sourceHue;
     }
 }

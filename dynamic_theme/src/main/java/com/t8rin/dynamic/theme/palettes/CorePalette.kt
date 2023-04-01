@@ -13,61 +13,72 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package com.t8rin.dynamic.theme.palettes
 
-package com.t8rin.dynamic.theme.palettes;
-
-import static java.lang.Math.max;
-import static java.lang.Math.min;
-
-import com.t8rin.dynamic.theme.hct.Hct;
+import com.t8rin.dynamic.theme.hct.Hct
 
 /**
  * An intermediate concept between the key color for a UI theme, and a full color scheme. 5 sets of
  * tones are generated, all except one use the same hue as the key color, and all vary in chroma.
  */
-public final class CorePalette {
-    public TonalPalette a1;
-    public TonalPalette a2;
-    public TonalPalette a3;
-    public TonalPalette n1;
-    public TonalPalette n2;
-    public TonalPalette error;
+class CorePalette private constructor(argb: Int, isContent: Boolean) {
+    @JvmField
+    var a1: TonalPalette? = null
 
-    private CorePalette(int argb, boolean isContent) {
-        Hct hct = Hct.fromInt(argb);
-        double hue = hct.getHue();
-        double chroma = hct.getChroma();
+    @JvmField
+    var a2: TonalPalette? = null
+
+    @JvmField
+    var a3: TonalPalette? = null
+
+    @JvmField
+    var n1: TonalPalette? = null
+
+    @JvmField
+    var n2: TonalPalette? = null
+
+    @JvmField
+    var error: TonalPalette
+
+    init {
+        val hct = Hct.fromInt(argb)
+        val hue = hct.hue
+        val chroma = hct.chroma
         if (isContent) {
-            this.a1 = TonalPalette.fromHueAndChroma(hue, chroma);
-            this.a2 = TonalPalette.fromHueAndChroma(hue, chroma / 3.);
-            this.a3 = TonalPalette.fromHueAndChroma(hue + 60., chroma / 2.);
-            this.n1 = TonalPalette.fromHueAndChroma(hue, min(chroma / 12., 4.));
-            this.n2 = TonalPalette.fromHueAndChroma(hue, min(chroma / 6., 8.));
+            a1 = TonalPalette.Companion.fromHueAndChroma(hue, chroma)
+            a2 = TonalPalette.Companion.fromHueAndChroma(hue, chroma / 3.0)
+            a3 = TonalPalette.Companion.fromHueAndChroma(hue + 60.0, chroma / 2.0)
+            n1 = TonalPalette.Companion.fromHueAndChroma(hue, Math.min(chroma / 12.0, 4.0))
+            n2 = TonalPalette.Companion.fromHueAndChroma(hue, Math.min(chroma / 6.0, 8.0))
         } else {
-            this.a1 = TonalPalette.fromHueAndChroma(hue, max(48., chroma));
-            this.a2 = TonalPalette.fromHueAndChroma(hue, 16.);
-            this.a3 = TonalPalette.fromHueAndChroma(hue + 60., 24.);
-            this.n1 = TonalPalette.fromHueAndChroma(hue, 4.);
-            this.n2 = TonalPalette.fromHueAndChroma(hue, 8.);
+            a1 = TonalPalette.Companion.fromHueAndChroma(hue, Math.max(48.0, chroma))
+            a2 = TonalPalette.Companion.fromHueAndChroma(hue, 16.0)
+            a3 = TonalPalette.Companion.fromHueAndChroma(hue + 60.0, 24.0)
+            n1 = TonalPalette.Companion.fromHueAndChroma(hue, 4.0)
+            n2 = TonalPalette.Companion.fromHueAndChroma(hue, 8.0)
         }
-        this.error = TonalPalette.fromHueAndChroma(25, 84.);
+        error = TonalPalette.Companion.fromHueAndChroma(25.0, 84.0)
     }
 
-    /**
-     * Create key tones from a color.
-     *
-     * @param argb ARGB representation of a color
-     */
-    public static CorePalette of(int argb) {
-        return new CorePalette(argb, false);
-    }
+    companion object {
+        /**
+         * Create key tones from a color.
+         *
+         * @param argb ARGB representation of a color
+         */
+        @JvmStatic
+        fun of(argb: Int): CorePalette {
+            return CorePalette(argb, false)
+        }
 
-    /**
-     * Create content key tones from a color.
-     *
-     * @param argb ARGB representation of a color
-     */
-    public static CorePalette contentOf(int argb) {
-        return new CorePalette(argb, true);
+        /**
+         * Create content key tones from a color.
+         *
+         * @param argb ARGB representation of a color
+         */
+        @JvmStatic
+        fun contentOf(argb: Int): CorePalette {
+            return CorePalette(argb, true)
+        }
     }
 }

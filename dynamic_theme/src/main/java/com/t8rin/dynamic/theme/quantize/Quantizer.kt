@@ -13,9 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package com.t8rin.dynamic.theme.quantize
 
-package com.t8rin.dynamic.theme.quantize;
-
-interface Quantizer {
-    QuantizerResult quantize(int[] pixels, int maxColors);
+internal interface Quantizer {
+    fun quantize(pixels: IntArray, maxColors: Int): QuantizerResult
 }

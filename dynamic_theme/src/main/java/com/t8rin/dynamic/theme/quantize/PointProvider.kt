@@ -13,16 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-package com.t8rin.dynamic.theme.quantize;
+package com.t8rin.dynamic.theme.quantize
 
 /**
  * An interface to allow use of different color spaces by quantizers.
  */
-public interface PointProvider {
-    double[] fromInt(int argb);
-
-    int toInt(double[] point);
-
-    double distance(double[] a, double[] b);
+interface PointProvider {
+    fun fromInt(argb: Int): DoubleArray
+    fun toInt(point: DoubleArray?): Int
+    fun distance(a: DoubleArray?, b: DoubleArray?): Double
 }

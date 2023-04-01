@@ -13,46 +13,46 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package com.t8rin.dynamic.theme.scheme
 
-package com.t8rin.dynamic.theme.scheme;
-
-import static java.lang.Math.max;
-
-import com.t8rin.dynamic.theme.dislike.DislikeAnalyzer;
-import com.t8rin.dynamic.theme.hct.Hct;
-import com.t8rin.dynamic.theme.palettes.TonalPalette;
-import com.t8rin.dynamic.theme.temperature.TemperatureCache;
+import com.t8rin.dynamic.theme.dislike.DislikeAnalyzer.Companion.fixIfDisliked
+import com.t8rin.dynamic.theme.hct.Hct
+import com.t8rin.dynamic.theme.palettes.TonalPalette.Companion.fromHct
+import com.t8rin.dynamic.theme.palettes.TonalPalette.Companion.fromHueAndChroma
+import com.t8rin.dynamic.theme.temperature.TemperatureCache
 
 /**
  * A scheme that places the source color in Scheme.primaryContainer.
  *
- * <p>Primary Container is the source color, adjusted for color relativity. It maintains constant
+ *
+ * Primary Container is the source color, adjusted for color relativity. It maintains constant
  * appearance in light mode and dark mode. This adds ~5 tone in light mode, and subtracts ~5 tone in
  * dark mode.
  *
- * <p>Tertiary Container is an analogous color, specifically, the analog of a color wheel divided
+ *
+ * Tertiary Container is an analogous color, specifically, the analog of a color wheel divided
  * into 6, and the precise analog is the one found by increasing hue. This is a scientifically
  * grounded equivalent to rotating hue clockwise by 60 degrees. It also maintains constant
  * appearance.
  */
-public class SchemeContent extends DynamicScheme {
-    public SchemeContent(Hct sourceColorHct, boolean isDark, double contrastLevel) {
-        super(
-                sourceColorHct,
-                Variant.CONTENT,
-                isDark,
-                contrastLevel,
-                TonalPalette.fromHueAndChroma(sourceColorHct.getHue(), sourceColorHct.getChroma()),
-                TonalPalette.fromHueAndChroma(
-                        sourceColorHct.getHue(),
-                        max(sourceColorHct.getChroma() - 32.0, sourceColorHct.getChroma() * 0.5)),
-                TonalPalette.fromHct(
-                        DislikeAnalyzer.fixIfDisliked(
-                                new TemperatureCache(sourceColorHct)
-                                        .getAnalogousColors(/* count= */ 3, /* divisions= */ 6)
-                                        .get(2))),
-                TonalPalette.fromHueAndChroma(sourceColorHct.getHue(), sourceColorHct.getChroma() / 8.0),
-                TonalPalette.fromHueAndChroma(
-                        sourceColorHct.getHue(), (sourceColorHct.getChroma() / 8.0) + 4.0));
-    }
-}
+class SchemeContent(sourceColorHct: Hct, isDark: Boolean, contrastLevel: Double) : DynamicScheme(
+    sourceColorHct,
+    Variant.CONTENT,
+    isDark,
+    contrastLevel,
+    fromHueAndChroma(sourceColorHct.hue, sourceColorHct.chroma),
+    fromHueAndChroma(
+        sourceColorHct.hue,
+        Math.max(sourceColorHct.chroma - 32.0, sourceColorHct.chroma * 0.5)
+    ),
+    fromHct(
+        fixIfDisliked(
+            TemperatureCache(sourceColorHct)
+                .getAnalogousColors( /* count= */3,  /* divisions= */6)[2]
+        )
+    ),
+    fromHueAndChroma(sourceColorHct.hue, sourceColorHct.chroma / 8.0),
+    fromHueAndChroma(
+        sourceColorHct.hue, sourceColorHct.chroma / 8.0 + 4.0
+    )
+)

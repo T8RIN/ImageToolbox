@@ -13,18 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-package com.t8rin.dynamic.theme.quantize;
-
-import java.util.Map;
+package com.t8rin.dynamic.theme.quantize
 
 /**
  * Represents result of a quantizer run
  */
-public final class QuantizerResult {
-    public final Map<Integer, Integer> colorToCount;
-
-    QuantizerResult(Map<Integer, Integer> colorToCount) {
-        this.colorToCount = colorToCount;
-    }
-}
+class QuantizerResult internal constructor(val colorToCount: Map<Int, Int>)

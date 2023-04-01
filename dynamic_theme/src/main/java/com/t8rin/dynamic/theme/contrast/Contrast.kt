@@ -13,34 +13,34 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package com.t8rin.dynamic.theme.contrast
 
-package com.t8rin.dynamic.theme.contrast;
-
-import static java.lang.Math.max;
-
-import com.t8rin.dynamic.theme.utils.ColorUtils;
+import com.t8rin.dynamic.theme.utils.ColorUtils.lstarFromY
+import com.t8rin.dynamic.theme.utils.ColorUtils.yFromLstar
 
 /**
  * Color science for contrast utilities.
  *
- * <p>Utility methods for calculating contrast given two colors, or calculating a color given one
+ *
+ * Utility methods for calculating contrast given two colors, or calculating a color given one
  * color and a contrast ratio.
  *
- * <p>Contrast ratio is calculated using XYZ's Y. When linearized to match human perception, Y
+ *
+ * Contrast ratio is calculated using XYZ's Y. When linearized to match human perception, Y
  * becomes HCT's tone and L*a*b*'s' L*.
  */
-public final class Contrast {
+object Contrast {
     // The minimum contrast ratio of two colors.
     // Contrast ratio equation = lighter + 5 / darker + 5, if lighter == darker, ratio == 1.
-    public static final double RATIO_MIN = 1.0;
+    const val RATIO_MIN = 1.0
 
     // The maximum contrast ratio of two colors.
     // Contrast ratio equation = lighter + 5 / darker + 5. Lighter and darker scale from 0 to 100.
     // If lighter == 100, darker = 0, ratio == 21.
-    public static final double RATIO_MAX = 21.0;
-    public static final double RATIO_30 = 3.0;
-    public static final double RATIO_45 = 4.5;
-    public static final double RATIO_70 = 7.0;
+    const val RATIO_MAX = 21.0
+    const val RATIO_30 = 3.0
+    const val RATIO_45 = 4.5
+    const val RATIO_70 = 7.0
 
     // Given a color and a contrast ratio to reach, the luminance of a color that reaches that ratio
     // with the color can be calculated. However, that luminance may not contrast as desired, i.e. the
@@ -52,7 +52,7 @@ public final class Contrast {
     // it will return a valid luminance but that luminance may not meet the requested contrast ratio.
     //
     // 0.04 selected because it ensures the resulting ratio rounds to the same tenth.
-    private static final double CONTRAST_RATIO_EPSILON = 0.04;
+    private const val CONTRAST_RATIO_EPSILON = 0.04
 
     // Color spaces that measure luminance, such as Y in XYZ, L* in L*a*b*, or T in HCT, are known as
     // perceptual accurate color spaces.
@@ -77,43 +77,45 @@ public final class Contrast {
     // 0.4 is generous, ex. HCT requires much less delta. It was chosen because it provides a rough
     // guarantee that as long as a percetual color space gamut maps lightness such that the resulting
     // lightness rounds to the same as the requested, the desired contrast ratio will be reached.
-    private static final double LUMINANCE_GAMUT_MAP_TOLERANCE = 0.4;
-
-    private Contrast() {
-    }
+    private const val LUMINANCE_GAMUT_MAP_TOLERANCE = 0.4
 
     /**
      * Contrast ratio is a measure of legibility, its used to compare the lightness of two colors.
      * This method is used commonly in industry due to its use by WCAG.
      *
-     * <p>To compare lightness, the colors are expressed in the XYZ color space, where Y is lightness,
+     *
+     * To compare lightness, the colors are expressed in the XYZ color space, where Y is lightness,
      * also known as relative luminance.
      *
-     * <p>The equation is ratio = lighter Y + 5 / darker Y + 5.
+     *
+     * The equation is ratio = lighter Y + 5 / darker Y + 5.
      */
-    public static double ratioOfYs(double y1, double y2) {
-        final double lighter = max(y1, y2);
-        final double darker = (lighter == y2) ? y1 : y2;
-        return (lighter + 5.0) / (darker + 5.0);
+    fun ratioOfYs(y1: Double, y2: Double): Double {
+        val lighter = Math.max(y1, y2)
+        val darker = if (lighter == y2) y1 else y2
+        return (lighter + 5.0) / (darker + 5.0)
     }
 
     /**
      * Contrast ratio of two tones. T in HCT, L* in L*a*b*. Also known as luminance or perpectual
      * luminance.
      *
-     * <p>Contrast ratio is defined using Y in XYZ, relative luminance. However, relative luminance is
+     *
+     * Contrast ratio is defined using Y in XYZ, relative luminance. However, relative luminance is
      * linear to number of photons, not to perception of lightness. Perceptual luminance, L* in
      * L*a*b*, T in HCT, is. Designers prefer color spaces with perceptual luminance since they're
      * accurate to the eye.
      *
-     * <p>Y and L* are pure functions of each other, so it possible to use perceptually accurate color
+     *
+     * Y and L* are pure functions of each other, so it possible to use perceptually accurate color
      * spaces, and measure contrast, and measure contrast in a much more understandable way: instead
      * of a ratio, a linear difference. This allows a designer to determine what they need to adjust a
      * color's lightness to in order to reach their desired contrast, instead of guessing & checking
      * with hex codes.
      */
-    public static double ratioOfTones(double t1, double t2) {
-        return ratioOfYs(ColorUtils.yFromLstar(t1), ColorUtils.yFromLstar(t2));
+    @JvmStatic
+    fun ratioOfTones(t1: Double, t2: Double): Double {
+        return ratioOfYs(yFromLstar(t1), yFromLstar(t2))
     }
 
     /**
@@ -123,42 +125,42 @@ public final class Contrast {
      * @param tone  Tone return value must contrast with.
      * @param ratio Desired contrast ratio of return value and tone parameter.
      */
-    public static double lighter(double tone, double ratio) {
+    fun lighter(tone: Double, ratio: Double): Double {
         if (tone < 0.0 || tone > 100.0) {
-            return -1.0;
+            return -1.0
         }
         // Invert the contrast ratio equation to determine lighter Y given a ratio and darker Y.
-        final double darkY = ColorUtils.yFromLstar(tone);
-        final double lightY = ratio * (darkY + 5.0) - 5.0;
+        val darkY = yFromLstar(tone)
+        val lightY = ratio * (darkY + 5.0) - 5.0
         if (lightY < 0.0 || lightY > 100.0) {
-            return -1.0;
+            return -1.0
         }
-        final double realContrast = ratioOfYs(lightY, darkY);
-        final double delta = Math.abs(realContrast - ratio);
+        val realContrast = ratioOfYs(lightY, darkY)
+        val delta = Math.abs(realContrast - ratio)
         if (realContrast < ratio && delta > CONTRAST_RATIO_EPSILON) {
-            return -1.0;
+            return -1.0
         }
-
-        final double returnValue = ColorUtils.lstarFromY(lightY) + LUMINANCE_GAMUT_MAP_TOLERANCE;
+        val returnValue = lstarFromY(lightY) + LUMINANCE_GAMUT_MAP_TOLERANCE
         // NOMUTANTS--important validation step; functions it is calling may change implementation.
-        if (returnValue < 0 || returnValue > 100) {
-            return -1.0;
-        }
-        return returnValue;
+        return if (returnValue < 0 || returnValue > 100) {
+            -1.0
+        } else returnValue
     }
 
     /**
      * Tone >= tone parameter that ensures ratio. 100 if ratio cannot be achieved.
      *
-     * <p>This method is unsafe because the returned value is guaranteed to be in bounds, but, the in
+     *
+     * This method is unsafe because the returned value is guaranteed to be in bounds, but, the in
      * bounds return value may not reach the desired ratio.
      *
      * @param tone  Tone return value must contrast with.
      * @param ratio Desired contrast ratio of return value and tone parameter.
      */
-    public static double lighterUnsafe(double tone, double ratio) {
-        double lighterSafe = lighter(tone, ratio);
-        return lighterSafe < 0.0 ? 100.0 : lighterSafe;
+    @JvmStatic
+    fun lighterUnsafe(tone: Double, ratio: Double): Double {
+        val lighterSafe = lighter(tone, ratio)
+        return if (lighterSafe < 0.0) 100.0 else lighterSafe
     }
 
     /**
@@ -168,42 +170,43 @@ public final class Contrast {
      * @param tone  Tone return value must contrast with.
      * @param ratio Desired contrast ratio of return value and tone parameter.
      */
-    public static double darker(double tone, double ratio) {
+    fun darker(tone: Double, ratio: Double): Double {
         if (tone < 0.0 || tone > 100.0) {
-            return -1.0;
+            return -1.0
         }
         // Invert the contrast ratio equation to determine darker Y given a ratio and lighter Y.
-        final double lightY = ColorUtils.yFromLstar(tone);
-        final double darkY = ((lightY + 5.0) / ratio) - 5.0;
+        val lightY = yFromLstar(tone)
+        val darkY = (lightY + 5.0) / ratio - 5.0
         if (darkY < 0.0 || darkY > 100.0) {
-            return -1.0;
+            return -1.0
         }
-        final double realContrast = ratioOfYs(lightY, darkY);
-        final double delta = Math.abs(realContrast - ratio);
+        val realContrast = ratioOfYs(lightY, darkY)
+        val delta = Math.abs(realContrast - ratio)
         if (realContrast < ratio && delta > CONTRAST_RATIO_EPSILON) {
-            return -1.0;
+            return -1.0
         }
 
         // For information on 0.4 constant, see comment in lighter(tone, ratio).
-        final double returnValue = ColorUtils.lstarFromY(darkY) - LUMINANCE_GAMUT_MAP_TOLERANCE;
+        val returnValue = lstarFromY(darkY) - LUMINANCE_GAMUT_MAP_TOLERANCE
         // NOMUTANTS--important validation step; functions it is calling may change implementation.
-        if (returnValue < 0 || returnValue > 100) {
-            return -1.0;
-        }
-        return returnValue;
+        return if (returnValue < 0 || returnValue > 100) {
+            -1.0
+        } else returnValue
     }
 
     /**
      * Tone <= tone parameter that ensures ratio. 0 if ratio cannot be achieved.
      *
-     * <p>This method is unsafe because the returned value is guaranteed to be in bounds, but, the in
+     *
+     * This method is unsafe because the returned value is guaranteed to be in bounds, but, the in
      * bounds return value may not reach the desired ratio.
      *
      * @param tone  Tone return value must contrast with.
      * @param ratio Desired contrast ratio of return value and tone parameter.
      */
-    public static double darkerUnsafe(double tone, double ratio) {
-        double darkerSafe = darker(tone, ratio);
-        return max(0.0, darkerSafe);
+    @JvmStatic
+    fun darkerUnsafe(tone: Double, ratio: Double): Double {
+        val darkerSafe = darker(tone, ratio)
+        return Math.max(0.0, darkerSafe)
     }
 }

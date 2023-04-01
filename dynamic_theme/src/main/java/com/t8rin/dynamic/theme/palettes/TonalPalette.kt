@@ -13,57 +13,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package com.t8rin.dynamic.theme.palettes
 
-package com.t8rin.dynamic.theme.palettes;
-
-import com.t8rin.dynamic.theme.hct.Hct;
-
-import java.util.HashMap;
-import java.util.Map;
+import com.t8rin.dynamic.theme.hct.Hct
 
 /**
  * A convenience class for retrieving colors that are constant in hue and chroma, but vary in tone.
  */
-public final class TonalPalette {
-    Map<Integer, Integer> cache;
-    double hue;
-    double chroma;
+class TonalPalette private constructor(hue: Double, chroma: Double) {
+    var cache: MutableMap<Int, Int> = HashMap()
+    var hue: Double
+    var chroma: Double
 
-    private TonalPalette(double hue, double chroma) {
-        cache = new HashMap<>();
-        this.hue = hue;
-        this.chroma = chroma;
-    }
-
-    /**
-     * Create tones using the HCT hue and chroma from a color.
-     *
-     * @param argb ARGB representation of a color
-     * @return Tones matching that color's hue and chroma.
-     */
-    public static final TonalPalette fromInt(int argb) {
-        return fromHct(Hct.fromInt(argb));
-    }
-
-    /**
-     * Create tones using a HCT color.
-     *
-     * @param hct HCT representation of a color.
-     * @return Tones matching that color's hue and chroma.
-     */
-    public static final TonalPalette fromHct(Hct hct) {
-        return TonalPalette.fromHueAndChroma(hct.getHue(), hct.getChroma());
-    }
-
-    /**
-     * Create tones from a defined HCT hue and chroma.
-     *
-     * @param hue    HCT hue
-     * @param chroma HCT chroma
-     * @return Tones matching hue and chroma.
-     */
-    public static final TonalPalette fromHueAndChroma(double hue, double chroma) {
-        return new TonalPalette(hue, chroma);
+    init {
+        this.hue = hue
+        this.chroma = chroma
     }
 
     /**
@@ -73,25 +37,51 @@ public final class TonalPalette {
      * @return ARGB representation of a color with that tone.
      */
     // AndroidJdkLibsChecker is higher priority than ComputeIfAbsentUseValue (b/119581923)
-    @SuppressWarnings("ComputeIfAbsentUseValue")
-    public int tone(int tone) {
-        Integer color = cache.get(tone);
+    fun tone(tone: Int): Int {
+        var color = cache[tone]
         if (color == null) {
-            color = Hct.from(this.hue, this.chroma, tone).toInt();
-            cache.put(tone, color);
+            color = Hct.from(hue, chroma, tone.toDouble()).toInt()
+            cache[tone] = color
         }
-        return color;
+        return color
     }
 
-    public Hct getHct(double tone) {
-        return Hct.from(this.hue, this.chroma, tone);
+    fun getHct(tone: Double): Hct {
+        return Hct.from(hue, chroma, tone)
     }
 
-    public double getChroma() {
-        return this.chroma;
-    }
+    companion object {
+        /**
+         * Create tones using the HCT hue and chroma from a color.
+         *
+         * @param argb ARGB representation of a color
+         * @return Tones matching that color's hue and chroma.
+         */
+        fun fromInt(argb: Int): TonalPalette {
+            return fromHct(Hct.fromInt(argb))
+        }
 
-    public double getHue() {
-        return this.hue;
+        /**
+         * Create tones using a HCT color.
+         *
+         * @param hct HCT representation of a color.
+         * @return Tones matching that color's hue and chroma.
+         */
+        @JvmStatic
+        fun fromHct(hct: Hct): TonalPalette {
+            return fromHueAndChroma(hct.hue, hct.chroma)
+        }
+
+        /**
+         * Create tones from a defined HCT hue and chroma.
+         *
+         * @param hue    HCT hue
+         * @param chroma HCT chroma
+         * @return Tones matching hue and chroma.
+         */
+        @JvmStatic
+        fun fromHueAndChroma(hue: Double, chroma: Double): TonalPalette {
+            return TonalPalette(hue, chroma)
+        }
     }
 }

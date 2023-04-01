@@ -25,6 +25,7 @@ android {
         }
     }
     compileOptions {
+        isCoreLibraryDesugaringEnabled = true
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
     }
@@ -45,4 +46,5 @@ dependencies {
     implementation("androidx.compose.material3:material3")
     implementation("androidx.palette:palette:1.0.0")
     implementation("com.google.accompanist:accompanist-systemuicontroller:0.30.0")
+    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.0.3")
 }

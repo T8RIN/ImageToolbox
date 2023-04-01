@@ -13,14 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-package com.t8rin.dynamic.theme.dynamiccolor;
+package com.t8rin.dynamic.theme.dynamiccolor
 
 /**
  * Describes the relationship in lightness between two colors.
  */
-public enum TonePolarity {
-    DARKER,
-    LIGHTER,
-    NO_PREFERENCE
+enum class TonePolarity {
+    DARKER, LIGHTER, NO_PREFERENCE
 }

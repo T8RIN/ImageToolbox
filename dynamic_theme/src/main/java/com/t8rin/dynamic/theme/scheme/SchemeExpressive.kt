@@ -13,35 +13,38 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package com.t8rin.dynamic.theme.scheme
 
-package com.t8rin.dynamic.theme.scheme;
-
-import com.t8rin.dynamic.theme.hct.Hct;
-import com.t8rin.dynamic.theme.palettes.TonalPalette;
-import com.t8rin.dynamic.theme.utils.MathUtils;
+import com.t8rin.dynamic.theme.hct.Hct
+import com.t8rin.dynamic.theme.palettes.TonalPalette.Companion.fromHueAndChroma
+import com.t8rin.dynamic.theme.utils.MathUtils.sanitizeDegreesDouble
 
 /**
  * A playful theme - the source color's hue does not appear in the theme.
  */
-public class SchemeExpressive extends DynamicScheme {
-    // NOMUTANTS--arbitrary increments/decrements, correctly, still passes tests.
-    private static final double[] HUES = {0, 21, 51, 121, 151, 191, 271, 321, 360};
-    private static final double[] SECONDARY_ROTATIONS = {45, 95, 45, 20, 45, 90, 45, 45, 45};
-    private static final double[] TERTIARY_ROTATIONS = {120, 120, 20, 45, 20, 15, 20, 120, 120};
-
-    public SchemeExpressive(Hct sourceColorHct, boolean isDark, double contrastLevel) {
-        super(
-                sourceColorHct,
-                Variant.EXPRESSIVE,
-                isDark,
-                contrastLevel,
-                TonalPalette.fromHueAndChroma(
-                        MathUtils.sanitizeDegreesDouble(sourceColorHct.getHue() + 120.0), 40.0),
-                TonalPalette.fromHueAndChroma(
-                        DynamicScheme.getRotatedHue(sourceColorHct, HUES, SECONDARY_ROTATIONS), 24.0),
-                TonalPalette.fromHueAndChroma(
-                        DynamicScheme.getRotatedHue(sourceColorHct, HUES, TERTIARY_ROTATIONS), 32.0),
-                TonalPalette.fromHueAndChroma(sourceColorHct.getHue(), 8.0),
-                TonalPalette.fromHueAndChroma(sourceColorHct.getHue(), 12.0));
+class SchemeExpressive(sourceColorHct: Hct, isDark: Boolean, contrastLevel: Double) : DynamicScheme(
+    sourceColorHct,
+    Variant.EXPRESSIVE,
+    isDark,
+    contrastLevel,
+    fromHueAndChroma(
+        sanitizeDegreesDouble(sourceColorHct.hue + 120.0), 40.0
+    ),
+    fromHueAndChroma(
+        DynamicScheme.Companion.getRotatedHue(sourceColorHct, HUES, SECONDARY_ROTATIONS), 24.0
+    ),
+    fromHueAndChroma(
+        DynamicScheme.Companion.getRotatedHue(sourceColorHct, HUES, TERTIARY_ROTATIONS), 32.0
+    ),
+    fromHueAndChroma(sourceColorHct.hue, 8.0),
+    fromHueAndChroma(sourceColorHct.hue, 12.0)
+) {
+    companion object {
+        // NOMUTANTS--arbitrary increments/decrements, correctly, still passes tests.
+        private val HUES = doubleArrayOf(0.0, 21.0, 51.0, 121.0, 151.0, 191.0, 271.0, 321.0, 360.0)
+        private val SECONDARY_ROTATIONS =
+            doubleArrayOf(45.0, 95.0, 45.0, 20.0, 45.0, 90.0, 45.0, 45.0, 45.0)
+        private val TERTIARY_ROTATIONS =
+            doubleArrayOf(120.0, 120.0, 20.0, 45.0, 20.0, 15.0, 20.0, 120.0, 120.0)
     }
 }

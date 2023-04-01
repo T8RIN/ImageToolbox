@@ -13,27 +13,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.t8rin.dynamic.theme.scheme;
+package com.t8rin.dynamic.theme.scheme
 
-import com.t8rin.dynamic.theme.hct.Hct;
-import com.t8rin.dynamic.theme.palettes.TonalPalette;
-import com.t8rin.dynamic.theme.utils.MathUtils;
+import com.t8rin.dynamic.theme.hct.Hct
+import com.t8rin.dynamic.theme.palettes.TonalPalette.Companion.fromHueAndChroma
+import com.t8rin.dynamic.theme.utils.MathUtils.sanitizeDegreesDouble
 
 /**
  * A calm theme, sedated colors that aren't particularly chromatic.
  */
-public class SchemeTonalSpot extends DynamicScheme {
-    public SchemeTonalSpot(Hct sourceColorHct, boolean isDark, double contrastLevel) {
-        super(
-                sourceColorHct,
-                Variant.TONAL_SPOT,
-                isDark,
-                contrastLevel,
-                TonalPalette.fromHueAndChroma(sourceColorHct.getHue(), 40.0),
-                TonalPalette.fromHueAndChroma(sourceColorHct.getHue(), 16.0),
-                TonalPalette.fromHueAndChroma(
-                        MathUtils.sanitizeDegreesDouble(sourceColorHct.getHue() + 60.0), 24.0),
-                TonalPalette.fromHueAndChroma(sourceColorHct.getHue(), 6.0),
-                TonalPalette.fromHueAndChroma(sourceColorHct.getHue(), 8.0));
-    }
-}
+class SchemeTonalSpot(sourceColorHct: Hct, isDark: Boolean, contrastLevel: Double) : DynamicScheme(
+    sourceColorHct,
+    Variant.TONAL_SPOT,
+    isDark,
+    contrastLevel,
+    fromHueAndChroma(sourceColorHct.hue, 40.0),
+    fromHueAndChroma(sourceColorHct.hue, 16.0),
+    fromHueAndChroma(
+        sanitizeDegreesDouble(sourceColorHct.hue + 60.0), 24.0
+    ),
+    fromHueAndChroma(sourceColorHct.hue, 6.0),
+    fromHueAndChroma(sourceColorHct.hue, 8.0)
+)
