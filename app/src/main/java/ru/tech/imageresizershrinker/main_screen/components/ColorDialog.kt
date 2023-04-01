@@ -6,6 +6,7 @@ import android.content.ClipboardManager
 import android.content.Context
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -59,7 +60,7 @@ fun ColorDialog(
 
     AlertDialog(
         modifier = modifier,
-        onDismissRequest = onDismissRequest,
+        onDismissRequest = {},
         title = { Text(title) },
         icon = { Icon(Icons.Outlined.Palette, null) },
         text = {
@@ -129,7 +130,8 @@ fun ColorDialog(
                 border = BorderStroke(
                     1.dp,
                     MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.secondaryContainer)
-                ), onClick = onDismissRequest
+                ),
+                onClick = onDismissRequest
             ) {
                 Text(stringResource(R.string.cancel))
             }
@@ -214,18 +216,32 @@ private fun ColorCustomInfoComponent(
         verticalAlignment = Alignment.CenterVertically
     ) {
 
-        ElevatedCard(
+        Card(
             modifier = Modifier
-                .size(56.dp),
+                .size(56.dp)
+                .border(
+                    BorderStroke(
+                        1.dp,
+                        MaterialTheme.colorScheme.outlineVariant(onTopOf = Color(color))
+                    ),
+                    MaterialTheme.shapes.medium,
+                ),
             shape = MaterialTheme.shapes.medium,
             colors = CardDefaults.elevatedCardColors(containerColor = Color(color)),
         ) {}
 
-        ElevatedCard(
+        Card(
             modifier = Modifier
                 .height(64.dp)
                 .fillMaxWidth()
                 .padding(start = 16.dp)
+                .border(
+                    BorderStroke(
+                        1.dp,
+                        MaterialTheme.colorScheme.outlineVariant()
+                    ),
+                    MaterialTheme.shapes.medium,
+                )
         ) {
             Row(
                 modifier = Modifier
@@ -323,7 +339,7 @@ private fun ColorCustomControlItemComponent(
                 }
             }
         stateWidth.value?.let {
-            Modifier.width(LocalDensity.current.run { it.toDp() })
+            Modifier.width(LocalDensity.current.run { it.toDp() + 4.dp })
         } ?: defaultModifier
     }
 
