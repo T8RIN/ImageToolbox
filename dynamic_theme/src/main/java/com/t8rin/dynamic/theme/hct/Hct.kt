@@ -104,7 +104,7 @@ class Hct private constructor(argb: Int) {
      *
      * See ViewingConditions.make for parameters affecting color appearance.
      */
-    fun inViewingConditions(vc: ViewingConditions?): Hct {
+    fun inViewingConditions(vc: ViewingConditions): Hct {
         // 1. Use CAM16 to find XYZ coordinates of color in specified VC.
         val cam16 = Cam16.fromInt(toInt())
         val viewedInVc = cam16.xyzInViewingConditions(vc, null)
