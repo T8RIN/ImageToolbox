@@ -21,6 +21,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.cookhelper.dynamic.theme.LocalDynamicThemeState
+import com.cookhelper.dynamic.theme.getAppColorTuple
 import dagger.hilt.android.AndroidEntryPoint
 import dev.olshevski.navigation.reimagined.*
 import nl.dionsegijn.konfetti.compose.KonfettiView
@@ -40,7 +41,6 @@ import ru.tech.imageresizershrinker.resize_screen.SingleResizeScreen
 import ru.tech.imageresizershrinker.resize_screen.components.*
 import ru.tech.imageresizershrinker.theme.ImageResizerTheme
 import ru.tech.imageresizershrinker.theme.blend
-import ru.tech.imageresizershrinker.theme.getAppColorTuple
 import ru.tech.imageresizershrinker.theme.outlineVariant
 import ru.tech.imageresizershrinker.utils.*
 import ru.tech.imageresizershrinker.utils.IntentUtils.parcelable
@@ -77,11 +77,15 @@ class MainActivity : M3Activity() {
                 LocalDynamicColors provides viewModel.dynamicColors,
                 LocalAllowChangeColorByImage provides viewModel.allowImageMonet,
                 LocalAmoledMode provides viewModel.amoledMode,
-                LocalAppPrimaryColor provides viewModel.appPrimaryColor,
+                LocalAppColorTuple provides viewModel.appColorTuple,
             ) {
                 ImageResizerTheme {
                     val themeState = LocalDynamicThemeState.current
-                    val appColorTuple = getAppColorTuple()
+                    val appColorTuple = getAppColorTuple(
+                        defaultColorTuple = viewModel.appColorTuple,
+                        dynamicColor = viewModel.dynamicColors,
+                        darkTheme = viewModel.nightMode.isNightMode()
+                    )
                     val onGoBack: () -> Unit = {
                         viewModel.updateUris(null)
                         themeState.updateColorTuple(appColorTuple)

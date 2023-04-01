@@ -8,6 +8,7 @@ import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.cookhelper.dynamic.theme.ColorTuple
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -33,23 +34,39 @@ class CrashViewModel @Inject constructor(
     private val _amoledMode = mutableStateOf(false)
     val amoledMode by _amoledMode
 
-    private val _appPrimaryColor = mutableStateOf(md_theme_dark_primary)
-    val appPrimaryColor by _appPrimaryColor
+    private val _appColorTuple = mutableStateOf(ColorTuple(md_theme_dark_primary))
+    val appColorTuple by _appColorTuple
 
     init {
         runBlocking {
-            dataStore.edit {
-                _nightMode.value = it[NIGHT_MODE] ?: 2
-                _dynamicColors.value = it[DYNAMIC_COLORS] ?: true
-                _amoledMode.value = it[AMOLED_MODE] ?: false
-                _appPrimaryColor.value = (it[APP_COLOR]?.let { Color(it) }) ?: md_theme_dark_primary
+            dataStore.edit { prefs ->
+                _nightMode.value = prefs[NIGHT_MODE] ?: 2
+                _dynamicColors.value = prefs[DYNAMIC_COLORS] ?: true
+                _amoledMode.value = prefs[AMOLED_MODE] ?: false
+                _appColorTuple.value = (prefs[APP_COLOR]?.let { tuple ->
+                    val colorTuple = tuple.split("*")
+                    ColorTuple(
+                        primary = colorTuple[0].toIntOrNull()?.let { Color(it) }
+                            ?: md_theme_dark_primary,
+                        secondary = colorTuple[1].toIntOrNull()?.let { Color(it) },
+                        tertiary = colorTuple[2].toIntOrNull()?.let { Color(it) }
+                    )
+                }) ?: ColorTuple(md_theme_dark_primary)
             }
         }
-        dataStore.data.onEach {
-            _nightMode.value = it[NIGHT_MODE] ?: 2
-            _dynamicColors.value = it[DYNAMIC_COLORS] ?: true
-            _amoledMode.value = it[AMOLED_MODE] ?: false
-            _appPrimaryColor.value = (it[APP_COLOR]?.let { Color(it) }) ?: md_theme_dark_primary
+        dataStore.data.onEach { prefs ->
+            _nightMode.value = prefs[NIGHT_MODE] ?: 2
+            _dynamicColors.value = prefs[DYNAMIC_COLORS] ?: true
+            _amoledMode.value = prefs[AMOLED_MODE] ?: false
+            _appColorTuple.value = (prefs[APP_COLOR]?.let {tuple ->
+                val colorTuple = tuple.split("*")
+                ColorTuple(
+                    primary = colorTuple[0].toIntOrNull()?.let { Color(it) }
+                        ?: md_theme_dark_primary,
+                    secondary = colorTuple[1].toIntOrNull()?.let { Color(it) },
+                    tertiary = colorTuple[2].toIntOrNull()?.let { Color(it) }
+                )
+            }) ?: ColorTuple(md_theme_dark_primary)
         }.launchIn(viewModelScope)
     }
 }

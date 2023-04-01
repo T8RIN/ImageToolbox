@@ -4,6 +4,7 @@ import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.ui.graphics.Color
+import com.cookhelper.dynamic.theme.ColorTuple
 
 val LocalNightMode = compositionLocalOf<Int> { error("Not present Night Mode") }
 
@@ -14,7 +15,7 @@ val LocalAllowChangeColorByImage =
 
 val LocalAmoledMode = compositionLocalOf<Boolean> { error("Not present Amoled Mode") }
 
-val LocalAppPrimaryColor = compositionLocalOf<Color> { error("No color present") }
+val LocalAppColorTuple = compositionLocalOf<ColorTuple> { error("No color present") }
 
 @Composable
 fun Int.isNightMode(): Boolean = when (this) {

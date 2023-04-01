@@ -12,6 +12,7 @@ import androidx.compose.foundation.*
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.*
@@ -36,6 +37,8 @@ import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.min
 import androidx.compose.ui.zIndex
+import com.cookhelper.dynamic.theme.ColorTuple
+import com.cookhelper.dynamic.theme.ColorTupleItem
 import dev.olshevski.navigation.reimagined.NavController
 import dev.olshevski.navigation.reimagined.navigate
 import dev.olshevski.navigation.reimagined.popUpTo
@@ -296,43 +299,39 @@ fun MainScreen(
                                                 }
                                             },
                                             endContent = {
-                                                Box(
-                                                    Modifier
-                                                        .clip(RoundedCornerShape(30))
-                                                        .background(
-                                                            animateColorAsState(viewModel.appPrimaryColor).value
-                                                        )
+                                                ColorTupleItem(
+                                                    modifier = Modifier
+                                                        .size(64.dp)
                                                         .border(
-                                                            width = 1.dp,
-                                                            color = animateColorAsState(
-                                                                viewModel
-                                                                    .appPrimaryColor
-                                                                    .inverse(
+                                                            1.dp,
+                                                            MaterialTheme.colorScheme.outlineVariant(
+                                                                0.2f
+                                                            ),
+                                                            MaterialTheme.shapes.medium
+                                                        ),
+                                                    colorTuple = viewModel.appColorTuple
+                                                ) {
+                                                    Box(
+                                                        modifier = Modifier
+                                                            .size(28.dp)
+                                                            .background(
+                                                                animateColorAsState(
+                                                                    viewModel.appColorTuple.primary.inverse(
                                                                         fraction = {
                                                                             if (it) 0.8f
                                                                             else 0.5f
                                                                         },
-                                                                        darkMode = viewModel.appPrimaryColor.luminance() < 0.3f
+                                                                        darkMode = viewModel.appColorTuple.primary.luminance() < 0.3f
                                                                     )
-                                                                    .copy(alpha = 0.5f)
-                                                            ).value,
-                                                            shape = RoundedCornerShape(30)
-                                                        )
-                                                        .size(48.dp),
-                                                    contentAlignment = Alignment.Center
-                                                ) {
+                                                                ).value,
+                                                                CircleShape
+                                                            )
+                                                    )
                                                     Icon(
                                                         imageVector = Icons.Rounded.CreateAlt,
                                                         contentDescription = null,
-                                                        tint = animateColorAsState(
-                                                            viewModel.appPrimaryColor.inverse(
-                                                                fraction = {
-                                                                    if (it) 0.8f
-                                                                    else 0.5f
-                                                                },
-                                                                darkMode = viewModel.appPrimaryColor.luminance() < 0.3f
-                                                            )
-                                                        ).value
+                                                        tint = viewModel.appColorTuple.primary,
+                                                        modifier = Modifier.size(16.dp)
                                                     )
                                                 }
                                             }
@@ -822,9 +821,9 @@ fun MainScreen(
     if (showPickColorDialog) {
         ColorDialog(
             modifier = Modifier.alertDialog(),
-            color = viewModel.appPrimaryColor,
+            color = viewModel.appColorTuple.primary,
             onDismissRequest = { showPickColorDialog = false },
-            onColorChange = { viewModel.updatePrimaryColor(it) }
+            onColorChange = { viewModel.updateColorTuple(ColorTuple(Color(it))) }
         )
     } else if (showAuthorDialog) {
         AlertDialog(

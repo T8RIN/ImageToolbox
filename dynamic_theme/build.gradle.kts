@@ -45,4 +45,5 @@ dependencies {
     implementation("androidx.core:core-ktx:1.9.0")
     implementation("androidx.compose.material3:material3")
     implementation("androidx.palette:palette:1.0.0")
+    implementation("com.google.accompanist:accompanist-systemuicontroller:0.30.0")
 }

@@ -215,7 +215,11 @@ fun PreferenceItem(
                     Icon(imageVector = icon, contentDescription = null)
                     Spacer(modifier = Modifier.width(16.dp))
                 }
-                Column(Modifier.weight(1f)) {
+                Column(
+                    Modifier
+                        .weight(1f)
+                        .padding(end = 16.dp)
+                ) {
                     Text(
                         text = title,
                         fontSize = 16.sp,
@@ -240,15 +244,11 @@ fun PreferenceItem(
                     }
                 }
                 AnimatedContent(
-                    modifier = Modifier.size(width = 40.dp, height = 24.dp),
                     targetState = endIcon,
                     transitionSpec = { fadeIn() + scaleIn() with fadeOut() + scaleOut() }
                 ) { icon ->
                     icon?.let {
-                        Row {
-                            Spacer(modifier = Modifier.width(16.dp))
-                            Icon(imageVector = it, contentDescription = null)
-                        }
+                        Icon(imageVector = it, contentDescription = null)
                     }
                 }
             }

@@ -4,12 +4,14 @@ import android.net.Uri
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.cookhelper.dynamic.theme.ColorTuple
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.olshevski.navigation.reimagined.navController
 import kotlinx.coroutines.Dispatchers
@@ -48,8 +50,10 @@ class MainViewModel @Inject constructor(
     private val _amoledMode = mutableStateOf(false)
     val amoledMode by _amoledMode
 
-    private val _appPrimaryColor = mutableStateOf(md_theme_dark_primary)
-    val appPrimaryColor by _appPrimaryColor
+    private val _appColorTuple = mutableStateOf(
+        ColorTuple(md_theme_dark_primary)
+    )
+    val appColorTuple by _appColorTuple
 
     val navController = navController<Screen>(Screen.Main)
 
@@ -82,8 +86,15 @@ class MainViewModel @Inject constructor(
                 _nightMode.value = prefs[NIGHT_MODE] ?: 2
                 _dynamicColors.value = prefs[DYNAMIC_COLORS] ?: true
                 _amoledMode.value = prefs[AMOLED_MODE] ?: false
-                _appPrimaryColor.value =
-                    (prefs[APP_COLOR]?.let { Color(it) }) ?: md_theme_dark_primary
+                _appColorTuple.value = (prefs[APP_COLOR]?.let { tuple ->
+                    val colorTuple = tuple.split("*")
+                    ColorTuple(
+                        primary = colorTuple[0].toIntOrNull()?.let { Color(it) }
+                            ?: md_theme_dark_primary,
+                        secondary = colorTuple[1].toIntOrNull()?.let { Color(it) },
+                        tertiary = colorTuple[2].toIntOrNull()?.let { Color(it) }
+                    )
+                }) ?: ColorTuple(md_theme_dark_primary)
             }
         }
         dataStore.data.onEach { prefs ->
@@ -95,14 +106,24 @@ class MainViewModel @Inject constructor(
             _dynamicColors.value = prefs[DYNAMIC_COLORS] ?: true
             _allowImageMonet.value = prefs[IMAGE_MONET] ?: true
             _amoledMode.value = prefs[AMOLED_MODE] ?: false
-            _appPrimaryColor.value = (prefs[APP_COLOR]?.let { Color(it) }) ?: md_theme_dark_primary
+            _appColorTuple.value = (prefs[APP_COLOR]?.let { tuple ->
+                val colorTuple = tuple.split("*")
+                ColorTuple(
+                    primary = colorTuple[0].toIntOrNull()?.let { Color(it) }
+                        ?: md_theme_dark_primary,
+                    secondary = colorTuple[1].toIntOrNull()?.let { Color(it) },
+                    tertiary = colorTuple[2].toIntOrNull()?.let { Color(it) }
+                )
+            }) ?: ColorTuple(md_theme_dark_primary)
         }.launchIn(viewModelScope)
     }
 
-    fun updatePrimaryColor(color: Int) {
+    fun updateColorTuple(colorTuple: ColorTuple) {
         viewModelScope.launch {
             dataStore.edit {
-                it[APP_COLOR] = color
+                it[APP_COLOR] = colorTuple.run {
+                    "${primary.toArgb()}*${secondary?.toArgb()}*${tertiary?.toArgb()}"
+                }
             }
         }
     }

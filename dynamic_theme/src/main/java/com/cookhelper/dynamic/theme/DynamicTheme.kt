@@ -1,21 +1,42 @@
 package com.cookhelper.dynamic.theme
 
+import android.Manifest
+import android.app.WallpaperManager
+import android.content.pm.PackageManager
 import android.graphics.Bitmap
+import android.graphics.drawable.BitmapDrawable
+import android.os.Build
 import androidx.annotation.FloatRange
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.AnimationSpec
 import androidx.compose.animation.core.tween
+import androidx.compose.foundation.background
+import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.compositeOver
 import androidx.compose.ui.graphics.toArgb
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.platform.LocalLifecycleOwner
+import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.dp
+import androidx.core.app.ActivityCompat
 import androidx.core.graphics.ColorUtils
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleEventObserver
 import androidx.palette.graphics.Palette
 import com.cookhelper.dynamic.theme.hct.Hct
 import com.cookhelper.dynamic.theme.palettes.TonalPalette
 import com.cookhelper.dynamic.theme.scheme.Scheme
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
+import kotlin.math.min
 
 /**
  * DynamicTheme allows you to dynamically change the color scheme of the content hierarchy.
@@ -25,26 +46,220 @@ import com.cookhelper.dynamic.theme.scheme.Scheme
 @Composable
 public fun DynamicTheme(
     state: DynamicThemeState,
-    typography: Typography,
-    amoledMode: Boolean,
-    isDarkTheme: Boolean,
+    typography: Typography = Typography(),
+    density: Density = LocalDensity.current.run {
+        Density(this.density, min(fontScale, 1f))
+    },
+    defaultColorTuple: ColorTuple,
+    dynamicColor: Boolean = true,
+    amoledMode: Boolean = false,
+    isDarkTheme: Boolean = isSystemInDarkTheme(),
     content: @Composable () -> Unit,
 ) {
+    val colorTuple = getAppColorTuple(
+        defaultColorTuple = defaultColorTuple,
+        dynamicColor = dynamicColor,
+        darkTheme = isDarkTheme
+    )
+
+    LaunchedEffect(colorTuple) {
+        state.updateColorTuple(colorTuple)
+    }
+
+    val systemUiController = rememberSystemUiController()
+    val useDarkIcons = !isDarkTheme
+
+    SideEffect {
+        systemUiController.setSystemBarsColor(
+            color = Color.Transparent,
+            darkIcons = useDarkIcons,
+            isNavigationBarContrastEnforced = false
+        )
+    }
+
     val scheme = rememberColorScheme(
         amoledMode = amoledMode,
         isDarkTheme = isDarkTheme,
         colorTuple = state.colorTuple.value
     ).animateAllColors(tween(150))
+
     MaterialTheme(
         typography = typography,
         colorScheme = scheme,
         content = {
             CompositionLocalProvider(
-                LocalDynamicThemeState provides state,
+                values = arrayOf(
+                    LocalDynamicThemeState provides state,
+                    LocalDensity provides density
+                ),
                 content = content
             )
         }
     )
+}
+
+@Composable
+public fun ColorTupleItem(
+    modifier: Modifier = Modifier,
+    colorTuple: ColorTuple,
+    content: (@Composable BoxScope.() -> Unit)? = null
+) {
+    val (primary, secondary, tertiary) = remember(colorTuple) {
+        derivedStateOf {
+            colorTuple.run {
+                val hct = Hct.fromInt(colorTuple.primary.toArgb())
+                val hue = hct.hue
+                val chroma = hct.chroma
+
+                val secondary = colorTuple.secondary?.toArgb().let {
+                    if (it != null) {
+                        TonalPalette.fromInt(it)
+                    } else {
+                        TonalPalette.fromHueAndChroma(hue, chroma / 3.0)
+                    }
+                }
+                val tertiary = colorTuple.tertiary?.toArgb().let {
+                    if (it != null) {
+                        TonalPalette.fromInt(it)
+                    } else {
+                        TonalPalette.fromHueAndChroma(hue + 60.0, chroma / 2.0)
+                    }
+                }
+
+                Triple(
+                    primary,
+                    colorTuple.secondary ?: Color(secondary.tone(70)),
+                    colorTuple.tertiary ?: Color(tertiary.tone(70))
+                )
+            }
+        }
+    }.value.run {
+        Triple(
+            animateColorAsState(targetValue = first).value,
+            animateColorAsState(targetValue = second).value,
+            animateColorAsState(targetValue = third).value
+        )
+    }
+
+    Surface(
+        modifier = modifier,
+        shape = MaterialTheme.shapes.medium,
+    ) {
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(8.dp)
+                .clip(CircleShape),
+            contentAlignment = Alignment.Center
+        ) {
+            Column(
+                Modifier.fillMaxSize()
+            ) {
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .weight(1f)
+                        .background(primary)
+                )
+                Row(
+                    modifier = Modifier
+                        .weight(1f)
+                        .fillMaxWidth()
+                ) {
+                    Box(
+                        modifier = Modifier
+                            .weight(1f)
+                            .fillMaxHeight()
+                            .background(tertiary)
+                    )
+                    Box(
+                        modifier = Modifier
+                            .weight(1f)
+                            .fillMaxHeight()
+                            .background(secondary)
+                    )
+                }
+            }
+            content?.invoke(this)
+        }
+    }
+}
+
+@Composable
+public fun getAppColorTuple(
+    defaultColorTuple: ColorTuple,
+    dynamicColor: Boolean,
+    darkTheme: Boolean
+): ColorTuple {
+    val context = LocalContext.current
+    return remember(
+        LocalLifecycleOwner.current.lifecycle.observeAsState().value,
+        dynamicColor,
+        darkTheme,
+        defaultColorTuple
+    ) {
+        derivedStateOf {
+            var colorTuple: ColorTuple
+            val wallpaperManager = WallpaperManager.getInstance(context)
+            val wallColors =
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O_MR1) {
+                    wallpaperManager
+                        .getWallpaperColors(WallpaperManager.FLAG_SYSTEM)
+                } else null
+
+            when {
+                dynamicColor && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S -> {
+                    if (darkTheme) {
+                        dynamicDarkColorScheme(context)
+                    } else {
+                        dynamicLightColorScheme(context)
+                    }.run {
+                        colorTuple = ColorTuple(
+                            primary = primary,
+                            secondary = secondary,
+                            tertiary = tertiary
+                        )
+                    }
+                }
+                dynamicColor && wallColors != null && Build.VERSION.SDK_INT >= Build.VERSION_CODES.O_MR1 -> {
+                    colorTuple = ColorTuple(
+                        primary = Color(wallColors.primaryColor.toArgb()),
+                        secondary = wallColors.secondaryColor?.toArgb()?.let { Color(it) },
+                        tertiary = wallColors.tertiaryColor?.toArgb()?.let { Color(it) }
+                    )
+                }
+                dynamicColor && ActivityCompat.checkSelfPermission(
+                    context,
+                    Manifest.permission.READ_EXTERNAL_STORAGE
+                ) == PackageManager.PERMISSION_GRANTED -> {
+                    colorTuple = ColorTuple(
+                        primary = (wallpaperManager.drawable as BitmapDrawable).bitmap.extractPrimaryColor(),
+                        secondary = null,
+                        tertiary = null
+                    )
+                }
+                else -> {
+                    colorTuple = defaultColorTuple
+                }
+            }
+            colorTuple
+        }
+    }.value
+}
+
+@Composable
+public fun Lifecycle.observeAsState(): State<Lifecycle.Event> {
+    val state = remember { mutableStateOf(Lifecycle.Event.ON_ANY) }
+    DisposableEffect(this) {
+        val observer = LifecycleEventObserver { _, event ->
+            state.value = event
+        }
+        this@observeAsState.addObserver(observer)
+        onDispose {
+            this@observeAsState.removeObserver(observer)
+        }
+    }
+    return state
 }
 
 /**
@@ -116,8 +331,8 @@ public fun Bitmap.extractPrimaryColor(default: Int = 0, blendWithVibrant: Boolea
 
 public data class ColorTuple(
     val primary: Color,
-    val secondary: Color?,
-    val tertiary: Color?
+    val secondary: Color? = null,
+    val tertiary: Color? = null
 )
 
 /**
