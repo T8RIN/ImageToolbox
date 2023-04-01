@@ -301,6 +301,7 @@ fun MainScreen(
                                                 ColorTupleItem(
                                                     modifier = Modifier
                                                         .size(64.dp)
+                                                        .offset(7.dp)
                                                         .border(
                                                             1.dp,
                                                             MaterialTheme.colorScheme.outlineVariant(

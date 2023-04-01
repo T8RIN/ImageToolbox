@@ -30,7 +30,6 @@ android {
     }
     kotlinOptions {
         jvmTarget = "11"
-        freeCompilerArgs += "-Xexplicit-api=strict"
     }
     buildFeatures {
         compose = true

@@ -32,10 +32,10 @@ import androidx.core.graphics.ColorUtils
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.palette.graphics.Palette
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.t8rin.dynamic.theme.hct.Hct
 import com.t8rin.dynamic.theme.palettes.TonalPalette
 import com.t8rin.dynamic.theme.scheme.Scheme
-import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import kotlin.math.min
 
 /**
@@ -44,7 +44,7 @@ import kotlin.math.min
  * @param state - current instance of [DynamicThemeState]
  * */
 @Composable
-public fun DynamicTheme(
+fun DynamicTheme(
     state: DynamicThemeState,
     typography: Typography = Typography(),
     density: Density = LocalDensity.current.run {
@@ -99,7 +99,7 @@ public fun DynamicTheme(
 }
 
 @Composable
-public fun ColorTupleItem(
+fun ColorTupleItem(
     modifier: Modifier = Modifier,
     colorTuple: ColorTuple,
     content: (@Composable BoxScope.() -> Unit)? = null
@@ -185,7 +185,7 @@ public fun ColorTupleItem(
     }
 }
 
-public fun Color.calculateSecondaryColor(): Int {
+fun Color.calculateSecondaryColor(): Int {
     val hct = Hct.fromInt(this.toArgb())
     val hue = hct.hue
     val chroma = hct.chroma
@@ -193,7 +193,7 @@ public fun Color.calculateSecondaryColor(): Int {
     return TonalPalette.fromHueAndChroma(hue, chroma / 3.0).tone(80)
 }
 
-public fun Color.calculateTertiaryColor(): Int {
+fun Color.calculateTertiaryColor(): Int {
     val hct = Hct.fromInt(this.toArgb())
     val hue = hct.hue
     val chroma = hct.chroma
@@ -202,7 +202,7 @@ public fun Color.calculateTertiaryColor(): Int {
 }
 
 @Composable
-public fun getAppColorTuple(
+fun getAppColorTuple(
     defaultColorTuple: ColorTuple,
     dynamicColor: Boolean,
     darkTheme: Boolean
@@ -264,7 +264,7 @@ public fun getAppColorTuple(
 }
 
 @Composable
-public fun Lifecycle.observeAsState(): State<Lifecycle.Event> {
+fun Lifecycle.observeAsState(): State<Lifecycle.Event> {
     val state = remember { mutableStateOf(Lifecycle.Event.ON_ANY) }
     DisposableEffect(this) {
         val observer = LifecycleEventObserver { _, event ->
@@ -327,7 +327,7 @@ private fun ColorScheme.animateAllColors(animationSpec: AnimationSpec<Color>): C
 }
 
 
-public fun Bitmap.extractPrimaryColor(default: Int = 0, blendWithVibrant: Boolean = true): Color {
+fun Bitmap.extractPrimaryColor(default: Int = 0, blendWithVibrant: Boolean = true): Color {
     fun Int.blend(
         color: Int,
         @FloatRange(from = 0.0, to = 1.0) fraction: Float = 0.5f
@@ -345,7 +345,7 @@ public fun Bitmap.extractPrimaryColor(default: Int = 0, blendWithVibrant: Boolea
     )
 }
 
-public data class ColorTuple(
+data class ColorTuple(
     val primary: Color,
     val secondary: Color? = null,
     val tertiary: Color? = null
@@ -355,7 +355,7 @@ public data class ColorTuple(
  * Creates and remember [DynamicThemeState] instance
  * */
 @Composable
-public fun rememberDynamicThemeState(
+fun rememberDynamicThemeState(
     initialColorTuple: ColorTuple = ColorTuple(
         primary = MaterialTheme.colorScheme.primary,
         secondary = MaterialTheme.colorScheme.secondary,
@@ -368,26 +368,26 @@ public fun rememberDynamicThemeState(
 }
 
 @Stable
-public class DynamicThemeState(
+class DynamicThemeState(
     initialColorTuple: ColorTuple
 ) {
-    public val colorTuple: MutableState<ColorTuple> = mutableStateOf(initialColorTuple)
+    val colorTuple: MutableState<ColorTuple> = mutableStateOf(initialColorTuple)
 
-    public fun updateColor(color: Color) {
+    fun updateColor(color: Color) {
         colorTuple.value = ColorTuple(primary = color, secondary = null, tertiary = null)
     }
 
-    public fun updateColorTuple(newColorTuple: ColorTuple) {
+    fun updateColorTuple(newColorTuple: ColorTuple) {
         colorTuple.value = newColorTuple
     }
 
-    public fun updateColorByImage(bitmap: Bitmap) {
+    fun updateColorByImage(bitmap: Bitmap) {
         updateColor(bitmap.extractPrimaryColor())
     }
 }
 
 @Composable
-public fun rememberColorScheme(
+fun rememberColorScheme(
     isDarkTheme: Boolean,
     amoledMode: Boolean,
     colorTuple: ColorTuple
@@ -521,5 +521,5 @@ private fun Scheme.toLightThemeColorScheme(
     )
 }
 
-public val LocalDynamicThemeState: ProvidableCompositionLocal<DynamicThemeState> =
+val LocalDynamicThemeState: ProvidableCompositionLocal<DynamicThemeState> =
     compositionLocalOf { error("Not present") }

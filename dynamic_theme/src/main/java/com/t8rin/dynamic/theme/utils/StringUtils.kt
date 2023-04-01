@@ -13,25 +13,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-package com.t8rin.dynamic.theme.utils;
+package com.t8rin.dynamic.theme.utils
 
 /**
  * Utility methods for string representations of colors.
  */
-final class StringUtils {
-    private StringUtils() {
-    }
-
+internal object StringUtils {
     /**
      * Hex string representing color, ex. #ff0000 for red.
      *
      * @param argb ARGB representation of a color.
      */
-    public static String hexFromArgb(int argb) {
-        int red = ColorUtils.redFromArgb(argb);
-        int blue = ColorUtils.blueFromArgb(argb);
-        int green = ColorUtils.greenFromArgb(argb);
-        return String.format("#%02x%02x%02x", red, green, blue);
+    fun hexFromArgb(argb: Int): String {
+        val red = ColorUtils.redFromArgb(argb)
+        val blue = ColorUtils.blueFromArgb(argb)
+        val green = ColorUtils.greenFromArgb(argb)
+        return String.format("#%02x%02x%02x", red, green, blue)
     }
 }
