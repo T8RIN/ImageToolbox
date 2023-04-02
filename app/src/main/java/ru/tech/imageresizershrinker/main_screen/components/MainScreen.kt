@@ -845,12 +845,12 @@ fun MainScreen(
                         PreferenceItem(
                             color = MaterialTheme.colorScheme.secondaryContainer,
                             onClick = {
-                                Intent(Intent.ACTION_VIEW).apply {
-                                    data =
+                                context.startActivity(
+                                    Intent(
+                                        Intent.ACTION_VIEW,
                                         Uri.parse("http://t.me/${context.getString(R.string.app_developer_nick)}")
-                                    setPackage("org.telegram.messenger")
-                                    context.startActivity(this)
-                                }
+                                    )
+                                )
                             },
                             title = stringResource(R.string.telegram),
                             icon = Icons.Rounded.Telegram,

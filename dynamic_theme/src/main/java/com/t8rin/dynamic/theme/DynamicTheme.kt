@@ -47,9 +47,7 @@ import kotlin.math.min
 fun DynamicTheme(
     state: DynamicThemeState,
     typography: Typography = Typography(),
-    density: Density = LocalDensity.current.run {
-        Density(this.density, min(fontScale, 1f))
-    },
+    density: Density = LocalDensity.current,
     defaultColorTuple: ColorTuple,
     dynamicColor: Boolean = true,
     amoledMode: Boolean = false,
