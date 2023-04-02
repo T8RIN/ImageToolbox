@@ -14,10 +14,7 @@
 <p align="center">Powerful image resizer with width/height selection, cropping, EXIF editing, quality and output image type picking and batch processing feature. Based on Material You design following official Google guidelines</p>
 
 
-
-![Frame 3](https://user-images.githubusercontent.com/52178347/225127997-c932ef48-a59d-45d0-bf06-553075519b97.png)
-
-
+![Frame 5](https://user-images.githubusercontent.com/52178347/229357418-3ed5e83b-df35-4e61-87ca-e74135e831d1.png)
 
 # Functions
 - Batch processing
@@ -49,11 +46,16 @@
   - Flipping
   - Comparing images
   
+
+#
+![Frame 6](https://user-images.githubusercontent.com/52178347/229357423-22ea1144-d838-438d-bc39-6ae431e491e6.png)
+
+  
 # UI tweaks
 - Custom app color scheme
 - Light/Dark mode
 - AMOLED mode
-- Monet implementation (Dynamic colors) for android 12 and above
+- Monet implementation (Dynamic colors) for android 12 and above by [Dynamic Theme](https://github.com/T8RIN/DynamicTheme)
 - Dynamic colors theming even for Android versions less than 12
 - Image based color scheme
 
