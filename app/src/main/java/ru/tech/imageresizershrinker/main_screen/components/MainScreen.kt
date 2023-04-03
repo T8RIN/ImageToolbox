@@ -374,11 +374,7 @@ fun MainScreen(
                                                 AnimatedContent(
                                                     targetState = sliderValue,
                                                     transitionSpec = {
-                                                        if(initialState < targetState) {
-                                                            fadeIn() + slideInVertically() with fadeOut() + slideOutVertically()
-                                                        } else {
-                                                            fadeIn() + slideInVertically{it/2} with fadeOut() + slideOutVertically{it/2}
-                                                        }
+                                                        fadeIn() with fadeOut()
                                                     }
                                                 ) { value ->
                                                     Text(
