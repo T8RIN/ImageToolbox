@@ -22,7 +22,8 @@ import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.*
+import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.luminance
 import androidx.compose.ui.input.nestedscroll.nestedScroll
@@ -43,7 +44,6 @@ import dev.olshevski.navigation.reimagined.navigate
 import dev.olshevski.navigation.reimagined.popUpTo
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import nl.dionsegijn.konfetti.core.*
 import ru.tech.imageresizershrinker.BuildConfig
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.main_screen.viewModel.MainViewModel
@@ -362,13 +362,17 @@ fun MainScreen(
                                                         .copy(alpha = 0.2f)
                                                 )
                                         ) {
-                                            var sliderValue by remember { mutableStateOf(viewModel.borderWidth) }
+                                            var sliderValue by remember { mutableStateOf(kotlin.math.max(0f, viewModel.borderWidth)) }
                                             Row(
                                                 verticalAlignment = Alignment.CenterVertically
                                             ) {
                                                 Text(
                                                     text = stringResource(R.string.border_thickness),
-                                                    modifier = Modifier.padding(top = 16.dp, end = 16.dp, start = 16.dp)
+                                                    modifier = Modifier.padding(
+                                                        top = 16.dp,
+                                                        end = 16.dp,
+                                                        start = 16.dp
+                                                    )
                                                 )
                                                 Spacer(Modifier.weight(1f))
                                                 AnimatedContent(
@@ -379,13 +383,17 @@ fun MainScreen(
                                                 ) { value ->
                                                     Text(
                                                         text = "$value",
-                                                        color = MaterialTheme.colorScheme.onSecondaryContainer.copy(alpha = 0.7f),
+                                                        color = MaterialTheme.colorScheme.onSurface.copy(
+                                                            alpha = 0.5f
+                                                        ),
                                                         modifier = Modifier.padding(top = 16.dp)
                                                     )
                                                 }
                                                 Text(
                                                     text = "Dp",
-                                                    color = MaterialTheme.colorScheme.onSecondaryContainer.copy(alpha = 0.7f),
+                                                    color = MaterialTheme.colorScheme.onSurface.copy(
+                                                        alpha = 0.5f
+                                                    ),
                                                     modifier = Modifier.padding(
                                                         start = 4.dp,
                                                         top = 16.dp,
