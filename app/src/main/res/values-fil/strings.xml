@@ -109,4 +109,8 @@
     <string name="dynamic_colors_sub">Kung nakabukas, aangkop ang kulay ng app sa kulay ng wallpaper</string>
     <string name="failed_to_save">Nagkaproblema sa pag-save ng %d larawan</string>
     <string name="png_warning_bytes">Pwedeng magkaproblema sa pagse-save sa PNG, dahil isa itong loseless format</string>
+    <string name="primary">Pangunahin</string>
+    <string name="tertiary">Tersiyaryo</string>
+    <string name="secondary">Sekondaryo</string>
+    <string name="border_thickness">Kapal ng gilid</string>
 </resources>
