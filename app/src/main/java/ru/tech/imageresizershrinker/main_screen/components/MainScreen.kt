@@ -6,7 +6,7 @@ import android.net.Uri
 import androidx.activity.compose.BackHandler
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.*
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.*
 import androidx.compose.foundation.gestures.detectTapGestures
@@ -54,7 +54,7 @@ import ru.tech.imageresizershrinker.widget.Marquee
 import ru.tech.imageresizershrinker.widget.Picture
 import java.lang.Integer.max
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalAnimationApi::class)
 @Composable
 fun MainScreen(
     navController: NavController<Screen>,
@@ -362,11 +362,38 @@ fun MainScreen(
                                                         .copy(alpha = 0.2f)
                                                 )
                                         ) {
-                                            Text(
-                                                text = stringResource(R.string.border_thickness),
-                                                modifier = Modifier.padding(16.dp)
-                                            )
                                             var sliderValue by remember { mutableStateOf(viewModel.borderWidth) }
+                                            Row(
+                                                verticalAlignment = Alignment.CenterVertically
+                                            ) {
+                                                Text(
+                                                    text = stringResource(R.string.border_thickness),
+                                                    modifier = Modifier.padding(top = 16.dp, end = 16.dp, start = 16.dp)
+                                                )
+                                                Spacer(Modifier.weight(1f))
+                                                AnimatedContent(
+                                                    targetState = sliderValue,
+                                                    transitionSpec = {
+                                                        if(initialState < targetState) {
+                                                            fadeIn() + slideInVertically() with fadeOut() + slideOutVertically()
+                                                        } else {
+                                                            fadeIn() + slideInVertically{it/2} with fadeOut() + slideOutVertically{it/2}
+                                                        }
+                                                    }
+                                                ) { value ->
+                                                    Text(
+                                                        text = "$value",
+                                                        modifier = Modifier.padding(top = 16.dp)
+                                                    )
+                                                }
+                                                Text(
+                                                    text = "Dp",
+                                                    modifier = Modifier.padding(
+                                                        top = 16.dp,
+                                                        end = 16.dp
+                                                    )
+                                                )
+                                            }
                                             Slider(
                                                 modifier = Modifier.padding(horizontal = 16.dp),
                                                 value = animateFloatAsState(sliderValue).value,
