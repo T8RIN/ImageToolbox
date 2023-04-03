@@ -356,23 +356,26 @@ fun MainScreen(
                                             Modifier
                                                 .padding(horizontal = 16.dp)
                                                 .block(
-                                                    color = MaterialTheme.colorScheme.secondaryContainer.copy(
-                                                        alpha = 0.2f
-                                                    )
+                                                    color = MaterialTheme
+                                                        .colorScheme
+                                                        .secondaryContainer
+                                                        .copy(alpha = 0.2f)
                                                 )
                                         ) {
                                             Text(
                                                 text = stringResource(R.string.border_thickness),
                                                 modifier = Modifier.padding(16.dp)
                                             )
+                                            var sliderValue by remember { mutableStateOf(viewModel.borderWidth) }
                                             Slider(
                                                 modifier = Modifier.padding(horizontal = 16.dp),
-                                                enabled = enabled,
-                                                value = animateFloatAsState(viewModel.borderWidth).value,
+                                                value = animateFloatAsState(sliderValue).value,
                                                 onValueChange = {
+                                                    sliderValue = it
                                                     viewModel.setBorderWidth(if (it > 0) it else -1f)
                                                 },
-                                                valueRange = 0f..3f
+                                                valueRange = 0f..4f,
+                                                steps = 15
                                             )
                                         }
                                     }

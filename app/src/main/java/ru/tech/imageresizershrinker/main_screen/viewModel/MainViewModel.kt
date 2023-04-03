@@ -14,12 +14,9 @@ import androidx.lifecycle.viewModelScope
 import com.t8rin.dynamic.theme.ColorTuple
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.olshevski.navigation.reimagined.navController
-import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
-import kotlinx.coroutines.withContext
 import org.w3c.dom.Element
 import ru.tech.imageresizershrinker.BuildConfig
 import ru.tech.imageresizershrinker.main_screen.components.Screen
@@ -141,8 +138,11 @@ class MainViewModel @Inject constructor(
         }
     }
 
+    private var job: Job? = null
     fun setBorderWidth(width: Float) {
-        viewModelScope.launch {
+        job?.cancel()
+        job = viewModelScope.launch {
+            delay(10)
             dataStore.edit {
                 it[BORDER_WIDTH] = width.toString()
             }
