@@ -18,7 +18,9 @@ import androidx.compose.ui.graphics.compositeOver
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.max
 import androidx.compose.ui.zIndex
+import ru.tech.imageresizershrinker.main_screen.components.LocalBorderWidth
 import ru.tech.imageresizershrinker.theme.mixedColor
 import ru.tech.imageresizershrinker.theme.onMixedColor
 
@@ -91,7 +93,10 @@ fun ToggleGroupButton(
                                 )
                                 else -> RoundedCornerShape(0.dp)
                             },
-                            border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant),
+                            border = BorderStroke(
+                                max(LocalBorderWidth.current, 1.dp),
+                                MaterialTheme.colorScheme.outlineVariant
+                            ),
                             colors = ButtonDefaults.outlinedButtonColors(
                                 containerColor = if (!enabled) disColor
                                 else if (selectedIndex == index) MaterialTheme.colorScheme.mixedColor

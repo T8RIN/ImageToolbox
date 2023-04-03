@@ -15,8 +15,10 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.max
 import androidx.compose.ui.zIndex
 import ru.tech.imageresizershrinker.R
+import ru.tech.imageresizershrinker.main_screen.components.LocalBorderWidth
 import ru.tech.imageresizershrinker.main_screen.components.block
 import ru.tech.imageresizershrinker.theme.mixedColor
 import ru.tech.imageresizershrinker.theme.onMixedColor
@@ -100,7 +102,7 @@ fun ExtensionGroup(
                                     )
                                 },
                                 border = BorderStroke(
-                                    1.dp,
+                                    max(LocalBorderWidth.current, 1.dp),
                                     MaterialTheme.colorScheme.outlineVariant
                                 ),
                                 colors = ButtonDefaults.outlinedButtonColors(
@@ -157,7 +159,7 @@ fun ExtensionGroup(
                                     )
                                 },
                                 border = BorderStroke(
-                                    1.dp,
+                                    max(LocalBorderWidth.current, 1.dp),
                                     MaterialTheme.colorScheme.outlineVariant
                                 ),
                                 colors = ButtonDefaults.outlinedButtonColors(

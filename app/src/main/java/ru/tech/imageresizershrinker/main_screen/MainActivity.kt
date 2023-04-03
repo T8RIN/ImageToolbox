@@ -78,6 +78,7 @@ class MainActivity : M3Activity() {
                 LocalAllowChangeColorByImage provides viewModel.allowImageMonet,
                 LocalAmoledMode provides viewModel.amoledMode,
                 LocalAppColorTuple provides viewModel.appColorTuple,
+                LocalBorderWidth provides viewModel.borderWidth.dp
             ) {
                 ImageResizerTheme {
                     val themeState = LocalDynamicThemeState.current
@@ -253,7 +254,7 @@ class MainActivity : M3Activity() {
                                         contentColor = MaterialTheme.colorScheme.onSecondaryContainer,
                                     ),
                                     border = BorderStroke(
-                                        1.dp,
+                                        LocalBorderWidth.current,
                                         MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.secondaryContainer)
                                     ),
                                     onClick = {
@@ -270,7 +271,7 @@ class MainActivity : M3Activity() {
                                         contentColor = MaterialTheme.colorScheme.onPrimary,
                                     ),
                                     border = BorderStroke(
-                                        1.dp,
+                                        LocalBorderWidth.current,
                                         MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.primary)
                                     ), onClick = { showExitDialog = false }) {
                                     Text(stringResource(R.string.stay))
@@ -297,7 +298,11 @@ class MainActivity : M3Activity() {
                                             hideSelectDialog()
                                             updateUris(null)
                                         }
-                                    }
+                                    },
+                                    border = BorderStroke(
+                                        LocalBorderWidth.current,
+                                        MaterialTheme.colorScheme.outlineVariant()
+                                    )
                                 ) {
                                     Text(stringResource(id = R.string.cancel))
                                 }
@@ -390,7 +395,7 @@ class MainActivity : M3Activity() {
                                         contentColor = MaterialTheme.colorScheme.onPrimary,
                                     ),
                                     border = BorderStroke(
-                                        1.dp,
+                                        LocalBorderWidth.current,
                                         MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.primary)
                                     ),
                                     onClick = {
@@ -412,9 +417,10 @@ class MainActivity : M3Activity() {
                                         contentColor = MaterialTheme.colorScheme.onSecondaryContainer,
                                     ),
                                     border = BorderStroke(
-                                        1.dp,
+                                        LocalBorderWidth.current,
                                         MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.secondaryContainer)
-                                    ), onClick = { viewModel.cancelledUpdate() }) {
+                                    ), onClick = { viewModel.cancelledUpdate() }
+                                ) {
                                     Text(stringResource(id = R.string.close))
                                 }
                             }

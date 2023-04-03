@@ -55,6 +55,9 @@ class MainViewModel @Inject constructor(
     )
     val appColorTuple by _appColorTuple
 
+    private val _borderWidth = mutableStateOf(1f)
+    val borderWidth by _borderWidth
+
     val navController = navController<Screen>(Screen.Main)
 
     private val _uris = mutableStateOf<List<Uri>?>(null)
@@ -95,6 +98,7 @@ class MainViewModel @Inject constructor(
                         tertiary = colorTuple[2].toIntOrNull()?.let { Color(it) }
                     )
                 }) ?: ColorTuple(md_theme_dark_primary)
+                _borderWidth.value = prefs[BORDER_WIDTH]?.toFloatOrNull() ?: 1f
             }
         }
         dataStore.data.onEach { prefs ->
@@ -115,6 +119,7 @@ class MainViewModel @Inject constructor(
                     tertiary = colorTuple[2].toIntOrNull()?.let { Color(it) }
                 )
             }) ?: ColorTuple(md_theme_dark_primary)
+            _borderWidth.value = prefs[BORDER_WIDTH]?.toFloatOrNull() ?: 1f
         }.launchIn(viewModelScope)
     }
 
@@ -132,6 +137,14 @@ class MainViewModel @Inject constructor(
         viewModelScope.launch {
             dataStore.edit {
                 it[DYNAMIC_COLORS] = !dynamicColors
+            }
+        }
+    }
+
+    fun setBorderWidth(width: Float) {
+        viewModelScope.launch {
+            dataStore.edit {
+                it[BORDER_WIDTH] = width.toString()
             }
         }
     }

@@ -119,7 +119,7 @@ private fun PickLanguageDialog(
                     contentColor = MaterialTheme.colorScheme.onSecondaryContainer,
                 ),
                 border = BorderStroke(
-                    1.dp,
+                    LocalBorderWidth.current,
                     MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.secondaryContainer)
                 ), onClick = onDismiss
             ) {

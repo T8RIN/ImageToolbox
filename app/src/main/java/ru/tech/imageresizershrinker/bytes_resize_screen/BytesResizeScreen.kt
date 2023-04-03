@@ -552,7 +552,7 @@ fun BytesResizeScreen(
                                 contentColor = MaterialTheme.colorScheme.onSecondaryContainer,
                             ),
                             border = BorderStroke(
-                                1.dp,
+                                LocalBorderWidth.current,
                                 MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.secondaryContainer)
                             ),
                             onClick = {
@@ -570,7 +570,7 @@ fun BytesResizeScreen(
                                 contentColor = MaterialTheme.colorScheme.onPrimary,
                             ),
                             border = BorderStroke(
-                                1.dp,
+                                LocalBorderWidth.current,
                                 MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.primary)
                             ), onClick = { showExitDialog = false }) {
                             Text(stringResource(R.string.stay))
@@ -711,7 +711,12 @@ fun BytesResizeScreen(
                         },
                         onDismissRequest = { showPickImageFromUrisDialog = false },
                         confirmButton = {
-                            OutlinedButton(onClick = { showPickImageFromUrisDialog = false }) {
+                            OutlinedButton(
+                                onClick = { showPickImageFromUrisDialog = false },
+                                border = BorderStroke(
+                                    LocalBorderWidth.current, MaterialTheme.colorScheme.outlineVariant()
+                                )
+                            ) {
                                 Text(stringResource(R.string.close))
                             }
                         }

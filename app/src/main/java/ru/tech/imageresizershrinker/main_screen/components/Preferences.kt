@@ -200,7 +200,7 @@ fun PreferenceItem(
     ProvideTextStyle(value = LocalTextStyle.current.copy(textAlign = TextAlign.Start)) {
         Card(
             modifier = modifier.border(
-                1.dp,
+                LocalBorderWidth.current,
                 MaterialTheme.colorScheme.outlineVariant(0.1f, color),
                 CardDefaults.shape
             ),

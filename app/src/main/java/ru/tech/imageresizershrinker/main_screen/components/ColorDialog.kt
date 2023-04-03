@@ -104,7 +104,7 @@ fun ColorDialog(
                     contentColor = MaterialTheme.colorScheme.onPrimary,
                 ),
                 border = BorderStroke(
-                    1.dp,
+                    LocalBorderWidth.current,
                     MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.primary)
                 ),
                 onClick = {
@@ -128,7 +128,7 @@ fun ColorDialog(
                     contentColor = MaterialTheme.colorScheme.onSecondaryContainer,
                 ),
                 border = BorderStroke(
-                    1.dp,
+                    LocalBorderWidth.current,
                     MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.secondaryContainer)
                 ),
                 onClick = onDismissRequest
@@ -221,7 +221,7 @@ private fun ColorCustomInfoComponent(
                 .size(56.dp)
                 .border(
                     BorderStroke(
-                        1.dp,
+                        LocalBorderWidth.current,
                         MaterialTheme.colorScheme.outlineVariant(onTopOf = Color(color))
                     ),
                     MaterialTheme.shapes.medium,
@@ -237,7 +237,7 @@ private fun ColorCustomInfoComponent(
                 .padding(start = 16.dp)
                 .border(
                     BorderStroke(
-                        1.dp,
+                        LocalBorderWidth.current,
                         MaterialTheme.colorScheme.outlineVariant()
                     ),
                     MaterialTheme.shapes.medium,

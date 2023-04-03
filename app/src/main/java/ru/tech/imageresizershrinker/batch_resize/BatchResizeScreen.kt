@@ -668,7 +668,7 @@ fun BatchResizeScreen(
                                 contentColor = MaterialTheme.colorScheme.onSecondaryContainer,
                             ),
                             border = BorderStroke(
-                                1.dp,
+                                LocalBorderWidth.current,
                                 MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.secondaryContainer)
                             ),
                             onClick = {
@@ -687,7 +687,7 @@ fun BatchResizeScreen(
                                 contentColor = MaterialTheme.colorScheme.onPrimary
                             ),
                             border = BorderStroke(
-                                1.dp,
+                                LocalBorderWidth.current,
                                 MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.primary)
                             )
                         ) {
@@ -719,7 +719,7 @@ fun BatchResizeScreen(
                                 contentColor = MaterialTheme.colorScheme.onPrimary,
                             ),
                             border = BorderStroke(
-                                1.dp,
+                                LocalBorderWidth.current,
                                 MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.primary)
                             ),
                             onClick = { showResetDialog = false }
@@ -734,7 +734,7 @@ fun BatchResizeScreen(
                                 contentColor = MaterialTheme.colorScheme.onSecondaryContainer,
                             ),
                             border = BorderStroke(
-                                1.dp,
+                                LocalBorderWidth.current,
                                 MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.secondaryContainer)
                             ),
                             onClick = {
@@ -854,7 +854,7 @@ fun BatchResizeScreen(
                                                         contentColor = MaterialTheme.colorScheme.onSecondaryContainer,
                                                     ),
                                                     border = BorderStroke(
-                                                        1.dp,
+                                                        LocalBorderWidth.current,
                                                         MaterialTheme.colorScheme.outlineVariant(
                                                             onTopOf = MaterialTheme.colorScheme.secondaryContainer
                                                         )
@@ -885,7 +885,12 @@ fun BatchResizeScreen(
                         },
                         onDismissRequest = { showPickImageFromUrisDialog = false },
                         confirmButton = {
-                            OutlinedButton(onClick = { showPickImageFromUrisDialog = false }) {
+                            OutlinedButton(
+                                onClick = { showPickImageFromUrisDialog = false },
+                                border = BorderStroke(
+                                    LocalBorderWidth.current, MaterialTheme.colorScheme.outlineVariant()
+                                )
+                            ) {
                                 Text(stringResource(R.string.close))
                             }
                         }

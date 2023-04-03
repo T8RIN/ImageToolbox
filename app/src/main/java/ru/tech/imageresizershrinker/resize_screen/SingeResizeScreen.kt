@@ -708,7 +708,7 @@ fun SingleResizeScreen(
                                 contentColor = MaterialTheme.colorScheme.onSecondaryContainer
                             ),
                             border = BorderStroke(
-                                1.dp,
+                                LocalBorderWidth.current,
                                 MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.secondaryContainer)
                             ),
                             onClick = {
@@ -726,7 +726,7 @@ fun SingleResizeScreen(
                                 contentColor = MaterialTheme.colorScheme.onPrimary
                             ),
                             border = BorderStroke(
-                                1.dp,
+                                LocalBorderWidth.current,
                                 MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.primary)
                             ), onClick = { showExitDialog = false }
                         ) {
@@ -758,7 +758,7 @@ fun SingleResizeScreen(
                                 contentColor = MaterialTheme.colorScheme.onPrimary,
                             ),
                             border = BorderStroke(
-                                1.dp,
+                                LocalBorderWidth.current,
                                 MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.primary)
                             ), onClick = { showResetDialog = false }) {
                             Text(stringResource(R.string.close))
@@ -771,7 +771,7 @@ fun SingleResizeScreen(
                                 contentColor = MaterialTheme.colorScheme.onSecondaryContainer,
                             ),
                             border = BorderStroke(
-                                1.dp,
+                                LocalBorderWidth.current,
                                 MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.secondaryContainer)
                             ),
                             onClick = {
@@ -808,7 +808,7 @@ fun SingleResizeScreen(
                                 contentColor = MaterialTheme.colorScheme.onPrimary,
                             ),
                             border = BorderStroke(
-                                1.dp,
+                                LocalBorderWidth.current,
                                 MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.primary)
                             ),
                             onClick = { showEditExifDialog = false }
@@ -825,9 +825,14 @@ fun SingleResizeScreen(
                             }
                         Row {
                             if (map?.isEmpty() == false) {
-                                OutlinedButton(onClick = {
-                                    showClearExifDialog = true
-                                }) {
+                                OutlinedButton(
+                                    onClick = {
+                                        showClearExifDialog = true
+                                    }, border = BorderStroke(
+                                        LocalBorderWidth.current,
+                                        MaterialTheme.colorScheme.outlineVariant()
+                                    )
+                                ) {
                                     Text(stringResource(R.string.clear))
                                 }
                                 Spacer(Modifier.width(8.dp))
@@ -839,7 +844,7 @@ fun SingleResizeScreen(
                                         contentColor = MaterialTheme.colorScheme.onSecondaryContainer,
                                     ),
                                     border = BorderStroke(
-                                        1.dp,
+                                        LocalBorderWidth.current,
                                         MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.secondaryContainer)
                                     ),
                                     onClick = { showAddExifDialog = true }
@@ -953,7 +958,7 @@ fun SingleResizeScreen(
                                     contentColor = MaterialTheme.colorScheme.onPrimary,
                                 ),
                                 border = BorderStroke(
-                                    1.dp,
+                                    LocalBorderWidth.current,
                                     MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.primary)
                                 ),
                                 onClick = { showAddExifDialog = false }
@@ -1083,7 +1088,7 @@ fun SingleResizeScreen(
                                     contentColor = MaterialTheme.colorScheme.onPrimary,
                                 ),
                                 border = BorderStroke(
-                                    1.dp,
+                                    LocalBorderWidth.current,
                                     MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.primary)
                                 ),
                                 onClick = { showClearExifDialog = false }
@@ -1098,7 +1103,7 @@ fun SingleResizeScreen(
                                     contentColor = MaterialTheme.colorScheme.onSecondaryContainer,
                                 ),
                                 border = BorderStroke(
-                                    1.dp,
+                                    LocalBorderWidth.current,
                                     MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.secondaryContainer)
                                 ),
                                 onClick = {
@@ -1129,7 +1134,7 @@ fun SingleResizeScreen(
                                 contentColor = MaterialTheme.colorScheme.onPrimary,
                             ),
                             border = BorderStroke(
-                                1.dp,
+                                LocalBorderWidth.current,
                                 MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.primary)
                             ),
                             onClick = { showExifSavingDialog = false }) {
@@ -1143,7 +1148,7 @@ fun SingleResizeScreen(
                                 contentColor = MaterialTheme.colorScheme.onSecondaryContainer,
                             ),
                             border = BorderStroke(
-                                1.dp,
+                                LocalBorderWidth.current,
                                 MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.secondaryContainer)
                             ),
                             onClick = {
@@ -1196,7 +1201,7 @@ fun SingleResizeScreen(
                                     contentColor = MaterialTheme.colorScheme.onPrimary,
                                 ),
                                 border = BorderStroke(
-                                    1.dp,
+                                    LocalBorderWidth.current,
                                     MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.primary)
                                 ), onClick = { crop = true }) {
                                 Text(stringResource(R.string.crop))
@@ -1209,9 +1214,10 @@ fun SingleResizeScreen(
                                     contentColor = MaterialTheme.colorScheme.onSecondaryContainer,
                                 ),
                                 border = BorderStroke(
-                                    1.dp,
+                                    LocalBorderWidth.current,
                                     MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.secondaryContainer)
-                                ), onClick = { showCropDialog = false }) {
+                                ), onClick = { showCropDialog = false }
+                            ) {
                                 Text(stringResource(R.string.cancel))
                             }
                         }

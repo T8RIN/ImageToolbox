@@ -92,7 +92,7 @@ fun MainScreen(
                 }
                 ModalDrawerSheet(
                     modifier = Modifier
-                        .offset(-(2.dp))
+                        .offset(-((LocalBorderWidth.current + 1.dp)))
                         .width(
                             min(
                                 LocalConfiguration.current.screenWidthDp.dp * 0.85f,
@@ -100,7 +100,7 @@ fun MainScreen(
                             )
                         )
                         .border(
-                            1.dp,
+                            LocalBorderWidth.current,
                             MaterialTheme.colorScheme.outlineVariant(
                                 0.3f,
                                 DrawerDefaults.containerColor
@@ -180,7 +180,7 @@ fun MainScreen(
                                             .fillMaxWidth()
                                             .padding(horizontal = 16.dp)
                                             .border(
-                                                width = 1.dp,
+                                                width = LocalBorderWidth.current,
                                                 color = animateColorAsState(
                                                     if (currentFolderUri == null) MaterialTheme.colorScheme.onSecondaryContainer.copy(
                                                         alpha = 0.5f
@@ -209,7 +209,7 @@ fun MainScreen(
                                             .fillMaxWidth()
                                             .padding(horizontal = 16.dp)
                                             .border(
-                                                width = 1.dp,
+                                                width = LocalBorderWidth.current,
                                                 color = animateColorAsState(
                                                     if (currentFolderUri != null) MaterialTheme.colorScheme.onSecondaryContainer.copy(
                                                         alpha = 0.5f
@@ -248,7 +248,7 @@ fun MainScreen(
                                                     .fillMaxWidth()
                                                     .padding(horizontal = 16.dp)
                                                     .border(
-                                                        width = 1.dp,
+                                                        width = LocalBorderWidth.current,
                                                         color = animateColorAsState(
                                                             if (selected) MaterialTheme
                                                                 .colorScheme
@@ -303,7 +303,7 @@ fun MainScreen(
                                                         .size(64.dp)
                                                         .offset(7.dp)
                                                         .border(
-                                                            1.dp,
+                                                            LocalBorderWidth.current,
                                                             MaterialTheme.colorScheme.outlineVariant(
                                                                 0.2f
                                                             ),
@@ -352,6 +352,29 @@ fun MainScreen(
                                             checked = viewModel.amoledMode,
                                             onClick = { viewModel.updateAmoledMode() }
                                         )
+                                        Column(
+                                            Modifier
+                                                .padding(horizontal = 16.dp)
+                                                .block(
+                                                    color = MaterialTheme.colorScheme.secondaryContainer.copy(
+                                                        alpha = 0.2f
+                                                    )
+                                                )
+                                        ) {
+                                            Text(
+                                                text = stringResource(R.string.border_thickness),
+                                                modifier = Modifier.padding(16.dp)
+                                            )
+                                            Slider(
+                                                modifier = Modifier.padding(horizontal = 16.dp),
+                                                enabled = enabled,
+                                                value = animateFloatAsState(viewModel.borderWidth).value,
+                                                onValueChange = {
+                                                    viewModel.setBorderWidth(if (it > 0) it else -1f)
+                                                },
+                                                valueRange = 0f..3f
+                                            )
+                                        }
                                     }
                                     Spacer(Modifier.height(16.dp))
                                 }
@@ -775,7 +798,8 @@ fun MainScreen(
                                     ),
                                 ),
                                 border = BorderStroke(
-                                    1.dp, MaterialTheme.colorScheme.outlineVariant()
+                                    LocalBorderWidth.current,
+                                    MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.secondaryContainer)
                                 ),
                                 modifier = Modifier
                                     .padding(horizontal = 16.dp),
@@ -891,7 +915,12 @@ fun MainScreen(
                 }
             },
             confirmButton = {
-                OutlinedButton(onClick = { showAuthorDialog = false }) {
+                OutlinedButton(
+                    onClick = { showAuthorDialog = false },
+                    border = BorderStroke(
+                        LocalBorderWidth.current, MaterialTheme.colorScheme.outlineVariant()
+                    )
+                ) {
                     Text(stringResource(R.string.close))
                 }
             }

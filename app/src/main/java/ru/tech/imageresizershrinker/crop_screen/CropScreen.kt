@@ -44,10 +44,7 @@ import ru.tech.imageresizershrinker.crop_screen.components.AspectRatioSelection
 import ru.tech.imageresizershrinker.crop_screen.components.aspectRatios
 import ru.tech.imageresizershrinker.crop_screen.viewModel.CropViewModel
 import ru.tech.imageresizershrinker.generate_palette.isScrollingUp
-import ru.tech.imageresizershrinker.main_screen.components.LocalAllowChangeColorByImage
-import ru.tech.imageresizershrinker.main_screen.components.alertDialog
-import ru.tech.imageresizershrinker.main_screen.components.drawHorizontalStroke
-import ru.tech.imageresizershrinker.main_screen.components.fabBorder
+import ru.tech.imageresizershrinker.main_screen.components.*
 import ru.tech.imageresizershrinker.resize_screen.components.ImageNotPickedWidget
 import ru.tech.imageresizershrinker.resize_screen.components.LoadingDialog
 import ru.tech.imageresizershrinker.theme.outlineVariant
@@ -371,7 +368,7 @@ fun CropScreen(
                         contentColor = MaterialTheme.colorScheme.onSecondaryContainer,
                     ),
                     border = BorderStroke(
-                        1.dp,
+                        LocalBorderWidth.current,
                         MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.secondaryContainer)
                     ),
                     onClick = {
@@ -389,7 +386,7 @@ fun CropScreen(
                         contentColor = MaterialTheme.colorScheme.onPrimary,
                     ),
                     border = BorderStroke(
-                        1.dp,
+                        LocalBorderWidth.current,
                         MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.primary)
                     ), onClick = { showExitDialog = false }) {
                     Text(stringResource(R.string.stay))
