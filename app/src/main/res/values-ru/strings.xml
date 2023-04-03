@@ -109,4 +109,7 @@
     <string name="dynamic_colors_sub">При включении тема приложения будет подстраиваться под ваши обои</string>
     <string name="failed_to_save">Не удалось сохранить %d изображение(я)</string>
     <string name="png_warning_bytes">Сохранение в формате PNG может быть крайне нестабильно, так как этот формат не поддерживает уменьшение качества</string>
+    <string name="primary">Первичный</string>
+    <string name="tertiary">Третичный</string>
+    <string name="secondary">Вторичный</string>
 </resources>
