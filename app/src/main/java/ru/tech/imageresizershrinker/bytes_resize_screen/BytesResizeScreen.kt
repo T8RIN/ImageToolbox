@@ -714,7 +714,8 @@ fun BytesResizeScreen(
                             OutlinedButton(
                                 onClick = { showPickImageFromUrisDialog = false },
                                 border = BorderStroke(
-                                    LocalBorderWidth.current, MaterialTheme.colorScheme.outlineVariant()
+                                    LocalBorderWidth.current,
+                                    MaterialTheme.colorScheme.outlineVariant()
                                 )
                             ) {
                                 Text(stringResource(R.string.close))

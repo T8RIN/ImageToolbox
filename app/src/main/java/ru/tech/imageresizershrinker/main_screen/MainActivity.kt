@@ -6,6 +6,7 @@ import android.os.Bundle
 import androidx.activity.compose.BackHandler
 import androidx.activity.viewModels
 import androidx.compose.animation.*
+import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
@@ -78,7 +79,7 @@ class MainActivity : M3Activity() {
                 LocalAllowChangeColorByImage provides viewModel.allowImageMonet,
                 LocalAmoledMode provides viewModel.amoledMode,
                 LocalAppColorTuple provides viewModel.appColorTuple,
-                LocalBorderWidth provides viewModel.borderWidth.dp
+                LocalBorderWidth provides animateDpAsState(viewModel.borderWidth.dp).value
             ) {
                 ImageResizerTheme {
                     val themeState = LocalDynamicThemeState.current

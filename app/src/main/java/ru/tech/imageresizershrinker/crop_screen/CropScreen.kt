@@ -36,8 +36,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.t8rin.dynamic.theme.LocalDynamicThemeState
 import com.smarttoolfactory.cropper.ImageCropper
+import com.t8rin.dynamic.theme.LocalDynamicThemeState
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.crop_screen.components.AspectRatioSelection

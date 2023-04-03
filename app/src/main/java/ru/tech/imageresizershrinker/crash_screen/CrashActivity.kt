@@ -33,7 +33,10 @@ import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.crash_screen.components.GlobalExceptionHandler.Companion.getExceptionString
 import ru.tech.imageresizershrinker.crash_screen.viewModel.CrashViewModel
 import ru.tech.imageresizershrinker.main_screen.MainActivity
-import ru.tech.imageresizershrinker.main_screen.components.*
+import ru.tech.imageresizershrinker.main_screen.components.LocalAmoledMode
+import ru.tech.imageresizershrinker.main_screen.components.LocalAppColorTuple
+import ru.tech.imageresizershrinker.main_screen.components.LocalDynamicColors
+import ru.tech.imageresizershrinker.main_screen.components.LocalNightMode
 import ru.tech.imageresizershrinker.theme.ImageResizerTheme
 import ru.tech.imageresizershrinker.widget.AutoSizeText
 import ru.tech.imageresizershrinker.widget.ToastHost

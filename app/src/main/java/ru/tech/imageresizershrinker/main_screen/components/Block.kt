@@ -1,6 +1,7 @@
 package ru.tech.imageresizershrinker.main_screen.components
 
 import android.content.res.Configuration
+import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
@@ -71,9 +72,11 @@ fun Modifier.drawHorizontalStroke(top: Boolean = false, height: Dp = Dp.Unspecif
 
     val color = MaterialTheme.colorScheme.outlineVariant(0.3f)
 
-    (h?.let {
-        val heightPx = with(LocalDensity.current) { h.toPx() }
 
+    if (h == null) {
+        Modifier
+    } else {
+        val heightPx = with(LocalDensity.current) { h.toPx() }
         drawWithContent {
             drawContent()
             drawRect(
@@ -82,7 +85,11 @@ fun Modifier.drawHorizontalStroke(top: Boolean = false, height: Dp = Dp.Unspecif
                 size = Size(this.size.width, heightPx)
             )
         }
-    } ?: shadow(6.dp)).zIndex(100f)
+    }
+        .shadow(
+            animateDpAsState(if (h == null) 6.dp else 0.dp).value
+        )
+        .zIndex(100f)
 }
 
 fun Modifier.fabBorder(height: Dp = Dp.Unspecified) = composed {
@@ -91,16 +98,24 @@ fun Modifier.fabBorder(height: Dp = Dp.Unspecified) = composed {
             LocalBorderWidth.current
         } else null
     } else null
-    h?.let {
+
+    if (h == null) {
+        Modifier
+    } else {
         border(
             h,
             MaterialTheme.colorScheme.outlineVariant(
                 luminance = 0.3f,
-                onTopOf = MaterialTheme.colorScheme.suggestContainerColorBy(LocalContentColor.current)
+                onTopOf = MaterialTheme.colorScheme.suggestContainerColorBy(
+                    LocalContentColor.current
+                )
             ),
             FloatingActionButtonDefaults.shape
         )
-    } ?: shadow(8.dp, FloatingActionButtonDefaults.shape)
+    }.shadow(
+        animateDpAsState(if (h == null) 8.dp else 0.dp).value,
+        FloatingActionButtonDefaults.shape
+    )
 }
 
 fun Modifier.alertDialog() = composed {
