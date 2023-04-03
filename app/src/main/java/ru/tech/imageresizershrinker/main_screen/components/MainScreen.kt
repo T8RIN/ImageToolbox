@@ -379,12 +379,15 @@ fun MainScreen(
                                                 ) { value ->
                                                     Text(
                                                         text = "$value",
+                                                        color = MaterialTheme.colorScheme.onSecondaryContainer.copy(alpha = 0.7f),
                                                         modifier = Modifier.padding(top = 16.dp)
                                                     )
                                                 }
                                                 Text(
                                                     text = "Dp",
+                                                    color = MaterialTheme.colorScheme.onSecondaryContainer.copy(alpha = 0.7f),
                                                     modifier = Modifier.padding(
+                                                        start = 4.dp,
                                                         top = 16.dp,
                                                         end = 16.dp
                                                     )
