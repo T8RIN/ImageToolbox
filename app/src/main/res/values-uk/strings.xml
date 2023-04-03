@@ -109,4 +109,7 @@
     <string name="dynamic_colors_sub">Якщо ввімкнено, то кольори додатків будуть прийняті до кольорів шпалер</string>
     <string name="failed_to_save">Не вдалося зберегти %d зображення(и)</string>
     <string name="png_warning_bytes">Збереження в режимі PNG може бути нестабільним, оскільки це формат без втрат</string>
+    <string name="primary">Первинний</string>
+    <string name="tertiary">Третинний</string>
+    <string name="secondary">Вторинний</string>
 </resources>
