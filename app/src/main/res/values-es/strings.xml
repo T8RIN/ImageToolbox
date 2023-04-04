@@ -7,7 +7,7 @@
     <string name="pick_image">Seleccione una imagen para iniciar</string>
     <string name="search_here">Buscar aquí</string>
     <string name="width">Anchura %1$s</string>
-    <string name="resize_type">Redimensionar tipo</string>
+    <string name="resize_type">Tipo de redimensión</string>
     <string name="explicit">Explícito</string>
     <string name="flexible">Flexible</string>
     <string name="saved_to">Guardado en la carpeta %1$s</string>
@@ -109,4 +109,8 @@
     <string name="dynamic_colors_sub">Si está habilitado, los colores de la aplicación se adoptarán para empapelar los colores</string>
     <string name="failed_to_save">Error al guardar las imágenes de %d</string>
     <string name="png_warning_bytes">Guardar en modo PNG puede ser inestable, porque es un formato sin pérdidas</string>
+    <string name="primary">Primario</string>
+    <string name="tertiary">Terciario</string>
+    <string name="secondary">Secundario</string>
+    <string name="border_thickness">Grosor del borde</string>
 </resources>
