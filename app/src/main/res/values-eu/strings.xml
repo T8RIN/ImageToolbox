@@ -1,2 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<resources>
+    <string name="size">Tamaina %1$s</string>
+    <string name="smth_went_wrong">Zerbait gaizki atera da: %1$s</string>
+    <string name="loading">Kargatzen…</string>
+    <string name="image_too_large_preview">Irudia handiegia da aurreikusteko, hala ere, gordetzen saiatuko da</string>
+    <string name="pick_image">Aukeratu irudia hasteko</string>
+    <string name="width">Zabalera %1$s</string>
+    <string name="height">Altuera %1$s</string>
+    <string name="quality">Kalitatea</string>
+    <string name="extension">Luzapena</string>
+    <string name="resize_type">Tamaina-aldaketaren mota</string>
+    <string name="flexible">Malgua</string>
+    <string name="explicit">Esplizitua</string>
+    <string name="saved_to">%1$s karpetan gorde da</string>
+    <string name="pick_image_alt">Aukeratu Irudia</string>
+    <string name="app_closing">Aplikazioa ixten</string>
+    <string name="stay">Geratu</string>
+    <string name="app_closing_sub">Ziur aplikazioa itxi nahi duzula\?</string>
+    <string name="close">Itxi</string>
+    <string name="reset_image">Berrezarri irudia</string>
+    <string name="reset">Berrezarri</string>
+    <string name="copied">Arbelera kopiatuta</string>
+    <string name="exception">Salbuespena</string>
+    <string name="values_reset">Balioak ongi berrezarri dira</string>
+    <string name="reset_image_sub">Irudiaren aldaketak hasierako balioetara itzuliko dira</string>
+    <string name="something_went_wrong">Zerbait gaizki atera da</string>
+    <string name="restart_app">Berrabiarazi aplikazioa</string>
+    <string name="ok">Ados</string>
+    <string name="edit_exif">Editatu EXIF</string>
+    <string name="no_exif">EXIF daturik ez da aurkitu</string>
+    <string name="add_tag">Gehitu etiketa</string>
+</resources>
