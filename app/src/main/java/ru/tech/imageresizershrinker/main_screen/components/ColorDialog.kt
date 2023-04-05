@@ -85,6 +85,7 @@ fun ColorDialog(
                             primary = it
                             secondary = Color(it).calculateSecondaryColor()
                             tertiary = Color(it).calculateTertiaryColor()
+                            surface = Color(it).calculateSurfaceColor()
                         }
                     )
                     Divider()
