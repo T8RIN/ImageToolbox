@@ -32,6 +32,7 @@ import androidx.core.graphics.green
 import androidx.core.graphics.red
 import com.t8rin.dynamic.theme.ColorTuple
 import com.t8rin.dynamic.theme.calculateSecondaryColor
+import com.t8rin.dynamic.theme.calculateSurfaceColor
 import com.t8rin.dynamic.theme.calculateTertiaryColor
 import kotlinx.coroutines.delay
 import ru.tech.imageresizershrinker.R
@@ -55,6 +56,12 @@ fun ColorDialog(
     var tertiary by rememberSaveable {
         mutableStateOf(
             colorTuple.tertiary?.toArgb() ?: colorTuple.primary.calculateTertiaryColor()
+        )
+    }
+
+    var surface by rememberSaveable {
+        mutableStateOf(
+            colorTuple.surface?.toArgb() ?: colorTuple.primary.calculateSurfaceColor()
         )
     }
 
@@ -92,6 +99,12 @@ fun ColorDialog(
                         color = tertiary,
                         onColorChange = { tertiary = it }
                     )
+                    Divider()
+                    TitleItem(text = stringResource(R.string.surface))
+                    ColorCustomComponent(
+                        color = surface,
+                        onColorChange = { surface = it }
+                    )
                     Spacer(Modifier.height(8.dp))
                 }
                 Divider(Modifier.align(Alignment.BottomCenter))
@@ -112,7 +125,8 @@ fun ColorDialog(
                         ColorTuple(
                             Color(primary),
                             Color(secondary),
-                            Color(tertiary)
+                            Color(tertiary),
+                            Color(surface)
                         )
                     )
                     onDismissRequest()

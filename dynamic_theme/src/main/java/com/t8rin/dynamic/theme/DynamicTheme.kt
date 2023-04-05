@@ -36,7 +36,6 @@ import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.t8rin.dynamic.theme.hct.Hct
 import com.t8rin.dynamic.theme.palettes.TonalPalette
 import com.t8rin.dynamic.theme.scheme.Scheme
-import kotlin.math.min
 
 /**
  * DynamicTheme allows you to dynamically change the color scheme of the content hierarchy.
@@ -202,6 +201,15 @@ fun Color.calculateTertiaryColor(): Int {
     return TonalPalette.fromHueAndChroma(hue + 60.0, chroma / 2.0).tone(80)
 }
 
+fun Color.calculateSurfaceColor(): Int {
+    val hct = Hct.fromInt(this.toArgb())
+    val hue = hct.hue
+    val chroma = hct.chroma
+
+    return TonalPalette.fromHueAndChroma(hue, (chroma / 12.0).coerceAtMost(4.0)).tone(90)
+}
+
+
 @Composable
 fun getAppColorTuple(
     defaultColorTuple: ColorTuple,
@@ -234,7 +242,8 @@ fun getAppColorTuple(
                         colorTuple = ColorTuple(
                             primary = primary,
                             secondary = secondary,
-                            tertiary = tertiary
+                            tertiary = tertiary,
+                            surface = surface
                         )
                     }
                 }
@@ -250,9 +259,7 @@ fun getAppColorTuple(
                     Manifest.permission.READ_EXTERNAL_STORAGE
                 ) == PackageManager.PERMISSION_GRANTED -> {
                     colorTuple = ColorTuple(
-                        primary = (wallpaperManager.drawable as BitmapDrawable).bitmap.extractPrimaryColor(),
-                        secondary = null,
-                        tertiary = null
+                        primary = (wallpaperManager.drawable as BitmapDrawable).bitmap.extractPrimaryColor()
                     )
                 }
                 else -> {
@@ -354,7 +361,8 @@ fun Bitmap.extractPrimaryColor(default: Int = 0, blendWithVibrant: Boolean = tru
 data class ColorTuple(
     val primary: Color,
     val secondary: Color? = null,
-    val tertiary: Color? = null
+    val tertiary: Color? = null,
+    val surface: Color? = null
 )
 
 /**
@@ -366,6 +374,7 @@ fun rememberDynamicThemeState(
         primary = MaterialTheme.colorScheme.primary,
         secondary = MaterialTheme.colorScheme.secondary,
         tertiary = MaterialTheme.colorScheme.tertiary,
+        surface = MaterialTheme.colorScheme.surface
     )
 ): DynamicThemeState {
     return remember {
@@ -440,6 +449,16 @@ private fun Scheme.toDarkThemeColorScheme(
         }
     }
 
+    val n1 = colorTuple.surface?.toArgb().let {
+        if (it != null) {
+            TonalPalette.fromInt(it)
+        } else {
+            TonalPalette.fromHueAndChroma(hue, (chroma / 12.0).coerceAtMost(4.0))
+        }
+    }
+
+    val n2 = TonalPalette.fromInt(n1.tone(90))
+
     return darkColorScheme(
         primary = Color(primary),
         onPrimary = Color(onPrimary),
@@ -454,21 +473,20 @@ private fun Scheme.toDarkThemeColorScheme(
         onTertiary = Color(a3.tone(20)),
         tertiaryContainer = Color(a3.tone(30)),
         onTertiaryContainer = Color(a3.tone(90)),
-        background = Color(background),
-        onBackground = Color(onBackground),
-        surface = Color(surface),
-        onSurface = Color(onSurface),
-        surfaceVariant = Color(surfaceVariant),
-        onSurfaceVariant = Color(onSurfaceVariant),
-        surfaceTint = Color(primary),
-        inverseSurface = Color(inverseSurface),
-        inverseOnSurface = Color(inverseOnSurface),
+        background = Color(n1.tone(10)),
+        onBackground = Color(n1.tone(90)),
+        surface = Color(n1.tone(10)),
+        onSurface = Color(n1.tone(90)),
+        surfaceVariant = Color(n2.tone(30)),
+        onSurfaceVariant = Color(n2.tone(80)),
+        outline = Color(n2.tone(60)),
+        outlineVariant = Color(n2.tone(30)),
+        inverseSurface = Color(n1.tone(90)),
+        inverseOnSurface = Color(n1.tone(20)),
         error = Color(error),
         onError = Color(onError),
         errorContainer = Color(errorContainer),
         onErrorContainer = Color(onErrorContainer),
-        outline = Color(outline),
-        outlineVariant = Color(outlineVariant),
         scrim = Color(scrim),
     )
 }
@@ -495,6 +513,16 @@ private fun Scheme.toLightThemeColorScheme(
         }
     }
 
+    val n1 = colorTuple.surface?.toArgb().let {
+        if (it != null) {
+            TonalPalette.fromInt(it)
+        } else {
+            TonalPalette.fromHueAndChroma(hue, (chroma / 12.0).coerceAtMost(4.0))
+        }
+    }
+
+    val n2 = TonalPalette.fromInt(n1.tone(90))
+
     return lightColorScheme(
         primary = Color(primary),
         onPrimary = Color(onPrimary),
@@ -509,21 +537,21 @@ private fun Scheme.toLightThemeColorScheme(
         onTertiary = Color(a3.tone(100)),
         tertiaryContainer = Color(a3.tone(90)),
         onTertiaryContainer = Color(a3.tone(10)),
-        background = Color(background),
-        onBackground = Color(onBackground),
-        surface = Color(surface),
-        onSurface = Color(onSurface),
-        surfaceVariant = Color(surfaceVariant),
-        onSurfaceVariant = Color(onSurfaceVariant),
+        background = Color(n1.tone(99)),
+        onBackground = Color(n1.tone(10)),
+        surface = Color(n1.tone(99)),
+        onSurface = Color(n1.tone(10)),
+        surfaceVariant = Color(n2.tone(90)),
+        onSurfaceVariant = Color(n2.tone(30)),
+        outline = Color(n2.tone(50)),
+        outlineVariant = Color(n2.tone(80)),
+        inverseSurface = Color(n1.tone(20)),
+        inverseOnSurface = Color(n1.tone(95)),
         surfaceTint = Color(primary),
-        inverseSurface = Color(inverseSurface),
-        inverseOnSurface = Color(inverseOnSurface),
         error = Color(error),
         onError = Color(onError),
         errorContainer = Color(errorContainer),
         onErrorContainer = Color(onErrorContainer),
-        outline = Color(outline),
-        outlineVariant = Color(outlineVariant),
         scrim = Color(scrim),
     )
 }

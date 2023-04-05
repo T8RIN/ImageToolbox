@@ -420,9 +420,7 @@ class Scheme {
         if (inverseOnSurface != scheme.inverseOnSurface) {
             return false
         }
-        return if (inversePrimary != scheme.inversePrimary) {
-            false
-        } else true
+        return inversePrimary == scheme.inversePrimary
     }
 
     override fun hashCode(): Int {

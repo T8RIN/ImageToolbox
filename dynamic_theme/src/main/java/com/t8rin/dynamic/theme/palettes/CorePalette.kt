@@ -48,10 +48,10 @@ class CorePalette private constructor(argb: Int, isContent: Boolean) {
             a1 = TonalPalette.Companion.fromHueAndChroma(hue, chroma)
             a2 = TonalPalette.Companion.fromHueAndChroma(hue, chroma / 3.0)
             a3 = TonalPalette.Companion.fromHueAndChroma(hue + 60.0, chroma / 2.0)
-            n1 = TonalPalette.Companion.fromHueAndChroma(hue, Math.min(chroma / 12.0, 4.0))
-            n2 = TonalPalette.Companion.fromHueAndChroma(hue, Math.min(chroma / 6.0, 8.0))
+            n1 = TonalPalette.Companion.fromHueAndChroma(hue, (chroma / 12.0).coerceAtMost(4.0))
+            n2 = TonalPalette.Companion.fromHueAndChroma(hue, (chroma / 6.0).coerceAtMost(8.0))
         } else {
-            a1 = TonalPalette.Companion.fromHueAndChroma(hue, Math.max(48.0, chroma))
+            a1 = TonalPalette.Companion.fromHueAndChroma(hue, 48.0.coerceAtLeast(chroma))
             a2 = TonalPalette.Companion.fromHueAndChroma(hue, 16.0)
             a3 = TonalPalette.Companion.fromHueAndChroma(hue + 60.0, 24.0)
             n1 = TonalPalette.Companion.fromHueAndChroma(hue, 4.0)

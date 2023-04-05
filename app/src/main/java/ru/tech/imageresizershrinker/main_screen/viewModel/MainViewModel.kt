@@ -89,10 +89,11 @@ class MainViewModel @Inject constructor(
                 _appColorTuple.value = (prefs[APP_COLOR]?.let { tuple ->
                     val colorTuple = tuple.split("*")
                     ColorTuple(
-                        primary = colorTuple[0].toIntOrNull()?.let { Color(it) }
+                        primary = colorTuple.getOrNull(0)?.toIntOrNull()?.let { Color(it) }
                             ?: md_theme_dark_primary,
-                        secondary = colorTuple[1].toIntOrNull()?.let { Color(it) },
-                        tertiary = colorTuple[2].toIntOrNull()?.let { Color(it) }
+                        secondary = colorTuple.getOrNull(1)?.toIntOrNull()?.let { Color(it) },
+                        tertiary = colorTuple.getOrNull(2)?.toIntOrNull()?.let { Color(it) },
+                        surface = colorTuple.getOrNull(3)?.toIntOrNull()?.let { Color(it) },
                     )
                 }) ?: ColorTuple(md_theme_dark_primary)
                 _borderWidth.value = prefs[BORDER_WIDTH]?.toFloatOrNull() ?: 1f
@@ -110,10 +111,11 @@ class MainViewModel @Inject constructor(
             _appColorTuple.value = (prefs[APP_COLOR]?.let { tuple ->
                 val colorTuple = tuple.split("*")
                 ColorTuple(
-                    primary = colorTuple[0].toIntOrNull()?.let { Color(it) }
+                    primary = colorTuple.getOrNull(0)?.toIntOrNull()?.let { Color(it) }
                         ?: md_theme_dark_primary,
-                    secondary = colorTuple[1].toIntOrNull()?.let { Color(it) },
-                    tertiary = colorTuple[2].toIntOrNull()?.let { Color(it) }
+                    secondary = colorTuple.getOrNull(1)?.toIntOrNull()?.let { Color(it) },
+                    tertiary = colorTuple.getOrNull(2)?.toIntOrNull()?.let { Color(it) },
+                    surface = colorTuple.getOrNull(3)?.toIntOrNull()?.let { Color(it) },
                 )
             }) ?: ColorTuple(md_theme_dark_primary)
             _borderWidth.value = prefs[BORDER_WIDTH]?.toFloatOrNull() ?: 1f
@@ -124,7 +126,7 @@ class MainViewModel @Inject constructor(
         viewModelScope.launch {
             dataStore.edit {
                 it[APP_COLOR] = colorTuple.run {
-                    "${primary.toArgb()}*${secondary?.toArgb()}*${tertiary?.toArgb()}"
+                    "${primary.toArgb()}*${secondary?.toArgb()}*${tertiary?.toArgb()}*${surface?.toArgb()}"
                 }
             }
         }

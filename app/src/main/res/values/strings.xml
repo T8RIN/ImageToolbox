@@ -124,4 +124,5 @@
     <string name="tertiary">Tertiary</string>
     <string name="secondary">Secondary</string>
     <string name="border_thickness">Border thickness</string>
+    <string name="surface">Surface</string>
 </resources>
