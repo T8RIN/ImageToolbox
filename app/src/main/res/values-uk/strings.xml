@@ -112,4 +112,6 @@
     <string name="primary">Первинний</string>
     <string name="tertiary">Третинний</string>
     <string name="secondary">Вторинний</string>
+    <string name="surface">Поверхня</string>
+    <string name="border_thickness">Товщина рамки</string>
 </resources>
