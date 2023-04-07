@@ -24,7 +24,7 @@
     <string name="save">儲存</string>
     <string name="add_tag">加入標籤</string>
     <string name="cancel">取消</string>
-    <string name="presets">預設</string>
+    <string name="presets">預設集</string>
     <string name="crop">裁切</string>
     <string name="clear_exif_sub">所有圖片的 EXIF 資料將會被清除，此動作無法被撤消！</string>
     <string name="ratio">比例</string>
@@ -108,5 +108,6 @@
     <string name="single_resize">調整單一圖片大小</string>
     <string name="palette_sub">從給予的圖片產生調色盤樣本</string>
     <string name="failed_to_save">無法儲存 %d 影像</string>
-    <string name="png_warning_bytes">以 PNG 模式保存可能不穩定，因為它是無損格式</string>
+    <string name="png_warning_bytes">以 PNG 模式儲存可能不穩定，因為它是無損格式</string>
+    <string name="border_thickness">邊框厚度</string>
 </resources>
