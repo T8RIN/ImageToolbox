@@ -109,4 +109,9 @@
     <string name="dynamic_colors_sub">Se habilitado, as cores do aplicativo serão adotadas para as cores do papel de parede</string>
     <string name="failed_to_save">Falha ao salvar a(s) imagem(ns) %d</string>
     <string name="png_warning_bytes">Salvar no modo PNG pode ser instável, porque é um formato sem perdas</string>
+    <string name="surface">Superfície</string>
+    <string name="primary">Principal</string>
+    <string name="secondary">Secundário</string>
+    <string name="tertiary">Terciário</string>
+    <string name="border_thickness">Grossura da borda</string>
 </resources>
