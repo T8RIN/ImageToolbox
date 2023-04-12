@@ -362,7 +362,14 @@ fun MainScreen(
                                                         .copy(alpha = 0.2f)
                                                 )
                                         ) {
-                                            var sliderValue by remember { mutableStateOf(kotlin.math.max(0f, viewModel.borderWidth)) }
+                                            var sliderValue by remember {
+                                                mutableStateOf(
+                                                    kotlin.math.max(
+                                                        0f,
+                                                        viewModel.borderWidth
+                                                    )
+                                                )
+                                            }
                                             Row(
                                                 verticalAlignment = Alignment.CenterVertically
                                             ) {

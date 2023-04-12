@@ -51,9 +51,9 @@ android {
 
 dependencies {
     implementation("androidx.activity:activity-compose:1.7.0")
-    implementation("androidx.compose.material3:material3:1.1.0-beta01")
-    implementation("androidx.compose.material3:material3-window-size-class:1.1.0-beta01")
-    implementation("androidx.compose.material:material-icons-extended:1.4.0")
+    implementation("androidx.compose.material3:material3:1.1.0-beta02")
+    implementation("androidx.compose.material3:material3-window-size-class:1.1.0-beta02")
+    implementation("androidx.compose.material:material-icons-extended:1.4.1")
     implementation("androidx.core:core-splashscreen:1.0.0")
     implementation("androidx.exifinterface:exifinterface:1.3.6")
 
@@ -61,7 +61,7 @@ dependencies {
     implementation("dev.olshevski.navigation:reimagined-hilt:1.4.0")
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.6.1")
     implementation("nl.dionsegijn:konfetti-compose:2.0.2")
-    implementation("androidx.datastore:datastore-preferences:1.1.0-alpha03")
+    implementation("androidx.datastore:datastore-preferences:1.1.0-alpha04")
     implementation("androidx.documentfile:documentfile:1.0.1")
     implementation("com.google.dagger:hilt-android:2.45")
     kapt("com.google.dagger:hilt-compiler:2.45")
