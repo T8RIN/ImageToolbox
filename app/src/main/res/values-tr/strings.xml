@@ -26,12 +26,12 @@
     <string name="copied">Panoya kopyalandı</string>
     <string name="edit_exif">EXIF\'i Düzenle</string>
     <string name="ok">Tamam</string>
-    <string name="clear">Temiz</string>
+    <string name="clear">Temizle</string>
     <string name="clear_exif">EXIF\'i Temizle</string>
     <string name="cancel">İptal</string>
     <string name="ratio">Oran</string>
-    <string name="crop">Mahsul</string>
-    <string name="image_not_saved">Tasarruf</string>
+    <string name="crop">Kırp</string>
+    <string name="image_not_saved">Küçült</string>
     <string name="check_source_code">Kaynak kodu</string>
     <string name="pick_color">Renk seç</string>
     <string name="pick_color_sub">Görüntüden renk seçin, kopyalayın veya paylaşın</string>
@@ -42,7 +42,7 @@
     <string name="resize_batch_image">Verilen görüntü gruplarının özelliklerini değiştirme</string>
     <string name="images">Görüntüler: %d</string>
     <string name="change_preview">Önizlemeyi değiştir</string>
-    <string name="remove">Kaldırmak</string>
+    <string name="remove">Kaldır</string>
     <string name="palette_sub">Verilen görüntüden renk paleti örneği oluşturma</string>
     <string name="generate_palette">Palet oluştur</string>
     <string name="palette">Palet</string>
@@ -108,5 +108,10 @@
     <string name="nothing_found_by_search">Sorgunuzda hiçbir şey bulunamadı</string>
     <string name="dynamic_colors_sub">Etkinleştirilirse, uygulama renkleri duvar kağıdı renklerine uyarlanır</string>
     <string name="failed_to_save">%d resim(ler)i kaydedilemedi</string>
-    <string name="png_warning_bytes">PNG modunda kaydetmek, kayıpsız format olduğu için kararsız olabilir</string>
+    <string name="png_warning_bytes">Kayıpsız format olduğu için PNG modunda kaydetmek sorunlara neden olabilir.</string>
+    <string name="surface">Yüzey</string>
+    <string name="primary">Birincil</string>
+    <string name="tertiary">Üçüncül</string>
+    <string name="secondary">İkincil</string>
+    <string name="border_thickness">Kenar kalınlığı</string>
 </resources>
