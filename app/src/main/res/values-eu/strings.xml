@@ -30,4 +30,18 @@
     <string name="edit_exif">Editatu EXIF</string>
     <string name="no_exif">EXIF daturik ez da aurkitu</string>
     <string name="add_tag">Gehitu etiketa</string>
+    <string name="might_be_error_with_exif">Ez bada JPEG konpresio-formatua aukeratzen, orduan, EXIF metadatuak oker ager daitezke beste aplikazioetan</string>
+    <string name="save">Gorde</string>
+    <string name="clear_exif">Ezabatu EXIF</string>
+    <string name="cancel">Utzi</string>
+    <string name="clear_exif_sub">Irudiaren EXIF datu guztiak ezabatuko dira, ekintza hau ezin da leheneratu!</string>
+    <string name="clear">Garbitu</string>
+    <string name="image_not_saved">Gordetzen</string>
+    <string name="image_not_saved_sub">Gorde ez diren aldaketa guztiak galduko dira orain irteten bazara</string>
+    <string name="check_source_code_sub">Jaso azken eguneraketak, eztabaidatu arazoak eta gehiago</string>
+    <string name="single_resize">Tamaina-aldaketa bakarra</string>
+    <string name="presets">Aurredoikuntzak</string>
+    <string name="ratio">Ratioa</string>
+    <string name="check_source_code">Iturburu-kodea</string>
+    <string name="crop">Moztu</string>
 </resources>
