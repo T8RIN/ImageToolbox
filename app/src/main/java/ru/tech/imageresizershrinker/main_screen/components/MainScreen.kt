@@ -513,7 +513,7 @@ fun MainScreen(
                                                         modifier = Modifier.padding(top = 16.dp)
                                                     )
                                                 }
-                                                Text(
+                                                AutoSizeText(
                                                     maxLines = 1,
                                                     text = "Dp",
                                                     color = MaterialTheme.colorScheme.onSurface.copy(
