@@ -943,19 +943,33 @@ fun MainScreen(
                         }
                     }
 
+                    val updateButtonColors = if (viewModel.updateAvailable) {
+                        ButtonDefaults.outlinedButtonColors(
+                            containerColor = MaterialTheme.colorScheme.primaryContainer.copy(
+                                alpha = if (LocalNightMode.current.isNightMode()) 0.5f
+                                else 1f
+                            ),
+                            contentColor = MaterialTheme.colorScheme.onPrimaryContainer.copy(
+                                alpha = 0.5f
+                            )
+                        )
+                    } else {
+                        ButtonDefaults.outlinedButtonColors(
+                            containerColor = MaterialTheme.colorScheme.secondaryContainer.copy(
+                                alpha = if (LocalNightMode.current.isNightMode()) 0.5f
+                                else 1f
+                            ),
+                            contentColor = MaterialTheme.colorScheme.onSecondaryContainer.copy(
+                                alpha = 0.5f
+                            )
+                        )
+                    }
+
                     BottomAppBar(
                         modifier = Modifier.drawHorizontalStroke(top = true),
                         actions = {
                             OutlinedButton(
-                                colors = ButtonDefaults.outlinedButtonColors(
-                                    containerColor = MaterialTheme.colorScheme.secondaryContainer.copy(
-                                        alpha = if (LocalNightMode.current.isNightMode()) 0.5f
-                                        else 1f
-                                    ),
-                                    contentColor = MaterialTheme.colorScheme.onSecondaryContainer.copy(
-                                        alpha = 0.5f
-                                    ),
-                                ),
+                                colors = updateButtonColors,
                                 border = BorderStroke(
                                     LocalBorderWidth.current,
                                     MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.secondaryContainer)

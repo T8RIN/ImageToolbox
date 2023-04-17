@@ -83,6 +83,9 @@ class MainViewModel @Inject constructor(
     private val _showUpdateDialog = mutableStateOf(false)
     val showUpdateDialog by _showUpdateDialog
 
+    private val _updateAvailable = mutableStateOf(false)
+    val updateAvailable by _updateAvailable
+
     private val _cancelledUpdate = mutableStateOf(false)
 
     private val _shouldShowDialog = mutableStateOf(true)
@@ -230,6 +233,7 @@ class MainViewModel @Inject constructor(
                         }
 
                         if (tag != BuildConfig.VERSION_NAME) {
+                            _updateAvailable.value = true
                             _showUpdateDialog.value = true
                         } else {
                             onNoUpdates()
