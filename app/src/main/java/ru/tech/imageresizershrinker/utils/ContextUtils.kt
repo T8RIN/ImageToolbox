@@ -38,7 +38,7 @@ object ContextUtils {
     }
 
     fun Context.needToShowStoragePermissionRequest(): Boolean {
-        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) false
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O_MR1) false
         else if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.M) false
         else !(ContextCompat.checkSelfPermission(
             this,
