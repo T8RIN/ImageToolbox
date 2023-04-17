@@ -109,4 +109,10 @@
     <string name="dynamic_colors_sub">Wenn aktiviert, werden die Farben der Anwendung an die Farben des Hintergrundbildes angepasst.</string>
     <string name="failed_to_save">Fehler beim Speichern von %d-Bildern</string>
     <string name="png_warning_bytes">Das Speichern im PNG-Modus kann instabil sein, da es sich um ein verlustfreies Format handelt</string>
+    <string name="surface">Oberfläche</string>
+    <string name="values">Werte</string>
+    <string name="add">Hinzufügen</string>
+    <string name="tertiary">Tertiär</string>
+    <string name="secondary">Sekundär</string>
+    <string name="primary">Primär</string>
 </resources>
