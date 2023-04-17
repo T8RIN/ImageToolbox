@@ -115,6 +115,7 @@ import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.min
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.window.DialogProperties
 import androidx.compose.ui.zIndex
 import com.t8rin.dynamic.theme.ColorTupleItem
 import dev.olshevski.navigation.reimagined.NavController
@@ -1086,7 +1087,10 @@ fun MainScreen(
         )
     } else if (showEditPresetsDialog) {
         AlertDialog(
-            modifier = Modifier.alertDialog(),
+            modifier = Modifier
+                .alertDialog()
+                .width(320.dp),
+            properties = DialogProperties(usePlatformDefaultWidth = false),
             onDismissRequest = { showEditPresetsDialog = false },
             title = { Text(stringResource(R.string.presets)) },
             icon = {
