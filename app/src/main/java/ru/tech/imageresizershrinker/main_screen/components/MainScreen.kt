@@ -68,7 +68,6 @@ import androidx.compose.material3.DrawerDefaults
 import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.FilledTonalButton
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.FloatingActionButtonDefaults
 import androidx.compose.material3.Icon
@@ -1179,12 +1178,26 @@ fun MainScreen(
                                             steps = 490,
                                             valueRange = 10f..500f
                                         )
-                                        FilledTonalButton(onClick = {
-                                            viewModel.updatePresets(list + value.toInt())
-                                            expanded = false
-                                        }) {
+                                        OutlinedButton(
+                                            onClick = {
+                                                viewModel.updatePresets(list + value.toInt())
+                                                expanded = false
+                                            },
+                                            colors = ButtonDefaults.outlinedButtonColors(
+                                                containerColor = MaterialTheme.colorScheme.secondaryContainer.copy(
+                                                    alpha = if (LocalNightMode.current.isNightMode()) 0.5f
+                                                    else 1f
+                                                ),
+                                                contentColor = MaterialTheme.colorScheme.onSecondaryContainer,
+                                            ),
+                                            border = BorderStroke(
+                                                LocalBorderWidth.current,
+                                                MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.secondaryContainer)
+                                            ),
+                                        ) {
                                             Text(stringResource(R.string.add))
                                         }
+                                        Spacer(Modifier.height(8.dp))
                                     }
                                 }
                             }
