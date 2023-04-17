@@ -127,4 +127,7 @@
     <string name="surface">Surface</string>
     <string name="values">Values</string>
     <string name="add">Add</string>
+    <string name="permission">Permission</string>
+    <string name="grant">Grant</string>
+    <string name="permission_sub">App need access to your storage to save images, it is necessary, without that it can\'t work, so please grant permission on the next dialog</string>
 </resources>

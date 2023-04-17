@@ -44,6 +44,8 @@ import ru.tech.imageresizershrinker.theme.ImageResizerTheme
 import ru.tech.imageresizershrinker.theme.blend
 import ru.tech.imageresizershrinker.theme.outlineVariant
 import ru.tech.imageresizershrinker.utils.*
+import ru.tech.imageresizershrinker.utils.ContextUtils.needToShowStoragePermissionRequest
+import ru.tech.imageresizershrinker.utils.ContextUtils.requestPermission
 import ru.tech.imageresizershrinker.utils.IntentUtils.parcelable
 import ru.tech.imageresizershrinker.utils.IntentUtils.parcelableArrayList
 import ru.tech.imageresizershrinker.widget.LocalToastHost
@@ -124,6 +126,7 @@ class MainActivity : M3Activity() {
                                         viewModel = viewModel
                                     )
                                 }
+
                                 is Screen.SingleResize -> {
                                     SingleResizeScreen(
                                         uriState = viewModel.uris?.firstOrNull(),
@@ -143,6 +146,7 @@ class MainActivity : M3Activity() {
                                         showConfetti = { showConfetti = true }
                                     )
                                 }
+
                                 is Screen.BatchResize -> {
                                     BatchResizeScreen(
                                         uriState = viewModel.uris,
@@ -162,6 +166,7 @@ class MainActivity : M3Activity() {
                                         showConfetti = { showConfetti = true }
                                     )
                                 }
+
                                 is Screen.ResizeByBytes -> {
                                     BytesResizeScreen(
                                         uriState = viewModel.uris,
@@ -181,6 +186,7 @@ class MainActivity : M3Activity() {
                                         showConfetti = { showConfetti = true }
                                     )
                                 }
+
                                 is Screen.Crop -> {
                                     CropScreen(
                                         uriState = viewModel.uris?.firstOrNull(),
@@ -200,6 +206,7 @@ class MainActivity : M3Activity() {
                                         showConfetti = { showConfetti = true }
                                     )
                                 }
+
                                 is Screen.PickColorFromImage -> {
                                     PickColorFromImageScreen(
                                         uriState = viewModel.uris?.firstOrNull(),
@@ -208,6 +215,7 @@ class MainActivity : M3Activity() {
                                         pushNewUri = viewModel::updateUri
                                     )
                                 }
+
                                 is Screen.GeneratePalette -> {
                                     GeneratePaletteScreen(
                                         uriState = viewModel.uris?.firstOrNull(),
@@ -216,6 +224,7 @@ class MainActivity : M3Activity() {
                                         pushNewUri = viewModel::updateUri
                                     )
                                 }
+
                                 is Screen.Compare -> {
                                     CompareScreen(
                                         comparableUris = viewModel.uris
@@ -432,6 +441,39 @@ class MainActivity : M3Activity() {
                     ToastHost(hostState = LocalToastHost.current)
 
                     SideEffect { viewModel.tryGetUpdate() }
+
+                    val showPermission = needToShowStoragePermissionRequest()
+
+                    if (showPermission) {
+                        AlertDialog(
+                            modifier = Modifier.alertDialog(),
+                            onDismissRequest = { },
+                            icon = {
+                                Icon(Icons.Rounded.Storage, null)
+                            },
+                            title = { Text(stringResource(R.string.permission)) },
+                            text = {
+                                Text(stringResource(R.string.permission_sub))
+                            },
+                            confirmButton = {
+                                OutlinedButton(
+                                    colors = ButtonDefaults.outlinedButtonColors(
+                                        containerColor = MaterialTheme.colorScheme.primary,
+                                        contentColor = MaterialTheme.colorScheme.onPrimary,
+                                    ),
+                                    border = BorderStroke(
+                                        LocalBorderWidth.current,
+                                        MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.primary)
+                                    ),
+                                    onClick = {
+                                        requestPermission()
+                                    }
+                                ) {
+                                    Text(stringResource(id = R.string.grant))
+                                }
+                            }
+                        )
+                    }
                 }
             }
         }
@@ -454,11 +496,13 @@ class MainActivity : M3Activity() {
                         viewModel.updateUris(listOf(it))
                     }
                 }
+
                 Intent.ACTION_SEND_MULTIPLE -> {
                     intent.parcelableArrayList<Uri>(Intent.EXTRA_STREAM)?.let {
                         viewModel.updateUris(it)
                     }
                 }
+
                 else -> {
                     intent.data?.let { viewModel.updateUris(listOf(it)) }
                 }

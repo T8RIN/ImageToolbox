@@ -21,7 +21,10 @@ object ContextUtils {
     fun Activity.requestPermission() {
         ActivityCompat.requestPermissions(
             this,
-            arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE),
+            arrayOf(
+                Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                Manifest.permission.READ_EXTERNAL_STORAGE
+            ),
             1
         )
     }
@@ -32,6 +35,18 @@ object ContextUtils {
             this,
             Manifest.permission.WRITE_EXTERNAL_STORAGE
         ) == PackageManager.PERMISSION_GRANTED
+    }
+
+    fun Context.needToShowStoragePermissionRequest(): Boolean {
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) false
+        else if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.M) false
+        else !(ContextCompat.checkSelfPermission(
+            this,
+            Manifest.permission.WRITE_EXTERNAL_STORAGE
+        ) == PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(
+            this,
+            Manifest.permission.READ_EXTERNAL_STORAGE
+        ) == PackageManager.PERMISSION_GRANTED)
     }
 
     fun Activity.failedToSaveImages(
