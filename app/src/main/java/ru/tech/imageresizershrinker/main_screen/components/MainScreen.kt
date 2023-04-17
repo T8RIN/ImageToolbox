@@ -830,21 +830,21 @@ fun MainScreen(
 
                     val updateButtonColors = if (viewModel.updateAvailable) {
                         ButtonDefaults.outlinedButtonColors(
-                            containerColor = MaterialTheme.colorScheme.secondaryContainer.copy(
+                            containerColor = MaterialTheme.colorScheme.primaryContainer.copy(
                                 alpha = if (LocalNightMode.current.isNightMode()) 0.5f
                                 else 1f
                             ),
-                            contentColor = MaterialTheme.colorScheme.onSecondaryContainer.copy(
+                            contentColor = MaterialTheme.colorScheme.onPrimaryContainer.copy(
                                 alpha = 0.5f
                             )
                         )
                     } else {
                         ButtonDefaults.outlinedButtonColors(
-                            containerColor = MaterialTheme.colorScheme.surface.copy(
+                            containerColor = MaterialTheme.colorScheme.secondaryContainer.copy(
                                 alpha = if (LocalNightMode.current.isNightMode()) 0.5f
                                 else 1f
                             ),
-                            contentColor = MaterialTheme.colorScheme.onSurface.copy(
+                            contentColor = MaterialTheme.colorScheme.onSecondaryContainer.copy(
                                 alpha = 0.5f
                             )
                         )
@@ -857,7 +857,7 @@ fun MainScreen(
                                 colors = updateButtonColors,
                                 border = BorderStroke(
                                     LocalBorderWidth.current,
-                                    MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.surface)
+                                    MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.secondaryContainer)
                                 ),
                                 modifier = Modifier
                                     .padding(horizontal = 16.dp),
@@ -893,7 +893,7 @@ fun MainScreen(
                                 modifier = Modifier
                                     .fabBorder()
                                     .requiredSize(size = 56.dp),
-                                containerColor = MaterialTheme.colorScheme.surface,
+                                containerColor = MaterialTheme.colorScheme.primaryContainer,
                                 elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
                                 content = { Icon(Icons.Rounded.Github, null) }
                             )
