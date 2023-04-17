@@ -28,7 +28,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.max
 import ru.tech.imageresizershrinker.R
+import ru.tech.imageresizershrinker.main_screen.components.LocalBorderWidth
 import ru.tech.imageresizershrinker.main_screen.components.LocalPresetsProvider
 import ru.tech.imageresizershrinker.main_screen.components.block
 import ru.tech.imageresizershrinker.theme.mixedColor
@@ -74,7 +76,7 @@ fun PresetWidget(
                                 )
                             },
                             border = BorderStroke(
-                                1.dp, animateColorAsState(
+                                max(LocalBorderWidth.current, 1.dp), animateColorAsState(
                                     if (selected) MaterialTheme.colorScheme.outlineVariant
                                     else Color.Transparent
                                 ).value

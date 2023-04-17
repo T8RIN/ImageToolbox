@@ -11,6 +11,8 @@ import androidx.compose.material3.OutlinedIconButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.max
+import ru.tech.imageresizershrinker.main_screen.components.LocalBorderWidth
 import ru.tech.imageresizershrinker.theme.Telegram
 import ru.tech.imageresizershrinker.theme.mixedColor
 import ru.tech.imageresizershrinker.theme.onMixedColor
@@ -37,7 +39,7 @@ fun TelegramButton(
             disabledContainerColor = Color.Transparent
         ),
         border = BorderStroke(
-            1.dp, animateColorAsState(
+            max(LocalBorderWidth.current, 1.dp), animateColorAsState(
                 if (isTelegramSpecs) MaterialTheme.colorScheme.outlineVariant
                 else Color.Transparent
             ).value

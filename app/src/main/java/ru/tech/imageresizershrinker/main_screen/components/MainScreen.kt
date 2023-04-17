@@ -110,8 +110,10 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.max
 import androidx.compose.ui.unit.min
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.DialogProperties
@@ -512,6 +514,7 @@ fun MainScreen(
                                                     )
                                                 }
                                                 Text(
+                                                    maxLines = 1,
                                                     text = "Dp",
                                                     color = MaterialTheme.colorScheme.onSurface.copy(
                                                         alpha = 0.5f
@@ -946,8 +949,7 @@ fun MainScreen(
                     val updateButtonColors = if (viewModel.updateAvailable) {
                         ButtonDefaults.outlinedButtonColors(
                             containerColor = MaterialTheme.colorScheme.primaryContainer.copy(
-                                alpha = if (LocalNightMode.current.isNightMode()) 0.5f
-                                else 1f
+                                alpha = 0.9f
                             ),
                             contentColor = MaterialTheme.colorScheme.onPrimaryContainer.copy(
                                 alpha = 0.5f
@@ -956,8 +958,7 @@ fun MainScreen(
                     } else {
                         ButtonDefaults.outlinedButtonColors(
                             containerColor = MaterialTheme.colorScheme.secondaryContainer.copy(
-                                alpha = if (LocalNightMode.current.isNightMode()) 0.5f
-                                else 1f
+                                alpha = 0.9f
                             ),
                             contentColor = MaterialTheme.colorScheme.onSecondaryContainer.copy(
                                 alpha = 0.5f
@@ -1008,7 +1009,11 @@ fun MainScreen(
                                 modifier = Modifier
                                     .fabBorder()
                                     .requiredSize(size = 56.dp),
-                                containerColor = MaterialTheme.colorScheme.primaryContainer,
+                                containerColor = if (viewModel.updateAvailable) {
+                                    MaterialTheme.colorScheme.secondaryContainer
+                                } else {
+                                    MaterialTheme.colorScheme.primaryContainer
+                                },
                                 elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
                                 content = { Icon(Icons.Rounded.Github, null) }
                             )
@@ -1114,12 +1119,14 @@ fun MainScreen(
                 Box {
                     Divider(Modifier.align(Alignment.TopCenter))
                     AnimatedContent(
-                        data, transitionSpec = { fadeIn() with fadeOut() }
+                        targetState = data,
+                        transitionSpec = { fadeIn() with fadeOut() },
+                        modifier = Modifier.verticalScroll(rememberScrollState())
                     ) { list ->
                         FlowRow(
                             Modifier
                                 .align(Alignment.Center)
-                                .padding(8.dp)
+                                .padding(start = 14.dp, top = 8.dp, bottom = 8.dp)
                         ) {
                             list.forEach {
                                 OutlinedIconButton(
@@ -1130,7 +1137,8 @@ fun MainScreen(
                                         }
                                     },
                                     border = BorderStroke(
-                                        1.dp, MaterialTheme.colorScheme.outlineVariant
+                                        max(LocalBorderWidth.current, 1.dp),
+                                        MaterialTheme.colorScheme.outlineVariant
                                     ),
                                     colors = IconButtonDefaults.outlinedIconButtonColors(
                                         containerColor = MaterialTheme.colorScheme.secondaryContainer.copy(
@@ -1149,7 +1157,8 @@ fun MainScreen(
                                     expanded = true
                                 },
                                 border = BorderStroke(
-                                    1.dp, MaterialTheme.colorScheme.outlineVariant
+                                    max(LocalBorderWidth.current, 1.dp),
+                                    MaterialTheme.colorScheme.outlineVariant
                                 ),
                                 colors = IconButtonDefaults.outlinedIconButtonColors(
                                     containerColor = MaterialTheme.colorScheme.secondaryContainer.copy(
@@ -1171,6 +1180,7 @@ fun MainScreen(
                                         .alertDialog(),
                                     expanded = expanded,
                                     onDismissRequest = { expanded = false },
+                                    offset = DpOffset(6.dp, 0.dp)
                                 ) {
                                     var value by remember { mutableStateOf(50f) }
                                     Column(
