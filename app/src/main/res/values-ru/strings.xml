@@ -114,4 +114,6 @@
     <string name="secondary">Вторичный</string>
     <string name="border_thickness">Толщина окантовки</string>
     <string name="surface">Поверхность</string>
+    <string name="values">Значения</string>
+    <string name="add">Добавить</string>
 </resources>
