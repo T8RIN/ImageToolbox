@@ -116,4 +116,7 @@
     <string name="surface">Поверхность</string>
     <string name="values">Значения</string>
     <string name="add">Добавить</string>
+    <string name="permission">Разрешение</string>
+    <string name="grant">Одобрить</string>
+    <string name="permission_sub">Приложению необходим доступ к памяти вашего телефона, чтобы сохранять изображения, пожалуйста, для продолжения работы разрешите доступ в появшемся окне</string>
 </resources>
