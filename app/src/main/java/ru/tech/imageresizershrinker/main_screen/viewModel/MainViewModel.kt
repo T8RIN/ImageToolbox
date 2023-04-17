@@ -14,14 +14,27 @@ import androidx.lifecycle.viewModelScope
 import com.t8rin.dynamic.theme.ColorTuple
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.olshevski.navigation.reimagined.navController
-import kotlinx.coroutines.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.withContext
 import org.w3c.dom.Element
 import ru.tech.imageresizershrinker.BuildConfig
 import ru.tech.imageresizershrinker.main_screen.components.Screen
 import ru.tech.imageresizershrinker.theme.md_theme_dark_primary
-import ru.tech.imageresizershrinker.utils.*
+import ru.tech.imageresizershrinker.utils.AMOLED_MODE
+import ru.tech.imageresizershrinker.utils.APP_COLOR
+import ru.tech.imageresizershrinker.utils.APP_RELEASES
+import ru.tech.imageresizershrinker.utils.BORDER_WIDTH
+import ru.tech.imageresizershrinker.utils.DYNAMIC_COLORS
+import ru.tech.imageresizershrinker.utils.IMAGE_MONET
+import ru.tech.imageresizershrinker.utils.NIGHT_MODE
+import ru.tech.imageresizershrinker.utils.PRESETS
+import ru.tech.imageresizershrinker.utils.SAVE_FOLDER
 import ru.tech.imageresizershrinker.widget.ToastHostState
 import java.net.URL
 import javax.inject.Inject
@@ -54,6 +67,10 @@ class MainViewModel @Inject constructor(
 
     private val _borderWidth = mutableStateOf(1f)
     val borderWidth by _borderWidth
+
+    private val _localPresets = mutableStateOf(emptyList<Int>())
+    val localPresets by _localPresets
+
 
     val navController = navController<Screen>(Screen.Main)
 
@@ -119,6 +136,9 @@ class MainViewModel @Inject constructor(
                 )
             }) ?: ColorTuple(md_theme_dark_primary)
             _borderWidth.value = prefs[BORDER_WIDTH]?.toFloatOrNull() ?: 1f
+            _localPresets.value = ((prefs[PRESETS]?.split("*")?.map {
+                it.toInt()
+            } ?: emptyList()) + List(7) { 100 - it * 10 }).toSortedSet().reversed().toList()
         }.launchIn(viewModelScope)
     }
 
@@ -128,6 +148,14 @@ class MainViewModel @Inject constructor(
                 it[APP_COLOR] = colorTuple.run {
                     "${primary.toArgb()}*${secondary?.toArgb()}*${tertiary?.toArgb()}*${surface?.toArgb()}"
                 }
+            }
+        }
+    }
+
+    fun updatePresets(newPresets: List<Int>) {
+        viewModelScope.launch {
+            dataStore.edit {
+                it[PRESETS] = newPresets.toSortedSet().toList().reversed().joinToString("*")
             }
         }
     }
@@ -185,15 +213,9 @@ class MainViewModel @Inject constructor(
             viewModelScope.launch {
                 withContext(Dispatchers.IO) {
                     kotlin.runCatching {
-                        val nodes = DocumentBuilderFactory
-                            .newInstance()
-                            .newDocumentBuilder()
-                            .parse(
-                                URL("$APP_RELEASES.atom")
-                                    .openConnection()
-                                    .getInputStream()
-                            )
-                            ?.getElementsByTagName("feed")
+                        val nodes = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(
+                            URL("$APP_RELEASES.atom").openConnection().getInputStream()
+                        )?.getElementsByTagName("feed")
 
                         if (nodes != null) {
                             for (i in 0 until nodes.length) {
@@ -243,8 +265,7 @@ class MainViewModel @Inject constructor(
     ) {
         viewModelScope.launch {
             toastHostState.showToast(
-                message = message,
-                icon = icon
+                message = message, icon = icon
             )
         }
     }

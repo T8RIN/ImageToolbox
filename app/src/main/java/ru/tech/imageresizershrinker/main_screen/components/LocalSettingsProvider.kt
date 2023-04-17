@@ -19,6 +19,8 @@ val LocalAppColorTuple = compositionLocalOf<ColorTuple> { error("No color presen
 
 val LocalBorderWidth = compositionLocalOf<Dp> { error("No borders present") }
 
+val LocalPresetsProvider = compositionLocalOf<List<Int>> { error("No LocalPresets present") }
+
 @Composable
 fun Int.isNightMode(): Boolean = when (this) {
     0 -> true

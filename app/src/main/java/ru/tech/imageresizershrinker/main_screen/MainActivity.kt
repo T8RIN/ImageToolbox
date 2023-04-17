@@ -79,7 +79,8 @@ class MainActivity : M3Activity() {
                 LocalAllowChangeColorByImage provides viewModel.allowImageMonet,
                 LocalAmoledMode provides viewModel.amoledMode,
                 LocalAppColorTuple provides viewModel.appColorTuple,
-                LocalBorderWidth provides animateDpAsState(viewModel.borderWidth.dp).value
+                LocalBorderWidth provides animateDpAsState(viewModel.borderWidth.dp).value,
+                LocalPresetsProvider provides viewModel.localPresets
             ) {
                 ImageResizerTheme {
                     val themeState = LocalDynamicThemeState.current

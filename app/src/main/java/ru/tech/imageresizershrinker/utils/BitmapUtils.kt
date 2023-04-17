@@ -22,6 +22,7 @@ import java.io.*
 import java.util.*
 import kotlin.math.abs
 import kotlin.math.max
+import kotlin.math.min
 
 
 object BitmapUtils {
@@ -180,7 +181,7 @@ object BitmapUtils {
         rotate(rotation)
             .resizeBitmap(tWidth, tHeight, resize)
             .flip(isFlipped)
-            .compress(mime.extension.compressFormat, quality.toInt(), out)
+            .compress(mime.extension.compressFormat, min(quality, 100f).toInt(), out)
         val b = out.toByteArray()
         onByteCount(b.size)
         val decoded = BitmapFactory.decodeStream(ByteArrayInputStream(b))
@@ -359,6 +360,13 @@ object BitmapUtils {
         fun Int.calc(cnt: Int): String = (this * (cnt / 100f)).toInt().toString()
 
         return when (val percent = this) {
+            in 500 downTo 99 -> {
+                currentInfo.copy(
+                    quality = percent.toFloat(),
+                    width = bitmap.width().calc(percent),
+                    height = bitmap.height().calc(percent),
+                )
+            }
             100 -> {
                 currentInfo.copy(
                     quality = percent.toFloat(),
@@ -371,7 +379,7 @@ object BitmapUtils {
                 height = bitmap.height().calc(percent),
                 quality = percent.toFloat()
             )
-            in 60 downTo 30 -> currentInfo.run {
+            in 60 downTo 10 -> currentInfo.run {
                 copy(
                     width = bitmap.width().calc(percent + 15),
                     height = bitmap.height().calc(percent + 15),

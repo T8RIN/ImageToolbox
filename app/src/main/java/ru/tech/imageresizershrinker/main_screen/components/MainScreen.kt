@@ -6,20 +6,96 @@ import android.net.Uri
 import androidx.activity.compose.BackHandler
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.compose.animation.*
+import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.animateFloatAsState
-import androidx.compose.foundation.*
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.with
+import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.gestures.detectTapGestures
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
+import androidx.compose.foundation.layout.FlowRow
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.asPaddingValues
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.navigationBars
+import androidx.compose.foundation.layout.offset
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.requiredSize
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.*
-import androidx.compose.material3.*
+import androidx.compose.material.icons.rounded.AddCircle
+import androidx.compose.material.icons.rounded.AlternateEmail
+import androidx.compose.material.icons.rounded.BugReport
+import androidx.compose.material.icons.rounded.Check
+import androidx.compose.material.icons.rounded.Close
+import androidx.compose.material.icons.rounded.DeveloperMode
+import androidx.compose.material.icons.rounded.Download
+import androidx.compose.material.icons.rounded.FileDownloadOff
+import androidx.compose.material.icons.rounded.Folder
+import androidx.compose.material.icons.rounded.Info
+import androidx.compose.material.icons.rounded.ModeNight
+import androidx.compose.material.icons.rounded.Palette
+import androidx.compose.material.icons.rounded.Person
+import androidx.compose.material.icons.rounded.PhotoSizeSelectSmall
+import androidx.compose.material.icons.rounded.Settings
+import androidx.compose.material.icons.rounded.SettingsSystemDaydream
+import androidx.compose.material.icons.rounded.Translate
+import androidx.compose.material.icons.rounded.WbSunny
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.BottomAppBar
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Divider
+import androidx.compose.material3.DrawerDefaults
+import androidx.compose.material3.DrawerValue
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FilledTonalButton
+import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.FloatingActionButtonDefaults
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.IconButtonDefaults
+import androidx.compose.material3.LargeTopAppBar
+import androidx.compose.material3.LocalTextStyle
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.ModalDrawerSheet
+import androidx.compose.material3.ModalNavigationDrawer
+import androidx.compose.material3.OutlinedButton
+import androidx.compose.material3.OutlinedIconButton
+import androidx.compose.material3.Slider
+import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.rememberDrawerState
+import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
@@ -34,9 +110,11 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.min
+import androidx.compose.ui.unit.sp
 import androidx.compose.ui.zIndex
 import com.t8rin.dynamic.theme.ColorTupleItem
 import dev.olshevski.navigation.reimagined.NavController
@@ -47,14 +125,29 @@ import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.BuildConfig
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.main_screen.viewModel.MainViewModel
-import ru.tech.imageresizershrinker.theme.*
-import ru.tech.imageresizershrinker.utils.*
+import ru.tech.imageresizershrinker.theme.CreateAlt
+import ru.tech.imageresizershrinker.theme.Github
+import ru.tech.imageresizershrinker.theme.Sparkles
+import ru.tech.imageresizershrinker.theme.Telegram
+import ru.tech.imageresizershrinker.theme.inverse
+import ru.tech.imageresizershrinker.theme.outlineVariant
+import ru.tech.imageresizershrinker.utils.APP_LINK
+import ru.tech.imageresizershrinker.utils.AUTHOR_AVATAR
+import ru.tech.imageresizershrinker.utils.AUTHOR_LINK
+import ru.tech.imageresizershrinker.utils.ISSUE_TRACKER
+import ru.tech.imageresizershrinker.utils.LocalWindowSizeClass
+import ru.tech.imageresizershrinker.utils.WEBLATE_LINK
+import ru.tech.imageresizershrinker.utils.toUiPath
+import ru.tech.imageresizershrinker.widget.AutoSizeText
 import ru.tech.imageresizershrinker.widget.LocalToastHost
 import ru.tech.imageresizershrinker.widget.Marquee
 import ru.tech.imageresizershrinker.widget.Picture
 import java.lang.Integer.max
 
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalAnimationApi::class)
+@OptIn(
+    ExperimentalMaterial3Api::class, ExperimentalAnimationApi::class,
+    ExperimentalLayoutApi::class
+)
 @Composable
 fun MainScreen(
     navController: NavController<Screen>,
@@ -70,6 +163,7 @@ fun MainScreen(
 
     var showPickColorDialog by rememberSaveable { mutableStateOf(false) }
     var showAuthorDialog by rememberSaveable { mutableStateOf(false) }
+    var showEditPresetsDialog by rememberSaveable { mutableStateOf(false) }
 
     val sideSheetState = rememberDrawerState(initialValue = DrawerValue.Closed)
     val layoutDirection = LocalLayoutDirection.current
@@ -262,6 +356,27 @@ fun MainScreen(
                                             )
                                         }
                                     }
+                                    Spacer(Modifier.height(16.dp))
+                                }
+                                Divider()
+                                Column {
+                                    TitleItem(
+                                        icon = Icons.Rounded.PhotoSizeSelectSmall,
+                                        text = stringResource(R.string.presets),
+                                    )
+                                    PreferenceItem(
+                                        onClick = { showEditPresetsDialog = true },
+                                        title = stringResource(R.string.values),
+                                        subtitle = LocalPresetsProvider.current.joinToString(", "),
+                                        color = MaterialTheme
+                                            .colorScheme
+                                            .secondaryContainer
+                                            .copy(alpha = 0.2f),
+                                        endIcon = Icons.Rounded.CreateAlt,
+                                        modifier = Modifier
+                                            .fillMaxWidth()
+                                            .padding(horizontal = 16.dp)
+                                    )
                                     Spacer(Modifier.height(16.dp))
                                 }
                                 Divider()
@@ -961,6 +1076,122 @@ fun MainScreen(
             confirmButton = {
                 OutlinedButton(
                     onClick = { showAuthorDialog = false },
+                    border = BorderStroke(
+                        LocalBorderWidth.current, MaterialTheme.colorScheme.outlineVariant()
+                    )
+                ) {
+                    Text(stringResource(R.string.close))
+                }
+            }
+        )
+    } else if (showEditPresetsDialog) {
+        AlertDialog(
+            modifier = Modifier.alertDialog(),
+            onDismissRequest = { showEditPresetsDialog = false },
+            title = { Text(stringResource(R.string.presets)) },
+            icon = {
+                Icon(imageVector = Icons.Rounded.PhotoSizeSelectSmall, contentDescription = null)
+            },
+            text = {
+                val data = LocalPresetsProvider.current
+                Box {
+                    Divider(Modifier.align(Alignment.TopCenter))
+                    AnimatedContent(
+                        data, transitionSpec = { fadeIn() with fadeOut() }
+                    ) { list ->
+                        FlowRow(
+                            Modifier
+                                .align(Alignment.Center)
+                                .padding(8.dp)
+                        ) {
+                            list.forEach {
+                                OutlinedIconButton(
+                                    shape = RoundedCornerShape(12.dp),
+                                    onClick = {
+                                        if (list.size > 7) {
+                                            viewModel.updatePresets(list - it)
+                                        }
+                                    },
+                                    border = BorderStroke(
+                                        1.dp, MaterialTheme.colorScheme.outlineVariant
+                                    ),
+                                    colors = IconButtonDefaults.outlinedIconButtonColors(
+                                        containerColor = MaterialTheme.colorScheme.secondaryContainer.copy(
+                                            alpha = 0.3f
+                                        ),
+                                        contentColor = MaterialTheme.colorScheme.onSurface
+                                    )
+                                ) {
+                                    AutoSizeText(it.toString())
+                                }
+                            }
+                            var expanded by remember { mutableStateOf(false) }
+                            OutlinedIconButton(
+                                shape = RoundedCornerShape(12.dp),
+                                onClick = {
+                                    expanded = true
+                                },
+                                border = BorderStroke(
+                                    1.dp, MaterialTheme.colorScheme.outlineVariant
+                                ),
+                                colors = IconButtonDefaults.outlinedIconButtonColors(
+                                    containerColor = MaterialTheme.colorScheme.secondaryContainer.copy(
+                                        alpha = 0.3f
+                                    ),
+                                    contentColor = MaterialTheme.colorScheme.onSurface
+                                )
+                            ) {
+                                Icon(Icons.Rounded.AddCircle, null)
+                            }
+                            MaterialTheme(
+                                shapes = MaterialTheme.shapes.copy(
+                                    extraSmall = MaterialTheme.shapes.extraLarge
+                                )
+                            ) {
+                                DropdownMenu(
+                                    modifier = Modifier
+                                        .width(240.dp)
+                                        .alertDialog(),
+                                    expanded = expanded,
+                                    onDismissRequest = { expanded = false },
+                                ) {
+                                    var value by remember { mutableStateOf(50f) }
+                                    Column(
+                                        horizontalAlignment = Alignment.CenterHorizontally,
+                                        verticalArrangement = Arrangement.Center
+                                    ) {
+                                        Spacer(Modifier.height(12.dp))
+                                        Text(
+                                            "${value.toInt()}%",
+                                            fontSize = 16.sp,
+                                            fontWeight = FontWeight.Bold
+                                        )
+                                        Slider(
+                                            modifier = Modifier
+                                                .fillMaxWidth()
+                                                .padding(horizontal = 16.dp),
+                                            value = animateFloatAsState(targetValue = value).value,
+                                            onValueChange = { value = it },
+                                            steps = 490,
+                                            valueRange = 10f..500f
+                                        )
+                                        FilledTonalButton(onClick = {
+                                            viewModel.updatePresets(list + value.toInt())
+                                            expanded = false
+                                        }) {
+                                            Text(stringResource(R.string.add))
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    Divider(Modifier.align(Alignment.BottomCenter))
+                }
+            },
+            confirmButton = {
+                OutlinedButton(
+                    onClick = { showEditPresetsDialog = false },
                     border = BorderStroke(
                         LocalBorderWidth.current, MaterialTheme.colorScheme.outlineVariant()
                     )

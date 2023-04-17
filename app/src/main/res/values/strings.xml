@@ -125,4 +125,6 @@
     <string name="secondary">Secondary</string>
     <string name="border_thickness">Border thickness</string>
     <string name="surface">Surface</string>
+    <string name="values">Values</string>
+    <string name="add">Add</string>
 </resources>
