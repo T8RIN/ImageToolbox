@@ -9,6 +9,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
@@ -478,6 +479,7 @@ fun MainScreen(
                                                         .secondaryContainer
                                                         .copy(alpha = 0.2f)
                                                 )
+                                                .animateContentSize()
                                         ) {
                                             var sliderValue by remember {
                                                 mutableStateOf(
