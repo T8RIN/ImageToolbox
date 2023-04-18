@@ -115,4 +115,7 @@
     <string name="tertiary">Tertiär</string>
     <string name="secondary">Sekundär</string>
     <string name="primary">Primär</string>
+    <string name="permission">Berechtigung</string>
+    <string name="grant">Gewähren</string>
+    <string name="permission_sub">Die App benötigt Zugriff auf Ihren Speicherplatz, um Bilder zu speichern. Ohne diesen Zugriff kann sie nicht funktionieren, also erteilen Sie bitte die Berechtigung im nächsten Dialog</string>
 </resources>
