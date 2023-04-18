@@ -496,9 +496,8 @@ fun MainScreen(
                                                         top = 16.dp,
                                                         end = 16.dp,
                                                         start = 16.dp
-                                                    )
+                                                    ).weight(1f)
                                                 )
-                                                Spacer(Modifier.weight(1f))
                                                 AnimatedContent(
                                                     targetState = sliderValue,
                                                     transitionSpec = {
@@ -513,7 +512,7 @@ fun MainScreen(
                                                         modifier = Modifier.padding(top = 16.dp)
                                                     )
                                                 }
-                                                AutoSizeText(
+                                                Text(
                                                     maxLines = 1,
                                                     text = "Dp",
                                                     color = MaterialTheme.colorScheme.onSurface.copy(
