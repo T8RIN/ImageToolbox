@@ -31,6 +31,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.graphics.asAndroidBitmap
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.input.nestedscroll.nestedScroll
@@ -616,7 +617,7 @@ fun SingleResizeScreen(
                             start = 20.dp,
                             end = 20.dp
                         ),
-                        modifier = Modifier.weight(1f)
+                        modifier = Modifier.weight(1f).clipToBounds()
                     ) {
                         item {
                             Column(

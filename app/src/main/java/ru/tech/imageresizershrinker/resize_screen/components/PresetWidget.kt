@@ -10,7 +10,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -64,7 +63,6 @@ fun PresetWidget(
     var isRevealed by rememberSaveable { mutableStateOf(false) }
     Box(
         Modifier
-            .fillMaxWidth()
             .pointerInput(Unit) {
                 detectTapGestures(
                     onLongPress = {
@@ -91,18 +89,16 @@ fun PresetWidget(
                 isRevealed = false
             }
         ) {
-            Column(Modifier.block()) {
+            Column(Modifier.block(), horizontalAlignment = Alignment.CenterHorizontally) {
                 Spacer(Modifier.size(8.dp))
                 Text(
                     stringResource(R.string.presets),
-                    Modifier.fillMaxWidth(),
                     textAlign = TextAlign.Center
                 )
                 Spacer(Modifier.height(8.dp))
 
                 Box {
                     LazyRow(
-                        Modifier.fillMaxWidth(),
                         horizontalArrangement = Arrangement.Center,
                         contentPadding = PaddingValues(horizontal = 2.dp)
                     ) {
@@ -160,7 +156,6 @@ fun PresetWidget(
                             .align(Alignment.CenterEnd)
                             .width(6.dp)
                             .height(52.dp)
-                            .matchParentSize()
                             .background(
                                 brush = Brush.horizontalGradient(
                                     0f to Color.Transparent,
