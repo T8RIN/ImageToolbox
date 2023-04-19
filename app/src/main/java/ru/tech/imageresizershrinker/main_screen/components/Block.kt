@@ -4,9 +4,17 @@ import android.content.res.Configuration
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.asPaddingValues
+import androidx.compose.foundation.layout.navigationBars
+import androidx.compose.foundation.layout.navigationBarsPadding
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.*
+import androidx.compose.material3.AlertDialogDefaults
+import androidx.compose.material3.FloatingActionButtonDefaults
+import androidx.compose.material3.LocalContentColor
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
 import androidx.compose.ui.draw.drawWithContent
@@ -35,13 +43,11 @@ fun Modifier.block(
     background(
         color = color1,
         shape = shape
-    )
-        .border(
-            LocalBorderWidth.current,
-            MaterialTheme.colorScheme.outlineVariant(0.1f, color1),
-            shape
-        )
-        .padding(4.dp)
+    ).border(
+        LocalBorderWidth.current,
+        MaterialTheme.colorScheme.outlineVariant(0.1f, color1),
+        shape
+    ).padding(4.dp)
 }
 
 fun Modifier.navBarsLandscapePadding(enabled: Boolean = true) = composed {

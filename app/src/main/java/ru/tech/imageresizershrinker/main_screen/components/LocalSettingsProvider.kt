@@ -3,6 +3,7 @@ package ru.tech.imageresizershrinker.main_screen.components
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.compositionLocalOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.unit.Dp
 import com.t8rin.dynamic.theme.ColorTuple
 
@@ -20,6 +21,8 @@ val LocalAppColorTuple = compositionLocalOf<ColorTuple> { error("No color presen
 val LocalBorderWidth = compositionLocalOf<Dp> { error("No borders present") }
 
 val LocalPresetsProvider = compositionLocalOf<List<Int>> { error("No LocalPresets present") }
+
+val LocalEditPresets = compositionLocalOf { mutableStateOf(false) }
 
 @Composable
 fun Int.isNightMode(): Boolean = when (this) {

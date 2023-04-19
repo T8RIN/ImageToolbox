@@ -22,7 +22,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
-import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
@@ -43,7 +42,6 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.AddCircle
 import androidx.compose.material.icons.rounded.AlternateEmail
 import androidx.compose.material.icons.rounded.BugReport
 import androidx.compose.material.icons.rounded.Check
@@ -67,20 +65,17 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Divider
 import androidx.compose.material3.DrawerDefaults
 import androidx.compose.material3.DrawerValue
-import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.FloatingActionButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.LargeTopAppBar
 import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalDrawerSheet
 import androidx.compose.material3.ModalNavigationDrawer
 import androidx.compose.material3.OutlinedButton
-import androidx.compose.material3.OutlinedIconButton
 import androidx.compose.material3.Slider
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
@@ -110,14 +105,9 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.max
 import androidx.compose.ui.unit.min
-import androidx.compose.ui.unit.sp
-import androidx.compose.ui.window.DialogProperties
 import androidx.compose.ui.zIndex
 import com.t8rin.dynamic.theme.ColorTupleItem
 import dev.olshevski.navigation.reimagined.NavController
@@ -141,15 +131,13 @@ import ru.tech.imageresizershrinker.utils.ISSUE_TRACKER
 import ru.tech.imageresizershrinker.utils.LocalWindowSizeClass
 import ru.tech.imageresizershrinker.utils.WEBLATE_LINK
 import ru.tech.imageresizershrinker.utils.toUiPath
-import ru.tech.imageresizershrinker.widget.AutoSizeText
 import ru.tech.imageresizershrinker.widget.LocalToastHost
 import ru.tech.imageresizershrinker.widget.Marquee
 import ru.tech.imageresizershrinker.widget.Picture
 import java.lang.Integer.max
 
 @OptIn(
-    ExperimentalMaterial3Api::class, ExperimentalAnimationApi::class,
-    ExperimentalLayoutApi::class
+    ExperimentalMaterial3Api::class, ExperimentalAnimationApi::class
 )
 @Composable
 fun MainScreen(
@@ -159,6 +147,7 @@ fun MainScreen(
     showConfetti: () -> Unit,
     viewModel: MainViewModel
 ) {
+    val editPresetsState = LocalEditPresets.current
     val context = LocalContext.current
     val scrollBehavior =
         TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
@@ -166,7 +155,6 @@ fun MainScreen(
 
     var showPickColorDialog by rememberSaveable { mutableStateOf(false) }
     var showAuthorDialog by rememberSaveable { mutableStateOf(false) }
-    var showEditPresetsDialog by rememberSaveable { mutableStateOf(false) }
 
     val sideSheetState = rememberDrawerState(initialValue = DrawerValue.Closed)
     val layoutDirection = LocalLayoutDirection.current
@@ -368,7 +356,7 @@ fun MainScreen(
                                         text = stringResource(R.string.presets),
                                     )
                                     PreferenceItem(
-                                        onClick = { showEditPresetsDialog = true },
+                                        onClick = { editPresetsState.value = true },
                                         title = stringResource(R.string.values),
                                         subtitle = LocalPresetsProvider.current.joinToString(", "),
                                         color = MaterialTheme
@@ -494,11 +482,13 @@ fun MainScreen(
                                             ) {
                                                 Text(
                                                     text = stringResource(R.string.border_thickness),
-                                                    modifier = Modifier.padding(
-                                                        top = 16.dp,
-                                                        end = 16.dp,
-                                                        start = 16.dp
-                                                    ).weight(1f)
+                                                    modifier = Modifier
+                                                        .padding(
+                                                            top = 16.dp,
+                                                            end = 16.dp,
+                                                            start = 16.dp
+                                                        )
+                                                        .weight(1f)
                                                 )
                                                 AnimatedContent(
                                                     targetState = sliderValue,
@@ -1096,144 +1086,6 @@ fun MainScreen(
             confirmButton = {
                 OutlinedButton(
                     onClick = { showAuthorDialog = false },
-                    border = BorderStroke(
-                        LocalBorderWidth.current, MaterialTheme.colorScheme.outlineVariant()
-                    )
-                ) {
-                    Text(stringResource(R.string.close))
-                }
-            }
-        )
-    } else if (showEditPresetsDialog) {
-        AlertDialog(
-            modifier = Modifier
-                .alertDialog()
-                .width(320.dp),
-            properties = DialogProperties(usePlatformDefaultWidth = false),
-            onDismissRequest = { showEditPresetsDialog = false },
-            title = { Text(stringResource(R.string.presets)) },
-            icon = {
-                Icon(imageVector = Icons.Rounded.PhotoSizeSelectSmall, contentDescription = null)
-            },
-            text = {
-                val data = LocalPresetsProvider.current
-                Box {
-                    Divider(Modifier.align(Alignment.TopCenter))
-                    AnimatedContent(
-                        targetState = data,
-                        transitionSpec = { fadeIn() with fadeOut() },
-                        modifier = Modifier.verticalScroll(rememberScrollState())
-                    ) { list ->
-                        FlowRow(
-                            Modifier
-                                .align(Alignment.Center)
-                                .padding(start = 14.dp, top = 8.dp, bottom = 8.dp)
-                        ) {
-                            list.forEach {
-                                OutlinedIconButton(
-                                    shape = RoundedCornerShape(12.dp),
-                                    onClick = {
-                                        if (list.size > 7) {
-                                            viewModel.updatePresets(list - it)
-                                        }
-                                    },
-                                    border = BorderStroke(
-                                        max(LocalBorderWidth.current, 1.dp),
-                                        MaterialTheme.colorScheme.outlineVariant
-                                    ),
-                                    colors = IconButtonDefaults.outlinedIconButtonColors(
-                                        containerColor = MaterialTheme.colorScheme.secondaryContainer.copy(
-                                            alpha = 0.3f
-                                        ),
-                                        contentColor = MaterialTheme.colorScheme.onSurface
-                                    )
-                                ) {
-                                    AutoSizeText(it.toString())
-                                }
-                            }
-                            var expanded by remember { mutableStateOf(false) }
-                            OutlinedIconButton(
-                                shape = RoundedCornerShape(12.dp),
-                                onClick = {
-                                    expanded = true
-                                },
-                                border = BorderStroke(
-                                    max(LocalBorderWidth.current, 1.dp),
-                                    MaterialTheme.colorScheme.outlineVariant
-                                ),
-                                colors = IconButtonDefaults.outlinedIconButtonColors(
-                                    containerColor = MaterialTheme.colorScheme.secondaryContainer.copy(
-                                        alpha = 0.3f
-                                    ),
-                                    contentColor = MaterialTheme.colorScheme.onSurface
-                                )
-                            ) {
-                                Icon(Icons.Rounded.AddCircle, null)
-                            }
-                            MaterialTheme(
-                                shapes = MaterialTheme.shapes.copy(
-                                    extraSmall = MaterialTheme.shapes.extraLarge
-                                )
-                            ) {
-                                DropdownMenu(
-                                    modifier = Modifier
-                                        .width(240.dp)
-                                        .alertDialog(),
-                                    expanded = expanded,
-                                    onDismissRequest = { expanded = false },
-                                    offset = DpOffset(6.dp, 0.dp)
-                                ) {
-                                    var value by remember { mutableStateOf(50f) }
-                                    Column(
-                                        horizontalAlignment = Alignment.CenterHorizontally,
-                                        verticalArrangement = Arrangement.Center
-                                    ) {
-                                        Spacer(Modifier.height(12.dp))
-                                        Text(
-                                            "${value.toInt()}%",
-                                            fontSize = 16.sp,
-                                            fontWeight = FontWeight.Bold
-                                        )
-                                        Slider(
-                                            modifier = Modifier
-                                                .fillMaxWidth()
-                                                .padding(horizontal = 16.dp),
-                                            value = animateFloatAsState(targetValue = value).value,
-                                            onValueChange = { value = it },
-                                            steps = 490,
-                                            valueRange = 10f..500f
-                                        )
-                                        OutlinedButton(
-                                            onClick = {
-                                                viewModel.updatePresets(list + value.toInt())
-                                                expanded = false
-                                            },
-                                            colors = ButtonDefaults.outlinedButtonColors(
-                                                containerColor = MaterialTheme.colorScheme.secondaryContainer.copy(
-                                                    alpha = if (LocalNightMode.current.isNightMode()) 0.5f
-                                                    else 1f
-                                                ),
-                                                contentColor = MaterialTheme.colorScheme.onSecondaryContainer,
-                                            ),
-                                            border = BorderStroke(
-                                                LocalBorderWidth.current,
-                                                MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.secondaryContainer)
-                                            ),
-                                        ) {
-                                            Text(stringResource(R.string.add))
-                                        }
-                                        Spacer(Modifier.height(8.dp))
-                                    }
-                                }
-                            }
-                        }
-                    }
-                    Divider(Modifier.align(Alignment.BottomCenter))
-                }
-            },
-            confirmButton = {
-                OutlinedButton(
-                    onClick = { showEditPresetsDialog = false },
                     border = BorderStroke(
                         LocalBorderWidth.current, MaterialTheme.colorScheme.outlineVariant()
                     )
