@@ -114,4 +114,9 @@
     <string name="secondary">Вторинний</string>
     <string name="surface">Поверхня</string>
     <string name="border_thickness">Товщина рамки</string>
+    <string name="values">Значення</string>
+    <string name="add">Додати</string>
+    <string name="permission">Дозвіл</string>
+    <string name="grant">Дозволити</string>
+    <string name="permission_sub">Застосунку потрібен доступ до вашого сховища для збереження зображень, це необхідно, без цього він не зможе працювати, тому, будь ласка, надайте дозвіл у наступному діалоговому вікні</string>
 </resources>
