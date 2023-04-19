@@ -51,7 +51,7 @@ import ru.tech.imageresizershrinker.theme.outlineVariant
 import ru.tech.imageresizershrinker.utils.BitmapUtils.decodeBitmapFromUri
 import ru.tech.imageresizershrinker.utils.BitmapUtils.shareBitmap
 import ru.tech.imageresizershrinker.utils.ContextUtils.isExternalStorageWritable
-import ru.tech.imageresizershrinker.utils.ContextUtils.requestPermission
+import ru.tech.imageresizershrinker.utils.ContextUtils.requestStoragePermission
 import ru.tech.imageresizershrinker.utils.SavingFolder
 import ru.tech.imageresizershrinker.widget.LocalToastHost
 import ru.tech.imageresizershrinker.widget.Marquee
@@ -142,7 +142,7 @@ fun CropScreen(
             isExternalStorageWritable = context.isExternalStorageWritable(),
             getSavingFolder = getSavingFolder
         ) { success ->
-            if (!success) context.requestPermission()
+            if (!success) context.requestStoragePermission()
             else {
                 scope.launch {
                     toastHostState.showToast(

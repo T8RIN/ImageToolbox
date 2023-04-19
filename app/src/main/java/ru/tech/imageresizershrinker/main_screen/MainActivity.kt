@@ -45,7 +45,7 @@ import ru.tech.imageresizershrinker.theme.blend
 import ru.tech.imageresizershrinker.theme.outlineVariant
 import ru.tech.imageresizershrinker.utils.*
 import ru.tech.imageresizershrinker.utils.ContextUtils.needToShowStoragePermissionRequest
-import ru.tech.imageresizershrinker.utils.ContextUtils.requestPermission
+import ru.tech.imageresizershrinker.utils.ContextUtils.requestStoragePermission
 import ru.tech.imageresizershrinker.utils.IntentUtils.parcelable
 import ru.tech.imageresizershrinker.utils.IntentUtils.parcelableArrayList
 import ru.tech.imageresizershrinker.widget.LocalToastHost
@@ -466,7 +466,7 @@ class MainActivity : M3Activity() {
                                         MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.primary)
                                     ),
                                     onClick = {
-                                        requestPermission()
+                                        requestStoragePermission()
                                     }
                                 ) {
                                     Text(stringResource(id = R.string.grant))

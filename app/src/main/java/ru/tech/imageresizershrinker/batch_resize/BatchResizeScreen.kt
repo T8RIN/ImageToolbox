@@ -140,7 +140,7 @@ import ru.tech.imageresizershrinker.utils.BitmapUtils.decodeBitmapFromUri
 import ru.tech.imageresizershrinker.utils.BitmapUtils.decodeSampledBitmapFromUri
 import ru.tech.imageresizershrinker.utils.BitmapUtils.getBitmapByUri
 import ru.tech.imageresizershrinker.utils.ContextUtils.isExternalStorageWritable
-import ru.tech.imageresizershrinker.utils.ContextUtils.requestPermission
+import ru.tech.imageresizershrinker.utils.ContextUtils.requestStoragePermission
 import ru.tech.imageresizershrinker.utils.LocalWindowSizeClass
 import ru.tech.imageresizershrinker.utils.SavingFolder
 import ru.tech.imageresizershrinker.widget.LocalToastHost
@@ -237,7 +237,7 @@ fun BatchResizeScreen(
                 context.decodeBitmapFromUri(uri)
             }
         ) { success ->
-            if (!success) context.requestPermission()
+            if (!success) context.requestStoragePermission()
             else {
                 scope.launch {
                     toastHostState.showToast(

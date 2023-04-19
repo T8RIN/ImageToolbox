@@ -5,6 +5,7 @@ import android.app.Activity
 import android.content.Context
 import android.content.pm.PackageManager
 import android.os.Build
+import android.widget.Toast
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.ErrorOutline
 import androidx.compose.material.icons.rounded.Save
@@ -13,20 +14,43 @@ import androidx.core.content.ContextCompat
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.R
+import ru.tech.imageresizershrinker.utils.permission.PermissionStatus
+import ru.tech.imageresizershrinker.utils.permission.PermissionUtils.askUserToRequestPermissionExplicitly
+import ru.tech.imageresizershrinker.utils.permission.PermissionUtils.checkPermissions
+import ru.tech.imageresizershrinker.utils.permission.PermissionUtils.setPermissionsAllowed
 import ru.tech.imageresizershrinker.widget.ToastDuration
 import ru.tech.imageresizershrinker.widget.ToastHostState
 import kotlin.math.min
 
+
 object ContextUtils {
-    fun Activity.requestPermission() {
-        ActivityCompat.requestPermissions(
-            this,
-            arrayOf(
+
+    fun Activity.requestStoragePermission() {
+        val state = checkPermissions(
+            listOf(
                 Manifest.permission.WRITE_EXTERNAL_STORAGE,
                 Manifest.permission.READ_EXTERNAL_STORAGE
-            ),
-            1
+            )
         )
+        when (state.permissionStatus.values.first()) {
+            PermissionStatus.NOT_GIVEN -> {
+                ActivityCompat.requestPermissions(
+                    this,
+                    arrayOf(
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                        Manifest.permission.READ_EXTERNAL_STORAGE
+                    ),
+                    0
+                )
+            }
+
+            PermissionStatus.DENIED_PERMANENTLY -> {
+                askUserToRequestPermissionExplicitly()
+                Toast.makeText(this, R.string.grant_permission_manual, Toast.LENGTH_LONG).show()
+            }
+
+            PermissionStatus.ALLOWED -> Unit
+        }
     }
 
     fun Context.isExternalStorageWritable(): Boolean {
@@ -38,7 +62,7 @@ object ContextUtils {
     }
 
     fun Context.needToShowStoragePermissionRequest(): Boolean {
-        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) false
+        val show = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) false
         else if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) false
         else !(ContextCompat.checkSelfPermission(
             this,
@@ -47,6 +71,17 @@ object ContextUtils {
             this,
             Manifest.permission.READ_EXTERNAL_STORAGE
         ) == PackageManager.PERMISSION_GRANTED)
+
+        if (!show) {
+            setPermissionsAllowed(
+                listOf(
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                    Manifest.permission.READ_EXTERNAL_STORAGE
+                )
+            )
+        }
+
+        return show
     }
 
     fun Activity.failedToSaveImages(
@@ -57,7 +92,7 @@ object ContextUtils {
         savingPathString: String,
         showConfetti: () -> Unit
     ) {
-        if (failed == -1) requestPermission()
+        if (failed == -1) requestStoragePermission()
         else if (failed == 0) {
             scope.launch {
                 toastHostState.showToast(
