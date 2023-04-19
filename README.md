@@ -10,10 +10,29 @@
   <a href="https://hits.sh/github.com/t8rin/ImageResizer/"><img alt="Hits" src="https://hits.sh/github.com/t8rin/ImageResizer.svg?style=for-the-badge&label=Views&extraCount=7500&color=3b8963"/></a>
 </p>
 
-<p align="center">Powerful image resizer with width/height selection, cropping, EXIF editing, quality and output image type picking and batch processing feature. Based on Material You design following official Google guidelines</p>
+<h4 align="center">Powerful image resizer with width/height selection, cropping, EXIF editing, quality and output image type picking and batch processing feature. Based on Material You design following official Google guidelines</h4>
 
 
 ![Frame 5](https://user-images.githubusercontent.com/52178347/229357418-3ed5e83b-df35-4e61-87ca-e74135e831d1.png)
+
+<div align="center">
+
+# Download
+Go to the [Releases](https://github.com/t8rin/imageresizer/releases/latest) and download latest apk or click badges below.
+
+[<img src="https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png"
+alt='Get it on Google Play'
+height="80">](https://play.google.com/store/apps/details?id=ru.tech.imageresizershrinker)
+[<img src="https://gitlab.com/fdroid/artwork/-/raw/master/badge/get-it-on-en-au.png"
+      alt='Get it on fdroid'
+      height="80">](https://f-droid.org/packages/ru.tech.imageresizershrinker)
+[<img src="https://gitlab.com/IzzyOnDroid/repo/-/raw/master/assets/IzzyOnDroid.png"
+      alt='Get it on izzy'
+      height="80">](https://apt.izzysoft.de/fdroid/index/apk/ru.tech.imageresizershrinker)
+[<img src="https://user-images.githubusercontent.com/69304392/148696068-0cfea65d-b18f-4685-82b5-329a330b1c0d.png"
+      alt='Get it on GitHub'
+      height="80">](https://github.com/t8rin/imageresizer/releases/latest)
+</div>
 
 # Functions
 - Batch processing
@@ -60,21 +79,6 @@
 
 (Yes, app supports dynamic coloring based on wallpapers for every android version)
 
-# Download
-Go to the [Releases](https://github.com/t8rin/imageresizer/releases/latest) and download latest apk or click badges below.
-
-[<img src="https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png"
-alt='Get it on Google Play'
-height="80">](https://play.google.com/store/apps/details?id=ru.tech.imageresizershrinker)
-[<img src="https://gitlab.com/fdroid/artwork/-/raw/master/badge/get-it-on-en-au.png"
-      alt='Get it on fdroid'
-      height="80">](https://f-droid.org/packages/ru.tech.imageresizershrinker)
-[<img src="https://gitlab.com/IzzyOnDroid/repo/-/raw/master/assets/IzzyOnDroid.png"
-      alt='Get it on izzy'
-      height="80">](https://apt.izzysoft.de/fdroid/index/apk/ru.tech.imageresizershrinker)
-[<img src="https://user-images.githubusercontent.com/69304392/148696068-0cfea65d-b18f-4685-82b5-329a330b1c0d.png"
-      alt='Get it on GitHub'
-      height="80">](https://github.com/t8rin/imageresizer/releases/latest)
 
 # Tech stack & Open-source libraries
 - Minimum SDK level 21
