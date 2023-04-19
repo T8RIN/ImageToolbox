@@ -5,12 +5,32 @@ import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.border
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsFocusedAsState
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.material3.Icon
+import androidx.compose.material3.LocalTextStyle
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.ProvideTextStyle
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
+import androidx.compose.material3.TextFieldColors
+import androidx.compose.material3.TextFieldDefaults
+import androidx.compose.material3.surfaceColorAtElevation
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.onFocusChanged
@@ -225,22 +245,24 @@ fun RoundedTextField(
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun RoundedTextFieldColors(isError: Boolean): TextFieldColors =
     MaterialTheme.colorScheme.run {
-        TextFieldDefaults.textFieldColors(
-            unfocusedIndicatorColor = Color.Transparent,
-            focusedIndicatorColor = Color.Transparent,
+        val containerColor = if (isError) {
+            surfaceColorAtElevation(1.dp).blend(error)
+        } else surfaceColorAtElevation(1.dp)
+        TextFieldDefaults.colors(
+            focusedContainerColor = containerColor,
+            unfocusedContainerColor = containerColor,
+            disabledContainerColor = containerColor,
             cursorColor = if (isError) error else primary,
-            focusedLabelColor = if (isError) error else primary,
+            focusedIndicatorColor = Color.Transparent,
+            unfocusedIndicatorColor = Color.Transparent,
             focusedLeadingIconColor = if (isError) error else surfaceVariant.inverse(),
             unfocusedLeadingIconColor = if (isError) error else surfaceVariant.inverse(),
             focusedTrailingIconColor = if (isError) error else surfaceVariant.inverse(),
             unfocusedTrailingIconColor = if (isError) error else surfaceVariant.inverse(),
+            focusedLabelColor = if (isError) error else primary,
             unfocusedLabelColor = if (isError) error else surfaceVariant.inverse(),
-            containerColor = if (isError) {
-                surfaceColorAtElevation(1.dp).blend(error)
-            } else surfaceColorAtElevation(1.dp),
         )
     }
