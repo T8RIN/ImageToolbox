@@ -43,11 +43,13 @@ fun Modifier.block(
     background(
         color = color1,
         shape = shape
-    ).border(
-        LocalBorderWidth.current,
-        MaterialTheme.colorScheme.outlineVariant(0.1f, color1),
-        shape
-    ).padding(4.dp)
+    )
+        .border(
+            LocalBorderWidth.current,
+            MaterialTheme.colorScheme.outlineVariant(0.1f, color1),
+            shape
+        )
+        .padding(4.dp)
 }
 
 fun Modifier.navBarsLandscapePadding(enabled: Boolean = true) = composed {
@@ -125,12 +127,13 @@ fun Modifier.fabBorder(height: Dp = Dp.Unspecified) = composed {
 }
 
 fun Modifier.alertDialog() = composed {
-    border(
-        LocalBorderWidth.current,
-        MaterialTheme.colorScheme.outlineVariant(
-            luminance = 0.3f,
-            onTopOf = MaterialTheme.colorScheme.surfaceColorAtElevation(6.dp)
-        ),
-        AlertDialogDefaults.shape
-    )
+    padding(bottom = 48.dp)
+        .border(
+            LocalBorderWidth.current,
+            MaterialTheme.colorScheme.outlineVariant(
+                luminance = 0.3f,
+                onTopOf = MaterialTheme.colorScheme.surfaceColorAtElevation(6.dp)
+            ),
+            AlertDialogDefaults.shape
+        )
 }
