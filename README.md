@@ -61,16 +61,20 @@
 (Yes, app supports dynamic coloring based on wallpapers for every android version)
 
 # Download
-Go to the [Releases](https://github.com/t8rin/imageresizer/releases/latest) and download latest apk.
-<p align="start">
-<a href="https://f-droid.org/packages/ru.tech.imageresizershrinker">
-    <img src="https://gitlab.com/fdroid/artwork/-/raw/master/badge/get-it-on-en-au.png" width="32%"/>
-  </a>
-  <a href="https://play.google.com/store/apps/details?id=ru.tech.imageresizershrinker"><img alt="Google Play" src="https://upload.wikimedia.org/wikipedia/commons/7/78/Google_Play_Store_badge_EN.svg" width="32%"/></a>
-  <a href="https://apt.izzysoft.de/fdroid/index/apk/ru.tech.imageresizershrinker">
-    <img src="https://gitlab.com/IzzyOnDroid/repo/-/raw/master/assets/IzzyOnDroid.png" width="32%"/>
-  </a>
-</p>
+Go to the [Releases](https://github.com/t8rin/imageresizer/releases/latest) and download latest apk or click badges below.
+
+[<img src="https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png"
+alt='Get it on Google Play'
+height="80">](https://play.google.com/store/apps/details?id=ru.tech.imageresizershrinker)
+[<img src="https://gitlab.com/fdroid/artwork/-/raw/master/badge/get-it-on-en-au.png"
+      alt='Get it on fdroid'
+      height="80">](https://f-droid.org/packages/ru.tech.imageresizershrinker)
+[<img src="https://gitlab.com/IzzyOnDroid/repo/-/raw/master/assets/IzzyOnDroid.png"
+      alt='Get it on izzy'
+      height="80">](https://apt.izzysoft.de/fdroid/index/apk/ru.tech.imageresizershrinker)
+[<img src="https://user-images.githubusercontent.com/69304392/148696068-0cfea65d-b18f-4685-82b5-329a330b1c0d.png"
+      alt='Get it on GitHub'
+      height="80">](https://github.com/t8rin/imageresizer/releases/latest)
 
 # Tech stack & Open-source libraries
 - Minimum SDK level 21
