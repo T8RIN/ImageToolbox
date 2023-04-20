@@ -242,7 +242,7 @@ class BatchResizeViewModel : ViewModel() {
         val new = _bitmapInfo.value.copy(
             width = "512",
             height = "512",
-            mime = 2,
+            mime = 3,
             resizeType = 1,
             quality = 100f
         )
