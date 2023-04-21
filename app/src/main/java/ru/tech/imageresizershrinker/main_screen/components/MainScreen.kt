@@ -524,7 +524,7 @@ fun MainScreen(
                                                     sliderValue = it
                                                 },
                                                 onValueChangeFinished = {
-                                                    viewModel.setBorderWidth(if (it > 0) it else -1f)
+                                                    viewModel.setBorderWidth(if (sliderValue > 0) sliderValue else -1f)
                                                 },
                                                 valueRange = 0f..4f,
                                                 steps = 15
