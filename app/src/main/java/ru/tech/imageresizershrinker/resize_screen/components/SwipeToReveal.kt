@@ -35,20 +35,18 @@ fun SwipeToReveal(
     directions: Set<RevealDirection> = setOf(
         RevealDirection.StartToEnd,
     ),
+    alphaTransformEnabled: Boolean = false,
     state: RevealState = rememberRevealState(),
     revealedContentEnd: @Composable BoxScope.() -> Unit = {},
     revealedContentStart: @Composable BoxScope.() -> Unit = {},
     swipeableContent: @Composable () -> Unit,
 ) {
     Box {
-        // alpha for background
         val maxRevealPx = with(LocalDensity.current) { maxRevealDp.toPx() }
         val draggedRatio =
             (state.offset.value.absoluteValue / maxRevealPx.absoluteValue).coerceIn(0f, 1f)
 
-        // cubic parameters can be evaluated here https://cubic-bezier.com/
-        val alpha = alphaEasing.transform(draggedRatio)
-
+        val alpha = if (alphaTransformEnabled) alphaEasing.transform(draggedRatio) else 1f
 
         // non swipable with hidden content
         Box(

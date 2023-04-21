@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -158,13 +159,19 @@ fun PresetWidget(
             }
         },
         revealedContentStart = {
-            FilledTonalIconButton(
-                onClick = { editPresetsState.value = true },
-                modifier = Modifier
-                    .padding(16.dp)
-                    .align(Alignment.CenterStart)
+            Box(
+                Modifier
+                    .fillMaxSize()
+                    .block(color = MaterialTheme.colorScheme.surface.copy(alpha = 0.5f))
             ) {
-                Icon(Icons.Rounded.CreateAlt, null)
+                FilledTonalIconButton(
+                    onClick = { editPresetsState.value = true },
+                    modifier = Modifier
+                        .padding(16.dp)
+                        .align(Alignment.CenterStart)
+                ) {
+                    Icon(Icons.Rounded.CreateAlt, null)
+                }
             }
         }
     )
