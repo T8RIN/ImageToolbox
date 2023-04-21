@@ -109,4 +109,11 @@
     <string name="dynamic_colors_sub">如果启用，则应用颜色将更改为壁纸颜色</string>
     <string name="failed_to_save">无法保存 %d 个图像</string>
     <string name="png_warning_bytes">以 PNG 模式保存可能不稳定，因为它是无损格式</string>
+    <string name="add">添加</string>
+    <string name="values">值</string>
+    <string name="permission">权限</string>
+    <string name="grant">授予</string>
+    <string name="permission_sub">应用程序需要访问您的存储来保存图像，这是必要的，没有它就无法工作，所以请在下一个对话框中授予权限</string>
+    <string name="grant_permission_manual">应用程序需要此权限才能工作，请手动授予它</string>
+    <string name="border_thickness">边框宽度</string>
 </resources>
