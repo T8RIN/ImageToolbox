@@ -235,6 +235,7 @@ fun GeneratePaletteScreen(
                                     .verticalScroll(scrollState)
                             ) {
                                 ImageColorPalette(
+                                    borderWidth = LocalBorderWidth.current,
                                     imageBitmap = bmp,
                                     modifier = Modifier
                                         .fillMaxSize()
@@ -276,6 +277,7 @@ fun GeneratePaletteScreen(
                                 contentScale = ContentScale.FillWidth
                             )
                             ImageColorPalette(
+                                borderWidth = LocalBorderWidth.current,
                                 imageBitmap = bmp,
                                 modifier = Modifier
                                     .padding(bottom = 72.dp)

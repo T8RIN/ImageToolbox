@@ -1,7 +1,12 @@
 package com.smarttoolfactory.colordetector
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.border
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ColumnScope
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.surfaceColorAtElevation
@@ -15,6 +20,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.asAndroidBitmap
 import androidx.compose.ui.graphics.luminance
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.palette.graphics.Palette
 import com.smarttoolfactory.colordetector.util.ColorUtil
@@ -33,6 +39,7 @@ fun ImageColorPalette(
     modifier: Modifier = Modifier,
     imageBitmap: ImageBitmap,
     maximumColorCount: Int = 32,
+    borderWidth: Dp,
     onEmpty: @Composable ColumnScope.() -> Unit,
     onColorChange: (ColorData) -> Unit
 ) {
@@ -71,13 +78,15 @@ fun ImageColorPalette(
         modifier = modifier,
         paletteDataList = paletteData,
         onColorChange = onColorChange,
-        onEmpty = onEmpty
+        onEmpty = onEmpty,
+        borderWidth = borderWidth
     )
 }
 
 @Composable
 private fun ColorProfileList(
     modifier: Modifier,
+    borderWidth: Dp,
     paletteDataList: List<PaletteData>,
     onEmpty: @Composable ColumnScope.() -> Unit,
     onColorChange: (ColorData) -> Unit
@@ -93,8 +102,20 @@ private fun ColorProfileList(
 
             ColorItemRow(
                 modifier = Modifier
-                    .shadow(.5.dp, RoundedCornerShape(50))
-                    .background(MaterialTheme.colorScheme.surfaceColorAtElevation(6.dp))
+                    .border(
+                        width = borderWidth,
+                        shape = RoundedCornerShape(50),
+                        color = MaterialTheme.colorScheme.outlineVariant
+                    )
+                    .then(
+                        if (borderWidth < 0.dp) {
+                            Modifier.shadow(.5.dp, RoundedCornerShape(50))
+                        } else Modifier
+                    )
+                    .background(
+                        MaterialTheme.colorScheme.surfaceColorAtElevation(6.dp),
+                        RoundedCornerShape(50)
+                    )
                     .fillMaxWidth(),
                 colorData = colorData,
                 populationPercent = "$percent%",
