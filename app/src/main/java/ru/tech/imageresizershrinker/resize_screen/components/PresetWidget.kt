@@ -26,10 +26,7 @@ import androidx.compose.material3.OutlinedIconButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
@@ -39,6 +36,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.max
+import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.main_screen.components.LocalBorderWidth
 import ru.tech.imageresizershrinker.main_screen.components.LocalEditPresets
@@ -61,21 +59,25 @@ fun PresetWidget(
     val editPresetsState = LocalEditPresets.current
     val data = LocalPresetsProvider.current
 
-    var isRevealed by rememberSaveable { mutableStateOf(false) }
+    val state = rememberRevealState()
+    val scope = rememberCoroutineScope()
 
     SwipeToReveal(
-        modifier = Modifier
-            .pointerInput(Unit) {
-                detectTapGestures(
-                    onLongPress = {
-                        isRevealed = true
-                    }
-                )
-            },
         maxRevealDp = 80.dp,
+        state = state,
         swipeableContent = {
             Column(
-                modifier = Modifier.block(),
+                modifier = Modifier
+                    .block()
+                    .pointerInput(Unit) {
+                        detectTapGestures(
+                            onLongPress = {
+                                scope.launch {
+                                    state.animateTo(RevealValue.FullyRevealedEnd)
+                                }
+                            }
+                        )
+                    },
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Spacer(Modifier.size(8.dp))
