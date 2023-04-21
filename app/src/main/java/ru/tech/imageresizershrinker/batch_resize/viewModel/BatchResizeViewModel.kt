@@ -225,7 +225,7 @@ class BatchResizeViewModel : ViewModel() {
     fun setMime(mime: Int) {
         if (_bitmapInfo.value.mime != mime) {
             _bitmapInfo.value = _bitmapInfo.value.copy(mime = mime)
-            if (mime != 2) checkBitmapAndUpdate(resetPreset = false, resetTelegram = true)
+            if (mime.extension != "png") checkBitmapAndUpdate(resetPreset = false, resetTelegram = true)
             else checkBitmapAndUpdate(resetPreset = false, resetTelegram = false)
         }
     }

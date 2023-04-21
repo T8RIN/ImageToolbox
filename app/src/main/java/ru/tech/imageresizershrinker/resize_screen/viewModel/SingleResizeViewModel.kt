@@ -12,7 +12,11 @@ import androidx.core.text.isDigitsOnly
 import androidx.exifinterface.media.ExifInterface
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import kotlinx.coroutines.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import ru.tech.imageresizershrinker.resize_screen.components.BitmapInfo
 import ru.tech.imageresizershrinker.resize_screen.components.compressFormat
 import ru.tech.imageresizershrinker.resize_screen.components.extension
@@ -27,7 +31,8 @@ import ru.tech.imageresizershrinker.utils.SavingFolder
 import java.io.ByteArrayInputStream
 import java.io.ByteArrayOutputStream
 import java.text.SimpleDateFormat
-import java.util.*
+import java.util.Date
+import java.util.Locale
 
 class SingleResizeViewModel : ViewModel() {
 
@@ -253,7 +258,10 @@ class SingleResizeViewModel : ViewModel() {
     fun setMime(mime: Int) {
         if (_bitmapInfo.value.mime != mime) {
             _bitmapInfo.value = _bitmapInfo.value.copy(mime = mime)
-            if (mime != 2) checkBitmapAndUpdate(resetPreset = false, resetTelegram = true)
+            if (mime.extension != "png") checkBitmapAndUpdate(
+                resetPreset = false,
+                resetTelegram = true
+            )
             else checkBitmapAndUpdate(resetPreset = false, resetTelegram = false)
         }
     }
