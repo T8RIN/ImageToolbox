@@ -21,7 +21,6 @@ import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
@@ -42,6 +41,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.AddCircleOutline
 import androidx.compose.material.icons.rounded.AlternateEmail
 import androidx.compose.material.icons.rounded.BugReport
 import androidx.compose.material.icons.rounded.Check
@@ -289,7 +289,7 @@ fun MainScreen(
                                                 else 0.2f
                                             ).value
                                         ),
-                                        endIcon = Icons.Rounded.CreateAlt,
+                                        endIcon = if (currentFolderUri != null) Icons.Rounded.CreateAlt else Icons.Rounded.AddCircleOutline,
                                         modifier = Modifier
                                             .fillMaxWidth()
                                             .padding(horizontal = 16.dp)
@@ -303,6 +303,27 @@ fun MainScreen(
                                                 ).value,
                                                 shape = RoundedCornerShape(12.dp)
                                             )
+                                    )
+                                    Spacer(Modifier.height(16.dp))
+                                }
+                                Divider()
+                                Column {
+                                    TitleItem(
+                                        icon = Icons.Rounded.PhotoSizeSelectSmall,
+                                        text = stringResource(R.string.presets),
+                                    )
+                                    PreferenceItem(
+                                        onClick = { editPresetsState.value = true },
+                                        title = stringResource(R.string.values),
+                                        subtitle = LocalPresetsProvider.current.joinToString(", "),
+                                        color = MaterialTheme
+                                            .colorScheme
+                                            .secondaryContainer
+                                            .copy(alpha = 0.2f),
+                                        endIcon = Icons.Rounded.CreateAlt,
+                                        modifier = Modifier
+                                            .fillMaxWidth()
+                                            .padding(horizontal = 16.dp)
                                     )
                                     Spacer(Modifier.height(16.dp))
                                 }
@@ -347,27 +368,6 @@ fun MainScreen(
                                             )
                                         }
                                     }
-                                    Spacer(Modifier.height(16.dp))
-                                }
-                                Divider()
-                                Column {
-                                    TitleItem(
-                                        icon = Icons.Rounded.PhotoSizeSelectSmall,
-                                        text = stringResource(R.string.presets),
-                                    )
-                                    PreferenceItem(
-                                        onClick = { editPresetsState.value = true },
-                                        title = stringResource(R.string.values),
-                                        subtitle = LocalPresetsProvider.current.joinToString(", "),
-                                        color = MaterialTheme
-                                            .colorScheme
-                                            .secondaryContainer
-                                            .copy(alpha = 0.2f),
-                                        endIcon = Icons.Rounded.CreateAlt,
-                                        modifier = Modifier
-                                            .fillMaxWidth()
-                                            .padding(horizontal = 16.dp)
-                                    )
                                     Spacer(Modifier.height(16.dp))
                                 }
                                 Divider()
