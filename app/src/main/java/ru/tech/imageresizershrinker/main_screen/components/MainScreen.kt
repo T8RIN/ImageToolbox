@@ -522,6 +522,8 @@ fun MainScreen(
                                                 value = animateFloatAsState(sliderValue).value,
                                                 onValueChange = {
                                                     sliderValue = it
+                                                },
+                                                onValueChangeFinished = {
                                                     viewModel.setBorderWidth(if (it > 0) it else -1f)
                                                 },
                                                 valueRange = 0f..4f,
