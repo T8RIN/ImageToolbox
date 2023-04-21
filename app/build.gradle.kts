@@ -64,6 +64,7 @@ dependencies {
     implementation("androidx.datastore:datastore-preferences:1.1.0-alpha04")
     implementation("androidx.documentfile:documentfile:1.0.1")
     implementation("com.google.dagger:hilt-android:2.45")
+    implementation("androidx.compose.material:material:1.4.1")
     kapt("com.google.dagger:hilt-compiler:2.45")
 
     implementation("androidx.appcompat:appcompat:1.7.0-alpha02")

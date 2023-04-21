@@ -16,6 +16,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.icons.Icons
 import androidx.compose.material3.FilledTonalIconButton
 import androidx.compose.material3.Icon
@@ -34,7 +35,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
-import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -50,6 +50,7 @@ import ru.tech.imageresizershrinker.theme.onMixedColor
 import ru.tech.imageresizershrinker.utils.BitmapUtils.with
 import ru.tech.imageresizershrinker.widget.AutoSizeText
 
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun PresetWidget(
     selectedPreset: Int,
@@ -61,35 +62,22 @@ fun PresetWidget(
     val data = LocalPresetsProvider.current
 
     var isRevealed by rememberSaveable { mutableStateOf(false) }
-    Box(
-        Modifier
+
+    SwipeToReveal(
+        modifier = Modifier
             .pointerInput(Unit) {
                 detectTapGestures(
                     onLongPress = {
                         isRevealed = true
                     }
                 )
-            }
-    ) {
-        FilledTonalIconButton(
-            onClick = { editPresetsState.value = true },
-            modifier = Modifier
-                .padding(16.dp)
-                .align(Alignment.CenterStart)
-        ) {
-            Icon(Icons.Rounded.CreateAlt, null)
-        }
-        DraggableLayout(
-            isRevealed = isRevealed,
-            cardOffset = with(LocalDensity.current) { 80.dp.toPx() },
-            onExpand = {
-                isRevealed = true
             },
-            onCollapse = {
-                isRevealed = false
-            }
-        ) {
-            Column(Modifier.block(), horizontalAlignment = Alignment.CenterHorizontally) {
+        maxRevealDp = 80.dp,
+        swipeableContent = {
+            Column(
+                modifier = Modifier.block(),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
                 Spacer(Modifier.size(8.dp))
                 Text(
                     stringResource(R.string.presets),
@@ -116,7 +104,8 @@ fun PresetWidget(
                                         )
                                     },
                                     border = BorderStroke(
-                                        max(LocalBorderWidth.current, 1.dp), animateColorAsState(
+                                        max(LocalBorderWidth.current, 1.dp),
+                                        animateColorAsState(
                                             if (selected) MaterialTheme.colorScheme.outlineVariant
                                             else Color.Transparent
                                         ).value
@@ -165,6 +154,16 @@ fun PresetWidget(
                     )
                 }
             }
+        },
+        revealedContentStart = {
+            FilledTonalIconButton(
+                onClick = { editPresetsState.value = true },
+                modifier = Modifier
+                    .padding(16.dp)
+                    .align(Alignment.CenterStart)
+            ) {
+                Icon(Icons.Rounded.CreateAlt, null)
+            }
         }
-    }
+    )
 }
