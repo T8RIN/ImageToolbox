@@ -3,7 +3,7 @@
     <string name="smth_went_wrong">Algo esta mal: %1$s</string>
     <string name="size">Tamaño %1$s</string>
     <string name="loading">Cargando…</string>
-    <string name="image_too_large_preview">La imagen es muy grande para visualizar, pero igualmente se intentara guardar.</string>
+    <string name="image_too_large_preview">La imagen es muy grande para visualizar, pero igualmente se intentará guardar.</string>
     <string name="pick_image">Seleccione una imagen para iniciar</string>
     <string name="search_here">Buscar aquí</string>
     <string name="width">Anchura %1$s</string>
@@ -113,4 +113,11 @@
     <string name="tertiary">Terciario</string>
     <string name="secondary">Secundario</string>
     <string name="border_thickness">Grosor del borde</string>
+    <string name="surface">Superficie</string>
+    <string name="values">Valores</string>
+    <string name="add">Añadir</string>
+    <string name="permission">Permiso</string>
+    <string name="grant">Otorgar</string>
+    <string name="permission_sub">La aplicación necesita acceso a su almacenamiento para guardar imágenes, sin ello no funciona, por lo que permítalo en el siguiente diálogo</string>
+    <string name="grant_permission_manual">La aplicación necesita este permiso para funcionar, por favor, permítalo manualmente</string>
 </resources>
