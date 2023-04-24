@@ -83,11 +83,11 @@ import nl.dionsegijn.konfetti.core.Position
 import nl.dionsegijn.konfetti.core.Spread
 import nl.dionsegijn.konfetti.core.emitter.Emitter
 import ru.tech.imageresizershrinker.R
-import ru.tech.imageresizershrinker.batch_resize.BatchResizeScreen
+import ru.tech.imageresizershrinker.batch_resize_screen.BatchResizeScreen
 import ru.tech.imageresizershrinker.bytes_resize_screen.BytesResizeScreen
 import ru.tech.imageresizershrinker.compare_screen.CompareScreen
 import ru.tech.imageresizershrinker.crop_screen.CropScreen
-import ru.tech.imageresizershrinker.generate_palette.GeneratePaletteScreen
+import ru.tech.imageresizershrinker.generate_palette_screen.GeneratePaletteScreen
 import ru.tech.imageresizershrinker.main_screen.components.BatchResizePreference
 import ru.tech.imageresizershrinker.main_screen.components.BytesResizePreference
 import ru.tech.imageresizershrinker.main_screen.components.ComparePreference
@@ -109,7 +109,7 @@ import ru.tech.imageresizershrinker.main_screen.components.SingleResizePreferenc
 import ru.tech.imageresizershrinker.main_screen.components.alertDialog
 import ru.tech.imageresizershrinker.main_screen.components.isNightMode
 import ru.tech.imageresizershrinker.main_screen.viewModel.MainViewModel
-import ru.tech.imageresizershrinker.pick_color_from_image.PickColorFromImageScreen
+import ru.tech.imageresizershrinker.pick_color_from_image_screen.PickColorFromImageScreen
 import ru.tech.imageresizershrinker.resize_screen.SingleResizeScreen
 import ru.tech.imageresizershrinker.theme.ImageResizerTheme
 import ru.tech.imageresizershrinker.theme.blend

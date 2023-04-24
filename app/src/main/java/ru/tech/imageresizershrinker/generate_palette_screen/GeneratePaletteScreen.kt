@@ -1,4 +1,4 @@
-package ru.tech.imageresizershrinker.generate_palette
+package ru.tech.imageresizershrinker.generate_palette_screen
 
 import android.content.res.Configuration
 import android.net.Uri
@@ -39,10 +39,10 @@ import dev.olshevski.navigation.reimagined.navigate
 import dev.olshevski.navigation.reimagined.pop
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.R
-import ru.tech.imageresizershrinker.generate_palette.viewModel.GeneratePaletteViewModel
+import ru.tech.imageresizershrinker.generate_palette_screen.viewModel.GeneratePaletteViewModel
 import ru.tech.imageresizershrinker.main_screen.components.*
-import ru.tech.imageresizershrinker.pick_color_from_image.copyColorIntoClipboard
-import ru.tech.imageresizershrinker.pick_color_from_image.format
+import ru.tech.imageresizershrinker.pick_color_from_image_screen.copyColorIntoClipboard
+import ru.tech.imageresizershrinker.pick_color_from_image_screen.format
 import ru.tech.imageresizershrinker.resize_screen.components.ImageNotPickedWidget
 import ru.tech.imageresizershrinker.resize_screen.components.LoadingDialog
 import ru.tech.imageresizershrinker.theme.PaletteSwatch

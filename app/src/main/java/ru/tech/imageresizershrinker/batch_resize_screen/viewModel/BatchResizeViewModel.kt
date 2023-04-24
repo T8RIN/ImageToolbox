@@ -1,4 +1,4 @@
-package ru.tech.imageresizershrinker.batch_resize.viewModel
+package ru.tech.imageresizershrinker.batch_resize_screen.viewModel
 
 import android.graphics.Bitmap
 import android.net.Uri

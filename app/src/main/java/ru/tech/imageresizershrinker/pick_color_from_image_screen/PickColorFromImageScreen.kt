@@ -1,4 +1,4 @@
-package ru.tech.imageresizershrinker.pick_color_from_image
+package ru.tech.imageresizershrinker.pick_color_from_image_screen
 
 import android.content.ClipData
 import android.content.ClipboardManager
@@ -38,9 +38,9 @@ import dev.olshevski.navigation.reimagined.navigate
 import dev.olshevski.navigation.reimagined.pop
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.R
-import ru.tech.imageresizershrinker.generate_palette.isScrollingUp
+import ru.tech.imageresizershrinker.generate_palette_screen.isScrollingUp
 import ru.tech.imageresizershrinker.main_screen.components.*
-import ru.tech.imageresizershrinker.pick_color_from_image.viewModel.PickColorViewModel
+import ru.tech.imageresizershrinker.pick_color_from_image_screen.viewModel.PickColorViewModel
 import ru.tech.imageresizershrinker.resize_screen.components.ImageNotPickedWidget
 import ru.tech.imageresizershrinker.resize_screen.components.LoadingDialog
 import ru.tech.imageresizershrinker.theme.PaletteSwatch
@@ -322,7 +322,7 @@ fun PickColorFromImageScreen(
                                 uncheckedBorderColor = MaterialTheme.colorScheme.primary,
                                 uncheckedThumbColor = MaterialTheme.colorScheme.onPrimary,
                                 uncheckedTrackColor = MaterialTheme.colorScheme.primary,
-                                uncheckedIconColor = MaterialTheme.colorScheme.primary,
+                                uncheckedIconColor = MaterialTheme.colorScheme.onPrimaryContainer,
                             ),
                             checked = !canZoom,
                             onCheckedChange = { canZoom = !canZoom },

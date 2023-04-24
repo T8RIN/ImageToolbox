@@ -1,4 +1,4 @@
-package ru.tech.imageresizershrinker.generate_palette.viewModel
+package ru.tech.imageresizershrinker.generate_palette_screen.viewModel
 
 import android.graphics.Bitmap
 import android.net.Uri

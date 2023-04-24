@@ -1,4 +1,4 @@
-package ru.tech.imageresizershrinker.batch_resize
+package ru.tech.imageresizershrinker.batch_resize_screen
 
 import android.content.res.Configuration
 import android.graphics.Bitmap
@@ -111,8 +111,8 @@ import com.t8rin.dynamic.theme.LocalDynamicThemeState
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.R
-import ru.tech.imageresizershrinker.batch_resize.components.SaveExifWidget
-import ru.tech.imageresizershrinker.batch_resize.viewModel.BatchResizeViewModel
+import ru.tech.imageresizershrinker.batch_resize_screen.components.SaveExifWidget
+import ru.tech.imageresizershrinker.batch_resize_screen.viewModel.BatchResizeViewModel
 import ru.tech.imageresizershrinker.main_screen.components.LocalAllowChangeColorByImage
 import ru.tech.imageresizershrinker.main_screen.components.LocalBorderWidth
 import ru.tech.imageresizershrinker.main_screen.components.alertDialog

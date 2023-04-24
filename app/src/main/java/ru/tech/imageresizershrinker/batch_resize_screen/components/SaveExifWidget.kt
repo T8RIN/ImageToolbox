@@ -1,4 +1,4 @@
-package ru.tech.imageresizershrinker.batch_resize.components
+package ru.tech.imageresizershrinker.batch_resize_screen.components
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Row
