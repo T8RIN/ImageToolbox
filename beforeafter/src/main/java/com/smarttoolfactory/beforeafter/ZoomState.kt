@@ -210,7 +210,7 @@ class ZoomState internal constructor(
 
         if (panEnabled) {
             val offset = pan
-            var newOffset = offset + gesturePan.times(zoom)
+            var newOffset = offset + gesturePan.times(this.zoom / zoom)
             val boundPan = limitPan && !rotationEnabled
 
             if (boundPan) {
