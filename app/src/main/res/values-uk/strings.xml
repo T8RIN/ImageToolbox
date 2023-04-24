@@ -119,4 +119,7 @@
     <string name="permission">Дозвіл</string>
     <string name="grant">Дозволити</string>
     <string name="permission_sub">Застосунку потрібен доступ до вашого сховища для збереження зображень, це необхідно, без цього він не зможе працювати, тому, будь ласка, надайте дозвіл у наступному діалоговому вікні</string>
+    <string name="grant_permission_manual">Застосунку потрібен цей дозвіл для роботи, будь ласка, надайте його вручну</string>
+    <string name="external_storage">Зовнішня пам\'ять</string>
+    <string name="monet_colors">Кольори Monet</string>
 </resources>
