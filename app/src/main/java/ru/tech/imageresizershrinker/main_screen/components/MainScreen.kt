@@ -47,7 +47,6 @@ import androidx.compose.material.icons.rounded.AlternateEmail
 import androidx.compose.material.icons.rounded.BugReport
 import androidx.compose.material.icons.rounded.Check
 import androidx.compose.material.icons.rounded.Close
-import androidx.compose.material.icons.rounded.DeveloperMode
 import androidx.compose.material.icons.rounded.Download
 import androidx.compose.material.icons.rounded.FileDownloadOff
 import androidx.compose.material.icons.rounded.Folder
@@ -122,6 +121,7 @@ import ru.tech.imageresizershrinker.main_screen.viewModel.MainViewModel
 import ru.tech.imageresizershrinker.theme.CreateAlt
 import ru.tech.imageresizershrinker.theme.Github
 import ru.tech.imageresizershrinker.theme.GooglePlay
+import ru.tech.imageresizershrinker.theme.Lamp
 import ru.tech.imageresizershrinker.theme.Sparkles
 import ru.tech.imageresizershrinker.theme.Telegram
 import ru.tech.imageresizershrinker.theme.inverse
@@ -333,7 +333,7 @@ fun MainScreen(
                                 Divider()
                                 Column {
                                     TitleItem(
-                                        icon = Icons.Rounded.DeveloperMode,
+                                        icon = Icons.Rounded.Lamp,
                                         text = stringResource(R.string.night_mode),
                                     )
                                     Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
