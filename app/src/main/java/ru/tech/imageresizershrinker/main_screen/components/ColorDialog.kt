@@ -7,16 +7,44 @@ import android.content.Context
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.border
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Palette
 import androidx.compose.material.icons.rounded.ContentCopy
 import androidx.compose.material.icons.rounded.ContentPaste
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.Divider
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedButton
+import androidx.compose.material3.Slider
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -27,6 +55,7 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.zIndex
 import androidx.core.graphics.blue
 import androidx.core.graphics.green
 import androidx.core.graphics.red
@@ -34,8 +63,10 @@ import com.t8rin.dynamic.theme.ColorTuple
 import com.t8rin.dynamic.theme.calculateSecondaryColor
 import com.t8rin.dynamic.theme.calculateSurfaceColor
 import com.t8rin.dynamic.theme.calculateTertiaryColor
+import com.t8rin.dynamic.theme.getAppColorTuple
 import kotlinx.coroutines.delay
 import ru.tech.imageresizershrinker.R
+import ru.tech.imageresizershrinker.theme.PaletteSwatch
 import ru.tech.imageresizershrinker.theme.outlineVariant
 
 @ExperimentalMaterial3Api
@@ -65,6 +96,12 @@ fun ColorDialog(
         )
     }
 
+    val appColorTuple = getAppColorTuple(
+        defaultColorTuple = LocalAppColorTuple.current,
+        dynamicColor = true,
+        darkTheme = true
+    )
+
     AlertDialog(
         modifier = modifier,
         onDismissRequest = {},
@@ -72,11 +109,55 @@ fun ColorDialog(
         icon = { Icon(Icons.Outlined.Palette, null) },
         text = {
             Box {
-                Divider(Modifier.align(Alignment.TopCenter))
+                Divider(
+                    Modifier
+                        .align(Alignment.TopCenter)
+                        .zIndex(100f)
+                )
+
                 Column(
                     modifier = Modifier.verticalScroll(rememberScrollState()),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
+                    Spacer(Modifier.height(8.dp))
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.Center
+                    ) {
+                        Icon(Icons.Rounded.PaletteSwatch, null)
+                        Spacer(Modifier.width(8.dp))
+                        Text(stringResource(R.string.monet_colors))
+                        Spacer(Modifier.width(8.dp))
+                        Spacer(Modifier.weight(1f))
+                        OutlinedButton(
+                            onClick = {
+                                appColorTuple.apply {
+                                    primary = this.primary.toArgb()
+                                    this.secondary?.let {
+                                        secondary = it.toArgb()
+                                    }
+                                    this.tertiary?.let {
+                                        tertiary = it.toArgb()
+                                    }
+                                    this.surface?.let {
+                                        surface = it.toArgb()
+                                    }
+                                }
+                            },
+                            colors = ButtonDefaults.outlinedButtonColors(
+                                containerColor = MaterialTheme.colorScheme.surfaceVariant,
+                                contentColor = MaterialTheme.colorScheme.onSurfaceVariant
+                            ),
+                            border = BorderStroke(
+                                LocalBorderWidth.current,
+                                MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.surfaceVariant)
+                            )
+                        ) {
+                            Text(stringResource(R.string.paste))
+                        }
+                    }
+                    Spacer(Modifier.height(8.dp))
+                    Divider()
                     Spacer(Modifier.height(8.dp))
                     TitleItem(text = stringResource(R.string.primary))
                     ColorCustomComponent(
@@ -108,7 +189,12 @@ fun ColorDialog(
                     )
                     Spacer(Modifier.height(8.dp))
                 }
-                Divider(Modifier.align(Alignment.BottomCenter))
+
+                Divider(
+                    Modifier
+                        .align(Alignment.BottomCenter)
+                        .zIndex(100f)
+                )
             }
         },
         confirmButton = {

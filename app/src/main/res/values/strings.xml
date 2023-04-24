@@ -132,4 +132,6 @@
     <string name="permission_sub">App need access to your storage to save images, it is necessary, without that it can\'t work, so please grant permission on the next dialog</string>
     <string name="grant_permission_manual">App needs this permission to work, please grant it manually</string>
     <string name="external_storage">External storage</string>
+    <string name="monet_colors">Monet colors</string>
+    <string name="paste">Paste</string>
 </resources>
