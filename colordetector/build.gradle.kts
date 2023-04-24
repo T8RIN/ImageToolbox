@@ -47,7 +47,7 @@ android {
 
 dependencies {
 
-    implementation("androidx.core:core-ktx:1.9.0")
+    implementation("androidx.core:core-ktx:1.10.0")
     implementation("androidx.palette:palette:1.0.0")
 
     implementation(project(":gesture"))
@@ -55,9 +55,9 @@ dependencies {
     implementation(project(":image"))
 
     // Jetpack Compose
-    implementation("androidx.compose.ui:ui:1.3.3")
-    implementation("androidx.compose.ui:ui-tooling:1.3.3")
-    implementation("androidx.compose.runtime:runtime:1.3.3")
-    implementation("androidx.compose.material:material:1.3.1")
-    implementation("androidx.compose.material3:material3:1.1.0-alpha08")
+    implementation("androidx.compose.ui:ui:1.4.1")
+    implementation("androidx.compose.ui:ui-tooling:1.4.1")
+    implementation("androidx.compose.runtime:runtime:1.4.1")
+    implementation("androidx.compose.material:material:1.4.2")
+    implementation("androidx.compose.material3:material3:1.1.0-rc01")
 }
