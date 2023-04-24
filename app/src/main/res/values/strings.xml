@@ -131,4 +131,5 @@
     <string name="grant">Grant</string>
     <string name="permission_sub">App need access to your storage to save images, it is necessary, without that it can\'t work, so please grant permission on the next dialog</string>
     <string name="grant_permission_manual">App needs this permission to work, please grant it manually</string>
+    <string name="external_storage">External storage</string>
 </resources>
