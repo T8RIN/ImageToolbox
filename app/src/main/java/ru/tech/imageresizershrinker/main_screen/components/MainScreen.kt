@@ -1,5 +1,6 @@
 package ru.tech.imageresizershrinker.main_screen.components
 
+import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
@@ -120,6 +121,7 @@ import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.main_screen.viewModel.MainViewModel
 import ru.tech.imageresizershrinker.theme.CreateAlt
 import ru.tech.imageresizershrinker.theme.Github
+import ru.tech.imageresizershrinker.theme.GooglePlay
 import ru.tech.imageresizershrinker.theme.Sparkles
 import ru.tech.imageresizershrinker.theme.Telegram
 import ru.tech.imageresizershrinker.theme.inverse
@@ -127,6 +129,7 @@ import ru.tech.imageresizershrinker.theme.outlineVariant
 import ru.tech.imageresizershrinker.utils.APP_LINK
 import ru.tech.imageresizershrinker.utils.AUTHOR_AVATAR
 import ru.tech.imageresizershrinker.utils.AUTHOR_LINK
+import ru.tech.imageresizershrinker.utils.ContextUtils.verifyInstallerId
 import ru.tech.imageresizershrinker.utils.ISSUE_TRACKER
 import ru.tech.imageresizershrinker.utils.LocalWindowSizeClass
 import ru.tech.imageresizershrinker.utils.WEBLATE_LINK
@@ -992,12 +995,30 @@ fun MainScreen(
                         floatingActionButton = {
                             FloatingActionButton(
                                 onClick = {
-                                    context.startActivity(
-                                        Intent(
-                                            Intent.ACTION_VIEW,
-                                            Uri.parse(APP_LINK)
+                                    if (context.verifyInstallerId()) {
+                                        try {
+                                            context.startActivity(
+                                                Intent(
+                                                    Intent.ACTION_VIEW,
+                                                    Uri.parse("market://details?id=${context.packageName}")
+                                                )
+                                            )
+                                        } catch (e: ActivityNotFoundException) {
+                                            context.startActivity(
+                                                Intent(
+                                                    Intent.ACTION_VIEW,
+                                                    Uri.parse("https://play.google.com/store/apps/details?id=${context.packageName}")
+                                                )
+                                            )
+                                        }
+                                    } else {
+                                        context.startActivity(
+                                            Intent(
+                                                Intent.ACTION_VIEW,
+                                                Uri.parse(APP_LINK)
+                                            )
                                         )
-                                    )
+                                    }
                                 },
                                 modifier = Modifier
                                     .fabBorder()
@@ -1008,7 +1029,13 @@ fun MainScreen(
                                     MaterialTheme.colorScheme.primaryContainer
                                 },
                                 elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
-                                content = { Icon(Icons.Rounded.Github, null) }
+                                content = {
+                                    Icon(
+                                        if (context.verifyInstallerId()) {
+                                            Icons.Rounded.GooglePlay
+                                        } else Icons.Rounded.Github, null
+                                    )
+                                }
                             )
                         }
                     )

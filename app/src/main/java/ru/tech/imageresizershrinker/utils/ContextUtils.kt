@@ -138,4 +138,21 @@ object ContextUtils {
         configuration.fontScale = scale
         return createConfigurationContext(configuration)
     }
+
+    fun Context.verifyInstallerId(
+        validInstallers: List<String> = listOf(
+            "com.android.vending",
+            "com.google.android.feedback"
+        )
+    ): Boolean = validInstallers.contains(getInstallerPackageName(packageName))
+
+    fun Context.getInstallerPackageName(packageName: String): String? {
+        kotlin.runCatching {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R)
+                return packageManager.getInstallSourceInfo(packageName).installingPackageName
+            @Suppress("DEPRECATION")
+            return packageManager.getInstallerPackageName(packageName)
+        }
+        return null
+    }
 }
