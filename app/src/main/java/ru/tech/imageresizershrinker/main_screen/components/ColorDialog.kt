@@ -33,8 +33,10 @@ import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
+import androidx.compose.material3.OutlinedIconButton
 import androidx.compose.material3.Slider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -128,8 +130,7 @@ fun ColorDialog(
                         Spacer(Modifier.width(8.dp))
                         Text(stringResource(R.string.monet_colors))
                         Spacer(Modifier.width(8.dp))
-                        Spacer(Modifier.weight(1f))
-                        OutlinedButton(
+                        OutlinedIconButton(
                             onClick = {
                                 appColorTuple.apply {
                                     primary = this.primary.toArgb()
@@ -144,7 +145,7 @@ fun ColorDialog(
                                     }
                                 }
                             },
-                            colors = ButtonDefaults.outlinedButtonColors(
+                            colors = IconButtonDefaults.outlinedIconButtonColors(
                                 containerColor = MaterialTheme.colorScheme.surfaceVariant,
                                 contentColor = MaterialTheme.colorScheme.onSurfaceVariant
                             ),
@@ -153,7 +154,7 @@ fun ColorDialog(
                                 MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.surfaceVariant)
                             )
                         ) {
-                            Text(stringResource(R.string.paste))
+                            Icon(Icons.Rounded.ContentPaste, null)
                         }
                     }
                     Spacer(Modifier.height(8.dp))
