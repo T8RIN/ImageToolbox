@@ -37,8 +37,10 @@ fun Uri?.toUiPath(context: Context, default: String): String = this?.let { uri -
             val endPath = p.takeIf {
                 it.isNotEmpty()
             }?.let { "/$it" } ?: ""
-            val startPath = if ("primary" in uri.toString()
+            val startPath = if (
+                uri.toString()
                     .split("%")[0]
+                    .contains("primary")
             ) context.getString(R.string.device_storage)
             else context.getString(R.string.external_storage)
 
