@@ -64,6 +64,7 @@ import com.t8rin.dynamic.theme.calculateSecondaryColor
 import com.t8rin.dynamic.theme.calculateSurfaceColor
 import com.t8rin.dynamic.theme.calculateTertiaryColor
 import com.t8rin.dynamic.theme.getAppColorTuple
+import com.t8rin.dynamic.theme.rememberColorScheme
 import kotlinx.coroutines.delay
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.theme.PaletteSwatch
@@ -102,6 +103,12 @@ fun ColorDialog(
         darkTheme = true
     )
 
+    val scheme = rememberColorScheme(
+        amoledMode = false,
+        isDarkTheme = true,
+        colorTuple = appColorTuple
+    )
+
     AlertDialog(
         modifier = modifier,
         onDismissRequest = {},
@@ -128,19 +135,14 @@ fun ColorDialog(
                         Spacer(Modifier.width(8.dp))
                         Text(stringResource(R.string.monet_colors))
                         Spacer(Modifier.width(8.dp))
+                        Spacer(Modifier.weight(1f))
                         OutlinedButton(
                             onClick = {
-                                appColorTuple.apply {
+                                scheme.apply {
                                     primary = this.primary.toArgb()
-                                    this.secondary?.let {
-                                        secondary = it.toArgb()
-                                    }
-                                    this.tertiary?.let {
-                                        tertiary = it.toArgb()
-                                    }
-                                    this.surface?.let {
-                                        surface = it.toArgb()
-                                    }
+                                    secondary = this.secondary.toArgb()
+                                    tertiary = this.tertiary.toArgb()
+                                    surface = this.surface.toArgb()
                                 }
                             },
                             colors = ButtonDefaults.outlinedButtonColors(
