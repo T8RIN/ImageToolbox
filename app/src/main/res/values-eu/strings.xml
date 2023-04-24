@@ -87,7 +87,7 @@
     <string name="values">Balioak</string>
     <string name="add">Gehitu</string>
     <string name="permission">Baimena</string>
-    <string name="grant">Beka</string>
+    <string name="grant">Baimena eman</string>
     <string name="keep_exif">Mantendu EXIF</string>
     <string name="images">Irudiak: %d</string>
     <string name="remove">Kendu</string>
@@ -119,4 +119,5 @@
     <string name="primary">Lehen mailakoa</string>
     <string name="border_thickness">Ertzaren lodiera</string>
     <string name="permission_sub">Aplikazioak zure biltegiratze sarbidea behar du irudiak gordetzeko, beharrezkoa da, hori gabe ezin du funtzionatu, beraz, eman baimena hurrengo elkarrizketa-koadroan</string>
+    <string name="grant_permission_manual">Aplikazioak funtziona dezan baimen hau behar du, mesedez, baimendu eskuz</string>
 </resources>
