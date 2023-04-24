@@ -64,7 +64,7 @@ fun PresetWidget(
     val scope = rememberCoroutineScope()
 
     SwipeToReveal(
-        maxRevealDp = 80.dp,
+        maxRevealDp = 88.dp,
         state = state,
         swipeableContent = {
             Column(
