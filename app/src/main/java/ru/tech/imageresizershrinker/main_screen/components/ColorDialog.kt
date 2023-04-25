@@ -4,9 +4,12 @@ package ru.tech.imageresizershrinker.main_screen.components
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
+import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -20,6 +23,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Palette
@@ -30,6 +34,7 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Divider
+import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -37,6 +42,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Slider
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
@@ -47,6 +53,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.layout.onGloballyPositioned
@@ -54,6 +61,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import androidx.core.graphics.blue
@@ -289,6 +297,7 @@ fun getFormattedColor(color: Int): String =
     String.format("#%08X", (0xFFFFFFFF and color.toLong())).replace("#FF", "#")
 
 
+@OptIn(ExperimentalAnimationApi::class)
 @Composable
 private fun ColorCustomInfoComponent(
     color: Int,
@@ -345,46 +354,126 @@ private fun ColorCustomInfoComponent(
                     MaterialTheme.shapes.medium,
                 )
         ) {
-            Row(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(start = 16.dp)
-                    .padding(end = 8.dp),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Column(modifier = Modifier.padding(start = 0.dp)) {
-                    if (colorPasteError.value != null) {
+            AnimatedContent(
+                colorPasteError.value != null
+            ) { error ->
+                var expanded by remember { mutableStateOf(false) }
+                Row(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(start = 16.dp)
+                        .padding(end = 8.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    if (error) {
                         Text(
                             modifier = Modifier.wrapContentWidth(),
                             text = colorPasteError.value ?: "",
                             style = MaterialTheme.typography.labelMedium,
                         )
                     } else {
-                        Text(
-                            text = stringResource(R.string.argb),
-                            style = MaterialTheme.typography.titleMedium,
-                            maxLines = 1
-                        )
-                        Text(
-                            modifier = Modifier.padding(top = 2.dp),
-                            text = getFormattedColor(color),
-                            style = MaterialTheme.typography.labelSmall,
-                            maxLines = 1
-                        )
+                        Column {
+                            Text(
+                                text = getFormattedColor(color),
+                                style = MaterialTheme.typography.titleMedium,
+                                maxLines = 1,
+                                modifier = Modifier
+                                    .clip(RoundedCornerShape(4.dp))
+                                    .clickable {
+                                        expanded = true
+                                    }
+                            )
+                            Text(
+                                modifier = Modifier.padding(top = 2.dp),
+                                text = stringResource(R.string.argb),
+                                style = MaterialTheme.typography.labelSmall,
+                                maxLines = 1
+                            )
+                        }
+                        Spacer(modifier = Modifier.weight(1f))
+                        IconButton(onClick = onCopyCustomColor) {
+                            Icon(Icons.Rounded.ContentCopy, null)
+                        }
+                        IconButton(onClick = onPasteCustomColor) {
+                            Icon(Icons.Rounded.ContentPaste, null)
+                        }
                     }
                 }
-                if (colorPasteError.value == null) {
-                    Spacer(modifier = Modifier.weight(1f))
-                    IconButton(onClick = onCopyCustomColor) {
-                        Icon(Icons.Rounded.ContentCopy, null)
-                    }
-                    IconButton(onClick = onPasteCustomColor) {
-                        Icon(Icons.Rounded.ContentPaste, null)
+                MaterialTheme(
+                    shapes = MaterialTheme.shapes.copy(
+                        extraSmall = MaterialTheme.shapes.extraLarge
+                    )
+                ) {
+                    DropdownMenu(
+                        modifier = Modifier
+                            .width(240.dp)
+                            .alertDialog(),
+                        expanded = expanded,
+                        onDismissRequest = { expanded = false },
+                        offset = DpOffset((-54).dp, 0.dp)
+                    ) {
+                        var value by remember { mutableStateOf(getFormattedColor(color)) }
+                        Column(
+                            horizontalAlignment = Alignment.CenterHorizontally,
+                            verticalArrangement = Arrangement.Center
+                        ) {
+                            Spacer(Modifier.height(12.dp))
+                            TextField(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(horizontal = 16.dp),
+                                value = value,
+                                textStyle = MaterialTheme.typography.titleMedium,
+                                maxLines = 1,
+                                onValueChange = { colorString ->
+                                    val newValue =
+                                        (colorString + "0" * (7 - colorString.length)).take(7)
+                                    if (
+                                        newValue.matches(Regex("^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$"))
+                                    ) {
+                                        value = newValue
+                                    }
+                                }
+                            )
+                            Spacer(Modifier.height(12.dp))
+                            OutlinedButton(
+                                onClick = {
+                                    val hexColor =
+                                        value.removePrefix("#").toLong(16) or 0x00000000FF000000
+                                    onColorChange(Color(hexColor).toArgb())
+                                    expanded = false
+                                },
+                                colors = ButtonDefaults.outlinedButtonColors(
+                                    containerColor = MaterialTheme.colorScheme.secondaryContainer.copy(
+                                        alpha = if (LocalNightMode.current.isNightMode()) 0.5f
+                                        else 1f
+                                    ),
+                                    contentColor = MaterialTheme.colorScheme.onSecondaryContainer,
+                                ),
+                                border = BorderStroke(
+                                    LocalBorderWidth.current,
+                                    MaterialTheme.colorScheme.outlineVariant(
+                                        onTopOf = MaterialTheme.colorScheme.secondaryContainer
+                                    )
+                                ),
+                            ) {
+                                Text(stringResource(R.string.add))
+                            }
+                            Spacer(Modifier.height(8.dp))
+                        }
                     }
                 }
             }
         }
     }
+}
+
+private operator fun String.times(i: Int): String {
+    var s = ""
+    repeat(i) {
+        s += this
+    }
+    return s
 }
 
 @Composable
@@ -465,7 +554,7 @@ private fun ColorCustomControlItemComponent(
         )
 
         Text(
-            modifier = wrapOrFixedModifier(colorValueLabelWidth),
+            modifier = Modifier.width(32.dp),
             text = value.toString(),
             style = MaterialTheme.typography.labelMedium,
             textAlign = TextAlign.End,
