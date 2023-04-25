@@ -34,7 +34,6 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Divider
-import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -61,7 +60,6 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import androidx.core.graphics.blue
@@ -297,7 +295,7 @@ fun getFormattedColor(color: Int): String =
     String.format("#%08X", (0xFFFFFFFF and color.toLong())).replace("#FF", "#")
 
 
-@OptIn(ExperimentalAnimationApi::class)
+@OptIn(ExperimentalAnimationApi::class, ExperimentalMaterial3Api::class)
 @Composable
 private fun ColorCustomInfoComponent(
     color: Int,
@@ -399,43 +397,42 @@ private fun ColorCustomInfoComponent(
                         }
                     }
                 }
-                MaterialTheme(
-                    shapes = MaterialTheme.shapes.copy(
-                        extraSmall = MaterialTheme.shapes.extraLarge
-                    )
-                ) {
-                    DropdownMenu(
-                        modifier = Modifier
-                            .width(240.dp)
-                            .alertDialog(),
-                        expanded = expanded,
+                if (expanded) {
+                    var value by remember { mutableStateOf(getFormattedColor(color)) }
+                    AlertDialog(
+                        modifier = Modifier.alertDialog(),
                         onDismissRequest = { expanded = false },
-                        offset = DpOffset((-54).dp, 0.dp)
-                    ) {
-                        var value by remember { mutableStateOf(getFormattedColor(color)) }
-                        Column(
-                            horizontalAlignment = Alignment.CenterHorizontally,
-                            verticalArrangement = Arrangement.Center
-                        ) {
-                            Spacer(Modifier.height(12.dp))
-                            TextField(
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .padding(horizontal = 16.dp),
-                                value = value,
-                                textStyle = MaterialTheme.typography.titleMedium,
-                                maxLines = 1,
-                                onValueChange = { colorString ->
-                                    val newValue =
-                                        (colorString + "0" * (7 - colorString.length)).take(7)
-                                    if (
-                                        newValue.matches(Regex("^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$"))
-                                    ) {
-                                        value = newValue
+                        icon = {
+                            Icon(Icons.Outlined.Palette, null)
+                        },
+                        title = {
+                            Text(stringResource(R.string.color))
+                        },
+                        text = {
+                            Column(
+                                modifier = Modifier.fillMaxWidth(),
+                                horizontalAlignment = Alignment.CenterHorizontally,
+                                verticalArrangement = Arrangement.Center
+                            ) {
+                                TextField(
+                                    shape = RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp),
+                                    modifier = Modifier.fillMaxWidth(0.75f),
+                                    value = value,
+                                    textStyle = MaterialTheme.typography.titleMedium.copy(textAlign = TextAlign.Center),
+                                    maxLines = 1,
+                                    onValueChange = { colorString ->
+                                        val newValue =
+                                            (colorString + "0" * (7 - colorString.length)).take(7)
+                                        if (
+                                            newValue.matches(Regex("^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$"))
+                                        ) {
+                                            value = newValue
+                                        }
                                     }
-                                }
-                            )
-                            Spacer(Modifier.height(12.dp))
+                                )
+                            }
+                        },
+                        confirmButton = {
                             OutlinedButton(
                                 onClick = {
                                     val hexColor =
@@ -457,11 +454,10 @@ private fun ColorCustomInfoComponent(
                                     )
                                 ),
                             ) {
-                                Text(stringResource(R.string.add))
+                                Text(stringResource(R.string.ok))
                             }
-                            Spacer(Modifier.height(8.dp))
                         }
-                    }
+                    )
                 }
             }
         }
