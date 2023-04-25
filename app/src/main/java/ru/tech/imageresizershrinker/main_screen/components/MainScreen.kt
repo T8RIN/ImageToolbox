@@ -1030,11 +1030,15 @@ fun MainScreen(
                                 },
                                 elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
                                 content = {
-                                    Icon(
-                                        if (context.verifyInstallerId()) {
-                                            Icons.Rounded.GooglePlay
-                                        } else Icons.Rounded.Github, null
-                                    )
+                                    if (context.verifyInstallerId()) {
+                                        Icon(
+                                            Icons.Rounded.GooglePlay,
+                                            null,
+                                            modifier = Modifier.offset(1.5.dp)
+                                        )
+                                    } else {
+                                        Icon(Icons.Rounded.Github, null)
+                                    }
                                 }
                             )
                         }

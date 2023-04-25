@@ -59,6 +59,7 @@ import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.ExperimentalTextApi
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
@@ -165,7 +166,6 @@ fun ColorDialog(
                     }
                     Spacer(Modifier.height(8.dp))
                     Divider()
-                    Spacer(Modifier.height(8.dp))
                     TitleItem(text = stringResource(R.string.primary))
                     ColorCustomComponent(
                         color = primary,
@@ -301,7 +301,7 @@ fun getFormattedColor(color: Int): String =
     String.format("#%08X", (0xFFFFFFFF and color.toLong())).replace("#FF", "#")
 
 
-@OptIn(ExperimentalAnimationApi::class)
+@OptIn(ExperimentalAnimationApi::class, ExperimentalTextApi::class)
 @Composable
 private fun ColorCustomInfoComponent(
     color: Int,
@@ -347,7 +347,7 @@ private fun ColorCustomInfoComponent(
 
         Card(
             modifier = Modifier
-                .height(64.dp)
+                .height(60.dp)
                 .fillMaxWidth()
                 .padding(start = 16.dp)
                 .border(
@@ -365,34 +365,38 @@ private fun ColorCustomInfoComponent(
                 Row(
                     modifier = Modifier
                         .fillMaxSize()
-                        .padding(start = 16.dp)
+                        .padding(start = 8.dp)
                         .padding(end = 8.dp),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     if (error) {
                         Text(
-                            modifier = Modifier.wrapContentWidth(),
+                            modifier = Modifier.fillMaxWidth(),
                             text = colorPasteError.value ?: "",
                             style = MaterialTheme.typography.labelMedium,
+                            textAlign = TextAlign.Center
                         )
                     } else {
-                        Text(
-                            text = getFormattedColor(color),
-                            style = MaterialTheme.typography.titleMedium,
-                            maxLines = 1,
-                            modifier = Modifier
-                                .clip(RoundedCornerShape(6.dp))
-                                .clickable {
-                                    expanded = true
-                                }
-                                .padding(4.dp)
-                        )
-                        Spacer(modifier = Modifier.weight(1f))
-                        IconButton(onClick = onCopyCustomColor) {
-                            Icon(Icons.Rounded.ContentCopy, null)
+                        Row(modifier = Modifier.weight(1f)) {
+                            Text(
+                                text = getFormattedColor(color),
+                                style = MaterialTheme.typography.titleMedium,
+                                maxLines = 1,
+                                modifier = Modifier
+                                    .clip(RoundedCornerShape(6.dp))
+                                    .clickable {
+                                        expanded = true
+                                    }
+                                    .padding(4.dp)
+                            )
                         }
-                        IconButton(onClick = onPasteCustomColor) {
-                            Icon(Icons.Rounded.ContentPaste, null)
+                        Row(Modifier.width(80.dp)) {
+                            IconButton(onClick = onCopyCustomColor) {
+                                Icon(Icons.Rounded.ContentCopy, null)
+                            }
+                            IconButton(onClick = onPasteCustomColor) {
+                                Icon(Icons.Rounded.ContentPaste, null)
+                            }
                         }
                     }
                 }
