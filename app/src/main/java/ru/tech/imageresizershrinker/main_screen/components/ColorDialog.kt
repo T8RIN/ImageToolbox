@@ -416,7 +416,6 @@ private fun ColorCustomInfoComponent(
                             ) {
                                 TextField(
                                     shape = RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp),
-                                    modifier = Modifier.fillMaxWidth(0.75f),
                                     value = value,
                                     textStyle = MaterialTheme.typography.titleMedium.copy(textAlign = TextAlign.Center),
                                     maxLines = 1,
