@@ -42,7 +42,6 @@ import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Slider
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
@@ -74,7 +73,6 @@ import com.t8rin.dynamic.theme.getAppColorTuple
 import com.t8rin.dynamic.theme.rememberColorScheme
 import kotlinx.coroutines.delay
 import ru.tech.imageresizershrinker.R
-import ru.tech.imageresizershrinker.widget.RoundedTextField
 import ru.tech.imageresizershrinker.theme.PaletteSwatch
 import ru.tech.imageresizershrinker.theme.outlineVariant
 
@@ -297,7 +295,7 @@ fun getFormattedColor(color: Int): String =
     String.format("#%08X", (0xFFFFFFFF and color.toLong())).replace("#FF", "#")
 
 
-@OptIn(ExperimentalAnimationApi::class, ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalAnimationApi::class)
 @Composable
 private fun ColorCustomInfoComponent(
     color: Int,
@@ -378,10 +376,11 @@ private fun ColorCustomInfoComponent(
                                 style = MaterialTheme.typography.titleMedium,
                                 maxLines = 1,
                                 modifier = Modifier
-                                    .clip(RoundedCornerShape(4.dp))
+                                    .clip(RoundedCornerShape(6.dp))
                                     .clickable {
                                         expanded = true
                                     }
+                                    .padding(4.dp)
                             )
                             Text(
                                 modifier = Modifier.padding(top = 2.dp),
