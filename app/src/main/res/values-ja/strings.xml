@@ -91,7 +91,7 @@
     <string name="allow_image_monet">イメージモネを許可する</string>
     <string name="allow_image_monet_sub">有効な場合、編集する画像を選択すると、アプリのカラーがその画像に採用されます</string>
     <string name="language">言語</string>
-    <string name="amoled_mode">アモルデッドモード</string>
+    <string name="amoled_mode">AMOLEDモード</string>
     <string name="amoled_mode_sub">有効な場合、ナイトモードでは表面の色が絶対的に暗くなります。</string>
     <string name="color_scheme">カラースキーム</string>
     <string name="color_green">グリーン</string>
@@ -109,4 +109,8 @@
     <string name="dynamic_colors_sub">有効な場合、アプリの色は壁紙の色に採用されます</string>
     <string name="failed_to_save">%d 画像の保存に失敗しました。</string>
     <string name="png_warning_bytes">PNGモードでの保存は、ロスレス形式であるため不安定になることがある</string>
+    <string name="values">数値</string>
+    <string name="add">追加</string>
+    <string name="permission">権限</string>
+    <string name="border_thickness">境界線の太さ</string>
 </resources>
