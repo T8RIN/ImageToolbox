@@ -180,19 +180,25 @@ fun ColorDialog(
                     TitleItem(text = stringResource(R.string.secondary))
                     ColorCustomComponent(
                         color = secondary,
-                        onColorChange = { secondary = it }
+                        onColorChange = {
+                            secondary = it
+                        }
                     )
                     Divider()
                     TitleItem(text = stringResource(R.string.tertiary))
                     ColorCustomComponent(
                         color = tertiary,
-                        onColorChange = { tertiary = it }
+                        onColorChange = {
+                            tertiary = it
+                        }
                     )
                     Divider()
                     TitleItem(text = stringResource(R.string.surface))
                     ColorCustomComponent(
                         color = surface,
-                        onColorChange = { surface = it }
+                        onColorChange = {
+                            surface = it
+                        }
                     )
                     Spacer(Modifier.height(8.dp))
                 }
@@ -370,25 +376,17 @@ private fun ColorCustomInfoComponent(
                             style = MaterialTheme.typography.labelMedium,
                         )
                     } else {
-                        Column {
-                            Text(
-                                text = getFormattedColor(color),
-                                style = MaterialTheme.typography.titleMedium,
-                                maxLines = 1,
-                                modifier = Modifier
-                                    .clip(RoundedCornerShape(6.dp))
-                                    .clickable {
-                                        expanded = true
-                                    }
-                                    .padding(4.dp)
-                            )
-                            Text(
-                                modifier = Modifier.padding(top = 2.dp),
-                                text = stringResource(R.string.argb),
-                                style = MaterialTheme.typography.labelSmall,
-                                maxLines = 1
-                            )
-                        }
+                        Text(
+                            text = getFormattedColor(color),
+                            style = MaterialTheme.typography.titleMedium,
+                            maxLines = 1,
+                            modifier = Modifier
+                                .clip(RoundedCornerShape(6.dp))
+                                .clickable {
+                                    expanded = true
+                                }
+                                .padding(4.dp)
+                        )
                         Spacer(modifier = Modifier.weight(1f))
                         IconButton(onClick = onCopyCustomColor) {
                             Icon(Icons.Rounded.ContentCopy, null)
