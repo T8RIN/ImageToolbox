@@ -416,7 +416,7 @@ private fun ColorCustomInfoComponent(
                                 horizontalAlignment = Alignment.CenterHorizontally,
                                 verticalArrangement = Arrangement.Center
                             ) {
-                                RoundedTextField(
+                                OutlinedTextField(
                                     value = value,
                                     textStyle = MaterialTheme.typography.titleMedium.copy(textAlign = TextAlign.Center),
                                     maxLines = 1,
@@ -426,8 +426,7 @@ private fun ColorCustomInfoComponent(
                                         if (newValue.matches(Regex("^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$"))) {
                                             value = newValue
                                         }
-                                    },
-                                    label = stringResource(R.string.hex)
+                                    }
                                 )
                             }
                         },
