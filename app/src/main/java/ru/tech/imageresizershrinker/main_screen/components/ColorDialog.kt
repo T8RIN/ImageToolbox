@@ -39,6 +39,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Slider
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
@@ -73,6 +74,7 @@ import com.t8rin.dynamic.theme.getAppColorTuple
 import com.t8rin.dynamic.theme.rememberColorScheme
 import kotlinx.coroutines.delay
 import ru.tech.imageresizershrinker.R
+import ru.tech.imageresizershrinker.widget.RoundedTextField
 import ru.tech.imageresizershrinker.theme.PaletteSwatch
 import ru.tech.imageresizershrinker.theme.outlineVariant
 
@@ -414,20 +416,18 @@ private fun ColorCustomInfoComponent(
                                 horizontalAlignment = Alignment.CenterHorizontally,
                                 verticalArrangement = Arrangement.Center
                             ) {
-                                TextField(
-                                    shape = RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp),
+                                RoundedTextField(
                                     value = value,
                                     textStyle = MaterialTheme.typography.titleMedium.copy(textAlign = TextAlign.Center),
                                     maxLines = 1,
                                     onValueChange = { colorString ->
                                         val newValue =
                                             (colorString + "0" * (7 - colorString.length)).take(7)
-                                        if (
-                                            newValue.matches(Regex("^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$"))
-                                        ) {
+                                        if (newValue.matches(Regex("^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$"))) {
                                             value = newValue
                                         }
-                                    }
+                                    },
+                                    label = stringResource(R.string.hex)
                                 )
                             }
                         },

@@ -14,6 +14,7 @@ import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.main_screen.components.block
 import ru.tech.imageresizershrinker.resize_screen.viewModel.SingleResizeViewModel.Companion.restrict
+import ru.tech.imageresizershrinker.widget.RoundedTextField
 
 @Composable
 fun ResizeImageField(

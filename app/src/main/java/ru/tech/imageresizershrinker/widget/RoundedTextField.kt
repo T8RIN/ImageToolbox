@@ -1,4 +1,4 @@
-package ru.tech.imageresizershrinker.resize_screen.components
+package ru.tech.imageresizershrinker.widget
 
 import androidx.compose.animation.Animatable
 import androidx.compose.animation.animateContentSize

@@ -72,6 +72,7 @@ import ru.tech.imageresizershrinker.utils.LocalWindowSizeClass
 import ru.tech.imageresizershrinker.utils.SavingFolder
 import ru.tech.imageresizershrinker.widget.LocalToastHost
 import ru.tech.imageresizershrinker.widget.Marquee
+import ru.tech.imageresizershrinker.widget.RoundedTextField
 
 @OptIn(
     ExperimentalAnimationApi::class,
