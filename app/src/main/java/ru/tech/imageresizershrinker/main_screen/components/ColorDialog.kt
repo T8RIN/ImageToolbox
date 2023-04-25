@@ -417,6 +417,7 @@ private fun ColorCustomInfoComponent(
                                 verticalArrangement = Arrangement.Center
                             ) {
                                 OutlinedTextField(
+                                    shape = RoundedCornerShape(16.dp),
                                     value = value,
                                     textStyle = MaterialTheme.typography.titleMedium.copy(textAlign = TextAlign.Center),
                                     maxLines = 1,
