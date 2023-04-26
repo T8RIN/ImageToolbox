@@ -294,12 +294,12 @@ fun AvailableColorTuplesDialog(
         },
         text = {
             Box(Modifier.fillMaxWidth(), contentAlignment = Alignment.Center) {
-                Divider(Modifier.align(Alignment.TopCenter))
+                Divider(Modifier.align(Alignment.TopCenter).zIndex(100f))
                 FlowRow(
                     verticalAlignment = Alignment.CenterVertically,
                     modifier = Modifier
-                        .padding(vertical = 8.dp, horizontal = 2.dp)
                         .verticalScroll(rememberScrollState())
+                        .padding(vertical = 8.dp, horizontal = 2.dp)
                 ) {
                     colorTupleList.forEach { colorTuple ->
                         ColorTupleItem(
@@ -336,7 +336,6 @@ fun AvailableColorTuplesDialog(
                                     modifier = Modifier.fillMaxSize()
                                 ) {
                                     if (selected) {
-
                                         Box(
                                             modifier = Modifier
                                                 .size(28.dp)
@@ -397,7 +396,7 @@ fun AvailableColorTuplesDialog(
                         )
                     }
                 }
-                Divider(Modifier.align(Alignment.BottomCenter))
+                Divider(Modifier.align(Alignment.BottomCenter).zIndex(100f))
             }
         },
         confirmButton = {
