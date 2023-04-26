@@ -29,7 +29,7 @@
     <string name="issue_tracker">Fehlermeldungen</string>
     <string name="issue_tracker_sub">Sende Fehlermeldungen und Änderungswünsche hierhin</string>
     <string name="help_translate">Hilf beim Übersetzen</string>
-    <string name="smth_went_wrong">Irgendwas ging schief: %1$s</string>
+    <string name="smth_went_wrong">Etwas ging schief: %1$s</string>
     <string name="image_too_large_preview">Bild ist zu groß für die Vorschau, es wird aber trotzdem versucht es zu speichern</string>
     <string name="loading">Lade…</string>
     <string name="pick_image">Wähle Bild zum Starten</string>
