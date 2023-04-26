@@ -6,13 +6,19 @@ import android.content.ClipboardManager
 import android.content.Context
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
+import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -23,12 +29,15 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Palette
+import androidx.compose.material.icons.rounded.AddCircleOutline
 import androidx.compose.material.icons.rounded.ContentCopy
 import androidx.compose.material.icons.rounded.ContentPaste
+import androidx.compose.material.icons.rounded.Done
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
@@ -54,6 +63,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.luminance
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalContext
@@ -62,11 +72,13 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.ExperimentalTextApi
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.window.DialogProperties
 import androidx.compose.ui.zIndex
 import androidx.core.graphics.blue
 import androidx.core.graphics.green
 import androidx.core.graphics.red
 import com.t8rin.dynamic.theme.ColorTuple
+import com.t8rin.dynamic.theme.ColorTupleItem
 import com.t8rin.dynamic.theme.calculateSecondaryColor
 import com.t8rin.dynamic.theme.calculateSurfaceColor
 import com.t8rin.dynamic.theme.calculateTertiaryColor
@@ -75,11 +87,12 @@ import com.t8rin.dynamic.theme.rememberColorScheme
 import kotlinx.coroutines.delay
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.theme.PaletteSwatch
+import ru.tech.imageresizershrinker.theme.inverse
 import ru.tech.imageresizershrinker.theme.outlineVariant
 
 @ExperimentalMaterial3Api
 @Composable
-fun ColorDialog(
+fun ColorPickerDialog(
     modifier: Modifier = Modifier,
     colorTuple: ColorTuple,
     title: String = stringResource(R.string.color_scheme),
@@ -251,6 +264,161 @@ fun ColorDialog(
             }
         }
     )
+}
+
+@OptIn(
+    ExperimentalLayoutApi::class, ExperimentalAnimationApi::class,
+    ExperimentalFoundationApi::class
+)
+@Composable
+fun AvailableColorTuplesDialog(
+    modifier: Modifier,
+    colorTupleList: List<ColorTuple>,
+    currentColorTuple: ColorTuple,
+    showColorPicker: MutableState<Boolean>,
+    colorPicker: @Composable (onUpdateColorTuples: (List<ColorTuple>) -> Unit) -> Unit,
+    onPickTheme: (ColorTuple) -> Unit,
+    onUpdateColorTuples: (List<ColorTuple>) -> Unit,
+    onDismissRequest: () -> Unit
+) {
+    var showColorPicker by showColorPicker
+    AlertDialog(
+        properties = DialogProperties(usePlatformDefaultWidth = false),
+        modifier = modifier,
+        onDismissRequest = onDismissRequest,
+        icon = {
+            Icon(Icons.Rounded.PaletteSwatch, null)
+        },
+        title = {
+            Text(stringResource(R.string.color_scheme))
+        },
+        text = {
+            Box(Modifier.fillMaxWidth(), contentAlignment = Alignment.Center) {
+                Divider(Modifier.align(Alignment.TopCenter))
+                FlowRow(
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier
+                        .padding(vertical = 8.dp, horizontal = 2.dp)
+                        .verticalScroll(rememberScrollState())
+                ) {
+                    colorTupleList.forEach { colorTuple ->
+                        ColorTupleItem(
+                            colorTuple = colorTuple, modifier = Modifier
+                                .padding(2.dp)
+                                .size(64.dp)
+                                .border(
+                                    LocalBorderWidth.current,
+                                    MaterialTheme.colorScheme.outlineVariant(
+                                        0.2f
+                                    ),
+                                    MaterialTheme.shapes.medium
+                                )
+                                .clip(MaterialTheme.shapes.medium)
+                                .combinedClickable(
+                                    onClick = {
+                                        onPickTheme(colorTuple)
+                                    },
+                                    onLongClick = {
+                                        onUpdateColorTuples(colorTupleList - colorTuple)
+                                    }
+                                ),
+                            backgroundColor = rememberColorScheme(
+                                LocalNightMode.current.isNightMode(),
+                                LocalAmoledMode.current,
+                                colorTuple
+                            ).surfaceVariant.copy(alpha = 0.5f)
+                        ) {
+                            AnimatedContent(
+                                targetState = colorTuple == currentColorTuple
+                            ) { selected ->
+                                Box(
+                                    contentAlignment = Alignment.Center,
+                                    modifier = Modifier.fillMaxSize()
+                                ) {
+                                    if (selected) {
+
+                                        Box(
+                                            modifier = Modifier
+                                                .size(28.dp)
+                                                .background(
+                                                    animateColorAsState(
+                                                        colorTuple.primary.inverse(
+                                                            fraction = { cond ->
+                                                                if (cond) 0.8f
+                                                                else 0.5f
+                                                            },
+                                                            darkMode = colorTuple.primary.luminance() < 0.3f
+                                                        )
+                                                    ).value,
+                                                    CircleShape
+                                                ),
+                                        )
+                                        Icon(
+                                            imageVector = Icons.Rounded.Done,
+                                            contentDescription = null,
+                                            tint = colorTuple.primary,
+                                            modifier = Modifier.size(16.dp)
+                                        )
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    ColorTupleItem(
+                        colorTuple = ColorTuple(
+                            primary = MaterialTheme.colorScheme.secondaryContainer,
+                            secondary = MaterialTheme.colorScheme.secondaryContainer,
+                            tertiary = MaterialTheme.colorScheme.secondaryContainer
+                        ),
+                        modifier = Modifier
+                            .padding(2.dp)
+                            .size(64.dp)
+                            .border(
+                                LocalBorderWidth.current,
+                                MaterialTheme.colorScheme.outlineVariant(
+                                    0.2f
+                                ),
+                                MaterialTheme.shapes.medium
+                            )
+                            .clip(MaterialTheme.shapes.medium)
+                            .clickable {
+                                showColorPicker = true
+                            },
+                        backgroundColor = MaterialTheme
+                            .colorScheme
+                            .surfaceVariant
+                            .copy(alpha = 0.5f)
+                    ) {
+                        Icon(
+                            imageVector = Icons.Rounded.AddCircleOutline,
+                            contentDescription = null,
+                            tint = MaterialTheme.colorScheme.onPrimaryContainer,
+                            modifier = Modifier.size(24.dp)
+                        )
+                    }
+                }
+                Divider(Modifier.align(Alignment.BottomCenter))
+            }
+        },
+        confirmButton = {
+            OutlinedButton(
+                onClick = onDismissRequest,
+                colors = ButtonDefaults.outlinedButtonColors(
+                    containerColor = MaterialTheme.colorScheme.secondaryContainer,
+                    contentColor = MaterialTheme.colorScheme.onSecondaryContainer,
+                ),
+                border = BorderStroke(
+                    LocalBorderWidth.current,
+                    MaterialTheme.colorScheme.outlineVariant(
+                        onTopOf = MaterialTheme.colorScheme.secondaryContainer
+                    )
+                ),
+            ) {
+                Text(stringResource(R.string.close))
+            }
+        }
+    )
+    if (showColorPicker) colorPicker(onUpdateColorTuples)
 }
 
 @Composable
@@ -441,10 +609,7 @@ private fun ColorCustomInfoComponent(
                                     expanded = false
                                 },
                                 colors = ButtonDefaults.outlinedButtonColors(
-                                    containerColor = MaterialTheme.colorScheme.secondaryContainer.copy(
-                                        alpha = if (LocalNightMode.current.isNightMode()) 0.5f
-                                        else 1f
-                                    ),
+                                    containerColor = MaterialTheme.colorScheme.secondaryContainer,
                                     contentColor = MaterialTheme.colorScheme.onSecondaryContainer,
                                 ),
                                 border = BorderStroke(

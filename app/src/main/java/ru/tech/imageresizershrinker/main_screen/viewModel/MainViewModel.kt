@@ -25,11 +25,14 @@ import kotlinx.coroutines.withContext
 import org.w3c.dom.Element
 import ru.tech.imageresizershrinker.BuildConfig
 import ru.tech.imageresizershrinker.main_screen.components.Screen
+import ru.tech.imageresizershrinker.theme.asString
 import ru.tech.imageresizershrinker.theme.md_theme_dark_primary
+import ru.tech.imageresizershrinker.theme.toColorTupleList
 import ru.tech.imageresizershrinker.utils.AMOLED_MODE
 import ru.tech.imageresizershrinker.utils.APP_COLOR
 import ru.tech.imageresizershrinker.utils.APP_RELEASES
 import ru.tech.imageresizershrinker.utils.BORDER_WIDTH
+import ru.tech.imageresizershrinker.utils.COLOR_TUPLES
 import ru.tech.imageresizershrinker.utils.DYNAMIC_COLORS
 import ru.tech.imageresizershrinker.utils.IMAGE_MONET
 import ru.tech.imageresizershrinker.utils.NIGHT_MODE
@@ -64,6 +67,9 @@ class MainViewModel @Inject constructor(
         ColorTuple(md_theme_dark_primary)
     )
     val appColorTuple by _appColorTuple
+
+    private val _colorTupleList = mutableStateOf(emptyList<ColorTuple>())
+    val colorTupleList by _colorTupleList
 
     private val _borderWidth = mutableStateOf(1f)
     val borderWidth by _borderWidth
@@ -142,6 +148,8 @@ class MainViewModel @Inject constructor(
             _localPresets.value = ((prefs[PRESETS]?.split("*")?.map {
                 it.toInt()
             } ?: emptyList()) + List(7) { 100 - it * 10 }).toSortedSet().reversed().toList()
+
+            _colorTupleList.value = prefs[COLOR_TUPLES].toColorTupleList()
         }.launchIn(viewModelScope)
     }
 
@@ -282,6 +290,14 @@ class MainViewModel @Inject constructor(
         viewModelScope.launch {
             dataStore.edit {
                 it[SAVE_FOLDER] = uri?.toString() ?: ""
+            }
+        }
+    }
+
+    fun updateColorTuples(colorTuples: List<ColorTuple>) {
+        viewModelScope.launch {
+            dataStore.edit {
+                it[COLOR_TUPLES] = colorTuples.asString()
             }
         }
     }

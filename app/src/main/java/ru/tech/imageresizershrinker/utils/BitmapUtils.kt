@@ -362,7 +362,7 @@ object BitmapUtils {
         return when (val percent = this) {
             in 500 downTo 99 -> {
                 currentInfo.copy(
-                    quality = percent.toFloat(),
+                    quality = percent.toFloat().coerceIn(0f, 100f),
                     width = bitmap.width().calc(percent),
                     height = bitmap.height().calc(percent),
                 )

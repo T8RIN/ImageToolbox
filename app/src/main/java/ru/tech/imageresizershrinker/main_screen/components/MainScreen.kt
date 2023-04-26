@@ -34,6 +34,7 @@ import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.requiredSize
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.lazy.LazyColumn
@@ -110,6 +111,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.min
 import androidx.compose.ui.zIndex
 import com.t8rin.dynamic.theme.ColorTupleItem
+import com.t8rin.dynamic.theme.getAppColorTuple
 import dev.olshevski.navigation.reimagined.NavController
 import dev.olshevski.navigation.reimagined.navigate
 import dev.olshevski.navigation.reimagined.popUpTo
@@ -1049,11 +1051,36 @@ fun MainScreen(
     }
 
     if (showPickColorDialog) {
-        ColorDialog(
-            modifier = Modifier.alertDialog(),
-            colorTuple = viewModel.appColorTuple,
-            onDismissRequest = { showPickColorDialog = false },
-            onColorChange = { viewModel.updateColorTuple(it) }
+        val showColorPicker = rememberSaveable { mutableStateOf(false) }
+        AvailableColorTuplesDialog(
+            modifier = Modifier
+                .widthIn(max = 320.dp)
+                .systemBarsPadding()
+                .padding(16.dp)
+                .alertDialog(),
+            showColorPicker = showColorPicker,
+            colorTupleList = viewModel.colorTupleList,
+            currentColorTuple = getAppColorTuple(
+                defaultColorTuple = viewModel.appColorTuple,
+                dynamicColor = viewModel.dynamicColors,
+                darkTheme = viewModel.nightMode.isNightMode()
+            ),
+            colorPicker = { onUpdateColorTuples ->
+                ColorPickerDialog(
+                    modifier = Modifier.alertDialog(),
+                    colorTuple = viewModel.appColorTuple,
+                    onDismissRequest = { showColorPicker.value = false },
+                    onColorChange = {
+                        viewModel.updateColorTuple(it)
+                        onUpdateColorTuples(viewModel.colorTupleList + it)
+                    }
+                )
+            },
+            onUpdateColorTuples = {
+                viewModel.updateColorTuples(it)
+            },
+            onPickTheme = { viewModel.updateColorTuple(it) },
+            onDismissRequest = { showPickColorDialog = false }
         )
     } else if (showAuthorDialog) {
         AlertDialog(
