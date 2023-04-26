@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="smth_went_wrong">何かが間違っていた：%1$s</string>
+    <string name="smth_went_wrong">エラー発生：%1$s</string>
     <string name="check_source_code_sub">最新情報を入手し、問題点を議論する</string>
     <string name="color_red">赤色</string>
     <string name="about_app">アプリについて</string>
     <string name="nothing_found_by_search">クエリで見つかったものはありません</string>
-    <string name="size">サイズ%1$s</string>
+    <string name="size">サイズ: %1$s</string>
     <string name="loading">読み込み中…</string>
-    <string name="image_too_large_preview">画像が大きすぎてプレビューできませんが、とりあえず保存は試みられます</string>
-    <string name="pick_image">開始する画像を選ぶ</string>
-    <string name="width">幅%1$s</string>
-    <string name="height">高さ%1$s</string>
+    <string name="image_too_large_preview">画像が大きすぎてプレビューできませんが、とりあえず保存してみます</string>
+    <string name="pick_image">画像を選択</string>
+    <string name="width">幅 %1$s</string>
+    <string name="height">高さ %1$s</string>
     <string name="quality">品質</string>
-    <string name="extension">エクステンション</string>
-    <string name="resize_type">リサイズタイプ</string>
-    <string name="explicit">明示的</string>
+    <string name="extension">ファイル拡張子</string>
+    <string name="resize_type">リサイズ方式</string>
+    <string name="explicit">絶対指定</string>
     <string name="flexible">フレキシブル</string>
     <string name="saved_to">%1$s フォルダに保存されます。</string>
     <string name="pick_image_alt">ピックイメージ</string>
@@ -42,11 +42,11 @@
     <string name="clear_exif_sub">画像のEXIFデータはすべてクリアされ、この操作は元に戻せません！</string>
     <string name="presets">プリセット</string>
     <string name="ratio">比率</string>
-    <string name="crop">作物</string>
+    <string name="crop">切り抜き</string>
     <string name="image_not_saved">セービング</string>
     <string name="image_not_saved_sub">保存していない変更はすべて失われます。</string>
     <string name="check_source_code">ソースコード</string>
-    <string name="single_resize">シングルリサイズ</string>
+    <string name="single_resize">1枚リサイズ</string>
     <string name="resize_single_image">与えられた画像1枚の仕様を変更する</string>
     <string name="pick_color">ピックカラー</string>
     <string name="pick_color_sub">画像から色を選び、コピー、共有する</string>
@@ -57,7 +57,7 @@
     <string name="crop_sub">画像を任意の範囲に切り取る</string>
     <string name="version">バージョン</string>
     <string name="resize_batch_image">指定した画像バッチの仕様を変更する</string>
-    <string name="batch_resize">バッチリリサイズ</string>
+    <string name="batch_resize">複数枚リサイズ</string>
     <string name="keep_exif">EXIFを保持する</string>
     <string name="change_preview">チェンジプレビュー</string>
     <string name="remove">削除</string>
@@ -74,7 +74,7 @@
     <string name="custom">カスタム</string>
     <string name="unspecified">不特定多数</string>
     <string name="device_storage">デバイスの保存</string>
-    <string name="by_bytes_resize">重量によるリサイズ</string>
+    <string name="by_bytes_resize">ファイルサイズ指定リサイズ</string>
     <string name="max_bytes">最大サイズ（KB</string>
     <string name="by_bytes_resize_sub">画像を指定されたサイズ（KB）に合わせてリサイズする</string>
     <string name="compare">比較する</string>
