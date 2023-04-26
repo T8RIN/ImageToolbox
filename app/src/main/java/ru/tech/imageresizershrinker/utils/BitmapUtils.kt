@@ -18,8 +18,12 @@ import ru.tech.imageresizershrinker.resize_screen.components.BitmapInfo
 import ru.tech.imageresizershrinker.resize_screen.components.compressFormat
 import ru.tech.imageresizershrinker.resize_screen.components.extension
 import ru.tech.imageresizershrinker.resize_screen.components.index
-import java.io.*
-import java.util.*
+import java.io.ByteArrayInputStream
+import java.io.ByteArrayOutputStream
+import java.io.File
+import java.io.FileDescriptor
+import java.io.FileOutputStream
+import java.util.Locale
 import kotlin.math.abs
 import kotlin.math.max
 import kotlin.math.min
@@ -50,6 +54,7 @@ object BitmapUtils {
                     false
                 )
             }
+
             1 -> {
                 kotlin.runCatching {
                     if (height >= width) {
@@ -63,6 +68,7 @@ object BitmapUtils {
                     }
                 }.getOrNull() ?: this
             }
+
             else -> {
                 resizeWithAspectRatio(width_, height_) ?: this
             }
@@ -367,6 +373,7 @@ object BitmapUtils {
                     height = bitmap.height().calc(percent),
                 )
             }
+
             100 -> {
                 currentInfo.copy(
                     quality = percent.toFloat(),
@@ -374,11 +381,13 @@ object BitmapUtils {
                     height = bitmap.height().toString()
                 )
             }
+
             in 90 downTo 70 -> currentInfo.copy(
                 width = bitmap.width().calc(percent),
                 height = bitmap.height().calc(percent),
                 quality = percent.toFloat()
             )
+
             in 60 downTo 10 -> currentInfo.run {
                 copy(
                     width = bitmap.width().calc(percent + 15),
@@ -386,6 +395,7 @@ object BitmapUtils {
                     quality = percent.toFloat()
                 )
             }
+
             else -> currentInfo
         }
     }

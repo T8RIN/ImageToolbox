@@ -24,7 +24,8 @@ import ru.tech.imageresizershrinker.utils.SavingFolder
 import java.io.ByteArrayInputStream
 import java.io.ByteArrayOutputStream
 import java.text.SimpleDateFormat
-import java.util.*
+import java.util.Date
+import java.util.Locale
 
 
 class CropViewModel : ViewModel() {

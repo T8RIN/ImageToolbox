@@ -656,7 +656,9 @@ fun BatchResizeScreen(
                             start = 20.dp,
                             end = 20.dp
                         ),
-                        modifier = Modifier.weight(1f).clipToBounds()
+                        modifier = Modifier
+                            .weight(1f)
+                            .clipToBounds()
                     ) {
                         item {
                             Column(

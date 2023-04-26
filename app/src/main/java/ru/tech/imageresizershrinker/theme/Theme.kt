@@ -6,7 +6,11 @@ import androidx.compose.ui.unit.Density
 import com.t8rin.dynamic.theme.DynamicTheme
 import com.t8rin.dynamic.theme.getAppColorTuple
 import com.t8rin.dynamic.theme.rememberDynamicThemeState
-import ru.tech.imageresizershrinker.main_screen.components.*
+import ru.tech.imageresizershrinker.main_screen.components.LocalAmoledMode
+import ru.tech.imageresizershrinker.main_screen.components.LocalAppColorTuple
+import ru.tech.imageresizershrinker.main_screen.components.LocalDynamicColors
+import ru.tech.imageresizershrinker.main_screen.components.LocalNightMode
+import ru.tech.imageresizershrinker.main_screen.components.isNightMode
 import kotlin.math.min
 
 @Composable

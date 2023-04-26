@@ -72,6 +72,7 @@ fun ToggleGroupButton(
                                             Modifier
                                                 .offset(0.dp, 0.dp)
                                                 .zIndex(if (selectedIndex == 0) 1f else 0f)
+
                                         else ->
                                             Modifier
                                                 .offset((-1 * index).dp, 0.dp)
@@ -85,12 +86,14 @@ fun ToggleGroupButton(
                                     bottomStart = cornerRadius,
                                     bottomEnd = 0.dp
                                 )
+
                                 items.size - 1 -> RoundedCornerShape(
                                     topStart = 0.dp,
                                     topEnd = cornerRadius,
                                     bottomStart = 0.dp,
                                     bottomEnd = cornerRadius
                                 )
+
                                 else -> RoundedCornerShape(0.dp)
                             },
                             border = BorderStroke(

@@ -6,7 +6,7 @@ import androidx.compose.runtime.Stable
 import kotlinx.parcelize.Parcelize
 import java.text.CharacterIterator
 import java.text.StringCharacterIterator
-import java.util.*
+import java.util.Locale
 
 @Stable
 @Parcelize

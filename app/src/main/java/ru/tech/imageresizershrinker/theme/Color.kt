@@ -154,7 +154,7 @@ fun String?.toColorTupleList(): List<ColorTuple> {
             )
         }
     }
-    if(list.isEmpty()) {
+    if (list.isEmpty()) {
         list.add(ColorTuple(md_theme_dark_primary))
     }
     return list.toHashSet().toList()

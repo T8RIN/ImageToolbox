@@ -1,10 +1,23 @@
 package ru.tech.imageresizershrinker.resize_screen.components
 
 import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.ripple.LocalRippleTheme
-import androidx.compose.material3.*
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedButton
+import androidx.compose.material3.ProvideTextStyle
+import androidx.compose.material3.Text
+import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Alignment
@@ -81,6 +94,7 @@ fun ExtensionGroup(
                                                 Modifier
                                                     .offset(0.dp, 0.dp)
                                                     .zIndex(if (mime == 0) 1f else 0f)
+
                                             else ->
                                                 Modifier
                                                     .offset((-1 * index).dp, 0.dp)
@@ -94,6 +108,7 @@ fun ExtensionGroup(
                                         bottomStart = 0.dp,
                                         bottomEnd = 0.dp
                                     )
+
                                     else -> RoundedCornerShape(
                                         topStart = 0.dp,
                                         topEnd = cornerRadius,
@@ -138,6 +153,7 @@ fun ExtensionGroup(
                                                 Modifier
                                                     .offset(0.dp, (-9).dp)
                                                     .zIndex(if (mime == 0) 2f else 1f)
+
                                             else ->
                                                 Modifier
                                                     .offset((-1 * i).dp, (-9).dp)
@@ -151,6 +167,7 @@ fun ExtensionGroup(
                                         bottomStart = cornerRadius,
                                         bottomEnd = 0.dp
                                     )
+
                                     else -> RoundedCornerShape(
                                         topStart = 0.dp,
                                         topEnd = 0.dp,
