@@ -13,7 +13,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.runBlocking
-import ru.tech.imageresizershrinker.theme.md_theme_dark_primary
+import ru.tech.imageresizershrinker.theme.defaultColorTuple
 import ru.tech.imageresizershrinker.utils.AMOLED_MODE
 import ru.tech.imageresizershrinker.utils.APP_COLOR
 import ru.tech.imageresizershrinker.utils.DYNAMIC_COLORS
@@ -34,7 +34,7 @@ class CrashViewModel @Inject constructor(
     private val _amoledMode = mutableStateOf(false)
     val amoledMode by _amoledMode
 
-    private val _appColorTuple = mutableStateOf(ColorTuple(md_theme_dark_primary))
+    private val _appColorTuple = mutableStateOf(defaultColorTuple)
     val appColorTuple by _appColorTuple
 
     init {
@@ -47,12 +47,12 @@ class CrashViewModel @Inject constructor(
                     val colorTuple = tuple.split("*")
                     ColorTuple(
                         primary = colorTuple.getOrNull(0)?.toIntOrNull()?.let { Color(it) }
-                            ?: md_theme_dark_primary,
+                            ?: defaultColorTuple.primary,
                         secondary = colorTuple.getOrNull(1)?.toIntOrNull()?.let { Color(it) },
                         tertiary = colorTuple.getOrNull(2)?.toIntOrNull()?.let { Color(it) },
                         surface = colorTuple.getOrNull(3)?.toIntOrNull()?.let { Color(it) },
                     )
-                }) ?: ColorTuple(md_theme_dark_primary)
+                }) ?: defaultColorTuple
             }
         }
         dataStore.data.onEach { prefs ->
@@ -63,12 +63,12 @@ class CrashViewModel @Inject constructor(
                 val colorTuple = tuple.split("*")
                 ColorTuple(
                     primary = colorTuple.getOrNull(0)?.toIntOrNull()?.let { Color(it) }
-                        ?: md_theme_dark_primary,
+                        ?: defaultColorTuple.primary,
                     secondary = colorTuple.getOrNull(1)?.toIntOrNull()?.let { Color(it) },
                     tertiary = colorTuple.getOrNull(2)?.toIntOrNull()?.let { Color(it) },
                     surface = colorTuple.getOrNull(3)?.toIntOrNull()?.let { Color(it) },
                 )
-            }) ?: ColorTuple(md_theme_dark_primary)
+            }) ?: defaultColorTuple
         }.launchIn(viewModelScope)
     }
 }

@@ -155,7 +155,7 @@ fun String?.toColorTupleList(): List<ColorTuple> {
         }
     }
     if (list.isEmpty()) {
-        list.add(ColorTuple(md_theme_dark_primary))
+        list.add(defaultColorTuple)
     }
     return list.toHashSet().toList()
 }
@@ -164,5 +164,7 @@ fun List<ColorTuple>.asString(): String =
     joinToString(separator = "*") {
         "${it.primary.toArgb()}/${it.secondary?.toArgb()}/${it.tertiary?.toArgb()}/${it.surface?.toArgb()}"
     }
+
+val defaultColorTuple = ColorTuple(md_theme_dark_primary)
 
 fun Int.toColor() = Color(this)

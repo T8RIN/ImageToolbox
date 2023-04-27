@@ -26,7 +26,7 @@ import org.w3c.dom.Element
 import ru.tech.imageresizershrinker.BuildConfig
 import ru.tech.imageresizershrinker.main_screen.components.Screen
 import ru.tech.imageresizershrinker.theme.asString
-import ru.tech.imageresizershrinker.theme.md_theme_dark_primary
+import ru.tech.imageresizershrinker.theme.defaultColorTuple
 import ru.tech.imageresizershrinker.theme.toColorTupleList
 import ru.tech.imageresizershrinker.utils.AMOLED_MODE
 import ru.tech.imageresizershrinker.utils.APP_COLOR
@@ -63,9 +63,7 @@ class MainViewModel @Inject constructor(
     private val _amoledMode = mutableStateOf(false)
     val amoledMode by _amoledMode
 
-    private val _appColorTuple = mutableStateOf(
-        ColorTuple(md_theme_dark_primary)
-    )
+    private val _appColorTuple = mutableStateOf(defaultColorTuple)
     val appColorTuple by _appColorTuple
 
     private val _colorTupleList = mutableStateOf(emptyList<ColorTuple>())
@@ -116,12 +114,12 @@ class MainViewModel @Inject constructor(
                     val colorTuple = tuple.split("*")
                     ColorTuple(
                         primary = colorTuple.getOrNull(0)?.toIntOrNull()?.let { Color(it) }
-                            ?: md_theme_dark_primary,
+                            ?: defaultColorTuple.primary,
                         secondary = colorTuple.getOrNull(1)?.toIntOrNull()?.let { Color(it) },
                         tertiary = colorTuple.getOrNull(2)?.toIntOrNull()?.let { Color(it) },
                         surface = colorTuple.getOrNull(3)?.toIntOrNull()?.let { Color(it) },
                     )
-                }) ?: ColorTuple(md_theme_dark_primary)
+                }) ?: defaultColorTuple
                 _borderWidth.value = prefs[BORDER_WIDTH]?.toFloatOrNull() ?: 1f
             }
         }
@@ -138,12 +136,12 @@ class MainViewModel @Inject constructor(
                 val colorTuple = tuple.split("*")
                 ColorTuple(
                     primary = colorTuple.getOrNull(0)?.toIntOrNull()?.let { Color(it) }
-                        ?: md_theme_dark_primary,
+                        ?: defaultColorTuple.primary,
                     secondary = colorTuple.getOrNull(1)?.toIntOrNull()?.let { Color(it) },
                     tertiary = colorTuple.getOrNull(2)?.toIntOrNull()?.let { Color(it) },
                     surface = colorTuple.getOrNull(3)?.toIntOrNull()?.let { Color(it) },
                 )
-            }) ?: ColorTuple(md_theme_dark_primary)
+            }) ?: defaultColorTuple
             _borderWidth.value = prefs[BORDER_WIDTH]?.toFloatOrNull() ?: 1f
             _localPresets.value = ((prefs[PRESETS]?.split("*")?.map {
                 it.toInt()

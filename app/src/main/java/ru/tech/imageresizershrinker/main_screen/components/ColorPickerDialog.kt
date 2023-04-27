@@ -37,6 +37,7 @@ import androidx.compose.material.icons.outlined.Palette
 import androidx.compose.material.icons.rounded.AddCircleOutline
 import androidx.compose.material.icons.rounded.ContentCopy
 import androidx.compose.material.icons.rounded.ContentPaste
+import androidx.compose.material.icons.rounded.Delete
 import androidx.compose.material.icons.rounded.Done
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.ButtonDefaults
@@ -86,9 +87,12 @@ import com.t8rin.dynamic.theme.getAppColorTuple
 import com.t8rin.dynamic.theme.rememberColorScheme
 import kotlinx.coroutines.delay
 import ru.tech.imageresizershrinker.R
+import ru.tech.imageresizershrinker.theme.CreateAlt
 import ru.tech.imageresizershrinker.theme.PaletteSwatch
+import ru.tech.imageresizershrinker.theme.defaultColorTuple
 import ru.tech.imageresizershrinker.theme.inverse
 import ru.tech.imageresizershrinker.theme.outlineVariant
+import ru.tech.imageresizershrinker.utils.ListUtils.nearestFor
 
 @ExperimentalMaterial3Api
 @Composable
@@ -268,7 +272,7 @@ fun ColorPickerDialog(
 
 @OptIn(
     ExperimentalLayoutApi::class, ExperimentalAnimationApi::class,
-    ExperimentalFoundationApi::class
+    ExperimentalFoundationApi::class, ExperimentalMaterial3Api::class
 )
 @Composable
 fun AvailableColorTuplesDialog(
@@ -281,7 +285,9 @@ fun AvailableColorTuplesDialog(
     onUpdateColorTuples: (List<ColorTuple>) -> Unit,
     onDismissRequest: () -> Unit
 ) {
-    var showColorPicker by showColorPicker
+    var showColorPicker1 by showColorPicker
+    var showEditColorPicker by rememberSaveable { mutableStateOf(false) }
+
     AlertDialog(
         properties = DialogProperties(usePlatformDefaultWidth = false),
         modifier = modifier,
@@ -294,7 +300,11 @@ fun AvailableColorTuplesDialog(
         },
         text = {
             Box(Modifier.fillMaxWidth(), contentAlignment = Alignment.Center) {
-                Divider(Modifier.align(Alignment.TopCenter).zIndex(100f))
+                Divider(
+                    Modifier
+                        .align(Alignment.TopCenter)
+                        .zIndex(100f)
+                )
                 FlowRow(
                     verticalAlignment = Alignment.CenterVertically,
                     modifier = Modifier
@@ -318,15 +328,12 @@ fun AvailableColorTuplesDialog(
                                     onClick = {
                                         onPickTheme(colorTuple)
                                     },
-                                    onLongClick = {
-                                        onUpdateColorTuples(colorTupleList - colorTuple)
-                                    }
                                 ),
                             backgroundColor = rememberColorScheme(
                                 LocalNightMode.current.isNightMode(),
                                 LocalAmoledMode.current,
                                 colorTuple
-                            ).surfaceVariant.copy(alpha = 0.5f)
+                            ).surfaceVariant.copy(alpha = 0.8f)
                         ) {
                             AnimatedContent(
                                 targetState = colorTuple == currentColorTuple
@@ -365,9 +372,9 @@ fun AvailableColorTuplesDialog(
                     }
                     ColorTupleItem(
                         colorTuple = ColorTuple(
-                            primary = MaterialTheme.colorScheme.secondaryContainer,
-                            secondary = MaterialTheme.colorScheme.secondaryContainer,
-                            tertiary = MaterialTheme.colorScheme.secondaryContainer
+                            primary = MaterialTheme.colorScheme.secondary,
+                            secondary = MaterialTheme.colorScheme.secondary,
+                            tertiary = MaterialTheme.colorScheme.secondary
                         ),
                         modifier = Modifier
                             .padding(2.dp)
@@ -381,27 +388,70 @@ fun AvailableColorTuplesDialog(
                             )
                             .clip(MaterialTheme.shapes.medium)
                             .clickable {
-                                showColorPicker = true
+                                showColorPicker1 = true
                             },
                         backgroundColor = MaterialTheme
                             .colorScheme
                             .surfaceVariant
-                            .copy(alpha = 0.5f)
                     ) {
                         Icon(
                             imageVector = Icons.Rounded.AddCircleOutline,
                             contentDescription = null,
-                            tint = MaterialTheme.colorScheme.onPrimaryContainer,
+                            tint = MaterialTheme.colorScheme.onSecondary,
                             modifier = Modifier.size(24.dp)
                         )
                     }
                 }
-                Divider(Modifier.align(Alignment.BottomCenter).zIndex(100f))
+                Divider(
+                    Modifier
+                        .align(Alignment.BottomCenter)
+                        .zIndex(100f)
+                )
             }
         },
         confirmButton = {
             OutlinedButton(
                 onClick = onDismissRequest,
+                colors = ButtonDefaults.outlinedButtonColors(
+                    containerColor = MaterialTheme.colorScheme.primary,
+                    contentColor = MaterialTheme.colorScheme.onPrimary,
+                ),
+                border = BorderStroke(
+                    LocalBorderWidth.current,
+                    MaterialTheme.colorScheme.outlineVariant(
+                        onTopOf = MaterialTheme.colorScheme.primary
+                    )
+                ),
+            ) {
+                Text(stringResource(R.string.close))
+            }
+        },
+        dismissButton = {
+            OutlinedButton(
+                onClick = {
+                    if ((colorTupleList - currentColorTuple).isEmpty()) onPickTheme(
+                        defaultColorTuple
+                    )
+                    colorTupleList.nearestFor(currentColorTuple)?.let { onPickTheme(it) }
+                    onUpdateColorTuples(colorTupleList - currentColorTuple)
+                },
+                colors = ButtonDefaults.outlinedButtonColors(
+                    containerColor = MaterialTheme.colorScheme.errorContainer,
+                    contentColor = MaterialTheme.colorScheme.onErrorContainer,
+                ),
+                border = BorderStroke(
+                    LocalBorderWidth.current,
+                    MaterialTheme.colorScheme.outlineVariant(
+                        onTopOf = MaterialTheme.colorScheme.errorContainer
+                    )
+                ),
+            ) {
+                Icon(Icons.Rounded.Delete, null)
+            }
+            OutlinedButton(
+                onClick = {
+                    showEditColorPicker = true
+                },
                 colors = ButtonDefaults.outlinedButtonColors(
                     containerColor = MaterialTheme.colorScheme.secondaryContainer,
                     contentColor = MaterialTheme.colorScheme.onSecondaryContainer,
@@ -413,11 +463,22 @@ fun AvailableColorTuplesDialog(
                     )
                 ),
             ) {
-                Text(stringResource(R.string.close))
+                Icon(Icons.Rounded.CreateAlt, null)
             }
         }
     )
-    if (showColorPicker) colorPicker(onUpdateColorTuples)
+    if (showEditColorPicker) {
+        ColorPickerDialog(
+            modifier = Modifier.alertDialog(),
+            colorTuple = currentColorTuple,
+            onDismissRequest = { showEditColorPicker = false },
+            onColorChange = {
+                onUpdateColorTuples(colorTupleList + it - currentColorTuple)
+                onPickTheme(it)
+            }
+        )
+    }
+    if (showColorPicker1) colorPicker(onUpdateColorTuples)
 }
 
 @Composable
