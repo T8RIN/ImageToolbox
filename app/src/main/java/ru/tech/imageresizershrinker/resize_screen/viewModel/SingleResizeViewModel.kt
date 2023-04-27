@@ -119,10 +119,18 @@ class SingleResizeViewModel : ViewModel() {
                         val savingFolder = getSavingFolder(name, ext)
 
                         val fos = savingFolder.outputStream
-                        localBitmap.compress(mime.extension.compressFormat, quality.toInt().coerceIn(0, 100), fos)
+                        localBitmap.compress(
+                            mime.extension.compressFormat,
+                            quality.toInt().coerceIn(0, 100),
+                            fos
+                        )
 
                         val out = ByteArrayOutputStream()
-                        localBitmap.compress(mime.extension.compressFormat, quality.toInt().coerceIn(0, 100), out)
+                        localBitmap.compress(
+                            mime.extension.compressFormat,
+                            quality.toInt().coerceIn(0, 100),
+                            out
+                        )
                         val decoded =
                             BitmapFactory.decodeStream(ByteArrayInputStream(out.toByteArray()))
 
