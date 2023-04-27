@@ -303,7 +303,7 @@ class BatchResizeViewModel : ViewModel() {
 
                             localBitmap.compress(
                                 mime.extension.compressFormat,
-                                quality.toInt(),
+                                quality.toInt().coerceIn(0, 100),
                                 fos
                             )
 

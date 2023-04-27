@@ -1054,7 +1054,7 @@ fun MainScreen(
         val showColorPicker = rememberSaveable { mutableStateOf(false) }
         AvailableColorTuplesDialog(
             modifier = Modifier
-                .widthIn(max = 320.dp)
+                .width(352.dp)
                 .systemBarsPadding()
                 .padding(16.dp)
                 .alertDialog(),

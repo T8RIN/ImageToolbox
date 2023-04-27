@@ -8,7 +8,6 @@ import androidx.activity.viewModels
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.core.animateDpAsState
-import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.slideInHorizontally
@@ -21,6 +20,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -29,9 +29,11 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.DoorBack
+import androidx.compose.material.icons.outlined.Palette
 import androidx.compose.material.icons.rounded.AddCircle
 import androidx.compose.material.icons.rounded.Download
 import androidx.compose.material.icons.rounded.ErrorOutline
@@ -40,14 +42,13 @@ import androidx.compose.material.icons.rounded.Storage
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Divider
-import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedIconButton
-import androidx.compose.material3.Slider
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.CompositionLocalProvider
@@ -61,12 +62,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.DialogProperties
+import androidx.core.text.isDigitsOnly
 import com.t8rin.dynamic.theme.LocalDynamicThemeState
 import com.t8rin.dynamic.theme.getAppColorTuple
 import dagger.hilt.android.AndroidEntryPoint
@@ -628,42 +628,54 @@ class MainActivity : M3Activity() {
                                             ) {
                                                 Icon(Icons.Rounded.AddCircle, null)
                                             }
-                                            MaterialTheme(
-                                                shapes = MaterialTheme.shapes.copy(
-                                                    extraSmall = MaterialTheme.shapes.extraLarge
-                                                )
-                                            ) {
-                                                DropdownMenu(
-                                                    modifier = Modifier
-                                                        .width(240.dp)
-                                                        .alertDialog(),
-                                                    expanded = expanded,
+                                            if (expanded) {
+                                                var value by remember { mutableStateOf("50") }
+                                                AlertDialog(
+                                                    modifier = Modifier.alertDialog(),
                                                     onDismissRequest = { expanded = false },
-                                                    offset = DpOffset(6.dp, 0.dp)
-                                                ) {
-                                                    var value by remember { mutableStateOf(50f) }
-                                                    Column(
-                                                        horizontalAlignment = Alignment.CenterHorizontally,
-                                                        verticalArrangement = Arrangement.Center
-                                                    ) {
-                                                        Spacer(Modifier.height(12.dp))
-                                                        Text(
-                                                            "${value.toInt()}%",
-                                                            fontSize = 16.sp,
-                                                            fontWeight = FontWeight.Bold
-                                                        )
-                                                        Slider(
-                                                            modifier = Modifier
-                                                                .fillMaxWidth()
-                                                                .padding(horizontal = 16.dp),
-                                                            value = animateFloatAsState(targetValue = value).value,
-                                                            onValueChange = { value = it },
-                                                            steps = 490,
-                                                            valueRange = 10f..500f
-                                                        )
+                                                    icon = {
+                                                        Icon(Icons.Outlined.Palette, null)
+                                                    },
+                                                    title = {
+                                                        Text(stringResource(R.string.presets))
+                                                    },
+                                                    text = {
+                                                        Row(
+                                                            modifier = Modifier.fillMaxWidth(),
+                                                            verticalAlignment = Alignment.CenterVertically,
+                                                            horizontalArrangement = Arrangement.Center
+                                                        ) {
+                                                            OutlinedTextField(
+                                                                shape = RoundedCornerShape(16.dp),
+                                                                value = value,
+                                                                textStyle = MaterialTheme.typography.titleMedium.copy(
+                                                                    textAlign = TextAlign.Center
+                                                                ),
+                                                                maxLines = 1,
+                                                                keyboardOptions = KeyboardOptions(
+                                                                    keyboardType = KeyboardType.Number
+                                                                ),
+                                                                onValueChange = {
+                                                                    if (it.isDigitsOnly()) {
+                                                                        value = it
+                                                                    }
+                                                                }
+                                                            )
+                                                            Text(
+                                                                text = "%",
+                                                                style = MaterialTheme.typography.titleMedium.copy(
+                                                                    textAlign = TextAlign.Center
+                                                                )
+                                                            )
+                                                        }
+                                                    },
+                                                    confirmButton = {
                                                         OutlinedButton(
                                                             onClick = {
-                                                                viewModel.updatePresets(list + value.toInt())
+                                                                viewModel.updatePresets(
+                                                                    list + (value.toIntOrNull()
+                                                                        ?: 0).coerceIn(10..500)
+                                                                )
                                                                 expanded = false
                                                             },
                                                             colors = ButtonDefaults.outlinedButtonColors(
@@ -682,9 +694,8 @@ class MainActivity : M3Activity() {
                                                         ) {
                                                             Text(stringResource(R.string.add))
                                                         }
-                                                        Spacer(Modifier.height(8.dp))
                                                     }
-                                                }
+                                                )
                                             }
                                         }
                                     }
