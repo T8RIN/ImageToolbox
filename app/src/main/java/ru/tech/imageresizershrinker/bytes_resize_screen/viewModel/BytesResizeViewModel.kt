@@ -142,17 +142,36 @@ class BytesResizeViewModel : ViewModel() {
             withContext(Dispatchers.IO) {
                 delay(400)
                 _isLoading.value = true
-                _previewBitmap.value = _bitmap.value
-                    ?.previewBitmap(
-                        quality = 100f,
-                        widthValue = null,
-                        heightValue = null,
-                        mime = mime,
-                        resize = 0,
-                        rotation = rotation.toFloat(),
-                        isFlipped = isFlipped,
-                        onByteCount = {}
-                    )
+                var bmp: Bitmap?
+                withContext(Dispatchers.IO) {
+                    val bitmap = _bitmap.value
+                        ?.previewBitmap(
+                            quality = 100f,
+                            widthValue = null,
+                            heightValue = null,
+                            mime = mime,
+                            resize = 0,
+                            rotation = rotation.toFloat(),
+                            isFlipped = isFlipped,
+                            onByteCount = {}
+                        )
+                    bmp = if (bitmap?.canShow() == false) {
+                        bitmap.resizeBitmap(
+                            height_ = (bitmap.height * 0.9f).toInt(),
+                            width_ = (bitmap.width * 0.9f).toInt(),
+                            resize = 1
+                        )
+                    } else bitmap
+
+                    while (bmp?.canShow() == false) {
+                        bmp = bmp?.resizeBitmap(
+                            height_ = (bmp!!.height * 0.9f).toInt(),
+                            width_ = (bmp!!.width * 0.9f).toInt(),
+                            resize = 1
+                        )
+                    }
+                }
+                _previewBitmap.value = bmp
                 _isLoading.value = false
             }
         }
