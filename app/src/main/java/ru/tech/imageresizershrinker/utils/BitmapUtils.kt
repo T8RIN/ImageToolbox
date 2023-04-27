@@ -26,7 +26,6 @@ import java.io.FileOutputStream
 import java.util.Locale
 import kotlin.math.abs
 import kotlin.math.max
-import kotlin.math.min
 
 
 object BitmapUtils {
@@ -187,7 +186,7 @@ object BitmapUtils {
         rotate(rotation)
             .resizeBitmap(tWidth, tHeight, resize)
             .flip(isFlipped)
-            .compress(mime.extension.compressFormat, min(quality, 100f).toInt(), out)
+            .compress(mime.extension.compressFormat, quality.toInt().coerceIn(0, 100), out)
         val b = out.toByteArray()
         onByteCount(b.size)
         val decoded = BitmapFactory.decodeStream(ByteArrayInputStream(b))
