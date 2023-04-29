@@ -129,6 +129,11 @@ And __[follow](https://github.com/t8rin)__ me for my next creations! 🤩
 # Star History
 [![Star History Chart](https://api.star-history.com/svg?repos=t8rin/ImageResizer&type=Date)](https://star-history.com/#t8rin/ImageResizer&Date)
 
+# Contributors
+<a href="https://github.com/t8rin/imageresizer/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=t8rin/Imageresizer" />
+</a>
+
 # License
 ```xml
 Designed and developed by 2023 T8RIN
