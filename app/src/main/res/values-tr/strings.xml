@@ -16,7 +16,7 @@
     <string name="pick_image_alt">Resim Seç</string>
     <string name="app_closing_sub">Uygulamayı gerçekten kapatmak istiyor musunuz\?</string>
     <string name="app_closing">Uygulama kapatma</string>
-    <string name="stay">Kalmak</string>
+    <string name="stay">Kal</string>
     <string name="close">Kapat</string>
     <string name="reset_image">Görüntüyü sıfırla</string>
     <string name="reset_image_sub">Görüntü değişiklikleri başlangıç değerlerine geri döndürülecektir</string>
@@ -31,7 +31,7 @@
     <string name="cancel">İptal</string>
     <string name="ratio">Oran</string>
     <string name="crop">Kırp</string>
-    <string name="image_not_saved">Küçült</string>
+    <string name="image_not_saved">Uyarı</string>
     <string name="check_source_code">Kaynak kodu</string>
     <string name="pick_color">Renk seç</string>
     <string name="pick_color_sub">Görüntüden renk seçin, kopyalayın veya paylaşın</string>
@@ -114,4 +114,12 @@
     <string name="tertiary">Üçüncül</string>
     <string name="secondary">İkincil</string>
     <string name="border_thickness">Kenar kalınlığı</string>
+    <string name="add">Ekle</string>
+    <string name="values">Değerler</string>
+    <string name="permission">İzin</string>
+    <string name="grant">Kabul et</string>
+    <string name="permission_sub">Uygulamanın resimleri kaydetmek için depolama alanınıza erişim izni gerekiyor, bu olmadan çalışamaz, lütfen bir sonraki izin isteğini kabul edin.</string>
+    <string name="grant_permission_manual">Uygulamanın çalışması için izne ihtiyacı var. Lütfen manuel olarak izini kabul ediniz.</string>
+    <string name="external_storage">Harici Depolama</string>
+    <string name="monet_colors">Monet renkleri</string>
 </resources>
