@@ -32,6 +32,11 @@ height="80">](https://play.google.com/store/apps/details?id=ru.tech.imageresizer
 [<img src="https://user-images.githubusercontent.com/69304392/148696068-0cfea65d-b18f-4685-82b5-329a330b1c0d.png"
       alt='Get it on GitHub'
       height="80">](https://github.com/t8rin/imageresizer/releases/latest)
+
+
+# Buy me a coffe
+This application is completely free, but if you want to support the project development, you can go to the [QIWI](https://qiwi.com/n/T8RIN) page :heart:
+
 </div>
 
 # Functions
@@ -128,6 +133,11 @@ And __[follow](https://github.com/t8rin)__ me for my next creations! 🤩
 
 # Star History
 [![Star History Chart](https://api.star-history.com/svg?repos=t8rin/ImageResizer&type=Date)](https://star-history.com/#t8rin/ImageResizer&Date)
+
+# Contributors
+<a href="https://github.com/t8rin/imageresizer/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=t8rin/Imageresizer" />
+</a>
 
 # License
 ```xml
