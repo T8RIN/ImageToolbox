@@ -114,4 +114,14 @@
     <string name="tertiary">Terțiar</string>
     <string name="secondary">Secundar</string>
     <string name="border_thickness">Grosimea marginii</string>
+    <string name="buy_me_a_coffee_sub">Această aplicație este complet gratuit, dar dacă vrei să susții dezvoltarea proiectului, poți să dai click aici</string>
+    <string name="buy_me_a_coffee">Cumpără-mi o cafea</string>
+    <string name="values">Valori</string>
+    <string name="add">Adaugă</string>
+    <string name="permission">Permisiune</string>
+    <string name="grant">Acordă</string>
+    <string name="permission_sub">Aplicația are nevoie de acces la stocarea ta pentru a salva imaginile, este necesar, fără el nu va funcționa, așa că acordă permisiunea în dialogul următor</string>
+    <string name="grant_permission_manual">Aplicația necesită această permisiune pentru a funcționa, acordă-l manual</string>
+    <string name="external_storage">Stocare externă</string>
+    <string name="monet_colors">Culori monet</string>
 </resources>
