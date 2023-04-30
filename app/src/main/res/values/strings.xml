@@ -134,4 +134,6 @@
     <string name="external_storage">External storage</string>
     <string name="monet_colors">Monet colors</string>
     <string name="hex" translatable="false">HEX</string>
+    <string name="buy_me_a_coffee">Buy me a coffee</string>
+    <string name="buy_me_a_coffee_sub">This application is completely free, but if you want to support the project development, you can click here</string>
 </resources>

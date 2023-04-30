@@ -48,6 +48,7 @@ import androidx.compose.material.icons.rounded.AlternateEmail
 import androidx.compose.material.icons.rounded.BugReport
 import androidx.compose.material.icons.rounded.Check
 import androidx.compose.material.icons.rounded.Close
+import androidx.compose.material.icons.rounded.Coffee
 import androidx.compose.material.icons.rounded.Download
 import androidx.compose.material.icons.rounded.FileDownloadOff
 import androidx.compose.material.icons.rounded.Folder
@@ -132,6 +133,7 @@ import ru.tech.imageresizershrinker.utils.APP_LINK
 import ru.tech.imageresizershrinker.utils.AUTHOR_AVATAR
 import ru.tech.imageresizershrinker.utils.AUTHOR_LINK
 import ru.tech.imageresizershrinker.utils.ContextUtils.verifyInstallerId
+import ru.tech.imageresizershrinker.utils.DONATE
 import ru.tech.imageresizershrinker.utils.ISSUE_TRACKER
 import ru.tech.imageresizershrinker.utils.LocalWindowSizeClass
 import ru.tech.imageresizershrinker.utils.WEBLATE_LINK
@@ -591,6 +593,21 @@ fun MainScreen(
                                                     Intent(
                                                         Intent.ACTION_VIEW,
                                                         Uri.parse(ISSUE_TRACKER)
+                                                    )
+                                                )
+                                            }
+                                        )
+                                        PreferenceRow(
+                                            title = stringResource(R.string.buy_me_a_coffee),
+                                            subtitle = stringResource(R.string.buy_me_a_coffee_sub),
+                                            endContent = {
+                                                Icon(Icons.Rounded.Coffee, null)
+                                            },
+                                            onClick = {
+                                                context.startActivity(
+                                                    Intent(
+                                                        Intent.ACTION_VIEW,
+                                                        Uri.parse(DONATE)
                                                     )
                                                 )
                                             }
