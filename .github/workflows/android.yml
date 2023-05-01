@@ -33,6 +33,10 @@ jobs:
         env:
           # override default build-tools version (29.0.3) -- optional
           BUILD_TOOLS_VERSION: "30.0.2"
+      
+      - uses: montudor/action-zip@v1
+        with:
+          args: unzip -qq steps.sign_app.outputs.signedReleaseFile.zip -d steps.sign_app.outputs.signedReleaseFile
 
       - uses: actions/upload-artifact@v3
         with:
