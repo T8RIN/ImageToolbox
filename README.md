@@ -34,7 +34,7 @@ height="80">](https://play.google.com/store/apps/details?id=ru.tech.imageresizer
       height="80">](https://github.com/t8rin/imageresizer/releases/latest)
 
 
-# Buy me a coffe
+# Buy me a coffee
 This application is completely free, but if you want to support the project development, you can go to the [QIWI](https://qiwi.com/n/T8RIN) page :heart:
 
 </div>
