@@ -123,5 +123,5 @@
     <string name="permission_sub">앱이 이미지를 저장하려면 저장소에 액세스해야하며, 그렇지 않으면 작동 할 수 없으므로 다음 대화 상자에서 권한을 부여하십시오.</string>
     <string name="buy_me_a_coffee">개발자 커피 사주기</string>
     <string name="buy_me_a_coffee_sub">이 애플리케이션은 완전 무료이지만 프로젝트 개발을 지원하려면 여기를 클릭하세요.</string>
-    <string name="image_too_large_preview">이미지가 너무 커서 미리 볼 수 없지만 어쨌든 저장하려고 시도합니다.</string>
+    <string name="image_too_large_preview">이미지가 너무 커서 미리 볼 수 없지만, 일단 저장해 보겠습니다</string>
 </resources>
