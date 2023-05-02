@@ -36,7 +36,9 @@ android {
             "tt",
             "uk",
             "zh",
-            "vi"
+            "vi",
+            "ko",
+            "kk"
         )
     }
 
