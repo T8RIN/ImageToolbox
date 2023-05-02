@@ -29,14 +29,13 @@ android {
             "ja",
             "nn",
             "pl",
-            "pt-BR",
+            "pt",
             "ro",
             "ru",
             "tr",
             "tt",
             "uk",
-            "zh-CN",
-            "zh-TW",
+            "zh",
             "vi"
         )
     }
