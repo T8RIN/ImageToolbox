@@ -1,0 +1,138 @@
+<resources>
+    <string name="app_name" translatable="false">Image Resizer</string>
+    <string name="smth_went_wrong">Iets het verkeerd geloop: %1$s</string>
+    <string name="size">Grootte %1$s</string>
+    <string name="loading">Laai tans …</string>
+    <string name="image_too_large_preview">Prent is te groot om te voorbeskou, maar dit sal in elk geval probeer word om dit te stoor</string>
+    <string name="pick_image">Kies prent om te begin</string>
+    <string name="width">Breedte %1$s</string>
+    <string name="height">Hoogte %1$s</string>
+    <string name="quality">Gehalte</string>
+    <string name="extension">Uitbreiding</string>
+    <string name="resize_type">Verander grootte tipe</string>
+    <string name="explicit">Eksplisiet</string>
+    <string name="flexible">Buigsaam</string>
+    <string name="saved_to">Gestoor in %1$s vouer</string>
+    <string name="pick_image_alt">Kies prent</string>
+    <string name="app_closing_sub">Wil jy regtig die toepassing toemaak\?</string>
+    <string name="app_closing">Toepassing sluit</string>
+    <string name="stay">Bly</string>
+    <string name="close">Naby</string>
+    <string name="reset_image">Stel prent terug</string>
+    <string name="reset_image_sub">Prentveranderings sal terugrol na beginwaardes</string>
+    <string name="values_reset">Waardes behoorlik teruggestel</string>
+    <string name="reset">Stel terug</string>
+    <string name="something_went_wrong">Iets het verkeerd geloop</string>
+    <string name="restart_app">Herbegin app</string>
+    <string name="copied">Gekopieer na knipbord</string>
+    <string name="exception">Uitsondering</string>
+    <string name="edit_exif">Wysig EXIF</string>
+    <string name="ok">Goed</string>
+    <string name="no_exif">Geen EXIF-data gevind nie</string>
+    <string name="add_tag">Voeg merker by</string>
+    <string name="might_be_error_with_exif">Indien nie JPEG-kompressieformaat gekies is nie, kan EXIF-metadata verkeerd in ander toepassings gewys word</string>
+    <string name="exif" translatable="false">EXIF</string>
+    <string name="save">Stoor</string>
+    <string name="clear">Duidelik</string>
+    <string name="clear_exif">Vee EXIF ​​uit</string>
+    <string name="cancel">Kanselleer</string>
+    <string name="clear_exif_sub">Alle EXIF-data van die beeld sal uitgevee word, hierdie aksie kan nie ongedaan gemaak word nie!</string>
+    <string name="presets">Voorinstellings</string>
+    <string name="ratio">Verhouding</string>
+    <string name="crop">Gewas</string>
+    <string name="image_not_saved">Stoor</string>
+    <string name="image_not_saved_sub">Alle ongestoorde veranderinge sal verlore gaan as jy nou weggaan</string>
+    <string name="check_source_code">Bronkode</string>
+    <string name="check_source_code_sub">Kry die jongste opdaterings, bespreek kwessies en meer</string>
+    <string name="single_resize">Enkele grootte verander</string>
+    <string name="resize_single_image">Verander spesifikasies van enkele gegewe beeld</string>
+    <string name="pick_color">Kies kleur</string>
+    <string name="pick_color_sub">Kies kleur uit prent, kopieer of deel</string>
+    <string name="image">Beeld</string>
+    <string name="color">Kleur</string>
+    <string name="color_copied">Kleur gekopieer</string>
+    <string name="crop_sub">Sny prent tot enige grense</string>
+    <string name="version">Weergawe</string>
+    <string name="resize_batch_image">Verander spesifikasies van gegewe beeldgroepe</string>
+    <string name="batch_resize">Batch verander grootte</string>
+    <string name="keep_exif">Hou EXIF</string>
+    <string name="images">Prente: %d</string>
+    <string name="change_preview">Verander voorskou</string>
+    <string name="remove">Verwyder</string>
+    <string name="palette_sub">Genereer kleurpaletmonster van gegewe prent</string>
+    <string name="generate_palette">Genereer palet</string>
+    <string name="palette">Palet</string>
+    <string name="update">Opdateer</string>
+    <string name="new_version">Nuwe weergawe %1$s</string>
+    <string name="unsupported_type">Ongesteunde tipe: %1$s</string>
+    <string name="no_palette">Kan nie palet vir gegewe prent genereer nie</string>
+    <string name="original">Oorspronklik</string>
+    <string name="folder">Uitvoergids</string>
+    <string name="default_folder" translatable="false">DCIM/ResizedImages</string>
+    <string name="def">Verstek</string>
+    <string name="custom">Pasgemaak</string>
+    <string name="unspecified">Ongespesifiseer</string>
+    <string name="device_storage">Toestelberging</string>
+    <string name="by_bytes_resize">Verander grootte volgens gewig</string>
+    <string name="max_bytes">Maksimum grootte in KB</string>
+    <string name="by_bytes_resize_sub">Verander die grootte van \'n prent volgens die gegewe grootte in KB</string>
+    <string name="compare">Vergelyk</string>
+    <string name="compare_sub">Vergelyk twee gegewe beelde</string>
+    <string name="pick_two_images">Kies twee beelde om te begin</string>
+    <string name="pick_images">Kies beelde</string>
+    <string name="settings">Instellings</string>
+    <string name="night_mode">Nagmodus</string>
+    <string name="dark">Donker</string>
+    <string name="light">Lig</string>
+    <string name="system">Stelsel</string>
+    <string name="dynamic_colors">Dinamiese kleure</string>
+    <string name="customization">Pasmaak</string>
+    <string name="allow_image_monet">Laat beeldgeld toe</string>
+    <string name="allow_image_monet_sub">Indien geaktiveer, wanneer jy \'n prent kies om te redigeer, sal toepassingskleure na hierdie prent aangeneem word</string>
+    <string name="language">Taal</string>
+    <string name="amoled_mode">Amoled-modus</string>
+    <string name="amoled_mode_sub">As oppervlakke geaktiveer is, sal kleur in nagmodus op absoluut donker gestel word</string>
+    <string name="color_scheme">Kleurskema</string>
+    <string name="color_red">Rooi</string>
+    <string name="color_green">Groen</string>
+    <string name="color_blue">Blou</string>
+    <string name="clipboard_paste_invalid_color_code">Plak geldige aRGB-kode.</string>
+    <string name="clipboard_paste_invalid_empty">Niks om te plak nie</string>
+    <string name="argb" translatable="false">ARGB</string>
+    <string name="cannot_change_palette_while_dynamic_colors_applied">Kan nie programkleurskema verander terwyl dinamiese kleure aangeskakel is nie</string>
+    <string name="pick_accent_color">App-tema sal gebaseer wees op kleur, wat jy sal kies</string>
+    <string name="about_app">Oor app</string>
+    <string name="app_developer" translatable="false">Malik Mukhametzyanov</string>
+    <string name="app_developer_nick" translatable="false">T8RIN</string>
+    <string name="no_updates">Geen opdaterings gevind nie</string>
+    <string name="issue_tracker">Uitgawe spoorsnyer</string>
+    <string name="issue_tracker_sub">Stuur foutverslae en kenmerkversoeke hierheen</string>
+    <string name="help_translate">Help vertaal</string>
+    <string name="help_translate_sub">Maak vertaalfoute reg of lokaliseer projek na \'n ander tale</string>
+    <string name="nothing_found_by_search">Niks gevind deur jou navraag nie</string>
+    <!--    <string name="processing">Processing</string>-->
+    <string name="search_here">Soek hier</string>
+    <string name="dynamic_colors_sub">As dit geaktiveer is, sal toepassingskleure na muurpapierkleure aangeneem word</string>
+    <string name="failed_to_save">Kon nie %d prent(e) stoor nie</string>
+    <string name="png_warning_bytes">Stoor in PNG-modus kan onstabiel wees, want dit is verlieslose formaat</string>
+    <string name="telegram" translatable="false">Telegram</string>
+    <string name="email" translatable="false">Email</string>
+    <string name="github" translatable="false">GitHub</string>
+    <string name="developer_email" translatable="false">t8rin@bk.ru</string>
+    <string name="primary">Primêr</string>
+    <string name="tertiary">Tersiêre</string>
+    <string name="secondary">Sekondêr</string>
+    <string name="border_thickness">Border thickness</string>
+    <string name="surface">Surface</string>
+    <string name="values">Values</string>
+    <string name="add">Add</string>
+    <string name="permission">Permission</string>
+    <string name="grant">Grant</string>
+    <string name="permission_sub">App need access to your storage to save images, it is necessary, without that it can\'t work, so please grant permission on the next dialog</string>
+    <string name="grant_permission_manual">App needs this permission to work, please grant it manually</string>
+    <string name="external_storage">External storage</string>
+    <string name="monet_colors">Monet colors</string>
+    <string name="hex" translatable="false">HEX</string>
+    <string name="buy_me_a_coffee">Buy me a coffee</string>
+    <string name="buy_me_a_coffee_sub">This application is completely free, but if you want to support the project development, you can click here</string>
+</resources>
