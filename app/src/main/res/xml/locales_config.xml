@@ -23,4 +23,5 @@
     <locale android:name="vi" />
     <locale android:name="ko" />
     <locale android:name="kk" />
+    <locale android:name="af" />
 </locale-config>

@@ -38,7 +38,8 @@ android {
             "zh",
             "vi",
             "ko",
-            "kk"
+            "kk",
+            "af"
         )
     }
 
