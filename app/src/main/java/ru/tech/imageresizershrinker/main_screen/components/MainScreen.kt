@@ -961,31 +961,18 @@ fun MainScreen(
                         }
                     }
 
-                    val updateButtonColors = if (viewModel.updateAvailable) {
-                        ButtonDefaults.outlinedButtonColors(
-                            containerColor = MaterialTheme.colorScheme.primaryContainer.copy(
-                                alpha = 0.9f
-                            ),
-                            contentColor = MaterialTheme.colorScheme.onPrimaryContainer.copy(
-                                alpha = 0.5f
-                            )
-                        )
-                    } else {
-                        ButtonDefaults.outlinedButtonColors(
-                            containerColor = MaterialTheme.colorScheme.secondaryContainer.copy(
-                                alpha = 0.9f
-                            ),
-                            contentColor = MaterialTheme.colorScheme.onSecondaryContainer.copy(
-                                alpha = 0.5f
-                            )
-                        )
-                    }
-
                     BottomAppBar(
                         modifier = Modifier.drawHorizontalStroke(top = true),
                         actions = {
                             OutlinedButton(
-                                colors = updateButtonColors,
+                                colors = ButtonDefaults.outlinedButtonColors(
+                                    containerColor = MaterialTheme.colorScheme.secondaryContainer.copy(
+                                        alpha = 0.9f
+                                    ),
+                                    contentColor = MaterialTheme.colorScheme.onSecondaryContainer.copy(
+                                        alpha = 0.5f
+                                    )
+                                ),
                                 border = BorderStroke(
                                     LocalBorderWidth.current,
                                     MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.secondaryContainer)
@@ -1042,11 +1029,6 @@ fun MainScreen(
                                 modifier = Modifier
                                     .fabBorder()
                                     .requiredSize(size = 56.dp),
-                                containerColor = if (viewModel.updateAvailable) {
-                                    MaterialTheme.colorScheme.secondaryContainer
-                                } else {
-                                    MaterialTheme.colorScheme.primaryContainer
-                                },
                                 elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
                                 content = {
                                     if (context.verifyInstallerId()) {

@@ -438,21 +438,29 @@ fun rememberColorScheme(
     colorTuple: ColorTuple
 ): ColorScheme {
     return remember(colorTuple, isDarkTheme, amoledMode) {
-        if (isDarkTheme) {
-            Scheme.darkContent(colorTuple.primary.toArgb()).toDarkThemeColorScheme(colorTuple)
-        } else {
-            Scheme.lightContent(colorTuple.primary.toArgb()).toLightThemeColorScheme(colorTuple)
-        }.let {
-            if (amoledMode && isDarkTheme) {
-                it.copy(background = Color.Black, surface = Color.Black)
-            } else it
-        }.run {
-            copy(
-                outlineVariant = onSecondaryContainer
-                    .copy(alpha = 0.2f)
-                    .compositeOver(surfaceColorAtElevation(6.dp))
-            )
-        }
+        getColorScheme(isDarkTheme, amoledMode, colorTuple)
+    }
+}
+
+fun getColorScheme(
+    isDarkTheme: Boolean,
+    amoledMode: Boolean,
+    colorTuple: ColorTuple
+): ColorScheme {
+    return if (isDarkTheme) {
+        Scheme.darkContent(colorTuple.primary.toArgb()).toDarkThemeColorScheme(colorTuple)
+    } else {
+        Scheme.lightContent(colorTuple.primary.toArgb()).toLightThemeColorScheme(colorTuple)
+    }.let {
+        if (amoledMode && isDarkTheme) {
+            it.copy(background = Color.Black, surface = Color.Black)
+        } else it
+    }.run {
+        copy(
+            outlineVariant = onSecondaryContainer
+                .copy(alpha = 0.2f)
+                .compositeOver(surfaceColorAtElevation(6.dp))
+        )
     }
 }
 
