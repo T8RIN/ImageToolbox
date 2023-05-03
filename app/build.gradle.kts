@@ -15,7 +15,7 @@ android {
         minSdk = 21
         targetSdk = 33
         versionCode = 55
-        versionName = "1.9.19"
+        versionName = "2.0.0"
         resourceConfigurations += setOf(
             "en",
             "ar",
