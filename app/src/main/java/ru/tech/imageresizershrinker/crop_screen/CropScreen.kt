@@ -85,6 +85,7 @@ import ru.tech.imageresizershrinker.main_screen.components.LocalBorderWidth
 import ru.tech.imageresizershrinker.main_screen.components.alertDialog
 import ru.tech.imageresizershrinker.main_screen.components.drawHorizontalStroke
 import ru.tech.imageresizershrinker.main_screen.components.fabBorder
+import ru.tech.imageresizershrinker.main_screen.components.navBarsPaddingOnlyIfTheyAtTheBottom
 import ru.tech.imageresizershrinker.main_screen.components.navBarsPaddingOnlyIfTheyAtTheEnd
 import ru.tech.imageresizershrinker.resize_screen.components.ImageNotPickedWidget
 import ru.tech.imageresizershrinker.resize_screen.components.LoadingDialog
@@ -395,7 +396,7 @@ fun CropScreen(
                                     cropProperties.cropType,
                                     Modifier
                                         .fillMaxSize()
-                                        .navigationBarsPadding()
+                                        .navBarsPaddingOnlyIfTheyAtTheBottom()
                                 ) { type ->
                                     ImageCropper(
                                         background = MaterialTheme.colorScheme.surface,
@@ -451,7 +452,8 @@ fun CropScreen(
                         Column(
                             Modifier
                                 .padding(horizontal = 20.dp)
-                                .fillMaxHeight(),
+                                .fillMaxHeight()
+                                .navigationBarsPadding(),
                             horizontalAlignment = Alignment.CenterHorizontally,
                             verticalArrangement = Arrangement.Center
                         ) {

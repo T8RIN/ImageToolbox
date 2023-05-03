@@ -1,5 +1,6 @@
 package ru.tech.imageresizershrinker.compare_screen
 
+import android.content.res.Configuration
 import android.net.Uri
 import androidx.activity.compose.BackHandler
 import androidx.activity.compose.rememberLauncherForActivityResult
@@ -10,11 +11,15 @@ import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
@@ -50,10 +55,15 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.TransformOrigin
 import androidx.compose.ui.graphics.asImageBitmap
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.layout.layout
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.Constraints
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.smarttoolfactory.beforeafter.BeforeAfterImage
@@ -67,6 +77,7 @@ import ru.tech.imageresizershrinker.main_screen.components.LocalAllowChangeColor
 import ru.tech.imageresizershrinker.main_screen.components.block
 import ru.tech.imageresizershrinker.main_screen.components.drawHorizontalStroke
 import ru.tech.imageresizershrinker.main_screen.components.fabBorder
+import ru.tech.imageresizershrinker.main_screen.components.navBarsPaddingOnlyIfTheyAtTheBottom
 import ru.tech.imageresizershrinker.resize_screen.components.ImageNotPickedWidget
 import ru.tech.imageresizershrinker.resize_screen.components.LoadingDialog
 import ru.tech.imageresizershrinker.theme.blend
@@ -162,6 +173,8 @@ fun CompareScreen(
     val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
     val scrollState = rememberScrollState()
 
+    val portrait = LocalConfiguration.current.orientation == Configuration.ORIENTATION_PORTRAIT
+
     Box(
         Modifier
             .fillMaxSize()
@@ -238,26 +251,108 @@ fun CompareScreen(
                     val before = remember(data) { b?.asImageBitmap() }
                     val after = remember(data) { a?.asImageBitmap() }
 
-                    if (before != null && after != null) {
-                        BeforeAfterImage(
-                            modifier = Modifier
-                                .then(
-                                    if (viewModel.bitmapData == null) Modifier.padding(bottom = 72.dp)
-                                    else Modifier.padding(bottom = 88.dp)
+                    if (portrait) {
+                        if (before != null && after != null) {
+                            BeforeAfterImage(
+                                modifier = Modifier
+                                    .then(
+                                        if (viewModel.bitmapData == null) Modifier.padding(bottom = 72.dp)
+                                        else Modifier.padding(bottom = 88.dp)
+                                    )
+                                    .padding(16.dp)
+                                    .navigationBarsPadding()
+                                    .block(RoundedCornerShape(4.dp))
+                                    .padding(4.dp),
+                                progress = animateFloatAsState(targetValue = progress).value,
+                                onProgressChange = {
+                                    progress = it
+                                },
+                                beforeImage = before,
+                                afterImage = after,
+                                beforeLabel = { },
+                                afterLabel = { }
+                            )
+                        }
+                    } else {
+                        Row {
+                            Box(
+                                Modifier
+                                    .weight(0.8f)
+                                    .padding(20.dp)
+                            ) {
+                                Box(Modifier.align(Alignment.Center)) {
+                                    if (before != null && after != null) {
+                                        BeforeAfterImage(
+                                            modifier = Modifier
+                                                .navBarsPaddingOnlyIfTheyAtTheBottom()
+                                                .block(RoundedCornerShape(4.dp))
+                                                .padding(4.dp)
+                                                .fillMaxSize(),
+                                            progress = animateFloatAsState(targetValue = progress).value,
+                                            onProgressChange = {
+                                                progress = it
+                                            },
+                                            beforeImage = before,
+                                            afterImage = after,
+                                            beforeLabel = { },
+                                            afterLabel = { }
+                                        )
+                                    }
+                                }
+                            }
+                            Box(
+                                Modifier
+                                    .fillMaxHeight()
+                                    .width(1.dp)
+                                    .background(MaterialTheme.colorScheme.surfaceVariant)
+                            )
+                            Column(
+                                Modifier
+                                    .padding(horizontal = 20.dp)
+                                    .fillMaxHeight()
+                                    .navigationBarsPadding(),
+                                horizontalAlignment = Alignment.CenterHorizontally,
+                                verticalArrangement = Arrangement.Center
+                            ) {
+                                val modifier = Modifier
+                                    .padding(16.dp)
+                                    .graphicsLayer {
+                                        rotationZ = 270f
+                                        transformOrigin = TransformOrigin(0f, 0f)
+                                    }
+                                    .layout { measurable, constraints ->
+                                        val placeable = measurable.measure(
+                                            Constraints(
+                                                minWidth = constraints.minHeight,
+                                                maxWidth = constraints.maxHeight,
+                                                minHeight = constraints.minWidth,
+                                                maxHeight = constraints.maxHeight,
+                                            )
+                                        )
+                                        layout(placeable.height, placeable.width) {
+                                            placeable.place(-placeable.width, 0)
+                                        }
+                                    }
+                                    .width((LocalConfiguration.current.screenHeightDp / 2f).dp)
+                                    .height(50.dp)
+                                Slider(
+                                    modifier = modifier,
+                                    value = animateFloatAsState(targetValue = progress).value,
+                                    onValueChange = {
+                                        progress = it
+                                    },
+                                    valueRange = 0f..100f
                                 )
-                                .padding(16.dp)
-                                .navigationBarsPadding()
-                                .block(RoundedCornerShape(4.dp))
-                                .padding(4.dp),
-                            progress = animateFloatAsState(targetValue = progress).value,
-                            onProgressChange = {
-                                progress = it
-                            },
-                            beforeImage = before,
-                            afterImage = after,
-                            beforeLabel = { },
-                            afterLabel = { }
-                        )
+
+                                FloatingActionButton(
+                                    onClick = pickImage,
+                                    modifier = Modifier.fabBorder(),
+                                    elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation()
+                                ) {
+                                    Icon(Icons.Rounded.AddPhotoAlternate, null)
+                                }
+                            }
+                        }
                     }
                 } ?: Column(Modifier.verticalScroll(scrollState)) {
                     ImageNotPickedWidget(
@@ -296,7 +391,7 @@ fun CompareScreen(
                     }
                 }
             }
-        } else {
+        } else if (portrait) {
             BottomAppBar(
                 modifier = Modifier
                     .drawHorizontalStroke(true)

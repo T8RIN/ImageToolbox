@@ -95,6 +95,7 @@ import ru.tech.imageresizershrinker.main_screen.components.Screen
 import ru.tech.imageresizershrinker.main_screen.components.block
 import ru.tech.imageresizershrinker.main_screen.components.drawHorizontalStroke
 import ru.tech.imageresizershrinker.main_screen.components.fabBorder
+import ru.tech.imageresizershrinker.main_screen.components.navBarsPaddingOnlyIfTheyAtTheBottom
 import ru.tech.imageresizershrinker.main_screen.components.navBarsPaddingOnlyIfTheyAtTheEnd
 import ru.tech.imageresizershrinker.pick_color_from_image_screen.viewModel.PickColorViewModel
 import ru.tech.imageresizershrinker.resize_screen.components.ImageNotPickedWidget
@@ -478,8 +479,7 @@ fun PickColorFromImageScreen(
                                         imageBitmap = it.asImageBitmap(),
                                         color = viewModel.color,
                                         modifier = Modifier
-                                            .fillMaxSize()
-                                            .navigationBarsPadding()
+                                            .navBarsPaddingOnlyIfTheyAtTheBottom()
                                             .block(RoundedCornerShape(4.dp))
                                             .padding(4.dp)
                                             .clip(RoundedCornerShape(4.dp)),
@@ -496,7 +496,8 @@ fun PickColorFromImageScreen(
                             Column(
                                 Modifier
                                     .fillMaxHeight()
-                                    .padding(horizontal = 20.dp),
+                                    .padding(horizontal = 20.dp)
+                                    .navigationBarsPadding(),
                                 horizontalAlignment = Alignment.CenterHorizontally,
                                 verticalArrangement = Arrangement.Center
                             ) {
