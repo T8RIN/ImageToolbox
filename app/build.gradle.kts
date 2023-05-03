@@ -117,7 +117,4 @@ dependencies {
     implementation(project(":colordetector"))
     implementation(project(":beforeafter"))
     implementation(project(":image"))
-
-//    implementation("androidx.work:work-runtime-ktx:2.8.0")
-//    implementation("androidx.compose.runtime:runtime-livedata:1.3.3")
 }

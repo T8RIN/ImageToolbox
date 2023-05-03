@@ -1,4 +1,4 @@
-package ru.tech.imageresizershrinker.main_screen
+package ru.tech.imageresizershrinker.app
 
 import android.app.Application
 import dagger.hilt.android.HiltAndroidApp
