@@ -966,9 +966,7 @@ fun MainScreen(
                         actions = {
                             OutlinedButton(
                                 colors = ButtonDefaults.outlinedButtonColors(
-                                    containerColor = MaterialTheme.colorScheme.secondaryContainer.copy(
-                                        alpha = 0.9f
-                                    ),
+                                    containerColor = MaterialTheme.colorScheme.secondaryContainer,
                                     contentColor = MaterialTheme.colorScheme.onSecondaryContainer.copy(
                                         alpha = 0.5f
                                     )
