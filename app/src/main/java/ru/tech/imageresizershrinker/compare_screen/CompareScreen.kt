@@ -286,8 +286,7 @@ fun CompareScreen(
                                             modifier = Modifier
                                                 .navBarsPaddingOnlyIfTheyAtTheBottom()
                                                 .block(RoundedCornerShape(4.dp))
-                                                .padding(4.dp)
-                                                .fillMaxSize(),
+                                                .padding(4.dp),
                                             progress = animateFloatAsState(targetValue = progress).value,
                                             onProgressChange = {
                                                 progress = it
