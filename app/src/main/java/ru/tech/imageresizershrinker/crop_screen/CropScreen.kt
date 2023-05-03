@@ -85,6 +85,7 @@ import ru.tech.imageresizershrinker.main_screen.components.LocalBorderWidth
 import ru.tech.imageresizershrinker.main_screen.components.alertDialog
 import ru.tech.imageresizershrinker.main_screen.components.drawHorizontalStroke
 import ru.tech.imageresizershrinker.main_screen.components.fabBorder
+import ru.tech.imageresizershrinker.main_screen.components.navBarsPaddingOnlyIfTheyAtTheEnd
 import ru.tech.imageresizershrinker.resize_screen.components.ImageNotPickedWidget
 import ru.tech.imageresizershrinker.resize_screen.components.LoadingDialog
 import ru.tech.imageresizershrinker.theme.outlineVariant
@@ -382,7 +383,7 @@ fun CropScreen(
                         )
                     }
                 } else {
-                    Row {
+                    Row(Modifier.navBarsPaddingOnlyIfTheyAtTheEnd()) {
                         val cropProperties = viewModel.cropProperties
                         Box(
                             Modifier
@@ -392,7 +393,9 @@ fun CropScreen(
                             Box(Modifier.align(Alignment.Center)) {
                                 AnimatedContent(
                                     cropProperties.cropType,
-                                    Modifier.fillMaxSize()
+                                    Modifier
+                                        .fillMaxSize()
+                                        .navigationBarsPadding()
                                 ) { type ->
                                     ImageCropper(
                                         background = MaterialTheme.colorScheme.surface,

@@ -3,6 +3,7 @@ package ru.tech.imageresizershrinker.pick_color_from_image_screen
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
+import android.content.res.Configuration
 import android.net.Uri
 import androidx.activity.compose.BackHandler
 import androidx.activity.compose.rememberLauncherForActivityResult
@@ -20,10 +21,12 @@ import androidx.compose.animation.with
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBarsPadding
@@ -73,6 +76,7 @@ import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.graphics.isUnspecified
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -91,7 +95,6 @@ import ru.tech.imageresizershrinker.main_screen.components.Screen
 import ru.tech.imageresizershrinker.main_screen.components.block
 import ru.tech.imageresizershrinker.main_screen.components.drawHorizontalStroke
 import ru.tech.imageresizershrinker.main_screen.components.fabBorder
-import ru.tech.imageresizershrinker.main_screen.components.navBarsLandscapePadding
 import ru.tech.imageresizershrinker.main_screen.components.navBarsPaddingOnlyIfTheyAtTheEnd
 import ru.tech.imageresizershrinker.pick_color_from_image_screen.viewModel.PickColorViewModel
 import ru.tech.imageresizershrinker.resize_screen.components.ImageNotPickedWidget
@@ -190,6 +193,8 @@ fun PickColorFromImageScreen(
     val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
     val scrollState = rememberScrollState()
 
+    val portrait = LocalConfiguration.current.orientation == Configuration.ORIENTATION_PORTRAIT
+
     Box(
         Modifier
             .fillMaxSize()
@@ -231,7 +236,7 @@ fun PickColorFromImageScreen(
                         modifier = Modifier.animateContentSize(),
                     ) {
                         Column {
-                            Column(Modifier.navBarsLandscapePadding()) {
+                            Column(Modifier.navBarsPaddingOnlyIfTheyAtTheEnd()) {
                                 Spacer(modifier = Modifier.height(8.dp))
                                 Row(
                                     verticalAlignment = Alignment.CenterVertically
@@ -244,12 +249,107 @@ fun PickColorFromImageScreen(
                                     ) {
                                         Icon(Icons.Rounded.ArrowBack, null)
                                     }
+                                    if (!portrait) {
+                                        ProvideTextStyle(
+                                            value = LocalTextStyle.current.merge(
+                                                MaterialTheme.typography.headlineSmall
+                                            )
+                                        ) {
+                                            Row(
+                                                verticalAlignment = Alignment.CenterVertically,
+                                                modifier = Modifier
+                                                    .padding(
+                                                        start = 16.dp,
+                                                        end = 16.dp
+                                                    )
+                                                    .statusBarsPadding()
+                                            ) {
+                                                Text(stringResource(R.string.color))
+
+                                                Text(
+                                                    modifier = Modifier
+                                                        .padding(horizontal = 8.dp)
+                                                        .clip(RoundedCornerShape(8.dp))
+                                                        .clickable {
+                                                            context.copyColorIntoClipboard(
+                                                                context.getString(R.string.color),
+                                                                color.format()
+                                                            )
+                                                            scope.launch {
+                                                                toastHostState.showToast(
+                                                                    icon = Icons.Rounded.ContentPaste,
+                                                                    message = context.getString(R.string.color_copied)
+                                                                )
+                                                            }
+                                                        }
+                                                        .background(MaterialTheme.colorScheme.secondaryContainer)
+                                                        .padding(horizontal = 4.dp),
+                                                    text = color.format(),
+                                                    style = LocalTextStyle.current.copy(
+                                                        fontWeight = FontWeight.Bold,
+                                                        color = MaterialTheme.colorScheme.onSecondaryContainer
+                                                    )
+                                                )
+
+                                                Spacer(
+                                                    modifier = Modifier
+                                                        .weight(1f)
+                                                        .padding(2.dp)
+                                                )
+
+                                                Box(
+                                                    Modifier
+                                                        .padding(
+                                                            vertical = 4.dp,
+                                                            horizontal = 16.dp
+                                                        )
+                                                        .background(
+                                                            color = animateColorAsState(color).value,
+                                                            shape = RoundedCornerShape(12.dp)
+                                                        )
+                                                        .height(40.dp)
+                                                        .width(72.dp)
+                                                        .border(
+                                                            width = 1.dp,
+                                                            color = MaterialTheme.colorScheme.outlineVariant,
+                                                            shape = RoundedCornerShape(11.dp)
+                                                        )
+                                                        .clip(RoundedCornerShape(12.dp))
+                                                        .clickable {
+                                                            context.copyColorIntoClipboard(
+                                                                context.getString(R.string.color),
+                                                                color.format()
+                                                            )
+                                                            scope.launch {
+                                                                toastHostState.showToast(
+                                                                    icon = Icons.Rounded.ContentPaste,
+                                                                    message = context.getString(R.string.color_copied)
+                                                                )
+                                                            }
+                                                        }
+                                                )
+
+                                                if (viewModel.uri != null) {
+                                                    IconButton(
+                                                        onClick = {
+                                                            if (navController.backstack.entries.isNotEmpty()) navController.pop()
+                                                            navController.navigate(Screen.GeneratePalette)
+                                                            pushNewUri(viewModel.uri)
+                                                        },
+                                                        modifier = Modifier.statusBarsPadding()
+                                                    ) {
+                                                        Icon(Icons.Rounded.PaletteSwatch, null)
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
                                     Spacer(
                                         Modifier
                                             .weight(1f)
                                             .padding(start = 8.dp)
                                     )
-                                    if (viewModel.uri != null) {
+                                    if (viewModel.uri != null && portrait) {
                                         IconButton(
                                             onClick = {
                                                 if (navController.backstack.entries.isNotEmpty()) navController.pop()
@@ -262,75 +362,83 @@ fun PickColorFromImageScreen(
                                         }
                                     }
                                 }
-                                Spacer(modifier = Modifier.height(8.dp))
-                                ProvideTextStyle(value = LocalTextStyle.current.merge(MaterialTheme.typography.headlineSmall)) {
-                                    Row(
-                                        verticalAlignment = Alignment.CenterVertically,
-                                        modifier = Modifier
-                                            .padding(start = 16.dp, end = 16.dp, bottom = 16.dp)
+                                if (portrait) {
+                                    Spacer(modifier = Modifier.height(8.dp))
+                                    ProvideTextStyle(
+                                        value = LocalTextStyle.current.merge(
+                                            MaterialTheme.typography.headlineSmall
+                                        )
                                     ) {
-                                        Text(stringResource(R.string.color))
-
-                                        Text(
+                                        Row(
+                                            verticalAlignment = Alignment.CenterVertically,
                                             modifier = Modifier
-                                                .padding(horizontal = 8.dp)
-                                                .clip(RoundedCornerShape(8.dp))
-                                                .clickable {
-                                                    context.copyColorIntoClipboard(
-                                                        context.getString(R.string.color),
-                                                        color.format()
-                                                    )
-                                                    scope.launch {
-                                                        toastHostState.showToast(
-                                                            icon = Icons.Rounded.ContentPaste,
-                                                            message = context.getString(R.string.color_copied)
+                                                .padding(start = 16.dp, end = 16.dp, bottom = 16.dp)
+                                        ) {
+                                            Text(stringResource(R.string.color))
+
+                                            Text(
+                                                modifier = Modifier
+                                                    .padding(horizontal = 8.dp)
+                                                    .clip(RoundedCornerShape(8.dp))
+                                                    .clickable {
+                                                        context.copyColorIntoClipboard(
+                                                            context.getString(R.string.color),
+                                                            color.format()
                                                         )
+                                                        scope.launch {
+                                                            toastHostState.showToast(
+                                                                icon = Icons.Rounded.ContentPaste,
+                                                                message = context.getString(R.string.color_copied)
+                                                            )
+                                                        }
                                                     }
-                                                }
-                                                .background(MaterialTheme.colorScheme.secondaryContainer)
-                                                .padding(horizontal = 4.dp),
-                                            text = color.format(),
-                                            style = LocalTextStyle.current.copy(
-                                                fontWeight = FontWeight.Bold,
-                                                color = MaterialTheme.colorScheme.onSecondaryContainer
+                                                    .background(MaterialTheme.colorScheme.secondaryContainer)
+                                                    .padding(horizontal = 4.dp),
+                                                text = color.format(),
+                                                style = LocalTextStyle.current.copy(
+                                                    fontWeight = FontWeight.Bold,
+                                                    color = MaterialTheme.colorScheme.onSecondaryContainer
+                                                )
                                             )
-                                        )
 
-                                        Spacer(
-                                            modifier = Modifier
-                                                .weight(1f)
-                                                .padding(2.dp)
-                                        )
+                                            Spacer(
+                                                modifier = Modifier
+                                                    .weight(1f)
+                                                    .padding(2.dp)
+                                            )
 
-                                        Box(
-                                            Modifier
-                                                .padding(vertical = 4.dp)
-                                                .background(
-                                                    color = animateColorAsState(color).value,
-                                                    shape = RoundedCornerShape(12.dp)
-                                                )
-                                                .height(40.dp)
-                                                .width(72.dp)
-                                                .border(
-                                                    width = 1.dp,
-                                                    color = MaterialTheme.colorScheme.outlineVariant,
-                                                    shape = RoundedCornerShape(11.dp)
-                                                )
-                                                .clip(RoundedCornerShape(12.dp))
-                                                .clickable {
-                                                    context.copyColorIntoClipboard(
-                                                        context.getString(R.string.color),
-                                                        color.format()
+                                            Box(
+                                                Modifier
+                                                    .padding(vertical = 4.dp)
+                                                    .background(
+                                                        color = animateColorAsState(color).value,
+                                                        shape = RoundedCornerShape(12.dp)
                                                     )
-                                                    scope.launch {
-                                                        toastHostState.showToast(
-                                                            icon = Icons.Rounded.ContentPaste,
-                                                            message = context.getString(R.string.color_copied)
+                                                    .height(40.dp)
+                                                    .width(72.dp)
+                                                    .border(
+                                                        width = 1.dp,
+                                                        color = MaterialTheme.colorScheme.outlineVariant,
+                                                        shape = RoundedCornerShape(11.dp)
+                                                    )
+                                                    .clip(RoundedCornerShape(12.dp))
+                                                    .clickable {
+                                                        context.copyColorIntoClipboard(
+                                                            context.getString(R.string.color),
+                                                            color.format()
                                                         )
+                                                        scope.launch {
+                                                            toastHostState.showToast(
+                                                                icon = Icons.Rounded.ContentPaste,
+                                                                message = context.getString(R.string.color_copied)
+                                                            )
+                                                        }
                                                     }
-                                                }
-                                        )
+                                            )
+                                        }
                                     }
+                                } else {
+                                    Spacer(modifier = Modifier.height(8.dp))
                                 }
                             }
                             Divider(color = MaterialTheme.colorScheme.outlineVariant(0.3f))
@@ -343,19 +451,86 @@ fun PickColorFromImageScreen(
                 modifier = Modifier.weight(1f)
             ) { bitmap ->
                 bitmap?.let {
-                    ImageColorDetector(
-                        canZoom = canZoom,
-                        imageBitmap = it.asImageBitmap(),
-                        color = viewModel.color,
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .padding(16.dp)
-                            .navBarsPaddingOnlyIfTheyAtTheEnd()
-                            .block(RoundedCornerShape(4.dp))
-                            .padding(4.dp)
-                            .clip(RoundedCornerShape(4.dp)),
-                        onColorChange = viewModel::updateColor
-                    )
+                    if (portrait) {
+                        ImageColorDetector(
+                            canZoom = canZoom,
+                            imageBitmap = it.asImageBitmap(),
+                            color = viewModel.color,
+                            modifier = Modifier
+                                .fillMaxSize()
+                                .padding(16.dp)
+                                .navBarsPaddingOnlyIfTheyAtTheEnd()
+                                .block(RoundedCornerShape(4.dp))
+                                .padding(4.dp)
+                                .clip(RoundedCornerShape(4.dp)),
+                            onColorChange = viewModel::updateColor
+                        )
+                    } else {
+                        Row(Modifier.navBarsPaddingOnlyIfTheyAtTheEnd()) {
+                            Box(
+                                Modifier
+                                    .weight(0.8f)
+                                    .padding(20.dp)
+                            ) {
+                                Box(Modifier.align(Alignment.Center)) {
+                                    ImageColorDetector(
+                                        canZoom = canZoom,
+                                        imageBitmap = it.asImageBitmap(),
+                                        color = viewModel.color,
+                                        modifier = Modifier
+                                            .fillMaxSize()
+                                            .navigationBarsPadding()
+                                            .block(RoundedCornerShape(4.dp))
+                                            .padding(4.dp)
+                                            .clip(RoundedCornerShape(4.dp)),
+                                        onColorChange = viewModel::updateColor
+                                    )
+                                }
+                            }
+                            Box(
+                                Modifier
+                                    .fillMaxHeight()
+                                    .width(1.dp)
+                                    .background(MaterialTheme.colorScheme.surfaceVariant)
+                            )
+                            Column(
+                                Modifier
+                                    .fillMaxHeight()
+                                    .padding(horizontal = 20.dp),
+                                horizontalAlignment = Alignment.CenterHorizontally,
+                                verticalArrangement = Arrangement.Center
+                            ) {
+                                Switch(
+                                    modifier = Modifier.padding(horizontal = 16.dp),
+                                    colors = SwitchDefaults.colors(
+                                        uncheckedBorderColor = MaterialTheme.colorScheme.primary,
+                                        uncheckedThumbColor = MaterialTheme.colorScheme.onPrimary,
+                                        uncheckedTrackColor = MaterialTheme.colorScheme.primary,
+                                        uncheckedIconColor = MaterialTheme.colorScheme.onPrimaryContainer,
+                                    ),
+                                    checked = !canZoom,
+                                    onCheckedChange = { canZoom = !canZoom },
+                                    thumbContent = {
+                                        AnimatedContent(canZoom) { zoom ->
+                                            Icon(
+                                                if (!zoom) Icons.Rounded.Colorize else Icons.Rounded.ZoomIn,
+                                                null,
+                                                Modifier.size(SwitchDefaults.IconSize)
+                                            )
+                                        }
+                                    }
+                                )
+                                Spacer(modifier = Modifier.height(16.dp))
+                                FloatingActionButton(
+                                    onClick = pickImage,
+                                    modifier = Modifier.fabBorder(),
+                                    elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation()
+                                ) {
+                                    Icon(Icons.Rounded.AddPhotoAlternate, null)
+                                }
+                            }
+                        }
+                    }
                 } ?: Column(Modifier.verticalScroll(scrollState)) {
                     ImageNotPickedWidget(
                         onPickImage = pickImage,
@@ -365,7 +540,7 @@ fun PickColorFromImageScreen(
                     )
                 }
             }
-            if (viewModel.bitmap != null) {
+            if (viewModel.bitmap != null && portrait) {
                 BottomAppBar(
                     modifier = Modifier
                         .drawHorizontalStroke(true),
