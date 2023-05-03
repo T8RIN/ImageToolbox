@@ -99,12 +99,12 @@
     <string name="cannot_change_palette_while_dynamic_colors_applied">Неможливо змінити колірну схему програми, якщо ввімкнено динамічні кольори</string>
     <string name="pick_accent_color">Тема програми базуватиметься на кольорі, який ви виберете</string>
     <string name="no_updates">Оновлень не знайдено</string>
-    <string name="about_app">Про додаток</string>
+    <string name="about_app">Про застосунок</string>
     <string name="issue_tracker">Відстеження проблем</string>
     <string name="issue_tracker_sub">Надсилайте сюди звіти про помилки та запити щодо функцій</string>
     <string name="help_translate">Допоможіть перекласти</string>
     <string name="search_here">Шукайте тут</string>
-    <string name="help_translate_sub">Виправте помилки перекладу або локалізуйте проєкт іншими мовами</string>
+    <string name="help_translate_sub">Виправте помилки перекладу або перекладіть проєкт іншими мовами</string>
     <string name="nothing_found_by_search">За вашим запитом нічого не знайдено</string>
     <string name="dynamic_colors_sub">Якщо ввімкнено, то кольори додатків будуть прийняті до кольорів шпалер</string>
     <string name="failed_to_save">Не вдалося зберегти %d зображення(и)</string>
@@ -122,4 +122,6 @@
     <string name="grant_permission_manual">Застосунку потрібен цей дозвіл для роботи, будь ласка, надайте його вручну</string>
     <string name="external_storage">Зовнішня пам\'ять</string>
     <string name="monet_colors">Кольори Monet</string>
+    <string name="buy_me_a_coffee">Buy me a coffee</string>
+    <string name="buy_me_a_coffee_sub">Цей застосунок є абсолютно безплатним, але якщо ви хочете підтримати розвиток проєкту, ви можете натиснути тут</string>
 </resources>
