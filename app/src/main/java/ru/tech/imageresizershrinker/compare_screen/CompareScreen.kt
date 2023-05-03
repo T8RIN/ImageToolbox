@@ -210,7 +210,6 @@ fun CompareScreen(
                 )
             } else {
                 TopAppBar(
-                    scrollBehavior = scrollBehavior,
                     navigationIcon = {
                         IconButton(
                             onClick = {
