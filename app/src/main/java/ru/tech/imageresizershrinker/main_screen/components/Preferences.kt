@@ -210,7 +210,12 @@ fun PreferenceItem(
                 contentColor = contentColor
             )
         ) {
-            Row(Modifier.padding(16.dp), verticalAlignment = Alignment.CenterVertically) {
+            Row(
+                Modifier
+                    .fillMaxSize()
+                    .padding(16.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
                 icon?.let {
                     Icon(imageVector = icon, contentDescription = null)
                     Spacer(modifier = Modifier.width(16.dp))

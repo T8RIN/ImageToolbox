@@ -101,7 +101,7 @@ fun SwipeToReveal(
 }
 
 @OptIn(ExperimentalMaterialApi::class)
-private fun Modifier.revealSwipeable(
+fun Modifier.revealSwipeable(
     maxRevealPx: Float,
     maxAmountOfOverflow: Dp,
     directions: Set<RevealDirection>,

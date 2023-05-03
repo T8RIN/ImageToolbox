@@ -25,7 +25,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import ru.tech.imageresizershrinker.theme.blend
-import ru.tech.imageresizershrinker.widget.AutoSizeText
 
 @Composable
 fun PreferenceRowSwitch(
@@ -95,7 +94,7 @@ fun PreferenceRow(
     ) {
         startContent?.invoke()
         Column(modifier = Modifier.weight(1f)) {
-            AutoSizeText(text = title, maxLines = maxLines)
+            Text(text = title, maxLines = maxLines)
             Spacer(modifier = Modifier.height(2.dp))
             subtitle?.let {
                 Text(

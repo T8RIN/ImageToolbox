@@ -16,12 +16,14 @@ import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.with
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
@@ -41,10 +43,13 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
+import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.AddCircleOutline
 import androidx.compose.material.icons.rounded.AlternateEmail
@@ -56,6 +61,7 @@ import androidx.compose.material.icons.rounded.Download
 import androidx.compose.material.icons.rounded.FileDownloadOff
 import androidx.compose.material.icons.rounded.Folder
 import androidx.compose.material.icons.rounded.Info
+import androidx.compose.material.icons.rounded.MenuOpen
 import androidx.compose.material.icons.rounded.ModeNight
 import androidx.compose.material.icons.rounded.Palette
 import androidx.compose.material.icons.rounded.Person
@@ -92,6 +98,7 @@ import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -101,12 +108,12 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.luminance
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.input.pointer.pointerInput
-import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
@@ -126,6 +133,10 @@ import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.BuildConfig
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.main_screen.viewModel.MainViewModel
+import ru.tech.imageresizershrinker.resize_screen.components.RevealDirection
+import ru.tech.imageresizershrinker.resize_screen.components.RevealValue
+import ru.tech.imageresizershrinker.resize_screen.components.rememberRevealState
+import ru.tech.imageresizershrinker.resize_screen.components.revealSwipeable
 import ru.tech.imageresizershrinker.theme.CreateAlt
 import ru.tech.imageresizershrinker.theme.Github
 import ru.tech.imageresizershrinker.theme.GooglePlay
@@ -147,10 +158,13 @@ import ru.tech.imageresizershrinker.utils.toUiPath
 import ru.tech.imageresizershrinker.widget.LocalToastHost
 import ru.tech.imageresizershrinker.widget.Marquee
 import ru.tech.imageresizershrinker.widget.Picture
-import java.lang.Integer.max
+import kotlin.math.roundToInt
 
 @OptIn(
-    ExperimentalMaterial3Api::class, ExperimentalAnimationApi::class
+    ExperimentalMaterial3Api::class,
+    ExperimentalAnimationApi::class,
+    ExperimentalMaterialApi::class,
+    ExperimentalFoundationApi::class
 )
 @Composable
 fun MainScreen(
@@ -177,21 +191,31 @@ fun MainScreen(
     val layoutDirection = LocalLayoutDirection.current
     val lazyListState = rememberLazyListState()
     val drawerContent = @Composable {
-        if (sideSheetState.isOpen) {
+        if (sideSheetState.isOpen && isSheetSlideable) {
             BackHandler {
                 scope.launch {
                     sideSheetState.close()
                 }
             }
         }
+
+        val configuration = LocalConfiguration.current
+        val state = rememberRevealState()
+
+        val widthState by remember(state.offset) {
+            derivedStateOf {
+                min(
+                    configuration.screenWidthDp.dp * 0.85f,
+                    if (!isSheetSlideable) {
+                        270.dp
+                    } else DrawerDefaults.MaximumDrawerWidth
+                ) - (if (!isSheetSlideable) state.offset.value.roundToInt().dp else 0.dp)
+            }
+        }
+
         ModalDrawerSheet(
             modifier = Modifier
-                .width(
-                    min(
-                        LocalConfiguration.current.screenWidthDp.dp * 0.85f,
-                        DrawerDefaults.MaximumDrawerWidth
-                    )
-                )
+                .width(widthState)
                 .then(
                     if (isSheetSlideable) {
                         Modifier
@@ -204,7 +228,14 @@ fun MainScreen(
                                 ),
                                 DrawerDefaults.shape
                             )
-                    } else Modifier
+                    } else Modifier.revealSwipeable(
+                        maxRevealPx = with(LocalDensity.current) { 50.dp.toPx() },
+                        directions = setOf(
+                            RevealDirection.EndToStart,
+                        ),
+                        maxAmountOfOverflow = 1.dp,
+                        state = state
+                    )
                 ),
             windowInsets = WindowInsets(0)
         ) {
@@ -285,10 +316,38 @@ fun MainScreen(
                                 }
                             )
                         }
+                    },
+                    navigationIcon = {
+                        if (!isSheetSlideable) {
+                            IconButton(
+                                onClick = {
+                                    scope.launch {
+                                        if (state.currentValue == RevealValue.Default) {
+                                            state.animateTo(RevealValue.FullyRevealedStart)
+                                        } else {
+                                            state.animateTo(RevealValue.Default)
+                                        }
+                                    }
+                                }
+                            ) {
+                                Icon(
+                                    Icons.Rounded.MenuOpen,
+                                    null,
+                                    modifier = Modifier.rotate(
+                                        (state.offset.value * -2f).coerceAtMost(
+                                            180f
+                                        )
+                                    )
+                                )
+                            }
+                        }
                     }
                 )
                 Divider()
-                LazyColumn(contentPadding = WindowInsets.navigationBars.asPaddingValues(), state = lazyListState) {
+                LazyColumn(
+                    contentPadding = WindowInsets.navigationBars.asPaddingValues(),
+                    state = lazyListState
+                ) {
                     item {
                         Column {
                             val launcher = rememberLauncherForActivityResult(
@@ -674,7 +733,6 @@ fun MainScreen(
                                 PreferenceRow(
                                     title = stringResource(R.string.app_developer),
                                     subtitle = stringResource(R.string.app_developer_nick),
-                                    maxLines = 1,
                                     startContent = {
                                         Picture(
                                             model = AUTHOR_AVATAR,
@@ -794,7 +852,10 @@ fun MainScreen(
                         .fillMaxWidth()
                         .navBarsPaddingOnlyIfTheyAtTheEnd()
                         .displayCutoutPadding()
-                        .verticalScroll(rememberScrollState()),
+                        .then(
+                            if (!isGrid) Modifier.verticalScroll(rememberScrollState())
+                            else Modifier
+                        ),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     if (!isGrid) {
@@ -849,181 +910,103 @@ fun MainScreen(
                         )
                         Spacer(modifier = Modifier.height(12.dp))
                     } else {
-                        Spacer(modifier = Modifier.height(12.dp))
-                        Row(
-                            Modifier
-                                .fillMaxWidth()
-                                .padding(horizontal = 12.dp),
-                            horizontalArrangement = Arrangement.Center
-                        ) {
-                            var heightOne by remember { mutableStateOf(0) }
-                            var heightTwo by remember { mutableStateOf(0) }
-                            SingleResizePreference(
-                                onClick = {
-                                    navController.popUpTo { it == Screen.Main }
-                                    navController.navigate(Screen.SingleResize)
-                                },
-                                modifier = Modifier
-                                    .then(
-                                        if (heightOne != 0 && heightTwo != 0) {
-                                            Modifier.height(
-                                                with(LocalDensity.current) {
-                                                    max(heightOne, heightTwo).toDp()
-                                                }
-                                            )
-                                        } else Modifier
+                        LazyVerticalStaggeredGrid(
+                            columns = StaggeredGridCells.Adaptive(200.dp),
+                            verticalItemSpacing = 12.dp,
+                            horizontalArrangement = Arrangement.spacedBy(
+                                12.dp,
+                                Alignment.CenterHorizontally
+                            ),
+                            contentPadding = PaddingValues(
+                                bottom = 12.dp + WindowInsets.navigationBars.asPaddingValues()
+                                    .calculateBottomPadding(),
+                                top = 12.dp,
+                                end = 12.dp,
+                                start = 12.dp
+                            ),
+                            content = {
+                                item {
+                                    SingleResizePreference(
+                                        onClick = {
+                                            navController.popUpTo { it == Screen.Main }
+                                            navController.navigate(Screen.SingleResize)
+                                        },
+                                        modifier = Modifier
+                                            .widthIn(max = 350.dp)
+                                            .weight(1f)
                                     )
-                                    .widthIn(max = 350.dp)
-                                    .weight(1f)
-                                    .onSizeChanged {
-                                        heightOne = it.height
-                                    }
-                            )
-                            Spacer(modifier = Modifier.width(8.dp))
-                            BatchResizePreference(
-                                onClick = {
-                                    navController.popUpTo { it == Screen.Main }
-                                    navController.navigate(Screen.BatchResize)
-                                },
-                                modifier = Modifier
-                                    .then(
-                                        if (heightOne != 0 && heightTwo != 0) {
-                                            Modifier.height(
-                                                with(LocalDensity.current) {
-                                                    max(heightOne, heightTwo).toDp()
-                                                }
-                                            )
-                                        } else Modifier
-                                    )
-                                    .widthIn(max = 350.dp)
-                                    .weight(1f)
-                                    .onSizeChanged {
-                                        heightTwo = it.height
-                                    }
-                            )
-                        }
-                        Spacer(modifier = Modifier.height(12.dp))
-                        Row(
-                            Modifier
-                                .fillMaxWidth()
-                                .padding(horizontal = 12.dp),
-                            horizontalArrangement = Arrangement.Center
-                        ) {
-                            var heightOne by remember { mutableStateOf(0) }
-                            var heightTwo by remember { mutableStateOf(0) }
-                            BytesResizePreference(
-                                onClick = {
-                                    navController.popUpTo { it == Screen.Main }
-                                    navController.navigate(Screen.ResizeByBytes)
-                                },
-                                modifier = Modifier
-                                    .then(
-                                        if (heightOne != 0 && heightTwo != 0) {
-                                            Modifier.height(
-                                                with(LocalDensity.current) {
-                                                    max(heightOne, heightTwo).toDp()
-                                                }
-                                            )
-                                        } else Modifier
-                                    )
-                                    .widthIn(max = 350.dp)
-                                    .weight(1f)
-                                    .onSizeChanged {
-                                        heightOne = it.height
-                                    }
-                            )
-                            Spacer(modifier = Modifier.width(8.dp))
-                            CropPreference(
-                                onClick = {
-                                    navController.popUpTo { it == Screen.Main }
-                                    navController.navigate(Screen.Crop)
-                                },
-                                modifier = Modifier
-                                    .then(
-                                        if (heightOne != 0 && heightTwo != 0) {
-                                            Modifier.height(
-                                                with(LocalDensity.current) {
-                                                    max(heightOne, heightTwo).toDp()
-                                                }
-                                            )
-                                        } else Modifier
-                                    )
-                                    .widthIn(max = 350.dp)
-                                    .weight(1f)
-                                    .onSizeChanged {
-                                        heightTwo = it.height
-                                    }
-                            )
-                        }
-                        Spacer(modifier = Modifier.height(12.dp))
-                        Row(
-                            Modifier
-                                .fillMaxWidth()
-                                .padding(horizontal = 12.dp),
-                            horizontalArrangement = Arrangement.Center
-                        ) {
-                            var heightOne by remember { mutableStateOf(0) }
-                            var heightTwo by remember { mutableStateOf(0) }
-                            PickColorPreference(
-                                onClick = {
-                                    navController.popUpTo { it == Screen.Main }
-                                    navController.navigate(Screen.PickColorFromImage)
-                                },
-                                modifier = Modifier
-                                    .then(
-                                        if (heightOne != 0 && heightTwo != 0) {
-                                            Modifier.height(
-                                                with(LocalDensity.current) {
-                                                    max(heightOne, heightTwo).toDp()
-                                                }
-                                            )
-                                        } else Modifier
-                                    )
-                                    .widthIn(max = 350.dp)
-                                    .weight(1f)
-                                    .onSizeChanged {
-                                        heightOne = it.height
-                                    }
-                            )
-                            Spacer(modifier = Modifier.width(8.dp))
-                            GeneratePalettePreference(
-                                modifier = Modifier
-                                    .then(
-                                        if (heightOne != 0 && heightTwo != 0) {
-                                            Modifier.height(
-                                                with(LocalDensity.current) {
-                                                    max(heightOne, heightTwo).toDp()
-                                                }
-                                            )
-                                        } else Modifier
-                                    )
-                                    .widthIn(max = 350.dp)
-                                    .weight(1f)
-                                    .onSizeChanged {
-                                        heightTwo = it.height
-                                    },
-                                onClick = {
-                                    navController.popUpTo { it == Screen.Main }
-                                    navController.navigate(Screen.GeneratePalette)
                                 }
-                            )
-                        }
-                        Spacer(modifier = Modifier.height(12.dp))
-                        ComparePreference(
-                            onClick = {
-                                navController.popUpTo { it == Screen.Main }
-                                navController.navigate(Screen.Compare)
-                            },
-                            modifier = Modifier
-                                .padding(horizontal = 12.dp)
-                                .widthIn(max = 350.dp)
-                                .fillMaxWidth()
-                        )
-                        Spacer(
-                            modifier = Modifier.height(
-                                12.dp + WindowInsets.navigationBars.asPaddingValues()
-                                    .calculateBottomPadding()
-                            )
+                                item {
+                                    BatchResizePreference(
+                                        onClick = {
+                                            navController.popUpTo { it == Screen.Main }
+                                            navController.navigate(Screen.BatchResize)
+                                        },
+                                        modifier = Modifier
+                                            .widthIn(max = 350.dp)
+                                            .weight(1f)
+                                    )
+                                }
+                                item {
+                                    BytesResizePreference(
+                                        onClick = {
+                                            navController.popUpTo { it == Screen.Main }
+                                            navController.navigate(Screen.ResizeByBytes)
+                                        },
+                                        modifier = Modifier
+                                            .widthIn(max = 350.dp)
+                                            .weight(1f)
+                                    )
+                                }
+                                item {
+                                    CropPreference(
+                                        onClick = {
+                                            navController.popUpTo { it == Screen.Main }
+                                            navController.navigate(Screen.Crop)
+                                        },
+                                        modifier = Modifier
+                                            .widthIn(max = 350.dp)
+                                            .weight(1f)
+                                    )
+                                }
+                                item {
+                                    PickColorPreference(
+                                        onClick = {
+                                            navController.popUpTo { it == Screen.Main }
+                                            navController.navigate(Screen.PickColorFromImage)
+                                        },
+                                        modifier = Modifier
+                                            .widthIn(max = 350.dp)
+                                            .weight(1f)
+                                    )
+                                }
+                                item {
+                                    GeneratePalettePreference(
+                                        modifier = Modifier
+                                            .widthIn(max = 350.dp)
+                                            .weight(1f),
+                                        onClick = {
+                                            navController.popUpTo { it == Screen.Main }
+                                            navController.navigate(Screen.GeneratePalette)
+                                        }
+                                    )
+                                }
+                                item {
+                                    ComparePreference(
+                                        onClick = {
+                                            navController.popUpTo { it == Screen.Main }
+                                            navController.navigate(Screen.Compare)
+                                        },
+                                        modifier = Modifier
+                                            .padding(horizontal = 12.dp)
+                                            .widthIn(max = 350.dp)
+                                            .fillMaxWidth()
+                                    )
+                                }
+                                items(6) {
+                                    Spacer(Modifier.height(12.dp))
+                                }
+                            }
                         )
                     }
                 }

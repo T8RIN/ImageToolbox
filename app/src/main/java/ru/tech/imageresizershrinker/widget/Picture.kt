@@ -10,11 +10,11 @@ import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.AnimationSpec
 import androidx.compose.animation.core.exponentialDecay
 import androidx.compose.animation.core.spring
+import androidx.compose.foundation.gestures.awaitEachGesture
 import androidx.compose.foundation.gestures.awaitFirstDown
 import androidx.compose.foundation.gestures.awaitTouchSlopOrCancellation
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.gestures.drag
-import androidx.compose.foundation.gestures.forEachGesture
 import androidx.compose.foundation.gestures.rememberTransformableState
 import androidx.compose.foundation.gestures.transformable
 import androidx.compose.foundation.layout.Box
@@ -332,18 +332,16 @@ private suspend fun PointerInputScope.detectDrag(
     onDragCancel: () -> Unit = { },
     onDrag: (change: PointerInputChange, dragAmount: Offset) -> Unit
 ) {
-    forEachGesture {
-        awaitPointerEventScope {
-            val down = awaitFirstDown(requireUnconsumed = false)
-            var drag: PointerInputChange?
-            do {
-                drag = awaitTouchSlopOrCancellation(down.id, onDrag)
-            } while (drag != null && !drag.isConsumed)
-            if (drag != null) {
-                onDragStart.invoke(drag.position)
-                if (!drag(drag.id) { onDrag(it, it.positionChange()) }) onDragCancel()
-                else onDragEnd()
-            }
+    awaitEachGesture {
+        val down = awaitFirstDown(requireUnconsumed = false)
+        var drag: PointerInputChange?
+        do {
+            drag = awaitTouchSlopOrCancellation(down.id, onDrag)
+        } while (drag != null && !drag.isConsumed)
+        if (drag != null) {
+            onDragStart.invoke(drag.position)
+            if (!drag(drag.id) { onDrag(it, it.positionChange()) }) onDragCancel()
+            else onDragEnd()
         }
     }
 }

@@ -542,15 +542,15 @@ object BitmapUtils {
         compressFormat: CompressFormat,
         maxBytes: Long
     ): Pair<Bitmap, Int>? {
-        val maxBytes = maxBytes - 1024 * 4
+        val maxBytes1 = maxBytes - 1024 * 4
         try {
-            if (this.size() > maxBytes) {
-                var streamLength = maxBytes
+            if (this.size() > maxBytes1) {
+                var streamLength = maxBytes1
                 var compressQuality = 100
                 val bmpStream = ByteArrayOutputStream()
                 var newSize = width to height
 
-                while (streamLength >= maxBytes) {
+                while (streamLength >= maxBytes1) {
                     compressQuality -= 1
 
                     if (compressQuality < 20) break
@@ -564,7 +564,7 @@ object BitmapUtils {
                 }
                 if (compressQuality < 20) {
                     compressQuality = 20
-                    while (streamLength >= maxBytes) {
+                    while (streamLength >= maxBytes1) {
 
                         bmpStream.use {
                             it.flush()
