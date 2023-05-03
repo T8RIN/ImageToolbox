@@ -1,6 +1,7 @@
 package ru.tech.imageresizershrinker.crop_screen
 
 
+import android.content.res.Configuration
 import android.graphics.Bitmap
 import android.net.Uri
 import androidx.activity.ComponentActivity
@@ -13,12 +14,16 @@ import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
@@ -29,6 +34,7 @@ import androidx.compose.material.icons.outlined.Save
 import androidx.compose.material.icons.outlined.Share
 import androidx.compose.material.icons.rounded.AddPhotoAlternate
 import androidx.compose.material.icons.rounded.ArrowBack
+import androidx.compose.material.icons.rounded.Crop
 import androidx.compose.material.icons.rounded.ErrorOutline
 import androidx.compose.material.icons.rounded.Save
 import androidx.compose.material3.AlertDialog
@@ -59,6 +65,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.asAndroidBitmap
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
@@ -272,108 +279,230 @@ fun CropScreen(
             }
             viewModel.bitmap?.let {
                 val bmp = remember(it) { it.asImageBitmap() }
-                Column {
-                    val cropProperties = viewModel.cropProperties
-                    AnimatedContent(cropProperties.cropType, Modifier.weight(1f)) { type ->
-                        ImageCropper(
-                            background = MaterialTheme.colorScheme.surface,
-                            imageBitmap = bmp,
-                            contentDescription = null,
-                            cropProperties = cropProperties.copy(cropType = type),
-                            onCropStart = {},
-                            crop = crop,
-                            onCropSuccess = { image ->
-                                if (share) {
-                                    context.shareBitmap(
-                                        bitmap = image.asAndroidBitmap(),
-                                        compressFormat = viewModel.mimeType
-                                    )
-                                } else if (save) {
-                                    saveBitmap(image.asAndroidBitmap())
-                                } else {
-                                    viewModel.updateBitmap(image.asAndroidBitmap())
+                if (LocalConfiguration.current.orientation == Configuration.ORIENTATION_PORTRAIT) {
+                    Column {
+                        val cropProperties = viewModel.cropProperties
+                        AnimatedContent(cropProperties.cropType, Modifier.weight(1f)) { type ->
+                            ImageCropper(
+                                background = MaterialTheme.colorScheme.surface,
+                                imageBitmap = bmp,
+                                contentDescription = null,
+                                cropProperties = cropProperties.copy(cropType = type),
+                                onCropStart = {},
+                                crop = crop,
+                                onCropSuccess = { image ->
+                                    if (share) {
+                                        context.shareBitmap(
+                                            bitmap = image.asAndroidBitmap(),
+                                            compressFormat = viewModel.mimeType
+                                        )
+                                    } else if (save) {
+                                        saveBitmap(image.asAndroidBitmap())
+                                    } else {
+                                        viewModel.updateBitmap(image.asAndroidBitmap())
+                                    }
+                                    save = false
+                                    crop = false
+                                    share = false
                                 }
-                                save = false
-                                crop = false
-                                share = false
+                            )
+                        }
+
+                        val aspectRatios = aspectRatios()
+                        AspectRatioSelection(
+                            modifier = Modifier.fillMaxWidth(),
+                            selectedIndex = aspectRatios.indexOfFirst { cr ->
+                                cr.aspectRatio == viewModel.cropProperties.aspectRatio
+                            }
+                        ) { aspect ->
+                            viewModel.setCropAspectRatio(aspect.aspectRatio)
+                        }
+                        BottomAppBar(
+                            modifier = Modifier.drawHorizontalStroke(true),
+                            actions = {
+                                var job by remember { mutableStateOf<Job?>(null) }
+                                OutlinedButton(
+                                    colors = ButtonDefaults.outlinedButtonColors(
+                                        containerColor = MaterialTheme.colorScheme.secondaryContainer,
+                                        contentColor = MaterialTheme.colorScheme.onSecondaryContainer
+                                    ),
+                                    border = BorderStroke(
+                                        LocalBorderWidth.current,
+                                        MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.secondaryContainer)
+                                    ),
+                                    modifier = Modifier.padding(horizontal = 16.dp),
+                                    onClick = {
+                                        job?.cancel()
+                                        job = scope.launch {
+                                            kotlinx.coroutines.delay(500)
+                                            crop = true
+                                        }
+                                    }
+                                ) {
+                                    Text(stringResource(R.string.crop))
+                                }
+                            },
+                            floatingActionButton = {
+                                Row {
+                                    FloatingActionButton(
+                                        onClick = pickImage,
+                                        modifier = Modifier.fabBorder(),
+                                        containerColor = MaterialTheme.colorScheme.tertiaryContainer,
+                                        elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
+                                    ) {
+                                        val expanded =
+                                            scrollState.isScrollingUp() && viewModel.bitmap == null
+                                        val horizontalPadding by animateDpAsState(targetValue = if (expanded) 16.dp else 0.dp)
+                                        Row(
+                                            modifier = Modifier.padding(horizontal = horizontalPadding),
+                                            verticalAlignment = Alignment.CenterVertically
+                                        ) {
+                                            Icon(Icons.Rounded.AddPhotoAlternate, null)
+                                            AnimatedVisibility(visible = expanded) {
+                                                Row {
+                                                    Spacer(Modifier.width(8.dp))
+                                                    Text(stringResource(R.string.pick_image_alt))
+                                                }
+                                            }
+                                        }
+                                    }
+                                    Spacer(modifier = Modifier.width(16.dp))
+                                    FloatingActionButton(
+                                        onClick = {
+                                            crop = true
+                                            save = true
+                                        },
+                                        modifier = Modifier.fabBorder(),
+                                        elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
+                                    ) {
+                                        Icon(Icons.Rounded.Save, null)
+                                    }
+                                }
                             }
                         )
                     }
-
-
-                    val aspectRatios = aspectRatios()
-                    AspectRatioSelection(
-                        modifier = Modifier.fillMaxWidth(),
-                        selectedIndex = aspectRatios.indexOfFirst { cr ->
-                            cr.aspectRatio == viewModel.cropProperties.aspectRatio
+                } else {
+                    Row {
+                        val cropProperties = viewModel.cropProperties
+                        Box(
+                            Modifier
+                                .weight(0.8f)
+                                .padding(20.dp)
+                        ) {
+                            Box(Modifier.align(Alignment.Center)) {
+                                AnimatedContent(
+                                    cropProperties.cropType,
+                                    Modifier.fillMaxSize()
+                                ) { type ->
+                                    ImageCropper(
+                                        background = MaterialTheme.colorScheme.surface,
+                                        imageBitmap = bmp,
+                                        contentDescription = null,
+                                        cropProperties = cropProperties.copy(cropType = type),
+                                        onCropStart = {},
+                                        crop = crop,
+                                        onCropSuccess = { image ->
+                                            if (share) {
+                                                context.shareBitmap(
+                                                    bitmap = image.asAndroidBitmap(),
+                                                    compressFormat = viewModel.mimeType
+                                                )
+                                            } else if (save) {
+                                                saveBitmap(image.asAndroidBitmap())
+                                            } else {
+                                                viewModel.updateBitmap(image.asAndroidBitmap())
+                                            }
+                                            save = false
+                                            crop = false
+                                            share = false
+                                        }
+                                    )
+                                }
+                            }
                         }
-                    ) { aspect ->
-                        viewModel.setCropAspectRatio(aspect.aspectRatio)
-                    }
-                    //TODO: Create buttons lambda and adopt layout for large screens like in other sections
-                    BottomAppBar(
-                        modifier = Modifier.drawHorizontalStroke(true),
-                        actions = {
+                        Box(
+                            Modifier
+                                .fillMaxHeight()
+                                .width(1.dp)
+                                .background(MaterialTheme.colorScheme.surfaceVariant)
+                        )
+                        val aspectRatios = aspectRatios()
+                        AspectRatioSelection(
+                            modifier = Modifier
+                                .fillMaxHeight()
+                                .padding(horizontal = 20.dp),
+                            horizontal = false,
+                            selectedIndex = aspectRatios.indexOfFirst { cr ->
+                                cr.aspectRatio == viewModel.cropProperties.aspectRatio
+                            }
+                        ) { aspect ->
+                            viewModel.setCropAspectRatio(aspect.aspectRatio)
+                        }
+                        Box(
+                            Modifier
+                                .fillMaxHeight()
+                                .width(1.dp)
+                                .background(MaterialTheme.colorScheme.surfaceVariant)
+                                .padding(start = 20.dp)
+                        )
+                        Column(
+                            Modifier
+                                .padding(horizontal = 20.dp)
+                                .fillMaxHeight(),
+                            horizontalAlignment = Alignment.CenterHorizontally,
+                            verticalArrangement = Arrangement.Center
+                        ) {
+                            FloatingActionButton(
+                                onClick = pickImage,
+                                modifier = Modifier.fabBorder(),
+                                containerColor = MaterialTheme.colorScheme.tertiaryContainer,
+                                elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
+                            ) {
+                                val expanded =
+                                    scrollState.isScrollingUp() && viewModel.bitmap == null
+                                val horizontalPadding by animateDpAsState(targetValue = if (expanded) 16.dp else 0.dp)
+                                Row(
+                                    modifier = Modifier.padding(horizontal = horizontalPadding),
+                                    verticalAlignment = Alignment.CenterVertically
+                                ) {
+                                    Icon(Icons.Rounded.AddPhotoAlternate, null)
+                                    AnimatedVisibility(visible = expanded) {
+                                        Row {
+                                            Spacer(Modifier.width(8.dp))
+                                            Text(stringResource(R.string.pick_image_alt))
+                                        }
+                                    }
+                                }
+                            }
+                            Spacer(modifier = Modifier.height(16.dp))
                             var job by remember { mutableStateOf<Job?>(null) }
-                            OutlinedButton(
-                                colors = ButtonDefaults.outlinedButtonColors(
-                                    containerColor = MaterialTheme.colorScheme.secondaryContainer,
-                                    contentColor = MaterialTheme.colorScheme.onSecondaryContainer
-                                ),
-                                border = BorderStroke(
-                                    LocalBorderWidth.current,
-                                    MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.secondaryContainer)
-                                ),
-                                modifier = Modifier.padding(horizontal = 16.dp),
+                            FloatingActionButton(
                                 onClick = {
                                     job?.cancel()
                                     job = scope.launch {
                                         kotlinx.coroutines.delay(500)
                                         crop = true
                                     }
-                                }
+                                },
+                                modifier = Modifier.fabBorder(),
+                                containerColor = MaterialTheme.colorScheme.secondaryContainer,
+                                elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
                             ) {
-                                Text(stringResource(R.string.crop))
+                                Icon(Icons.Rounded.Crop, null)
                             }
-                        },
-                        floatingActionButton = {
-                            Row {
-                                FloatingActionButton(
-                                    onClick = pickImage,
-                                    modifier = Modifier.fabBorder(),
-                                    containerColor = MaterialTheme.colorScheme.tertiaryContainer,
-                                    elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
-                                ) {
-                                    val expanded =
-                                        scrollState.isScrollingUp() && viewModel.bitmap == null
-                                    val horizontalPadding by animateDpAsState(targetValue = if (expanded) 16.dp else 0.dp)
-                                    Row(
-                                        modifier = Modifier.padding(horizontal = horizontalPadding),
-                                        verticalAlignment = Alignment.CenterVertically
-                                    ) {
-                                        Icon(Icons.Rounded.AddPhotoAlternate, null)
-                                        AnimatedVisibility(visible = expanded) {
-                                            Row {
-                                                Spacer(Modifier.width(8.dp))
-                                                Text(stringResource(R.string.pick_image_alt))
-                                            }
-                                        }
-                                    }
-                                }
-                                Spacer(modifier = Modifier.width(16.dp))
-                                FloatingActionButton(
-                                    onClick = {
-                                        crop = true
-                                        save = true
-                                    },
-                                    modifier = Modifier.fabBorder(),
-                                    elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
-                                ) {
-                                    Icon(Icons.Rounded.Save, null)
-                                }
+                            Spacer(modifier = Modifier.height(16.dp))
+                            FloatingActionButton(
+                                onClick = {
+                                    crop = true
+                                    save = true
+                                },
+                                modifier = Modifier.fabBorder(),
+                                elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
+                            ) {
+                                Icon(Icons.Rounded.Save, null)
                             }
                         }
-                    )
+                    }
                 }
             } ?: Column(Modifier.verticalScroll(scrollState)) {
                 ImageNotPickedWidget(

@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.calculateEndPadding
 import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -34,39 +35,72 @@ import ru.tech.imageresizershrinker.main_screen.components.block
 fun AspectRatioSelection(
     modifier: Modifier = Modifier,
     selectedIndex: Int = 2,
+    horizontal: Boolean = true,
     onAspectRatioChange: (CropAspectRatio) -> Unit
 ) {
     val aspectRatios = aspectRatios()
 
-    LazyRow(
-        modifier = modifier,
-        horizontalArrangement = Arrangement.spacedBy(4.dp, Alignment.CenterHorizontally),
-        contentPadding = PaddingValues(
-            start = 4.dp,
-            top = 4.dp,
-            bottom = 4.dp,
-            end = 4.dp + WindowInsets
-                .navigationBars
-                .asPaddingValues()
-                .calculateEndPadding(LocalLayoutDirection.current)
-        )
-    ) {
-        itemsIndexed(aspectRatios) { index, item ->
-            AspectRatioSelectionCard(
-                modifier = Modifier
-                    .width(80.dp)
-                    .border(
-                        2.dp,
-                        animateColorAsState(if (selectedIndex == index) MaterialTheme.colorScheme.surfaceVariant else Color.Transparent).value,
-                        RoundedCornerShape(16.dp)
-                    )
-                    .clip(RoundedCornerShape(16.dp))
-                    .clickable { onAspectRatioChange(aspectRatios[index]) }
-                    .block(),
-                contentColor = Color.Transparent,
-                color = MaterialTheme.colorScheme.onSurface,
-                cropAspectRatio = item
+    if (horizontal) {
+        LazyRow(
+            modifier = modifier,
+            horizontalArrangement = Arrangement.spacedBy(4.dp, Alignment.CenterHorizontally),
+            contentPadding = PaddingValues(
+                start = 4.dp,
+                top = 4.dp,
+                bottom = 4.dp,
+                end = 4.dp + WindowInsets
+                    .navigationBars
+                    .asPaddingValues()
+                    .calculateEndPadding(LocalLayoutDirection.current)
             )
+        ) {
+            itemsIndexed(aspectRatios) { index, item ->
+                AspectRatioSelectionCard(
+                    modifier = Modifier
+                        .width(80.dp)
+                        .border(
+                            2.dp,
+                            animateColorAsState(if (selectedIndex == index) MaterialTheme.colorScheme.surfaceVariant else Color.Transparent).value,
+                            RoundedCornerShape(16.dp)
+                        )
+                        .clip(RoundedCornerShape(16.dp))
+                        .clickable { onAspectRatioChange(aspectRatios[index]) }
+                        .block(),
+                    contentColor = Color.Transparent,
+                    color = MaterialTheme.colorScheme.onSurface,
+                    cropAspectRatio = item
+                )
+            }
+        }
+    } else {
+        LazyColumn(
+            modifier = modifier,
+            verticalArrangement = Arrangement.spacedBy(20.dp, Alignment.CenterVertically),
+            contentPadding = PaddingValues(
+                top = 20.dp,
+                bottom = 20.dp + WindowInsets
+                    .navigationBars
+                    .asPaddingValues()
+                    .calculateBottomPadding()
+            )
+        ) {
+            itemsIndexed(aspectRatios) { index, item ->
+                AspectRatioSelectionCard(
+                    modifier = Modifier
+                        .width(80.dp)
+                        .border(
+                            2.dp,
+                            animateColorAsState(if (selectedIndex == index) MaterialTheme.colorScheme.surfaceVariant else Color.Transparent).value,
+                            RoundedCornerShape(16.dp)
+                        )
+                        .clip(RoundedCornerShape(16.dp))
+                        .clickable { onAspectRatioChange(aspectRatios[index]) }
+                        .block(),
+                    contentColor = Color.Transparent,
+                    color = MaterialTheme.colorScheme.onSurface,
+                    cropAspectRatio = item
+                )
+            }
         }
     }
 }
