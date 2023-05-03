@@ -43,6 +43,8 @@ import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.Saver
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -407,10 +409,28 @@ fun rememberDynamicThemeState(
         surface = MaterialTheme.colorScheme.surface
     )
 ): DynamicThemeState {
-    return remember {
+    return rememberSaveable(saver = DynamicThemeStateSaver) {
         DynamicThemeState(initialColorTuple)
     }
 }
+
+val DynamicThemeStateSaver: Saver<DynamicThemeState, String> = Saver(
+    save = {
+        val colorTuple = it.colorTuple.value
+        "${colorTuple.primary.toArgb()}*${colorTuple.secondary?.toArgb()}*${colorTuple.tertiary?.toArgb()}*${colorTuple.surface?.toArgb()}"
+    },
+    restore = {
+        val ar = it.split("*").map { it.toIntOrNull()?.let { Color(it) } }
+        DynamicThemeState(
+            initialColorTuple = ColorTuple(
+                ar[0]!!,
+                ar[1],
+                ar[2],
+                ar[3]
+            )
+        )
+    }
+)
 
 @Stable
 class DynamicThemeState(
