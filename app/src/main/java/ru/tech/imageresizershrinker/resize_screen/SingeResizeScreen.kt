@@ -432,6 +432,15 @@ fun SingleResizeScreen(
                 floatingActionButton = {
                     Row {
                         FloatingActionButton(
+                            onClick = pickImage,
+                            modifier = Modifier.fabBorder(),
+                            containerColor = MaterialTheme.colorScheme.tertiaryContainer,
+                            elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation()
+                        ) {
+                            Icon(Icons.Rounded.AddPhotoAlternate, null)
+                        }
+                        Spacer(Modifier.width(16.dp))
+                        FloatingActionButton(
                             onClick = {
                                 if (bitmapInfo.mime.extension !in listOf(
                                         "jpg",
@@ -445,7 +454,6 @@ fun SingleResizeScreen(
                             },
                             elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
                             modifier = Modifier.fabBorder(),
-                            containerColor = MaterialTheme.colorScheme.tertiaryContainer,
                         ) {
                             BadgedBox(
                                 badge = {
@@ -464,14 +472,6 @@ fun SingleResizeScreen(
                                 Icon(Icons.Rounded.Save, null)
                             }
                         }
-                        Spacer(Modifier.width(16.dp))
-                        FloatingActionButton(
-                            onClick = pickImage,
-                            modifier = Modifier.fabBorder(),
-                            elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation()
-                        ) {
-                            Icon(Icons.Rounded.AddPhotoAlternate, null)
-                        }
                     }
                 }
             )
@@ -481,6 +481,15 @@ fun SingleResizeScreen(
                     .padding(horizontal = 16.dp)
                     .navigationBarsPadding()
             ) {
+                FloatingActionButton(
+                    onClick = pickImage,
+                    elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
+                    modifier = Modifier.fabBorder(),
+                    containerColor = MaterialTheme.colorScheme.tertiaryContainer,
+                ) {
+                    Icon(Icons.Rounded.AddPhotoAlternate, null)
+                }
+                Spacer(Modifier.height(16.dp))
                 FloatingActionButton(
                     elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
                     modifier = Modifier.fabBorder(),
@@ -494,8 +503,7 @@ fun SingleResizeScreen(
                         } else {
                             saveBitmap()
                         }
-                    },
-                    containerColor = MaterialTheme.colorScheme.tertiaryContainer
+                    }
                 ) {
                     BadgedBox(
                         badge = {
@@ -513,14 +521,6 @@ fun SingleResizeScreen(
                     ) {
                         Icon(Icons.Rounded.Save, null)
                     }
-                }
-                Spacer(Modifier.height(16.dp))
-                FloatingActionButton(
-                    onClick = pickImage,
-                    elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
-                    modifier = Modifier.fabBorder()
-                ) {
-                    Icon(Icons.Rounded.AddPhotoAlternate, null)
                 }
             }
         }

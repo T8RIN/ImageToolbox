@@ -310,6 +310,7 @@ fun CropScreen(
                     ) { aspect ->
                         viewModel.setCropAspectRatio(aspect.aspectRatio)
                     }
+                    //TODO: Create buttons lambda and adopt layout for large screens like in other sections
                     BottomAppBar(
                         modifier = Modifier.drawHorizontalStroke(true),
                         actions = {
@@ -338,20 +339,9 @@ fun CropScreen(
                         floatingActionButton = {
                             Row {
                                 FloatingActionButton(
-                                    onClick = {
-                                        crop = true
-                                        save = true
-                                    },
-                                    modifier = Modifier.fabBorder(),
-                                    containerColor = MaterialTheme.colorScheme.tertiaryContainer,
-                                    elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
-                                ) {
-                                    Icon(Icons.Rounded.Save, null)
-                                }
-                                Spacer(modifier = Modifier.width(16.dp))
-                                FloatingActionButton(
                                     onClick = pickImage,
                                     modifier = Modifier.fabBorder(),
+                                    containerColor = MaterialTheme.colorScheme.tertiaryContainer,
                                     elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
                                 ) {
                                     val expanded =
@@ -369,6 +359,17 @@ fun CropScreen(
                                             }
                                         }
                                     }
+                                }
+                                Spacer(modifier = Modifier.width(16.dp))
+                                FloatingActionButton(
+                                    onClick = {
+                                        crop = true
+                                        save = true
+                                    },
+                                    modifier = Modifier.fabBorder(),
+                                    elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
+                                ) {
+                                    Icon(Icons.Rounded.Save, null)
                                 }
                             }
                         }

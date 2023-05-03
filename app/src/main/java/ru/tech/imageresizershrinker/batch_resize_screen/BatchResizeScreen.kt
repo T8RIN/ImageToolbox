@@ -443,20 +443,20 @@ fun BatchResizeScreen(
                 floatingActionButton = {
                     Row {
                         FloatingActionButton(
-                            onClick = saveBitmaps,
+                            onClick = pickImage,
                             modifier = Modifier.fabBorder(),
                             containerColor = MaterialTheme.colorScheme.tertiaryContainer,
                             elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation()
                         ) {
-                            Icon(Icons.Rounded.Save, null)
+                            Icon(Icons.Rounded.AddPhotoAlternate, null)
                         }
                         Spacer(Modifier.width(16.dp))
                         FloatingActionButton(
-                            onClick = pickImage,
+                            onClick = saveBitmaps,
                             modifier = Modifier.fabBorder(),
                             elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation()
                         ) {
-                            Icon(Icons.Rounded.AddPhotoAlternate, null)
+                            Icon(Icons.Rounded.Save, null)
                         }
                     }
                 }
@@ -468,20 +468,20 @@ fun BatchResizeScreen(
                     .navigationBarsPadding()
             ) {
                 FloatingActionButton(
-                    onClick = saveBitmaps,
+                    onClick = pickImage,
+                    elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
+                    modifier = Modifier.fabBorder(),
                     containerColor = MaterialTheme.colorScheme.tertiaryContainer,
+                ) {
+                    Icon(Icons.Rounded.AddPhotoAlternate, null)
+                }
+                Spacer(Modifier.height(16.dp))
+                FloatingActionButton(
+                    onClick = saveBitmaps,
                     elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
                     modifier = Modifier.fabBorder(),
                 ) {
                     Icon(Icons.Rounded.Save, null)
-                }
-                Spacer(Modifier.height(16.dp))
-                FloatingActionButton(
-                    onClick = pickImage,
-                    elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
-                    modifier = Modifier.fabBorder(),
-                ) {
-                    Icon(Icons.Rounded.AddPhotoAlternate, null)
                 }
             }
         }
