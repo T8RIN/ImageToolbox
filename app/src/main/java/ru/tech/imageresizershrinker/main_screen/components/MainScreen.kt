@@ -1133,7 +1133,7 @@ fun MainScreen(
             Box(
                 Modifier
                     .fillMaxHeight()
-                    .width(1.dp)
+                    .width(LocalBorderWidth.current.coerceAtLeast(1.dp))
                     .background(
                         MaterialTheme.colorScheme.outlineVariant(
                             0.3f,
