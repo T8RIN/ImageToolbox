@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name" translatable="false">Image Resizer</string>
     <string name="smth_went_wrong">Iets het verkeerd geloop: %1$s</string>
@@ -34,7 +35,7 @@
     <string name="exif" translatable="false">EXIF</string>
     <string name="save">Stoor</string>
     <string name="clear">Duidelik</string>
-    <string name="clear_exif">Vee EXIF ​​uit</string>
+    <string name="clear_exif">Vee EXIF uit</string>
     <string name="cancel">Kanselleer</string>
     <string name="clear_exif_sub">Alle EXIF-data van die beeld sal uitgevee word, hierdie aksie kan nie ongedaan gemaak word nie!</string>
     <string name="presets">Voorinstellings</string>
