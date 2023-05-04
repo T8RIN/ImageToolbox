@@ -131,10 +131,14 @@ This application is completely free, but if you want to support the project deve
   
   - [Exif Interface](https://developer.android.com/jetpack/androidx/releases/exifinterface) - Read and write image file EXIF tags.
 
+<div align="center">
+
+
 # Translation
 You can help translate ImageResizer into your language on [Hosted Weblate](https://hosted.weblate.org/engage/image-resizer/)
 
 [![Состояние перевода](https://hosted.weblate.org/widgets/image-resizer/-/image-resizer/multi-auto.svg)](https://hosted.weblate.org/engage/image-resizer/)
+</br>
 [![Translation status](https://hosted.weblate.org/widgets/image-resizer/-/image-resizer/287x66-black.png)](https://hosted.weblate.org/engage/image-resizer/)
 
 
@@ -167,3 +171,5 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 ```
+
+</div>
