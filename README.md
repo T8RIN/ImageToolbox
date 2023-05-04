@@ -8,6 +8,9 @@
   <img alt="Jetpack Compose" src="https://img.shields.io/static/v1?style=for-the-badge&message=Jetpack+Compose&color=4285F4&logo=Jetpack+Compose&logoColor=FFFFFF&label="/></a> 
   <a href="https://github.com/T8RIN/ImageResizer/actions"><img alt="Build" src="https://img.shields.io/github/actions/workflow/status/t8rin/imageresizer/android.yml?logo=github&style=for-the-badge"/></a>
   <a href="https://hits.sh/github.com/t8rin/ImageResizer/"><img alt="Hits" src="https://hits.sh/github.com/t8rin/ImageResizer.svg?style=for-the-badge&label=Views&extraCount=7500&color=3b8963"/></a>
+  <a href="https://github.com/t8rin/ImageResizer/releases">
+      <img src="https://img.shields.io/github/downloads/t8rin/ImageResizer/total?color=orange&style=for-the-badge"/>
+  </a>
 </p>
 
 <h4 align="center">Powerful image resizer with width/height selection, cropping, EXIF editing, quality and output image type picking and batch processing feature. Based on Material You design following official Google guidelines</h4>
