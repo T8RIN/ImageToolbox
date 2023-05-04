@@ -31,6 +31,10 @@ Go to the [Releases](https://github.com/t8rin/imageresizer/releases/latest) and 
       alt='Get it on fdroid'
       align="center"
       height="80">](https://f-droid.org/packages/ru.tech.imageresizershrinker)
+[<img src="https://user-images.githubusercontent.com/52178347/236238307-c5ac806f-eaaf-4e61-874b-328474bcbb54.svg"
+      alt='Get it on RuStore'
+      align="center"
+      height="54">](https://apps.rustore.ru/app/ru.tech.imageresizershrinker) 
 [<img src="https://gitlab.com/IzzyOnDroid/repo/-/raw/master/assets/IzzyOnDroid.png"
       alt='Get it on izzy'
       align="center"
@@ -39,10 +43,6 @@ Go to the [Releases](https://github.com/t8rin/imageresizer/releases/latest) and 
       alt='Get it on GitHub'
       align="center"
       height="80">](https://github.com/t8rin/imageresizer/releases/latest)
-[<img src="https://user-images.githubusercontent.com/52178347/236238307-c5ac806f-eaaf-4e61-874b-328474bcbb54.svg"
-      alt='Get it on RuStore'
-      align="center"
-      height="54">](https://apps.rustore.ru/app/ru.tech.imageresizershrinker) 
       
 
 # Buy me a coffee
