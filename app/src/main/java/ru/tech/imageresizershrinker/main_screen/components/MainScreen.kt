@@ -234,7 +234,8 @@ fun MainScreen(
                             RevealDirection.EndToStart,
                         ),
                         maxAmountOfOverflow = 1.dp,
-                        state = state
+                        state = state,
+                        enabled = false
                     )
                 ),
             windowInsets = WindowInsets(0)

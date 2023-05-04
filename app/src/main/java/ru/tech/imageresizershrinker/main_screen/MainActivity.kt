@@ -199,6 +199,13 @@ class MainActivity : M3Activity() {
                                         currentFolderUri = saveFolderUri,
                                         onGetNewFolder = {
                                             viewModel.updateSaveFolderUri(it)
+                                            it?.let { uri ->
+                                                contentResolver.takePersistableUriPermission(
+                                                    uri,
+                                                    Intent.FLAG_GRANT_READ_URI_PERMISSION or
+                                                            Intent.FLAG_GRANT_WRITE_URI_PERMISSION
+                                                )
+                                            }
                                         },
                                         showConfetti = { showConfetti = true },
                                         viewModel = viewModel

@@ -106,6 +106,7 @@ fun Modifier.revealSwipeable(
     maxAmountOfOverflow: Dp,
     directions: Set<RevealDirection>,
     state: RevealState,
+    enabled: Boolean = true
 ) = composed {
 
     val maxAmountOfOverflowPx = with(LocalDensity.current) { maxAmountOfOverflow.toPx() }
@@ -131,7 +132,7 @@ fun Modifier.revealSwipeable(
         anchors = anchors,
         thresholds = thresholds,
         orientation = Orientation.Horizontal,
-        enabled = true, // state.value == RevealValue.Default,
+        enabled = enabled, // state.value == RevealValue.Default,
         reverseDirection = isRtl,
         resistance = ResistanceConfig(
             basis = maxAmountOfOverflowPx,
