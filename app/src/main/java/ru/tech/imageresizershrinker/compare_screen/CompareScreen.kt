@@ -32,6 +32,7 @@ import androidx.compose.material.icons.rounded.ArrowBack
 import androidx.compose.material.icons.rounded.ErrorOutline
 import androidx.compose.material.icons.rounded.RotateLeft
 import androidx.compose.material.icons.rounded.RotateRight
+import androidx.compose.material.icons.rounded.SwapHoriz
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
@@ -220,6 +221,13 @@ fun CompareScreen(
                         }
                     },
                     actions = {
+                        IconButton(
+                            onClick = {
+                                viewModel.swap()
+                            }
+                        ) {
+                            Icon(Icons.Rounded.SwapHoriz, null)
+                        }
                         IconButton(
                             onClick = {
                                 viewModel.rotate()

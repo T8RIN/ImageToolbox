@@ -86,10 +86,27 @@ class CompareViewModel : ViewModel() {
             if (it == 90f) 0f
             else 90f
         }
-        _bitmapData.value?.let { (f, s) ->
-            if (f != null && s != null) {
-                _bitmapData.value =
-                    f.rotate(180f - old).rotate(rotation) to s.rotate(180f - old).rotate(rotation)
+        viewModelScope.launch {
+            withContext(Dispatchers.IO) {
+                _bitmapData.value?.let { (f, s) ->
+                    if (f != null && s != null) {
+                        _isLoading.value = true
+                        _bitmapData.value =
+                            f.rotate(180f - old).rotate(rotation) to s.rotate(180f - old)
+                                .rotate(rotation)
+                        _isLoading.value = false
+                    }
+                }
+            }
+        }
+    }
+
+    fun swap() {
+        viewModelScope.launch {
+            withContext(Dispatchers.IO) {
+                _isLoading.value = true
+                _bitmapData.value = _bitmapData.value?.run { second to first }
+                _isLoading.value = false
             }
         }
     }
