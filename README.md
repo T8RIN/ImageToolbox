@@ -9,7 +9,7 @@
   </br>
   </br>
   <a href="https://github.com/T8RIN/ImageResizer/actions">
-      <img alt="Build" src="https://img.shields.io/github/actions/workflow/status/t8rin/imageresizer/android.yml?label=Github CI&style=for-the-badge"/></a>
+      <img alt="Build" src="https://img.shields.io/github/actions/workflow/status/t8rin/imageresizer/android.yml?label=Build&style=for-the-badge"/></a>
   <a href="https://hits.sh/github.com/t8rin/ImageResizer/">
       <img alt="Hits" src="https://hits.sh/github.com/t8rin/ImageResizer.svg?style=for-the-badge&label=Views&extraCount=7500&color=3b8963"/></a>
   <a href="https://github.com/t8rin/ImageResizer/releases">
