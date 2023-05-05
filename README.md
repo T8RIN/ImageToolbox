@@ -18,6 +18,7 @@
   <a href="https://github.com/t8rin/ImageResizer/stargazers">
       <img src="https://img.shields.io/github/stars/t8rin/imageresizer?color=ffff00&style=for-the-badge"/>
   </a>
+  <img alt="GitHub code size in bytes" src="https://img.shields.io/github/languages/code-size/t8rin/imageresizer?style=for-the-badge">
   </br>
   <a href="https://github.com/t8rin/imageresizer/releases/latest">
       <img src="https://img.shields.io/github/v/release/t8rin/imageresizer?color=purple&include_prereleases&logo=GITHUB&style=for-the-badge"/>
