@@ -7,8 +7,11 @@
   <img alt="Jetpack Compose" src="https://img.shields.io/static/v1?style=for-the-badge&message=Jetpack+Compose&color=4285F4&logo=Jetpack+Compose&logoColor=FFFFFF&label="/></a> 
   <img alt="material" src="https://custom-icon-badges.demolab.com/badge/material%20you-lightblue?style=for-the-badge&logoColor=333&logo=material-you"/></a>
   </br>
-  <a href="https://github.com/T8RIN/ImageResizer/actions"><img alt="Build" src="https://img.shields.io/github/actions/workflow/status/t8rin/imageresizer/android.yml?label=Github CI&style=for-the-badge"/></a>
-  <a href="https://hits.sh/github.com/t8rin/ImageResizer/"><img alt="Hits" src="https://hits.sh/github.com/t8rin/ImageResizer.svg?style=for-the-badge&label=Views&extraCount=7500&color=3b8963"/></a>
+  </br>
+  <a href="https://github.com/T8RIN/ImageResizer/actions">
+      <img alt="Build" src="https://img.shields.io/github/actions/workflow/status/t8rin/imageresizer/android.yml?label=Github CI&style=for-the-badge"/></a>
+  <a href="https://hits.sh/github.com/t8rin/ImageResizer/">
+      <img alt="Hits" src="https://hits.sh/github.com/t8rin/ImageResizer.svg?style=for-the-badge&label=Views&extraCount=7500&color=3b8963"/></a>
   <a href="https://github.com/t8rin/ImageResizer/releases">
       <img src="https://img.shields.io/github/downloads/t8rin/ImageResizer/total?color=orange&style=for-the-badge"/>
   </a>
@@ -16,14 +19,13 @@
       <img src="https://img.shields.io/github/stars/t8rin/imageresizer?color=ffff00&style=for-the-badge"/>
   </a>
   </br>
-  </br>
   <a href="https://github.com/t8rin/imageresizer/releases/latest">
       <img src="https://img.shields.io/github/v/release/t8rin/imageresizer?color=purple&include_prereleases&logo=GITHUB&style=for-the-badge"/>
   </a>
-  <a href="https://github.com/t8rin/imageresizer/releases/latest">
+  <a href="https://play.google.com/store/apps/details?id=ru.tech.imageresizershrinker">
       <img src="https://img.shields.io/endpoint?color=purple&logo=google-play&style=for-the-badge&label=Play%20store&url=https%3A%2F%2Fplay.cuzi.workers.dev%2Fplay%3Fi%3Dru.tech.imageresizershrinker%26l%3DAndroid%26m%3D%24version"/>
   </a>
-  <a href="https://play.google.com/store/apps/details?id=ru.tech.imageresizershrinker">
+  <a href="https://f-droid.org/packages/ru.tech.imageresizershrinker">
       <img src="https://img.shields.io/f-droid/v/ru.tech.imageresizershrinker?color=purple&include_prereleases&logo=FDROID&style=for-the-badge"/>
   </a>
 </p>
