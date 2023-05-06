@@ -39,6 +39,7 @@ import ru.tech.imageresizershrinker.utils.IMAGE_MONET
 import ru.tech.imageresizershrinker.utils.NIGHT_MODE
 import ru.tech.imageresizershrinker.utils.PRESETS
 import ru.tech.imageresizershrinker.utils.SAVE_FOLDER
+import ru.tech.imageresizershrinker.utils.SHOW_DIALOG
 import ru.tech.imageresizershrinker.widget.ToastHostState
 import java.net.URL
 import javax.inject.Inject
@@ -99,6 +100,9 @@ class MainViewModel @Inject constructor(
     private val _shouldShowDialog = mutableStateOf(true)
     val shouldShowDialog by _shouldShowDialog
 
+    private val _showDialogOnStartUp = mutableStateOf(true)
+    val showDialogOnStartUp by _showDialogOnStartUp
+
     private val _tag = mutableStateOf("")
     val tag by _tag
 
@@ -108,7 +112,6 @@ class MainViewModel @Inject constructor(
     val toastHostState = ToastHostState()
 
     init {
-        tryGetUpdate()
         runBlocking {
             dataStore.edit { prefs ->
                 _nightMode.value = prefs[NIGHT_MODE] ?: 2
@@ -125,6 +128,7 @@ class MainViewModel @Inject constructor(
                     )
                 }) ?: defaultColorTuple
                 _borderWidth.value = prefs[BORDER_WIDTH]?.toFloatOrNull() ?: 1f
+                _showDialogOnStartUp.value = prefs[SHOW_DIALOG] ?: true
             }
         }
         dataStore.data.onEach { prefs ->
@@ -154,7 +158,18 @@ class MainViewModel @Inject constructor(
             _colorTupleList.value = prefs[COLOR_TUPLES].toColorTupleList()
 
             _alignment.value = prefs[ALIGNMENT] ?: 1
+            _showDialogOnStartUp.value = prefs[SHOW_DIALOG] ?: true
+
         }.launchIn(viewModelScope)
+        tryGetUpdate(showDialog = showDialogOnStartUp)
+    }
+
+    fun updateShowDialog(show: Boolean) {
+        viewModelScope.launch {
+            dataStore.edit {
+                it[SHOW_DIALOG] = show
+            }
+        }
     }
 
     fun updateColorTuple(colorTuple: ColorTuple) {
@@ -223,7 +238,11 @@ class MainViewModel @Inject constructor(
         _showUpdateDialog.value = false
     }
 
-    fun tryGetUpdate(newRequest: Boolean = false, onNoUpdates: () -> Unit = {}) {
+    fun tryGetUpdate(
+        newRequest: Boolean = false,
+        showDialog: Boolean = true,
+        onNoUpdates: () -> Unit = {}
+    ) {
         if (!_cancelledUpdate.value || newRequest) {
             viewModelScope.launch {
                 withContext(Dispatchers.IO) {
@@ -246,7 +265,9 @@ class MainViewModel @Inject constructor(
 
                         if (tag != BuildConfig.VERSION_NAME) {
                             _updateAvailable.value = true
-                            _showUpdateDialog.value = true
+                            if (showDialog) {
+                                _showUpdateDialog.value = true
+                            }
                         } else {
                             onNoUpdates()
                         }

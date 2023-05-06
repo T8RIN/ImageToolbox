@@ -528,7 +528,7 @@ class MainActivity : M3Activity() {
 
                     ToastHost(hostState = LocalToastHost.current)
 
-                    SideEffect { viewModel.tryGetUpdate() }
+                    SideEffect { viewModel.tryGetUpdate(showDialog = viewModel.showDialogOnStartUp) }
 
                     val showPermission = needToShowStoragePermissionRequest()
 

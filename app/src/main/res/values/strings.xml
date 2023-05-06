@@ -137,6 +137,8 @@
     <string name="buy_me_a_coffee">Buy me a coffee</string>
     <string name="buy_me_a_coffee_sub">This application is completely free, but if you want to support the project development, you can click here</string>
     <string name="fab_alignment">FAB alignment</string>
+    <string name="check_updates">Check for updates</string>
+    <string name="check_updates_sub">If enabled, update dialog will be shown to you after app startup</string>
     <string-array name="fab_alignment_sub">
         <item>Start</item>
         <item>Center</item>

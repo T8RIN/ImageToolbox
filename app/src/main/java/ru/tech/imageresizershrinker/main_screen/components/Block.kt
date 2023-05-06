@@ -102,7 +102,11 @@ fun Modifier.drawHorizontalStroke(top: Boolean = false, height: Dp = Dp.Unspecif
         .zIndex(100f)
 }
 
-fun Modifier.fabBorder(height: Dp = Dp.Unspecified, shape: Shape? = null) = composed {
+fun Modifier.fabBorder(
+    height: Dp = Dp.Unspecified,
+    shape: Shape? = null,
+    elevation: Dp = 8.dp
+) = composed {
     val h = if (height.isUnspecified) {
         if (LocalBorderWidth.current > 0.dp) {
             LocalBorderWidth.current
@@ -125,7 +129,7 @@ fun Modifier.fabBorder(height: Dp = Dp.Unspecified, shape: Shape? = null) = comp
             szape
         )
     }.shadow(
-        animateDpAsState(if (h == null) 8.dp else 0.dp).value,
+        animateDpAsState(if (h == null) elevation else 0.dp).value,
         szape
     )
 }

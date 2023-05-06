@@ -58,6 +58,7 @@ import androidx.compose.material.icons.rounded.Check
 import androidx.compose.material.icons.rounded.Close
 import androidx.compose.material.icons.rounded.Coffee
 import androidx.compose.material.icons.rounded.Download
+import androidx.compose.material.icons.rounded.FileDownload
 import androidx.compose.material.icons.rounded.FileDownloadOff
 import androidx.compose.material.icons.rounded.Folder
 import androidx.compose.material.icons.rounded.Info
@@ -272,7 +273,19 @@ fun MainScreen(
                         } else {
                             OutlinedIconButton(
                                 onClick = {
-                                    if (context.verifyInstallerId()) {
+                                    if (viewModel.updateAvailable) {
+                                        viewModel.tryGetUpdate(
+                                            newRequest = true,
+                                            onNoUpdates = {
+                                                scope.launch {
+                                                    toastHost.showToast(
+                                                        icon = Icons.Rounded.FileDownloadOff,
+                                                        message = context.getString(R.string.no_updates)
+                                                    )
+                                                }
+                                            }
+                                        )
+                                    } else if (context.verifyInstallerId()) {
                                         try {
                                             context.startActivity(
                                                 Intent(
@@ -307,8 +320,11 @@ fun MainScreen(
                                         )
                                     )
                                 ),
+                                modifier = Modifier.pulsate(enabled = viewModel.updateAvailable),
                                 content = {
-                                    if (context.verifyInstallerId()) {
+                                    if (viewModel.updateAvailable) {
+                                        Icon(Icons.Rounded.FileDownload, null)
+                                    } else if (context.verifyInstallerId()) {
                                         Icon(
                                             Icons.Rounded.GooglePlay,
                                             null,
@@ -674,14 +690,22 @@ fun MainScreen(
                                     Row(
                                         Modifier
                                             .fillMaxWidth()
-                                            .padding(4.dp)) {
+                                            .padding(
+                                                start = 4.dp,
+                                                top = 4.dp,
+                                                bottom = 4.dp,
+                                                end = 8.dp
+                                            ),
+                                        verticalAlignment = Alignment.CenterVertically
+                                    ) {
                                         var sliderValue by remember {
                                             mutableStateOf(viewModel.alignment.toFloat())
                                         }
                                         Column(
                                             Modifier
                                                 .weight(1f)
-                                                .height(110.dp)) {
+                                                .height(115.dp)
+                                        ) {
                                             Text(
                                                 text = stringResource(R.string.fab_alignment),
                                                 modifier = Modifier
@@ -692,21 +716,28 @@ fun MainScreen(
                                                     ),
                                                 lineHeight = 18.sp
                                             )
-                                            Text(
-                                                text = stringArrayResource(R.array.fab_alignment_sub)[viewModel.alignment],
-                                                color = MaterialTheme.colorScheme.onSurface.copy(
-                                                    alpha = 0.5f
-                                                ),
-                                                modifier = Modifier.padding(
-                                                    top = 8.dp,
-                                                    start = 12.dp,
-                                                    bottom = 8.dp,
-                                                    end = 12.dp
-                                                ),
-                                                fontSize = 12.sp,
-                                                fontWeight = FontWeight.Normal,
-                                                lineHeight = 14.sp,
-                                            )
+                                            AnimatedContent(
+                                                targetState = sliderValue,
+                                                transitionSpec = {
+                                                    fadeIn() with fadeOut()
+                                                }
+                                            ) { value ->
+                                                Text(
+                                                    text = stringArrayResource(R.array.fab_alignment_sub)[value.roundToInt()],
+                                                    color = MaterialTheme.colorScheme.onSurface.copy(
+                                                        alpha = 0.5f
+                                                    ),
+                                                    modifier = Modifier.padding(
+                                                        top = 8.dp,
+                                                        start = 12.dp,
+                                                        bottom = 8.dp,
+                                                        end = 12.dp
+                                                    ),
+                                                    fontSize = 12.sp,
+                                                    fontWeight = FontWeight.Normal,
+                                                    lineHeight = 14.sp,
+                                                )
+                                            }
                                             Spacer(modifier = Modifier.weight(1f))
                                             Slider(
                                                 modifier = Modifier.padding(horizontal = 12.dp),
@@ -720,9 +751,10 @@ fun MainScreen(
                                                 valueRange = 0f..2f,
                                                 steps = 1
                                             )
+                                            Spacer(modifier = Modifier.weight(1f))
                                         }
                                         FabPreview(
-                                            alignment = viewModel.alignment.toAlignment(),
+                                            alignment = sliderValue.roundToInt().toAlignment(),
                                             modifier = Modifier.width(64.dp)
                                         )
                                     }
@@ -738,6 +770,10 @@ fun MainScreen(
                             )
                             Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
                                 PreferenceRow(
+                                    modifier = Modifier.pulsate(
+                                        enabled = viewModel.updateAvailable,
+                                        range = 0.98f..1.02f
+                                    ),
                                     title = stringResource(R.string.version),
                                     subtitle = "${BuildConfig.VERSION_NAME} (${BuildConfig.VERSION_CODE})",
                                     endContent = {
@@ -756,6 +792,12 @@ fun MainScreen(
                                             }
                                         )
                                     }
+                                )
+                                PreferenceRowSwitch(
+                                    title = stringResource(R.string.check_updates),
+                                    subtitle = stringResource(R.string.check_updates_sub),
+                                    checked = viewModel.showDialogOnStartUp,
+                                    onClick = viewModel::updateShowDialog
                                 )
                                 PreferenceRow(
                                     title = stringResource(R.string.help_translate),
@@ -1099,7 +1141,8 @@ fun MainScreen(
                                     MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.secondaryContainer)
                                 ),
                                 modifier = Modifier
-                                    .padding(horizontal = 16.dp),
+                                    .padding(horizontal = 16.dp)
+                                    .pulsate(enabled = viewModel.updateAvailable),
                                 onClick = {
                                     viewModel.tryGetUpdate(
                                         newRequest = true,

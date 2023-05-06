@@ -1,10 +1,11 @@
 package ru.tech.imageresizershrinker.main_screen.components
 
+import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -20,11 +21,11 @@ import androidx.compose.material3.MaterialTheme.colorScheme
 import androidx.compose.material3.MaterialTheme.shapes
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
-import ru.tech.imageresizershrinker.theme.outlineVariant
 
 @Composable
 fun FabPreview(
@@ -36,11 +37,7 @@ fun FabPreview(
             .fillMaxWidth()
             .aspectRatio(1f / 1.7f)
             .padding(4.dp)
-            .border(
-                width = LocalBorderWidth.current,
-                color = colorScheme.outlineVariant(),
-                shape = RoundedCornerShape(12.dp),
-            )
+            .fabBorder(shape = RoundedCornerShape(12.dp), elevation = 4.dp)
             .clip(RoundedCornerShape(12.dp))
             .background(colorScheme.background),
         verticalArrangement = Arrangement.SpaceBetween
@@ -48,7 +45,7 @@ fun FabPreview(
         Box(
             modifier = Modifier
                 .padding(horizontal = 8.dp, vertical = 8.dp)
-                .fabBorder(shape = shapes.small)
+                .fabBorder(shape = shapes.small, elevation = 4.dp)
                 .background(
                     color = colorScheme.surfaceVariant,
                     shape = shapes.small,
@@ -83,16 +80,24 @@ fun FabPreview(
             }
         }
 
+        val weight by animateFloatAsState(
+            targetValue = when (alignment) {
+                Alignment.BottomStart -> 0f
+                Alignment.BottomCenter -> 0.5f
+                else -> 1f
+            }
+        )
+
         CompositionLocalProvider(LocalContentColor provides colorScheme.onPrimaryContainer) {
-            Box(
+            Row(
                 modifier = Modifier.fillMaxWidth(),
             ) {
+                Spacer(modifier = Modifier.weight(0.01f + weight))
                 Box(
                     modifier = Modifier
                         .padding(8.dp)
-                        .align(alignment)
                         .size(18.dp)
-                        .fabBorder(shape = RoundedCornerShape(6.dp))
+                        .fabBorder(shape = RoundedCornerShape(6.dp), elevation = 4.dp)
                         .background(
                             color = colorScheme.primaryContainer,
                             shape = RoundedCornerShape(6.dp),
@@ -101,6 +106,7 @@ fun FabPreview(
                 ) {
                     Icon(Icons.Rounded.AddPhotoAlternate, null, Modifier.size(8.dp))
                 }
+                Spacer(modifier = Modifier.weight(1.01f - weight))
             }
         }
     }
