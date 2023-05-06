@@ -118,10 +118,13 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalLayoutDirection
+import androidx.compose.ui.res.stringArrayResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.min
+import androidx.compose.ui.unit.sp
 import androidx.compose.ui.zIndex
 import com.t8rin.dynamic.theme.ColorTupleItem
 import com.t8rin.dynamic.theme.getAppColorTuple
@@ -686,6 +689,19 @@ fun MainScreen(
                                                         end = 12.dp,
                                                         start = 12.dp
                                                     )
+                                            )
+                                            Text(
+                                                text = stringArrayResource(R.array.fab_alignment_sub)[viewModel.alignment],
+                                                color = MaterialTheme.colorScheme.onSurface.copy(
+                                                    alpha = 0.5f
+                                                ),
+                                                modifier = Modifier.padding(
+                                                    top = 8.dp,
+                                                    start = 12.dp
+                                                ),
+                                                fontSize = 12.sp,
+                                                fontWeight = FontWeight.Normal,
+                                                lineHeight = 14.sp,
                                             )
                                             Spacer(modifier = Modifier.weight(1f))
                                             Slider(
