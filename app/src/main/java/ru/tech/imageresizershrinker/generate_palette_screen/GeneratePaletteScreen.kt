@@ -391,13 +391,15 @@ fun GeneratePaletteScreen(
 }
 
 @Composable
-fun ScrollState.isScrollingUp(): Boolean {
+fun ScrollState.isScrollingUp(enabled: Boolean = true): Boolean {
     var previousScrollOffset by remember(this) { mutableStateOf(value) }
-    return remember(this) {
+    return remember(this, enabled) {
         derivedStateOf {
-            (previousScrollOffset >= value).also {
-                previousScrollOffset = value
-            }
+            if (enabled) {
+                (previousScrollOffset >= value).also {
+                    previousScrollOffset = value
+                }
+            } else true
         }
     }.value
 }

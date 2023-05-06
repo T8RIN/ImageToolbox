@@ -12,7 +12,6 @@ import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.animateContentSize
-import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.slideInVertically
@@ -68,6 +67,7 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.ExtendedFloatingActionButton
 import androidx.compose.material3.FilledTonalButton
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.FloatingActionButtonDefaults
@@ -131,7 +131,6 @@ import ru.tech.imageresizershrinker.resize_screen.components.LoadingDialog
 import ru.tech.imageresizershrinker.resize_screen.components.Picture
 import ru.tech.imageresizershrinker.resize_screen.components.byteCount
 import ru.tech.imageresizershrinker.resize_screen.components.extension
-import ru.tech.imageresizershrinker.resize_screen.components.isScrollingUp
 import ru.tech.imageresizershrinker.resize_screen.viewModel.SingleResizeViewModel.Companion.restrict
 import ru.tech.imageresizershrinker.theme.outlineVariant
 import ru.tech.imageresizershrinker.utils.BitmapUtils.decodeBitmapFromUri
@@ -166,11 +165,11 @@ fun BytesResizeScreen(
     var showAlert by rememberSaveable { mutableStateOf(false) }
 
     LaunchedEffect(uriState) {
-        uriState?.takeIf { it.isNotEmpty() }?.let {
-            viewModel.updateUris(it)
+        uriState?.takeIf { it.isNotEmpty() }?.let { uris ->
+            viewModel.updateUris(uris)
             pushNewUris(null)
             context.decodeBitmapFromUri(
-                uri = it[0],
+                uri = uris[0],
                 onGetMimeType = {
                     showAlert = it.extension == "png"
                     viewModel.setMime(it)
@@ -339,30 +338,20 @@ fun BytesResizeScreen(
 
     val buttons = @Composable {
         if (viewModel.bitmap == null) {
-            FloatingActionButton(
+            ExtendedFloatingActionButton(
                 onClick = pickImage,
                 modifier = Modifier
-                    .padding(16.dp)
                     .navigationBarsPadding()
+                    .padding(16.dp)
                     .fabBorder(),
-                elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation()
-            ) {
-                val expanded =
-                    state.isScrollingUp() && (imageInside || viewModel.bitmap == null)
-                val horizontalPadding by animateDpAsState(targetValue = if (expanded) 16.dp else 0.dp)
-                Row(
-                    modifier = Modifier.padding(horizontal = horizontalPadding),
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
+                elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
+                text = {
+                    Text(stringResource(R.string.pick_image_alt))
+                },
+                icon = {
                     Icon(Icons.Rounded.AddPhotoAlternate, null)
-                    AnimatedVisibility(visible = expanded) {
-                        Row {
-                            Spacer(Modifier.width(8.dp))
-                            Text(stringResource(R.string.pick_image_alt))
-                        }
-                    }
                 }
-            }
+            )
         } else if (imageInside) {
             BottomAppBar(
                 modifier = Modifier.drawHorizontalStroke(true),

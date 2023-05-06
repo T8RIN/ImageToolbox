@@ -41,6 +41,7 @@ import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.ExtendedFloatingActionButton
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.FloatingActionButtonDefaults
 import androidx.compose.material3.Icon
@@ -208,6 +209,9 @@ fun CropScreen(
     val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
     val scrollState = rememberScrollState()
 
+    val portrait =
+        LocalConfiguration.current.orientation != Configuration.ORIENTATION_LANDSCAPE || LocalWindowSizeClass.current.widthSizeClass == WindowWidthSizeClass.Compact
+
     var crop by remember { mutableStateOf(false) }
     var share by remember { mutableStateOf(false) }
     var save by remember { mutableStateOf(false) }
@@ -284,8 +288,7 @@ fun CropScreen(
             }
             viewModel.bitmap?.let {
                 val bmp = remember(it) { it.asImageBitmap() }
-                val portrait =
-                    LocalConfiguration.current.orientation != Configuration.ORIENTATION_LANDSCAPE || LocalWindowSizeClass.current.widthSizeClass == WindowWidthSizeClass.Compact
+
                 if (portrait) {
                     Column {
                         val cropProperties = viewModel.cropProperties
@@ -467,23 +470,10 @@ fun CropScreen(
                                 modifier = Modifier.fabBorder(),
                                 containerColor = MaterialTheme.colorScheme.tertiaryContainer,
                                 elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
-                            ) {
-                                val expanded =
-                                    scrollState.isScrollingUp() && viewModel.bitmap == null
-                                val horizontalPadding by animateDpAsState(targetValue = if (expanded) 16.dp else 0.dp)
-                                Row(
-                                    modifier = Modifier.padding(horizontal = horizontalPadding),
-                                    verticalAlignment = Alignment.CenterVertically
-                                ) {
+                                content = {
                                     Icon(Icons.Rounded.AddPhotoAlternate, null)
-                                    AnimatedVisibility(visible = expanded) {
-                                        Row {
-                                            Spacer(Modifier.width(8.dp))
-                                            Text(stringResource(R.string.pick_image_alt))
-                                        }
-                                    }
                                 }
-                            }
+                            )
                             Spacer(modifier = Modifier.height(16.dp))
                             var job by remember { mutableStateOf<Job?>(null) }
                             FloatingActionButton(
@@ -531,26 +521,17 @@ fun CropScreen(
                     .navigationBarsPadding()
                     .align(LocalAlignment.current)
             ) {
-                FloatingActionButton(
+                ExtendedFloatingActionButton(
                     onClick = pickImage,
-                    elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
                     modifier = Modifier.fabBorder(),
-                ) {
-                    val expanded = scrollState.isScrollingUp()
-                    val horizontalPadding by animateDpAsState(targetValue = if (expanded) 16.dp else 0.dp)
-                    Row(
-                        modifier = Modifier.padding(horizontal = horizontalPadding),
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
+                    elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
+                    text = {
+                        Text(stringResource(R.string.pick_image_alt))
+                    },
+                    icon = {
                         Icon(Icons.Rounded.AddPhotoAlternate, null)
-                        AnimatedVisibility(visible = expanded) {
-                            Row {
-                                Spacer(Modifier.width(8.dp))
-                                Text(stringResource(R.string.pick_image_alt))
-                            }
-                        }
                     }
-                }
+                )
             }
         }
     }

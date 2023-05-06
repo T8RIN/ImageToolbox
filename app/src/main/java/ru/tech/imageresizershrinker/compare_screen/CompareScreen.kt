@@ -7,16 +7,13 @@ import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.AnimatedContent
-import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.ExperimentalAnimationApi
-import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
@@ -35,6 +32,7 @@ import androidx.compose.material.icons.rounded.RotateRight
 import androidx.compose.material.icons.rounded.SwapHoriz
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.ExtendedFloatingActionButton
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.FloatingActionButtonDefaults
 import androidx.compose.material3.Icon
@@ -75,7 +73,6 @@ import com.t8rin.dynamic.theme.extractPrimaryColor
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.compare_screen.viewModel.CompareViewModel
-import ru.tech.imageresizershrinker.generate_palette_screen.isScrollingUp
 import ru.tech.imageresizershrinker.main_screen.components.LocalAlignment
 import ru.tech.imageresizershrinker.main_screen.components.LocalAllowChangeColorByImage
 import ru.tech.imageresizershrinker.main_screen.components.block
@@ -380,30 +377,21 @@ fun CompareScreen(
         }
 
         if (viewModel.bitmapData == null) {
-            FloatingActionButton(
+            ExtendedFloatingActionButton(
                 onClick = pickImage,
                 modifier = Modifier
                     .navigationBarsPadding()
                     .padding(16.dp)
                     .align(LocalAlignment.current)
                     .fabBorder(),
-                elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation()
-            ) {
-                val expanded = scrollState.isScrollingUp()
-                val horizontalPadding by animateDpAsState(targetValue = if (expanded) 16.dp else 0.dp)
-                Row(
-                    modifier = Modifier.padding(horizontal = horizontalPadding),
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
+                elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
+                icon = {
                     Icon(Icons.Rounded.AddPhotoAlternate, null)
-                    AnimatedVisibility(visible = expanded) {
-                        Row {
-                            Spacer(Modifier.width(8.dp))
-                            Text(stringResource(R.string.pick_images))
-                        }
-                    }
+                },
+                text = {
+                    Text(stringResource(R.string.pick_images))
                 }
-            }
+            )
         } else if (portrait) {
             BottomAppBar(
                 modifier = Modifier
