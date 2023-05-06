@@ -4,6 +4,7 @@ import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.unit.Dp
 import com.t8rin.dynamic.theme.ColorTuple
 
@@ -23,6 +24,14 @@ val LocalBorderWidth = compositionLocalOf<Dp> { error("No borders present") }
 val LocalPresetsProvider = compositionLocalOf<List<Int>> { error("No LocalPresets present") }
 
 val LocalEditPresets = compositionLocalOf { mutableStateOf(false) }
+
+val LocalAlignment = compositionLocalOf<Alignment> { error("Not present alignment") }
+
+fun Int.toAlignment() = when (this) {
+    0 -> Alignment.BottomStart
+    1 -> Alignment.BottomCenter
+    else -> Alignment.BottomEnd
+}
 
 @Composable
 fun Int.isNightMode(): Boolean = when (this) {

@@ -114,6 +114,7 @@ import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.batch_resize_screen.components.SaveExifWidget
 import ru.tech.imageresizershrinker.batch_resize_screen.viewModel.BatchResizeViewModel
+import ru.tech.imageresizershrinker.main_screen.components.LocalAlignment
 import ru.tech.imageresizershrinker.main_screen.components.LocalAllowChangeColorByImage
 import ru.tech.imageresizershrinker.main_screen.components.LocalBorderWidth
 import ru.tech.imageresizershrinker.main_screen.components.alertDialog
@@ -744,7 +745,7 @@ fun BatchResizeScreen(
 
             if (imageInside || viewModel.bitmap == null) {
                 Box(
-                    modifier = Modifier.align(Alignment.BottomEnd)
+                    modifier = Modifier.align(LocalAlignment.current)
                 ) {
                     buttons()
                 }

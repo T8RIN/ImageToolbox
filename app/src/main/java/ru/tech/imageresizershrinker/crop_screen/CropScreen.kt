@@ -81,6 +81,7 @@ import ru.tech.imageresizershrinker.crop_screen.components.AspectRatioSelection
 import ru.tech.imageresizershrinker.crop_screen.components.aspectRatios
 import ru.tech.imageresizershrinker.crop_screen.viewModel.CropViewModel
 import ru.tech.imageresizershrinker.generate_palette_screen.isScrollingUp
+import ru.tech.imageresizershrinker.main_screen.components.LocalAlignment
 import ru.tech.imageresizershrinker.main_screen.components.LocalAllowChangeColorByImage
 import ru.tech.imageresizershrinker.main_screen.components.LocalBorderWidth
 import ru.tech.imageresizershrinker.main_screen.components.alertDialog
@@ -528,7 +529,7 @@ fun CropScreen(
                 modifier = Modifier
                     .padding(16.dp)
                     .navigationBarsPadding()
-                    .align(Alignment.BottomEnd)
+                    .align(LocalAlignment.current)
             ) {
                 FloatingActionButton(
                     onClick = pickImage,

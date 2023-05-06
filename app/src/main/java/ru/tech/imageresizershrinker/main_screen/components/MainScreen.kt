@@ -656,6 +656,57 @@ fun MainScreen(
                                         steps = 15
                                     )
                                 }
+                                Box(
+                                    Modifier
+                                        .padding(horizontal = 16.dp)
+                                        .block(
+                                            color = MaterialTheme
+                                                .colorScheme
+                                                .secondaryContainer
+                                                .copy(alpha = 0.2f)
+                                        )
+                                        .animateContentSize()
+                                ) {
+                                    Row(
+                                        Modifier
+                                            .fillMaxWidth()
+                                            .padding(4.dp)) {
+                                        var sliderValue by remember {
+                                            mutableStateOf(viewModel.alignment.toFloat())
+                                        }
+                                        Column(
+                                            Modifier
+                                                .weight(1f)
+                                                .height(110.dp)) {
+                                            Text(
+                                                text = stringResource(R.string.fab_alignment),
+                                                modifier = Modifier
+                                                    .padding(
+                                                        top = 12.dp,
+                                                        end = 12.dp,
+                                                        start = 12.dp
+                                                    )
+                                            )
+                                            Spacer(modifier = Modifier.weight(1f))
+                                            Slider(
+                                                modifier = Modifier.padding(horizontal = 12.dp),
+                                                value = animateFloatAsState(sliderValue).value,
+                                                onValueChange = {
+                                                    sliderValue = it
+                                                },
+                                                onValueChangeFinished = {
+                                                    viewModel.setAlignment(sliderValue)
+                                                },
+                                                valueRange = 0f..2f,
+                                                steps = 1
+                                            )
+                                        }
+                                        FabPreview(
+                                            alignment = viewModel.alignment.toAlignment(),
+                                            modifier = Modifier.width(64.dp)
+                                        )
+                                    }
+                                }
                             }
                             Spacer(Modifier.height(16.dp))
                         }

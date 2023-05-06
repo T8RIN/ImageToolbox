@@ -125,6 +125,7 @@ import com.t8rin.dynamic.theme.LocalDynamicThemeState
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.R
+import ru.tech.imageresizershrinker.main_screen.components.LocalAlignment
 import ru.tech.imageresizershrinker.main_screen.components.LocalAllowChangeColorByImage
 import ru.tech.imageresizershrinker.main_screen.components.LocalBorderWidth
 import ru.tech.imageresizershrinker.main_screen.components.alertDialog
@@ -782,7 +783,7 @@ fun SingleResizeScreen(
 
             if (imageInside || viewModel.bitmap == null) {
                 Box(
-                    modifier = Modifier.align(Alignment.BottomEnd)
+                    modifier = Modifier.align(LocalAlignment.current)
                 ) {
                     buttons()
                 }

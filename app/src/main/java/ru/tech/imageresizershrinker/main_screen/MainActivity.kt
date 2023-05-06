@@ -94,6 +94,7 @@ import ru.tech.imageresizershrinker.main_screen.components.ComparePreference
 import ru.tech.imageresizershrinker.main_screen.components.CropPreference
 import ru.tech.imageresizershrinker.main_screen.components.GeneratePalettePreference
 import ru.tech.imageresizershrinker.main_screen.components.HtmlText
+import ru.tech.imageresizershrinker.main_screen.components.LocalAlignment
 import ru.tech.imageresizershrinker.main_screen.components.LocalAllowChangeColorByImage
 import ru.tech.imageresizershrinker.main_screen.components.LocalAmoledMode
 import ru.tech.imageresizershrinker.main_screen.components.LocalAppColorTuple
@@ -108,6 +109,7 @@ import ru.tech.imageresizershrinker.main_screen.components.Screen
 import ru.tech.imageresizershrinker.main_screen.components.SingleResizePreference
 import ru.tech.imageresizershrinker.main_screen.components.alertDialog
 import ru.tech.imageresizershrinker.main_screen.components.isNightMode
+import ru.tech.imageresizershrinker.main_screen.components.toAlignment
 import ru.tech.imageresizershrinker.main_screen.viewModel.MainViewModel
 import ru.tech.imageresizershrinker.pick_color_from_image_screen.PickColorFromImageScreen
 import ru.tech.imageresizershrinker.resize_screen.SingleResizeScreen
@@ -160,7 +162,8 @@ class MainActivity : M3Activity() {
                 LocalAppColorTuple provides viewModel.appColorTuple,
                 LocalBorderWidth provides animateDpAsState(viewModel.borderWidth.dp).value,
                 LocalPresetsProvider provides viewModel.localPresets,
-                LocalEditPresets provides editPresetsState
+                LocalEditPresets provides editPresetsState,
+                LocalAlignment provides viewModel.alignment.toAlignment()
             ) {
                 ImageResizerTheme {
                     val themeState = LocalDynamicThemeState.current

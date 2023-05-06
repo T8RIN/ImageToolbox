@@ -102,12 +102,14 @@ fun Modifier.drawHorizontalStroke(top: Boolean = false, height: Dp = Dp.Unspecif
         .zIndex(100f)
 }
 
-fun Modifier.fabBorder(height: Dp = Dp.Unspecified) = composed {
+fun Modifier.fabBorder(height: Dp = Dp.Unspecified, shape: Shape? = null) = composed {
     val h = if (height.isUnspecified) {
         if (LocalBorderWidth.current > 0.dp) {
             LocalBorderWidth.current
         } else null
     } else null
+
+    val szape = shape ?: FloatingActionButtonDefaults.shape
 
     if (h == null) {
         Modifier
@@ -120,11 +122,11 @@ fun Modifier.fabBorder(height: Dp = Dp.Unspecified) = composed {
                     LocalContentColor.current
                 )
             ),
-            FloatingActionButtonDefaults.shape
+            szape
         )
     }.shadow(
         animateDpAsState(if (h == null) 8.dp else 0.dp).value,
-        FloatingActionButtonDefaults.shape
+        szape
     )
 }
 

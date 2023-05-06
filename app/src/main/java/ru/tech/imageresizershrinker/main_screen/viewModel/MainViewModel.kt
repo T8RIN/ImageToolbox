@@ -28,6 +28,7 @@ import ru.tech.imageresizershrinker.main_screen.components.Screen
 import ru.tech.imageresizershrinker.theme.asString
 import ru.tech.imageresizershrinker.theme.defaultColorTuple
 import ru.tech.imageresizershrinker.theme.toColorTupleList
+import ru.tech.imageresizershrinker.utils.ALIGNMENT
 import ru.tech.imageresizershrinker.utils.AMOLED_MODE
 import ru.tech.imageresizershrinker.utils.APP_COLOR
 import ru.tech.imageresizershrinker.utils.APP_RELEASES
@@ -47,6 +48,9 @@ import javax.xml.parsers.DocumentBuilderFactory
 class MainViewModel @Inject constructor(
     private val dataStore: DataStore<Preferences>
 ) : ViewModel() {
+
+    private val _alignment = mutableStateOf(1)
+    val alignment by _alignment
 
     private val _saveFolderUri = mutableStateOf<Uri?>(null)
     val saveFolderUri by _saveFolderUri
@@ -148,6 +152,8 @@ class MainViewModel @Inject constructor(
             } ?: emptyList()) + List(7) { 100 - it * 10 }).toSortedSet().reversed().toList()
 
             _colorTupleList.value = prefs[COLOR_TUPLES].toColorTupleList()
+
+            _alignment.value = prefs[ALIGNMENT] ?: 1
         }.launchIn(viewModelScope)
     }
 
@@ -296,6 +302,14 @@ class MainViewModel @Inject constructor(
         viewModelScope.launch {
             dataStore.edit {
                 it[COLOR_TUPLES] = colorTuples.asString()
+            }
+        }
+    }
+
+    fun setAlignment(align: Float) {
+        viewModelScope.launch {
+            dataStore.edit {
+                it[ALIGNMENT] = align.toInt()
             }
         }
     }

@@ -91,6 +91,7 @@ import dev.olshevski.navigation.reimagined.pop
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.generate_palette_screen.isScrollingUp
+import ru.tech.imageresizershrinker.main_screen.components.LocalAlignment
 import ru.tech.imageresizershrinker.main_screen.components.LocalAllowChangeColorByImage
 import ru.tech.imageresizershrinker.main_screen.components.Screen
 import ru.tech.imageresizershrinker.main_screen.components.block
@@ -589,7 +590,7 @@ fun PickColorFromImageScreen(
                 modifier = Modifier
                     .navigationBarsPadding()
                     .padding(16.dp)
-                    .align(Alignment.BottomEnd)
+                    .align(LocalAlignment.current)
                     .fabBorder(),
                 elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation()
             ) {
