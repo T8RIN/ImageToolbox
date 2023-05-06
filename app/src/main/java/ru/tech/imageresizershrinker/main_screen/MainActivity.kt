@@ -186,9 +186,9 @@ class MainActivity : M3Activity() {
                             controller = viewModel.navController,
                             transitionSpec = { _, _, to ->
                                 if (to != Screen.Main) {
-                                    slideInHorizontally { it / 2 } + fadeIn() with fadeOut()
+                                    slideInHorizontally { it } + fadeIn() with slideOutHorizontally { -it } + fadeOut()
                                 } else {
-                                    fadeIn() with fadeOut() + slideOutHorizontally { it / 2 }
+                                    slideInHorizontally { -it } + fadeIn() with fadeOut() + slideOutHorizontally { it }
                                 }
                             }
                         ) { screen ->

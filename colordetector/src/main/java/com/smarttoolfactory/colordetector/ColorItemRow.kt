@@ -34,11 +34,11 @@ internal fun ColorItemRow(
     Row(
         modifier = modifier
             .background(containerColor)
+            .clip(CircleShape)
             .clickable {
                 onClick(colorData)
             }
-            .padding(top = 4.dp, bottom = 4.dp, start = 4.dp, end = 16.dp)
-            .clip(CircleShape),
+            .padding(top = 4.dp, bottom = 4.dp, start = 4.dp, end = 16.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
         Box(

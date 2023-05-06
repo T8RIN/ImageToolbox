@@ -74,10 +74,11 @@ import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.FloatingActionButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.LargeTopAppBar
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
-import androidx.compose.material3.SmallFloatingActionButton
+import androidx.compose.material3.OutlinedIconButton
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
@@ -293,16 +294,24 @@ fun BatchResizeScreen(
                                 .padding(vertical = 4.dp, horizontal = 8.dp),
                             color = MaterialTheme.colorScheme.onSurfaceVariant
                         )
-                        SmallFloatingActionButton(
+                        OutlinedIconButton(
                             onClick = {
                                 if ((viewModel.uris?.size ?: 0) > 1) {
                                     showPickImageFromUrisDialog = true
                                 }
                             },
+                            border = BorderStroke(
+                                LocalBorderWidth.current,
+                                MaterialTheme.colorScheme.outlineVariant(
+                                    0.1f,
+                                    MaterialTheme.colorScheme.surfaceColorAtElevation(1.dp)
+                                ),
+                            ),
                             shape = RoundedCornerShape(16.dp),
-                            elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
-                            containerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(1.dp),
-                            contentColor = MaterialTheme.colorScheme.onSurfaceVariant
+                            colors = IconButtonDefaults.filledIconButtonColors(
+                                containerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(1.dp),
+                                contentColor = MaterialTheme.colorScheme.onSurfaceVariant
+                            )
                         ) {
                             Icon(Icons.Rounded.ChangeCircle, null)
                         }
@@ -915,8 +924,8 @@ fun BatchResizeScreen(
                                                             .then(
                                                                 if (uri == viewModel.selectedUri) {
                                                                     Modifier.border(
-                                                                        4.dp,
-                                                                        MaterialTheme.colorScheme.outline,
+                                                                        3.dp,
+                                                                        MaterialTheme.colorScheme.outlineVariant(),
                                                                         RoundedCornerShape(8.dp)
                                                                     )
                                                                 } else Modifier
