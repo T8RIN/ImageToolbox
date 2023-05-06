@@ -228,7 +228,8 @@ fun PreferenceItem(
                     Text(
                         text = title,
                         fontSize = 16.sp,
-                        fontWeight = FontWeight.Medium
+                        fontWeight = FontWeight.Medium,
+                        lineHeight = 18.sp
                     )
                     AnimatedContent(
                         targetState = subtitle,

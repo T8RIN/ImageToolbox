@@ -630,7 +630,8 @@ fun MainScreen(
                                                 color = MaterialTheme.colorScheme.onSurface.copy(
                                                     alpha = 0.5f
                                                 ),
-                                                modifier = Modifier.padding(top = 16.dp)
+                                                modifier = Modifier.padding(top = 16.dp),
+                                                lineHeight = 18.sp
                                             )
                                         }
                                         Text(
@@ -688,7 +689,8 @@ fun MainScreen(
                                                         top = 12.dp,
                                                         end = 12.dp,
                                                         start = 12.dp
-                                                    )
+                                                    ),
+                                                lineHeight = 18.sp
                                             )
                                             Text(
                                                 text = stringArrayResource(R.array.fab_alignment_sub)[viewModel.alignment],
@@ -697,7 +699,9 @@ fun MainScreen(
                                                 ),
                                                 modifier = Modifier.padding(
                                                     top = 8.dp,
-                                                    start = 12.dp
+                                                    start = 12.dp,
+                                                    bottom = 8.dp,
+                                                    end = 12.dp
                                                 ),
                                                 fontSize = 12.sp,
                                                 fontWeight = FontWeight.Normal,

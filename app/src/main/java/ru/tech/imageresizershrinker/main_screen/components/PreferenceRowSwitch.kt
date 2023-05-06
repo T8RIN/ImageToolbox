@@ -94,7 +94,7 @@ fun PreferenceRow(
     ) {
         startContent?.invoke()
         Column(modifier = Modifier.weight(1f)) {
-            Text(text = title, maxLines = maxLines)
+            Text(text = title, maxLines = maxLines, lineHeight = 18.sp)
             Spacer(modifier = Modifier.height(2.dp))
             subtitle?.let {
                 Text(
