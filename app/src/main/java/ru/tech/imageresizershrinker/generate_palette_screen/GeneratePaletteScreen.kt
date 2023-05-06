@@ -209,6 +209,9 @@ fun GeneratePaletteScreen(
         }
     }
 
+    val landscape =
+        LocalWindowSizeClass.current.widthSizeClass != WindowWidthSizeClass.Compact || LocalConfiguration.current.orientation == Configuration.ORIENTATION_LANDSCAPE
+
     Box(
         Modifier
             .fillMaxSize()
@@ -257,7 +260,7 @@ fun GeneratePaletteScreen(
                 bitmap?.let { b ->
                     val bmp = remember(b) { b.asImageBitmap() }
 
-                    if (LocalWindowSizeClass.current.widthSizeClass != WindowWidthSizeClass.Compact || LocalConfiguration.current.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+                    if (landscape) {
                         Row {
                             Image(
                                 bitmap = bmp,
@@ -359,7 +362,7 @@ fun GeneratePaletteScreen(
             modifier = Modifier
                 .navigationBarsPadding()
                 .padding(12.dp)
-                .align(LocalAlignment.current)
+                .align(if (!landscape) LocalAlignment.current else Alignment.BottomEnd)
                 .fabBorder(),
             elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
         ) {
