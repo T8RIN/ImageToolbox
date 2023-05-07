@@ -49,11 +49,11 @@ dependencies {
     implementation("androidx.core:core-ktx:1.10.0")
 
     // Jetpack Compose
-    implementation("androidx.compose.ui:ui:1.4.1")
-    implementation("androidx.compose.runtime:runtime:1.4.1")
+    implementation("androidx.compose.ui:ui:1.4.3")
+    implementation("androidx.compose.runtime:runtime:1.4.3")
 
     // Material Design 3 for Compose
     implementation("androidx.compose.material3:material3:1.0.1")
     // Material design icons
-    implementation("androidx.compose.material:material-icons-extended:1.4.2")
+    implementation("androidx.compose.material:material-icons-extended:1.4.3")
 }

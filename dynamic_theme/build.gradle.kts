@@ -41,7 +41,7 @@ android {
 }
 
 dependencies {
-    implementation(platform("androidx.compose:compose-bom:2023.04.01"))
+    implementation(platform("androidx.compose:compose-bom:2023.05.00"))
     implementation("androidx.core:core-ktx:1.10.0")
     implementation("androidx.compose.material3:material3")
     implementation("androidx.palette:palette:1.0.0")
