@@ -89,7 +89,7 @@
     <string name="allow_image_monet_sub">Если включено, то цвета приложения будут подстраиваться под выбранное изображение в режиме редактирования</string>
     <string name="language">Язык</string>
     <string name="amoled_mode">Amoled режим</string>
-    <string name="amoled_mode_sub">Если включено, то в темной теме поверхности будут иметь абсолютно черный</string>
+    <string name="amoled_mode_sub">Если включено, то в темной теме поверхности будут иметь абсолютно черный цвет</string>
     <string name="color_scheme">Цветовая палитра</string>
     <string name="color_red">Красный</string>
     <string name="color_green">Зеленый</string>
