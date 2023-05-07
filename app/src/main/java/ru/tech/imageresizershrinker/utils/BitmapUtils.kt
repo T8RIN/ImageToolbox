@@ -27,6 +27,7 @@ import java.io.FileOutputStream
 import java.util.Locale
 import kotlin.math.abs
 import kotlin.math.max
+import kotlin.math.roundToInt
 
 
 object BitmapUtils {
@@ -543,7 +544,14 @@ object BitmapUtils {
         compressFormat: CompressFormat,
         maxBytes: Long
     ): Pair<Bitmap, Int>? {
-        val maxBytes1 = maxBytes - 1024 * 4
+        val maxBytes1 =
+            maxBytes - maxBytes
+                .times(0.04f)
+                .roundToInt()
+                .coerceIn(
+                    minimumValue = 512,
+                    maximumValue = 4096
+                )
         try {
             if (this.size() > maxBytes1) {
                 var streamLength = maxBytes1
