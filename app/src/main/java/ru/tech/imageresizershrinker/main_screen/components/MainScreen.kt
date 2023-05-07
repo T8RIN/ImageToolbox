@@ -119,6 +119,7 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalLayoutDirection
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringArrayResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -147,6 +148,7 @@ import ru.tech.imageresizershrinker.theme.GooglePlay
 import ru.tech.imageresizershrinker.theme.Lamp
 import ru.tech.imageresizershrinker.theme.Sparkles
 import ru.tech.imageresizershrinker.theme.Telegram
+import ru.tech.imageresizershrinker.theme.blend
 import ru.tech.imageresizershrinker.theme.inverse
 import ru.tech.imageresizershrinker.theme.outlineVariant
 import ru.tech.imageresizershrinker.theme.suggestContainerColorBy
@@ -777,7 +779,48 @@ fun MainScreen(
                                     title = stringResource(R.string.version),
                                     subtitle = "${BuildConfig.VERSION_NAME} (${BuildConfig.VERSION_CODE})",
                                     endContent = {
-                                        Icon(Icons.Rounded.Download, null)
+                                        Icon(
+                                            Icons.Rounded.Download,
+                                            null,
+                                            modifier = Modifier.padding(end = 16.dp)
+                                        )
+                                    },
+                                    startContent = {
+                                        Icon(
+                                            painterResource(R.drawable.ic_launcher_monochrome),
+                                            null,
+                                            tint = animateColorAsState(
+                                                if (viewModel.nightMode.isNightMode()) {
+                                                    MaterialTheme.colorScheme.primary
+                                                } else {
+                                                    MaterialTheme.colorScheme.onPrimaryContainer.blend(
+                                                        Color.White
+                                                    )
+                                                }
+                                            ).value,
+                                            modifier = Modifier
+                                                .padding(start = 8.dp, end = 16.dp)
+                                                .size(64.dp)
+                                                .background(
+                                                    animateColorAsState(
+                                                        if (viewModel.nightMode.isNightMode()) {
+                                                            MaterialTheme.colorScheme.background.blend(
+                                                                Color.White,
+                                                                0.1f
+                                                            )
+                                                        } else {
+                                                            MaterialTheme.colorScheme.primaryContainer
+                                                        }
+                                                    ).value,
+                                                    shape = RoundedCornerShape(16.dp)
+                                                )
+                                                .border(
+                                                    LocalBorderWidth.current,
+                                                    MaterialTheme.colorScheme.outlineVariant(),
+                                                    shape = RoundedCornerShape(16.dp)
+                                                )
+                                                .scale(1.4f)
+                                        )
                                     },
                                     onClick = {
                                         viewModel.tryGetUpdate(
