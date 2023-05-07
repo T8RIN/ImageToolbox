@@ -109,4 +109,22 @@
     <string name="dynamic_colors_sub">إذا تم تمكينه ، اعتماد ألوان التطبيق لألوان الخلفية</string>
     <string name="failed_to_save">فشل حفظ %d صورة (صور)</string>
     <string name="png_warning_bytes">يمكن أن يكون الحفظ في وضع PNG غير مستقر ، لأنه تنسيق غير ضياع</string>
+    <string name="surface">سطح</string>
+    <string name="buy_me_a_coffee">اشتري لي قهوة</string>
+    <string name="buy_me_a_coffee_sub">هذا التطبيق مجاني تمامًا ، ولكن إذا كنت ترغب في دعم تطوير المشروع ، يمكنك النقر هنا</string>
+    <string name="fab_alignment">محاذاة FAB</string>
+    <string name="check_updates">تحقق من وجود تحديثات</string>
+    <string name="check_updates_sub">في حالة التمكين ، سيظهر لك مربع حوار التحديث بعد بدء تشغيل التطبيق</string>
+    <string name="values">قيم</string>
+    <string name="add">يضيف</string>
+    <string name="primary">أساسي</string>
+    <string name="tertiary">بعد الثانوي</string>
+    <string name="secondary">ثانوي</string>
+    <string name="permission">إذن</string>
+    <string name="grant">منحة</string>
+    <string name="permission_sub">يحتاج التطبيق إلى الوصول إلى مساحة التخزين الخاصة بك لحفظ الصور ، فهو ضروري ، وبدون ذلك لا يمكن أن يعمل ، لذا يرجى منح الإذن في مربع الحوار التالي</string>
+    <string name="grant_permission_manual">يحتاج التطبيق إلى هذا الإذن للعمل ، يرجى منحه يدويًا</string>
+    <string name="border_thickness">سمك الحدود</string>
+    <string name="external_storage">تخزين خارجي</string>
+    <string name="monet_colors">ألوان مونيه</string>
 </resources>
