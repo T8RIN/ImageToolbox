@@ -136,12 +136,12 @@ import ru.tech.imageresizershrinker.resize_screen.components.Picture
 import ru.tech.imageresizershrinker.resize_screen.components.PresetWidget
 import ru.tech.imageresizershrinker.resize_screen.components.byteCount
 import ru.tech.imageresizershrinker.resize_screen.components.extension
-import ru.tech.imageresizershrinker.resize_screen.viewModel.SingleResizeViewModel.Companion.restrict
 import ru.tech.imageresizershrinker.theme.outlineVariant
 import ru.tech.imageresizershrinker.utils.BitmapUtils.decodeBitmapFromUri
 import ru.tech.imageresizershrinker.utils.BitmapUtils.decodeSampledBitmapFromUri
 import ru.tech.imageresizershrinker.utils.BitmapUtils.fileSize
 import ru.tech.imageresizershrinker.utils.BitmapUtils.getBitmapByUri
+import ru.tech.imageresizershrinker.utils.BitmapUtils.restrict
 import ru.tech.imageresizershrinker.utils.ContextUtils.failedToSaveImages
 import ru.tech.imageresizershrinker.utils.ContextUtils.isExternalStorageWritable
 import ru.tech.imageresizershrinker.utils.LocalWindowSizeClass

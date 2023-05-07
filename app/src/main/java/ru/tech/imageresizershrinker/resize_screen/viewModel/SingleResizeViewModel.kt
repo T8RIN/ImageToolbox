@@ -8,7 +8,6 @@ import android.os.ParcelFileDescriptor
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.core.text.isDigitsOnly
 import androidx.exifinterface.media.ExifInterface
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -311,18 +310,6 @@ class SingleResizeViewModel : ViewModel() {
         val exifInterface = _exif.value
         exifInterface?.setAttribute(tag, value)
         updateExif(exifInterface)
-    }
-
-    companion object {
-        fun String.restrict(`by`: Int = 24000): String {
-            if (isEmpty()) return this
-
-            return if ((this.toIntOrNull() ?: 0) > `by`) `by`.toString()
-            else if (this.isDigitsOnly() && (this.toIntOrNull() ?: 0) == 0) ""
-            else this.trim().filter {
-                !listOf('-', '.', ',', ' ', "\n").contains(it)
-            }
-        }
     }
 
 }

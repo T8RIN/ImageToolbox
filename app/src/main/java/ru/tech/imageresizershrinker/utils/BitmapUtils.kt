@@ -13,6 +13,7 @@ import android.os.ParcelFileDescriptor
 import android.provider.OpenableColumns
 import android.webkit.MimeTypeMap
 import androidx.core.content.FileProvider
+import androidx.core.text.isDigitsOnly
 import androidx.exifinterface.media.ExifInterface
 import ru.tech.imageresizershrinker.resize_screen.components.BitmapInfo
 import ru.tech.imageresizershrinker.resize_screen.components.compressFormat
@@ -603,6 +604,16 @@ object BitmapUtils {
                 }
             }
         return null
+    }
+
+    fun String.restrict(`by`: Int = 24000): String {
+        if (isEmpty()) return this
+
+        return if ((this.toIntOrNull() ?: 0) > `by`) `by`.toString()
+        else if (this.isDigitsOnly() && (this.toIntOrNull() ?: 0) == 0) ""
+        else this.trim().filter {
+            !listOf('-', '.', ',', ' ', "\n").contains(it)
+        }
     }
 
 }
