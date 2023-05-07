@@ -109,4 +109,22 @@
     <string name="dynamic_colors_sub">यदि सक्षम किया गया है, तो ऐप रंगों को वॉलपेपर रंगों में अपनाया जाएगा</string>
     <string name="failed_to_save">%d छवि (छवियों) को सहेजने में विफल</string>
     <string name="png_warning_bytes">पीएनजी मोड में सहेजना अस्थिर हो सकता है, क्योंकि यह दोषरहित प्रारूप है</string>
+    <string name="surface">सतह</string>
+    <string name="buy_me_a_coffee">मुझे एक कॉफी खरीदो</string>
+    <string name="check_updates">अद्यतन के लिए जाँच</string>
+    <string name="check_updates_sub">यदि सक्षम है, तो ऐप स्टार्टअप के बाद आपको अपडेट डायलॉग दिखाया जाएगा</string>
+    <string name="permission_sub">छवियों को सहेजने के लिए ऐप को आपके संग्रहण तक पहुंच की आवश्यकता है, यह आवश्यक है, इसके बिना यह काम नहीं कर सकता है, इसलिए कृपया अगले संवाद पर अनुमति दें</string>
+    <string name="buy_me_a_coffee_sub">यह एप्लिकेशन पूरी तरह से निःशुल्क है, लेकिन यदि आप परियोजना के विकास में सहायता करना चाहते हैं, तो आप यहां क्लिक कर सकते हैं</string>
+    <string name="fab_alignment">एफएबी संरेखण</string>
+    <string name="values">मान</string>
+    <string name="add">जोड़ना</string>
+    <string name="primary">प्राथमिक</string>
+    <string name="tertiary">तृतीयक</string>
+    <string name="secondary">माध्यमिक</string>
+    <string name="permission">अनुमति</string>
+    <string name="grant">अनुदान</string>
+    <string name="grant_permission_manual">ऐप को काम करने के लिए इस अनुमति की आवश्यकता है, कृपया इसे मैन्युअल रूप से प्रदान करें</string>
+    <string name="border_thickness">बॉर्डर की मोटाई</string>
+    <string name="external_storage">बाह्य भंडारण</string>
+    <string name="monet_colors">मोनेट रंग</string>
 </resources>
