@@ -49,6 +49,10 @@ open class ZoomState(
         require(zoomMax >= zoomMin)
     }
 
+    suspend fun setZoom(newZoom: Float) {
+        animatableZoom.animateTo(newZoom)
+    }
+
     val pan: Offset
         get() = Offset(animatablePanX.value, animatablePanY.value)
 

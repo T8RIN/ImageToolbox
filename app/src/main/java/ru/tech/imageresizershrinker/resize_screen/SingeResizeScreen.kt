@@ -288,6 +288,7 @@ fun SingleResizeScreen(
         LocalConfiguration.current.orientation != Configuration.ORIENTATION_LANDSCAPE || LocalWindowSizeClass.current.widthSizeClass == WindowWidthSizeClass.Compact
 
     val imageBlock = @Composable {
+
         AnimatedContent(
             targetState = Triple(viewModel.previewBitmap, viewModel.isLoading, showOriginal),
             transitionSpec = { fadeIn() with fadeOut() }
