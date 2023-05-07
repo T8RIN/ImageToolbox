@@ -104,7 +104,7 @@
     <string name="color_green">Grün</string>
     <string name="color_blue">Blau</string>
     <string name="search_here">Hier suchen</string>
-    <string name="help_translate_sub">Verbessere Übersetzungsfehler oder übersetze Projekte in andere Sprachen</string>
+    <string name="help_translate_sub">Verbessere Übersetzungsfehler oder übersetze die App in andere Sprachen</string>
     <string name="nothing_found_by_search">Deine Suchanfrage hat nichts gefunden</string>
     <string name="dynamic_colors_sub">Wenn aktiviert, werden die Farben der Anwendung an die Farben des Hintergrundbildes angepasst.</string>
     <string name="failed_to_save">Fehler beim Speichern von %d-Bildern</string>
