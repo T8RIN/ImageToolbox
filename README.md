@@ -21,7 +21,7 @@
   <img alt="GitHub code size in bytes" src="https://img.shields.io/github/languages/code-size/t8rin/imageresizer?style=for-the-badge">
   </br>
   <a href="https://github.com/t8rin/imageresizer/releases/latest">
-      <img src="https://img.shields.io/github/v/release/t8rin/imageresizer?color=purple&include_prereleases&logo=GITHUB&style=for-the-badge"/>
+      <img src="https://img.shields.io/github/v/release/t8rin/imageresizer?color=purple&include_prereleases&logo=github&style=for-the-badge"/>
   </a>
   <a href="https://play.google.com/store/apps/details?id=ru.tech.imageresizershrinker">
       <img src="https://img.shields.io/endpoint?color=purple&logo=google-play&style=for-the-badge&label=Play%20store&url=https%3A%2F%2Fplay.cuzi.workers.dev%2Fplay%3Fi%3Dru.tech.imageresizershrinker%26l%3DAndroid%26m%3D%24version"/>
