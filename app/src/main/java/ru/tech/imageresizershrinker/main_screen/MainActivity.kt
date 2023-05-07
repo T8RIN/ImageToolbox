@@ -7,7 +7,9 @@ import androidx.activity.compose.BackHandler
 import androidx.activity.viewModels
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.animation.core.CubicBezierEasing
 import androidx.compose.animation.core.animateDpAsState
+import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.slideInHorizontally
@@ -188,10 +190,34 @@ class MainActivity : M3Activity() {
                         AnimatedNavHost(
                             controller = viewModel.navController,
                             transitionSpec = { _, _, to ->
+                                fun <T> animationSpec(
+                                    duration: Int = 800,
+                                    delay: Int = 0
+                                ) = tween<T>(
+                                    durationMillis = duration,
+                                    delayMillis = delay,
+                                    easing = CubicBezierEasing(0.05f, 0.7f, 0.1f, 1f)
+                                )
                                 if (to != Screen.Main) {
-                                    slideInHorizontally { it } + fadeIn() with slideOutHorizontally { -it } + fadeOut()
+                                    slideInHorizontally(
+                                        animationSpec()
+                                    ) { it / 3 } + fadeIn(
+                                        animationSpec(),
+                                    ) with slideOutHorizontally(
+                                        animationSpec()
+                                    ) { -it / 3 } + fadeOut(
+                                        animationSpec(400)
+                                    )
                                 } else {
-                                    slideInHorizontally { -it } + fadeIn() with fadeOut() + slideOutHorizontally { it }
+                                    slideInHorizontally(
+                                        animationSpec()
+                                    ) { -it / 3 } + fadeIn(
+                                        animationSpec(900)
+                                    ) with slideOutHorizontally(
+                                        animationSpec()
+                                    ) { it / 3 } + fadeOut(
+                                        animationSpec(150)
+                                    )
                                 }
                             }
                         ) { screen ->
