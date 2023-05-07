@@ -31,6 +31,16 @@ import java.util.Locale
 
 class BytesResizeViewModel : ViewModel() {
 
+
+    private val _canSave = mutableStateOf(false)
+    val canSave by _canSave
+
+    private val _presetSelected = mutableStateOf(-1)
+    val presetSelected by _presetSelected
+
+    private val _handMode = mutableStateOf(true)
+    val handMode by _handMode
+
     private val _uris = mutableStateOf<List<Uri>?>(null)
     val uris by _uris
 
@@ -139,6 +149,7 @@ class BytesResizeViewModel : ViewModel() {
     private fun updatePreview() {
         job?.cancel()
         job = viewModelScope.launch {
+            updateCanSave()
             withContext(Dispatchers.IO) {
                 delay(400)
                 _isLoading.value = true
@@ -201,6 +212,7 @@ class BytesResizeViewModel : ViewModel() {
         getSavingFolder: (name: String, ext: String) -> SavingFolder,
         getFileDescriptor: (Uri?) -> ParcelFileDescriptor?,
         getBitmap: (Uri) -> Pair<Bitmap?, ExifInterface?>,
+        getImageSize: (Uri) -> Long?,
         onSuccess: (Int) -> Unit
     ) = viewModelScope.launch {
         withContext(Dispatchers.IO) {
@@ -224,10 +236,19 @@ class BytesResizeViewModel : ViewModel() {
                             "ResizedImage$timeStamp-${Date().hashCode()}.$ext"
 
                         kotlin.runCatching {
-                            bitmap?.scaleByMaxBytes(
-                                maxBytes = maxBytes,
-                                compressFormat = mime.extension.compressFormat
-                            )
+                            if (handMode) {
+                                bitmap?.scaleByMaxBytes(
+                                    maxBytes = maxBytes,
+                                    compressFormat = mime.extension.compressFormat
+                                )
+                            } else {
+                                bitmap?.scaleByMaxBytes(
+                                    maxBytes = (getImageSize(uri) ?: 0)
+                                        .times(_presetSelected.value / 100f)
+                                        .toLong(),
+                                    compressFormat = mime.extension.compressFormat
+                                )
+                            }
                         }.let { result ->
                             if (result.isSuccess && result.getOrNull() != null) {
                                 val scaled = result.getOrNull()!!
@@ -289,9 +310,25 @@ class BytesResizeViewModel : ViewModel() {
         }
     }
 
+    private fun updateCanSave() {
+        _canSave.value =
+            _bitmap.value != null && (_maxBytes.value != 0L && _handMode.value || !_handMode.value && _presetSelected.value != -1)
+    }
+
     fun updateMaxBytes(newBytes: String) {
         val b = newBytes.toLongOrNull() ?: 0
         _maxBytes.value = b * 1024
+        updateCanSave()
+    }
+
+    fun selectPreset(preset: Int) {
+        _presetSelected.value = preset
+        updateCanSave()
+    }
+
+    fun updateHandMode() {
+        _handMode.value = !_handMode.value
+        updateCanSave()
     }
 
 }

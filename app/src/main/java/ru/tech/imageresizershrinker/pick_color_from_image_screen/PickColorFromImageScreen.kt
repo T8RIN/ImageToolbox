@@ -198,6 +198,29 @@ fun PickColorFromImageScreen(
     val portrait =
         LocalConfiguration.current.orientation != Configuration.ORIENTATION_LANDSCAPE || LocalWindowSizeClass.current.widthSizeClass == WindowWidthSizeClass.Compact
 
+    val switch = @Composable {
+        Switch(
+            modifier = Modifier.padding(horizontal = 16.dp),
+            colors = SwitchDefaults.colors(
+                uncheckedBorderColor = MaterialTheme.colorScheme.primary,
+                uncheckedThumbColor = MaterialTheme.colorScheme.onPrimary,
+                uncheckedTrackColor = MaterialTheme.colorScheme.primary,
+                uncheckedIconColor = MaterialTheme.colorScheme.onPrimaryContainer,
+            ),
+            checked = !canZoom,
+            onCheckedChange = { canZoom = !canZoom },
+            thumbContent = {
+                AnimatedContent(canZoom) { zoom ->
+                    Icon(
+                        if (!zoom) Icons.Rounded.Colorize else Icons.Rounded.ZoomIn,
+                        null,
+                        Modifier.size(SwitchDefaults.IconSize)
+                    )
+                }
+            }
+        )
+    }
+
     Box(
         Modifier
             .fillMaxSize()
@@ -503,26 +526,7 @@ fun PickColorFromImageScreen(
                                 horizontalAlignment = Alignment.CenterHorizontally,
                                 verticalArrangement = Arrangement.Center
                             ) {
-                                Switch(
-                                    modifier = Modifier.padding(horizontal = 16.dp),
-                                    colors = SwitchDefaults.colors(
-                                        uncheckedBorderColor = MaterialTheme.colorScheme.primary,
-                                        uncheckedThumbColor = MaterialTheme.colorScheme.onPrimary,
-                                        uncheckedTrackColor = MaterialTheme.colorScheme.primary,
-                                        uncheckedIconColor = MaterialTheme.colorScheme.onPrimaryContainer,
-                                    ),
-                                    checked = !canZoom,
-                                    onCheckedChange = { canZoom = !canZoom },
-                                    thumbContent = {
-                                        AnimatedContent(canZoom) { zoom ->
-                                            Icon(
-                                                if (!zoom) Icons.Rounded.Colorize else Icons.Rounded.ZoomIn,
-                                                null,
-                                                Modifier.size(SwitchDefaults.IconSize)
-                                            )
-                                        }
-                                    }
-                                )
+                                switch()
                                 Spacer(modifier = Modifier.height(16.dp))
                                 FloatingActionButton(
                                     onClick = pickImage,
@@ -548,26 +552,7 @@ fun PickColorFromImageScreen(
                     modifier = Modifier
                         .drawHorizontalStroke(true),
                     actions = {
-                        Switch(
-                            modifier = Modifier.padding(horizontal = 16.dp),
-                            colors = SwitchDefaults.colors(
-                                uncheckedBorderColor = MaterialTheme.colorScheme.primary,
-                                uncheckedThumbColor = MaterialTheme.colorScheme.onPrimary,
-                                uncheckedTrackColor = MaterialTheme.colorScheme.primary,
-                                uncheckedIconColor = MaterialTheme.colorScheme.onPrimaryContainer,
-                            ),
-                            checked = !canZoom,
-                            onCheckedChange = { canZoom = !canZoom },
-                            thumbContent = {
-                                AnimatedContent(canZoom) { zoom ->
-                                    Icon(
-                                        if (!zoom) Icons.Rounded.Colorize else Icons.Rounded.ZoomIn,
-                                        null,
-                                        Modifier.size(SwitchDefaults.IconSize)
-                                    )
-                                }
-                            }
-                        )
+                        switch()
                     },
                     floatingActionButton = {
                         FloatingActionButton(

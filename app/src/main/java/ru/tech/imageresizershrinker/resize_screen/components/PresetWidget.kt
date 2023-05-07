@@ -1,6 +1,5 @@
 package ru.tech.imageresizershrinker.resize_screen.components
 
-import android.graphics.Bitmap
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
@@ -46,16 +45,13 @@ import ru.tech.imageresizershrinker.main_screen.components.block
 import ru.tech.imageresizershrinker.theme.CreateAlt
 import ru.tech.imageresizershrinker.theme.mixedColor
 import ru.tech.imageresizershrinker.theme.onMixedColor
-import ru.tech.imageresizershrinker.utils.BitmapUtils.with
 import ru.tech.imageresizershrinker.widget.AutoSizeText
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun PresetWidget(
     selectedPreset: Int,
-    bitmap: Bitmap?,
-    bitmapInfo: BitmapInfo,
-    onChangeBitmapInfo: (BitmapInfo) -> Unit
+    onPresetSelected: (Int) -> Unit
 ) {
     val editPresetsState = LocalEditPresets.current
     val data = LocalPresetsProvider.current
@@ -99,12 +95,7 @@ fun PresetWidget(
                                 OutlinedIconButton(
                                     shape = RoundedCornerShape(12.dp),
                                     onClick = {
-                                        onChangeBitmapInfo(
-                                            it.with(
-                                                bitmap,
-                                                bitmapInfo
-                                            )
-                                        )
+                                        onPresetSelected(it)
                                     },
                                     border = BorderStroke(
                                         max(LocalBorderWidth.current, 1.dp),

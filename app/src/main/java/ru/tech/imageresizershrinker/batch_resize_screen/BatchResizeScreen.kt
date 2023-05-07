@@ -140,6 +140,7 @@ import ru.tech.imageresizershrinker.utils.BitmapUtils.canShow
 import ru.tech.imageresizershrinker.utils.BitmapUtils.decodeBitmapFromUri
 import ru.tech.imageresizershrinker.utils.BitmapUtils.decodeSampledBitmapFromUri
 import ru.tech.imageresizershrinker.utils.BitmapUtils.getBitmapByUri
+import ru.tech.imageresizershrinker.utils.BitmapUtils.with
 import ru.tech.imageresizershrinker.utils.ContextUtils.isExternalStorageWritable
 import ru.tech.imageresizershrinker.utils.ContextUtils.requestStoragePermission
 import ru.tech.imageresizershrinker.utils.LocalWindowSizeClass
@@ -677,9 +678,14 @@ fun BatchResizeScreen(
                                     Spacer(Modifier.size(8.dp))
                                     PresetWidget(
                                         selectedPreset = viewModel.presetSelected,
-                                        bitmap = viewModel.bitmap,
-                                        bitmapInfo = bitmapInfo,
-                                        onChangeBitmapInfo = viewModel::setBitmapInfo
+                                        onPresetSelected = {
+                                            viewModel.setBitmapInfo(
+                                                it.with(
+                                                    viewModel.bitmap,
+                                                    viewModel.bitmapInfo
+                                                )
+                                            )
+                                        }
                                     )
                                     Spacer(Modifier.size(8.dp))
                                     SaveExifWidget(

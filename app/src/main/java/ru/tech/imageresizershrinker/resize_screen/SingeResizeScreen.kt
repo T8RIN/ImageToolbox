@@ -153,6 +153,7 @@ import ru.tech.imageresizershrinker.utils.BitmapUtils.decodeBitmapFromUri
 import ru.tech.imageresizershrinker.utils.BitmapUtils.resizeBitmap
 import ru.tech.imageresizershrinker.utils.BitmapUtils.shareBitmap
 import ru.tech.imageresizershrinker.utils.BitmapUtils.toMap
+import ru.tech.imageresizershrinker.utils.BitmapUtils.with
 import ru.tech.imageresizershrinker.utils.ContextUtils.isExternalStorageWritable
 import ru.tech.imageresizershrinker.utils.ContextUtils.requestStoragePermission
 import ru.tech.imageresizershrinker.utils.LocalWindowSizeClass
@@ -720,9 +721,14 @@ fun SingleResizeScreen(
                                     Spacer(Modifier.size(8.dp))
                                     PresetWidget(
                                         selectedPreset = viewModel.presetSelected,
-                                        bitmap = viewModel.bitmap,
-                                        bitmapInfo = bitmapInfo,
-                                        onChangeBitmapInfo = viewModel::setBitmapInfo
+                                        onPresetSelected = {
+                                            viewModel.setBitmapInfo(
+                                                it.with(
+                                                    viewModel.bitmap,
+                                                    viewModel.bitmapInfo
+                                                )
+                                            )
+                                        }
                                     )
                                     Spacer(Modifier.size(8.dp))
                                     ResizeImageField(

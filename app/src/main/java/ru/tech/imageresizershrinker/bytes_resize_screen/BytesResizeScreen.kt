@@ -11,7 +11,6 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.ExperimentalAnimationApi
-import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.slideInVertically
@@ -58,7 +57,9 @@ import androidx.compose.material.icons.rounded.AddPhotoAlternate
 import androidx.compose.material.icons.rounded.ArrowBack
 import androidx.compose.material.icons.rounded.ChangeCircle
 import androidx.compose.material.icons.rounded.ErrorOutline
+import androidx.compose.material.icons.rounded.FrontHand
 import androidx.compose.material.icons.rounded.PhotoLibrary
+import androidx.compose.material.icons.rounded.PhotoSizeSelectSmall
 import androidx.compose.material.icons.rounded.Save
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.BottomAppBar
@@ -80,6 +81,8 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedIconButton
 import androidx.compose.material3.Surface
+import androidx.compose.material3.Switch
+import androidx.compose.material3.SwitchDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.surfaceColorAtElevation
@@ -95,6 +98,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.input.pointer.pointerInput
@@ -129,6 +133,7 @@ import ru.tech.imageresizershrinker.resize_screen.components.ImageTransformBar
 import ru.tech.imageresizershrinker.resize_screen.components.Loading
 import ru.tech.imageresizershrinker.resize_screen.components.LoadingDialog
 import ru.tech.imageresizershrinker.resize_screen.components.Picture
+import ru.tech.imageresizershrinker.resize_screen.components.PresetWidget
 import ru.tech.imageresizershrinker.resize_screen.components.byteCount
 import ru.tech.imageresizershrinker.resize_screen.components.extension
 import ru.tech.imageresizershrinker.resize_screen.viewModel.SingleResizeViewModel.Companion.restrict
@@ -244,6 +249,9 @@ fun BytesResizeScreen(
             },
             getBitmap = { uri ->
                 context.decodeBitmapFromUri(uri)
+            },
+            getImageSize = { uri ->
+                uri.fileSize(context)
             }
         ) { failed ->
             context.failedToSaveImages(
@@ -336,6 +344,29 @@ fun BytesResizeScreen(
         }
     }
 
+    val switch = @Composable {
+        Switch(
+            modifier = Modifier.padding(horizontal = 16.dp),
+            colors = SwitchDefaults.colors(
+                uncheckedBorderColor = MaterialTheme.colorScheme.primary,
+                uncheckedThumbColor = MaterialTheme.colorScheme.onPrimary,
+                uncheckedTrackColor = MaterialTheme.colorScheme.primary,
+                uncheckedIconColor = MaterialTheme.colorScheme.onPrimaryContainer,
+            ),
+            checked = viewModel.handMode,
+            onCheckedChange = { viewModel.updateHandMode() },
+            thumbContent = {
+                AnimatedContent(viewModel.handMode) { handMode ->
+                    Icon(
+                        if (handMode) Icons.Rounded.FrontHand else Icons.Rounded.PhotoSizeSelectSmall,
+                        null,
+                        Modifier.size(SwitchDefaults.IconSize)
+                    )
+                }
+            }
+        )
+    }
+
     val buttons = @Composable {
         if (viewModel.bitmap == null) {
             ExtendedFloatingActionButton(
@@ -355,7 +386,9 @@ fun BytesResizeScreen(
         } else if (imageInside) {
             BottomAppBar(
                 modifier = Modifier.drawHorizontalStroke(true),
-                actions = {},
+                actions = {
+                    switch()
+                },
                 floatingActionButton = {
                     Row {
                         FloatingActionButton(
@@ -366,14 +399,16 @@ fun BytesResizeScreen(
                         ) {
                             Icon(Icons.Rounded.AddPhotoAlternate, null)
                         }
-                        Spacer(Modifier.width(16.dp))
-                        AnimatedVisibility(viewModel.bitmap != null && viewModel.maxBytes != 0L) {
-                            FloatingActionButton(
-                                onClick = saveBitmaps,
-                                modifier = Modifier.fabBorder(),
-                                elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation()
-                            ) {
-                                Icon(Icons.Rounded.Save, null)
+                        AnimatedVisibility(viewModel.canSave) {
+                            Row {
+                                Spacer(Modifier.width(16.dp))
+                                FloatingActionButton(
+                                    onClick = saveBitmaps,
+                                    modifier = Modifier.fabBorder(),
+                                    elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation()
+                                ) {
+                                    Icon(Icons.Rounded.Save, null)
+                                }
                             }
                         }
                     }
@@ -385,6 +420,8 @@ fun BytesResizeScreen(
                     .padding(horizontal = 16.dp)
                     .navigationBarsPadding()
             ) {
+                switch()
+                Spacer(Modifier.height(16.dp))
                 FloatingActionButton(
                     onClick = pickImage,
                     containerColor = MaterialTheme.colorScheme.tertiaryContainer,
@@ -394,7 +431,7 @@ fun BytesResizeScreen(
                     Icon(Icons.Rounded.AddPhotoAlternate, null)
                 }
                 Spacer(Modifier.height(16.dp))
-                AnimatedVisibility(viewModel.bitmap != null && viewModel.maxBytes != 0L) {
+                AnimatedVisibility(viewModel.canSave) {
                     FloatingActionButton(
                         onClick = saveBitmaps,
                         elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
@@ -506,14 +543,15 @@ fun BytesResizeScreen(
                             start = 20.dp,
                             end = 20.dp
                         ),
-                        modifier = Modifier.weight(1f)
+                        modifier = Modifier
+                            .weight(1f)
+                            .clipToBounds()
                     ) {
                         item {
                             Column(
                                 modifier = Modifier
                                     .fillMaxSize()
-                                    .navBarsLandscapePadding(viewModel.bitmap == null)
-                                    .animateContentSize(),
+                                    .navBarsLandscapePadding(viewModel.bitmap == null),
                                 verticalArrangement = Arrangement.Center,
                                 horizontalAlignment = Alignment.CenterHorizontally
                             ) {
@@ -526,22 +564,40 @@ fun BytesResizeScreen(
                                         onRotateRight = viewModel::rotateRight
                                     )
                                     Spacer(Modifier.size(8.dp))
-                                    RoundedTextField(
-                                        modifier = Modifier
-                                            .block()
-                                            .padding(8.dp),
-                                        enabled = viewModel.bitmap != null,
-                                        value = (viewModel.maxBytes / 1024).toString()
-                                            .takeIf { it != "0" } ?: "",
-                                        onValueChange = {
-                                            viewModel.updateMaxBytes(it.restrict(1_000_000))
-                                        },
-                                        shape = RoundedCornerShape(12.dp),
-                                        keyboardOptions = KeyboardOptions(
-                                            keyboardType = KeyboardType.Number
-                                        ),
-                                        label = stringResource(R.string.max_bytes)
-                                    )
+                                    AnimatedContent(
+                                        targetState = viewModel.handMode,
+                                        transitionSpec = {
+                                            if (!targetState) {
+                                                slideInVertically { it } + fadeIn() with slideOutVertically { -it } + fadeOut()
+                                            } else {
+                                                slideInVertically { -it } + fadeIn() with slideOutVertically { it } + fadeOut()
+                                            }
+                                        }
+                                    ) { handMode ->
+                                        if (handMode) {
+                                            RoundedTextField(
+                                                modifier = Modifier
+                                                    .block()
+                                                    .padding(8.dp),
+                                                enabled = viewModel.bitmap != null,
+                                                value = (viewModel.maxBytes / 1024).toString()
+                                                    .takeIf { it != "0" } ?: "",
+                                                onValueChange = {
+                                                    viewModel.updateMaxBytes(it.restrict(1_000_000))
+                                                },
+                                                shape = RoundedCornerShape(12.dp),
+                                                keyboardOptions = KeyboardOptions(
+                                                    keyboardType = KeyboardType.Number
+                                                ),
+                                                label = stringResource(R.string.max_bytes)
+                                            )
+                                        } else {
+                                            PresetWidget(
+                                                selectedPreset = viewModel.presetSelected,
+                                                onPresetSelected = viewModel::selectPreset
+                                            )
+                                        }
+                                    }
                                     Spacer(Modifier.size(8.dp))
                                     SaveExifWidget(
                                         selected = viewModel.keepExif,
