@@ -49,7 +49,7 @@ internal fun getNextZoomLevel(zoomLevel: ZoomLevel): ZoomLevel = when (zoomLevel
 /**
  * Update graphic layer with [zoomState]
  */
-internal fun GraphicsLayerScope.update(zoomState: ZoomState) {
+fun GraphicsLayerScope.update(zoomState: ZoomState) {
 
     // Set zoom
     val zoom = zoomState.zoom

@@ -2,12 +2,15 @@ package com.smarttoolfactory.colordetector
 
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.Canvas
-import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.size
-import androidx.compose.runtime.*
-import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberUpdatedState
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
@@ -17,18 +20,18 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.asAndroidBitmap
 import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.graphics.luminance
 import androidx.compose.ui.input.pointer.PointerInputChange
-import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
 import com.smarttoolfactory.colordetector.util.calculateColorInPixel
 import com.smarttoolfactory.gesture.pointerMotionEvents
 import com.smarttoolfactory.image.ImageWithConstraints
+import com.smarttoolfactory.image.util.update
 import com.smarttoolfactory.image.zoom.ZoomState
-import com.smarttoolfactory.image.zoom.rememberZoomState
-import com.smarttoolfactory.image.zoom.zoom
-import kotlin.math.abs
+import com.smarttoolfactory.image.zoom.animatedZoom
+import com.smarttoolfactory.image.zoom.rememberAnimatedZoomState
 
 
 @Composable
@@ -44,10 +47,18 @@ fun ImageColorDetector(
         mutableStateOf(Offset.Unspecified)
     }
 
-    val zoomState = rememberZoomState(limitPan = true)
+    val zoomState = rememberAnimatedZoomState(limitPan = true)
 
     ImageWithConstraints(
-        modifier = modifier.zoom(zoomState = zoomState),
+        modifier = modifier.then(
+            if (canZoom) {
+                Modifier.animatedZoom(animatedZoomState = zoomState)
+            } else {
+                Modifier.graphicsLayer {
+                    update(zoomState)
+                }
+            }
+        ),
         imageBitmap = imageBitmap
     ) {
 
