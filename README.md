@@ -1,5 +1,12 @@
+<div align="center">
+</br>
+<img src="https://user-images.githubusercontent.com/52178347/236916263-f8f97c5c-0f07-4180-ace4-2b35289b344f.png" width="150" />
 
-<h1 align="center">ImageResizer</h1>
+</div>
+
+<h1 align="center">Image Resizer</h1>
+
+</br>
 
 <p align="center">
   <img alt="API" src="https://img.shields.io/badge/Api%2021+-50f270?logo=android&logoColor=black&style=for-the-badge"/></a>
