@@ -1,4 +1,4 @@
-package eu.wewox.modalsheet
+package com.t8rin.modalsheet
 
 import android.annotation.SuppressLint
 import android.app.Activity
@@ -47,7 +47,6 @@ import java.util.UUID
  * @param onDismiss Executes when the user clicks outside of the popup.
  * @param content The content to be displayed inside the popup.
  */
-@ExperimentalSheetApi
 @Composable
 internal fun FullscreenPopup(
     onDismiss: (() -> Unit)? = null,

@@ -4,7 +4,7 @@ plugins {
 }
 
 android {
-    namespace = "eu.wewox.modalsheet"
+    namespace = "com.t8rin.modalsheet"
     compileSdk = 33
 
     defaultConfig {
@@ -51,6 +51,7 @@ dependencies {
     implementation("androidx.compose.foundation:foundation")
     implementation("androidx.compose.material3:material3:1.1.0-rc01")
     implementation("androidx.compose.material:material")
+    implementation("androidx.compose.ui:ui-util")
 
     implementation("androidx.lifecycle:lifecycle-viewmodel-savedstate:2.6.1")
     implementation("androidx.lifecycle:lifecycle-viewmodel:2.6.1")
