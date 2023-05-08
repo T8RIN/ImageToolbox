@@ -32,6 +32,7 @@ import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.smarttoolfactory.image.zoom.ZoomLevel
 import com.smarttoolfactory.image.zoom.animatedZoom
 import com.smarttoolfactory.image.zoom.rememberAnimatedZoomState
 import eu.wewox.modalsheet.ExperimentalSheetApi
@@ -92,7 +93,14 @@ fun ZoomModalSheet(
                                 moveToBounds = true,
                                 minZoom = 0.5f,
                                 maxZoom = 10f
-                            )
+                            ),
+                            zoomOnDoubleTap = { zoomLevel ->
+                                when (zoomLevel) {
+                                    ZoomLevel.Min -> 1f
+                                    ZoomLevel.Mid -> 5f
+                                    ZoomLevel.Max -> 10f
+                                }
+                            }
                         )
                 )
                 Row(
