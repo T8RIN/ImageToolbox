@@ -4,7 +4,7 @@
 
 </div>
 
-<h1 align="center">ImageResizer</h1>
+<h1 align="center">Image Resizer</h1>
 
 </br>
 
