@@ -217,7 +217,7 @@ fun GeneratePaletteScreen(
 
     val showSheet = rememberSaveable { mutableStateOf(false) }
     val zoomButton = @Composable {
-        if (viewModel.bitmap != null) {
+        AnimatedVisibility(viewModel.bitmap != null) {
             IconButton(
                 onClick = {
                     showSheet.value = true

@@ -87,7 +87,13 @@ fun ZoomModalSheet(
                                 .copy(alpha = 0.1f),
                             RoundedCornerShape(4.dp)
                         )
-                        .animatedZoom(animatedZoomState = rememberAnimatedZoomState())
+                        .animatedZoom(
+                            animatedZoomState = rememberAnimatedZoomState(
+                                moveToBounds = true,
+                                minZoom = 0.5f,
+                                maxZoom = 10f
+                            )
+                        )
                 )
                 Row(
                     modifier = Modifier

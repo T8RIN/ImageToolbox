@@ -448,7 +448,7 @@ fun BytesResizeScreen(
 
     val showSheet = rememberSaveable { mutableStateOf(false) }
     val zoomButton = @Composable {
-        if (viewModel.bitmap != null) {
+        AnimatedVisibility(viewModel.bitmap != null) {
             IconButton(
                 onClick = {
                     showSheet.value = true
@@ -460,7 +460,7 @@ fun BytesResizeScreen(
     }
 
     ZoomModalSheet(
-        bitmap = viewModel.bitmap,
+        bitmap = viewModel.previewBitmap,
         visible = showSheet
     )
 

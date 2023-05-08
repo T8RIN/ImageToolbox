@@ -8,6 +8,7 @@ import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.fadeIn
@@ -523,7 +524,7 @@ fun SingleResizeScreen(
 
     val showSheet = rememberSaveable { mutableStateOf(false) }
     val zoomButton = @Composable {
-        if (viewModel.bitmap != null) {
+        AnimatedVisibility(viewModel.bitmap != null && viewModel.shouldShowPreview) {
             IconButton(
                 onClick = {
                     showSheet.value = true
@@ -535,7 +536,7 @@ fun SingleResizeScreen(
     }
 
     ZoomModalSheet(
-        bitmap = viewModel.bitmap,
+        bitmap = viewModel.previewBitmap,
         visible = showSheet
     )
 
