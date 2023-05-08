@@ -11,6 +11,7 @@ import androidx.compose.material3.BottomSheetDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.contentColorFor
+import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
@@ -246,10 +247,9 @@ object ModalSheetDefaults {
     /**
      * Default elevation of the bottom sheet.
      */
-    @OptIn(ExperimentalMaterial3Api::class)
     val elevation: Dp
         @Composable
-        get() = BottomSheetDefaults.Elevation
+        get() = 8.dp
 
     /**
      * Default background color of the bottom sheet.
@@ -257,7 +257,7 @@ object ModalSheetDefaults {
     @OptIn(ExperimentalMaterial3Api::class)
     val backgroundColor: Color
         @Composable
-        get() = BottomSheetDefaults.ContainerColor
+        get() = MaterialTheme.colorScheme.surfaceColorAtElevation(2.dp)
 
     /**
      * Default color of the scrim that is applied to the rest of the screen when the bottom sheet
