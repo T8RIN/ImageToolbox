@@ -1,3 +1,5 @@
+@file:Suppress("FunctionName")
+
 package com.t8rin.modalsheet
 
 import androidx.compose.animation.core.AnimationSpec
@@ -78,7 +80,7 @@ enum class ModalBottomSheetValue {
 
 
 /**
- * State of the [ModalBottomSheetLayout] composable.
+ * State of the [ModalSheetLayout] composable.
  *
  * @param initialValue The initial value of the state. <b>Must not be set to
  * [ModalBottomSheetValue.HalfExpanded] if [isSkipHalfExpanded] is set to true.</b>
@@ -100,7 +102,7 @@ class ModalSheetState constructor(
     val isSkipHalfExpanded: Boolean = false
 ) {
 
-    internal val swipeableState = SwipeableV2State(
+    val swipeableState = SwipeableV2State(
         initialValue = initialValue,
         animationSpec = animationSpec,
         confirmValueChange = confirmValueChange,
@@ -120,7 +122,7 @@ class ModalSheetState constructor(
     val isVisible: Boolean
         get() = swipeableState.currentValue != Hidden
 
-    internal val hasHalfExpandedState: Boolean
+    val hasHalfExpandedState: Boolean
         get() = swipeableState.hasAnchorForValue(HalfExpanded)
 
     init {
@@ -153,7 +155,7 @@ class ModalSheetState constructor(
      *
      * @throws [CancellationException] if the animation is interrupted
      */
-    internal suspend fun halfExpand() {
+    suspend fun halfExpand() {
         if (!hasHalfExpandedState) {
             return
         }
@@ -166,7 +168,7 @@ class ModalSheetState constructor(
      * *
      * @throws [CancellationException] if the animation is interrupted
      */
-    internal suspend fun expand() {
+    suspend fun expand() {
         if (!swipeableState.hasAnchorForValue(Expanded)) {
             return
         }
@@ -181,18 +183,18 @@ class ModalSheetState constructor(
      */
     suspend fun hide() = animateTo(Hidden)
 
-    internal suspend fun animateTo(
+    suspend fun animateTo(
         target: ModalBottomSheetValue,
         velocity: Float = swipeableState.lastVelocity
     ) = swipeableState.animateTo(target, velocity)
 
-    internal suspend fun snapTo(target: ModalBottomSheetValue) = swipeableState.snapTo(target)
+    suspend fun snapTo(target: ModalBottomSheetValue) = swipeableState.snapTo(target)
 
-    internal fun requireOffset() = swipeableState.requireOffset()
+    fun requireOffset() = swipeableState.requireOffset()
 
-    internal val lastVelocity: Float get() = swipeableState.lastVelocity
+    val lastVelocity: Float get() = swipeableState.lastVelocity
 
-    internal val isAnimationRunning: Boolean get() = swipeableState.isAnimationRunning
+    val isAnimationRunning: Boolean get() = swipeableState.isAnimationRunning
 
     companion object {
         /**
@@ -293,7 +295,7 @@ fun rememberModalBottomSheetState(
 @OptIn(ExperimentalMaterialApi::class)
 @ExperimentalMaterial3Api
 @Composable
-fun ModalBottomSheetLayout(
+fun ModalSheetLayout(
     sheetContent: @Composable ColumnScope.() -> Unit,
     modifier: Modifier = Modifier,
     sheetModifier: Modifier = Modifier,

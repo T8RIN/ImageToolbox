@@ -137,7 +137,7 @@ fun ModalSheet(
         onDismiss = onDismiss,
     ) {
         Box(Modifier.fillMaxSize()) {
-            ModalBottomSheetLayout(
+            ModalSheetLayout(
                 sheetModifier = sheetModifier,
                 modifier = modifier.align(Alignment.BottomCenter),
                 sheetState = sheetState,

@@ -48,7 +48,7 @@ import java.util.UUID
  * @param content The content to be displayed inside the popup.
  */
 @Composable
-internal fun FullscreenPopup(
+fun FullscreenPopup(
     onDismiss: (() -> Unit)? = null,
     content: @Composable () -> Unit
 ) {

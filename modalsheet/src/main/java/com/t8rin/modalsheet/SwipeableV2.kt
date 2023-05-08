@@ -1,3 +1,5 @@
+@file:Suppress("FunctionName")
+
 package com.t8rin.modalsheet
 
 /*
@@ -159,13 +161,13 @@ internal fun <T> Modifier.swipeAnchors(
  */
 @Stable
 @ExperimentalMaterialApi
-internal class SwipeableV2State<T>(
+class SwipeableV2State<T>(
     initialValue: T,
-    internal val animationSpec: AnimationSpec<Float> = SwipeableV2Defaults.AnimationSpec,
-    internal val confirmValueChange: (newValue: T) -> Boolean = { true },
-    internal val positionalThreshold: Density.(totalDistance: Float) -> Float =
+    val animationSpec: AnimationSpec<Float> = SwipeableV2Defaults.AnimationSpec,
+    val confirmValueChange: (newValue: T) -> Boolean = { true },
+    val positionalThreshold: Density.(totalDistance: Float) -> Float =
         SwipeableV2Defaults.PositionalThreshold,
-    internal val velocityThreshold: Dp = SwipeableV2Defaults.VelocityThreshold,
+    val velocityThreshold: Dp = SwipeableV2Defaults.VelocityThreshold,
 ) {
 
     /**
@@ -258,7 +260,7 @@ internal class SwipeableV2State<T>(
     val maxOffset by derivedStateOf { anchors.maxOrNull() ?: Float.POSITIVE_INFINITY }
 
     private var animationTarget: T? by mutableStateOf(null)
-    internal val draggableState = DraggableState {
+    val draggableState = DraggableState {
         offset = ((offset ?: 0f) + it).coerceIn(minOffset, maxOffset)
     }
 
