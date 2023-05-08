@@ -12,9 +12,11 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.navigationBarsPadding
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.BottomSheetDefaults
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
@@ -52,7 +54,17 @@ fun ZoomModalSheet(
     if (bitmap != null) {
         ModalSheet(
             containerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(2.dp),
-            sheetModifier = Modifier.statusBarsPadding(),
+            sheetModifier = Modifier
+                .statusBarsPadding()
+                .offset(y = (LocalBorderWidth.current + 1.dp))
+                .border(
+                    width = LocalBorderWidth.current,
+                    color = MaterialTheme.colorScheme.outlineVariant(
+                        luminance = 0.3f,
+                        onTopOf = MaterialTheme.colorScheme.surfaceColorAtElevation(6.dp)
+                    ),
+                    shape = BottomSheetDefaults.ExpandedShape
+                ),
             elevation = 6.dp,
             visible = showSheet,
             onVisibleChange = {
