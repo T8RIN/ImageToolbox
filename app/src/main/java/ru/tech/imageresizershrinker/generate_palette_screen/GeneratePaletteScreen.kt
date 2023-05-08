@@ -35,6 +35,7 @@ import androidx.compose.material.icons.rounded.ArrowBack
 import androidx.compose.material.icons.rounded.Colorize
 import androidx.compose.material.icons.rounded.ContentPaste
 import androidx.compose.material.icons.rounded.ErrorOutline
+import androidx.compose.material.icons.rounded.ZoomIn
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FilledIconButton
 import androidx.compose.material3.FloatingActionButton
@@ -55,6 +56,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -87,6 +89,7 @@ import ru.tech.imageresizershrinker.pick_color_from_image_screen.copyColorIntoCl
 import ru.tech.imageresizershrinker.pick_color_from_image_screen.format
 import ru.tech.imageresizershrinker.resize_screen.components.ImageNotPickedWidget
 import ru.tech.imageresizershrinker.resize_screen.components.LoadingDialog
+import ru.tech.imageresizershrinker.resize_screen.components.ZoomModalSheet
 import ru.tech.imageresizershrinker.theme.PaletteSwatch
 import ru.tech.imageresizershrinker.utils.BitmapUtils.decodeBitmapFromUri
 import ru.tech.imageresizershrinker.utils.LocalWindowSizeClass
@@ -212,6 +215,24 @@ fun GeneratePaletteScreen(
     val landscape =
         LocalWindowSizeClass.current.widthSizeClass != WindowWidthSizeClass.Compact || LocalConfiguration.current.orientation == Configuration.ORIENTATION_LANDSCAPE
 
+    val showSheet = rememberSaveable { mutableStateOf(false) }
+    val zoomButton = @Composable {
+        if (viewModel.bitmap != null) {
+            IconButton(
+                onClick = {
+                    showSheet.value = true
+                }
+            ) {
+                Icon(Icons.Rounded.ZoomIn, null)
+            }
+        }
+    }
+
+    ZoomModalSheet(
+        bitmap = viewModel.bitmap,
+        visible = showSheet
+    )
+
     Box(
         Modifier
             .fillMaxSize()
@@ -242,6 +263,7 @@ fun GeneratePaletteScreen(
                     }
                 },
                 actions = {
+                    zoomButton()
                     if (viewModel.uri != null) {
                         IconButton(
                             onClick = {

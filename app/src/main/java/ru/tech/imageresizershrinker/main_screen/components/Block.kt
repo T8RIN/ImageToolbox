@@ -78,7 +78,7 @@ fun Modifier.drawHorizontalStroke(top: Boolean = false, height: Dp = Dp.Unspecif
         if (LocalBorderWidth.current > 0.dp) {
             LocalBorderWidth.current
         } else null
-    } else null
+    } else height
 
     val color = MaterialTheme.colorScheme.outlineVariant(0.3f)
 

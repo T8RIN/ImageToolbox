@@ -117,4 +117,6 @@ dependencies {
     implementation(project(":colordetector"))
     implementation(project(":beforeafter"))
     implementation(project(":image"))
+    implementation(project(":modalsheet"))
+
 }

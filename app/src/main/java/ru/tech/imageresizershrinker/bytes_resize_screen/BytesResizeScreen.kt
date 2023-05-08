@@ -61,6 +61,7 @@ import androidx.compose.material.icons.rounded.FrontHand
 import androidx.compose.material.icons.rounded.PhotoLibrary
 import androidx.compose.material.icons.rounded.PhotoSizeSelectSmall
 import androidx.compose.material.icons.rounded.Save
+import androidx.compose.material.icons.rounded.ZoomIn
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.ButtonDefaults
@@ -134,6 +135,7 @@ import ru.tech.imageresizershrinker.resize_screen.components.Loading
 import ru.tech.imageresizershrinker.resize_screen.components.LoadingDialog
 import ru.tech.imageresizershrinker.resize_screen.components.Picture
 import ru.tech.imageresizershrinker.resize_screen.components.PresetWidget
+import ru.tech.imageresizershrinker.resize_screen.components.ZoomModalSheet
 import ru.tech.imageresizershrinker.resize_screen.components.byteCount
 import ru.tech.imageresizershrinker.resize_screen.components.extension
 import ru.tech.imageresizershrinker.theme.outlineVariant
@@ -444,6 +446,24 @@ fun BytesResizeScreen(
         }
     }
 
+    val showSheet = rememberSaveable { mutableStateOf(false) }
+    val zoomButton = @Composable {
+        if (viewModel.bitmap != null) {
+            IconButton(
+                onClick = {
+                    showSheet.value = true
+                }
+            ) {
+                Icon(Icons.Rounded.ZoomIn, null)
+            }
+        }
+    }
+
+    ZoomModalSheet(
+        bitmap = viewModel.bitmap,
+        visible = showSheet
+    )
+
     Surface(
         color = MaterialTheme.colorScheme.background,
         modifier = Modifier
@@ -507,6 +527,9 @@ fun BytesResizeScreen(
                         ) {
                             Icon(Icons.Rounded.ArrowBack, null)
                         }
+                    },
+                    actions = {
+                        zoomButton()
                     }
                 )
                 Row(

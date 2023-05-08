@@ -132,4 +132,5 @@
     </string-array>
     <string name="check_updates">Проверка обновлений</string>
     <string name="check_updates_sub">Если включено, при запуске вы увидите диалог, если будет доступна новая версия приложения</string>
+    <string name="zoom">Приближение</string>
 </resources>
