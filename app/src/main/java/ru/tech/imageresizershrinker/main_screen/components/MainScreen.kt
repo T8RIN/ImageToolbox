@@ -73,6 +73,7 @@ import androidx.compose.material.icons.rounded.Translate
 import androidx.compose.material.icons.rounded.WbSunny
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.BottomAppBar
+import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Divider
 import androidx.compose.material3.DrawerDefaults
@@ -1172,7 +1173,7 @@ fun MainScreen(
                     BottomAppBar(
                         modifier = Modifier.drawHorizontalStroke(top = true),
                         actions = {
-                            OutlinedButton(
+                            Button(
                                 colors = ButtonDefaults.outlinedButtonColors(
                                     containerColor = MaterialTheme.colorScheme.secondaryContainer,
                                     contentColor = MaterialTheme.colorScheme.onSecondaryContainer.copy(
@@ -1183,6 +1184,11 @@ fun MainScreen(
                                     LocalBorderWidth.current,
                                     MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.secondaryContainer)
                                 ),
+                                elevation = if (LocalBorderWidth.current > 0.dp) {
+                                    null
+                                } else {
+                                    ButtonDefaults.elevatedButtonElevation()
+                                },
                                 modifier = Modifier
                                     .padding(horizontal = 16.dp)
                                     .pulsate(enabled = viewModel.updateAvailable),

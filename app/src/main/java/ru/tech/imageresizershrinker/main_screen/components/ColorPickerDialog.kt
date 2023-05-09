@@ -72,6 +72,7 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.ExperimentalTextApi
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.DialogProperties
 import androidx.compose.ui.zIndex
@@ -99,6 +100,7 @@ import ru.tech.imageresizershrinker.utils.ListUtils.nearestFor
 fun ColorPickerDialog(
     modifier: Modifier = Modifier,
     colorTuple: ColorTuple,
+    borderWidth: Dp = LocalBorderWidth.current,
     title: String = stringResource(R.string.color_scheme),
     onColorChange: (ColorTuple) -> Unit,
     onDismissRequest: () -> Unit
@@ -174,7 +176,7 @@ fun ColorPickerDialog(
                                 contentColor = MaterialTheme.colorScheme.onSurfaceVariant
                             ),
                             border = BorderStroke(
-                                LocalBorderWidth.current,
+                                borderWidth,
                                 MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.surfaceVariant)
                             )
                         ) {
@@ -234,7 +236,7 @@ fun ColorPickerDialog(
                     contentColor = MaterialTheme.colorScheme.onPrimary,
                 ),
                 border = BorderStroke(
-                    LocalBorderWidth.current,
+                    borderWidth,
                     MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.primary)
                 ),
                 onClick = {
@@ -259,7 +261,7 @@ fun ColorPickerDialog(
                     contentColor = MaterialTheme.colorScheme.onSecondaryContainer,
                 ),
                 border = BorderStroke(
-                    LocalBorderWidth.current,
+                    borderWidth,
                     MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.secondaryContainer)
                 ),
                 onClick = onDismissRequest
@@ -279,6 +281,7 @@ fun AvailableColorTuplesDialog(
     modifier: Modifier,
     colorTupleList: List<ColorTuple>,
     currentColorTuple: ColorTuple,
+    borderWidth: Dp = LocalBorderWidth.current,
     showColorPicker: MutableState<Boolean>,
     colorPicker: @Composable (onUpdateColorTuples: (List<ColorTuple>) -> Unit) -> Unit,
     onPickTheme: (ColorTuple) -> Unit,
@@ -317,7 +320,7 @@ fun AvailableColorTuplesDialog(
                                 .padding(2.dp)
                                 .size(64.dp)
                                 .border(
-                                    LocalBorderWidth.current,
+                                    borderWidth,
                                     MaterialTheme.colorScheme.outlineVariant(
                                         0.2f
                                     ),
@@ -380,7 +383,7 @@ fun AvailableColorTuplesDialog(
                             .padding(2.dp)
                             .size(64.dp)
                             .border(
-                                LocalBorderWidth.current,
+                                borderWidth,
                                 MaterialTheme.colorScheme.outlineVariant(
                                     0.2f
                                 ),
@@ -417,7 +420,7 @@ fun AvailableColorTuplesDialog(
                     contentColor = MaterialTheme.colorScheme.onPrimary,
                 ),
                 border = BorderStroke(
-                    LocalBorderWidth.current,
+                    borderWidth,
                     MaterialTheme.colorScheme.outlineVariant(
                         onTopOf = MaterialTheme.colorScheme.primary
                     )
@@ -440,7 +443,7 @@ fun AvailableColorTuplesDialog(
                     contentColor = MaterialTheme.colorScheme.onErrorContainer,
                 ),
                 border = BorderStroke(
-                    LocalBorderWidth.current,
+                    borderWidth,
                     MaterialTheme.colorScheme.outlineVariant(
                         onTopOf = MaterialTheme.colorScheme.errorContainer
                     )
@@ -457,7 +460,7 @@ fun AvailableColorTuplesDialog(
                     contentColor = MaterialTheme.colorScheme.onSecondaryContainer,
                 ),
                 border = BorderStroke(
-                    LocalBorderWidth.current,
+                    borderWidth,
                     MaterialTheme.colorScheme.outlineVariant(
                         onTopOf = MaterialTheme.colorScheme.secondaryContainer
                     )
@@ -533,6 +536,7 @@ fun getFormattedColor(color: Int): String =
 @Composable
 private fun ColorCustomInfoComponent(
     color: Int,
+    borderWidth: Dp = LocalBorderWidth.current,
     onColorChange: (Int) -> Unit,
 ) {
     val context = LocalContext.current
@@ -564,7 +568,7 @@ private fun ColorCustomInfoComponent(
                 .size(56.dp)
                 .border(
                     BorderStroke(
-                        LocalBorderWidth.current,
+                        borderWidth,
                         MaterialTheme.colorScheme.outlineVariant(onTopOf = Color(color))
                     ),
                     MaterialTheme.shapes.medium,
@@ -580,7 +584,7 @@ private fun ColorCustomInfoComponent(
                 .padding(start = 16.dp)
                 .border(
                     BorderStroke(
-                        LocalBorderWidth.current,
+                        borderWidth,
                         MaterialTheme.colorScheme.outlineVariant()
                     ),
                     MaterialTheme.shapes.medium,
@@ -673,7 +677,7 @@ private fun ColorCustomInfoComponent(
                                     contentColor = MaterialTheme.colorScheme.onSecondaryContainer,
                                 ),
                                 border = BorderStroke(
-                                    LocalBorderWidth.current,
+                                    borderWidth,
                                     MaterialTheme.colorScheme.outlineVariant(
                                         onTopOf = MaterialTheme.colorScheme.secondaryContainer
                                     )

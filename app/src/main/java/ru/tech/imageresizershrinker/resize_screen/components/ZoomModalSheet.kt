@@ -40,6 +40,7 @@ import com.t8rin.modalsheet.ModalSheet
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.main_screen.components.LocalBorderWidth
 import ru.tech.imageresizershrinker.main_screen.components.TitleItem
+import ru.tech.imageresizershrinker.main_screen.components.fabBorder
 import ru.tech.imageresizershrinker.theme.outlineVariant
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -64,12 +65,19 @@ fun ZoomModalSheet(
                         onTopOf = MaterialTheme.colorScheme.surfaceColorAtElevation(6.dp)
                     ),
                     shape = BottomSheetDefaults.ExpandedShape
+                )
+                .fabBorder(
+                    shape = BottomSheetDefaults.ExpandedShape,
+                    elevation = 16.dp
+                )
+                .fabBorder(
+                    height = 0.dp,
+                    shape = BottomSheetDefaults.ExpandedShape,
+                    elevation = 16.dp
                 ),
-            elevation = 6.dp,
+            elevation = 0.dp,
             visible = showSheet,
-            onVisibleChange = {
-                showSheet = it
-            },
+            onVisibleChange = { showSheet = it },
         ) {
             Box(
                 Modifier
