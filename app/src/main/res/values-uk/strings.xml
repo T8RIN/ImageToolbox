@@ -124,4 +124,8 @@
     <string name="monet_colors">Кольори Monet</string>
     <string name="buy_me_a_coffee">Buy me a coffee</string>
     <string name="buy_me_a_coffee_sub">Цей застосунок є абсолютно безплатним, але якщо ви хочете підтримати розвиток проєкту, ви можете натиснути тут</string>
+    <string name="fab_alignment">Вирівнювання FAB</string>
+    <string name="check_updates_sub">Якщо увімкнено, після запуску застосунку буде показано діалогове вікно оновлення</string>
+    <string name="zoom">Масштабування зображення</string>
+    <string name="check_updates">Перевірка наявності оновлення</string>
 </resources>
