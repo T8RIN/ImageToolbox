@@ -138,6 +138,8 @@ This application is completely free, but if you want to support the project deve
 
 - [Dynamic Theme](https://github.com/T8RIN/DynamicTheme) - library, which allows you to easily implement custom color theming.
 
+- [Modal Sheet](https://github.com/T8RIN/ModalSheet) - modal bottom sheet that follows M3 guidelines.
+
 - [Coroutines](https://github.com/Kotlin/kotlinx.coroutines) for asynchronous work.
 
 - [Flow](https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.flow/) to emit values from data layer reactively.
