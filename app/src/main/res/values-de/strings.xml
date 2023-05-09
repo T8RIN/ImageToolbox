@@ -126,4 +126,5 @@
     <string name="buy_me_a_coffee_sub">Diese Anwendung ist völlig kostenlos, aber wenn Sie die Projektentwicklung unterstützen möchten, können Sie hier klicken</string>
     <string name="check_updates">Auf Aktualisierungen prüfen</string>
     <string name="check_updates_sub">Wenn aktiviert, wird der Aktualisierungsdialog nach dem Start der App angezeigt</string>
+    <string name="zoom">Bild-Zoom</string>
 </resources>
