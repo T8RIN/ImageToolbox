@@ -51,7 +51,6 @@ fun ZoomModalSheet(
 ) {
     var showSheet by visible
 
-
     if (bitmap != null) {
         ModalSheet(
             containerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(2.dp),

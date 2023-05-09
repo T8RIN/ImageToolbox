@@ -28,7 +28,9 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.asPaddingValues
-import androidx.compose.foundation.layout.displayCutoutPadding
+import androidx.compose.foundation.layout.calculateEndPadding
+import androidx.compose.foundation.layout.calculateStartPadding
+import androidx.compose.foundation.layout.displayCutout
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -45,10 +47,8 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.AddCircleOutline
@@ -1004,170 +1004,107 @@ fun MainScreen(
                     scrollBehavior = scrollBehavior,
                 )
 
-                Column(
-                    Modifier
+
+                val cutout = WindowInsets.displayCutout.asPaddingValues()
+                LazyVerticalStaggeredGrid(
+                    modifier = Modifier
                         .weight(1f)
-                        .fillMaxWidth()
-                        .navBarsPaddingOnlyIfTheyAtTheEnd()
-                        .displayCutoutPadding()
-                        .then(
-                            if (!isGrid) Modifier.verticalScroll(rememberScrollState())
-                            else Modifier
-                        ),
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
-                    if (!isGrid) {
-                        Spacer(modifier = Modifier.height(12.dp))
-                        SingleResizePreference(
-                            onClick = {
-                                navController.popUpTo { it == Screen.Main }
-                                navController.navigate(Screen.SingleResize)
-                            }
-                        )
-                        Spacer(modifier = Modifier.height(12.dp))
-                        BatchResizePreference(
-                            onClick = {
-                                navController.popUpTo { it == Screen.Main }
-                                navController.navigate(Screen.BatchResize)
-                            }
-                        )
-                        Spacer(modifier = Modifier.height(12.dp))
-                        BytesResizePreference(
-                            onClick = {
-                                navController.popUpTo { it == Screen.Main }
-                                navController.navigate(Screen.ResizeByBytes)
-                            }
-                        )
-                        Spacer(modifier = Modifier.height(12.dp))
-                        CropPreference(
-                            onClick = {
-                                navController.popUpTo { it == Screen.Main }
-                                navController.navigate(Screen.Crop)
-                            }
-                        )
-                        Spacer(modifier = Modifier.height(12.dp))
-                        PickColorPreference(
-                            onClick = {
-                                navController.popUpTo { it == Screen.Main }
-                                navController.navigate(Screen.PickColorFromImage)
-                            }
-                        )
-                        Spacer(modifier = Modifier.height(12.dp))
-                        GeneratePalettePreference(
-                            onClick = {
-                                navController.popUpTo { it == Screen.Main }
-                                navController.navigate(Screen.GeneratePalette)
-                            }
-                        )
-                        Spacer(modifier = Modifier.height(12.dp))
-                        ComparePreference(
-                            onClick = {
-                                navController.popUpTo { it == Screen.Main }
-                                navController.navigate(Screen.Compare)
-                            }
-                        )
-                        Spacer(modifier = Modifier.height(12.dp))
-                    } else {
-                        LazyVerticalStaggeredGrid(
-                            columns = StaggeredGridCells.Adaptive(200.dp),
-                            verticalItemSpacing = 12.dp,
-                            horizontalArrangement = Arrangement.spacedBy(
-                                12.dp,
-                                Alignment.CenterHorizontally
-                            ),
-                            contentPadding = PaddingValues(
-                                bottom = 12.dp + WindowInsets.navigationBars.asPaddingValues()
-                                    .calculateBottomPadding(),
-                                top = 12.dp,
-                                end = 12.dp,
-                                start = 12.dp
-                            ),
-                            content = {
-                                item {
-                                    SingleResizePreference(
-                                        onClick = {
-                                            navController.popUpTo { it == Screen.Main }
-                                            navController.navigate(Screen.SingleResize)
-                                        },
-                                        modifier = Modifier
-                                            .widthIn(max = 350.dp)
-                                            .weight(1f)
-                                    )
+                        .fillMaxWidth(),
+                    columns = StaggeredGridCells.Adaptive(200.dp),
+                    verticalItemSpacing = 12.dp,
+                    horizontalArrangement = Arrangement.spacedBy(
+                        12.dp,
+                        Alignment.CenterHorizontally
+                    ),
+                    contentPadding = PaddingValues(
+                        bottom = 12.dp + if (isGrid) {
+                            WindowInsets.navigationBars.asPaddingValues()
+                                .calculateBottomPadding()
+                        } else 0.dp,
+                        top = 12.dp,
+                        end = 12.dp + cutout.calculateEndPadding(LocalLayoutDirection.current),
+                        start = 12.dp + cutout.calculateStartPadding(LocalLayoutDirection.current)
+                    ),
+                    content = {
+                        item {
+                            SingleResizePreference(
+                                onClick = {
+                                    navController.popUpTo { it == Screen.Main }
+                                    navController.navigate(Screen.SingleResize)
+                                },
+                                modifier = Modifier
+                                    .widthIn(max = 350.dp)
+                                    .weight(1f)
+                            )
+                        }
+                        item {
+                            BatchResizePreference(
+                                onClick = {
+                                    navController.popUpTo { it == Screen.Main }
+                                    navController.navigate(Screen.BatchResize)
+                                },
+                                modifier = Modifier
+                                    .widthIn(max = 350.dp)
+                                    .weight(1f)
+                            )
+                        }
+                        item {
+                            BytesResizePreference(
+                                onClick = {
+                                    navController.popUpTo { it == Screen.Main }
+                                    navController.navigate(Screen.ResizeByBytes)
+                                },
+                                modifier = Modifier
+                                    .widthIn(max = 350.dp)
+                                    .weight(1f)
+                            )
+                        }
+                        item {
+                            CropPreference(
+                                onClick = {
+                                    navController.popUpTo { it == Screen.Main }
+                                    navController.navigate(Screen.Crop)
+                                },
+                                modifier = Modifier
+                                    .widthIn(max = 350.dp)
+                                    .weight(1f)
+                            )
+                        }
+                        item {
+                            PickColorPreference(
+                                onClick = {
+                                    navController.popUpTo { it == Screen.Main }
+                                    navController.navigate(Screen.PickColorFromImage)
+                                },
+                                modifier = Modifier
+                                    .widthIn(max = 350.dp)
+                                    .weight(1f)
+                            )
+                        }
+                        item {
+                            GeneratePalettePreference(
+                                modifier = Modifier
+                                    .widthIn(max = 350.dp)
+                                    .weight(1f),
+                                onClick = {
+                                    navController.popUpTo { it == Screen.Main }
+                                    navController.navigate(Screen.GeneratePalette)
                                 }
-                                item {
-                                    BatchResizePreference(
-                                        onClick = {
-                                            navController.popUpTo { it == Screen.Main }
-                                            navController.navigate(Screen.BatchResize)
-                                        },
-                                        modifier = Modifier
-                                            .widthIn(max = 350.dp)
-                                            .weight(1f)
-                                    )
-                                }
-                                item {
-                                    BytesResizePreference(
-                                        onClick = {
-                                            navController.popUpTo { it == Screen.Main }
-                                            navController.navigate(Screen.ResizeByBytes)
-                                        },
-                                        modifier = Modifier
-                                            .widthIn(max = 350.dp)
-                                            .weight(1f)
-                                    )
-                                }
-                                item {
-                                    CropPreference(
-                                        onClick = {
-                                            navController.popUpTo { it == Screen.Main }
-                                            navController.navigate(Screen.Crop)
-                                        },
-                                        modifier = Modifier
-                                            .widthIn(max = 350.dp)
-                                            .weight(1f)
-                                    )
-                                }
-                                item {
-                                    PickColorPreference(
-                                        onClick = {
-                                            navController.popUpTo { it == Screen.Main }
-                                            navController.navigate(Screen.PickColorFromImage)
-                                        },
-                                        modifier = Modifier
-                                            .widthIn(max = 350.dp)
-                                            .weight(1f)
-                                    )
-                                }
-                                item {
-                                    GeneratePalettePreference(
-                                        modifier = Modifier
-                                            .widthIn(max = 350.dp)
-                                            .weight(1f),
-                                        onClick = {
-                                            navController.popUpTo { it == Screen.Main }
-                                            navController.navigate(Screen.GeneratePalette)
-                                        }
-                                    )
-                                }
-                                item {
-                                    ComparePreference(
-                                        onClick = {
-                                            navController.popUpTo { it == Screen.Main }
-                                            navController.navigate(Screen.Compare)
-                                        },
-                                        modifier = Modifier
-                                            .padding(horizontal = 12.dp)
-                                            .widthIn(max = 350.dp)
-                                            .fillMaxWidth()
-                                    )
-                                }
-                                items(6) {
-                                    Spacer(Modifier.height(12.dp))
-                                }
-                            }
-                        )
+                            )
+                        }
+                        item {
+                            ComparePreference(
+                                onClick = {
+                                    navController.popUpTo { it == Screen.Main }
+                                    navController.navigate(Screen.Compare)
+                                },
+                                modifier = Modifier
+                                    .widthIn(max = 350.dp)
+                                    .weight(1f)
+                            )
+                        }
                     }
-                }
+                )
 
                 if (isSheetSlideable) {
                     BottomAppBar(
