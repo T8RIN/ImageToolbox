@@ -905,7 +905,7 @@ fun SingleResizeScreen(
                     modifier = Modifier
                         .systemBarsPadding()
                         .animateContentSize()
-                        .widthIn(max = 640.dp)
+                        .width(340.dp)
                         .padding(16.dp)
                         .alertDialog(),
                     onDismissRequest = { showEditExifDialog = false },
@@ -1055,7 +1055,7 @@ fun SingleResizeScreen(
                         modifier = Modifier
                             .systemBarsPadding()
                             .animateContentSize()
-                            .widthIn(max = 640.dp)
+                            .width(340.dp)
                             .padding(16.dp)
                             .alertDialog(),
                         onDismissRequest = { showAddExifDialog = false },

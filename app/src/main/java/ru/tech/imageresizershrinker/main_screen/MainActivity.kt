@@ -614,8 +614,8 @@ class MainActivity : M3Activity() {
                     if (editPresetsState.value) {
                         AlertDialog(
                             modifier = Modifier
-                                .alertDialog()
-                                .width(320.dp),
+                                .width(320.dp)
+                                .alertDialog(),
                             properties = DialogProperties(usePlatformDefaultWidth = false),
                             onDismissRequest = { editPresetsState.value = false },
                             title = { Text(stringResource(R.string.presets)) },
