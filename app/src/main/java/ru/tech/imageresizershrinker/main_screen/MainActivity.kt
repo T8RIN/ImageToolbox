@@ -22,6 +22,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -29,6 +30,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
@@ -39,6 +41,7 @@ import androidx.compose.material.icons.outlined.Palette
 import androidx.compose.material.icons.rounded.AddCircle
 import androidx.compose.material.icons.rounded.Download
 import androidx.compose.material.icons.rounded.ErrorOutline
+import androidx.compose.material.icons.rounded.Image
 import androidx.compose.material.icons.rounded.PhotoSizeSelectSmall
 import androidx.compose.material.icons.rounded.Storage
 import androidx.compose.material3.AlertDialog
@@ -413,9 +416,22 @@ class MainActivity : M3Activity() {
                         )
                     } else if (viewModel.showSelectDialog) {
                         AlertDialog(
-                            modifier = Modifier.alertDialog(),
+                            properties = DialogProperties(
+                                usePlatformDefaultWidth = false
+                            ),
+                            modifier = Modifier
+                                .width(320.dp)
+                                .alertDialog(),
                             onDismissRequest = {},
-                            title = { stringResource(R.string.image) },
+                            title = {
+                                Text(stringResource(R.string.image))
+                            },
+                            icon = {
+                                Icon(
+                                    Icons.Rounded.Image,
+                                    null
+                                )
+                            },
                             confirmButton = {
                                 OutlinedButton(
                                     onClick = {
@@ -443,52 +459,58 @@ class MainActivity : M3Activity() {
                                     }
                                 }
                                 val color = MaterialTheme.colorScheme.secondaryContainer
-                                if ((viewModel.uris?.size ?: 0) <= 1) {
-                                    Column(Modifier.verticalScroll(rememberScrollState())) {
-                                        SingleResizePreference(
-                                            onClick = { navigate(Screen.SingleResize) },
-                                            color = color
-                                        )
-                                        Spacer(modifier = Modifier.height(8.dp))
-                                        BytesResizePreference(
-                                            onClick = { navigate(Screen.ResizeByBytes) },
-                                            color = color
-                                        )
-                                        Spacer(modifier = Modifier.height(8.dp))
-                                        CropPreference(
-                                            onClick = { navigate(Screen.Crop) },
-                                            color = color
-                                        )
-                                        Spacer(modifier = Modifier.height(8.dp))
-                                        PickColorPreference(
-                                            onClick = { navigate(Screen.PickColorFromImage) },
-                                            color = color
-                                        )
-                                        Spacer(modifier = Modifier.height(8.dp))
-                                        GeneratePalettePreference(
-                                            onClick = { navigate(Screen.GeneratePalette) },
-                                            color = color
-                                        )
-                                    }
-                                } else {
-                                    Column(Modifier.verticalScroll(rememberScrollState())) {
-                                        BatchResizePreference(
-                                            onClick = { navigate(Screen.BatchResize) },
-                                            color = color
-                                        )
-                                        Spacer(modifier = Modifier.height(8.dp))
-                                        BytesResizePreference(
-                                            onClick = { navigate(Screen.ResizeByBytes) },
-                                            color = color
-                                        )
-                                        if (viewModel.uris?.size == 2) {
-                                            Spacer(modifier = Modifier.height(8.dp))
-                                            ComparePreference(
-                                                onClick = { navigate(Screen.Compare) },
-                                                color = color
-                                            )
+                                Box {
+                                    Divider(Modifier.align(Alignment.TopCenter))
+                                    LazyColumn(
+                                        contentPadding = PaddingValues(vertical = 16.dp)
+                                    ) {
+                                        item {
+                                            if ((viewModel.uris?.size ?: 0) <= 1) {
+                                                SingleResizePreference(
+                                                    onClick = { navigate(Screen.SingleResize) },
+                                                    color = color
+                                                )
+                                                Spacer(modifier = Modifier.height(8.dp))
+                                                BytesResizePreference(
+                                                    onClick = { navigate(Screen.ResizeByBytes) },
+                                                    color = color
+                                                )
+                                                Spacer(modifier = Modifier.height(8.dp))
+                                                CropPreference(
+                                                    onClick = { navigate(Screen.Crop) },
+                                                    color = color
+                                                )
+                                                Spacer(modifier = Modifier.height(8.dp))
+                                                PickColorPreference(
+                                                    onClick = { navigate(Screen.PickColorFromImage) },
+                                                    color = color
+                                                )
+                                                Spacer(modifier = Modifier.height(8.dp))
+                                                GeneratePalettePreference(
+                                                    onClick = { navigate(Screen.GeneratePalette) },
+                                                    color = color
+                                                )
+                                            } else {
+                                                BatchResizePreference(
+                                                    onClick = { navigate(Screen.BatchResize) },
+                                                    color = color
+                                                )
+                                                Spacer(modifier = Modifier.height(8.dp))
+                                                BytesResizePreference(
+                                                    onClick = { navigate(Screen.ResizeByBytes) },
+                                                    color = color
+                                                )
+                                                if (viewModel.uris?.size == 2) {
+                                                    Spacer(modifier = Modifier.height(8.dp))
+                                                    ComparePreference(
+                                                        onClick = { navigate(Screen.Compare) },
+                                                        color = color
+                                                    )
+                                                }
+                                            }
                                         }
                                     }
+                                    Divider(Modifier.align(Alignment.BottomCenter))
                                 }
                             }
                         )
