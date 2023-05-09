@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name" translatable="false">Image Resizer</string>
     <string name="smth_went_wrong">Iets het verkeerd geloop: %1$s</string>
     <string name="size">Grootte %1$s</string>
     <string name="loading">Laai tans …</string>
@@ -32,7 +31,6 @@
     <string name="no_exif">Geen EXIF-data gevind nie</string>
     <string name="add_tag">Voeg merker by</string>
     <string name="might_be_error_with_exif">Indien nie JPEG-kompressieformaat gekies is nie, kan EXIF-metadata verkeerd in ander toepassings gewys word</string>
-    <string name="exif" translatable="false">EXIF</string>
     <string name="save">Stoor</string>
     <string name="clear">Duidelik</string>
     <string name="clear_exif">Vee EXIF uit</string>
@@ -69,7 +67,6 @@
     <string name="no_palette">Kan nie palet vir gegewe prent genereer nie</string>
     <string name="original">Oorspronklik</string>
     <string name="folder">Uitvoergids</string>
-    <string name="default_folder" translatable="false">DCIM/ResizedImages</string>
     <string name="def">Verstek</string>
     <string name="custom">Pasgemaak</string>
     <string name="unspecified">Ongespesifiseer</string>
@@ -99,12 +96,9 @@
     <string name="color_blue">Blou</string>
     <string name="clipboard_paste_invalid_color_code">Plak geldige aRGB-kode.</string>
     <string name="clipboard_paste_invalid_empty">Niks om te plak nie</string>
-    <string name="argb" translatable="false">ARGB</string>
     <string name="cannot_change_palette_while_dynamic_colors_applied">Kan nie programkleurskema verander terwyl dinamiese kleure aangeskakel is nie</string>
     <string name="pick_accent_color">App-tema sal gebaseer wees op kleur, wat jy sal kies</string>
     <string name="about_app">Oor app</string>
-    <string name="app_developer" translatable="false">Malik Mukhametzyanov</string>
-    <string name="app_developer_nick" translatable="false">T8RIN</string>
     <string name="no_updates">Geen opdaterings gevind nie</string>
     <string name="issue_tracker">Uitgawe spoorsnyer</string>
     <string name="issue_tracker_sub">Stuur foutverslae en kenmerkversoeke hierheen</string>
@@ -116,10 +110,6 @@
     <string name="dynamic_colors_sub">As dit geaktiveer is, sal toepassingskleure na muurpapierkleure aangeneem word</string>
     <string name="failed_to_save">Kon nie %d prent(e) stoor nie</string>
     <string name="png_warning_bytes">Stoor in PNG-modus kan onstabiel wees, want dit is verlieslose formaat</string>
-    <string name="telegram" translatable="false">Telegram</string>
-    <string name="email" translatable="false">Email</string>
-    <string name="github" translatable="false">GitHub</string>
-    <string name="developer_email" translatable="false">t8rin@bk.ru</string>
     <string name="primary">Primêr</string>
     <string name="tertiary">Tersiêre</string>
     <string name="secondary">Sekondêr</string>
@@ -133,7 +123,6 @@
     <string name="grant_permission_manual">App needs this permission to work, please grant it manually</string>
     <string name="external_storage">External storage</string>
     <string name="monet_colors">Monet colors</string>
-    <string name="hex" translatable="false">HEX</string>
     <string name="buy_me_a_coffee">Buy me a coffee</string>
     <string name="buy_me_a_coffee_sub">This application is completely free, but if you want to support the project development, you can click here</string>
 </resources>

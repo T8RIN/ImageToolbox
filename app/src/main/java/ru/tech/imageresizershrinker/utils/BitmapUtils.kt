@@ -15,6 +15,7 @@ import android.webkit.MimeTypeMap
 import androidx.core.content.FileProvider
 import androidx.core.text.isDigitsOnly
 import androidx.exifinterface.media.ExifInterface
+import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.resize_screen.components.BitmapInfo
 import ru.tech.imageresizershrinker.resize_screen.components.compressFormat
 import ru.tech.imageresizershrinker.resize_screen.components.extension
@@ -473,12 +474,13 @@ object BitmapUtils {
     }
 
     fun Context.shareImageUri(uri: Uri) {
-        val intent = Intent(Intent.ACTION_SEND).apply {
+        val sendIntent = Intent(Intent.ACTION_SEND).apply {
             putExtra(Intent.EXTRA_STREAM, uri)
             addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
             type = "image/*"
         }
-        startActivity(intent)
+        val shareIntent = Intent.createChooser(sendIntent, getString(R.string.share))
+        startActivity(shareIntent)
     }
 
     fun Context.shareBitmap(
