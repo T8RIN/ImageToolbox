@@ -1,5 +1,6 @@
 package com.t8rin.modalsheet
 
+import androidx.compose.animation.core.AnimationSpec
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material3.BottomSheetDefaults
@@ -43,6 +44,7 @@ fun ModalSheet(
     visible: Boolean,
     onVisibleChange: (Boolean) -> Unit,
     modifier: Modifier = Modifier,
+    animationSpec: AnimationSpec<Float> = SwipeableV2Defaults.AnimationSpec,
     sheetModifier: Modifier = Modifier,
     cancelable: Boolean = true,
     skipHalfExpanded: Boolean = true,
@@ -55,6 +57,7 @@ fun ModalSheet(
 ) {
     val sheetState = rememberModalBottomSheetState(
         skipHalfExpanded = skipHalfExpanded,
+        animationSpec = animationSpec,
         initialValue = ModalBottomSheetValue.Hidden,
         confirmValueChange = {
             // Intercept and disallow hide gesture / action

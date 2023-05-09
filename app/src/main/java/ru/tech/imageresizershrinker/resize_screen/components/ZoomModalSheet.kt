@@ -1,11 +1,14 @@
 package ru.tech.imageresizershrinker.resize_screen.components
 
 import android.graphics.Bitmap
+import androidx.compose.animation.core.CubicBezierEasing
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -51,8 +54,83 @@ fun ZoomModalSheet(
 ) {
     var showSheet by visible
 
+    val sheetContent: @Composable ColumnScope.() -> Unit = {
+        Box(
+            Modifier
+                .fillMaxSize()
+                .navigationBarsPadding()
+        ) {
+            Image(
+                bitmap = bitmap!!.asImageBitmap(),
+                contentDescription = null,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .fillMaxHeight()
+                    .padding(
+                        bottom = 80.dp,
+                        start = 16.dp,
+                        end = 16.dp,
+                    )
+                    .clip(RoundedCornerShape(4.dp))
+                    .border(
+                        1.dp,
+                        MaterialTheme.colorScheme.outlineVariant(),
+                        RoundedCornerShape(4.dp)
+                    )
+                    .background(
+                        MaterialTheme.colorScheme
+                            .outlineVariant()
+                            .copy(alpha = 0.1f),
+                        RoundedCornerShape(4.dp)
+                    )
+                    .animatedZoom(
+                        animatedZoomState = rememberAnimatedZoomState(
+                            moveToBounds = true,
+                            minZoom = 0.5f,
+                            maxZoom = 10f
+                        ),
+                        zoomOnDoubleTap = { zoomLevel ->
+                            when (zoomLevel) {
+                                ZoomLevel.Min -> 1f
+                                ZoomLevel.Mid -> 5f
+                                ZoomLevel.Max -> 10f
+                            }
+                        }
+                    )
+            )
+            Row(
+                modifier = Modifier
+                    .align(Alignment.BottomEnd)
+                    .padding(16.dp)
+            ) {
+                TitleItem(text = stringResource(R.string.zoom))
+                Spacer(Modifier.weight(1f))
+                OutlinedButton(
+                    colors = ButtonDefaults.outlinedButtonColors(
+                        containerColor = MaterialTheme.colorScheme.secondaryContainer,
+                        contentColor = MaterialTheme.colorScheme.onSecondaryContainer,
+                    ),
+                    border = BorderStroke(
+                        LocalBorderWidth.current,
+                        MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.secondaryContainer)
+                    ),
+                    onClick = {
+                        showSheet = false
+                    },
+                    modifier = Modifier.padding(horizontal = 16.dp)
+                ) {
+                    Text(stringResource(R.string.close))
+                }
+            }
+        }
+    }
+
     if (bitmap != null) {
         ModalSheet(
+            animationSpec = tween(
+                durationMillis = 1000,
+                easing = CubicBezierEasing(0.05f, 0.7f, 0.1f, 1f)
+            ),
             containerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(2.dp),
             sheetModifier = Modifier
                 .statusBarsPadding()
@@ -77,76 +155,7 @@ fun ZoomModalSheet(
             elevation = 0.dp,
             visible = showSheet,
             onVisibleChange = { showSheet = it },
-        ) {
-            Box(
-                Modifier
-                    .fillMaxSize()
-                    .navigationBarsPadding()
-            ) {
-                Image(
-                    bitmap = bitmap.asImageBitmap(),
-                    contentDescription = null,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .fillMaxHeight()
-                        .padding(
-                            bottom = 80.dp,
-                            start = 16.dp,
-                            end = 16.dp,
-                        )
-                        .clip(RoundedCornerShape(4.dp))
-                        .border(
-                            1.dp,
-                            MaterialTheme.colorScheme.outlineVariant(),
-                            RoundedCornerShape(4.dp)
-                        )
-                        .background(
-                            MaterialTheme.colorScheme
-                                .outlineVariant()
-                                .copy(alpha = 0.1f),
-                            RoundedCornerShape(4.dp)
-                        )
-                        .animatedZoom(
-                            animatedZoomState = rememberAnimatedZoomState(
-                                moveToBounds = true,
-                                minZoom = 0.5f,
-                                maxZoom = 10f
-                            ),
-                            zoomOnDoubleTap = { zoomLevel ->
-                                when (zoomLevel) {
-                                    ZoomLevel.Min -> 1f
-                                    ZoomLevel.Mid -> 5f
-                                    ZoomLevel.Max -> 10f
-                                }
-                            }
-                        )
-                )
-                Row(
-                    modifier = Modifier
-                        .align(Alignment.BottomEnd)
-                        .padding(16.dp)
-                ) {
-                    TitleItem(text = stringResource(R.string.zoom))
-                    Spacer(Modifier.weight(1f))
-                    OutlinedButton(
-                        colors = ButtonDefaults.outlinedButtonColors(
-                            containerColor = MaterialTheme.colorScheme.secondaryContainer,
-                            contentColor = MaterialTheme.colorScheme.onSecondaryContainer,
-                        ),
-                        border = BorderStroke(
-                            LocalBorderWidth.current,
-                            MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.secondaryContainer)
-                        ),
-                        onClick = {
-                            showSheet = false
-                        },
-                        modifier = Modifier.padding(horizontal = 16.dp)
-                    ) {
-                        Text(stringResource(R.string.close))
-                    }
-                }
-            }
-        }
+            content = sheetContent
+        )
     }
-
 }

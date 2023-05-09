@@ -97,7 +97,7 @@ enum class ModalBottomSheetValue {
 @OptIn(ExperimentalMaterialApi::class)
 class ModalSheetState constructor(
     initialValue: ModalBottomSheetValue,
-    animationSpec: AnimationSpec<Float> = SwipeableDefaults.AnimationSpec,
+    animationSpec: AnimationSpec<Float> = SwipeableV2Defaults.AnimationSpec,
     confirmValueChange: (ModalBottomSheetValue) -> Boolean = { true },
     val isSkipHalfExpanded: Boolean = false
 ) {
