@@ -109,4 +109,26 @@
     <string name="dynamic_colors_sub">Se abilitato, i colori dell\'app verranno adottati per i colori dello sfondo</string>
     <string name="failed_to_save">Impossibile salvare le immagini %d</string>
     <string name="png_warning_bytes">Il salvataggio in modalità PNG può essere instabile, perché è un formato senza perdita di dati</string>
+    <string name="surface">Superficie</string>
+    <string name="secondary">Secondario</string>
+    <string name="permission_sub">L\'applicazione ha bisogno di accedere al vostro archivio per salvare le immagini, è necessario, senza di esso non può funzionare, quindi concedete l\'autorizzazione nella finestra di dialogo successiva.</string>
+    <string name="monet_colors">I colori di Monet</string>
+    <string name="buy_me_a_coffee">Offrimi un caffè</string>
+    <string name="buy_me_a_coffee_sub">Questa applicazione è completamente gratuita, ma se volete sostenere lo sviluppo del progetto, potete cliccare qui</string>
+    <string name="fab_alignment">Allineamento FAB</string>
+    <string name="check_updates">Controlla gli aggiornamenti</string>
+    <string name="check_updates_sub">Se abilitata, la finestra di aggiornamento verrà mostrata all\'avvio dell\'applicazione.</string>
+    <string name="values">Valori</string>
+    <string name="add">Aggiungi</string>
+    <string name="primary">Primario</string>
+    <string name="tertiary">Terziario</string>
+    <string name="permission">Permesso</string>
+    <string name="grant">Sovvenzione</string>
+    <string name="zoom">Zoom immagine</string>
+    <string name="prefix">Prefisso</string>
+    <string name="filename">Nome del file</string>
+    <string name="grant_permission_manual">L\'applicazione ha bisogno di questa autorizzazione per funzionare, per favore concedetela manualmente</string>
+    <string name="border_thickness">Spessore del bordo</string>
+    <string name="share">Condividi</string>
+    <string name="external_storage">Archiviazione esterna</string>
 </resources>
