@@ -42,9 +42,9 @@ android {
 
 dependencies {
     implementation(platform("androidx.compose:compose-bom:2023.05.00"))
-    implementation("androidx.core:core-ktx:1.10.0")
+    implementation("androidx.core:core-ktx:1.10.1")
     implementation("androidx.compose.material3:material3")
     implementation("androidx.palette:palette:1.0.0")
-    implementation("com.google.accompanist:accompanist-systemuicontroller:0.30.1")
+    implementation("com.google.accompanist:accompanist-systemuicontroller:0.31.1-alpha")
     coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.0.3")
 }
