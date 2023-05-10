@@ -20,10 +20,8 @@ import ru.tech.imageresizershrinker.resize_screen.components.compressFormat
 import ru.tech.imageresizershrinker.resize_screen.components.extension
 import ru.tech.imageresizershrinker.utils.BitmapUtils.canShow
 import ru.tech.imageresizershrinker.utils.BitmapUtils.copyTo
-import ru.tech.imageresizershrinker.utils.BitmapUtils.flip
 import ru.tech.imageresizershrinker.utils.BitmapUtils.previewBitmap
 import ru.tech.imageresizershrinker.utils.BitmapUtils.resizeBitmap
-import ru.tech.imageresizershrinker.utils.BitmapUtils.rotate
 import ru.tech.imageresizershrinker.utils.BitmapUtils.scaleByMaxBytes
 import ru.tech.imageresizershrinker.utils.SavingFolder
 import java.text.SimpleDateFormat
@@ -62,12 +60,6 @@ class BytesResizeViewModel : ViewModel() {
 
     private val _selectedUri: MutableState<Uri?> = mutableStateOf(null)
     val selectedUri by _selectedUri
-
-    private val _isFlipped: MutableState<Boolean> = mutableStateOf(false)
-    private val isFlipped by _isFlipped
-
-    private val _rotation: MutableState<Int> = mutableStateOf(0)
-    private val rotation by _rotation
 
     private val _maxBytes = mutableStateOf(0L)
     val maxBytes by _maxBytes
@@ -163,8 +155,8 @@ class BytesResizeViewModel : ViewModel() {
                             heightValue = null,
                             mime = mime,
                             resize = 0,
-                            rotation = rotation.toFloat(),
-                            isFlipped = isFlipped,
+                            rotation = 0f,
+                            isFlipped = false,
                             onByteCount = {}
                         )
                     bmp = if (bitmap?.canShow() == false) {
@@ -187,21 +179,6 @@ class BytesResizeViewModel : ViewModel() {
                 _isLoading.value = false
             }
         }
-    }
-
-    fun rotateLeft() {
-        _rotation.value -= 90
-        updatePreview()
-    }
-
-    fun rotateRight() {
-        _rotation.value += 90
-        updatePreview()
-    }
-
-    fun flip() {
-        _isFlipped.value = !_isFlipped.value
-        updatePreview()
     }
 
     fun setKeepExif(boolean: Boolean) {
@@ -254,8 +231,6 @@ class BytesResizeViewModel : ViewModel() {
                             if (result.isSuccess && result.getOrNull() != null) {
                                 val scaled = result.getOrNull()!!
                                 val localBitmap = scaled.first
-                                    .rotate(rotation.toFloat())
-                                    .flip(isFlipped)
                                 val savingFolder = getSavingFolder(name, ext)
 
                                 val fos = savingFolder.outputStream
@@ -356,9 +331,7 @@ class BytesResizeViewModel : ViewModel() {
         }?.let { result ->
             if (result.isSuccess && result.getOrNull() != null) {
                 val scaled = result.getOrNull()!!
-                scaled.first
-                    .rotate(rotation.toFloat())
-                    .flip(isFlipped) to BitmapInfo(
+                scaled.first to BitmapInfo(
                     mime = _mime.value,
                     quality = scaled.second.toFloat(),
                     width = scaled.first.width.toString(),

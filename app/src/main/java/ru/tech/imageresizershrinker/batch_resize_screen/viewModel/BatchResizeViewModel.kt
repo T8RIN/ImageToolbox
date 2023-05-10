@@ -294,8 +294,8 @@ class BatchResizeViewModel : ViewModel() {
                                 ).format(Date())
                             val name =
                                 "ResizedImage$timeStamp-${Date().hashCode()}.$ext"
-                            val localBitmap = bitmap!!.resizeBitmap(tWidth, tHeight, resizeType)
-                                .rotate(rotation)
+                            val localBitmap = bitmap!!.rotate(rotation)
+                                .resizeBitmap(tWidth, tHeight, resizeType)
                                 .flip(isFlipped)
                             val savingFolder = getSavingFolder(name, ext)
 
@@ -365,8 +365,9 @@ class BatchResizeViewModel : ViewModel() {
                 val tWidth = width.toIntOrNull() ?: bitmap.width
                 val tHeight = height.toIntOrNull() ?: bitmap.height
 
-                bitmap.resizeBitmap(tWidth, tHeight, resizeType)
+                bitmap
                     .rotate(rotation)
+                    .resizeBitmap(tWidth, tHeight, resizeType)
                     .flip(isFlipped) to _bitmapInfo.value
             }
         }

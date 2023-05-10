@@ -132,7 +132,6 @@ import ru.tech.imageresizershrinker.main_screen.components.fabBorder
 import ru.tech.imageresizershrinker.main_screen.components.navBarsLandscapePadding
 import ru.tech.imageresizershrinker.resize_screen.components.ExtensionGroup
 import ru.tech.imageresizershrinker.resize_screen.components.ImageNotPickedWidget
-import ru.tech.imageresizershrinker.resize_screen.components.ImageTransformBar
 import ru.tech.imageresizershrinker.resize_screen.components.Loading
 import ru.tech.imageresizershrinker.resize_screen.components.LoadingDialog
 import ru.tech.imageresizershrinker.resize_screen.components.Picture
@@ -422,9 +421,11 @@ fun BytesResizeScreen(
         } else {
             Column(
                 modifier = Modifier
+                    .fillMaxHeight()
                     .padding(horizontal = 16.dp)
                     .navigationBarsPadding(),
-                horizontalAlignment = Alignment.CenterHorizontally
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center
             ) {
                 switch()
                 Spacer(Modifier.height(16.dp))
@@ -617,12 +618,6 @@ fun BytesResizeScreen(
                                 if (imageInside) imageBlock()
                                 if (viewModel.bitmap != null) {
                                     if (imageInside) Spacer(Modifier.size(20.dp))
-                                    ImageTransformBar(
-                                        onRotateLeft = viewModel::rotateLeft,
-                                        onFlip = viewModel::flip,
-                                        onRotateRight = viewModel::rotateRight
-                                    )
-                                    Spacer(Modifier.size(8.dp))
                                     AnimatedContent(
                                         targetState = viewModel.handMode,
                                         transitionSpec = {

@@ -111,8 +111,9 @@ class SingleResizeViewModel : ViewModel() {
                             SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(Date())
                         val name = "ResizedImage$timeStamp.$ext"
                         val localBitmap =
-                            bitmap.resizeBitmap(tWidth, tHeight, resizeType)
+                            bitmap
                                 .rotate(rotation)
+                                .resizeBitmap(tWidth, tHeight, resizeType)
                                 .flip(isFlipped)
 
                         val savingFolder = getSavingFolder(name, ext)
