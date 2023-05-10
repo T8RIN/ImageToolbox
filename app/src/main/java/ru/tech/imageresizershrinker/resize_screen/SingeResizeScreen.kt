@@ -436,7 +436,7 @@ fun SingleResizeScreen(
                         Spacer(Modifier.width(16.dp))
                         FloatingActionButton(
                             onClick = {
-                                if (bitmapInfo.mime.extension !in listOf(
+                                if (bitmapInfo.mimeTypeInt.extension !in listOf(
                                         "jpg",
                                         "jpeg"
                                     ) && viewModel.bitmap != null && map?.isNotEmpty() == true
@@ -452,7 +452,7 @@ fun SingleResizeScreen(
                             BadgedBox(
                                 badge = {
                                     androidx.compose.animation.AnimatedVisibility(
-                                        visible = bitmapInfo.mime.extension !in listOf(
+                                        visible = bitmapInfo.mimeTypeInt.extension !in listOf(
                                             "jpg",
                                             "jpeg"
                                         ) && map?.isNotEmpty() == true,
@@ -488,7 +488,7 @@ fun SingleResizeScreen(
                     elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
                     modifier = Modifier.fabBorder(),
                     onClick = {
-                        if (bitmapInfo.mime.extension !in listOf(
+                        if (bitmapInfo.mimeTypeInt.extension !in listOf(
                                 "jpg",
                                 "jpeg"
                             ) && viewModel.bitmap != null && map?.isNotEmpty() == true
@@ -502,7 +502,7 @@ fun SingleResizeScreen(
                     BadgedBox(
                         badge = {
                             androidx.compose.animation.AnimatedVisibility(
-                                visible = bitmapInfo.mime.extension !in listOf(
+                                visible = bitmapInfo.mimeTypeInt.extension !in listOf(
                                     "jpg",
                                     "jpeg"
                                 ) && map?.isNotEmpty() == true,
@@ -577,7 +577,7 @@ fun SingleResizeScreen(
                                     Text(
                                         stringResource(
                                             R.string.size,
-                                            byteCount(bitmapInfo.size.toLong())
+                                            byteCount(bitmapInfo.sizeInBytes.toLong())
                                         )
                                     )
                                 } else {
@@ -760,9 +760,9 @@ fun SingleResizeScreen(
                                         onHeightChange = viewModel::updateHeight,
                                         onWidthChange = viewModel::updateWidth
                                     )
-                                    if (bitmapInfo.mime.extension != "png") Spacer(Modifier.height(8.dp))
+                                    if (bitmapInfo.mimeTypeInt.extension != "png") Spacer(Modifier.height(8.dp))
                                     QualityWidget(
-                                        visible = bitmapInfo.mime.extension != "png",
+                                        visible = bitmapInfo.mimeTypeInt.extension != "png",
                                         enabled = viewModel.bitmap != null,
                                         quality = bitmapInfo.quality,
                                         onQualityChange = viewModel::setQuality
@@ -770,7 +770,7 @@ fun SingleResizeScreen(
                                     Spacer(Modifier.height(8.dp))
                                     ExtensionGroup(
                                         enabled = viewModel.bitmap != null,
-                                        mime = bitmapInfo.mime,
+                                        mime = bitmapInfo.mimeTypeInt,
                                         onMimeChange = viewModel::setMime
                                     )
                                     Spacer(Modifier.height(8.dp))

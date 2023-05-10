@@ -319,7 +319,7 @@ class BytesResizeViewModel : ViewModel() {
             if (result.isSuccess && result.getOrNull() != null) {
                 val scaled = result.getOrNull()!!
                 scaled.first to BitmapInfo(
-                    mime = _mime.value,
+                    mimeTypeInt = _mime.value,
                     quality = scaled.second.toFloat(),
                     width = scaled.first.width.toString(),
                     height = scaled.first.height.toString()

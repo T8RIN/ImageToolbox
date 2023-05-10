@@ -23,7 +23,7 @@ import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.resize_screen.components.BitmapInfo
 import ru.tech.imageresizershrinker.resize_screen.components.compressFormat
 import ru.tech.imageresizershrinker.resize_screen.components.extension
-import ru.tech.imageresizershrinker.resize_screen.components.index
+import ru.tech.imageresizershrinker.resize_screen.components.mimeTypeInt
 import java.io.ByteArrayInputStream
 import java.io.ByteArrayOutputStream
 import java.io.File
@@ -97,7 +97,7 @@ object BitmapUtils {
             onGetExif(exif)
             var mime = contentResolver.getMimeType(uri) ?: ""
             if ("jpeg" in mime) mime = "image/jpg"
-            val mimeInt = mime.index
+            val mimeInt = mime.mimeTypeInt
             onGetMimeType(mimeInt)
             fd?.close()
             val parcelFileDescriptor: ParcelFileDescriptor? =
@@ -366,7 +366,7 @@ object BitmapUtils {
         if (bitmap == null) return currentInfo
 
 
-        val rotated = abs(currentInfo.rotation) % 180 != 0f
+        val rotated = abs(currentInfo.rotationDegrees) % 180 != 0f
         fun Bitmap.width() = if (rotated) height else width
         fun Bitmap.height() = if (rotated) width else height
         fun Int.calc(cnt: Int): String = (this * (cnt / 100f)).toInt().toString()
@@ -456,7 +456,7 @@ object BitmapUtils {
         val imagesFolder = File(cacheDir, "images")
         return kotlin.runCatching {
             imagesFolder.mkdirs()
-            val mime = bitmapInfo.mime
+            val mime = bitmapInfo.mimeTypeInt
             val ext = mime.extension
             val file = File(imagesFolder, "$name.$ext")
             val stream = FileOutputStream(file)

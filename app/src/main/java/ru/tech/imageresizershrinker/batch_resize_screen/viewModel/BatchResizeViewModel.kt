@@ -143,12 +143,12 @@ class BatchResizeViewModel : ViewModel() {
                 quality,
                 width.toIntOrNull(),
                 height.toIntOrNull(),
-                mime,
+                mimeTypeInt,
                 resizeType,
-                rotation,
+                rotationDegrees,
                 isFlipped
             ) {
-                _bitmapInfo.value = _bitmapInfo.value.copy(size = it)
+                _bitmapInfo.value = _bitmapInfo.value.copy(sizeInBytes = it)
             }
         }
     }
@@ -165,8 +165,8 @@ class BatchResizeViewModel : ViewModel() {
         _bitmapInfo.value = BitmapInfo(
             width = _bitmap.value?.width?.toString() ?: "",
             height = _bitmap.value?.height?.toString() ?: "",
-            size = _bitmap.value?.byteCount ?: 0,
-            mime = if (saveMime) bitmapInfo.mime else 0
+            sizeInBytes = _bitmap.value?.byteCount ?: 0,
+            mimeTypeInt = if (saveMime) bitmapInfo.mimeTypeInt else 0
         )
         checkBitmapAndUpdate(resetPreset = true, resetTelegram = true)
     }
@@ -179,7 +179,7 @@ class BatchResizeViewModel : ViewModel() {
     fun rotateLeft() {
         _bitmapInfo.value = _bitmapInfo.value.run {
             copy(
-                rotation = _bitmapInfo.value.rotation - 90f,
+                rotationDegrees = _bitmapInfo.value.rotationDegrees - 90f,
                 height = width,
                 width = height
             )
@@ -190,7 +190,7 @@ class BatchResizeViewModel : ViewModel() {
     fun rotateRight() {
         _bitmapInfo.value = _bitmapInfo.value.run {
             copy(
-                rotation = _bitmapInfo.value.rotation + 90f,
+                rotationDegrees = _bitmapInfo.value.rotationDegrees + 90f,
                 height = width,
                 width = height
             )
@@ -225,8 +225,8 @@ class BatchResizeViewModel : ViewModel() {
     }
 
     fun setMime(mime: Int) {
-        if (_bitmapInfo.value.mime != mime) {
-            _bitmapInfo.value = _bitmapInfo.value.copy(mime = mime)
+        if (_bitmapInfo.value.mimeTypeInt != mime) {
+            _bitmapInfo.value = _bitmapInfo.value.copy(mimeTypeInt = mime)
             if (mime.extension != "png") checkBitmapAndUpdate(
                 resetPreset = false,
                 resetTelegram = true
@@ -247,7 +247,7 @@ class BatchResizeViewModel : ViewModel() {
         val new = _bitmapInfo.value.copy(
             width = "512",
             height = "512",
-            mime = 3,
+            mimeTypeInt = 3,
             resizeType = 1,
             quality = 100f
         )
@@ -282,15 +282,15 @@ class BatchResizeViewModel : ViewModel() {
                             val tWidth = width.toIntOrNull() ?: bitmap!!.width
                             val tHeight = height.toIntOrNull() ?: bitmap!!.height
 
-                            val localBitmap = bitmap!!.rotate(rotation)
+                            val localBitmap = bitmap!!.rotate(rotationDegrees)
                                 .resizeBitmap(tWidth, tHeight, resizeType)
                                 .flip(isFlipped)
-                            val savingFolder = getSavingFolder(mime.extension)
+                            val savingFolder = getSavingFolder(mimeTypeInt.extension)
 
                             val fos = savingFolder.outputStream
 
                             localBitmap.compress(
-                                mime.extension.compressFormat,
+                                mimeTypeInt.extension.compressFormat,
                                 quality.toInt().coerceIn(0, 100),
                                 fos
                             )
@@ -354,7 +354,7 @@ class BatchResizeViewModel : ViewModel() {
                 val tHeight = height.toIntOrNull() ?: bitmap.height
 
                 bitmap
-                    .rotate(rotation)
+                    .rotate(rotationDegrees)
                     .resizeBitmap(tWidth, tHeight, resizeType)
                     .flip(isFlipped) to _bitmapInfo.value
             }

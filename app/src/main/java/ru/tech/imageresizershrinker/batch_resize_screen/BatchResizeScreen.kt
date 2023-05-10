@@ -580,7 +580,7 @@ fun BatchResizeScreen(
                                     Text(
                                         stringResource(
                                             R.string.size,
-                                            byteCount(bitmapInfo.size.toLong())
+                                            byteCount(bitmapInfo.sizeInBytes.toLong())
                                         )
                                     )
                                 } else {
@@ -781,9 +781,9 @@ fun BatchResizeScreen(
                                         onHeightChange = viewModel::updateHeight,
                                         onWidthChange = viewModel::updateWidth
                                     )
-                                    if (bitmapInfo.mime.extension != "png") Spacer(Modifier.height(8.dp))
+                                    if (bitmapInfo.mimeTypeInt.extension != "png") Spacer(Modifier.height(8.dp))
                                     QualityWidget(
-                                        visible = bitmapInfo.mime.extension != "png",
+                                        visible = bitmapInfo.mimeTypeInt.extension != "png",
                                         enabled = viewModel.bitmap != null,
                                         quality = bitmapInfo.quality,
                                         onQualityChange = viewModel::setQuality
@@ -791,7 +791,7 @@ fun BatchResizeScreen(
                                     Spacer(Modifier.height(8.dp))
                                     ExtensionGroup(
                                         enabled = viewModel.bitmap != null,
-                                        mime = bitmapInfo.mime,
+                                        mime = bitmapInfo.mimeTypeInt,
                                         onMimeChange = viewModel::setMime
                                     )
                                     Spacer(Modifier.height(8.dp))
