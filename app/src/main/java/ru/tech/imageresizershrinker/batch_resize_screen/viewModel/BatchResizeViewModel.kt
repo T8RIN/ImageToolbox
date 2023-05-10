@@ -358,9 +358,9 @@ class BatchResizeViewModel : ViewModel() {
     }
 
     fun proceedBitmap(
-        bitmap: Result<Bitmap?>
+        bitmapResult: Result<Bitmap?>
     ): Pair<Bitmap, BitmapInfo>? {
-        return bitmap.getOrNull()?.let { bitmap ->
+        return bitmapResult.getOrNull()?.let { bitmap ->
             _bitmapInfo.value.run {
                 val tWidth = width.toIntOrNull() ?: bitmap.width
                 val tHeight = height.toIntOrNull() ?: bitmap.height
