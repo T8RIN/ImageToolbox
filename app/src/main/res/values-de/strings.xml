@@ -127,4 +127,6 @@
     <string name="check_updates">Auf Aktualisierungen prüfen</string>
     <string name="check_updates_sub">Wenn aktiviert, wird der Aktualisierungsdialog nach dem Start der App angezeigt</string>
     <string name="zoom">Bild-Zoom</string>
+    <string name="fab_alignment">FAB Ausrichtung</string>
+    <string name="share">Weitergeben</string>
 </resources>
