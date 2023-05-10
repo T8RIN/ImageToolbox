@@ -25,9 +25,6 @@ import ru.tech.imageresizershrinker.utils.BitmapUtils.previewBitmap
 import ru.tech.imageresizershrinker.utils.BitmapUtils.resizeBitmap
 import ru.tech.imageresizershrinker.utils.BitmapUtils.rotate
 import ru.tech.imageresizershrinker.utils.SavingFolder
-import java.text.SimpleDateFormat
-import java.util.Date
-import java.util.Locale
 
 class BatchResizeViewModel : ViewModel() {
 
@@ -267,7 +264,7 @@ class BatchResizeViewModel : ViewModel() {
 
     fun save(
         isExternalStorageWritable: Boolean,
-        getSavingFolder: (name: String, ext: String) -> SavingFolder,
+        getSavingFolder: (ext: String) -> SavingFolder,
         getFileDescriptor: (Uri?) -> ParcelFileDescriptor?,
         getBitmap: (Uri) -> Pair<Bitmap?, ExifInterface?>,
         onSuccess: (Boolean) -> Unit
@@ -282,22 +279,13 @@ class BatchResizeViewModel : ViewModel() {
                         runCatching {
                             getBitmap(uri)
                         }.getOrNull()?.takeIf { it.first != null }?.let { (bitmap, exif) ->
-                            val ext = mime.extension
-
                             val tWidth = width.toIntOrNull() ?: bitmap!!.width
                             val tHeight = height.toIntOrNull() ?: bitmap!!.height
 
-                            val timeStamp: String =
-                                SimpleDateFormat(
-                                    "yyyyMMdd_HHmmss",
-                                    Locale.getDefault()
-                                ).format(Date())
-                            val name =
-                                "ResizedImage$timeStamp-${Date().hashCode()}.$ext"
                             val localBitmap = bitmap!!.rotate(rotation)
                                 .resizeBitmap(tWidth, tHeight, resizeType)
                                 .flip(isFlipped)
-                            val savingFolder = getSavingFolder(name, ext)
+                            val savingFolder = getSavingFolder(mime.extension)
 
                             val fos = savingFolder.outputStream
 

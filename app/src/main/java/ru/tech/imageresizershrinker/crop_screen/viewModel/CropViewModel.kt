@@ -23,9 +23,6 @@ import ru.tech.imageresizershrinker.utils.BitmapUtils.resizeBitmap
 import ru.tech.imageresizershrinker.utils.SavingFolder
 import java.io.ByteArrayInputStream
 import java.io.ByteArrayOutputStream
-import java.text.SimpleDateFormat
-import java.util.Date
-import java.util.Locale
 
 
 class CropViewModel : ViewModel() {
@@ -82,7 +79,7 @@ class CropViewModel : ViewModel() {
     fun saveBitmap(
         bitmap: Bitmap? = _bitmap.value,
         isExternalStorageWritable: Boolean,
-        getSavingFolder: (name: String, ext: String) -> SavingFolder,
+        getSavingFolder: (ext: String) -> SavingFolder,
         onSuccess: (Boolean) -> Unit
     ) = viewModelScope.launch {
         withContext(Dispatchers.IO) {
@@ -90,14 +87,9 @@ class CropViewModel : ViewModel() {
                 if (!isExternalStorageWritable) {
                     onSuccess(false)
                 } else {
-                    val ext = mimeType.extension
-
-                    val timeStamp: String =
-                        SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(Date())
-                    val name = "ResizedImage$timeStamp.$ext"
                     val localBitmap = bitmap
 
-                    val savingFolder = getSavingFolder(name, ext)
+                    val savingFolder = getSavingFolder(mimeType.extension)
 
                     val fos = savingFolder.outputStream
 

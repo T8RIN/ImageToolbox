@@ -176,7 +176,7 @@ fun SingleResizeScreen(
     onGoBack: () -> Unit,
     pushNewUri: (Uri?) -> Unit,
     uriState: Uri?,
-    getSavingFolder: (name: String, ext: String) -> SavingFolder,
+    getSavingFolder: (ext: String) -> SavingFolder,
     savingPathString: String,
     showConfetti: () -> Unit
 ) {

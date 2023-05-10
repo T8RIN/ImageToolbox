@@ -249,10 +249,9 @@ class MainActivity : M3Activity() {
                                         uriState = viewModel.uris?.firstOrNull(),
                                         onGoBack = onGoBack,
                                         pushNewUri = viewModel::updateUri,
-                                        getSavingFolder = { name, ext ->
+                                        getSavingFolder = { ext ->
                                             getSavingFolder(
                                                 treeUri = saveFolderUri,
-                                                filename = name,
                                                 extension = ext
                                             )
                                         },
@@ -269,10 +268,9 @@ class MainActivity : M3Activity() {
                                         uriState = viewModel.uris,
                                         onGoBack = onGoBack,
                                         pushNewUris = viewModel::updateUris,
-                                        getSavingFolder = { name, ext ->
+                                        getSavingFolder = { ext ->
                                             getSavingFolder(
                                                 treeUri = saveFolderUri,
-                                                filename = name,
                                                 extension = ext
                                             )
                                         },
@@ -289,10 +287,9 @@ class MainActivity : M3Activity() {
                                         uriState = viewModel.uris,
                                         onGoBack = onGoBack,
                                         pushNewUris = viewModel::updateUris,
-                                        getSavingFolder = { name, ext ->
+                                        getSavingFolder = { ext ->
                                             getSavingFolder(
                                                 treeUri = saveFolderUri,
-                                                filename = name,
                                                 extension = ext
                                             )
                                         },
@@ -309,10 +306,9 @@ class MainActivity : M3Activity() {
                                         uriState = viewModel.uris?.firstOrNull(),
                                         onGoBack = onGoBack,
                                         pushNewUri = viewModel::updateUri,
-                                        getSavingFolder = { name, ext ->
+                                        getSavingFolder = { ext ->
                                             getSavingFolder(
                                                 treeUri = saveFolderUri,
-                                                filename = name,
                                                 extension = ext
                                             )
                                         },

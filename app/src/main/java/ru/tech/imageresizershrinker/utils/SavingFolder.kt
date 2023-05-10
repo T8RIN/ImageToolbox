@@ -11,6 +11,9 @@ import ru.tech.imageresizershrinker.R
 import java.io.File
 import java.io.FileOutputStream
 import java.io.OutputStream
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 data class SavingFolder(
     val outputStream: OutputStream? = null,
@@ -48,7 +51,20 @@ fun Uri?.toUiPath(context: Context, default: String): String = this?.let { uri -
         }
 } ?: default
 
-fun Context.getSavingFolder(treeUri: Uri?, filename: String, extension: String): SavingFolder {
+fun defaultFilename(ext: String): String {
+    val timeStamp: String =
+        SimpleDateFormat(
+            "yyyyMMdd_HHmmss",
+            Locale.getDefault()
+        ).format(Date())
+    return "ResizedImage$timeStamp-${Date().hashCode()}.$ext"
+}
+
+fun Context.getSavingFolder(
+    treeUri: Uri?,
+    extension: String,
+    filename: String = defaultFilename(extension),
+): SavingFolder {
     return if (treeUri == null) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
             val contentValues = ContentValues().apply {

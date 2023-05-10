@@ -29,9 +29,6 @@ import ru.tech.imageresizershrinker.utils.BitmapUtils.rotate
 import ru.tech.imageresizershrinker.utils.SavingFolder
 import java.io.ByteArrayInputStream
 import java.io.ByteArrayOutputStream
-import java.text.SimpleDateFormat
-import java.util.Date
-import java.util.Locale
 
 class SingleResizeViewModel : ViewModel() {
 
@@ -92,7 +89,7 @@ class SingleResizeViewModel : ViewModel() {
     fun saveBitmap(
         bitmap: Bitmap? = _bitmap.value,
         isExternalStorageWritable: Boolean,
-        getSavingFolder: (name: String, ext: String) -> SavingFolder,
+        getSavingFolder: (ext: String) -> SavingFolder,
         getFileDescriptor: (Uri?) -> ParcelFileDescriptor?,
         onSuccess: (Boolean) -> Unit
     ) = viewModelScope.launch {
@@ -102,21 +99,16 @@ class SingleResizeViewModel : ViewModel() {
                     if (!isExternalStorageWritable) {
                         onSuccess(false)
                     } else {
-                        val ext = mime.extension
-
                         val tWidth = width.toIntOrNull() ?: bitmap.width
                         val tHeight = height.toIntOrNull() ?: bitmap.height
 
-                        val timeStamp: String =
-                            SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(Date())
-                        val name = "ResizedImage$timeStamp.$ext"
                         val localBitmap =
                             bitmap
                                 .rotate(rotation)
                                 .resizeBitmap(tWidth, tHeight, resizeType)
                                 .flip(isFlipped)
 
-                        val savingFolder = getSavingFolder(name, ext)
+                        val savingFolder = getSavingFolder(mime.extension)
 
                         val fos = savingFolder.outputStream
                         localBitmap.compress(

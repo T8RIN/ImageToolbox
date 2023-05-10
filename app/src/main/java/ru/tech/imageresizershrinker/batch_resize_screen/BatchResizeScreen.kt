@@ -160,7 +160,7 @@ fun BatchResizeScreen(
     uriState: List<Uri>?,
     onGoBack: () -> Unit,
     pushNewUris: (List<Uri>?) -> Unit,
-    getSavingFolder: (name: String, ext: String) -> SavingFolder,
+    getSavingFolder: (ext: String) -> SavingFolder,
     savingPathString: String,
     showConfetti: () -> Unit,
     viewModel: BatchResizeViewModel = viewModel()

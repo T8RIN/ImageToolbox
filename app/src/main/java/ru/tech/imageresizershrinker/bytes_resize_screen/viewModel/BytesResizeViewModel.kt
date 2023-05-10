@@ -24,9 +24,6 @@ import ru.tech.imageresizershrinker.utils.BitmapUtils.previewBitmap
 import ru.tech.imageresizershrinker.utils.BitmapUtils.resizeBitmap
 import ru.tech.imageresizershrinker.utils.BitmapUtils.scaleByMaxBytes
 import ru.tech.imageresizershrinker.utils.SavingFolder
-import java.text.SimpleDateFormat
-import java.util.Date
-import java.util.Locale
 
 class BytesResizeViewModel : ViewModel() {
 
@@ -187,7 +184,7 @@ class BytesResizeViewModel : ViewModel() {
 
     fun save(
         isExternalStorageWritable: Boolean,
-        getSavingFolder: (name: String, ext: String) -> SavingFolder,
+        getSavingFolder: (ext: String) -> SavingFolder,
         getFileDescriptor: (Uri?) -> ParcelFileDescriptor?,
         getBitmap: (Uri) -> Pair<Bitmap?, ExifInterface?>,
         getImageSize: (Uri) -> Long?,
@@ -203,16 +200,6 @@ class BytesResizeViewModel : ViewModel() {
                     runCatching {
                         getBitmap(uri)
                     }.getOrNull()?.takeIf { it.first != null }?.let { (bitmap, exif) ->
-                        val ext = mime.extension
-
-                        val timeStamp: String =
-                            SimpleDateFormat(
-                                "yyyyMMdd_HHmmss",
-                                Locale.getDefault()
-                            ).format(Date())
-                        val name =
-                            "ResizedImage$timeStamp-${Date().hashCode()}.$ext"
-
                         kotlin.runCatching {
                             if (handMode) {
                                 bitmap?.scaleByMaxBytes(
@@ -231,11 +218,11 @@ class BytesResizeViewModel : ViewModel() {
                             if (result.isSuccess && result.getOrNull() != null) {
                                 val scaled = result.getOrNull()!!
                                 val localBitmap = scaled.first
-                                val savingFolder = getSavingFolder(name, ext)
+                                val savingFolder = getSavingFolder(mime.extension)
 
                                 val fos = savingFolder.outputStream
 
-                                localBitmap.compress(ext.compressFormat, scaled.second, fos)
+                                localBitmap.compress(mime.extension.compressFormat, scaled.second, fos)
 
                                 fos!!.flush()
                                 fos.close()
