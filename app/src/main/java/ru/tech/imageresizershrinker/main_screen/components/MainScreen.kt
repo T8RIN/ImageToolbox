@@ -1368,7 +1368,10 @@ fun MainScreen(
             mutableStateOf(viewModel.filenamePrefix.takeIf { it.isNotEmpty() } ?: defaultPrefix())
         }
         AlertDialog(
-            modifier = Modifier.width(340.dp).padding(16.dp).alertDialog(),
+            modifier = Modifier
+                .width(340.dp)
+                .padding(16.dp)
+                .alertDialog(),
             properties = DialogProperties(usePlatformDefaultWidth = false),
             onDismissRequest = { showChangeFilenameDialog = false },
             icon = {
@@ -1385,7 +1388,11 @@ fun MainScreen(
                 ) {
                     OutlinedTextField(
                         placeholder = {
-                            Text(text = defaultPrefix(), textAlign = TextAlign.Center, modifier = Modifier.fillMaxWidth())
+                            Text(
+                                text = defaultPrefix(),
+                                textAlign = TextAlign.Center,
+                                modifier = Modifier.fillMaxWidth()
+                            )
                         },
                         shape = RoundedCornerShape(16.dp),
                         value = value,
