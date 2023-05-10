@@ -55,6 +55,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Save
+import androidx.compose.material.icons.outlined.Share
 import androidx.compose.material.icons.rounded.AddPhotoAlternate
 import androidx.compose.material.icons.rounded.ArrowBack
 import androidx.compose.material.icons.rounded.ChangeCircle
@@ -108,6 +109,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.DialogProperties
+import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.t8rin.dynamic.theme.LocalDynamicThemeState
 import kotlinx.coroutines.delay
@@ -143,6 +145,7 @@ import ru.tech.imageresizershrinker.utils.BitmapUtils.canShow
 import ru.tech.imageresizershrinker.utils.BitmapUtils.decodeBitmapFromUri
 import ru.tech.imageresizershrinker.utils.BitmapUtils.decodeSampledBitmapFromUri
 import ru.tech.imageresizershrinker.utils.BitmapUtils.getBitmapByUri
+import ru.tech.imageresizershrinker.utils.BitmapUtils.shareBitmaps
 import ru.tech.imageresizershrinker.utils.BitmapUtils.with
 import ru.tech.imageresizershrinker.utils.ContextUtils.isExternalStorageWritable
 import ru.tech.imageresizershrinker.utils.ContextUtils.requestStoragePermission
@@ -378,6 +381,36 @@ fun BatchResizeScreen(
                         onClick = { viewModel.setTelegramSpecs() },
                     )
 
+                    IconButton(
+                        onClick = {
+                            showSaveLoading = true
+                            context.shareBitmaps(
+                                uris = viewModel.uris ?: emptyList(),
+                                scope = viewModel.viewModelScope,
+                                bitmapLoader = {
+                                    viewModel.proceedBitmap(
+                                        kotlin.runCatching {
+                                            context.decodeBitmapFromUri(it).first
+                                        }
+                                    )
+                                },
+                                bitmapInfo = viewModel.bitmapInfo,
+                                onProgressChange = {
+                                    if (it == -1) {
+                                        showSaveLoading = false
+                                        viewModel.setProgress(0)
+                                        showConfetti()
+                                    } else {
+                                        viewModel.setProgress(it)
+                                    }
+                                }
+                            )
+                        },
+                        enabled = viewModel.previewBitmap != null
+                    ) {
+                        Icon(Icons.Outlined.Share, null)
+                    }
+
                     val interactionSource = remember { MutableInteractionSource() }
                     IconButton(
                         enabled = viewModel.bitmap != null,
@@ -570,6 +603,35 @@ fun BatchResizeScreen(
                                 isTelegramSpecs = viewModel.isTelegramSpecs,
                                 onClick = { viewModel.setTelegramSpecs() },
                             )
+
+                            IconButton(
+                                onClick = {
+                                    showSaveLoading = true
+                                    context.shareBitmaps(
+                                        uris = viewModel.uris ?: emptyList(),
+                                        scope = viewModel.viewModelScope,
+                                        bitmapLoader = {
+                                            viewModel.proceedBitmap(
+                                                kotlin.runCatching {
+                                                    context.decodeBitmapFromUri(it).first
+                                                }
+                                            )
+                                        },
+                                        bitmapInfo = viewModel.bitmapInfo,
+                                        onProgressChange = {
+                                            if (it == -1) {
+                                                showSaveLoading = false
+                                                showConfetti()
+                                            } else {
+                                                viewModel.setProgress(it)
+                                            }
+                                        }
+                                    )
+                                },
+                                enabled = viewModel.previewBitmap != null
+                            ) {
+                                Icon(Icons.Outlined.Share, null)
+                            }
 
                             val interactionSource = remember { MutableInteractionSource() }
                             IconButton(

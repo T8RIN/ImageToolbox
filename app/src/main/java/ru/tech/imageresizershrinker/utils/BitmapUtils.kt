@@ -15,6 +15,10 @@ import android.webkit.MimeTypeMap
 import androidx.core.content.FileProvider
 import androidx.core.text.isDigitsOnly
 import androidx.exifinterface.media.ExifInterface
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.resize_screen.components.BitmapInfo
 import ru.tech.imageresizershrinker.resize_screen.components.compressFormat
@@ -444,13 +448,17 @@ object BitmapUtils {
         return size() < 4096 * 4096 * 5
     }
 
-    private fun Context.saveImage(image: Bitmap, bitmapInfo: BitmapInfo): Uri? {
+    private fun Context.saveImage(
+        image: Bitmap,
+        bitmapInfo: BitmapInfo,
+        name: String = "shared_image"
+    ): Uri? {
         val imagesFolder = File(cacheDir, "images")
         return kotlin.runCatching {
             imagesFolder.mkdirs()
             val mime = bitmapInfo.mime
             val ext = mime.extension
-            val file = File(imagesFolder, "shared_image.$ext")
+            val file = File(imagesFolder, "$name.$ext")
             val stream = FileOutputStream(file)
             image.compress(ext.compressFormat, bitmapInfo.quality.toInt(), stream)
             stream.flush()
@@ -481,6 +489,46 @@ object BitmapUtils {
         }
         val shareIntent = Intent.createChooser(sendIntent, getString(R.string.share))
         startActivity(shareIntent)
+    }
+
+    fun Context.shareImageUris(uris: List<Uri>) {
+        val sendIntent = Intent(Intent.ACTION_SEND_MULTIPLE).apply {
+            putParcelableArrayListExtra(Intent.EXTRA_STREAM, ArrayList(uris))
+            addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+            type = "image/*"
+        }
+        val shareIntent = Intent.createChooser(sendIntent, getString(R.string.share))
+        startActivity(shareIntent)
+    }
+
+    fun Context.shareBitmaps(
+        uris: List<Uri>,
+        scope: CoroutineScope,
+        bitmapLoader: suspend (Uri) -> Bitmap?,
+        onProgressChange: (Int) -> Unit,
+        bitmapInfo: BitmapInfo
+    ) {
+        scope.launch {
+            withContext(Dispatchers.IO) {
+                var cnt = 0
+                val uriList: MutableList<Uri> = mutableListOf()
+                uris.forEachIndexed { index, uri ->
+                    bitmapLoader(uri)?.let { bitmap ->
+                        saveImage(
+                            image = bitmap,
+                            bitmapInfo = bitmapInfo,
+                            name = index.toString()
+                        )?.let { uri ->
+                            cnt += 1
+                            uriList.add(uri)
+                        }
+                    }
+                    onProgressChange(cnt)
+                }
+                onProgressChange(-1)
+                shareImageUris(uriList)
+            }
+        }
     }
 
     fun Context.shareBitmap(

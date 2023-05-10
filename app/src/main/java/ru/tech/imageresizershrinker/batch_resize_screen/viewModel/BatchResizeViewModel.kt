@@ -357,4 +357,23 @@ class BatchResizeViewModel : ViewModel() {
         }
     }
 
+    fun proceedBitmap(
+        bitmap: Result<Bitmap?>
+    ): Bitmap? {
+        return bitmap.getOrNull()?.let { bitmap ->
+            _bitmapInfo.value.run {
+                val tWidth = width.toIntOrNull() ?: bitmap.width
+                val tHeight = height.toIntOrNull() ?: bitmap.height
+
+                bitmap.resizeBitmap(tWidth, tHeight, resizeType)
+                    .rotate(rotation)
+                    .flip(isFlipped)
+            }
+        }
+    }
+
+    fun setProgress(progress: Int) {
+        _done.value = progress
+    }
+
 }
