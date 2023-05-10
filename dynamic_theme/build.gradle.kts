@@ -45,6 +45,6 @@ dependencies {
     implementation("androidx.core:core-ktx:1.10.1")
     implementation("androidx.compose.material3:material3")
     implementation("androidx.palette:palette:1.0.0")
-    implementation("com.google.accompanist:accompanist-systemuicontroller:0.31.1-alpha")
+    implementation("com.google.accompanist:accompanist-systemuicontroller:0.30.1")
     coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.0.3")
 }
