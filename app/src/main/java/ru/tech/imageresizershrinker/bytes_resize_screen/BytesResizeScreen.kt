@@ -53,6 +53,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Save
+import androidx.compose.material.icons.outlined.Share
 import androidx.compose.material.icons.rounded.AddPhotoAlternate
 import androidx.compose.material.icons.rounded.ArrowBack
 import androidx.compose.material.icons.rounded.ChangeCircle
@@ -114,6 +115,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.DialogProperties
+import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.t8rin.dynamic.theme.LocalDynamicThemeState
 import kotlinx.coroutines.launch
@@ -144,6 +146,7 @@ import ru.tech.imageresizershrinker.utils.BitmapUtils.decodeSampledBitmapFromUri
 import ru.tech.imageresizershrinker.utils.BitmapUtils.fileSize
 import ru.tech.imageresizershrinker.utils.BitmapUtils.getBitmapByUri
 import ru.tech.imageresizershrinker.utils.BitmapUtils.restrict
+import ru.tech.imageresizershrinker.utils.BitmapUtils.shareBitmaps
 import ru.tech.imageresizershrinker.utils.ContextUtils.failedToSaveImages
 import ru.tech.imageresizershrinker.utils.ContextUtils.isExternalStorageWritable
 import ru.tech.imageresizershrinker.utils.LocalWindowSizeClass
@@ -418,9 +421,10 @@ fun BytesResizeScreen(
             )
         } else {
             Column(
-                Modifier
+                modifier = Modifier
                     .padding(horizontal = 16.dp)
-                    .navigationBarsPadding()
+                    .navigationBarsPadding(),
+                horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 switch()
                 Spacer(Modifier.height(16.dp))
@@ -530,6 +534,38 @@ fun BytesResizeScreen(
                     },
                     actions = {
                         zoomButton()
+                        IconButton(
+                            onClick = {
+                                showSaveLoading = true
+                                context.shareBitmaps(
+                                    uris = viewModel.uris ?: emptyList(),
+                                    scope = viewModel.viewModelScope,
+                                    bitmapLoader = {
+                                        viewModel.proceedBitmap(
+                                            uri = it,
+                                            bitmapResult = kotlin.runCatching {
+                                                context.decodeBitmapFromUri(it).first
+                                            },
+                                            getImageSize = { uri ->
+                                                uri.fileSize(context)
+                                            }
+                                        )
+                                    },
+                                    onProgressChange = {
+                                        if (it == -1) {
+                                            showSaveLoading = false
+                                            viewModel.setProgress(0)
+                                            showConfetti()
+                                        } else {
+                                            viewModel.setProgress(it)
+                                        }
+                                    }
+                                )
+                            },
+                            enabled = viewModel.previewBitmap != null
+                        ) {
+                            Icon(Icons.Outlined.Share, null)
+                        }
                     }
                 )
                 Row(

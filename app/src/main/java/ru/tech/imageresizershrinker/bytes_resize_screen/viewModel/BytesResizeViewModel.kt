@@ -15,6 +15,7 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import ru.tech.imageresizershrinker.resize_screen.components.BitmapInfo
 import ru.tech.imageresizershrinker.resize_screen.components.compressFormat
 import ru.tech.imageresizershrinker.resize_screen.components.extension
 import ru.tech.imageresizershrinker.utils.BitmapUtils.canShow
@@ -329,6 +330,46 @@ class BytesResizeViewModel : ViewModel() {
     fun updateHandMode() {
         _handMode.value = !_handMode.value
         updateCanSave()
+    }
+
+    fun proceedBitmap(
+        uri: Uri,
+        bitmapResult: Result<Bitmap?>,
+        getImageSize: (Uri) -> Long?
+    ): Pair<Bitmap, BitmapInfo>? {
+        return bitmapResult.getOrNull()?.let { bitmap ->
+            kotlin.runCatching {
+                if (handMode) {
+                    bitmap.scaleByMaxBytes(
+                        maxBytes = maxBytes,
+                        compressFormat = mime.extension.compressFormat
+                    )
+                } else {
+                    bitmap.scaleByMaxBytes(
+                        maxBytes = (getImageSize(uri) ?: 0)
+                            .times(_presetSelected.value / 100f)
+                            .toLong(),
+                        compressFormat = mime.extension.compressFormat
+                    )
+                }
+            }
+        }?.let { result ->
+            if (result.isSuccess && result.getOrNull() != null) {
+                val scaled = result.getOrNull()!!
+                scaled.first
+                    .rotate(rotation.toFloat())
+                    .flip(isFlipped) to BitmapInfo(
+                    mime = _mime.value,
+                    quality = scaled.second.toFloat(),
+                    width = scaled.first.width.toString(),
+                    height = scaled.first.height.toString()
+                )
+            } else null
+        }
+    }
+
+    fun setProgress(progress: Int) {
+        _done.value = progress
     }
 
 }

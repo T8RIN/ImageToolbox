@@ -359,7 +359,7 @@ class BatchResizeViewModel : ViewModel() {
 
     fun proceedBitmap(
         bitmap: Result<Bitmap?>
-    ): Bitmap? {
+    ): Pair<Bitmap, BitmapInfo>? {
         return bitmap.getOrNull()?.let { bitmap ->
             _bitmapInfo.value.run {
                 val tWidth = width.toIntOrNull() ?: bitmap.width
@@ -367,7 +367,7 @@ class BatchResizeViewModel : ViewModel() {
 
                 bitmap.resizeBitmap(tWidth, tHeight, resizeType)
                     .rotate(rotation)
-                    .flip(isFlipped)
+                    .flip(isFlipped) to _bitmapInfo.value
             }
         }
     }

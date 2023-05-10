@@ -504,16 +504,15 @@ object BitmapUtils {
     fun Context.shareBitmaps(
         uris: List<Uri>,
         scope: CoroutineScope,
-        bitmapLoader: suspend (Uri) -> Bitmap?,
-        onProgressChange: (Int) -> Unit,
-        bitmapInfo: BitmapInfo
+        bitmapLoader: suspend (Uri) -> Pair<Bitmap, BitmapInfo>?,
+        onProgressChange: (Int) -> Unit
     ) {
         scope.launch {
             withContext(Dispatchers.IO) {
                 var cnt = 0
                 val uriList: MutableList<Uri> = mutableListOf()
                 uris.forEachIndexed { index, uri ->
-                    bitmapLoader(uri)?.let { bitmap ->
+                    bitmapLoader(uri)?.let { (bitmap, bitmapInfo) ->
                         saveImage(
                             image = bitmap,
                             bitmapInfo = bitmapInfo,

@@ -394,7 +394,6 @@ fun BatchResizeScreen(
                                         }
                                     )
                                 },
-                                bitmapInfo = viewModel.bitmapInfo,
                                 onProgressChange = {
                                     if (it == -1) {
                                         showSaveLoading = false
@@ -617,7 +616,6 @@ fun BatchResizeScreen(
                                                 }
                                             )
                                         },
-                                        bitmapInfo = viewModel.bitmapInfo,
                                         onProgressChange = {
                                             if (it == -1) {
                                                 showSaveLoading = false
