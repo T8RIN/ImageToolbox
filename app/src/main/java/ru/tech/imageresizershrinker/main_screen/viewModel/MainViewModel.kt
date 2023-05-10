@@ -35,6 +35,7 @@ import ru.tech.imageresizershrinker.utils.APP_RELEASES
 import ru.tech.imageresizershrinker.utils.BORDER_WIDTH
 import ru.tech.imageresizershrinker.utils.COLOR_TUPLES
 import ru.tech.imageresizershrinker.utils.DYNAMIC_COLORS
+import ru.tech.imageresizershrinker.utils.FILENAME_PREFIX
 import ru.tech.imageresizershrinker.utils.IMAGE_MONET
 import ru.tech.imageresizershrinker.utils.NIGHT_MODE
 import ru.tech.imageresizershrinker.utils.PRESETS
@@ -80,6 +81,8 @@ class MainViewModel @Inject constructor(
     private val _localPresets = mutableStateOf(emptyList<Int>())
     val localPresets by _localPresets
 
+    private val _filenamePrefix = mutableStateOf("")
+    val filenamePrefix by _filenamePrefix
 
     val navController = navController<Screen>(Screen.Main)
 
@@ -159,9 +162,18 @@ class MainViewModel @Inject constructor(
 
             _alignment.value = prefs[ALIGNMENT] ?: 1
             _showDialogOnStartUp.value = prefs[SHOW_DIALOG] ?: true
+            _filenamePrefix.value = prefs[FILENAME_PREFIX] ?: ""
 
         }.launchIn(viewModelScope)
         tryGetUpdate(showDialog = showDialogOnStartUp)
+    }
+
+    fun updateFilename(name: String) {
+        viewModelScope.launch {
+            dataStore.edit {
+                it[FILENAME_PREFIX] = name
+            }
+        }
     }
 
     fun updateShowDialog(show: Boolean) {

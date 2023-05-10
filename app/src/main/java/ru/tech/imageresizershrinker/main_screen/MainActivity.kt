@@ -126,6 +126,8 @@ import ru.tech.imageresizershrinker.utils.ContextUtils.needToShowStoragePermissi
 import ru.tech.imageresizershrinker.utils.ContextUtils.requestStoragePermission
 import ru.tech.imageresizershrinker.utils.IntentUtils.parcelable
 import ru.tech.imageresizershrinker.utils.IntentUtils.parcelableArrayList
+import ru.tech.imageresizershrinker.utils.SavingFolder
+import ru.tech.imageresizershrinker.utils.constructFilename
 import ru.tech.imageresizershrinker.utils.getSavingFolder
 import ru.tech.imageresizershrinker.utils.setContentWithWindowSizeClass
 import ru.tech.imageresizershrinker.utils.toUiPath
@@ -142,7 +144,6 @@ import java.util.concurrent.TimeUnit
 class MainActivity : M3Activity() {
 
     private val viewModel by viewModels<MainViewModel>()
-
 
     @OptIn(ExperimentalAnimationApi::class, ExperimentalLayoutApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -184,6 +185,21 @@ class MainActivity : M3Activity() {
                             if (backstack.entries.size > 1) pop()
                         }
                     }
+                    val getSavingFolder: (String) -> SavingFolder = { ext ->
+                        getSavingFolder(
+                            treeUri = saveFolderUri,
+                            filename = constructFilename(
+                                prefix = viewModel.filenamePrefix,
+                                extension = ext
+                            ),
+                            extension = ext
+                        )
+                    }
+                    val savingPathString = saveFolderUri.toUiPath(
+                        context = this@MainActivity,
+                        default = stringResource(R.string.default_folder)
+                    )
+
                     BackHandler {
                         if (viewModel.shouldShowDialog) showExitDialog = true
                         else finishAffinity()
@@ -249,16 +265,8 @@ class MainActivity : M3Activity() {
                                         uriState = viewModel.uris?.firstOrNull(),
                                         onGoBack = onGoBack,
                                         pushNewUri = viewModel::updateUri,
-                                        getSavingFolder = { ext ->
-                                            getSavingFolder(
-                                                treeUri = saveFolderUri,
-                                                extension = ext
-                                            )
-                                        },
-                                        savingPathString = saveFolderUri.toUiPath(
-                                            context = this@MainActivity,
-                                            default = stringResource(R.string.default_folder)
-                                        ),
+                                        getSavingFolder = getSavingFolder,
+                                        savingPathString = savingPathString,
                                         showConfetti = { showConfetti = true }
                                     )
                                 }
@@ -268,16 +276,8 @@ class MainActivity : M3Activity() {
                                         uriState = viewModel.uris,
                                         onGoBack = onGoBack,
                                         pushNewUris = viewModel::updateUris,
-                                        getSavingFolder = { ext ->
-                                            getSavingFolder(
-                                                treeUri = saveFolderUri,
-                                                extension = ext
-                                            )
-                                        },
-                                        savingPathString = saveFolderUri.toUiPath(
-                                            context = this@MainActivity,
-                                            default = stringResource(R.string.default_folder)
-                                        ),
+                                        getSavingFolder = getSavingFolder,
+                                        savingPathString = savingPathString,
                                         showConfetti = { showConfetti = true }
                                     )
                                 }
@@ -287,16 +287,8 @@ class MainActivity : M3Activity() {
                                         uriState = viewModel.uris,
                                         onGoBack = onGoBack,
                                         pushNewUris = viewModel::updateUris,
-                                        getSavingFolder = { ext ->
-                                            getSavingFolder(
-                                                treeUri = saveFolderUri,
-                                                extension = ext
-                                            )
-                                        },
-                                        savingPathString = saveFolderUri.toUiPath(
-                                            context = this@MainActivity,
-                                            default = stringResource(R.string.default_folder)
-                                        ),
+                                        getSavingFolder = getSavingFolder,
+                                        savingPathString = savingPathString,
                                         showConfetti = { showConfetti = true }
                                     )
                                 }
@@ -306,16 +298,8 @@ class MainActivity : M3Activity() {
                                         uriState = viewModel.uris?.firstOrNull(),
                                         onGoBack = onGoBack,
                                         pushNewUri = viewModel::updateUri,
-                                        getSavingFolder = { ext ->
-                                            getSavingFolder(
-                                                treeUri = saveFolderUri,
-                                                extension = ext
-                                            )
-                                        },
-                                        savingPathString = saveFolderUri.toUiPath(
-                                            context = this@MainActivity,
-                                            default = stringResource(R.string.default_folder)
-                                        ),
+                                        getSavingFolder = getSavingFolder,
+                                        savingPathString = savingPathString,
                                         showConfetti = { showConfetti = true }
                                     )
                                 }

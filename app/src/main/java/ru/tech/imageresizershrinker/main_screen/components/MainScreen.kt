@@ -51,6 +51,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.FileCopy
 import androidx.compose.material.icons.rounded.AddCircleOutline
 import androidx.compose.material.icons.rounded.AlternateEmail
 import androidx.compose.material.icons.rounded.BugReport
@@ -58,6 +59,7 @@ import androidx.compose.material.icons.rounded.Check
 import androidx.compose.material.icons.rounded.Close
 import androidx.compose.material.icons.rounded.Coffee
 import androidx.compose.material.icons.rounded.Download
+import androidx.compose.material.icons.rounded.FileCopy
 import androidx.compose.material.icons.rounded.FileDownload
 import androidx.compose.material.icons.rounded.FileDownloadOff
 import androidx.compose.material.icons.rounded.Folder
@@ -91,6 +93,7 @@ import androidx.compose.material3.ModalDrawerSheet
 import androidx.compose.material3.ModalNavigationDrawer
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedIconButton
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Slider
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
@@ -124,10 +127,12 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringArrayResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.min
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.window.DialogProperties
 import androidx.compose.ui.zIndex
 import com.t8rin.dynamic.theme.ColorTupleItem
 import com.t8rin.dynamic.theme.getAppColorTuple
@@ -161,6 +166,8 @@ import ru.tech.imageresizershrinker.utils.DONATE
 import ru.tech.imageresizershrinker.utils.ISSUE_TRACKER
 import ru.tech.imageresizershrinker.utils.LocalWindowSizeClass
 import ru.tech.imageresizershrinker.utils.WEBLATE_LINK
+import ru.tech.imageresizershrinker.utils.constructFilename
+import ru.tech.imageresizershrinker.utils.defaultPrefix
 import ru.tech.imageresizershrinker.utils.toUiPath
 import ru.tech.imageresizershrinker.widget.LocalToastHost
 import ru.tech.imageresizershrinker.widget.Marquee
@@ -189,6 +196,8 @@ fun MainScreen(
 
     var showPickColorDialog by rememberSaveable { mutableStateOf(false) }
     var showAuthorDialog by rememberSaveable { mutableStateOf(false) }
+
+    var showChangeFilenameDialog by rememberSaveable { mutableStateOf(false) }
 
     val sideSheetState = rememberDrawerState(initialValue = DrawerValue.Closed)
     val scope = rememberCoroutineScope()
@@ -451,6 +460,27 @@ fun MainScreen(
                                         ).value,
                                         shape = RoundedCornerShape(12.dp)
                                     )
+                            )
+                            Spacer(Modifier.height(16.dp))
+                        }
+                        Divider()
+                        Column {
+                            TitleItem(
+                                icon = Icons.Rounded.FileCopy,
+                                text = stringResource(R.string.filename),
+                            )
+                            PreferenceItem(
+                                onClick = { showChangeFilenameDialog = true },
+                                title = stringResource(R.string.prefix),
+                                subtitle = constructFilename(viewModel.filenamePrefix, "img"),
+                                color = MaterialTheme
+                                    .colorScheme
+                                    .secondaryContainer
+                                    .copy(alpha = 0.2f),
+                                endIcon = Icons.Rounded.CreateAlt,
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(horizontal = 16.dp)
                             )
                             Spacer(Modifier.height(16.dp))
                         }
@@ -1330,6 +1360,65 @@ fun MainScreen(
                     )
                 ) {
                     Text(stringResource(R.string.close))
+                }
+            }
+        )
+    } else if (showChangeFilenameDialog) {
+        var value by remember {
+            mutableStateOf(viewModel.filenamePrefix.takeIf { it.isNotEmpty() } ?: defaultPrefix())
+        }
+        AlertDialog(
+            modifier = Modifier.width(340.dp).padding(16.dp).alertDialog(),
+            properties = DialogProperties(usePlatformDefaultWidth = false),
+            onDismissRequest = { showChangeFilenameDialog = false },
+            icon = {
+                Icon(Icons.Outlined.FileCopy, null)
+            },
+            title = {
+                Text(stringResource(R.string.prefix))
+            },
+            text = {
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.Center
+                ) {
+                    OutlinedTextField(
+                        placeholder = {
+                            Text(text = defaultPrefix(), textAlign = TextAlign.Center, modifier = Modifier.fillMaxWidth())
+                        },
+                        shape = RoundedCornerShape(16.dp),
+                        value = value,
+                        textStyle = MaterialTheme.typography.titleMedium.copy(
+                            textAlign = TextAlign.Center
+                        ),
+                        onValueChange = {
+                            value = it
+                        }
+                    )
+                }
+            },
+            confirmButton = {
+                OutlinedButton(
+                    onClick = {
+                        viewModel.updateFilename(value.trim())
+                        showChangeFilenameDialog = false
+                    },
+                    colors = ButtonDefaults.outlinedButtonColors(
+                        containerColor = MaterialTheme.colorScheme.secondaryContainer.copy(
+                            alpha = if (LocalNightMode.current.isNightMode()) 0.5f
+                            else 1f
+                        ),
+                        contentColor = MaterialTheme.colorScheme.onSecondaryContainer,
+                    ),
+                    border = BorderStroke(
+                        LocalBorderWidth.current,
+                        MaterialTheme.colorScheme.outlineVariant(
+                            onTopOf = MaterialTheme.colorScheme.secondaryContainer
+                        )
+                    ),
+                ) {
+                    Text(stringResource(R.string.ok))
                 }
             }
         )

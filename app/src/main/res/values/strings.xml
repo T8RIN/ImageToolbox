@@ -141,6 +141,8 @@
     <string name="check_updates_sub">If enabled, update dialog will be shown to you after app startup</string>
     <string name="zoom">Image zoom</string>
     <string name="share">Share</string>
+    <string name="prefix">Prefix</string>
+    <string name="filename">Filename</string>
 
     <string-array name="fab_alignment_sub">
         <item>Start</item>

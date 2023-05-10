@@ -51,13 +51,17 @@ fun Uri?.toUiPath(context: Context, default: String): String = this?.let { uri -
         }
 } ?: default
 
-fun defaultFilename(ext: String): String {
-    val timeStamp: String =
-        SimpleDateFormat(
-            "yyyyMMdd_HHmmss",
-            Locale.getDefault()
-        ).format(Date())
-    return "ResizedImage$timeStamp-${Date().hashCode()}.$ext"
+fun defaultPrefix() = "ResizedImage"
+
+fun defaultFilename(extension: String): String = constructFilename(prefix = defaultPrefix(), extension = extension)
+
+fun constructFilename(prefix: String, extension: String): String {
+    if (prefix.isEmpty()) return defaultFilename(extension)
+    val timeStamp = SimpleDateFormat(
+        "yyyy-MM-dd_HH:mm:ss_ms",
+        Locale.getDefault()
+    ).format(Date())
+    return "$prefix$timeStamp.$extension"
 }
 
 fun Context.getSavingFolder(
