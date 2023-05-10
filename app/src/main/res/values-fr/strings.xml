@@ -129,4 +129,6 @@
     <string name="border_thickness">Épaisseur de la bordure</string>
     <string name="share">Partager</string>
     <string name="monet_colors">Couleurs de Monet</string>
+    <string name="prefix">Préfixe</string>
+    <string name="filename">Nom du fichier</string>
 </resources>
