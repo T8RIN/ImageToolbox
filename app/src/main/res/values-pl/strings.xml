@@ -109,4 +109,26 @@
     <string name="dynamic_colors_sub">Jeśli ta opcja jest włączona, kolory aplikacji zostaną dostosowane do kolorów tapet</string>
     <string name="failed_to_save">Nie udało się zapisać obrazów %d</string>
     <string name="png_warning_bytes">Zapisywanie w trybie PNG może być niestabilne, ponieważ jest to format bezstratny</string>
+    <string name="surface">Powierzchnia</string>
+    <string name="buy_me_a_coffee">Kup mi kawę</string>
+    <string name="fab_alignment">Dostosowanie FAB</string>
+    <string name="check_updates">Sprawdź, czy są aktualizacje</string>
+    <string name="check_updates_sub">Jeśli włączone, okno dialogowe aktualizacji będzie wyświetlane po uruchomieniu aplikacji</string>
+    <string name="values">Wartości</string>
+    <string name="add">Dodaj</string>
+    <string name="primary">Podstawowy</string>
+    <string name="tertiary">Trzeciorzędowy</string>
+    <string name="secondary">Drugie</string>
+    <string name="permission">Pozwolenie</string>
+    <string name="grant">Grant</string>
+    <string name="permission_sub">Aplikacja potrzebuje dostępu do Twojego magazynu, aby zapisać obrazy, jest to konieczne, bez tego nie może działać, więc proszę o udzielenie pozwolenia w następnym oknie dialogowym</string>
+    <string name="zoom">Powiększenie obrazu</string>
+    <string name="prefix">Prefiks</string>
+    <string name="filename">Nazwa pliku</string>
+    <string name="buy_me_a_coffee_sub">Ta aplikacja jest całkowicie darmowa, ale jeśli chcesz wesprzeć rozwój projektu, możesz kliknąć tutaj</string>
+    <string name="grant_permission_manual">Aplikacja potrzebuje tego pozwolenia do działania, proszę o jego ręczne przyznanie</string>
+    <string name="border_thickness">Grubość granicy</string>
+    <string name="share">Podziel się</string>
+    <string name="external_storage">Pamięć zewnętrzna</string>
+    <string name="monet_colors">Kolory Moneta</string>
 </resources>
