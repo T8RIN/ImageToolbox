@@ -45,6 +45,7 @@ import ru.tech.imageresizershrinker.main_screen.components.block
 import ru.tech.imageresizershrinker.theme.CreateAlt
 import ru.tech.imageresizershrinker.theme.mixedColor
 import ru.tech.imageresizershrinker.theme.onMixedColor
+import ru.tech.imageresizershrinker.theme.outlineVariant
 import ru.tech.imageresizershrinker.widget.AutoSizeText
 
 @OptIn(ExperimentalMaterialApi::class)
@@ -155,7 +156,12 @@ fun PresetWidget(
                     .fillMaxSize()
                     .block(color = MaterialTheme.colorScheme.surface.copy(alpha = 0.5f))
             ) {
-                FilledTonalIconButton(
+                OutlinedIconButton(
+                    colors = IconButtonDefaults.filledTonalIconButtonColors(),
+                    border = BorderStroke(
+                      LocalBorderWidth.current,
+                      MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.secondaryContainer)
+                    ),
                     onClick = { editPresetsState.value = true },
                     modifier = Modifier
                         .padding(16.dp)
