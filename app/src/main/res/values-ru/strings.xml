@@ -134,4 +134,6 @@
     <string name="check_updates_sub">Если включено, при запуске вы увидите диалог, если будет доступна новая версия приложения</string>
     <string name="zoom">Приближение</string>
     <string name="share">Поделиться</string>
+    <string name="prefix">Префикс</string>
+    <string name="filename">Название файла</string>
 </resources>
