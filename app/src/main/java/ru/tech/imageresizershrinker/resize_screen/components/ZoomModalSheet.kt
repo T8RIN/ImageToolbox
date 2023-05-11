@@ -128,7 +128,7 @@ fun ZoomModalSheet(
     if (bitmap != null) {
         ModalSheet(
             animationSpec = tween(
-                durationMillis = 1000,
+                durationMillis = 600,
                 easing = CubicBezierEasing(0.05f, 0.7f, 0.1f, 1f)
             ),
             containerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(2.dp),
