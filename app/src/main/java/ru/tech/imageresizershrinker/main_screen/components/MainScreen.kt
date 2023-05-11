@@ -59,7 +59,6 @@ import androidx.compose.material.icons.rounded.Check
 import androidx.compose.material.icons.rounded.Close
 import androidx.compose.material.icons.rounded.Coffee
 import androidx.compose.material.icons.rounded.Download
-import androidx.compose.material.icons.rounded.FileCopy
 import androidx.compose.material.icons.rounded.FileDownload
 import androidx.compose.material.icons.rounded.FileDownloadOff
 import androidx.compose.material.icons.rounded.Folder
@@ -151,6 +150,7 @@ import ru.tech.imageresizershrinker.resize_screen.components.RevealValue
 import ru.tech.imageresizershrinker.resize_screen.components.rememberRevealState
 import ru.tech.imageresizershrinker.resize_screen.components.revealSwipeable
 import ru.tech.imageresizershrinker.theme.CreateAlt
+import ru.tech.imageresizershrinker.theme.FileSettings
 import ru.tech.imageresizershrinker.theme.Github
 import ru.tech.imageresizershrinker.theme.GooglePlay
 import ru.tech.imageresizershrinker.theme.Lamp
@@ -469,7 +469,7 @@ fun MainScreen(
                         Divider()
                         Column {
                             TitleItem(
-                                icon = Icons.Rounded.FileCopy,
+                                icon = Icons.Rounded.FileSettings,
                                 text = stringResource(R.string.filename),
                             )
                             PreferenceItem(
@@ -1066,8 +1066,8 @@ fun MainScreen(
                                     .navigationBars
                                     .asPaddingValues()
                                     .calculateBottomPadding() + if (!compactHeight) {
-                                        128.dp
-                                    } else 0.dp
+                                    128.dp
+                                } else 0.dp
                             } else 0.dp,
                             top = 12.dp,
                             end = 12.dp + cutout.calculateEndPadding(LocalLayoutDirection.current),
