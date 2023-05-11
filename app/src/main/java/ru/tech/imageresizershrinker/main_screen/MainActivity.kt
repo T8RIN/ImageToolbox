@@ -145,7 +145,7 @@ class MainActivity : M3Activity() {
 
     private val viewModel by viewModels<MainViewModel>()
 
-    @OptIn(ExperimentalAnimationApi::class, ExperimentalLayoutApi::class)
+    @OptIn(ExperimentalLayoutApi::class, ExperimentalAnimationApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -210,7 +210,7 @@ class MainActivity : M3Activity() {
                             controller = viewModel.navController,
                             transitionSpec = { _, _, to ->
                                 fun <T> animationSpec(
-                                    duration: Int = 600,
+                                    duration: Int = 500,
                                     delay: Int = 0
                                 ) = tween<T>(
                                     durationMillis = duration,
@@ -225,13 +225,13 @@ class MainActivity : M3Activity() {
                                     ) togetherWith slideOutHorizontally(
                                         animationSpec()
                                     ) { -it / 3 } + fadeOut(
-                                        animationSpec(300)
+                                        animationSpec(250)
                                     )
                                 } else {
                                     slideInHorizontally(
                                         animationSpec()
                                     ) { -it / 3 } + fadeIn(
-                                        animationSpec(700)
+                                        animationSpec(500)
                                     ) togetherWith slideOutHorizontally(
                                         animationSpec()
                                     ) { it / 3 } + fadeOut(
