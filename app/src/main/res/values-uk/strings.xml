@@ -128,4 +128,7 @@
     <string name="check_updates_sub">Якщо увімкнено, після запуску застосунку буде показано діалогове вікно оновлення</string>
     <string name="zoom">Масштабування зображення</string>
     <string name="check_updates">Перевірка наявності оновлення</string>
+    <string name="prefix">Префікс</string>
+    <string name="filename">Ім\'я файлу</string>
+    <string name="share">Поділитися</string>
 </resources>
