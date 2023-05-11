@@ -472,7 +472,9 @@ fun MainScreen(
                             PreferenceItem(
                                 onClick = { showChangeFilenameDialog = true },
                                 title = stringResource(R.string.prefix),
-                                subtitle = constructFilename(viewModel.filenamePrefix, "img"),
+                                subtitle = remember {
+                                    constructFilename(viewModel.filenamePrefix, "img").split("_")[0] + ".img"
+                                },
                                 color = MaterialTheme
                                     .colorScheme
                                     .secondaryContainer
