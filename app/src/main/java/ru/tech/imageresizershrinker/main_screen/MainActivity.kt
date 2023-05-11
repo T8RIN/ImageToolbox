@@ -112,7 +112,7 @@ import ru.tech.imageresizershrinker.main_screen.components.MainScreen
 import ru.tech.imageresizershrinker.main_screen.components.PickColorPreference
 import ru.tech.imageresizershrinker.main_screen.components.Screen
 import ru.tech.imageresizershrinker.main_screen.components.SingleResizePreference
-import ru.tech.imageresizershrinker.main_screen.components.alertDialog
+import ru.tech.imageresizershrinker.utils.modifier.alertDialog
 import ru.tech.imageresizershrinker.main_screen.components.isNightMode
 import ru.tech.imageresizershrinker.main_screen.components.toAlignment
 import ru.tech.imageresizershrinker.main_screen.viewModel.MainViewModel

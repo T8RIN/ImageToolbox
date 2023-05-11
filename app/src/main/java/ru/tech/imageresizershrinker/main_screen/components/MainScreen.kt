@@ -170,6 +170,12 @@ import ru.tech.imageresizershrinker.utils.LocalWindowSizeClass
 import ru.tech.imageresizershrinker.utils.WEBLATE_LINK
 import ru.tech.imageresizershrinker.utils.constructFilename
 import ru.tech.imageresizershrinker.utils.defaultPrefix
+import ru.tech.imageresizershrinker.utils.modifier.alertDialog
+import ru.tech.imageresizershrinker.utils.modifier.block
+import ru.tech.imageresizershrinker.utils.modifier.drawHorizontalStroke
+import ru.tech.imageresizershrinker.utils.modifier.fabBorder
+import ru.tech.imageresizershrinker.utils.modifier.pulsate
+import ru.tech.imageresizershrinker.utils.modifier.thenUse
 import ru.tech.imageresizershrinker.utils.toUiPath
 import ru.tech.imageresizershrinker.widget.LocalToastHost
 import ru.tech.imageresizershrinker.widget.Marquee
@@ -234,7 +240,7 @@ fun MainScreen(
         ModalDrawerSheet(
             modifier = Modifier
                 .width(widthState)
-                .then(
+                .thenUse {
                     if (isSheetSlideable) {
                         Modifier
                             .offset(-((LocalBorderWidth.current + 1.dp)))
@@ -255,7 +261,7 @@ fun MainScreen(
                         state = state,
                         enabled = false
                     )
-                ),
+                },
             windowInsets = WindowInsets(0)
         ) {
             CompositionLocalProvider(LocalLayoutDirection provides layoutDirection) {

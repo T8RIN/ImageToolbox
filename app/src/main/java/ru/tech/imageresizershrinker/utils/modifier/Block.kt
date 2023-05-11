@@ -1,4 +1,4 @@
-package ru.tech.imageresizershrinker.main_screen.components
+package ru.tech.imageresizershrinker.utils.modifier
 
 import android.content.res.Configuration
 import androidx.compose.animation.core.animateDpAsState
@@ -32,6 +32,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.isUnspecified
 import androidx.compose.ui.zIndex
+import ru.tech.imageresizershrinker.main_screen.components.LocalBorderWidth
 import ru.tech.imageresizershrinker.theme.outlineVariant
 import ru.tech.imageresizershrinker.theme.suggestContainerColorBy
 

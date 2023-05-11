@@ -43,6 +43,7 @@ import androidx.core.os.LocaleListCompat
 import org.xmlpull.v1.XmlPullParser
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.theme.outlineVariant
+import ru.tech.imageresizershrinker.utils.modifier.alertDialog
 import java.util.Locale
 
 @Composable

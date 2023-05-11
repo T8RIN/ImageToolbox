@@ -6,7 +6,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.R
-import ru.tech.imageresizershrinker.main_screen.components.block
+import ru.tech.imageresizershrinker.utils.modifier.block
 import ru.tech.imageresizershrinker.widget.ToggleGroupButton
 
 

@@ -1,4 +1,4 @@
-package ru.tech.imageresizershrinker.main_screen.components
+package ru.tech.imageresizershrinker.utils.modifier
 
 import androidx.compose.animation.core.RepeatMode
 import androidx.compose.animation.core.animateFloat

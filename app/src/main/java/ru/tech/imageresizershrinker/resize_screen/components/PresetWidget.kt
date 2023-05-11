@@ -18,7 +18,6 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.icons.Icons
-import androidx.compose.material3.FilledTonalIconButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.MaterialTheme
@@ -41,7 +40,7 @@ import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.main_screen.components.LocalBorderWidth
 import ru.tech.imageresizershrinker.main_screen.components.LocalEditPresets
 import ru.tech.imageresizershrinker.main_screen.components.LocalPresetsProvider
-import ru.tech.imageresizershrinker.main_screen.components.block
+import ru.tech.imageresizershrinker.utils.modifier.block
 import ru.tech.imageresizershrinker.theme.CreateAlt
 import ru.tech.imageresizershrinker.theme.mixedColor
 import ru.tech.imageresizershrinker.theme.onMixedColor

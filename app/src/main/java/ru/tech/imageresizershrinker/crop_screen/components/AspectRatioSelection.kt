@@ -29,7 +29,7 @@ import com.smarttoolfactory.cropper.model.CropAspectRatio
 import com.smarttoolfactory.cropper.util.createRectShape
 import com.smarttoolfactory.cropper.widget.AspectRatioSelectionCard
 import ru.tech.imageresizershrinker.R
-import ru.tech.imageresizershrinker.main_screen.components.block
+import ru.tech.imageresizershrinker.utils.modifier.block
 
 @Composable
 fun AspectRatioSelection(

@@ -80,10 +80,10 @@ import ru.tech.imageresizershrinker.compare_screen.viewModel.CompareViewModel
 import ru.tech.imageresizershrinker.main_screen.components.LocalAlignment
 import ru.tech.imageresizershrinker.main_screen.components.LocalAllowChangeColorByImage
 import ru.tech.imageresizershrinker.main_screen.components.LocalBorderWidth
-import ru.tech.imageresizershrinker.main_screen.components.block
-import ru.tech.imageresizershrinker.main_screen.components.drawHorizontalStroke
-import ru.tech.imageresizershrinker.main_screen.components.fabBorder
-import ru.tech.imageresizershrinker.main_screen.components.navBarsPaddingOnlyIfTheyAtTheBottom
+import ru.tech.imageresizershrinker.utils.modifier.block
+import ru.tech.imageresizershrinker.utils.modifier.drawHorizontalStroke
+import ru.tech.imageresizershrinker.utils.modifier.fabBorder
+import ru.tech.imageresizershrinker.utils.modifier.navBarsPaddingOnlyIfTheyAtTheBottom
 import ru.tech.imageresizershrinker.resize_screen.components.ImageNotPickedWidget
 import ru.tech.imageresizershrinker.resize_screen.components.LoadingDialog
 import ru.tech.imageresizershrinker.theme.blend
