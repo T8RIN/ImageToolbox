@@ -80,16 +80,16 @@ import ru.tech.imageresizershrinker.compare_screen.viewModel.CompareViewModel
 import ru.tech.imageresizershrinker.main_screen.components.LocalAlignment
 import ru.tech.imageresizershrinker.main_screen.components.LocalAllowChangeColorByImage
 import ru.tech.imageresizershrinker.main_screen.components.LocalBorderWidth
-import ru.tech.imageresizershrinker.utils.modifier.block
-import ru.tech.imageresizershrinker.utils.modifier.drawHorizontalStroke
-import ru.tech.imageresizershrinker.utils.modifier.fabBorder
-import ru.tech.imageresizershrinker.utils.modifier.navBarsPaddingOnlyIfTheyAtTheBottom
 import ru.tech.imageresizershrinker.resize_screen.components.ImageNotPickedWidget
 import ru.tech.imageresizershrinker.resize_screen.components.LoadingDialog
 import ru.tech.imageresizershrinker.theme.blend
 import ru.tech.imageresizershrinker.theme.outlineVariant
 import ru.tech.imageresizershrinker.utils.BitmapUtils.getBitmapByUri
 import ru.tech.imageresizershrinker.utils.LocalWindowSizeClass
+import ru.tech.imageresizershrinker.utils.modifier.block
+import ru.tech.imageresizershrinker.utils.modifier.drawHorizontalStroke
+import ru.tech.imageresizershrinker.utils.modifier.fabBorder
+import ru.tech.imageresizershrinker.utils.modifier.navBarsPaddingOnlyIfTheyAtTheBottom
 import ru.tech.imageresizershrinker.widget.LocalToastHost
 import ru.tech.imageresizershrinker.widget.Marquee
 
@@ -261,35 +261,37 @@ fun CompareScreen(
                     modifier = Modifier.drawHorizontalStroke()
                 )
             }
-            AnimatedContent(targetState = viewModel.bitmapData) { data ->
-                data?.let { (b, a) ->
-                    val before = remember(data) { b?.asImageBitmap() }
-                    val after = remember(data) { a?.asImageBitmap() }
 
+            AnimatedContent(viewModel.bitmapData == null) { nil ->
+                viewModel.bitmapData.takeIf { !nil }?.let {
                     if (portrait) {
-                        if (before != null && after != null) {
-                            BeforeAfterImage(
-                                modifier = Modifier
-                                    .then(
-                                        if (viewModel.bitmapData == null) Modifier.padding(bottom = 72.dp)
-                                        else Modifier.padding(bottom = 88.dp)
+                        AnimatedContent(targetState = it) { data ->
+                            data.let { (b, a) ->
+                                val before = remember(data) { b?.asImageBitmap() }
+                                val after = remember(data) { a?.asImageBitmap() }
+                                if (before != null && after != null) {
+                                    BeforeAfterImage(
+                                        modifier = Modifier
+                                            .padding(bottom = 88.dp)
+                                            .padding(16.dp)
+                                            .navigationBarsPadding()
+                                            .block(RoundedCornerShape(4.dp))
+                                            .padding(4.dp)
+                                            .clip(RoundedCornerShape(4.dp)),
+                                        progress = animateFloatAsState(targetValue = progress).value,
+                                        onProgressChange = {
+                                            progress = it
+                                        },
+                                        beforeImage = before,
+                                        afterImage = after,
+                                        beforeLabel = { },
+                                        afterLabel = { }
                                     )
-                                    .padding(16.dp)
-                                    .navigationBarsPadding()
-                                    .block(RoundedCornerShape(4.dp))
-                                    .padding(4.dp)
-                                    .clip(RoundedCornerShape(4.dp)),
-                                progress = animateFloatAsState(targetValue = progress).value,
-                                onProgressChange = {
-                                    progress = it
-                                },
-                                beforeImage = before,
-                                afterImage = after,
-                                beforeLabel = { },
-                                afterLabel = { }
-                            )
+                                }
+                            }
                         }
-                    } else {
+                    }
+                    else {
                         Row {
                             Box(
                                 Modifier
@@ -297,22 +299,29 @@ fun CompareScreen(
                                     .padding(20.dp)
                             ) {
                                 Box(Modifier.align(Alignment.Center)) {
-                                    if (before != null && after != null) {
-                                        BeforeAfterImage(
-                                            modifier = Modifier
-                                                .navBarsPaddingOnlyIfTheyAtTheBottom()
-                                                .block(RoundedCornerShape(4.dp))
-                                                .padding(4.dp)
-                                                .clip(RoundedCornerShape(4.dp)),
-                                            progress = animateFloatAsState(targetValue = progress).value,
-                                            onProgressChange = {
-                                                progress = it
-                                            },
-                                            beforeImage = before,
-                                            afterImage = after,
-                                            beforeLabel = { },
-                                            afterLabel = { }
-                                        )
+                                    AnimatedContent(targetState = it) { data ->
+                                        data.let { (b, a) ->
+                                            val before = remember(data) { b?.asImageBitmap() }
+                                            val after = remember(data) { a?.asImageBitmap() }
+
+                                            if (before != null && after != null) {
+                                                BeforeAfterImage(
+                                                    modifier = Modifier
+                                                        .navBarsPaddingOnlyIfTheyAtTheBottom()
+                                                        .block(RoundedCornerShape(4.dp))
+                                                        .padding(4.dp)
+                                                        .clip(RoundedCornerShape(4.dp)),
+                                                    progress = animateFloatAsState(targetValue = progress).value,
+                                                    onProgressChange = {
+                                                        progress = it
+                                                    },
+                                                    beforeImage = before,
+                                                    afterImage = after,
+                                                    beforeLabel = { },
+                                                    afterLabel = { }
+                                                )
+                                            }
+                                        }
                                     }
                                 }
                             }
@@ -383,6 +392,8 @@ fun CompareScreen(
                                     Icon(Icons.Rounded.AddPhotoAlternate, null)
                                 }
                             }
+
+
                         }
                     }
                 } ?: Column(Modifier.verticalScroll(scrollState)) {

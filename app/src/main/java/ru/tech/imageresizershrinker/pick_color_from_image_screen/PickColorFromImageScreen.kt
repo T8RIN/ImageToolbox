@@ -10,7 +10,6 @@ import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.AnimatedContent
-import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.fadeIn
@@ -91,12 +90,8 @@ import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.main_screen.components.LocalAlignment
 import ru.tech.imageresizershrinker.main_screen.components.LocalAllowChangeColorByImage
+import ru.tech.imageresizershrinker.main_screen.components.LocalBorderWidth
 import ru.tech.imageresizershrinker.main_screen.components.Screen
-import ru.tech.imageresizershrinker.utils.modifier.block
-import ru.tech.imageresizershrinker.utils.modifier.drawHorizontalStroke
-import ru.tech.imageresizershrinker.utils.modifier.fabBorder
-import ru.tech.imageresizershrinker.utils.modifier.navBarsPaddingOnlyIfTheyAtTheBottom
-import ru.tech.imageresizershrinker.utils.modifier.navBarsPaddingOnlyIfTheyAtTheEnd
 import ru.tech.imageresizershrinker.pick_color_from_image_screen.viewModel.PickColorViewModel
 import ru.tech.imageresizershrinker.resize_screen.components.ImageNotPickedWidget
 import ru.tech.imageresizershrinker.resize_screen.components.LoadingDialog
@@ -104,10 +99,15 @@ import ru.tech.imageresizershrinker.theme.PaletteSwatch
 import ru.tech.imageresizershrinker.theme.outlineVariant
 import ru.tech.imageresizershrinker.utils.BitmapUtils.decodeBitmapFromUri
 import ru.tech.imageresizershrinker.utils.LocalWindowSizeClass
+import ru.tech.imageresizershrinker.utils.modifier.block
+import ru.tech.imageresizershrinker.utils.modifier.drawHorizontalStroke
+import ru.tech.imageresizershrinker.utils.modifier.fabBorder
+import ru.tech.imageresizershrinker.utils.modifier.navBarsPaddingOnlyIfTheyAtTheBottom
+import ru.tech.imageresizershrinker.utils.modifier.navBarsPaddingOnlyIfTheyAtTheEnd
 import ru.tech.imageresizershrinker.widget.LocalToastHost
 import ru.tech.imageresizershrinker.widget.Marquee
 
-@OptIn(ExperimentalAnimationApi::class, ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun PickColorFromImageScreen(
     uriState: Uri?,
@@ -309,6 +309,11 @@ fun PickColorFromImageScreen(
                                                             }
                                                         }
                                                         .background(MaterialTheme.colorScheme.secondaryContainer)
+                                                        .border(
+                                                            LocalBorderWidth.current,
+                                                            MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.secondaryContainer),
+                                                            RoundedCornerShape(8.dp)
+                                                        )
                                                         .padding(horizontal = 4.dp),
                                                     text = color.format(),
                                                     style = LocalTextStyle.current.copy(
@@ -472,26 +477,30 @@ fun PickColorFromImageScreen(
                     }
                 }
             }
-            AnimatedContent(
-                targetState = viewModel.bitmap,
+            Box(
                 modifier = Modifier.weight(1f)
-            ) { bitmap ->
-                bitmap?.let {
+            ) {
+                viewModel.bitmap?.let {
                     if (portrait) {
-                        ImageColorDetector(
-                            canZoom = canZoom,
-                            imageBitmap = it.asImageBitmap(),
-                            color = viewModel.color,
-                            modifier = Modifier
-                                .fillMaxSize()
-                                .padding(16.dp)
-                                .navBarsPaddingOnlyIfTheyAtTheEnd()
-                                .block(RoundedCornerShape(4.dp))
-                                .padding(4.dp)
-                                .clip(RoundedCornerShape(4.dp)),
-                            onColorChange = viewModel::updateColor
-                        )
-                    } else {
+                        AnimatedContent(
+                            targetState = it
+                        ) { bitmap ->
+                            ImageColorDetector(
+                                canZoom = canZoom,
+                                imageBitmap = bitmap.asImageBitmap(),
+                                color = viewModel.color,
+                                modifier = Modifier
+                                    .fillMaxSize()
+                                    .padding(16.dp)
+                                    .navBarsPaddingOnlyIfTheyAtTheEnd()
+                                    .block(RoundedCornerShape(4.dp))
+                                    .padding(4.dp)
+                                    .clip(RoundedCornerShape(4.dp)),
+                                onColorChange = viewModel::updateColor
+                            )
+                        }
+                    }
+                    else {
                         Row(Modifier.navBarsPaddingOnlyIfTheyAtTheEnd()) {
                             Box(
                                 Modifier
@@ -499,17 +508,21 @@ fun PickColorFromImageScreen(
                                     .padding(20.dp)
                             ) {
                                 Box(Modifier.align(Alignment.Center)) {
-                                    ImageColorDetector(
-                                        canZoom = canZoom,
-                                        imageBitmap = it.asImageBitmap(),
-                                        color = viewModel.color,
-                                        modifier = Modifier
-                                            .navBarsPaddingOnlyIfTheyAtTheBottom()
-                                            .block(RoundedCornerShape(4.dp))
-                                            .padding(4.dp)
-                                            .clip(RoundedCornerShape(4.dp)),
-                                        onColorChange = viewModel::updateColor
-                                    )
+                                    AnimatedContent(
+                                        targetState = it
+                                    ) { bitmap ->
+                                        ImageColorDetector(
+                                            canZoom = canZoom,
+                                            imageBitmap = bitmap.asImageBitmap(),
+                                            color = viewModel.color,
+                                            modifier = Modifier
+                                                .navBarsPaddingOnlyIfTheyAtTheBottom()
+                                                .block(RoundedCornerShape(4.dp))
+                                                .padding(4.dp)
+                                                .clip(RoundedCornerShape(4.dp)),
+                                            onColorChange = viewModel::updateColor
+                                        )
+                                    }
                                 }
                             }
                             Box(
