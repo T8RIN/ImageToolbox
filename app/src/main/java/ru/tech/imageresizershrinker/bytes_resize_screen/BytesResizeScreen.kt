@@ -154,7 +154,7 @@ import ru.tech.imageresizershrinker.widget.LocalToastHost
 import ru.tech.imageresizershrinker.widget.Marquee
 import ru.tech.imageresizershrinker.widget.RoundedTextField
 
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalAnimationApi::class)
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun BytesResizeScreen(
     uriState: List<Uri>?,
@@ -563,7 +563,7 @@ fun BytesResizeScreen(
                                     }
                                 )
                             },
-                            enabled = viewModel.previewBitmap != null
+                            enabled = viewModel.previewBitmap != null && viewModel.canSave
                         ) {
                             Icon(Icons.Outlined.Share, null)
                         }
