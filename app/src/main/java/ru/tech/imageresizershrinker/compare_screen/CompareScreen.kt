@@ -10,6 +10,7 @@ import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -18,9 +19,11 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBarsPadding
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
@@ -40,6 +43,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.LargeTopAppBar
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Slider
+import androidx.compose.material3.SliderDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
@@ -75,6 +79,7 @@ import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.compare_screen.viewModel.CompareViewModel
 import ru.tech.imageresizershrinker.main_screen.components.LocalAlignment
 import ru.tech.imageresizershrinker.main_screen.components.LocalAllowChangeColorByImage
+import ru.tech.imageresizershrinker.main_screen.components.LocalBorderWidth
 import ru.tech.imageresizershrinker.main_screen.components.block
 import ru.tech.imageresizershrinker.main_screen.components.drawHorizontalStroke
 import ru.tech.imageresizershrinker.main_screen.components.fabBorder
@@ -82,6 +87,7 @@ import ru.tech.imageresizershrinker.main_screen.components.navBarsPaddingOnlyIfT
 import ru.tech.imageresizershrinker.resize_screen.components.ImageNotPickedWidget
 import ru.tech.imageresizershrinker.resize_screen.components.LoadingDialog
 import ru.tech.imageresizershrinker.theme.blend
+import ru.tech.imageresizershrinker.theme.outlineVariant
 import ru.tech.imageresizershrinker.utils.BitmapUtils.getBitmapByUri
 import ru.tech.imageresizershrinker.utils.LocalWindowSizeClass
 import ru.tech.imageresizershrinker.widget.LocalToastHost
@@ -345,12 +351,27 @@ fun CompareScreen(
                                     }
                                     .width((LocalConfiguration.current.screenHeightDp / 2f).dp)
                                     .height(50.dp)
+                                    .background(
+                                        MaterialTheme.colorScheme.secondaryContainer,
+                                        CircleShape
+                                    )
+                                    .border(
+                                        LocalBorderWidth.current,
+                                        MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.secondaryContainer),
+                                        CircleShape
+                                    )
+                                    .padding(horizontal = 16.dp)
+
                                 Slider(
                                     modifier = modifier,
                                     value = animateFloatAsState(targetValue = progress).value,
                                     onValueChange = {
                                         progress = it
                                     },
+                                    colors = SliderDefaults.colors(
+                                        inactiveTrackColor =
+                                        MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.secondaryContainer)
+                                    ),
                                     valueRange = 0f..100f
                                 )
 
@@ -410,7 +431,22 @@ fun CompareScreen(
                     Slider(
                         modifier = Modifier
                             .padding(horizontal = 16.dp)
-                            .weight(100f, true),
+                            .weight(100f, true)
+                            .offset(y = (-2).dp)
+                            .background(
+                                MaterialTheme.colorScheme.secondaryContainer,
+                                CircleShape
+                            )
+                            .border(
+                                LocalBorderWidth.current,
+                                MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.secondaryContainer),
+                                CircleShape
+                            )
+                            .padding(horizontal = 16.dp),
+                        colors = SliderDefaults.colors(
+                            inactiveTrackColor =
+                            MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.secondaryContainer)
+                        ),
                         value = animateFloatAsState(targetValue = progress).value,
                         onValueChange = {
                             progress = it
