@@ -86,24 +86,24 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.6.1")
 
     //Navigation
-    implementation("dev.olshevski.navigation:reimagined:1.4.0")
-    implementation("dev.olshevski.navigation:reimagined-hilt:1.4.0")
+    implementation("dev.olshevski.navigation:reimagined:1.5.0-alpha01")
+    implementation("dev.olshevski.navigation:reimagined-hilt:1.5.0-alpha01")
 
     //Konfetti
     implementation("nl.dionsegijn:konfetti-compose:2.0.2")
 
     //Compose
-    implementation("androidx.compose.material3:material3:1.1.0")
-    implementation("androidx.compose.material3:material3-window-size-class:1.1.0")
-    implementation("androidx.compose.material:material-icons-extended:1.4.3")
-    implementation("androidx.compose.material:material:1.4.3")
+    implementation("androidx.compose.material3:material3:1.2.0-alpha01")
+    implementation("androidx.compose.material3:material3-window-size-class:1.2.0-alpha01")
+    implementation("androidx.compose.material:material-icons-extended:1.5.0-alpha04")
+    implementation("androidx.compose.material:material:1.5.0-alpha04")
 
     //Di
     implementation("com.google.dagger:hilt-android:2.46")
     kapt("com.google.dagger:hilt-compiler:2.46")
 
     //Accompanist
-    implementation("com.google.accompanist:accompanist-placeholder-material:0.30.1")
+    implementation("com.google.accompanist:accompanist-placeholder-material:0.31.1-alpha")
 
     //Coil
     implementation("io.coil-kt:coil:2.3.0")

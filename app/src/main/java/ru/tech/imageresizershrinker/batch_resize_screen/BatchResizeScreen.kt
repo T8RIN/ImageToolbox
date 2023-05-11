@@ -13,7 +13,7 @@ import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
-import androidx.compose.animation.with
+import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.LocalIndication
@@ -286,7 +286,7 @@ fun BatchResizeScreen(
                 )
             },
             targetState = Triple(viewModel.previewBitmap, viewModel.isLoading, showOriginal),
-            transitionSpec = { fadeIn() with fadeOut() }
+            transitionSpec = { fadeIn() togetherWith fadeOut() }
         ) { (bmp, loading, showOrig) ->
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
                 viewModel.uris?.size?.takeIf { it > 1 && !viewModel.isLoading }?.let {
@@ -568,7 +568,7 @@ fun BatchResizeScreen(
                         ) {
                             AnimatedContent(
                                 targetState = viewModel.bitmap to viewModel.isLoading,
-                                transitionSpec = { fadeIn() with fadeOut() }
+                                transitionSpec = { fadeIn() togetherWith fadeOut() }
                             ) { (bmp, loading) ->
 
                                 if (bmp == null) {
@@ -781,7 +781,11 @@ fun BatchResizeScreen(
                                         onHeightChange = viewModel::updateHeight,
                                         onWidthChange = viewModel::updateWidth
                                     )
-                                    if (bitmapInfo.mimeTypeInt.extension != "png") Spacer(Modifier.height(8.dp))
+                                    if (bitmapInfo.mimeTypeInt.extension != "png") Spacer(
+                                        Modifier.height(
+                                            8.dp
+                                        )
+                                    )
                                     QualityWidget(
                                         visible = bitmapInfo.mimeTypeInt.extension != "png",
                                         enabled = viewModel.bitmap != null,

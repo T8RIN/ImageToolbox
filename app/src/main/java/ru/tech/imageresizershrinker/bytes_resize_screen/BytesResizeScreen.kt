@@ -15,7 +15,7 @@ import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
-import androidx.compose.animation.with
+import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -290,7 +290,7 @@ fun BytesResizeScreen(
                 )
             },
             targetState = Triple(viewModel.isLoading, viewModel.bitmap, viewModel.previewBitmap),
-            transitionSpec = { fadeIn() with fadeOut() }
+            transitionSpec = { fadeIn() togetherWith fadeOut() }
         ) { (loading, _, _) ->
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
                 viewModel.uris?.size?.takeIf { it > 1 && !loading }?.let {
@@ -497,7 +497,7 @@ fun BytesResizeScreen(
                         ) {
                             AnimatedContent(
                                 targetState = viewModel.isLoading to viewModel.bitmap,
-                                transitionSpec = { fadeIn() with fadeOut() }
+                                transitionSpec = { fadeIn() togetherWith fadeOut() }
                             ) { (loading, bmp) ->
                                 val size = viewModel.selectedUri?.fileSize(LocalContext.current)
                                 if (bmp == null) {
@@ -622,9 +622,9 @@ fun BytesResizeScreen(
                                         targetState = viewModel.handMode,
                                         transitionSpec = {
                                             if (!targetState) {
-                                                slideInVertically { it } + fadeIn() with slideOutVertically { -it } + fadeOut()
+                                                slideInVertically { it } + fadeIn() togetherWith slideOutVertically { -it } + fadeOut()
                                             } else {
-                                                slideInVertically { -it } + fadeIn() with slideOutVertically { it } + fadeOut()
+                                                slideInVertically { -it } + fadeIn() togetherWith slideOutVertically { it } + fadeOut()
                                             }
                                         }
                                     ) { handMode ->

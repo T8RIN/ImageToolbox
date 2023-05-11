@@ -309,7 +309,7 @@ fun AvailableColorTuplesDialog(
                         .zIndex(100f)
                 )
                 FlowRow(
-                    verticalAlignment = Alignment.CenterVertically,
+                    verticalArrangement = Arrangement.Center,
                     modifier = Modifier
                         .verticalScroll(rememberScrollState())
                         .padding(vertical = 8.dp, horizontal = 2.dp)

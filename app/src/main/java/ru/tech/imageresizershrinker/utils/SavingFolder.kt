@@ -53,7 +53,8 @@ fun Uri?.toUiPath(context: Context, default: String): String = this?.let { uri -
 
 fun defaultPrefix() = "ResizedImage"
 
-fun defaultFilename(extension: String): String = constructFilename(prefix = defaultPrefix(), extension = extension)
+fun defaultFilename(extension: String): String =
+    constructFilename(prefix = defaultPrefix(), extension = extension)
 
 fun constructFilename(prefix: String, extension: String): String {
     if (prefix.isEmpty()) return defaultFilename(extension)

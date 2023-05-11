@@ -233,7 +233,7 @@ fun PreferenceItem(
                     )
                     AnimatedContent(
                         targetState = subtitle,
-                        transitionSpec = { fadeIn() with fadeOut() }
+                        transitionSpec = { fadeIn() togetherWith fadeOut() }
                     ) { sub ->
                         sub?.let {
                             Column {
@@ -251,7 +251,7 @@ fun PreferenceItem(
                 }
                 AnimatedContent(
                     targetState = endIcon,
-                    transitionSpec = { fadeIn() + scaleIn() with fadeOut() + scaleOut() }
+                    transitionSpec = { fadeIn() + scaleIn() togetherWith fadeOut() + scaleOut() }
                 ) { icon ->
                     icon?.let {
                         Icon(imageVector = it, contentDescription = null)

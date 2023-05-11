@@ -222,7 +222,11 @@ class BytesResizeViewModel : ViewModel() {
 
                                 val fos = savingFolder.outputStream
 
-                                localBitmap.compress(mime.extension.compressFormat, scaled.second, fos)
+                                localBitmap.compress(
+                                    mime.extension.compressFormat,
+                                    scaled.second,
+                                    fos
+                                )
 
                                 fos!!.flush()
                                 fos.close()

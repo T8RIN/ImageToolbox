@@ -14,7 +14,7 @@ import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.slideInHorizontally
 import androidx.compose.animation.slideOutHorizontally
-import androidx.compose.animation.with
+import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Arrangement
@@ -210,7 +210,7 @@ class MainActivity : M3Activity() {
                             controller = viewModel.navController,
                             transitionSpec = { _, _, to ->
                                 fun <T> animationSpec(
-                                    duration: Int = 800,
+                                    duration: Int = 600,
                                     delay: Int = 0
                                 ) = tween<T>(
                                     durationMillis = duration,
@@ -222,17 +222,17 @@ class MainActivity : M3Activity() {
                                         animationSpec()
                                     ) { it / 3 } + fadeIn(
                                         animationSpec(),
-                                    ) with slideOutHorizontally(
+                                    ) togetherWith slideOutHorizontally(
                                         animationSpec()
                                     ) { -it / 3 } + fadeOut(
-                                        animationSpec(400)
+                                        animationSpec(300)
                                     )
                                 } else {
                                     slideInHorizontally(
                                         animationSpec()
                                     ) { -it / 3 } + fadeIn(
-                                        animationSpec(900)
-                                    ) with slideOutHorizontally(
+                                        animationSpec(700)
+                                    ) togetherWith slideOutHorizontally(
                                         animationSpec()
                                     ) { it / 3 } + fadeOut(
                                         animationSpec(150)
@@ -611,7 +611,7 @@ class MainActivity : M3Activity() {
                                     Divider(Modifier.align(Alignment.TopCenter))
                                     AnimatedContent(
                                         targetState = data,
-                                        transitionSpec = { fadeIn() with fadeOut() },
+                                        transitionSpec = { fadeIn() togetherWith fadeOut() },
                                         modifier = Modifier.verticalScroll(rememberScrollState())
                                     ) { list ->
                                         FlowRow(

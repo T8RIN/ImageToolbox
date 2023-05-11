@@ -14,7 +14,7 @@ import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
-import androidx.compose.animation.with
+import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
@@ -671,7 +671,7 @@ fun MainScreen(
                                         AnimatedContent(
                                             targetState = sliderValue,
                                             transitionSpec = {
-                                                fadeIn() with fadeOut()
+                                                fadeIn() togetherWith fadeOut()
                                             }
                                         ) { value ->
                                             Text(
@@ -752,7 +752,7 @@ fun MainScreen(
                                             AnimatedContent(
                                                 targetState = sliderValue,
                                                 transitionSpec = {
-                                                    fadeIn() with fadeOut()
+                                                    fadeIn() togetherWith fadeOut()
                                                 }
                                             ) { value ->
                                                 Text(

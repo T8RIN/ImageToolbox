@@ -221,7 +221,7 @@ object ToastDefaults {
             transformOrigin = TransformOrigin(0.5f, 1f)
         ) + slideInVertically(
             tween(500)
-        ) { it / 2 } with fadeOut(tween(250)) + slideOutVertically(tween(500)) { it / 2 } + scaleOut(
+        ) { it / 2 } togetherWith fadeOut(tween(250)) + slideOutVertically(tween(500)) { it / 2 } + scaleOut(
             tween(750),
             transformOrigin = TransformOrigin(0.5f, 1f)
         )
