@@ -203,7 +203,8 @@ fun MainScreen(
     val scope = rememberCoroutineScope()
     val toastHost = LocalToastHost.current
 
-    val compactHeight = LocalWindowSizeClass.current.heightSizeClass == WindowHeightSizeClass.Compact
+    val compactHeight =
+        LocalWindowSizeClass.current.heightSizeClass == WindowHeightSizeClass.Compact
     val isSheetSlideable = !isGrid
     val layoutDirection = LocalLayoutDirection.current
     val lazyListState = rememberLazyListState()
@@ -284,7 +285,7 @@ fun MainScreen(
                                 Icon(Icons.Rounded.Close, null)
                             }
                         }
-                        if(!isSheetSlideable && compactHeight) {
+                        if (!isSheetSlideable && compactHeight) {
                             OutlinedIconButton(
                                 onClick = {
                                     if (viewModel.updateAvailable) {
@@ -1061,8 +1062,12 @@ fun MainScreen(
                         ),
                         contentPadding = PaddingValues(
                             bottom = 12.dp + if (isGrid) {
-                                WindowInsets.navigationBars.asPaddingValues()
-                                    .calculateBottomPadding() + 128.dp
+                                WindowInsets
+                                    .navigationBars
+                                    .asPaddingValues()
+                                    .calculateBottomPadding() + if (!compactHeight) {
+                                        128.dp
+                                    } else 0.dp
                             } else 0.dp,
                             top = 12.dp,
                             end = 12.dp + cutout.calculateEndPadding(LocalLayoutDirection.current),
@@ -1239,7 +1244,7 @@ fun MainScreen(
                         )
                     }
                 }
-                if(!isSheetSlideable && !compactHeight) {
+                if (!isSheetSlideable && !compactHeight) {
                     LargeFloatingActionButton(
                         onClick = {
                             if (viewModel.updateAvailable) {
@@ -1298,7 +1303,8 @@ fun MainScreen(
                                 Icon(
                                     imageVector = Icons.Rounded.GooglePlay,
                                     contentDescription = null,
-                                    modifier = Modifier.size(FloatingActionButtonDefaults.LargeIconSize)
+                                    modifier = Modifier
+                                        .size(FloatingActionButtonDefaults.LargeIconSize)
                                         .offset(1.5.dp)
                                 )
                             } else {
