@@ -46,7 +46,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
-import androidx.compose.foundation.lazy.staggeredgrid.rememberLazyStaggeredGridState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.ExperimentalMaterialApi
@@ -963,7 +962,6 @@ fun MainScreen(
         }
     }
     val content = @Composable {
-        val gridState = rememberLazyStaggeredGridState()
         CompositionLocalProvider(LocalLayoutDirection provides layoutDirection) {
             Box {
                 Column(
@@ -1049,15 +1047,12 @@ fun MainScreen(
                             }
                         },
                         modifier = Modifier.drawHorizontalStroke(),
-                        scrollBehavior = if (gridState.canScrollForward || gridState.canScrollBackward) {
-                            scrollBehavior
-                        } else null
+                        scrollBehavior = scrollBehavior
                     )
 
 
                     val cutout = WindowInsets.displayCutout.asPaddingValues()
                     LazyVerticalStaggeredGrid(
-                        state = gridState,
                         modifier = Modifier
                             .weight(1f)
                             .fillMaxWidth(),
