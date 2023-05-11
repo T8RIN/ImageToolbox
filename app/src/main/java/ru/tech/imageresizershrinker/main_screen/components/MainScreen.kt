@@ -8,7 +8,6 @@ import androidx.activity.compose.BackHandler
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.AnimatedContent
-import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.animateFloatAsState
@@ -16,7 +15,6 @@ import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.gestures.detectTapGestures
@@ -47,6 +45,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
+import androidx.compose.foundation.lazy.staggeredgrid.rememberLazyStaggeredGridState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.ExperimentalMaterialApi
@@ -176,9 +175,7 @@ import kotlin.math.roundToInt
 
 @OptIn(
     ExperimentalMaterial3Api::class,
-    ExperimentalAnimationApi::class,
-    ExperimentalMaterialApi::class,
-    ExperimentalFoundationApi::class
+    ExperimentalMaterialApi::class
 )
 @Composable
 fun MainScreen(
@@ -473,7 +470,10 @@ fun MainScreen(
                                 onClick = { showChangeFilenameDialog = true },
                                 title = stringResource(R.string.prefix),
                                 subtitle = remember {
-                                    constructFilename(viewModel.filenamePrefix, "img").split("_")[0] + ".img"
+                                    constructFilename(
+                                        viewModel.filenamePrefix,
+                                        "img"
+                                    ).split("_")[0] + ".img"
                                 },
                                 color = MaterialTheme
                                     .colorScheme
@@ -949,6 +949,8 @@ fun MainScreen(
         }
     }
     val content = @Composable {
+        val gridState = rememberLazyStaggeredGridState()
+
         CompositionLocalProvider(LocalLayoutDirection provides layoutDirection) {
             Column(
                 Modifier
@@ -1033,12 +1035,15 @@ fun MainScreen(
                         }
                     },
                     modifier = Modifier.drawHorizontalStroke(),
-                    scrollBehavior = scrollBehavior,
+                    scrollBehavior = if(gridState.canScrollForward || gridState.canScrollBackward) {
+                        scrollBehavior
+                    } else null
                 )
 
 
                 val cutout = WindowInsets.displayCutout.asPaddingValues()
                 LazyVerticalStaggeredGrid(
+                    state = gridState,
                     modifier = Modifier
                         .weight(1f)
                         .fillMaxWidth(),
