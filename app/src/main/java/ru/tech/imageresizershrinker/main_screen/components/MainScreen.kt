@@ -964,7 +964,6 @@ fun MainScreen(
     }
     val content = @Composable {
         val gridState = rememberLazyStaggeredGridState()
-
         CompositionLocalProvider(LocalLayoutDirection provides layoutDirection) {
             Box {
                 Column(
