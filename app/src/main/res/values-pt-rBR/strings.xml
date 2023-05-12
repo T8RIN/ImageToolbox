@@ -131,4 +131,9 @@
     <string name="share">Compartilhar</string>
     <string name="external_storage">Armazenamento externo</string>
     <string name="monet_colors">Cores de Monet</string>
+    <string-array name="fab_alignment_sub">
+        <item>Começar</item>
+        <item>Centro</item>
+        <item>Fim</item>
+    </string-array>
 </resources>
