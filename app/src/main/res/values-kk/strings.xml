@@ -124,4 +124,11 @@
     <string name="permission_sub">Қолданба кескіндерді сақтау үшін жадқа кіруі керек, бұл қажет, онсыз ол жұмыс істей алмайды, сондықтан келесі диалогтық терезеде рұқсат беріңіз.</string>
     <string name="grant_permission_manual">Қолданба жұмыс істеуі үшін бұл рұқсат қажет, оны қолмен беріңіз</string>
     <string name="buy_me_a_coffee_sub">Бұл қолданба толығымен тегін, бірақ жобаны әзірлеуге қолдау көрсеткіңіз келсе, осы жерді басуға болады</string>
+    <string name="fab_alignment">FAB туралау</string>
+    <string name="check_updates">Жаңартуларды тексеріңіз</string>
+    <string name="check_updates_sub">Қосылған болса, қолданба іске қосылғаннан кейін жаңарту диалогы көрсетіледі</string>
+    <string name="zoom">Кескінді масштабтау</string>
+    <string name="prefix">Префикс</string>
+    <string name="filename">Файл атауы</string>
+    <string name="share">Бөлісу</string>
 </resources>
