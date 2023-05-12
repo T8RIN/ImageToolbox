@@ -389,7 +389,7 @@ fun GeneratePaletteScreen(
             elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
         ) {
             val expanded =
-                scrollState.isScrollingUp(LocalAlignment.current != Alignment.BottomCenter)
+                scrollState.isScrollingUp(LocalAlignment.current != Alignment.BottomCenter || landscape)
             val horizontalPadding by animateDpAsState(targetValue = if (expanded) 16.dp else 0.dp)
             Row(
                 modifier = Modifier.padding(horizontal = horizontalPadding),
