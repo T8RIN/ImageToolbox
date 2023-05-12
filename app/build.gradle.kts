@@ -40,7 +40,8 @@ android {
             "vi",
             "ko",
             "kk",
-            "af"
+            "af",
+            "bn"
         )
     }
 
