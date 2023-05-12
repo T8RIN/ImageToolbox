@@ -311,10 +311,12 @@ fun PickColorFromImageScreen(
                                                         .background(MaterialTheme.colorScheme.secondaryContainer)
                                                         .border(
                                                             LocalBorderWidth.current,
-                                                            MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.secondaryContainer),
+                                                            MaterialTheme.colorScheme.outlineVariant(
+                                                                onTopOf = MaterialTheme.colorScheme.secondaryContainer
+                                                            ),
                                                             RoundedCornerShape(8.dp)
                                                         )
-                                                        .padding(horizontal = 4.dp),
+                                                        .padding(horizontal = 6.dp),
                                                     text = color.format(),
                                                     style = LocalTextStyle.current.copy(
                                                         fontWeight = FontWeight.Bold,
@@ -341,8 +343,10 @@ fun PickColorFromImageScreen(
                                                         .height(40.dp)
                                                         .width(72.dp)
                                                         .border(
-                                                            width = 1.dp,
-                                                            color = MaterialTheme.colorScheme.outlineVariant,
+                                                            width = LocalBorderWidth.current,
+                                                            color = MaterialTheme.colorScheme.outlineVariant(
+                                                                onTopOf = animateColorAsState(color).value
+                                                            ),
                                                             shape = RoundedCornerShape(11.dp)
                                                         )
                                                         .clip(RoundedCornerShape(12.dp))
@@ -424,7 +428,14 @@ fun PickColorFromImageScreen(
                                                         }
                                                     }
                                                     .background(MaterialTheme.colorScheme.secondaryContainer)
-                                                    .padding(horizontal = 4.dp),
+                                                    .border(
+                                                        LocalBorderWidth.current,
+                                                        MaterialTheme.colorScheme.outlineVariant(
+                                                            onTopOf = MaterialTheme.colorScheme.secondaryContainer
+                                                        ),
+                                                        RoundedCornerShape(8.dp)
+                                                    )
+                                                    .padding(horizontal = 6.dp),
                                                 text = color.format(),
                                                 style = LocalTextStyle.current.copy(
                                                     fontWeight = FontWeight.Bold,
@@ -448,8 +459,10 @@ fun PickColorFromImageScreen(
                                                     .height(40.dp)
                                                     .width(72.dp)
                                                     .border(
-                                                        width = 1.dp,
-                                                        color = MaterialTheme.colorScheme.outlineVariant,
+                                                        width = LocalBorderWidth.current,
+                                                        color = MaterialTheme.colorScheme.outlineVariant(
+                                                            onTopOf = animateColorAsState(color).value
+                                                        ),
                                                         shape = RoundedCornerShape(11.dp)
                                                     )
                                                     .clip(RoundedCornerShape(12.dp))
@@ -472,7 +485,10 @@ fun PickColorFromImageScreen(
                                     Spacer(modifier = Modifier.height(8.dp))
                                 }
                             }
-                            Divider(color = MaterialTheme.colorScheme.outlineVariant(0.3f))
+                            Divider(
+                                color = MaterialTheme.colorScheme.outlineVariant(0.3f),
+                                thickness = LocalBorderWidth.current
+                            )
                         }
                     }
                 }
@@ -499,8 +515,7 @@ fun PickColorFromImageScreen(
                                 onColorChange = viewModel::updateColor
                             )
                         }
-                    }
-                    else {
+                    } else {
                         Row(Modifier.navBarsPaddingOnlyIfTheyAtTheEnd()) {
                             Box(
                                 Modifier
@@ -528,7 +543,7 @@ fun PickColorFromImageScreen(
                             Box(
                                 Modifier
                                     .fillMaxHeight()
-                                    .width(1.dp)
+                                    .width(LocalBorderWidth.current.coerceAtLeast(0.25.dp))
                                     .background(MaterialTheme.colorScheme.surfaceVariant)
                             )
                             Column(

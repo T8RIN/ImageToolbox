@@ -435,7 +435,7 @@ fun CropScreen(
                         Box(
                             Modifier
                                 .fillMaxHeight()
-                                .width(1.dp)
+                                .width(LocalBorderWidth.current.coerceAtLeast(0.25.dp))
                                 .background(MaterialTheme.colorScheme.surfaceVariant)
                         )
                         val aspectRatios = aspectRatios()
@@ -453,7 +453,7 @@ fun CropScreen(
                         Box(
                             Modifier
                                 .fillMaxHeight()
-                                .width(1.dp)
+                                .width(LocalBorderWidth.current.coerceAtLeast(0.25.dp))
                                 .background(MaterialTheme.colorScheme.surfaceVariant)
                                 .padding(start = 20.dp)
                         )

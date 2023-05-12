@@ -328,7 +328,7 @@ fun CompareScreen(
                             Box(
                                 Modifier
                                     .fillMaxHeight()
-                                    .width(1.dp)
+                                    .width(LocalBorderWidth.current.coerceAtLeast(0.25.dp))
                                     .background(MaterialTheme.colorScheme.surfaceVariant)
                             )
                             Column(
