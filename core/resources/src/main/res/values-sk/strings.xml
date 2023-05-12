@@ -717,8 +717,7 @@
     <string name="standard">Standardno</string>
     <string name="best">najboljše</string>
     <string name="no_data">Ni podatkov</string>
-    <string name="download_description">Za pravilno delovanje Tesseract OCR je treba v vašo napravo prenesti dodatne podatke o usposabljanju (%1$s).
-\nAli želite prenesti podatke %2$s?</string>
+    <string name="download_description">Za pravilno delovanje Tesseract OCR je treba v vašo napravo prenesti dodatne podatke o usposabljanju (%1$s). \nAli želite prenesti podatke %2$s?</string>
     <string name="download">Prenesi</string>
     <string name="no_connection">Ni povezave, preverite in poskusite znova, da prenesete modele vlakov</string>
     <string name="downloaded_languages">Preneseni jeziki</string>
