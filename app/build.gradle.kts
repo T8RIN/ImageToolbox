@@ -41,7 +41,9 @@ android {
             "ko",
             "kk",
             "af",
-            "bn"
+            "bn",
+            "th",
+            "id"
         )
     }
 
