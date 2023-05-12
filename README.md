@@ -25,6 +25,7 @@
   <a href="https://github.com/t8rin/ImageResizer/stargazers">
       <img src="https://img.shields.io/github/stars/t8rin/imageresizer?color=ffff00&style=for-the-badge"/>
   </a>
+  <img alt="GitHub commits since tagged version (branch)" src="https://img.shields.io/github/commits-since/t8rin/ImageResizer/v1.0?color=palegreen&label=Commits&style=for-the-badge">
   <img alt="GitHub code size in bytes" src="https://img.shields.io/github/languages/code-size/t8rin/imageresizer?style=for-the-badge">
   </br>
   <a href="https://github.com/t8rin/imageresizer/releases/latest">
