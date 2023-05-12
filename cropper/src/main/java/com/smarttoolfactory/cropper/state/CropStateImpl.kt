@@ -74,7 +74,6 @@ abstract class CropState internal constructor(
             containerSize.width.toFloat(),
             containerSize.height.toFloat(),
             drawAreaSize.width.toFloat(),
-            drawAreaSize.height.toFloat(),
             aspectRatio,
             overlayRatio
         ),
@@ -92,10 +91,6 @@ abstract class CropState internal constructor(
             animatableRectOverlay.targetValue
         )
         private set
-
-    fun setCropRect(rect: Rect) {
-        cropRect = rect
-    }
 
 
     private var initialized: Boolean = false
@@ -162,7 +157,6 @@ abstract class CropState internal constructor(
                     containerSize.width.toFloat(),
                     containerSize.height.toFloat(),
                     drawAreaSize.width.toFloat(),
-                    drawAreaSize.height.toFloat(),
                     aspectRatio,
                     overlayRatio
                 )
@@ -402,16 +396,17 @@ abstract class CropState internal constructor(
         containerWidth: Float,
         containerHeight: Float,
         drawAreaWidth: Float,
-        drawAreaHeight: Float,
         aspectRatio: AspectRatio,
         coefficient: Float
     ): Rect {
 
-        if (aspectRatio == AspectRatio.Unspecified) {
+        if (aspectRatio == AspectRatio.Original) {
+            val imageAspectRatio = imageSize.width.toFloat() / imageSize.height.toFloat()
 
             // Maximum width and height overlay rectangle can be measured with
             val overlayWidthMax = drawAreaWidth.coerceAtMost(containerWidth * coefficient)
-            val overlayHeightMax = drawAreaHeight.coerceAtMost(containerHeight * coefficient)
+            val overlayHeightMax =
+                (overlayWidthMax / imageAspectRatio).coerceAtMost(containerHeight * coefficient)
 
             val offsetX = (containerWidth - overlayWidthMax) / 2f
             val offsetY = (containerHeight - overlayHeightMax) / 2f

@@ -9,7 +9,6 @@ import androidx.activity.compose.BackHandler
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.core.animateDpAsState
@@ -85,11 +84,6 @@ import ru.tech.imageresizershrinker.generate_palette_screen.isScrollingUp
 import ru.tech.imageresizershrinker.main_screen.components.LocalAlignment
 import ru.tech.imageresizershrinker.main_screen.components.LocalAllowChangeColorByImage
 import ru.tech.imageresizershrinker.main_screen.components.LocalBorderWidth
-import ru.tech.imageresizershrinker.utils.modifier.alertDialog
-import ru.tech.imageresizershrinker.utils.modifier.drawHorizontalStroke
-import ru.tech.imageresizershrinker.utils.modifier.fabBorder
-import ru.tech.imageresizershrinker.utils.modifier.navBarsPaddingOnlyIfTheyAtTheBottom
-import ru.tech.imageresizershrinker.utils.modifier.navBarsPaddingOnlyIfTheyAtTheEnd
 import ru.tech.imageresizershrinker.resize_screen.components.ImageNotPickedWidget
 import ru.tech.imageresizershrinker.resize_screen.components.LoadingDialog
 import ru.tech.imageresizershrinker.theme.outlineVariant
@@ -99,6 +93,11 @@ import ru.tech.imageresizershrinker.utils.ContextUtils.isExternalStorageWritable
 import ru.tech.imageresizershrinker.utils.ContextUtils.requestStoragePermission
 import ru.tech.imageresizershrinker.utils.LocalWindowSizeClass
 import ru.tech.imageresizershrinker.utils.SavingFolder
+import ru.tech.imageresizershrinker.utils.modifier.alertDialog
+import ru.tech.imageresizershrinker.utils.modifier.drawHorizontalStroke
+import ru.tech.imageresizershrinker.utils.modifier.fabBorder
+import ru.tech.imageresizershrinker.utils.modifier.navBarsPaddingOnlyIfTheyAtTheBottom
+import ru.tech.imageresizershrinker.utils.modifier.navBarsPaddingOnlyIfTheyAtTheEnd
 import ru.tech.imageresizershrinker.widget.LocalToastHost
 import ru.tech.imageresizershrinker.widget.Marquee
 
@@ -291,13 +290,15 @@ fun CropScreen(
 
                 if (portrait) {
                     Column {
-                        val cropProperties = viewModel.cropProperties
-                        AnimatedContent(cropProperties.cropType, Modifier.weight(1f)) { type ->
+                        Box(
+                            modifier = Modifier.weight(1f),
+                            contentAlignment = Alignment.Center
+                        ) {
                             ImageCropper(
                                 background = MaterialTheme.colorScheme.surface,
                                 imageBitmap = bmp,
                                 contentDescription = null,
-                                cropProperties = cropProperties.copy(cropType = type),
+                                cropProperties = viewModel.cropProperties,
                                 onCropStart = {},
                                 crop = crop,
                                 onCropSuccess = { image ->
@@ -393,43 +394,40 @@ fun CropScreen(
                     }
                 } else {
                     Row(Modifier.navBarsPaddingOnlyIfTheyAtTheEnd()) {
-                        val cropProperties = viewModel.cropProperties
                         Box(
                             Modifier
                                 .weight(0.8f)
                                 .padding(20.dp)
                         ) {
-                            Box(Modifier.align(Alignment.Center)) {
-                                AnimatedContent(
-                                    cropProperties.cropType,
-                                    Modifier
-                                        .fillMaxSize()
-                                        .navBarsPaddingOnlyIfTheyAtTheBottom()
-                                ) { type ->
-                                    ImageCropper(
-                                        background = MaterialTheme.colorScheme.surface,
-                                        imageBitmap = bmp,
-                                        contentDescription = null,
-                                        cropProperties = cropProperties.copy(cropType = type),
-                                        onCropStart = {},
-                                        crop = crop,
-                                        onCropSuccess = { image ->
-                                            if (share) {
-                                                context.shareBitmap(
-                                                    bitmap = image.asAndroidBitmap(),
-                                                    compressFormat = viewModel.mimeType
-                                                )
-                                            } else if (save) {
-                                                saveBitmap(image.asAndroidBitmap())
-                                            } else {
-                                                viewModel.updateBitmap(image.asAndroidBitmap())
-                                            }
-                                            save = false
-                                            crop = false
-                                            share = false
+                            Box(
+                                Modifier
+                                    .align(Alignment.Center)
+                                    .fillMaxSize()
+                                    .navBarsPaddingOnlyIfTheyAtTheBottom()
+                            ) {
+                                ImageCropper(
+                                    background = MaterialTheme.colorScheme.surface,
+                                    imageBitmap = bmp,
+                                    contentDescription = null,
+                                    cropProperties = viewModel.cropProperties,
+                                    onCropStart = {},
+                                    crop = crop,
+                                    onCropSuccess = { image ->
+                                        if (share) {
+                                            context.shareBitmap(
+                                                bitmap = image.asAndroidBitmap(),
+                                                compressFormat = viewModel.mimeType
+                                            )
+                                        } else if (save) {
+                                            saveBitmap(image.asAndroidBitmap())
+                                        } else {
+                                            viewModel.updateBitmap(image.asAndroidBitmap())
                                         }
-                                    )
-                                }
+                                        save = false
+                                        crop = false
+                                        share = false
+                                    }
+                                )
                             }
                         }
                         Box(

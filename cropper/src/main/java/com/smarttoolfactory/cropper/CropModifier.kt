@@ -54,7 +54,7 @@ fun Modifier.crop(
 
     factory = {
 
-        LaunchedEffect(key1 = cropState) {
+        LaunchedEffect(key1 = cropState){
             cropState.init()
         }
 

@@ -12,7 +12,6 @@ import com.smarttoolfactory.cropper.model.OutlineType
 import com.smarttoolfactory.cropper.model.RectCropShape
 import com.smarttoolfactory.cropper.settings.CropDefaults
 import com.smarttoolfactory.cropper.settings.CropOutlineProperty
-import com.smarttoolfactory.cropper.settings.CropType
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -114,8 +113,7 @@ class CropViewModel : ViewModel() {
     fun setCropAspectRatio(aspectRatio: AspectRatio) {
         _cropProperties.value = _cropProperties.value.copy(
             aspectRatio = aspectRatio,
-            cropType = if (aspectRatio != AspectRatio.Unspecified) CropType.Static
-            else CropType.Dynamic
+            fixedAspectRatio = aspectRatio != AspectRatio.Original
         )
     }
 

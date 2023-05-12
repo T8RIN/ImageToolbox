@@ -3,7 +3,7 @@ package com.smarttoolfactory.cropper.settings
 import androidx.compose.ui.graphics.Path
 
 // TODO Find VectorDrawables as paths(or library to convert to) to add more
-object Paths {
+object  Paths {
     val Favorite
         get() = Path().apply {
             moveTo(12.0f, 21.35f)

@@ -33,7 +33,7 @@ internal fun DrawingOverlay(
     rect: Rect,
     cropOutline: CropOutline,
     drawGrid: Boolean,
-    transparentColor: Color,
+    transparentColor:Color,
     overlayColor: Color,
     handleColor: Color,
     strokeWidth: Dp,
@@ -228,7 +228,7 @@ private fun DrawScope.drawOverlay(
     pathHandles: Path,
     drawBlock: DrawScope.() -> Unit
 ) {
-    drawWithLayer {
+   drawWithLayer {
 
         // Destination
         drawRect(transparentColor)

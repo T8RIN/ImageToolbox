@@ -81,7 +81,7 @@ fun createRectShape(aspectRatio: AspectRatio): GenericShape {
         val width = size.width
         val height = size.height
         val shapeSize =
-            if (aspectRatio == AspectRatio.Unspecified) Size(width, height)
+            if (aspectRatio == AspectRatio.Original) Size(width, height)
             else if (value > 1) Size(width = width, height = width / value)
             else Size(width = height * value, height = height)
 
@@ -154,7 +154,7 @@ fun calculateSizeAndOffsetFromAspectRatio(
 
     val value = aspectRatio.value
 
-    val newSize = if (aspectRatio == AspectRatio.Unspecified) {
+    val newSize = if (aspectRatio == AspectRatio.Original) {
         Size(width * coefficient, height * coefficient)
     } else if (value > 1) {
         Size(
@@ -168,5 +168,5 @@ fun calculateSizeAndOffsetFromAspectRatio(
     val left = (width - newSize.width) / 2
     val top = (height - newSize.height) / 2
 
-    return Pair(newSize, Offset(left, top))
+   return Pair(newSize, Offset(left, top))
 }

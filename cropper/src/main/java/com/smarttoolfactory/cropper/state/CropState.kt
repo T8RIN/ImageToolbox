@@ -29,7 +29,6 @@ fun rememberCropState(
 
     // Properties of crop state
     val handleSize = cropProperties.handleSize
-    val minOverlaySize = handleSize * 2
     val cropType = cropProperties.cropType
     val aspectRatio = cropProperties.aspectRatio
     val overlayRatio = cropProperties.overlayRatio
@@ -38,7 +37,8 @@ fun rememberCropState(
     val zoomable = cropProperties.zoomable
     val pannable = cropProperties.pannable
     val rotatable = cropProperties.rotatable
-
+    val minDimension = cropProperties.minDimension
+    val fixedAspectRatio = cropProperties.fixedAspectRatio
 
     return remember(*keys) {
         when (cropType) {
@@ -67,12 +67,13 @@ fun rememberCropState(
                     overlayRatio = overlayRatio,
                     maxZoom = maxZoom,
                     handleSize = handleSize,
-                    minOverlaySize = minOverlaySize,
                     fling = fling,
                     zoomable = zoomable,
                     pannable = pannable,
                     rotatable = rotatable,
-                    limitPan = true
+                    limitPan = true,
+                    minDimension = minDimension,
+                    fixedAspectRatio = fixedAspectRatio,
                 )
             }
         }

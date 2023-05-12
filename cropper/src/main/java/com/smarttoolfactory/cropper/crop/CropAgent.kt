@@ -31,22 +31,23 @@ class CropAgent {
         layoutDirection: LayoutDirection,
         density: Density,
     ): ImageBitmap {
-        return runCatching {
-            val croppedBitmap: Bitmap = Bitmap.createBitmap(
-                imageBitmap.asAndroidBitmap(),
-                cropRect.left.toInt(),
-                cropRect.top.toInt(),
-                cropRect.width.toInt(),
-                cropRect.height.toInt(),
-            )
 
-            val imageToCrop = croppedBitmap
-                .copy(Bitmap.Config.ARGB_8888, true)!!
-                .asImageBitmap()
+        // TODO pass mutable bitmap
+        val croppedBitmap: Bitmap = Bitmap.createBitmap(
+            imageBitmap.asAndroidBitmap(),
+            cropRect.left.toInt(),
+            cropRect.top.toInt(),
+            cropRect.width.toInt(),
+            cropRect.height.toInt(),
+        )
 
+        val imageToCrop = croppedBitmap
+            .copy(Bitmap.Config.ARGB_8888, true)!!
+            .asImageBitmap()
 
-            imageToCrop
-        }.getOrNull() ?: imageBitmap
+        drawCroppedImage(cropOutline, cropRect, layoutDirection, density, imageToCrop)
+
+        return imageToCrop
     }
 
     private fun drawCroppedImage(

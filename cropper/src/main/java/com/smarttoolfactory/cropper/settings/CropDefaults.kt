@@ -5,6 +5,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import com.smarttoolfactory.cropper.ImageCropper
 import com.smarttoolfactory.cropper.crop
@@ -36,7 +37,9 @@ object CropDefaults {
         pannable: Boolean = true,
         fling: Boolean = false,
         zoomable: Boolean = true,
-        rotatable: Boolean = false
+        rotatable: Boolean = false,
+        minDimension: IntSize? = null,
+        fixedAspectRatio: Boolean = false,
     ): CropProperties {
         return CropProperties(
             cropType = cropType,
@@ -49,7 +52,9 @@ object CropDefaults {
             pannable = pannable,
             fling = fling,
             zoomable = zoomable,
-            rotatable = rotatable
+            rotatable = rotatable,
+            minDimension = minDimension,
+            fixedAspectRatio = fixedAspectRatio,
         )
     }
 
@@ -94,6 +99,8 @@ data class CropProperties internal constructor(
     val rotatable: Boolean,
     val zoomable: Boolean,
     val maxZoom: Float,
+    val minDimension: IntSize? = null,
+    val fixedAspectRatio: Boolean = false,
 )
 
 /**
@@ -108,7 +115,7 @@ data class CropStyle internal constructor(
     val overlayColor: Color,
     val handleColor: Color,
     val backgroundColor: Color,
-    val cropTheme: CropTheme = CropTheme.System
+    val cropTheme: CropTheme = CropTheme.Dark
 )
 
 /**
@@ -123,7 +130,7 @@ data class CropOutlineProperty(
 /**
  * Light, Dark or system controlled theme
  */
-enum class CropTheme {
+enum class CropTheme{
     Light,
     Dark,
     System

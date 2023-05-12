@@ -25,7 +25,7 @@ data class CropFrame(
 
     fun addOutline(outline: CropOutline): CropFrame {
         outlines.toMutableList().add(outline)
-        return this
+       return this
     }
 }
 

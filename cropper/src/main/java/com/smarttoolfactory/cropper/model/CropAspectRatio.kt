@@ -11,17 +11,17 @@ import androidx.compose.ui.graphics.Shape
 data class CropAspectRatio(
     val title: String,
     val shape: Shape,
-    val aspectRatio: AspectRatio = AspectRatio.Unspecified,
+    val aspectRatio: AspectRatio = AspectRatio.Original,
     val icons: List<Int> = listOf()
 )
 
 /**
  * Value class for containing aspect ratio
- * and [AspectRatio.Unspecified] for comparing
+ * and [AspectRatio.Original] for comparing
  */
 @Immutable
 data class AspectRatio(val value: Float) {
     companion object {
-        val Unspecified = AspectRatio(-1f)
+        val Original = AspectRatio(-1f)
     }
 }

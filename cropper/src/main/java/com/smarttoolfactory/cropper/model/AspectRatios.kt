@@ -18,8 +18,8 @@ val aspectRatios = listOf(
     ),
     CropAspectRatio(
         title = "Original",
-        shape = createRectShape(AspectRatio.Unspecified),
-        aspectRatio = AspectRatio.Unspecified
+        shape = createRectShape(AspectRatio.Original),
+        aspectRatio = AspectRatio.Original
     ),
     CropAspectRatio(
         title = "1:1",
