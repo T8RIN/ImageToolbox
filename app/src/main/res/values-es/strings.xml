@@ -120,4 +120,15 @@
     <string name="grant">Otorgar</string>
     <string name="permission_sub">La aplicación necesita acceso a su almacenamiento para guardar imágenes, sin ello no funciona, por lo que permítalo en el siguiente diálogo</string>
     <string name="grant_permission_manual">La aplicación necesita este permiso para funcionar, por favor, permítalo manualmente</string>
+    <string name="buy_me_a_coffee">Invítame a un café</string>
+    <string name="buy_me_a_coffee_sub">Esta aplicación es totalmente gratuita, pero si quieres apoyar el desarrollo del proyecto, puedes hacer clic aquí</string>
+    <string name="fab_alignment">Alineación FAB</string>
+    <string name="check_updates">Buscar actualizaciones</string>
+    <string name="check_updates_sub">Si está activada, se mostrará un cuadro de diálogo de actualización al iniciar la aplicación.</string>
+    <string name="zoom">Zoom de la imagen</string>
+    <string name="prefix">Prefijo</string>
+    <string name="filename">Archivo</string>
+    <string name="share">Compartir</string>
+    <string name="external_storage">Almacenamiento externo</string>
+    <string name="monet_colors">Los colores de Monet</string>
 </resources>
