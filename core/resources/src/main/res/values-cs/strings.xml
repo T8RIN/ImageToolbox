@@ -722,8 +722,7 @@
     <string name="standard">Standard</string>
     <string name="best">Nejlepší</string>
     <string name="no_data">Žádná data</string>
-    <string name="download_description">Pro správné fungování Tesseract OCR je třeba do vašeho zařízení stáhnout další tréninková data (%1$s).
-\nChcete stáhnout %2$s data?</string>
+    <string name="download_description">Pro správné fungování Tesseract OCR je třeba do vašeho zařízení stáhnout další tréninková data (%1$s). \nChcete stáhnout %2$s data?</string>
     <string name="download">Stažení</string>
     <string name="no_connection">Žádné připojení, zkontrolujte jej a zkuste to znovu, abyste si mohli stáhnout modely vlaků</string>
     <string name="downloaded_languages">Stažené jazyky</string>
