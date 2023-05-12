@@ -127,4 +127,8 @@
     <string name="fab_alignment">FAB hizalama</string>
     <string name="check_updates">Güncellemeleri kontrol edin</string>
     <string name="check_updates_sub">Etkinleştirilirse, uygulama başlatıldıktan sonra size güncelleme iletişim kutusu gösterilir</string>
+    <string name="zoom">Görüntü yakınlaştırma</string>
+    <string name="prefix">Önek</string>
+    <string name="filename">Dosya adı</string>
+    <string name="share">Paylaş</string>
 </resources>

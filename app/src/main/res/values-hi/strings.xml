@@ -127,4 +127,8 @@
     <string name="border_thickness">बॉर्डर की मोटाई</string>
     <string name="external_storage">बाह्य भंडारण</string>
     <string name="monet_colors">मोनेट रंग</string>
+    <string name="zoom">छवि ज़ूम</string>
+    <string name="prefix">उपसर्ग</string>
+    <string name="filename">फ़ाइल का नाम</string>
+    <string name="share">शेयर करना</string>
 </resources>

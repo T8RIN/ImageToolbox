@@ -124,4 +124,11 @@
     <string name="buy_me_a_coffee">개발자 커피 사주기</string>
     <string name="buy_me_a_coffee_sub">이 애플리케이션은 완전 무료이지만 프로젝트 개발을 지원하려면 여기를 클릭하세요.</string>
     <string name="image_too_large_preview">이미지가 너무 커서 미리 볼 수 없지만, 일단 저장해 보겠습니다</string>
+    <string name="fab_alignment">FAB 정렬</string>
+    <string name="check_updates">업데이트 확인</string>
+    <string name="check_updates_sub">활성화하면 앱 시작 후 업데이트 대화 상자가 표시됩니다.</string>
+    <string name="zoom">이미지 확대/축소</string>
+    <string name="prefix">접두사</string>
+    <string name="filename">파일 이름</string>
+    <string name="share">공유</string>
 </resources>
