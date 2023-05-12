@@ -44,7 +44,14 @@ android {
             "bn",
             "th",
             "id",
-            "iw"
+            "iw",
+            "cs",
+            "ba",
+            "sr",
+            "da",
+            "pt",
+            "eo",
+            "sk"
         )
     }
 
