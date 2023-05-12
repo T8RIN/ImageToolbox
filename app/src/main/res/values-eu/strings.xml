@@ -120,4 +120,15 @@
     <string name="border_thickness">Ertzaren lodiera</string>
     <string name="permission_sub">Aplikazioak zure biltegiratze sarbidea behar du irudiak gordetzeko, beharrezkoa da, hori gabe ezin du funtzionatu, beraz, eman baimena hurrengo elkarrizketa-koadroan</string>
     <string name="grant_permission_manual">Aplikazioak funtziona dezan baimen hau behar du, mesedez, baimendu eskuz</string>
+    <string name="buy_me_a_coffee">Erosi niri kafe bat</string>
+    <string name="buy_me_a_coffee_sub">Aplikazio hau guztiz doakoa da, baina proiektuaren garapenean lagundu nahi baduzu, hemen klik egin dezakezu</string>
+    <string name="fab_alignment">FAB lerrokatzea</string>
+    <string name="check_updates">Egiaztatu eguneratzeak</string>
+    <string name="check_updates_sub">Gaituta badago, eguneratzeko elkarrizketa-koadroa erakutsiko zaizu aplikazioa abiarazi ondoren</string>
+    <string name="zoom">Irudia zooma</string>
+    <string name="prefix">Aurrizkia</string>
+    <string name="filename">Fitxategi izena</string>
+    <string name="share">Partekatu</string>
+    <string name="external_storage">Kanpoko biltegia</string>
+    <string name="monet_colors">Moneten koloreak</string>
 </resources>
