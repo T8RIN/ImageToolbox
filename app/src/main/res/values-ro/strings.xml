@@ -124,4 +124,11 @@
     <string name="grant_permission_manual">Aplicația necesită această permisiune pentru a funcționa, acordă-l manual</string>
     <string name="external_storage">Stocare externă</string>
     <string name="monet_colors">Culori monet</string>
+    <string name="fab_alignment">Alinierea FAB</string>
+    <string name="check_updates">Verificați dacă există actualizări</string>
+    <string name="check_updates_sub">Dacă este activat, dialogul de actualizare vă va fi afișat după pornirea aplicației.</string>
+    <string name="zoom">Zoom imagine</string>
+    <string name="prefix">Prefix</string>
+    <string name="filename">Numele fișierului</string>
+    <string name="share">Share</string>
 </resources>
