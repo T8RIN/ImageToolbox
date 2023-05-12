@@ -113,4 +113,22 @@
     <string name="tertiary">Tersiyaryo</string>
     <string name="secondary">Sekondaryo</string>
     <string name="border_thickness">Kapal ng gilid</string>
+    <string name="surface">Ibabaw</string>
+    <string name="buy_me_a_coffee">Bilhan mo ako ng kape</string>
+    <string name="buy_me_a_coffee_sub">Ang application na ito ay ganap na libre, ngunit kung nais mong suportahan ang pagbuo ng proyekto, maaari kang mag-click dito</string>
+    <string name="permission_sub">Kailangan ng app ng access sa iyong storage para mag-save ng mga larawan, kinakailangan, kung wala iyon ay hindi ito gagana, kaya mangyaring magbigay ng pahintulot sa susunod na dialog</string>
+    <string name="fab_alignment">Pag-align ng FAB</string>
+    <string name="check_updates">Tingnan ang mga update</string>
+    <string name="check_updates_sub">Kung naka-enable, ipapakita sa iyo ang dialog ng pag-update pagkatapos ng pagsisimula ng app</string>
+    <string name="values">Mga halaga</string>
+    <string name="add">Idagdag</string>
+    <string name="permission">Pahintulot</string>
+    <string name="grant">Grant</string>
+    <string name="zoom">Pag-zoom ng larawan</string>
+    <string name="prefix">Prefix</string>
+    <string name="filename">Filename</string>
+    <string name="grant_permission_manual">Kailangan ng app ang pahintulot na ito upang gumana, mangyaring ibigay ito nang manu-mano</string>
+    <string name="share">Ibahagi</string>
+    <string name="external_storage">Panlabas na imbakan</string>
+    <string name="monet_colors">Mga kulay ng monet</string>
 </resources>
