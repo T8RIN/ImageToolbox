@@ -24,4 +24,5 @@
     <locale android:name="ko" />
     <locale android:name="kk" />
     <locale android:name="af" />
+    <locale android:name="bn" />
 </locale-config>
