@@ -2,6 +2,7 @@ package ru.tech.imageresizershrinker.main_screen
 
 import android.content.Intent
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import androidx.activity.compose.BackHandler
 import androidx.activity.viewModels
@@ -112,7 +113,6 @@ import ru.tech.imageresizershrinker.main_screen.components.MainScreen
 import ru.tech.imageresizershrinker.main_screen.components.PickColorPreference
 import ru.tech.imageresizershrinker.main_screen.components.Screen
 import ru.tech.imageresizershrinker.main_screen.components.SingleResizePreference
-import ru.tech.imageresizershrinker.utils.modifier.alertDialog
 import ru.tech.imageresizershrinker.main_screen.components.isNightMode
 import ru.tech.imageresizershrinker.main_screen.components.toAlignment
 import ru.tech.imageresizershrinker.main_screen.viewModel.MainViewModel
@@ -129,6 +129,7 @@ import ru.tech.imageresizershrinker.utils.IntentUtils.parcelableArrayList
 import ru.tech.imageresizershrinker.utils.SavingFolder
 import ru.tech.imageresizershrinker.utils.constructFilename
 import ru.tech.imageresizershrinker.utils.getSavingFolder
+import ru.tech.imageresizershrinker.utils.modifier.alertDialog
 import ru.tech.imageresizershrinker.utils.setContentWithWindowSizeClass
 import ru.tech.imageresizershrinker.utils.toUiPath
 import ru.tech.imageresizershrinker.widget.AutoSizeText
@@ -200,9 +201,13 @@ class MainActivity : M3Activity() {
                         default = stringResource(R.string.default_folder)
                     )
 
-                    BackHandler {
-                        if (viewModel.shouldShowDialog) showExitDialog = true
-                        else finishAffinity()
+                    val tiramisu = Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU
+
+                    if (!tiramisu) {
+                        BackHandler {
+                            if (viewModel.shouldShowDialog) showExitDialog = true
+                            else finishAffinity()
+                        }
                     }
 
                     Surface(Modifier.fillMaxSize()) {
@@ -351,7 +356,7 @@ class MainActivity : M3Activity() {
                         }
                     }
 
-                    if (showExitDialog) {
+                    if (showExitDialog && !tiramisu) {
                         AlertDialog(
                             modifier = Modifier.alertDialog(),
                             onDismissRequest = { showExitDialog = false },
