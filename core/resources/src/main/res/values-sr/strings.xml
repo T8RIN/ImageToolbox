@@ -741,8 +741,7 @@
     <string name="standard">Стандард</string>
     <string name="best">Најбољи</string>
     <string name="no_data">Нема података</string>
-    <string name="download_description">За правилно функционисање Тессерацт ОЦР-а потребно је да се на ваш уређај преузму додатни подаци за обуку (%1$s).
-\nДа ли желите да преузмете %2$s податке?</string>
+    <string name="download_description">За правилно функционисање Тессерацт ОЦР-а потребно је да се на ваш уређај преузму додатни подаци за обуку (%1$s). \nДа ли желите да преузмете %2$s податке?</string>
     <string name="download">Преузимање</string>
     <string name="no_connection">Нема везе, проверите и покушајте поново да бисте преузели моделе возова</string>
     <string name="downloaded_languages">Преузети језици</string>
