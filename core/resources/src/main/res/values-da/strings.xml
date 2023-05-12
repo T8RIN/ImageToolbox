@@ -723,8 +723,7 @@
     <string name="standard">Standard</string>
     <string name="best">Bedst</string>
     <string name="no_data">Ingen data</string>
-    <string name="download_description">For at Tesseract OCR fungerer korrekt, skal yderligere træningsdata (%1$s) downloades til din enhed.
-\nVil du downloade %2$s-data?</string>
+    <string name="download_description">For at Tesseract OCR fungerer korrekt, skal yderligere træningsdata (%1$s) downloades til din enhed. \nVil du downloade %2$s-data?</string>
     <string name="available_languages">Tilgængelige sprog</string>
     <string name="restore_background_sub">Pensel vil gendanne baggrunden i stedet for at slette</string>
     <string name="horizontal_grid">Vandret gitter</string>
