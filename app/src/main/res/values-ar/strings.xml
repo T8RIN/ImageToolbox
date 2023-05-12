@@ -127,4 +127,8 @@
     <string name="border_thickness">سمك الحدود</string>
     <string name="external_storage">تخزين خارجي</string>
     <string name="monet_colors">ألوان مونيه</string>
+    <string name="zoom">تكبير الصورة</string>
+    <string name="prefix">بادئة</string>
+    <string name="filename">اسم الملف</string>
+    <string name="share">يشارك</string>
 </resources>
