@@ -109,4 +109,26 @@
     <string name="dynamic_colors_sub">Әгәр мөмкин булса, төсләр стена төсләренә кадәр кабул ителерләр.</string>
     <string name="png_warning_bytes">PNG режимында саклап калу үзгәрүчән булырга мөмкин, чөнки ул югалтусыз формат</string>
     <string name="failed_to_save">%d образын (сызыклар) коткара алмады</string>
+    <string name="surface">Faceир өсте</string>
+    <string name="buy_me_a_coffee">Миңа кофе сатып алыгыз</string>
+    <string name="buy_me_a_coffee_sub">Бу кушымта тулысынча бушлай, ләкин проект үсешенә булышырга теләсәгез, монда басыгыз</string>
+    <string name="check_updates_sub">Кушылса, яңарту диалогы кушымтаны эшләтеп җибәргәннән соң сезгә күрсәтеләчәк</string>
+    <string name="fab_alignment">FAB тигезләү</string>
+    <string name="check_updates">Яңартуларны тикшерегез</string>
+    <string name="values">Кыйммәтләр</string>
+    <string name="add">Кушу</string>
+    <string name="primary">Башлангыч</string>
+    <string name="tertiary">Өченче</string>
+    <string name="secondary">Икенче</string>
+    <string name="permission">Рөхсәт</string>
+    <string name="grant">Грант</string>
+    <string name="permission_sub">Кушымта рәсемнәрне саклау өчен сезнең саклагычка керергә тиеш, ул кирәк, ансыз эшли алмый, шуңа күрә киләсе диалогка рөхсәт бирегез</string>
+    <string name="zoom">Рәсем зурайту</string>
+    <string name="prefix">Префикс</string>
+    <string name="filename">Файл исеме</string>
+    <string name="grant_permission_manual">Кушымта эшләргә бу рөхсәт кирәк, зинһар, аны кул белән бирегез</string>
+    <string name="border_thickness">Чик калынлыгы</string>
+    <string name="share">Бүлешү</string>
+    <string name="external_storage">Тышкы саклау</string>
+    <string name="monet_colors">Монет төсләре</string>
 </resources>

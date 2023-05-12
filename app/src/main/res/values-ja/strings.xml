@@ -113,4 +113,22 @@
     <string name="add">追加</string>
     <string name="permission">権限</string>
     <string name="border_thickness">境界線の太さ</string>
+    <string name="surface">表面</string>
+    <string name="buy_me_a_coffee">コーヒーを買う</string>
+    <string name="buy_me_a_coffee_sub">このアプリケーションは完全に無料ですが、プロジェクトの開発を支援したい場合は、ここをクリックしてください。</string>
+    <string name="external_storage">外部記憶装置</string>
+    <string name="fab_alignment">FABアライメント</string>
+    <string name="check_updates">アップデートを確認する</string>
+    <string name="check_updates_sub">有効な場合、アプリ起動後にアップデートダイアログが表示されます。</string>
+    <string name="primary">プライマリー</string>
+    <string name="tertiary">三次</string>
+    <string name="secondary">セカンダリー</string>
+    <string name="grant">グラント</string>
+    <string name="permission_sub">アプリは画像を保存するためにあなたのストレージにアクセスする必要があり、それがなければ動作しないので、次のダイアログで許可を与えてください。</string>
+    <string name="zoom">画像ズーム</string>
+    <string name="prefix">プリフィックス</string>
+    <string name="filename">ファイル名</string>
+    <string name="grant_permission_manual">アプリの動作にはこのパーミッションが必要です。</string>
+    <string name="share">シェア</string>
+    <string name="monet_colors">モネの色</string>
 </resources>

@@ -110,4 +110,25 @@
     <string name="failed_to_save">無法儲存 %d 影像</string>
     <string name="png_warning_bytes">以 PNG 模式儲存可能不穩定，因為它是無損格式</string>
     <string name="border_thickness">邊框厚度</string>
+    <string name="surface">表面</string>
+    <string name="buy_me_a_coffee">请我喝咖啡</string>
+    <string name="buy_me_a_coffee_sub">这个应用程序是完全免费的，但如果你想支持项目开发，你可以点击这里</string>
+    <string name="permission_sub">应用程序需要访问您的存储空间以保存图像，这是必要的，否则它就无法工作，所以请在下一个对话框中授予权限。</string>
+    <string name="fab_alignment">FAB对齐</string>
+    <string name="check_updates">检查更新</string>
+    <string name="check_updates_sub">如果启用，更新对话框将在应用程序启动后显示给你。</string>
+    <string name="values">价值观</string>
+    <string name="add">添加</string>
+    <string name="primary">初级</string>
+    <string name="tertiary">三级</string>
+    <string name="secondary">中学</string>
+    <string name="permission">许可</string>
+    <string name="grant">授予</string>
+    <string name="zoom">图像放大</string>
+    <string name="prefix">前缀</string>
+    <string name="filename">文件名</string>
+    <string name="grant_permission_manual">应用程序需要这个权限才能工作，请手动授予它。</string>
+    <string name="share">分享</string>
+    <string name="external_storage">外部存储</string>
+    <string name="monet_colors">莫奈颜色</string>
 </resources>
