@@ -22,6 +22,7 @@ import androidx.compose.material.icons.outlined.Image
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -69,14 +70,9 @@ fun AspectRatioSelection(
                     AspectRatioSelectionCard(
                         modifier = Modifier
                             .width(80.dp)
-                            .border(
-                                2.dp,
-                                animateColorAsState(if (selectedIndex == index) MaterialTheme.colorScheme.surfaceVariant else Color.Transparent).value,
-                                RoundedCornerShape(16.dp)
-                            )
                             .clip(RoundedCornerShape(16.dp))
                             .clickable { onAspectRatioChange(aspectRatios[index]) }
-                            .block(),
+                            .block(color = if (selectedIndex == index) MaterialTheme.colorScheme.surfaceVariant else Color.Unspecified),
                         contentColor = Color.Transparent,
                         color = MaterialTheme.colorScheme.onSurface,
                         cropAspectRatio = item
@@ -84,14 +80,9 @@ fun AspectRatioSelection(
                 } else {
                     Box(
                         modifier = Modifier
-                            .border(
-                                2.dp,
-                                animateColorAsState(if (selectedIndex == index) MaterialTheme.colorScheme.surfaceVariant else Color.Transparent).value,
-                                RoundedCornerShape(16.dp)
-                            )
                             .clip(RoundedCornerShape(16.dp))
                             .clickable { onAspectRatioChange(aspectRatios[index]) }
-                            .block()
+                            .block(color = if (selectedIndex == index) MaterialTheme.colorScheme.surfaceVariant else Color.Unspecified)
                             .padding(4.dp)
                     ) {
                         Column(
@@ -126,14 +117,9 @@ fun AspectRatioSelection(
                     AspectRatioSelectionCard(
                         modifier = Modifier
                             .width(90.dp)
-                            .border(
-                                2.dp,
-                                animateColorAsState(if (selectedIndex == index) MaterialTheme.colorScheme.surfaceVariant else Color.Transparent).value,
-                                RoundedCornerShape(16.dp)
-                            )
                             .clip(RoundedCornerShape(16.dp))
                             .clickable { onAspectRatioChange(aspectRatios[index]) }
-                            .block(),
+                            .block(color = if (selectedIndex == index) MaterialTheme.colorScheme.surfaceVariant else Color.Unspecified),
                         contentColor = Color.Transparent,
                         color = MaterialTheme.colorScheme.onSurface,
                         cropAspectRatio = item
@@ -142,14 +128,9 @@ fun AspectRatioSelection(
                     Box(
                         modifier = Modifier
                             .width(90.dp)
-                            .border(
-                                2.dp,
-                                animateColorAsState(if (selectedIndex == index) MaterialTheme.colorScheme.surfaceVariant else Color.Transparent).value,
-                                RoundedCornerShape(16.dp)
-                            )
                             .clip(RoundedCornerShape(16.dp))
                             .clickable { onAspectRatioChange(aspectRatios[index]) }
-                            .block()
+                            .block(color = if (selectedIndex == index) MaterialTheme.colorScheme.surfaceVariant else Color.Unspecified)
                             .padding(4.dp)
                     ) {
                         Column(

@@ -9,9 +9,13 @@ import androidx.activity.compose.BackHandler
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.core.animateDpAsState
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -73,6 +77,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.smarttoolfactory.cropper.ImageCropper
+import com.smarttoolfactory.cropper.model.AspectRatio
 import com.t8rin.dynamic.theme.LocalDynamicThemeState
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
@@ -290,15 +295,16 @@ fun CropScreen(
 
                 if (portrait) {
                     Column {
-                        Box(
-                            modifier = Modifier.weight(1f),
-                            contentAlignment = Alignment.Center
-                        ) {
+                        AnimatedContent(
+                            targetState = viewModel.cropProperties.aspectRatio != AspectRatio.Original,
+                            transitionSpec = { fadeIn() togetherWith fadeOut() },
+                            modifier = Modifier.weight(1f).fillMaxWidth(),
+                        ) {fixedAspectRatio ->
                             ImageCropper(
                                 background = MaterialTheme.colorScheme.surface,
                                 imageBitmap = bmp,
                                 contentDescription = null,
-                                cropProperties = viewModel.cropProperties,
+                                cropProperties = viewModel.cropProperties.copy(fixedAspectRatio = fixedAspectRatio),
                                 onCropStart = {},
                                 crop = crop,
                                 onCropSuccess = { image ->
@@ -399,17 +405,19 @@ fun CropScreen(
                                 .weight(0.8f)
                                 .padding(20.dp)
                         ) {
-                            Box(
-                                Modifier
+                            AnimatedContent(
+                                targetState = viewModel.cropProperties.aspectRatio != AspectRatio.Original,
+                                transitionSpec = { fadeIn() togetherWith fadeOut() },
+                                modifier = Modifier
                                     .align(Alignment.Center)
                                     .fillMaxSize()
                                     .navBarsPaddingOnlyIfTheyAtTheBottom()
-                            ) {
+                            ) { fixedAspectRatio ->
                                 ImageCropper(
                                     background = MaterialTheme.colorScheme.surface,
                                     imageBitmap = bmp,
                                     contentDescription = null,
-                                    cropProperties = viewModel.cropProperties,
+                                    cropProperties = viewModel.cropProperties.copy(fixedAspectRatio = fixedAspectRatio),
                                     onCropStart = {},
                                     crop = crop,
                                     onCropSuccess = { image ->
