@@ -43,7 +43,8 @@ android {
             "af",
             "bn",
             "th",
-            "id"
+            "id",
+            "iw"
         )
     }
 

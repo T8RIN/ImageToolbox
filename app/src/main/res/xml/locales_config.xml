@@ -27,4 +27,5 @@
     <locale android:name="bn" />
     <locale android:name="th" />
     <locale android:name="id" />
+    <locale android:name="iw" />
 </locale-config>
