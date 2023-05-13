@@ -44,6 +44,7 @@ import androidx.compose.material.icons.rounded.Save
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExtendedFloatingActionButton
 import androidx.compose.material3.FloatingActionButton
@@ -350,6 +351,7 @@ fun CropScreen(
                                 },
                             )
                         }
+                        Divider()
 
                         val aspectRatios = aspectRatios()
                         AspectRatioSelection(
@@ -427,9 +429,7 @@ fun CropScreen(
                 } else {
                     Row(Modifier.navBarsPaddingOnlyIfTheyAtTheEnd()) {
                         Box(
-                            Modifier
-                                .weight(0.8f)
-                                .padding(20.dp)
+                            Modifier.weight(0.8f)
                         ) {
                             AnimatedContent(
                                 targetState = (viewModel.cropProperties.aspectRatio != AspectRatio.Original) to it,
@@ -437,7 +437,6 @@ fun CropScreen(
                                 modifier = Modifier
                                     .align(Alignment.Center)
                                     .fillMaxSize()
-                                    .navBarsPaddingOnlyIfTheyAtTheBottom()
                             ) { (fixedAspectRatio, bitmap) ->
                                 val bmp = remember(bitmap) { it.asImageBitmap() }
                                 ImageCropper(
