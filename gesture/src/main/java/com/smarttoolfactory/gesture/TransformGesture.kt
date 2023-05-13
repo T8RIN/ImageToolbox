@@ -48,7 +48,7 @@ suspend fun PointerInputScope.detectTransformGestures(
     ) -> Unit,
     onGestureEnd: (PointerInputChange) -> Unit = {}
 ) {
-    awaitEachGesture {
+    forEachGesture {
         awaitPointerEventScope {
             var rotation = 0f
             var zoom = 1f
@@ -192,7 +192,7 @@ suspend fun PointerInputScope.detectPointerTransformGestures(
 
     require(numberOfPointers > 0)
 
-    awaitEachGesture {
+    forEachGesture {
         awaitPointerEventScope {
             var rotation = 0f
             var zoom = 1f
@@ -223,15 +223,12 @@ suspend fun PointerInputScope.detectPointerTransformGestures(
                     PointerRequisite.LessThan -> {
                         (downPointerCount < numberOfPointers)
                     }
-
                     PointerRequisite.EqualTo -> {
                         (downPointerCount == numberOfPointers)
                     }
-
                     PointerRequisite.GreaterThan -> {
                         (downPointerCount > numberOfPointers)
                     }
-
                     else -> true
                 }
 

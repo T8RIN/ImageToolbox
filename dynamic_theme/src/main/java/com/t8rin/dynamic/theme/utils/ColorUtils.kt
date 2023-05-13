@@ -114,7 +114,7 @@ object ColorUtils {
     /**
      * Converts a color from XYZ to ARGB.
      */
-    fun xyzFromArgb(argb: Int): DoubleArray {
+    fun xyzFromArgb(argb: Int): DoubleArray? {
         val r = linearized(redFromArgb(argb))
         val g = linearized(greenFromArgb(argb))
         val b = linearized(blueFromArgb(argb))

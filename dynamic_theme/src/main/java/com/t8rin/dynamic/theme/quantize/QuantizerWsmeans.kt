@@ -162,8 +162,8 @@ object QuantizerWsmeans {
                 val count = counts[i]
                 pixelCountSums[clusterIndex] += count
                 componentASums[clusterIndex] += point!![0] * count
-                componentBSums[clusterIndex] += point[1] * count
-                componentCSums[clusterIndex] += point[2] * count
+                componentBSums[clusterIndex] += point!![1] * count
+                componentCSums[clusterIndex] += point!![2] * count
             }
             for (i in 0 until clusterCount) {
                 val count = pixelCountSums[i]
@@ -194,7 +194,7 @@ object QuantizerWsmeans {
         return argbToPopulation
     }
 
-    private class Distance() : Comparable<Distance> {
+    private class Distance internal constructor() : Comparable<Distance> {
         var index: Int
         var distance: Double
 
