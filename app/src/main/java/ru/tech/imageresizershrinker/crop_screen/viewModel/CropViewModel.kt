@@ -36,6 +36,8 @@ class CropViewModel : ViewModel() {
     )
     val cropProperties by _cropProperties
 
+    private var internalBitmap = mutableStateOf<Bitmap?>(null)
+
     private val _bitmap: MutableState<Bitmap?> = mutableStateOf(null)
     val bitmap: Bitmap? by _bitmap
 
@@ -45,7 +47,7 @@ class CropViewModel : ViewModel() {
     private val _isLoading: MutableState<Boolean> = mutableStateOf(false)
     val isLoading: Boolean by _isLoading
 
-    fun updateBitmap(bitmap: Bitmap?) {
+    fun updateBitmap(bitmap: Bitmap?, newBitmap: Boolean = false) {
         viewModelScope.launch {
             _isLoading.value = true
             var bmp: Bitmap?
@@ -65,6 +67,9 @@ class CropViewModel : ViewModel() {
                         resize = 1
                     )
                 }
+            }
+            if (newBitmap) {
+                internalBitmap.value = bmp
             }
             _bitmap.value = bmp
             _isLoading.value = false
@@ -115,6 +120,10 @@ class CropViewModel : ViewModel() {
             aspectRatio = aspectRatio,
             fixedAspectRatio = aspectRatio != AspectRatio.Original
         )
+    }
+
+    fun resetBitmap() {
+        _bitmap.value = internalBitmap.value
     }
 
 }

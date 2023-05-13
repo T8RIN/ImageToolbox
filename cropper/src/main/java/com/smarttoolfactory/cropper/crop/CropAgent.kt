@@ -3,7 +3,17 @@ package com.smarttoolfactory.cropper.crop
 import android.graphics.Bitmap
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Rect
-import androidx.compose.ui.graphics.*
+import androidx.compose.ui.graphics.BlendMode
+import androidx.compose.ui.graphics.Canvas
+import androidx.compose.ui.graphics.ImageBitmap
+import androidx.compose.ui.graphics.Paint
+import androidx.compose.ui.graphics.Path
+import androidx.compose.ui.graphics.addOutline
+import androidx.compose.ui.graphics.asAndroidBitmap
+import androidx.compose.ui.graphics.asAndroidPath
+import androidx.compose.ui.graphics.asImageBitmap
+import androidx.compose.ui.graphics.nativeCanvas
+import androidx.compose.ui.graphics.toComposeRect
 import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.LayoutDirection
 import com.smarttoolfactory.cropper.model.CropImageMask
@@ -31,23 +41,23 @@ class CropAgent {
         layoutDirection: LayoutDirection,
         density: Density,
     ): ImageBitmap {
+        return runCatching {
+            val croppedBitmap: Bitmap = Bitmap.createBitmap(
+                imageBitmap.asAndroidBitmap(),
+                cropRect.left.toInt(),
+                cropRect.top.toInt(),
+                cropRect.width.toInt(),
+                cropRect.height.toInt(),
+            )
 
-        // TODO pass mutable bitmap
-        val croppedBitmap: Bitmap = Bitmap.createBitmap(
-            imageBitmap.asAndroidBitmap(),
-            cropRect.left.toInt(),
-            cropRect.top.toInt(),
-            cropRect.width.toInt(),
-            cropRect.height.toInt(),
-        )
+            val imageToCrop = croppedBitmap
+                .copy(Bitmap.Config.ARGB_8888, true)!!
+                .asImageBitmap()
 
-        val imageToCrop = croppedBitmap
-            .copy(Bitmap.Config.ARGB_8888, true)!!
-            .asImageBitmap()
+            drawCroppedImage(cropOutline, cropRect, layoutDirection, density, imageToCrop)
 
-        drawCroppedImage(cropOutline, cropRect, layoutDirection, density, imageToCrop)
-
-        return imageToCrop
+            imageToCrop
+        }.getOrNull() ?: imageBitmap
     }
 
     private fun drawCroppedImage(
@@ -82,6 +92,7 @@ class CropAgent {
                     restore()
                 }
             }
+
             is CropPath -> {
 
                 val path = Path().apply {
@@ -115,6 +126,7 @@ class CropAgent {
                     restore()
                 }
             }
+
             is CropImageMask -> {
 
                 val imageMask = Bitmap.createScaledBitmap(

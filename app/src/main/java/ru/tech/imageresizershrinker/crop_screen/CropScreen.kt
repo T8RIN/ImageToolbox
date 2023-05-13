@@ -33,6 +33,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.RestartAlt
 import androidx.compose.material.icons.outlined.Save
 import androidx.compose.material.icons.outlined.Share
 import androidx.compose.material.icons.rounded.AddPhotoAlternate
@@ -132,7 +133,11 @@ fun CropScreen(
                 uri = it,
                 onGetMimeType = viewModel::updateMimeType,
                 onGetExif = {},
-                onGetBitmap = viewModel::updateBitmap,
+                onGetBitmap = { bmp ->
+                    viewModel.updateBitmap(
+                        bitmap = bmp, newBitmap = true
+                    )
+                },
                 onError = {
                     scope.launch {
                         toastHostState.showToast(
@@ -162,7 +167,11 @@ fun CropScreen(
                     uri = it,
                     onGetMimeType = {},
                     onGetExif = {},
-                    onGetBitmap = viewModel::updateBitmap,
+                    onGetBitmap = { bmp ->
+                        viewModel.updateBitmap(
+                            bitmap = bmp, newBitmap = true
+                        )
+                    },
                     onError = {
                         scope.launch {
                             toastHostState.showToast(
@@ -252,7 +261,8 @@ fun CropScreen(
                         }
                     }
                 )
-            } else {
+            }
+            else {
                 TopAppBar(
                     modifier = Modifier.drawHorizontalStroke(),
                     title = {
@@ -280,6 +290,14 @@ fun CropScreen(
                     actions = {
                         IconButton(
                             onClick = {
+                                viewModel.resetBitmap()
+                            },
+                            enabled = viewModel.bitmap != null
+                        ) {
+                            Icon(Icons.Outlined.RestartAlt, null)
+                        }
+                        IconButton(
+                            onClick = {
                                 share = true
                                 crop = true
                             },
@@ -291,15 +309,16 @@ fun CropScreen(
                 )
             }
             viewModel.bitmap?.let {
-                val bmp = remember(it) { it.asImageBitmap() }
-
                 if (portrait) {
                     Column {
                         AnimatedContent(
-                            targetState = viewModel.cropProperties.aspectRatio != AspectRatio.Original,
+                            targetState = (viewModel.cropProperties.aspectRatio != AspectRatio.Original) to it,
                             transitionSpec = { fadeIn() togetherWith fadeOut() },
-                            modifier = Modifier.weight(1f).fillMaxWidth(),
-                        ) {fixedAspectRatio ->
+                            modifier = Modifier
+                                .weight(1f)
+                                .fillMaxWidth(),
+                        ) { (fixedAspectRatio, bitmap) ->
+                            val bmp = remember(bitmap) { it.asImageBitmap() }
                             ImageCropper(
                                 background = MaterialTheme.colorScheme.surface,
                                 imageBitmap = bmp,
@@ -406,13 +425,14 @@ fun CropScreen(
                                 .padding(20.dp)
                         ) {
                             AnimatedContent(
-                                targetState = viewModel.cropProperties.aspectRatio != AspectRatio.Original,
+                                targetState = (viewModel.cropProperties.aspectRatio != AspectRatio.Original) to it,
                                 transitionSpec = { fadeIn() togetherWith fadeOut() },
                                 modifier = Modifier
                                     .align(Alignment.Center)
                                     .fillMaxSize()
                                     .navBarsPaddingOnlyIfTheyAtTheBottom()
-                            ) { fixedAspectRatio ->
+                            ) { (fixedAspectRatio, bitmap) ->
+                                val bmp = remember(bitmap) { it.asImageBitmap() }
                                 ImageCropper(
                                     background = MaterialTheme.colorScheme.surface,
                                     imageBitmap = bmp,
