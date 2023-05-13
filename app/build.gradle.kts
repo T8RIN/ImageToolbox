@@ -112,7 +112,7 @@ dependencies {
 
     //Di
     implementation("com.google.dagger:hilt-android:2.46")
-    kapt("com.google.dagger:hilt-compiler:2.46")
+    kapt("com.google.dagger:hilt-compiler:2.46.1")
 
     //Accompanist
     implementation("com.google.accompanist:accompanist-placeholder-material:0.31.2-alpha")
