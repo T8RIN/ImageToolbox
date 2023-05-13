@@ -111,8 +111,8 @@ dependencies {
     implementation("androidx.compose.material:material:1.5.0-alpha04")
 
     //Di
-    implementation("com.google.dagger:hilt-android:2.46")
-    kapt("com.google.dagger:hilt-compiler:2.46")
+    implementation("com.google.dagger:hilt-android:2.46.1")
+    kapt("com.google.dagger:hilt-compiler:2.46.1")
 
     //Accompanist
     implementation("com.google.accompanist:accompanist-placeholder-material:0.31.2-alpha")
