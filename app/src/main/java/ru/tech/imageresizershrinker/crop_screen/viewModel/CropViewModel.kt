@@ -42,6 +42,8 @@ class CropViewModel : ViewModel() {
     private val _bitmap: MutableState<Bitmap?> = mutableStateOf(null)
     val bitmap: Bitmap? by _bitmap
 
+    val isBitmapChanged get() = internalBitmap.value != _bitmap.value
+
     var mimeType = Bitmap.CompressFormat.PNG
         private set
 

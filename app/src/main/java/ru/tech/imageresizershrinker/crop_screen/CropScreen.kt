@@ -293,7 +293,7 @@ fun CropScreen(
                             onClick = {
                                 viewModel.resetBitmap()
                             },
-                            enabled = viewModel.bitmap != null
+                            enabled = viewModel.bitmap != null && viewModel.isBitmapChanged
                         ) {
                             Icon(Icons.Outlined.RestartAlt, null)
                         }
