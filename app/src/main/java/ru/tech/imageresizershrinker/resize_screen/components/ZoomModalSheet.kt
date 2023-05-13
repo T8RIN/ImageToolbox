@@ -1,6 +1,7 @@
 package ru.tech.imageresizershrinker.resize_screen.components
 
 import android.graphics.Bitmap
+import androidx.activity.compose.BackHandler
 import androidx.compose.animation.core.CubicBezierEasing
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.BorderStroke
@@ -43,8 +44,8 @@ import com.t8rin.modalsheet.ModalSheet
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.main_screen.components.LocalBorderWidth
 import ru.tech.imageresizershrinker.main_screen.components.TitleItem
-import ru.tech.imageresizershrinker.utils.modifier.fabBorder
 import ru.tech.imageresizershrinker.theme.outlineVariant
+import ru.tech.imageresizershrinker.utils.modifier.fabBorder
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -155,7 +156,10 @@ fun ZoomModalSheet(
             elevation = 0.dp,
             visible = showSheet,
             onVisibleChange = { showSheet = it },
-            content = sheetContent
+            content = {
+                BackHandler { showSheet = false }
+                sheetContent()
+            }
         )
     }
 }

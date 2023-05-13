@@ -17,10 +17,13 @@ import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
+import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -46,13 +49,17 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.EmojiSymbols
 import androidx.compose.material.icons.outlined.FileCopy
 import androidx.compose.material.icons.rounded.AddCircleOutline
 import androidx.compose.material.icons.rounded.AlternateEmail
+import androidx.compose.material.icons.rounded.Block
 import androidx.compose.material.icons.rounded.BugReport
 import androidx.compose.material.icons.rounded.Check
 import androidx.compose.material.icons.rounded.Close
@@ -86,7 +93,6 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.LargeFloatingActionButton
 import androidx.compose.material3.LargeTopAppBar
-import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalDrawerSheet
 import androidx.compose.material3.ModalNavigationDrawer
@@ -113,6 +119,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
@@ -149,14 +156,16 @@ import ru.tech.imageresizershrinker.resize_screen.components.RevealValue
 import ru.tech.imageresizershrinker.resize_screen.components.rememberRevealState
 import ru.tech.imageresizershrinker.resize_screen.components.revealSwipeable
 import ru.tech.imageresizershrinker.theme.CreateAlt
+import ru.tech.imageresizershrinker.theme.Emoji
+import ru.tech.imageresizershrinker.theme.EmojiItem
 import ru.tech.imageresizershrinker.theme.FileSettings
 import ru.tech.imageresizershrinker.theme.Github
 import ru.tech.imageresizershrinker.theme.GooglePlay
 import ru.tech.imageresizershrinker.theme.Lamp
-import ru.tech.imageresizershrinker.theme.Sparkles
 import ru.tech.imageresizershrinker.theme.Telegram
 import ru.tech.imageresizershrinker.theme.blend
 import ru.tech.imageresizershrinker.theme.inverse
+import ru.tech.imageresizershrinker.theme.list
 import ru.tech.imageresizershrinker.theme.outlineVariant
 import ru.tech.imageresizershrinker.theme.suggestContainerColorBy
 import ru.tech.imageresizershrinker.utils.APP_LINK
@@ -183,7 +192,7 @@ import kotlin.math.roundToInt
 
 @OptIn(
     ExperimentalMaterial3Api::class,
-    ExperimentalMaterialApi::class
+    ExperimentalMaterialApi::class, ExperimentalLayoutApi::class
 )
 @Composable
 fun MainScreen(
@@ -201,6 +210,7 @@ fun MainScreen(
 
     var showPickColorDialog by rememberSaveable { mutableStateOf(false) }
     var showAuthorDialog by rememberSaveable { mutableStateOf(false) }
+    var showEmojiDialog by rememberSaveable { mutableStateOf(false) }
 
     var showChangeFilenameDialog by rememberSaveable { mutableStateOf(false) }
 
@@ -571,6 +581,45 @@ fun MainScreen(
                             )
                             Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
                                 ChangeLanguagePreference()
+                                PreferenceRow(
+                                    title = stringResource(R.string.emoji),
+                                    subtitle = stringResource(R.string.emoji_sub),
+                                    onClick = {
+                                        showEmojiDialog = true
+                                    },
+                                    endContent = {
+                                        val emoji = Emoji.list.getOrNull(viewModel.selectedEmoji)
+                                        Box(
+                                            modifier = Modifier
+                                                .size(64.dp)
+                                                .offset(x = 7.dp)
+                                                .background(
+                                                    MaterialTheme
+                                                        .colorScheme
+                                                        .surfaceVariant
+                                                        .copy(alpha = 0.5f),
+                                                    MaterialTheme.shapes.medium
+                                                )
+                                                .border(
+                                                    LocalBorderWidth.current,
+                                                    MaterialTheme.colorScheme.outlineVariant(
+                                                        0.2f
+                                                    ),
+                                                    MaterialTheme.shapes.medium
+                                                ),
+                                            contentAlignment = Alignment.Center
+                                        ) {
+                                            if(emoji == null) {
+                                                Icon(Icons.Rounded.Block, null)
+                                            } else {
+                                                EmojiItem(
+                                                    emoji = emoji,
+                                                    fontSize = MaterialTheme.typography.headlineLarge.fontSize
+                                                )
+                                            }
+                                        }
+                                    }
+                                )
                                 PreferenceRowSwitch(
                                     title = stringResource(R.string.dynamic_colors),
                                     subtitle = stringResource(R.string.dynamic_colors_sub),
@@ -1001,28 +1050,7 @@ fun MainScreen(
                                                     )
                                                 }
                                         ) {
-                                            Icon(
-                                                imageVector = Icons.Rounded.Sparkles,
-                                                contentDescription = null,
-                                                modifier = Modifier
-                                                    .size(
-                                                        with(LocalDensity.current) {
-                                                            LocalTextStyle.current.fontSize.toDp()
-                                                        }
-                                                    )
-                                                    .offset(1.dp, 1.dp),
-                                                tint = Color(0, 0, 0, 40)
-                                            )
-                                            Icon(
-                                                imageVector = Icons.Rounded.Sparkles,
-                                                contentDescription = null,
-                                                modifier = Modifier.size(
-                                                    with(LocalDensity.current) {
-                                                        LocalTextStyle.current.fontSize.toDp()
-                                                    }
-                                                ),
-                                                tint = Color.Unspecified
-                                            )
+                                            EmojiItem(Emoji.list.getOrNull(viewModel.selectedEmoji))
                                         }
                                     }
                                 }
@@ -1520,6 +1548,104 @@ fun MainScreen(
                     ),
                 ) {
                     Text(stringResource(R.string.ok))
+                }
+            }
+        )
+    } else if (showEmojiDialog) {
+        AlertDialog(
+            modifier = Modifier.alertDialog(),
+            onDismissRequest = { showEmojiDialog = false },
+            title = { Text(stringResource(R.string.emoji)) },
+            icon = {
+                Icon(imageVector = Icons.Outlined.EmojiSymbols, contentDescription = null)
+            },
+            text = {
+                Box(Modifier.fillMaxWidth(), contentAlignment = Alignment.Center) {
+                    Divider(Modifier.align(Alignment.TopCenter))
+                    FlowRow(
+                        Modifier
+                            .fillMaxWidth()
+                            .verticalScroll(rememberScrollState())
+                            .padding(vertical = 8.dp)
+                            .offset(x = (-7).dp),
+                        verticalArrangement = Arrangement.spacedBy(
+                            4.dp,
+                            Alignment.CenterVertically
+                        ),
+                        horizontalArrangement = Arrangement.spacedBy(
+                            4.dp,
+                            Alignment.CenterHorizontally
+                        )
+                    ) {
+                        val selected = viewModel.selectedEmoji == -1
+                        Box(
+                            modifier = Modifier
+                                .size(64.dp)
+                                .offset(x = 7.dp)
+                                .background(
+                                    MaterialTheme
+                                        .colorScheme
+                                        .surfaceVariant
+                                        .copy(alpha = if(selected) 1f else 0.5f),
+                                    MaterialTheme.shapes.medium
+                                )
+                                .border(
+                                    if(!selected) LocalBorderWidth.current else LocalBorderWidth.current.coerceAtLeast(1.dp) * 2,
+                                    MaterialTheme.colorScheme.outlineVariant(
+                                        if(selected) 0.5f else 0.2f
+                                    ),
+                                    MaterialTheme.shapes.medium
+                                )
+                                .clip(MaterialTheme.shapes.medium)
+                                .clickable {
+                                    viewModel.updateEmoji(-1)
+                                },
+                            contentAlignment = Alignment.Center
+                        ) {
+                            Icon(Icons.Rounded.Block, null)
+                        }
+                        Emoji.list.forEachIndexed { index, emoji ->
+                            val emojiSelected = index == viewModel.selectedEmoji
+                            Box(
+                                modifier = Modifier
+                                    .size(64.dp)
+                                    .offset(x = 7.dp)
+                                    .background(
+                                        MaterialTheme
+                                            .colorScheme
+                                            .surfaceVariant
+                                            .copy(alpha = if(emojiSelected) 1f else 0.5f),
+                                        MaterialTheme.shapes.medium
+                                    )
+                                    .border(
+                                        if(!emojiSelected) LocalBorderWidth.current else LocalBorderWidth.current.coerceAtLeast(1.dp) * 2,
+                                        MaterialTheme.colorScheme.outlineVariant(
+                                            if(emojiSelected) 0.5f else 0.2f
+                                        ),
+                                        MaterialTheme.shapes.medium
+                                    )
+                                    .clip(MaterialTheme.shapes.medium)
+                                    .clickable {
+                                        viewModel.updateEmoji(index)
+                                    },
+                                contentAlignment = Alignment.Center
+                            ) {
+                                EmojiItem(emoji, MaterialTheme.typography.headlineLarge.fontSize)
+                            }
+                        }
+                    }
+                    Divider(Modifier.align(Alignment.BottomCenter))
+                }
+            },
+            confirmButton = {
+                OutlinedButton(
+                    onClick = { showEmojiDialog = false },
+                    colors = ButtonDefaults.filledTonalButtonColors(),
+                    border = BorderStroke(
+                        LocalBorderWidth.current, MaterialTheme.colorScheme.outlineVariant()
+                    )
+                ) {
+                    Text(stringResource(R.string.close))
                 }
             }
         )

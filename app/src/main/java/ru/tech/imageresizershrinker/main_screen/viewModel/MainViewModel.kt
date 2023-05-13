@@ -35,6 +35,7 @@ import ru.tech.imageresizershrinker.utils.APP_RELEASES
 import ru.tech.imageresizershrinker.utils.BORDER_WIDTH
 import ru.tech.imageresizershrinker.utils.COLOR_TUPLES
 import ru.tech.imageresizershrinker.utils.DYNAMIC_COLORS
+import ru.tech.imageresizershrinker.utils.EMOJI
 import ru.tech.imageresizershrinker.utils.FILENAME_PREFIX
 import ru.tech.imageresizershrinker.utils.IMAGE_MONET
 import ru.tech.imageresizershrinker.utils.NIGHT_MODE
@@ -50,6 +51,9 @@ import javax.xml.parsers.DocumentBuilderFactory
 class MainViewModel @Inject constructor(
     private val dataStore: DataStore<Preferences>
 ) : ViewModel() {
+
+    private val _selectedEmoji = mutableStateOf(0)
+    val selectedEmoji by _selectedEmoji
 
     private val _alignment = mutableStateOf(1)
     val alignment by _alignment
@@ -132,6 +136,7 @@ class MainViewModel @Inject constructor(
                 }) ?: defaultColorTuple
                 _borderWidth.value = prefs[BORDER_WIDTH]?.toFloatOrNull() ?: 1f
                 _showDialogOnStartUp.value = prefs[SHOW_DIALOG] ?: true
+                _selectedEmoji.value = prefs[EMOJI] ?: 0
             }
         }
         dataStore.data.onEach { prefs ->
@@ -163,9 +168,17 @@ class MainViewModel @Inject constructor(
             _alignment.value = prefs[ALIGNMENT] ?: 1
             _showDialogOnStartUp.value = prefs[SHOW_DIALOG] ?: true
             _filenamePrefix.value = prefs[FILENAME_PREFIX] ?: ""
-
+            _selectedEmoji.value = prefs[EMOJI] ?: 0
         }.launchIn(viewModelScope)
         tryGetUpdate(showDialog = showDialogOnStartUp)
+    }
+
+    fun updateEmoji(emoji: Int) {
+        viewModelScope.launch {
+            dataStore.edit {
+                it[EMOJI] = emoji
+            }
+        }
     }
 
     fun updateFilename(name: String) {
