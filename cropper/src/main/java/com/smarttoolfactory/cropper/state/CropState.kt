@@ -58,7 +58,6 @@ fun rememberCropState(
                 )
             }
             else -> {
-
                 DynamicCropState(
                     imageSize = imageSize,
                     containerSize = containerSize,

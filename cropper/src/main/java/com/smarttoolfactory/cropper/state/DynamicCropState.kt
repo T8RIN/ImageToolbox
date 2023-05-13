@@ -280,7 +280,7 @@ class DynamicCropState internal constructor(
     }
 
 
-    // TODO Change pan when zoom is bigger than 1f and touchRegion is inside overlay rect
+//    //TODO Change pan when zoom is bigger than 1f and touchRegion is inside overlay rect
 //    private suspend fun moveOverlayToBounds(change: PointerInputChange, newRect: Rect) {
 //        val bounds = drawAreaRect
 //
@@ -298,22 +298,22 @@ class DynamicCropState internal constructor(
 //            snapPanXto(pan.x - positionChange.x * zoom)
 //            // Overlay moving left
 //        } else if (isPanRequired && pan.x < bounds.left && newRect.left <= 0f) {
-////            snapOverlayRectTo(newRect.translate(-positionChange.x, 0f))
-////            snapPanXto(pan.x - positionChange.x * zoom)
+//            snapOverlayRectTo(newRect.translate(-positionChange.x, 0f))
+//            snapPanXto(pan.x - positionChange.x * zoom)
 //        } else if (isPanRequired && pan.y < bounds.top && newRect.top <= 0f) {
 //            // Overlay moving top
-////            snapOverlayRectTo(newRect.translate(0f, -positionChange.y))
-////            snapPanYto(pan.y - positionChange.y * zoom)
+//            snapOverlayRectTo(newRect.translate(0f, -positionChange.y))
+//            snapPanYto(pan.y - positionChange.y * zoom)
 //        } else if (isPanRequired && -pan.y < bounds.bottom && newRect.bottom >= containerSize.height) {
 //            // Overlay moving bottom
-////            snapOverlayRectTo(newRect.translate(0f, -positionChange.y))
-////            snapPanYto(pan.y - positionChange.y * zoom)
+//            snapOverlayRectTo(newRect.translate(0f, -positionChange.y))
+//            snapPanYto(pan.y - positionChange.y * zoom)
 //        } else {
 //            snapOverlayRectTo(newRect)
 //        }
-////        if (touchRegion != TouchRegion.None) {
-////            change.consume()
-////        }
+//        if (touchRegion != TouchRegion.None) {
+//            change.consume()
+//        }
 //    }
 
     /**
@@ -526,15 +526,19 @@ class DynamicCropState internal constructor(
         TouchRegion.TopLeft -> {
             rect.topLeft - touchPosition
         }
+
         TouchRegion.TopRight -> {
             rect.topRight - touchPosition
         }
+
         TouchRegion.BottomLeft -> {
             rect.bottomLeft - touchPosition
         }
+
         TouchRegion.BottomRight -> {
             rect.bottomRight - touchPosition
         }
+
         else -> {
             Offset.Zero
         }

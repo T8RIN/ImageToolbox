@@ -31,7 +31,8 @@ class CropViewModel : ViewModel() {
             cropOutlineProperty = CropOutlineProperty(
                 OutlineType.Rect,
                 RectCropShape(0, "")
-            )
+            ),
+            fling = true
         )
     )
     val cropProperties by _cropProperties
@@ -124,6 +125,14 @@ class CropViewModel : ViewModel() {
 
     fun resetBitmap() {
         _bitmap.value = internalBitmap.value
+    }
+
+    fun imageCropStarted() {
+        _isLoading.value = true
+    }
+
+    fun imageCropFinished() {
+        _isLoading.value = false
     }
 
 }

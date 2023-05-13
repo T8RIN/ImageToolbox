@@ -79,6 +79,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.smarttoolfactory.cropper.ImageCropper
 import com.smarttoolfactory.cropper.model.AspectRatio
+import com.smarttoolfactory.cropper.settings.CropDefaults
 import com.t8rin.dynamic.theme.LocalDynamicThemeState
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
@@ -324,9 +325,15 @@ fun CropScreen(
                                 imageBitmap = bmp,
                                 contentDescription = null,
                                 cropProperties = viewModel.cropProperties.copy(fixedAspectRatio = fixedAspectRatio),
-                                onCropStart = {},
+                                onCropStart = {
+                                    viewModel.imageCropStarted()
+                                },
                                 crop = crop,
+                                cropStyle = CropDefaults.style(
+                                    overlayColor = MaterialTheme.colorScheme.surfaceVariant
+                                ),
                                 onCropSuccess = { image ->
+                                    viewModel.imageCropFinished()
                                     if (share) {
                                         context.shareBitmap(
                                             bitmap = image.asAndroidBitmap(),
@@ -340,7 +347,7 @@ fun CropScreen(
                                     save = false
                                     crop = false
                                     share = false
-                                }
+                                },
                             )
                         }
 
@@ -437,10 +444,16 @@ fun CropScreen(
                                     background = MaterialTheme.colorScheme.surface,
                                     imageBitmap = bmp,
                                     contentDescription = null,
+                                    cropStyle = CropDefaults.style(
+                                        overlayColor = MaterialTheme.colorScheme.outlineVariant
+                                    ),
                                     cropProperties = viewModel.cropProperties.copy(fixedAspectRatio = fixedAspectRatio),
-                                    onCropStart = {},
+                                    onCropStart = {
+                                        viewModel.imageCropStarted()
+                                    },
                                     crop = crop,
                                     onCropSuccess = { image ->
+                                        viewModel.imageCropFinished()
                                         if (share) {
                                             context.shareBitmap(
                                                 bitmap = image.asAndroidBitmap(),

@@ -5,7 +5,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Rect
-import androidx.compose.ui.graphics.*
+import androidx.compose.ui.graphics.BlendMode
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ImageBitmap
+import androidx.compose.ui.graphics.Outline
+import androidx.compose.ui.graphics.Path
+import androidx.compose.ui.graphics.StrokeCap
+import androidx.compose.ui.graphics.StrokeJoin
+import androidx.compose.ui.graphics.drawOutline
 import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.drawscope.translate
@@ -33,7 +40,7 @@ internal fun DrawingOverlay(
     rect: Rect,
     cropOutline: CropOutline,
     drawGrid: Boolean,
-    transparentColor:Color,
+    transparentColor: Color,
     overlayColor: Color,
     handleColor: Color,
     strokeWidth: Dp,
@@ -71,6 +78,7 @@ internal fun DrawingOverlay(
                 outline = outline
             )
         }
+
         is CropPath -> {
             val path = remember(rect, cropOutline) {
                 Path().apply {
@@ -95,6 +103,7 @@ internal fun DrawingOverlay(
                 path = path
             )
         }
+
         is CropImageMask -> {
             val imageBitmap = cropOutline.image
 
@@ -228,7 +237,7 @@ private fun DrawScope.drawOverlay(
     pathHandles: Path,
     drawBlock: DrawScope.() -> Unit
 ) {
-   drawWithLayer {
+    drawWithLayer {
 
         // Destination
         drawRect(transparentColor)
@@ -265,7 +274,7 @@ private fun DrawScope.drawOverlay(
                 path = pathHandles,
                 color = handleColor,
                 style = Stroke(
-                    width = strokeWidth * 2,
+                    width = strokeWidth * 4,
                     cap = StrokeCap.Round,
                     join = StrokeJoin.Round
                 )
