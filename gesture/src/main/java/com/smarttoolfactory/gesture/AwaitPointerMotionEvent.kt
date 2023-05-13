@@ -1,7 +1,7 @@
 package com.smarttoolfactory.gesture
 
+import androidx.compose.foundation.gestures.awaitEachGesture
 import androidx.compose.foundation.gestures.awaitFirstDown
-import androidx.compose.foundation.gestures.forEachGesture
 import androidx.compose.ui.input.pointer.*
 import androidx.compose.ui.input.pointer.PointerEventPass.*
 import kotlinx.coroutines.coroutineScope
@@ -60,7 +60,7 @@ suspend fun PointerInputScope.detectMotionEvents(
 ) {
 
     coroutineScope {
-        forEachGesture {
+        awaitEachGesture {
             awaitPointerEventScope {
                 // Wait for at least one pointer to press down, and set first contact position
                 val down: PointerInputChange = awaitFirstDown(requireUnconsumed)
@@ -166,7 +166,7 @@ suspend fun PointerInputScope.detectMotionEventsAsList(
 ) {
 
     coroutineScope {
-        forEachGesture {
+        awaitEachGesture {
             awaitPointerEventScope {
                 // Wait for at least one pointer to press down, and set first contact position
                 val down: PointerInputChange = awaitFirstDown(requireUnconsumed)

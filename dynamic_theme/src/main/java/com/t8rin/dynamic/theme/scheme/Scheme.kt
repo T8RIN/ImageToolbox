@@ -54,7 +54,7 @@ class Scheme {
     var inverseOnSurface = 0
     var inversePrimary = 0
 
-    constructor() {}
+    constructor()
     constructor(
         primary: Int,
         onPrimary: Int,

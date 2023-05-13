@@ -35,7 +35,7 @@ class QuantizerWu : Quantizer {
     lateinit var cubes: Array<Box?>
     override fun quantize(pixels: IntArray, colorCount: Int): QuantizerResult {
         val mapResult = QuantizerMap().quantize(pixels, colorCount)
-        constructHistogram(mapResult!!.colorToCount)
+        constructHistogram(mapResult.colorToCount)
         createMoments()
         val createBoxesResult = createBoxes(colorCount)
         val colors = createResult(createBoxesResult.resultCount)
