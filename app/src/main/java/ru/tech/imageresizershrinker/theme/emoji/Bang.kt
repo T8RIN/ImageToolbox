@@ -13,7 +13,7 @@ import androidx.compose.ui.graphics.vector.path
 import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.theme.Emoji
 
-public val Emoji.Bang: ImageVector
+val Emoji.Bang: ImageVector
     get() {
         if (_bang != null) {
             return _bang!!

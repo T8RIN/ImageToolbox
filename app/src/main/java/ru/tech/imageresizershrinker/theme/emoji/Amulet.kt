@@ -11,7 +11,7 @@ import androidx.compose.ui.graphics.vector.path
 import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.theme.Emoji
 
-public val Emoji.Amulet: ImageVector
+val Emoji.Amulet: ImageVector
     get() {
         if (_amulet != null) {
             return _amulet!!

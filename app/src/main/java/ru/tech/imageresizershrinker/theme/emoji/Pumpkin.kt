@@ -12,7 +12,7 @@ import androidx.compose.ui.graphics.vector.path
 import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.theme.Emoji
 
-public val Emoji.Pumpkin: ImageVector
+val Emoji.Pumpkin: ImageVector
     get() {
         if (_pumpkin != null) {
             return _pumpkin!!

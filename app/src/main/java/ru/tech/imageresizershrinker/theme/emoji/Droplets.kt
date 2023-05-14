@@ -11,7 +11,7 @@ import androidx.compose.ui.graphics.vector.path
 import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.theme.Emoji
 
-public val Emoji.Droplets: ImageVector
+val Emoji.Droplets: ImageVector
     get() {
         if (_droplets != null) {
             return _droplets!!

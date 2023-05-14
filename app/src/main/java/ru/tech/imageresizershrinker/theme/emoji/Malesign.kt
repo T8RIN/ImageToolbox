@@ -13,7 +13,7 @@ import androidx.compose.ui.graphics.vector.path
 import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.theme.Emoji
 
-public val Emoji.Malesign: ImageVector
+val Emoji.Malesign: ImageVector
     get() {
         if (_malesign != null) {
             return _malesign!!

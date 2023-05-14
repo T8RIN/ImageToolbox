@@ -11,7 +11,7 @@ import androidx.compose.ui.graphics.vector.path
 import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.theme.Emoji
 
-public val Emoji.Biohazard: ImageVector
+val Emoji.Biohazard: ImageVector
     get() {
         if (_biohazard != null) {
             return _biohazard!!

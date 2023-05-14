@@ -11,7 +11,7 @@ import androidx.compose.ui.graphics.vector.path
 import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.theme.Emoji
 
-public val Emoji.Eggplant: ImageVector
+val Emoji.Eggplant: ImageVector
     get() {
         if (_eggplant != null) {
             return _eggplant!!

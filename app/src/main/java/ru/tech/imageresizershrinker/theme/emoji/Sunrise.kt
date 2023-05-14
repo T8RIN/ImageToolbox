@@ -13,7 +13,7 @@ import androidx.compose.ui.graphics.vector.path
 import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.theme.Emoji
 
-public val Emoji.Sunrise: ImageVector
+val Emoji.Sunrise: ImageVector
     get() {
         if (_sunrise != null) {
             return _sunrise!!

@@ -11,7 +11,7 @@ import androidx.compose.ui.graphics.vector.path
 import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.theme.Emoji
 
-public val Emoji.Snowflake: ImageVector
+val Emoji.Snowflake: ImageVector
     get() {
         if (_snowflake != null) {
             return _snowflake!!

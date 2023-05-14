@@ -13,7 +13,7 @@ import androidx.compose.ui.graphics.vector.path
 import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.theme.Emoji
 
-public val Emoji.Peach: ImageVector
+val Emoji.Peach: ImageVector
     get() {
         if (_peach != null) {
             return _peach!!

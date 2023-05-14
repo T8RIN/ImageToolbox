@@ -11,7 +11,7 @@ import androidx.compose.ui.graphics.vector.path
 import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.theme.Emoji
 
-public val Emoji.Moneybag: ImageVector
+val Emoji.Moneybag: ImageVector
     get() {
         if (_moneybag != null) {
             return _moneybag!!

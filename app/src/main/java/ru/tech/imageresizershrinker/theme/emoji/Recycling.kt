@@ -11,7 +11,7 @@ import androidx.compose.ui.graphics.vector.path
 import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.theme.Emoji
 
-public val Emoji.Recycling: ImageVector
+val Emoji.Recycling: ImageVector
     get() {
         if (_recycling != null) {
             return _recycling!!

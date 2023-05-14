@@ -11,7 +11,7 @@ import androidx.compose.ui.graphics.vector.path
 import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.theme.Emoji
 
-public val Emoji.Moai: ImageVector
+val Emoji.Moai: ImageVector
     get() {
         if (_moai != null) {
             return _moai!!

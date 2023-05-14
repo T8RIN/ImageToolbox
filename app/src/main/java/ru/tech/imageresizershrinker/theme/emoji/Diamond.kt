@@ -11,7 +11,7 @@ import androidx.compose.ui.graphics.vector.path
 import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.theme.Emoji
 
-public val Emoji.Diamond: ImageVector
+val Emoji.Diamond: ImageVector
     get() {
         if (_diamond != null) {
             return _diamond!!

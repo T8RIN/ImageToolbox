@@ -19,6 +19,7 @@ import ru.tech.imageresizershrinker.theme.emoji.Alien
 import ru.tech.imageresizershrinker.theme.emoji.Amulet
 import ru.tech.imageresizershrinker.theme.emoji.Apple
 import ru.tech.imageresizershrinker.theme.emoji.Bang
+import ru.tech.imageresizershrinker.theme.emoji.Beer
 import ru.tech.imageresizershrinker.theme.emoji.Biohazard
 import ru.tech.imageresizershrinker.theme.emoji.Cat
 import ru.tech.imageresizershrinker.theme.emoji.Cloud
@@ -29,45 +30,90 @@ import ru.tech.imageresizershrinker.theme.emoji.Eggplant
 import ru.tech.imageresizershrinker.theme.emoji.Eyes
 import ru.tech.imageresizershrinker.theme.emoji.Fire
 import ru.tech.imageresizershrinker.theme.emoji.Frog
+import ru.tech.imageresizershrinker.theme.emoji.Globe
 import ru.tech.imageresizershrinker.theme.emoji.Heart
 import ru.tech.imageresizershrinker.theme.emoji.Ice
 import ru.tech.imageresizershrinker.theme.emoji.Malesign
 import ru.tech.imageresizershrinker.theme.emoji.Moai
 import ru.tech.imageresizershrinker.theme.emoji.Money
 import ru.tech.imageresizershrinker.theme.emoji.Moneybag
+import ru.tech.imageresizershrinker.theme.emoji.MoonA
+import ru.tech.imageresizershrinker.theme.emoji.MoonB
 import ru.tech.imageresizershrinker.theme.emoji.Package
 import ru.tech.imageresizershrinker.theme.emoji.Party
 import ru.tech.imageresizershrinker.theme.emoji.Peach
+import ru.tech.imageresizershrinker.theme.emoji.Pepper
 import ru.tech.imageresizershrinker.theme.emoji.Picture
 import ru.tech.imageresizershrinker.theme.emoji.Pill
 import ru.tech.imageresizershrinker.theme.emoji.Pumpkin
 import ru.tech.imageresizershrinker.theme.emoji.Radioactive
 import ru.tech.imageresizershrinker.theme.emoji.Recycling
 import ru.tech.imageresizershrinker.theme.emoji.Rocket
+import ru.tech.imageresizershrinker.theme.emoji.Skull
 import ru.tech.imageresizershrinker.theme.emoji.Snowflake
 import ru.tech.imageresizershrinker.theme.emoji.Sparkles
 import ru.tech.imageresizershrinker.theme.emoji.Star
 import ru.tech.imageresizershrinker.theme.emoji.Sunrise
+import ru.tech.imageresizershrinker.theme.emoji.Taxi
 import ru.tech.imageresizershrinker.theme.emoji.Warning
+import ru.tech.imageresizershrinker.theme.emoji.Zap
 import ru.tech.imageresizershrinker.theme.emoji.Zzz
-import kotlin.collections.List as ____KtList
 
 object Emoji
 
-private var __Emoji: ____KtList<ImageVector>? = null
+private var EmojiList: List<ImageVector>? = null
 
-public val Emoji.list: ____KtList<ImageVector>
+public val Emoji.list: List<ImageVector>
     get() {
-        if (__Emoji != null) {
-            return __Emoji!!
+        if (EmojiList != null) {
+            return EmojiList!!
         }
-        __Emoji = listOf(
-            Sparkles, Alien, Amulet, Apple, Bang, Biohazard, Cat, Cloud, Clover, Diamond, Droplets,
-            Eggplant, Eyes, Fire, Frog, Heart, Ice, Malesign, Moai, Money, Moneybag, Package, Party,
-            Peach, Picture, Pill, Pumpkin, Radioactive, Recycling, Rocket, Snowflake, Star, Sunrise,
-            Warning, Zzz
+        EmojiList = listOf(
+            Sparkles,
+            Alien,
+            Amulet,
+            Apple,
+            Bang,
+            Beer,
+            Biohazard,
+            Cat,
+            Cloud,
+            Clover,
+            Diamond,
+            Droplets,
+            Eggplant,
+            Eyes,
+            Fire,
+            Frog,
+            Globe,
+            Heart,
+            Ice,
+            Malesign,
+            Moai,
+            Money,
+            Moneybag,
+            MoonA,
+            MoonB,
+            Package,
+            Party,
+            Peach,
+            Pepper,
+            Picture,
+            Pill,
+            Pumpkin,
+            Radioactive,
+            Recycling,
+            Rocket,
+            Skull,
+            Snowflake,
+            Star,
+            Sunrise,
+            Taxi,
+            Warning,
+            Zap,
+            Zzz
         )
-        return __Emoji!!
+        return EmojiList!!
     }
 
 @Composable

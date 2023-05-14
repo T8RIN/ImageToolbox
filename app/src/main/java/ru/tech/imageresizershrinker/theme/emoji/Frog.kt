@@ -11,7 +11,7 @@ import androidx.compose.ui.graphics.vector.path
 import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.theme.Emoji
 
-public val Emoji.Frog: ImageVector
+val Emoji.Frog: ImageVector
     get() {
         if (_frog != null) {
             return _frog!!

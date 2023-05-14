@@ -11,7 +11,7 @@ import androidx.compose.ui.graphics.vector.path
 import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.theme.Emoji
 
-public val Emoji.Radioactive: ImageVector
+val Emoji.Radioactive: ImageVector
     get() {
         if (_radioactive != null) {
             return _radioactive!!
