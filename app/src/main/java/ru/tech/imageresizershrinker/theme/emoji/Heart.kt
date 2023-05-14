@@ -33,7 +33,7 @@ public val Emoji.Heart: ImageVector
                 curveToRelative(6.98f, -29.87f, -10.56f, -43.01f, -28.48f, -43.01f)
                 close()
             }
-            path(fill = SolidColor(Color(0xFF000000)), stroke = null, strokeLineWidth = 0.0f,
+            path(fill = SolidColor(Color(0xFFA73229)), stroke = null, strokeLineWidth = 0.0f,
                     strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
                     pathFillType = NonZero) {
                 moveTo(30.65f, 11.2f)

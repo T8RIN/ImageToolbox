@@ -257,7 +257,7 @@ public val Emoji.Rocket: ImageVector
                 curveToRelative(-8.39f, 8.14f, -14.61f, 15.8f, -14.69f, 17.24f)
                 close()
             }
-            path(fill = SolidColor(Color(0xFF000000)), stroke = null, strokeLineWidth = 0.0f,
+            path(fill = SolidColor(Color(0xFFFFFFFF)), stroke = null, strokeLineWidth = 0.0f,
                     strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
                     pathFillType = NonZero) {
                 moveTo(19.06f, 36.95f)
@@ -267,7 +267,7 @@ public val Emoji.Rocket: ImageVector
                 curveToRelative(-0.89f, -0.89f, -2.66f, -0.6f, -3.34f, 0.07f)
                 close()
             }
-            path(fill = SolidColor(Color(0xFF000000)), stroke = null, fillAlpha = 0.5f, strokeAlpha
+            path(fill = SolidColor(Color(0xFFFFFFFF)), stroke = null, fillAlpha = 0.5f, strokeAlpha
                     = 0.5f, strokeLineWidth = 0.0f, strokeLineCap = Butt, strokeLineJoin = Miter,
                     strokeLineMiter = 4.0f, pathFillType = NonZero) {
                 moveTo(41.02f, 35.65f)
@@ -277,7 +277,7 @@ public val Emoji.Rocket: ImageVector
                 curveToRelative(-0.68f, -0.67f, -1.98f, -0.51f, -2.52f, 0.09f)
                 close()
             }
-            path(fill = SolidColor(Color(0xFF000000)), stroke = null, strokeLineWidth = 0.0f,
+            path(fill = SolidColor(Color(0xFFFFFFFF)), stroke = null, strokeLineWidth = 0.0f,
                     strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
                     pathFillType = NonZero) {
                 moveTo(55.55f, 11.89f)

@@ -255,7 +255,7 @@ public val Emoji.Sunrise: ImageVector
                 lineToRelative(120.35f, 0.47f)
                 close()
             }
-            path(fill = SolidColor(Color(0xFF000000)), stroke = null, strokeLineWidth = 0.0f,
+            path(fill = SolidColor(Color(0xFFFFFFFF)), stroke = null, strokeLineWidth = 0.0f,
                     strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
                     pathFillType = NonZero) {
                 moveTo(35.72f, 85.04f)
@@ -286,7 +286,7 @@ public val Emoji.Sunrise: ImageVector
                 curveToRelative(-1.42f, 0.09f, -3.0f, 0.66f, -2.92f, 2.37f)
                 close()
             }
-            path(fill = SolidColor(Color(0xFF000000)), stroke = null, strokeLineWidth = 0.0f,
+            path(fill = SolidColor(Color(0xFFFFFFFF)), stroke = null, strokeLineWidth = 0.0f,
                     strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
                     pathFillType = NonZero) {
                 moveTo(56.24f, 106.95f)
