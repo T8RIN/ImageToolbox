@@ -9,12 +9,9 @@ import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
-import androidx.compose.animation.scaleIn
-import androidx.compose.animation.scaleOut
 import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.ExperimentalFoundationApi
@@ -66,8 +63,6 @@ import androidx.compose.material.icons.rounded.RestartAlt
 import androidx.compose.material.icons.rounded.Save
 import androidx.compose.material.icons.rounded.ZoomIn
 import androidx.compose.material3.AlertDialog
-import androidx.compose.material3.Badge
-import androidx.compose.material3.BadgedBox
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
@@ -166,7 +161,6 @@ import ru.tech.imageresizershrinker.widget.Marquee
 import ru.tech.imageresizershrinker.widget.RoundedTextField
 
 @OptIn(
-    ExperimentalAnimationApi::class,
     ExperimentalMaterial3Api::class,
     ExperimentalFoundationApi::class
 )
@@ -219,7 +213,6 @@ fun SingleResizeScreen(
     var showSaveLoading by rememberSaveable { mutableStateOf(false) }
     var showOriginal by rememberSaveable { mutableStateOf(false) }
     var showEditExifDialog by rememberSaveable { mutableStateOf(false) }
-    var showExifSavingDialog by rememberSaveable { mutableStateOf(false) }
     var showCropDialog by rememberSaveable { mutableStateOf(false) }
     var showExitDialog by rememberSaveable { mutableStateOf(false) }
 
@@ -261,7 +254,7 @@ fun SingleResizeScreen(
         )
     }
 
-    val saveBitmap = {
+    val saveBitmap: () -> Unit = {
         showSaveLoading = true
         viewModel.saveBitmap(
             isExternalStorageWritable = context.isExternalStorageWritable(),
@@ -349,9 +342,14 @@ fun SingleResizeScreen(
                     )
                     IconButton(
                         onClick = {
+                            showSaveLoading = true
                             context.shareBitmap(
                                 bitmap = viewModel.previewBitmap,
-                                bitmapInfo = viewModel.bitmapInfo
+                                bitmapInfo = viewModel.bitmapInfo,
+                                onComplete = {
+                                    showSaveLoading = false
+                                    showConfetti()
+                                }
                             )
                         },
                         enabled = viewModel.previewBitmap != null
@@ -435,36 +433,11 @@ fun SingleResizeScreen(
                         }
                         Spacer(Modifier.width(16.dp))
                         FloatingActionButton(
-                            onClick = {
-                                if (bitmapInfo.mimeTypeInt.extension !in listOf(
-                                        "jpg",
-                                        "jpeg"
-                                    ) && viewModel.bitmap != null && map?.isNotEmpty() == true
-                                ) {
-                                    showExifSavingDialog = true
-                                } else {
-                                    saveBitmap()
-                                }
-                            },
+                            onClick = saveBitmap,
                             elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
                             modifier = Modifier.fabBorder(),
                         ) {
-                            BadgedBox(
-                                badge = {
-                                    androidx.compose.animation.AnimatedVisibility(
-                                        visible = bitmapInfo.mimeTypeInt.extension !in listOf(
-                                            "jpg",
-                                            "jpeg"
-                                        ) && map?.isNotEmpty() == true,
-                                        enter = fadeIn() + scaleIn(),
-                                        exit = fadeOut() + scaleOut()
-                                    ) {
-                                        Badge(modifier = Modifier.size(8.dp))
-                                    }
-                                }
-                            ) {
-                                Icon(Icons.Rounded.Save, null)
-                            }
+                            Icon(Icons.Rounded.Save, null)
                         }
                     }
                 }
@@ -487,34 +460,9 @@ fun SingleResizeScreen(
                 FloatingActionButton(
                     elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
                     modifier = Modifier.fabBorder(),
-                    onClick = {
-                        if (bitmapInfo.mimeTypeInt.extension !in listOf(
-                                "jpg",
-                                "jpeg"
-                            ) && viewModel.bitmap != null && map?.isNotEmpty() == true
-                        ) {
-                            showExifSavingDialog = true
-                        } else {
-                            saveBitmap()
-                        }
-                    }
+                    onClick = saveBitmap
                 ) {
-                    BadgedBox(
-                        badge = {
-                            androidx.compose.animation.AnimatedVisibility(
-                                visible = bitmapInfo.mimeTypeInt.extension !in listOf(
-                                    "jpg",
-                                    "jpeg"
-                                ) && map?.isNotEmpty() == true,
-                                enter = fadeIn() + scaleIn(),
-                                exit = fadeOut() + scaleOut()
-                            ) {
-                                Badge(modifier = Modifier.size(8.dp))
-                            }
-                        }
-                    ) {
-                        Icon(Icons.Rounded.Save, null)
-                    }
+                    Icon(Icons.Rounded.Save, null)
                 }
             }
         }
@@ -613,9 +561,14 @@ fun SingleResizeScreen(
                             )
                             IconButton(
                                 onClick = {
+                                    showSaveLoading = true
                                     context.shareBitmap(
                                         bitmap = viewModel.previewBitmap,
-                                        bitmapInfo = viewModel.bitmapInfo
+                                        bitmapInfo = viewModel.bitmapInfo,
+                                        onComplete = {
+                                            showSaveLoading = true
+                                            showConfetti()
+                                        }
                                     )
                                 },
                                 enabled = viewModel.previewBitmap != null
@@ -1234,46 +1187,6 @@ fun SingleResizeScreen(
                         }
                     )
                 }
-            } else if (showExifSavingDialog) {
-                AlertDialog(
-                    modifier = Modifier.alertDialog(),
-                    icon = { Icon(Icons.Rounded.Save, null) },
-                    title = { Text(stringResource(R.string.exif)) },
-                    text = { Text(stringResource(R.string.might_be_error_with_exif)) },
-                    onDismissRequest = { showExifSavingDialog = false },
-                    confirmButton = {
-                        OutlinedButton(
-                            colors = ButtonDefaults.outlinedButtonColors(
-                                containerColor = MaterialTheme.colorScheme.primary,
-                                contentColor = MaterialTheme.colorScheme.onPrimary,
-                            ),
-                            border = BorderStroke(
-                                LocalBorderWidth.current,
-                                MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.primary)
-                            ),
-                            onClick = { showExifSavingDialog = false }) {
-                            Text(stringResource(R.string.close))
-                        }
-                    },
-                    dismissButton = {
-                        OutlinedButton(
-                            colors = ButtonDefaults.outlinedButtonColors(
-                                containerColor = MaterialTheme.colorScheme.secondaryContainer,
-                                contentColor = MaterialTheme.colorScheme.onSecondaryContainer,
-                            ),
-                            border = BorderStroke(
-                                LocalBorderWidth.current,
-                                MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.secondaryContainer)
-                            ),
-                            onClick = {
-                                showExifSavingDialog = false
-                                saveBitmap()
-                            }
-                        ) {
-                            Text(stringResource(R.string.save))
-                        }
-                    }
-                )
             } else if (viewModel.bitmap != null && showCropDialog) {
                 viewModel.bitmap?.let {
                     val bmp = remember(it) {

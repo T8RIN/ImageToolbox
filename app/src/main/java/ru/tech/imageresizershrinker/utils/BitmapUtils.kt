@@ -472,7 +472,37 @@ object BitmapUtils {
         return size() < 4096 * 4096 * 5
     }
 
-    private fun Context.saveImage(
+    private fun Context.shareImage(
+        image: Bitmap,
+        bitmapInfo: BitmapInfo,
+        onComplete: () -> Unit,
+        name: String = "shared_image",
+    ) {
+        CoroutineScope(Dispatchers.Main).launch {
+            withContext(Dispatchers.IO) {
+                val imagesFolder = File(cacheDir, "images")
+                val uri = kotlin.runCatching {
+                    imagesFolder.mkdirs()
+                    val mime = bitmapInfo.mimeTypeInt
+                    val ext = mime.extension
+                    val file = File(imagesFolder, "$name.$ext")
+                    val stream = FileOutputStream(file)
+                    image.compress(ext.compressFormat, bitmapInfo.quality.toInt(), stream)
+                    stream.flush()
+                    stream.close()
+                    FileProvider.getUriForFile(
+                        this@shareImage,
+                        "ru.tech.imageresizershrinker.fileprovider",
+                        file
+                    )
+                }.getOrNull()
+                uri?.let { shareImageUri(it) }
+                onComplete()
+            }
+        }
+    }
+
+    private fun Context.cacheImage(
         image: Bitmap,
         bitmapInfo: BitmapInfo,
         name: String = "shared_image"
@@ -491,18 +521,32 @@ object BitmapUtils {
         }.getOrNull()
     }
 
-    private fun Context.saveImage(image: Bitmap, compressFormat: CompressFormat): Uri? {
-        val imagesFolder = File(cacheDir, "images")
-        return kotlin.runCatching {
-            imagesFolder.mkdirs()
-            val ext = compressFormat.extension
-            val file = File(imagesFolder, "shared_image.$ext")
-            val stream = FileOutputStream(file)
-            image.compress(compressFormat, 100, stream)
-            stream.flush()
-            stream.close()
-            FileProvider.getUriForFile(this, "ru.tech.imageresizershrinker.fileprovider", file)
-        }.getOrNull()
+    private fun Context.shareImage(
+        image: Bitmap,
+        compressFormat: CompressFormat,
+        onComplete: () -> Unit
+    ) {
+        CoroutineScope(Dispatchers.Main).launch {
+            withContext(Dispatchers.IO) {
+                val imagesFolder = File(cacheDir, "images")
+                val uri = kotlin.runCatching {
+                    imagesFolder.mkdirs()
+                    val ext = compressFormat.extension
+                    val file = File(imagesFolder, "shared_image.$ext")
+                    val stream = FileOutputStream(file)
+                    image.compress(compressFormat, 100, stream)
+                    stream.flush()
+                    stream.close()
+                    FileProvider.getUriForFile(
+                        this@shareImage,
+                        "ru.tech.imageresizershrinker.fileprovider",
+                        file
+                    )
+                }.getOrNull()
+                uri?.let { shareImageUri(it) }
+                onComplete()
+            }
+        }
     }
 
     fun Context.shareImageUri(uri: Uri) {
@@ -537,7 +581,7 @@ object BitmapUtils {
                 val uriList: MutableList<Uri> = mutableListOf()
                 uris.forEachIndexed { index, uri ->
                     bitmapLoader(uri)?.let { (bitmap, bitmapInfo) ->
-                        saveImage(
+                        cacheImage(
                             image = bitmap,
                             bitmapInfo = bitmapInfo,
                             name = index.toString()
@@ -556,16 +600,18 @@ object BitmapUtils {
 
     fun Context.shareBitmap(
         bitmap: Bitmap?,
-        bitmapInfo: BitmapInfo
+        bitmapInfo: BitmapInfo,
+        onComplete: () -> Unit
     ) = bitmap?.let {
-        saveImage(it, bitmapInfo)?.let { uri -> shareImageUri(uri) }
+        shareImage(it, bitmapInfo, onComplete)
     }
 
     fun Context.shareBitmap(
         bitmap: Bitmap?,
-        compressFormat: CompressFormat
+        compressFormat: CompressFormat,
+        onComplete: () -> Unit
     ) = bitmap?.let {
-        saveImage(it, compressFormat)?.let { uri -> shareImageUri(uri) }
+        shareImage(it, compressFormat, onComplete)
     }
 
 

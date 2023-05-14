@@ -108,7 +108,7 @@ import ru.tech.imageresizershrinker.utils.modifier.navBarsPaddingOnlyIfTheyAtThe
 import ru.tech.imageresizershrinker.widget.LocalToastHost
 import ru.tech.imageresizershrinker.widget.Marquee
 
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalAnimationApi::class)
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CropScreen(
     uriState: Uri?,
@@ -334,16 +334,20 @@ fun CropScreen(
                                 onCropSuccess = { image ->
                                     viewModel.imageCropFinished()
                                     if (share) {
-                                        showConfetti()
+                                        showSaveLoading = true
                                         context.shareBitmap(
                                             bitmap = image.asAndroidBitmap(),
-                                            compressFormat = viewModel.mimeType
+                                            compressFormat = viewModel.mimeType,
+                                            onComplete = {
+                                                showConfetti()
+                                                showSaveLoading = true
+                                            }
                                         )
                                     } else if (save) {
                                         saveBitmap(image.asAndroidBitmap())
                                     } else {
-                                        showConfetti()
                                         viewModel.updateBitmap(image.asAndroidBitmap())
+                                        showConfetti()
                                     }
                                     save = false
                                     crop = false
@@ -454,14 +458,20 @@ fun CropScreen(
                                     onCropSuccess = { image ->
                                         viewModel.imageCropFinished()
                                         if (share) {
+                                            showSaveLoading = true
                                             context.shareBitmap(
                                                 bitmap = image.asAndroidBitmap(),
-                                                compressFormat = viewModel.mimeType
+                                                compressFormat = viewModel.mimeType,
+                                                onComplete = {
+                                                    showConfetti()
+                                                    showSaveLoading = false
+                                                }
                                             )
                                         } else if (save) {
                                             saveBitmap(image.asAndroidBitmap())
                                         } else {
                                             viewModel.updateBitmap(image.asAndroidBitmap())
+                                            showConfetti()
                                         }
                                         save = false
                                         crop = false
