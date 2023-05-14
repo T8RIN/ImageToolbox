@@ -131,4 +131,6 @@
     <string name="prefix">Префікс</string>
     <string name="filename">Ім\'я файлу</string>
     <string name="share">Поділитися</string>
+    <string name="emoji_sub">Виберіть, який емодзі буде відображатися на головному екрані</string>
+    <string name="emoji">Емодзі</string>
 </resources>
