@@ -15,23 +15,41 @@ import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import ru.tech.imageresizershrinker.theme.emoji.Alien
+import ru.tech.imageresizershrinker.theme.emoji.Amulet
+import ru.tech.imageresizershrinker.theme.emoji.Apple
 import ru.tech.imageresizershrinker.theme.emoji.Bang
+import ru.tech.imageresizershrinker.theme.emoji.Biohazard
+import ru.tech.imageresizershrinker.theme.emoji.Cloud
 import ru.tech.imageresizershrinker.theme.emoji.Clover
 import ru.tech.imageresizershrinker.theme.emoji.Diamond
+import ru.tech.imageresizershrinker.theme.emoji.Droplets
+import ru.tech.imageresizershrinker.theme.emoji.Eggplant
+import ru.tech.imageresizershrinker.theme.emoji.Eyes
 import ru.tech.imageresizershrinker.theme.emoji.Fire
 import ru.tech.imageresizershrinker.theme.emoji.Frog
 import ru.tech.imageresizershrinker.theme.emoji.Heart
+import ru.tech.imageresizershrinker.theme.emoji.Ice
+import ru.tech.imageresizershrinker.theme.emoji.Malesign
 import ru.tech.imageresizershrinker.theme.emoji.Moai
+import ru.tech.imageresizershrinker.theme.emoji.Money
+import ru.tech.imageresizershrinker.theme.emoji.Moneybag
+import ru.tech.imageresizershrinker.theme.emoji.Package
 import ru.tech.imageresizershrinker.theme.emoji.Party
+import ru.tech.imageresizershrinker.theme.emoji.Peach
 import ru.tech.imageresizershrinker.theme.emoji.Picture
+import ru.tech.imageresizershrinker.theme.emoji.Pill
 import ru.tech.imageresizershrinker.theme.emoji.Pumpkin
+import ru.tech.imageresizershrinker.theme.emoji.Radioactive
+import ru.tech.imageresizershrinker.theme.emoji.Recycling
 import ru.tech.imageresizershrinker.theme.emoji.Snowflake
 import ru.tech.imageresizershrinker.theme.emoji.Sparkles
 import ru.tech.imageresizershrinker.theme.emoji.Star
 import ru.tech.imageresizershrinker.theme.emoji.Sunrise
+import ru.tech.imageresizershrinker.theme.emoji.Warning
+import ru.tech.imageresizershrinker.theme.emoji.Zzz
 import kotlin.collections.List as ____KtList
 
-public object Emoji
+object Emoji
 
 private var __Emoji: ____KtList<ImageVector>? = null
 
@@ -43,19 +61,37 @@ public val Emoji.list: ____KtList<ImageVector>
         __Emoji = listOf(
             Sparkles,
             Alien,
+            Amulet,
+            Apple,
             Bang,
+            Biohazard,
+            Cloud,
             Clover,
             Diamond,
+            Droplets,
+            Eggplant,
+            Eyes,
             Fire,
             Frog,
             Heart,
+            Ice,
+            Malesign,
             Moai,
+            Money,
+            Moneybag,
+            Package,
             Party,
+            Peach,
             Picture,
+            Pill,
             Pumpkin,
+            Radioactive,
+            Recycling,
             Snowflake,
             Star,
-            Sunrise
+            Sunrise,
+            Warning,
+            Zzz
         )
         return __Emoji!!
     }
