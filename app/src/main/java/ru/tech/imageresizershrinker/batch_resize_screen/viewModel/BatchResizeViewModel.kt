@@ -44,7 +44,7 @@ class BatchResizeViewModel : ViewModel() {
     private val _isLoading: MutableState<Boolean> = mutableStateOf(false)
     val isLoading: Boolean by _isLoading
 
-    private val _shouldShowPreview: MutableState<Boolean> = mutableStateOf(false)
+    private val _shouldShowPreview: MutableState<Boolean> = mutableStateOf(true)
     val shouldShowPreview by _shouldShowPreview
 
     private val _presetSelected: MutableState<Int> = mutableStateOf(-1)
@@ -116,9 +116,10 @@ class BatchResizeViewModel : ViewModel() {
             _isTelegramSpecs.value = false
         }
         job?.cancel()
+        _isLoading.value = false
         job = viewModelScope.launch {
-            delay(600)
             _isLoading.value = true
+            delay(600)
             _bitmap.value?.let { bmp ->
                 val preview = updatePreview(bmp)
                 _previewBitmap.value = null
