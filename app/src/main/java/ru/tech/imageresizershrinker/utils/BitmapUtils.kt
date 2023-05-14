@@ -492,7 +492,7 @@ object BitmapUtils {
                     stream.close()
                     FileProvider.getUriForFile(
                         this@shareImage,
-                        "ru.tech.imageresizershrinker.fileprovider",
+                        getString(R.string.file_provider),
                         file
                     )
                 }.getOrNull()
@@ -517,7 +517,7 @@ object BitmapUtils {
             image.compress(ext.compressFormat, bitmapInfo.quality.toInt(), stream)
             stream.flush()
             stream.close()
-            FileProvider.getUriForFile(this, "ru.tech.imageresizershrinker.fileprovider", file)
+            FileProvider.getUriForFile(this, getString(R.string.file_provider), file)
         }.getOrNull()
     }
 
@@ -539,7 +539,7 @@ object BitmapUtils {
                     stream.close()
                     FileProvider.getUriForFile(
                         this@shareImage,
-                        "ru.tech.imageresizershrinker.fileprovider",
+                        getString(R.string.file_provider),
                         file
                     )
                 }.getOrNull()
