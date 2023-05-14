@@ -63,7 +63,6 @@ import androidx.compose.material.icons.rounded.Block
 import androidx.compose.material.icons.rounded.BugReport
 import androidx.compose.material.icons.rounded.Close
 import androidx.compose.material.icons.rounded.Coffee
-import androidx.compose.material.icons.rounded.Download
 import androidx.compose.material.icons.rounded.FileDownload
 import androidx.compose.material.icons.rounded.FileDownloadOff
 import androidx.compose.material.icons.rounded.Folder
@@ -689,7 +688,7 @@ fun MainScreen(
                                                 imageVector = Icons.Rounded.CreateAlt,
                                                 contentDescription = null,
                                                 tint = viewModel.appColorTuple.primary,
-                                                modifier = Modifier.size(16.dp)
+                                                modifier = Modifier.size(14.dp)
                                             )
                                         }
                                     }
@@ -881,13 +880,6 @@ fun MainScreen(
                                     subtitle = "${BuildConfig.VERSION_NAME} (${BuildConfig.VERSION_CODE})",
                                     endContent = {
                                         Icon(
-                                            Icons.Rounded.Download,
-                                            null,
-                                            modifier = Modifier.padding(end = 16.dp)
-                                        )
-                                    },
-                                    startContent = {
-                                        Icon(
                                             painterResource(R.drawable.ic_launcher_monochrome),
                                             null,
                                             tint = animateColorAsState(
@@ -900,8 +892,9 @@ fun MainScreen(
                                                 }
                                             ).value,
                                             modifier = Modifier
-                                                .padding(start = 8.dp, end = 16.dp)
+                                                .padding(start = 8.dp)
                                                 .size(64.dp)
+                                                .offset(7.dp)
                                                 .background(
                                                     animateColorAsState(
                                                         if (viewModel.nightMode.isNightMode()) {
