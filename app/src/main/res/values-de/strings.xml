@@ -131,4 +131,6 @@
     <string name="share">Weitergeben</string>
     <string name="prefix">Präfix</string>
     <string name="filename">Dateiname</string>
+    <string name="emoji">Emoji</string>
+    <string name="emoji_sub">Wähle, welches Emoji auf der Hauptseite angezeigt wird</string>
 </resources>
