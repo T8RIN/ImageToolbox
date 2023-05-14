@@ -159,7 +159,7 @@ This application is completely free, but if you want to support the project deve
 # Translation
 You can help translate ImageResizer into your language on [Hosted Weblate](https://hosted.weblate.org/engage/image-resizer/)
 
-[![Состояние перевода](https://hosted.weblate.org/widgets/image-resizer/-/image-resizer/multi-auto.svg)](https://hosted.weblate.org/engage/image-resizer/)
+[![Состояние перевода](https://hosted.weblate.org/widgets/image-resizer/-/horizontal-auto.svg)](https://hosted.weblate.org/engage/image-resizer/)
 </br>
 [![Translation status](https://hosted.weblate.org/widgets/image-resizer/-/image-resizer/287x66-black.png)](https://hosted.weblate.org/engage/image-resizer/)
 
