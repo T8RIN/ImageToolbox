@@ -20,6 +20,7 @@ import ru.tech.imageresizershrinker.theme.emoji.Amulet
 import ru.tech.imageresizershrinker.theme.emoji.Apple
 import ru.tech.imageresizershrinker.theme.emoji.Bang
 import ru.tech.imageresizershrinker.theme.emoji.Biohazard
+import ru.tech.imageresizershrinker.theme.emoji.Cat
 import ru.tech.imageresizershrinker.theme.emoji.Cloud
 import ru.tech.imageresizershrinker.theme.emoji.Clover
 import ru.tech.imageresizershrinker.theme.emoji.Diamond
@@ -42,6 +43,7 @@ import ru.tech.imageresizershrinker.theme.emoji.Pill
 import ru.tech.imageresizershrinker.theme.emoji.Pumpkin
 import ru.tech.imageresizershrinker.theme.emoji.Radioactive
 import ru.tech.imageresizershrinker.theme.emoji.Recycling
+import ru.tech.imageresizershrinker.theme.emoji.Rocket
 import ru.tech.imageresizershrinker.theme.emoji.Snowflake
 import ru.tech.imageresizershrinker.theme.emoji.Sparkles
 import ru.tech.imageresizershrinker.theme.emoji.Star
@@ -60,39 +62,10 @@ public val Emoji.list: ____KtList<ImageVector>
             return __Emoji!!
         }
         __Emoji = listOf(
-            Sparkles,
-            Alien,
-            Amulet,
-            Apple,
-            Bang,
-            Biohazard,
-            Cloud,
-            Clover,
-            Diamond,
-            Droplets,
-            Eggplant,
-            Eyes,
-            Fire,
-            Frog,
-            Heart,
-            Ice,
-            Malesign,
-            Moai,
-            Money,
-            Moneybag,
-            Package,
-            Party,
-            Peach,
-            Picture,
-            Pill,
-            Pumpkin,
-            Radioactive,
-            Recycling,
-            Snowflake,
-            Star,
-            Sunrise,
-            Warning,
-            Zzz
+            Sparkles, Alien, Amulet, Apple, Bang, Biohazard, Cat, Cloud, Clover, Diamond, Droplets,
+            Eggplant, Eyes, Fire, Frog, Heart, Ice, Malesign, Moai, Money, Moneybag, Package, Party,
+            Peach, Picture, Pill, Pumpkin, Radioactive, Recycling, Rocket, Snowflake, Star, Sunrise,
+            Warning, Zzz
         )
         return __Emoji!!
     }
