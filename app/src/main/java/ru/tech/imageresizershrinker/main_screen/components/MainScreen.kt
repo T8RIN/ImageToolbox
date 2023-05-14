@@ -73,6 +73,8 @@ import androidx.compose.material.icons.rounded.ModeNight
 import androidx.compose.material.icons.rounded.Palette
 import androidx.compose.material.icons.rounded.Person
 import androidx.compose.material.icons.rounded.PhotoSizeSelectSmall
+import androidx.compose.material.icons.rounded.RadioButtonChecked
+import androidx.compose.material.icons.rounded.RadioButtonUnchecked
 import androidx.compose.material.icons.rounded.Settings
 import androidx.compose.material.icons.rounded.SettingsSystemDaydream
 import androidx.compose.material.icons.rounded.Translate
@@ -564,7 +566,7 @@ fun MainScreen(
                                                 ).value,
                                                 shape = RoundedCornerShape(12.dp)
                                             ),
-                                        endIcon = if (selected) Icons.Rounded.Check else null
+                                        endIcon = if (selected) Icons.Rounded.RadioButtonChecked else Icons.Rounded.RadioButtonUnchecked
                                     )
                                 }
                             }
@@ -987,14 +989,21 @@ fun MainScreen(
                                     }
                                 )
                                 PreferenceRow(
+                                    color = MaterialTheme.colorScheme.tertiaryContainer,
                                     title = stringResource(R.string.app_developer),
                                     subtitle = stringResource(R.string.app_developer_nick),
-                                    startContent = {
+                                    endContent = {
                                         Picture(
                                             model = AUTHOR_AVATAR,
                                             modifier = Modifier
-                                                .padding(horizontal = 8.dp)
-                                                .size(48.dp),
+                                                .padding(start = 8.dp)
+                                                .offset(x = 7.dp)
+                                                .size(48.dp)
+                                                .border(
+                                                    LocalBorderWidth.current,
+                                                    MaterialTheme.colorScheme.outlineVariant(),
+                                                    CircleShape
+                                                ),
                                         )
                                     },
                                     onClick = {
@@ -1408,7 +1417,7 @@ fun MainScreen(
             text = {
                 Box {
                     Divider(Modifier.align(Alignment.TopCenter))
-                    Column {
+                    Column(Modifier.verticalScroll(rememberScrollState())) {
                         Spacer(Modifier.height(8.dp))
                         PreferenceItem(
                             color = MaterialTheme.colorScheme.secondaryContainer,

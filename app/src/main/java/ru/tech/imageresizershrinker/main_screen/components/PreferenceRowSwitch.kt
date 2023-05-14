@@ -17,10 +17,14 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Switch
 import androidx.compose.material3.SwitchDefaults
 import androidx.compose.material3.Text
+import androidx.compose.material3.contentColorFor
+import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -33,11 +37,15 @@ fun PreferenceRowSwitch(
     title: String,
     subtitle: String? = null,
     checked: Boolean,
+    color: Color = MaterialTheme.colorScheme.secondaryContainer.copy(
+        alpha = 0.2f
+    ),
     onClick: (Boolean) -> Unit
 ) {
     PreferenceRow(
         modifier = modifier,
         title = title,
+        color = color,
         subtitle = subtitle,
         onClick = { onClick(!checked) },
         endContent = {
@@ -75,39 +83,44 @@ fun PreferenceRow(
     modifier: Modifier = Modifier,
     title: String,
     subtitle: String? = null,
+    color: Color = MaterialTheme.colorScheme.secondaryContainer.copy(
+        alpha = 0.2f
+    ),
     maxLines: Int = Int.MAX_VALUE,
     startContent: (@Composable () -> Unit)? = null,
     endContent: (@Composable () -> Unit)? = null,
     onClick: () -> Unit
 ) {
-    Row(
-        modifier = modifier
-            .padding(horizontal = 16.dp)
-            .clip(RoundedCornerShape(16.dp))
-            .clickable { onClick() }
-            .block(
-                color = MaterialTheme.colorScheme.secondaryContainer.copy(
-                    alpha = 0.2f
-                )
-            )
-            .padding(horizontal = if (startContent != null) 0.dp else 16.dp, vertical = 8.dp),
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        startContent?.invoke()
-        Column(modifier = Modifier.weight(1f)) {
-            Text(text = title, maxLines = maxLines, lineHeight = 18.sp)
-            Spacer(modifier = Modifier.height(2.dp))
-            subtitle?.let {
-                Text(
-                    text = it,
-                    fontSize = 12.sp,
-                    fontWeight = FontWeight.Normal,
-                    lineHeight = 14.sp,
-                    color = LocalContentColor.current.copy(alpha = 0.5f)
-                )
+    val contentColor =
+        if (color == MaterialTheme.colorScheme.surfaceColorAtElevation(1.dp)) contentColorFor(
+            backgroundColor = MaterialTheme.colorScheme.surfaceVariant
+        ) else contentColorFor(backgroundColor = color)
+    CompositionLocalProvider(LocalContentColor provides contentColor) {
+        Row(
+            modifier = modifier
+                .padding(horizontal = 16.dp)
+                .clip(RoundedCornerShape(16.dp))
+                .clickable { onClick() }
+                .block(color = color)
+                .padding(horizontal = if (startContent != null) 0.dp else 16.dp, vertical = 8.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            startContent?.invoke()
+            Column(modifier = Modifier.weight(1f)) {
+                Text(text = title, maxLines = maxLines, lineHeight = 18.sp)
+                Spacer(modifier = Modifier.height(2.dp))
+                subtitle?.let {
+                    Text(
+                        text = it,
+                        fontSize = 12.sp,
+                        fontWeight = FontWeight.Normal,
+                        lineHeight = 14.sp,
+                        color = LocalContentColor.current.copy(alpha = 0.5f)
+                    )
+                }
             }
+            Spacer(Modifier.width(8.dp))
+            endContent?.invoke()
         }
-        Spacer(Modifier.width(8.dp))
-        endContent?.invoke()
     }
 }

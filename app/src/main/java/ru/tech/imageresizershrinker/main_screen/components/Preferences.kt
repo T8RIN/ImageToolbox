@@ -32,7 +32,7 @@ fun SourceCodePreference(
     @SuppressLint("ModifierParameter") modifier: Modifier = Modifier
         .fillMaxWidth()
         .padding(horizontal = 12.dp),
-    color: Color = MaterialTheme.colorScheme.tertiaryContainer
+    color: Color = MaterialTheme.colorScheme.primaryContainer
 ) {
     val context = LocalContext.current
     PreferenceItem(
@@ -44,7 +44,7 @@ fun SourceCodePreference(
                 )
             )
         },
-        icon = Icons.Rounded.Github,
+        endIcon = Icons.Rounded.Github,
         title = stringResource(R.string.check_source_code),
         subtitle = stringResource(R.string.check_source_code_sub),
         color = color,
@@ -179,7 +179,7 @@ fun ComparePreference(
     )
 }
 
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalAnimationApi::class)
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun PreferenceItem(
     onClick: () -> Unit,
