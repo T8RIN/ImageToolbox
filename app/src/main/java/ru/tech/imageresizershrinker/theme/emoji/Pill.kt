@@ -52,7 +52,7 @@ public val Emoji.Pill: ImageVector
                 lineToRelative(41.4f, -41.403f)
                 close()
             }
-            path(fill = SolidColor(Color(0xFF000000)), stroke = null, fillAlpha = 0.65f, strokeAlpha
+            path(fill = SolidColor(Color(0xFFFFFFFF)), stroke = null, fillAlpha = 0.65f, strokeAlpha
                     = 0.65f, strokeLineWidth = 0.0f, strokeLineCap = Butt, strokeLineJoin = Miter,
                     strokeLineMiter = 4.0f, pathFillType = NonZero) {
                 moveTo(69.43f, 36.25f)

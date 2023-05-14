@@ -119,7 +119,7 @@ public val Emoji.Recycling: ImageVector
                 curveToRelative(1.76f, 0.1f, 2.56f, 0.39f, 2.2f, 1.78f)
                 close()
             }
-            path(fill = SolidColor(Color(0xFF000000)), stroke = null, fillAlpha = 0.3f, strokeAlpha
+            path(fill = SolidColor(Color(0xFFFFFFFF)), stroke = null, fillAlpha = 0.3f, strokeAlpha
                     = 0.3f, strokeLineWidth = 0.0f, strokeLineCap = Butt, strokeLineJoin = Miter,
                     strokeLineMiter = 4.0f, pathFillType = NonZero) {
                 moveTo(15.28f, 56.68f)

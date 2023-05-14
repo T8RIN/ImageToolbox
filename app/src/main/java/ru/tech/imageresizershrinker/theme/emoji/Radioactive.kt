@@ -102,7 +102,7 @@ public val Emoji.Radioactive: ImageVector
                 curveToRelative(0.69f, -0.59f, 0.9f, -1.58f, 0.5f, -2.4f)
                 close()
             }
-            path(fill = SolidColor(Color(0xFF000000)), stroke = null, fillAlpha = 0.3f, strokeAlpha
+            path(fill = SolidColor(Color(0xFFFFFFFF)), stroke = null, fillAlpha = 0.3f, strokeAlpha
                     = 0.3f, strokeLineWidth = 0.0f, strokeLineCap = Butt, strokeLineJoin = Miter,
                     strokeLineMiter = 4.0f, pathFillType = NonZero) {
                 moveTo(24.46f, 29.66f)

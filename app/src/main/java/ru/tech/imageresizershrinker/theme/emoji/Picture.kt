@@ -39,7 +39,7 @@ public val Emoji.Picture: ImageVector
                 curveToRelative(0.0f, 0.74f, -0.6f, 1.34f, -1.34f, 1.34f)
                 close()
             }
-            path(fill = SolidColor(Color(0xFF000000)), stroke = null, strokeLineWidth = 0.0f,
+            path(fill = SolidColor(Color(0xFFFFFFFF)), stroke = null, strokeLineWidth = 0.0f,
                     strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
                     pathFillType = NonZero) {
                 moveTo(21.26f, 21.26f)

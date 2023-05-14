@@ -24,7 +24,7 @@ public val Emoji.Ice: ImageVector
         }
         _ice = Builder(name = "Ice", defaultWidth = 1.0.dp, defaultHeight = 1.0.dp, viewportWidth =
                 128.0f, viewportHeight = 128.0f).apply {
-            path(fill = SolidColor(Color(0xFF000000)), stroke = null, fillAlpha = 0.5f, strokeAlpha
+            path(fill = SolidColor(Color(0xFFFFFFFF)), stroke = null, fillAlpha = 0.5f, strokeAlpha
                     = 0.5f, strokeLineWidth = 0.0f, strokeLineCap = Butt, strokeLineJoin = Miter,
                     strokeLineMiter = 4.0f, pathFillType = NonZero) {
                 moveTo(63.03f, 5.38f)
@@ -230,7 +230,7 @@ public val Emoji.Ice: ImageVector
                 reflectiveCurveToRelative(-2.07f, -4.38f, -10.4f, -3.95f)
                 close()
             }
-            path(fill = SolidColor(Color(0xFF000000)), stroke = null, strokeLineWidth = 0.0f,
+            path(fill = SolidColor(Color(0xFFFFFFFF)), stroke = null, strokeLineWidth = 0.0f,
                     strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
                     pathFillType = NonZero) {
                 moveTo(35.78f, 116.32f)

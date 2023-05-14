@@ -336,6 +336,7 @@ fun CropScreen(
                                 onCropSuccess = { image ->
                                     viewModel.imageCropFinished()
                                     if (share) {
+                                        showConfetti()
                                         context.shareBitmap(
                                             bitmap = image.asAndroidBitmap(),
                                             compressFormat = viewModel.mimeType
@@ -343,6 +344,7 @@ fun CropScreen(
                                     } else if (save) {
                                         saveBitmap(image.asAndroidBitmap())
                                     } else {
+                                        showConfetti()
                                         viewModel.updateBitmap(image.asAndroidBitmap())
                                     }
                                     save = false

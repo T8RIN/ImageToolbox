@@ -187,7 +187,7 @@ public val Emoji.Biohazard: ImageVector
                 curveToRelative(0.2f, 0.3f, 0.6f, 1.7f, 0.2f, 2.1f)
                 close()
             }
-            path(fill = SolidColor(Color(0xFF000000)), stroke = null, fillAlpha = 0.3f, strokeAlpha
+            path(fill = SolidColor(Color(0xFFFFFFFF)), stroke = null, fillAlpha = 0.3f, strokeAlpha
                     = 0.3f, strokeLineWidth = 0.0f, strokeLineCap = Butt, strokeLineJoin = Miter,
                     strokeLineMiter = 4.0f, pathFillType = NonZero) {
                 moveTo(24.46f, 29.66f)

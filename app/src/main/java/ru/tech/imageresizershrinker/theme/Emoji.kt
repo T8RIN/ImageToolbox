@@ -11,6 +11,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -97,8 +98,17 @@ public val Emoji.list: ____KtList<ImageVector>
     }
 
 @Composable
-fun EmojiItem(emoji: ImageVector?, fontSize: TextUnit = LocalTextStyle.current.fontSize) {
-    AnimatedContent(targetState = emoji to fontSize) { (emoji, fontSize) ->
+fun EmojiItem(
+    emoji: ImageVector?,
+    modifier: Modifier = Modifier,
+    fontSize: TextUnit = LocalTextStyle.current.fontSize,
+    onNoEmoji: @Composable (size: Dp) -> Unit = {}
+) {
+    AnimatedContent(
+        targetState = emoji to fontSize,
+        modifier = modifier
+    ) { (emoji, fontSize) ->
+        val size = with(LocalDensity.current) { fontSize.toDp() }
         emoji?.let {
             Box {
                 1.sp
@@ -106,25 +116,17 @@ fun EmojiItem(emoji: ImageVector?, fontSize: TextUnit = LocalTextStyle.current.f
                     imageVector = emoji,
                     contentDescription = null,
                     modifier = Modifier
-                        .size(
-                            with(LocalDensity.current) {
-                                fontSize.toDp()
-                            }
-                        )
+                        .size(size)
                         .offset(1.dp, 1.dp),
                     tint = Color(0, 0, 0, 40)
                 )
                 Icon(
                     imageVector = emoji,
                     contentDescription = null,
-                    modifier = Modifier.size(
-                        with(LocalDensity.current) {
-                            fontSize.toDp()
-                        }
-                    ),
+                    modifier = Modifier.size(size),
                     tint = Color.Unspecified
                 )
             }
-        }
+        } ?: onNoEmoji(size)
     }
 }

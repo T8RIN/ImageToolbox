@@ -18,7 +18,6 @@ import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -125,7 +124,6 @@ import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.luminance
 import androidx.compose.ui.input.nestedscroll.nestedScroll
-import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
@@ -146,7 +144,6 @@ import com.t8rin.dynamic.theme.getAppColorTuple
 import dev.olshevski.navigation.reimagined.NavController
 import dev.olshevski.navigation.reimagined.navigate
 import dev.olshevski.navigation.reimagined.popUpTo
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.BuildConfig
 import ru.tech.imageresizershrinker.R
@@ -183,7 +180,7 @@ import ru.tech.imageresizershrinker.utils.modifier.block
 import ru.tech.imageresizershrinker.utils.modifier.drawHorizontalStroke
 import ru.tech.imageresizershrinker.utils.modifier.fabBorder
 import ru.tech.imageresizershrinker.utils.modifier.pulsate
-import ru.tech.imageresizershrinker.utils.modifier.thenUse
+import ru.tech.imageresizershrinker.utils.modifier.scaleOnTap
 import ru.tech.imageresizershrinker.utils.toUiPath
 import ru.tech.imageresizershrinker.widget.LocalToastHost
 import ru.tech.imageresizershrinker.widget.Marquee
@@ -249,7 +246,7 @@ fun MainScreen(
         ModalDrawerSheet(
             modifier = Modifier
                 .width(widthState)
-                .thenUse {
+                .then(
                     if (isSheetSlideable) {
                         Modifier
                             .offset(-((LocalBorderWidth.current + 1.dp)))
@@ -270,7 +267,7 @@ fun MainScreen(
                         state = state,
                         enabled = false
                     )
-                },
+                ),
             windowInsets = WindowInsets(0)
         ) {
             CompositionLocalProvider(LocalLayoutDirection provides layoutDirection) {
@@ -609,14 +606,21 @@ fun MainScreen(
                                                 ),
                                             contentAlignment = Alignment.Center
                                         ) {
-                                            if(emoji == null) {
-                                                Icon(Icons.Rounded.Block, null)
-                                            } else {
-                                                EmojiItem(
-                                                    emoji = emoji,
-                                                    fontSize = MaterialTheme.typography.headlineLarge.fontSize
-                                                )
-                                            }
+                                            EmojiItem(
+                                                emoji = emoji,
+                                                modifier = Modifier.then(
+                                                    if (emoji != null) Modifier.scaleOnTap(onRelease = showConfetti)
+                                                    else Modifier
+                                                ),
+                                                fontSize = MaterialTheme.typography.headlineLarge.fontSize,
+                                                onNoEmoji = { size ->
+                                                    Icon(
+                                                        imageVector = Icons.Rounded.Block,
+                                                        contentDescription = null,
+                                                        modifier = Modifier.size(size)
+                                                    )
+                                                }
+                                            )
                                         }
                                     }
                                 )
@@ -1020,39 +1024,19 @@ fun MainScreen(
                 ) {
                     LargeTopAppBar(
                         title = {
-                            var scaleState by remember { mutableStateOf(1f) }
-                            val scale by animateFloatAsState(scaleState)
-                            CompositionLocalProvider(
-                                LocalLayoutDirection provides LayoutDirection.Ltr
+                            Marquee(
+                                edgeColor = MaterialTheme
+                                    .colorScheme
+                                    .surfaceColorAtElevation(3.dp)
                             ) {
-                                Marquee(
-                                    edgeColor = MaterialTheme
-                                        .colorScheme
-                                        .surfaceColorAtElevation(3.dp)
-                                ) {
-                                    Row(verticalAlignment = Alignment.CenterVertically) {
-                                        Text(stringResource(R.string.app_name))
-                                        Spacer(Modifier.width(12.dp))
-                                        Box(
-                                            Modifier
-                                                .scale(scale)
-                                                .pointerInput(Unit) {
-                                                    detectTapGestures(
-                                                        onPress = {
-                                                            scaleState = 1.3f
-                                                            delay(200)
-                                                            tryAwaitRelease()
-                                                            showConfetti()
-                                                            scaleState = 0.8f
-                                                            delay(200)
-                                                            scaleState = 1f
-                                                        }
-                                                    )
-                                                }
-                                        ) {
-                                            EmojiItem(Emoji.list.getOrNull(viewModel.selectedEmoji))
-                                        }
-                                    }
+                                Row(verticalAlignment = Alignment.CenterVertically) {
+                                    Text(stringResource(R.string.app_name))
+                                    Spacer(Modifier.width(12.dp))
+
+                                    EmojiItem(
+                                        emoji = Emoji.list.getOrNull(viewModel.selectedEmoji),
+                                        modifier = Modifier.scaleOnTap(onRelease = showConfetti),
+                                    )
                                 }
                             }
                         },
@@ -1566,8 +1550,7 @@ fun MainScreen(
                         Modifier
                             .fillMaxWidth()
                             .verticalScroll(rememberScrollState())
-                            .padding(vertical = 8.dp)
-                            .offset(x = (-7).dp),
+                            .padding(vertical = 8.dp),
                         verticalArrangement = Arrangement.spacedBy(
                             4.dp,
                             Alignment.CenterVertically
@@ -1580,19 +1563,20 @@ fun MainScreen(
                         val selected = viewModel.selectedEmoji == -1
                         Box(
                             modifier = Modifier
-                                .size(64.dp)
-                                .offset(x = 7.dp)
+                                .size(58.dp)
                                 .background(
                                     MaterialTheme
                                         .colorScheme
                                         .surfaceVariant
-                                        .copy(alpha = if(selected) 1f else 0.5f),
+                                        .copy(alpha = if (selected) 1f else 0.5f),
                                     MaterialTheme.shapes.medium
                                 )
                                 .border(
-                                    if(!selected) LocalBorderWidth.current else LocalBorderWidth.current.coerceAtLeast(1.dp) * 2,
+                                    if (!selected) LocalBorderWidth.current else LocalBorderWidth.current.coerceAtLeast(
+                                        1.dp
+                                    ) * 2,
                                     MaterialTheme.colorScheme.outlineVariant(
-                                        if(selected) 0.5f else 0.2f
+                                        if (selected) 0.5f else 0.2f
                                     ),
                                     MaterialTheme.shapes.medium
                                 )
@@ -1602,25 +1586,36 @@ fun MainScreen(
                                 },
                             contentAlignment = Alignment.Center
                         ) {
-                            Icon(Icons.Rounded.Block, null)
+                            EmojiItem(
+                                emoji = null,
+                                fontSize = MaterialTheme.typography.headlineLarge.fontSize,
+                                onNoEmoji = { size ->
+                                    Icon(
+                                        imageVector = Icons.Rounded.Block,
+                                        contentDescription = null,
+                                        modifier = Modifier.size(size)
+                                    )
+                                }
+                            )
                         }
                         Emoji.list.forEachIndexed { index, emoji ->
                             val emojiSelected = index == viewModel.selectedEmoji
                             Box(
                                 modifier = Modifier
-                                    .size(64.dp)
-                                    .offset(x = 7.dp)
+                                    .size(58.dp)
                                     .background(
                                         MaterialTheme
                                             .colorScheme
                                             .surfaceVariant
-                                            .copy(alpha = if(emojiSelected) 1f else 0.5f),
+                                            .copy(alpha = if (emojiSelected) 1f else 0.5f),
                                         MaterialTheme.shapes.medium
                                     )
                                     .border(
-                                        if(!emojiSelected) LocalBorderWidth.current else LocalBorderWidth.current.coerceAtLeast(1.dp) * 2,
+                                        if (!emojiSelected) LocalBorderWidth.current else LocalBorderWidth.current.coerceAtLeast(
+                                            1.dp
+                                        ) * 2,
                                         MaterialTheme.colorScheme.outlineVariant(
-                                            if(emojiSelected) 0.5f else 0.2f
+                                            if (emojiSelected) 0.5f else 0.2f
                                         ),
                                         MaterialTheme.shapes.medium
                                     )
@@ -1630,7 +1625,10 @@ fun MainScreen(
                                     },
                                 contentAlignment = Alignment.Center
                             ) {
-                                EmojiItem(emoji, MaterialTheme.typography.headlineLarge.fontSize)
+                                EmojiItem(
+                                    emoji = emoji,
+                                    fontSize = MaterialTheme.typography.headlineLarge.fontSize
+                                )
                             }
                         }
                     }
