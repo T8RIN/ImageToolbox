@@ -176,7 +176,7 @@ object BitmapUtils {
         }
     }
 
-    fun Bitmap.previewBitmap(
+    suspend fun Bitmap.previewBitmap(
         quality: Float,
         widthValue: Int?,
         heightValue: Int?,
@@ -185,7 +185,9 @@ object BitmapUtils {
         rotation: Float,
         isFlipped: Boolean,
         onByteCount: (Int) -> Unit
-    ): Bitmap {
+    ): Bitmap = withContext(Dispatchers.IO) {
+        var bmp: Bitmap?
+
         val out = ByteArrayOutputStream()
         val tWidth = widthValue ?: width
         val tHeight = heightValue ?: height
@@ -196,13 +198,28 @@ object BitmapUtils {
             .compress(mime.extension.compressFormat, quality.toInt().coerceIn(0, 100), out)
         val b = out.toByteArray()
         onByteCount(b.size)
-        val decoded = BitmapFactory.decodeStream(ByteArrayInputStream(b))
+        val bitmap = BitmapFactory.decodeStream(ByteArrayInputStream(b))
+
+        bmp = if (!bitmap.canShow()) {
+            bitmap.resizeBitmap(
+                height_ = (bitmap.height * 0.95f).toInt(),
+                width_ = (bitmap.width * 0.95f).toInt(),
+                resize = 1
+            )
+        } else bitmap
+
+        while (bmp?.canShow() == false) {
+            bmp = bmp.resizeBitmap(
+                height_ = (bmp.height * 0.95f).toInt(),
+                width_ = (bmp.width * 0.95f).toInt(),
+                resize = 1
+            )
+        }
 
         out.flush()
         out.close()
 
-        return decoded
-
+        return@withContext bmp ?: this@previewBitmap
     }
 
     val tags = listOf(

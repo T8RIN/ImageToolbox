@@ -27,7 +27,6 @@ import ru.tech.imageresizershrinker.utils.SavingFolder
 
 class BytesResizeViewModel : ViewModel() {
 
-
     private val _canSave = mutableStateOf(false)
     val canSave by _canSave
 
