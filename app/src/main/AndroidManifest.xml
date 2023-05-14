@@ -24,7 +24,7 @@
         android:localeConfig="@xml/locales_config"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.ImageResizerShrinker.Launcher"
+        android:theme="@style/Theme.ImageResizer.Launcher"
         tools:targetApi="tiramisu">
         <activity
             android:name=".main_screen.MainActivity"
