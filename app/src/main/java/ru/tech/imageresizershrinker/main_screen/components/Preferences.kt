@@ -6,6 +6,7 @@ import android.net.Uri
 import androidx.compose.animation.*
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.*
 import androidx.compose.material3.*
@@ -13,6 +14,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
@@ -187,6 +189,7 @@ fun PreferenceItem(
     subtitle: String? = null,
     icon: ImageVector? = null,
     endIcon: ImageVector? = null,
+    shape: Shape = RoundedCornerShape(16.dp),
     color: Color = MaterialTheme.colorScheme.surfaceColorAtElevation(1.dp),
     @SuppressLint("ModifierParameter") modifier: Modifier = Modifier
         .fillMaxWidth()
@@ -199,10 +202,11 @@ fun PreferenceItem(
 
     ProvideTextStyle(value = LocalTextStyle.current.copy(textAlign = TextAlign.Start)) {
         Card(
+            shape = shape,
             modifier = modifier.border(
                 LocalBorderWidth.current,
                 MaterialTheme.colorScheme.outlineVariant(0.1f, color),
-                CardDefaults.shape
+                shape
             ),
             onClick = onClick,
             colors = CardDefaults.cardColors(

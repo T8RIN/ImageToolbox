@@ -446,7 +446,7 @@ fun MainScreen(
                                             )
                                             else Color.Transparent
                                         ).value,
-                                        shape = RoundedCornerShape(12.dp)
+                                        shape = RoundedCornerShape(16.dp)
                                     )
                             )
                             Spacer(modifier = Modifier.height(8.dp))
@@ -475,7 +475,7 @@ fun MainScreen(
                                             )
                                             else Color.Transparent
                                         ).value,
-                                        shape = RoundedCornerShape(12.dp)
+                                        shape = RoundedCornerShape(16.dp)
                                     )
                             )
                             Spacer(Modifier.height(16.dp))
@@ -564,7 +564,7 @@ fun MainScreen(
                                                         .copy(alpha = 0.5f)
                                                     else Color.Transparent
                                                 ).value,
-                                                shape = RoundedCornerShape(12.dp)
+                                                shape = RoundedCornerShape(16.dp)
                                             ),
                                         endIcon = if (selected) Icons.Rounded.RadioButtonChecked else Icons.Rounded.RadioButtonUnchecked
                                     )
