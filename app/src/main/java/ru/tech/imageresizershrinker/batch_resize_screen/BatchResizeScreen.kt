@@ -567,24 +567,24 @@ fun BatchResizeScreen(
                             edgeColor = MaterialTheme.colorScheme.surfaceColorAtElevation(3.dp)
                         ) {
                             AnimatedContent(
-                                targetState = viewModel.bitmap to viewModel.isLoading,
+                                targetState = Triple(viewModel.bitmap, viewModel.isLoading, bitmapInfo.sizeInBytes),
                                 transitionSpec = { fadeIn() togetherWith fadeOut() }
-                            ) { (bmp, loading) ->
-
+                            ) { (bmp, loading, sizeInBytes) ->
                                 if (bmp == null) {
                                     Text(
-                                        stringResource(R.string.batch_resize),
-                                        textAlign = TextAlign.Center
+                                        stringResource(R.string.batch_resize)
                                     )
-                                } else if (!loading) {
+                                } else if (!loading && sizeInBytes != 0) {
                                     Text(
                                         stringResource(
                                             R.string.size,
-                                            byteCount(bitmapInfo.sizeInBytes.toLong())
+                                            byteCount(sizeInBytes.toLong())
                                         )
                                     )
                                 } else {
-                                    Text(stringResource(R.string.loading))
+                                    Text(
+                                        stringResource(R.string.loading)
+                                    )
                                 }
                             }
                         }
@@ -789,7 +789,7 @@ fun BatchResizeScreen(
                                     QualityWidget(
                                         visible = bitmapInfo.mimeTypeInt.extension != "png",
                                         enabled = viewModel.bitmap != null,
-                                        quality = bitmapInfo.quality,
+                                        quality = bitmapInfo.quality.coerceIn(0f, 100f),
                                         onQualityChange = viewModel::setQuality
                                     )
                                     Spacer(Modifier.height(8.dp))

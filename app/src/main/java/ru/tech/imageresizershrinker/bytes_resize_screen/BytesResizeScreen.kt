@@ -534,37 +534,39 @@ fun BytesResizeScreen(
                     },
                     actions = {
                         zoomButton()
-                        IconButton(
-                            onClick = {
-                                showSaveLoading = true
-                                context.shareBitmaps(
-                                    uris = viewModel.uris ?: emptyList(),
-                                    scope = viewModel.viewModelScope,
-                                    bitmapLoader = {
-                                        viewModel.proceedBitmap(
-                                            uri = it,
-                                            bitmapResult = kotlin.runCatching {
-                                                context.decodeBitmapFromUri(it).first
-                                            },
-                                            getImageSize = { uri ->
-                                                uri.fileSize(context)
+                        if(viewModel.previewBitmap != null) {
+                            IconButton(
+                                onClick = {
+                                    showSaveLoading = true
+                                    context.shareBitmaps(
+                                        uris = viewModel.uris ?: emptyList(),
+                                        scope = viewModel.viewModelScope,
+                                        bitmapLoader = {
+                                            viewModel.proceedBitmap(
+                                                uri = it,
+                                                bitmapResult = kotlin.runCatching {
+                                                    context.decodeBitmapFromUri(it).first
+                                                },
+                                                getImageSize = { uri ->
+                                                    uri.fileSize(context)
+                                                }
+                                            )
+                                        },
+                                        onProgressChange = {
+                                            if (it == -1) {
+                                                showSaveLoading = false
+                                                viewModel.setProgress(0)
+                                                showConfetti()
+                                            } else {
+                                                viewModel.setProgress(it)
                                             }
-                                        )
-                                    },
-                                    onProgressChange = {
-                                        if (it == -1) {
-                                            showSaveLoading = false
-                                            viewModel.setProgress(0)
-                                            showConfetti()
-                                        } else {
-                                            viewModel.setProgress(it)
                                         }
-                                    }
-                                )
-                            },
-                            enabled = viewModel.previewBitmap != null && viewModel.canSave
-                        ) {
-                            Icon(Icons.Outlined.Share, null)
+                                    )
+                                },
+                                enabled = viewModel.canSave
+                            ) {
+                                Icon(Icons.Outlined.Share, null)
+                            }
                         }
                     }
                 )
@@ -630,7 +632,7 @@ fun BytesResizeScreen(
                                         if (handMode) {
                                             RoundedTextField(
                                                 modifier = Modifier
-                                                    .block()
+                                                    .block(shape = RoundedCornerShape(24.dp))
                                                     .padding(8.dp),
                                                 enabled = viewModel.bitmap != null,
                                                 value = (viewModel.maxBytes / 1024).toString()
@@ -638,7 +640,6 @@ fun BytesResizeScreen(
                                                 onValueChange = {
                                                     viewModel.updateMaxBytes(it.restrict(1_000_000))
                                                 },
-                                                shape = RoundedCornerShape(12.dp),
                                                 keyboardOptions = KeyboardOptions(
                                                     keyboardType = KeyboardType.Number
                                                 ),
@@ -684,8 +685,9 @@ fun BytesResizeScreen(
                                                     MaterialTheme.colorScheme.onErrorContainer.copy(
                                                         0.4f
                                                     ),
-                                                    RoundedCornerShape(12.dp)
-                                                )
+                                                    RoundedCornerShape(24.dp)
+                                                ),
+                                            shape = RoundedCornerShape(24.dp)
                                         ) {
                                             Text(
                                                 text = stringResource(R.string.png_warning_bytes),

@@ -1,27 +1,37 @@
 package ru.tech.imageresizershrinker.resize_screen.components
 
+import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Crop
 import androidx.compose.material.icons.filled.Flip
 import androidx.compose.material.icons.filled.RotateLeft
 import androidx.compose.material.icons.filled.RotateRight
 import androidx.compose.material.icons.rounded.Dataset
-import androidx.compose.material3.FloatingActionButtonDefaults
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.SmallFloatingActionButton
+import androidx.compose.material3.OutlinedIconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.R
+import ru.tech.imageresizershrinker.main_screen.components.LocalBorderWidth
+import ru.tech.imageresizershrinker.theme.outlineVariant
 import ru.tech.imageresizershrinker.utils.modifier.block
 
 @Composable
@@ -32,16 +42,25 @@ fun ImageTransformBar(
     onFlip: () -> Unit,
     onRotateRight: () -> Unit,
 ) {
-    val contentColor = MaterialTheme.colorScheme.onSurfaceVariant
-    val containerColor = MaterialTheme.colorScheme.secondaryContainer.copy(alpha = 0.75f)
+    val colors = IconButtonDefaults.filledTonalIconButtonColors()
+    val border = BorderStroke(
+        LocalBorderWidth.current,
+        MaterialTheme.colorScheme.outlineVariant()
+    )
 
-    Row(Modifier.block()) {
+    Row(
+        modifier = Modifier.block(shape = CircleShape),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
         Spacer(Modifier.width(4.dp))
-        SmallFloatingActionButton(
-            onClick = onEditExif,
-            elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
-            containerColor = containerColor,
-            contentColor = contentColor
+        Box(
+            modifier = Modifier
+                .height(40.dp)
+                .background(MaterialTheme.colorScheme.secondaryContainer, CircleShape)
+                .border(border, CircleShape)
+                .clip(CircleShape)
+                .clickable(onClick = onEditExif),
+            contentAlignment = Alignment.Center
         ) {
             Row(
                 verticalAlignment = Alignment.CenterVertically,
@@ -60,11 +79,10 @@ fun ImageTransformBar(
 
         Spacer(Modifier.width(4.dp))
 
-        SmallFloatingActionButton(
+        OutlinedIconButton(
             onClick = onCrop,
-            elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
-            containerColor = containerColor,
-            contentColor = contentColor
+            colors = colors,
+            border = border
         ) {
             Icon(Icons.Default.Crop, null)
         }
@@ -74,29 +92,26 @@ fun ImageTransformBar(
                 .weight(1f)
                 .padding(4.dp)
         )
-        SmallFloatingActionButton(
+        OutlinedIconButton(
             onClick = onRotateLeft,
-            elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
-            containerColor = containerColor,
-            contentColor = contentColor
+            colors = colors,
+            border = border
         ) {
             Icon(Icons.Default.RotateLeft, null)
         }
 
-        SmallFloatingActionButton(
+        OutlinedIconButton(
             onClick = onFlip,
-            elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
-            containerColor = containerColor,
-            contentColor = contentColor
+            colors = colors,
+            border = border
         ) {
             Icon(Icons.Default.Flip, null)
         }
 
-        SmallFloatingActionButton(
+        OutlinedIconButton(
             onClick = onRotateRight,
-            elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
-            containerColor = containerColor,
-            contentColor = contentColor
+            colors = colors,
+            border = border
         ) {
             Icon(Icons.Default.RotateRight, null)
         }
@@ -109,33 +124,33 @@ fun ImageTransformBar(
     onFlip: () -> Unit,
     onRotateRight: () -> Unit,
 ) {
-    val contentColor = MaterialTheme.colorScheme.onSurfaceVariant
-    val containerColor = MaterialTheme.colorScheme.secondaryContainer.copy(alpha = 0.75f)
+    val colors = IconButtonDefaults.filledTonalIconButtonColors()
+    val border = BorderStroke(
+        LocalBorderWidth.current,
+        MaterialTheme.colorScheme.outlineVariant()
+    )
 
-    Row(Modifier.block()) {
-        SmallFloatingActionButton(
+    Row(Modifier.block(shape = CircleShape)) {
+        OutlinedIconButton(
             onClick = onRotateLeft,
-            elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
-            containerColor = containerColor,
-            contentColor = contentColor
+            colors = colors,
+            border = border
         ) {
             Icon(Icons.Default.RotateLeft, null)
         }
 
-        SmallFloatingActionButton(
+        OutlinedIconButton(
             onClick = onFlip,
-            elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
-            containerColor = containerColor,
-            contentColor = contentColor
+            colors = colors,
+            border = border
         ) {
             Icon(Icons.Default.Flip, null)
         }
 
-        SmallFloatingActionButton(
+        OutlinedIconButton(
             onClick = onRotateRight,
-            elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
-            containerColor = containerColor,
-            contentColor = contentColor
+            colors = colors,
+            border = border
         ) {
             Icon(Icons.Default.RotateRight, null)
         }

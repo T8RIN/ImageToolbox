@@ -197,7 +197,6 @@ class SingleResizeViewModel : ViewModel() {
         _bitmapInfo.value = BitmapInfo(
             width = _bitmap.value?.width?.toString() ?: "",
             height = _bitmap.value?.height?.toString() ?: "",
-            sizeInBytes = _bitmap.value?.byteCount ?: 0,
             mimeTypeInt = if (saveMime) bitmapInfo.mimeTypeInt else 0
         )
         checkBitmapAndUpdate(resetPreset = true, resetTelegram = true)

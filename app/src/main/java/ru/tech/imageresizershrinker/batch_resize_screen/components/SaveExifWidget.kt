@@ -22,9 +22,9 @@ fun SaveExifWidget(
 ) {
     Row(
         modifier = Modifier
-            .clip(RoundedCornerShape(16.dp))
+            .clip(shape = RoundedCornerShape(24.dp))
             .clickable { onCheckedChange(!selected) }
-            .block()
+            .block(shape = RoundedCornerShape(24.dp))
             .padding(horizontal = 16.dp, vertical = 8.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {

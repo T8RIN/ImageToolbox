@@ -23,7 +23,7 @@ fun ResizeImageField(
     onWidthChange: (String) -> Unit,
     onHeightChange: (String) -> Unit
 ) {
-    Row(Modifier.block()) {
+    Row(Modifier.block(shape = RoundedCornerShape(24.dp))) {
         RoundedTextField(
             enabled = bitmap != null,
             value = bitmapInfo.width,

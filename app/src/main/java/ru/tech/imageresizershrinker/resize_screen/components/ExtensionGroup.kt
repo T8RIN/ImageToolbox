@@ -44,7 +44,7 @@ fun ExtensionGroup(
     mime: Int,
     onMimeChange: (Int) -> Unit
 ) {
-    val cornerRadius = 12.dp
+    val cornerRadius = 20.dp
 
     val disColor = MaterialTheme.colorScheme.onSurface
         .copy(alpha = 0.38f)
@@ -59,11 +59,11 @@ fun ExtensionGroup(
         Column(
             modifier = Modifier
                 .block(
-                    shape = RoundedCornerShape(16.dp),
+                    shape = RoundedCornerShape(24.dp),
                     color = MaterialTheme.colorScheme.surfaceColorAtElevation(1.dp),
                 )
                 .offset(x = 0.dp, y = 9.dp)
-                .padding(start = 3.dp, end = 2.dp),
+                .padding(start = 4.dp, end = 2.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(

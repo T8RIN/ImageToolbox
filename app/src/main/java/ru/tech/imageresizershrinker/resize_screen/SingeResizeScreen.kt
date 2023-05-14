@@ -514,18 +514,18 @@ fun SingleResizeScreen(
                             edgeColor = MaterialTheme.colorScheme.surfaceColorAtElevation(3.dp)
                         ) {
                             AnimatedContent(
-                                targetState = viewModel.bitmap to viewModel.isLoading,
+                                targetState = Triple(viewModel.bitmap, viewModel.isLoading, bitmapInfo.sizeInBytes),
                                 transitionSpec = { fadeIn() togetherWith fadeOut() }
-                            ) { (bmp, loading) ->
+                            ) { (bmp, loading, sizeInBytes) ->
                                 if (bmp == null) {
                                     Text(
                                         stringResource(R.string.single_resize)
                                     )
-                                } else if (!loading) {
+                                } else if (!loading && sizeInBytes != 0) {
                                     Text(
                                         stringResource(
                                             R.string.size,
-                                            byteCount(bitmapInfo.sizeInBytes.toLong())
+                                            byteCount(sizeInBytes.toLong())
                                         )
                                     )
                                 } else {
@@ -721,7 +721,7 @@ fun SingleResizeScreen(
                                     QualityWidget(
                                         visible = bitmapInfo.mimeTypeInt.extension != "png",
                                         enabled = viewModel.bitmap != null,
-                                        quality = bitmapInfo.quality,
+                                        quality = bitmapInfo.quality.coerceIn(0f, 100f),
                                         onQualityChange = viewModel::setQuality
                                     )
                                     Spacer(Modifier.height(8.dp))

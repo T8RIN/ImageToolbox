@@ -33,7 +33,7 @@ fun ToggleGroupButton(
     title: String? = null,
     indexChanged: (Int) -> Unit
 ) {
-    val cornerRadius = 12.dp
+    val cornerRadius = 1000.dp
 
     val disColor = MaterialTheme.colorScheme.onSurface
         .copy(alpha = 0.38f)

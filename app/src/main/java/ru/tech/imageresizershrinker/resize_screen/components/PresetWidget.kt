@@ -15,6 +15,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.icons.Icons
@@ -65,7 +66,7 @@ fun PresetWidget(
         swipeableContent = {
             Column(
                 modifier = Modifier
-                    .block()
+                    .block(shape = RoundedCornerShape(24.dp))
                     .pointerInput(Unit) {
                         detectTapGestures(
                             onLongPress = {
@@ -93,7 +94,7 @@ fun PresetWidget(
                             item {
                                 val selected = selectedPreset == it
                                 OutlinedIconButton(
-                                    shape = RoundedCornerShape(12.dp),
+                                    shape = CircleShape,
                                     onClick = {
                                         onPresetSelected(it)
                                     },
@@ -107,9 +108,7 @@ fun PresetWidget(
                                     colors = IconButtonDefaults.outlinedIconButtonColors(
                                         containerColor = animateColorAsState(
                                             if (selected) MaterialTheme.colorScheme.mixedColor
-                                            else MaterialTheme.colorScheme.secondaryContainer.copy(
-                                                alpha = 0.3f
-                                            )
+                                            else MaterialTheme.colorScheme.surfaceVariant
                                         ).value,
                                         contentColor = animateColorAsState(
                                             if (selected) MaterialTheme.colorScheme.onMixedColor
@@ -153,7 +152,10 @@ fun PresetWidget(
             Box(
                 Modifier
                     .fillMaxSize()
-                    .block(color = MaterialTheme.colorScheme.surface.copy(alpha = 0.5f))
+                    .block(
+                        color = MaterialTheme.colorScheme.surface.copy(alpha = 0.5f),
+                        shape = RoundedCornerShape(24.dp)
+                    )
             ) {
                 OutlinedIconButton(
                     colors = IconButtonDefaults.filledTonalIconButtonColors(),

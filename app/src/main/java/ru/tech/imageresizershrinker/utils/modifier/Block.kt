@@ -19,6 +19,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.drawWithContent
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.geometry.Offset
@@ -52,6 +53,7 @@ fun Modifier.block(
             MaterialTheme.colorScheme.outlineVariant(0.1f, color1),
             shape
         )
+        .clip(shape)
         .padding(4.dp)
 }
 

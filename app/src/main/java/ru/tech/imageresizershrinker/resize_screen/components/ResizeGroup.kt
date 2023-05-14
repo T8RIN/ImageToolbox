@@ -1,6 +1,8 @@
 package ru.tech.imageresizershrinker.resize_screen.components
 
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -18,7 +20,7 @@ fun ResizeGroup(
 ) {
     ToggleGroupButton(
         modifier = Modifier
-            .block()
+            .block(shape = RoundedCornerShape(24.dp))
             .padding(start = 3.dp, end = 2.dp),
         enabled = enabled,
         title = stringResource(R.string.resize_type),
