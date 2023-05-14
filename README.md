@@ -46,7 +46,7 @@
 
 <div align="center">
 
-# Download
+# ⬇️ Download
 Go to the [Releases](https://github.com/t8rin/imageresizer/releases/latest) and download latest apk or click badges below.
 
 [<img src="https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png"
@@ -66,12 +66,12 @@ Go to the [Releases](https://github.com/t8rin/imageresizer/releases/latest) and 
       align="center"
       height="80">](https://github.com/t8rin/imageresizer/releases/latest)    
 
-# Buy me a coffee
+# ☕ Buy me a coffee
 This application is completely free, but if you want to support the project development, you can go to the [QIWI](https://qiwi.com/n/T8RIN) page :heart:
 
 </div>
 
-# Functions
+# ✨ Features
 - Batch processing
 - Saving to any specific folder
 - EXIF metadata editing
@@ -106,7 +106,7 @@ This application is completely free, but if you want to support the project deve
 ![Frame 6](https://user-images.githubusercontent.com/52178347/229357423-22ea1144-d838-438d-bc39-6ae431e491e6.png)
 
   
-# UI tweaks
+# 🌟 UI tweaks
 - Custom app color scheme
 - Light/Dark mode
 - AMOLED mode
@@ -117,7 +117,7 @@ This application is completely free, but if you want to support the project deve
 (Yes, app supports dynamic coloring based on wallpapers for every android version)
 
 
-# Tech stack & Open-source libraries
+# 📚 Tech stack & Open-source libraries
 - Minimum SDK level 21
 
 - [Kotlin](https://kotlinlang.org/) based 
@@ -156,7 +156,7 @@ This application is completely free, but if you want to support the project deve
 <div align="center">
 
 
-# Translation
+# 🌐 Translation
 You can help translate ImageResizer into your language on [Hosted Weblate](https://hosted.weblate.org/engage/image-resizer/)
 
 [![Состояние перевода](https://hosted.weblate.org/widgets/image-resizer/-/horizontal-auto.svg)](https://hosted.weblate.org/engage/image-resizer/)
@@ -164,20 +164,20 @@ You can help translate ImageResizer into your language on [Hosted Weblate](https
 [![Translation status](https://hosted.weblate.org/widgets/image-resizer/-/image-resizer/287x66-black.png)](https://hosted.weblate.org/engage/image-resizer/)
 
 
-# Find this repository useful? :heart:
+# 🎨 Find this repository useful? :heart:
 Support it by joining __[stargazers](https://github.com/t8rin/ImageResizer/stargazers)__ for this repository. :star: <br>
 And __[follow](https://github.com/t8rin)__ me for my next creations! 🤩
 
 
-# Star History
+# ⭐ Star History
 [![Star History Chart](https://api.star-history.com/svg?repos=t8rin/ImageResizer&type=Date)](https://star-history.com/#t8rin/ImageResizer&Date)
 
-# Contributors
+# 📢 Contributors
 <a href="https://github.com/t8rin/imageresizer/graphs/contributors">
   <img src="https://contrib.rocks/image?repo=t8rin/Imageresizer" />
 </a>
 
-# License
+# ⚖️ License
 ```xml
 Designed and developed by 2023 T8RIN
 
