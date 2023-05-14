@@ -164,7 +164,7 @@ You can help translate ImageResizer into your language on [Hosted Weblate](https
 [![Translation status](https://hosted.weblate.org/widgets/image-resizer/-/image-resizer/287x66-black.png)](https://hosted.weblate.org/engage/image-resizer/)
 
 
-# 🎨 Find this repository useful? :heart:
+# ❤️ Find this repository useful?
 Support it by joining __[stargazers](https://github.com/t8rin/ImageResizer/stargazers)__ for this repository. :star: <br>
 And __[follow](https://github.com/t8rin)__ me for my next creations! 🤩
 
