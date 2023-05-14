@@ -46,7 +46,7 @@ fun SourceCodePreference(
                 )
             )
         },
-        endIcon = Icons.Rounded.Github,
+        icon = Icons.Rounded.Github,
         title = stringResource(R.string.check_source_code),
         subtitle = stringResource(R.string.check_source_code_sub),
         color = color,

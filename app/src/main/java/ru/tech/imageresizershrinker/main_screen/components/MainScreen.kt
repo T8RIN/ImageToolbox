@@ -992,12 +992,11 @@ fun MainScreen(
                                     color = MaterialTheme.colorScheme.tertiaryContainer,
                                     title = stringResource(R.string.app_developer),
                                     subtitle = stringResource(R.string.app_developer_nick),
-                                    endContent = {
+                                    startContent = {
                                         Picture(
                                             model = AUTHOR_AVATAR,
                                             modifier = Modifier
-                                                .padding(start = 8.dp)
-                                                .offset(x = 7.dp)
+                                                .padding(horizontal = 8.dp)
                                                 .size(48.dp)
                                                 .border(
                                                     LocalBorderWidth.current,
