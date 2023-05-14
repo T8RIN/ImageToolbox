@@ -1,12 +1,9 @@
 package ru.tech.imageresizershrinker.theme.emoji
 
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.PathFillType
 import androidx.compose.ui.graphics.PathFillType.Companion.NonZero
 import androidx.compose.ui.graphics.SolidColor
-import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.StrokeCap.Companion.Butt
-import androidx.compose.ui.graphics.StrokeJoin
 import androidx.compose.ui.graphics.StrokeJoin.Companion.Miter
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.graphics.vector.ImageVector.Builder
@@ -19,11 +16,15 @@ public val Emoji.Cloud: ImageVector
         if (_cloud != null) {
             return _cloud!!
         }
-        _cloud = Builder(name = "Cloud", defaultWidth = 1.0.dp, defaultHeight = 1.0.dp,
-                viewportWidth = 128.0f, viewportHeight = 128.0f).apply {
-            path(fill = SolidColor(Color(0xFFE4EAEE)), stroke = null, strokeLineWidth = 0.0f,
-                    strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
-                    pathFillType = NonZero) {
+        _cloud = Builder(
+            name = "Cloud", defaultWidth = 1.0.dp, defaultHeight = 1.0.dp,
+            viewportWidth = 128.0f, viewportHeight = 128.0f
+        ).apply {
+            path(
+                fill = SolidColor(Color(0xFFE4EAEE)), stroke = null, strokeLineWidth = 0.0f,
+                strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
+                pathFillType = NonZero
+            ) {
                 moveTo(23.45f, 62.3f)
                 curveToRelative(0.72f, -0.72f, -1.27f, -9.29f, 7.6f, -15.91f)
                 reflectiveCurveToRelative(14.92f, -2.67f, 15.77f, -2.96f)
@@ -39,9 +40,11 @@ public val Emoji.Cloud: ImageVector
                 curveToRelative(5.9f, -3.37f, 10.26f, -1.68f, 11.53f, -2.95f)
                 close()
             }
-            path(fill = SolidColor(Color(0xFFBACDD2)), stroke = null, strokeLineWidth = 0.0f,
-                    strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
-                    pathFillType = NonZero) {
+            path(
+                fill = SolidColor(Color(0xFFBACDD2)), stroke = null, strokeLineWidth = 0.0f,
+                strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
+                pathFillType = NonZero
+            ) {
                 moveTo(35.16f, 92.84f)
                 reflectiveCurveToRelative(-15.78f, 3.3f, -26.45f, -4.96f)
                 curveTo(2.29f, 82.9f, 4.63f, 74.83f, 4.63f, 74.83f)
@@ -63,7 +66,7 @@ public val Emoji.Cloud: ImageVector
                 close()
             }
         }
-        .build()
+            .build()
         return _cloud!!
     }
 

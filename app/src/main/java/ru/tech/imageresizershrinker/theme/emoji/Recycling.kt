@@ -1,12 +1,9 @@
 package ru.tech.imageresizershrinker.theme.emoji
 
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.PathFillType
 import androidx.compose.ui.graphics.PathFillType.Companion.NonZero
 import androidx.compose.ui.graphics.SolidColor
-import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.StrokeCap.Companion.Butt
-import androidx.compose.ui.graphics.StrokeJoin
 import androidx.compose.ui.graphics.StrokeJoin.Companion.Miter
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.graphics.vector.ImageVector.Builder
@@ -19,11 +16,15 @@ public val Emoji.Recycling: ImageVector
         if (_recycling != null) {
             return _recycling!!
         }
-        _recycling = Builder(name = "Recycling", defaultWidth = 1.0.dp, defaultHeight = 1.0.dp,
-                viewportWidth = 128.0f, viewportHeight = 128.0f).apply {
-            path(fill = SolidColor(Color(0xFF34700D)), stroke = null, strokeLineWidth = 0.0f,
-                    strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
-                    pathFillType = NonZero) {
+        _recycling = Builder(
+            name = "Recycling", defaultWidth = 1.0.dp, defaultHeight = 1.0.dp,
+            viewportWidth = 128.0f, viewportHeight = 128.0f
+        ).apply {
+            path(
+                fill = SolidColor(Color(0xFF34700D)), stroke = null, strokeLineWidth = 0.0f,
+                strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
+                pathFillType = NonZero
+            ) {
                 moveTo(27.3f, 36.56f)
                 reflectiveCurveToRelative(19.47f, 10.45f, 20.59f, 10.95f)
                 curveToRelative(1.12f, 0.51f, 2.64f, -0.2f, 3.35f, -1.83f)
@@ -59,9 +60,11 @@ public val Emoji.Recycling: ImageVector
                 lineToRelative(-3.75f, -2.94f)
                 close()
             }
-            path(fill = SolidColor(Color(0xFF7CB342)), stroke = null, strokeLineWidth = 0.0f,
-                    strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
-                    pathFillType = NonZero) {
+            path(
+                fill = SolidColor(Color(0xFF7CB342)), stroke = null, strokeLineWidth = 0.0f,
+                strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
+                pathFillType = NonZero
+            ) {
                 moveTo(75.45f, 37.56f)
                 reflectiveCurveTo(64.88f, 21.24f, 61.48f, 17.39f)
                 curveToRelative(-2.67f, -3.03f, -5.55f, -5.51f, -8.07f, -7.56f)
@@ -119,9 +122,11 @@ public val Emoji.Recycling: ImageVector
                 curveToRelative(1.76f, 0.1f, 2.56f, 0.39f, 2.2f, 1.78f)
                 close()
             }
-            path(fill = SolidColor(Color(0xFFFFFFFF)), stroke = null, fillAlpha = 0.3f, strokeAlpha
-                    = 0.3f, strokeLineWidth = 0.0f, strokeLineCap = Butt, strokeLineJoin = Miter,
-                    strokeLineMiter = 4.0f, pathFillType = NonZero) {
+            path(
+                fill = SolidColor(Color(0xFFFFFFFF)), stroke = null, fillAlpha = 0.3f, strokeAlpha
+                = 0.3f, strokeLineWidth = 0.0f, strokeLineCap = Butt, strokeLineJoin = Miter,
+                strokeLineMiter = 4.0f, pathFillType = NonZero
+            ) {
                 moveTo(15.28f, 56.68f)
                 curveToRelative(-1.17f, -0.48f, -3.45f, 1.79f, -6.6f, 8.29f)
                 curveToRelative(-2.52f, 5.19f, -2.63f, 7.1f, -1.34f, 9.44f)
@@ -145,7 +150,7 @@ public val Emoji.Recycling: ImageVector
                 close()
             }
         }
-        .build()
+            .build()
         return _recycling!!
     }
 

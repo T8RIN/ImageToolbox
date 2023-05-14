@@ -1,12 +1,9 @@
 package ru.tech.imageresizershrinker.theme.emoji
 
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.PathFillType
 import androidx.compose.ui.graphics.PathFillType.Companion.NonZero
 import androidx.compose.ui.graphics.SolidColor
-import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.StrokeCap.Companion.Butt
-import androidx.compose.ui.graphics.StrokeJoin
 import androidx.compose.ui.graphics.StrokeJoin.Companion.Miter
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.graphics.vector.ImageVector.Builder
@@ -19,11 +16,15 @@ public val Emoji.Alien: ImageVector
         if (_alien != null) {
             return _alien!!
         }
-        _alien = Builder(name = "Alien", defaultWidth = 1.0.dp, defaultHeight = 1.0.dp,
-                viewportWidth = 128.0f, viewportHeight = 128.0f).apply {
-            path(fill = SolidColor(Color(0xFFADBCC3)), stroke = null, strokeLineWidth = 0.0f,
-                    strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
-                    pathFillType = NonZero) {
+        _alien = Builder(
+            name = "Alien", defaultWidth = 1.0.dp, defaultHeight = 1.0.dp,
+            viewportWidth = 128.0f, viewportHeight = 128.0f
+        ).apply {
+            path(
+                fill = SolidColor(Color(0xFFADBCC3)), stroke = null, strokeLineWidth = 0.0f,
+                strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
+                pathFillType = NonZero
+            ) {
                 moveTo(64.0f, 4.5f)
                 curveTo(36.2f, 4.5f, 8.0f, 28.1f, 8.0f, 55.8f)
                 reflectiveCurveToRelative(44.3f, 67.7f, 56.2f, 67.7f)
@@ -31,9 +32,11 @@ public val Emoji.Alien: ImageVector
                 reflectiveCurveTo(91.8f, 4.5f, 64.0f, 4.5f)
                 close()
             }
-            path(fill = SolidColor(Color(0xFF422B0D)), stroke = null, strokeLineWidth = 0.0f,
-                    strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
-                    pathFillType = NonZero) {
+            path(
+                fill = SolidColor(Color(0xFF422B0D)), stroke = null, strokeLineWidth = 0.0f,
+                strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
+                pathFillType = NonZero
+            ) {
                 moveTo(64.0f, 102.35f)
                 curveToRelative(-9.37f, 0.0f, -16.06f, -5.52f, -18.07f, -8.58f)
                 curveToRelative(-0.76f, -0.98f, -0.92f, -2.31f, -0.41f, -3.44f)
@@ -59,9 +62,11 @@ public val Emoji.Alien: ImageVector
                 reflectiveCurveToRelative(-3.52f, -19.1f, 6.14f, -28.8f)
                 close()
             }
-            path(fill = SolidColor(Color(0xFFADBCC3)), stroke = null, strokeLineWidth = 0.0f,
-                    strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
-                    pathFillType = NonZero) {
+            path(
+                fill = SolidColor(Color(0xFFADBCC3)), stroke = null, strokeLineWidth = 0.0f,
+                strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
+                pathFillType = NonZero
+            ) {
                 moveTo(64.0f, 4.5f)
                 curveToRelative(14.52f, 0.0f, 29.13f, 6.42f, 39.8f, 16.5f)
                 curveTo(93.0f, 9.46f, 77.17f, 2.0f, 61.47f, 2.0f)
@@ -72,7 +77,7 @@ public val Emoji.Alien: ImageVector
                 close()
             }
         }
-        .build()
+            .build()
         return _alien!!
     }
 

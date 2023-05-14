@@ -1,12 +1,9 @@
 package ru.tech.imageresizershrinker.theme.emoji
 
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.PathFillType
 import androidx.compose.ui.graphics.PathFillType.Companion.NonZero
 import androidx.compose.ui.graphics.SolidColor
-import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.StrokeCap.Companion.Butt
-import androidx.compose.ui.graphics.StrokeJoin
 import androidx.compose.ui.graphics.StrokeJoin.Companion.Miter
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.graphics.vector.ImageVector.Builder
@@ -19,11 +16,15 @@ public val Emoji.Amulet: ImageVector
         if (_amulet != null) {
             return _amulet!!
         }
-        _amulet = Builder(name = "Amulet", defaultWidth = 1.0.dp, defaultHeight = 1.0.dp,
-                viewportWidth = 128.0f, viewportHeight = 128.0f).apply {
-            path(fill = SolidColor(Color(0xFF1851ED)), stroke = null, strokeLineWidth = 0.0f,
-                    strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
-                    pathFillType = NonZero) {
+        _amulet = Builder(
+            name = "Amulet", defaultWidth = 1.0.dp, defaultHeight = 1.0.dp,
+            viewportWidth = 128.0f, viewportHeight = 128.0f
+        ).apply {
+            path(
+                fill = SolidColor(Color(0xFF1851ED)), stroke = null, strokeLineWidth = 0.0f,
+                strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
+                pathFillType = NonZero
+            ) {
                 moveTo(6.22f, 61.05f)
                 curveTo(9.72f, 21.94f, 45.89f, 4.0f, 65.89f, 4.0f)
                 curveToRelative(26.66f, 0.0f, 54.29f, 22.01f, 55.96f, 60.0f)
@@ -31,9 +32,11 @@ public val Emoji.Amulet: ImageVector
                 reflectiveCurveTo(2.65f, 101.02f, 6.22f, 61.05f)
                 close()
             }
-            path(fill = SolidColor(Color(0xFF002691)), stroke = null, fillAlpha = 0.77f, strokeAlpha
-                    = 0.77f, strokeLineWidth = 0.0f, strokeLineCap = Butt, strokeLineJoin = Miter,
-                    strokeLineMiter = 4.0f, pathFillType = NonZero) {
+            path(
+                fill = SolidColor(Color(0xFF002691)), stroke = null, fillAlpha = 0.77f, strokeAlpha
+                = 0.77f, strokeLineWidth = 0.0f, strokeLineCap = Butt, strokeLineJoin = Miter,
+                strokeLineMiter = 4.0f, pathFillType = NonZero
+            ) {
                 moveTo(117.51f, 53.87f)
                 curveToRelative(-1.63f, -5.5f, -6.38f, -11.11f, -12.46f, -10.91f)
                 curveToRelative(-6.76f, 0.54f, -11.87f, 5.32f, -17.22f, 8.98f)
@@ -52,9 +55,11 @@ public val Emoji.Amulet: ImageVector
                 curveToRelative(1.09f, -6.71f, 1.53f, -14.42f, -0.62f, -21.05f)
                 close()
             }
-            path(fill = SolidColor(Color(0xFFF5F5F5)), stroke = null, strokeLineWidth = 0.0f,
-                    strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
-                    pathFillType = NonZero) {
+            path(
+                fill = SolidColor(Color(0xFFF5F5F5)), stroke = null, strokeLineWidth = 0.0f,
+                strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
+                pathFillType = NonZero
+            ) {
                 moveTo(31.1f, 64.92f)
                 curveToRelative(0.0f, -18.77f, 15.86f, -37.16f, 32.12f, -37.16f)
                 reflectiveCurveToRelative(30.91f, 15.5f, 33.5f, 37.16f)
@@ -62,25 +67,31 @@ public val Emoji.Amulet: ImageVector
                 curveTo(39.66f, 97.76f, 31.1f, 83.7f, 31.1f, 64.92f)
                 close()
             }
-            path(fill = SolidColor(Color(0xFF5AC7F0)), stroke = null, strokeLineWidth = 0.0f,
-                    strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
-                    pathFillType = NonZero) {
+            path(
+                fill = SolidColor(Color(0xFF5AC7F0)), stroke = null, strokeLineWidth = 0.0f,
+                strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
+                pathFillType = NonZero
+            ) {
                 moveTo(44.04f, 64.0f)
                 arcToRelative(19.96f, 20.68f, 0.0f, true, false, 39.92f, 0.0f)
                 arcToRelative(19.96f, 20.68f, 0.0f, true, false, -39.92f, 0.0f)
                 close()
             }
-            path(fill = SolidColor(Color(0xFF212121)), stroke = null, strokeLineWidth = 0.0f,
-                    strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
-                    pathFillType = NonZero) {
+            path(
+                fill = SolidColor(Color(0xFF212121)), stroke = null, strokeLineWidth = 0.0f,
+                strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
+                pathFillType = NonZero
+            ) {
                 moveTo(59.996f, 72.236f)
                 arcToRelative(9.16f, 8.53f, 115.906f, true, false, 8.004f, -16.479f)
                 arcToRelative(9.16f, 8.53f, 115.906f, true, false, -8.004f, 16.479f)
                 close()
             }
-            path(fill = SolidColor(Color(0xFF00CFFF)), stroke = null, fillAlpha = 0.55f, strokeAlpha
-                    = 0.55f, strokeLineWidth = 0.0f, strokeLineCap = Butt, strokeLineJoin = Miter,
-                    strokeLineMiter = 4.0f, pathFillType = NonZero) {
+            path(
+                fill = SolidColor(Color(0xFF00CFFF)), stroke = null, fillAlpha = 0.55f, strokeAlpha
+                = 0.55f, strokeLineWidth = 0.0f, strokeLineCap = Butt, strokeLineJoin = Miter,
+                strokeLineMiter = 4.0f, pathFillType = NonZero
+            ) {
                 moveTo(26.93f, 35.09f)
                 curveToRelative(-2.21f, -0.45f, -5.87f, -4.73f, 1.97f, -11.37f)
                 curveToRelative(8.65f, -7.33f, 14.12f, -6.89f, 15.36f, -5.84f)
@@ -95,7 +106,7 @@ public val Emoji.Amulet: ImageVector
                 close()
             }
         }
-        .build()
+            .build()
         return _amulet!!
     }
 

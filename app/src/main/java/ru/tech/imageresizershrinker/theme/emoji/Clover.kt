@@ -1,12 +1,9 @@
 package ru.tech.imageresizershrinker.theme.emoji
 
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.PathFillType
 import androidx.compose.ui.graphics.PathFillType.Companion.NonZero
 import androidx.compose.ui.graphics.SolidColor
-import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.StrokeCap.Companion.Butt
-import androidx.compose.ui.graphics.StrokeJoin
 import androidx.compose.ui.graphics.StrokeJoin.Companion.Miter
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.graphics.vector.ImageVector.Builder
@@ -19,11 +16,15 @@ public val Emoji.Clover: ImageVector
         if (_clover != null) {
             return _clover!!
         }
-        _clover = Builder(name = "Clover", defaultWidth = 1.0.dp, defaultHeight = 1.0.dp,
-                viewportWidth = 128.0f, viewportHeight = 128.0f).apply {
-            path(fill = SolidColor(Color(0xFF65A21B)), stroke = null, strokeLineWidth = 0.0f,
-                    strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
-                    pathFillType = NonZero) {
+        _clover = Builder(
+            name = "Clover", defaultWidth = 1.0.dp, defaultHeight = 1.0.dp,
+            viewportWidth = 128.0f, viewportHeight = 128.0f
+        ).apply {
+            path(
+                fill = SolidColor(Color(0xFF65A21B)), stroke = null, strokeLineWidth = 0.0f,
+                strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
+                pathFillType = NonZero
+            ) {
                 moveToRelative(68.55f, 55.14f)
                 lineToRelative(-6.77f, 2.04f)
                 reflectiveCurveToRelative(0.43f, 3.76f, -0.32f, 9.14f)
@@ -62,9 +63,11 @@ public val Emoji.Clover: ImageVector
                 lineTo(18.76f, 58.98f)
                 close()
             }
-            path(fill = SolidColor(Color(0xFF65A21B)), stroke = null, strokeLineWidth = 0.0f,
-                    strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
-                    pathFillType = NonZero) {
+            path(
+                fill = SolidColor(Color(0xFF65A21B)), stroke = null, strokeLineWidth = 0.0f,
+                strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
+                pathFillType = NonZero
+            ) {
                 moveTo(92.32f, 72.48f)
                 reflectiveCurveTo(73.05f, 87.21f, 75.76f, 91.4f)
                 curveToRelative(3.05f, 4.73f, 14.44f, 6.53f, 19.64f, 2.28f)
@@ -74,9 +77,11 @@ public val Emoji.Clover: ImageVector
                 curveToRelative(-2.83f, -3.48f, -15.21f, 10.67f, -15.21f, 10.67f)
                 close()
             }
-            path(fill = SolidColor(Color(0xFF8BC02B)), stroke = null, strokeLineWidth = 0.0f,
-                    strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
-                    pathFillType = NonZero) {
+            path(
+                fill = SolidColor(Color(0xFF8BC02B)), stroke = null, strokeLineWidth = 0.0f,
+                strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
+                pathFillType = NonZero
+            ) {
                 moveTo(63.18f, 43.37f)
                 curveToRelative(3.32f, -0.24f, 1.59f, -9.05f, 1.86f, -16.11f)
                 curveToRelative(0.45f, -11.81f, 3.71f, -15.71f, 6.71f, -18.52f)
@@ -117,9 +122,11 @@ public val Emoji.Clover: ImageVector
                 reflectiveCurveToRelative(-0.7f, 11.6f, 2.01f, 11.41f)
                 close()
             }
-            path(fill = SolidColor(Color(0xFFBDCE46)), stroke = null, strokeLineWidth = 0.0f,
-                    strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
-                    pathFillType = NonZero) {
+            path(
+                fill = SolidColor(Color(0xFFBDCE46)), stroke = null, strokeLineWidth = 0.0f,
+                strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
+                pathFillType = NonZero
+            ) {
                 moveTo(82.84f, 31.22f)
                 reflectiveCurveToRelative(2.33f, -3.96f, -0.51f, -5.81f)
                 curveToRelative(-3.29f, -2.14f, -5.75f, 1.31f, -5.75f, 1.31f)
@@ -193,7 +200,7 @@ public val Emoji.Clover: ImageVector
                 close()
             }
         }
-        .build()
+            .build()
         return _clover!!
     }
 

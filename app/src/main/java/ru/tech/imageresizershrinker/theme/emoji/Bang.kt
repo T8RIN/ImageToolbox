@@ -3,12 +3,9 @@ package ru.tech.imageresizershrinker.theme.emoji
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush.Companion.radialGradient
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.PathFillType
 import androidx.compose.ui.graphics.PathFillType.Companion.NonZero
 import androidx.compose.ui.graphics.SolidColor
-import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.StrokeCap.Companion.Butt
-import androidx.compose.ui.graphics.StrokeJoin
 import androidx.compose.ui.graphics.StrokeJoin.Companion.Miter
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.graphics.vector.ImageVector.Builder
@@ -21,11 +18,15 @@ public val Emoji.Bang: ImageVector
         if (_bang != null) {
             return _bang!!
         }
-        _bang = Builder(name = "Bang", defaultWidth = 1.0.dp, defaultHeight = 1.0.dp, viewportWidth
-                = 128.0f, viewportHeight = 128.0f).apply {
-            path(fill = SolidColor(Color(0xFFFFA000)), stroke = SolidColor(Color(0xFFF44336)),
-                    strokeLineWidth = 3.0f, strokeLineCap = Butt, strokeLineJoin = Miter,
-                    strokeLineMiter = 4.0f, pathFillType = NonZero) {
+        _bang = Builder(
+            name = "Bang", defaultWidth = 1.0.dp, defaultHeight = 1.0.dp, viewportWidth
+            = 128.0f, viewportHeight = 128.0f
+        ).apply {
+            path(
+                fill = SolidColor(Color(0xFFFFA000)), stroke = SolidColor(Color(0xFFF44336)),
+                strokeLineWidth = 3.0f, strokeLineCap = Butt, strokeLineJoin = Miter,
+                strokeLineMiter = 4.0f, pathFillType = NonZero
+            ) {
                 moveToRelative(68.27f, 8.51f)
                 lineToRelative(15.84f, 33.16f)
                 lineToRelative(35.33f, -31.88f)
@@ -48,10 +49,14 @@ public val Emoji.Bang: ImageVector
                 lineTo(64.0f, 45.51f)
                 close()
             }
-            path(fill = radialGradient(0.0f to Color(0xFFFFFDE7), 1.0f to Color(0xFFFFF176), center
-                    = Offset(77.587f,75.735f), radius = 26.365f), stroke =
-                    SolidColor(Color(0xFFFFEB3B)), strokeLineWidth = 2.0f, strokeLineCap = Butt,
-                    strokeLineJoin = Miter, strokeLineMiter = 4.0f, pathFillType = NonZero) {
+            path(
+                fill = radialGradient(
+                    0.0f to Color(0xFFFFFDE7), 1.0f to Color(0xFFFFF176), center
+                    = Offset(77.587f, 75.735f), radius = 26.365f
+                ), stroke =
+                SolidColor(Color(0xFFFFEB3B)), strokeLineWidth = 2.0f, strokeLineCap = Butt,
+                strokeLineJoin = Miter, strokeLineMiter = 4.0f, pathFillType = NonZero
+            ) {
                 moveToRelative(72.63f, 34.77f)
                 lineToRelative(9.54f, 24.71f)
                 lineToRelative(18.88f, -21.31f)
@@ -75,7 +80,7 @@ public val Emoji.Bang: ImageVector
                 close()
             }
         }
-        .build()
+            .build()
         return _bang!!
     }
 

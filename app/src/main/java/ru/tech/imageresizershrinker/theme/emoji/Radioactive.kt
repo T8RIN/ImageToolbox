@@ -1,12 +1,9 @@
 package ru.tech.imageresizershrinker.theme.emoji
 
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.PathFillType
 import androidx.compose.ui.graphics.PathFillType.Companion.NonZero
 import androidx.compose.ui.graphics.SolidColor
-import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.StrokeCap.Companion.Butt
-import androidx.compose.ui.graphics.StrokeJoin
 import androidx.compose.ui.graphics.StrokeJoin.Companion.Miter
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.graphics.vector.ImageVector.Builder
@@ -19,27 +16,35 @@ public val Emoji.Radioactive: ImageVector
         if (_radioactive != null) {
             return _radioactive!!
         }
-        _radioactive = Builder(name = "Radioactive", defaultWidth = 1.0.dp, defaultHeight = 1.0.dp,
-                viewportWidth = 128.0f, viewportHeight = 128.0f).apply {
-            path(fill = SolidColor(Color(0xFFF2A600)), stroke = null, strokeLineWidth = 0.0f,
-                    strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
-                    pathFillType = NonZero) {
+        _radioactive = Builder(
+            name = "Radioactive", defaultWidth = 1.0.dp, defaultHeight = 1.0.dp,
+            viewportWidth = 128.0f, viewportHeight = 128.0f
+        ).apply {
+            path(
+                fill = SolidColor(Color(0xFFF2A600)), stroke = null, strokeLineWidth = 0.0f,
+                strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
+                pathFillType = NonZero
+            ) {
                 moveTo(64.46f, 63.96f)
                 moveToRelative(-60.0f, 0.0f)
                 arcToRelative(60.0f, 60.0f, 0.0f, true, true, 120.0f, 0.0f)
                 arcToRelative(60.0f, 60.0f, 0.0f, true, true, -120.0f, 0.0f)
             }
-            path(fill = SolidColor(Color(0xFFFFCC32)), stroke = null, strokeLineWidth = 0.0f,
-                    strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
-                    pathFillType = NonZero) {
+            path(
+                fill = SolidColor(Color(0xFFFFCC32)), stroke = null, strokeLineWidth = 0.0f,
+                strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
+                pathFillType = NonZero
+            ) {
                 moveTo(60.56f, 63.06f)
                 moveToRelative(-56.1f, 0.0f)
                 arcToRelative(56.1f, 56.1f, 0.0f, true, true, 112.2f, 0.0f)
                 arcToRelative(56.1f, 56.1f, 0.0f, true, true, -112.2f, 0.0f)
             }
-            path(fill = SolidColor(Color(0xFF000000)), stroke = null, strokeLineWidth = 0.0f,
-                    strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
-                    pathFillType = NonZero) {
+            path(
+                fill = SolidColor(Color(0xFF000000)), stroke = null, strokeLineWidth = 0.0f,
+                strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
+                pathFillType = NonZero
+            ) {
                 moveTo(76.96f, 64.36f)
                 horizontalLineToRelative(32.7f)
                 arcToRelative(1.88f, 1.88f, 0.0f, false, false, 1.8f, -1.9f)
@@ -66,17 +71,21 @@ public val Emoji.Radioactive: ImageVector
                 curveToRelative(-1.27f, 0.53f, -2.63f, 0.8f, -4.0f, 0.8f)
                 close()
             }
-            path(fill = SolidColor(Color(0xFF000000)), stroke = null, strokeLineWidth = 0.0f,
-                    strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
-                    pathFillType = NonZero) {
+            path(
+                fill = SolidColor(Color(0xFF000000)), stroke = null, strokeLineWidth = 0.0f,
+                strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
+                pathFillType = NonZero
+            ) {
                 moveTo(64.46f, 64.36f)
                 moveToRelative(-7.2f, 0.0f)
                 arcToRelative(7.2f, 7.2f, 0.0f, true, true, 14.4f, 0.0f)
                 arcToRelative(7.2f, 7.2f, 0.0f, true, true, -14.4f, 0.0f)
             }
-            path(fill = SolidColor(Color(0xFFFFF170)), stroke = null, fillAlpha = 0.65f, strokeAlpha
-                    = 0.65f, strokeLineWidth = 0.0f, strokeLineCap = Butt, strokeLineJoin = Miter,
-                    strokeLineMiter = 4.0f, pathFillType = NonZero) {
+            path(
+                fill = SolidColor(Color(0xFFFFF170)), stroke = null, fillAlpha = 0.65f, strokeAlpha
+                = 0.65f, strokeLineWidth = 0.0f, strokeLineCap = Butt, strokeLineJoin = Miter,
+                strokeLineMiter = 4.0f, pathFillType = NonZero
+            ) {
                 moveTo(24.46f, 29.66f)
                 curveToRelative(4.5f, -7.1f, 14.1f, -13.0f, 24.1f, -14.8f)
                 curveToRelative(2.5f, -0.4f, 5.0f, -0.6f, 7.1f, 0.2f)
@@ -87,9 +96,11 @@ public val Emoji.Radioactive: ImageVector
                 curveToRelative(-3.9f, -2.3f, -3.1f, -9.5f, 2.6f, -18.3f)
                 close()
             }
-            path(fill = SolidColor(Color(0xFF000000)), stroke = null, strokeLineWidth = 0.0f,
-                    strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
-                    pathFillType = NonZero) {
+            path(
+                fill = SolidColor(Color(0xFF000000)), stroke = null, strokeLineWidth = 0.0f,
+                strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
+                pathFillType = NonZero
+            ) {
                 moveToRelative(58.26f, 53.46f)
                 lineToRelative(-16.4f, -28.2f)
                 arcToRelative(1.817f, 1.817f, 0.0f, false, false, -2.49f, -0.61f)
@@ -102,9 +113,11 @@ public val Emoji.Radioactive: ImageVector
                 curveToRelative(0.69f, -0.59f, 0.9f, -1.58f, 0.5f, -2.4f)
                 close()
             }
-            path(fill = SolidColor(Color(0xFFFFFFFF)), stroke = null, fillAlpha = 0.3f, strokeAlpha
-                    = 0.3f, strokeLineWidth = 0.0f, strokeLineCap = Butt, strokeLineJoin = Miter,
-                    strokeLineMiter = 4.0f, pathFillType = NonZero) {
+            path(
+                fill = SolidColor(Color(0xFFFFFFFF)), stroke = null, fillAlpha = 0.3f, strokeAlpha
+                = 0.3f, strokeLineWidth = 0.0f, strokeLineCap = Butt, strokeLineJoin = Miter,
+                strokeLineMiter = 4.0f, pathFillType = NonZero
+            ) {
                 moveTo(24.46f, 29.66f)
                 curveToRelative(4.5f, -7.1f, 14.1f, -13.0f, 24.1f, -14.8f)
                 curveToRelative(2.5f, -0.4f, 5.0f, -0.6f, 7.1f, 0.2f)
@@ -116,7 +129,7 @@ public val Emoji.Radioactive: ImageVector
                 close()
             }
         }
-        .build()
+            .build()
         return _radioactive!!
     }
 

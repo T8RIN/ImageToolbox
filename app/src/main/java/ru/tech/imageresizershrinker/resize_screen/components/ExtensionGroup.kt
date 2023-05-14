@@ -32,9 +32,9 @@ import androidx.compose.ui.unit.max
 import androidx.compose.ui.zIndex
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.main_screen.components.LocalBorderWidth
-import ru.tech.imageresizershrinker.utils.modifier.block
 import ru.tech.imageresizershrinker.theme.mixedColor
 import ru.tech.imageresizershrinker.theme.onMixedColor
+import ru.tech.imageresizershrinker.utils.modifier.block
 import ru.tech.imageresizershrinker.widget.AutoSizeText
 import ru.tech.imageresizershrinker.widget.GroupRipple
 

@@ -1,12 +1,9 @@
 package ru.tech.imageresizershrinker.theme.emoji
 
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.PathFillType
 import androidx.compose.ui.graphics.PathFillType.Companion.NonZero
 import androidx.compose.ui.graphics.SolidColor
-import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.StrokeCap.Companion.Butt
-import androidx.compose.ui.graphics.StrokeJoin
 import androidx.compose.ui.graphics.StrokeJoin.Companion.Miter
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.graphics.vector.ImageVector.Builder
@@ -19,11 +16,15 @@ public val Emoji.Snowflake: ImageVector
         if (_snowflake != null) {
             return _snowflake!!
         }
-        _snowflake = Builder(name = "Snowflake", defaultWidth = 1.0.dp, defaultHeight = 1.0.dp,
-                viewportWidth = 128.0f, viewportHeight = 128.0f).apply {
-            path(fill = SolidColor(Color(0xFF95C7EC)), stroke = null, strokeLineWidth = 0.0f,
-                    strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
-                    pathFillType = NonZero) {
+        _snowflake = Builder(
+            name = "Snowflake", defaultWidth = 1.0.dp, defaultHeight = 1.0.dp,
+            viewportWidth = 128.0f, viewportHeight = 128.0f
+        ).apply {
+            path(
+                fill = SolidColor(Color(0xFF95C7EC)), stroke = null, strokeLineWidth = 0.0f,
+                strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
+                pathFillType = NonZero
+            ) {
                 moveToRelative(69.83f, 50.53f)
                 lineToRelative(-0.4f, -18.43f)
                 reflectiveCurveToRelative(9.61f, -5.08f, 11.45f, -8.43f)
@@ -112,9 +113,11 @@ public val Emoji.Snowflake: ImageVector
                 curveToRelative(-0.85f, -0.47f, -2.69f, -0.56f, -2.69f, -0.56f)
                 close()
             }
-            path(fill = SolidColor(Color(0xFFAFE3FF)), stroke = null, strokeLineWidth = 0.0f,
-                    strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
-                    pathFillType = NonZero) {
+            path(
+                fill = SolidColor(Color(0xFFAFE3FF)), stroke = null, strokeLineWidth = 0.0f,
+                strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
+                pathFillType = NonZero
+            ) {
                 moveTo(76.44f, 56.05f)
                 lineTo(95.0f, 46.37f)
                 lineToRelative(-0.28f, -19.97f)
@@ -252,9 +255,11 @@ public val Emoji.Snowflake: ImageVector
                 curveToRelative(0.9f, -0.2f, -2.28f, 6.73f, -2.09f, 8.76f)
                 close()
             }
-            path(fill = SolidColor(Color(0xFFFEFEFE)), stroke = null, strokeLineWidth = 0.0f,
-                    strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
-                    pathFillType = NonZero) {
+            path(
+                fill = SolidColor(Color(0xFFFEFEFE)), stroke = null, strokeLineWidth = 0.0f,
+                strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
+                pathFillType = NonZero
+            ) {
                 moveTo(71.0f, 62.49f)
                 reflectiveCurveToRelative(-1.19f, 2.37f, -1.78f, 3.71f)
                 reflectiveCurveToRelative(-1.33f, 3.63f, -1.33f, 3.63f)
@@ -318,7 +323,7 @@ public val Emoji.Snowflake: ImageVector
                 close()
             }
         }
-        .build()
+            .build()
         return _snowflake!!
     }
 

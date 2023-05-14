@@ -3,12 +3,9 @@ package ru.tech.imageresizershrinker.theme.emoji
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush.Companion.linearGradient
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.PathFillType
 import androidx.compose.ui.graphics.PathFillType.Companion.NonZero
 import androidx.compose.ui.graphics.SolidColor
-import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.StrokeCap.Companion.Butt
-import androidx.compose.ui.graphics.StrokeJoin
 import androidx.compose.ui.graphics.StrokeJoin.Companion.Miter
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.graphics.vector.ImageVector.Builder
@@ -21,11 +18,15 @@ public val Emoji.Party: ImageVector
         if (_party != null) {
             return _party!!
         }
-        _party = Builder(name = "Party", defaultWidth = 1.0.dp, defaultHeight = 1.0.dp,
-                viewportWidth = 128.0f, viewportHeight = 128.0f).apply {
-            path(fill = SolidColor(Color(0xFFFFC107)), stroke = null, strokeLineWidth = 0.0f,
-                    strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
-                    pathFillType = NonZero) {
+        _party = Builder(
+            name = "Party", defaultWidth = 1.0.dp, defaultHeight = 1.0.dp,
+            viewportWidth = 128.0f, viewportHeight = 128.0f
+        ).apply {
+            path(
+                fill = SolidColor(Color(0xFFFFC107)), stroke = null, strokeLineWidth = 0.0f,
+                strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
+                pathFillType = NonZero
+            ) {
                 moveTo(7.45f, 123.27f)
                 curveToRelative(2.27f, 2.46f, 11.62f, -1.83f, 19.0f, -5.27f)
                 curveToRelative(5.53f, -2.57f, 27.66f, -11.65f, 38.66f, -16.36f)
@@ -37,9 +38,11 @@ public val Emoji.Party: ImageVector
                 curveToRelative(-2.23f, 6.17f, -6.38f, 16.56f, -4.13f, 19.0f)
                 close()
             }
-            path(fill = SolidColor(Color(0xFFFF8F00)), stroke = null, strokeLineWidth = 0.0f,
-                    strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
-                    pathFillType = NonZero) {
+            path(
+                fill = SolidColor(Color(0xFFFF8F00)), stroke = null, strokeLineWidth = 0.0f,
+                strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
+                pathFillType = NonZero
+            ) {
                 moveTo(25.85f, 66.49f)
                 curveToRelative(0.14f, 1.74f, 0.49f, 4.57f, 1.69f, 10.02f)
                 curveToRelative(0.82f, 3.74f, 2.16f, 7.66f, 3.25f, 10.25f)
@@ -69,9 +72,11 @@ public val Emoji.Party: ImageVector
                 lineToRelative(1.87f, -5.12f)
                 close()
             }
-            path(fill = SolidColor(Color(0xFFFFFDE7)), stroke = null, fillAlpha = 0.44f, strokeAlpha
-                    = 0.44f, strokeLineWidth = 0.0f, strokeLineCap = Butt, strokeLineJoin = Miter,
-                    strokeLineMiter = 4.0f, pathFillType = NonZero) {
+            path(
+                fill = SolidColor(Color(0xFFFFFDE7)), stroke = null, fillAlpha = 0.44f, strokeAlpha
+                = 0.44f, strokeLineWidth = 0.0f, strokeLineCap = Butt, strokeLineJoin = Miter,
+                strokeLineMiter = 4.0f, pathFillType = NonZero
+            ) {
                 moveTo(9.96f, 116.37f)
                 curveToRelative(-0.2f, -0.45f, -0.2f, -0.96f, 0.01f, -1.4f)
                 lineToRelative(25.47f, -52.82f)
@@ -80,10 +85,14 @@ public val Emoji.Party: ImageVector
                 curveToRelative(-0.72f, 1.08f, -2.34f, 0.94f, -2.87f, -0.24f)
                 close()
             }
-            path(fill = linearGradient(0.024f to Color(0xFF8F4700), 1.0f to Color(0xFF703E2D), start
-                    = Offset(74.384f,61.839f), end = Offset(44.617f,79.699f)), stroke = null,
-                    strokeLineWidth = 0.0f, strokeLineCap = Butt, strokeLineJoin = Miter,
-                    strokeLineMiter = 4.0f, pathFillType = NonZero) {
+            path(
+                fill = linearGradient(
+                    0.024f to Color(0xFF8F4700), 1.0f to Color(0xFF703E2D), start
+                    = Offset(74.384f, 61.839f), end = Offset(44.617f, 79.699f)
+                ), stroke = null,
+                strokeLineWidth = 0.0f, strokeLineCap = Butt, strokeLineJoin = Miter,
+                strokeLineMiter = 4.0f, pathFillType = NonZero
+            ) {
                 moveTo(41.65f, 83.19f)
                 curveToRelative(11.9f, 13.92f, 25.45f, 12.18f, 29.96f, 8.66f)
                 curveToRelative(4.52f, -3.53f, 8.09f, -15.66f, -3.76f, -29.35f)
@@ -91,9 +100,11 @@ public val Emoji.Party: ImageVector
                 reflectiveCurveToRelative(-7.39f, 15.07f, 3.53f, 27.84f)
                 close()
             }
-            path(fill = SolidColor(Color(0xFF03A9F4)), stroke = null, strokeLineWidth = 0.0f,
-                    strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
-                    pathFillType = NonZero) {
+            path(
+                fill = SolidColor(Color(0xFF03A9F4)), stroke = null, strokeLineWidth = 0.0f,
+                strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
+                pathFillType = NonZero
+            ) {
                 moveTo(82.52f, 88.92f)
                 curveToRelative(-4.34f, -3.64f, -6.65f, -2.99f, -9.75f, -1.7f)
                 curveToRelative(-4.0f, 1.66f, -10.29f, 2.89f, -18.83f, 0.0f)
@@ -111,9 +122,11 @@ public val Emoji.Party: ImageVector
                 curveToRelative(-10.09f, 4.69f, -18.34f, -3.4f, -21.04f, -5.66f)
                 close()
             }
-            path(fill = SolidColor(Color(0xFFF44336)), stroke = null, strokeLineWidth = 0.0f,
-                    strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
-                    pathFillType = NonZero) {
+            path(
+                fill = SolidColor(Color(0xFFF44336)), stroke = null, strokeLineWidth = 0.0f,
+                strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
+                pathFillType = NonZero
+            ) {
                 moveToRelative(45.4f, 73.72f)
                 lineToRelative(-4.34f, -3.89f)
                 curveToRelative(7.97f, -8.9f, 5.87f, -15.44f, 4.34f, -20.2f)
@@ -145,9 +158,11 @@ public val Emoji.Party: ImageVector
                 curveToRelative(-0.97f, 0.87f, -1.71f, 1.94f, -2.23f, 3.18f)
                 close()
             }
-            path(fill = SolidColor(Color(0xFFF48FB1)), stroke = null, strokeLineWidth = 0.0f,
-                    strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
-                    pathFillType = NonZero) {
+            path(
+                fill = SolidColor(Color(0xFFF48FB1)), stroke = null, strokeLineWidth = 0.0f,
+                strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
+                pathFillType = NonZero
+            ) {
                 moveToRelative(62.77f, 75.35f)
                 lineToRelative(-6.21f, -0.17f)
                 reflectiveCurveToRelative(2.95f, -16.66f, 12.5f, -19.46f)
@@ -170,9 +185,11 @@ public val Emoji.Party: ImageVector
                 curveToRelative(-6.56f, 1.58f, -9.88f, 11.35f, -9.88f, 11.35f)
                 close()
             }
-            path(fill = SolidColor(Color(0xFFC92B27)), stroke = null, strokeLineWidth = 0.0f,
-                    strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
-                    pathFillType = NonZero) {
+            path(
+                fill = SolidColor(Color(0xFFC92B27)), stroke = null, strokeLineWidth = 0.0f,
+                strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
+                pathFillType = NonZero
+            ) {
                 moveTo(43.99f, 38.79f)
                 curveToRelative(-0.19f, 2.2f, -0.28f, 3.51f, 0.29f, 6.37f)
                 curveToRelative(2.75f, 2.02f, 8.74f, 2.02f, 8.74f, 2.02f)
@@ -181,18 +198,22 @@ public val Emoji.Party: ImageVector
                 curveToRelative(-6.09f, -3.04f, -8.39f, -6.16f, -8.39f, -6.16f)
                 close()
             }
-            path(fill = SolidColor(Color(0xFFFFC107)), stroke = null, strokeLineWidth = 0.0f,
-                    strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
-                    pathFillType = NonZero) {
+            path(
+                fill = SolidColor(Color(0xFFFFC107)), stroke = null, strokeLineWidth = 0.0f,
+                strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
+                pathFillType = NonZero
+            ) {
                 moveToRelative(31.53f, 48.64f)
                 lineToRelative(-10.34f, -5.07f)
                 lineToRelative(5.15f, -7.44f)
                 lineToRelative(8.11f, 5.37f)
                 close()
             }
-            path(fill = SolidColor(Color(0xFFFB8C00)), stroke = null, strokeLineWidth = 0.0f,
-                    strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
-                    pathFillType = NonZero) {
+            path(
+                fill = SolidColor(Color(0xFFFB8C00)), stroke = null, strokeLineWidth = 0.0f,
+                strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
+                pathFillType = NonZero
+            ) {
                 moveTo(16.29f, 34.6f)
                 curveToRelative(-5.28f, -0.71f, -10.66f, -5.19f, -11.25f, -5.7f)
                 lineToRelative(5.19f, -6.09f)
@@ -200,9 +221,11 @@ public val Emoji.Party: ImageVector
                 lineToRelative(-1.07f, 7.93f)
                 close()
             }
-            path(fill = SolidColor(Color(0xFF03A9F4)), stroke = null, strokeLineWidth = 0.0f,
-                    strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
-                    pathFillType = NonZero) {
+            path(
+                fill = SolidColor(Color(0xFF03A9F4)), stroke = null, strokeLineWidth = 0.0f,
+                strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
+                pathFillType = NonZero
+            ) {
                 moveToRelative(25.61f, 21.27f)
                 lineToRelative(-7.6f, -2.49f)
                 curveToRelative(0.87f, -2.66f, 1.1f, -5.53f, 0.65f, -8.3f)
@@ -210,18 +233,22 @@ public val Emoji.Party: ImageVector
                 curveToRelative(0.65f, 4.02f, 0.32f, 8.19f, -0.95f, 12.06f)
                 close()
             }
-            path(fill = SolidColor(Color(0xFFFB8C00)), stroke = null, strokeLineWidth = 0.0f,
-                    strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
-                    pathFillType = NonZero) {
+            path(
+                fill = SolidColor(Color(0xFFFB8C00)), stroke = null, strokeLineWidth = 0.0f,
+                strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
+                pathFillType = NonZero
+            ) {
                 moveToRelative(73.073f, 15.325f)
                 lineToRelative(7.815f, -1.71f)
                 lineToRelative(2.257f, 10.316f)
                 lineToRelative(-7.815f, 1.71f)
                 close()
             }
-            path(fill = SolidColor(Color(0xFFFFC107)), stroke = null, strokeLineWidth = 0.0f,
-                    strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
-                    pathFillType = NonZero) {
+            path(
+                fill = SolidColor(Color(0xFFFFC107)), stroke = null, strokeLineWidth = 0.0f,
+                strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
+                pathFillType = NonZero
+            ) {
                 moveToRelative(92.46f, 17.77f)
                 lineToRelative(-5.5f, -5.81f)
                 curveToRelative(2.88f, -2.73f, 3.54f, -6.3f, 3.54f, -6.34f)
@@ -229,18 +256,22 @@ public val Emoji.Party: ImageVector
                 curveToRelative(-0.1f, 0.63f, -1.11f, 6.29f, -5.94f, 10.86f)
                 close()
             }
-            path(fill = SolidColor(Color(0xFFFB8C00)), stroke = null, strokeLineWidth = 0.0f,
-                    strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
-                    pathFillType = NonZero) {
+            path(
+                fill = SolidColor(Color(0xFFFB8C00)), stroke = null, strokeLineWidth = 0.0f,
+                strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
+                pathFillType = NonZero
+            ) {
                 moveToRelative(95.514f, 48.58f)
                 lineToRelative(6.987f, -2.184f)
                 lineToRelative(2.386f, 7.636f)
                 lineToRelative(-6.987f, 2.184f)
                 close()
             }
-            path(fill = SolidColor(Color(0xFFF44336)), stroke = null, strokeLineWidth = 0.0f,
-                    strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
-                    pathFillType = NonZero) {
+            path(
+                fill = SolidColor(Color(0xFFF44336)), stroke = null, strokeLineWidth = 0.0f,
+                strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
+                pathFillType = NonZero
+            ) {
                 moveToRelative(97.55f, 113.03f)
                 lineToRelative(-7.95f, -0.94f)
                 curveToRelative(0.34f, -2.83f, -1.77f, -6.3f, -2.35f, -7.07f)
@@ -248,9 +279,11 @@ public val Emoji.Party: ImageVector
                 curveToRelative(0.48f, 0.63f, 4.65f, 6.4f, 3.9f, 12.81f)
                 close()
             }
-            path(fill = SolidColor(Color(0xFFFB8C00)), stroke = null, strokeLineWidth = 0.0f,
-                    strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
-                    pathFillType = NonZero) {
+            path(
+                fill = SolidColor(Color(0xFFFB8C00)), stroke = null, strokeLineWidth = 0.0f,
+                strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
+                pathFillType = NonZero
+            ) {
                 moveTo(120.37f, 102.89f)
                 curveToRelative(-2.99f, -0.45f, -6.05f, -0.63f, -9.07f, -0.52f)
                 lineToRelative(-0.27f, -8.0f)
@@ -258,18 +291,22 @@ public val Emoji.Party: ImageVector
                 lineToRelative(-1.19f, 7.91f)
                 close()
             }
-            path(fill = SolidColor(Color(0xFFF48FB1)), stroke = null, strokeLineWidth = 0.0f,
-                    strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
-                    pathFillType = NonZero) {
+            path(
+                fill = SolidColor(Color(0xFFF48FB1)), stroke = null, strokeLineWidth = 0.0f,
+                strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
+                pathFillType = NonZero
+            ) {
                 moveToRelative(109.614f, 113.902f)
                 lineToRelative(5.62f, -5.693f)
                 lineToRelative(7.735f, 7.638f)
                 lineToRelative(-5.62f, 5.692f)
                 close()
             }
-            path(fill = SolidColor(Color(0xFFF44336)), stroke = null, strokeLineWidth = 0.0f,
-                    strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
-                    pathFillType = NonZero) {
+            path(
+                fill = SolidColor(Color(0xFFF44336)), stroke = null, strokeLineWidth = 0.0f,
+                strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
+                pathFillType = NonZero
+            ) {
                 moveToRelative(93.103f, 63.334f)
                 lineToRelative(5.78f, 6.609f)
                 lineToRelative(-6.609f, 5.78f)
@@ -277,7 +314,7 @@ public val Emoji.Party: ImageVector
                 close()
             }
         }
-        .build()
+            .build()
         return _party!!
     }
 

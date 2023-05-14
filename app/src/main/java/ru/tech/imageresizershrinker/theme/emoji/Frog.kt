@@ -1,12 +1,9 @@
 package ru.tech.imageresizershrinker.theme.emoji
 
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.PathFillType
 import androidx.compose.ui.graphics.PathFillType.Companion.NonZero
 import androidx.compose.ui.graphics.SolidColor
-import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.StrokeCap.Companion.Butt
-import androidx.compose.ui.graphics.StrokeJoin
 import androidx.compose.ui.graphics.StrokeJoin.Companion.Miter
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.graphics.vector.ImageVector.Builder
@@ -19,11 +16,15 @@ public val Emoji.Frog: ImageVector
         if (_frog != null) {
             return _frog!!
         }
-        _frog = Builder(name = "Frog", defaultWidth = 1.0.dp, defaultHeight = 1.0.dp, viewportWidth
-                = 128.0f, viewportHeight = 128.0f).apply {
-            path(fill = SolidColor(Color(0xFFB7D019)), stroke = null, strokeLineWidth = 0.0f,
-                    strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
-                    pathFillType = NonZero) {
+        _frog = Builder(
+            name = "Frog", defaultWidth = 1.0.dp, defaultHeight = 1.0.dp, viewportWidth
+            = 128.0f, viewportHeight = 128.0f
+        ).apply {
+            path(
+                fill = SolidColor(Color(0xFFB7D019)), stroke = null, strokeLineWidth = 0.0f,
+                strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
+                pathFillType = NonZero
+            ) {
                 moveTo(14.16f, 48.37f)
                 curveToRelative(-0.43f, 4.5f, -10.0f, 10.84f, -9.57f, 26.89f)
                 reflectiveCurveToRelative(13.09f, 44.06f, 57.72f, 44.77f)
@@ -37,9 +38,11 @@ public val Emoji.Frog: ImageVector
                 curveToRelative(-16.64f, 7.67f, -9.01f, 26.05f, -9.29f, 29.01f)
                 close()
             }
-            path(fill = SolidColor(Color(0xFF2F2F2F)), stroke = null, strokeLineWidth = 0.0f,
-                    strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
-                    pathFillType = NonZero) {
+            path(
+                fill = SolidColor(Color(0xFF2F2F2F)), stroke = null, strokeLineWidth = 0.0f,
+                strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
+                pathFillType = NonZero
+            ) {
                 moveTo(103.08f, 42.36f)
                 curveToRelative(0.0f, 5.29f, -3.0f, 9.76f, -8.02f, 9.57f)
                 curveToRelative(-4.33f, -0.16f, -7.84f, -4.29f, -7.84f, -9.57f)
@@ -65,9 +68,11 @@ public val Emoji.Frog: ImageVector
                 curveToRelative(1.13f, -0.44f, 3.19f, -0.48f, 4.33f, 2.27f)
                 close()
             }
-            path(fill = SolidColor(Color(0xFFFF6011)), stroke = null, strokeLineWidth = 0.0f,
-                    strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
-                    pathFillType = NonZero) {
+            path(
+                fill = SolidColor(Color(0xFFFF6011)), stroke = null, strokeLineWidth = 0.0f,
+                strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
+                pathFillType = NonZero
+            ) {
                 moveToRelative(27.44f, 78.31f)
                 lineToRelative(0.38f, 2.72f)
                 reflectiveCurveToRelative(10.51f, 10.98f, 35.85f, 11.36f)
@@ -78,9 +83,11 @@ public val Emoji.Frog: ImageVector
                 lineToRelative(-8.17f, 3.84f)
                 close()
             }
-            path(fill = SolidColor(Color(0xFF865B51)), stroke = null, strokeLineWidth = 0.0f,
-                    strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
-                    pathFillType = NonZero) {
+            path(
+                fill = SolidColor(Color(0xFF865B51)), stroke = null, strokeLineWidth = 0.0f,
+                strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
+                pathFillType = NonZero
+            ) {
                 moveTo(104.59f, 71.92f)
                 curveToRelative(-3.28f, -4.79f, -7.23f, -0.43f, -13.42f, 1.88f)
                 curveToRelative(-3.43f, 1.28f, -5.7f, 2.02f, -5.7f, 2.02f)
@@ -97,7 +104,7 @@ public val Emoji.Frog: ImageVector
                 close()
             }
         }
-        .build()
+            .build()
         return _frog!!
     }
 

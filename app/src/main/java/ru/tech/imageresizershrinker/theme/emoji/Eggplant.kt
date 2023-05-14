@@ -1,12 +1,9 @@
 package ru.tech.imageresizershrinker.theme.emoji
 
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.PathFillType
 import androidx.compose.ui.graphics.PathFillType.Companion.NonZero
 import androidx.compose.ui.graphics.SolidColor
-import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.StrokeCap.Companion.Butt
-import androidx.compose.ui.graphics.StrokeJoin
 import androidx.compose.ui.graphics.StrokeJoin.Companion.Miter
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.graphics.vector.ImageVector.Builder
@@ -19,11 +16,15 @@ public val Emoji.Eggplant: ImageVector
         if (_eggplant != null) {
             return _eggplant!!
         }
-        _eggplant = Builder(name = "Eggplant", defaultWidth = 1.0.dp, defaultHeight = 1.0.dp,
-                viewportWidth = 128.0f, viewportHeight = 128.0f).apply {
-            path(fill = SolidColor(Color(0xFF8E2F97)), stroke = null, strokeLineWidth = 0.0f,
-                    strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
-                    pathFillType = NonZero) {
+        _eggplant = Builder(
+            name = "Eggplant", defaultWidth = 1.0.dp, defaultHeight = 1.0.dp,
+            viewportWidth = 128.0f, viewportHeight = 128.0f
+        ).apply {
+            path(
+                fill = SolidColor(Color(0xFF8E2F97)), stroke = null, strokeLineWidth = 0.0f,
+                strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
+                pathFillType = NonZero
+            ) {
                 moveTo(20.03f, 25.81f)
                 lineTo(9.22f, 32.96f)
                 reflectiveCurveTo(7.67f, 36.0f, 9.77f, 46.29f)
@@ -33,9 +34,11 @@ public val Emoji.Eggplant: ImageVector
                 lineTo(20.03f, 25.81f)
                 close()
             }
-            path(fill = SolidColor(Color(0xFFA057A1)), stroke = null, strokeLineWidth = 0.0f,
-                    strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
-                    pathFillType = NonZero) {
+            path(
+                fill = SolidColor(Color(0xFFA057A1)), stroke = null, strokeLineWidth = 0.0f,
+                strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
+                pathFillType = NonZero
+            ) {
                 moveToRelative(29.28f, 20.58f)
                 lineToRelative(-9.25f, 15.96f)
                 reflectiveCurveToRelative(5.82f, 21.19f, 15.63f, 34.38f)
@@ -50,9 +53,11 @@ public val Emoji.Eggplant: ImageVector
                 lineToRelative(-9.54f, -3.05f)
                 close()
             }
-            path(fill = SolidColor(Color(0xFFBDCF46)), stroke = null, strokeLineWidth = 0.0f,
-                    strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
-                    pathFillType = NonZero) {
+            path(
+                fill = SolidColor(Color(0xFFBDCF46)), stroke = null, strokeLineWidth = 0.0f,
+                strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
+                pathFillType = NonZero
+            ) {
                 moveToRelative(22.71f, 38.01f)
                 lineToRelative(-0.81f, 5.74f)
                 reflectiveCurveToRelative(1.47f, 1.95f, 3.23f, 1.8f)
@@ -76,9 +81,11 @@ public val Emoji.Eggplant: ImageVector
                 reflectiveCurveTo(6.32f, 45.55f, 3.0f, 46.41f)
                 close()
             }
-            path(fill = SolidColor(Color(0xFF6F9823)), stroke = null, strokeLineWidth = 0.0f,
-                    strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
-                    pathFillType = NonZero) {
+            path(
+                fill = SolidColor(Color(0xFF6F9823)), stroke = null, strokeLineWidth = 0.0f,
+                strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
+                pathFillType = NonZero
+            ) {
                 moveTo(11.01f, 20.2f)
                 reflectiveCurveToRelative(-3.24f, -5.33f, -3.6f, -8.51f)
                 curveToRelative(-0.3f, -2.7f, 0.96f, -4.37f, 1.61f, -5.2f)
@@ -102,7 +109,7 @@ public val Emoji.Eggplant: ImageVector
                 close()
             }
         }
-        .build()
+            .build()
         return _eggplant!!
     }
 

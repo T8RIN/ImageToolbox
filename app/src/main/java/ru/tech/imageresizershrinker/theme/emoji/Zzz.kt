@@ -1,12 +1,9 @@
 package ru.tech.imageresizershrinker.theme.emoji
 
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.PathFillType
 import androidx.compose.ui.graphics.PathFillType.Companion.NonZero
 import androidx.compose.ui.graphics.SolidColor
-import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.StrokeCap.Companion.Butt
-import androidx.compose.ui.graphics.StrokeJoin
 import androidx.compose.ui.graphics.StrokeJoin.Companion.Miter
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.graphics.vector.ImageVector.Builder
@@ -19,11 +16,15 @@ public val Emoji.Zzz: ImageVector
         if (_zzz != null) {
             return _zzz!!
         }
-        _zzz = Builder(name = "Zzz", defaultWidth = 1.0.dp, defaultHeight = 1.0.dp, viewportWidth =
-                128.0f, viewportHeight = 128.0f).apply {
-            path(fill = SolidColor(Color(0xFF176BC6)), stroke = null, strokeLineWidth = 0.0f,
-                    strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
-                    pathFillType = NonZero) {
+        _zzz = Builder(
+            name = "Zzz", defaultWidth = 1.0.dp, defaultHeight = 1.0.dp, viewportWidth =
+            128.0f, viewportHeight = 128.0f
+        ).apply {
+            path(
+                fill = SolidColor(Color(0xFF176BC6)), stroke = null, strokeLineWidth = 0.0f,
+                strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
+                pathFillType = NonZero
+            ) {
                 moveTo(59.01f, 92.53f)
                 curveToRelative(-1.16f, -3.05f, -4.71f, -4.54f, -7.91f, -3.32f)
                 lineToRelative(-16.78f, 6.38f)
@@ -43,9 +44,11 @@ public val Emoji.Zzz: ImageVector
                 curveToRelative(3.2f, -1.22f, 4.86f, -4.69f, 3.7f, -7.73f)
                 close()
             }
-            path(fill = SolidColor(Color(0xFF176BC6)), stroke = null, strokeLineWidth = 0.0f,
-                    strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
-                    pathFillType = NonZero) {
+            path(
+                fill = SolidColor(Color(0xFF176BC6)), stroke = null, strokeLineWidth = 0.0f,
+                strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
+                pathFillType = NonZero
+            ) {
                 moveTo(92.6f, 61.82f)
                 curveToRelative(-0.56f, -3.29f, -3.83f, -5.48f, -7.28f, -4.9f)
                 lineTo(67.21f, 60.0f)
@@ -84,7 +87,7 @@ public val Emoji.Zzz: ImageVector
                 close()
             }
         }
-        .build()
+            .build()
         return _zzz!!
     }
 

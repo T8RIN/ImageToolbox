@@ -290,8 +290,7 @@ fun CompareScreen(
                                 }
                             }
                         }
-                    }
-                    else {
+                    } else {
                         Row {
                             Box(
                                 Modifier

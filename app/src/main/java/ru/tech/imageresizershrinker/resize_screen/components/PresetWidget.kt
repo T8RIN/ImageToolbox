@@ -40,11 +40,11 @@ import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.main_screen.components.LocalBorderWidth
 import ru.tech.imageresizershrinker.main_screen.components.LocalEditPresets
 import ru.tech.imageresizershrinker.main_screen.components.LocalPresetsProvider
-import ru.tech.imageresizershrinker.utils.modifier.block
 import ru.tech.imageresizershrinker.theme.CreateAlt
 import ru.tech.imageresizershrinker.theme.mixedColor
 import ru.tech.imageresizershrinker.theme.onMixedColor
 import ru.tech.imageresizershrinker.theme.outlineVariant
+import ru.tech.imageresizershrinker.utils.modifier.block
 import ru.tech.imageresizershrinker.widget.AutoSizeText
 
 @OptIn(ExperimentalMaterialApi::class)
@@ -158,8 +158,8 @@ fun PresetWidget(
                 OutlinedIconButton(
                     colors = IconButtonDefaults.filledTonalIconButtonColors(),
                     border = BorderStroke(
-                      LocalBorderWidth.current,
-                      MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.secondaryContainer)
+                        LocalBorderWidth.current,
+                        MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.secondaryContainer)
                     ),
                     onClick = { editPresetsState.value = true },
                     modifier = Modifier

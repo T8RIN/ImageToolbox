@@ -3,12 +3,9 @@ package ru.tech.imageresizershrinker.theme.emoji
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush.Companion.linearGradient
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.PathFillType
 import androidx.compose.ui.graphics.PathFillType.Companion.NonZero
 import androidx.compose.ui.graphics.SolidColor
-import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.StrokeCap.Companion.Butt
-import androidx.compose.ui.graphics.StrokeJoin
 import androidx.compose.ui.graphics.StrokeJoin.Companion.Miter
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.graphics.vector.ImageVector.Builder
@@ -21,11 +18,15 @@ public val Emoji.Malesign: ImageVector
         if (_malesign != null) {
             return _malesign!!
         }
-        _malesign = Builder(name = "Malesign", defaultWidth = 1.0.dp, defaultHeight = 1.0.dp,
-                viewportWidth = 128.0f, viewportHeight = 128.0f).apply {
-            path(fill = SolidColor(Color(0xFF00796B)), stroke = null, strokeLineWidth = 0.0f,
-                    strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
-                    pathFillType = NonZero) {
+        _malesign = Builder(
+            name = "Malesign", defaultWidth = 1.0.dp, defaultHeight = 1.0.dp,
+            viewportWidth = 128.0f, viewportHeight = 128.0f
+        ).apply {
+            path(
+                fill = SolidColor(Color(0xFF00796B)), stroke = null, strokeLineWidth = 0.0f,
+                strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
+                pathFillType = NonZero
+            ) {
                 moveTo(106.7f, 6.9f)
                 horizontalLineTo(76.53f)
                 curveToRelative(-2.23f, 0.0f, -4.06f, 1.83f, -4.06f, 4.06f)
@@ -55,11 +56,15 @@ public val Emoji.Malesign: ImageVector
                 reflectiveCurveToRelative(9.95f, 26.21f, 0.0f, 36.16f)
                 close()
             }
-            path(fill = linearGradient(0.0f to Color(0xFF00BFA5), 0.705f to Color(0xFF00B29A), 1.0f
-                    to Color(0xFF00AB94), start = Offset(63.803f,4.156f), end =
-                    Offset(63.803f,119.779f)), stroke = null, strokeLineWidth = 0.0f, strokeLineCap
-                    = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f, pathFillType =
-                    NonZero) {
+            path(
+                fill = linearGradient(
+                    0.0f to Color(0xFF00BFA5), 0.705f to Color(0xFF00B29A), 1.0f
+                            to Color(0xFF00AB94), start = Offset(63.803f, 4.156f), end =
+                    Offset(63.803f, 119.779f)
+                ), stroke = null, strokeLineWidth = 0.0f, strokeLineCap
+                = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f, pathFillType =
+                NonZero
+            ) {
                 moveTo(106.71f, 3.87f)
                 horizontalLineTo(76.54f)
                 curveToRelative(-2.23f, 0.0f, -4.06f, 1.83f, -4.06f, 4.06f)
@@ -89,9 +94,11 @@ public val Emoji.Malesign: ImageVector
                 reflectiveCurveToRelative(9.95f, 27.23f, 0.0f, 37.19f)
                 close()
             }
-            path(fill = SolidColor(Color(0xFFFFFFFF)), stroke = null, fillAlpha = 0.3f, strokeAlpha
-                    = 0.3f, strokeLineWidth = 0.0f, strokeLineCap = Butt, strokeLineJoin = Miter,
-                    strokeLineMiter = 4.0f, pathFillType = NonZero) {
+            path(
+                fill = SolidColor(Color(0xFFFFFFFF)), stroke = null, fillAlpha = 0.3f, strokeAlpha
+                = 0.3f, strokeLineWidth = 0.0f, strokeLineCap = Butt, strokeLineJoin = Miter,
+                strokeLineMiter = 4.0f, pathFillType = NonZero
+            ) {
                 moveTo(86.19f, 7.33f)
                 curveToRelative(0.0f, -0.91f, -0.61f, -1.22f, -4.27f, -1.02f)
                 curveToRelative(-3.05f, 0.1f, -4.47f, 0.51f, -5.38f, 1.52f)
@@ -120,7 +127,7 @@ public val Emoji.Malesign: ImageVector
                 close()
             }
         }
-        .build()
+            .build()
         return _malesign!!
     }
 

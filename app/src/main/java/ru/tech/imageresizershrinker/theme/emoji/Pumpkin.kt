@@ -1,12 +1,9 @@
 package ru.tech.imageresizershrinker.theme.emoji
 
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.PathFillType
 import androidx.compose.ui.graphics.PathFillType.Companion.NonZero
 import androidx.compose.ui.graphics.SolidColor
-import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.StrokeCap.Companion.Butt
-import androidx.compose.ui.graphics.StrokeJoin
 import androidx.compose.ui.graphics.StrokeJoin.Companion.Miter
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.graphics.vector.ImageVector.Builder
@@ -20,11 +17,15 @@ public val Emoji.Pumpkin: ImageVector
         if (_pumpkin != null) {
             return _pumpkin!!
         }
-        _pumpkin = Builder(name = "Pumpkin", defaultWidth = 1.0.dp, defaultHeight = 1.0.dp,
-                viewportWidth = 128.0f, viewportHeight = 128.0f).apply {
-            path(fill = SolidColor(Color(0xFFF57C00)), stroke = null, strokeLineWidth = 0.0f,
-                    strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
-                    pathFillType = NonZero) {
+        _pumpkin = Builder(
+            name = "Pumpkin", defaultWidth = 1.0.dp, defaultHeight = 1.0.dp,
+            viewportWidth = 128.0f, viewportHeight = 128.0f
+        ).apply {
+            path(
+                fill = SolidColor(Color(0xFFF57C00)), stroke = null, strokeLineWidth = 0.0f,
+                strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
+                pathFillType = NonZero
+            ) {
                 moveTo(109.44f, 34.58f)
                 curveToRelative(-10.76f, -8.62f, -25.91f, -10.36f, -45.25f, -10.36f)
                 curveToRelative(-19.21f, 0.0f, -34.27f, 1.67f, -45.03f, 10.18f)
@@ -93,9 +94,11 @@ public val Emoji.Pumpkin: ImageVector
                 close()
             }
             group {
-                path(fill = SolidColor(Color(0xFFFF9800)), stroke = null, strokeLineWidth = 0.0f,
-                        strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
-                        pathFillType = NonZero) {
+                path(
+                    fill = SolidColor(Color(0xFFFF9800)), stroke = null, strokeLineWidth = 0.0f,
+                    strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
+                    pathFillType = NonZero
+                ) {
                     moveTo(98.33f, 38.11f)
                     curveToRelative(-6.66f, -7.19f, -15.42f, -9.75f, -26.28f, -10.46f)
                     curveToRelative(0.73f, -0.23f, 1.46f, -0.46f, 2.26f, -0.69f)
@@ -167,9 +170,11 @@ public val Emoji.Pumpkin: ImageVector
                     curveToRelative(12.94f, 13.97f, 16.82f, 38.62f, 9.25f, 58.59f)
                     close()
                 }
-                path(fill = SolidColor(Color(0xFF2E7D32)), stroke = null, strokeLineWidth = 0.0f,
-                        strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
-                        pathFillType = NonZero) {
+                path(
+                    fill = SolidColor(Color(0xFF2E7D32)), stroke = null, strokeLineWidth = 0.0f,
+                    strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
+                    pathFillType = NonZero
+                ) {
                     moveTo(58.61f, 26.89f)
                     curveToRelative(-0.06f, -1.05f, 0.06f, -2.15f, 0.06f, -3.0f)
                     curveToRelative(0.0f, -2.69f, -1.41f, -4.92f, -3.27f, -6.75f)
@@ -184,9 +189,11 @@ public val Emoji.Pumpkin: ImageVector
                     curveToRelative(-0.87f, -0.55f, -1.16f, -1.59f, -1.23f, -2.73f)
                     close()
                 }
-                path(fill = SolidColor(Color(0xFF422B0D)), stroke = null, strokeLineWidth = 0.0f,
-                        strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
-                        pathFillType = NonZero) {
+                path(
+                    fill = SolidColor(Color(0xFF422B0D)), stroke = null, strokeLineWidth = 0.0f,
+                    strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
+                    pathFillType = NonZero
+                ) {
                     moveToRelative(57.28f, 77.72f)
                     lineToRelative(5.09f, -6.33f)
                     curveToRelative(0.89f, -1.1f, 2.42f, -1.16f, 3.38f, -0.12f)
@@ -248,7 +255,7 @@ public val Emoji.Pumpkin: ImageVector
                 }
             }
         }
-        .build()
+            .build()
         return _pumpkin!!
     }
 

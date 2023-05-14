@@ -1,15 +1,11 @@
 package ru.tech.imageresizershrinker.theme.emoji
 
 import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Brush.Companion.radialGradient
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.PathFillType
 import androidx.compose.ui.graphics.PathFillType.Companion.NonZero
 import androidx.compose.ui.graphics.SolidColor
-import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.StrokeCap.Companion.Butt
-import androidx.compose.ui.graphics.StrokeJoin
 import androidx.compose.ui.graphics.StrokeJoin.Companion.Miter
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.graphics.vector.ImageVector.Builder
@@ -22,11 +18,15 @@ public val Emoji.Peach: ImageVector
         if (_peach != null) {
             return _peach!!
         }
-        _peach = Builder(name = "Peach", defaultWidth = 1.0.dp, defaultHeight = 1.0.dp,
-                viewportWidth = 128.0f, viewportHeight = 128.0f).apply {
-            path(fill = SolidColor(Color(0xFF69A246)), stroke = null, strokeLineWidth = 0.0f,
-                    strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
-                    pathFillType = NonZero) {
+        _peach = Builder(
+            name = "Peach", defaultWidth = 1.0.dp, defaultHeight = 1.0.dp,
+            viewportWidth = 128.0f, viewportHeight = 128.0f
+        ).apply {
+            path(
+                fill = SolidColor(Color(0xFF69A246)), stroke = null, strokeLineWidth = 0.0f,
+                strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
+                pathFillType = NonZero
+            ) {
                 moveTo(101.98f, 24.25f)
                 reflectiveCurveToRelative(6.37f, -4.95f, 9.91f, -8.49f)
                 curveToRelative(4.36f, -4.36f, 5.66f, -8.93f, 4.14f, -9.47f)
@@ -44,9 +44,11 @@ public val Emoji.Peach: ImageVector
                 lineToRelative(-25.05f, -2.84f)
                 close()
             }
-            path(fill = SolidColor(Color(0xFF82B032)), stroke = null, strokeLineWidth = 0.0f,
-                    strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
-                    pathFillType = NonZero) {
+            path(
+                fill = SolidColor(Color(0xFF82B032)), stroke = null, strokeLineWidth = 0.0f,
+                strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
+                pathFillType = NonZero
+            ) {
                 moveTo(67.02f, 22.29f)
                 reflectiveCurveToRelative(4.25f, -8.49f, 11.11f, -12.09f)
                 reflectiveCurveToRelative(14.05f, -4.36f, 25.05f, -4.79f)
@@ -62,11 +64,15 @@ public val Emoji.Peach: ImageVector
                 reflectiveCurveToRelative(8.93f, 9.04f, 8.93f, 9.04f)
                 close()
             }
-            path(fill = radialGradient(0.719f to Color(0xFFFE622B), 0.78f to Color(0xFFFB582C),
+            path(
+                fill = radialGradient(
+                    0.719f to Color(0xFFFE622B), 0.78f to Color(0xFFFB582C),
                     0.886f to Color(0xFFF23D2F), 1.0f to Color(0xFFE71932), center =
-                    Offset(79.058f,16.909f), radius = 88.809f), stroke = null, strokeLineWidth =
-                    0.0f, strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
-                    pathFillType = NonZero) {
+                    Offset(79.058f, 16.909f), radius = 88.809f
+                ), stroke = null, strokeLineWidth =
+                0.0f, strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
+                pathFillType = NonZero
+            ) {
                 moveTo(68.22f, 24.69f)
                 curveToRelative(2.5f, -0.22f, 7.98f, -7.82f, 22.95f, -6.61f)
                 curveToRelative(14.97f, 1.2f, 37.81f, 18.2f, 31.66f, 50.08f)
@@ -76,10 +82,14 @@ public val Emoji.Peach: ImageVector
                 lineToRelative(15.6f, -87.35f)
                 close()
             }
-            path(fill = radialGradient(0.371f to Color(0xFFFF9759), 0.747f to Color(0x00FF9759),
-                    center = Offset(102.96309f,33.821556f), radius = 28.349752f), stroke = null,
-                    strokeLineWidth = 0.0f, strokeLineCap = Butt, strokeLineJoin = Miter,
-                    strokeLineMiter = 4.0f, pathFillType = NonZero) {
+            path(
+                fill = radialGradient(
+                    0.371f to Color(0xFFFF9759), 0.747f to Color(0x00FF9759),
+                    center = Offset(102.96309f, 33.821556f), radius = 28.349752f
+                ), stroke = null,
+                strokeLineWidth = 0.0f, strokeLineCap = Butt, strokeLineJoin = Miter,
+                strokeLineMiter = 4.0f, pathFillType = NonZero
+            ) {
                 moveTo(68.22f, 24.69f)
                 curveToRelative(2.5f, -0.22f, 7.98f, -7.82f, 22.95f, -6.61f)
                 curveToRelative(14.04f, 1.13f, 34.99f, 16.14f, 32.49f, 44.28f)
@@ -88,10 +98,14 @@ public val Emoji.Peach: ImageVector
                 curveToRelative(-9.1f, -11.37f, -17.48f, -21.42f, -17.48f, -21.42f)
                 close()
             }
-            path(fill = radialGradient(0.481f to Color(0xFFFF9759), 1.0f to Color(0x00FF9759),
-                    center = Offset(53.531f,15.482f), radius = 50.699f), stroke = null,
-                    strokeLineWidth = 0.0f, strokeLineCap = Butt, strokeLineJoin = Miter,
-                    strokeLineMiter = 4.0f, pathFillType = NonZero) {
+            path(
+                fill = radialGradient(
+                    0.481f to Color(0xFFFF9759), 1.0f to Color(0x00FF9759),
+                    center = Offset(53.531f, 15.482f), radius = 50.699f
+                ), stroke = null,
+                strokeLineWidth = 0.0f, strokeLineCap = Butt, strokeLineJoin = Miter,
+                strokeLineMiter = 4.0f, pathFillType = NonZero
+            ) {
                 moveTo(67.53f, 24.89f)
                 curveToRelative(2.5f, -0.22f, 8.67f, -8.02f, 23.64f, -6.82f)
                 curveToRelative(11.37f, 0.91f, 27.26f, 10.93f, 31.58f, 29.65f)
@@ -101,12 +115,16 @@ public val Emoji.Peach: ImageVector
                 curveToRelative(-1.1f, -0.38f, -2.13f, -1.44f, -2.13f, -1.44f)
                 close()
             }
-            path(fill = radialGradient(0.701f to Color(0xFFFE622B), 0.766f to Color(0xFFFD5D2B),
+            path(
+                fill = radialGradient(
+                    0.701f to Color(0xFFFE622B), 0.766f to Color(0xFFFD5D2B),
                     0.84f to Color(0xFFF8502D), 0.917f to Color(0xFFF1392F), 0.998f to
-                    Color(0xFFE71A32), 0.999f to Color(0xFFE71932), center =
-                    Offset(55.211f,29.084f), radius = 76.871f), stroke = null, strokeLineWidth =
-                    0.0f, strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
-                    pathFillType = NonZero) {
+                            Color(0xFFE71A32), 0.999f to Color(0xFFE71932), center =
+                    Offset(55.211f, 29.084f), radius = 76.871f
+                ), stroke = null, strokeLineWidth =
+                0.0f, strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
+                pathFillType = NonZero
+            ) {
                 moveToRelative(88.38f, 66.94f)
                 lineToRelative(-2.19f, 23.04f)
                 lineToRelative(-9.53f, 21.65f)
@@ -122,10 +140,14 @@ public val Emoji.Peach: ImageVector
                 lineToRelative(0.2f, 8.93f)
                 close()
             }
-            path(fill = radialGradient(0.638f to Color(0xFFFF9759), 1.0f to Color(0x00FF9759),
-                    center = Offset(44.68143f,18.366055f), radius = 73.078835f), stroke = null,
-                    strokeLineWidth = 0.0f, strokeLineCap = Butt, strokeLineJoin = Miter,
-                    strokeLineMiter = 4.0f, pathFillType = NonZero) {
+            path(
+                fill = radialGradient(
+                    0.638f to Color(0xFFFF9759), 1.0f to Color(0x00FF9759),
+                    center = Offset(44.68143f, 18.366055f), radius = 73.078835f
+                ), stroke = null,
+                strokeLineWidth = 0.0f, strokeLineCap = Butt, strokeLineJoin = Miter,
+                strokeLineMiter = 4.0f, pathFillType = NonZero
+            ) {
                 moveTo(56.83f, 95.2f)
                 curveToRelative(-24.2f, 3.0f, -44.92f, -11.51f, -49.37f, -23.28f)
                 curveToRelative(-3.08f, -8.13f, -4.44f, -11.44f, -2.86f, -21.24f)
@@ -137,10 +159,14 @@ public val Emoji.Peach: ImageVector
                 curveToRelative(0.02f, 0.0f, 1.52f, 33.12f, -31.33f, 37.19f)
                 close()
             }
-            path(fill = radialGradient(0.499f to Color(0xFFF34124), 0.999f to Color(0xFFD10D22),
-                    center = Offset(77.948f,17.422f), radius = 85.745f), stroke = null,
-                    strokeLineWidth = 0.0f, strokeLineCap = Butt, strokeLineJoin = Miter,
-                    strokeLineMiter = 4.0f, pathFillType = NonZero) {
+            path(
+                fill = radialGradient(
+                    0.499f to Color(0xFFF34124), 0.999f to Color(0xFFD10D22),
+                    center = Offset(77.948f, 17.422f), radius = 85.745f
+                ), stroke = null,
+                strokeLineWidth = 0.0f, strokeLineCap = Butt, strokeLineJoin = Miter,
+                strokeLineMiter = 4.0f, pathFillType = NonZero
+            ) {
                 moveTo(67.91f, 121.45f)
                 curveToRelative(0.43f, 0.12f, 4.58f, -1.88f, 7.19f, -5.13f)
                 curveToRelative(7.01f, -8.75f, 15.91f, -20.91f, 17.49f, -43.44f)
@@ -151,10 +177,14 @@ public val Emoji.Peach: ImageVector
                 curveToRelative(-3.1f, 3.85f, -5.02f, 5.51f, -3.77f, 5.87f)
                 close()
             }
-            path(fill = radialGradient(0.345f to Color(0xFFFEBD92), 1.0f to Color(0x00FEBD92),
-                    center = Offset(33.433765f,35.615208f), radius = 23.32952f), stroke = null,
-                    strokeLineWidth = 0.0f, strokeLineCap = Butt, strokeLineJoin = Miter,
-                    strokeLineMiter = 4.0f, pathFillType = NonZero) {
+            path(
+                fill = radialGradient(
+                    0.345f to Color(0xFFFEBD92), 1.0f to Color(0x00FEBD92),
+                    center = Offset(33.433765f, 35.615208f), radius = 23.32952f
+                ), stroke = null,
+                strokeLineWidth = 0.0f, strokeLineCap = Butt, strokeLineJoin = Miter,
+                strokeLineMiter = 4.0f, pathFillType = NonZero
+            ) {
                 moveTo(28.31f, 50.94f)
                 reflectiveCurveToRelative(-3.16f, 7.63f, -9.52f, 2.6f)
                 curveToRelative(-3.46f, -2.74f, -3.23f, -9.81f, 0.14f, -15.71f)
@@ -164,20 +194,28 @@ public val Emoji.Peach: ImageVector
                 curveToRelative(-16.47f, -0.52f, -22.7f, 8.1f, -25.11f, 13.58f)
                 close()
             }
-            path(fill = radialGradient(0.799f to Color(0xFFFF9759), 1.0f to Color(0x00FF9759),
-                    center = Offset(43.61016f,51.033573f), radius = 22.379402f), stroke = null,
-                    strokeLineWidth = 0.0f, strokeLineCap = Butt, strokeLineJoin = Miter,
-                    strokeLineMiter = 4.0f, pathFillType = NonZero) {
+            path(
+                fill = radialGradient(
+                    0.799f to Color(0xFFFF9759), 1.0f to Color(0x00FF9759),
+                    center = Offset(43.61016f, 51.033573f), radius = 22.379402f
+                ), stroke = null,
+                strokeLineWidth = 0.0f, strokeLineCap = Butt, strokeLineJoin = Miter,
+                strokeLineMiter = 4.0f, pathFillType = NonZero
+            ) {
                 moveTo(23.62f, 57.97f)
                 curveToRelative(-0.64f, -7.23f, 3.9f, -15.39f, 11.49f, -20.01f)
                 curveToRelative(7.8f, -4.75f, 17.51f, -5.37f, 24.99f, -1.66f)
                 lineTo(23.62f, 57.97f)
                 close()
             }
-            path(fill = radialGradient(0.745f to Color(0x00FF9759), 0.974f to Color(0xFFFF9759),
-                    center = Offset(35.596222f,39.583282f), radius = 22.276033f), stroke = null,
-                    strokeLineWidth = 0.0f, strokeLineCap = Butt, strokeLineJoin = Miter,
-                    strokeLineMiter = 4.0f, pathFillType = NonZero) {
+            path(
+                fill = radialGradient(
+                    0.745f to Color(0x00FF9759), 0.974f to Color(0xFFFF9759),
+                    center = Offset(35.596222f, 39.583282f), radius = 22.276033f
+                ), stroke = null,
+                strokeLineWidth = 0.0f, strokeLineCap = Butt, strokeLineJoin = Miter,
+                strokeLineMiter = 4.0f, pathFillType = NonZero
+            ) {
                 moveTo(28.31f, 50.94f)
                 reflectiveCurveToRelative(-3.16f, 7.63f, -9.52f, 2.6f)
                 curveToRelative(-3.46f, -2.74f, -3.23f, -9.81f, 0.14f, -15.71f)
@@ -188,7 +226,7 @@ public val Emoji.Peach: ImageVector
                 close()
             }
         }
-        .build()
+            .build()
         return _peach!!
     }
 

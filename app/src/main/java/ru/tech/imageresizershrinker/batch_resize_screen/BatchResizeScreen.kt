@@ -120,11 +120,6 @@ import ru.tech.imageresizershrinker.batch_resize_screen.viewModel.BatchResizeVie
 import ru.tech.imageresizershrinker.main_screen.components.LocalAlignment
 import ru.tech.imageresizershrinker.main_screen.components.LocalAllowChangeColorByImage
 import ru.tech.imageresizershrinker.main_screen.components.LocalBorderWidth
-import ru.tech.imageresizershrinker.utils.modifier.alertDialog
-import ru.tech.imageresizershrinker.utils.modifier.block
-import ru.tech.imageresizershrinker.utils.modifier.drawHorizontalStroke
-import ru.tech.imageresizershrinker.utils.modifier.fabBorder
-import ru.tech.imageresizershrinker.utils.modifier.navBarsLandscapePadding
 import ru.tech.imageresizershrinker.resize_screen.components.BadImageWidget
 import ru.tech.imageresizershrinker.resize_screen.components.ExtensionGroup
 import ru.tech.imageresizershrinker.resize_screen.components.ImageNotPickedWidget
@@ -151,6 +146,11 @@ import ru.tech.imageresizershrinker.utils.ContextUtils.isExternalStorageWritable
 import ru.tech.imageresizershrinker.utils.ContextUtils.requestStoragePermission
 import ru.tech.imageresizershrinker.utils.LocalWindowSizeClass
 import ru.tech.imageresizershrinker.utils.SavingFolder
+import ru.tech.imageresizershrinker.utils.modifier.alertDialog
+import ru.tech.imageresizershrinker.utils.modifier.block
+import ru.tech.imageresizershrinker.utils.modifier.drawHorizontalStroke
+import ru.tech.imageresizershrinker.utils.modifier.fabBorder
+import ru.tech.imageresizershrinker.utils.modifier.navBarsLandscapePadding
 import ru.tech.imageresizershrinker.widget.LocalToastHost
 import ru.tech.imageresizershrinker.widget.Marquee
 

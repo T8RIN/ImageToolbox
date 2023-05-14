@@ -1,12 +1,9 @@
 package ru.tech.imageresizershrinker.theme.emoji
 
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.PathFillType
 import androidx.compose.ui.graphics.PathFillType.Companion.NonZero
 import androidx.compose.ui.graphics.SolidColor
-import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.StrokeCap.Companion.Butt
-import androidx.compose.ui.graphics.StrokeJoin
 import androidx.compose.ui.graphics.StrokeJoin.Companion.Miter
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.graphics.vector.ImageVector.Builder
@@ -19,11 +16,15 @@ public val Emoji.Heart: ImageVector
         if (_heart != null) {
             return _heart!!
         }
-        _heart = Builder(name = "Heart", defaultWidth = 1.0.dp, defaultHeight = 1.0.dp,
-                viewportWidth = 128.0f, viewportHeight = 128.0f).apply {
-            path(fill = SolidColor(Color(0xFFF44336)), stroke = null, strokeLineWidth = 0.0f,
-                    strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
-                    pathFillType = NonZero) {
+        _heart = Builder(
+            name = "Heart", defaultWidth = 1.0.dp, defaultHeight = 1.0.dp,
+            viewportWidth = 128.0f, viewportHeight = 128.0f
+        ).apply {
+            path(
+                fill = SolidColor(Color(0xFFF44336)), stroke = null, strokeLineWidth = 0.0f,
+                strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
+                pathFillType = NonZero
+            ) {
                 moveTo(93.99f, 8.97f)
                 curveToRelative(-21.91f, 0.0f, -29.96f, 22.39f, -29.96f, 22.39f)
                 reflectiveCurveToRelative(-7.94f, -22.39f, -30.0f, -22.39f)
@@ -33,9 +34,11 @@ public val Emoji.Heart: ImageVector
                 curveToRelative(6.98f, -29.87f, -10.56f, -43.01f, -28.48f, -43.01f)
                 close()
             }
-            path(fill = SolidColor(Color(0xFFA73229)), stroke = null, strokeLineWidth = 0.0f,
-                    strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
-                    pathFillType = NonZero) {
+            path(
+                fill = SolidColor(Color(0xFFA73229)), stroke = null, strokeLineWidth = 0.0f,
+                strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
+                pathFillType = NonZero
+            ) {
                 moveTo(30.65f, 11.2f)
                 curveToRelative(17.2f, 0.0f, 25.74f, 18.49f, 28.5f, 25.98f)
                 curveToRelative(0.39f, 1.07f, 1.88f, 1.1f, 2.33f, 0.06f)
@@ -54,9 +57,11 @@ public val Emoji.Heart: ImageVector
                 curveToRelative(6.98f, -29.86f, -10.53f, -43.0f, -28.48f, -43.0f)
                 close()
             }
-            path(fill = SolidColor(Color(0xFFFF8A80)), stroke = null, strokeLineWidth = 0.0f,
-                    strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
-                    pathFillType = NonZero) {
+            path(
+                fill = SolidColor(Color(0xFFFF8A80)), stroke = null, strokeLineWidth = 0.0f,
+                strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
+                pathFillType = NonZero
+            ) {
                 moveTo(17.04f, 24.82f)
                 curveToRelative(3.75f, -4.68f, 10.45f, -8.55f, 16.13f, -4.09f)
                 curveToRelative(3.07f, 2.41f, 1.73f, 7.35f, -1.02f, 9.43f)
@@ -74,7 +79,7 @@ public val Emoji.Heart: ImageVector
                 close()
             }
         }
-        .build()
+            .build()
         return _heart!!
     }
 

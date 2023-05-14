@@ -1,12 +1,9 @@
 package ru.tech.imageresizershrinker.theme.emoji
 
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.PathFillType
 import androidx.compose.ui.graphics.PathFillType.Companion.NonZero
 import androidx.compose.ui.graphics.SolidColor
-import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.StrokeCap.Companion.Butt
-import androidx.compose.ui.graphics.StrokeJoin
 import androidx.compose.ui.graphics.StrokeJoin.Companion.Miter
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.graphics.vector.ImageVector.Builder
@@ -19,11 +16,15 @@ public val Emoji.Droplets: ImageVector
         if (_droplets != null) {
             return _droplets!!
         }
-        _droplets = Builder(name = "Droplets", defaultWidth = 1.0.dp, defaultHeight = 1.0.dp,
-                viewportWidth = 128.0f, viewportHeight = 128.0f).apply {
-            path(fill = SolidColor(Color(0xFF4FC3F7)), stroke = null, strokeLineWidth = 0.0f,
-                    strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
-                    pathFillType = NonZero) {
+        _droplets = Builder(
+            name = "Droplets", defaultWidth = 1.0.dp, defaultHeight = 1.0.dp,
+            viewportWidth = 128.0f, viewportHeight = 128.0f
+        ).apply {
+            path(
+                fill = SolidColor(Color(0xFF4FC3F7)), stroke = null, strokeLineWidth = 0.0f,
+                strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
+                pathFillType = NonZero
+            ) {
                 moveTo(59.2f, 94.33f)
                 curveToRelative(-1.66f, 16.44f, -14.08f, 27.62f, -30.55f, 26.34f)
                 curveToRelative(-16.47f, -1.28f, -23.29f, -15.18f, -22.45f, -28.34f)
@@ -48,9 +49,11 @@ public val Emoji.Droplets: ImageVector
                 curveToRelative(12.03f, -4.46f, 45.67f, -14.87f, 65.93f, -0.78f)
                 close()
             }
-            path(fill = SolidColor(Color(0xFFB3E5FC)), stroke = null, strokeLineWidth = 0.0f,
-                    strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
-                    pathFillType = NonZero) {
+            path(
+                fill = SolidColor(Color(0xFFB3E5FC)), stroke = null, strokeLineWidth = 0.0f,
+                strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
+                pathFillType = NonZero
+            ) {
                 moveTo(53.42f, 94.82f)
                 curveToRelative(-0.37f, 1.11f, -0.89f, 2.2f, -1.73f, 3.0f)
                 curveToRelative(-0.85f, 0.81f, -2.07f, 1.29f, -3.2f, 1.02f)
@@ -77,7 +80,7 @@ public val Emoji.Droplets: ImageVector
                 close()
             }
         }
-        .build()
+            .build()
         return _droplets!!
     }
 

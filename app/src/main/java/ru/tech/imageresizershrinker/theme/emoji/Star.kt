@@ -1,16 +1,12 @@
 package ru.tech.imageresizershrinker.theme.emoji
 
 import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Brush.Companion.linearGradient
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.PathFillType
 import androidx.compose.ui.graphics.PathFillType.Companion.EvenOdd
 import androidx.compose.ui.graphics.PathFillType.Companion.NonZero
 import androidx.compose.ui.graphics.SolidColor
-import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.StrokeCap.Companion.Butt
-import androidx.compose.ui.graphics.StrokeJoin
 import androidx.compose.ui.graphics.StrokeJoin.Companion.Miter
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.graphics.vector.ImageVector.Builder
@@ -23,12 +19,18 @@ public val Emoji.Star: ImageVector
         if (_star != null) {
             return _star!!
         }
-        _star = Builder(name = "Star", defaultWidth = 1.0.dp, defaultHeight = 1.0.dp, viewportWidth
-                = 128.0f, viewportHeight = 128.0f).apply {
-            path(fill = linearGradient(0.0f to Color(0xFF3367D6), 0.521f to Color(0xFF352893), 1.0f
-                    to Color(0xFF1A237E), start = Offset(64.0f,155.558f), end =
-                    Offset(64.0f,-0.244f)), stroke = null, strokeLineWidth = 0.0f, strokeLineCap =
-                    Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f, pathFillType = NonZero) {
+        _star = Builder(
+            name = "Star", defaultWidth = 1.0.dp, defaultHeight = 1.0.dp, viewportWidth
+            = 128.0f, viewportHeight = 128.0f
+        ).apply {
+            path(
+                fill = linearGradient(
+                    0.0f to Color(0xFF3367D6), 0.521f to Color(0xFF352893), 1.0f
+                            to Color(0xFF1A237E), start = Offset(64.0f, 155.558f), end =
+                    Offset(64.0f, -0.244f)
+                ), stroke = null, strokeLineWidth = 0.0f, strokeLineCap =
+                Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f, pathFillType = NonZero
+            ) {
                 moveTo(116.0f, 124.0f)
                 horizontalLineTo(12.0f)
                 curveToRelative(-4.42f, 0.0f, -8.0f, -3.58f, -8.0f, -8.0f)
@@ -40,10 +42,14 @@ public val Emoji.Star: ImageVector
                 curveToRelative(0.0f, 4.42f, -3.58f, 8.0f, -8.0f, 8.0f)
                 close()
             }
-            path(fill = linearGradient(0.0f to Color(0xFFFFF7AF), 1.0f to Color(0x19FFF7AF), start =
-                    Offset(46.624f,85.54f), end = Offset(124.494f,-3.705f)), stroke = null,
-                    strokeLineWidth = 0.0f, strokeLineCap = Butt, strokeLineJoin = Miter,
-                    strokeLineMiter = 4.0f, pathFillType = NonZero) {
+            path(
+                fill = linearGradient(
+                    0.0f to Color(0xFFFFF7AF), 1.0f to Color(0x19FFF7AF), start =
+                    Offset(46.624f, 85.54f), end = Offset(124.494f, -3.705f)
+                ), stroke = null,
+                strokeLineWidth = 0.0f, strokeLineCap = Butt, strokeLineJoin = Miter,
+                strokeLineMiter = 4.0f, pathFillType = NonZero
+            ) {
                 moveToRelative(34.15f, 69.14f)
                 lineToRelative(40.47f, 22.92f)
                 curveTo(87.88f, 57.62f, 107.55f, 34.57f, 124.0f, 20.08f)
@@ -52,10 +58,14 @@ public val Emoji.Star: ImageVector
                 curveToRelative(-29.9f, 7.41f, -70.83f, 24.6f, -85.75f, 64.12f)
                 close()
             }
-            path(fill = linearGradient(0.254f to Color(0xFFFFFDE7), 1.0f to Color(0x00FFFDE7), start
-                    = Offset(47.136f,81.18f), end = Offset(120.894f,13.38f)), stroke = null,
-                    strokeLineWidth = 0.0f, strokeLineCap = Butt, strokeLineJoin = Miter,
-                    strokeLineMiter = 4.0f, pathFillType = NonZero) {
+            path(
+                fill = linearGradient(
+                    0.254f to Color(0xFFFFFDE7), 1.0f to Color(0x00FFFDE7), start
+                    = Offset(47.136f, 81.18f), end = Offset(120.894f, 13.38f)
+                ), stroke = null,
+                strokeLineWidth = 0.0f, strokeLineCap = Butt, strokeLineJoin = Miter,
+                strokeLineMiter = 4.0f, pathFillType = NonZero
+            ) {
                 moveTo(114.43f, 12.88f)
                 curveTo(62.41f, 30.29f, 41.0f, 73.56f, 41.0f, 73.56f)
                 lineTo(61.23f, 90.2f)
@@ -64,10 +74,14 @@ public val Emoji.Star: ImageVector
                 curveToRelative(0.91f, -0.62f, 0.21f, -2.04f, -0.84f, -1.69f)
                 close()
             }
-            path(fill = linearGradient(0.005f to Color(0x004453AB), 1.0f to Color(0xFF3949AB), start
-                    = Offset(85.658f,12.325f), end = Offset(68.685f,95.571f)), stroke = null,
-                    strokeLineWidth = 0.0f, strokeLineCap = Butt, strokeLineJoin = Miter,
-                    strokeLineMiter = 4.0f, pathFillType = NonZero) {
+            path(
+                fill = linearGradient(
+                    0.005f to Color(0x004453AB), 1.0f to Color(0xFF3949AB), start
+                    = Offset(85.658f, 12.325f), end = Offset(68.685f, 95.571f)
+                ), stroke = null,
+                strokeLineWidth = 0.0f, strokeLineCap = Butt, strokeLineJoin = Miter,
+                strokeLineMiter = 4.0f, pathFillType = NonZero
+            ) {
                 moveTo(75.24f, 67.39f)
                 curveToRelative(0.3f, -5.04f, 3.11f, -17.44f, 3.11f, -17.44f)
                 curveToRelative(0.73f, -4.1f, -3.0f, -5.1f, -5.53f, -3.82f)
@@ -82,9 +96,11 @@ public val Emoji.Star: ImageVector
                 curveToRelative(-4.25f, 6.17f, -7.63f, 8.9f, -7.39f, 4.89f)
                 close()
             }
-            path(fill = SolidColor(Color(0xFFFDD835)), stroke = null, strokeLineWidth = 0.0f,
-                    strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
-                    pathFillType = NonZero) {
+            path(
+                fill = SolidColor(Color(0xFFFDD835)), stroke = null, strokeLineWidth = 0.0f,
+                strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
+                pathFillType = NonZero
+            ) {
                 moveTo(29.58f, 49.88f)
                 lineTo(46.36f, 60.7f)
                 curveToRelative(1.29f, 0.83f, 2.92f, 0.89f, 4.27f, 0.17f)
@@ -108,9 +124,11 @@ public val Emoji.Star: ImageVector
                 curveToRelative(-0.29f, -2.21f, 2.09f, -3.78f, 4.02f, -2.66f)
                 close()
             }
-            path(fill = SolidColor(Color(0xFFFFFF8D)), stroke = null, strokeLineWidth = 0.0f,
-                    strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
-                    pathFillType = NonZero) {
+            path(
+                fill = SolidColor(Color(0xFFFFFF8D)), stroke = null, strokeLineWidth = 0.0f,
+                strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
+                pathFillType = NonZero
+            ) {
                 moveToRelative(39.79f, 66.36f)
                 lineToRelative(-8.57f, -10.49f)
                 curveToRelative(-0.46f, -0.6f, -1.3f, -1.58f, -0.29f, -2.25f)
@@ -120,9 +138,11 @@ public val Emoji.Star: ImageVector
                 curveToRelative(-0.9f, 1.75f, -3.4f, 2.51f, -5.85f, -0.49f)
                 close()
             }
-            path(fill = SolidColor(Color(0xFFF4B400)), stroke = null, strokeLineWidth = 0.0f,
-                    strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
-                    pathFillType = NonZero) {
+            path(
+                fill = SolidColor(Color(0xFFF4B400)), stroke = null, strokeLineWidth = 0.0f,
+                strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
+                pathFillType = NonZero
+            ) {
                 moveToRelative(64.23f, 72.85f)
                 lineToRelative(4.71f, -14.05f)
                 curveToRelative(0.22f, -0.72f, 0.66f, -1.94f, -0.52f, -2.21f)
@@ -132,9 +152,11 @@ public val Emoji.Star: ImageVector
                 curveToRelative(1.26f, 2.31f, 4.33f, 2.7f, 5.86f, -1.04f)
                 close()
             }
-            path(fill = SolidColor(Color(0xFFFFF176)), stroke = null, strokeLineWidth = 0.0f,
-                    strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
-                    pathFillType = EvenOdd) {
+            path(
+                fill = SolidColor(Color(0xFFFFF176)), stroke = null, strokeLineWidth = 0.0f,
+                strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
+                pathFillType = EvenOdd
+            ) {
                 moveTo(118.09f, 63.75f)
                 curveToRelative(-3.13f, -1.04f, -5.56f, -3.6f, -6.45f, -6.78f)
                 arcToRelative(0.44f, 0.44f, 0.0f, false, false, -0.85f, -0.02f)
@@ -146,9 +168,11 @@ public val Emoji.Star: ImageVector
                 arcToRelative(0.42f, 0.42f, 0.0f, false, false, 0.03f, -0.81f)
                 close()
             }
-            path(fill = SolidColor(Color(0xFFFFF9C4)), stroke = null, strokeLineWidth = 0.0f,
-                    strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
-                    pathFillType = EvenOdd) {
+            path(
+                fill = SolidColor(Color(0xFFFFF9C4)), stroke = null, strokeLineWidth = 0.0f,
+                strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
+                pathFillType = EvenOdd
+            ) {
                 moveTo(42.71f, 30.83f)
                 arcToRelative(7.16f, 7.16f, 0.0f, false, true, -4.64f, -4.88f)
                 arcToRelative(0.316f, 0.316f, 0.0f, false, false, -0.61f, -0.01f)
@@ -160,56 +184,68 @@ public val Emoji.Star: ImageVector
                 curveToRelative(0.29f, -0.09f, 0.3f, -0.5f, 0.01f, -0.59f)
                 close()
             }
-            path(fill = SolidColor(Color(0xFF7BAAF7)), stroke = null, strokeLineWidth = 0.0f,
-                    strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
-                    pathFillType = EvenOdd) {
+            path(
+                fill = SolidColor(Color(0xFF7BAAF7)), stroke = null, strokeLineWidth = 0.0f,
+                strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
+                pathFillType = EvenOdd
+            ) {
                 moveTo(12.36f, 41.85f)
                 moveToRelative(-2.41f, 0.0f)
                 arcToRelative(2.41f, 2.41f, 0.0f, true, true, 4.82f, 0.0f)
                 arcToRelative(2.41f, 2.41f, 0.0f, true, true, -4.82f, 0.0f)
             }
-            path(fill = SolidColor(Color(0xFF5C6BC0)), stroke = null, strokeLineWidth = 0.0f,
-                    strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
-                    pathFillType = EvenOdd) {
+            path(
+                fill = SolidColor(Color(0xFF5C6BC0)), stroke = null, strokeLineWidth = 0.0f,
+                strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
+                pathFillType = EvenOdd
+            ) {
                 moveTo(59.23f, 15.07f)
                 moveToRelative(-4.77f, 0.0f)
                 arcToRelative(4.77f, 4.77f, 0.0f, true, true, 9.54f, 0.0f)
                 arcToRelative(4.77f, 4.77f, 0.0f, true, true, -9.54f, 0.0f)
             }
-            path(fill = SolidColor(Color(0xFF7986CB)), stroke = null, strokeLineWidth = 0.0f,
-                    strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
-                    pathFillType = EvenOdd) {
+            path(
+                fill = SolidColor(Color(0xFF7986CB)), stroke = null, strokeLineWidth = 0.0f,
+                strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
+                pathFillType = EvenOdd
+            ) {
                 moveTo(109.42f, 94.45f)
                 moveToRelative(-3.19f, 0.0f)
                 arcToRelative(3.19f, 3.19f, 0.0f, true, true, 6.38f, 0.0f)
                 arcToRelative(3.19f, 3.19f, 0.0f, true, true, -6.38f, 0.0f)
             }
-            path(fill = SolidColor(Color(0xFFFFF176)), stroke = null, strokeLineWidth = 0.0f,
-                    strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
-                    pathFillType = EvenOdd) {
+            path(
+                fill = SolidColor(Color(0xFFFFF176)), stroke = null, strokeLineWidth = 0.0f,
+                strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
+                pathFillType = EvenOdd
+            ) {
                 moveTo(98.9f, 80.52f)
                 moveToRelative(-2.41f, 0.0f)
                 arcToRelative(2.41f, 2.41f, 0.0f, true, true, 4.82f, 0.0f)
                 arcToRelative(2.41f, 2.41f, 0.0f, true, true, -4.82f, 0.0f)
             }
-            path(fill = SolidColor(Color(0xFFFFF176)), stroke = null, strokeLineWidth = 0.0f,
-                    strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
-                    pathFillType = EvenOdd) {
+            path(
+                fill = SolidColor(Color(0xFFFFF176)), stroke = null, strokeLineWidth = 0.0f,
+                strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
+                pathFillType = EvenOdd
+            ) {
                 moveTo(19.67f, 17.48f)
                 moveToRelative(-2.41f, 0.0f)
                 arcToRelative(2.41f, 2.41f, 0.0f, true, true, 4.82f, 0.0f)
                 arcToRelative(2.41f, 2.41f, 0.0f, true, true, -4.82f, 0.0f)
             }
-            path(fill = SolidColor(Color(0xFF7BAAF7)), stroke = null, strokeLineWidth = 0.0f,
-                    strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
-                    pathFillType = EvenOdd) {
+            path(
+                fill = SolidColor(Color(0xFF7BAAF7)), stroke = null, strokeLineWidth = 0.0f,
+                strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
+                pathFillType = EvenOdd
+            ) {
                 moveTo(69.65f, 113.47f)
                 moveToRelative(-2.41f, 0.0f)
                 arcToRelative(2.41f, 2.41f, 0.0f, true, true, 4.82f, 0.0f)
                 arcToRelative(2.41f, 2.41f, 0.0f, true, true, -4.82f, 0.0f)
             }
         }
-        .build()
+            .build()
         return _star!!
     }
 

@@ -1,12 +1,9 @@
 package ru.tech.imageresizershrinker.theme.emoji
 
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.PathFillType
 import androidx.compose.ui.graphics.PathFillType.Companion.NonZero
 import androidx.compose.ui.graphics.SolidColor
-import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.StrokeCap.Companion.Butt
-import androidx.compose.ui.graphics.StrokeJoin
 import androidx.compose.ui.graphics.StrokeJoin.Companion.Miter
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.graphics.vector.ImageVector.Builder
@@ -19,27 +16,35 @@ public val Emoji.Biohazard: ImageVector
         if (_biohazard != null) {
             return _biohazard!!
         }
-        _biohazard = Builder(name = "Biohazard", defaultWidth = 1.0.dp, defaultHeight = 1.0.dp,
-                viewportWidth = 128.0f, viewportHeight = 128.0f).apply {
-            path(fill = SolidColor(Color(0xFFF2A600)), stroke = null, strokeLineWidth = 0.0f,
-                    strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
-                    pathFillType = NonZero) {
+        _biohazard = Builder(
+            name = "Biohazard", defaultWidth = 1.0.dp, defaultHeight = 1.0.dp,
+            viewportWidth = 128.0f, viewportHeight = 128.0f
+        ).apply {
+            path(
+                fill = SolidColor(Color(0xFFF2A600)), stroke = null, strokeLineWidth = 0.0f,
+                strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
+                pathFillType = NonZero
+            ) {
                 moveTo(64.46f, 63.96f)
                 moveToRelative(-60.0f, 0.0f)
                 arcToRelative(60.0f, 60.0f, 0.0f, true, true, 120.0f, 0.0f)
                 arcToRelative(60.0f, 60.0f, 0.0f, true, true, -120.0f, 0.0f)
             }
-            path(fill = SolidColor(Color(0xFFFFCC32)), stroke = null, strokeLineWidth = 0.0f,
-                    strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
-                    pathFillType = NonZero) {
+            path(
+                fill = SolidColor(Color(0xFFFFCC32)), stroke = null, strokeLineWidth = 0.0f,
+                strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
+                pathFillType = NonZero
+            ) {
                 moveTo(60.56f, 63.06f)
                 moveToRelative(-56.1f, 0.0f)
                 arcToRelative(56.1f, 56.1f, 0.0f, true, true, 112.2f, 0.0f)
                 arcToRelative(56.1f, 56.1f, 0.0f, true, true, -112.2f, 0.0f)
             }
-            path(fill = SolidColor(Color(0xFFFFF170)), stroke = null, fillAlpha = 0.65f, strokeAlpha
-                    = 0.65f, strokeLineWidth = 0.0f, strokeLineCap = Butt, strokeLineJoin = Miter,
-                    strokeLineMiter = 4.0f, pathFillType = NonZero) {
+            path(
+                fill = SolidColor(Color(0xFFFFF170)), stroke = null, fillAlpha = 0.65f, strokeAlpha
+                = 0.65f, strokeLineWidth = 0.0f, strokeLineCap = Butt, strokeLineJoin = Miter,
+                strokeLineMiter = 4.0f, pathFillType = NonZero
+            ) {
                 moveTo(24.46f, 29.66f)
                 curveToRelative(4.5f, -7.1f, 14.1f, -13.0f, 24.1f, -14.8f)
                 curveToRelative(2.5f, -0.4f, 5.0f, -0.6f, 7.1f, 0.2f)
@@ -50,9 +55,11 @@ public val Emoji.Biohazard: ImageVector
                 curveToRelative(-3.9f, -2.3f, -3.1f, -9.5f, 2.6f, -18.3f)
                 close()
             }
-            path(fill = SolidColor(Color(0xFF000000)), stroke = null, strokeLineWidth = 0.0f,
-                    strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
-                    pathFillType = NonZero) {
+            path(
+                fill = SolidColor(Color(0xFF000000)), stroke = null, strokeLineWidth = 0.0f,
+                strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
+                pathFillType = NonZero
+            ) {
                 moveTo(52.86f, 45.96f)
                 curveToRelative(6.41f, -4.09f, 14.5f, -4.51f, 21.3f, -1.1f)
                 curveToRelative(1.0f, 0.5f, 3.2f, 1.5f, 1.8f, 2.8f)
@@ -187,9 +194,11 @@ public val Emoji.Biohazard: ImageVector
                 curveToRelative(0.2f, 0.3f, 0.6f, 1.7f, 0.2f, 2.1f)
                 close()
             }
-            path(fill = SolidColor(Color(0xFFFFFFFF)), stroke = null, fillAlpha = 0.3f, strokeAlpha
-                    = 0.3f, strokeLineWidth = 0.0f, strokeLineCap = Butt, strokeLineJoin = Miter,
-                    strokeLineMiter = 4.0f, pathFillType = NonZero) {
+            path(
+                fill = SolidColor(Color(0xFFFFFFFF)), stroke = null, fillAlpha = 0.3f, strokeAlpha
+                = 0.3f, strokeLineWidth = 0.0f, strokeLineCap = Butt, strokeLineJoin = Miter,
+                strokeLineMiter = 4.0f, pathFillType = NonZero
+            ) {
                 moveTo(24.46f, 29.66f)
                 curveToRelative(4.5f, -7.1f, 14.1f, -13.0f, 24.1f, -14.8f)
                 curveToRelative(2.5f, -0.4f, 5.0f, -0.6f, 7.1f, 0.2f)
@@ -201,7 +210,7 @@ public val Emoji.Biohazard: ImageVector
                 close()
             }
         }
-        .build()
+            .build()
         return _biohazard!!
     }
 

@@ -1,14 +1,10 @@
 package ru.tech.imageresizershrinker.theme.emoji
 
 import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Brush.Companion.radialGradient
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.PathFillType
 import androidx.compose.ui.graphics.PathFillType.Companion.NonZero
-import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.StrokeCap.Companion.Butt
-import androidx.compose.ui.graphics.StrokeJoin
 import androidx.compose.ui.graphics.StrokeJoin.Companion.Miter
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.graphics.vector.ImageVector.Builder
@@ -21,12 +17,18 @@ public val Emoji.Fire: ImageVector
         if (_fire != null) {
             return _fire!!
         }
-        _fire = Builder(name = "Fire", defaultWidth = 1.0.dp, defaultHeight = 1.0.dp, viewportWidth
-                = 128.0f, viewportHeight = 128.0f).apply {
-            path(fill = radialGradient(0.314f to Color(0xFFFF9800), 0.662f to Color(0xFFFF6D00),
-                    0.972f to Color(0xFFF44336), center = Offset(62.215763f,124.30092f), radius =
-                    70.58766f), stroke = null, strokeLineWidth = 0.0f, strokeLineCap = Butt,
-                    strokeLineJoin = Miter, strokeLineMiter = 4.0f, pathFillType = NonZero) {
+        _fire = Builder(
+            name = "Fire", defaultWidth = 1.0.dp, defaultHeight = 1.0.dp, viewportWidth
+            = 128.0f, viewportHeight = 128.0f
+        ).apply {
+            path(
+                fill = radialGradient(
+                    0.314f to Color(0xFFFF9800), 0.662f to Color(0xFFFF6D00),
+                    0.972f to Color(0xFFF44336), center = Offset(62.215763f, 124.30092f), radius =
+                    70.58766f
+                ), stroke = null, strokeLineWidth = 0.0f, strokeLineCap = Butt,
+                strokeLineJoin = Miter, strokeLineMiter = 4.0f, pathFillType = NonZero
+            ) {
                 moveTo(35.56f, 40.73f)
                 curveToRelative(-0.57f, 6.08f, -0.97f, 16.84f, 2.62f, 21.42f)
                 curveToRelative(0.0f, 0.0f, -1.69f, -11.82f, 13.46f, -26.65f)
@@ -45,13 +47,25 @@ public val Emoji.Fire: ImageVector
                 curveToRelative(1.18f, -1.08f, 3.11f, -0.12f, 2.95f, 1.5f)
                 close()
             }
-            path(fill = radialGradient(0.214f to Color(0xFFFFF176), 0.328f to Color(0xFFFFF27D),
-                    0.487f to Color(0xFFFFF48F), 0.672f to Color(0xFFFFF7AD), 0.793f to
-                    Color(0xFFFFF9C4), 0.822f to Color(0xCDFFF8BD), 0.863f to Color(0x86FFF6AB),
-                    0.91f to Color(0x35FFF38D), 0.941f to Color(0x00FFF176), center =
-                    Offset(66.179955f,54.058376f), radius = 73.85638f), stroke = null,
-                    strokeLineWidth = 0.0f, strokeLineCap = Butt, strokeLineJoin = Miter,
-                    strokeLineMiter = 4.0f, pathFillType = NonZero) {
+            path(
+                fill = radialGradient(
+                    0.214f to Color(0xFFFFF176),
+                    0.328f to Color(0xFFFFF27D),
+                    0.487f to Color(0xFFFFF48F),
+                    0.672f to Color(0xFFFFF7AD),
+                    0.793f to
+                            Color(0xFFFFF9C4),
+                    0.822f to Color(0xCDFFF8BD),
+                    0.863f to Color(0x86FFF6AB),
+                    0.91f to Color(0x35FFF38D),
+                    0.941f to Color(0x00FFF176),
+                    center =
+                    Offset(66.179955f, 54.058376f),
+                    radius = 73.85638f
+                ), stroke = null,
+                strokeLineWidth = 0.0f, strokeLineCap = Butt, strokeLineJoin = Miter,
+                strokeLineMiter = 4.0f, pathFillType = NonZero
+            ) {
                 moveTo(76.11f, 77.42f)
                 curveToRelative(-9.09f, -11.7f, -5.02f, -25.05f, -2.79f, -30.37f)
                 curveToRelative(0.3f, -0.7f, -0.5f, -1.36f, -1.13f, -0.93f)
@@ -68,7 +82,7 @@ public val Emoji.Fire: ImageVector
                 close()
             }
         }
-        .build()
+            .build()
         return _fire!!
     }
 
