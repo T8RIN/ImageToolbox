@@ -10,6 +10,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.animateContentSize
+import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
@@ -1576,15 +1577,19 @@ fun MainScreen(
                                     MaterialTheme
                                         .colorScheme
                                         .surfaceVariant
-                                        .copy(alpha = if (selected) 1f else 0.5f),
+                                        .copy(alpha = animateFloatAsState(if (selected) 1f else 0.5f).value),
                                     MaterialTheme.shapes.medium
                                 )
                                 .border(
-                                    if (!selected) LocalBorderWidth.current else LocalBorderWidth.current.coerceAtLeast(
-                                        1.dp
-                                    ) * 2,
+                                    animateDpAsState(
+                                        if (!selected) {
+                                            LocalBorderWidth.current
+                                        } else {
+                                            LocalBorderWidth.current.coerceAtLeast(1.dp) * 2
+                                        }
+                                    ).value,
                                     MaterialTheme.colorScheme.outlineVariant(
-                                        if (selected) 0.5f else 0.2f
+                                        animateFloatAsState(if (selected) 0.5f else 0.2f).value
                                     ),
                                     MaterialTheme.shapes.medium
                                 )
@@ -1615,15 +1620,19 @@ fun MainScreen(
                                         MaterialTheme
                                             .colorScheme
                                             .surfaceVariant
-                                            .copy(alpha = if (emojiSelected) 1f else 0.5f),
+                                            .copy(alpha = animateFloatAsState(if (emojiSelected) 1f else 0.5f).value),
                                         MaterialTheme.shapes.medium
                                     )
                                     .border(
-                                        if (!emojiSelected) LocalBorderWidth.current else LocalBorderWidth.current.coerceAtLeast(
-                                            1.dp
-                                        ) * 2,
+                                        animateDpAsState(
+                                            if (!emojiSelected) {
+                                                LocalBorderWidth.current
+                                            } else {
+                                                LocalBorderWidth.current.coerceAtLeast(1.dp) * 2
+                                            }
+                                        ).value,
                                         MaterialTheme.colorScheme.outlineVariant(
-                                            if (emojiSelected) 0.5f else 0.2f
+                                            animateFloatAsState(if (emojiSelected) 0.5f else 0.2f).value
                                         ),
                                         MaterialTheme.shapes.medium
                                     )

@@ -1,5 +1,9 @@
 package ru.tech.imageresizershrinker.crop_screen.components
 
+import androidx.compose.animation.core.animateDpAsState
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -25,7 +29,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.stringResource
@@ -36,7 +39,8 @@ import com.smarttoolfactory.cropper.model.CropAspectRatio
 import com.smarttoolfactory.cropper.util.createRectShape
 import com.smarttoolfactory.cropper.widget.AspectRatioSelectionCard
 import ru.tech.imageresizershrinker.R
-import ru.tech.imageresizershrinker.utils.modifier.block
+import ru.tech.imageresizershrinker.main_screen.components.LocalBorderWidth
+import ru.tech.imageresizershrinker.theme.outlineVariant
 import ru.tech.imageresizershrinker.widget.AutoSizeText
 
 @Composable
@@ -65,24 +69,62 @@ fun AspectRatioSelection(
         ) {
             itemsIndexed(aspectRatios) { index, item ->
                 if (item.aspectRatio != AspectRatio.Original) {
+                    val selected = selectedIndex == index
                     AspectRatioSelectionCard(
                         modifier = Modifier
                             .width(80.dp)
                             .clip(RoundedCornerShape(16.dp))
                             .clickable { onAspectRatioChange(aspectRatios[index]) }
-                            .scale(if (selectedIndex == index) 1.1f else 1f)
-                            .block(color = if (selectedIndex == index) MaterialTheme.colorScheme.surfaceVariant else Color.Unspecified),
+                            .background(
+                                MaterialTheme
+                                    .colorScheme
+                                    .surfaceVariant
+                                    .copy(alpha = animateFloatAsState(if (selected) 1f else 0.5f).value),
+                                RoundedCornerShape(16.dp)
+                            )
+                            .border(
+                                animateDpAsState(
+                                    if (!selected) {
+                                        LocalBorderWidth.current
+                                    } else {
+                                        LocalBorderWidth.current.coerceAtLeast(1.dp) * 2
+                                    }
+                                ).value,
+                                MaterialTheme.colorScheme.outlineVariant(
+                                    animateFloatAsState(if (selected) 0.5f else 0.2f).value
+                                ),
+                                RoundedCornerShape(16.dp)
+                            ),
                         contentColor = Color.Transparent,
                         color = MaterialTheme.colorScheme.onSurface,
                         cropAspectRatio = item
                     )
                 } else {
+                    val selected = selectedIndex == index
                     Box(
                         modifier = Modifier
                             .clip(RoundedCornerShape(16.dp))
                             .clickable { onAspectRatioChange(aspectRatios[index]) }
-                            .scale(if (selectedIndex == index) 1.1f else 1f)
-                            .block(color = if (selectedIndex == index) MaterialTheme.colorScheme.surfaceVariant else Color.Unspecified)
+                            .background(
+                                MaterialTheme
+                                    .colorScheme
+                                    .surfaceVariant
+                                    .copy(alpha = animateFloatAsState(if (selected) 1f else 0.5f).value),
+                                RoundedCornerShape(16.dp)
+                            )
+                            .border(
+                                animateDpAsState(
+                                    if (!selected) {
+                                        LocalBorderWidth.current
+                                    } else {
+                                        LocalBorderWidth.current.coerceAtLeast(1.dp) * 2
+                                    }
+                                ).value,
+                                MaterialTheme.colorScheme.outlineVariant(
+                                    animateFloatAsState(if (selected) 0.5f else 0.2f).value
+                                ),
+                                RoundedCornerShape(16.dp)
+                            )
                             .padding(4.dp)
                     ) {
                         Column(
@@ -114,25 +156,63 @@ fun AspectRatioSelection(
         ) {
             itemsIndexed(aspectRatios) { index, item ->
                 if (item.aspectRatio != AspectRatio.Original) {
+                    val selected = selectedIndex == index
                     AspectRatioSelectionCard(
                         modifier = Modifier
                             .width(90.dp)
                             .clip(RoundedCornerShape(16.dp))
                             .clickable { onAspectRatioChange(aspectRatios[index]) }
-                            .scale(if (selectedIndex == index) 1.1f else 1f)
-                            .block(color = if (selectedIndex == index) MaterialTheme.colorScheme.surfaceVariant else Color.Unspecified),
+                            .background(
+                                MaterialTheme
+                                    .colorScheme
+                                    .surfaceVariant
+                                    .copy(alpha = animateFloatAsState(if (selected) 1f else 0.5f).value),
+                                RoundedCornerShape(16.dp)
+                            )
+                            .border(
+                                animateDpAsState(
+                                    if (!selected) {
+                                        LocalBorderWidth.current
+                                    } else {
+                                        LocalBorderWidth.current.coerceAtLeast(1.dp) * 2
+                                    }
+                                ).value,
+                                MaterialTheme.colorScheme.outlineVariant(
+                                    animateFloatAsState(if (selected) 0.5f else 0.2f).value
+                                ),
+                                RoundedCornerShape(16.dp)
+                            ),
                         contentColor = Color.Transparent,
                         color = MaterialTheme.colorScheme.onSurface,
                         cropAspectRatio = item
                     )
                 } else {
+                    val selected = selectedIndex == index
                     Box(
                         modifier = Modifier
                             .width(90.dp)
                             .clip(RoundedCornerShape(16.dp))
                             .clickable { onAspectRatioChange(aspectRatios[index]) }
-                            .scale(if (selectedIndex == index) 1.1f else 1f)
-                            .block(color = if (selectedIndex == index) MaterialTheme.colorScheme.surfaceVariant else Color.Unspecified)
+                            .background(
+                                MaterialTheme
+                                    .colorScheme
+                                    .surfaceVariant
+                                    .copy(alpha = animateFloatAsState(if (selected) 1f else 0.5f).value),
+                                RoundedCornerShape(16.dp)
+                            )
+                            .border(
+                                animateDpAsState(
+                                    if (!selected) {
+                                        LocalBorderWidth.current
+                                    } else {
+                                        LocalBorderWidth.current.coerceAtLeast(1.dp) * 2
+                                    }
+                                ).value,
+                                MaterialTheme.colorScheme.outlineVariant(
+                                    animateFloatAsState(if (selected) 0.5f else 0.2f).value
+                                ),
+                                RoundedCornerShape(16.dp)
+                            )
                             .padding(4.dp)
                     ) {
                         Column(
