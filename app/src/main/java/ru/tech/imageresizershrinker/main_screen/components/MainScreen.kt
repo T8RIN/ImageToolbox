@@ -913,12 +913,12 @@ fun MainScreen(
                                                             MaterialTheme.colorScheme.primaryContainer
                                                         }
                                                     ).value,
-                                                    shape = RoundedCornerShape(16.dp)
+                                                    shape = MaterialTheme.shapes.medium
                                                 )
                                                 .border(
                                                     LocalBorderWidth.current,
                                                     MaterialTheme.colorScheme.outlineVariant(),
-                                                    shape = RoundedCornerShape(16.dp)
+                                                    shape = MaterialTheme.shapes.medium
                                                 )
                                                 .scale(1.4f)
                                         )
@@ -1001,8 +1001,9 @@ fun MainScreen(
                                                 .border(
                                                     LocalBorderWidth.current,
                                                     MaterialTheme.colorScheme.outlineVariant(),
-                                                    CircleShape
+                                                    MaterialTheme.shapes.medium
                                                 ),
+                                            shape = MaterialTheme.shapes.medium
                                         )
                                     },
                                     onClick = {
