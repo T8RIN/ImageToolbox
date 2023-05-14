@@ -24,6 +24,7 @@ import ru.tech.imageresizershrinker.utils.BitmapUtils.flip
 import ru.tech.imageresizershrinker.utils.BitmapUtils.previewBitmap
 import ru.tech.imageresizershrinker.utils.BitmapUtils.resizeBitmap
 import ru.tech.imageresizershrinker.utils.BitmapUtils.rotate
+import ru.tech.imageresizershrinker.utils.BitmapUtils.scaleUntilCanShow
 import ru.tech.imageresizershrinker.utils.SavingFolder
 
 class BatchResizeViewModel : ViewModel() {
@@ -172,8 +173,15 @@ class BatchResizeViewModel : ViewModel() {
     }
 
     fun updateBitmap(bitmap: Bitmap?) {
-        _bitmap.value = bitmap
-        resetValues(saveMime = true)
+        viewModelScope.launch {
+            val size = bitmap?.let { bitmap.width to bitmap.height }
+            _bitmap.value = bitmap?.scaleUntilCanShow()
+            resetValues(saveMime = true)
+            _bitmapInfo.value = _bitmapInfo.value.copy(
+                width = size?.first.toString(),
+                height = size?.second.toString()
+            )
+        }
     }
 
     fun rotateLeft() {

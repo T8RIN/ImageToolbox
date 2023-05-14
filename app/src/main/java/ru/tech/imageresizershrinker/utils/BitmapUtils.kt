@@ -30,6 +30,7 @@ import java.io.File
 import java.io.FileDescriptor
 import java.io.FileOutputStream
 import java.util.Locale
+import kotlin.coroutines.CoroutineContext
 import kotlin.math.abs
 import kotlin.math.max
 import kotlin.math.roundToInt
@@ -186,8 +187,6 @@ object BitmapUtils {
         isFlipped: Boolean,
         onByteCount: (Int) -> Unit
     ): Bitmap = withContext(Dispatchers.IO) {
-        var bmp: Bitmap?
-
         val out = ByteArrayOutputStream()
         val tWidth = widthValue ?: width
         val tHeight = heightValue ?: height
@@ -198,8 +197,20 @@ object BitmapUtils {
             .compress(mime.extension.compressFormat, quality.toInt().coerceIn(0, 100), out)
         val b = out.toByteArray()
         onByteCount(b.size)
+
         val bitmap = BitmapFactory.decodeStream(ByteArrayInputStream(b))
 
+        out.flush()
+        out.close()
+
+        return@withContext bitmap.scaleUntilCanShow() ?: this@previewBitmap
+    }
+
+    suspend fun Bitmap.scaleUntilCanShow(
+        context: CoroutineContext = Dispatchers.IO
+    ): Bitmap? = withContext(context) {
+        val bitmap = this@scaleUntilCanShow
+        var bmp: Bitmap?
         bmp = if (!bitmap.canShow()) {
             bitmap.resizeBitmap(
                 height_ = (bitmap.height * 0.95f).toInt(),
@@ -215,11 +226,7 @@ object BitmapUtils {
                 resize = 1
             )
         }
-
-        out.flush()
-        out.close()
-
-        return@withContext bmp ?: this@previewBitmap
+        return@withContext bmp
     }
 
     val tags = listOf(
