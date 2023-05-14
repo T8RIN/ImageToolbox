@@ -626,7 +626,6 @@ class MainActivity : M3Activity() {
                                         ) {
                                             list.forEach {
                                                 OutlinedIconButton(
-                                                    shape = RoundedCornerShape(12.dp),
                                                     onClick = {
                                                         if (list.size > 7) {
                                                             viewModel.updatePresets(list - it)
@@ -651,7 +650,6 @@ class MainActivity : M3Activity() {
                                             }
                                             var expanded by remember { mutableStateOf(false) }
                                             OutlinedIconButton(
-                                                shape = RoundedCornerShape(12.dp),
                                                 onClick = {
                                                     expanded = true
                                                 },
