@@ -25,7 +25,6 @@ fun TelegramButton(
 ) {
     OutlinedIconButton(
         enabled = enabled,
-        shape = RoundedCornerShape(12.dp),
         onClick = onClick,
         colors = IconButtonDefaults.filledIconButtonColors(
             containerColor = animateColorAsState(
