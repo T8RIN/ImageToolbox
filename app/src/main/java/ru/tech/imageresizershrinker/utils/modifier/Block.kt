@@ -88,14 +88,15 @@ fun Modifier.drawHorizontalStroke(top: Boolean = false, height: Dp = Dp.Unspecif
         Modifier
     } else {
         val heightPx = with(LocalDensity.current) { h.toPx() }
-        drawWithContent {
-            drawContent()
-            drawRect(
-                color,
-                topLeft = if (top) Offset(0f, 0f) else Offset(0f, this.size.height),
-                size = Size(this.size.width, heightPx)
-            )
-        }
+        zIndex(100f)
+            .drawWithContent {
+                drawContent()
+                drawRect(
+                    color,
+                    topLeft = if (top) Offset(0f, 0f) else Offset(0f, this.size.height),
+                    size = Size(this.size.width, heightPx)
+                )
+            }
     }
         .shadow(
             animateDpAsState(if (h == null) 6.dp else 0.dp).value

@@ -229,6 +229,7 @@ fun PickColorFromImageScreen(
         val color = viewModel.color
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
             AnimatedContent(
+                modifier = Modifier.drawHorizontalStroke(),
                 targetState = viewModel.bitmap == null,
                 transitionSpec = { fadeIn() togetherWith fadeOut() }
             ) { noBmp ->
@@ -254,7 +255,6 @@ fun PickColorFromImageScreen(
                         colors = TopAppBarDefaults.mediumTopAppBarColors(
                             containerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(3.dp)
                         ),
-                        modifier = Modifier.drawHorizontalStroke()
                     )
                 } else {
                     Surface(
@@ -485,10 +485,6 @@ fun PickColorFromImageScreen(
                                     Spacer(modifier = Modifier.height(8.dp))
                                 }
                             }
-                            Divider(
-                                color = MaterialTheme.colorScheme.outlineVariant(0.3f),
-                                thickness = LocalBorderWidth.current
-                            )
                         }
                     }
                 }
