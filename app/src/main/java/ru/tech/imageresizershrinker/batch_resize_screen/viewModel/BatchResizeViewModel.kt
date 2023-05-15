@@ -272,7 +272,7 @@ class BatchResizeViewModel : ViewModel() {
 
     fun save(
         isExternalStorageWritable: Boolean,
-        getSavingFolder: (ext: String) -> SavingFolder,
+        getSavingFolder: (bitmapInfo: BitmapInfo) -> SavingFolder,
         getFileDescriptor: (Uri?) -> ParcelFileDescriptor?,
         getBitmap: (Uri) -> Pair<Bitmap?, ExifInterface?>,
         onSuccess: (Boolean) -> Unit
@@ -293,7 +293,7 @@ class BatchResizeViewModel : ViewModel() {
                             val localBitmap = bitmap!!.rotate(rotationDegrees)
                                 .resizeBitmap(tWidth, tHeight, resizeType)
                                 .flip(isFlipped)
-                            val savingFolder = getSavingFolder(mimeTypeInt.extension)
+                            val savingFolder = getSavingFolder(bitmapInfo)
 
                             val fos = savingFolder.outputStream
 

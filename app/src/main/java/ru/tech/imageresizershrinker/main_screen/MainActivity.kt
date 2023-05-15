@@ -1,5 +1,6 @@
 package ru.tech.imageresizershrinker.main_screen
 
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Build
@@ -118,6 +119,8 @@ import ru.tech.imageresizershrinker.main_screen.components.toAlignment
 import ru.tech.imageresizershrinker.main_screen.viewModel.MainViewModel
 import ru.tech.imageresizershrinker.pick_color_from_image_screen.PickColorFromImageScreen
 import ru.tech.imageresizershrinker.resize_screen.SingleResizeScreen
+import ru.tech.imageresizershrinker.resize_screen.components.BitmapInfo
+import ru.tech.imageresizershrinker.resize_screen.components.extension
 import ru.tech.imageresizershrinker.theme.ImageResizerTheme
 import ru.tech.imageresizershrinker.theme.blend
 import ru.tech.imageresizershrinker.theme.outlineVariant
@@ -128,6 +131,8 @@ import ru.tech.imageresizershrinker.utils.IntentUtils.parcelable
 import ru.tech.imageresizershrinker.utils.IntentUtils.parcelableArrayList
 import ru.tech.imageresizershrinker.utils.SavingFolder
 import ru.tech.imageresizershrinker.utils.constructFilename
+import ru.tech.imageresizershrinker.utils.createPrefix
+import ru.tech.imageresizershrinker.utils.defaultPrefix
 import ru.tech.imageresizershrinker.utils.getSavingFolder
 import ru.tech.imageresizershrinker.utils.modifier.alertDialog
 import ru.tech.imageresizershrinker.utils.setContentWithWindowSizeClass
@@ -186,14 +191,18 @@ class MainActivity : M3Activity() {
                             if (backstack.entries.size > 1) pop()
                         }
                     }
-                    val getSavingFolder: (String) -> SavingFolder = { ext ->
+                    val getSavingFolder: (BitmapInfo) -> SavingFolder = { bitmapInfo ->
                         getSavingFolder(
                             treeUri = saveFolderUri,
                             filename = constructFilename(
-                                prefix = viewModel.filenamePrefix,
-                                extension = ext
+                                prefix = createPrefix(
+                                    filenamePrefix = viewModel.filenamePrefix,
+                                    addSizeInFilename = viewModel.addSizeInFilename,
+                                    bitmapInfo = bitmapInfo
+                                ),
+                                extension = bitmapInfo.mimeTypeInt.extension
                             ),
-                            extension = ext
+                            extension = bitmapInfo.mimeTypeInt.extension
                         )
                     }
                     val savingPathString = saveFolderUri.toUiPath(

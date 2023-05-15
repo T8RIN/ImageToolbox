@@ -124,6 +124,7 @@ import ru.tech.imageresizershrinker.bytes_resize_screen.viewModel.BytesResizeVie
 import ru.tech.imageresizershrinker.main_screen.components.LocalAlignment
 import ru.tech.imageresizershrinker.main_screen.components.LocalAllowChangeColorByImage
 import ru.tech.imageresizershrinker.main_screen.components.LocalBorderWidth
+import ru.tech.imageresizershrinker.resize_screen.components.BitmapInfo
 import ru.tech.imageresizershrinker.resize_screen.components.ExtensionGroup
 import ru.tech.imageresizershrinker.resize_screen.components.ImageNotPickedWidget
 import ru.tech.imageresizershrinker.resize_screen.components.Loading
@@ -159,7 +160,7 @@ fun BytesResizeScreen(
     uriState: List<Uri>?,
     onGoBack: () -> Unit,
     pushNewUris: (List<Uri>?) -> Unit,
-    getSavingFolder: (ext: String) -> SavingFolder,
+    getSavingFolder: (bitmapInfo: BitmapInfo) -> SavingFolder,
     savingPathString: String,
     showConfetti: () -> Unit,
     viewModel: BytesResizeViewModel = viewModel()

@@ -91,6 +91,7 @@ import ru.tech.imageresizershrinker.generate_palette_screen.isScrollingUp
 import ru.tech.imageresizershrinker.main_screen.components.LocalAlignment
 import ru.tech.imageresizershrinker.main_screen.components.LocalAllowChangeColorByImage
 import ru.tech.imageresizershrinker.main_screen.components.LocalBorderWidth
+import ru.tech.imageresizershrinker.resize_screen.components.BitmapInfo
 import ru.tech.imageresizershrinker.resize_screen.components.ImageNotPickedWidget
 import ru.tech.imageresizershrinker.resize_screen.components.LoadingDialog
 import ru.tech.imageresizershrinker.theme.outlineVariant
@@ -113,7 +114,7 @@ fun CropScreen(
     uriState: Uri?,
     onGoBack: () -> Unit,
     pushNewUri: (Uri?) -> Unit,
-    getSavingFolder: (ext: String) -> SavingFolder,
+    getSavingFolder: (bitmapInfo: BitmapInfo) -> SavingFolder,
     savingPathString: String,
     showConfetti: () -> Unit,
     viewModel: CropViewModel = viewModel()

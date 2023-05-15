@@ -15,8 +15,10 @@ import com.smarttoolfactory.cropper.settings.CropOutlineProperty
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import ru.tech.imageresizershrinker.resize_screen.components.BitmapInfo
 import ru.tech.imageresizershrinker.resize_screen.components.compressFormat
 import ru.tech.imageresizershrinker.resize_screen.components.extension
+import ru.tech.imageresizershrinker.resize_screen.components.mimeTypeInt
 import ru.tech.imageresizershrinker.utils.BitmapUtils.canShow
 import ru.tech.imageresizershrinker.utils.BitmapUtils.resizeBitmap
 import ru.tech.imageresizershrinker.utils.SavingFolder
@@ -86,7 +88,7 @@ class CropViewModel : ViewModel() {
     fun saveBitmap(
         bitmap: Bitmap? = _bitmap.value,
         isExternalStorageWritable: Boolean,
-        getSavingFolder: (ext: String) -> SavingFolder,
+        getSavingFolder: (bitmapInfo: BitmapInfo) -> SavingFolder,
         onSuccess: (Boolean) -> Unit
     ) = viewModelScope.launch {
         withContext(Dispatchers.IO) {
@@ -96,7 +98,13 @@ class CropViewModel : ViewModel() {
                 } else {
                     val localBitmap = bitmap
 
-                    val savingFolder = getSavingFolder(mimeType.extension)
+                    val savingFolder = getSavingFolder(
+                        BitmapInfo(
+                            mimeTypeInt = mimeType.extension.mimeTypeInt,
+                            width = localBitmap.width.toString(),
+                            height = localBitmap.height.toString()
+                        )
+                    )
 
                     val fos = savingFolder.outputStream
 

@@ -182,6 +182,7 @@ import ru.tech.imageresizershrinker.utils.modifier.drawHorizontalStroke
 import ru.tech.imageresizershrinker.utils.modifier.fabBorder
 import ru.tech.imageresizershrinker.utils.modifier.pulsate
 import ru.tech.imageresizershrinker.utils.modifier.scaleOnTap
+import ru.tech.imageresizershrinker.utils.previewPrefix
 import ru.tech.imageresizershrinker.utils.toUiPath
 import ru.tech.imageresizershrinker.widget.LocalToastHost
 import ru.tech.imageresizershrinker.widget.Marquee
@@ -488,10 +489,14 @@ fun MainScreen(
                             PreferenceItem(
                                 onClick = { showChangeFilenameDialog = true },
                                 title = stringResource(R.string.prefix),
-                                subtitle = remember(viewModel.filenamePrefix) {
+                                subtitle = remember(viewModel.filenamePrefix, viewModel.addSizeInFilename) {
                                     derivedStateOf {
                                         constructFilename(
-                                            viewModel.filenamePrefix,
+                                            prefix = previewPrefix(
+                                                context = context,
+                                                filenamePrefix = viewModel.filenamePrefix,
+                                                addSizeInFilename = viewModel.addSizeInFilename
+                                            ),
                                             "img"
                                         ).split("_")[0] + ".img"
                                     }
@@ -504,6 +509,13 @@ fun MainScreen(
                                 modifier = Modifier
                                     .fillMaxWidth()
                                     .padding(horizontal = 16.dp)
+                            )
+                            Spacer(Modifier.height(8.dp))
+                            PreferenceRowSwitch(
+                                onClick = { viewModel.updateAddFileSize() },
+                                title = stringResource(R.string.add_file_size),
+                                subtitle = stringResource(R.string.add_file_size_sub),
+                                checked = viewModel.addSizeInFilename
                             )
                             Spacer(Modifier.height(16.dp))
                         }

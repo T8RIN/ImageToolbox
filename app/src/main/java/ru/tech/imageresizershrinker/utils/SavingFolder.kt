@@ -8,6 +8,7 @@ import android.os.Environment
 import android.provider.MediaStore
 import androidx.documentfile.provider.DocumentFile
 import ru.tech.imageresizershrinker.R
+import ru.tech.imageresizershrinker.resize_screen.components.BitmapInfo
 import java.io.File
 import java.io.FileOutputStream
 import java.io.OutputStream
@@ -53,13 +54,38 @@ fun Uri?.toUiPath(context: Context, default: String): String = this?.let { uri -
 
 fun defaultPrefix() = "ResizedImage"
 
+fun createPrefix(
+    filenamePrefix: String,
+    addSizeInFilename: Boolean,
+    bitmapInfo: BitmapInfo
+): String = filenamePrefix.let {
+    if (addSizeInFilename) {
+        (it.takeIf { it.isNotEmpty() }
+            ?: defaultPrefix()) + "(" + bitmapInfo.width + ")x(" + bitmapInfo.height + ")"
+    } else it
+}
+
+fun previewPrefix(
+    context: Context,
+    filenamePrefix: String,
+    addSizeInFilename: Boolean
+): String {
+    return filenamePrefix.let {
+        if (addSizeInFilename) {
+            (it.takeIf { it.isNotEmpty() }
+                ?: defaultPrefix()) + "(" + context.getString(R.string.width)
+                .split(" ")[0] + ")x(" + context.getString(R.string.height).split(" ")[0] + ")"
+        } else it
+    }
+}
+
 fun defaultFilename(extension: String): String =
     constructFilename(prefix = defaultPrefix(), extension = extension)
 
 fun constructFilename(prefix: String, extension: String): String {
     if (prefix.isEmpty()) return defaultFilename(extension)
     val timeStamp = SimpleDateFormat(
-        "yyyy-MM-dd_HH:mm:ss_ms",
+        "yyyy-MM-dd_HH-mm-ss_ms",
         Locale.getDefault()
     ).format(Date())
     return "$prefix$timeStamp.$extension"

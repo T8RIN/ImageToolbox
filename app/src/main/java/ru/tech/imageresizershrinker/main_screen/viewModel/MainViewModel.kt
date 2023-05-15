@@ -28,6 +28,7 @@ import ru.tech.imageresizershrinker.main_screen.components.Screen
 import ru.tech.imageresizershrinker.theme.asString
 import ru.tech.imageresizershrinker.theme.defaultColorTuple
 import ru.tech.imageresizershrinker.theme.toColorTupleList
+import ru.tech.imageresizershrinker.utils.ADD_SIZE
 import ru.tech.imageresizershrinker.utils.ALIGNMENT
 import ru.tech.imageresizershrinker.utils.AMOLED_MODE
 import ru.tech.imageresizershrinker.utils.APP_COLOR
@@ -51,6 +52,9 @@ import javax.xml.parsers.DocumentBuilderFactory
 class MainViewModel @Inject constructor(
     private val dataStore: DataStore<Preferences>
 ) : ViewModel() {
+
+    private val _addSizeInFilename = mutableStateOf(true)
+    val addSizeInFilename by _addSizeInFilename
 
     private val _selectedEmoji = mutableStateOf(0)
     val selectedEmoji by _selectedEmoji
@@ -169,8 +173,17 @@ class MainViewModel @Inject constructor(
             _showDialogOnStartUp.value = prefs[SHOW_DIALOG] ?: true
             _filenamePrefix.value = prefs[FILENAME_PREFIX] ?: ""
             _selectedEmoji.value = prefs[EMOJI] ?: 0
+            _addSizeInFilename.value = prefs[ADD_SIZE] ?: true
         }.launchIn(viewModelScope)
         tryGetUpdate(showDialog = showDialogOnStartUp)
+    }
+
+    fun updateAddFileSize() {
+        viewModelScope.launch {
+            dataStore.edit {
+                it[ADD_SIZE] = !_addSizeInFilename.value
+            }
+        }
     }
 
     fun updateEmoji(emoji: Int) {

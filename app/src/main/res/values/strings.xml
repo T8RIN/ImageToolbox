@@ -146,6 +146,8 @@
     <string name="filename">Filename</string>
     <string name="emoji">Emoji</string>
     <string name="emoji_sub">Select which emoji will be displayed on the main screen</string>
+    <string name="add_file_size">Add file size</string>
+    <string name="add_file_size_sub">If enabled adds width and height of saved image to the name of output file</string>
 
     <string-array name="fab_alignment_sub">
         <item>Start</item>

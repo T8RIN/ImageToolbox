@@ -121,6 +121,7 @@ import ru.tech.imageresizershrinker.main_screen.components.LocalAlignment
 import ru.tech.imageresizershrinker.main_screen.components.LocalAllowChangeColorByImage
 import ru.tech.imageresizershrinker.main_screen.components.LocalBorderWidth
 import ru.tech.imageresizershrinker.resize_screen.components.BadImageWidget
+import ru.tech.imageresizershrinker.resize_screen.components.BitmapInfo
 import ru.tech.imageresizershrinker.resize_screen.components.ExtensionGroup
 import ru.tech.imageresizershrinker.resize_screen.components.ImageNotPickedWidget
 import ru.tech.imageresizershrinker.resize_screen.components.ImageTransformBar
@@ -154,13 +155,13 @@ import ru.tech.imageresizershrinker.utils.modifier.navBarsLandscapePadding
 import ru.tech.imageresizershrinker.widget.LocalToastHost
 import ru.tech.imageresizershrinker.widget.Marquee
 
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalAnimationApi::class)
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun BatchResizeScreen(
     uriState: List<Uri>?,
     onGoBack: () -> Unit,
     pushNewUris: (List<Uri>?) -> Unit,
-    getSavingFolder: (ext: String) -> SavingFolder,
+    getSavingFolder: (bitmapInfo: BitmapInfo) -> SavingFolder,
     savingPathString: String,
     showConfetti: () -> Unit,
     viewModel: BatchResizeViewModel = viewModel()

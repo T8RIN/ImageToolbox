@@ -91,7 +91,7 @@ class SingleResizeViewModel : ViewModel() {
     fun saveBitmap(
         bitmap: Bitmap? = _bitmap.value,
         isExternalStorageWritable: Boolean,
-        getSavingFolder: (ext: String) -> SavingFolder,
+        getSavingFolder: (bitmapInfo: BitmapInfo) -> SavingFolder,
         getFileDescriptor: (Uri?) -> ParcelFileDescriptor?,
         onSuccess: (Boolean) -> Unit
     ) = viewModelScope.launch {
@@ -110,7 +110,7 @@ class SingleResizeViewModel : ViewModel() {
                                 .resizeBitmap(tWidth, tHeight, resizeType)
                                 .flip(isFlipped)
 
-                        val savingFolder = getSavingFolder(mimeTypeInt.extension)
+                        val savingFolder = getSavingFolder(bitmapInfo)
 
                         val fos = savingFolder.outputStream
                         localBitmap.compress(

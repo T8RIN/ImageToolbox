@@ -125,6 +125,7 @@ import ru.tech.imageresizershrinker.main_screen.components.LocalAlignment
 import ru.tech.imageresizershrinker.main_screen.components.LocalAllowChangeColorByImage
 import ru.tech.imageresizershrinker.main_screen.components.LocalBorderWidth
 import ru.tech.imageresizershrinker.resize_screen.components.BadImageWidget
+import ru.tech.imageresizershrinker.resize_screen.components.BitmapInfo
 import ru.tech.imageresizershrinker.resize_screen.components.ExtensionGroup
 import ru.tech.imageresizershrinker.resize_screen.components.ImageNotPickedWidget
 import ru.tech.imageresizershrinker.resize_screen.components.ImageTransformBar
@@ -170,7 +171,7 @@ fun SingleResizeScreen(
     onGoBack: () -> Unit,
     pushNewUri: (Uri?) -> Unit,
     uriState: Uri?,
-    getSavingFolder: (ext: String) -> SavingFolder,
+    getSavingFolder: (bitmapInfo: BitmapInfo) -> SavingFolder,
     savingPathString: String,
     showConfetti: () -> Unit
 ) {

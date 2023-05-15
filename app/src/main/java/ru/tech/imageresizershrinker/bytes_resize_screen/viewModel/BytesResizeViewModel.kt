@@ -18,6 +18,7 @@ import kotlinx.coroutines.withContext
 import ru.tech.imageresizershrinker.resize_screen.components.BitmapInfo
 import ru.tech.imageresizershrinker.resize_screen.components.compressFormat
 import ru.tech.imageresizershrinker.resize_screen.components.extension
+import ru.tech.imageresizershrinker.resize_screen.components.mimeTypeInt
 import ru.tech.imageresizershrinker.utils.BitmapUtils.canShow
 import ru.tech.imageresizershrinker.utils.BitmapUtils.copyTo
 import ru.tech.imageresizershrinker.utils.BitmapUtils.previewBitmap
@@ -183,7 +184,7 @@ class BytesResizeViewModel : ViewModel() {
 
     fun save(
         isExternalStorageWritable: Boolean,
-        getSavingFolder: (ext: String) -> SavingFolder,
+        getSavingFolder: (bitmapInfo: BitmapInfo) -> SavingFolder,
         getFileDescriptor: (Uri?) -> ParcelFileDescriptor?,
         getBitmap: (Uri) -> Pair<Bitmap?, ExifInterface?>,
         getImageSize: (Uri) -> Long?,
@@ -217,7 +218,13 @@ class BytesResizeViewModel : ViewModel() {
                             if (result.isSuccess && result.getOrNull() != null) {
                                 val scaled = result.getOrNull()!!
                                 val localBitmap = scaled.first
-                                val savingFolder = getSavingFolder(mime.extension)
+                                val savingFolder = getSavingFolder(
+                                    BitmapInfo(
+                                        mimeTypeInt = mime.extension.mimeTypeInt,
+                                        width = localBitmap.width.toString(),
+                                        height = localBitmap.height.toString()
+                                    )
+                                )
 
                                 val fos = savingFolder.outputStream
 
