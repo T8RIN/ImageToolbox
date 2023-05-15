@@ -93,11 +93,13 @@ import ru.tech.imageresizershrinker.batch_resize_screen.BatchResizeScreen
 import ru.tech.imageresizershrinker.bytes_resize_screen.BytesResizeScreen
 import ru.tech.imageresizershrinker.compare_screen.CompareScreen
 import ru.tech.imageresizershrinker.crop_screen.CropScreen
+import ru.tech.imageresizershrinker.delete_exif_screen.DeleteExifScreen
 import ru.tech.imageresizershrinker.generate_palette_screen.GeneratePaletteScreen
 import ru.tech.imageresizershrinker.main_screen.components.BatchResizePreference
 import ru.tech.imageresizershrinker.main_screen.components.BytesResizePreference
 import ru.tech.imageresizershrinker.main_screen.components.ComparePreference
 import ru.tech.imageresizershrinker.main_screen.components.CropPreference
+import ru.tech.imageresizershrinker.main_screen.components.DeleteExifPreference
 import ru.tech.imageresizershrinker.main_screen.components.GeneratePalettePreference
 import ru.tech.imageresizershrinker.main_screen.components.HtmlText
 import ru.tech.imageresizershrinker.main_screen.components.LocalAlignment
@@ -294,6 +296,17 @@ class MainActivity : M3Activity() {
                                     )
                                 }
 
+                                is Screen.DeleteExif -> {
+                                    DeleteExifScreen(
+                                        uriState = viewModel.uris,
+                                        onGoBack = onGoBack,
+                                        pushNewUris = viewModel::updateUris,
+                                        getSavingFolder = getSavingFolder,
+                                        savingPathString = savingPathString,
+                                        showConfetti = { showConfetti = true }
+                                    )
+                                }
+
                                 is Screen.ResizeByBytes -> {
                                     BytesResizeScreen(
                                         uriState = viewModel.uris,
@@ -468,6 +481,11 @@ class MainActivity : M3Activity() {
                                                     color = color
                                                 )
                                                 Spacer(modifier = Modifier.height(8.dp))
+                                                DeleteExifPreference(
+                                                    onClick = { navigate(Screen.DeleteExif) },
+                                                    color = color
+                                                )
+                                                Spacer(modifier = Modifier.height(8.dp))
                                                 CropPreference(
                                                     onClick = { navigate(Screen.Crop) },
                                                     color = color
@@ -490,6 +508,11 @@ class MainActivity : M3Activity() {
                                                 Spacer(modifier = Modifier.height(8.dp))
                                                 BytesResizePreference(
                                                     onClick = { navigate(Screen.ResizeByBytes) },
+                                                    color = color
+                                                )
+                                                Spacer(modifier = Modifier.height(8.dp))
+                                                DeleteExifPreference(
+                                                    onClick = { navigate(Screen.DeleteExif) },
                                                     color = color
                                                 )
                                                 if (viewModel.uris?.size == 2) {

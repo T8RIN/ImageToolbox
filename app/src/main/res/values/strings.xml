@@ -148,6 +148,8 @@
     <string name="emoji_sub">Select which emoji will be displayed on the main screen</string>
     <string name="add_file_size">Add file size</string>
     <string name="add_file_size_sub">If enabled adds width and height of saved image to the name of output file</string>
+    <string name="delete_exif">Delete EXIF</string>
+    <string name="delete_exif_sub">Delete EXIF metadata from any couple of images</string>
 
     <string-array name="fab_alignment_sub">
         <item>Start</item>

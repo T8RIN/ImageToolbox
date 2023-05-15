@@ -1141,6 +1141,17 @@ fun MainScreen(
                                 )
                             }
                             item {
+                                DeleteExifPreference(
+                                    onClick = {
+                                        navController.popUpTo { it == Screen.Main }
+                                        navController.navigate(Screen.DeleteExif)
+                                    },
+                                    modifier = Modifier
+                                        .widthIn(max = 350.dp)
+                                        .weight(1f)
+                                )
+                            }
+                            item {
                                 CropPreference(
                                     onClick = {
                                         navController.popUpTo { it == Screen.Main }

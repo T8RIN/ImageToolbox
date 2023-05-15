@@ -90,6 +90,23 @@ fun BytesResizePreference(
     )
 }
 
+@Composable
+fun DeleteExifPreference(
+    onClick: () -> Unit,
+    color: Color = MaterialTheme.colorScheme.surfaceColorAtElevation(1.dp),
+    @SuppressLint("ModifierParameter") modifier: Modifier = Modifier
+        .fillMaxWidth()
+        .padding(horizontal = 12.dp)
+) {
+    PreferenceItem(
+        onClick = onClick,
+        icon = Icons.Rounded.Dataset,
+        title = stringResource(R.string.delete_exif),
+        subtitle = stringResource(R.string.delete_exif_sub),
+        color = color,
+        modifier = modifier
+    )
+}
 
 @Composable
 fun BatchResizePreference(

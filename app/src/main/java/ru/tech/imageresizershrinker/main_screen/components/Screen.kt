@@ -8,6 +8,7 @@ sealed class Screen : Parcelable {
     object Main : Screen()
     object SingleResize : Screen()
     object BatchResize : Screen()
+    object DeleteExif: Screen()
     object PickColorFromImage : Screen()
     object GeneratePalette : Screen()
     object Crop : Screen()

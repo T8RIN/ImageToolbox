@@ -96,8 +96,7 @@ object BitmapUtils {
             val fd = contentResolver.openFileDescriptor(uri, "r")
             val exif = fd?.fileDescriptor?.let { ExifInterface(it) }
             onGetExif(exif)
-            var mime = contentResolver.getMimeType(uri) ?: ""
-            if ("jpeg" in mime) mime = "image/jpg"
+            val mime = contentResolver.getMimeType(uri) ?: ""
             val mimeInt = mime.mimeTypeInt
             onGetMimeType(mimeInt)
             fd?.close()
@@ -145,6 +144,27 @@ object BitmapUtils {
                 parcelFileDescriptor?.close()
             }.rotate(exif?.rotationDegrees?.toFloat() ?: 0f)
         }.getOrNull() to exif
+    }
+
+    fun Context.decodeBitmapFromUriWithMime(
+        uri: Uri,
+        outPadding: Rect? = null,
+        options: BitmapFactory.Options = BitmapFactory.Options(),
+    ): Triple<Bitmap?, ExifInterface?, Int> {
+        val fd = contentResolver.openFileDescriptor(uri, "r")
+        val exif = fd?.fileDescriptor?.let { ExifInterface(it) }
+        fd?.close()
+
+        val mime = contentResolver.getMimeType(uri) ?: ""
+
+        return Triple(kotlin.runCatching {
+            val parcelFileDescriptor: ParcelFileDescriptor? =
+                contentResolver.openFileDescriptor(uri, "r")
+            val fileDescriptor: FileDescriptor? = parcelFileDescriptor?.fileDescriptor
+            BitmapFactory.decodeFileDescriptor(fileDescriptor, outPadding, options).also {
+                parcelFileDescriptor?.close()
+            }.rotate(exif?.rotationDegrees?.toFloat() ?: 0f)
+        }.getOrNull(), exif, mime.mimeTypeInt)
     }
 
     private fun Context.decodeBitmapUri(
