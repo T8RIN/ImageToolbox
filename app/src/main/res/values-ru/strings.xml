@@ -138,4 +138,6 @@
     <string name="filename">Название файла</string>
     <string name="emoji">Эмодзи</string>
     <string name="emoji_sub">Выберите юмодзи, который будет отображаться на главном экране</string>
+    <string name="add_file_size">Добавить размер файла</string>
+    <string name="add_file_size_sub">Если включено то при сохранении к названию файла будут добавлены ширина и высота изображения</string>
 </resources>

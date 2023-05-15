@@ -1,6 +1,5 @@
 package ru.tech.imageresizershrinker.main_screen
 
-import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Build
@@ -132,7 +131,6 @@ import ru.tech.imageresizershrinker.utils.IntentUtils.parcelableArrayList
 import ru.tech.imageresizershrinker.utils.SavingFolder
 import ru.tech.imageresizershrinker.utils.constructFilename
 import ru.tech.imageresizershrinker.utils.createPrefix
-import ru.tech.imageresizershrinker.utils.defaultPrefix
 import ru.tech.imageresizershrinker.utils.getSavingFolder
 import ru.tech.imageresizershrinker.utils.modifier.alertDialog
 import ru.tech.imageresizershrinker.utils.setContentWithWindowSizeClass
