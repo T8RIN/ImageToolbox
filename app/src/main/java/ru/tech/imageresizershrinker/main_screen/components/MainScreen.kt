@@ -489,7 +489,10 @@ fun MainScreen(
                             PreferenceItem(
                                 onClick = { showChangeFilenameDialog = true },
                                 title = stringResource(R.string.prefix),
-                                subtitle = remember(viewModel.filenamePrefix, viewModel.addSizeInFilename) {
+                                subtitle = remember(
+                                    viewModel.filenamePrefix,
+                                    viewModel.addSizeInFilename
+                                ) {
                                     derivedStateOf {
                                         constructFilename(
                                             prefix = previewPrefix(
@@ -1038,19 +1041,21 @@ fun MainScreen(
                 ) {
                     LargeTopAppBar(
                         title = {
-                            Marquee(
-                                edgeColor = MaterialTheme
-                                    .colorScheme
-                                    .surfaceColorAtElevation(3.dp)
-                            ) {
-                                Row(verticalAlignment = Alignment.CenterVertically) {
-                                    Text(stringResource(R.string.app_name))
-                                    Spacer(Modifier.width(12.dp))
+                            CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Ltr) {
+                                Marquee(
+                                    edgeColor = MaterialTheme
+                                        .colorScheme
+                                        .surfaceColorAtElevation(3.dp)
+                                ) {
+                                    Row(verticalAlignment = Alignment.CenterVertically) {
+                                        Text(stringResource(R.string.app_name))
+                                        Spacer(Modifier.width(12.dp))
 
-                                    EmojiItem(
-                                        emoji = Emoji.list.getOrNull(viewModel.selectedEmoji),
-                                        modifier = Modifier.scaleOnTap(onRelease = showConfetti),
-                                    )
+                                        EmojiItem(
+                                            emoji = Emoji.list.getOrNull(viewModel.selectedEmoji),
+                                            modifier = Modifier.scaleOnTap(onRelease = showConfetti),
+                                        )
+                                    }
                                 }
                             }
                         },
