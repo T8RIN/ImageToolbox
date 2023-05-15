@@ -265,8 +265,7 @@
     <string name="fallback_option">Opzione di riserva</string>
     <string name="decrypt">Decrittare</string>
     <string name="features_sub">Crittografia dei file basata su password. I file ottenuti possono essere archiviati nella directory selezionata o condivisi. I file decifrati possono anche essere aperti direttamente.</string>
-    <string name="file_size_sub">La dimensione massima del file è limitata dal sistema operativo Android e dalla memoria disponibile, che dipende dal dispositivo.
-\nNota: per memoria non si intende quella di archiviazione.</string>
+    <string name="file_size_sub">La dimensione massima del file è limitata dal sistema operativo Android e dalla memoria disponibile, che dipende dal dispositivo. \nNota: per memoria non si intende quella di archiviazione.</string>
     <string name="cache_size">Dimensione della cache</string>
     <string name="tools">Utensili</string>
     <string name="group_options_by_type_sub">Raggruppa le opzioni sulla schermata principale per tipologia invece di usare la disposizione personalizzata</string>
