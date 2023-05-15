@@ -379,7 +379,7 @@ fun CropScreen(
                                                 compressFormat = viewModel.mimeType,
                                                 onComplete = {
                                                     showConfetti()
-                                                    showSaveLoading = true
+                                                    showSaveLoading = false
                                                 }
                                             )
                                         } else if (save) {
