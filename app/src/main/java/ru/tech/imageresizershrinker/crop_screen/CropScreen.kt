@@ -312,7 +312,7 @@ fun CropScreen(
                             }
                         },
                         actions = {
-                            if (!portrait) {
+                            if (portrait) {
                                 IconButton(
                                     onClick = {
                                         scope.launch {
