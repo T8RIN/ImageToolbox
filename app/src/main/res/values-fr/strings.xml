@@ -133,4 +133,6 @@
     <string name="filename">Nom du fichier</string>
     <string name="emoji">Emoji</string>
     <string name="emoji_sub">Sélectionnez les emoji qui seront affichés sur l\'écran principal</string>
+    <string name="add_file_size">Ajouter la taille du fichier</string>
+    <string name="add_file_size_sub">Si activé, ajoute la largeur et la hauteur de l\'image enregistrée au nom du fichier de sortie</string>
 </resources>
