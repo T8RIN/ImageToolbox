@@ -131,4 +131,6 @@
     <string name="monet_colors">Couleurs de Monet</string>
     <string name="prefix">Préfixe</string>
     <string name="filename">Nom du fichier</string>
+    <string name="emoji">Emoji</string>
+    <string name="emoji_sub">Sélectionnez les emoji qui seront affichés sur l\'écran principal</string>
 </resources>
