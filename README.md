@@ -65,10 +65,6 @@ Go to the [Releases](https://github.com/t8rin/imageresizer/releases/latest) and 
       alt='Get it on GitHub'
       align="center"
       height="80">](https://github.com/t8rin/imageresizer/releases/latest)    
-
-# ☕ Buy me a coffee
-This application is completely free, but if you want to support the project development, you can go to the [QIWI](https://qiwi.com/n/T8RIN) page :heart:
-
 </div>
 
 # ✨ Features
@@ -164,10 +160,12 @@ You can help translate ImageResizer into your language on [Hosted Weblate](https
 [![Translation status](https://hosted.weblate.org/widgets/image-resizer/-/image-resizer/287x66-black.png)](https://hosted.weblate.org/engage/image-resizer/)
 
 
-# 🎨 Find this repository useful? :heart:
+# ❤️ Find this repository useful?
 Support it by joining __[stargazers](https://github.com/t8rin/ImageResizer/stargazers)__ for this repository. :star: <br>
 And __[follow](https://github.com/t8rin)__ me for my next creations! 🤩
 
+# ☕ Buy me a coffee
+This application is completely free, but if you want to support the project development, you can go to the [QIWI](https://qiwi.com/n/T8RIN) page :heart:
 
 # ⭐ Star History
 [![Star History Chart](https://api.star-history.com/svg?repos=t8rin/ImageResizer&type=Date)](https://star-history.com/#t8rin/ImageResizer&Date)
