@@ -96,6 +96,7 @@ Go to the [Releases](https://github.com/t8rin/imageresizer/releases/latest) and 
   - Rotating
   - Flipping
   - Comparing images
+  - Previewing SVG, GIF and all types of images
   
 
 #
