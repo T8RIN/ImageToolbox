@@ -5,6 +5,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.Dp
 import com.t8rin.dynamic.theme.ColorTuple
 
@@ -25,7 +26,9 @@ val LocalPresetsProvider = compositionLocalOf<List<Int>> { error("No LocalPreset
 
 val LocalEditPresets = compositionLocalOf { mutableStateOf(false) }
 
-val LocalAlignment = compositionLocalOf<Alignment> { error("Not present alignment") }
+val LocalAlignment = compositionLocalOf<Alignment> { error("Alignment not present") }
+
+val LocalSelectedEmoji = compositionLocalOf<ImageVector?> { error("LocalEmoji not present") }
 
 fun Int.toAlignment() = when (this) {
     0 -> Alignment.BottomStart

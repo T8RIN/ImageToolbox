@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -79,18 +78,26 @@ fun QualityWidget(
                     .height(sliderHeight)
                     .alpha(sliderAlpha)
                     .background(
-                        MaterialTheme.colorScheme.secondaryContainer,
+                        MaterialTheme.colorScheme.secondaryContainer.copy(alpha = 0.4f),
                         CircleShape
                     )
                     .border(
                         LocalBorderWidth.current,
-                        MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.secondaryContainer),
+                        MaterialTheme.colorScheme.outlineVariant(
+                            onTopOf = MaterialTheme.colorScheme.secondaryContainer.copy(
+                                alpha = 0.4f
+                            )
+                        ),
                         CircleShape
                     )
                     .padding(horizontal = 16.dp),
                 colors = SliderDefaults.colors(
                     inactiveTrackColor =
-                    MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.secondaryContainer)
+                    MaterialTheme.colorScheme.outlineVariant(
+                        onTopOf = MaterialTheme.colorScheme.secondaryContainer.copy(
+                            alpha = 0.4f
+                        )
+                    )
                 ),
                 enabled = enabled,
                 value = animateFloatAsState(quality).value,

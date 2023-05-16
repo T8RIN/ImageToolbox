@@ -111,6 +111,7 @@ import ru.tech.imageresizershrinker.main_screen.components.LocalDynamicColors
 import ru.tech.imageresizershrinker.main_screen.components.LocalEditPresets
 import ru.tech.imageresizershrinker.main_screen.components.LocalNightMode
 import ru.tech.imageresizershrinker.main_screen.components.LocalPresetsProvider
+import ru.tech.imageresizershrinker.main_screen.components.LocalSelectedEmoji
 import ru.tech.imageresizershrinker.main_screen.components.MainScreen
 import ru.tech.imageresizershrinker.main_screen.components.PickColorPreference
 import ru.tech.imageresizershrinker.main_screen.components.Screen
@@ -122,7 +123,9 @@ import ru.tech.imageresizershrinker.pick_color_from_image_screen.PickColorFromIm
 import ru.tech.imageresizershrinker.resize_screen.SingleResizeScreen
 import ru.tech.imageresizershrinker.resize_screen.components.BitmapInfo
 import ru.tech.imageresizershrinker.resize_screen.components.extension
+import ru.tech.imageresizershrinker.theme.Emoji
 import ru.tech.imageresizershrinker.theme.ImageResizerTheme
+import ru.tech.imageresizershrinker.theme.allIcons
 import ru.tech.imageresizershrinker.theme.blend
 import ru.tech.imageresizershrinker.theme.outlineVariant
 import ru.tech.imageresizershrinker.utils.APP_RELEASES
@@ -175,7 +178,8 @@ class MainActivity : M3Activity() {
                 LocalBorderWidth provides animateDpAsState(viewModel.borderWidth.dp).value,
                 LocalPresetsProvider provides viewModel.localPresets,
                 LocalEditPresets provides editPresetsState,
-                LocalAlignment provides viewModel.alignment.toAlignment()
+                LocalAlignment provides viewModel.alignment.toAlignment(),
+                LocalSelectedEmoji provides Emoji.allIcons.getOrNull(viewModel.selectedEmoji)
             ) {
                 ImageResizerTheme {
                     val themeState = LocalDynamicThemeState.current

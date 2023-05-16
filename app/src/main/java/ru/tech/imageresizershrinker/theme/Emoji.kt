@@ -40,8 +40,9 @@ import ru.tech.imageresizershrinker.theme.emoji.Glass
 import ru.tech.imageresizershrinker.theme.emoji.Globe
 import ru.tech.imageresizershrinker.theme.emoji.Hamburger
 import ru.tech.imageresizershrinker.theme.emoji.Heart
+import ru.tech.imageresizershrinker.theme.emoji.HotDog
 import ru.tech.imageresizershrinker.theme.emoji.Ice
-import ru.tech.imageresizershrinker.theme.emoji.Light
+import ru.tech.imageresizershrinker.theme.emoji.Lamp
 import ru.tech.imageresizershrinker.theme.emoji.Lipstick
 import ru.tech.imageresizershrinker.theme.emoji.Malesign
 import ru.tech.imageresizershrinker.theme.emoji.Map
@@ -78,7 +79,7 @@ object Emoji
 
 private var EmojiList: List<ImageVector>? = null
 
-public val Emoji.list: List<ImageVector>
+public val Emoji.allIcons: List<ImageVector>
     get() {
         if (EmojiList != null) {
             return EmojiList!!
@@ -110,8 +111,9 @@ public val Emoji.list: List<ImageVector>
             Globe,
             Hamburger,
             Heart,
+            HotDog,
             Ice,
-            Light,
+            Lamp,
             Lipstick,
             Malesign,
             Map,

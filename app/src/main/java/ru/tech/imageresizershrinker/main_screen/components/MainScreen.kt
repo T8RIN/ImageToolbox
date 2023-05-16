@@ -163,7 +163,7 @@ import ru.tech.imageresizershrinker.theme.Lamp
 import ru.tech.imageresizershrinker.theme.Telegram
 import ru.tech.imageresizershrinker.theme.blend
 import ru.tech.imageresizershrinker.theme.inverse
-import ru.tech.imageresizershrinker.theme.list
+import ru.tech.imageresizershrinker.theme.allIcons
 import ru.tech.imageresizershrinker.theme.outlineVariant
 import ru.tech.imageresizershrinker.theme.suggestContainerColorBy
 import ru.tech.imageresizershrinker.utils.APP_LINK
@@ -601,7 +601,7 @@ fun MainScreen(
                                         showEmojiDialog = true
                                     },
                                     endContent = {
-                                        val emoji = Emoji.list.getOrNull(viewModel.selectedEmoji)
+                                        val emoji = Emoji.allIcons.getOrNull(viewModel.selectedEmoji)
                                         Box(
                                             modifier = Modifier
                                                 .size(64.dp)
@@ -625,7 +625,7 @@ fun MainScreen(
                                             EmojiItem(
                                                 emoji = emoji,
                                                 modifier = Modifier.then(
-                                                    if (emoji != null) Modifier.scaleOnTap(onRelease = showConfetti)
+                                                    if (emoji != null) Modifier.scaleOnTap(onRelease = {})
                                                     else Modifier
                                                 ),
                                                 fontSize = MaterialTheme.typography.headlineLarge.fontSize,
@@ -1052,7 +1052,7 @@ fun MainScreen(
                                         Spacer(Modifier.width(12.dp))
 
                                         EmojiItem(
-                                            emoji = Emoji.list.getOrNull(viewModel.selectedEmoji),
+                                            emoji = Emoji.allIcons.getOrNull(viewModel.selectedEmoji),
                                             modifier = Modifier.scaleOnTap(onRelease = showConfetti),
                                         )
                                     }
@@ -1580,7 +1580,7 @@ fun MainScreen(
                         Modifier
                             .fillMaxWidth()
                             .verticalScroll(rememberScrollState())
-                            .padding(vertical = 8.dp),
+                            .padding(vertical = 16.dp),
                         verticalArrangement = Arrangement.spacedBy(
                             4.dp,
                             Alignment.CenterVertically
@@ -1632,7 +1632,7 @@ fun MainScreen(
                                 }
                             )
                         }
-                        Emoji.list.forEachIndexed { index, emoji ->
+                        Emoji.allIcons.forEachIndexed { index, emoji ->
                             val emojiSelected = index == viewModel.selectedEmoji
                             Box(
                                 modifier = Modifier

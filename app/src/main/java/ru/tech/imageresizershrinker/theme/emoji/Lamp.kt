@@ -12,12 +12,12 @@ import androidx.compose.ui.graphics.vector.path
 import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.theme.Emoji
 
-val Emoji.Light: ImageVector
+val Emoji.Lamp: ImageVector
     get() {
-        if (`_light-bulb` != null) {
-            return `_light-bulb`!!
+        if (lamp != null) {
+            return lamp!!
         }
-        `_light-bulb` = Builder(
+        lamp = Builder(
             name = "Light-bulb", defaultWidth = 1.0.dp, defaultHeight = 1.0.dp,
             viewportWidth = 128.0f, viewportHeight = 128.0f
         ).apply {
@@ -94,7 +94,7 @@ val Emoji.Light: ImageVector
                 curveToRelative(-2.55f, 2.0f, 0.84f, 22.78f, 0.84f, 22.78f)
             }
             path(
-                fill = SolidColor(Color(0x00000000)), stroke = SolidColor(Color(0xFF000000)),
+                fill = SolidColor(Color(0x00000000)), stroke = SolidColor(Color(0xFFFFFFFF)),
                 strokeLineWidth = 2.0f, strokeLineCap = Butt, strokeLineJoin = Miter,
                 strokeLineMiter = 4.0f, pathFillType = NonZero
             ) {
@@ -257,7 +257,7 @@ val Emoji.Light: ImageVector
             }
         }
             .build()
-        return `_light-bulb`!!
+        return lamp!!
     }
 
-private var `_light-bulb`: ImageVector? = null
+private var lamp: ImageVector? = null
