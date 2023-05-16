@@ -558,6 +558,13 @@ fun SingleResizeScreen(
                         }
                     },
                     actions = {
+                        if(viewModel.bitmap == null) {
+                            EmojiItem(
+                                emoji = LocalSelectedEmoji.current,
+                                fontSize = MaterialTheme.typography.headlineMedium.fontSize,
+                                modifier = Modifier.padding(end = 12.dp).scaleOnTap(onRelease = showConfetti),
+                            )
+                        }
                         zoomButton()
                         if (!imageInside) {
                             TelegramButton(

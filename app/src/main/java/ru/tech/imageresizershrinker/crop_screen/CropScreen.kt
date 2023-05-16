@@ -102,9 +102,11 @@ import ru.tech.imageresizershrinker.generate_palette_screen.isScrollingUp
 import ru.tech.imageresizershrinker.main_screen.components.LocalAlignment
 import ru.tech.imageresizershrinker.main_screen.components.LocalAllowChangeColorByImage
 import ru.tech.imageresizershrinker.main_screen.components.LocalBorderWidth
+import ru.tech.imageresizershrinker.main_screen.components.LocalSelectedEmoji
 import ru.tech.imageresizershrinker.resize_screen.components.BitmapInfo
 import ru.tech.imageresizershrinker.resize_screen.components.ImageNotPickedWidget
 import ru.tech.imageresizershrinker.resize_screen.components.LoadingDialog
+import ru.tech.imageresizershrinker.theme.EmojiItem
 import ru.tech.imageresizershrinker.theme.outlineVariant
 import ru.tech.imageresizershrinker.utils.BitmapUtils.decodeBitmapFromUri
 import ru.tech.imageresizershrinker.utils.BitmapUtils.shareBitmap
@@ -116,6 +118,7 @@ import ru.tech.imageresizershrinker.utils.modifier.alertDialog
 import ru.tech.imageresizershrinker.utils.modifier.drawHorizontalStroke
 import ru.tech.imageresizershrinker.utils.modifier.fabBorder
 import ru.tech.imageresizershrinker.utils.modifier.navBarsPaddingOnlyIfTheyAtTheEnd
+import ru.tech.imageresizershrinker.utils.modifier.scaleOnTap
 import ru.tech.imageresizershrinker.widget.LocalToastHost
 import ru.tech.imageresizershrinker.widget.Marquee
 
@@ -284,6 +287,15 @@ fun CropScreen(
                             ) {
                                 Icon(Icons.Rounded.ArrowBack, null)
                             }
+                        },
+                        actions = {
+                            EmojiItem(
+                                emoji = LocalSelectedEmoji.current,
+                                fontSize = MaterialTheme.typography.headlineMedium.fontSize,
+                                modifier = Modifier
+                                    .padding(end = 12.dp)
+                                    .scaleOnTap(onRelease = showConfetti),
+                            )
                         }
                     )
                 } else {

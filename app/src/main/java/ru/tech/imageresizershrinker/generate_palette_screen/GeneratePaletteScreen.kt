@@ -80,12 +80,14 @@ import ru.tech.imageresizershrinker.generate_palette_screen.viewModel.GeneratePa
 import ru.tech.imageresizershrinker.main_screen.components.LocalAlignment
 import ru.tech.imageresizershrinker.main_screen.components.LocalAllowChangeColorByImage
 import ru.tech.imageresizershrinker.main_screen.components.LocalBorderWidth
+import ru.tech.imageresizershrinker.main_screen.components.LocalSelectedEmoji
 import ru.tech.imageresizershrinker.main_screen.components.Screen
 import ru.tech.imageresizershrinker.pick_color_from_image_screen.copyColorIntoClipboard
 import ru.tech.imageresizershrinker.pick_color_from_image_screen.format
 import ru.tech.imageresizershrinker.resize_screen.components.ImageNotPickedWidget
 import ru.tech.imageresizershrinker.resize_screen.components.LoadingDialog
 import ru.tech.imageresizershrinker.resize_screen.components.ZoomModalSheet
+import ru.tech.imageresizershrinker.theme.EmojiItem
 import ru.tech.imageresizershrinker.theme.PaletteSwatch
 import ru.tech.imageresizershrinker.utils.BitmapUtils.decodeBitmapFromUri
 import ru.tech.imageresizershrinker.utils.LocalWindowSizeClass
@@ -93,15 +95,17 @@ import ru.tech.imageresizershrinker.utils.modifier.block
 import ru.tech.imageresizershrinker.utils.modifier.drawHorizontalStroke
 import ru.tech.imageresizershrinker.utils.modifier.fabBorder
 import ru.tech.imageresizershrinker.utils.modifier.navBarsPaddingOnlyIfTheyAtTheBottom
+import ru.tech.imageresizershrinker.utils.modifier.scaleOnTap
 import ru.tech.imageresizershrinker.widget.LocalToastHost
 import ru.tech.imageresizershrinker.widget.Marquee
 
-@OptIn(ExperimentalAnimationApi::class, ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun GeneratePaletteScreen(
     uriState: Uri?,
     navController: NavController<Screen>,
     onGoBack: () -> Unit,
+    showConfetti: () -> Unit,
     pushNewUri: (Uri?) -> Unit,
     viewModel: GeneratePaletteViewModel = viewModel()
 ) {
@@ -263,6 +267,13 @@ fun GeneratePaletteScreen(
                     }
                 },
                 actions = {
+                    if(viewModel.uri == null) {
+                        EmojiItem(
+                            emoji = LocalSelectedEmoji.current,
+                            fontSize = MaterialTheme.typography.headlineMedium.fontSize,
+                            modifier = Modifier.padding(end = 12.dp).scaleOnTap(onRelease = showConfetti),
+                        )
+                    }
                     zoomButton()
                     if (viewModel.uri != null) {
                         IconButton(

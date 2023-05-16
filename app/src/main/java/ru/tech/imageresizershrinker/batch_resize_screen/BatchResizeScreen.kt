@@ -120,6 +120,7 @@ import ru.tech.imageresizershrinker.batch_resize_screen.viewModel.BatchResizeVie
 import ru.tech.imageresizershrinker.main_screen.components.LocalAlignment
 import ru.tech.imageresizershrinker.main_screen.components.LocalAllowChangeColorByImage
 import ru.tech.imageresizershrinker.main_screen.components.LocalBorderWidth
+import ru.tech.imageresizershrinker.main_screen.components.LocalSelectedEmoji
 import ru.tech.imageresizershrinker.resize_screen.components.BadImageWidget
 import ru.tech.imageresizershrinker.resize_screen.components.BitmapInfo
 import ru.tech.imageresizershrinker.resize_screen.components.ExtensionGroup
@@ -136,6 +137,7 @@ import ru.tech.imageresizershrinker.resize_screen.components.TelegramButton
 import ru.tech.imageresizershrinker.resize_screen.components.ZoomModalSheet
 import ru.tech.imageresizershrinker.resize_screen.components.byteCount
 import ru.tech.imageresizershrinker.resize_screen.components.extension
+import ru.tech.imageresizershrinker.theme.EmojiItem
 import ru.tech.imageresizershrinker.theme.outlineVariant
 import ru.tech.imageresizershrinker.utils.BitmapUtils.canShow
 import ru.tech.imageresizershrinker.utils.BitmapUtils.decodeBitmapFromUri
@@ -152,6 +154,7 @@ import ru.tech.imageresizershrinker.utils.modifier.block
 import ru.tech.imageresizershrinker.utils.modifier.drawHorizontalStroke
 import ru.tech.imageresizershrinker.utils.modifier.fabBorder
 import ru.tech.imageresizershrinker.utils.modifier.navBarsLandscapePadding
+import ru.tech.imageresizershrinker.utils.modifier.scaleOnTap
 import ru.tech.imageresizershrinker.widget.LocalToastHost
 import ru.tech.imageresizershrinker.widget.Marquee
 
@@ -596,6 +599,13 @@ fun BatchResizeScreen(
                         )
                     ),
                     actions = {
+                        if(viewModel.bitmap == null) {
+                            EmojiItem(
+                                emoji = LocalSelectedEmoji.current,
+                                fontSize = MaterialTheme.typography.headlineMedium.fontSize,
+                                modifier = Modifier.padding(end = 12.dp).scaleOnTap(onRelease = showConfetti),
+                            )
+                        }
                         zoomButton()
                         if (!imageInside) {
                             TelegramButton(

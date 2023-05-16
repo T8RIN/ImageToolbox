@@ -338,7 +338,8 @@ class MainActivity : M3Activity() {
                                         uriState = viewModel.uris?.firstOrNull(),
                                         navController = viewModel.navController,
                                         onGoBack = onGoBack,
-                                        pushNewUri = viewModel::updateUri
+                                        pushNewUri = viewModel::updateUri,
+                                        showConfetti = { showConfetti = true }
                                     )
                                 }
 
@@ -347,7 +348,8 @@ class MainActivity : M3Activity() {
                                         uriState = viewModel.uris?.firstOrNull(),
                                         navController = viewModel.navController,
                                         onGoBack = onGoBack,
-                                        pushNewUri = viewModel::updateUri
+                                        pushNewUri = viewModel::updateUri,
+                                        showConfetti = { showConfetti = true }
                                     )
                                 }
 
@@ -358,6 +360,7 @@ class MainActivity : M3Activity() {
                                             ?.let { it[0] to it[1] },
                                         pushNewUris = viewModel::updateUris,
                                         onGoBack = onGoBack,
+                                        showConfetti = { showConfetti = true }
                                     )
                                 }
                             }
