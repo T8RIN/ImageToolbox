@@ -336,7 +336,7 @@ fun ImagePreviewScreen(
                             }
                         }
                     )
-                    .padding(top = 100.dp)
+                    .padding(vertical = 48.dp)
                     .navigationBarsPadding(),
                 contentScale = ContentScale.Fit,
                 shape = RoundedCornerShape(8.dp)
