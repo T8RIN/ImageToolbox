@@ -114,7 +114,6 @@ fun ImagePreviewScreen(
     LaunchedEffect(uriState) {
         uriState?.takeIf { it.isNotEmpty() }?.let { uris ->
             viewModel.updateUris(uris)
-            viewModel.updateBitmap(context.decodeSampledBitmapFromUri(uris[0], 300, 300))
             pushNewUris(null)
         }
     }
@@ -129,9 +128,8 @@ fun ImagePreviewScreen(
         rememberLauncherForActivityResult(
             contract = ActivityResultContracts.PickMultipleVisualMedia()
         ) { list ->
-            list.takeIf { it.isNotEmpty() }?.let { uris ->
+            list.takeIf { it.isNotEmpty() }?.let {
                 viewModel.updateUris(list)
-                viewModel.updateBitmap(context.decodeSampledBitmapFromUri(uris[0], 300, 300))
             }
         }
 

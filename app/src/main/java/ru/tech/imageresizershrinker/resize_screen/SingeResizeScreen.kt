@@ -142,9 +142,7 @@ import ru.tech.imageresizershrinker.resize_screen.components.ZoomModalSheet
 import ru.tech.imageresizershrinker.resize_screen.components.byteCount
 import ru.tech.imageresizershrinker.resize_screen.components.extension
 import ru.tech.imageresizershrinker.resize_screen.viewModel.SingleResizeViewModel
-import ru.tech.imageresizershrinker.theme.Emoji
 import ru.tech.imageresizershrinker.theme.EmojiItem
-import ru.tech.imageresizershrinker.theme.allIcons
 import ru.tech.imageresizershrinker.theme.outlineVariant
 import ru.tech.imageresizershrinker.utils.BitmapUtils
 import ru.tech.imageresizershrinker.utils.BitmapUtils.canShow
@@ -520,7 +518,11 @@ fun SingleResizeScreen(
                             edgeColor = MaterialTheme.colorScheme.surfaceColorAtElevation(3.dp)
                         ) {
                             AnimatedContent(
-                                targetState = Triple(viewModel.bitmap, viewModel.isLoading, bitmapInfo.sizeInBytes),
+                                targetState = Triple(
+                                    viewModel.bitmap,
+                                    viewModel.isLoading,
+                                    bitmapInfo.sizeInBytes
+                                ),
                                 transitionSpec = { fadeIn() togetherWith fadeOut() }
                             ) { (bmp, loading, sizeInBytes) ->
                                 if (bmp == null) {
@@ -558,11 +560,13 @@ fun SingleResizeScreen(
                         }
                     },
                     actions = {
-                        if(viewModel.bitmap == null) {
+                        if (viewModel.bitmap == null) {
                             EmojiItem(
                                 emoji = LocalSelectedEmoji.current,
                                 fontSize = MaterialTheme.typography.headlineMedium.fontSize,
-                                modifier = Modifier.padding(end = 12.dp).scaleOnTap(onRelease = showConfetti),
+                                modifier = Modifier
+                                    .padding(end = 12.dp)
+                                    .scaleOnTap(onRelease = showConfetti),
                             )
                         }
                         zoomButton()

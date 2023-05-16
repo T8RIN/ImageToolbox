@@ -161,9 +161,9 @@ import ru.tech.imageresizershrinker.theme.Github
 import ru.tech.imageresizershrinker.theme.GooglePlay
 import ru.tech.imageresizershrinker.theme.Lamp
 import ru.tech.imageresizershrinker.theme.Telegram
+import ru.tech.imageresizershrinker.theme.allIcons
 import ru.tech.imageresizershrinker.theme.blend
 import ru.tech.imageresizershrinker.theme.inverse
-import ru.tech.imageresizershrinker.theme.allIcons
 import ru.tech.imageresizershrinker.theme.outlineVariant
 import ru.tech.imageresizershrinker.theme.suggestContainerColorBy
 import ru.tech.imageresizershrinker.utils.APP_LINK
@@ -601,7 +601,8 @@ fun MainScreen(
                                         showEmojiDialog = true
                                     },
                                     endContent = {
-                                        val emoji = Emoji.allIcons.getOrNull(viewModel.selectedEmoji)
+                                        val emoji =
+                                            Emoji.allIcons.getOrNull(viewModel.selectedEmoji)
                                         Box(
                                             modifier = Modifier
                                                 .size(64.dp)

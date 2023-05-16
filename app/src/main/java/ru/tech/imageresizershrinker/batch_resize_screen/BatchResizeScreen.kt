@@ -10,7 +10,6 @@ import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.togetherWith
@@ -571,7 +570,11 @@ fun BatchResizeScreen(
                             edgeColor = MaterialTheme.colorScheme.surfaceColorAtElevation(3.dp)
                         ) {
                             AnimatedContent(
-                                targetState = Triple(viewModel.bitmap, viewModel.isLoading, bitmapInfo.sizeInBytes),
+                                targetState = Triple(
+                                    viewModel.bitmap,
+                                    viewModel.isLoading,
+                                    bitmapInfo.sizeInBytes
+                                ),
                                 transitionSpec = { fadeIn() togetherWith fadeOut() }
                             ) { (bmp, loading, sizeInBytes) ->
                                 if (bmp == null) {
@@ -599,11 +602,13 @@ fun BatchResizeScreen(
                         )
                     ),
                     actions = {
-                        if(viewModel.bitmap == null) {
+                        if (viewModel.bitmap == null) {
                             EmojiItem(
                                 emoji = LocalSelectedEmoji.current,
                                 fontSize = MaterialTheme.typography.headlineMedium.fontSize,
-                                modifier = Modifier.padding(end = 12.dp).scaleOnTap(onRelease = showConfetti),
+                                modifier = Modifier
+                                    .padding(end = 12.dp)
+                                    .scaleOnTap(onRelease = showConfetti),
                             )
                         }
                         zoomButton()

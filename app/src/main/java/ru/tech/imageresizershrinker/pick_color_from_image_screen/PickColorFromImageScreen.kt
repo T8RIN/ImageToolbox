@@ -259,11 +259,13 @@ fun PickColorFromImageScreen(
                             containerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(3.dp)
                         ),
                         actions = {
-                            if(viewModel.bitmap == null) {
+                            if (viewModel.bitmap == null) {
                                 EmojiItem(
                                     emoji = LocalSelectedEmoji.current,
                                     fontSize = MaterialTheme.typography.headlineMedium.fontSize,
-                                    modifier = Modifier.padding(end = 12.dp).scaleOnTap(onRelease = showConfetti),
+                                    modifier = Modifier
+                                        .padding(end = 12.dp)
+                                        .scaleOnTap(onRelease = showConfetti),
                                 )
                             }
                         }

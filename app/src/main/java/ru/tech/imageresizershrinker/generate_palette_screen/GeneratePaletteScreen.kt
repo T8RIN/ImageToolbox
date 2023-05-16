@@ -8,7 +8,6 @@ import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.ScrollState
@@ -267,11 +266,13 @@ fun GeneratePaletteScreen(
                     }
                 },
                 actions = {
-                    if(viewModel.uri == null) {
+                    if (viewModel.uri == null) {
                         EmojiItem(
                             emoji = LocalSelectedEmoji.current,
                             fontSize = MaterialTheme.typography.headlineMedium.fontSize,
-                            modifier = Modifier.padding(end = 12.dp).scaleOnTap(onRelease = showConfetti),
+                            modifier = Modifier
+                                .padding(end = 12.dp)
+                                .scaleOnTap(onRelease = showConfetti),
                         )
                     }
                     zoomButton()
