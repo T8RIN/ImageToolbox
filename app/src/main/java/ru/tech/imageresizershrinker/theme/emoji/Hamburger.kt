@@ -3,12 +3,9 @@ package ru.tech.imageresizershrinker.theme.emoji
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush.Companion.radialGradient
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.PathFillType
 import androidx.compose.ui.graphics.PathFillType.Companion.NonZero
 import androidx.compose.ui.graphics.SolidColor
-import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.StrokeCap.Companion.Butt
-import androidx.compose.ui.graphics.StrokeJoin
 import androidx.compose.ui.graphics.StrokeJoin.Companion.Miter
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.graphics.vector.ImageVector.Builder
@@ -16,16 +13,20 @@ import androidx.compose.ui.graphics.vector.path
 import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.theme.Emoji
 
-public val Emoji.Hamburger: ImageVector
+val Emoji.Hamburger: ImageVector
     get() {
         if (_hamburger != null) {
             return _hamburger!!
         }
-        _hamburger = Builder(name = "Hamburger", defaultWidth = 1.0.dp, defaultHeight = 1.0.dp,
-                viewportWidth = 128.0f, viewportHeight = 128.0f).apply {
-            path(fill = SolidColor(Color(0xFFFCB745)), stroke = null, strokeLineWidth = 0.0f,
-                    strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
-                    pathFillType = NonZero) {
+        _hamburger = Builder(
+            name = "Hamburger", defaultWidth = 1.0.dp, defaultHeight = 1.0.dp,
+            viewportWidth = 128.0f, viewportHeight = 128.0f
+        ).apply {
+            path(
+                fill = SolidColor(Color(0xFFFCB745)), stroke = null, strokeLineWidth = 0.0f,
+                strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
+                pathFillType = NonZero
+            ) {
                 moveTo(13.91f, 89.87f)
                 reflectiveCurveToRelative(-0.96f, 6.28f, 1.27f, 11.82f)
                 curveToRelative(1.86f, 4.64f, 6.68f, 10.75f, 15.9f, 15.41f)
@@ -36,9 +37,11 @@ public val Emoji.Hamburger: ImageVector
                 lineToRelative(-98.7f, 3.45f)
                 close()
             }
-            path(fill = SolidColor(Color(0xFFE78B20)), stroke = null, strokeLineWidth = 0.0f,
-                    strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
-                    pathFillType = NonZero) {
+            path(
+                fill = SolidColor(Color(0xFFE78B20)), stroke = null, strokeLineWidth = 0.0f,
+                strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
+                pathFillType = NonZero
+            ) {
                 moveToRelative(18.38f, 83.56f)
                 lineToRelative(-4.56f, 4.56f)
                 reflectiveCurveToRelative(-1.24f, 6.1f, 5.64f, 12.7f)
@@ -49,9 +52,11 @@ public val Emoji.Hamburger: ImageVector
                 lineToRelative(-94.16f, -2.85f)
                 close()
             }
-            path(fill = SolidColor(Color(0xFFFFD290)), stroke = null, strokeLineWidth = 0.0f,
-                    strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
-                    pathFillType = NonZero) {
+            path(
+                fill = SolidColor(Color(0xFFFFD290)), stroke = null, strokeLineWidth = 0.0f,
+                strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
+                pathFillType = NonZero
+            ) {
                 moveTo(20.33f, 90.07f)
                 reflectiveCurveToRelative(-1.29f, 2.19f, -0.87f, 3.58f)
                 curveToRelative(0.33f, 1.09f, 0.98f, 5.54f, 13.89f, 11.18f)
@@ -61,9 +66,11 @@ public val Emoji.Hamburger: ImageVector
                 lineToRelative(-91.49f, 1.53f)
                 close()
             }
-            path(fill = SolidColor(Color(0xFF6D544D)), stroke = null, strokeLineWidth = 0.0f,
-                    strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
-                    pathFillType = NonZero) {
+            path(
+                fill = SolidColor(Color(0xFF6D544D)), stroke = null, strokeLineWidth = 0.0f,
+                strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
+                pathFillType = NonZero
+            ) {
                 moveTo(16.64f, 74.87f)
                 reflectiveCurveToRelative(-4.28f, 4.36f, -4.99f, 6.3f)
                 curveToRelative(-0.67f, 1.83f, -0.58f, 4.49f, 0.6f, 6.64f)
@@ -77,9 +84,11 @@ public val Emoji.Hamburger: ImageVector
                 horizontalLineTo(16.64f)
                 close()
             }
-            path(fill = SolidColor(Color(0xFF9B7169)), stroke = null, strokeLineWidth = 0.0f,
-                    strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
-                    pathFillType = NonZero) {
+            path(
+                fill = SolidColor(Color(0xFF9B7169)), stroke = null, strokeLineWidth = 0.0f,
+                strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
+                pathFillType = NonZero
+            ) {
                 moveTo(14.14f, 69.34f)
                 reflectiveCurveToRelative(-3.32f, -0.15f, -4.12f, 4.88f)
                 curveToRelative(-0.58f, 3.66f, 2.06f, 5.97f, 2.06f, 5.97f)
@@ -104,9 +113,11 @@ public val Emoji.Hamburger: ImageVector
                 reflectiveCurveToRelative(-10.65f, 7.06f, -10.65f, 7.82f)
                 close()
             }
-            path(fill = SolidColor(Color(0xFFFFE869)), stroke = null, strokeLineWidth = 0.0f,
-                    strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
-                    pathFillType = NonZero) {
+            path(
+                fill = SolidColor(Color(0xFFFFE869)), stroke = null, strokeLineWidth = 0.0f,
+                strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
+                pathFillType = NonZero
+            ) {
                 moveTo(18.38f, 65.65f)
                 reflectiveCurveToRelative(-5.43f, 0.65f, -6.19f, 2.93f)
                 curveToRelative(-0.76f, 2.28f, 1.63f, 5.64f, 7.92f, 9.88f)
@@ -119,9 +130,11 @@ public val Emoji.Hamburger: ImageVector
                 lineTo(18.38f, 65.65f)
                 close()
             }
-            path(fill = SolidColor(Color(0xFFFFBE01)), stroke = null, strokeLineWidth = 0.0f,
-                    strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
-                    pathFillType = NonZero) {
+            path(
+                fill = SolidColor(Color(0xFFFFBE01)), stroke = null, strokeLineWidth = 0.0f,
+                strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
+                pathFillType = NonZero
+            ) {
                 moveTo(66.57f, 100.82f)
                 curveToRelative(1.62f, -0.18f, 10.09f, -8.36f, 20.08f, -14.65f)
                 reflectiveCurveToRelative(24.75f, -13.03f, 26.92f, -16.82f)
@@ -134,9 +147,11 @@ public val Emoji.Hamburger: ImageVector
                 curveToRelative(9.02f, 4.88f, 14.45f, 10.74f, 16.4f, 10.53f)
                 close()
             }
-            path(fill = SolidColor(Color(0xFFF4482B)), stroke = null, strokeLineWidth = 0.0f,
-                    strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
-                    pathFillType = NonZero) {
+            path(
+                fill = SolidColor(Color(0xFFF4482B)), stroke = null, strokeLineWidth = 0.0f,
+                strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
+                pathFillType = NonZero
+            ) {
                 moveToRelative(19.04f, 68.47f)
                 lineToRelative(1.89f, 5.06f)
                 reflectiveCurveToRelative(13.6f, 13.71f, 40.65f, 14.25f)
@@ -145,9 +160,11 @@ public val Emoji.Hamburger: ImageVector
                 lineToRelative(-87.99f, 1.6f)
                 close()
             }
-            path(fill = SolidColor(Color(0xFFA6B732)), stroke = null, strokeLineWidth = 0.0f,
-                    strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
-                    pathFillType = NonZero) {
+            path(
+                fill = SolidColor(Color(0xFFA6B732)), stroke = null, strokeLineWidth = 0.0f,
+                strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
+                pathFillType = NonZero
+            ) {
                 moveToRelative(54.5f, 76.83f)
                 lineToRelative(-2.13f, 3.41f)
                 reflectiveCurveToRelative(4.55f, 2.73f, 5.86f, 3.2f)
@@ -167,9 +184,11 @@ public val Emoji.Hamburger: ImageVector
                 lineToRelative(4.26f, 1.38f)
                 close()
             }
-            path(fill = SolidColor(Color(0xFFC2DD1F)), stroke = null, strokeLineWidth = 0.0f,
-                    strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
-                    pathFillType = NonZero) {
+            path(
+                fill = SolidColor(Color(0xFFC2DD1F)), stroke = null, strokeLineWidth = 0.0f,
+                strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
+                pathFillType = NonZero
+            ) {
                 moveTo(13.49f, 51.91f)
                 curveToRelative(-1.61f, -0.73f, -3.3f, -0.64f, -4.05f, 1.49f)
                 reflectiveCurveToRelative(-0.52f, 3.07f, -0.52f, 3.07f)
@@ -204,9 +223,11 @@ public val Emoji.Hamburger: ImageVector
                 lineToRelative(-4.15f, 8.95f)
                 close()
             }
-            path(fill = SolidColor(Color(0xFFDE8010)), stroke = null, strokeLineWidth = 0.0f,
-                    strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
-                    pathFillType = NonZero) {
+            path(
+                fill = SolidColor(Color(0xFFDE8010)), stroke = null, strokeLineWidth = 0.0f,
+                strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
+                pathFillType = NonZero
+            ) {
                 moveToRelative(12.0f, 47.97f)
                 lineToRelative(-0.71f, 3.14f)
                 reflectiveCurveToRelative(9.83f, 17.41f, 54.01f, 18.07f)
@@ -215,10 +236,14 @@ public val Emoji.Hamburger: ImageVector
                 lineTo(12.0f, 47.97f)
                 close()
             }
-            path(fill = radialGradient(0.517f to Color(0xFFDF8016), 0.643f to Color(0xFFE58C21),
-                    1.0f to Color(0xFFF5AC3C), center = Offset(63.464622f,15.522942f), radius =
-                    44.040356f), stroke = null, strokeLineWidth = 0.0f, strokeLineCap = Butt,
-                    strokeLineJoin = Miter, strokeLineMiter = 4.0f, pathFillType = NonZero) {
+            path(
+                fill = radialGradient(
+                    0.517f to Color(0xFFDF8016), 0.643f to Color(0xFFE58C21),
+                    1.0f to Color(0xFFF5AC3C), center = Offset(63.464622f, 15.522942f), radius =
+                    44.040356f
+                ), stroke = null, strokeLineWidth = 0.0f, strokeLineCap = Butt,
+                strokeLineJoin = Miter, strokeLineMiter = 4.0f, pathFillType = NonZero
+            ) {
                 moveTo(9.76f, 39.31f)
                 curveToRelative(-0.56f, 8.7f, 1.56f, 11.82f, 1.56f, 11.82f)
                 reflectiveCurveToRelative(14.62f, 13.24f, 51.96f, 13.85f)
@@ -228,9 +253,11 @@ public val Emoji.Hamburger: ImageVector
                 reflectiveCurveTo(10.58f, 26.68f, 9.76f, 39.31f)
                 close()
             }
-            path(fill = SolidColor(Color(0xFFFDEAC8)), stroke = null, strokeLineWidth = 0.0f,
-                    strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
-                    pathFillType = NonZero) {
+            path(
+                fill = SolidColor(Color(0xFFFDEAC8)), stroke = null, strokeLineWidth = 0.0f,
+                strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
+                pathFillType = NonZero
+            ) {
                 moveTo(48.19f, 14.36f)
                 curveToRelative(0.31f, 1.7f, -7.36f, 7.36f, -8.47f, 1.93f)
                 curveToRelative(-1.04f, -5.11f, 8.18f, -3.5f, 8.47f, -1.93f)
@@ -279,7 +306,7 @@ public val Emoji.Hamburger: ImageVector
                 close()
             }
         }
-        .build()
+            .build()
         return _hamburger!!
     }
 

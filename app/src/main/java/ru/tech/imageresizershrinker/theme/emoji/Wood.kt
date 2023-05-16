@@ -1,16 +1,12 @@
 package ru.tech.imageresizershrinker.theme.emoji
 
 import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Brush.Companion.linearGradient
 import androidx.compose.ui.graphics.Brush.Companion.radialGradient
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.PathFillType
 import androidx.compose.ui.graphics.PathFillType.Companion.NonZero
 import androidx.compose.ui.graphics.SolidColor
-import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.StrokeCap.Companion.Butt
-import androidx.compose.ui.graphics.StrokeJoin
 import androidx.compose.ui.graphics.StrokeJoin.Companion.Miter
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.graphics.vector.ImageVector.Builder
@@ -18,25 +14,31 @@ import androidx.compose.ui.graphics.vector.path
 import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.theme.Emoji
 
-public val Emoji.Wood: ImageVector
+val Emoji.Wood: ImageVector
     get() {
         if (_wood != null) {
             return _wood!!
         }
-        _wood = Builder(name = "Wood", defaultWidth = 1.0.dp, defaultHeight = 1.0.dp, viewportWidth
-                = 128.0f, viewportHeight = 128.0f).apply {
-            path(fill = SolidColor(Color(0xFF633D35)), stroke = null, strokeLineWidth = 0.0f,
-                    strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
-                    pathFillType = NonZero) {
+        _wood = Builder(
+            name = "Wood", defaultWidth = 1.0.dp, defaultHeight = 1.0.dp, viewportWidth
+            = 128.0f, viewportHeight = 128.0f
+        ).apply {
+            path(
+                fill = SolidColor(Color(0xFF633D35)), stroke = null, strokeLineWidth = 0.0f,
+                strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
+                pathFillType = NonZero
+            ) {
                 moveToRelative(37.29f, 113.26f)
                 lineToRelative(-8.42f, 4.48f)
                 verticalLineTo(97.58f)
                 lineToRelative(10.52f, 11.2f)
                 close()
             }
-            path(fill = SolidColor(Color(0xFFAD7156)), stroke = null, strokeLineWidth = 0.0f,
-                    strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
-                    pathFillType = NonZero) {
+            path(
+                fill = SolidColor(Color(0xFFAD7156)), stroke = null, strokeLineWidth = 0.0f,
+                strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
+                pathFillType = NonZero
+            ) {
                 moveTo(99.99f, 19.95f)
                 curveToRelative(0.0f, 3.02f, 0.51f, 21.49f, 0.51f, 21.49f)
                 reflectiveCurveToRelative(0.26f, 1.98f, 1.75f, 2.48f)
@@ -58,16 +60,22 @@ public val Emoji.Wood: ImageVector
                 lineToRelative(78.83f, -0.05f)
                 close()
             }
-            path(fill = linearGradient(0.0f to Color(0xFFCE8963), 1.0f to Color(0x00D08A61), start =
-                    Offset(102.035f,43.768f), end = Offset(102.017f,43.832f)), stroke = null,
-                    strokeLineWidth = 0.0f, strokeLineCap = Butt, strokeLineJoin = Miter,
-                    strokeLineMiter = 4.0f, pathFillType = NonZero) {
+            path(
+                fill = linearGradient(
+                    0.0f to Color(0xFFCE8963), 1.0f to Color(0x00D08A61), start =
+                    Offset(102.035f, 43.768f), end = Offset(102.017f, 43.832f)
+                ), stroke = null,
+                strokeLineWidth = 0.0f, strokeLineCap = Butt, strokeLineJoin = Miter,
+                strokeLineMiter = 4.0f, pathFillType = NonZero
+            ) {
                 moveTo(102.25f, 43.91f)
                 close()
             }
-            path(fill = SolidColor(Color(0xFFCE8963)), stroke = null, strokeLineWidth = 0.0f,
-                    strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
-                    pathFillType = NonZero) {
+            path(
+                fill = SolidColor(Color(0xFFCE8963)), stroke = null, strokeLineWidth = 0.0f,
+                strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
+                pathFillType = NonZero
+            ) {
                 moveTo(47.0f, 35.58f)
                 curveToRelative(-0.33f, 5.56f, -0.91f, 11.07f, -1.53f, 16.57f)
                 lineToRelative(-0.93f, 8.23f)
@@ -110,9 +118,11 @@ public val Emoji.Wood: ImageVector
                 reflectiveCurveToRelative(-5.0f, -15.0f, -8.0f, -27.0f)
                 close()
             }
-            path(fill = SolidColor(Color(0xFF965B44)), stroke = null, strokeLineWidth = 0.0f,
-                    strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
-                    pathFillType = NonZero) {
+            path(
+                fill = SolidColor(Color(0xFF965B44)), stroke = null, strokeLineWidth = 0.0f,
+                strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
+                pathFillType = NonZero
+            ) {
                 moveTo(88.5f, 79.08f)
                 curveToRelative(5.68f, -12.95f, 25.68f, -26.93f, 25.68f, -26.93f)
                 lineToRelative(0.59f, -0.43f)
@@ -134,18 +144,22 @@ public val Emoji.Wood: ImageVector
                 lineToRelative(0.56f, 20.23f)
                 close()
             }
-            path(fill = SolidColor(Color(0xFFFFCC80)), stroke = null, strokeLineWidth = 0.0f,
-                    strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
-                    pathFillType = NonZero) {
+            path(
+                fill = SolidColor(Color(0xFFFFCC80)), stroke = null, strokeLineWidth = 0.0f,
+                strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
+                pathFillType = NonZero
+            ) {
                 moveTo(58.48f, 4.27f)
                 curveTo(38.43f, 4.73f, 22.5f, 11.73f, 22.5f, 20.3f)
                 curveToRelative(0.0f, 8.87f, 17.05f, 16.05f, 38.08f, 16.05f)
                 reflectiveCurveToRelative(38.08f, -7.19f, 38.08f, -16.05f)
                 curveToRelative(0.0f, -8.53f, -15.78f, -15.51f, -35.71f, -16.02f)
             }
-            path(fill = SolidColor(Color(0xFFCE8963)), stroke = null, strokeLineWidth = 0.0f,
-                    strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
-                    pathFillType = NonZero) {
+            path(
+                fill = SolidColor(Color(0xFFCE8963)), stroke = null, strokeLineWidth = 0.0f,
+                strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
+                pathFillType = NonZero
+            ) {
                 moveTo(58.48f, 4.27f)
                 curveToRelative(-7.17f, 0.57f, -14.32f, 1.7f, -20.99f, 4.16f)
                 curveToRelative(-3.32f, 1.21f, -6.56f, 2.71f, -9.27f, 4.8f)
@@ -186,10 +200,14 @@ public val Emoji.Wood: ImageVector
                 curveToRelative(1.81f, -0.08f, 3.62f, -0.08f, 5.42f, -0.04f)
                 close()
             }
-            path(fill = radialGradient(0.056f to Color(0xFFFFA726), 0.135f to Color(0xFFFFA726),
-                    1.0f to Color(0x19FFA726), center = Offset(60.109764f,14.419851f), radius =
-                    25.54106f), stroke = null, strokeLineWidth = 0.0f, strokeLineCap = Butt,
-                    strokeLineJoin = Miter, strokeLineMiter = 4.0f, pathFillType = NonZero) {
+            path(
+                fill = radialGradient(
+                    0.056f to Color(0xFFFFA726), 0.135f to Color(0xFFFFA726),
+                    1.0f to Color(0x19FFA726), center = Offset(60.109764f, 14.419851f), radius =
+                    25.54106f
+                ), stroke = null, strokeLineWidth = 0.0f, strokeLineCap = Butt,
+                strokeLineJoin = Miter, strokeLineMiter = 4.0f, pathFillType = NonZero
+            ) {
                 moveTo(21.91f, 17.65f)
                 curveToRelative(0.0f, 7.03f, 14.33f, 12.73f, 32.02f, 12.73f)
                 reflectiveCurveToRelative(32.02f, -5.7f, 32.02f, -12.73f)
@@ -197,9 +215,11 @@ public val Emoji.Wood: ImageVector
                 curveToRelative(-17.61f, 1.65f, -32.02f, 5.7f, -32.02f, 12.74f)
                 close()
             }
-            path(fill = SolidColor(Color(0xFF7F441C)), stroke = null, fillAlpha = 0.66f, strokeAlpha
-                    = 0.66f, strokeLineWidth = 0.0f, strokeLineCap = Butt, strokeLineJoin = Miter,
-                    strokeLineMiter = 4.0f, pathFillType = NonZero) {
+            path(
+                fill = SolidColor(Color(0xFF7F441C)), stroke = null, fillAlpha = 0.66f, strokeAlpha
+                = 0.66f, strokeLineWidth = 0.0f, strokeLineCap = Butt, strokeLineJoin = Miter,
+                strokeLineMiter = 4.0f, pathFillType = NonZero
+            ) {
                 moveTo(31.08f, 18.62f)
                 curveToRelative(-0.01f, 1.39f, 0.81f, 2.64f, 1.79f, 3.61f)
                 curveToRelative(1.01f, 0.96f, 2.21f, 1.71f, 3.46f, 2.34f)
@@ -241,9 +261,11 @@ public val Emoji.Wood: ImageVector
                 curveToRelative(-1.01f, -0.98f, -1.88f, -2.26f, -1.89f, -3.74f)
                 close()
             }
-            path(fill = SolidColor(Color(0xFFB5772C)), stroke = null, fillAlpha = 0.82f, strokeAlpha
-                    = 0.82f, strokeLineWidth = 0.0f, strokeLineCap = Butt, strokeLineJoin = Miter,
-                    strokeLineMiter = 4.0f, pathFillType = NonZero) {
+            path(
+                fill = SolidColor(Color(0xFFB5772C)), stroke = null, fillAlpha = 0.82f, strokeAlpha
+                = 0.82f, strokeLineWidth = 0.0f, strokeLineCap = Butt, strokeLineJoin = Miter,
+                strokeLineMiter = 4.0f, pathFillType = NonZero
+            ) {
                 moveTo(37.81f, 17.5f)
                 curveToRelative(0.0f, 3.71f, 9.66f, 6.72f, 21.57f, 6.72f)
                 reflectiveCurveToRelative(21.57f, -3.01f, 21.57f, -6.72f)
@@ -257,17 +279,21 @@ public val Emoji.Wood: ImageVector
                 reflectiveCurveToRelative(-17.03f, -2.26f, -17.03f, -5.04f)
                 close()
             }
-            path(fill = linearGradient(0.0f to Color(0xFF8A5140), 1.0f to Color(0xFF8A5140), start =
-                    Offset(69.9f,16.939f), end = Offset(52.911f,16.939f)), stroke = null, fillAlpha
-                    = 0.74f, strokeAlpha = 0.74f, strokeLineWidth = 0.0f, strokeLineCap = Butt,
-                    strokeLineJoin = Miter, strokeLineMiter = 4.0f, pathFillType = NonZero) {
+            path(
+                fill = linearGradient(
+                    0.0f to Color(0xFF8A5140), 1.0f to Color(0xFF8A5140), start =
+                    Offset(69.9f, 16.939f), end = Offset(52.911f, 16.939f)
+                ), stroke = null, fillAlpha
+                = 0.74f, strokeAlpha = 0.74f, strokeLineWidth = 0.0f, strokeLineCap = Butt,
+                strokeLineJoin = Miter, strokeLineMiter = 4.0f, pathFillType = NonZero
+            ) {
                 moveTo(52.92f, 16.94f)
                 arcToRelative(8.49f, 2.24f, 0.0f, true, false, 16.98f, 0.0f)
                 arcToRelative(8.49f, 2.24f, 0.0f, true, false, -16.98f, 0.0f)
                 close()
             }
         }
-        .build()
+            .build()
         return _wood!!
     }
 

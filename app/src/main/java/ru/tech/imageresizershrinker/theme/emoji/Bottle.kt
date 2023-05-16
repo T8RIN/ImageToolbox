@@ -1,12 +1,9 @@
 package ru.tech.imageresizershrinker.theme.emoji
 
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.PathFillType
 import androidx.compose.ui.graphics.PathFillType.Companion.NonZero
 import androidx.compose.ui.graphics.SolidColor
-import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.StrokeCap.Companion.Butt
-import androidx.compose.ui.graphics.StrokeJoin
 import androidx.compose.ui.graphics.StrokeJoin.Companion.Miter
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.graphics.vector.ImageVector.Builder
@@ -14,16 +11,20 @@ import androidx.compose.ui.graphics.vector.path
 import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.theme.Emoji
 
-public val Emoji.Bottle: ImageVector
+val Emoji.Bottle: ImageVector
     get() {
         if (_bottle != null) {
             return _bottle!!
         }
-        _bottle = Builder(name = "Bottle", defaultWidth = 1.0.dp, defaultHeight = 1.0.dp,
-                viewportWidth = 128.0f, viewportHeight = 128.0f).apply {
-            path(fill = SolidColor(Color(0xFF485020)), stroke = null, strokeLineWidth = 0.0f,
-                    strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
-                    pathFillType = NonZero) {
+        _bottle = Builder(
+            name = "Bottle", defaultWidth = 1.0.dp, defaultHeight = 1.0.dp,
+            viewportWidth = 128.0f, viewportHeight = 128.0f
+        ).apply {
+            path(
+                fill = SolidColor(Color(0xFF485020)), stroke = null, strokeLineWidth = 0.0f,
+                strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
+                pathFillType = NonZero
+            ) {
                 moveToRelative(76.11f, 60.1f)
                 lineToRelative(-4.5f, -1.39f)
                 lineToRelative(-12.8f, -2.37f)
@@ -46,9 +47,11 @@ public val Emoji.Bottle: ImageVector
                 reflectiveCurveTo(76.11f, 60.1f, 76.11f, 60.1f)
                 close()
             }
-            path(fill = SolidColor(Color(0xFFF6AF41)), stroke = null, strokeLineWidth = 0.0f,
-                    strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
-                    pathFillType = NonZero) {
+            path(
+                fill = SolidColor(Color(0xFFF6AF41)), stroke = null, strokeLineWidth = 0.0f,
+                strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
+                pathFillType = NonZero
+            ) {
                 moveToRelative(44.0f, 50.41f)
                 lineToRelative(-3.61f, 2.43f)
                 reflectiveCurveToRelative(3.22f, 3.15f, 7.75f, 11.17f)
@@ -60,9 +63,11 @@ public val Emoji.Bottle: ImageVector
                 curveToRelative(-0.19f, -0.13f, -3.02f, -0.72f, -3.02f, -0.72f)
                 close()
             }
-            path(fill = SolidColor(Color(0xFFF7C876)), stroke = null, strokeLineWidth = 0.0f,
-                    strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
-                    pathFillType = NonZero) {
+            path(
+                fill = SolidColor(Color(0xFFF7C876)), stroke = null, strokeLineWidth = 0.0f,
+                strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
+                pathFillType = NonZero
+            ) {
                 moveToRelative(49.52f, 43.38f)
                 lineToRelative(-4.4f, 7.56f)
                 reflectiveCurveToRelative(4.66f, 6.04f, 7.49f, 11.1f)
@@ -75,9 +80,11 @@ public val Emoji.Bottle: ImageVector
                 reflectiveCurveToRelative(-9.86f, -8.54f, -9.86f, -8.54f)
                 close()
             }
-            path(fill = SolidColor(Color(0xFF317C31)), stroke = null, strokeLineWidth = 0.0f,
-                    strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
-                    pathFillType = NonZero) {
+            path(
+                fill = SolidColor(Color(0xFF317C31)), stroke = null, strokeLineWidth = 0.0f,
+                strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
+                pathFillType = NonZero
+            ) {
                 moveTo(59.51f, 77.74f)
                 reflectiveCurveToRelative(5.91f, -2.83f, 12.68f, -4.01f)
                 curveToRelative(6.77f, -1.18f, 9.0f, -0.79f, 9.4f, -1.38f)
@@ -93,9 +100,11 @@ public val Emoji.Bottle: ImageVector
                 curveToRelative(-4.01f, -6.76f, -4.21f, -8.67f, -4.21f, -8.67f)
                 close()
             }
-            path(fill = SolidColor(Color(0xFFF5B03E)), stroke = null, strokeLineWidth = 0.0f,
-                    strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
-                    pathFillType = NonZero) {
+            path(
+                fill = SolidColor(Color(0xFFF5B03E)), stroke = null, strokeLineWidth = 0.0f,
+                strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
+                pathFillType = NonZero
+            ) {
                 moveTo(77.84f, 92.4f)
                 curveToRelative(-0.26f, 1.38f, 17.5f, 21.23f, 18.92f, 21.29f)
                 curveToRelative(1.71f, 0.06f, 9.52f, -3.64f, 13.78f, -11.27f)
@@ -106,9 +115,11 @@ public val Emoji.Bottle: ImageVector
                 curveToRelative(-5.47f, 8.07f, -11.01f, 10.94f, -11.18f, 11.82f)
                 close()
             }
-            path(fill = SolidColor(Color(0xFFFFEBCA)), stroke = null, strokeLineWidth = 0.0f,
-                    strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
-                    pathFillType = NonZero) {
+            path(
+                fill = SolidColor(Color(0xFFFFEBCA)), stroke = null, strokeLineWidth = 0.0f,
+                strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
+                pathFillType = NonZero
+            ) {
                 moveTo(90.82f, 81.81f)
                 curveToRelative(-4.15f, 4.98f, -6.11f, 12.55f, 0.26f, 19.45f)
                 curveToRelative(6.37f, 6.9f, 14.52f, 2.84f, 17.02f, -1.97f)
@@ -118,9 +129,11 @@ public val Emoji.Bottle: ImageVector
                 reflectiveCurveToRelative(-5.89f, -0.99f, -9.5f, 3.34f)
                 close()
             }
-            path(fill = SolidColor(Color(0xFF317C31)), stroke = null, strokeLineWidth = 0.0f,
-                    strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
-                    pathFillType = NonZero) {
+            path(
+                fill = SolidColor(Color(0xFF317C31)), stroke = null, strokeLineWidth = 0.0f,
+                strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
+                pathFillType = NonZero
+            ) {
                 moveTo(36.38f, 37.54f)
                 curveToRelative(-3.19f, 2.73f, -4.73f, 7.16f, -2.37f, 9.4f)
                 curveToRelative(2.37f, 2.23f, 6.6f, 0.36f, 9.0f, -1.84f)
@@ -135,9 +148,11 @@ public val Emoji.Bottle: ImageVector
                 curveToRelative(-2.74f, -0.08f, -2.36f, -3.56f, -2.36f, -3.56f)
                 close()
             }
-            path(fill = SolidColor(Color(0xFFFFF1C2)), stroke = null, strokeLineWidth = 0.0f,
-                    strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
-                    pathFillType = NonZero) {
+            path(
+                fill = SolidColor(Color(0xFFFFF1C2)), stroke = null, strokeLineWidth = 0.0f,
+                strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
+                pathFillType = NonZero
+            ) {
                 moveTo(39.59f, 27.15f)
                 reflectiveCurveToRelative(0.45f, -3.87f, -1.8f, -4.09f)
                 curveToRelative(-2.75f, -0.26f, -3.58f, 2.58f, -3.58f, 4.56f)
@@ -150,9 +165,11 @@ public val Emoji.Bottle: ImageVector
                 reflectiveCurveToRelative(1.1f, -5.79f, 1.1f, -5.79f)
                 close()
             }
-            path(fill = SolidColor(Color(0xFFFEE465)), stroke = null, strokeLineWidth = 0.0f,
-                    strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
-                    pathFillType = NonZero) {
+            path(
+                fill = SolidColor(Color(0xFFFEE465)), stroke = null, strokeLineWidth = 0.0f,
+                strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
+                pathFillType = NonZero
+            ) {
                 moveTo(36.12f, 30.9f)
                 reflectiveCurveToRelative(-0.35f, -7.09f, 1.77f, -7.42f)
                 curveToRelative(1.67f, -0.26f, 1.77f, 1.71f, 1.84f, 2.63f)
@@ -183,9 +200,11 @@ public val Emoji.Bottle: ImageVector
                 curveToRelative(1.77f, 0.26f, 4.27f, 1.05f, 4.27f, 2.69f)
                 close()
             }
-            path(fill = SolidColor(Color(0xFFF2A259)), stroke = null, strokeLineWidth = 0.0f,
-                    strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
-                    pathFillType = NonZero) {
+            path(
+                fill = SolidColor(Color(0xFFF2A259)), stroke = null, strokeLineWidth = 0.0f,
+                strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
+                pathFillType = NonZero
+            ) {
                 moveTo(26.87f, 15.7f)
                 reflectiveCurveToRelative(-2.21f, -3.43f, -4.01f, -3.55f)
                 curveToRelative(-1.32f, -0.09f, -4.67f, 1.18f, -7.1f, 3.49f)
@@ -195,9 +214,11 @@ public val Emoji.Bottle: ImageVector
                 reflectiveCurveToRelative(1.05f, -8.22f, 1.05f, -8.22f)
                 close()
             }
-            path(fill = SolidColor(Color(0xFFCD844F)), stroke = null, strokeLineWidth = 0.0f,
-                    strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
-                    pathFillType = NonZero) {
+            path(
+                fill = SolidColor(Color(0xFFCD844F)), stroke = null, strokeLineWidth = 0.0f,
+                strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
+                pathFillType = NonZero
+            ) {
                 moveTo(21.94f, 22.34f)
                 curveToRelative(-4.46f, 3.84f, -7.84f, 3.57f, -7.84f, 3.57f)
                 reflectiveCurveToRelative(1.08f, 1.55f, 2.06f, 1.62f)
@@ -212,7 +233,7 @@ public val Emoji.Bottle: ImageVector
                 close()
             }
         }
-        .build()
+            .build()
         return _bottle!!
     }
 
