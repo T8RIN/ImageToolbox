@@ -1523,7 +1523,7 @@ fun MainScreen(
             properties = DialogProperties(usePlatformDefaultWidth = false),
             onDismissRequest = { showChangeFilenameDialog = false },
             icon = {
-                Icon(Icons.Outlined.FileCopy, null)
+                Icon(Icons.Rounded.FileSettings, null)
             },
             title = {
                 Text(stringResource(R.string.prefix))
