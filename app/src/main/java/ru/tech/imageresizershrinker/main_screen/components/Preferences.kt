@@ -181,6 +181,24 @@ fun PickColorPreference(
 }
 
 @Composable
+fun ImagePreviewPreference(
+    onClick: () -> Unit,
+    color: Color = MaterialTheme.colorScheme.surfaceColorAtElevation(1.dp),
+    @SuppressLint("ModifierParameter") modifier: Modifier = Modifier
+        .fillMaxWidth()
+        .padding(horizontal = 12.dp)
+) {
+    PreferenceItem(
+        onClick = onClick,
+        icon = Icons.Rounded.Image,
+        title = stringResource(R.string.image_preview),
+        subtitle = stringResource(R.string.image_preview_sub),
+        color = color,
+        modifier = modifier
+    )
+}
+
+@Composable
 fun ComparePreference(
     onClick: () -> Unit,
     color: Color = MaterialTheme.colorScheme.surfaceColorAtElevation(1.dp),

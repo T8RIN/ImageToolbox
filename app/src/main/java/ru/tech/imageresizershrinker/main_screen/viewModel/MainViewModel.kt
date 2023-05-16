@@ -326,12 +326,12 @@ class MainViewModel @Inject constructor(
         _showSelectDialog.value = false
     }
 
-    fun updateUris(uris: List<Uri>?) {
+    fun updateUris(uris: List<Uri>?, justView: Boolean = false) {
         _uris.value = null
         _uris.value = uris
 
         val dest = navController.backstack.entries.lastOrNull()?.destination
-        if (uris != null && dest == Screen.Main) _showSelectDialog.value = true
+        if (uris != null && dest == Screen.Main && !justView) _showSelectDialog.value = true
     }
 
     fun showToast(

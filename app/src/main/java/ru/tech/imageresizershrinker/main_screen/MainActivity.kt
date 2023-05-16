@@ -30,6 +30,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.rememberScrollState
@@ -95,6 +96,7 @@ import ru.tech.imageresizershrinker.compare_screen.CompareScreen
 import ru.tech.imageresizershrinker.crop_screen.CropScreen
 import ru.tech.imageresizershrinker.delete_exif_screen.DeleteExifScreen
 import ru.tech.imageresizershrinker.generate_palette_screen.GeneratePaletteScreen
+import ru.tech.imageresizershrinker.image_preview_screen.ImagePreviewScreen
 import ru.tech.imageresizershrinker.main_screen.components.BatchResizePreference
 import ru.tech.imageresizershrinker.main_screen.components.BytesResizePreference
 import ru.tech.imageresizershrinker.main_screen.components.ComparePreference
@@ -102,6 +104,7 @@ import ru.tech.imageresizershrinker.main_screen.components.CropPreference
 import ru.tech.imageresizershrinker.main_screen.components.DeleteExifPreference
 import ru.tech.imageresizershrinker.main_screen.components.GeneratePalettePreference
 import ru.tech.imageresizershrinker.main_screen.components.HtmlText
+import ru.tech.imageresizershrinker.main_screen.components.ImagePreviewPreference
 import ru.tech.imageresizershrinker.main_screen.components.LocalAlignment
 import ru.tech.imageresizershrinker.main_screen.components.LocalAllowChangeColorByImage
 import ru.tech.imageresizershrinker.main_screen.components.LocalAmoledMode
@@ -343,6 +346,15 @@ class MainActivity : M3Activity() {
                                     )
                                 }
 
+                                is Screen.ImagePreview -> {
+                                    ImagePreviewScreen(
+                                        uriState = viewModel.uris,
+                                        onGoBack = onGoBack,
+                                        pushNewUris = viewModel::updateUris,
+                                        showConfetti = { showConfetti = true }
+                                    )
+                                }
+
                                 is Screen.GeneratePalette -> {
                                     GeneratePaletteScreen(
                                         uriState = viewModel.uris?.firstOrNull(),
@@ -433,6 +445,7 @@ class MainActivity : M3Activity() {
                             ),
                             modifier = Modifier
                                 .width(320.dp)
+                                .systemBarsPadding()
                                 .alertDialog(),
                             onDismissRequest = {},
                             title = {
@@ -498,6 +511,11 @@ class MainActivity : M3Activity() {
                                                     color = color
                                                 )
                                                 Spacer(modifier = Modifier.height(8.dp))
+                                                ImagePreviewPreference(
+                                                    onClick = { navigate(Screen.ImagePreview) },
+                                                    color = color
+                                                )
+                                                Spacer(modifier = Modifier.height(8.dp))
                                                 PickColorPreference(
                                                     onClick = { navigate(Screen.PickColorFromImage) },
                                                     color = color
@@ -520,6 +538,11 @@ class MainActivity : M3Activity() {
                                                 Spacer(modifier = Modifier.height(8.dp))
                                                 DeleteExifPreference(
                                                     onClick = { navigate(Screen.DeleteExif) },
+                                                    color = color
+                                                )
+                                                Spacer(modifier = Modifier.height(8.dp))
+                                                ImagePreviewPreference(
+                                                    onClick = { navigate(Screen.ImagePreview) },
                                                     color = color
                                                 )
                                                 if (viewModel.uris?.size == 2) {
@@ -810,6 +833,13 @@ class MainActivity : M3Activity() {
         }
         if (intent?.type?.startsWith("image/") == true) {
             when (intent.action) {
+                Intent.ACTION_VIEW -> {
+                    intent.data?.let {
+                        viewModel.updateUris(listOf(it), true)
+                        viewModel.navController.navigate(Screen.ImagePreview)
+                    }
+                }
+
                 Intent.ACTION_SEND -> {
                     intent.parcelable<Uri>(Intent.EXTRA_STREAM)?.let {
                         viewModel.updateUris(listOf(it))

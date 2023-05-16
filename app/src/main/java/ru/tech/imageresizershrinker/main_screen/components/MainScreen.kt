@@ -1174,6 +1174,17 @@ fun MainScreen(
                                 )
                             }
                             item {
+                                ImagePreviewPreference(
+                                    onClick = {
+                                        navController.popUpTo { it == Screen.Main }
+                                        navController.navigate(Screen.ImagePreview)
+                                    },
+                                    modifier = Modifier
+                                        .widthIn(max = 350.dp)
+                                        .weight(1f)
+                                )
+                            }
+                            item {
                                 GeneratePalettePreference(
                                     modifier = Modifier
                                         .widthIn(max = 350.dp)
