@@ -19,33 +19,46 @@ import ru.tech.imageresizershrinker.theme.emoji.Alien
 import ru.tech.imageresizershrinker.theme.emoji.Amulet
 import ru.tech.imageresizershrinker.theme.emoji.Apple
 import ru.tech.imageresizershrinker.theme.emoji.Bang
+import ru.tech.imageresizershrinker.theme.emoji.Bear
 import ru.tech.imageresizershrinker.theme.emoji.Beer
 import ru.tech.imageresizershrinker.theme.emoji.Biohazard
+import ru.tech.imageresizershrinker.theme.emoji.Bottle
+import ru.tech.imageresizershrinker.theme.emoji.Camera
 import ru.tech.imageresizershrinker.theme.emoji.Cat
 import ru.tech.imageresizershrinker.theme.emoji.Cloud
 import ru.tech.imageresizershrinker.theme.emoji.Clover
+import ru.tech.imageresizershrinker.theme.emoji.Crown
 import ru.tech.imageresizershrinker.theme.emoji.Diamond
+import ru.tech.imageresizershrinker.theme.emoji.Disk
 import ru.tech.imageresizershrinker.theme.emoji.Droplets
 import ru.tech.imageresizershrinker.theme.emoji.Eggplant
 import ru.tech.imageresizershrinker.theme.emoji.Eyes
 import ru.tech.imageresizershrinker.theme.emoji.Fire
 import ru.tech.imageresizershrinker.theme.emoji.Frog
+import ru.tech.imageresizershrinker.theme.emoji.Gift
+import ru.tech.imageresizershrinker.theme.emoji.Glass
 import ru.tech.imageresizershrinker.theme.emoji.Globe
+import ru.tech.imageresizershrinker.theme.emoji.Hamburger
 import ru.tech.imageresizershrinker.theme.emoji.Heart
 import ru.tech.imageresizershrinker.theme.emoji.Ice
+import ru.tech.imageresizershrinker.theme.emoji.Light
+import ru.tech.imageresizershrinker.theme.emoji.Lipstick
 import ru.tech.imageresizershrinker.theme.emoji.Malesign
+import ru.tech.imageresizershrinker.theme.emoji.Map
 import ru.tech.imageresizershrinker.theme.emoji.Moai
 import ru.tech.imageresizershrinker.theme.emoji.Money
 import ru.tech.imageresizershrinker.theme.emoji.Moneybag
 import ru.tech.imageresizershrinker.theme.emoji.MoonA
 import ru.tech.imageresizershrinker.theme.emoji.MoonB
 import ru.tech.imageresizershrinker.theme.emoji.Package
+import ru.tech.imageresizershrinker.theme.emoji.Palette
+import ru.tech.imageresizershrinker.theme.emoji.Park
 import ru.tech.imageresizershrinker.theme.emoji.Party
 import ru.tech.imageresizershrinker.theme.emoji.Peach
 import ru.tech.imageresizershrinker.theme.emoji.Pepper
+import ru.tech.imageresizershrinker.theme.emoji.Phone
 import ru.tech.imageresizershrinker.theme.emoji.Picture
 import ru.tech.imageresizershrinker.theme.emoji.Pill
-import ru.tech.imageresizershrinker.theme.emoji.Pumpkin
 import ru.tech.imageresizershrinker.theme.emoji.Radioactive
 import ru.tech.imageresizershrinker.theme.emoji.Recycling
 import ru.tech.imageresizershrinker.theme.emoji.Rocket
@@ -55,7 +68,9 @@ import ru.tech.imageresizershrinker.theme.emoji.Sparkles
 import ru.tech.imageresizershrinker.theme.emoji.Star
 import ru.tech.imageresizershrinker.theme.emoji.Sunrise
 import ru.tech.imageresizershrinker.theme.emoji.Taxi
+import ru.tech.imageresizershrinker.theme.emoji.Ufo
 import ru.tech.imageresizershrinker.theme.emoji.Warning
+import ru.tech.imageresizershrinker.theme.emoji.Wood
 import ru.tech.imageresizershrinker.theme.emoji.Zap
 import ru.tech.imageresizershrinker.theme.emoji.Zzz
 
@@ -74,33 +89,46 @@ public val Emoji.list: List<ImageVector>
             Amulet,
             Apple,
             Bang,
+            Bear,
             Beer,
             Biohazard,
+            Bottle,
+            Camera,
             Cat,
             Cloud,
             Clover,
+            Crown,
             Diamond,
+            Disk,
             Droplets,
             Eggplant,
             Eyes,
             Fire,
             Frog,
+            Gift,
+            Glass,
             Globe,
+            Hamburger,
             Heart,
             Ice,
+            Light,
+            Lipstick,
             Malesign,
+            Map,
             Moai,
             Money,
             Moneybag,
             MoonA,
             MoonB,
             Package,
+            Palette,
+            Park,
             Party,
             Peach,
             Pepper,
+            Phone,
             Picture,
             Pill,
-            Pumpkin,
             Radioactive,
             Recycling,
             Rocket,
@@ -109,7 +137,9 @@ public val Emoji.list: List<ImageVector>
             Star,
             Sunrise,
             Taxi,
+            Ufo,
             Warning,
+            Wood,
             Zap,
             Zzz
         )
