@@ -142,4 +142,6 @@
     <string name="add_file_size_sub">Если включено то при сохранении к названию файла будут добавлены ширина и высота изображения</string>
     <string name="delete_exif">Удаление EXIF</string>
     <string name="delete_exif_sub">Удалите метаданные EXIF у любого количества изображений</string>
+    <string name="image_preview">Предпросмотр</string>
+    <string name="image_preview_sub">Предварительный просмотр изображений любого типа: GIF, SVG и так далее</string>
 </resources>
