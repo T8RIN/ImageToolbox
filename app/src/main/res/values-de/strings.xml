@@ -133,4 +133,8 @@
     <string name="filename">Dateiname</string>
     <string name="emoji">Emoji</string>
     <string name="emoji_sub">Wähle, welches Emoji auf der Hauptseite angezeigt wird</string>
+    <string name="add_file_size">Dateigröße hinzufügen</string>
+    <string name="add_file_size_sub">Wenn aktiviert, werden Breite und Höhe des gespeicherten Bildes zum Namen der Ausgabedatei hinzugefügt</string>
+    <string name="delete_exif">EXIF löschen</string>
+    <string name="delete_exif_sub">EXIF-Metadaten von einem beliebigen Bilderpaar löschen</string>
 </resources>
