@@ -160,7 +160,6 @@ import ru.tech.imageresizershrinker.widget.Picture
 fun BatchResizeScreen(
     uriState: List<Uri>?,
     onGoBack: () -> Unit,
-    pushNewUris: (List<Uri>?) -> Unit,
     getSavingFolder: (bitmapInfo: BitmapInfo) -> SavingFolder,
     savingPathString: String,
     showConfetti: () -> Unit,
@@ -175,7 +174,6 @@ fun BatchResizeScreen(
     LaunchedEffect(uriState) {
         uriState?.takeIf { it.isNotEmpty() }?.let {
             viewModel.updateUris(it)
-            pushNewUris(null)
             context.decodeBitmapFromUri(
                 uri = it[0],
                 onGetMimeType = viewModel::setMime,

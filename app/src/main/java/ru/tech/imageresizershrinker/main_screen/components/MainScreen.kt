@@ -171,6 +171,7 @@ import ru.tech.imageresizershrinker.utils.AUTHOR_LINK
 import ru.tech.imageresizershrinker.utils.ContextUtils.verifyInstallerId
 import ru.tech.imageresizershrinker.utils.DONATE
 import ru.tech.imageresizershrinker.utils.ISSUE_TRACKER
+import ru.tech.imageresizershrinker.utils.LocalNavController
 import ru.tech.imageresizershrinker.utils.LocalWindowSizeClass
 import ru.tech.imageresizershrinker.utils.WEBLATE_LINK
 import ru.tech.imageresizershrinker.utils.constructFilename
@@ -190,16 +191,17 @@ import kotlin.math.roundToInt
 
 @OptIn(
     ExperimentalMaterial3Api::class,
-    ExperimentalMaterialApi::class, ExperimentalLayoutApi::class
+    ExperimentalMaterialApi::class,
+    ExperimentalLayoutApi::class
 )
 @Composable
 fun MainScreen(
-    navController: NavController<Screen>,
     currentFolderUri: Uri?,
     onGetNewFolder: (Uri?) -> Unit,
     showConfetti: () -> Unit,
     viewModel: MainViewModel
 ) {
+    val navController = LocalNavController.current
     val editPresetsState = LocalEditPresets.current
     val context = LocalContext.current
     val scrollBehavior =
@@ -1111,7 +1113,7 @@ fun MainScreen(
                                 SingleResizePreference(
                                     onClick = {
                                         navController.popUpTo { it == Screen.Main }
-                                        navController.navigate(Screen.SingleResize)
+                                        navController.navigate(Screen.SingleResize())
                                     },
                                     modifier = Modifier
                                         .widthIn(max = 350.dp)
@@ -1122,7 +1124,7 @@ fun MainScreen(
                                 BatchResizePreference(
                                     onClick = {
                                         navController.popUpTo { it == Screen.Main }
-                                        navController.navigate(Screen.BatchResize)
+                                        navController.navigate(Screen.BatchResize())
                                     },
                                     modifier = Modifier
                                         .widthIn(max = 350.dp)
@@ -1133,7 +1135,7 @@ fun MainScreen(
                                 BytesResizePreference(
                                     onClick = {
                                         navController.popUpTo { it == Screen.Main }
-                                        navController.navigate(Screen.ResizeByBytes)
+                                        navController.navigate(Screen.ResizeByBytes())
                                     },
                                     modifier = Modifier
                                         .widthIn(max = 350.dp)
@@ -1144,7 +1146,7 @@ fun MainScreen(
                                 DeleteExifPreference(
                                     onClick = {
                                         navController.popUpTo { it == Screen.Main }
-                                        navController.navigate(Screen.DeleteExif)
+                                        navController.navigate(Screen.DeleteExif())
                                     },
                                     modifier = Modifier
                                         .widthIn(max = 350.dp)
@@ -1155,7 +1157,7 @@ fun MainScreen(
                                 CropPreference(
                                     onClick = {
                                         navController.popUpTo { it == Screen.Main }
-                                        navController.navigate(Screen.Crop)
+                                        navController.navigate(Screen.Crop())
                                     },
                                     modifier = Modifier
                                         .widthIn(max = 350.dp)
@@ -1166,7 +1168,7 @@ fun MainScreen(
                                 PickColorPreference(
                                     onClick = {
                                         navController.popUpTo { it == Screen.Main }
-                                        navController.navigate(Screen.PickColorFromImage)
+                                        navController.navigate(Screen.PickColorFromImage())
                                     },
                                     modifier = Modifier
                                         .widthIn(max = 350.dp)
@@ -1177,7 +1179,7 @@ fun MainScreen(
                                 ImagePreviewPreference(
                                     onClick = {
                                         navController.popUpTo { it == Screen.Main }
-                                        navController.navigate(Screen.ImagePreview)
+                                        navController.navigate(Screen.ImagePreview())
                                     },
                                     modifier = Modifier
                                         .widthIn(max = 350.dp)
@@ -1191,7 +1193,7 @@ fun MainScreen(
                                         .weight(1f),
                                     onClick = {
                                         navController.popUpTo { it == Screen.Main }
-                                        navController.navigate(Screen.GeneratePalette)
+                                        navController.navigate(Screen.GeneratePalette())
                                     }
                                 )
                             }
@@ -1199,7 +1201,7 @@ fun MainScreen(
                                 ComparePreference(
                                     onClick = {
                                         navController.popUpTo { it == Screen.Main }
-                                        navController.navigate(Screen.Compare)
+                                        navController.navigate(Screen.Compare())
                                     },
                                     modifier = Modifier
                                         .widthIn(max = 350.dp)

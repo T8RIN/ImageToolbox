@@ -141,7 +141,6 @@ import ru.tech.imageresizershrinker.widget.Picture
 fun DeleteExifScreen(
     uriState: List<Uri>?,
     onGoBack: () -> Unit,
-    pushNewUris: (List<Uri>?) -> Unit,
     getSavingFolder: (bitmapInfo: BitmapInfo) -> SavingFolder,
     savingPathString: String,
     showConfetti: () -> Unit,
@@ -156,7 +155,6 @@ fun DeleteExifScreen(
     LaunchedEffect(uriState) {
         uriState?.takeIf { it.isNotEmpty() }?.let { uris ->
             viewModel.updateUris(uris)
-            pushNewUris(null)
             context.decodeBitmapFromUri(
                 uri = uris[0],
                 onGetMimeType = {},

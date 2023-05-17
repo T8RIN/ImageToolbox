@@ -99,6 +99,7 @@ import ru.tech.imageresizershrinker.theme.EmojiItem
 import ru.tech.imageresizershrinker.theme.PaletteSwatch
 import ru.tech.imageresizershrinker.theme.outlineVariant
 import ru.tech.imageresizershrinker.utils.BitmapUtils.decodeBitmapFromUri
+import ru.tech.imageresizershrinker.utils.LocalNavController
 import ru.tech.imageresizershrinker.utils.LocalWindowSizeClass
 import ru.tech.imageresizershrinker.utils.modifier.block
 import ru.tech.imageresizershrinker.utils.modifier.drawHorizontalStroke
@@ -113,12 +114,11 @@ import ru.tech.imageresizershrinker.widget.Marquee
 @Composable
 fun PickColorFromImageScreen(
     uriState: Uri?,
-    navController: NavController<Screen>,
     onGoBack: () -> Unit,
     showConfetti: () -> Unit,
-    pushNewUri: (Uri?) -> Unit,
     viewModel: PickColorViewModel = viewModel()
 ) {
+    val navController = LocalNavController.current
     val context = LocalContext.current
     val toastHostState = LocalToastHost.current
     val scope = rememberCoroutineScope()
@@ -130,7 +130,6 @@ fun PickColorFromImageScreen(
     LaunchedEffect(uriState) {
         uriState?.let {
             viewModel.setUri(it)
-            pushNewUri(null)
             context.decodeBitmapFromUri(
                 uri = it,
                 onGetMimeType = {},
@@ -382,8 +381,7 @@ fun PickColorFromImageScreen(
                                                     IconButton(
                                                         onClick = {
                                                             if (navController.backstack.entries.isNotEmpty()) navController.pop()
-                                                            navController.navigate(Screen.GeneratePalette)
-                                                            pushNewUri(viewModel.uri)
+                                                            navController.navigate(Screen.GeneratePalette(viewModel.uri))
                                                         },
                                                         modifier = Modifier.statusBarsPadding()
                                                     ) {
@@ -402,8 +400,7 @@ fun PickColorFromImageScreen(
                                         IconButton(
                                             onClick = {
                                                 if (navController.backstack.entries.isNotEmpty()) navController.pop()
-                                                navController.navigate(Screen.GeneratePalette)
-                                                pushNewUri(viewModel.uri)
+                                                navController.navigate(Screen.GeneratePalette(viewModel.uri))
                                             },
                                             modifier = Modifier.statusBarsPadding()
                                         ) {

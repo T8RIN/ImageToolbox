@@ -80,7 +80,6 @@ import dev.olshevski.navigation.reimagined.AnimatedNavHost
 import dev.olshevski.navigation.reimagined.NavAction
 import dev.olshevski.navigation.reimagined.navigate
 import dev.olshevski.navigation.reimagined.pop
-import dev.olshevski.navigation.reimagined.popUpTo
 import nl.dionsegijn.konfetti.compose.KonfettiView
 import nl.dionsegijn.konfetti.compose.OnParticleSystemUpdateListener
 import nl.dionsegijn.konfetti.core.Angle
@@ -136,6 +135,7 @@ import ru.tech.imageresizershrinker.utils.ContextUtils.needToShowStoragePermissi
 import ru.tech.imageresizershrinker.utils.ContextUtils.requestStoragePermission
 import ru.tech.imageresizershrinker.utils.IntentUtils.parcelable
 import ru.tech.imageresizershrinker.utils.IntentUtils.parcelableArrayList
+import ru.tech.imageresizershrinker.utils.LocalNavController
 import ru.tech.imageresizershrinker.utils.SavingFolder
 import ru.tech.imageresizershrinker.utils.constructFilename
 import ru.tech.imageresizershrinker.utils.createPrefix
@@ -182,8 +182,10 @@ class MainActivity : M3Activity() {
                 LocalPresetsProvider provides viewModel.localPresets,
                 LocalEditPresets provides editPresetsState,
                 LocalAlignment provides viewModel.alignment.toAlignment(),
-                LocalSelectedEmoji provides Emoji.allIcons.getOrNull(viewModel.selectedEmoji)
+                LocalSelectedEmoji provides Emoji.allIcons.getOrNull(viewModel.selectedEmoji),
+                LocalNavController provides viewModel.navController
             ) {
+                val navController = LocalNavController.current
                 ImageResizerTheme {
                     val themeState = LocalDynamicThemeState.current
                     val appColorTuple = getAppColorTuple(
@@ -194,7 +196,7 @@ class MainActivity : M3Activity() {
                     val onGoBack: () -> Unit = {
                         viewModel.updateUris(null)
                         themeState.updateColorTuple(appColorTuple)
-                        viewModel.navController.apply {
+                        navController.apply {
                             if (backstack.entries.size > 1) pop()
                         }
                     }
@@ -228,7 +230,7 @@ class MainActivity : M3Activity() {
 
                     Surface(Modifier.fillMaxSize()) {
                         AnimatedNavHost(
-                            controller = viewModel.navController,
+                            controller = navController,
                             transitionSpec = { action, _, _ ->
                                 fun <T> animationSpec(
                                     duration: Int = 500,
@@ -264,7 +266,6 @@ class MainActivity : M3Activity() {
                             when (screen) {
                                 is Screen.Main -> {
                                     MainScreen(
-                                        navController = viewModel.navController,
                                         currentFolderUri = saveFolderUri,
                                         onGetNewFolder = {
                                             viewModel.updateSaveFolderUri(it)
@@ -283,9 +284,8 @@ class MainActivity : M3Activity() {
 
                                 is Screen.SingleResize -> {
                                     SingleResizeScreen(
-                                        uriState = viewModel.uris?.firstOrNull(),
+                                        uriState = screen.uri,
                                         onGoBack = onGoBack,
-                                        pushNewUri = viewModel::updateUri,
                                         getSavingFolder = getSavingFolder,
                                         savingPathString = savingPathString,
                                         showConfetti = { showConfetti = true }
@@ -294,9 +294,8 @@ class MainActivity : M3Activity() {
 
                                 is Screen.BatchResize -> {
                                     BatchResizeScreen(
-                                        uriState = viewModel.uris,
+                                        uriState = screen.uris,
                                         onGoBack = onGoBack,
-                                        pushNewUris = viewModel::updateUris,
                                         getSavingFolder = getSavingFolder,
                                         savingPathString = savingPathString,
                                         showConfetti = { showConfetti = true }
@@ -305,9 +304,8 @@ class MainActivity : M3Activity() {
 
                                 is Screen.DeleteExif -> {
                                     DeleteExifScreen(
-                                        uriState = viewModel.uris,
+                                        uriState = screen.uris,
                                         onGoBack = onGoBack,
-                                        pushNewUris = viewModel::updateUris,
                                         getSavingFolder = getSavingFolder,
                                         savingPathString = savingPathString,
                                         showConfetti = { showConfetti = true }
@@ -316,9 +314,8 @@ class MainActivity : M3Activity() {
 
                                 is Screen.ResizeByBytes -> {
                                     BytesResizeScreen(
-                                        uriState = viewModel.uris,
+                                        uriState = screen.uris,
                                         onGoBack = onGoBack,
-                                        pushNewUris = viewModel::updateUris,
                                         getSavingFolder = getSavingFolder,
                                         savingPathString = savingPathString,
                                         showConfetti = { showConfetti = true }
@@ -327,9 +324,8 @@ class MainActivity : M3Activity() {
 
                                 is Screen.Crop -> {
                                     CropScreen(
-                                        uriState = viewModel.uris?.firstOrNull(),
+                                        uriState = screen.uri,
                                         onGoBack = onGoBack,
-                                        pushNewUri = viewModel::updateUri,
                                         getSavingFolder = getSavingFolder,
                                         savingPathString = savingPathString,
                                         showConfetti = { showConfetti = true }
@@ -338,40 +334,33 @@ class MainActivity : M3Activity() {
 
                                 is Screen.PickColorFromImage -> {
                                     PickColorFromImageScreen(
-                                        uriState = viewModel.uris?.firstOrNull(),
-                                        navController = viewModel.navController,
+                                        uriState = screen.uri,
                                         onGoBack = onGoBack,
-                                        pushNewUri = viewModel::updateUri,
                                         showConfetti = { showConfetti = true }
                                     )
                                 }
 
                                 is Screen.ImagePreview -> {
                                     ImagePreviewScreen(
-                                        uriState = viewModel.uris,
+                                        uriState = screen.uris,
                                         onGoBack = onGoBack,
-                                        navController = viewModel.navController,
-                                        pushNewUris = viewModel::updateUris,
                                         showConfetti = { showConfetti = true }
                                     )
                                 }
 
                                 is Screen.GeneratePalette -> {
                                     GeneratePaletteScreen(
-                                        uriState = viewModel.uris?.firstOrNull(),
-                                        navController = viewModel.navController,
+                                        uriState = screen.uri,
                                         onGoBack = onGoBack,
-                                        pushNewUri = viewModel::updateUri,
                                         showConfetti = { showConfetti = true }
                                     )
                                 }
 
                                 is Screen.Compare -> {
                                     CompareScreen(
-                                        comparableUris = viewModel.uris
+                                        comparableUris = screen.uris
                                             ?.takeIf { it.size == 2 }
                                             ?.let { it[0] to it[1] },
-                                        pushNewUris = viewModel::updateUris,
                                         onGoBack = onGoBack,
                                         showConfetti = { showConfetti = true }
                                     )
@@ -472,8 +461,8 @@ class MainActivity : M3Activity() {
                                 val navigate: (Screen) -> Unit = { screen ->
                                     viewModel.apply {
                                         navController.apply {
-                                            popUpTo { it == Screen.Main }
                                             navigate(screen)
+                                            viewModel.updateUris(null)
                                         }
                                         hideSelectDialog()
                                     }
@@ -486,63 +475,117 @@ class MainActivity : M3Activity() {
                                         item {
                                             if ((viewModel.uris?.size ?: 0) <= 1) {
                                                 SingleResizePreference(
-                                                    onClick = { navigate(Screen.SingleResize) },
+                                                    onClick = {
+                                                        navigate(
+                                                            Screen.SingleResize(
+                                                                viewModel.uris?.firstOrNull()
+                                                            )
+                                                        )
+                                                    },
                                                     color = color
                                                 )
                                                 Spacer(modifier = Modifier.height(8.dp))
                                                 BytesResizePreference(
-                                                    onClick = { navigate(Screen.ResizeByBytes) },
+                                                    onClick = {
+                                                        navigate(
+                                                            Screen.ResizeByBytes(
+                                                                viewModel.uris
+                                                            )
+                                                        )
+                                                    },
                                                     color = color
                                                 )
                                                 Spacer(modifier = Modifier.height(8.dp))
                                                 DeleteExifPreference(
-                                                    onClick = { navigate(Screen.DeleteExif) },
+                                                    onClick = { navigate(Screen.DeleteExif(viewModel.uris)) },
                                                     color = color
                                                 )
                                                 Spacer(modifier = Modifier.height(8.dp))
                                                 CropPreference(
-                                                    onClick = { navigate(Screen.Crop) },
+                                                    onClick = { navigate(Screen.Crop(viewModel.uris?.firstOrNull())) },
                                                     color = color
                                                 )
                                                 Spacer(modifier = Modifier.height(8.dp))
                                                 ImagePreviewPreference(
-                                                    onClick = { navigate(Screen.ImagePreview) },
+                                                    onClick = {
+                                                        navigate(
+                                                            Screen.ImagePreview(
+                                                                viewModel.uris
+                                                            )
+                                                        )
+                                                    },
                                                     color = color
                                                 )
                                                 Spacer(modifier = Modifier.height(8.dp))
                                                 PickColorPreference(
-                                                    onClick = { navigate(Screen.PickColorFromImage) },
+                                                    onClick = {
+                                                        navigate(
+                                                            Screen.PickColorFromImage(
+                                                                viewModel.uris?.firstOrNull()
+                                                            )
+                                                        )
+                                                    },
                                                     color = color
                                                 )
                                                 Spacer(modifier = Modifier.height(8.dp))
                                                 GeneratePalettePreference(
-                                                    onClick = { navigate(Screen.GeneratePalette) },
+                                                    onClick = {
+                                                        navigate(
+                                                            Screen.GeneratePalette(
+                                                                viewModel.uris?.firstOrNull()
+                                                            )
+                                                        )
+                                                    },
                                                     color = color
                                                 )
                                             } else {
                                                 BatchResizePreference(
-                                                    onClick = { navigate(Screen.BatchResize) },
+                                                    onClick = {
+                                                        navigate(
+                                                            Screen.BatchResize(
+                                                                viewModel.uris
+                                                            )
+                                                        )
+                                                    },
                                                     color = color
                                                 )
                                                 Spacer(modifier = Modifier.height(8.dp))
                                                 BytesResizePreference(
-                                                    onClick = { navigate(Screen.ResizeByBytes) },
+                                                    onClick = {
+                                                        navigate(
+                                                            Screen.ResizeByBytes(
+                                                                viewModel.uris
+                                                            )
+                                                        )
+                                                    },
                                                     color = color
                                                 )
                                                 Spacer(modifier = Modifier.height(8.dp))
                                                 DeleteExifPreference(
-                                                    onClick = { navigate(Screen.DeleteExif) },
+                                                    onClick = { navigate(Screen.DeleteExif(viewModel.uris)) },
                                                     color = color
                                                 )
                                                 Spacer(modifier = Modifier.height(8.dp))
                                                 ImagePreviewPreference(
-                                                    onClick = { navigate(Screen.ImagePreview) },
+                                                    onClick = {
+                                                        navigate(
+                                                            Screen.ImagePreview(
+                                                                viewModel.uris
+                                                            )
+                                                        )
+                                                    },
                                                     color = color
                                                 )
                                                 if (viewModel.uris?.size == 2) {
                                                     Spacer(modifier = Modifier.height(8.dp))
                                                     ComparePreference(
-                                                        onClick = { navigate(Screen.Compare) },
+                                                        onClick = {
+                                                            navigate(
+                                                                Screen.Compare(
+                                                                    viewModel.uris
+                                                                )
+                                                            )
+                                                        },
                                                         color = color
                                                     )
                                                 }
@@ -828,11 +871,11 @@ class MainActivity : M3Activity() {
             viewModel.shouldShowExitDialog(false)
         }
         if (intent?.type?.startsWith("image/") == true) {
+
             when (intent.action) {
                 Intent.ACTION_VIEW -> {
                     intent.data?.let {
-                        viewModel.updateUris(listOf(it), true)
-                        viewModel.navController.navigate(Screen.ImagePreview)
+                        viewModel.navController.navigate(Screen.ImagePreview(listOf(it)))
                     }
                 }
 

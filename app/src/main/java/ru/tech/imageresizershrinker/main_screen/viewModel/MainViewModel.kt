@@ -315,23 +315,14 @@ class MainViewModel @Inject constructor(
         }
     }
 
-    fun updateUri(uri: Uri?) {
-        _uris.value = null
-        uri?.let {
-            _uris.value = listOf(uri)
-        }
-    }
-
     fun hideSelectDialog() {
         _showSelectDialog.value = false
     }
 
-    fun updateUris(uris: List<Uri>?, justView: Boolean = false) {
-        _uris.value = null
+    fun updateUris(uris: List<Uri>?) {
         _uris.value = uris
 
-        val dest = navController.backstack.entries.lastOrNull()?.destination
-        if (uris != null && dest == Screen.Main && !justView) _showSelectDialog.value = true
+        if (uris != null) _showSelectDialog.value = true
     }
 
     fun showToast(

@@ -127,7 +127,6 @@ import ru.tech.imageresizershrinker.widget.Marquee
 fun CropScreen(
     uriState: Uri?,
     onGoBack: () -> Unit,
-    pushNewUri: (Uri?) -> Unit,
     getSavingFolder: (bitmapInfo: BitmapInfo) -> SavingFolder,
     savingPathString: String,
     showConfetti: () -> Unit,
@@ -143,7 +142,6 @@ fun CropScreen(
 
     LaunchedEffect(uriState) {
         uriState?.let {
-            pushNewUri(null)
             context.decodeBitmapFromUri(
                 uri = it,
                 onGetMimeType = viewModel::updateMimeType,

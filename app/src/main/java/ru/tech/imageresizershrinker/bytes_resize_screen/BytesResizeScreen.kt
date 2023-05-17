@@ -158,7 +158,6 @@ import ru.tech.imageresizershrinker.widget.RoundedTextField
 fun BytesResizeScreen(
     uriState: List<Uri>?,
     onGoBack: () -> Unit,
-    pushNewUris: (List<Uri>?) -> Unit,
     getSavingFolder: (bitmapInfo: BitmapInfo) -> SavingFolder,
     savingPathString: String,
     showConfetti: () -> Unit,
@@ -175,7 +174,6 @@ fun BytesResizeScreen(
     LaunchedEffect(uriState) {
         uriState?.takeIf { it.isNotEmpty() }?.let { uris ->
             viewModel.updateUris(uris)
-            pushNewUris(null)
             context.decodeBitmapFromUri(
                 uri = uris[0],
                 onGetMimeType = {

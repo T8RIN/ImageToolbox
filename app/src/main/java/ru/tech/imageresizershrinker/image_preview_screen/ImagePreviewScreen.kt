@@ -108,6 +108,7 @@ import ru.tech.imageresizershrinker.theme.CreateAlt
 import ru.tech.imageresizershrinker.theme.EmojiItem
 import ru.tech.imageresizershrinker.theme.outlineVariant
 import ru.tech.imageresizershrinker.utils.BitmapUtils.decodeSampledBitmapFromUri
+import ru.tech.imageresizershrinker.utils.LocalNavController
 import ru.tech.imageresizershrinker.utils.modifier.alertDialog
 import ru.tech.imageresizershrinker.utils.modifier.drawHorizontalStroke
 import ru.tech.imageresizershrinker.utils.modifier.fabBorder
@@ -120,11 +121,10 @@ import ru.tech.imageresizershrinker.widget.Picture
 fun ImagePreviewScreen(
     uriState: List<Uri>?,
     onGoBack: () -> Unit,
-    pushNewUris: (List<Uri>?) -> Unit,
-    navController: NavController<Screen>,
     showConfetti: () -> Unit,
     viewModel: ImagePreviewViewModel = viewModel()
 ) {
+    val navController = LocalNavController.current
     val context = LocalContext.current as ComponentActivity
     val themeState = LocalDynamicThemeState.current
     val allowChangeColor = LocalAllowChangeColorByImage.current
@@ -138,7 +138,6 @@ fun ImagePreviewScreen(
     LaunchedEffect(uriState) {
         uriState?.takeIf { it.isNotEmpty() && it != listOf(viewModel.selectedUri) }?.let { uris ->
             viewModel.updateUris(uris)
-            pushNewUris(null)
         }
     }
 
@@ -452,7 +451,6 @@ fun ImagePreviewScreen(
                 text = {
                     val navigate: (Screen) -> Unit = { screen ->
                         navController.navigate(screen)
-                        pushNewUris(listOf(viewModel.selectedUri!!))
                         wantToEdit = false
                     }
                     val color = MaterialTheme.colorScheme.secondaryContainer
@@ -462,32 +460,32 @@ fun ImagePreviewScreen(
                         ) {
                             item {
                                 SingleResizePreference(
-                                    onClick = { navigate(Screen.SingleResize) },
+                                    onClick = { navigate(Screen.SingleResize(viewModel.selectedUri!!)) },
                                     color = color
                                 )
                                 Spacer(modifier = Modifier.height(8.dp))
                                 BytesResizePreference(
-                                    onClick = { navigate(Screen.ResizeByBytes) },
+                                    onClick = { navigate(Screen.ResizeByBytes(listOf(viewModel.selectedUri!!))) },
                                     color = color
                                 )
                                 Spacer(modifier = Modifier.height(8.dp))
                                 DeleteExifPreference(
-                                    onClick = { navigate(Screen.DeleteExif) },
+                                    onClick = { navigate(Screen.DeleteExif(listOf(viewModel.selectedUri!!))) },
                                     color = color
                                 )
                                 Spacer(modifier = Modifier.height(8.dp))
                                 CropPreference(
-                                    onClick = { navigate(Screen.Crop) },
+                                    onClick = { navigate(Screen.Crop(viewModel.selectedUri)) },
                                     color = color
                                 )
                                 Spacer(modifier = Modifier.height(8.dp))
                                 PickColorPreference(
-                                    onClick = { navigate(Screen.PickColorFromImage) },
+                                    onClick = { navigate(Screen.PickColorFromImage(viewModel.selectedUri)) },
                                     color = color
                                 )
                                 Spacer(modifier = Modifier.height(8.dp))
                                 GeneratePalettePreference(
-                                    onClick = { navigate(Screen.GeneratePalette) },
+                                    onClick = { navigate(Screen.GeneratePalette(viewModel.selectedUri)) },
                                     color = color
                                 )
                             }

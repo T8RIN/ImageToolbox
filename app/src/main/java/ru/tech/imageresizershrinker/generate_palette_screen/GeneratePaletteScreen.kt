@@ -89,6 +89,7 @@ import ru.tech.imageresizershrinker.resize_screen.components.ZoomModalSheet
 import ru.tech.imageresizershrinker.theme.EmojiItem
 import ru.tech.imageresizershrinker.theme.PaletteSwatch
 import ru.tech.imageresizershrinker.utils.BitmapUtils.decodeBitmapFromUri
+import ru.tech.imageresizershrinker.utils.LocalNavController
 import ru.tech.imageresizershrinker.utils.LocalWindowSizeClass
 import ru.tech.imageresizershrinker.utils.modifier.block
 import ru.tech.imageresizershrinker.utils.modifier.drawHorizontalStroke
@@ -102,10 +103,8 @@ import ru.tech.imageresizershrinker.widget.Marquee
 @Composable
 fun GeneratePaletteScreen(
     uriState: Uri?,
-    navController: NavController<Screen>,
     onGoBack: () -> Unit,
     showConfetti: () -> Unit,
-    pushNewUri: (Uri?) -> Unit,
     viewModel: GeneratePaletteViewModel = viewModel()
 ) {
     val context = LocalContext.current
@@ -113,11 +112,11 @@ fun GeneratePaletteScreen(
     val scope = rememberCoroutineScope()
     val themeState = LocalDynamicThemeState.current
     val allowChangeColor = LocalAllowChangeColorByImage.current
+    val navController = LocalNavController.current
 
     LaunchedEffect(uriState) {
         uriState?.let {
             viewModel.setUri(it)
-            pushNewUri(null)
             context.decodeBitmapFromUri(
                 uri = it,
                 onGetMimeType = {},
@@ -280,8 +279,7 @@ fun GeneratePaletteScreen(
                         IconButton(
                             onClick = {
                                 if (navController.backstack.entries.isNotEmpty()) navController.pop()
-                                navController.navigate(Screen.PickColorFromImage)
-                                pushNewUri(viewModel.uri)
+                                navController.navigate(Screen.PickColorFromImage(viewModel.uri))
                             }
                         ) {
                             Icon(Icons.Rounded.Colorize, null)

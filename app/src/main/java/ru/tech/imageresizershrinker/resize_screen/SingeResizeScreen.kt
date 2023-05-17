@@ -172,7 +172,6 @@ import ru.tech.imageresizershrinker.widget.RoundedTextField
 fun SingleResizeScreen(
     viewModel: SingleResizeViewModel = viewModel(),
     onGoBack: () -> Unit,
-    pushNewUri: (Uri?) -> Unit,
     uriState: Uri?,
     getSavingFolder: (bitmapInfo: BitmapInfo) -> SavingFolder,
     savingPathString: String,
@@ -203,7 +202,6 @@ fun SingleResizeScreen(
                     }
                 }
             )
-            pushNewUri(null)
         }
     }
     LaunchedEffect(viewModel.bitmap) {

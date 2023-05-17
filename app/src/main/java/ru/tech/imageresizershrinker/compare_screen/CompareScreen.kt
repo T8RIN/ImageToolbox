@@ -99,7 +99,6 @@ import ru.tech.imageresizershrinker.widget.Marquee
 @Composable
 fun CompareScreen(
     comparableUris: Pair<Uri, Uri>?,
-    pushNewUris: (List<Uri>?) -> Unit,
     onGoBack: () -> Unit,
     showConfetti: () -> Unit,
     viewModel: CompareViewModel = viewModel()
@@ -122,7 +121,6 @@ fun CompareScreen(
 
     LaunchedEffect(comparableUris) {
         comparableUris?.let { (before, after) ->
-            pushNewUris(null)
             val newBeforeBitmap = context.getBitmapByUri(before)
             val newAfterBitmap = context.getBitmapByUri(after)
             if (newAfterBitmap != null && newBeforeBitmap != null) {
