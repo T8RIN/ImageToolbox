@@ -132,11 +132,11 @@ import ru.tech.imageresizershrinker.resize_screen.components.ImageNotPickedWidge
 import ru.tech.imageresizershrinker.resize_screen.components.ImageTransformBar
 import ru.tech.imageresizershrinker.resize_screen.components.Loading
 import ru.tech.imageresizershrinker.resize_screen.components.LoadingDialog
-import ru.tech.imageresizershrinker.resize_screen.components.SimplePicture
 import ru.tech.imageresizershrinker.resize_screen.components.PresetWidget
 import ru.tech.imageresizershrinker.resize_screen.components.QualityWidget
 import ru.tech.imageresizershrinker.resize_screen.components.ResizeGroup
 import ru.tech.imageresizershrinker.resize_screen.components.ResizeImageField
+import ru.tech.imageresizershrinker.resize_screen.components.SimplePicture
 import ru.tech.imageresizershrinker.resize_screen.components.TelegramButton
 import ru.tech.imageresizershrinker.resize_screen.components.ZoomModalSheet
 import ru.tech.imageresizershrinker.resize_screen.components.byteCount
