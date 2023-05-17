@@ -1,7 +1,6 @@
 package ru.tech.imageresizershrinker.batch_resize_screen
 
 import android.content.res.Configuration
-import android.graphics.Bitmap
 import android.net.Uri
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.BackHandler
@@ -14,7 +13,6 @@ import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.LocalIndication
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -97,9 +95,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.clipToBounds
-import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
@@ -127,11 +125,11 @@ import ru.tech.imageresizershrinker.resize_screen.components.ImageNotPickedWidge
 import ru.tech.imageresizershrinker.resize_screen.components.ImageTransformBar
 import ru.tech.imageresizershrinker.resize_screen.components.Loading
 import ru.tech.imageresizershrinker.resize_screen.components.LoadingDialog
-import ru.tech.imageresizershrinker.resize_screen.components.Picture
 import ru.tech.imageresizershrinker.resize_screen.components.PresetWidget
 import ru.tech.imageresizershrinker.resize_screen.components.QualityWidget
 import ru.tech.imageresizershrinker.resize_screen.components.ResizeGroup
 import ru.tech.imageresizershrinker.resize_screen.components.ResizeImageField
+import ru.tech.imageresizershrinker.resize_screen.components.SimplePicture
 import ru.tech.imageresizershrinker.resize_screen.components.TelegramButton
 import ru.tech.imageresizershrinker.resize_screen.components.ZoomModalSheet
 import ru.tech.imageresizershrinker.resize_screen.components.byteCount
@@ -140,7 +138,6 @@ import ru.tech.imageresizershrinker.theme.EmojiItem
 import ru.tech.imageresizershrinker.theme.outlineVariant
 import ru.tech.imageresizershrinker.utils.BitmapUtils.canShow
 import ru.tech.imageresizershrinker.utils.BitmapUtils.decodeBitmapFromUri
-import ru.tech.imageresizershrinker.utils.BitmapUtils.decodeSampledBitmapFromUri
 import ru.tech.imageresizershrinker.utils.BitmapUtils.getBitmapByUri
 import ru.tech.imageresizershrinker.utils.BitmapUtils.shareBitmaps
 import ru.tech.imageresizershrinker.utils.BitmapUtils.with
@@ -156,6 +153,7 @@ import ru.tech.imageresizershrinker.utils.modifier.navBarsLandscapePadding
 import ru.tech.imageresizershrinker.utils.modifier.scaleOnTap
 import ru.tech.imageresizershrinker.widget.LocalToastHost
 import ru.tech.imageresizershrinker.widget.Marquee
+import ru.tech.imageresizershrinker.widget.Picture
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -341,9 +339,9 @@ fun BatchResizeScreen(
                     )
                 ) {
                     if (showOrig) {
-                        Picture(bitmap = viewModel.bitmap, loading = loading)
+                        SimplePicture(bitmap = viewModel.bitmap, loading = loading)
                     } else {
-                        Picture(
+                        SimplePicture(
                             bitmap = bmp,
                             visible = viewModel.shouldShowPreview,
                             loading = loading
@@ -969,74 +967,48 @@ fun BatchResizeScreen(
                                 ) {
                                     viewModel.uris?.let { uris ->
                                         items(uris, key = { it.toString() }) { uri ->
-                                            var bmp: Bitmap? by remember(uri) {
-                                                mutableStateOf(null)
-                                            }
-
-                                            LaunchedEffect(uri) {
-                                                viewModel.loadBitmapAsync(
-                                                    loader = {
-                                                        context.decodeSampledBitmapFromUri(
-                                                            uri = uri,
-                                                            reqWidth = pix,
-                                                            reqHeight = pix
-                                                        )
-                                                    },
-                                                    onGetBitmap = { bmp = it }
-                                                )
-                                            }
-
                                             Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                                                bmp?.asImageBitmap()?.let { bitmap ->
-                                                    Image(
-                                                        modifier = Modifier
-                                                            .padding(top = 8.dp)
-                                                            .padding(4.dp)
-                                                            .aspectRatio(1f)
-                                                            .clip(RoundedCornerShape(8.dp))
-                                                            .clickable {
-                                                                try {
-                                                                    viewModel.setBitmap(
-                                                                        loader = {
-                                                                            context.getBitmapByUri(
-                                                                                uri
-                                                                            )
-                                                                        },
-                                                                        uri = uri
-                                                                    )
-                                                                } catch (e: Exception) {
-                                                                    scope.launch {
-                                                                        toastHostState.showToast(
-                                                                            context.getString(
-                                                                                R.string.smth_went_wrong,
-                                                                                e.localizedMessage
-                                                                                    ?: ""
-                                                                            ),
-                                                                            Icons.Rounded.ErrorOutline
-                                                                        )
-                                                                    }
-                                                                }
-                                                                showPickImageFromUrisDialog = false
-                                                            }
-                                                            .then(
-                                                                if (uri == viewModel.selectedUri) {
-                                                                    Modifier.border(
-                                                                        3.dp,
-                                                                        MaterialTheme.colorScheme.outlineVariant(),
-                                                                        RoundedCornerShape(8.dp)
-                                                                    )
-                                                                } else Modifier
-                                                            )
-                                                            .block(RoundedCornerShape(8.dp)),
-                                                        bitmap = bitmap,
-                                                        contentDescription = null
-                                                    )
-                                                } ?: Loading(
+                                                Picture(
+                                                    model = uri,
                                                     modifier = Modifier
                                                         .padding(top = 8.dp)
                                                         .padding(4.dp)
                                                         .aspectRatio(1f)
-                                                        .fillMaxWidth()
+                                                        .clip(RoundedCornerShape(8.dp))
+                                                        .clickable {
+                                                            try {
+                                                                viewModel.setBitmap(
+                                                                    loader = {
+                                                                        context.getBitmapByUri(uri)
+                                                                    },
+                                                                    uri = uri
+                                                                )
+                                                            } catch (e: Exception) {
+                                                                scope.launch {
+                                                                    toastHostState.showToast(
+                                                                        context.getString(
+                                                                            R.string.smth_went_wrong,
+                                                                            e.localizedMessage
+                                                                                ?: ""
+                                                                        ),
+                                                                        Icons.Rounded.ErrorOutline
+                                                                    )
+                                                                }
+                                                            }
+                                                            showPickImageFromUrisDialog = false
+                                                        }
+                                                        .then(
+                                                            if (uri == viewModel.selectedUri) {
+                                                                Modifier.border(
+                                                                    LocalBorderWidth.current * 2,
+                                                                    MaterialTheme.colorScheme.outlineVariant(),
+                                                                    RoundedCornerShape(8.dp)
+                                                                )
+                                                            } else Modifier
+                                                        )
+                                                        .block(RoundedCornerShape(8.dp)),
+                                                    shape = RoundedCornerShape(8.dp),
+                                                    contentScale = ContentScale.Fit
                                                 )
                                                 OutlinedButton(
                                                     colors = ButtonDefaults.outlinedButtonColors(

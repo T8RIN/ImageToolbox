@@ -46,7 +46,7 @@ class DeleteExifViewModel : ViewModel() {
 
     fun updateUrisSilently(
         removedUri: Uri,
-        loader: (Uri) -> Bitmap?
+        loader: suspend (Uri) -> Bitmap?
     ) {
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
@@ -103,7 +103,7 @@ class DeleteExifViewModel : ViewModel() {
     fun save(
         isExternalStorageWritable: Boolean,
         getSavingFolder: (bitmapInfo: BitmapInfo) -> SavingFolder,
-        getBitmap: (Uri) -> Triple<Bitmap?, ExifInterface?, Int>,
+        getBitmap: suspend (Uri) -> Triple<Bitmap?, ExifInterface?, Int>,
         onSuccess: (Int) -> Unit
     ) = viewModelScope.launch {
         withContext(Dispatchers.IO) {
@@ -148,18 +148,7 @@ class DeleteExifViewModel : ViewModel() {
         }
     }
 
-    fun loadBitmapAsync(
-        loader: suspend () -> Bitmap?,
-        onGetBitmap: (Bitmap?) -> Unit
-    ) {
-        viewModelScope.launch {
-            withContext(Dispatchers.IO) {
-                onGetBitmap(loader())
-            }
-        }
-    }
-
-    fun setBitmap(loader: () -> Bitmap?, uri: Uri) {
+    fun setBitmap(loader: suspend () -> Bitmap?, uri: Uri) {
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
                 updateBitmap(loader())

@@ -6,15 +6,23 @@ import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.Bitmap.CompressFormat
 import android.graphics.BitmapFactory
+import android.graphics.Canvas
 import android.graphics.Matrix
-import android.graphics.Rect
+import android.graphics.drawable.BitmapDrawable
+import android.graphics.drawable.Drawable
 import android.net.Uri
+import android.os.Build
 import android.os.ParcelFileDescriptor
 import android.provider.OpenableColumns
 import android.webkit.MimeTypeMap
 import androidx.core.content.FileProvider
 import androidx.core.text.isDigitsOnly
 import androidx.exifinterface.media.ExifInterface
+import coil.decode.GifDecoder
+import coil.decode.ImageDecoderDecoder
+import coil.decode.SvgDecoder
+import coil.imageLoader
+import coil.request.ImageRequest
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -85,8 +93,6 @@ object BitmapUtils {
 
     fun Context.decodeBitmapFromUri(
         uri: Uri,
-        outPadding: Rect? = null,
-        options: BitmapFactory.Options = BitmapFactory.Options(),
         onGetBitmap: (Bitmap) -> Unit,
         onGetExif: (ExifInterface?) -> Unit,
         onGetMimeType: (Int) -> Unit,
@@ -100,56 +106,91 @@ object BitmapUtils {
             val mimeInt = mime.mimeTypeInt
             onGetMimeType(mimeInt)
             fd?.close()
-            val parcelFileDescriptor: ParcelFileDescriptor? =
-                contentResolver.openFileDescriptor(uri, "r")
-            val fileDescriptor: FileDescriptor? = parcelFileDescriptor?.fileDescriptor
-            BitmapFactory.decodeFileDescriptor(fileDescriptor, outPadding, options).also {
-                parcelFileDescriptor?.close()
-            }.rotate(exif?.rotationDegrees?.toFloat() ?: 0f)
+            val loader = imageLoader.newBuilder().components {
+                if (Build.VERSION.SDK_INT >= 28) add(ImageDecoderDecoder.Factory())
+                else add(GifDecoder.Factory())
+                add(SvgDecoder.Factory())
+            }.allowHardware(false).build()
+            loader.enqueue(
+                ImageRequest
+                    .Builder(this@decodeBitmapFromUri)
+                    .data(uri).target { drawable ->
+                        drawable.toBitmap()?.let { onGetBitmap(it) }
+                    }.build()
+            )
         }
-        bmp.getOrNull()?.let { onGetBitmap(it) }
         bmp.exceptionOrNull()?.let(onError)
     }
 
-    fun Context.getBitmapByUri(uri: Uri): Bitmap? {
+    fun Drawable.toBitmap(): Bitmap? {
+        val drawable = this
+        if (drawable is BitmapDrawable) {
+            if (drawable.bitmap != null) {
+                return drawable.bitmap
+            }
+        }
+        val bitmap: Bitmap? = if (drawable.intrinsicWidth <= 0 || drawable.intrinsicHeight <= 0) {
+            Bitmap.createBitmap(
+                1,
+                1,
+                Bitmap.Config.ARGB_8888
+            ) // Single color bitmap will be created of 1x1 pixel
+        } else {
+            Bitmap.createBitmap(
+                drawable.intrinsicWidth,
+                drawable.intrinsicHeight,
+                Bitmap.Config.ARGB_8888
+            )
+        }
+        if (bitmap == null) return null
+        val canvas = Canvas(bitmap)
+        drawable.setBounds(0, 0, canvas.width, canvas.height)
+        drawable.draw(canvas)
+        return bitmap
+    }
+
+    suspend fun Context.getBitmapByUri(uri: Uri): Bitmap? {
         val fd = contentResolver.openFileDescriptor(uri, "r")
-        val exif = fd?.fileDescriptor?.let { ExifInterface(it) }
         fd?.close()
 
         return kotlin.runCatching {
-            val parcelFileDescriptor: ParcelFileDescriptor? =
-                contentResolver.openFileDescriptor(uri, "r")
-            val fileDescriptor: FileDescriptor? = parcelFileDescriptor?.fileDescriptor
-            BitmapFactory.decodeFileDescriptor(fileDescriptor, null, BitmapFactory.Options()).also {
-                parcelFileDescriptor?.close()
-            }.rotate(exif?.rotationDegrees?.toFloat() ?: 0f)
+            val loader = imageLoader.newBuilder().components {
+                if (Build.VERSION.SDK_INT >= 28) add(ImageDecoderDecoder.Factory())
+                else add(GifDecoder.Factory())
+                add(SvgDecoder.Factory())
+            }.allowHardware(false).build()
+            loader.execute(
+                ImageRequest
+                    .Builder(this@getBitmapByUri)
+                    .data(uri).build()
+            ).drawable?.toBitmap()
         }.getOrNull()
 
     }
 
-    fun Context.decodeBitmapFromUri(
-        uri: Uri,
-        outPadding: Rect? = null,
-        options: BitmapFactory.Options = BitmapFactory.Options(),
+    suspend fun Context.decodeBitmapFromUri(
+        uri: Uri
     ): Pair<Bitmap?, ExifInterface?> {
         val fd = contentResolver.openFileDescriptor(uri, "r")
         val exif = fd?.fileDescriptor?.let { ExifInterface(it) }
         fd?.close()
 
         return kotlin.runCatching {
-            val parcelFileDescriptor: ParcelFileDescriptor? =
-                contentResolver.openFileDescriptor(uri, "r")
-            val fileDescriptor: FileDescriptor? = parcelFileDescriptor?.fileDescriptor
-            BitmapFactory.decodeFileDescriptor(fileDescriptor, outPadding, options).also {
-                parcelFileDescriptor?.close()
-            }.rotate(exif?.rotationDegrees?.toFloat() ?: 0f)
+            val loader = imageLoader.newBuilder().components {
+                if (Build.VERSION.SDK_INT >= 28) add(ImageDecoderDecoder.Factory())
+                else add(GifDecoder.Factory())
+                add(SvgDecoder.Factory())
+            }.allowHardware(false).build()
+            loader.execute(
+                ImageRequest
+                    .Builder(this@decodeBitmapFromUri)
+                    .data(uri).build()
+            ).drawable?.toBitmap()
         }.getOrNull() to exif
     }
 
-    fun Context.decodeBitmapFromUriWithMime(
-        uri: Uri,
-        outPadding: Rect? = null,
-        options: BitmapFactory.Options = BitmapFactory.Options(),
+    suspend fun Context.decodeBitmapFromUriWithMime(
+        uri: Uri
     ): Triple<Bitmap?, ExifInterface?, Int> {
         val fd = contentResolver.openFileDescriptor(uri, "r")
         val exif = fd?.fileDescriptor?.let { ExifInterface(it) }
@@ -158,12 +199,16 @@ object BitmapUtils {
         val mime = contentResolver.getMimeType(uri) ?: ""
 
         return Triple(kotlin.runCatching {
-            val parcelFileDescriptor: ParcelFileDescriptor? =
-                contentResolver.openFileDescriptor(uri, "r")
-            val fileDescriptor: FileDescriptor? = parcelFileDescriptor?.fileDescriptor
-            BitmapFactory.decodeFileDescriptor(fileDescriptor, outPadding, options).also {
-                parcelFileDescriptor?.close()
-            }.rotate(exif?.rotationDegrees?.toFloat() ?: 0f)
+            val loader = imageLoader.newBuilder().components {
+                if (Build.VERSION.SDK_INT >= 28) add(ImageDecoderDecoder.Factory())
+                else add(GifDecoder.Factory())
+                add(SvgDecoder.Factory())
+            }.allowHardware(false).build()
+            loader.execute(
+                ImageRequest
+                    .Builder(this@decodeBitmapFromUriWithMime)
+                    .data(uri).build()
+            ).drawable?.toBitmap()
         }.getOrNull(), exif, mime.mimeTypeInt)
     }
 

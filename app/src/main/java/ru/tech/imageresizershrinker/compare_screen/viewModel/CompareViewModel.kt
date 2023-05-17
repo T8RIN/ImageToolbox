@@ -111,4 +111,22 @@ class CompareViewModel : ViewModel() {
         }
     }
 
+    fun updateBitmapDataAsync(
+        loader: suspend () -> Pair<Bitmap?, Bitmap?>,
+        onError: () -> Unit,
+        onSuccess: () -> Unit
+    ) {
+        viewModelScope.launch {
+            withContext(Dispatchers.IO) {
+                val data = loader()
+                if (data.first == null || data.second == null) onError()
+                else {
+                    _bitmapData.value = data
+                    onSuccess()
+                }
+            }
+        }
+    }
+
+
 }

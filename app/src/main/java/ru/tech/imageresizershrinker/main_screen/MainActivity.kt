@@ -78,6 +78,7 @@ import com.t8rin.dynamic.theme.LocalDynamicThemeState
 import com.t8rin.dynamic.theme.getAppColorTuple
 import dagger.hilt.android.AndroidEntryPoint
 import dev.olshevski.navigation.reimagined.AnimatedNavHost
+import dev.olshevski.navigation.reimagined.NavAction
 import dev.olshevski.navigation.reimagined.navigate
 import dev.olshevski.navigation.reimagined.pop
 import dev.olshevski.navigation.reimagined.popUpTo
@@ -229,7 +230,7 @@ class MainActivity : M3Activity() {
                     Surface(Modifier.fillMaxSize()) {
                         AnimatedNavHost(
                             controller = viewModel.navController,
-                            transitionSpec = { _, _, to ->
+                            transitionSpec = { action, from, to ->
                                 fun <T> animationSpec(
                                     duration: Int = 500,
                                     delay: Int = 0
@@ -238,17 +239,7 @@ class MainActivity : M3Activity() {
                                     delayMillis = delay,
                                     easing = CubicBezierEasing(0.05f, 0.7f, 0.1f, 1f)
                                 )
-                                if (to != Screen.Main) {
-                                    slideInHorizontally(
-                                        animationSpec()
-                                    ) { it / 3 } + fadeIn(
-                                        animationSpec(),
-                                    ) togetherWith slideOutHorizontally(
-                                        animationSpec()
-                                    ) { -it / 3 } + fadeOut(
-                                        animationSpec(250)
-                                    )
-                                } else {
+                                if (action == NavAction.Pop) {
                                     slideInHorizontally(
                                         animationSpec()
                                     ) { -it / 3 } + fadeIn(
@@ -257,6 +248,16 @@ class MainActivity : M3Activity() {
                                         animationSpec()
                                     ) { it / 3 } + fadeOut(
                                         animationSpec(150)
+                                    )
+                                } else {
+                                    slideInHorizontally(
+                                        animationSpec()
+                                    ) { it / 3 } + fadeIn(
+                                        animationSpec(),
+                                    ) togetherWith slideOutHorizontally(
+                                        animationSpec()
+                                    ) { -it / 3 } + fadeOut(
+                                        animationSpec(250)
                                     )
                                 }
                             }
@@ -350,6 +351,7 @@ class MainActivity : M3Activity() {
                                     ImagePreviewScreen(
                                         uriState = viewModel.uris,
                                         onGoBack = onGoBack,
+                                        navController = viewModel.navController,
                                         pushNewUris = viewModel::updateUris,
                                         showConfetti = { showConfetti = true }
                                     )

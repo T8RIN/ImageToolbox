@@ -155,22 +155,20 @@ fun CompareScreen(
                         )
                     }
                 } else {
-                    val newBeforeBitmap = context.getBitmapByUri(uris[0])
-                    val newAfterBitmap = context.getBitmapByUri(uris[1])
-                    if (newAfterBitmap != null && newBeforeBitmap != null) {
-                        viewModel.updateBitmapData(
-                            newBeforeBitmap = newBeforeBitmap,
-                            newAfterBitmap = newAfterBitmap
-                        )
-                        progress = 50f
-                    } else {
-                        scope.launch {
-                            toastHostState.showToast(
-                                context.getString(R.string.something_went_wrong),
-                                Icons.Rounded.ErrorOutline
-                            )
+                    viewModel.updateBitmapDataAsync(
+                        onSuccess = {
+                            progress = 50f
+                        }, loader = {
+                            context.getBitmapByUri(uris[0]) to context.getBitmapByUri(uris[1])
+                        }, onError = {
+                            scope.launch {
+                                toastHostState.showToast(
+                                    context.getString(R.string.something_went_wrong),
+                                    Icons.Rounded.ErrorOutline
+                                )
+                            }
                         }
-                    }
+                    )
                 }
             }
         }

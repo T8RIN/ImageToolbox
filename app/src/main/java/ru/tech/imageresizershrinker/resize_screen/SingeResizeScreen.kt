@@ -132,7 +132,7 @@ import ru.tech.imageresizershrinker.resize_screen.components.ImageNotPickedWidge
 import ru.tech.imageresizershrinker.resize_screen.components.ImageTransformBar
 import ru.tech.imageresizershrinker.resize_screen.components.Loading
 import ru.tech.imageresizershrinker.resize_screen.components.LoadingDialog
-import ru.tech.imageresizershrinker.resize_screen.components.Picture
+import ru.tech.imageresizershrinker.resize_screen.components.SimplePicture
 import ru.tech.imageresizershrinker.resize_screen.components.PresetWidget
 import ru.tech.imageresizershrinker.resize_screen.components.QualityWidget
 import ru.tech.imageresizershrinker.resize_screen.components.ResizeGroup
@@ -305,9 +305,9 @@ fun SingleResizeScreen(
                 )
             ) {
                 if (showOrig) {
-                    Picture(bitmap = viewModel.bitmap, loading = loading)
+                    SimplePicture(bitmap = viewModel.bitmap, loading = loading)
                 } else {
-                    Picture(
+                    SimplePicture(
                         loading = loading,
                         bitmap = bmp,
                         visible = viewModel.shouldShowPreview

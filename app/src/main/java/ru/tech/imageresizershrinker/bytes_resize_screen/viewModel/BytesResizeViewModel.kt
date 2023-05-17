@@ -79,7 +79,7 @@ class BytesResizeViewModel : ViewModel() {
 
     fun updateUrisSilently(
         removedUri: Uri,
-        loader: (Uri) -> Bitmap?
+        loader: suspend (Uri) -> Bitmap?
     ) {
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
@@ -186,7 +186,7 @@ class BytesResizeViewModel : ViewModel() {
         isExternalStorageWritable: Boolean,
         getSavingFolder: (bitmapInfo: BitmapInfo) -> SavingFolder,
         getFileDescriptor: (Uri?) -> ParcelFileDescriptor?,
-        getBitmap: (Uri) -> Pair<Bitmap?, ExifInterface?>,
+        getBitmap: suspend (Uri) -> Pair<Bitmap?, ExifInterface?>,
         getImageSize: (Uri) -> Long?,
         onSuccess: (Int) -> Unit
     ) = viewModelScope.launch {
@@ -263,18 +263,7 @@ class BytesResizeViewModel : ViewModel() {
         }
     }
 
-    fun loadBitmapAsync(
-        loader: suspend () -> Bitmap?,
-        onGetBitmap: (Bitmap?) -> Unit
-    ) {
-        viewModelScope.launch {
-            withContext(Dispatchers.IO) {
-                onGetBitmap(loader())
-            }
-        }
-    }
-
-    fun setBitmap(loader: () -> Bitmap?, uri: Uri) {
+    fun setBitmap(loader: suspend () -> Bitmap?, uri: Uri) {
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
                 updateBitmap(loader())

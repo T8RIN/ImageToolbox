@@ -80,7 +80,7 @@ class BatchResizeViewModel : ViewModel() {
 
     fun updateUrisSilently(
         removedUri: Uri,
-        loader: (Uri) -> Bitmap?
+        loader: suspend (Uri) -> Bitmap?
     ) {
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
@@ -274,7 +274,7 @@ class BatchResizeViewModel : ViewModel() {
         isExternalStorageWritable: Boolean,
         getSavingFolder: (bitmapInfo: BitmapInfo) -> SavingFolder,
         getFileDescriptor: (Uri?) -> ParcelFileDescriptor?,
-        getBitmap: (Uri) -> Pair<Bitmap?, ExifInterface?>,
+        getBitmap: suspend (Uri) -> Pair<Bitmap?, ExifInterface?>,
         onSuccess: (Boolean) -> Unit
     ) = viewModelScope.launch {
         withContext(Dispatchers.IO) {
@@ -332,18 +332,7 @@ class BatchResizeViewModel : ViewModel() {
         }
     }
 
-    fun loadBitmapAsync(
-        loader: suspend () -> Bitmap?,
-        onGetBitmap: (Bitmap?) -> Unit
-    ) {
-        viewModelScope.launch {
-            withContext(Dispatchers.IO) {
-                onGetBitmap(loader())
-            }
-        }
-    }
-
-    fun setBitmap(loader: () -> Bitmap?, uri: Uri) {
+    fun setBitmap(loader: suspend () -> Bitmap?, uri: Uri) {
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
                 _bitmap.value = loader()

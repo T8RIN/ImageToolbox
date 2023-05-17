@@ -103,7 +103,11 @@ fun BadImageWidget() {
 }
 
 @Composable
-fun Picture(bitmap: Bitmap?, loading: Boolean = false, visible: Boolean = true) {
+fun SimplePicture(
+    bitmap: Bitmap?,
+    loading: Boolean = false,
+    visible: Boolean = true
+) {
     bitmap?.asImageBitmap()
         ?.takeIf { visible }
         ?.let {
