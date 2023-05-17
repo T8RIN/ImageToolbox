@@ -363,7 +363,8 @@ fun ImagePreviewScreen(
                             }
                         }
                     )
-                    .padding(vertical = 48.dp)
+                    .padding(vertical = 64.dp)
+                    .systemBarsPadding()
                     .navigationBarsPadding(),
                 contentScale = ContentScale.Fit,
                 shape = RectangleShape
