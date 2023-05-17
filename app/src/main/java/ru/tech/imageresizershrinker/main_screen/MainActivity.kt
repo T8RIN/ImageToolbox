@@ -442,13 +442,7 @@ class MainActivity : M3Activity() {
                         )
                     } else if (viewModel.showSelectDialog) {
                         AlertDialog(
-                            properties = DialogProperties(
-                                usePlatformDefaultWidth = false
-                            ),
-                            modifier = Modifier
-                                .width(320.dp)
-                                .systemBarsPadding()
-                                .alertDialog(),
+                            modifier = Modifier.alertDialog(),
                             onDismissRequest = {},
                             title = {
                                 Text(stringResource(R.string.image))
@@ -486,7 +480,7 @@ class MainActivity : M3Activity() {
                                     }
                                 }
                                 val color = MaterialTheme.colorScheme.secondaryContainer
-                                Box {
+                                Box(Modifier.fillMaxSize()) {
                                     Divider(Modifier.align(Alignment.TopCenter))
                                     LazyColumn(
                                         contentPadding = PaddingValues(vertical = 16.dp)
@@ -830,6 +824,7 @@ class MainActivity : M3Activity() {
     }
 
     private fun parseImageFromIntent(intent: Intent?) {
+        viewModel.hideSelectDialog()
         if (intent?.type != null && viewModel.uris == null) {
             viewModel.shouldShowExitDialog(false)
         }

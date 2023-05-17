@@ -426,13 +426,7 @@ fun ImagePreviewScreen(
 
         if (wantToEdit && viewModel.selectedUri != null) {
             AlertDialog(
-                properties = DialogProperties(
-                    usePlatformDefaultWidth = false
-                ),
-                modifier = Modifier
-                    .width(320.dp)
-                    .systemBarsPadding()
-                    .alertDialog(),
+                modifier = Modifier.alertDialog(),
                 onDismissRequest = {},
                 title = {
                     Text(stringResource(R.string.image))
