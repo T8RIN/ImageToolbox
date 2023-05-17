@@ -1,9 +1,6 @@
 package ru.tech.imageresizershrinker.resize_screen.components
 
 import android.graphics.Bitmap
-import androidx.activity.compose.BackHandler
-import androidx.compose.animation.core.CubicBezierEasing
-import androidx.compose.animation.core.tween
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -16,17 +13,12 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.navigationBarsPadding
-import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.BottomSheetDefaults
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
-import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
@@ -40,14 +32,12 @@ import androidx.compose.ui.unit.dp
 import com.smarttoolfactory.image.zoom.ZoomLevel
 import com.smarttoolfactory.image.zoom.animatedZoom
 import com.smarttoolfactory.image.zoom.rememberAnimatedZoomState
-import com.t8rin.modalsheet.ModalSheet
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.main_screen.components.LocalBorderWidth
+import ru.tech.imageresizershrinker.main_screen.components.SimpleSheet
 import ru.tech.imageresizershrinker.main_screen.components.TitleItem
 import ru.tech.imageresizershrinker.theme.outlineVariant
-import ru.tech.imageresizershrinker.utils.modifier.fabBorder
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ZoomModalSheet(
     bitmap: Bitmap?,
@@ -127,39 +117,9 @@ fun ZoomModalSheet(
     }
 
     if (bitmap != null) {
-        ModalSheet(
-            animationSpec = tween(
-                durationMillis = 600,
-                easing = CubicBezierEasing(0.05f, 0.7f, 0.1f, 1f)
-            ),
-            containerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(2.dp),
-            sheetModifier = Modifier
-                .statusBarsPadding()
-                .offset(y = (LocalBorderWidth.current + 1.dp))
-                .border(
-                    width = LocalBorderWidth.current,
-                    color = MaterialTheme.colorScheme.outlineVariant(
-                        luminance = 0.3f,
-                        onTopOf = MaterialTheme.colorScheme.surfaceColorAtElevation(6.dp)
-                    ),
-                    shape = BottomSheetDefaults.ExpandedShape
-                )
-                .fabBorder(
-                    shape = BottomSheetDefaults.ExpandedShape,
-                    elevation = 16.dp
-                )
-                .fabBorder(
-                    height = 0.dp,
-                    shape = BottomSheetDefaults.ExpandedShape,
-                    elevation = 16.dp
-                ),
-            elevation = 0.dp,
-            visible = showSheet,
-            onVisibleChange = { showSheet = it },
-            content = {
-                BackHandler { showSheet = false }
-                sheetContent()
-            }
+        SimpleSheet(
+            sheetContent = sheetContent,
+            visible = visible
         )
     }
 }

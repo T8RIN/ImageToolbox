@@ -10,7 +10,6 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.animateContentSize
-import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
@@ -18,12 +17,10 @@ import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
-import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -55,7 +52,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.EmojiSymbols
 import androidx.compose.material.icons.rounded.AddCircleOutline
 import androidx.compose.material.icons.rounded.AlternateEmail
 import androidx.compose.material.icons.rounded.Block
@@ -118,7 +114,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
@@ -141,7 +136,6 @@ import androidx.compose.ui.window.DialogProperties
 import androidx.compose.ui.zIndex
 import com.t8rin.dynamic.theme.ColorTupleItem
 import com.t8rin.dynamic.theme.getAppColorTuple
-import dev.olshevski.navigation.reimagined.NavController
 import dev.olshevski.navigation.reimagined.navigate
 import dev.olshevski.navigation.reimagined.popUpTo
 import kotlinx.coroutines.launch
@@ -209,8 +203,8 @@ fun MainScreen(
     val isGrid = LocalWindowSizeClass.current.widthSizeClass != WindowWidthSizeClass.Compact
 
     var showPickColorDialog by rememberSaveable { mutableStateOf(false) }
-    var showAuthorDialog by rememberSaveable { mutableStateOf(false) }
-    var showEmojiDialog by rememberSaveable { mutableStateOf(false) }
+    val showAuthorDialog = rememberSaveable { mutableStateOf(false) }
+    val showEmojiDialog = rememberSaveable { mutableStateOf(false) }
 
     var showChangeFilenameDialog by rememberSaveable { mutableStateOf(false) }
 
@@ -599,7 +593,7 @@ fun MainScreen(
                                     title = stringResource(R.string.emoji),
                                     subtitle = stringResource(R.string.emoji_sub),
                                     onClick = {
-                                        showEmojiDialog = true
+                                        showEmojiDialog.value = true
                                     },
                                     endContent = {
                                         val emoji =
@@ -1017,7 +1011,7 @@ fun MainScreen(
                                         )
                                     },
                                     onClick = {
-                                        showAuthorDialog = true
+                                        showAuthorDialog.value = true
                                     }
                                 )
                                 SourceCodePreference(
@@ -1440,78 +1434,6 @@ fun MainScreen(
             onPickTheme = { viewModel.updateColorTuple(it) },
             onDismissRequest = { showPickColorDialog = false }
         )
-    } else if (showAuthorDialog) {
-        AlertDialog(
-            modifier = Modifier.alertDialog(),
-            onDismissRequest = { showAuthorDialog = false },
-            title = { Text(stringResource(R.string.app_developer_nick)) },
-            icon = {
-                Icon(imageVector = Icons.Rounded.Person, contentDescription = null)
-            },
-            text = {
-                Box {
-                    Column(Modifier.verticalScroll(rememberScrollState())) {
-                        Spacer(Modifier.height(8.dp))
-                        PreferenceItem(
-                            color = MaterialTheme.colorScheme.secondaryContainer,
-                            onClick = {
-                                context.startActivity(
-                                    Intent(
-                                        Intent.ACTION_VIEW,
-                                        Uri.parse("http://t.me/${context.getString(R.string.app_developer_nick)}")
-                                    )
-                                )
-                            },
-                            title = stringResource(R.string.telegram),
-                            icon = Icons.Rounded.Telegram,
-                            subtitle = stringResource(R.string.app_developer_nick)
-                        )
-                        Spacer(Modifier.height(8.dp))
-                        PreferenceItem(
-                            color = MaterialTheme.colorScheme.secondaryContainer,
-                            onClick = {
-                                Intent(Intent.ACTION_SENDTO).apply {
-                                    data =
-                                        Uri.parse("mailto:${context.getString(R.string.developer_email)}")
-                                    context.startActivity(this)
-                                }
-                            },
-                            title = stringResource(R.string.email),
-                            icon = Icons.Rounded.AlternateEmail,
-                            subtitle = stringResource(R.string.developer_email)
-                        )
-                        Spacer(Modifier.height(8.dp))
-                        PreferenceItem(
-                            color = MaterialTheme.colorScheme.secondaryContainer,
-                            onClick = {
-                                context.startActivity(
-                                    Intent(
-                                        Intent.ACTION_VIEW,
-                                        Uri.parse(AUTHOR_LINK)
-                                    )
-                                )
-                            },
-                            title = stringResource(R.string.github),
-                            icon = Icons.Rounded.Github,
-                            subtitle = stringResource(R.string.app_developer_nick)
-                        )
-                        Spacer(Modifier.height(8.dp))
-                    }
-                    Divider(Modifier.align(Alignment.TopCenter))
-                    Divider(Modifier.align(Alignment.BottomCenter))
-                }
-            },
-            confirmButton = {
-                OutlinedButton(
-                    onClick = { showAuthorDialog = false },
-                    border = BorderStroke(
-                        LocalBorderWidth.current, MaterialTheme.colorScheme.outlineVariant()
-                    )
-                ) {
-                    Text(stringResource(R.string.close))
-                }
-            }
-        )
     } else if (showChangeFilenameDialog) {
         var value by remember {
             mutableStateOf(viewModel.filenamePrefix.takeIf { it.isNotEmpty() } ?: defaultPrefix())
@@ -1578,125 +1500,85 @@ fun MainScreen(
                 }
             }
         )
-    } else if (showEmojiDialog) {
-        AlertDialog(
-            modifier = Modifier.alertDialog(),
-            onDismissRequest = { showEmojiDialog = false },
-            title = { Text(stringResource(R.string.emoji)) },
-            icon = {
-                Icon(imageVector = Icons.Outlined.EmojiSymbols, contentDescription = null)
-            },
-            text = {
-                Box(Modifier.fillMaxWidth(), contentAlignment = Alignment.Center) {
-                    FlowRow(
-                        Modifier
-                            .fillMaxWidth()
-                            .verticalScroll(rememberScrollState())
-                            .padding(vertical = 16.dp),
-                        verticalArrangement = Arrangement.spacedBy(
-                            4.dp,
-                            Alignment.CenterVertically
-                        ),
-                        horizontalArrangement = Arrangement.spacedBy(
-                            4.dp,
-                            Alignment.CenterHorizontally
-                        )
-                    ) {
-                        val selected = viewModel.selectedEmoji == -1
-                        Box(
-                            modifier = Modifier
-                                .size(58.dp)
-                                .background(
-                                    MaterialTheme
-                                        .colorScheme
-                                        .surfaceVariant
-                                        .copy(alpha = animateFloatAsState(if (selected) 1f else 0.5f).value),
-                                    MaterialTheme.shapes.medium
-                                )
-                                .border(
-                                    animateDpAsState(
-                                        if (!selected) {
-                                            LocalBorderWidth.current
-                                        } else {
-                                            LocalBorderWidth.current.coerceAtLeast(1.dp) * 2
-                                        }
-                                    ).value,
-                                    MaterialTheme.colorScheme.outlineVariant(
-                                        animateFloatAsState(if (selected) 0.5f else 0.2f).value
-                                    ),
-                                    MaterialTheme.shapes.medium
-                                )
-                                .clip(MaterialTheme.shapes.medium)
-                                .clickable {
-                                    viewModel.updateEmoji(-1)
-                                },
-                            contentAlignment = Alignment.Center
-                        ) {
-                            EmojiItem(
-                                emoji = null,
-                                fontSize = MaterialTheme.typography.headlineLarge.fontSize,
-                                onNoEmoji = { size ->
-                                    Icon(
-                                        imageVector = Icons.Rounded.Block,
-                                        contentDescription = null,
-                                        modifier = Modifier.size(size)
-                                    )
-                                }
-                            )
-                        }
-                        Emoji.allIcons.forEachIndexed { index, emoji ->
-                            val emojiSelected = index == viewModel.selectedEmoji
-                            Box(
-                                modifier = Modifier
-                                    .size(58.dp)
-                                    .background(
-                                        MaterialTheme
-                                            .colorScheme
-                                            .surfaceVariant
-                                            .copy(alpha = animateFloatAsState(if (emojiSelected) 1f else 0.5f).value),
-                                        MaterialTheme.shapes.medium
-                                    )
-                                    .border(
-                                        animateDpAsState(
-                                            if (!emojiSelected) {
-                                                LocalBorderWidth.current
-                                            } else {
-                                                LocalBorderWidth.current.coerceAtLeast(1.dp) * 2
-                                            }
-                                        ).value,
-                                        MaterialTheme.colorScheme.outlineVariant(
-                                            animateFloatAsState(if (emojiSelected) 0.5f else 0.2f).value
-                                        ),
-                                        MaterialTheme.shapes.medium
-                                    )
-                                    .clip(MaterialTheme.shapes.medium)
-                                    .clickable {
-                                        viewModel.updateEmoji(index)
-                                    },
-                                contentAlignment = Alignment.Center
-                            ) {
-                                EmojiItem(
-                                    emoji = emoji,
-                                    fontSize = MaterialTheme.typography.headlineLarge.fontSize
-                                )
-                            }
-                        }
-                    }
-                    Divider(Modifier.align(Alignment.TopCenter))
-                    Divider(Modifier.align(Alignment.BottomCenter))
-                }
-            },
-            confirmButton = {
-                OutlinedButton(
-                    onClick = { showEmojiDialog = false },
-                    colors = ButtonDefaults.filledTonalButtonColors(),
-                    border = BorderStroke(
-                        LocalBorderWidth.current, MaterialTheme.colorScheme.outlineVariant()
-                    )
-                ) {
-                    Text(stringResource(R.string.close))
-                }
-            }
-        )
     }
+
+    EmojiSheet(
+        selectedEmojiIndex = viewModel.selectedEmoji,
+        emojis = remember { Emoji.allIcons },
+        onEmojiPicked = viewModel::updateEmoji,
+        visible = showEmojiDialog
+    )
+
+    SimpleSheet(
+        visible = showAuthorDialog,
+        title = {
+            TitleItem(
+                text = stringResource(R.string.app_developer_nick),
+                icon = Icons.Rounded.Person
+            )
+        },
+        confirmButton = {
+            OutlinedButton(
+                onClick = { showAuthorDialog.value = false },
+                border = BorderStroke(
+                    LocalBorderWidth.current, MaterialTheme.colorScheme.outlineVariant()
+                )
+            ) {
+                Text(stringResource(R.string.close))
+            }
+        },
+        sheetContent = {
+            Box {
+                Column(Modifier.verticalScroll(rememberScrollState())) {
+                    Spacer(Modifier.height(16.dp))
+                    PreferenceItem(
+                        color = MaterialTheme.colorScheme.secondaryContainer,
+                        onClick = {
+                            context.startActivity(
+                                Intent(
+                                    Intent.ACTION_VIEW,
+                                    Uri.parse("http://t.me/${context.getString(R.string.app_developer_nick)}")
+                                )
+                            )
+                        },
+                        title = stringResource(R.string.telegram),
+                        icon = Icons.Rounded.Telegram,
+                        subtitle = stringResource(R.string.app_developer_nick)
+                    )
+                    Spacer(Modifier.height(8.dp))
+                    PreferenceItem(
+                        color = MaterialTheme.colorScheme.secondaryContainer,
+                        onClick = {
+                            Intent(Intent.ACTION_SENDTO).apply {
+                                data =
+                                    Uri.parse("mailto:${context.getString(R.string.developer_email)}")
+                                context.startActivity(this)
+                            }
+                        },
+                        title = stringResource(R.string.email),
+                        icon = Icons.Rounded.AlternateEmail,
+                        subtitle = stringResource(R.string.developer_email)
+                    )
+                    Spacer(Modifier.height(8.dp))
+                    PreferenceItem(
+                        color = MaterialTheme.colorScheme.secondaryContainer,
+                        onClick = {
+                            context.startActivity(
+                                Intent(
+                                    Intent.ACTION_VIEW,
+                                    Uri.parse(AUTHOR_LINK)
+                                )
+                            )
+                        },
+                        title = stringResource(R.string.github),
+                        icon = Icons.Rounded.Github,
+                        subtitle = stringResource(R.string.app_developer_nick)
+                    )
+                    Spacer(Modifier.height(16.dp))
+                }
+                Divider(Modifier.align(Alignment.TopCenter))
+                Divider(Modifier.align(Alignment.BottomCenter))
+            }
+        }
+    )
 }

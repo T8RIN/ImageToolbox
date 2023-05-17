@@ -729,10 +729,7 @@ class MainActivity : M3Activity() {
                                                         }
                                                     },
                                                     border = BorderStroke(
-                                                        androidx.compose.ui.unit.max(
-                                                            LocalBorderWidth.current,
-                                                            1.dp
-                                                        ),
+                                                        LocalBorderWidth.current.coerceAtLeast(1.dp),
                                                         MaterialTheme.colorScheme.outlineVariant
                                                     ),
                                                     colors = IconButtonDefaults.outlinedIconButtonColors(

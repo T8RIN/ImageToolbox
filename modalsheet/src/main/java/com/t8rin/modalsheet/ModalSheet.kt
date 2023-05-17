@@ -44,6 +44,7 @@ fun ModalSheet(
     visible: Boolean,
     onVisibleChange: (Boolean) -> Unit,
     modifier: Modifier = Modifier,
+    nestedScrollEnabled: Boolean = false,
     animationSpec: AnimationSpec<Float> = SwipeableV2Defaults.AnimationSpec,
     sheetModifier: Modifier = Modifier,
     cancelable: Boolean = true,
@@ -90,6 +91,7 @@ fun ModalSheet(
                 onVisibleChange(false)
             }
         },
+        nestedScrollEnabled = nestedScrollEnabled,
         sheetModifier = sheetModifier,
         modifier = modifier,
         shape = shape,
@@ -129,6 +131,7 @@ fun ModalSheet(
     sheetModifier: Modifier = Modifier,
     sheetState: ModalSheetState,
     onDismiss: (() -> Unit)?,
+    nestedScrollEnabled: Boolean = false,
     shape: Shape = BottomSheetDefaults.ExpandedShape,
     elevation: Dp = BottomSheetDefaults.Elevation,
     containerColor: Color = BottomSheetDefaults.ContainerColor,
@@ -141,6 +144,7 @@ fun ModalSheet(
     ) {
         Box(Modifier.fillMaxSize()) {
             ModalSheetLayout(
+                nestedScrollEnabled = nestedScrollEnabled,
                 sheetModifier = sheetModifier,
                 modifier = modifier.align(Alignment.BottomCenter),
                 sheetState = sheetState,
