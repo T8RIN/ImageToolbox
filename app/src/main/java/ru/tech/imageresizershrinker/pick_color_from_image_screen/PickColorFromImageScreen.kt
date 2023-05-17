@@ -82,7 +82,6 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.smarttoolfactory.colordetector.ImageColorDetector
 import com.t8rin.dynamic.theme.LocalDynamicThemeState
-import dev.olshevski.navigation.reimagined.NavController
 import dev.olshevski.navigation.reimagined.navigate
 import dev.olshevski.navigation.reimagined.pop
 import kotlinx.coroutines.launch
@@ -381,7 +380,11 @@ fun PickColorFromImageScreen(
                                                     IconButton(
                                                         onClick = {
                                                             if (navController.backstack.entries.isNotEmpty()) navController.pop()
-                                                            navController.navigate(Screen.GeneratePalette(viewModel.uri))
+                                                            navController.navigate(
+                                                                Screen.GeneratePalette(
+                                                                    viewModel.uri
+                                                                )
+                                                            )
                                                         },
                                                         modifier = Modifier.statusBarsPadding()
                                                     ) {
@@ -400,7 +403,11 @@ fun PickColorFromImageScreen(
                                         IconButton(
                                             onClick = {
                                                 if (navController.backstack.entries.isNotEmpty()) navController.pop()
-                                                navController.navigate(Screen.GeneratePalette(viewModel.uri))
+                                                navController.navigate(
+                                                    Screen.GeneratePalette(
+                                                        viewModel.uri
+                                                    )
+                                                )
                                             },
                                             modifier = Modifier.statusBarsPadding()
                                         ) {

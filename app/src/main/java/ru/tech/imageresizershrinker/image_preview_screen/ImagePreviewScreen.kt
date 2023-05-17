@@ -84,7 +84,6 @@ import com.smarttoolfactory.image.zoom.animatedZoom
 import com.smarttoolfactory.image.zoom.rememberAnimatedZoomState
 import com.t8rin.dynamic.theme.LocalDynamicThemeState
 import com.t8rin.dynamic.theme.getAppColorTuple
-import dev.olshevski.navigation.reimagined.NavController
 import dev.olshevski.navigation.reimagined.navigate
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.image_preview_screen.viewModel.ImagePreviewViewModel
