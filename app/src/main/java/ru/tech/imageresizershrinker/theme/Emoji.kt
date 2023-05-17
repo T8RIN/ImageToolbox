@@ -17,18 +17,29 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import ru.tech.imageresizershrinker.theme.emoji.Alien
 import ru.tech.imageresizershrinker.theme.emoji.Amulet
+import ru.tech.imageresizershrinker.theme.emoji.Anger
 import ru.tech.imageresizershrinker.theme.emoji.Apple
+import ru.tech.imageresizershrinker.theme.emoji.Avocado
+import ru.tech.imageresizershrinker.theme.emoji.Bacon
+import ru.tech.imageresizershrinker.theme.emoji.Ball
+import ru.tech.imageresizershrinker.theme.emoji.Bandage
 import ru.tech.imageresizershrinker.theme.emoji.Bang
 import ru.tech.imageresizershrinker.theme.emoji.Bear
+import ru.tech.imageresizershrinker.theme.emoji.Beef
 import ru.tech.imageresizershrinker.theme.emoji.Beer
 import ru.tech.imageresizershrinker.theme.emoji.Biohazard
+import ru.tech.imageresizershrinker.theme.emoji.Blossom
+import ru.tech.imageresizershrinker.theme.emoji.Blowfish
 import ru.tech.imageresizershrinker.theme.emoji.Bottle
+import ru.tech.imageresizershrinker.theme.emoji.Brain
+import ru.tech.imageresizershrinker.theme.emoji.Broccoli
 import ru.tech.imageresizershrinker.theme.emoji.Camera
 import ru.tech.imageresizershrinker.theme.emoji.Cat
 import ru.tech.imageresizershrinker.theme.emoji.Cloud
 import ru.tech.imageresizershrinker.theme.emoji.Clover
 import ru.tech.imageresizershrinker.theme.emoji.Crown
 import ru.tech.imageresizershrinker.theme.emoji.Diamond
+import ru.tech.imageresizershrinker.theme.emoji.Disco
 import ru.tech.imageresizershrinker.theme.emoji.Disk
 import ru.tech.imageresizershrinker.theme.emoji.Droplets
 import ru.tech.imageresizershrinker.theme.emoji.Eggplant
@@ -40,7 +51,7 @@ import ru.tech.imageresizershrinker.theme.emoji.Glass
 import ru.tech.imageresizershrinker.theme.emoji.Globe
 import ru.tech.imageresizershrinker.theme.emoji.Hamburger
 import ru.tech.imageresizershrinker.theme.emoji.Heart
-import ru.tech.imageresizershrinker.theme.emoji.HotDog
+import ru.tech.imageresizershrinker.theme.emoji.Heartbroken
 import ru.tech.imageresizershrinker.theme.emoji.Ice
 import ru.tech.imageresizershrinker.theme.emoji.Lamp
 import ru.tech.imageresizershrinker.theme.emoji.Lipstick
@@ -88,18 +99,29 @@ public val Emoji.allIcons: List<ImageVector>
             Sparkles,
             Alien,
             Amulet,
+            Anger,
             Apple,
+            Avocado,
+            Bacon,
+            Ball,
+            Bandage,
             Bang,
             Bear,
+            Beef,
             Beer,
             Biohazard,
+            Blossom,
+            Blowfish,
             Bottle,
+            Brain,
+            Broccoli,
             Camera,
             Cat,
             Cloud,
             Clover,
             Crown,
             Diamond,
+            Disco,
             Disk,
             Droplets,
             Eggplant,
@@ -111,7 +133,7 @@ public val Emoji.allIcons: List<ImageVector>
             Globe,
             Hamburger,
             Heart,
-            HotDog,
+            Heartbroken,
             Ice,
             Lamp,
             Lipstick,
