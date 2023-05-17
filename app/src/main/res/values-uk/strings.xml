@@ -133,4 +133,11 @@
     <string name="share">Поділитися</string>
     <string name="emoji_sub">Виберіть, який емодзі буде відображатися на головному екрані</string>
     <string name="emoji">Емодзі</string>
+    <string name="add_file_size">Додати розмір файлу</string>
+    <string name="delete_exif">Видалити EXIF</string>
+    <string name="delete_exif_sub">Видалення метаданих EXIF з будь-якої пари зображень</string>
+    <string name="add_file_size_sub">Якщо ввімкнено, додає ширину та висоту збереженого зображення до назви вихідного файлу</string>
+    <string name="image_preview">Попередній перегляд зображень</string>
+    <string name="image_preview_sub">Переглядайте будь-які типи зображень: GIF, SVG тощо</string>
+    <string name="cropping">Обрізання</string>
 </resources>
