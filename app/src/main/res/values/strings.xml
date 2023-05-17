@@ -152,6 +152,7 @@
     <string name="delete_exif_sub">Delete EXIF metadata from any couple of images</string>
     <string name="image_preview">Image preview</string>
     <string name="image_preview_sub">Preview any type of images: GIF, SVG, and so on</string>
+    <string name="cropping">Cropping</string>
 
     <string-array name="fab_alignment_sub">
         <item>Start</item>

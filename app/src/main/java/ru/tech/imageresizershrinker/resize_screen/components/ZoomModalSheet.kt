@@ -64,7 +64,7 @@ fun ZoomModalSheet(
                     )
                     .clip(RoundedCornerShape(4.dp))
                     .border(
-                        1.dp,
+                        LocalBorderWidth.current,
                         MaterialTheme.colorScheme.outlineVariant(),
                         RoundedCornerShape(4.dp)
                     )
