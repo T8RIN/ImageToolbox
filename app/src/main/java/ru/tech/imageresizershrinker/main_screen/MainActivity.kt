@@ -480,7 +480,6 @@ class MainActivity : M3Activity() {
                                 }
                                 val color = MaterialTheme.colorScheme.secondaryContainer
                                 Box(Modifier.fillMaxSize()) {
-                                    Divider(Modifier.align(Alignment.TopCenter))
                                     LazyColumn(
                                         contentPadding = PaddingValues(vertical = 16.dp)
                                     ) {
@@ -550,6 +549,7 @@ class MainActivity : M3Activity() {
                                             }
                                         }
                                     }
+                                    Divider(Modifier.align(Alignment.TopCenter))
                                     Divider(Modifier.align(Alignment.BottomCenter))
                                 }
                             }
@@ -564,7 +564,6 @@ class MainActivity : M3Activity() {
                             title = { Text(stringResource(R.string.new_version, viewModel.tag)) },
                             text = {
                                 Box {
-                                    Divider(Modifier.align(Alignment.TopCenter))
                                     Column(Modifier.verticalScroll(rememberScrollState())) {
                                         Spacer(Modifier.height(16.dp))
                                         HtmlText(
@@ -572,6 +571,7 @@ class MainActivity : M3Activity() {
                                             viewModel.changelog
                                         )
                                     }
+                                    Divider(Modifier.align(Alignment.TopCenter))
                                     Divider(Modifier.align(Alignment.BottomCenter))
                                 }
                             },
@@ -668,7 +668,6 @@ class MainActivity : M3Activity() {
                             text = {
                                 val data = LocalPresetsProvider.current
                                 Box {
-                                    Divider(Modifier.align(Alignment.TopCenter))
                                     AnimatedContent(
                                         targetState = data,
                                         transitionSpec = { fadeIn() togetherWith fadeOut() },
@@ -795,6 +794,7 @@ class MainActivity : M3Activity() {
                                             }
                                         }
                                     }
+                                    Divider(Modifier.align(Alignment.TopCenter))
                                     Divider(Modifier.align(Alignment.BottomCenter))
                                 }
                             },

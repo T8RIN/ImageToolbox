@@ -1448,7 +1448,6 @@ fun MainScreen(
             },
             text = {
                 Box {
-                    Divider(Modifier.align(Alignment.TopCenter))
                     Column(Modifier.verticalScroll(rememberScrollState())) {
                         Spacer(Modifier.height(8.dp))
                         PreferenceItem(
@@ -1496,6 +1495,7 @@ fun MainScreen(
                         )
                         Spacer(Modifier.height(8.dp))
                     }
+                    Divider(Modifier.align(Alignment.TopCenter))
                     Divider(Modifier.align(Alignment.BottomCenter))
                 }
             },
@@ -1586,7 +1586,6 @@ fun MainScreen(
             },
             text = {
                 Box(Modifier.fillMaxWidth(), contentAlignment = Alignment.Center) {
-                    Divider(Modifier.align(Alignment.TopCenter))
                     FlowRow(
                         Modifier
                             .fillMaxWidth()
@@ -1681,6 +1680,7 @@ fun MainScreen(
                             }
                         }
                     }
+                    Divider(Modifier.align(Alignment.TopCenter))
                     Divider(Modifier.align(Alignment.BottomCenter))
                 }
             },

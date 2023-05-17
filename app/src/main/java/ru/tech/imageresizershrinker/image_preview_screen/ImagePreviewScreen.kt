@@ -457,7 +457,6 @@ fun ImagePreviewScreen(
                     }
                     val color = MaterialTheme.colorScheme.secondaryContainer
                     Box {
-                        Divider(Modifier.align(Alignment.TopCenter))
                         LazyColumn(
                             contentPadding = PaddingValues(vertical = 16.dp)
                         ) {
@@ -493,6 +492,7 @@ fun ImagePreviewScreen(
                                 )
                             }
                         }
+                        Divider(Modifier.align(Alignment.TopCenter))
                         Divider(Modifier.align(Alignment.BottomCenter))
                     }
                 }

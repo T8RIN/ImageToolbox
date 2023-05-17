@@ -959,7 +959,6 @@ fun BatchResizeScreen(
                                 )
                             }
                             Box {
-                                Divider(Modifier.align(Alignment.TopCenter))
                                 LazyVerticalGrid(
                                     columns = GridCells.Fixed(if (imageInside) 2 else 4),
                                     modifier = Modifier.padding(horizontal = 4.dp),
@@ -1042,6 +1041,7 @@ fun BatchResizeScreen(
                                         }
                                     }
                                 }
+                                Divider(Modifier.align(Alignment.TopCenter))
                                 Divider(Modifier.align(Alignment.BottomCenter))
                             }
                         },

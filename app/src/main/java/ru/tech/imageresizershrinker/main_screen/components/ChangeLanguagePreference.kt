@@ -106,7 +106,6 @@ private fun PickLanguageDialog(
         title = { Text(stringResource(R.string.language)) },
         text = {
             Box {
-                Divider(Modifier.align(Alignment.TopCenter))
                 Column(
                     horizontalAlignment = Alignment.CenterHorizontally,
                     modifier = Modifier.verticalScroll(rememberScrollState())
@@ -136,6 +135,7 @@ private fun PickLanguageDialog(
                     }
                     Spacer(modifier = Modifier.height(8.dp))
                 }
+                Divider(Modifier.align(Alignment.TopCenter))
                 Divider(Modifier.align(Alignment.BottomCenter))
             }
         },

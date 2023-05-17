@@ -653,7 +653,6 @@ fun DeleteExifScreen(
                                 )
                             }
                             Box {
-                                Divider(Modifier.align(Alignment.TopCenter))
                                 LazyVerticalGrid(
                                     columns = GridCells.Fixed(if (imageInside) 2 else 4),
                                     modifier = Modifier.padding(horizontal = 4.dp),
@@ -661,78 +660,82 @@ fun DeleteExifScreen(
                                 ) {
                                     viewModel.uris?.let { uris ->
                                         items(uris, key = { it.toString() }) { uri ->
-                                            Picture(
-                                                model = uri,
-                                                modifier = Modifier
-                                                    .padding(top = 8.dp)
-                                                    .padding(4.dp)
-                                                    .aspectRatio(1f)
-                                                    .clip(RoundedCornerShape(8.dp))
-                                                    .clickable {
-                                                        try {
-                                                            viewModel.setBitmap(
-                                                                loader = {
-                                                                    context.getBitmapByUri(uri)
-                                                                },
-                                                                uri = uri
-                                                            )
-                                                        } catch (e: Exception) {
-                                                            scope.launch {
-                                                                toastHostState.showToast(
-                                                                    context.getString(
-                                                                        R.string.smth_went_wrong,
-                                                                        e.localizedMessage
-                                                                            ?: ""
-                                                                    ),
-                                                                    Icons.Rounded.ErrorOutline
+                                            Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                                                Picture(
+                                                    model = uri,
+                                                    modifier = Modifier
+                                                        .padding(top = 8.dp)
+                                                        .padding(4.dp)
+                                                        .aspectRatio(1f)
+                                                        .clip(RoundedCornerShape(8.dp))
+                                                        .clickable {
+                                                            try {
+                                                                viewModel.setBitmap(
+                                                                    loader = {
+                                                                        context.getBitmapByUri(uri)
+                                                                    },
+                                                                    uri = uri
                                                                 )
+                                                            } catch (e: Exception) {
+                                                                scope.launch {
+                                                                    toastHostState.showToast(
+                                                                        context.getString(
+                                                                            R.string.smth_went_wrong,
+                                                                            e.localizedMessage
+                                                                                ?: ""
+                                                                        ),
+                                                                        Icons.Rounded.ErrorOutline
+                                                                    )
+                                                                }
                                                             }
+                                                            showPickImageFromUrisDialog = false
                                                         }
-                                                        showPickImageFromUrisDialog = false
-                                                    }
-                                                    .then(
-                                                        if (uri == viewModel.selectedUri) {
-                                                            Modifier.border(
-                                                                LocalBorderWidth.current * 2,
-                                                                MaterialTheme.colorScheme.outlineVariant(),
-                                                                RoundedCornerShape(8.dp)
-                                                            )
-                                                        } else Modifier
-                                                    )
-                                                    .block(RoundedCornerShape(8.dp)),
-                                                shape = RoundedCornerShape(8.dp),
-                                                contentScale = ContentScale.Fit
-                                            )
-                                            OutlinedButton(
-                                                colors = ButtonDefaults.outlinedButtonColors(
-                                                    containerColor = MaterialTheme.colorScheme.secondaryContainer,
-                                                    contentColor = MaterialTheme.colorScheme.onSecondaryContainer,
-                                                ),
-                                                border = BorderStroke(
-                                                    LocalBorderWidth.current,
-                                                    MaterialTheme.colorScheme.outlineVariant(
-                                                        onTopOf = MaterialTheme.colorScheme.secondaryContainer
-                                                    )
-                                                ),
-                                                onClick = {
-                                                    viewModel.updateUrisSilently(
-                                                        removedUri = uri,
-                                                        loader = {
-                                                            context.getBitmapByUri(it)
-                                                        }
-                                                    )
-                                                },
-                                                contentPadding = PaddingValues(
-                                                    horizontal = 8.dp,
-                                                    vertical = 2.dp
-                                                ),
-                                                modifier = Modifier.defaultMinSize(minHeight = 10.dp)
-                                            ) {
-                                                Text(stringResource(R.string.remove))
+                                                        .then(
+                                                            if (uri == viewModel.selectedUri) {
+                                                                Modifier.border(
+                                                                    LocalBorderWidth.current * 2,
+                                                                    MaterialTheme.colorScheme.outlineVariant(),
+                                                                    RoundedCornerShape(8.dp)
+                                                                )
+                                                            } else Modifier
+                                                        )
+                                                        .block(RoundedCornerShape(8.dp)),
+                                                    shape = RoundedCornerShape(8.dp),
+                                                    contentScale = ContentScale.Fit
+                                                )
+                                                OutlinedButton(
+                                                    colors = ButtonDefaults.outlinedButtonColors(
+                                                        containerColor = MaterialTheme.colorScheme.secondaryContainer,
+                                                        contentColor = MaterialTheme.colorScheme.onSecondaryContainer,
+                                                    ),
+                                                    border = BorderStroke(
+                                                        LocalBorderWidth.current,
+                                                        MaterialTheme.colorScheme.outlineVariant(
+                                                            onTopOf = MaterialTheme.colorScheme.secondaryContainer
+                                                        )
+                                                    ),
+                                                    onClick = {
+                                                        viewModel.updateUrisSilently(
+                                                            removedUri = uri,
+                                                            loader = {
+                                                                context.getBitmapByUri(it)
+                                                            }
+                                                        )
+                                                    },
+                                                    contentPadding = PaddingValues(
+                                                        horizontal = 8.dp,
+                                                        vertical = 2.dp
+                                                    ),
+                                                    modifier = Modifier.defaultMinSize(minHeight = 10.dp)
+                                                ) {
+                                                    Text(stringResource(R.string.remove))
+                                                }
+                                                Divider()
                                             }
                                         }
                                     }
                                 }
+                                Divider(Modifier.align(Alignment.TopCenter))
                                 Divider(Modifier.align(Alignment.BottomCenter))
                             }
                         },
