@@ -1,12 +1,9 @@
 package ru.tech.imageresizershrinker.theme.emoji
 
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.PathFillType
 import androidx.compose.ui.graphics.PathFillType.Companion.NonZero
 import androidx.compose.ui.graphics.SolidColor
-import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.StrokeCap.Companion.Butt
-import androidx.compose.ui.graphics.StrokeJoin
 import androidx.compose.ui.graphics.StrokeJoin.Companion.Miter
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.graphics.vector.ImageVector.Builder
@@ -14,16 +11,20 @@ import androidx.compose.ui.graphics.vector.path
 import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.theme.Emoji
 
-public val Emoji.Bacon: ImageVector
+val Emoji.Bacon: ImageVector
     get() {
         if (_bacon != null) {
             return _bacon!!
         }
-        _bacon = Builder(name = "Bacon", defaultWidth = 1.0.dp, defaultHeight = 1.0.dp,
-                viewportWidth = 128.0f, viewportHeight = 128.0f).apply {
-            path(fill = SolidColor(Color(0xFFFC873D)), stroke = null, strokeLineWidth = 0.0f,
-                    strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
-                    pathFillType = NonZero) {
+        _bacon = Builder(
+            name = "Bacon", defaultWidth = 1.0.dp, defaultHeight = 1.0.dp,
+            viewportWidth = 128.0f, viewportHeight = 128.0f
+        ).apply {
+            path(
+                fill = SolidColor(Color(0xFFFC873D)), stroke = null, strokeLineWidth = 0.0f,
+                strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
+                pathFillType = NonZero
+            ) {
                 moveToRelative(43.96f, 78.53f)
                 lineToRelative(-21.42f, 29.41f)
                 lineToRelative(4.7f, 3.93f)
@@ -41,9 +42,11 @@ public val Emoji.Bacon: ImageVector
                 lineTo(43.96f, 78.53f)
                 close()
             }
-            path(fill = SolidColor(Color(0xFFD9411C)), stroke = null, strokeLineWidth = 0.0f,
-                    strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
-                    pathFillType = NonZero) {
+            path(
+                fill = SolidColor(Color(0xFFD9411C)), stroke = null, strokeLineWidth = 0.0f,
+                strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
+                pathFillType = NonZero
+            ) {
                 moveTo(49.96f, 62.1f)
                 lineTo(36.62f, 72.15f)
                 reflectiveCurveTo(19.82f, 94.1f, 19.58f, 94.76f)
@@ -67,9 +70,11 @@ public val Emoji.Bacon: ImageVector
                 lineTo(49.96f, 62.1f)
                 close()
             }
-            path(fill = SolidColor(Color(0xFFB42F17)), stroke = null, strokeLineWidth = 0.0f,
-                    strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
-                    pathFillType = NonZero) {
+            path(
+                fill = SolidColor(Color(0xFFB42F17)), stroke = null, strokeLineWidth = 0.0f,
+                strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
+                pathFillType = NonZero
+            ) {
                 moveToRelative(13.19f, 92.58f)
                 lineToRelative(-6.28f, -1.37f)
                 reflectiveCurveToRelative(-3.07f, -3.41f, -3.62f, -4.44f)
@@ -90,9 +95,11 @@ public val Emoji.Bacon: ImageVector
                 curveToRelative(-1.83f, 0.33f, -10.36f, 3.07f, -10.36f, 3.07f)
                 close()
             }
-            path(fill = SolidColor(Color(0xFFFEB896)), stroke = null, strokeLineWidth = 0.0f,
-                    strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
-                    pathFillType = NonZero) {
+            path(
+                fill = SolidColor(Color(0xFFFEB896)), stroke = null, strokeLineWidth = 0.0f,
+                strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
+                pathFillType = NonZero
+            ) {
                 moveTo(95.08f, 16.05f)
                 curveToRelative(-2.41f, -0.01f, -3.07f, 3.07f, -3.35f, 4.78f)
                 curveToRelative(-0.27f, 1.71f, -0.41f, 4.51f, -1.91f, 7.1f)
@@ -124,9 +131,11 @@ public val Emoji.Bacon: ImageVector
                 reflectiveCurveToRelative(-5.8f, -1.99f, -9.16f, -2.0f)
                 close()
             }
-            path(fill = SolidColor(Color(0xFFFC6B4A)), stroke = null, strokeLineWidth = 0.0f,
-                    strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
-                    pathFillType = NonZero) {
+            path(
+                fill = SolidColor(Color(0xFFFC6B4A)), stroke = null, strokeLineWidth = 0.0f,
+                strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
+                pathFillType = NonZero
+            ) {
                 moveTo(80.08f, 41.0f)
                 curveToRelative(1.21f, -0.5f, 4.84f, 1.67f, 5.37f, 3.59f)
                 curveToRelative(0.52f, 1.93f, 0.52f, 3.02f, 1.51f, 4.06f)
@@ -143,9 +152,11 @@ public val Emoji.Bacon: ImageVector
                 curveToRelative(0.47f, -1.09f, 1.23f, -2.12f, 1.08f, -2.76f)
                 close()
             }
-            path(fill = SolidColor(Color(0xFFFAFFFF)), stroke = null, strokeLineWidth = 0.0f,
-                    strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
-                    pathFillType = NonZero) {
+            path(
+                fill = SolidColor(Color(0xFFFAFFFF)), stroke = null, strokeLineWidth = 0.0f,
+                strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
+                pathFillType = NonZero
+            ) {
                 moveTo(66.19f, 43.76f)
                 reflectiveCurveToRelative(0.37f, 0.3f, 1.52f, 0.33f)
                 curveToRelative(1.66f, 0.05f, 2.46f, -1.5f, 3.77f, -0.98f)
@@ -170,9 +181,11 @@ public val Emoji.Bacon: ImageVector
                 curveToRelative(-0.65f, -0.51f, -1.29f, -1.37f, -2.62f, -0.89f)
                 close()
             }
-            path(fill = SolidColor(Color(0xFFFC6B48)), stroke = null, strokeLineWidth = 0.0f,
-                    strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
-                    pathFillType = NonZero) {
+            path(
+                fill = SolidColor(Color(0xFFFC6B48)), stroke = null, strokeLineWidth = 0.0f,
+                strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
+                pathFillType = NonZero
+            ) {
                 moveTo(103.64f, 23.87f)
                 reflectiveCurveToRelative(1.93f, 0.94f, 5.64f, 0.6f)
                 curveToRelative(2.93f, -0.27f, 4.41f, -0.28f, 5.22f, 0.71f)
@@ -184,9 +197,11 @@ public val Emoji.Bacon: ImageVector
                 curveToRelative(0.33f, -1.19f, 0.75f, -3.05f, 0.75f, -3.05f)
                 close()
             }
-            path(fill = SolidColor(Color(0xFFFA6C43)), stroke = null, strokeLineWidth = 0.0f,
-                    strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
-                    pathFillType = NonZero) {
+            path(
+                fill = SolidColor(Color(0xFFFA6C43)), stroke = null, strokeLineWidth = 0.0f,
+                strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
+                pathFillType = NonZero
+            ) {
                 moveTo(37.47f, 57.15f)
                 curveToRelative(-1.03f, 0.07f, -3.46f, 2.55f, -3.2f, 4.18f)
                 curveToRelative(0.2f, 1.25f, 1.6f, 2.04f, 1.94f, 2.18f)
@@ -195,9 +210,11 @@ public val Emoji.Bacon: ImageVector
                 curveToRelative(-0.1f, -0.99f, -1.56f, -2.32f, -2.85f, -2.24f)
                 close()
             }
-            path(fill = SolidColor(Color(0xFFFEFEFF)), stroke = null, strokeLineWidth = 0.0f,
-                    strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
-                    pathFillType = NonZero) {
+            path(
+                fill = SolidColor(Color(0xFFFEFEFF)), stroke = null, strokeLineWidth = 0.0f,
+                strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
+                pathFillType = NonZero
+            ) {
                 moveTo(37.15f, 64.74f)
                 curveToRelative(-0.29f, 0.59f, 1.27f, 1.99f, 2.27f, 2.51f)
                 curveToRelative(1.0f, 0.52f, 2.9f, -0.77f, 4.61f, 0.51f)
@@ -212,9 +229,11 @@ public val Emoji.Bacon: ImageVector
                 curveToRelative(-0.81f, 0.86f, -1.69f, 2.08f, -2.0f, 2.7f)
                 close()
             }
-            path(fill = SolidColor(Color(0xFFFA6C43)), stroke = null, strokeLineWidth = 0.0f,
-                    strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
-                    pathFillType = NonZero) {
+            path(
+                fill = SolidColor(Color(0xFFFA6C43)), stroke = null, strokeLineWidth = 0.0f,
+                strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
+                pathFillType = NonZero
+            ) {
                 moveTo(52.69f, 71.51f)
                 curveToRelative(-1.12f, 0.44f, -2.43f, 3.26f, -2.5f, 4.01f)
                 curveToRelative(-0.08f, 0.93f, 2.02f, 2.9f, 3.25f, 2.9f)
@@ -223,7 +242,7 @@ public val Emoji.Bacon: ImageVector
                 close()
             }
         }
-        .build()
+            .build()
         return _bacon!!
     }
 

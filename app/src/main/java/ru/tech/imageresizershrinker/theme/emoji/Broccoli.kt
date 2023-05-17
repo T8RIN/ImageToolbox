@@ -1,12 +1,9 @@
 package ru.tech.imageresizershrinker.theme.emoji
 
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.PathFillType
 import androidx.compose.ui.graphics.PathFillType.Companion.NonZero
 import androidx.compose.ui.graphics.SolidColor
-import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.StrokeCap.Companion.Butt
-import androidx.compose.ui.graphics.StrokeJoin
 import androidx.compose.ui.graphics.StrokeJoin.Companion.Miter
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.graphics.vector.ImageVector.Builder
@@ -14,16 +11,20 @@ import androidx.compose.ui.graphics.vector.path
 import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.theme.Emoji
 
-public val Emoji.Broccoli: ImageVector
+val Emoji.Broccoli: ImageVector
     get() {
         if (_broccoli != null) {
             return _broccoli!!
         }
-        _broccoli = Builder(name = "Broccoli", defaultWidth = 1.0.dp, defaultHeight = 1.0.dp,
-                viewportWidth = 128.0f, viewportHeight = 128.0f).apply {
-            path(fill = SolidColor(Color(0xFF2F7C31)), stroke = null, strokeLineWidth = 0.0f,
-                    strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
-                    pathFillType = NonZero) {
+        _broccoli = Builder(
+            name = "Broccoli", defaultWidth = 1.0.dp, defaultHeight = 1.0.dp,
+            viewportWidth = 128.0f, viewportHeight = 128.0f
+        ).apply {
+            path(
+                fill = SolidColor(Color(0xFF2F7C31)), stroke = null, strokeLineWidth = 0.0f,
+                strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
+                pathFillType = NonZero
+            ) {
                 moveTo(21.74f, 24.77f)
                 lineTo(8.57f, 41.04f)
                 reflectiveCurveToRelative(-3.95f, 4.95f, -2.93f, 9.84f)
@@ -52,9 +53,11 @@ public val Emoji.Broccoli: ImageVector
                 lineToRelative(-45.51f, -0.49f)
                 close()
             }
-            path(fill = SolidColor(Color(0xFF709921)), stroke = null, strokeLineWidth = 0.0f,
-                    strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
-                    pathFillType = NonZero) {
+            path(
+                fill = SolidColor(Color(0xFF709921)), stroke = null, strokeLineWidth = 0.0f,
+                strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
+                pathFillType = NonZero
+            ) {
                 moveTo(28.0f, 8.45f)
                 reflectiveCurveToRelative(5.09f, -5.58f, 11.92f, -5.09f)
                 reflectiveCurveToRelative(8.07f, 4.61f, 8.07f, 4.61f)
@@ -97,9 +100,11 @@ public val Emoji.Broccoli: ImageVector
                 curveToRelative(-0.01f, -0.66f, 1.43f, -6.91f, 1.43f, -6.91f)
                 close()
             }
-            path(fill = SolidColor(Color(0xFF9FB525)), stroke = null, strokeLineWidth = 0.0f,
-                    strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
-                    pathFillType = NonZero) {
+            path(
+                fill = SolidColor(Color(0xFF9FB525)), stroke = null, strokeLineWidth = 0.0f,
+                strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
+                pathFillType = NonZero
+            ) {
                 moveTo(35.34f, 81.83f)
                 curveToRelative(-0.24f, 0.72f, -25.28f, 28.89f, -25.28f, 28.89f)
                 reflectiveCurveToRelative(3.01f, 4.57f, 5.66f, 6.74f)
@@ -128,9 +133,11 @@ public val Emoji.Broccoli: ImageVector
                 lineToRelative(4.69f, 25.04f)
                 close()
             }
-            path(fill = SolidColor(Color(0xFFB7D118)), stroke = null, strokeLineWidth = 0.0f,
-                    strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
-                    pathFillType = NonZero) {
+            path(
+                fill = SolidColor(Color(0xFFB7D118)), stroke = null, strokeLineWidth = 0.0f,
+                strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
+                pathFillType = NonZero
+            ) {
                 moveTo(26.91f, 57.51f)
                 curveToRelative(-0.36f, 0.96f, 0.24f, 5.3f, 0.24f, 11.07f)
                 reflectiveCurveToRelative(-0.33f, 11.12f, -3.13f, 14.56f)
@@ -163,9 +170,11 @@ public val Emoji.Broccoli: ImageVector
                 reflectiveCurveToRelative(-3.01f, 1.58f, -3.37f, 2.54f)
                 close()
             }
-            path(fill = SolidColor(Color(0xFF2F7C31)), stroke = null, strokeLineWidth = 0.0f,
-                    strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
-                    pathFillType = NonZero) {
+            path(
+                fill = SolidColor(Color(0xFF2F7C31)), stroke = null, strokeLineWidth = 0.0f,
+                strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
+                pathFillType = NonZero
+            ) {
                 moveTo(102.96f, 75.13f)
                 reflectiveCurveToRelative(2.24f, -4.05f, 4.17f, -2.36f)
                 curveToRelative(1.94f, 1.69f, -1.75f, 7.02f, -2.54f, 7.2f)
@@ -210,7 +219,7 @@ public val Emoji.Broccoli: ImageVector
                 close()
             }
         }
-        .build()
+            .build()
         return _broccoli!!
     }
 

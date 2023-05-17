@@ -11,16 +11,20 @@ import androidx.compose.ui.graphics.vector.path
 import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.theme.Emoji
 
-public val Emoji.Anger: ImageVector
+val Emoji.Anger: ImageVector
     get() {
         if (_anger != null) {
             return _anger!!
         }
-        _anger = Builder(name = "Anger", defaultWidth = 1.0.dp, defaultHeight = 1.0.dp,
-                viewportWidth = 128.0f, viewportHeight = 128.0f).apply {
-            path(fill = SolidColor(Color(0xFFF44336)), stroke = null, strokeLineWidth = 0.0f,
-                    strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
-                    pathFillType = NonZero) {
+        _anger = Builder(
+            name = "Anger", defaultWidth = 1.0.dp, defaultHeight = 1.0.dp,
+            viewportWidth = 128.0f, viewportHeight = 128.0f
+        ).apply {
+            path(
+                fill = SolidColor(Color(0xFFF44336)), stroke = null, strokeLineWidth = 0.0f,
+                strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
+                pathFillType = NonZero
+            ) {
                 moveTo(63.7f, 40.03f)
                 curveToRelative(-27.77f, 0.0f, -38.93f, -27.23f, -38.93f, -27.23f)
                 curveToRelative(-1.22f, -2.34f, -1.79f, -5.33f, -0.03f, -7.38f)
@@ -71,7 +75,7 @@ public val Emoji.Anger: ImageVector
                 close()
             }
         }
-        .build()
+            .build()
         return _anger!!
     }
 

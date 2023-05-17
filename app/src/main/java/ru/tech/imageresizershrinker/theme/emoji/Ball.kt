@@ -11,7 +11,7 @@ import androidx.compose.ui.graphics.vector.path
 import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.theme.Emoji
 
-public val Emoji.Ball: ImageVector
+val Emoji.Ball: ImageVector
     get() {
         if (_ball != null) {
             return _ball!!

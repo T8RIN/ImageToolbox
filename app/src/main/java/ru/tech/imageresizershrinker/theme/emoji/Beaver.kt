@@ -11,7 +11,7 @@ import androidx.compose.ui.graphics.vector.path
 import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.theme.Emoji
 
-public val Emoji.Beaver: ImageVector
+val Emoji.Beaver: ImageVector
     get() {
         if (_beaver != null) {
             return _beaver!!

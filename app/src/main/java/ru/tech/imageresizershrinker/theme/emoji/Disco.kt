@@ -13,7 +13,7 @@ import androidx.compose.ui.graphics.vector.path
 import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.theme.Emoji
 
-public val Emoji.Disco: ImageVector
+val Emoji.Disco: ImageVector
     get() {
         if (_disco != null) {
             return _disco!!

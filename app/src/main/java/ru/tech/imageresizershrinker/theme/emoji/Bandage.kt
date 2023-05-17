@@ -1,12 +1,9 @@
 package ru.tech.imageresizershrinker.theme.emoji
 
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.PathFillType
 import androidx.compose.ui.graphics.PathFillType.Companion.NonZero
 import androidx.compose.ui.graphics.SolidColor
-import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.StrokeCap.Companion.Butt
-import androidx.compose.ui.graphics.StrokeJoin
 import androidx.compose.ui.graphics.StrokeJoin.Companion.Miter
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.graphics.vector.ImageVector.Builder
@@ -14,16 +11,20 @@ import androidx.compose.ui.graphics.vector.path
 import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.theme.Emoji
 
-public val Emoji.Bandage: ImageVector
+val Emoji.Bandage: ImageVector
     get() {
         if (_bandage != null) {
             return _bandage!!
         }
-        _bandage = Builder(name = "Bandage", defaultWidth = 1.0.dp, defaultHeight = 1.0.dp,
-                viewportWidth = 128.0f, viewportHeight = 128.0f).apply {
-            path(fill = SolidColor(Color(0xFF99674F)), stroke = null, strokeLineWidth = 0.0f,
-                    strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
-                    pathFillType = NonZero) {
+        _bandage = Builder(
+            name = "Bandage", defaultWidth = 1.0.dp, defaultHeight = 1.0.dp,
+            viewportWidth = 128.0f, viewportHeight = 128.0f
+        ).apply {
+            path(
+                fill = SolidColor(Color(0xFF99674F)), stroke = null, strokeLineWidth = 0.0f,
+                strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
+                pathFillType = NonZero
+            ) {
                 moveToRelative(115.58f, 12.85f)
                 lineToRelative(-0.51f, -0.51f)
                 lineToRelative(-0.01f, -0.01f)
@@ -158,9 +159,11 @@ public val Emoji.Bandage: ImageVector
                 arcToRelative(2.625f, 2.625f, 0.0f, false, true, 0.0f, 3.72f)
                 close()
             }
-            path(fill = SolidColor(Color(0xFFDB9F70)), stroke = null, strokeLineWidth = 0.0f,
-                    strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
-                    pathFillType = NonZero) {
+            path(
+                fill = SolidColor(Color(0xFFDB9F70)), stroke = null, strokeLineWidth = 0.0f,
+                strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
+                pathFillType = NonZero
+            ) {
                 moveToRelative(114.26f, 11.54f)
                 lineToRelative(-0.51f, -0.51f)
                 lineToRelative(-0.01f, -0.01f)
@@ -295,9 +298,11 @@ public val Emoji.Bandage: ImageVector
                 arcToRelative(2.625f, 2.625f, 0.0f, false, true, 0.0f, 3.72f)
                 close()
             }
-            path(fill = SolidColor(Color(0xFF99674F)), stroke = null, strokeLineWidth = 0.0f,
-                    strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
-                    pathFillType = NonZero) {
+            path(
+                fill = SolidColor(Color(0xFF99674F)), stroke = null, strokeLineWidth = 0.0f,
+                strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
+                pathFillType = NonZero
+            ) {
                 moveTo(87.15f, 66.04f)
                 curveToRelative(2.11f, -2.32f, 1.73f, -2.95f, -2.18f, -2.7f)
                 curveToRelative(-3.23f, 0.2f, -5.3f, 2.27f, -6.58f, 3.55f)
@@ -313,9 +318,11 @@ public val Emoji.Bandage: ImageVector
                 curveToRelative(0.01f, -0.01f, 21.44f, -21.22f, 22.11f, -21.96f)
                 close()
             }
-            path(fill = SolidColor(Color(0xFFFCBF90)), stroke = null, strokeLineWidth = 0.0f,
-                    strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
-                    pathFillType = NonZero) {
+            path(
+                fill = SolidColor(Color(0xFFFCBF90)), stroke = null, strokeLineWidth = 0.0f,
+                strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
+                pathFillType = NonZero
+            ) {
                 moveTo(87.95f, 58.87f)
                 curveToRelative(-0.03f, -0.09f, -19.68f, -19.63f, -20.23f, -20.18f)
                 arcToRelative(4.297f, 4.297f, 0.0f, false, false, -6.08f, 0.0f)
@@ -330,7 +337,7 @@ public val Emoji.Bandage: ImageVector
                 close()
             }
         }
-        .build()
+            .build()
         return _bandage!!
     }
 

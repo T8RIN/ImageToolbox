@@ -3,12 +3,9 @@ package ru.tech.imageresizershrinker.theme.emoji
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush.Companion.radialGradient
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.PathFillType
 import androidx.compose.ui.graphics.PathFillType.Companion.NonZero
 import androidx.compose.ui.graphics.SolidColor
-import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.StrokeCap.Companion.Butt
-import androidx.compose.ui.graphics.StrokeJoin
 import androidx.compose.ui.graphics.StrokeJoin.Companion.Miter
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.graphics.vector.ImageVector.Builder
@@ -16,16 +13,20 @@ import androidx.compose.ui.graphics.vector.path
 import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.theme.Emoji
 
-public val Emoji.Blowfish: ImageVector
+val Emoji.Blowfish: ImageVector
     get() {
         if (_blowfish != null) {
             return _blowfish!!
         }
-        _blowfish = Builder(name = "Blowfish", defaultWidth = 1.0.dp, defaultHeight = 1.0.dp,
-                viewportWidth = 128.0f, viewportHeight = 128.0f).apply {
-            path(fill = SolidColor(Color(0xFF8A5A54)), stroke = null, strokeLineWidth = 0.0f,
-                    strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
-                    pathFillType = NonZero) {
+        _blowfish = Builder(
+            name = "Blowfish", defaultWidth = 1.0.dp, defaultHeight = 1.0.dp,
+            viewportWidth = 128.0f, viewportHeight = 128.0f
+        ).apply {
+            path(
+                fill = SolidColor(Color(0xFF8A5A54)), stroke = null, strokeLineWidth = 0.0f,
+                strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
+                pathFillType = NonZero
+            ) {
                 moveTo(93.32f, 41.05f)
                 reflectiveCurveToRelative(8.92f, -7.88f, 9.1f, -7.7f)
                 reflectiveCurveToRelative(3.66f, 4.97f, 3.66f, 7.41f)
@@ -40,9 +41,11 @@ public val Emoji.Blowfish: ImageVector
                 lineToRelative(-0.1f, -35.37f)
                 close()
             }
-            path(fill = SolidColor(Color(0xFFCD7955)), stroke = null, strokeLineWidth = 0.0f,
-                    strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
-                    pathFillType = NonZero) {
+            path(
+                fill = SolidColor(Color(0xFFCD7955)), stroke = null, strokeLineWidth = 0.0f,
+                strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
+                pathFillType = NonZero
+            ) {
                 moveTo(19.46f, 44.8f)
                 reflectiveCurveToRelative(-6.1f, -13.7f, -5.73f, -14.08f)
                 curveToRelative(0.38f, -0.38f, 13.33f, 6.95f, 13.33f, 6.95f)
@@ -69,9 +72,11 @@ public val Emoji.Blowfish: ImageVector
                 lineToRelative(-12.57f, -8.92f)
                 close()
             }
-            path(fill = SolidColor(Color(0xFFBA8D72)), stroke = null, strokeLineWidth = 0.0f,
-                    strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
-                    pathFillType = NonZero) {
+            path(
+                fill = SolidColor(Color(0xFFBA8D72)), stroke = null, strokeLineWidth = 0.0f,
+                strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
+                pathFillType = NonZero
+            ) {
                 moveTo(15.14f, 66.29f)
                 reflectiveCurveTo(3.78f, 74.46f, 3.88f, 75.77f)
                 reflectiveCurveToRelative(15.2f, 2.53f, 15.2f, 2.53f)
@@ -121,9 +126,11 @@ public val Emoji.Blowfish: ImageVector
                 curveToRelative(-3.39f, -1.11f, -10.0f, -2.86f, -10.49f, -1.8f)
                 close()
             }
-            path(fill = SolidColor(Color(0xFFF3A25C)), stroke = null, strokeLineWidth = 0.0f,
-                    strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
-                    pathFillType = NonZero) {
+            path(
+                fill = SolidColor(Color(0xFFF3A25C)), stroke = null, strokeLineWidth = 0.0f,
+                strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
+                pathFillType = NonZero
+            ) {
                 moveTo(15.99f, 67.3f)
                 reflectiveCurveToRelative(-1.55f, -0.77f, -1.76f, -2.18f)
                 curveToRelative(-0.21f, -1.41f, -0.07f, -6.97f, 1.48f, -12.32f)
@@ -151,11 +158,15 @@ public val Emoji.Blowfish: ImageVector
                 lineTo(15.99f, 67.3f)
                 close()
             }
-            path(fill = radialGradient(0.622f to Color(0xFFF4D6B5), 0.744f to Color(0xFFF1D2B2),
+            path(
+                fill = radialGradient(
+                    0.622f to Color(0xFFF4D6B5), 0.744f to Color(0xFFF1D2B2),
                     0.873f to Color(0xFFE7C5AA), 1.0f to Color(0xFFD8B19C), center =
-                    Offset(57.186897f,49.68204f), radius = 52.185352f), stroke = null,
-                    strokeLineWidth = 0.0f, strokeLineCap = Butt, strokeLineJoin = Miter,
-                    strokeLineMiter = 4.0f, pathFillType = NonZero) {
+                    Offset(57.186897f, 49.68204f), radius = 52.185352f
+                ), stroke = null,
+                strokeLineWidth = 0.0f, strokeLineCap = Butt, strokeLineJoin = Miter,
+                strokeLineMiter = 4.0f, pathFillType = NonZero
+            ) {
                 moveTo(37.72f, 54.45f)
                 curveToRelative(-12.87f, 3.98f, -23.37f, 11.19f, -23.37f, 11.19f)
                 lineToRelative(0.77f, 3.45f)
@@ -187,9 +198,11 @@ public val Emoji.Blowfish: ImageVector
                 curveToRelative(-15.13f, -4.58f, -29.49f, -1.62f, -37.23f, 0.77f)
                 close()
             }
-            path(fill = SolidColor(Color(0xFFFBFFFE)), stroke = null, strokeLineWidth = 0.0f,
-                    strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
-                    pathFillType = NonZero) {
+            path(
+                fill = SolidColor(Color(0xFFFBFFFE)), stroke = null, strokeLineWidth = 0.0f,
+                strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
+                pathFillType = NonZero
+            ) {
                 moveTo(28.09f, 78.59f)
                 curveToRelative(0.91f, 0.61f, 9.85f, -9.57f, 9.85f, -9.57f)
                 reflectiveCurveToRelative(-0.47f, -2.53f, -3.0f, -3.75f)
@@ -221,9 +234,11 @@ public val Emoji.Blowfish: ImageVector
                 curveToRelative(-0.66f, 0.57f, -11.26f, -6.47f, -11.26f, -6.47f)
                 close()
             }
-            path(fill = SolidColor(Color(0xFFCD7955)), stroke = null, strokeLineWidth = 0.0f,
-                    strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
-                    pathFillType = NonZero) {
+            path(
+                fill = SolidColor(Color(0xFFCD7955)), stroke = null, strokeLineWidth = 0.0f,
+                strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
+                pathFillType = NonZero
+            ) {
                 moveTo(44.28f, 40.01f)
                 curveToRelative(0.9f, 0.9f, 2.53f, -0.84f, 3.19f, -1.6f)
                 curveToRelative(0.66f, -0.75f, 2.02f, -2.16f, 2.02f, -2.16f)
@@ -245,9 +260,11 @@ public val Emoji.Blowfish: ImageVector
                 reflectiveCurveToRelative(-2.78f, 1.64f, -2.49f, 2.58f)
                 close()
             }
-            path(fill = SolidColor(Color(0xFFFFDC1E)), stroke = null, strokeLineWidth = 0.0f,
-                    strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
-                    pathFillType = NonZero) {
+            path(
+                fill = SolidColor(Color(0xFFFFDC1E)), stroke = null, strokeLineWidth = 0.0f,
+                strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
+                pathFillType = NonZero
+            ) {
                 moveTo(30.86f, 38.75f)
                 curveToRelative(-4.65f, 1.74f, -5.82f, 5.82f, -5.21f, 8.4f)
                 curveToRelative(0.61f, 2.58f, 3.14f, 6.52f, 10.18f, 5.3f)
@@ -255,9 +272,11 @@ public val Emoji.Blowfish: ImageVector
                 curveToRelative(-1.59f, -3.38f, -5.57f, -5.23f, -10.27f, -3.47f)
                 close()
             }
-            path(fill = SolidColor(Color(0xFF282F2F)), stroke = null, strokeLineWidth = 0.0f,
-                    strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
-                    pathFillType = NonZero) {
+            path(
+                fill = SolidColor(Color(0xFF282F2F)), stroke = null, strokeLineWidth = 0.0f,
+                strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
+                pathFillType = NonZero
+            ) {
                 moveTo(28.89f, 45.22f)
                 curveToRelative(-0.14f, 2.91f, 2.54f, 4.06f, 5.07f, 3.89f)
                 curveToRelative(1.45f, -0.09f, 4.5f, -1.13f, 4.32f, -4.18f)
@@ -265,9 +284,11 @@ public val Emoji.Blowfish: ImageVector
                 curveToRelative(-1.84f, 0.05f, -4.11f, 1.38f, -4.23f, 3.72f)
                 close()
             }
-            path(fill = SolidColor(Color(0xFFB34B4B)), stroke = null, strokeLineWidth = 0.0f,
-                    strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
-                    pathFillType = NonZero) {
+            path(
+                fill = SolidColor(Color(0xFFB34B4B)), stroke = null, strokeLineWidth = 0.0f,
+                strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
+                pathFillType = NonZero
+            ) {
                 moveTo(23.17f, 53.01f)
                 curveToRelative(0.17f, -4.31f, -3.0f, -7.09f, -7.46f, -6.34f)
                 curveToRelative(-4.32f, 0.73f, -3.46f, 5.94f, -3.33f, 6.52f)
@@ -277,9 +298,11 @@ public val Emoji.Blowfish: ImageVector
                 curveToRelative(3.95f, -0.56f, 6.53f, -4.92f, 6.67f, -8.4f)
                 close()
             }
-            path(fill = SolidColor(Color(0xFFA82612)), stroke = null, strokeLineWidth = 0.0f,
-                    strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
-                    pathFillType = NonZero) {
+            path(
+                fill = SolidColor(Color(0xFFA82612)), stroke = null, strokeLineWidth = 0.0f,
+                strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
+                pathFillType = NonZero
+            ) {
                 moveTo(14.06f, 54.77f)
                 curveToRelative(0.14f, 0.42f, -0.24f, 1.9f, 1.78f, 1.88f)
                 curveToRelative(4.32f, -0.05f, 5.19f, -2.63f, 5.23f, -3.19f)
@@ -287,9 +310,11 @@ public val Emoji.Blowfish: ImageVector
                 curveToRelative(-3.29f, 0.07f, -2.27f, 2.71f, -2.08f, 3.28f)
                 close()
             }
-            path(fill = SolidColor(Color(0xFF885B52)), stroke = null, strokeLineWidth = 0.0f,
-                    strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
-                    pathFillType = NonZero) {
+            path(
+                fill = SolidColor(Color(0xFF885B52)), stroke = null, strokeLineWidth = 0.0f,
+                strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
+                pathFillType = NonZero
+            ) {
                 moveTo(49.02f, 52.78f)
                 curveToRelative(0.24f, 2.38f, 3.97f, 3.53f, 8.35f, 4.13f)
                 curveToRelative(4.79f, 0.66f, 8.21f, 0.47f, 8.21f, 0.47f)
@@ -299,9 +324,11 @@ public val Emoji.Blowfish: ImageVector
                 curveToRelative(-2.8f, 2.08f, -4.96f, 4.41f, -4.78f, 6.29f)
                 close()
             }
-            path(fill = SolidColor(Color(0xFFBA8D72)), stroke = null, strokeLineWidth = 0.0f,
-                    strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
-                    pathFillType = NonZero) {
+            path(
+                fill = SolidColor(Color(0xFFBA8D72)), stroke = null, strokeLineWidth = 0.0f,
+                strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
+                pathFillType = NonZero
+            ) {
                 moveTo(60.15f, 46.44f)
                 curveToRelative(-3.51f, 0.92f, -11.31f, 3.99f, -11.12f, 6.34f)
                 curveToRelative(0.14f, 1.74f, 3.89f, 1.31f, 9.1f, 1.27f)
@@ -318,7 +345,7 @@ public val Emoji.Blowfish: ImageVector
                 close()
             }
         }
-        .build()
+            .build()
         return _blowfish!!
     }
 

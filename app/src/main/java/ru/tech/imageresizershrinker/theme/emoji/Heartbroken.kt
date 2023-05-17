@@ -11,7 +11,7 @@ import androidx.compose.ui.graphics.vector.path
 import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.theme.Emoji
 
-public val Emoji.Heartbroken: ImageVector
+val Emoji.Heartbroken: ImageVector
     get() {
         if (_heartbroken != null) {
             return _heartbroken!!
