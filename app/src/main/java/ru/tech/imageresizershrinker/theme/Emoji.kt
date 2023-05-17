@@ -25,6 +25,7 @@ import ru.tech.imageresizershrinker.theme.emoji.Ball
 import ru.tech.imageresizershrinker.theme.emoji.Bandage
 import ru.tech.imageresizershrinker.theme.emoji.Bang
 import ru.tech.imageresizershrinker.theme.emoji.Bear
+import ru.tech.imageresizershrinker.theme.emoji.Beaver
 import ru.tech.imageresizershrinker.theme.emoji.Beef
 import ru.tech.imageresizershrinker.theme.emoji.Beer
 import ru.tech.imageresizershrinker.theme.emoji.Biohazard
@@ -107,6 +108,7 @@ public val Emoji.allIcons: List<ImageVector>
             Bandage,
             Bang,
             Bear,
+            Beaver,
             Beef,
             Beer,
             Biohazard,
