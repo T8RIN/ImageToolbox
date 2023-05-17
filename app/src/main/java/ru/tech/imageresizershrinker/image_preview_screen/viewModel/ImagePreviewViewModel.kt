@@ -6,6 +6,8 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.launch
 
 class ImagePreviewViewModel : ViewModel() {
 
@@ -24,8 +26,10 @@ class ImagePreviewViewModel : ViewModel() {
         _selectedUri.value = uris?.firstOrNull()
     }
 
-    fun updateBitmap(bitmap: Bitmap?) {
-        _bitmap.value = bitmap
+    fun updateBitmap(bitmap: suspend () -> Bitmap?) {
+        viewModelScope.launch {
+            _bitmap.value = bitmap()
+        }
     }
 
     fun selectUri(uri: Uri?) {

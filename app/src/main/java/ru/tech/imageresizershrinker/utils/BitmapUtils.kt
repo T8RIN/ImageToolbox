@@ -12,7 +12,6 @@ import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Build
-import android.os.ParcelFileDescriptor
 import android.provider.OpenableColumns
 import android.webkit.MimeTypeMap
 import androidx.core.content.FileProvider
@@ -35,7 +34,6 @@ import ru.tech.imageresizershrinker.resize_screen.components.mimeTypeInt
 import java.io.ByteArrayInputStream
 import java.io.ByteArrayOutputStream
 import java.io.File
-import java.io.FileDescriptor
 import java.io.FileOutputStream
 import java.util.Locale
 import kotlin.coroutines.CoroutineContext
@@ -210,24 +208,6 @@ object BitmapUtils {
                     .data(uri).build()
             ).drawable?.toBitmap()
         }.getOrNull(), exif, mime.mimeTypeInt)
-    }
-
-    private fun Context.decodeBitmapUri(
-        uri: Uri,
-        options: BitmapFactory.Options = BitmapFactory.Options(),
-    ): Bitmap? {
-        val fd = contentResolver.openFileDescriptor(uri, "r")
-        val exif = fd?.fileDescriptor?.let { ExifInterface(it) }
-        fd?.close()
-
-        return kotlin.runCatching {
-            val parcelFileDescriptor: ParcelFileDescriptor? =
-                contentResolver.openFileDescriptor(uri, "r")
-            val fileDescriptor: FileDescriptor? = parcelFileDescriptor?.fileDescriptor
-            BitmapFactory.decodeFileDescriptor(fileDescriptor, null, options).also {
-                parcelFileDescriptor?.close()
-            }.rotate(exif?.rotationDegrees?.toFloat() ?: 0f)
-        }.getOrNull()
     }
 
     private fun ContentResolver.getMimeType(uri: Uri): String? {
@@ -679,49 +659,22 @@ object BitmapUtils {
         shareImage(it, compressFormat, onComplete)
     }
 
-
-    private fun calculateInSampleSize(
-        options: BitmapFactory.Options,
-        reqWidth: Int,
-        reqHeight: Int
-    ): Int {
-        // Raw height and width of image
-        val (height: Int, width: Int) = options.run { outHeight to outWidth }
-        var inSampleSize = 1
-
-        if (height > reqHeight || width > reqWidth) {
-
-            val halfHeight: Int = height / 2
-            val halfWidth: Int = width / 2
-
-            // Calculate the largest inSampleSize value that is a power of 2 and keeps both
-            // height and width larger than the requested height and width.
-            while (halfHeight / inSampleSize >= reqHeight && halfWidth / inSampleSize >= reqWidth) {
-                inSampleSize *= 2
-            }
-        }
-
-        return inSampleSize
-    }
-
-    fun Context.decodeSampledBitmapFromUri(
+    suspend fun Context.decodeSampledBitmapFromUri(
         uri: Uri,
         reqWidth: Int,
         reqHeight: Int
     ): Bitmap? {
-        // First decode with inJustDecodeBounds=true to check dimensions
-        return BitmapFactory.Options().run {
-            inJustDecodeBounds = true
-
-            decodeBitmapUri(uri = uri, options = this)
-            // Calculate inSampleSize
-            inSampleSize = calculateInSampleSize(this, reqWidth, reqHeight)
-
-            // Decode bitmap with inSampleSize set
-            inJustDecodeBounds = false
-
-            decodeBitmapUri(uri = uri, options = this)
-        }
+        val loader = imageLoader.newBuilder().components {
+            if (Build.VERSION.SDK_INT >= 28) add(ImageDecoderDecoder.Factory())
+            else add(GifDecoder.Factory())
+            add(SvgDecoder.Factory())
+        }.allowHardware(false).build()
+        return loader.execute(
+            ImageRequest
+                .Builder(this@decodeSampledBitmapFromUri)
+                .size(reqWidth, reqHeight)
+                .data(uri).build()
+        ).drawable?.toBitmap()
     }
 
     fun Bitmap.scaleByMaxBytes(

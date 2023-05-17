@@ -265,13 +265,13 @@ fun ImagePreviewScreen(
                                         .clickable {
                                             showImagePreviewDialog = true
                                             viewModel.selectUri(it)
-                                            viewModel.updateBitmap(
+                                            viewModel.updateBitmap {
                                                 context.decodeSampledBitmapFromUri(
                                                     uri = it,
                                                     reqWidth = 300,
                                                     reqHeight = 300
                                                 )
-                                            )
+                                            }
                                         }
                                         .background(
                                             MaterialTheme.colorScheme.surfaceVariant,
@@ -410,7 +410,7 @@ fun ImagePreviewScreen(
                             .clickable {
                                 showImagePreviewDialog = false
                                 viewModel.selectUri(null)
-                                viewModel.updateBitmap(null)
+                                viewModel.updateBitmap { null }
                             },
                         contentAlignment = Alignment.Center
                     ) {
@@ -509,7 +509,7 @@ fun ImagePreviewScreen(
         BackHandler {
             showImagePreviewDialog = false
             viewModel.selectUri(null)
-            viewModel.updateBitmap(null)
+            viewModel.updateBitmap { null }
         }
     }
 }
