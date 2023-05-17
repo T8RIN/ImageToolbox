@@ -137,4 +137,6 @@
     <string name="add_file_size_sub">Si activé, ajoute la largeur et la hauteur de l\'image enregistrée au nom du fichier de sortie</string>
     <string name="delete_exif">Supprimer EXIF</string>
     <string name="delete_exif_sub">Supprimer les métadonnées EXIF de quelques images</string>
+    <string name="image_preview">aperçu de l\'image</string>
+    <string name="image_preview_sub">Aperçu de tout type d’images : GIF, SVG, et ainsi de suite</string>
 </resources>
