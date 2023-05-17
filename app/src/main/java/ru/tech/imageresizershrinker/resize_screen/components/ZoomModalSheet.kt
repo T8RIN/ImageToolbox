@@ -15,6 +15,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.ZoomIn
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
@@ -94,7 +96,7 @@ fun ZoomModalSheet(
                     .align(Alignment.BottomEnd)
                     .padding(16.dp)
             ) {
-                TitleItem(text = stringResource(R.string.zoom))
+                TitleItem(text = stringResource(R.string.zoom), icon = Icons.Rounded.ZoomIn)
                 Spacer(Modifier.weight(1f))
                 OutlinedButton(
                     colors = ButtonDefaults.outlinedButtonColors(

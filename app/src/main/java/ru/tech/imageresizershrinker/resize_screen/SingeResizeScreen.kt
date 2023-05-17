@@ -1222,7 +1222,7 @@ fun SingleResizeScreen(
                                     end = 16.dp,
                                 )
                                 .border(
-                                    LocalBorderWidth.current,
+                                    LocalBorderWidth.current.coerceAtLeast(1.dp),
                                     MaterialTheme.colorScheme.outlineVariant(),
                                     RoundedCornerShape(4.dp)
                                 )

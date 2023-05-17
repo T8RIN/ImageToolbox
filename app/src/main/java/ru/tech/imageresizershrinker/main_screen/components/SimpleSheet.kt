@@ -123,7 +123,8 @@ fun SimpleSheet(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(16.dp)
-                    .navigationBarsPadding(),
+                    .navigationBarsPadding()
+                    .padding(end = 16.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 title()

@@ -162,6 +162,7 @@ fun EmojiSheet(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(16.dp)
+                    .padding(end = 16.dp),
             ) {
                 TitleItem(text = stringResource(R.string.emoji), icon = Icons.Outlined.EmojiSymbols)
                 Spacer(Modifier.weight(1f))

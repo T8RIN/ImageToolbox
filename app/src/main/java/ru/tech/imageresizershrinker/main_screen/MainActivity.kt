@@ -30,7 +30,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -39,6 +38,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.DoorBack
 import androidx.compose.material.icons.outlined.Palette
+import androidx.compose.material.icons.outlined.PhotoSizeSelectSmall
 import androidx.compose.material.icons.rounded.AddCircle
 import androidx.compose.material.icons.rounded.Download
 import androidx.compose.material.icons.rounded.ErrorOutline
@@ -71,7 +71,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.window.DialogProperties
 import androidx.core.text.isDigitsOnly
 import com.t8rin.dynamic.theme.LocalDynamicThemeState
 import com.t8rin.dynamic.theme.getAppColorTuple
@@ -117,7 +116,9 @@ import ru.tech.imageresizershrinker.main_screen.components.LocalSelectedEmoji
 import ru.tech.imageresizershrinker.main_screen.components.MainScreen
 import ru.tech.imageresizershrinker.main_screen.components.PickColorPreference
 import ru.tech.imageresizershrinker.main_screen.components.Screen
+import ru.tech.imageresizershrinker.main_screen.components.SimpleSheet
 import ru.tech.imageresizershrinker.main_screen.components.SingleResizePreference
+import ru.tech.imageresizershrinker.main_screen.components.TitleItem
 import ru.tech.imageresizershrinker.main_screen.components.isNightMode
 import ru.tech.imageresizershrinker.main_screen.components.toAlignment
 import ru.tech.imageresizershrinker.main_screen.viewModel.MainViewModel
@@ -383,6 +384,159 @@ class MainActivity : M3Activity() {
                                 }
                             )
                         }
+
+                        SimpleSheet(
+                            visible = editPresetsState,
+                            title = {
+                                TitleItem(
+                                    text = stringResource(R.string.presets),
+                                    icon = Icons.Rounded.PhotoSizeSelectSmall
+                                )
+                            },
+                            sheetContent = {
+                                val data = LocalPresetsProvider.current
+                                Box {
+                                    AnimatedContent(
+                                        targetState = data,
+                                        transitionSpec = { fadeIn() togetherWith fadeOut() },
+                                        modifier = Modifier.fillMaxWidth().verticalScroll(rememberScrollState())
+                                    ) { list ->
+                                        FlowRow(
+                                            Modifier
+                                                .align(Alignment.Center)
+                                                .fillMaxWidth()
+                                                .padding(top = 8.dp, bottom = 8.dp),
+                                            horizontalArrangement = Arrangement.Center
+                                        ) {
+                                            list.forEach {
+                                                OutlinedIconButton(
+                                                    onClick = {
+                                                        if (list.size > 7) {
+                                                            viewModel.updatePresets(list - it)
+                                                        }
+                                                    },
+                                                    border = BorderStroke(
+                                                        LocalBorderWidth.current.coerceAtLeast(1.dp),
+                                                        MaterialTheme.colorScheme.outlineVariant
+                                                    ),
+                                                    colors = IconButtonDefaults.outlinedIconButtonColors(
+                                                        containerColor = MaterialTheme.colorScheme.secondaryContainer.copy(
+                                                            alpha = 0.3f
+                                                        ),
+                                                        contentColor = MaterialTheme.colorScheme.onSurface
+                                                    )
+                                                ) {
+                                                    AutoSizeText(it.toString())
+                                                }
+                                            }
+                                            var expanded by remember { mutableStateOf(false) }
+                                            OutlinedIconButton(
+                                                onClick = {
+                                                    expanded = true
+                                                },
+                                                border = BorderStroke(
+                                                    androidx.compose.ui.unit.max(
+                                                        LocalBorderWidth.current,
+                                                        1.dp
+                                                    ),
+                                                    MaterialTheme.colorScheme.outlineVariant
+                                                ),
+                                                colors = IconButtonDefaults.outlinedIconButtonColors(
+                                                    containerColor = MaterialTheme.colorScheme.secondaryContainer.copy(
+                                                        alpha = 0.3f
+                                                    ),
+                                                    contentColor = MaterialTheme.colorScheme.onSurface
+                                                )
+                                            ) {
+                                                Icon(Icons.Rounded.AddCircle, null)
+                                            }
+                                            if (expanded) {
+                                                var value by remember { mutableStateOf("50") }
+                                                AlertDialog(
+                                                    modifier = Modifier.alertDialog(),
+                                                    onDismissRequest = { expanded = false },
+                                                    icon = {
+                                                        Icon(Icons.Outlined.PhotoSizeSelectSmall, null)
+                                                    },
+                                                    title = {
+                                                        Text(stringResource(R.string.presets))
+                                                    },
+                                                    text = {
+                                                        Row(
+                                                            modifier = Modifier.fillMaxWidth(),
+                                                            verticalAlignment = Alignment.CenterVertically,
+                                                            horizontalArrangement = Arrangement.Center
+                                                        ) {
+                                                            OutlinedTextField(
+                                                                shape = RoundedCornerShape(16.dp),
+                                                                value = value,
+                                                                textStyle = MaterialTheme.typography.titleMedium.copy(
+                                                                    textAlign = TextAlign.Center
+                                                                ),
+                                                                maxLines = 1,
+                                                                keyboardOptions = KeyboardOptions(
+                                                                    keyboardType = KeyboardType.Number
+                                                                ),
+                                                                onValueChange = {
+                                                                    if (it.isDigitsOnly()) {
+                                                                        value = it
+                                                                    }
+                                                                }
+                                                            )
+                                                            Text(
+                                                                text = "%",
+                                                                style = MaterialTheme.typography.titleMedium.copy(
+                                                                    textAlign = TextAlign.Center
+                                                                )
+                                                            )
+                                                        }
+                                                    },
+                                                    confirmButton = {
+                                                        OutlinedButton(
+                                                            onClick = {
+                                                                viewModel.updatePresets(
+                                                                    list + (value.toIntOrNull()
+                                                                        ?: 0).coerceIn(10..500)
+                                                                )
+                                                                expanded = false
+                                                            },
+                                                            colors = ButtonDefaults.outlinedButtonColors(
+                                                                containerColor = MaterialTheme.colorScheme.secondaryContainer.copy(
+                                                                    alpha = if (LocalNightMode.current.isNightMode()) 0.5f
+                                                                    else 1f
+                                                                ),
+                                                                contentColor = MaterialTheme.colorScheme.onSecondaryContainer,
+                                                            ),
+                                                            border = BorderStroke(
+                                                                LocalBorderWidth.current,
+                                                                MaterialTheme.colorScheme.outlineVariant(
+                                                                    onTopOf = MaterialTheme.colorScheme.secondaryContainer
+                                                                )
+                                                            ),
+                                                        ) {
+                                                            Text(stringResource(R.string.add))
+                                                        }
+                                                    }
+                                                )
+                                            }
+                                        }
+                                    }
+                                    Divider(Modifier.align(Alignment.TopCenter))
+                                    Divider(Modifier.align(Alignment.BottomCenter))
+                                }
+                            },
+                            confirmButton = {
+                                OutlinedButton(
+                                    onClick = { editPresetsState.value = false },
+                                    border = BorderStroke(
+                                        LocalBorderWidth.current,
+                                        MaterialTheme.colorScheme.outlineVariant()
+                                    )
+                                ) {
+                                    Text(stringResource(R.string.close))
+                                }
+                            }
+                        )
                     }
 
                     if (showExitDialog && !tiramisu) {
@@ -657,6 +811,7 @@ class MainActivity : M3Activity() {
                         )
                     }
 
+
                     ToastHost(hostState = LocalToastHost.current)
 
                     SideEffect { viewModel.tryGetUpdate(showDialog = viewModel.showDialogOnStartUp) }
@@ -694,163 +849,6 @@ class MainActivity : M3Activity() {
                         )
                     }
 
-                    if (editPresetsState.value) {
-                        AlertDialog(
-                            modifier = Modifier
-                                .width(320.dp)
-                                .alertDialog(),
-                            properties = DialogProperties(usePlatformDefaultWidth = false),
-                            onDismissRequest = { editPresetsState.value = false },
-                            title = { Text(stringResource(R.string.presets)) },
-                            icon = {
-                                Icon(
-                                    imageVector = Icons.Rounded.PhotoSizeSelectSmall,
-                                    contentDescription = null
-                                )
-                            },
-                            text = {
-                                val data = LocalPresetsProvider.current
-                                Box {
-                                    AnimatedContent(
-                                        targetState = data,
-                                        transitionSpec = { fadeIn() togetherWith fadeOut() },
-                                        modifier = Modifier.verticalScroll(rememberScrollState())
-                                    ) { list ->
-                                        FlowRow(
-                                            Modifier
-                                                .align(Alignment.Center)
-                                                .padding(start = 14.dp, top = 8.dp, bottom = 8.dp)
-                                        ) {
-                                            list.forEach {
-                                                OutlinedIconButton(
-                                                    onClick = {
-                                                        if (list.size > 7) {
-                                                            viewModel.updatePresets(list - it)
-                                                        }
-                                                    },
-                                                    border = BorderStroke(
-                                                        LocalBorderWidth.current.coerceAtLeast(1.dp),
-                                                        MaterialTheme.colorScheme.outlineVariant
-                                                    ),
-                                                    colors = IconButtonDefaults.outlinedIconButtonColors(
-                                                        containerColor = MaterialTheme.colorScheme.secondaryContainer.copy(
-                                                            alpha = 0.3f
-                                                        ),
-                                                        contentColor = MaterialTheme.colorScheme.onSurface
-                                                    )
-                                                ) {
-                                                    AutoSizeText(it.toString())
-                                                }
-                                            }
-                                            var expanded by remember { mutableStateOf(false) }
-                                            OutlinedIconButton(
-                                                onClick = {
-                                                    expanded = true
-                                                },
-                                                border = BorderStroke(
-                                                    androidx.compose.ui.unit.max(
-                                                        LocalBorderWidth.current,
-                                                        1.dp
-                                                    ),
-                                                    MaterialTheme.colorScheme.outlineVariant
-                                                ),
-                                                colors = IconButtonDefaults.outlinedIconButtonColors(
-                                                    containerColor = MaterialTheme.colorScheme.secondaryContainer.copy(
-                                                        alpha = 0.3f
-                                                    ),
-                                                    contentColor = MaterialTheme.colorScheme.onSurface
-                                                )
-                                            ) {
-                                                Icon(Icons.Rounded.AddCircle, null)
-                                            }
-                                            if (expanded) {
-                                                var value by remember { mutableStateOf("50") }
-                                                AlertDialog(
-                                                    modifier = Modifier.alertDialog(),
-                                                    onDismissRequest = { expanded = false },
-                                                    icon = {
-                                                        Icon(Icons.Outlined.Palette, null)
-                                                    },
-                                                    title = {
-                                                        Text(stringResource(R.string.presets))
-                                                    },
-                                                    text = {
-                                                        Row(
-                                                            modifier = Modifier.fillMaxWidth(),
-                                                            verticalAlignment = Alignment.CenterVertically,
-                                                            horizontalArrangement = Arrangement.Center
-                                                        ) {
-                                                            OutlinedTextField(
-                                                                shape = RoundedCornerShape(16.dp),
-                                                                value = value,
-                                                                textStyle = MaterialTheme.typography.titleMedium.copy(
-                                                                    textAlign = TextAlign.Center
-                                                                ),
-                                                                maxLines = 1,
-                                                                keyboardOptions = KeyboardOptions(
-                                                                    keyboardType = KeyboardType.Number
-                                                                ),
-                                                                onValueChange = {
-                                                                    if (it.isDigitsOnly()) {
-                                                                        value = it
-                                                                    }
-                                                                }
-                                                            )
-                                                            Text(
-                                                                text = "%",
-                                                                style = MaterialTheme.typography.titleMedium.copy(
-                                                                    textAlign = TextAlign.Center
-                                                                )
-                                                            )
-                                                        }
-                                                    },
-                                                    confirmButton = {
-                                                        OutlinedButton(
-                                                            onClick = {
-                                                                viewModel.updatePresets(
-                                                                    list + (value.toIntOrNull()
-                                                                        ?: 0).coerceIn(10..500)
-                                                                )
-                                                                expanded = false
-                                                            },
-                                                            colors = ButtonDefaults.outlinedButtonColors(
-                                                                containerColor = MaterialTheme.colorScheme.secondaryContainer.copy(
-                                                                    alpha = if (LocalNightMode.current.isNightMode()) 0.5f
-                                                                    else 1f
-                                                                ),
-                                                                contentColor = MaterialTheme.colorScheme.onSecondaryContainer,
-                                                            ),
-                                                            border = BorderStroke(
-                                                                LocalBorderWidth.current,
-                                                                MaterialTheme.colorScheme.outlineVariant(
-                                                                    onTopOf = MaterialTheme.colorScheme.secondaryContainer
-                                                                )
-                                                            ),
-                                                        ) {
-                                                            Text(stringResource(R.string.add))
-                                                        }
-                                                    }
-                                                )
-                                            }
-                                        }
-                                    }
-                                    Divider(Modifier.align(Alignment.TopCenter))
-                                    Divider(Modifier.align(Alignment.BottomCenter))
-                                }
-                            },
-                            confirmButton = {
-                                OutlinedButton(
-                                    onClick = { editPresetsState.value = false },
-                                    border = BorderStroke(
-                                        LocalBorderWidth.current,
-                                        MaterialTheme.colorScheme.outlineVariant()
-                                    )
-                                ) {
-                                    Text(stringResource(R.string.close))
-                                }
-                            }
-                        )
-                    }
                 }
             }
         }
