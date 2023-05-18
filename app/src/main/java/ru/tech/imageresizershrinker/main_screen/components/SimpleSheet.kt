@@ -1,6 +1,7 @@
 package ru.tech.imageresizershrinker.main_screen.components
 
 import androidx.activity.compose.BackHandler
+import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.CubicBezierEasing
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.border
@@ -169,7 +170,8 @@ fun SimpleSheet(
                 height = 0.dp,
                 shape = BottomSheetDefaults.ExpandedShape,
                 elevation = 16.dp
-            ),
+            )
+            .animateContentSize(),
         elevation = 0.dp,
         visible = visible,
         onVisibleChange = onDismiss,
