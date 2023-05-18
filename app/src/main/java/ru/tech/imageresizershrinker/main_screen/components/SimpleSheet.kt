@@ -25,6 +25,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.t8rin.modalsheet.ModalSheet
 import ru.tech.imageresizershrinker.theme.outlineVariant
@@ -33,12 +34,14 @@ import ru.tech.imageresizershrinker.utils.modifier.fabBorder
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SimpleSheet(
+    nestedScrollEnabled: Boolean = true,
     sheetContent: @Composable ColumnScope.() -> Unit,
     visible: MutableState<Boolean>
 ) {
     var showSheet by visible
 
     ModalSheet(
+        nestedScrollEnabled = nestedScrollEnabled,
         animationSpec = tween(
             durationMillis = 600,
             easing = CubicBezierEasing(0.05f, 0.7f, 0.1f, 1f)
@@ -63,7 +66,8 @@ fun SimpleSheet(
                 height = 0.dp,
                 shape = BottomSheetDefaults.ExpandedShape,
                 elevation = 16.dp
-            ),
+            )
+            .animateContentSize(),
         elevation = 0.dp,
         visible = showSheet,
         onVisibleChange = { showSheet = it },
@@ -77,14 +81,17 @@ fun SimpleSheet(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SimpleSheet(
+    nestedScrollEnabled: Boolean = true,
     sheetContent: @Composable ColumnScope.() -> Unit,
     confirmButton: @Composable RowScope.() -> Unit,
     title: @Composable () -> Unit,
+    endConfirmButtonPadding: Dp = 16.dp,
     visible: MutableState<Boolean>
 ) {
     var showSheet by visible
 
     ModalSheet(
+        nestedScrollEnabled = nestedScrollEnabled,
         animationSpec = tween(
             durationMillis = 600,
             easing = CubicBezierEasing(0.05f, 0.7f, 0.1f, 1f)
@@ -109,7 +116,8 @@ fun SimpleSheet(
                 height = 0.dp,
                 shape = BottomSheetDefaults.ExpandedShape,
                 elevation = 16.dp
-            ),
+            )
+            .animateContentSize(),
         elevation = 0.dp,
         visible = showSheet,
         onVisibleChange = { showSheet = it },
@@ -125,7 +133,7 @@ fun SimpleSheet(
                     .fillMaxWidth()
                     .padding(16.dp)
                     .navigationBarsPadding()
-                    .padding(end = 16.dp),
+                    .padding(endConfirmButtonPadding),
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 title()
@@ -139,6 +147,7 @@ fun SimpleSheet(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SimpleSheet(
+    nestedScrollEnabled: Boolean = true,
     sheetContent: @Composable ColumnScope.() -> Unit,
     confirmButton: @Composable RowScope.() -> Unit,
     title: @Composable () -> Unit,
@@ -146,6 +155,7 @@ fun SimpleSheet(
     onDismiss: (Boolean) -> Unit
 ) {
     ModalSheet(
+        nestedScrollEnabled = nestedScrollEnabled,
         animationSpec = tween(
             durationMillis = 600,
             easing = CubicBezierEasing(0.05f, 0.7f, 0.1f, 1f)

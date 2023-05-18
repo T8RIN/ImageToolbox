@@ -44,7 +44,7 @@ fun ModalSheet(
     visible: Boolean,
     onVisibleChange: (Boolean) -> Unit,
     modifier: Modifier = Modifier,
-    nestedScrollEnabled: Boolean = false,
+    nestedScrollEnabled: Boolean = true,
     animationSpec: AnimationSpec<Float> = SwipeableV2Defaults.AnimationSpec,
     sheetModifier: Modifier = Modifier,
     cancelable: Boolean = true,

@@ -9,7 +9,6 @@ import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.togetherWith
@@ -39,7 +38,6 @@ import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -66,7 +64,6 @@ import androidx.compose.material.icons.rounded.ZoomIn
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -79,6 +76,7 @@ import androidx.compose.material3.LargeTopAppBar
 import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
+import androidx.compose.material3.OutlinedCard
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -111,7 +109,6 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.compose.ui.window.DialogProperties
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.smarttoolfactory.cropper.ImageCropper
 import com.smarttoolfactory.cropper.model.OutlineType
@@ -217,7 +214,7 @@ fun SingleResizeScreen(
     var showResetDialog by rememberSaveable { mutableStateOf(false) }
     var showSaveLoading by rememberSaveable { mutableStateOf(false) }
     var showOriginal by rememberSaveable { mutableStateOf(false) }
-    var showEditExifDialog by rememberSaveable { mutableStateOf(false) }
+    val showEditExifDialog = rememberSaveable { mutableStateOf(false) }
     val showCropDialog = rememberSaveable { mutableStateOf(false) }
     var showExitDialog by rememberSaveable { mutableStateOf(false) }
 
@@ -706,7 +703,7 @@ fun SingleResizeScreen(
                                 if (viewModel.bitmap != null) {
                                     if (imageInside) Spacer(Modifier.size(20.dp))
                                     ImageTransformBar(
-                                        onEditExif = { showEditExifDialog = true },
+                                        onEditExif = { showEditExifDialog.value = true },
                                         onCrop = { showCropDialog.value = true },
                                         onRotateLeft = viewModel::rotateLeft,
                                         onFlip = viewModel::flip,
@@ -873,187 +870,164 @@ fun SingleResizeScreen(
                         }
                     }
                 )
-            } else if (showEditExifDialog) {
-                var showAddExifDialog by rememberSaveable { mutableStateOf(false) }
-                var showClearExifDialog by rememberSaveable { mutableStateOf(false) }
-                AlertDialog(
-                    modifier = Modifier
-                        .systemBarsPadding()
-                        .animateContentSize()
-                        .width(340.dp)
-                        .padding(16.dp)
-                        .alertDialog(),
-                    onDismissRequest = { showEditExifDialog = false },
-                    title = { Text(stringResource(R.string.edit_exif)) },
-                    icon = { Icon(Icons.Rounded.Dataset, null) },
-                    confirmButton = {
-                        OutlinedButton(
-                            colors = ButtonDefaults.outlinedButtonColors(
-                                containerColor = MaterialTheme.colorScheme.primary,
-                                contentColor = MaterialTheme.colorScheme.onPrimary,
-                            ),
-                            border = BorderStroke(
-                                LocalBorderWidth.current,
-                                MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.primary)
-                            ),
-                            onClick = { showEditExifDialog = false }
-                        ) {
-                            Text(stringResource(R.string.ok))
-                        }
-                    },
-                    dismissButton = {
-                        val count =
-                            remember(map) {
-                                BitmapUtils.tags.count {
-                                    it !in (map?.keys ?: emptyList())
-                                }
-                            }
-                        Row {
-                            if (map?.isEmpty() == false) {
-                                OutlinedButton(
-                                    onClick = {
-                                        showClearExifDialog = true
-                                    }, border = BorderStroke(
-                                        LocalBorderWidth.current,
-                                        MaterialTheme.colorScheme.outlineVariant()
-                                    )
-                                ) {
-                                    Text(stringResource(R.string.clear))
-                                }
-                                Spacer(Modifier.width(8.dp))
-                            }
-                            if (count > 0) {
-                                OutlinedButton(
-                                    colors = ButtonDefaults.outlinedButtonColors(
-                                        containerColor = MaterialTheme.colorScheme.secondaryContainer,
-                                        contentColor = MaterialTheme.colorScheme.onSecondaryContainer,
-                                    ),
-                                    border = BorderStroke(
-                                        LocalBorderWidth.current,
-                                        MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.secondaryContainer)
-                                    ),
-                                    onClick = { showAddExifDialog = true }
-                                ) {
-                                    Text(stringResource(R.string.add_tag))
-                                }
+            }
+
+            val showAddExifDialog = rememberSaveable { mutableStateOf(false) }
+            var showClearExifDialog by rememberSaveable { mutableStateOf(false) }
+            SimpleSheet(
+                nestedScrollEnabled = false,
+                endConfirmButtonPadding = 0.dp,
+                confirmButton = {
+                    OutlinedButton(
+                        colors = ButtonDefaults.outlinedButtonColors(
+                            containerColor = MaterialTheme.colorScheme.primary,
+                            contentColor = MaterialTheme.colorScheme.onPrimary,
+                        ),
+                        border = BorderStroke(
+                            LocalBorderWidth.current,
+                            MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.primary)
+                        ),
+                        onClick = { showEditExifDialog.value = false }
+                    ) {
+                        Text(stringResource(R.string.ok))
+                    }
+                },
+                title = {
+                    val count =
+                        remember(map) {
+                            BitmapUtils.tags.count {
+                                it !in (map?.keys ?: emptyList())
                             }
                         }
-                    },
-                    properties = DialogProperties(usePlatformDefaultWidth = false),
-                    text = {
+                    Row {
                         if (map?.isEmpty() == false) {
-                            Box {
-                                LazyColumn(
-                                    contentPadding = PaddingValues(vertical = 8.dp)
-                                ) {
-                                    items(map!!.toList()) { (tag, value) ->
-                                        Card(
-                                            modifier = Modifier
-                                                .padding(vertical = 4.dp),
-                                            colors = CardDefaults.cardColors(
-                                                containerColor = MaterialTheme.colorScheme.surfaceVariant.copy(
-                                                    alpha = 0.5f
-                                                )
+                            OutlinedButton(
+                                onClick = {
+                                    showClearExifDialog = true
+                                }, border = BorderStroke(
+                                    LocalBorderWidth.current,
+                                    MaterialTheme.colorScheme.outlineVariant()
+                                )
+                            ) {
+                                Text(stringResource(R.string.clear))
+                            }
+                            Spacer(Modifier.width(8.dp))
+                        }
+                        if (count > 0) {
+                            OutlinedButton(
+                                colors = ButtonDefaults.outlinedButtonColors(
+                                    containerColor = MaterialTheme.colorScheme.secondaryContainer,
+                                    contentColor = MaterialTheme.colorScheme.onSecondaryContainer,
+                                ),
+                                border = BorderStroke(
+                                    LocalBorderWidth.current,
+                                    MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.secondaryContainer)
+                                ),
+                                onClick = { showAddExifDialog.value = true }
+                            ) {
+                                Text(stringResource(R.string.add_tag))
+                            }
+                        }
+                    }
+                },
+                visible = showEditExifDialog,
+                sheetContent = {
+                    if (map?.isEmpty() == false) {
+                        TitleItem(
+                            text = stringResource(id = R.string.edit_exif),
+                            icon = Icons.Rounded.Dataset
+                        )
+                        Box {
+                            LazyColumn(
+                                contentPadding = PaddingValues(8.dp)
+                            ) {
+                                items(map!!.toList()) { (tag, value) ->
+                                    OutlinedCard(
+                                        border = BorderStroke(
+                                            LocalBorderWidth.current,
+                                            MaterialTheme.colorScheme.outlineVariant()
+                                        ),
+                                        modifier = Modifier
+                                            .padding(vertical = 4.dp),
+                                        colors = CardDefaults.cardColors(
+                                            containerColor = MaterialTheme.colorScheme.surfaceVariant.copy(
+                                                alpha = 0.5f
                                             )
-                                        ) {
-                                            Column(Modifier.fillMaxWidth()) {
-                                                Row {
-                                                    Text(
-                                                        text = tag,
-                                                        fontSize = 16.sp,
-                                                        modifier = Modifier
-                                                            .padding(12.dp)
-                                                            .weight(1f),
-                                                        textAlign = TextAlign.Start
-                                                    )
-                                                    IconButton(
-                                                        onClick = {
-                                                            viewModel.removeExifTag(
-                                                                tag
-                                                            )
-                                                            map =
-                                                                map?.toMutableMap()
-                                                                    ?.apply {
-                                                                        remove(tag)
-                                                                    }
-                                                        }
-                                                    ) {
-                                                        Icon(
-                                                            Icons.Rounded.RemoveCircleOutline,
-                                                            null
-                                                        )
-                                                    }
-                                                }
-                                                OutlinedTextField(
-                                                    onValueChange = {
-                                                        viewModel.updateExifByTag(
-                                                            tag,
-                                                            it
+                                        )
+                                    ) {
+                                        Column(Modifier.fillMaxWidth()) {
+                                            Row {
+                                                Text(
+                                                    text = tag,
+                                                    fontSize = 16.sp,
+                                                    modifier = Modifier
+                                                        .padding(12.dp)
+                                                        .weight(1f),
+                                                    textAlign = TextAlign.Start
+                                                )
+                                                IconButton(
+                                                    onClick = {
+                                                        viewModel.removeExifTag(
+                                                            tag
                                                         )
                                                         map =
                                                             map?.toMutableMap()
                                                                 ?.apply {
-                                                                    this[tag] = it
+                                                                    remove(tag)
                                                                 }
-                                                    },
-                                                    value = value,
-                                                    textStyle = LocalTextStyle.current.copy(
-                                                        fontSize = 16.sp,
-                                                        fontWeight = FontWeight.Bold
-                                                    ),
-                                                    keyboardOptions = KeyboardOptions.Default.copy(
-                                                        imeAction = ImeAction.Next
-                                                    ),
-                                                    modifier = Modifier
-                                                        .fillMaxWidth()
-                                                        .padding(8.dp)
-                                                )
+                                                    }
+                                                ) {
+                                                    Icon(
+                                                        Icons.Rounded.RemoveCircleOutline,
+                                                        null
+                                                    )
+                                                }
                                             }
+                                            OutlinedTextField(
+                                                onValueChange = {
+                                                    viewModel.updateExifByTag(
+                                                        tag,
+                                                        it
+                                                    )
+                                                    map =
+                                                        map?.toMutableMap()
+                                                            ?.apply {
+                                                                this[tag] = it
+                                                            }
+                                                },
+                                                value = value,
+                                                textStyle = LocalTextStyle.current.copy(
+                                                    fontSize = 16.sp,
+                                                    fontWeight = FontWeight.Bold
+                                                ),
+                                                keyboardOptions = KeyboardOptions.Default.copy(
+                                                    imeAction = ImeAction.Next
+                                                ),
+                                                modifier = Modifier
+                                                    .fillMaxWidth()
+                                                    .padding(8.dp)
+                                            )
                                         }
                                     }
                                 }
-                                Divider(Modifier.align(Alignment.BottomCenter))
                             }
-                        } else {
-                            Text(
-                                stringResource(R.string.no_exif),
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .padding(12.dp),
-                                textAlign = TextAlign.Center
-                            )
+                            Divider(Modifier.align(Alignment.TopCenter))
+                            Divider(Modifier.align(Alignment.BottomCenter))
                         }
+                    } else {
+                        Text(
+                            stringResource(R.string.no_exif),
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(12.dp),
+                            textAlign = TextAlign.Center
+                        )
                     }
-                )
-                if (showAddExifDialog) {
-                    AlertDialog(
-                        modifier = Modifier
-                            .systemBarsPadding()
-                            .animateContentSize()
-                            .width(340.dp)
-                            .padding(16.dp)
-                            .alertDialog(),
-                        onDismissRequest = { showAddExifDialog = false },
-                        title = { Text(stringResource(R.string.add_tag)) },
-                        icon = { Icon(Icons.Rounded.Dataset, null) },
-                        confirmButton = {
-                            OutlinedButton(
-                                colors = ButtonDefaults.outlinedButtonColors(
-                                    containerColor = MaterialTheme.colorScheme.primary,
-                                    contentColor = MaterialTheme.colorScheme.onPrimary,
-                                ),
-                                border = BorderStroke(
-                                    LocalBorderWidth.current,
-                                    MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.primary)
-                                ),
-                                onClick = { showAddExifDialog = false }
-                            ) {
-                                Text(stringResource(R.string.ok))
-                            }
-                        },
-                        properties = DialogProperties(usePlatformDefaultWidth = false),
-                        text = {
-                            Box {
+                    SimpleSheet(
+                        nestedScrollEnabled = false,
+                        visible = showAddExifDialog,
+                        sheetContent = {
+                            Column {
                                 val tags =
                                     remember(map) {
                                         BitmapUtils.tags.filter {
@@ -1062,7 +1036,7 @@ fun SingleResizeScreen(
                                     }
                                 if (tags.isEmpty()) {
                                     SideEffect {
-                                        showAddExifDialog = false
+                                        showAddExifDialog.value = false
                                     }
                                 }
                                 var query by rememberSaveable { mutableStateOf("") }
@@ -1072,18 +1046,21 @@ fun SingleResizeScreen(
                                     }
                                 }
                                 LazyColumn(
-                                    contentPadding = PaddingValues(vertical = 8.dp)
+                                    contentPadding = PaddingValues(8.dp),
+                                    modifier = Modifier.weight(1f, false)
                                 ) {
                                     stickyHeader {
                                         Column(
                                             Modifier.background(
                                                 MaterialTheme.colorScheme.surfaceColorAtElevation(
-                                                    6.dp
+                                                    2.dp
                                                 )
                                             )
                                         ) {
                                             RoundedTextField(
-                                                textStyle = LocalTextStyle.current.copy(textAlign = TextAlign.Start),
+                                                textStyle = LocalTextStyle.current.copy(
+                                                    textAlign = TextAlign.Start
+                                                ),
                                                 shape = RoundedCornerShape(30),
                                                 label = stringResource(R.string.search_here),
                                                 onValueChange = { query = it },
@@ -1097,7 +1074,11 @@ fun SingleResizeScreen(
                                         Spacer(Modifier.height(8.dp))
                                     }
                                     items(list) { tag ->
-                                        Card(
+                                        OutlinedCard(
+                                            border = BorderStroke(
+                                                LocalBorderWidth.current,
+                                                MaterialTheme.colorScheme.outlineVariant()
+                                            ),
                                             modifier = Modifier
                                                 .padding(vertical = 4.dp),
                                             colors = CardDefaults.cardColors(
@@ -1156,56 +1137,82 @@ fun SingleResizeScreen(
                                         }
                                     }
                                 }
-                                Divider(Modifier.align(Alignment.BottomCenter))
-                            }
-                        }
-                    )
-                } else if (showClearExifDialog) {
-                    AlertDialog(
-                        modifier = Modifier.alertDialog(),
-                        onDismissRequest = { showClearExifDialog = false },
-                        title = { Text(stringResource(R.string.clear_exif)) },
-                        icon = { Icon(Icons.Rounded.Delete, null) },
-                        confirmButton = {
-                            OutlinedButton(
-                                colors = ButtonDefaults.outlinedButtonColors(
-                                    containerColor = MaterialTheme.colorScheme.primary,
-                                    contentColor = MaterialTheme.colorScheme.onPrimary,
-                                ),
-                                border = BorderStroke(
-                                    LocalBorderWidth.current,
-                                    MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.primary)
-                                ),
-                                onClick = { showClearExifDialog = false }
-                            ) {
-                                Text(stringResource(R.string.cancel))
-                            }
-                        },
-                        dismissButton = {
-                            OutlinedButton(
-                                colors = ButtonDefaults.outlinedButtonColors(
-                                    containerColor = MaterialTheme.colorScheme.secondaryContainer,
-                                    contentColor = MaterialTheme.colorScheme.onSecondaryContainer,
-                                ),
-                                border = BorderStroke(
-                                    LocalBorderWidth.current,
-                                    MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.secondaryContainer)
-                                ),
-                                onClick = {
-                                    showClearExifDialog = false
-                                    map = emptyMap()
-                                    viewModel.clearExif()
+                                Divider()
+                                Row(
+                                    modifier = Modifier
+                                        .padding(16.dp)
+                                        .padding(end = 16.dp)
+                                        .navigationBarsPadding()
+                                ) {
+                                    TitleItem(
+                                        text = stringResource(R.string.add_tag),
+                                        icon = Icons.Rounded.Dataset
+                                    )
+                                    Spacer(Modifier.weight(1f))
+                                    OutlinedButton(
+                                        colors = ButtonDefaults.outlinedButtonColors(
+                                            containerColor = MaterialTheme.colorScheme.primary,
+                                            contentColor = MaterialTheme.colorScheme.onPrimary,
+                                        ),
+                                        border = BorderStroke(
+                                            LocalBorderWidth.current,
+                                            MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.primary)
+                                        ),
+                                        onClick = { showAddExifDialog.value = false }
+                                    ) {
+                                        Text(stringResource(R.string.ok))
+                                    }
                                 }
-                            ) {
-                                Text(stringResource(R.string.clear))
                             }
-                        },
-                        text = {
-                            Text(stringResource(R.string.clear_exif_sub))
                         }
                     )
+                    if (showClearExifDialog) {
+                        AlertDialog(
+                            modifier = Modifier.alertDialog(),
+                            onDismissRequest = { showClearExifDialog = false },
+                            title = { Text(stringResource(R.string.clear_exif)) },
+                            icon = { Icon(Icons.Rounded.Delete, null) },
+                            confirmButton = {
+                                OutlinedButton(
+                                    colors = ButtonDefaults.outlinedButtonColors(
+                                        containerColor = MaterialTheme.colorScheme.primary,
+                                        contentColor = MaterialTheme.colorScheme.onPrimary,
+                                    ),
+                                    border = BorderStroke(
+                                        LocalBorderWidth.current,
+                                        MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.primary)
+                                    ),
+                                    onClick = { showClearExifDialog = false }
+                                ) {
+                                    Text(stringResource(R.string.cancel))
+                                }
+                            },
+                            dismissButton = {
+                                OutlinedButton(
+                                    colors = ButtonDefaults.outlinedButtonColors(
+                                        containerColor = MaterialTheme.colorScheme.secondaryContainer,
+                                        contentColor = MaterialTheme.colorScheme.onSecondaryContainer,
+                                    ),
+                                    border = BorderStroke(
+                                        LocalBorderWidth.current,
+                                        MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.secondaryContainer)
+                                    ),
+                                    onClick = {
+                                        showClearExifDialog = false
+                                        map = emptyMap()
+                                        viewModel.clearExif()
+                                    }
+                                ) {
+                                    Text(stringResource(R.string.clear))
+                                }
+                            },
+                            text = {
+                                Text(stringResource(R.string.clear_exif_sub))
+                            }
+                        )
+                    }
                 }
-            }
+            )
 
             viewModel.bitmap?.let {
                 val bmp = remember(it) {
@@ -1217,6 +1224,8 @@ fun SingleResizeScreen(
                     sheetContent = {
                         ImageCropper(
                             modifier = Modifier
+                                .fillMaxWidth()
+                                .weight(1f)
                                 .padding(
                                     start = 16.dp,
                                     end = 16.dp,
@@ -1247,25 +1256,31 @@ fun SingleResizeScreen(
                                 showCropDialog.value = false
                             }
                         )
-                    },
-                    confirmButton = {
-                        OutlinedButton(
-                            colors = ButtonDefaults.outlinedButtonColors(
-                                containerColor = MaterialTheme.colorScheme.primary,
-                                contentColor = MaterialTheme.colorScheme.onPrimary,
-                            ),
-                            border = BorderStroke(
-                                LocalBorderWidth.current,
-                                MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.primary)
-                            ), onClick = { crop = true }) {
-                            Text(stringResource(R.string.crop))
+                        Row(
+                            modifier = Modifier
+                                .padding(16.dp)
+                                .padding(end = 16.dp)
+                                .navigationBarsPadding()
+                        ) {
+                            TitleItem(
+                                text = stringResource(R.string.cropping),
+                                icon = Icons.Rounded.Crop
+                            )
+                            Spacer(Modifier.weight(1f))
+                            OutlinedButton(
+                                colors = ButtonDefaults.outlinedButtonColors(
+                                    containerColor = MaterialTheme.colorScheme.primary,
+                                    contentColor = MaterialTheme.colorScheme.onPrimary,
+                                ),
+                                border = BorderStroke(
+                                    LocalBorderWidth.current,
+                                    MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.primary)
+                                ),
+                                onClick = { showCropDialog.value = false }
+                            ) {
+                                Text(stringResource(R.string.crop))
+                            }
                         }
-                    },
-                    title = {
-                        TitleItem(
-                            text = stringResource(id = R.string.cropping),
-                            icon = Icons.Rounded.Crop
-                        )
                     },
                     visible = showCropDialog
                 )

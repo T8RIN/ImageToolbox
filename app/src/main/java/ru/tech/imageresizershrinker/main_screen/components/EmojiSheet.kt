@@ -180,6 +180,7 @@ fun EmojiSheet(
     }
 
     SimpleSheet(
+        nestedScrollEnabled = false,
         sheetContent = sheetContent,
         visible = visible
     )
