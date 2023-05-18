@@ -140,4 +140,11 @@
     <string name="image_preview">aperçu de l\'image</string>
     <string name="image_preview_sub">Aperçu de tout type d’images : GIF, SVG, et ainsi de suite</string>
     <string name="cropping">recadrage</string>
+    <string name="photo_picker_sub">Android modern photo picker qui apparaît au bas de l’écran, peut fonctionner uniquement sur Android 12+ et a également des problèmes avec la réception de métadonnées EXIF</string>
+    <string name="file_explorer_picker_sub">Utilisez l\'intention obtenir du contenu pour sélectionner l\'image, fonctionne partout, mais peut également avoir des problèmes avec la réception d\'images sélectionnées sur certains appareils, ce n\'est pas ma faute</string>
+    <string name="image_source">source de l\'image</string>
+    <string name="photo_picker">Sélecteur de photos</string>
+    <string name="gallery_picker">Galerie</string>
+    <string name="file_explorer_picker">explorateur de fichiers</string>
+    <string name="gallery_picker_sub">Simple sélecteur d’image de galerie, il ne fonctionnera que si vous avez cette application</string>
 </resources>
