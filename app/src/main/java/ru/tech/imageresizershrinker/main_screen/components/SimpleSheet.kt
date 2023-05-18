@@ -34,7 +34,7 @@ import ru.tech.imageresizershrinker.utils.modifier.fabBorder
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SimpleSheet(
-    nestedScrollEnabled: Boolean = true,
+    nestedScrollEnabled: Boolean = false,
     sheetContent: @Composable ColumnScope.() -> Unit,
     visible: MutableState<Boolean>
 ) {
@@ -81,7 +81,7 @@ fun SimpleSheet(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SimpleSheet(
-    nestedScrollEnabled: Boolean = true,
+    nestedScrollEnabled: Boolean = false,
     sheetContent: @Composable ColumnScope.() -> Unit,
     confirmButton: @Composable RowScope.() -> Unit,
     title: @Composable () -> Unit,
@@ -147,7 +147,7 @@ fun SimpleSheet(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SimpleSheet(
-    nestedScrollEnabled: Boolean = true,
+    nestedScrollEnabled: Boolean = false,
     sheetContent: @Composable ColumnScope.() -> Unit,
     confirmButton: @Composable RowScope.() -> Unit,
     title: @Composable () -> Unit,

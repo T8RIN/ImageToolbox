@@ -11,6 +11,7 @@ import androidx.compose.animation.fadeOut
 import androidx.compose.animation.slideInHorizontally
 import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -21,6 +22,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.asPaddingValues
+import androidx.compose.foundation.layout.displayCutoutPadding
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.navigationBars
@@ -30,6 +32,8 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
+import androidx.compose.foundation.pager.HorizontalPager
+import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
@@ -37,6 +41,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.AddPhotoAlternate
 import androidx.compose.material.icons.rounded.ArrowBack
 import androidx.compose.material.icons.rounded.Image
+import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExtendedFloatingActionButton
@@ -48,7 +53,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.minimumInteractiveComponentSize
 import androidx.compose.material3.surfaceColorAtElevation
@@ -113,7 +117,7 @@ import ru.tech.imageresizershrinker.utils.rememberImagePicker
 import ru.tech.imageresizershrinker.widget.Marquee
 import ru.tech.imageresizershrinker.widget.Picture
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
 @Composable
 fun ImagePreviewScreen(
     uriState: List<Uri>?,
@@ -326,6 +330,15 @@ fun ImagePreviewScreen(
         )
     ) {
         val wantToEdit = rememberSaveable { mutableStateOf(false) }
+        val state = rememberPagerState(
+            initialPage = viewModel.selectedUri?.let {
+                viewModel.uris?.indexOf(it)
+            } ?: 0,
+            pageCount = {
+                viewModel.uris?.size ?: 0
+            }
+        )
+        var zoomEnabled by rememberSaveable { mutableStateOf(false) }
         Box(
             Modifier
                 .fillMaxSize()
@@ -334,38 +347,66 @@ fun ImagePreviewScreen(
                     detectTapGestures { }
                 }
         ) {
-            Picture(
-                model = viewModel.selectedUri,
-                modifier = Modifier
-                    .fillMaxSize()
-                    .animatedZoom(
-                        animatedZoomState = rememberAnimatedZoomState(
-                            minZoom = 0.5f,
-                            maxZoom = 6f,
-                            moveToBounds = true,
-                            zoomable = true,
-                            pannable = true,
-                            rotatable = true
-                        ),
-                        zoomOnDoubleTap = {
-                            when (it) {
-                                ZoomLevel.Min -> 1f
-                                ZoomLevel.Mid -> 3f
-                                ZoomLevel.Max -> 6f
-                            }
-                        }
-                    )
-                    .padding(vertical = 64.dp)
-                    .systemBarsPadding()
-                    .navigationBarsPadding(),
-                contentScale = ContentScale.Fit,
-                shape = RectangleShape
+            val zoomState = rememberAnimatedZoomState(
+                minZoom = 0.5f,
+                maxZoom = 8f,
+                moveToBounds = true,
+                zoomable = true,
+                pannable = true,
+                rotatable = true
             )
-            TopAppBar(
+            HorizontalPager(
+                state = state,
+                modifier = Modifier.fillMaxSize(),
+                pageSpacing = 8.dp,
+                beyondBoundsPageCount = 5,
+                userScrollEnabled = zoomState.zoom == 1f
+            ) { page ->
+                Box(
+                    modifier = Modifier.fillMaxSize()
+                ) {
+                    Picture(
+                        model = viewModel.uris?.getOrNull(page),
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .animatedZoom(
+                                animatedZoomState = zoomState,
+                                zoomOnDoubleTap = {
+                                    when (it) {
+                                        ZoomLevel.Min -> 1f
+                                        ZoomLevel.Mid -> 3f
+                                        ZoomLevel.Max -> 6f
+                                    }
+                                },
+                                enabled = { zoom, _, _ ->
+                                    zoom != 1f
+                                }
+                            )
+                            .systemBarsPadding()
+                            .displayCutoutPadding(),
+                        contentScale = ContentScale.Fit,
+                        shape = RectangleShape
+                    )
+                }
+            }
+            CenterAlignedTopAppBar(
                 colors = TopAppBarDefaults.topAppBarColors(
                     containerColor = Color.Transparent
                 ),
-                title = { },
+                title = {
+                    viewModel.uris?.size?.let {
+                        Text(
+                            text = "${state.currentPage + 1}/$it",
+                            modifier = Modifier
+                                .background(
+                                    MaterialTheme.colorScheme.scrim.copy(alpha = 0.5f),
+                                    CircleShape
+                                )
+                                .padding(vertical = 4.dp, horizontal = 12.dp),
+                            color = Color.White
+                        )
+                    }
+                },
                 actions = {
                     AnimatedVisibility(viewModel.selectedUri != null) {
                         Box(
@@ -378,7 +419,8 @@ fun ImagePreviewScreen(
                                 )
                                 .clip(CircleShape)
                                 .clickable {
-                                    if (viewModel.selectedUri != null) wantToEdit.value = true
+                                    wantToEdit.value = true
+                                    viewModel.selectUri(viewModel.uris?.getOrNull(state.currentPage))
                                 },
                             contentAlignment = Alignment.Center
                         ) {
@@ -391,27 +433,29 @@ fun ImagePreviewScreen(
                     }
                 },
                 navigationIcon = {
-                    Box(
-                        modifier = Modifier
-                            .minimumInteractiveComponentSize()
-                            .size(40.dp)
-                            .background(
-                                MaterialTheme.colorScheme.scrim.copy(alpha = 0.5f),
-                                CircleShape
+                    AnimatedVisibility(viewModel.selectedUri != null) {
+                        Box(
+                            modifier = Modifier
+                                .minimumInteractiveComponentSize()
+                                .size(40.dp)
+                                .background(
+                                    MaterialTheme.colorScheme.scrim.copy(alpha = 0.5f),
+                                    CircleShape
+                                )
+                                .clip(CircleShape)
+                                .clickable {
+                                    showImagePreviewDialog = false
+                                    viewModel.selectUri(null)
+                                    viewModel.updateBitmap { null }
+                                },
+                            contentAlignment = Alignment.Center
+                        ) {
+                            Icon(
+                                imageVector = Icons.Rounded.ArrowBack,
+                                contentDescription = null,
+                                tint = Color.White
                             )
-                            .clip(CircleShape)
-                            .clickable {
-                                showImagePreviewDialog = false
-                                viewModel.selectUri(null)
-                                viewModel.updateBitmap { null }
-                            },
-                        contentAlignment = Alignment.Center
-                    ) {
-                        Icon(
-                            imageVector = Icons.Rounded.ArrowBack,
-                            contentDescription = null,
-                            tint = Color.White
-                        )
+                        }
                     }
                 },
             )
