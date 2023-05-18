@@ -4,9 +4,6 @@ import android.content.res.Configuration
 import android.net.Uri
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.BackHandler
-import androidx.activity.compose.rememberLauncherForActivityResult
-import androidx.activity.result.PickVisualMediaRequest
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
@@ -153,7 +150,6 @@ import ru.tech.imageresizershrinker.utils.BitmapUtils.toMap
 import ru.tech.imageresizershrinker.utils.BitmapUtils.with
 import ru.tech.imageresizershrinker.utils.ContextUtils.isExternalStorageWritable
 import ru.tech.imageresizershrinker.utils.ContextUtils.requestStoragePermission
-import ru.tech.imageresizershrinker.utils.ImagePickerMode
 import ru.tech.imageresizershrinker.utils.LocalWindowSizeClass
 import ru.tech.imageresizershrinker.utils.Picker
 import ru.tech.imageresizershrinker.utils.SavingFolder
@@ -233,7 +229,7 @@ fun SingleResizeScreen(
         rememberImagePicker(
             mode = localImagePickerMode(Picker.Single)
         ) { uris ->
-            uris.takeIf{it.isNotEmpty()}?.firstOrNull()?.let {
+            uris.takeIf { it.isNotEmpty() }?.firstOrNull()?.let {
                 context.decodeBitmapFromUri(
                     uri = it,
                     onGetMimeType = viewModel::setMime,

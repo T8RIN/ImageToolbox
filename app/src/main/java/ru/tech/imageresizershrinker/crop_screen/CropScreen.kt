@@ -6,9 +6,6 @@ import android.graphics.Bitmap
 import android.net.Uri
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.BackHandler
-import androidx.activity.compose.rememberLauncherForActivityResult
-import androidx.activity.result.PickVisualMediaRequest
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.animateDpAsState
@@ -178,7 +175,7 @@ fun CropScreen(
         rememberImagePicker(
             mode = localImagePickerMode(Picker.Single)
         ) { uris ->
-            uris.takeIf{it.isNotEmpty()}?.firstOrNull()?.let {
+            uris.takeIf { it.isNotEmpty() }?.firstOrNull()?.let {
                 context.decodeBitmapFromUri(
                     uri = it,
                     onGetMimeType = {},

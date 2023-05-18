@@ -3,9 +3,6 @@ package ru.tech.imageresizershrinker.generate_palette_screen
 import android.content.res.Configuration
 import android.net.Uri
 import androidx.activity.compose.BackHandler
-import androidx.activity.compose.rememberLauncherForActivityResult
-import androidx.activity.result.PickVisualMediaRequest
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.animateDpAsState
@@ -148,7 +145,7 @@ fun GeneratePaletteScreen(
         rememberImagePicker(
             mode = localImagePickerMode(Picker.Single)
         ) { uris ->
-            uris.takeIf{it.isNotEmpty()}?.firstOrNull()?.let {
+            uris.takeIf { it.isNotEmpty() }?.firstOrNull()?.let {
                 viewModel.setUri(it)
                 context.decodeBitmapFromUri(
                     uri = it,
