@@ -82,7 +82,7 @@
     <string name="images">Bilder: %d</string>
     <string name="change_preview">Ändere Vorschau</string>
     <string name="remove">Entfernen</string>
-    <string name="palette_sub">Erzeuge Farbpalette aus gewähltem Bild</string>
+    <string name="palette_sub">Erzeuge eine Farbpalette aus einem bestimmten Bild</string>
     <string name="palette">Farbpalette</string>
     <string name="new_version">Neue Version %1$s</string>
     <string name="unsupported_type">Dateityp wird nicht unterstützt: %1$s</string>
@@ -137,4 +137,6 @@
     <string name="add_file_size_sub">Wenn aktiviert, werden Breite und Höhe des gespeicherten Bildes zum Namen der Ausgabedatei hinzugefügt</string>
     <string name="delete_exif">EXIF löschen</string>
     <string name="delete_exif_sub">EXIF-Metadaten von einem beliebigen Bilderpaar löschen</string>
+    <string name="image_preview">Bildvorschau</string>
+    <string name="image_preview_sub">Sieh dir jegliches Bildformat an: GIF, SVG usw.</string>
 </resources>
