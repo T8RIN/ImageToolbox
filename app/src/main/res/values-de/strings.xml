@@ -139,4 +139,5 @@
     <string name="delete_exif_sub">EXIF-Metadaten von einem beliebigen Bilderpaar löschen</string>
     <string name="image_preview">Bildvorschau</string>
     <string name="image_preview_sub">Sieh dir jegliches Bildformat an: GIF, SVG usw.</string>
+    <string name="cropping">Zuschneiden</string>
 </resources>
