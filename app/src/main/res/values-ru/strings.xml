@@ -145,4 +145,11 @@
     <string name="image_preview">Предпросмотр</string>
     <string name="image_preview_sub">Предварительный просмотр изображений любого типа: GIF, SVG и так далее</string>
     <string name="cropping">Обрезка</string>
+    <string name="image_source">Источник изображений</string>
+    <string name="photo_picker">Фото пикер</string>
+    <string name="gallery_picker">Галерея</string>
+    <string name="file_explorer_picker">Проводник</string>
+    <string name="photo_picker_sub">Современный пикер, встроенный в систему Android, но имеет кучу проблем с получением метаданных и может не работать на версиях ниже 12</string>
+    <string name="gallery_picker_sub">Простой пикер изображений из галереи, будет работать только если такое приложение установлено</string>
+    <string name="file_explorer_picker_sub">Использует метод GetContent для получения изоюражний, может не работать, это не моя вина</string>
 </resources>

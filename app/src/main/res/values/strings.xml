@@ -159,7 +159,7 @@
     <string name="file_explorer_picker">File explorer</string>
     <string name="photo_picker_sub">Android modern photo picker which appears at the bottom of the screen, may work only on adnroid 12+ and also has issues with receiving EXIF metadata</string>
     <string name="gallery_picker_sub">Simple gallery image picker, it will work only if you have that app</string>
-    <string name="file_explorer_picker_sub">Use GetContent intent to pick image, works everywhere, but also can have issues with recieving pciked images on some devices</string>
+    <string name="file_explorer_picker_sub">Use GetContent intent to pick image, works everywhere, but also can have issues with recieving pciked images on some devices, that\'s not my fault</string>
 
     <string-array name="fab_alignment_sub">
         <item>Start</item>
