@@ -107,9 +107,12 @@ import ru.tech.imageresizershrinker.theme.EmojiItem
 import ru.tech.imageresizershrinker.theme.outlineVariant
 import ru.tech.imageresizershrinker.utils.BitmapUtils.decodeSampledBitmapFromUri
 import ru.tech.imageresizershrinker.utils.LocalNavController
+import ru.tech.imageresizershrinker.utils.Picker
+import ru.tech.imageresizershrinker.utils.localImagePickerMode
 import ru.tech.imageresizershrinker.utils.modifier.drawHorizontalStroke
 import ru.tech.imageresizershrinker.utils.modifier.fabBorder
 import ru.tech.imageresizershrinker.utils.modifier.scaleOnTap
+import ru.tech.imageresizershrinker.utils.rememberImagePicker
 import ru.tech.imageresizershrinker.widget.Marquee
 import ru.tech.imageresizershrinker.widget.Picture
 
@@ -145,8 +148,8 @@ fun ImagePreviewScreen(
     }
 
     val pickImageLauncher =
-        rememberLauncherForActivityResult(
-            contract = ActivityResultContracts.PickMultipleVisualMedia()
+        rememberImagePicker(
+            mode = localImagePickerMode(Picker.Multiple)
         ) { list ->
             list.takeIf { it.isNotEmpty() }?.let {
                 viewModel.updateUris(list)
@@ -154,9 +157,7 @@ fun ImagePreviewScreen(
         }
 
     val pickImage = {
-        pickImageLauncher.launch(
-            PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly)
-        )
+        pickImageLauncher.pickImage()
     }
 
     var showImagePreviewDialog by rememberSaveable { mutableStateOf(false) }

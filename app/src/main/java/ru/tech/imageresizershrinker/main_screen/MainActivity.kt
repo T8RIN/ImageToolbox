@@ -137,6 +137,7 @@ import ru.tech.imageresizershrinker.utils.ContextUtils.needToShowStoragePermissi
 import ru.tech.imageresizershrinker.utils.ContextUtils.requestStoragePermission
 import ru.tech.imageresizershrinker.utils.IntentUtils.parcelable
 import ru.tech.imageresizershrinker.utils.IntentUtils.parcelableArrayList
+import ru.tech.imageresizershrinker.utils.LocalImagePickerModeInt
 import ru.tech.imageresizershrinker.utils.LocalNavController
 import ru.tech.imageresizershrinker.utils.SavingFolder
 import ru.tech.imageresizershrinker.utils.constructFilename
@@ -185,7 +186,8 @@ class MainActivity : M3Activity() {
                 LocalEditPresets provides editPresetsState,
                 LocalAlignment provides viewModel.alignment.toAlignment(),
                 LocalSelectedEmoji provides Emoji.allIcons.getOrNull(viewModel.selectedEmoji),
-                LocalNavController provides viewModel.navController
+                LocalNavController provides viewModel.navController,
+                LocalImagePickerModeInt provides viewModel.imagePickerModeInt
             ) {
                 val showSelectSheet =
                     rememberSaveable(viewModel.showSelectDialog) { mutableStateOf(viewModel.showSelectDialog) }
@@ -906,8 +908,21 @@ class MainActivity : M3Activity() {
 
             when (intent.action) {
                 Intent.ACTION_VIEW -> {
-                    intent.data?.let {
-                        viewModel.navController.navigate(Screen.ImagePreview(listOf(it)))
+                    val data = intent.data
+                    val clipData = intent.clipData
+                    if (clipData != null) {
+                        viewModel.navController.navigate(
+                            Screen.ImagePreview(
+                                List(
+                                    size = clipData.itemCount,
+                                    init = {
+                                        clipData.getItemAt(it).uri
+                                    }
+                                )
+                            )
+                        )
+                    } else if (data != null) {
+                        viewModel.navController.navigate(Screen.ImagePreview(listOf(data)))
                     }
                 }
 

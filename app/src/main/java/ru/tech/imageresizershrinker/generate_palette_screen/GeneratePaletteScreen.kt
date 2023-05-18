@@ -90,11 +90,14 @@ import ru.tech.imageresizershrinker.theme.PaletteSwatch
 import ru.tech.imageresizershrinker.utils.BitmapUtils.decodeBitmapFromUri
 import ru.tech.imageresizershrinker.utils.LocalNavController
 import ru.tech.imageresizershrinker.utils.LocalWindowSizeClass
+import ru.tech.imageresizershrinker.utils.Picker
+import ru.tech.imageresizershrinker.utils.localImagePickerMode
 import ru.tech.imageresizershrinker.utils.modifier.block
 import ru.tech.imageresizershrinker.utils.modifier.drawHorizontalStroke
 import ru.tech.imageresizershrinker.utils.modifier.fabBorder
 import ru.tech.imageresizershrinker.utils.modifier.navBarsPaddingOnlyIfTheyAtTheBottom
 import ru.tech.imageresizershrinker.utils.modifier.scaleOnTap
+import ru.tech.imageresizershrinker.utils.rememberImagePicker
 import ru.tech.imageresizershrinker.widget.LocalToastHost
 import ru.tech.imageresizershrinker.widget.Marquee
 
@@ -142,10 +145,10 @@ fun GeneratePaletteScreen(
     }
 
     val pickImageLauncher =
-        rememberLauncherForActivityResult(
-            contract = ActivityResultContracts.PickVisualMedia()
-        ) { uri ->
-            uri?.let {
+        rememberImagePicker(
+            mode = localImagePickerMode(Picker.Single)
+        ) { uris ->
+            uris.takeIf{it.isNotEmpty()}?.firstOrNull()?.let {
                 viewModel.setUri(it)
                 context.decodeBitmapFromUri(
                     uri = it,
@@ -168,9 +171,7 @@ fun GeneratePaletteScreen(
         }
 
     val pickImage = {
-        pickImageLauncher.launch(
-            PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly)
-        )
+        pickImageLauncher.pickImage()
     }
     val scrollState = rememberScrollState()
 

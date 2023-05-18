@@ -153,13 +153,17 @@ import ru.tech.imageresizershrinker.utils.BitmapUtils.toMap
 import ru.tech.imageresizershrinker.utils.BitmapUtils.with
 import ru.tech.imageresizershrinker.utils.ContextUtils.isExternalStorageWritable
 import ru.tech.imageresizershrinker.utils.ContextUtils.requestStoragePermission
+import ru.tech.imageresizershrinker.utils.ImagePickerMode
 import ru.tech.imageresizershrinker.utils.LocalWindowSizeClass
+import ru.tech.imageresizershrinker.utils.Picker
 import ru.tech.imageresizershrinker.utils.SavingFolder
+import ru.tech.imageresizershrinker.utils.localImagePickerMode
 import ru.tech.imageresizershrinker.utils.modifier.alertDialog
 import ru.tech.imageresizershrinker.utils.modifier.drawHorizontalStroke
 import ru.tech.imageresizershrinker.utils.modifier.fabBorder
 import ru.tech.imageresizershrinker.utils.modifier.navBarsLandscapePadding
 import ru.tech.imageresizershrinker.utils.modifier.scaleOnTap
+import ru.tech.imageresizershrinker.utils.rememberImagePicker
 import ru.tech.imageresizershrinker.widget.LocalToastHost
 import ru.tech.imageresizershrinker.widget.Marquee
 import ru.tech.imageresizershrinker.widget.RoundedTextField
@@ -226,10 +230,10 @@ fun SingleResizeScreen(
     }
 
     val pickImageLauncher =
-        rememberLauncherForActivityResult(
-            contract = ActivityResultContracts.PickVisualMedia()
-        ) { uri ->
-            uri?.let {
+        rememberImagePicker(
+            mode = localImagePickerMode(Picker.Single)
+        ) { uris ->
+            uris.takeIf{it.isNotEmpty()}?.firstOrNull()?.let {
                 context.decodeBitmapFromUri(
                     uri = it,
                     onGetMimeType = viewModel::setMime,
@@ -251,9 +255,7 @@ fun SingleResizeScreen(
         }
 
     val pickImage = {
-        pickImageLauncher.launch(
-            PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly)
-        )
+        pickImageLauncher.pickImage()
     }
 
     val saveBitmap: () -> Unit = {

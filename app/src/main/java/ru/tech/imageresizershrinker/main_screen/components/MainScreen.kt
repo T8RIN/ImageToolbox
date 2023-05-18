@@ -51,6 +51,8 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.BurstMode
+import androidx.compose.material.icons.outlined.Image
 import androidx.compose.material.icons.rounded.AddCircleOutline
 import androidx.compose.material.icons.rounded.AlternateEmail
 import androidx.compose.material.icons.rounded.Block
@@ -60,6 +62,8 @@ import androidx.compose.material.icons.rounded.Coffee
 import androidx.compose.material.icons.rounded.FileDownload
 import androidx.compose.material.icons.rounded.FileDownloadOff
 import androidx.compose.material.icons.rounded.Folder
+import androidx.compose.material.icons.rounded.FolderOpen
+import androidx.compose.material.icons.rounded.ImageSearch
 import androidx.compose.material.icons.rounded.Info
 import androidx.compose.material.icons.rounded.MenuOpen
 import androidx.compose.material.icons.rounded.ModeNight
@@ -513,6 +517,94 @@ fun MainScreen(
                                 title = stringResource(R.string.add_file_size),
                                 subtitle = stringResource(R.string.add_file_size_sub),
                                 checked = viewModel.addSizeInFilename
+                            )
+                            Spacer(Modifier.height(16.dp))
+                        }
+                        Divider()
+                        Column {
+                            TitleItem(
+                                icon = Icons.Rounded.ImageSearch,
+                                text = stringResource(R.string.image_source),
+                            )
+                            PreferenceItem(
+                                onClick = { viewModel.updateImagePickerMode(0) },
+                                title = stringResource(R.string.photo_picker),
+                                icon = Icons.Outlined.BurstMode,
+                                subtitle = stringResource(R.string.photo_picker_sub),
+                                color = MaterialTheme.colorScheme.secondaryContainer.copy(
+                                    alpha = animateFloatAsState(
+                                        if (viewModel.imagePickerModeInt == 0) 0.7f
+                                        else 0.2f
+                                    ).value
+                                ),
+                                endIcon = if (viewModel.imagePickerModeInt == 0) Icons.Rounded.RadioButtonChecked else Icons.Rounded.RadioButtonUnchecked,
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(horizontal = 16.dp)
+                                    .border(
+                                        width = LocalBorderWidth.current,
+                                        color = animateColorAsState(
+                                            if (viewModel.imagePickerModeInt == 0) MaterialTheme.colorScheme.onSecondaryContainer.copy(
+                                                alpha = 0.5f
+                                            )
+                                            else Color.Transparent
+                                        ).value,
+                                        shape = RoundedCornerShape(16.dp)
+                                    )
+                            )
+                            Spacer(modifier = Modifier.height(8.dp))
+                            PreferenceItem(
+                                onClick = { viewModel.updateImagePickerMode(1) },
+                                title = stringResource(R.string.gallery_picker),
+                                icon = Icons.Outlined.Image,
+                                subtitle = stringResource(R.string.gallery_picker_sub),
+                                color = MaterialTheme.colorScheme.secondaryContainer.copy(
+                                    alpha = animateFloatAsState(
+                                        if (viewModel.imagePickerModeInt == 1) 0.7f
+                                        else 0.2f
+                                    ).value
+                                ),
+                                endIcon = if (viewModel.imagePickerModeInt == 1) Icons.Rounded.RadioButtonChecked else Icons.Rounded.RadioButtonUnchecked,
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(horizontal = 16.dp)
+                                    .border(
+                                        width = LocalBorderWidth.current,
+                                        color = animateColorAsState(
+                                            if (viewModel.imagePickerModeInt == 1) MaterialTheme.colorScheme.onSecondaryContainer.copy(
+                                                alpha = 0.5f
+                                            )
+                                            else Color.Transparent
+                                        ).value,
+                                        shape = RoundedCornerShape(16.dp)
+                                    )
+                            )
+                            Spacer(modifier = Modifier.height(8.dp))
+                            PreferenceItem(
+                                onClick = { viewModel.updateImagePickerMode(2) },
+                                title = stringResource(R.string.file_explorer_picker),
+                                subtitle = stringResource(R.string.file_explorer_picker_sub),
+                                icon = Icons.Rounded.FolderOpen,
+                                color = MaterialTheme.colorScheme.secondaryContainer.copy(
+                                    alpha = animateFloatAsState(
+                                        if (viewModel.imagePickerModeInt == 2) 0.7f
+                                        else 0.2f
+                                    ).value
+                                ),
+                                endIcon = if (viewModel.imagePickerModeInt == 2) Icons.Rounded.RadioButtonChecked else Icons.Rounded.RadioButtonUnchecked,
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(horizontal = 16.dp)
+                                    .border(
+                                        width = LocalBorderWidth.current,
+                                        color = animateColorAsState(
+                                            if (viewModel.imagePickerModeInt == 2) MaterialTheme.colorScheme.onSecondaryContainer.copy(
+                                                alpha = 0.5f
+                                            )
+                                            else Color.Transparent
+                                        ).value,
+                                        shape = RoundedCornerShape(16.dp)
+                                    )
                             )
                             Spacer(Modifier.height(16.dp))
                         }

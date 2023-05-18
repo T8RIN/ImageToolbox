@@ -40,6 +40,7 @@ import ru.tech.imageresizershrinker.utils.EMOJI
 import ru.tech.imageresizershrinker.utils.FILENAME_PREFIX
 import ru.tech.imageresizershrinker.utils.IMAGE_MONET
 import ru.tech.imageresizershrinker.utils.NIGHT_MODE
+import ru.tech.imageresizershrinker.utils.PICKER_MODE
 import ru.tech.imageresizershrinker.utils.PRESETS
 import ru.tech.imageresizershrinker.utils.SAVE_FOLDER
 import ru.tech.imageresizershrinker.utils.SHOW_DIALOG
@@ -52,6 +53,9 @@ import javax.xml.parsers.DocumentBuilderFactory
 class MainViewModel @Inject constructor(
     private val dataStore: DataStore<Preferences>
 ) : ViewModel() {
+
+    private val _imagePickerModeInt = mutableStateOf(0)
+    val imagePickerModeInt by _imagePickerModeInt
 
     private val _addSizeInFilename = mutableStateOf(true)
     val addSizeInFilename by _addSizeInFilename
@@ -174,9 +178,19 @@ class MainViewModel @Inject constructor(
             _filenamePrefix.value = prefs[FILENAME_PREFIX] ?: ""
             _selectedEmoji.value = prefs[EMOJI] ?: 0
             _addSizeInFilename.value = prefs[ADD_SIZE] ?: true
+            _imagePickerModeInt.value = prefs[PICKER_MODE] ?: 0
         }.launchIn(viewModelScope)
         tryGetUpdate(showDialog = showDialogOnStartUp)
     }
+
+    fun updateImagePickerMode(mode: Int) {
+        viewModelScope.launch {
+            dataStore.edit {
+                it[PICKER_MODE] = mode
+            }
+        }
+    }
+
 
     fun updateAddFileSize() {
         viewModelScope.launch {
