@@ -133,7 +133,7 @@ fun SimpleSheet(
                     .fillMaxWidth()
                     .padding(16.dp)
                     .navigationBarsPadding()
-                    .padding(endConfirmButtonPadding),
+                    .padding(end = endConfirmButtonPadding),
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 title()
@@ -195,7 +195,6 @@ fun SimpleSheet(
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(16.dp)
                     .navigationBarsPadding()
                     .padding(end = 16.dp),
                 verticalAlignment = Alignment.CenterVertically
