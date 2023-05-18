@@ -9,8 +9,10 @@ import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.expandIn
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
+import androidx.compose.animation.shrinkOut
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
 import androidx.compose.animation.togetherWith
@@ -675,8 +677,8 @@ fun BytesResizeScreen(
                                     )
                                     AnimatedVisibility(
                                         visible = showAlert,
-                                        enter = fadeIn() + slideInVertically(),
-                                        exit = fadeOut() + slideOutVertically(),
+                                        enter = fadeIn() + expandIn(expandFrom = Alignment.TopCenter),
+                                        exit = fadeOut() + shrinkOut(),
                                     ) {
                                         Card(
                                             colors = CardDefaults.cardColors(
