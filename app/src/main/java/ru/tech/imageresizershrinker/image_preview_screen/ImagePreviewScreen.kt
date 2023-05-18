@@ -1,6 +1,7 @@
 package ru.tech.imageresizershrinker.image_preview_screen
 
 import android.net.Uri
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.BackHandler
 import androidx.activity.compose.rememberLauncherForActivityResult
@@ -22,18 +23,15 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.systemBarsPadding
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
 import androidx.compose.foundation.rememberScrollState
@@ -43,7 +41,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.AddPhotoAlternate
 import androidx.compose.material.icons.rounded.ArrowBack
 import androidx.compose.material.icons.rounded.Image
-import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExtendedFloatingActionButton
@@ -64,6 +61,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -85,6 +83,7 @@ import com.smarttoolfactory.image.zoom.rememberAnimatedZoomState
 import com.t8rin.dynamic.theme.LocalDynamicThemeState
 import com.t8rin.dynamic.theme.getAppColorTuple
 import dev.olshevski.navigation.reimagined.navigate
+import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.image_preview_screen.viewModel.ImagePreviewViewModel
 import ru.tech.imageresizershrinker.main_screen.components.BytesResizePreference
@@ -100,7 +99,9 @@ import ru.tech.imageresizershrinker.main_screen.components.LocalNightMode
 import ru.tech.imageresizershrinker.main_screen.components.LocalSelectedEmoji
 import ru.tech.imageresizershrinker.main_screen.components.PickColorPreference
 import ru.tech.imageresizershrinker.main_screen.components.Screen
+import ru.tech.imageresizershrinker.main_screen.components.SimpleSheet
 import ru.tech.imageresizershrinker.main_screen.components.SingleResizePreference
+import ru.tech.imageresizershrinker.main_screen.components.TitleItem
 import ru.tech.imageresizershrinker.main_screen.components.isNightMode
 import ru.tech.imageresizershrinker.resize_screen.components.ImageNotPickedWidget
 import ru.tech.imageresizershrinker.theme.CreateAlt
@@ -108,7 +109,6 @@ import ru.tech.imageresizershrinker.theme.EmojiItem
 import ru.tech.imageresizershrinker.theme.outlineVariant
 import ru.tech.imageresizershrinker.utils.BitmapUtils.decodeSampledBitmapFromUri
 import ru.tech.imageresizershrinker.utils.LocalNavController
-import ru.tech.imageresizershrinker.utils.modifier.alertDialog
 import ru.tech.imageresizershrinker.utils.modifier.drawHorizontalStroke
 import ru.tech.imageresizershrinker.utils.modifier.fabBorder
 import ru.tech.imageresizershrinker.utils.modifier.scaleOnTap
@@ -329,7 +329,7 @@ fun ImagePreviewScreen(
             animationSpec(500)
         )
     ) {
-        var wantToEdit by remember { mutableStateOf(false) }
+        val wantToEdit = rememberSaveable { mutableStateOf(false) }
         Box(
             Modifier
                 .fillMaxSize()
@@ -382,7 +382,7 @@ fun ImagePreviewScreen(
                                 )
                                 .clip(CircleShape)
                                 .clickable {
-                                    if (viewModel.selectedUri != null) wantToEdit = true
+                                    if (viewModel.selectedUri != null) wantToEdit.value = true
                                 },
                             contentAlignment = Alignment.Center
                         ) {
@@ -421,80 +421,92 @@ fun ImagePreviewScreen(
             )
         }
 
-        if (wantToEdit && viewModel.selectedUri != null) {
-            AlertDialog(
-                modifier = Modifier.alertDialog(),
-                onDismissRequest = {},
-                title = {
-                    Text(stringResource(R.string.image))
-                },
-                icon = {
-                    Icon(
-                        Icons.Rounded.Image,
-                        null
+        SimpleSheet(
+            title = {
+                TitleItem(text = stringResource(R.string.image), icon = Icons.Rounded.Image)
+            },
+            visible = wantToEdit,
+            confirmButton = {
+                OutlinedButton(
+                    onClick = {
+                        wantToEdit.value = false
+                    },
+                    border = BorderStroke(
+                        LocalBorderWidth.current,
+                        MaterialTheme.colorScheme.outlineVariant()
                     )
-                },
-                confirmButton = {
-                    OutlinedButton(
-                        onClick = {
-                            wantToEdit = false
-                        },
-                        border = BorderStroke(
-                            LocalBorderWidth.current,
-                            MaterialTheme.colorScheme.outlineVariant()
-                        )
-                    ) {
-                        Text(stringResource(id = R.string.cancel))
-                    }
-                },
-                text = {
-                    val navigate: (Screen) -> Unit = { screen ->
+                ) {
+                    Text(stringResource(id = R.string.cancel))
+                }
+            },
+            sheetContent = {
+                val scope = rememberCoroutineScope()
+                val navigate: (Screen) -> Unit = { screen ->
+                    scope.launch {
+                        wantToEdit.value = false
+                        kotlinx.coroutines.delay(200)
                         navController.navigate(screen)
-                        wantToEdit = false
-                    }
-                    val color = MaterialTheme.colorScheme.secondaryContainer
-                    Box {
-                        LazyColumn(
-                            contentPadding = PaddingValues(vertical = 16.dp)
-                        ) {
-                            item {
-                                SingleResizePreference(
-                                    onClick = { navigate(Screen.SingleResize(viewModel.selectedUri!!)) },
-                                    color = color
-                                )
-                                Spacer(modifier = Modifier.height(8.dp))
-                                BytesResizePreference(
-                                    onClick = { navigate(Screen.ResizeByBytes(listOf(viewModel.selectedUri!!))) },
-                                    color = color
-                                )
-                                Spacer(modifier = Modifier.height(8.dp))
-                                DeleteExifPreference(
-                                    onClick = { navigate(Screen.DeleteExif(listOf(viewModel.selectedUri!!))) },
-                                    color = color
-                                )
-                                Spacer(modifier = Modifier.height(8.dp))
-                                CropPreference(
-                                    onClick = { navigate(Screen.Crop(viewModel.selectedUri)) },
-                                    color = color
-                                )
-                                Spacer(modifier = Modifier.height(8.dp))
-                                PickColorPreference(
-                                    onClick = { navigate(Screen.PickColorFromImage(viewModel.selectedUri)) },
-                                    color = color
-                                )
-                                Spacer(modifier = Modifier.height(8.dp))
-                                GeneratePalettePreference(
-                                    onClick = { navigate(Screen.GeneratePalette(viewModel.selectedUri)) },
-                                    color = color
-                                )
-                            }
-                        }
-                        Divider(Modifier.align(Alignment.TopCenter))
-                        Divider(Modifier.align(Alignment.BottomCenter))
                     }
                 }
-            )
-        }
+                val color = MaterialTheme.colorScheme.secondaryContainer
+                Box {
+                    LazyVerticalStaggeredGrid(
+                        columns = StaggeredGridCells.Adaptive(250.dp),
+                        contentPadding = PaddingValues(16.dp),
+                        verticalItemSpacing = 8.dp,
+                        horizontalArrangement = Arrangement.spacedBy(
+                            8.dp,
+                            Alignment.CenterHorizontally
+                        )
+                    ) {
+                        item {
+                            SingleResizePreference(
+                                modifier = Modifier.fillMaxWidth(),
+                                onClick = { navigate(Screen.SingleResize(viewModel.selectedUri!!)) },
+                                color = color
+                            )
+                        }
+                        item {
+                            BytesResizePreference(
+                                modifier = Modifier.fillMaxWidth(),
+                                onClick = { navigate(Screen.ResizeByBytes(listOf(viewModel.selectedUri!!))) },
+                                color = color
+                            )
+                        }
+                        item {
+                            DeleteExifPreference(
+                                modifier = Modifier.fillMaxWidth(),
+                                onClick = { navigate(Screen.DeleteExif(listOf(viewModel.selectedUri!!))) },
+                                color = color
+                            )
+                        }
+                        item {
+                            CropPreference(
+                                modifier = Modifier.fillMaxWidth(),
+                                onClick = { navigate(Screen.Crop(viewModel.selectedUri)) },
+                                color = color
+                            )
+                        }
+                        item {
+                            PickColorPreference(
+                                modifier = Modifier.fillMaxWidth(),
+                                onClick = { navigate(Screen.PickColorFromImage(viewModel.selectedUri)) },
+                                color = color
+                            )
+                        }
+                        item {
+                            GeneratePalettePreference(
+                                modifier = Modifier.fillMaxWidth(),
+                                onClick = { navigate(Screen.GeneratePalette(viewModel.selectedUri)) },
+                                color = color
+                            )
+                        }
+                    }
+                    Divider(Modifier.align(Alignment.TopCenter))
+                    Divider(Modifier.align(Alignment.BottomCenter))
+                }
+            }
+        )
 
         BackHandler {
             showImagePreviewDialog = false

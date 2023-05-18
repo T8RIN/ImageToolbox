@@ -571,7 +571,7 @@ fun SingleResizeScreen(
                             )
                         }
                         zoomButton()
-                        if (!imageInside) {
+                        if (!imageInside && viewModel.bitmap == null) {
                             TelegramButton(
                                 enabled = viewModel.bitmap != null,
                                 isTelegramSpecs = viewModel.isTelegramSpecs,

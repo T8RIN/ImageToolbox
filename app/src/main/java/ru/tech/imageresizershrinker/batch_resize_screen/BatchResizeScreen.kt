@@ -608,7 +608,7 @@ fun BatchResizeScreen(
                             )
                         }
                         zoomButton()
-                        if (!imageInside) {
+                        if (!imageInside && !viewModel.uris.isNullOrEmpty()) {
                             TelegramButton(
                                 enabled = viewModel.bitmap != null,
                                 isTelegramSpecs = viewModel.isTelegramSpecs,

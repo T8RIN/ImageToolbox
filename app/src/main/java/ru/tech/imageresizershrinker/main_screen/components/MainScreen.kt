@@ -1109,9 +1109,7 @@ fun MainScreen(
                                         navController.popUpTo { it == Screen.Main }
                                         navController.navigate(Screen.SingleResize())
                                     },
-                                    modifier = Modifier
-                                        .widthIn(max = 350.dp)
-                                        .weight(1f)
+                                    modifier = Modifier.fillMaxWidth(),
                                 )
                             }
                             item {
@@ -1120,9 +1118,7 @@ fun MainScreen(
                                         navController.popUpTo { it == Screen.Main }
                                         navController.navigate(Screen.BatchResize())
                                     },
-                                    modifier = Modifier
-                                        .widthIn(max = 350.dp)
-                                        .weight(1f)
+                                    modifier = Modifier.fillMaxWidth(),
                                 )
                             }
                             item {
@@ -1131,9 +1127,7 @@ fun MainScreen(
                                         navController.popUpTo { it == Screen.Main }
                                         navController.navigate(Screen.ResizeByBytes())
                                     },
-                                    modifier = Modifier
-                                        .widthIn(max = 350.dp)
-                                        .weight(1f)
+                                    modifier = Modifier.fillMaxWidth(),
                                 )
                             }
                             item {
@@ -1142,9 +1136,7 @@ fun MainScreen(
                                         navController.popUpTo { it == Screen.Main }
                                         navController.navigate(Screen.DeleteExif())
                                     },
-                                    modifier = Modifier
-                                        .widthIn(max = 350.dp)
-                                        .weight(1f)
+                                    modifier = Modifier.fillMaxWidth(),
                                 )
                             }
                             item {
@@ -1153,9 +1145,7 @@ fun MainScreen(
                                         navController.popUpTo { it == Screen.Main }
                                         navController.navigate(Screen.Crop())
                                     },
-                                    modifier = Modifier
-                                        .widthIn(max = 350.dp)
-                                        .weight(1f)
+                                    modifier = Modifier.fillMaxWidth(),
                                 )
                             }
                             item {
@@ -1164,9 +1154,7 @@ fun MainScreen(
                                         navController.popUpTo { it == Screen.Main }
                                         navController.navigate(Screen.PickColorFromImage())
                                     },
-                                    modifier = Modifier
-                                        .widthIn(max = 350.dp)
-                                        .weight(1f)
+                                    modifier = Modifier.fillMaxWidth(),
                                 )
                             }
                             item {
@@ -1175,16 +1163,12 @@ fun MainScreen(
                                         navController.popUpTo { it == Screen.Main }
                                         navController.navigate(Screen.ImagePreview())
                                     },
-                                    modifier = Modifier
-                                        .widthIn(max = 350.dp)
-                                        .weight(1f)
+                                    modifier = Modifier.fillMaxWidth(),
                                 )
                             }
                             item {
                                 GeneratePalettePreference(
-                                    modifier = Modifier
-                                        .widthIn(max = 350.dp)
-                                        .weight(1f),
+                                    modifier = Modifier.fillMaxWidth(),
                                     onClick = {
                                         navController.popUpTo { it == Screen.Main }
                                         navController.navigate(Screen.GeneratePalette())
@@ -1197,9 +1181,7 @@ fun MainScreen(
                                         navController.popUpTo { it == Screen.Main }
                                         navController.navigate(Screen.Compare())
                                     },
-                                    modifier = Modifier
-                                        .widthIn(max = 350.dp)
-                                        .weight(1f)
+                                    modifier = Modifier.fillMaxWidth(),
                                 )
                             }
                         }

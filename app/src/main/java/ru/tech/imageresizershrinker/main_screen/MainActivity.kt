@@ -30,14 +30,14 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
+import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.DoorBack
-import androidx.compose.material.icons.outlined.Palette
 import androidx.compose.material.icons.outlined.PhotoSizeSelectSmall
 import androidx.compose.material.icons.rounded.AddCircle
 import androidx.compose.material.icons.rounded.Download
@@ -58,6 +58,7 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -186,6 +187,15 @@ class MainActivity : M3Activity() {
                 LocalSelectedEmoji provides Emoji.allIcons.getOrNull(viewModel.selectedEmoji),
                 LocalNavController provides viewModel.navController
             ) {
+                val showSelectSheet =
+                    rememberSaveable(viewModel.showSelectDialog) { mutableStateOf(viewModel.showSelectDialog) }
+                LaunchedEffect(showSelectSheet.value) {
+                    if (!showSelectSheet.value) {
+                        kotlinx.coroutines.delay(600)
+                        viewModel.hideSelectDialog()
+                        viewModel.updateUris(null)
+                    }
+                }
                 val navController = LocalNavController.current
                 ImageResizerTheme {
                     val themeState = LocalDynamicThemeState.current
@@ -399,7 +409,9 @@ class MainActivity : M3Activity() {
                                     AnimatedContent(
                                         targetState = data,
                                         transitionSpec = { fadeIn() togetherWith fadeOut() },
-                                        modifier = Modifier.fillMaxWidth().verticalScroll(rememberScrollState())
+                                        modifier = Modifier
+                                            .fillMaxWidth()
+                                            .verticalScroll(rememberScrollState())
                                     ) { list ->
                                         FlowRow(
                                             Modifier
@@ -456,7 +468,10 @@ class MainActivity : M3Activity() {
                                                     modifier = Modifier.alertDialog(),
                                                     onDismissRequest = { expanded = false },
                                                     icon = {
-                                                        Icon(Icons.Outlined.PhotoSizeSelectSmall, null)
+                                                        Icon(
+                                                            Icons.Outlined.PhotoSizeSelectSmall,
+                                                            null
+                                                        )
                                                     },
                                                     title = {
                                                         Text(stringResource(R.string.presets))
@@ -537,6 +552,197 @@ class MainActivity : M3Activity() {
                                 }
                             }
                         )
+                        SimpleSheet(
+                            title = {
+                                TitleItem(
+                                    text = stringResource(R.string.image),
+                                    icon = Icons.Rounded.Image
+                                )
+                            },
+                            confirmButton = {
+                                OutlinedButton(
+                                    onClick = {
+                                        showSelectSheet.value = false
+                                    },
+                                    border = BorderStroke(
+                                        LocalBorderWidth.current,
+                                        MaterialTheme.colorScheme.outlineVariant()
+                                    )
+                                ) {
+                                    Text(stringResource(id = R.string.cancel))
+                                }
+                            },
+                            sheetContent = {
+                                val navigate: (Screen) -> Unit = { screen ->
+                                    viewModel.apply {
+                                        navController.apply {
+                                            navigate(screen)
+                                            showSelectSheet.value = false
+                                        }
+                                    }
+                                }
+                                val color = MaterialTheme.colorScheme.secondaryContainer
+                                Box(Modifier.fillMaxWidth()) {
+                                    LazyVerticalStaggeredGrid(
+                                        columns = StaggeredGridCells.Adaptive(250.dp),
+                                        contentPadding = PaddingValues(16.dp),
+                                        verticalItemSpacing = 8.dp,
+                                        horizontalArrangement = Arrangement.spacedBy(
+                                            8.dp,
+                                            Alignment.CenterHorizontally
+                                        )
+                                    ) {
+                                        if ((viewModel.uris?.size ?: 0) <= 1) {
+                                            item {
+                                                SingleResizePreference(
+                                                    modifier = Modifier.fillMaxWidth(),
+                                                    onClick = {
+                                                        navigate(
+                                                            Screen.SingleResize(
+                                                                viewModel.uris?.firstOrNull()
+                                                            )
+                                                        )
+                                                    },
+                                                    color = color
+                                                )
+                                            }
+                                            item {
+                                                BytesResizePreference(
+                                                    modifier = Modifier.fillMaxWidth(),
+                                                    onClick = {
+                                                        navigate(
+                                                            Screen.ResizeByBytes(
+                                                                viewModel.uris
+                                                            )
+                                                        )
+                                                    },
+                                                    color = color
+                                                )
+                                            }
+                                            item {
+                                                DeleteExifPreference(
+                                                    modifier = Modifier.fillMaxWidth(),
+                                                    onClick = { navigate(Screen.DeleteExif(viewModel.uris)) },
+                                                    color = color
+                                                )
+                                            }
+                                            item {
+                                                CropPreference(
+                                                    modifier = Modifier.fillMaxWidth(),
+                                                    onClick = { navigate(Screen.Crop(viewModel.uris?.firstOrNull())) },
+                                                    color = color
+                                                )
+                                            }
+                                            item {
+                                                ImagePreviewPreference(
+                                                    modifier = Modifier.fillMaxWidth(),
+                                                    onClick = {
+                                                        navigate(
+                                                            Screen.ImagePreview(
+                                                                viewModel.uris
+                                                            )
+                                                        )
+                                                    },
+                                                    color = color
+                                                )
+                                            }
+                                            item {
+                                                PickColorPreference(
+                                                    modifier = Modifier.fillMaxWidth(),
+                                                    onClick = {
+                                                        navigate(
+                                                            Screen.PickColorFromImage(
+                                                                viewModel.uris?.firstOrNull()
+                                                            )
+                                                        )
+                                                    },
+                                                    color = color
+                                                )
+                                            }
+                                            item {
+                                                GeneratePalettePreference(
+                                                    modifier = Modifier.fillMaxWidth(),
+                                                    onClick = {
+                                                        navigate(
+                                                            Screen.GeneratePalette(
+                                                                viewModel.uris?.firstOrNull()
+                                                            )
+                                                        )
+                                                    },
+                                                    color = color
+                                                )
+                                            }
+                                        } else {
+                                            item {
+                                                BatchResizePreference(
+                                                    modifier = Modifier.fillMaxWidth(),
+                                                    onClick = {
+                                                        navigate(
+                                                            Screen.BatchResize(
+                                                                viewModel.uris
+                                                            )
+                                                        )
+                                                    },
+                                                    color = color
+                                                )
+                                            }
+                                            item {
+                                                BytesResizePreference(
+                                                    modifier = Modifier.fillMaxWidth(),
+                                                    onClick = {
+                                                        navigate(
+                                                            Screen.ResizeByBytes(
+                                                                viewModel.uris
+                                                            )
+                                                        )
+                                                    },
+                                                    color = color
+                                                )
+                                            }
+                                            item {
+                                                DeleteExifPreference(
+                                                    modifier = Modifier.fillMaxWidth(),
+                                                    onClick = { navigate(Screen.DeleteExif(viewModel.uris)) },
+                                                    color = color
+                                                )
+                                            }
+                                            item {
+                                                ImagePreviewPreference(
+                                                    modifier = Modifier.fillMaxWidth(),
+                                                    onClick = {
+                                                        navigate(
+                                                            Screen.ImagePreview(
+                                                                viewModel.uris
+                                                            )
+                                                        )
+                                                    },
+                                                    color = color
+                                                )
+                                            }
+                                            if (viewModel.uris?.size == 2) {
+                                                item {
+                                                    ComparePreference(
+                                                        modifier = Modifier.fillMaxWidth(),
+                                                        onClick = {
+                                                            navigate(
+                                                                Screen.Compare(
+                                                                    viewModel.uris
+                                                                )
+                                                            )
+                                                        },
+                                                        color = color
+                                                    )
+                                                }
+                                            }
+                                        }
+
+                                    }
+                                    Divider(Modifier.align(Alignment.TopCenter))
+                                    Divider(Modifier.align(Alignment.BottomCenter))
+                                }
+                            },
+                            visible = showSelectSheet,
+                        )
                     }
 
                     if (showExitDialog && !tiramisu) {
@@ -581,175 +787,6 @@ class MainActivity : M3Activity() {
                                 )
                             },
                             icon = { Icon(Icons.Outlined.DoorBack, null) }
-                        )
-                    } else if (viewModel.showSelectDialog) {
-                        AlertDialog(
-                            modifier = Modifier.alertDialog(),
-                            onDismissRequest = {},
-                            title = {
-                                Text(stringResource(R.string.image))
-                            },
-                            icon = {
-                                Icon(
-                                    Icons.Rounded.Image,
-                                    null
-                                )
-                            },
-                            confirmButton = {
-                                OutlinedButton(
-                                    onClick = {
-                                        viewModel.apply {
-                                            hideSelectDialog()
-                                            updateUris(null)
-                                        }
-                                    },
-                                    border = BorderStroke(
-                                        LocalBorderWidth.current,
-                                        MaterialTheme.colorScheme.outlineVariant()
-                                    )
-                                ) {
-                                    Text(stringResource(id = R.string.cancel))
-                                }
-                            },
-                            text = {
-                                val navigate: (Screen) -> Unit = { screen ->
-                                    viewModel.apply {
-                                        navController.apply {
-                                            navigate(screen)
-                                            viewModel.updateUris(null)
-                                        }
-                                        hideSelectDialog()
-                                    }
-                                }
-                                val color = MaterialTheme.colorScheme.secondaryContainer
-                                Box(Modifier.fillMaxSize()) {
-                                    LazyColumn(
-                                        contentPadding = PaddingValues(vertical = 16.dp)
-                                    ) {
-                                        item {
-                                            if ((viewModel.uris?.size ?: 0) <= 1) {
-                                                SingleResizePreference(
-                                                    onClick = {
-                                                        navigate(
-                                                            Screen.SingleResize(
-                                                                viewModel.uris?.firstOrNull()
-                                                            )
-                                                        )
-                                                    },
-                                                    color = color
-                                                )
-                                                Spacer(modifier = Modifier.height(8.dp))
-                                                BytesResizePreference(
-                                                    onClick = {
-                                                        navigate(
-                                                            Screen.ResizeByBytes(
-                                                                viewModel.uris
-                                                            )
-                                                        )
-                                                    },
-                                                    color = color
-                                                )
-                                                Spacer(modifier = Modifier.height(8.dp))
-                                                DeleteExifPreference(
-                                                    onClick = { navigate(Screen.DeleteExif(viewModel.uris)) },
-                                                    color = color
-                                                )
-                                                Spacer(modifier = Modifier.height(8.dp))
-                                                CropPreference(
-                                                    onClick = { navigate(Screen.Crop(viewModel.uris?.firstOrNull())) },
-                                                    color = color
-                                                )
-                                                Spacer(modifier = Modifier.height(8.dp))
-                                                ImagePreviewPreference(
-                                                    onClick = {
-                                                        navigate(
-                                                            Screen.ImagePreview(
-                                                                viewModel.uris
-                                                            )
-                                                        )
-                                                    },
-                                                    color = color
-                                                )
-                                                Spacer(modifier = Modifier.height(8.dp))
-                                                PickColorPreference(
-                                                    onClick = {
-                                                        navigate(
-                                                            Screen.PickColorFromImage(
-                                                                viewModel.uris?.firstOrNull()
-                                                            )
-                                                        )
-                                                    },
-                                                    color = color
-                                                )
-                                                Spacer(modifier = Modifier.height(8.dp))
-                                                GeneratePalettePreference(
-                                                    onClick = {
-                                                        navigate(
-                                                            Screen.GeneratePalette(
-                                                                viewModel.uris?.firstOrNull()
-                                                            )
-                                                        )
-                                                    },
-                                                    color = color
-                                                )
-                                            } else {
-                                                BatchResizePreference(
-                                                    onClick = {
-                                                        navigate(
-                                                            Screen.BatchResize(
-                                                                viewModel.uris
-                                                            )
-                                                        )
-                                                    },
-                                                    color = color
-                                                )
-                                                Spacer(modifier = Modifier.height(8.dp))
-                                                BytesResizePreference(
-                                                    onClick = {
-                                                        navigate(
-                                                            Screen.ResizeByBytes(
-                                                                viewModel.uris
-                                                            )
-                                                        )
-                                                    },
-                                                    color = color
-                                                )
-                                                Spacer(modifier = Modifier.height(8.dp))
-                                                DeleteExifPreference(
-                                                    onClick = { navigate(Screen.DeleteExif(viewModel.uris)) },
-                                                    color = color
-                                                )
-                                                Spacer(modifier = Modifier.height(8.dp))
-                                                ImagePreviewPreference(
-                                                    onClick = {
-                                                        navigate(
-                                                            Screen.ImagePreview(
-                                                                viewModel.uris
-                                                            )
-                                                        )
-                                                    },
-                                                    color = color
-                                                )
-                                                if (viewModel.uris?.size == 2) {
-                                                    Spacer(modifier = Modifier.height(8.dp))
-                                                    ComparePreference(
-                                                        onClick = {
-                                                            navigate(
-                                                                Screen.Compare(
-                                                                    viewModel.uris
-                                                                )
-                                                            )
-                                                        },
-                                                        color = color
-                                                    )
-                                                }
-                                            }
-                                        }
-                                    }
-                                    Divider(Modifier.align(Alignment.TopCenter))
-                                    Divider(Modifier.align(Alignment.BottomCenter))
-                                }
-                            }
                         )
                     } else if (viewModel.showUpdateDialog) {
                         AlertDialog(

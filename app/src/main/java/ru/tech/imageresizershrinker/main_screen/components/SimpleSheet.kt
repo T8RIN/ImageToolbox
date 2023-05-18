@@ -134,3 +134,64 @@ fun SimpleSheet(
         }
     )
 }
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun SimpleSheet(
+    sheetContent: @Composable ColumnScope.() -> Unit,
+    confirmButton: @Composable RowScope.() -> Unit,
+    title: @Composable () -> Unit,
+    visible: Boolean,
+    onDismiss: (Boolean) -> Unit
+) {
+    ModalSheet(
+        animationSpec = tween(
+            durationMillis = 600,
+            easing = CubicBezierEasing(0.05f, 0.7f, 0.1f, 1f)
+        ),
+        containerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(2.dp),
+        sheetModifier = Modifier
+            .statusBarsPadding()
+            .offset(y = (LocalBorderWidth.current + 1.dp))
+            .border(
+                width = LocalBorderWidth.current,
+                color = MaterialTheme.colorScheme.outlineVariant(
+                    luminance = 0.3f,
+                    onTopOf = MaterialTheme.colorScheme.surfaceColorAtElevation(6.dp)
+                ),
+                shape = BottomSheetDefaults.ExpandedShape
+            )
+            .fabBorder(
+                shape = BottomSheetDefaults.ExpandedShape,
+                elevation = 16.dp
+            )
+            .fabBorder(
+                height = 0.dp,
+                shape = BottomSheetDefaults.ExpandedShape,
+                elevation = 16.dp
+            ),
+        elevation = 0.dp,
+        visible = visible,
+        onVisibleChange = onDismiss,
+        content = {
+            BackHandler { onDismiss(false) }
+            Column(
+                modifier = Modifier.weight(1f, false),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                content = sheetContent
+            )
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp)
+                    .navigationBarsPadding()
+                    .padding(end = 16.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                title()
+                Spacer(modifier = Modifier.weight(1f))
+                confirmButton()
+            }
+        }
+    )
+}
