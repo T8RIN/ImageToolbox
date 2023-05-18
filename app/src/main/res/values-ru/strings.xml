@@ -144,4 +144,5 @@
     <string name="delete_exif_sub">Удалите метаданные EXIF у любого количества изображений</string>
     <string name="image_preview">Предпросмотр</string>
     <string name="image_preview_sub">Предварительный просмотр изображений любого типа: GIF, SVG и так далее</string>
+    <string name="cropping">Обрезка</string>
 </resources>

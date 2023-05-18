@@ -131,4 +131,13 @@
     <string name="share">分享</string>
     <string name="external_storage">外部存储</string>
     <string name="monet_colors">Monet 色彩</string>
+    <string name="emoji_sub">在主屏幕上选择要显示的表情符号。</string>
+    <string name="emoji">表情符号</string>
+    <string name="add_file_size_sub">如果启用，会将保存图像的宽度和高度添加到输出文件的名称中。</string>
+    <string name="add_file_size">添加文件尺寸</string>
+    <string name="delete_exif">删除 EXIF 信息</string>
+    <string name="delete_exif_sub">删除任意一对图像的 EXIF 元数据</string>
+    <string name="image_preview">预览图片</string>
+    <string name="image_preview_sub">预览任何类型的图片：GIF、SVG以及其它格式</string>
+    <string name="cropping">裁剪</string>
 </resources>
