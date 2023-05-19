@@ -147,4 +147,8 @@
     <string name="gallery_picker">Galerie</string>
     <string name="file_explorer_picker">explorateur de fichiers</string>
     <string name="gallery_picker_sub">Simple sélecteur d’image de galerie, il ne fonctionnera que si vous avez cette application</string>
+    <string name="edit">Modifier</string>
+    <string name="order">Commander</string>
+    <string name="options_arrangement">Disposition des options</string>
+    <string name="order_sub">Détermine l’ordre des options sur l’écran principal</string>
 </resources>
