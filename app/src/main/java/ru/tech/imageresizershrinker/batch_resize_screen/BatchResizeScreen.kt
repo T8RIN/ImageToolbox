@@ -12,8 +12,6 @@ import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.LocalIndication
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.indication
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -26,29 +24,20 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.asPaddingValues
-import androidx.compose.foundation.layout.aspectRatio
-import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.ime
 import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.lazy.grid.items
-import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.Save
 import androidx.compose.material.icons.outlined.Share
 import androidx.compose.material.icons.rounded.AddPhotoAlternate
 import androidx.compose.material.icons.rounded.ArrowBack
@@ -56,14 +45,12 @@ import androidx.compose.material.icons.rounded.ChangeCircle
 import androidx.compose.material.icons.rounded.DoneOutline
 import androidx.compose.material.icons.rounded.ErrorOutline
 import androidx.compose.material.icons.rounded.History
-import androidx.compose.material.icons.rounded.PhotoLibrary
 import androidx.compose.material.icons.rounded.RestartAlt
 import androidx.compose.material.icons.rounded.Save
 import androidx.compose.material.icons.rounded.ZoomIn
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExtendedFloatingActionButton
 import androidx.compose.material3.FloatingActionButton
@@ -94,20 +81,18 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.input.pointer.pointerInput
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.window.DialogProperties
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.t8rin.dynamic.theme.LocalDynamicThemeState
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.R
+import ru.tech.imageresizershrinker.batch_resize_screen.components.PickImageFromUrisSheet
 import ru.tech.imageresizershrinker.batch_resize_screen.components.SaveExifWidget
 import ru.tech.imageresizershrinker.batch_resize_screen.viewModel.BatchResizeViewModel
 import ru.tech.imageresizershrinker.main_screen.components.LocalAlignment
@@ -116,6 +101,7 @@ import ru.tech.imageresizershrinker.main_screen.components.LocalBorderWidth
 import ru.tech.imageresizershrinker.main_screen.components.LocalSelectedEmoji
 import ru.tech.imageresizershrinker.single_resize_screen.components.BadImageWidget
 import ru.tech.imageresizershrinker.single_resize_screen.components.BitmapInfo
+import ru.tech.imageresizershrinker.single_resize_screen.components.ExitWithoutSavingDialog
 import ru.tech.imageresizershrinker.single_resize_screen.components.ExtensionGroup
 import ru.tech.imageresizershrinker.single_resize_screen.components.ImageNotPickedWidget
 import ru.tech.imageresizershrinker.single_resize_screen.components.ImageTransformBar
@@ -152,7 +138,6 @@ import ru.tech.imageresizershrinker.utils.modifier.scaleOnTap
 import ru.tech.imageresizershrinker.utils.rememberImagePicker
 import ru.tech.imageresizershrinker.widget.LocalToastHost
 import ru.tech.imageresizershrinker.widget.Marquee
-import ru.tech.imageresizershrinker.widget.Picture
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -840,53 +825,7 @@ fun BatchResizeScreen(
                 }
             }
 
-            if (showExitDialog) {
-                AlertDialog(
-                    modifier = Modifier.alertDialog(),
-                    onDismissRequest = { showExitDialog = false },
-                    dismissButton = {
-                        OutlinedButton(
-                            colors = ButtonDefaults.outlinedButtonColors(
-                                containerColor = MaterialTheme.colorScheme.secondaryContainer,
-                                contentColor = MaterialTheme.colorScheme.onSecondaryContainer,
-                            ),
-                            border = BorderStroke(
-                                LocalBorderWidth.current,
-                                MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.secondaryContainer)
-                            ),
-                            onClick = {
-                                showExitDialog = false
-                                onGoBack()
-                            }
-                        ) {
-                            Text(stringResource(R.string.close))
-                        }
-                    },
-                    confirmButton = {
-                        OutlinedButton(
-                            onClick = { showExitDialog = false },
-                            colors = ButtonDefaults.buttonColors(
-                                containerColor = MaterialTheme.colorScheme.primary,
-                                contentColor = MaterialTheme.colorScheme.onPrimary
-                            ),
-                            border = BorderStroke(
-                                LocalBorderWidth.current,
-                                MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.primary)
-                            )
-                        ) {
-                            Text(stringResource(R.string.stay))
-                        }
-                    },
-                    title = { Text(stringResource(R.string.image_not_saved)) },
-                    text = {
-                        Text(
-                            stringResource(R.string.image_not_saved_sub),
-                            textAlign = TextAlign.Center
-                        )
-                    },
-                    icon = { Icon(Icons.Outlined.Save, null) }
-                )
-            } else if (showSaveLoading) {
+            if (showSaveLoading) {
                 LoadingDialog(viewModel.done, viewModel.uris?.size ?: 1)
             } else if (showResetDialog) {
                 AlertDialog(
@@ -934,128 +873,52 @@ fun BatchResizeScreen(
                         }
                     }
                 )
-            } else if (showPickImageFromUrisDialog) {
-                if ((viewModel.uris?.size ?: 0) > 1) {
-                    AlertDialog(
-                        properties = DialogProperties(usePlatformDefaultWidth = false),
-                        modifier = Modifier
-                            .systemBarsPadding()
-                            .padding(vertical = 4.dp, horizontal = 8.dp)
-                            .fillMaxWidth()
-                            .alertDialog(),
-                        icon = { Icon(Icons.Rounded.PhotoLibrary, null) },
-                        title = { Text(stringResource(R.string.change_preview)) },
-                        text = {
-                            val gridState = rememberLazyGridState()
-                            LaunchedEffect(Unit) {
-                                gridState.scrollToItem(
-                                    viewModel.uris?.indexOf(viewModel.selectedUri) ?: 0
-                                )
-                            }
-                            Box {
-                                LazyVerticalGrid(
-                                    columns = GridCells.Fixed(if (imageInside) 2 else 4),
-                                    modifier = Modifier.padding(horizontal = 4.dp),
-                                    state = gridState
-                                ) {
-                                    viewModel.uris?.let { uris ->
-                                        items(uris, key = { it.toString() }) { uri ->
-                                            Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                                                Picture(
-                                                    model = uri,
-                                                    modifier = Modifier
-                                                        .padding(top = 8.dp)
-                                                        .padding(4.dp)
-                                                        .aspectRatio(1f)
-                                                        .clip(RoundedCornerShape(8.dp))
-                                                        .clickable {
-                                                            try {
-                                                                viewModel.setBitmap(
-                                                                    loader = {
-                                                                        context.getBitmapByUri(uri)
-                                                                    },
-                                                                    uri = uri
-                                                                )
-                                                            } catch (e: Exception) {
-                                                                scope.launch {
-                                                                    toastHostState.showToast(
-                                                                        context.getString(
-                                                                            R.string.smth_went_wrong,
-                                                                            e.localizedMessage
-                                                                                ?: ""
-                                                                        ),
-                                                                        Icons.Rounded.ErrorOutline
-                                                                    )
-                                                                }
-                                                            }
-                                                            showPickImageFromUrisDialog = false
-                                                        }
-                                                        .then(
-                                                            if (uri == viewModel.selectedUri) {
-                                                                Modifier.border(
-                                                                    LocalBorderWidth.current * 2,
-                                                                    MaterialTheme.colorScheme.outlineVariant(),
-                                                                    RoundedCornerShape(8.dp)
-                                                                )
-                                                            } else Modifier
-                                                        )
-                                                        .block(RoundedCornerShape(8.dp)),
-                                                    shape = RoundedCornerShape(8.dp),
-                                                    contentScale = ContentScale.Fit
-                                                )
-                                                OutlinedButton(
-                                                    colors = ButtonDefaults.outlinedButtonColors(
-                                                        containerColor = MaterialTheme.colorScheme.secondaryContainer,
-                                                        contentColor = MaterialTheme.colorScheme.onSecondaryContainer,
-                                                    ),
-                                                    border = BorderStroke(
-                                                        LocalBorderWidth.current,
-                                                        MaterialTheme.colorScheme.outlineVariant(
-                                                            onTopOf = MaterialTheme.colorScheme.secondaryContainer
-                                                        )
-                                                    ),
-                                                    onClick = {
-                                                        viewModel.updateUrisSilently(
-                                                            removedUri = uri,
-                                                            loader = {
-                                                                context.getBitmapByUri(it)
-                                                            }
-                                                        )
-                                                    },
-                                                    contentPadding = PaddingValues(
-                                                        horizontal = 8.dp,
-                                                        vertical = 2.dp
-                                                    ),
-                                                    modifier = Modifier.defaultMinSize(minHeight = 10.dp)
-                                                ) {
-                                                    Text(stringResource(R.string.remove))
-                                                }
-                                                Divider()
-                                            }
-                                        }
-                                    }
-                                }
-                                Divider(Modifier.align(Alignment.TopCenter))
-                                Divider(Modifier.align(Alignment.BottomCenter))
-                            }
-                        },
-                        onDismissRequest = { showPickImageFromUrisDialog = false },
-                        confirmButton = {
-                            OutlinedButton(
-                                onClick = { showPickImageFromUrisDialog = false },
-                                border = BorderStroke(
-                                    LocalBorderWidth.current,
-                                    MaterialTheme.colorScheme.outlineVariant()
-                                )
-                            ) {
-                                Text(stringResource(R.string.close))
-                            }
+            }
+
+            PickImageFromUrisSheet(
+                visible = showPickImageFromUrisDialog,
+                uris = viewModel.uris,
+                selectedUri = viewModel.selectedUri,
+                onDismiss = {
+                    showPickImageFromUrisDialog = false
+                },
+                onUriPicked = { uri ->
+                    try {
+                        viewModel.setBitmap(
+                            loader = {
+                                context.getBitmapByUri(uri)
+                            },
+                            uri = uri
+                        )
+                    } catch (e: Exception) {
+                        scope.launch {
+                            toastHostState.showToast(
+                                context.getString(
+                                    R.string.smth_went_wrong,
+                                    e.localizedMessage
+                                        ?: ""
+                                ),
+                                Icons.Rounded.ErrorOutline
+                            )
+                        }
+                    }
+                },
+                onUriRemoved = { uri ->
+                    viewModel.updateUrisSilently(
+                        removedUri = uri,
+                        loader = {
+                            context.getBitmapByUri(it)
                         }
                     )
-                } else {
-                    showPickImageFromUrisDialog = false
-                }
-            }
+                },
+                columns = if (imageInside) 2 else 4,
+            )
+
+            ExitWithoutSavingDialog(
+                onExit = onGoBack,
+                onDismiss = { showExitDialog = false },
+                visible = showExitDialog
+            )
 
             BackHandler {
                 if (viewModel.uris?.isNotEmpty() == true) showExitDialog = true

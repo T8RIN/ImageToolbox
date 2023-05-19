@@ -36,14 +36,12 @@ import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.AspectRatio
 import androidx.compose.material.icons.outlined.RestartAlt
-import androidx.compose.material.icons.outlined.Save
 import androidx.compose.material.icons.outlined.Share
 import androidx.compose.material.icons.rounded.AddPhotoAlternate
 import androidx.compose.material.icons.rounded.ArrowBack
 import androidx.compose.material.icons.rounded.Crop
 import androidx.compose.material.icons.rounded.ErrorOutline
 import androidx.compose.material.icons.rounded.Save
-import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.BottomSheetScaffold
 import androidx.compose.material3.ButtonDefaults
@@ -82,7 +80,6 @@ import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.smarttoolfactory.cropper.ImageCropper
@@ -101,6 +98,7 @@ import ru.tech.imageresizershrinker.main_screen.components.LocalAllowChangeColor
 import ru.tech.imageresizershrinker.main_screen.components.LocalBorderWidth
 import ru.tech.imageresizershrinker.main_screen.components.LocalSelectedEmoji
 import ru.tech.imageresizershrinker.single_resize_screen.components.BitmapInfo
+import ru.tech.imageresizershrinker.single_resize_screen.components.ExitWithoutSavingDialog
 import ru.tech.imageresizershrinker.single_resize_screen.components.ImageNotPickedWidget
 import ru.tech.imageresizershrinker.single_resize_screen.components.LoadingDialog
 import ru.tech.imageresizershrinker.theme.EmojiItem
@@ -113,7 +111,6 @@ import ru.tech.imageresizershrinker.utils.LocalWindowSizeClass
 import ru.tech.imageresizershrinker.utils.Picker
 import ru.tech.imageresizershrinker.utils.SavingFolder
 import ru.tech.imageresizershrinker.utils.localImagePickerMode
-import ru.tech.imageresizershrinker.utils.modifier.alertDialog
 import ru.tech.imageresizershrinker.utils.modifier.drawHorizontalStroke
 import ru.tech.imageresizershrinker.utils.modifier.fabBorder
 import ru.tech.imageresizershrinker.utils.modifier.navBarsPaddingOnlyIfTheyAtTheEnd
@@ -652,51 +649,13 @@ fun CropScreen(
 
     if (showSaveLoading || viewModel.isLoading) {
         LoadingDialog()
-    } else if (showExitDialog) {
-        AlertDialog(
-            modifier = Modifier.alertDialog(),
-            onDismissRequest = { showExitDialog = false },
-            dismissButton = {
-                OutlinedButton(
-                    colors = ButtonDefaults.outlinedButtonColors(
-                        containerColor = MaterialTheme.colorScheme.secondaryContainer,
-                        contentColor = MaterialTheme.colorScheme.onSecondaryContainer,
-                    ),
-                    border = BorderStroke(
-                        LocalBorderWidth.current,
-                        MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.secondaryContainer)
-                    ),
-                    onClick = {
-                        showExitDialog = false
-                        onGoBack()
-                    }
-                ) {
-                    Text(stringResource(R.string.close))
-                }
-            },
-            confirmButton = {
-                OutlinedButton(
-                    colors = ButtonDefaults.outlinedButtonColors(
-                        containerColor = MaterialTheme.colorScheme.primary,
-                        contentColor = MaterialTheme.colorScheme.onPrimary,
-                    ),
-                    border = BorderStroke(
-                        LocalBorderWidth.current,
-                        MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.primary)
-                    ), onClick = { showExitDialog = false }) {
-                    Text(stringResource(R.string.stay))
-                }
-            },
-            title = { Text(stringResource(R.string.image_not_saved)) },
-            text = {
-                Text(
-                    stringResource(R.string.image_not_saved_sub),
-                    textAlign = TextAlign.Center
-                )
-            },
-            icon = { Icon(Icons.Outlined.Save, null) }
-        )
     }
+
+    ExitWithoutSavingDialog(
+        onExit = onGoBack,
+        onDismiss = { showExitDialog = false },
+        visible = showExitDialog
+    )
 
     BackHandler {
         if (viewModel.bitmap != null) showExitDialog = true

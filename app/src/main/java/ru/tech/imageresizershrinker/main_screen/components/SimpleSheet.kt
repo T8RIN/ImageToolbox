@@ -196,6 +196,7 @@ fun SimpleSheet(
                 modifier = Modifier
                     .fillMaxWidth()
                     .navigationBarsPadding()
+                    .padding(16.dp)
                     .padding(end = 16.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {

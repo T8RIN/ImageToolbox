@@ -43,7 +43,6 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.Save
 import androidx.compose.material.icons.outlined.Share
 import androidx.compose.material.icons.rounded.AddCircle
 import androidx.compose.material.icons.rounded.AddPhotoAlternate
@@ -124,6 +123,7 @@ import ru.tech.imageresizershrinker.main_screen.components.SimpleSheet
 import ru.tech.imageresizershrinker.main_screen.components.TitleItem
 import ru.tech.imageresizershrinker.single_resize_screen.components.BadImageWidget
 import ru.tech.imageresizershrinker.single_resize_screen.components.BitmapInfo
+import ru.tech.imageresizershrinker.single_resize_screen.components.ExitWithoutSavingDialog
 import ru.tech.imageresizershrinker.single_resize_screen.components.ExtensionGroup
 import ru.tech.imageresizershrinker.single_resize_screen.components.ImageNotPickedWidget
 import ru.tech.imageresizershrinker.single_resize_screen.components.ImageTransformBar
@@ -777,52 +777,7 @@ fun SingleResizeScreen(
             }
 
 
-            if (showExitDialog) {
-                AlertDialog(
-                    modifier = Modifier.alertDialog(),
-                    onDismissRequest = { showExitDialog = false },
-                    dismissButton = {
-                        OutlinedButton(
-                            colors = ButtonDefaults.outlinedButtonColors(
-                                containerColor = MaterialTheme.colorScheme.secondaryContainer,
-                                contentColor = MaterialTheme.colorScheme.onSecondaryContainer
-                            ),
-                            border = BorderStroke(
-                                LocalBorderWidth.current,
-                                MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.secondaryContainer)
-                            ),
-                            onClick = {
-                                showExitDialog = false
-                                onGoBack()
-                            }
-                        ) {
-                            Text(stringResource(R.string.close))
-                        }
-                    },
-                    confirmButton = {
-                        OutlinedButton(
-                            colors = ButtonDefaults.buttonColors(
-                                containerColor = MaterialTheme.colorScheme.primary,
-                                contentColor = MaterialTheme.colorScheme.onPrimary
-                            ),
-                            border = BorderStroke(
-                                LocalBorderWidth.current,
-                                MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.primary)
-                            ), onClick = { showExitDialog = false }
-                        ) {
-                            Text(stringResource(R.string.stay))
-                        }
-                    },
-                    title = { Text(stringResource(R.string.image_not_saved)) },
-                    text = {
-                        Text(
-                            stringResource(R.string.image_not_saved_sub),
-                            textAlign = TextAlign.Center
-                        )
-                    },
-                    icon = { Icon(Icons.Outlined.Save, null) }
-                )
-            } else if (showSaveLoading) {
+            if (showSaveLoading) {
                 LoadingDialog()
             } else if (showResetDialog) {
                 AlertDialog(
@@ -1283,6 +1238,12 @@ fun SingleResizeScreen(
                     visible = showCropDialog
                 )
             }
+
+            ExitWithoutSavingDialog(
+                onExit = onGoBack,
+                onDismiss = { showExitDialog = false },
+                visible = showExitDialog
+            )
 
             BackHandler {
                 if (viewModel.bitmap != null) showExitDialog = true
