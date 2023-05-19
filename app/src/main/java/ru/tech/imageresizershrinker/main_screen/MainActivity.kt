@@ -124,9 +124,9 @@ import ru.tech.imageresizershrinker.main_screen.components.isNightMode
 import ru.tech.imageresizershrinker.main_screen.components.toAlignment
 import ru.tech.imageresizershrinker.main_screen.viewModel.MainViewModel
 import ru.tech.imageresizershrinker.pick_color_from_image_screen.PickColorFromImageScreen
-import ru.tech.imageresizershrinker.resize_screen.SingleResizeScreen
-import ru.tech.imageresizershrinker.resize_screen.components.BitmapInfo
-import ru.tech.imageresizershrinker.resize_screen.components.extension
+import ru.tech.imageresizershrinker.single_resize_screen.SingleResizeScreen
+import ru.tech.imageresizershrinker.single_resize_screen.components.BitmapInfo
+import ru.tech.imageresizershrinker.single_resize_screen.components.extension
 import ru.tech.imageresizershrinker.theme.Emoji
 import ru.tech.imageresizershrinker.theme.ImageResizerTheme
 import ru.tech.imageresizershrinker.theme.allIcons

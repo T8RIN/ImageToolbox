@@ -1,4 +1,4 @@
-package ru.tech.imageresizershrinker.resize_screen.viewModel
+package ru.tech.imageresizershrinker.single_resize_screen.viewModel
 
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
@@ -16,9 +16,9 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import ru.tech.imageresizershrinker.resize_screen.components.BitmapInfo
-import ru.tech.imageresizershrinker.resize_screen.components.compressFormat
-import ru.tech.imageresizershrinker.resize_screen.components.extension
+import ru.tech.imageresizershrinker.single_resize_screen.components.BitmapInfo
+import ru.tech.imageresizershrinker.single_resize_screen.components.compressFormat
+import ru.tech.imageresizershrinker.single_resize_screen.components.extension
 import ru.tech.imageresizershrinker.utils.BitmapUtils
 import ru.tech.imageresizershrinker.utils.BitmapUtils.canShow
 import ru.tech.imageresizershrinker.utils.BitmapUtils.copyTo

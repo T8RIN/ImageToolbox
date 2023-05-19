@@ -11,9 +11,9 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import ru.tech.imageresizershrinker.resize_screen.components.BitmapInfo
-import ru.tech.imageresizershrinker.resize_screen.components.compressFormat
-import ru.tech.imageresizershrinker.resize_screen.components.extension
+import ru.tech.imageresizershrinker.single_resize_screen.components.BitmapInfo
+import ru.tech.imageresizershrinker.single_resize_screen.components.compressFormat
+import ru.tech.imageresizershrinker.single_resize_screen.components.extension
 import ru.tech.imageresizershrinker.utils.BitmapUtils.canShow
 import ru.tech.imageresizershrinker.utils.BitmapUtils.resizeBitmap
 import ru.tech.imageresizershrinker.utils.SavingFolder
@@ -115,7 +115,7 @@ class DeleteExifViewModel : ViewModel() {
                 uris?.forEach { uri ->
                     runCatching {
                         getBitmap(uri)
-                    }.getOrNull()?.takeIf { it.first != null }?.let { (bitmap, exif, mimeInt) ->
+                    }.getOrNull()?.takeIf { it.first != null }?.let { (bitmap, _, mimeInt) ->
                         bitmap?.let { result ->
 
                             val savingFolder = getSavingFolder(

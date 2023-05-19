@@ -1,4 +1,4 @@
-package ru.tech.imageresizershrinker.resize_screen.components
+package ru.tech.imageresizershrinker.single_resize_screen.components
 
 import android.view.View
 import androidx.compose.runtime.Composable

@@ -103,19 +103,23 @@ fun localImagePickerMode(picker: Picker = Picker.Single): ImagePickerMode {
 }
 
 @Composable
-fun rememberImagePicker(mode: ImagePickerMode, onGetUris: (List<Uri>) -> Unit): ImagePicker {
+fun rememberImagePicker(
+    mode: ImagePickerMode,
+    onFailure: () -> Unit = {},
+    onSuccess: (List<Uri>) -> Unit,
+): ImagePicker {
     val context = LocalContext.current
 
     val photoPickerSingle = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.PickVisualMedia(),
         onResult = {
-            it?.let { onGetUris(listOf(it)) }
+            it?.let { onSuccess(listOf(it)) } ?: onFailure()
         }
     )
     val photoPickerMultiple = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.PickMultipleVisualMedia(),
         onResult = { uris ->
-            uris.takeIf { it.isNotEmpty() }?.let { onGetUris(it) }
+            uris.takeIf { it.isNotEmpty() }?.let { onSuccess(it) } ?: onFailure()
         }
     )
 
@@ -126,7 +130,7 @@ fun rememberImagePicker(mode: ImagePickerMode, onGetUris: (List<Uri>) -> Unit): 
                 val data = result.data?.data
                 val clipData = result.data?.clipData
                 if (clipData != null) {
-                    onGetUris(
+                    onSuccess(
                         List(
                             size = clipData.itemCount,
                             init = {
@@ -135,8 +139,8 @@ fun rememberImagePicker(mode: ImagePickerMode, onGetUris: (List<Uri>) -> Unit): 
                         )
                     )
                 } else if (data != null) {
-                    onGetUris(listOf(data))
-                }
+                    onSuccess(listOf(data))
+                } else onFailure()
             }
         )
 

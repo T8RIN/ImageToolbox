@@ -145,10 +145,10 @@ import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.BuildConfig
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.main_screen.viewModel.MainViewModel
-import ru.tech.imageresizershrinker.resize_screen.components.RevealDirection
-import ru.tech.imageresizershrinker.resize_screen.components.RevealValue
-import ru.tech.imageresizershrinker.resize_screen.components.rememberRevealState
-import ru.tech.imageresizershrinker.resize_screen.components.revealSwipeable
+import ru.tech.imageresizershrinker.single_resize_screen.components.RevealDirection
+import ru.tech.imageresizershrinker.single_resize_screen.components.RevealValue
+import ru.tech.imageresizershrinker.single_resize_screen.components.rememberRevealState
+import ru.tech.imageresizershrinker.single_resize_screen.components.revealSwipeable
 import ru.tech.imageresizershrinker.theme.CreateAlt
 import ru.tech.imageresizershrinker.theme.Emoji
 import ru.tech.imageresizershrinker.theme.EmojiItem

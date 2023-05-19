@@ -27,10 +27,10 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import ru.tech.imageresizershrinker.R
-import ru.tech.imageresizershrinker.resize_screen.components.BitmapInfo
-import ru.tech.imageresizershrinker.resize_screen.components.compressFormat
-import ru.tech.imageresizershrinker.resize_screen.components.extension
-import ru.tech.imageresizershrinker.resize_screen.components.mimeTypeInt
+import ru.tech.imageresizershrinker.single_resize_screen.components.BitmapInfo
+import ru.tech.imageresizershrinker.single_resize_screen.components.compressFormat
+import ru.tech.imageresizershrinker.single_resize_screen.components.extension
+import ru.tech.imageresizershrinker.single_resize_screen.components.mimeTypeInt
 import java.io.ByteArrayInputStream
 import java.io.ByteArrayOutputStream
 import java.io.File

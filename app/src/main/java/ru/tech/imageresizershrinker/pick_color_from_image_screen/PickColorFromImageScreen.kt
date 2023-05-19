@@ -89,8 +89,8 @@ import ru.tech.imageresizershrinker.main_screen.components.LocalBorderWidth
 import ru.tech.imageresizershrinker.main_screen.components.LocalSelectedEmoji
 import ru.tech.imageresizershrinker.main_screen.components.Screen
 import ru.tech.imageresizershrinker.pick_color_from_image_screen.viewModel.PickColorViewModel
-import ru.tech.imageresizershrinker.resize_screen.components.ImageNotPickedWidget
-import ru.tech.imageresizershrinker.resize_screen.components.LoadingDialog
+import ru.tech.imageresizershrinker.single_resize_screen.components.ImageNotPickedWidget
+import ru.tech.imageresizershrinker.single_resize_screen.components.LoadingDialog
 import ru.tech.imageresizershrinker.theme.EmojiItem
 import ru.tech.imageresizershrinker.theme.PaletteSwatch
 import ru.tech.imageresizershrinker.theme.outlineVariant

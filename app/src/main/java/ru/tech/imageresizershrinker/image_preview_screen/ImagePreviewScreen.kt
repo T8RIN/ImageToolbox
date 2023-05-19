@@ -22,6 +22,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.asPaddingValues
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.displayCutoutPadding
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -60,6 +61,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
@@ -102,7 +104,7 @@ import ru.tech.imageresizershrinker.main_screen.components.SimpleSheet
 import ru.tech.imageresizershrinker.main_screen.components.SingleResizePreference
 import ru.tech.imageresizershrinker.main_screen.components.TitleItem
 import ru.tech.imageresizershrinker.main_screen.components.isNightMode
-import ru.tech.imageresizershrinker.resize_screen.components.ImageNotPickedWidget
+import ru.tech.imageresizershrinker.single_resize_screen.components.ImageNotPickedWidget
 import ru.tech.imageresizershrinker.theme.CreateAlt
 import ru.tech.imageresizershrinker.theme.EmojiItem
 import ru.tech.imageresizershrinker.theme.outlineVariant
@@ -148,13 +150,21 @@ fun ImagePreviewScreen(
         } ?: themeState.updateColorTuple(appColorTuple)
     }
 
+    var addImages by remember { mutableStateOf(false) }
     val pickImageLauncher =
         rememberImagePicker(
-            mode = localImagePickerMode(Picker.Multiple)
+            mode = localImagePickerMode(Picker.Multiple),
+            onFailure = { addImages = false }
         ) { list ->
             list.takeIf { it.isNotEmpty() }?.let {
-                viewModel.updateUris(list)
+                if (!addImages) {
+                    viewModel.updateUris(list)
+                } else {
+                    val uris = (viewModel.uris ?: emptyList()) + list
+                    viewModel.updateUris(uris)
+                }
             }
+            addImages = false
         }
 
     val pickImage = {
@@ -192,9 +202,7 @@ fun ImagePreviewScreen(
                         )
                     ),
                     navigationIcon = {
-                        IconButton(
-                            onClick = { onGoBack() }
-                        ) {
+                        IconButton(onClick = onGoBack) {
                             Icon(Icons.Rounded.ArrowBack, null)
                         }
                     },
@@ -211,7 +219,6 @@ fun ImagePreviewScreen(
                 if (viewModel.uris.isNullOrEmpty()) {
                     Column(
                         Modifier
-                            .fillMaxWidth()
                             .fillMaxSize()
                             .verticalScroll(rememberScrollState()),
                         horizontalAlignment = Alignment.CenterHorizontally
@@ -234,7 +241,7 @@ fun ImagePreviewScreen(
                 } else {
                     LazyVerticalStaggeredGrid(
                         columns = StaggeredGridCells.Adaptive(150.dp),
-                        modifier = Modifier.fillMaxWidth(),
+                        modifier = Modifier.fillMaxSize(),
                         verticalItemSpacing = 12.dp,
                         horizontalArrangement = Arrangement.spacedBy(
                             12.dp,
@@ -280,6 +287,36 @@ fun ImagePreviewScreen(
                                         ),
                                     shape = MaterialTheme.shapes.large
                                 )
+                            }
+                        }
+                        if (!viewModel.uris.isNullOrEmpty()) {
+                            item {
+                                Box(
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .aspectRatio(2f)
+                                        .clip(MaterialTheme.shapes.large)
+                                        .clickable {
+                                            addImages = true
+                                            pickImageLauncher.pickImage()
+                                        }
+                                        .background(
+                                            MaterialTheme.colorScheme.secondaryContainer,
+                                            MaterialTheme.shapes.large
+                                        )
+                                        .border(
+                                            LocalBorderWidth.current,
+                                            MaterialTheme.colorScheme.outlineVariant(),
+                                            MaterialTheme.shapes.large
+                                        ),
+                                    contentAlignment = Alignment.Center
+                                ) {
+                                    Icon(
+                                        imageVector = Icons.Rounded.AddPhotoAlternate,
+                                        contentDescription = null,
+                                        modifier = Modifier.fillMaxSize(0.5f)
+                                    )
+                                }
                             }
                         }
                     }
@@ -338,7 +375,6 @@ fun ImagePreviewScreen(
                 viewModel.uris?.size ?: 0
             }
         )
-        var zoomEnabled by rememberSaveable { mutableStateOf(false) }
         Box(
             Modifier
                 .fillMaxSize()
@@ -394,7 +430,7 @@ fun ImagePreviewScreen(
                     containerColor = Color.Transparent
                 ),
                 title = {
-                    viewModel.uris?.size?.let {
+                    viewModel.uris?.size?.takeIf { it > 1 }.let {
                         Text(
                             text = "${state.currentPage + 1}/$it",
                             modifier = Modifier

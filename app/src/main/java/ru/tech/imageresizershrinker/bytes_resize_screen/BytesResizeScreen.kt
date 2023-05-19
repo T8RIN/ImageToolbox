@@ -100,7 +100,6 @@ import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -120,16 +119,16 @@ import ru.tech.imageresizershrinker.main_screen.components.LocalAlignment
 import ru.tech.imageresizershrinker.main_screen.components.LocalAllowChangeColorByImage
 import ru.tech.imageresizershrinker.main_screen.components.LocalBorderWidth
 import ru.tech.imageresizershrinker.main_screen.components.LocalSelectedEmoji
-import ru.tech.imageresizershrinker.resize_screen.components.BitmapInfo
-import ru.tech.imageresizershrinker.resize_screen.components.ExtensionGroup
-import ru.tech.imageresizershrinker.resize_screen.components.ImageNotPickedWidget
-import ru.tech.imageresizershrinker.resize_screen.components.Loading
-import ru.tech.imageresizershrinker.resize_screen.components.LoadingDialog
-import ru.tech.imageresizershrinker.resize_screen.components.PresetWidget
-import ru.tech.imageresizershrinker.resize_screen.components.SimplePicture
-import ru.tech.imageresizershrinker.resize_screen.components.ZoomModalSheet
-import ru.tech.imageresizershrinker.resize_screen.components.byteCount
-import ru.tech.imageresizershrinker.resize_screen.components.extension
+import ru.tech.imageresizershrinker.single_resize_screen.components.BitmapInfo
+import ru.tech.imageresizershrinker.single_resize_screen.components.ExtensionGroup
+import ru.tech.imageresizershrinker.single_resize_screen.components.ImageNotPickedWidget
+import ru.tech.imageresizershrinker.single_resize_screen.components.Loading
+import ru.tech.imageresizershrinker.single_resize_screen.components.LoadingDialog
+import ru.tech.imageresizershrinker.single_resize_screen.components.PresetWidget
+import ru.tech.imageresizershrinker.single_resize_screen.components.SimplePicture
+import ru.tech.imageresizershrinker.single_resize_screen.components.ZoomModalSheet
+import ru.tech.imageresizershrinker.single_resize_screen.components.byteCount
+import ru.tech.imageresizershrinker.single_resize_screen.components.extension
 import ru.tech.imageresizershrinker.theme.EmojiItem
 import ru.tech.imageresizershrinker.theme.outlineVariant
 import ru.tech.imageresizershrinker.utils.BitmapUtils.decodeBitmapFromUri
@@ -794,7 +793,6 @@ fun BytesResizeScreen(
                         icon = { Icon(Icons.Rounded.PhotoLibrary, null) },
                         title = { Text(stringResource(R.string.change_preview)) },
                         text = {
-                            val pix = with(LocalDensity.current) { 100.dp.roundToPx() }
                             val gridState = rememberLazyGridState()
                             LaunchedEffect(Unit) {
                                 gridState.scrollToItem(

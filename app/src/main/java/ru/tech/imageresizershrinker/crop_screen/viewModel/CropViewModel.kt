@@ -15,10 +15,10 @@ import com.smarttoolfactory.cropper.settings.CropOutlineProperty
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import ru.tech.imageresizershrinker.resize_screen.components.BitmapInfo
-import ru.tech.imageresizershrinker.resize_screen.components.compressFormat
-import ru.tech.imageresizershrinker.resize_screen.components.extension
-import ru.tech.imageresizershrinker.resize_screen.components.mimeTypeInt
+import ru.tech.imageresizershrinker.single_resize_screen.components.BitmapInfo
+import ru.tech.imageresizershrinker.single_resize_screen.components.compressFormat
+import ru.tech.imageresizershrinker.single_resize_screen.components.extension
+import ru.tech.imageresizershrinker.single_resize_screen.components.mimeTypeInt
 import ru.tech.imageresizershrinker.utils.BitmapUtils.canShow
 import ru.tech.imageresizershrinker.utils.BitmapUtils.resizeBitmap
 import ru.tech.imageresizershrinker.utils.SavingFolder

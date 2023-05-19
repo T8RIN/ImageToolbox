@@ -8,7 +8,7 @@ import android.os.Environment
 import android.provider.MediaStore
 import androidx.documentfile.provider.DocumentFile
 import ru.tech.imageresizershrinker.R
-import ru.tech.imageresizershrinker.resize_screen.components.BitmapInfo
+import ru.tech.imageresizershrinker.single_resize_screen.components.BitmapInfo
 import java.io.File
 import java.io.FileOutputStream
 import java.io.OutputStream
