@@ -1274,7 +1274,7 @@ fun SingleResizeScreen(
                                     LocalBorderWidth.current,
                                     MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.primary)
                                 ),
-                                onClick = { showCropDialog.value = false }
+                                onClick = { crop = true }
                             ) {
                                 Text(stringResource(R.string.crop))
                             }
