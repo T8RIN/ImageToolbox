@@ -144,9 +144,16 @@ fun ImagePreviewScreen(
         }
     }
 
-    LaunchedEffect(viewModel.bitmap) {
-        viewModel.bitmap?.let {
-            if (allowChangeColor) themeState.updateColorByImage(it)
+    LaunchedEffect(viewModel.selectedUri) {
+        viewModel.selectedUri?.let {
+            if (allowChangeColor) {
+                val image = context.decodeSampledBitmapFromUri(
+                    uri = it,
+                    reqWidth = 300,
+                    reqHeight = 300
+                )
+                image?.let { it1 -> themeState.updateColorByImage(it1) }
+            }
         } ?: themeState.updateColorTuple(appColorTuple)
     }
 
@@ -268,13 +275,6 @@ fun ImagePreviewScreen(
                                         .clickable {
                                             showImagePreviewDialog = true
                                             viewModel.selectUri(it)
-                                            viewModel.updateBitmap {
-                                                context.decodeSampledBitmapFromUri(
-                                                    uri = it,
-                                                    reqWidth = 300,
-                                                    reqHeight = 300
-                                                )
-                                            }
                                         }
                                         .background(
                                             MaterialTheme.colorScheme.surfaceVariant,
@@ -353,7 +353,7 @@ fun ImagePreviewScreen(
     )
 
     AnimatedVisibility(
-        showImagePreviewDialog,
+        showImagePreviewDialog && !viewModel.uris.isNullOrEmpty(),
         modifier = Modifier.fillMaxSize(),
         enter = slideInHorizontally(
             animationSpec()
@@ -375,6 +375,9 @@ fun ImagePreviewScreen(
                 viewModel.uris?.size ?: 0
             }
         )
+        LaunchedEffect(state.currentPage) {
+            viewModel.selectUri(viewModel.uris?.getOrNull(state.currentPage))
+        }
         Box(
             Modifier
                 .fillMaxSize()
@@ -394,7 +397,6 @@ fun ImagePreviewScreen(
             HorizontalPager(
                 state = state,
                 modifier = Modifier.fillMaxSize(),
-                pageSpacing = 8.dp,
                 beyondBoundsPageCount = 5,
                 userScrollEnabled = zoomState.zoom == 1f
             ) { page ->
@@ -430,7 +432,7 @@ fun ImagePreviewScreen(
                     containerColor = Color.Transparent
                 ),
                 title = {
-                    viewModel.uris?.size?.takeIf { it > 1 }.let {
+                    viewModel.uris?.size?.takeIf { it > 1 }?.let {
                         Text(
                             text = "${state.currentPage + 1}/$it",
                             modifier = Modifier
@@ -444,7 +446,7 @@ fun ImagePreviewScreen(
                     }
                 },
                 actions = {
-                    AnimatedVisibility(viewModel.selectedUri != null) {
+                    AnimatedVisibility(!viewModel.uris.isNullOrEmpty()) {
                         Box(
                             modifier = Modifier
                                 .minimumInteractiveComponentSize()
@@ -456,7 +458,6 @@ fun ImagePreviewScreen(
                                 .clip(CircleShape)
                                 .clickable {
                                     wantToEdit.value = true
-                                    viewModel.selectUri(viewModel.uris?.getOrNull(state.currentPage))
                                 },
                             contentAlignment = Alignment.Center
                         ) {
@@ -469,7 +470,7 @@ fun ImagePreviewScreen(
                     }
                 },
                 navigationIcon = {
-                    AnimatedVisibility(viewModel.selectedUri != null) {
+                    AnimatedVisibility(!viewModel.uris.isNullOrEmpty()) {
                         Box(
                             modifier = Modifier
                                 .minimumInteractiveComponentSize()
@@ -482,7 +483,6 @@ fun ImagePreviewScreen(
                                 .clickable {
                                     showImagePreviewDialog = false
                                     viewModel.selectUri(null)
-                                    viewModel.updateBitmap { null }
                                 },
                             contentAlignment = Alignment.Center
                         ) {
@@ -587,7 +587,6 @@ fun ImagePreviewScreen(
         BackHandler {
             showImagePreviewDialog = false
             viewModel.selectUri(null)
-            viewModel.updateBitmap { null }
         }
     }
 }
