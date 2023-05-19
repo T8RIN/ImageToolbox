@@ -14,7 +14,6 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import ru.tech.imageresizershrinker.theme.emoji.Alien
 import ru.tech.imageresizershrinker.theme.emoji.Amulet
 import ru.tech.imageresizershrinker.theme.emoji.Anger
@@ -91,7 +90,7 @@ object Emoji
 
 private var EmojiList: List<ImageVector>? = null
 
-public val Emoji.allIcons: List<ImageVector>
+val Emoji.allIcons: List<ImageVector>
     get() {
         if (EmojiList != null) {
             return EmojiList!!
@@ -186,7 +185,6 @@ fun EmojiItem(
         val size = with(LocalDensity.current) { fontSize.toDp() }
         emoji?.let {
             Box {
-                1.sp
                 Icon(
                     imageVector = emoji,
                     contentDescription = null,
