@@ -20,7 +20,6 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -188,8 +187,7 @@ import kotlin.math.roundToInt
 
 @OptIn(
     ExperimentalMaterial3Api::class,
-    ExperimentalMaterialApi::class,
-    ExperimentalLayoutApi::class
+    ExperimentalMaterialApi::class
 )
 @Composable
 fun MainScreen(

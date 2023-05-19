@@ -315,7 +315,11 @@ class MainViewModel @Inject constructor(
                             }
                         }
 
-                        if (tag != BuildConfig.VERSION_NAME) {
+                        if ((tag.replace(".", "")
+                                .toIntOrNull() ?: Int.MAX_VALUE) > (BuildConfig.VERSION_NAME
+                                .replace(".", "")
+                                .toIntOrNull() ?: 0)
+                        ) {
                             _updateAvailable.value = true
                             if (showDialog) {
                                 _showUpdateDialog.value = true
