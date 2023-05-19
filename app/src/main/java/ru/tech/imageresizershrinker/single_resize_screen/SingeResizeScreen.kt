@@ -1206,6 +1206,7 @@ fun SingleResizeScreen(
                             crop = crop,
                             onCropSuccess = { image ->
                                 viewModel.updateBitmap(image.asAndroidBitmap())
+                                crop = false
                                 showCropDialog.value = false
                             }
                         )
