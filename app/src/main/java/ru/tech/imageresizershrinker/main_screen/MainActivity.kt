@@ -116,7 +116,6 @@ import ru.tech.imageresizershrinker.main_screen.components.LocalPresetsProvider
 import ru.tech.imageresizershrinker.main_screen.components.LocalSelectedEmoji
 import ru.tech.imageresizershrinker.main_screen.components.MainScreen
 import ru.tech.imageresizershrinker.main_screen.components.PickColorPreference
-import ru.tech.imageresizershrinker.main_screen.components.Screen
 import ru.tech.imageresizershrinker.main_screen.components.SimpleSheet
 import ru.tech.imageresizershrinker.main_screen.components.SingleResizePreference
 import ru.tech.imageresizershrinker.main_screen.components.TitleItem
@@ -140,6 +139,7 @@ import ru.tech.imageresizershrinker.utils.IntentUtils.parcelableArrayList
 import ru.tech.imageresizershrinker.utils.LocalImagePickerModeInt
 import ru.tech.imageresizershrinker.utils.LocalNavController
 import ru.tech.imageresizershrinker.utils.SavingFolder
+import ru.tech.imageresizershrinker.utils.Screen
 import ru.tech.imageresizershrinker.utils.constructFilename
 import ru.tech.imageresizershrinker.utils.createPrefix
 import ru.tech.imageresizershrinker.utils.getSavingFolder
@@ -291,7 +291,8 @@ class MainActivity : M3Activity() {
                                             }
                                         },
                                         showConfetti = { showConfetti = true },
-                                        viewModel = viewModel
+                                        viewModel = viewModel,
+                                        screenList = viewModel.screenList
                                     )
                                 }
 

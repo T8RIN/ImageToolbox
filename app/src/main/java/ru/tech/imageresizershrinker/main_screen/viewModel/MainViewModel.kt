@@ -24,7 +24,6 @@ import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 import org.w3c.dom.Element
 import ru.tech.imageresizershrinker.BuildConfig
-import ru.tech.imageresizershrinker.main_screen.components.Screen
 import ru.tech.imageresizershrinker.theme.asString
 import ru.tech.imageresizershrinker.theme.defaultColorTuple
 import ru.tech.imageresizershrinker.theme.toColorTupleList
@@ -40,10 +39,12 @@ import ru.tech.imageresizershrinker.utils.EMOJI
 import ru.tech.imageresizershrinker.utils.FILENAME_PREFIX
 import ru.tech.imageresizershrinker.utils.IMAGE_MONET
 import ru.tech.imageresizershrinker.utils.NIGHT_MODE
+import ru.tech.imageresizershrinker.utils.ORDER
 import ru.tech.imageresizershrinker.utils.PICKER_MODE
 import ru.tech.imageresizershrinker.utils.PRESETS
 import ru.tech.imageresizershrinker.utils.SAVE_FOLDER
 import ru.tech.imageresizershrinker.utils.SHOW_DIALOG
+import ru.tech.imageresizershrinker.utils.Screen
 import ru.tech.imageresizershrinker.widget.ToastHostState
 import java.net.URL
 import javax.inject.Inject
@@ -118,6 +119,9 @@ class MainViewModel @Inject constructor(
     private val _showDialogOnStartUp = mutableStateOf(true)
     val showDialogOnStartUp by _showDialogOnStartUp
 
+    private val _screenList = mutableStateOf(Screen.entries)
+    val screenList by _screenList
+
     private val _tag = mutableStateOf("")
     val tag by _tag
 
@@ -145,6 +149,10 @@ class MainViewModel @Inject constructor(
                 _borderWidth.value = prefs[BORDER_WIDTH]?.toFloatOrNull() ?: 1f
                 _showDialogOnStartUp.value = prefs[SHOW_DIALOG] ?: true
                 _selectedEmoji.value = prefs[EMOJI] ?: 0
+                _screenList.value = prefs[ORDER]?.split("/")?.map {
+                    val id = it.toInt()
+                    Screen.entries[id]
+                } ?: Screen.entries
             }
         }
         dataStore.data.onEach { prefs ->
@@ -179,6 +187,10 @@ class MainViewModel @Inject constructor(
             _selectedEmoji.value = prefs[EMOJI] ?: 0
             _addSizeInFilename.value = prefs[ADD_SIZE] ?: true
             _imagePickerModeInt.value = prefs[PICKER_MODE] ?: 0
+            _screenList.value = prefs[ORDER]?.split("/")?.map {
+                val id = it.toInt()
+                Screen.entries[id]
+            } ?: Screen.entries
         }.launchIn(viewModelScope)
         tryGetUpdate(showDialog = showDialogOnStartUp)
     }
@@ -378,6 +390,14 @@ class MainViewModel @Inject constructor(
         viewModelScope.launch {
             dataStore.edit {
                 it[ALIGNMENT] = align.toInt()
+            }
+        }
+    }
+
+    fun updateOrder(data: List<Screen>) {
+        viewModelScope.launch {
+            dataStore.edit {
+                it[ORDER] = data.joinToString("/") { it.id.toString() }
             }
         }
     }

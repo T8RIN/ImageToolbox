@@ -129,4 +129,6 @@ dependencies {
     implementation(project(":image"))
     implementation(project(":modalsheet"))
 
+    implementation("org.burnoutcrew.composereorderable:reorderable:0.9.6")
+
 }

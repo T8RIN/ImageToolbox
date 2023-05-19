@@ -10,11 +10,13 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.animateContentSize
+import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
@@ -41,9 +43,11 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
+import androidx.compose.foundation.lazy.staggeredgrid.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -73,6 +77,7 @@ import androidx.compose.material.icons.rounded.RadioButtonChecked
 import androidx.compose.material.icons.rounded.RadioButtonUnchecked
 import androidx.compose.material.icons.rounded.Settings
 import androidx.compose.material.icons.rounded.SettingsSystemDaydream
+import androidx.compose.material.icons.rounded.TableRows
 import androidx.compose.material.icons.rounded.Translate
 import androidx.compose.material.icons.rounded.WbSunny
 import androidx.compose.material3.AlertDialog
@@ -118,6 +123,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.draw.scale
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.luminance
 import androidx.compose.ui.input.nestedscroll.nestedScroll
@@ -141,6 +147,10 @@ import com.t8rin.dynamic.theme.getAppColorTuple
 import dev.olshevski.navigation.reimagined.navigate
 import dev.olshevski.navigation.reimagined.popUpTo
 import kotlinx.coroutines.launch
+import org.burnoutcrew.reorderable.ReorderableItem
+import org.burnoutcrew.reorderable.detectReorderAfterLongPress
+import org.burnoutcrew.reorderable.rememberReorderableLazyListState
+import org.burnoutcrew.reorderable.reorderable
 import ru.tech.imageresizershrinker.BuildConfig
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.main_screen.viewModel.MainViewModel
@@ -169,6 +179,7 @@ import ru.tech.imageresizershrinker.utils.DONATE
 import ru.tech.imageresizershrinker.utils.ISSUE_TRACKER
 import ru.tech.imageresizershrinker.utils.LocalNavController
 import ru.tech.imageresizershrinker.utils.LocalWindowSizeClass
+import ru.tech.imageresizershrinker.utils.Screen
 import ru.tech.imageresizershrinker.utils.WEBLATE_LINK
 import ru.tech.imageresizershrinker.utils.constructFilename
 import ru.tech.imageresizershrinker.utils.defaultPrefix
@@ -187,13 +198,14 @@ import kotlin.math.roundToInt
 
 @OptIn(
     ExperimentalMaterial3Api::class,
-    ExperimentalMaterialApi::class
+    ExperimentalMaterialApi::class, ExperimentalFoundationApi::class
 )
 @Composable
 fun MainScreen(
     currentFolderUri: Uri?,
     onGetNewFolder: (Uri?) -> Unit,
     showConfetti: () -> Unit,
+    screenList: List<Screen>,
     viewModel: MainViewModel
 ) {
     val navController = LocalNavController.current
@@ -203,9 +215,11 @@ fun MainScreen(
         TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
     val isGrid = LocalWindowSizeClass.current.widthSizeClass != WindowWidthSizeClass.Compact
 
+
     var showPickColorDialog by rememberSaveable { mutableStateOf(false) }
     val showAuthorDialog = rememberSaveable { mutableStateOf(false) }
     val showEmojiDialog = rememberSaveable { mutableStateOf(false) }
+    val showArrangementSheet = rememberSaveable { mutableStateOf(false) }
 
     var showChangeFilenameDialog by rememberSaveable { mutableStateOf(false) }
 
@@ -616,6 +630,27 @@ fun MainScreen(
                                 onClick = { editPresetsState.value = true },
                                 title = stringResource(R.string.values),
                                 subtitle = LocalPresetsProvider.current.joinToString(", "),
+                                color = MaterialTheme
+                                    .colorScheme
+                                    .secondaryContainer
+                                    .copy(alpha = 0.2f),
+                                endIcon = Icons.Rounded.CreateAlt,
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(horizontal = 16.dp)
+                            )
+                            Spacer(Modifier.height(16.dp))
+                        }
+                        Divider()
+                        Column {
+                            TitleItem(
+                                icon = Icons.Rounded.TableRows,
+                                text = stringResource(R.string.options_arrangement),
+                            )
+                            PreferenceItem(
+                                onClick = { showArrangementSheet.value = true },
+                                title = stringResource(R.string.order),
+                                subtitle = stringResource(R.string.order_sub),
                                 color = MaterialTheme
                                     .colorScheme
                                     .secondaryContainer
@@ -1192,85 +1227,17 @@ fun MainScreen(
                             start = 12.dp + cutout.calculateStartPadding(LocalLayoutDirection.current)
                         ),
                         content = {
-                            item {
-                                SingleResizePreference(
+                            items(screenList) { screen ->
+                                PreferenceItem(
                                     onClick = {
                                         navController.popUpTo { it == Screen.Main }
-                                        navController.navigate(Screen.SingleResize())
+                                        navController.navigate(screen)
                                     },
                                     modifier = Modifier.fillMaxWidth(),
-                                )
-                            }
-                            item {
-                                BatchResizePreference(
-                                    onClick = {
-                                        navController.popUpTo { it == Screen.Main }
-                                        navController.navigate(Screen.BatchResize())
-                                    },
-                                    modifier = Modifier.fillMaxWidth(),
-                                )
-                            }
-                            item {
-                                BytesResizePreference(
-                                    onClick = {
-                                        navController.popUpTo { it == Screen.Main }
-                                        navController.navigate(Screen.ResizeByBytes())
-                                    },
-                                    modifier = Modifier.fillMaxWidth(),
-                                )
-                            }
-                            item {
-                                DeleteExifPreference(
-                                    onClick = {
-                                        navController.popUpTo { it == Screen.Main }
-                                        navController.navigate(Screen.DeleteExif())
-                                    },
-                                    modifier = Modifier.fillMaxWidth(),
-                                )
-                            }
-                            item {
-                                CropPreference(
-                                    onClick = {
-                                        navController.popUpTo { it == Screen.Main }
-                                        navController.navigate(Screen.Crop())
-                                    },
-                                    modifier = Modifier.fillMaxWidth(),
-                                )
-                            }
-                            item {
-                                PickColorPreference(
-                                    onClick = {
-                                        navController.popUpTo { it == Screen.Main }
-                                        navController.navigate(Screen.PickColorFromImage())
-                                    },
-                                    modifier = Modifier.fillMaxWidth(),
-                                )
-                            }
-                            item {
-                                ImagePreviewPreference(
-                                    onClick = {
-                                        navController.popUpTo { it == Screen.Main }
-                                        navController.navigate(Screen.ImagePreview())
-                                    },
-                                    modifier = Modifier.fillMaxWidth(),
-                                )
-                            }
-                            item {
-                                GeneratePalettePreference(
-                                    modifier = Modifier.fillMaxWidth(),
-                                    onClick = {
-                                        navController.popUpTo { it == Screen.Main }
-                                        navController.navigate(Screen.GeneratePalette())
-                                    }
-                                )
-                            }
-                            item {
-                                ComparePreference(
-                                    onClick = {
-                                        navController.popUpTo { it == Screen.Main }
-                                        navController.navigate(Screen.Compare())
-                                    },
-                                    modifier = Modifier.fillMaxWidth(),
+                                    title = stringResource(screen.title),
+                                    subtitle = stringResource(screen.subtitle),
+                                    icon = screen.icon,
+                                    color = MaterialTheme.colorScheme.surfaceColorAtElevation(1.dp)
                                 )
                             }
                         }
@@ -1646,6 +1613,67 @@ fun MainScreen(
                         subtitle = stringResource(R.string.app_developer_nick)
                     )
                     Spacer(Modifier.height(16.dp))
+                }
+                Divider(Modifier.align(Alignment.TopCenter))
+                Divider(Modifier.align(Alignment.BottomCenter))
+            }
+        }
+    )
+
+    SimpleSheet(
+        visible = showArrangementSheet,
+        title = {
+            TitleItem(
+                text = stringResource(R.string.order),
+                icon = Icons.Rounded.TableRows
+            )
+        },
+        confirmButton = {
+            OutlinedButton(
+                onClick = { showArrangementSheet.value = false },
+                border = BorderStroke(
+                    LocalBorderWidth.current, MaterialTheme.colorScheme.outlineVariant()
+                )
+            ) {
+                Text(stringResource(R.string.close))
+            }
+        },
+        sheetContent = {
+            Box {
+                val data = remember { mutableStateOf(screenList) }
+                val state = rememberReorderableLazyListState(
+                    onMove = { from, to ->
+                        data.value = data.value.toMutableList().apply {
+                            add(to.index, removeAt(from.index))
+                        }
+                    },
+                    onDragEnd = { _, _ ->
+                        viewModel.updateOrder(data.value)
+                    }
+                )
+                LazyColumn(
+                    state = state.listState,
+                    modifier = Modifier
+                        .reorderable(state)
+                        .detectReorderAfterLongPress(state),
+                    contentPadding = PaddingValues(8.dp),
+                    verticalArrangement = Arrangement.spacedBy(8.dp)
+                ) {
+                    items(data.value, key = { it }) { screen ->
+                        ReorderableItem(state, key = screen) { isDragging ->
+                            val elevation = animateDpAsState(if (isDragging) 16.dp else 0.dp)
+                            PreferenceItem(
+                                onClick = {},
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .shadow(elevation.value, RoundedCornerShape(16.dp)),
+                                title = stringResource(screen.title),
+                                subtitle = stringResource(screen.subtitle),
+                                icon = screen.icon,
+                                color = MaterialTheme.colorScheme.surfaceColorAtElevation(1.dp)
+                            )
+                        }
+                    }
                 }
                 Divider(Modifier.align(Alignment.TopCenter))
                 Divider(Modifier.align(Alignment.BottomCenter))
