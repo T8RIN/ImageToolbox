@@ -140,4 +140,6 @@
     <string name="image_preview">Bildvorschau</string>
     <string name="image_preview_sub">Sieh dir jegliches Bildformat an: GIF, SVG usw.</string>
     <string name="cropping">Zuschneiden</string>
+    <string name="image_source">Bildquelle</string>
+    <string name="gallery_picker">Galerie</string>
 </resources>
