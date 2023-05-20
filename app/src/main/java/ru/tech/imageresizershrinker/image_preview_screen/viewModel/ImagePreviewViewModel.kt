@@ -17,7 +17,6 @@ class ImagePreviewViewModel : ViewModel() {
     fun updateUris(uris: List<Uri>?) {
         _uris.value = null
         _uris.value = uris
-        _selectedUri.value = uris?.firstOrNull()
     }
 
     fun selectUri(uri: Uri?) {
