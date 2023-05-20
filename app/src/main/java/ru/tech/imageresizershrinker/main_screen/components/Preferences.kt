@@ -219,7 +219,7 @@ fun ComparePreference(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun PreferenceItem(
-    onClick: () -> Unit,
+    onClick: (() -> Unit)? = null,
     title: String,
     subtitle: String? = null,
     icon: ImageVector? = null,
@@ -236,14 +236,76 @@ fun PreferenceItem(
         ) else contentColorFor(backgroundColor = color)
 
     ProvideTextStyle(value = LocalTextStyle.current.copy(textAlign = TextAlign.Start)) {
-        Card(
+        onClick?.let {
+            Card(
+                shape = shape,
+                modifier = modifier.border(
+                    LocalBorderWidth.current,
+                    MaterialTheme.colorScheme.outlineVariant(0.1f, color),
+                    shape
+                ),
+                onClick = onClick,
+                colors = CardDefaults.cardColors(
+                    containerColor = color,
+                    contentColor = contentColor
+                )
+            ) {
+                Row(
+                    Modifier
+                        .fillMaxSize()
+                        .padding(16.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    icon?.let {
+                        Icon(imageVector = icon, contentDescription = null)
+                        Spacer(modifier = Modifier.width(16.dp))
+                    }
+                    Column(
+                        Modifier
+                            .weight(1f)
+                            .padding(end = 16.dp)
+                    ) {
+                        Text(
+                            text = title,
+                            fontSize = 16.sp,
+                            fontWeight = FontWeight.Medium,
+                            lineHeight = 18.sp
+                        )
+                        AnimatedContent(
+                            targetState = subtitle,
+                            transitionSpec = { fadeIn() togetherWith fadeOut() }
+                        ) { sub ->
+                            sub?.let {
+                                Column {
+                                    Spacer(modifier = Modifier.height(2.dp))
+                                    Text(
+                                        text = sub,
+                                        fontSize = 12.sp,
+                                        fontWeight = FontWeight.Normal,
+                                        lineHeight = 14.sp,
+                                        color = LocalContentColor.current.copy(alpha = 0.5f)
+                                    )
+                                }
+                            }
+                        }
+                    }
+                    AnimatedContent(
+                        targetState = endIcon,
+                        transitionSpec = { fadeIn() + scaleIn() togetherWith fadeOut() + scaleOut() }
+                    ) { icon ->
+                        icon?.let {
+                            Icon(imageVector = it, contentDescription = null)
+                        }
+                    }
+                }
+            }
+        } ?: Card(
             shape = shape,
             modifier = modifier.border(
                 LocalBorderWidth.current,
                 MaterialTheme.colorScheme.outlineVariant(0.1f, color),
                 shape
             ),
-            onClick = onClick,
             colors = CardDefaults.cardColors(
                 containerColor = color,
                 contentColor = contentColor

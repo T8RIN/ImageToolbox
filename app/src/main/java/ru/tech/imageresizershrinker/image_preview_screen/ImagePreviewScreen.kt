@@ -58,7 +58,6 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.minimumInteractiveComponentSize
 import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -379,11 +378,6 @@ fun ImagePreviewScreen(
         LaunchedEffect(state.currentPage) {
             viewModel.selectUri(viewModel.uris?.getOrNull(state.currentPage))
         }
-        DisposableEffect(Unit) {
-            onDispose {
-                viewModel.selectUri(null)
-            }
-        }
         Box(
             Modifier
                 .fillMaxSize()
@@ -418,8 +412,8 @@ fun ImagePreviewScreen(
                                 zoomOnDoubleTap = {
                                     when (it) {
                                         ZoomLevel.Min -> 1f
-                                        ZoomLevel.Mid -> 3f
-                                        ZoomLevel.Max -> 6f
+                                        ZoomLevel.Mid -> 4f
+                                        ZoomLevel.Max -> 8f
                                     }
                                 },
                                 enabled = { zoom, _, _ ->
@@ -488,6 +482,7 @@ fun ImagePreviewScreen(
                                 .clip(CircleShape)
                                 .clickable {
                                     showImagePreviewDialog = false
+                                    viewModel.selectUri(null)
                                 },
                             contentAlignment = Alignment.Center
                         ) {
@@ -589,8 +584,11 @@ fun ImagePreviewScreen(
             }
         )
 
-        BackHandler {
-            showImagePreviewDialog = false
+        if (showImagePreviewDialog) {
+            BackHandler {
+                showImagePreviewDialog = false
+                viewModel.selectUri(null)
+            }
         }
     }
 }

@@ -1661,17 +1661,19 @@ fun MainScreen(
                 ) {
                     items(data.value, key = { it }) { screen ->
                         ReorderableItem(state, key = screen) { isDragging ->
-                            val elevation = animateDpAsState(if (isDragging) 16.dp else 0.dp)
+                            val elevation by animateDpAsState(if (isDragging) 16.dp else 0.dp)
+                            val tonalElevation by animateDpAsState(if (isDragging) 16.dp else 1.dp)
                             PreferenceItem(
-                                onClick = {},
                                 modifier = Modifier
                                     .fillMaxWidth()
-                                    .shadow(elevation.value, RoundedCornerShape(16.dp)),
+                                    .shadow(elevation, RoundedCornerShape(16.dp)),
                                 title = stringResource(screen.title),
                                 subtitle = stringResource(screen.subtitle),
                                 icon = screen.icon,
                                 endIcon = Icons.Rounded.DragHandle,
-                                color = MaterialTheme.colorScheme.surfaceColorAtElevation(1.dp)
+                                color = MaterialTheme.colorScheme.surfaceColorAtElevation(
+                                    tonalElevation
+                                )
                             )
                         }
                     }

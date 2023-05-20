@@ -170,12 +170,12 @@ import ru.tech.imageresizershrinker.widget.RoundedTextField
 )
 @Composable
 fun SingleResizeScreen(
-    viewModel: SingleResizeViewModel = viewModel(),
-    onGoBack: () -> Unit,
     uriState: Uri?,
+    onGoBack: () -> Unit,
+    showConfetti: () -> Unit,
     getSavingFolder: (bitmapInfo: BitmapInfo) -> SavingFolder,
     savingPathString: String,
-    showConfetti: () -> Unit
+    viewModel: SingleResizeViewModel = viewModel(),
 ) {
     val toastHostState = LocalToastHost.current
     val scope = rememberCoroutineScope()

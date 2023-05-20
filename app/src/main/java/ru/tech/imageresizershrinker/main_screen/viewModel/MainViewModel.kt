@@ -327,11 +327,7 @@ class MainViewModel @Inject constructor(
                             }
                         }
 
-                        if ((tag.replace(".", "")
-                                .toIntOrNull() ?: Int.MAX_VALUE) > (BuildConfig.VERSION_NAME
-                                .replace(".", "")
-                                .toIntOrNull() ?: 0)
-                        ) {
+                        if (isNeedUpdate(tag)) {
                             _updateAvailable.value = true
                             if (showDialog) {
                                 _showUpdateDialog.value = true
@@ -343,6 +339,14 @@ class MainViewModel @Inject constructor(
                 }
             }
         }
+    }
+
+    private fun isNeedUpdate(tag: String): Boolean {
+        return (tag.replace(".", "")
+            .toIntOrNull() ?: Int.MAX_VALUE) > (BuildConfig.VERSION_NAME
+            .replace(".", "")
+            .toIntOrNull()
+            ?: 0) && !tag.contains("beta") && !tag.contains("alpha") && !tag.contains("rc")
     }
 
     fun hideSelectDialog() {
