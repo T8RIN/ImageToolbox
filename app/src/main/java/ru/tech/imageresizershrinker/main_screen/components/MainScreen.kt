@@ -216,7 +216,7 @@ fun MainScreen(
     val isGrid = LocalWindowSizeClass.current.widthSizeClass != WindowWidthSizeClass.Compact
 
 
-    var showPickColorDialog by rememberSaveable { mutableStateOf(false) }
+    val showPickColorDialog = rememberSaveable { mutableStateOf(false) }
     val showAuthorDialog = rememberSaveable { mutableStateOf(false) }
     val showEmojiDialog = rememberSaveable { mutableStateOf(false) }
     val showArrangementSheet = rememberSaveable { mutableStateOf(false) }
@@ -777,7 +777,7 @@ fun MainScreen(
                                     title = stringResource(R.string.color_scheme),
                                     subtitle = stringResource(R.string.pick_accent_color),
                                     onClick = {
-                                        if (enabled) showPickColorDialog = true
+                                        if (enabled) showPickColorDialog.value = true
                                         else scope.launch {
                                             toastHost.showToast(
                                                 icon = Icons.Rounded.Palette,
@@ -1440,39 +1440,35 @@ fun MainScreen(
         }
     }
 
-    if (showPickColorDialog) {
-        val showColorPicker = rememberSaveable { mutableStateOf(false) }
-        AvailableColorTuplesDialog(
-            modifier = Modifier
-                .width(368.dp)
-                .systemBarsPadding()
-                .padding(16.dp)
-                .alertDialog(),
-            showColorPicker = showColorPicker,
-            colorTupleList = viewModel.colorTupleList,
-            currentColorTuple = getAppColorTuple(
-                defaultColorTuple = viewModel.appColorTuple,
-                dynamicColor = viewModel.dynamicColors,
-                darkTheme = viewModel.nightMode.isNightMode()
-            ),
-            colorPicker = { onUpdateColorTuples ->
-                ColorPickerDialog(
-                    modifier = Modifier.alertDialog(),
-                    colorTuple = viewModel.appColorTuple,
-                    onDismissRequest = { showColorPicker.value = false },
-                    onColorChange = {
-                        viewModel.updateColorTuple(it)
-                        onUpdateColorTuples(viewModel.colorTupleList + it)
-                    }
-                )
-            },
-            onUpdateColorTuples = {
-                viewModel.updateColorTuples(it)
-            },
-            onPickTheme = { viewModel.updateColorTuple(it) },
-            onDismissRequest = { showPickColorDialog = false }
-        )
-    } else if (showChangeFilenameDialog) {
+    val showColorPicker = rememberSaveable { mutableStateOf(false) }
+    AvailableColorTuplesDialog(
+        visible = showPickColorDialog,
+        colorTupleList = viewModel.colorTupleList,
+        currentColorTuple = getAppColorTuple(
+            defaultColorTuple = viewModel.appColorTuple,
+            dynamicColor = viewModel.dynamicColors,
+            darkTheme = viewModel.nightMode.isNightMode()
+        ),
+        openColorPicker = {
+            showColorPicker.value = true
+        },
+        colorPicker = { onUpdateColorTuples ->
+            ColorPickerDialog(
+                visible = showColorPicker,
+                colorTuple = viewModel.appColorTuple,
+                onColorChange = {
+                    viewModel.updateColorTuple(it)
+                    onUpdateColorTuples(viewModel.colorTupleList + it)
+                }
+            )
+        },
+        onUpdateColorTuples = {
+            viewModel.updateColorTuples(it)
+        },
+        onPickTheme = { viewModel.updateColorTuple(it) }
+    )
+
+    if (showChangeFilenameDialog) {
         var value by remember {
             mutableStateOf(viewModel.filenamePrefix.takeIf { it.isNotEmpty() } ?: defaultPrefix())
         }
