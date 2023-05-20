@@ -61,6 +61,7 @@ import androidx.compose.material.icons.rounded.Block
 import androidx.compose.material.icons.rounded.BugReport
 import androidx.compose.material.icons.rounded.Close
 import androidx.compose.material.icons.rounded.Coffee
+import androidx.compose.material.icons.rounded.DragHandle
 import androidx.compose.material.icons.rounded.FileDownload
 import androidx.compose.material.icons.rounded.FileDownloadOff
 import androidx.compose.material.icons.rounded.Folder
@@ -1669,6 +1670,7 @@ fun MainScreen(
                                 title = stringResource(screen.title),
                                 subtitle = stringResource(screen.subtitle),
                                 icon = screen.icon,
+                                endIcon = Icons.Rounded.DragHandle,
                                 color = MaterialTheme.colorScheme.surfaceColorAtElevation(1.dp)
                             )
                         }
