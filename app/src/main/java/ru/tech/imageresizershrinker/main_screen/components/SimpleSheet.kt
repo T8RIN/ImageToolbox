@@ -72,7 +72,7 @@ fun SimpleSheet(
         visible = showSheet,
         onVisibleChange = { showSheet = it },
         content = {
-            BackHandler { showSheet = false }
+            if (showSheet) BackHandler { showSheet = false }
             sheetContent()
         }
     )
@@ -122,7 +122,7 @@ fun SimpleSheet(
         visible = showSheet,
         onVisibleChange = { showSheet = it },
         content = {
-            BackHandler { showSheet = false }
+            if (showSheet) BackHandler { showSheet = false }
             Column(
                 modifier = Modifier.weight(1f, false),
                 horizontalAlignment = Alignment.CenterHorizontally,
@@ -186,7 +186,7 @@ fun SimpleSheet(
         visible = visible,
         onVisibleChange = onDismiss,
         content = {
-            BackHandler { onDismiss(false) }
+            if (visible) BackHandler { onDismiss(false) }
             Column(
                 modifier = Modifier.weight(1f, false),
                 horizontalAlignment = Alignment.CenterHorizontally,
