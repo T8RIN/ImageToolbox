@@ -157,8 +157,8 @@ fun ImagePreviewScreen(
             if (allowChangeColor) {
                 val image = context.decodeSampledBitmapFromUri(
                     uri = it,
-                    reqWidth = 300,
-                    reqHeight = 300
+                    reqWidth = 1200,
+                    reqHeight = 1200
                 )
                 image?.let { it1 -> themeState.updateColorByImage(it1) }
             }
@@ -175,7 +175,10 @@ fun ImagePreviewScreen(
                 if (!addImages) {
                     viewModel.updateUris(list)
                 } else {
-                    val uris = (viewModel.uris ?: emptyList()) + list
+                    val uris= (viewModel.uris ?: emptyList()).toMutableList()
+                    list.forEach {
+                        if(it !in uris) uris.add(it)
+                    }
                     viewModel.updateUris(uris)
                 }
             }
