@@ -10,7 +10,6 @@ import androidx.activity.result.ActivityResult
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.LocalContext
@@ -84,12 +83,9 @@ enum class Picker {
     Single, Multiple
 }
 
-val LocalImagePickerModeInt =
-    compositionLocalOf<Int> { error("LocalImagePickerModeInt not present") }
-
 @Composable
 fun localImagePickerMode(picker: Picker = Picker.Single): ImagePickerMode {
-    val modeInt = LocalImagePickerModeInt.current
+    val modeInt = LocalSettingsState.current.imagePickerModeInt
     val multiple = picker == Picker.Multiple
     return remember(modeInt) {
         derivedStateOf {
