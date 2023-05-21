@@ -124,8 +124,6 @@ import ru.tech.imageresizershrinker.main_screen.components.toAlignment
 import ru.tech.imageresizershrinker.main_screen.viewModel.MainViewModel
 import ru.tech.imageresizershrinker.pick_color_from_image_screen.PickColorFromImageScreen
 import ru.tech.imageresizershrinker.single_resize_screen.SingleResizeScreen
-import ru.tech.imageresizershrinker.single_resize_screen.components.BitmapInfo
-import ru.tech.imageresizershrinker.single_resize_screen.components.extension
 import ru.tech.imageresizershrinker.theme.Emoji
 import ru.tech.imageresizershrinker.theme.ImageResizerTheme
 import ru.tech.imageresizershrinker.theme.allIcons
@@ -140,15 +138,10 @@ import ru.tech.imageresizershrinker.utils.IntentUtils.parcelableArrayList
 import ru.tech.imageresizershrinker.utils.LocalFileController
 import ru.tech.imageresizershrinker.utils.LocalImagePickerModeInt
 import ru.tech.imageresizershrinker.utils.LocalNavController
-import ru.tech.imageresizershrinker.utils.SavingFolder
 import ru.tech.imageresizershrinker.utils.Screen
-import ru.tech.imageresizershrinker.utils.constructFilename
-import ru.tech.imageresizershrinker.utils.createPrefix
-import ru.tech.imageresizershrinker.utils.getSavingFolder
 import ru.tech.imageresizershrinker.utils.modifier.alertDialog
 import ru.tech.imageresizershrinker.utils.rememberFileController
 import ru.tech.imageresizershrinker.utils.setContentWithWindowSizeClass
-import ru.tech.imageresizershrinker.utils.toUiPath
 import ru.tech.imageresizershrinker.widget.AutoSizeText
 import ru.tech.imageresizershrinker.widget.LocalToastHost
 import ru.tech.imageresizershrinker.widget.ToastHost
@@ -173,10 +166,7 @@ class MainActivity : M3Activity() {
         setContentWithWindowSizeClass {
             var showExitDialog by rememberSaveable { mutableStateOf(false) }
             val editPresetsState = rememberSaveable { mutableStateOf(false) }
-
-
-            val saveFolderUri = viewModel.saveFolderUri
-
+            
             CompositionLocalProvider(
                 LocalToastHost provides viewModel.toastHostState,
                 LocalNightMode provides viewModel.nightMode,
@@ -225,24 +215,6 @@ class MainActivity : M3Activity() {
                             if (backstack.entries.size > 1) pop()
                         }
                     }
-                    val getSavingFolder: (BitmapInfo) -> SavingFolder = { bitmapInfo ->
-                        getSavingFolder(
-                            treeUri = saveFolderUri,
-                            filename = constructFilename(
-                                prefix = createPrefix(
-                                    filenamePrefix = viewModel.filenamePrefix,
-                                    addSizeInFilename = viewModel.addSizeInFilename,
-                                    bitmapInfo = bitmapInfo
-                                ),
-                                extension = bitmapInfo.mimeTypeInt.extension
-                            ),
-                            extension = bitmapInfo.mimeTypeInt.extension
-                        )
-                    }
-                    val savingPathString = saveFolderUri.toUiPath(
-                        context = this@MainActivity,
-                        default = stringResource(R.string.default_folder)
-                    )
 
                     val tiramisu = Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU
 
