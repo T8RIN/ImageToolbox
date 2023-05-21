@@ -7,6 +7,7 @@ import android.net.Uri
 import android.os.ParcelFileDescriptor
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.compositionLocalOf
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.remember
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.single_resize_screen.components.BitmapInfo
@@ -88,9 +89,11 @@ fun FileController(
 fun rememberFileController(
     context: Context,
     fileParams: FileParams
-) = remember(context, fileParams) {
-    FileController(
-        context = context,
-        fileParams = fileParams
-    )
-}
+): FileController = remember(context, fileParams) {
+    derivedStateOf {
+        FileController(
+            context = context,
+            fileParams = fileParams
+        )
+    }
+}.value

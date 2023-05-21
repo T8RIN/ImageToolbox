@@ -6,35 +6,32 @@ import androidx.compose.ui.unit.Density
 import com.t8rin.dynamic.theme.DynamicTheme
 import com.t8rin.dynamic.theme.getAppColorTuple
 import com.t8rin.dynamic.theme.rememberDynamicThemeState
-import ru.tech.imageresizershrinker.main_screen.components.LocalAmoledMode
-import ru.tech.imageresizershrinker.main_screen.components.LocalAppColorTuple
-import ru.tech.imageresizershrinker.main_screen.components.LocalDynamicColors
-import ru.tech.imageresizershrinker.main_screen.components.LocalNightMode
-import ru.tech.imageresizershrinker.main_screen.components.isNightMode
+import ru.tech.imageresizershrinker.utils.LocalSettingsState
 import kotlin.math.min
 
 @Composable
 fun ImageResizerTheme(
-    dynamicColor: Boolean = LocalDynamicColors.current,
-    amoledMode: Boolean = LocalAmoledMode.current,
+    dynamicColor: Boolean = LocalSettingsState.current.isDynamicColors,
+    amoledMode: Boolean = LocalSettingsState.current.isAmoledMode,
     content: @Composable () -> Unit
 ) {
+    val settingsState = LocalSettingsState.current
     DynamicTheme(
         typography = Typography,
         state = rememberDynamicThemeState(
             getAppColorTuple(
-                defaultColorTuple = LocalAppColorTuple.current,
+                defaultColorTuple = settingsState.appColorTuple,
                 dynamicColor = dynamicColor,
-                darkTheme = LocalNightMode.current.isNightMode()
+                darkTheme = settingsState.isNightMode
             )
         ),
         density = LocalDensity.current.run {
             Density(this.density, min(fontScale, 1f))
         },
-        defaultColorTuple = LocalAppColorTuple.current,
+        defaultColorTuple = settingsState.appColorTuple,
         dynamicColor = dynamicColor,
         amoledMode = amoledMode,
-        isDarkTheme = LocalNightMode.current.isNightMode(),
+        isDarkTheme = settingsState.isNightMode,
         content = content
     )
 }

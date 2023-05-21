@@ -38,13 +38,12 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.max
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.R
-import ru.tech.imageresizershrinker.main_screen.components.LocalBorderWidth
-import ru.tech.imageresizershrinker.main_screen.components.LocalEditPresets
-import ru.tech.imageresizershrinker.main_screen.components.LocalPresetsProvider
 import ru.tech.imageresizershrinker.theme.CreateAlt
 import ru.tech.imageresizershrinker.theme.mixedColor
 import ru.tech.imageresizershrinker.theme.onMixedColor
 import ru.tech.imageresizershrinker.theme.outlineVariant
+import ru.tech.imageresizershrinker.utils.LocalEditPresetsState
+import ru.tech.imageresizershrinker.utils.LocalSettingsState
 import ru.tech.imageresizershrinker.utils.modifier.block
 import ru.tech.imageresizershrinker.widget.AutoSizeText
 
@@ -54,8 +53,9 @@ fun PresetWidget(
     selectedPreset: Int,
     onPresetSelected: (Int) -> Unit
 ) {
-    val editPresetsState = LocalEditPresets.current
-    val data = LocalPresetsProvider.current
+    val settingsState = LocalSettingsState.current
+    val editPresetsState = LocalEditPresetsState.current
+    val data = settingsState.presets
 
     val state = rememberRevealState()
     val scope = rememberCoroutineScope()
@@ -99,7 +99,7 @@ fun PresetWidget(
                                         onPresetSelected(it)
                                     },
                                     border = BorderStroke(
-                                        max(LocalBorderWidth.current, 1.dp),
+                                        max(settingsState.borderWidth, 1.dp),
                                         animateColorAsState(
                                             if (selected) MaterialTheme.colorScheme.outlineVariant
                                             else Color.Transparent
@@ -160,7 +160,7 @@ fun PresetWidget(
                 OutlinedIconButton(
                     colors = IconButtonDefaults.filledTonalIconButtonColors(),
                     border = BorderStroke(
-                        LocalBorderWidth.current,
+                        settingsState.borderWidth,
                         MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.secondaryContainer)
                     ),
                     onClick = { editPresetsState.value = true },

@@ -31,9 +31,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.max
 import androidx.compose.ui.zIndex
 import ru.tech.imageresizershrinker.R
-import ru.tech.imageresizershrinker.main_screen.components.LocalBorderWidth
 import ru.tech.imageresizershrinker.theme.mixedColor
 import ru.tech.imageresizershrinker.theme.onMixedColor
+import ru.tech.imageresizershrinker.utils.LocalSettingsState
 import ru.tech.imageresizershrinker.utils.modifier.block
 import ru.tech.imageresizershrinker.widget.AutoSizeText
 import ru.tech.imageresizershrinker.widget.GroupRipple
@@ -44,6 +44,7 @@ fun ExtensionGroup(
     mime: Int,
     onMimeChange: (Int) -> Unit
 ) {
+    val settingsState = LocalSettingsState.current
     val cornerRadius = 20.dp
 
     val disColor = MaterialTheme.colorScheme.onSurface
@@ -117,7 +118,7 @@ fun ExtensionGroup(
                                     )
                                 },
                                 border = BorderStroke(
-                                    max(LocalBorderWidth.current, 1.dp),
+                                    max(settingsState.borderWidth, 1.dp),
                                     MaterialTheme.colorScheme.outlineVariant
                                 ),
                                 colors = ButtonDefaults.outlinedButtonColors(
@@ -176,7 +177,7 @@ fun ExtensionGroup(
                                     )
                                 },
                                 border = BorderStroke(
-                                    max(LocalBorderWidth.current, 1.dp),
+                                    max(settingsState.borderWidth, 1.dp),
                                     MaterialTheme.colorScheme.outlineVariant
                                 ),
                                 colors = ButtonDefaults.outlinedButtonColors(

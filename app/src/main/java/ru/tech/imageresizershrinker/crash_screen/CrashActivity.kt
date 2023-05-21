@@ -51,11 +51,10 @@ import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.crash_screen.components.GlobalExceptionHandler.Companion.getExceptionString
 import ru.tech.imageresizershrinker.crash_screen.viewModel.CrashViewModel
 import ru.tech.imageresizershrinker.main_screen.MainActivity
-import ru.tech.imageresizershrinker.main_screen.components.LocalAmoledMode
-import ru.tech.imageresizershrinker.main_screen.components.LocalAppColorTuple
-import ru.tech.imageresizershrinker.main_screen.components.LocalDynamicColors
-import ru.tech.imageresizershrinker.main_screen.components.LocalNightMode
 import ru.tech.imageresizershrinker.theme.ImageResizerTheme
+import ru.tech.imageresizershrinker.utils.LocalSettingsState
+import ru.tech.imageresizershrinker.utils.isNightMode
+import ru.tech.imageresizershrinker.utils.rememberSettingsState
 import ru.tech.imageresizershrinker.widget.AutoSizeText
 import ru.tech.imageresizershrinker.widget.ToastHost
 import ru.tech.imageresizershrinker.widget.activity.M3Activity
@@ -77,10 +76,12 @@ class CrashActivity : M3Activity() {
             val scope = rememberCoroutineScope()
 
             CompositionLocalProvider(
-                LocalNightMode provides viewModel.nightMode,
-                LocalDynamicColors provides viewModel.dynamicColors,
-                LocalAmoledMode provides viewModel.amoledMode,
-                LocalAppColorTuple provides viewModel.appColorTuple
+                LocalSettingsState provides rememberSettingsState(
+                    isNightMode = viewModel.nightMode.isNightMode(),
+                    isDynamicColors = viewModel.dynamicColors,
+                    isAmoledMode = viewModel.amoledMode,
+                    appColorTuple = viewModel.appColorTuple
+                )
             ) {
                 ImageResizerTheme {
                     val conf = LocalConfiguration.current

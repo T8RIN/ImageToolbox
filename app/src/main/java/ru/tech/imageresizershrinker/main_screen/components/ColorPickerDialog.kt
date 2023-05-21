@@ -5,7 +5,6 @@ import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
 import androidx.compose.animation.AnimatedContent
-import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.BorderStroke
@@ -70,7 +69,6 @@ import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.ExperimentalTextApi
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -93,6 +91,7 @@ import ru.tech.imageresizershrinker.theme.defaultColorTuple
 import ru.tech.imageresizershrinker.theme.inverse
 import ru.tech.imageresizershrinker.theme.outlineVariant
 import ru.tech.imageresizershrinker.utils.ListUtils.nearestFor
+import ru.tech.imageresizershrinker.utils.LocalSettingsState
 import ru.tech.imageresizershrinker.utils.modifier.alertDialog
 
 @ExperimentalMaterial3Api
@@ -100,7 +99,7 @@ import ru.tech.imageresizershrinker.utils.modifier.alertDialog
 fun ColorPickerDialog(
     visible: MutableState<Boolean>,
     colorTuple: ColorTuple,
-    borderWidth: Dp = LocalBorderWidth.current,
+    borderWidth: Dp = LocalSettingsState.current.borderWidth,
     title: String = stringResource(R.string.color_scheme),
     onColorChange: (ColorTuple) -> Unit
 ) {
@@ -123,7 +122,7 @@ fun ColorPickerDialog(
     }
 
     val appColorTuple = getAppColorTuple(
-        defaultColorTuple = LocalAppColorTuple.current,
+        defaultColorTuple = LocalSettingsState.current.appColorTuple,
         dynamicColor = true,
         darkTheme = true
     )
@@ -266,7 +265,7 @@ fun AvailableColorTuplesDialog(
     colorTupleList: List<ColorTuple>,
     currentColorTuple: ColorTuple,
     openColorPicker: () -> Unit,
-    borderWidth: Dp = LocalBorderWidth.current,
+    borderWidth: Dp = LocalSettingsState.current.borderWidth,
     colorPicker: @Composable (onUpdateColorTuples: (List<ColorTuple>) -> Unit) -> Unit,
     onPickTheme: (ColorTuple) -> Unit,
     onUpdateColorTuples: (List<ColorTuple>) -> Unit,
@@ -355,8 +354,8 @@ fun AvailableColorTuplesDialog(
                                     },
                                 ),
                             backgroundColor = rememberColorScheme(
-                                LocalNightMode.current.isNightMode(),
-                                LocalAmoledMode.current,
+                                LocalSettingsState.current.isNightMode,
+                                LocalSettingsState.current.isDynamicColors,
                                 colorTuple
                             ).surfaceVariant.copy(alpha = 0.8f)
                         ) {
@@ -511,11 +510,10 @@ fun getFormattedColor(color: Int): String =
     String.format("#%08X", (0xFFFFFFFF and color.toLong())).replace("#FF", "#")
 
 
-@OptIn(ExperimentalAnimationApi::class, ExperimentalTextApi::class)
 @Composable
 private fun ColorCustomInfoComponent(
     color: Int,
-    borderWidth: Dp = LocalBorderWidth.current,
+    borderWidth: Dp = LocalSettingsState.current.borderWidth,
     onColorChange: (Int) -> Unit,
 ) {
     val context = LocalContext.current

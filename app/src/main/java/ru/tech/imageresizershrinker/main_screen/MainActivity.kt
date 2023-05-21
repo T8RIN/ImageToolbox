@@ -103,24 +103,12 @@ import ru.tech.imageresizershrinker.main_screen.components.DeleteExifPreference
 import ru.tech.imageresizershrinker.main_screen.components.GeneratePalettePreference
 import ru.tech.imageresizershrinker.main_screen.components.HtmlText
 import ru.tech.imageresizershrinker.main_screen.components.ImagePreviewPreference
-import ru.tech.imageresizershrinker.main_screen.components.LocalAlignment
-import ru.tech.imageresizershrinker.main_screen.components.LocalAllowChangeColorByImage
-import ru.tech.imageresizershrinker.main_screen.components.LocalAmoledMode
-import ru.tech.imageresizershrinker.main_screen.components.LocalAppColorTuple
-import ru.tech.imageresizershrinker.main_screen.components.LocalBorderWidth
 import ru.tech.imageresizershrinker.main_screen.components.LocalConfettiController
-import ru.tech.imageresizershrinker.main_screen.components.LocalDynamicColors
-import ru.tech.imageresizershrinker.main_screen.components.LocalEditPresets
-import ru.tech.imageresizershrinker.main_screen.components.LocalNightMode
-import ru.tech.imageresizershrinker.main_screen.components.LocalPresetsProvider
-import ru.tech.imageresizershrinker.main_screen.components.LocalSelectedEmoji
 import ru.tech.imageresizershrinker.main_screen.components.MainScreen
 import ru.tech.imageresizershrinker.main_screen.components.PickColorPreference
 import ru.tech.imageresizershrinker.main_screen.components.SimpleSheet
 import ru.tech.imageresizershrinker.main_screen.components.SingleResizePreference
 import ru.tech.imageresizershrinker.main_screen.components.TitleItem
-import ru.tech.imageresizershrinker.main_screen.components.isNightMode
-import ru.tech.imageresizershrinker.main_screen.components.toAlignment
 import ru.tech.imageresizershrinker.main_screen.viewModel.MainViewModel
 import ru.tech.imageresizershrinker.pick_color_from_image_screen.PickColorFromImageScreen
 import ru.tech.imageresizershrinker.single_resize_screen.SingleResizeScreen
@@ -135,13 +123,17 @@ import ru.tech.imageresizershrinker.utils.ContextUtils.requestStoragePermission
 import ru.tech.imageresizershrinker.utils.FileParams
 import ru.tech.imageresizershrinker.utils.IntentUtils.parcelable
 import ru.tech.imageresizershrinker.utils.IntentUtils.parcelableArrayList
+import ru.tech.imageresizershrinker.utils.LocalEditPresetsState
 import ru.tech.imageresizershrinker.utils.LocalFileController
-import ru.tech.imageresizershrinker.utils.LocalImagePickerModeInt
 import ru.tech.imageresizershrinker.utils.LocalNavController
+import ru.tech.imageresizershrinker.utils.LocalSettingsState
 import ru.tech.imageresizershrinker.utils.Screen
+import ru.tech.imageresizershrinker.utils.isNightMode
 import ru.tech.imageresizershrinker.utils.modifier.alertDialog
 import ru.tech.imageresizershrinker.utils.rememberFileController
+import ru.tech.imageresizershrinker.utils.rememberSettingsState
 import ru.tech.imageresizershrinker.utils.setContentWithWindowSizeClass
+import ru.tech.imageresizershrinker.utils.toAlignment
 import ru.tech.imageresizershrinker.widget.AutoSizeText
 import ru.tech.imageresizershrinker.widget.LocalToastHost
 import ru.tech.imageresizershrinker.widget.ToastHost
@@ -169,18 +161,20 @@ class MainActivity : M3Activity() {
             
             CompositionLocalProvider(
                 LocalToastHost provides viewModel.toastHostState,
-                LocalNightMode provides viewModel.nightMode,
-                LocalDynamicColors provides viewModel.dynamicColors,
-                LocalAllowChangeColorByImage provides viewModel.allowImageMonet,
-                LocalAmoledMode provides viewModel.amoledMode,
-                LocalAppColorTuple provides viewModel.appColorTuple,
-                LocalBorderWidth provides animateDpAsState(viewModel.borderWidth.dp).value,
-                LocalPresetsProvider provides viewModel.localPresets,
-                LocalEditPresets provides editPresetsState,
-                LocalAlignment provides viewModel.alignment.toAlignment(),
-                LocalSelectedEmoji provides Emoji.allIcons.getOrNull(viewModel.selectedEmoji),
+                LocalSettingsState provides rememberSettingsState(
+                    isNightMode = viewModel.nightMode.isNightMode(),
+                    isDynamicColors = viewModel.dynamicColors,
+                    allowChangeColorByImage = viewModel.allowImageMonet,
+                    isAmoledMode = viewModel.amoledMode,
+                    appColorTuple = viewModel.appColorTuple,
+                    borderWidth = animateDpAsState(viewModel.borderWidth.dp).value,
+                    presets = viewModel.localPresets,
+                    fabAlignment = viewModel.alignment.toAlignment(),
+                    selectedEmoji = Emoji.allIcons.getOrNull(viewModel.selectedEmoji),
+                    imagePickerModeInt = viewModel.imagePickerModeInt
+                ),
                 LocalNavController provides viewModel.navController,
-                LocalImagePickerModeInt provides viewModel.imagePickerModeInt,
+                LocalEditPresetsState provides editPresetsState,
                 LocalConfettiController provides rememberToastHostState(),
                 LocalFileController provides rememberFileController(
                     LocalContext.current,
@@ -191,6 +185,8 @@ class MainActivity : M3Activity() {
                     )
                 )
             ) {
+                val settingsState = LocalSettingsState.current
+
                 val showSelectSheet =
                     rememberSaveable(viewModel.showSelectDialog) { mutableStateOf(viewModel.showSelectDialog) }
                 LaunchedEffect(showSelectSheet.value) {
@@ -344,7 +340,7 @@ class MainActivity : M3Activity() {
                                 )
                             },
                             sheetContent = {
-                                val data = LocalPresetsProvider.current
+                                val data = settingsState.presets
                                 Box {
                                     AnimatedContent(
                                         targetState = data,
@@ -368,7 +364,7 @@ class MainActivity : M3Activity() {
                                                         }
                                                     },
                                                     border = BorderStroke(
-                                                        LocalBorderWidth.current.coerceAtLeast(1.dp),
+                                                        settingsState.borderWidth.coerceAtLeast(1.dp),
                                                         MaterialTheme.colorScheme.outlineVariant
                                                     ),
                                                     colors = IconButtonDefaults.outlinedIconButtonColors(
@@ -388,7 +384,7 @@ class MainActivity : M3Activity() {
                                                 },
                                                 border = BorderStroke(
                                                     androidx.compose.ui.unit.max(
-                                                        LocalBorderWidth.current,
+                                                        settingsState.borderWidth,
                                                         1.dp
                                                     ),
                                                     MaterialTheme.colorScheme.outlineVariant
@@ -457,13 +453,13 @@ class MainActivity : M3Activity() {
                                                             },
                                                             colors = ButtonDefaults.outlinedButtonColors(
                                                                 containerColor = MaterialTheme.colorScheme.secondaryContainer.copy(
-                                                                    alpha = if (LocalNightMode.current.isNightMode()) 0.5f
+                                                                    alpha = if (settingsState.isNightMode) 0.5f
                                                                     else 1f
                                                                 ),
                                                                 contentColor = MaterialTheme.colorScheme.onSecondaryContainer,
                                                             ),
                                                             border = BorderStroke(
-                                                                LocalBorderWidth.current,
+                                                                settingsState.borderWidth,
                                                                 MaterialTheme.colorScheme.outlineVariant(
                                                                     onTopOf = MaterialTheme.colorScheme.secondaryContainer
                                                                 )
@@ -484,7 +480,7 @@ class MainActivity : M3Activity() {
                                 OutlinedButton(
                                     onClick = { editPresetsState.value = false },
                                     border = BorderStroke(
-                                        LocalBorderWidth.current,
+                                        settingsState.borderWidth,
                                         MaterialTheme.colorScheme.outlineVariant()
                                     )
                                 ) {
@@ -505,7 +501,7 @@ class MainActivity : M3Activity() {
                                         showSelectSheet.value = false
                                     },
                                     border = BorderStroke(
-                                        LocalBorderWidth.current,
+                                        settingsState.borderWidth,
                                         MaterialTheme.colorScheme.outlineVariant()
                                     )
                                 ) {
@@ -696,7 +692,7 @@ class MainActivity : M3Activity() {
                                         contentColor = MaterialTheme.colorScheme.onSecondaryContainer,
                                     ),
                                     border = BorderStroke(
-                                        LocalBorderWidth.current,
+                                        settingsState.borderWidth,
                                         MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.secondaryContainer)
                                     ),
                                     onClick = {
@@ -713,7 +709,7 @@ class MainActivity : M3Activity() {
                                         contentColor = MaterialTheme.colorScheme.onPrimary,
                                     ),
                                     border = BorderStroke(
-                                        LocalBorderWidth.current,
+                                        settingsState.borderWidth,
                                         MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.primary)
                                     ), onClick = { showExitDialog = false }) {
                                     Text(stringResource(R.string.stay))
@@ -756,7 +752,7 @@ class MainActivity : M3Activity() {
                                         contentColor = MaterialTheme.colorScheme.onPrimary,
                                     ),
                                     border = BorderStroke(
-                                        LocalBorderWidth.current,
+                                        settingsState.borderWidth,
                                         MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.primary)
                                     ),
                                     onClick = {
@@ -778,7 +774,7 @@ class MainActivity : M3Activity() {
                                         contentColor = MaterialTheme.colorScheme.onSecondaryContainer,
                                     ),
                                     border = BorderStroke(
-                                        LocalBorderWidth.current,
+                                        settingsState.borderWidth,
                                         MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.secondaryContainer)
                                     ), onClick = { viewModel.cancelledUpdate() }
                                 ) {
@@ -826,7 +822,7 @@ class MainActivity : M3Activity() {
                                         contentColor = MaterialTheme.colorScheme.onPrimary,
                                     ),
                                     border = BorderStroke(
-                                        LocalBorderWidth.current,
+                                        settingsState.borderWidth,
                                         MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.primary)
                                     ),
                                     onClick = {

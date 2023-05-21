@@ -26,7 +26,6 @@ import androidx.compose.material.icons.outlined.EmojiSymbols
 import androidx.compose.material.icons.rounded.Block
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Divider
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
@@ -44,8 +43,9 @@ import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.theme.EmojiItem
 import ru.tech.imageresizershrinker.theme.outlineVariant
+import ru.tech.imageresizershrinker.utils.LocalSettingsState
 
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class)
+@OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun EmojiSheet(
     selectedEmojiIndex: Int,
@@ -53,6 +53,7 @@ fun EmojiSheet(
     onEmojiPicked: (Int) -> Unit,
     visible: MutableState<Boolean>
 ) {
+    val settingsState = LocalSettingsState.current
     var showSheet by visible
 
     val sheetContent: @Composable ColumnScope.() -> Unit = {
@@ -91,9 +92,9 @@ fun EmojiSheet(
                         .border(
                             animateDpAsState(
                                 if (!selected) {
-                                    LocalBorderWidth.current
+                                    settingsState.borderWidth
                                 } else {
-                                    LocalBorderWidth.current.coerceAtLeast(1.dp) * 2
+                                    settingsState.borderWidth.coerceAtLeast(1.dp) * 2
                                 }
                             ).value,
                             MaterialTheme.colorScheme.outlineVariant(
@@ -134,9 +135,9 @@ fun EmojiSheet(
                             .border(
                                 animateDpAsState(
                                     if (!emojiSelected) {
-                                        LocalBorderWidth.current
+                                        settingsState.borderWidth
                                     } else {
-                                        LocalBorderWidth.current.coerceAtLeast(1.dp) * 2
+                                        settingsState.borderWidth.coerceAtLeast(1.dp) * 2
                                     }
                                 ).value,
                                 MaterialTheme.colorScheme.outlineVariant(
@@ -170,7 +171,7 @@ fun EmojiSheet(
                     onClick = { showSheet = false },
                     colors = ButtonDefaults.filledTonalButtonColors(),
                     border = BorderStroke(
-                        LocalBorderWidth.current, MaterialTheme.colorScheme.outlineVariant()
+                        settingsState.borderWidth, MaterialTheme.colorScheme.outlineVariant()
                     )
                 ) {
                     Text(stringResource(R.string.close))

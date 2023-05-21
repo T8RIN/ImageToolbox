@@ -35,16 +35,17 @@ import com.smarttoolfactory.image.zoom.ZoomLevel
 import com.smarttoolfactory.image.zoom.animatedZoom
 import com.smarttoolfactory.image.zoom.rememberAnimatedZoomState
 import ru.tech.imageresizershrinker.R
-import ru.tech.imageresizershrinker.main_screen.components.LocalBorderWidth
 import ru.tech.imageresizershrinker.main_screen.components.SimpleSheet
 import ru.tech.imageresizershrinker.main_screen.components.TitleItem
 import ru.tech.imageresizershrinker.theme.outlineVariant
+import ru.tech.imageresizershrinker.utils.LocalSettingsState
 
 @Composable
 fun ZoomModalSheet(
     bitmap: Bitmap?,
     visible: MutableState<Boolean>
 ) {
+    val settingsState = LocalSettingsState.current
     var showSheet by visible
 
     val sheetContent: @Composable ColumnScope.() -> Unit = {
@@ -66,7 +67,7 @@ fun ZoomModalSheet(
                     )
                     .clip(RoundedCornerShape(4.dp))
                     .border(
-                        LocalBorderWidth.current,
+                        settingsState.borderWidth,
                         MaterialTheme.colorScheme.outlineVariant(),
                         RoundedCornerShape(4.dp)
                     )
@@ -104,7 +105,7 @@ fun ZoomModalSheet(
                         contentColor = MaterialTheme.colorScheme.onSecondaryContainer,
                     ),
                     border = BorderStroke(
-                        LocalBorderWidth.current,
+                        settingsState.borderWidth,
                         MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.secondaryContainer)
                     ),
                     onClick = {

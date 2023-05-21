@@ -11,8 +11,7 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.unit.dp
 import androidx.core.graphics.ColorUtils
 import com.t8rin.dynamic.theme.ColorTuple
-import ru.tech.imageresizershrinker.main_screen.components.LocalNightMode
-import ru.tech.imageresizershrinker.main_screen.components.isNightMode
+import ru.tech.imageresizershrinker.utils.LocalSettingsState
 
 
 val md_theme_light_primary = Color(0xFF3D6A00)
@@ -121,7 +120,7 @@ fun Color.blend(
 @Composable
 fun Color.inverse(
     fraction: (Boolean) -> Float = { 0.5f },
-    darkMode: Boolean = LocalNightMode.current.isNightMode(),
+    darkMode: Boolean = LocalSettingsState.current.isNightMode,
 ): Color = if (darkMode) blend(Color.White, fraction(darkMode))
 else blend(Color.Black, fraction(darkMode))
 

@@ -30,8 +30,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.R
-import ru.tech.imageresizershrinker.main_screen.components.LocalBorderWidth
 import ru.tech.imageresizershrinker.theme.outlineVariant
+import ru.tech.imageresizershrinker.utils.LocalSettingsState
 import ru.tech.imageresizershrinker.utils.modifier.block
 import ru.tech.imageresizershrinker.widget.shimmer
 
@@ -41,6 +41,7 @@ fun ImageNotPickedWidget(
     onPickImage: () -> Unit,
     text: String = stringResource(R.string.pick_image),
 ) {
+    val settingsState = LocalSettingsState.current
     Column(
         modifier = modifier.block(),
         verticalArrangement = Arrangement.Center,
@@ -62,7 +63,7 @@ fun ImageNotPickedWidget(
                 modifier = Modifier
                     .fillMaxSize()
                     .border(
-                        LocalBorderWidth.current,
+                        settingsState.borderWidth,
                         MaterialTheme.colorScheme.outlineVariant(0.2f),
                         RoundedCornerShape(16.dp)
                     )

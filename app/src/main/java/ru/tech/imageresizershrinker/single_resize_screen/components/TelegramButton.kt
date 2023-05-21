@@ -11,10 +11,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.max
-import ru.tech.imageresizershrinker.main_screen.components.LocalBorderWidth
 import ru.tech.imageresizershrinker.theme.Telegram
 import ru.tech.imageresizershrinker.theme.mixedColor
 import ru.tech.imageresizershrinker.theme.onMixedColor
+import ru.tech.imageresizershrinker.utils.LocalSettingsState
 
 @Composable
 fun TelegramButton(
@@ -22,6 +22,7 @@ fun TelegramButton(
     enabled: Boolean,
     isTelegramSpecs: Boolean
 ) {
+    val settingsState = LocalSettingsState.current
     OutlinedIconButton(
         enabled = enabled,
         onClick = onClick,
@@ -37,7 +38,7 @@ fun TelegramButton(
             disabledContainerColor = Color.Transparent
         ),
         border = BorderStroke(
-            max(LocalBorderWidth.current, 1.dp), animateColorAsState(
+            max(settingsState.borderWidth, 1.dp), animateColorAsState(
                 if (isTelegramSpecs) MaterialTheme.colorScheme.outlineVariant
                 else Color.Transparent
             ).value

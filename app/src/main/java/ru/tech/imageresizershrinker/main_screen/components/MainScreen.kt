@@ -132,10 +132,13 @@ import ru.tech.imageresizershrinker.theme.suggestContainerColorBy
 import ru.tech.imageresizershrinker.utils.APP_LINK
 import ru.tech.imageresizershrinker.utils.AUTHOR_LINK
 import ru.tech.imageresizershrinker.utils.ContextUtils.verifyInstallerId
+import ru.tech.imageresizershrinker.utils.LocalEditPresetsState
 import ru.tech.imageresizershrinker.utils.LocalNavController
+import ru.tech.imageresizershrinker.utils.LocalSettingsState
 import ru.tech.imageresizershrinker.utils.LocalWindowSizeClass
 import ru.tech.imageresizershrinker.utils.Screen
 import ru.tech.imageresizershrinker.utils.defaultPrefix
+import ru.tech.imageresizershrinker.utils.isNightMode
 import ru.tech.imageresizershrinker.utils.modifier.alertDialog
 import ru.tech.imageresizershrinker.utils.modifier.drawHorizontalStroke
 import ru.tech.imageresizershrinker.utils.modifier.fabBorder
@@ -155,7 +158,8 @@ fun MainScreen(
     viewModel: MainViewModel
 ) {
     val navController = LocalNavController.current
-    val editPresetsState = LocalEditPresets.current
+    val settingsState = LocalSettingsState.current
+    val editPresetsState = LocalEditPresetsState.current
     val context = LocalContext.current
     val scrollBehavior =
         TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
@@ -253,9 +257,9 @@ fun MainScreen(
                 .then(
                     if (isSheetSlideable) {
                         Modifier
-                            .offset(-((LocalBorderWidth.current + 1.dp)))
+                            .offset(-((settingsState.borderWidth + 1.dp)))
                             .border(
-                                LocalBorderWidth.current,
+                                settingsState.borderWidth,
                                 MaterialTheme.colorScheme.outlineVariant(
                                     0.3f,
                                     DrawerDefaults.containerColor
@@ -306,7 +310,7 @@ fun MainScreen(
                                 onClick = updateButtonOnClick,
                                 colors = IconButtonDefaults.filledTonalIconButtonColors(),
                                 border = BorderStroke(
-                                    LocalBorderWidth.current,
+                                    settingsState.borderWidth,
                                     MaterialTheme.colorScheme.outlineVariant(
                                         luminance = 0.3f,
                                         onTopOf = MaterialTheme.colorScheme.suggestContainerColorBy(
@@ -479,10 +483,10 @@ fun MainScreen(
                                         )
                                     ),
                                     border = BorderStroke(
-                                        LocalBorderWidth.current,
+                                        settingsState.borderWidth,
                                         MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.secondaryContainer)
                                     ),
-                                    elevation = if (LocalBorderWidth.current > 0.dp) {
+                                    elevation = if (settingsState.borderWidth > 0.dp) {
                                         null
                                     } else {
                                         ButtonDefaults.elevatedButtonElevation()
@@ -615,7 +619,7 @@ fun MainScreen(
             Box(
                 Modifier
                     .fillMaxHeight()
-                    .width(LocalBorderWidth.current.coerceAtLeast(1.dp))
+                    .width(settingsState.borderWidth.coerceAtLeast(1.dp))
                     .background(
                         MaterialTheme.colorScheme.outlineVariant(
                             0.3f,
@@ -705,13 +709,13 @@ fun MainScreen(
                     },
                     colors = ButtonDefaults.outlinedButtonColors(
                         containerColor = MaterialTheme.colorScheme.secondaryContainer.copy(
-                            alpha = if (LocalNightMode.current.isNightMode()) 0.5f
+                            alpha = if (settingsState.isNightMode) 0.5f
                             else 1f
                         ),
                         contentColor = MaterialTheme.colorScheme.onSecondaryContainer,
                     ),
                     border = BorderStroke(
-                        LocalBorderWidth.current,
+                        settingsState.borderWidth,
                         MaterialTheme.colorScheme.outlineVariant(
                             onTopOf = MaterialTheme.colorScheme.secondaryContainer
                         )
@@ -742,7 +746,7 @@ fun MainScreen(
             OutlinedButton(
                 onClick = { showAuthorDialog.value = false },
                 border = BorderStroke(
-                    LocalBorderWidth.current, MaterialTheme.colorScheme.outlineVariant()
+                    settingsState.borderWidth, MaterialTheme.colorScheme.outlineVariant()
                 )
             ) {
                 Text(stringResource(R.string.close))
@@ -815,7 +819,7 @@ fun MainScreen(
             OutlinedButton(
                 onClick = { showArrangementSheet.value = false },
                 border = BorderStroke(
-                    LocalBorderWidth.current, MaterialTheme.colorScheme.outlineVariant()
+                    settingsState.borderWidth, MaterialTheme.colorScheme.outlineVariant()
                 )
             ) {
                 Text(stringResource(R.string.close))

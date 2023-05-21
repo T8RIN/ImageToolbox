@@ -39,8 +39,8 @@ import com.smarttoolfactory.cropper.model.CropAspectRatio
 import com.smarttoolfactory.cropper.util.createRectShape
 import com.smarttoolfactory.cropper.widget.AspectRatioSelectionCard
 import ru.tech.imageresizershrinker.R
-import ru.tech.imageresizershrinker.main_screen.components.LocalBorderWidth
 import ru.tech.imageresizershrinker.theme.outlineVariant
+import ru.tech.imageresizershrinker.utils.LocalSettingsState
 import ru.tech.imageresizershrinker.widget.AutoSizeText
 
 @Composable
@@ -50,6 +50,7 @@ fun AspectRatioSelection(
     horizontal: Boolean = true,
     onAspectRatioChange: (CropAspectRatio) -> Unit
 ) {
+    val settingsState = LocalSettingsState.current
     val aspectRatios = aspectRatios()
 
     if (horizontal) {
@@ -85,9 +86,9 @@ fun AspectRatioSelection(
                             .border(
                                 animateDpAsState(
                                     if (!selected) {
-                                        LocalBorderWidth.current
+                                        settingsState.borderWidth
                                     } else {
-                                        LocalBorderWidth.current.coerceAtLeast(1.dp) * 2
+                                        settingsState.borderWidth.coerceAtLeast(1.dp) * 2
                                     }
                                 ).value,
                                 MaterialTheme.colorScheme.outlineVariant(
@@ -115,9 +116,9 @@ fun AspectRatioSelection(
                             .border(
                                 animateDpAsState(
                                     if (!selected) {
-                                        LocalBorderWidth.current
+                                        settingsState.borderWidth
                                     } else {
-                                        LocalBorderWidth.current.coerceAtLeast(1.dp) * 2
+                                        settingsState.borderWidth.coerceAtLeast(1.dp) * 2
                                     }
                                 ).value,
                                 MaterialTheme.colorScheme.outlineVariant(
@@ -172,9 +173,9 @@ fun AspectRatioSelection(
                             .border(
                                 animateDpAsState(
                                     if (!selected) {
-                                        LocalBorderWidth.current
+                                        settingsState.borderWidth
                                     } else {
-                                        LocalBorderWidth.current.coerceAtLeast(1.dp) * 2
+                                        settingsState.borderWidth.coerceAtLeast(1.dp) * 2
                                     }
                                 ).value,
                                 MaterialTheme.colorScheme.outlineVariant(
@@ -203,9 +204,9 @@ fun AspectRatioSelection(
                             .border(
                                 animateDpAsState(
                                     if (!selected) {
-                                        LocalBorderWidth.current
+                                        settingsState.borderWidth
                                     } else {
-                                        LocalBorderWidth.current.coerceAtLeast(1.dp) * 2
+                                        settingsState.borderWidth.coerceAtLeast(1.dp) * 2
                                     }
                                 ).value,
                                 MaterialTheme.colorScheme.outlineVariant(

@@ -21,16 +21,17 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
-import ru.tech.imageresizershrinker.main_screen.components.LocalBorderWidth
+import ru.tech.imageresizershrinker.utils.LocalSettingsState
 
 @Composable
 fun BoxScope.Loading() {
+    val settingsState = LocalSettingsState.current
     Box(
         Modifier
             .size(84.dp)
             .clip(RoundedCornerShape(24.dp))
             .border(
-                LocalBorderWidth.current,
+                settingsState.borderWidth,
                 MaterialTheme.colorScheme.onSecondaryContainer.copy(0.4f),
                 RoundedCornerShape(24.dp)
             )
@@ -49,12 +50,13 @@ fun BoxScope.Loading() {
 
 @Composable
 fun Loading(modifier: Modifier = Modifier) {
+    val settingsState = LocalSettingsState.current
     Box(
         modifier
             .size(84.dp)
             .clip(RoundedCornerShape(24.dp))
             .border(
-                LocalBorderWidth.current,
+                settingsState.borderWidth,
                 MaterialTheme.colorScheme.onSecondaryContainer.copy(0.4f),
                 RoundedCornerShape(24.dp)
             )
@@ -72,12 +74,13 @@ fun Loading(modifier: Modifier = Modifier) {
 
 @Composable
 fun BoxScope.Loading(done: Int, left: Int) {
+    val settingsState = LocalSettingsState.current
     Column(
         Modifier
             .size(108.dp)
             .clip(RoundedCornerShape(24.dp))
             .border(
-                LocalBorderWidth.current,
+                settingsState.borderWidth,
                 MaterialTheme.colorScheme.onSecondaryContainer.copy(0.4f),
                 RoundedCornerShape(24.dp)
             )

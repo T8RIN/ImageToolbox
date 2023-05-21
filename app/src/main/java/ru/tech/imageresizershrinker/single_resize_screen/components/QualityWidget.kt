@@ -26,8 +26,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.R
-import ru.tech.imageresizershrinker.main_screen.components.LocalBorderWidth
 import ru.tech.imageresizershrinker.theme.outlineVariant
+import ru.tech.imageresizershrinker.utils.LocalSettingsState
 import ru.tech.imageresizershrinker.utils.modifier.block
 
 @Composable
@@ -37,6 +37,7 @@ fun QualityWidget(
     quality: Float,
     onQualityChange: (Float) -> Unit
 ) {
+    val settingsState = LocalSettingsState.current
     val sliderHeight = animateDpAsState(
         targetValue = if (visible) 44.dp else 0.dp
     ).value
@@ -82,7 +83,7 @@ fun QualityWidget(
                         CircleShape
                     )
                     .border(
-                        LocalBorderWidth.current,
+                        settingsState.borderWidth,
                         MaterialTheme.colorScheme.outlineVariant(
                             onTopOf = MaterialTheme.colorScheme.secondaryContainer.copy(
                                 alpha = 0.4f

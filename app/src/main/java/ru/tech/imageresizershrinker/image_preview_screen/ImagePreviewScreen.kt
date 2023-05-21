@@ -91,25 +91,18 @@ import ru.tech.imageresizershrinker.main_screen.components.BytesResizePreference
 import ru.tech.imageresizershrinker.main_screen.components.CropPreference
 import ru.tech.imageresizershrinker.main_screen.components.DeleteExifPreference
 import ru.tech.imageresizershrinker.main_screen.components.GeneratePalettePreference
-import ru.tech.imageresizershrinker.main_screen.components.LocalAlignment
-import ru.tech.imageresizershrinker.main_screen.components.LocalAllowChangeColorByImage
-import ru.tech.imageresizershrinker.main_screen.components.LocalAppColorTuple
-import ru.tech.imageresizershrinker.main_screen.components.LocalBorderWidth
 import ru.tech.imageresizershrinker.main_screen.components.LocalConfettiController
-import ru.tech.imageresizershrinker.main_screen.components.LocalDynamicColors
-import ru.tech.imageresizershrinker.main_screen.components.LocalNightMode
-import ru.tech.imageresizershrinker.main_screen.components.LocalSelectedEmoji
 import ru.tech.imageresizershrinker.main_screen.components.PickColorPreference
 import ru.tech.imageresizershrinker.main_screen.components.SimpleSheet
 import ru.tech.imageresizershrinker.main_screen.components.SingleResizePreference
 import ru.tech.imageresizershrinker.main_screen.components.TitleItem
-import ru.tech.imageresizershrinker.main_screen.components.isNightMode
 import ru.tech.imageresizershrinker.single_resize_screen.components.ImageNotPickedWidget
 import ru.tech.imageresizershrinker.theme.CreateAlt
 import ru.tech.imageresizershrinker.theme.EmojiItem
 import ru.tech.imageresizershrinker.theme.outlineVariant
 import ru.tech.imageresizershrinker.utils.BitmapUtils.decodeSampledBitmapFromUri
 import ru.tech.imageresizershrinker.utils.LocalNavController
+import ru.tech.imageresizershrinker.utils.LocalSettingsState
 import ru.tech.imageresizershrinker.utils.Picker
 import ru.tech.imageresizershrinker.utils.Screen
 import ru.tech.imageresizershrinker.utils.localImagePickerMode
@@ -130,7 +123,8 @@ fun ImagePreviewScreen(
     val navController = LocalNavController.current
     val context = LocalContext.current as ComponentActivity
     val themeState = LocalDynamicThemeState.current
-    val allowChangeColor = LocalAllowChangeColorByImage.current
+    val settingsState = LocalSettingsState.current
+    val allowChangeColor = settingsState.allowChangeColorByImage
 
     val scope = rememberCoroutineScope()
     val confettiController = LocalConfettiController.current
@@ -141,9 +135,9 @@ fun ImagePreviewScreen(
     }
 
     val appColorTuple = getAppColorTuple(
-        defaultColorTuple = LocalAppColorTuple.current,
-        dynamicColor = LocalDynamicColors.current,
-        darkTheme = LocalNightMode.current.isNightMode()
+        defaultColorTuple = settingsState.appColorTuple,
+        dynamicColor = settingsState.isDynamicColors,
+        darkTheme = settingsState.isNightMode
     )
 
     LaunchedEffect(uriState) {
@@ -226,7 +220,7 @@ fun ImagePreviewScreen(
                     },
                     actions = {
                         EmojiItem(
-                            emoji = LocalSelectedEmoji.current,
+                            emoji = settingsState.selectedEmoji,
                             fontSize = MaterialTheme.typography.headlineMedium.fontSize,
                             modifier = Modifier
                                 .padding(end = 12.dp)
@@ -292,7 +286,7 @@ fun ImagePreviewScreen(
                                             MaterialTheme.shapes.large
                                         )
                                         .border(
-                                            LocalBorderWidth.current,
+                                            settingsState.borderWidth,
                                             MaterialTheme.colorScheme.outlineVariant(),
                                             MaterialTheme.shapes.large
                                         ),
@@ -316,7 +310,7 @@ fun ImagePreviewScreen(
                                             MaterialTheme.shapes.large
                                         )
                                         .border(
-                                            LocalBorderWidth.current,
+                                            settingsState.borderWidth,
                                             MaterialTheme.colorScheme.outlineVariant(),
                                             MaterialTheme.shapes.large
                                         ),
@@ -340,7 +334,7 @@ fun ImagePreviewScreen(
                     .navigationBarsPadding()
                     .padding(16.dp)
                     .fabBorder()
-                    .align(LocalAlignment.current),
+                    .align(settingsState.fabAlignment),
                 elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
                 text = {
                     Text(stringResource(R.string.pick_image_alt))
@@ -519,7 +513,7 @@ fun ImagePreviewScreen(
                         wantToEdit.value = false
                     },
                     border = BorderStroke(
-                        LocalBorderWidth.current,
+                        settingsState.borderWidth,
                         MaterialTheme.colorScheme.outlineVariant()
                     )
                 ) {

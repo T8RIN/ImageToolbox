@@ -115,11 +115,7 @@ import com.t8rin.dynamic.theme.LocalDynamicThemeState
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.R
-import ru.tech.imageresizershrinker.main_screen.components.LocalAlignment
-import ru.tech.imageresizershrinker.main_screen.components.LocalAllowChangeColorByImage
-import ru.tech.imageresizershrinker.main_screen.components.LocalBorderWidth
 import ru.tech.imageresizershrinker.main_screen.components.LocalConfettiController
-import ru.tech.imageresizershrinker.main_screen.components.LocalSelectedEmoji
 import ru.tech.imageresizershrinker.main_screen.components.SimpleSheet
 import ru.tech.imageresizershrinker.main_screen.components.TitleItem
 import ru.tech.imageresizershrinker.single_resize_screen.components.BadImageWidget
@@ -149,6 +145,7 @@ import ru.tech.imageresizershrinker.utils.BitmapUtils.shareBitmap
 import ru.tech.imageresizershrinker.utils.BitmapUtils.toMap
 import ru.tech.imageresizershrinker.utils.BitmapUtils.with
 import ru.tech.imageresizershrinker.utils.LocalFileController
+import ru.tech.imageresizershrinker.utils.LocalSettingsState
 import ru.tech.imageresizershrinker.utils.LocalWindowSizeClass
 import ru.tech.imageresizershrinker.utils.Picker
 import ru.tech.imageresizershrinker.utils.localImagePickerMode
@@ -172,10 +169,11 @@ fun SingleResizeScreen(
     onGoBack: () -> Unit,
     viewModel: SingleResizeViewModel = viewModel(),
 ) {
+    val settingsState = LocalSettingsState.current
     val toastHostState = LocalToastHost.current
     val context = LocalContext.current as ComponentActivity
     val themeState = LocalDynamicThemeState.current
-    val allowChangeColor = LocalAllowChangeColorByImage.current
+    val allowChangeColor = settingsState.allowChangeColorByImage
 
     val scope = rememberCoroutineScope()
     val confettiController = LocalConfettiController.current
@@ -555,7 +553,7 @@ fun SingleResizeScreen(
                     actions = {
                         if (viewModel.bitmap == null) {
                             EmojiItem(
-                                emoji = LocalSelectedEmoji.current,
+                                emoji = settingsState.selectedEmoji,
                                 fontSize = MaterialTheme.typography.headlineMedium.fontSize,
                                 modifier = Modifier
                                     .padding(end = 12.dp)
@@ -665,7 +663,7 @@ fun SingleResizeScreen(
                         Box(
                             Modifier
                                 .fillMaxHeight()
-                                .width(LocalBorderWidth.current.coerceAtLeast(0.25.dp))
+                                .width(settingsState.borderWidth.coerceAtLeast(0.25.dp))
                                 .background(MaterialTheme.colorScheme.surfaceVariant)
                         )
                     }
@@ -756,7 +754,7 @@ fun SingleResizeScreen(
                         Box(
                             Modifier
                                 .fillMaxHeight()
-                                .width(LocalBorderWidth.current.coerceAtLeast(0.25.dp))
+                                .width(settingsState.borderWidth.coerceAtLeast(0.25.dp))
                                 .background(MaterialTheme.colorScheme.surfaceVariant)
                                 .padding(start = 20.dp)
                         )
@@ -767,7 +765,7 @@ fun SingleResizeScreen(
 
             if (imageInside || viewModel.bitmap == null) {
                 Box(
-                    modifier = Modifier.align(LocalAlignment.current)
+                    modifier = Modifier.align(settingsState.fabAlignment)
                 ) {
                     buttons()
                 }
@@ -790,7 +788,7 @@ fun SingleResizeScreen(
                                 contentColor = MaterialTheme.colorScheme.onPrimary,
                             ),
                             border = BorderStroke(
-                                LocalBorderWidth.current,
+                                settingsState.borderWidth,
                                 MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.primary)
                             ), onClick = { showResetDialog = false }) {
                             Text(stringResource(R.string.close))
@@ -803,7 +801,7 @@ fun SingleResizeScreen(
                                 contentColor = MaterialTheme.colorScheme.onSecondaryContainer,
                             ),
                             border = BorderStroke(
-                                LocalBorderWidth.current,
+                                settingsState.borderWidth,
                                 MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.secondaryContainer)
                             ),
                             onClick = {
@@ -834,7 +832,7 @@ fun SingleResizeScreen(
                             contentColor = MaterialTheme.colorScheme.onPrimary,
                         ),
                         border = BorderStroke(
-                            LocalBorderWidth.current,
+                            settingsState.borderWidth,
                             MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.primary)
                         ),
                         onClick = { showEditExifDialog.value = false }
@@ -855,7 +853,7 @@ fun SingleResizeScreen(
                                 onClick = {
                                     showClearExifDialog = true
                                 }, border = BorderStroke(
-                                    LocalBorderWidth.current,
+                                    settingsState.borderWidth,
                                     MaterialTheme.colorScheme.outlineVariant()
                                 )
                             ) {
@@ -870,7 +868,7 @@ fun SingleResizeScreen(
                                     contentColor = MaterialTheme.colorScheme.onSecondaryContainer,
                                 ),
                                 border = BorderStroke(
-                                    LocalBorderWidth.current,
+                                    settingsState.borderWidth,
                                     MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.secondaryContainer)
                                 ),
                                 onClick = { showAddExifDialog.value = true }
@@ -894,7 +892,7 @@ fun SingleResizeScreen(
                                 items(map!!.toList()) { (tag, value) ->
                                     OutlinedCard(
                                         border = BorderStroke(
-                                            LocalBorderWidth.current,
+                                            settingsState.borderWidth,
                                             MaterialTheme.colorScheme.outlineVariant()
                                         ),
                                         modifier = Modifier
@@ -1026,7 +1024,7 @@ fun SingleResizeScreen(
                                     items(list) { tag ->
                                         OutlinedCard(
                                             border = BorderStroke(
-                                                LocalBorderWidth.current,
+                                                settingsState.borderWidth,
                                                 MaterialTheme.colorScheme.outlineVariant()
                                             ),
                                             modifier = Modifier
@@ -1105,7 +1103,7 @@ fun SingleResizeScreen(
                                             contentColor = MaterialTheme.colorScheme.onPrimary,
                                         ),
                                         border = BorderStroke(
-                                            LocalBorderWidth.current,
+                                            settingsState.borderWidth,
                                             MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.primary)
                                         ),
                                         onClick = { showAddExifDialog.value = false }
@@ -1129,7 +1127,7 @@ fun SingleResizeScreen(
                                         contentColor = MaterialTheme.colorScheme.onPrimary,
                                     ),
                                     border = BorderStroke(
-                                        LocalBorderWidth.current,
+                                        settingsState.borderWidth,
                                         MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.primary)
                                     ),
                                     onClick = { showClearExifDialog = false }
@@ -1144,7 +1142,7 @@ fun SingleResizeScreen(
                                         contentColor = MaterialTheme.colorScheme.onSecondaryContainer,
                                     ),
                                     border = BorderStroke(
-                                        LocalBorderWidth.current,
+                                        settingsState.borderWidth,
                                         MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.secondaryContainer)
                                     ),
                                     onClick = {
@@ -1181,7 +1179,7 @@ fun SingleResizeScreen(
                                     end = 16.dp,
                                 )
                                 .border(
-                                    LocalBorderWidth.current.coerceAtLeast(1.dp),
+                                    settingsState.borderWidth.coerceAtLeast(1.dp),
                                     MaterialTheme.colorScheme.outlineVariant(),
                                     RoundedCornerShape(4.dp)
                                 )
@@ -1224,7 +1222,7 @@ fun SingleResizeScreen(
                                     contentColor = MaterialTheme.colorScheme.onPrimary,
                                 ),
                                 border = BorderStroke(
-                                    LocalBorderWidth.current,
+                                    settingsState.borderWidth,
                                     MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.primary)
                                 ),
                                 onClick = { crop = true }

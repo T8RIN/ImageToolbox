@@ -27,6 +27,7 @@ import ru.tech.imageresizershrinker.theme.Github
 import ru.tech.imageresizershrinker.theme.PaletteSwatch
 import ru.tech.imageresizershrinker.theme.outlineVariant
 import ru.tech.imageresizershrinker.utils.APP_LINK
+import ru.tech.imageresizershrinker.utils.LocalSettingsState
 
 
 @Composable
@@ -235,12 +236,14 @@ fun PreferenceItem(
             backgroundColor = MaterialTheme.colorScheme.surfaceVariant
         ) else contentColorFor(backgroundColor = color)
 
+    val settingsState = LocalSettingsState.current
+
     ProvideTextStyle(value = LocalTextStyle.current.copy(textAlign = TextAlign.Start)) {
         onClick?.let {
             Card(
                 shape = shape,
                 modifier = modifier.border(
-                    LocalBorderWidth.current,
+                    settingsState.borderWidth,
                     MaterialTheme.colorScheme.outlineVariant(0.1f, color),
                     shape
                 ),
@@ -302,7 +305,7 @@ fun PreferenceItem(
         } ?: Card(
             shape = shape,
             modifier = modifier.border(
-                LocalBorderWidth.current,
+                settingsState.borderWidth,
                 MaterialTheme.colorScheme.outlineVariant(0.1f, color),
                 shape
             ),

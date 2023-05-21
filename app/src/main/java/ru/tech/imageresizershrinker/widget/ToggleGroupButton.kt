@@ -20,9 +20,9 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.max
 import androidx.compose.ui.zIndex
-import ru.tech.imageresizershrinker.main_screen.components.LocalBorderWidth
 import ru.tech.imageresizershrinker.theme.mixedColor
 import ru.tech.imageresizershrinker.theme.onMixedColor
+import ru.tech.imageresizershrinker.utils.LocalSettingsState
 
 @Composable
 fun ToggleGroupButton(
@@ -33,6 +33,7 @@ fun ToggleGroupButton(
     title: String? = null,
     indexChanged: (Int) -> Unit
 ) {
+    val settingsState = LocalSettingsState.current
     val cornerRadius = 1000.dp
 
     val disColor = MaterialTheme.colorScheme.onSurface
@@ -97,7 +98,7 @@ fun ToggleGroupButton(
                                 else -> RoundedCornerShape(0.dp)
                             },
                             border = BorderStroke(
-                                max(LocalBorderWidth.current, 1.dp),
+                                max(settingsState.borderWidth, 1.dp),
                                 MaterialTheme.colorScheme.outlineVariant
                             ),
                             colors = ButtonDefaults.outlinedButtonColors(

@@ -23,9 +23,9 @@ import androidx.compose.ui.zIndex
 import kotlinx.coroutines.*
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
-import ru.tech.imageresizershrinker.main_screen.components.LocalBorderWidth
 import ru.tech.imageresizershrinker.theme.harmonizeWithPrimary
 import ru.tech.imageresizershrinker.theme.outlineVariant
+import ru.tech.imageresizershrinker.utils.LocalSettingsState
 import kotlin.coroutines.resume
 
 @Composable
@@ -89,7 +89,7 @@ fun Toast(
                 .imePadding()
                 .systemBarsPadding()
                 .border(
-                    width = LocalBorderWidth.current,
+                    width = LocalSettingsState.current.borderWidth,
                     color = MaterialTheme.colorScheme
                         .outlineVariant(0.3f, contentColor)
                         .copy(alpha = 0.95f),

@@ -82,11 +82,7 @@ import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.batch_resize_screen.components.PickImageFromUrisSheet
 import ru.tech.imageresizershrinker.delete_exif_screen.viewModel.DeleteExifViewModel
-import ru.tech.imageresizershrinker.main_screen.components.LocalAlignment
-import ru.tech.imageresizershrinker.main_screen.components.LocalAllowChangeColorByImage
-import ru.tech.imageresizershrinker.main_screen.components.LocalBorderWidth
 import ru.tech.imageresizershrinker.main_screen.components.LocalConfettiController
-import ru.tech.imageresizershrinker.main_screen.components.LocalSelectedEmoji
 import ru.tech.imageresizershrinker.single_resize_screen.components.BitmapInfo
 import ru.tech.imageresizershrinker.single_resize_screen.components.ExitWithoutSavingDialog
 import ru.tech.imageresizershrinker.single_resize_screen.components.ImageNotPickedWidget
@@ -104,6 +100,7 @@ import ru.tech.imageresizershrinker.utils.BitmapUtils.getBitmapByUri
 import ru.tech.imageresizershrinker.utils.BitmapUtils.shareBitmaps
 import ru.tech.imageresizershrinker.utils.ContextUtils.failedToSaveImages
 import ru.tech.imageresizershrinker.utils.LocalFileController
+import ru.tech.imageresizershrinker.utils.LocalSettingsState
 import ru.tech.imageresizershrinker.utils.LocalWindowSizeClass
 import ru.tech.imageresizershrinker.utils.Picker
 import ru.tech.imageresizershrinker.utils.localImagePickerMode
@@ -123,10 +120,11 @@ fun DeleteExifScreen(
     onGoBack: () -> Unit,
     viewModel: DeleteExifViewModel = viewModel()
 ) {
+    val settingsState = LocalSettingsState.current
     val context = LocalContext.current as ComponentActivity
     val toastHostState = LocalToastHost.current
     val themeState = LocalDynamicThemeState.current
-    val allowChangeColor = LocalAllowChangeColorByImage.current
+    val allowChangeColor = settingsState.allowChangeColorByImage
 
     val scope = rememberCoroutineScope()
     val confettiController = LocalConfettiController.current
@@ -259,7 +257,7 @@ fun DeleteExifScreen(
                                 }
                             },
                             border = BorderStroke(
-                                LocalBorderWidth.current,
+                                settingsState.borderWidth,
                                 MaterialTheme.colorScheme.outlineVariant(
                                     0.1f,
                                     MaterialTheme.colorScheme.surfaceColorAtElevation(1.dp)
@@ -453,7 +451,7 @@ fun DeleteExifScreen(
                     actions = {
                         if (viewModel.bitmap == null) {
                             EmojiItem(
-                                emoji = LocalSelectedEmoji.current,
+                                emoji = settingsState.selectedEmoji,
                                 fontSize = MaterialTheme.typography.headlineMedium.fontSize,
                                 modifier = Modifier
                                     .padding(end = 12.dp)
@@ -550,7 +548,7 @@ fun DeleteExifScreen(
                         Box(
                             Modifier
                                 .fillMaxHeight()
-                                .width(LocalBorderWidth.current.coerceAtLeast(0.25.dp))
+                                .width(settingsState.borderWidth.coerceAtLeast(0.25.dp))
                                 .background(MaterialTheme.colorScheme.surfaceVariant)
                                 .padding(start = 20.dp)
                         )
@@ -561,7 +559,7 @@ fun DeleteExifScreen(
 
             if (imageInside || viewModel.bitmap == null) {
                 Box(
-                    modifier = Modifier.align(LocalAlignment.current)
+                    modifier = Modifier.align(settingsState.fabAlignment)
                 ) {
                     buttons()
                 }

@@ -73,17 +73,14 @@ import com.t8rin.dynamic.theme.extractPrimaryColor
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.compare_screen.viewModel.CompareViewModel
-import ru.tech.imageresizershrinker.main_screen.components.LocalAlignment
-import ru.tech.imageresizershrinker.main_screen.components.LocalAllowChangeColorByImage
-import ru.tech.imageresizershrinker.main_screen.components.LocalBorderWidth
 import ru.tech.imageresizershrinker.main_screen.components.LocalConfettiController
-import ru.tech.imageresizershrinker.main_screen.components.LocalSelectedEmoji
 import ru.tech.imageresizershrinker.single_resize_screen.components.ImageNotPickedWidget
 import ru.tech.imageresizershrinker.single_resize_screen.components.LoadingDialog
 import ru.tech.imageresizershrinker.theme.EmojiItem
 import ru.tech.imageresizershrinker.theme.blend
 import ru.tech.imageresizershrinker.theme.outlineVariant
 import ru.tech.imageresizershrinker.utils.BitmapUtils.getBitmapByUri
+import ru.tech.imageresizershrinker.utils.LocalSettingsState
 import ru.tech.imageresizershrinker.utils.LocalWindowSizeClass
 import ru.tech.imageresizershrinker.utils.Picker
 import ru.tech.imageresizershrinker.utils.localImagePickerMode
@@ -103,10 +100,12 @@ fun CompareScreen(
     onGoBack: () -> Unit,
     viewModel: CompareViewModel = viewModel()
 ) {
+    val settingsState = LocalSettingsState.current
+
     val context = LocalContext.current
     val toastHostState = LocalToastHost.current
     val themeState = LocalDynamicThemeState.current
-    val allowChangeColor = LocalAllowChangeColorByImage.current
+    val allowChangeColor = settingsState.allowChangeColorByImage
 
     val scope = rememberCoroutineScope()
     val confettiController = LocalConfettiController.current
@@ -218,7 +217,7 @@ fun CompareScreen(
                     ),
                     actions = {
                         EmojiItem(
-                            emoji = LocalSelectedEmoji.current,
+                            emoji = settingsState.selectedEmoji,
                             fontSize = MaterialTheme.typography.headlineMedium.fontSize,
                             modifier = Modifier
                                 .padding(end = 12.dp)
@@ -276,9 +275,9 @@ fun CompareScreen(
             }
 
             AnimatedContent(viewModel.bitmapData == null) { nil ->
-                viewModel.bitmapData.takeIf { !nil }?.let {
+                viewModel.bitmapData.takeIf { !nil }?.let { bitmapPair ->
                     if (portrait) {
-                        AnimatedContent(targetState = it) { data ->
+                        AnimatedContent(targetState = bitmapPair) { data ->
                             data.let { (b, a) ->
                                 val before = remember(data) { b?.asImageBitmap() }
                                 val after = remember(data) { a?.asImageBitmap() }
@@ -311,7 +310,7 @@ fun CompareScreen(
                                     .padding(20.dp)
                             ) {
                                 Box(Modifier.align(Alignment.Center)) {
-                                    AnimatedContent(targetState = it) { data ->
+                                    AnimatedContent(targetState = bitmapPair) { data ->
                                         data.let { (b, a) ->
                                             val before = remember(data) { b?.asImageBitmap() }
                                             val after = remember(data) { a?.asImageBitmap() }
@@ -340,7 +339,7 @@ fun CompareScreen(
                             Box(
                                 Modifier
                                     .fillMaxHeight()
-                                    .width(LocalBorderWidth.current.coerceAtLeast(0.25.dp))
+                                    .width(settingsState.borderWidth.coerceAtLeast(0.25.dp))
                                     .background(MaterialTheme.colorScheme.surfaceVariant)
                             )
                             Column(
@@ -377,7 +376,7 @@ fun CompareScreen(
                                         CircleShape
                                     )
                                     .border(
-                                        LocalBorderWidth.current,
+                                        settingsState.borderWidth,
                                         MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.secondaryContainer),
                                         CircleShape
                                     )
@@ -426,7 +425,7 @@ fun CompareScreen(
                 modifier = Modifier
                     .navigationBarsPadding()
                     .padding(16.dp)
-                    .align(LocalAlignment.current)
+                    .align(settingsState.fabAlignment)
                     .fabBorder(),
                 elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
                 icon = {
@@ -457,13 +456,13 @@ fun CompareScreen(
                             .weight(100f, true)
                             .offset(y = (-2).dp)
                             .background(
-                                MaterialTheme.colorScheme.secondaryContainer,
-                                CircleShape
+                                color = MaterialTheme.colorScheme.secondaryContainer,
+                                shape = CircleShape
                             )
                             .border(
-                                LocalBorderWidth.current,
-                                MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.secondaryContainer),
-                                CircleShape
+                                width = settingsState.borderWidth,
+                                color = MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.secondaryContainer),
+                                shape = CircleShape
                             )
                             .padding(horizontal = 16.dp),
                         colors = SliderDefaults.colors(

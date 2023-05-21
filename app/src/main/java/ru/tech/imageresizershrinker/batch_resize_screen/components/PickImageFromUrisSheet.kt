@@ -32,10 +32,10 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.R
-import ru.tech.imageresizershrinker.main_screen.components.LocalBorderWidth
 import ru.tech.imageresizershrinker.main_screen.components.SimpleSheet
 import ru.tech.imageresizershrinker.main_screen.components.TitleItem
 import ru.tech.imageresizershrinker.theme.outlineVariant
+import ru.tech.imageresizershrinker.utils.LocalSettingsState
 import ru.tech.imageresizershrinker.utils.modifier.block
 import ru.tech.imageresizershrinker.widget.Picture
 
@@ -49,6 +49,7 @@ fun PickImageFromUrisSheet(
     columns: Int,
     onUriPicked: (Uri) -> Unit
 ) {
+    val settingsState = LocalSettingsState.current
     SimpleSheet(
         sheetContent = {
             val gridState = rememberLazyGridState()
@@ -85,7 +86,7 @@ fun PickImageFromUrisSheet(
                                         .then(
                                             if (uri == selectedUri) {
                                                 Modifier.border(
-                                                    LocalBorderWidth.current * 2,
+                                                    settingsState.borderWidth * 2,
                                                     MaterialTheme.colorScheme.outlineVariant(),
                                                     RoundedCornerShape(8.dp)
                                                 )
@@ -101,7 +102,7 @@ fun PickImageFromUrisSheet(
                                         contentColor = MaterialTheme.colorScheme.onSecondaryContainer,
                                     ),
                                     border = BorderStroke(
-                                        LocalBorderWidth.current,
+                                        settingsState.borderWidth,
                                         MaterialTheme.colorScheme.outlineVariant(
                                             onTopOf = MaterialTheme.colorScheme.secondaryContainer
                                         )
@@ -129,7 +130,7 @@ fun PickImageFromUrisSheet(
             OutlinedButton(
                 onClick = onDismiss,
                 border = BorderStroke(
-                    LocalBorderWidth.current,
+                    settingsState.borderWidth,
                     MaterialTheme.colorScheme.outlineVariant()
                 )
             ) {

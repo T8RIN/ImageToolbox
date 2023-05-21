@@ -33,9 +33,9 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.isUnspecified
 import androidx.compose.ui.zIndex
-import ru.tech.imageresizershrinker.main_screen.components.LocalBorderWidth
 import ru.tech.imageresizershrinker.theme.outlineVariant
 import ru.tech.imageresizershrinker.theme.suggestContainerColorBy
+import ru.tech.imageresizershrinker.utils.LocalSettingsState
 
 fun Modifier.block(
     shape: Shape = RoundedCornerShape(16.dp),
@@ -44,14 +44,16 @@ fun Modifier.block(
     val color1 = if (color.isUnspecified) {
         MaterialTheme.colorScheme.surfaceColorAtElevation(1.dp)
     } else color
-    background(
-        color = color1,
-        shape = shape
-    )
+
+    this
+        .background(
+            color = color1,
+            shape = shape
+        )
         .border(
-            LocalBorderWidth.current,
-            MaterialTheme.colorScheme.outlineVariant(0.1f, color1),
-            shape
+            width = LocalSettingsState.current.borderWidth,
+            color = MaterialTheme.colorScheme.outlineVariant(0.1f, color1),
+            shape = shape
         )
         .clip(shape)
         .padding(4.dp)
@@ -77,10 +79,9 @@ fun Modifier.navBarsPaddingOnlyIfTheyAtTheBottom(enabled: Boolean = true) = comp
 }
 
 fun Modifier.drawHorizontalStroke(top: Boolean = false, height: Dp = Dp.Unspecified) = composed {
+    val borderWidth = LocalSettingsState.current.borderWidth
     val h = if (height.isUnspecified) {
-        if (LocalBorderWidth.current > 0.dp) {
-            LocalBorderWidth.current
-        } else null
+        borderWidth.takeIf { it > 0.dp }
     } else height
 
     val color = MaterialTheme.colorScheme.outlineVariant(0.3f)
@@ -112,9 +113,7 @@ fun Modifier.fabBorder(
     elevation: Dp = 8.dp
 ) = composed {
     val h = if (height.isUnspecified) {
-        if (LocalBorderWidth.current > 0.dp) {
-            LocalBorderWidth.current
-        } else null
+        LocalSettingsState.current.borderWidth.takeIf { it > 0.dp }
     } else null
 
     val szape = shape ?: FloatingActionButtonDefaults.shape
@@ -143,11 +142,11 @@ fun Modifier.alertDialog() = composed {
         .statusBarsPadding()
         .displayCutoutPadding()
         .border(
-            LocalBorderWidth.current,
-            MaterialTheme.colorScheme.outlineVariant(
+            width = LocalSettingsState.current.borderWidth,
+            color = MaterialTheme.colorScheme.outlineVariant(
                 luminance = 0.3f,
                 onTopOf = MaterialTheme.colorScheme.surfaceColorAtElevation(6.dp)
             ),
-            AlertDialogDefaults.shape
+            shape = AlertDialogDefaults.shape
         )
 }

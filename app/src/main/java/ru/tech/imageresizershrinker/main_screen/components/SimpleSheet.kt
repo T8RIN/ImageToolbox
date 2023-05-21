@@ -29,6 +29,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.t8rin.modalsheet.ModalSheet
 import ru.tech.imageresizershrinker.theme.outlineVariant
+import ru.tech.imageresizershrinker.utils.LocalSettingsState
 import ru.tech.imageresizershrinker.utils.modifier.fabBorder
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -38,6 +39,7 @@ fun SimpleSheet(
     sheetContent: @Composable ColumnScope.() -> Unit,
     visible: MutableState<Boolean>
 ) {
+    val settingsState = LocalSettingsState.current
     var showSheet by visible
 
     ModalSheet(
@@ -49,9 +51,9 @@ fun SimpleSheet(
         containerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(2.dp),
         sheetModifier = Modifier
             .statusBarsPadding()
-            .offset(y = (LocalBorderWidth.current + 1.dp))
+            .offset(y = (settingsState.borderWidth + 1.dp))
             .border(
-                width = LocalBorderWidth.current,
+                width = settingsState.borderWidth,
                 color = MaterialTheme.colorScheme.outlineVariant(
                     luminance = 0.3f,
                     onTopOf = MaterialTheme.colorScheme.surfaceColorAtElevation(6.dp)
@@ -88,6 +90,7 @@ fun SimpleSheet(
     endConfirmButtonPadding: Dp = 16.dp,
     visible: MutableState<Boolean>
 ) {
+    val settingsState = LocalSettingsState.current
     var showSheet by visible
 
     ModalSheet(
@@ -99,9 +102,9 @@ fun SimpleSheet(
         containerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(2.dp),
         sheetModifier = Modifier
             .statusBarsPadding()
-            .offset(y = (LocalBorderWidth.current + 1.dp))
+            .offset(y = (settingsState.borderWidth + 1.dp))
             .border(
-                width = LocalBorderWidth.current,
+                width = settingsState.borderWidth,
                 color = MaterialTheme.colorScheme.outlineVariant(
                     luminance = 0.3f,
                     onTopOf = MaterialTheme.colorScheme.surfaceColorAtElevation(6.dp)
@@ -154,6 +157,7 @@ fun SimpleSheet(
     visible: Boolean,
     onDismiss: (Boolean) -> Unit
 ) {
+    val settingsState = LocalSettingsState.current
     ModalSheet(
         nestedScrollEnabled = nestedScrollEnabled,
         animationSpec = tween(
@@ -163,9 +167,9 @@ fun SimpleSheet(
         containerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(2.dp),
         sheetModifier = Modifier
             .statusBarsPadding()
-            .offset(y = (LocalBorderWidth.current + 1.dp))
+            .offset(y = (settingsState.borderWidth + 1.dp))
             .border(
-                width = LocalBorderWidth.current,
+                width = settingsState.borderWidth,
                 color = MaterialTheme.colorScheme.outlineVariant(
                     luminance = 0.3f,
                     onTopOf = MaterialTheme.colorScheme.surfaceColorAtElevation(6.dp)

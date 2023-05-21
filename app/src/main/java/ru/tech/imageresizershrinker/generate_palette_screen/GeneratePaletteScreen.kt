@@ -72,11 +72,7 @@ import dev.olshevski.navigation.reimagined.pop
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.generate_palette_screen.viewModel.GeneratePaletteViewModel
-import ru.tech.imageresizershrinker.main_screen.components.LocalAlignment
-import ru.tech.imageresizershrinker.main_screen.components.LocalAllowChangeColorByImage
-import ru.tech.imageresizershrinker.main_screen.components.LocalBorderWidth
 import ru.tech.imageresizershrinker.main_screen.components.LocalConfettiController
-import ru.tech.imageresizershrinker.main_screen.components.LocalSelectedEmoji
 import ru.tech.imageresizershrinker.pick_color_from_image_screen.copyColorIntoClipboard
 import ru.tech.imageresizershrinker.pick_color_from_image_screen.format
 import ru.tech.imageresizershrinker.single_resize_screen.components.ImageNotPickedWidget
@@ -86,6 +82,7 @@ import ru.tech.imageresizershrinker.theme.EmojiItem
 import ru.tech.imageresizershrinker.theme.PaletteSwatch
 import ru.tech.imageresizershrinker.utils.BitmapUtils.decodeBitmapFromUri
 import ru.tech.imageresizershrinker.utils.LocalNavController
+import ru.tech.imageresizershrinker.utils.LocalSettingsState
 import ru.tech.imageresizershrinker.utils.LocalWindowSizeClass
 import ru.tech.imageresizershrinker.utils.Picker
 import ru.tech.imageresizershrinker.utils.Screen
@@ -106,10 +103,11 @@ fun GeneratePaletteScreen(
     onGoBack: () -> Unit,
     viewModel: GeneratePaletteViewModel = viewModel()
 ) {
+    val settingsState = LocalSettingsState.current
     val context = LocalContext.current
     val toastHostState = LocalToastHost.current
     val themeState = LocalDynamicThemeState.current
-    val allowChangeColor = LocalAllowChangeColorByImage.current
+    val allowChangeColor = settingsState.allowChangeColorByImage
     val navController = LocalNavController.current
 
     val scope = rememberCoroutineScope()
@@ -271,7 +269,7 @@ fun GeneratePaletteScreen(
                 actions = {
                     if (viewModel.uri == null) {
                         EmojiItem(
-                            emoji = LocalSelectedEmoji.current,
+                            emoji = settingsState.selectedEmoji,
                             fontSize = MaterialTheme.typography.headlineMedium.fontSize,
                             modifier = Modifier
                                 .padding(end = 12.dp)
@@ -316,7 +314,7 @@ fun GeneratePaletteScreen(
                                     .verticalScroll(scrollState)
                             ) {
                                 ImageColorPalette(
-                                    borderWidth = LocalBorderWidth.current,
+                                    borderWidth = settingsState.borderWidth,
                                     imageBitmap = bmp,
                                     modifier = Modifier
                                         .fillMaxSize()
@@ -358,7 +356,7 @@ fun GeneratePaletteScreen(
                                 contentScale = ContentScale.FillWidth
                             )
                             ImageColorPalette(
-                                borderWidth = LocalBorderWidth.current,
+                                borderWidth = settingsState.borderWidth,
                                 imageBitmap = bmp,
                                 modifier = Modifier
                                     .padding(bottom = 72.dp)
@@ -398,12 +396,12 @@ fun GeneratePaletteScreen(
             modifier = Modifier
                 .navigationBarsPadding()
                 .padding(12.dp)
-                .align(if (!landscape) LocalAlignment.current else Alignment.BottomEnd)
+                .align(if (!landscape) settingsState.fabAlignment else Alignment.BottomEnd)
                 .fabBorder(),
             elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
         ) {
             val expanded =
-                scrollState.isScrollingUp(LocalAlignment.current != Alignment.BottomCenter || landscape)
+                scrollState.isScrollingUp(settingsState.fabAlignment != Alignment.BottomCenter || landscape)
             val horizontalPadding by animateDpAsState(targetValue = if (expanded) 16.dp else 0.dp)
             Row(
                 modifier = Modifier.padding(horizontal = horizontalPadding),

@@ -83,11 +83,7 @@ import dev.olshevski.navigation.reimagined.navigate
 import dev.olshevski.navigation.reimagined.pop
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.R
-import ru.tech.imageresizershrinker.main_screen.components.LocalAlignment
-import ru.tech.imageresizershrinker.main_screen.components.LocalAllowChangeColorByImage
-import ru.tech.imageresizershrinker.main_screen.components.LocalBorderWidth
 import ru.tech.imageresizershrinker.main_screen.components.LocalConfettiController
-import ru.tech.imageresizershrinker.main_screen.components.LocalSelectedEmoji
 import ru.tech.imageresizershrinker.pick_color_from_image_screen.viewModel.PickColorViewModel
 import ru.tech.imageresizershrinker.single_resize_screen.components.ImageNotPickedWidget
 import ru.tech.imageresizershrinker.single_resize_screen.components.LoadingDialog
@@ -96,6 +92,7 @@ import ru.tech.imageresizershrinker.theme.PaletteSwatch
 import ru.tech.imageresizershrinker.theme.outlineVariant
 import ru.tech.imageresizershrinker.utils.BitmapUtils.decodeBitmapFromUri
 import ru.tech.imageresizershrinker.utils.LocalNavController
+import ru.tech.imageresizershrinker.utils.LocalSettingsState
 import ru.tech.imageresizershrinker.utils.LocalWindowSizeClass
 import ru.tech.imageresizershrinker.utils.Picker
 import ru.tech.imageresizershrinker.utils.Screen
@@ -117,11 +114,12 @@ fun PickColorFromImageScreen(
     onGoBack: () -> Unit,
     viewModel: PickColorViewModel = viewModel()
 ) {
+    val settingsState = LocalSettingsState.current
     val navController = LocalNavController.current
     val context = LocalContext.current
     val toastHostState = LocalToastHost.current
     val themeState = LocalDynamicThemeState.current
-    val allowChangeColor = LocalAllowChangeColorByImage.current
+    val allowChangeColor = settingsState.allowChangeColorByImage
 
     val scope = rememberCoroutineScope()
     val confettiController = LocalConfettiController.current
@@ -264,7 +262,7 @@ fun PickColorFromImageScreen(
                         actions = {
                             if (viewModel.bitmap == null) {
                                 EmojiItem(
-                                    emoji = LocalSelectedEmoji.current,
+                                    emoji = settingsState.selectedEmoji,
                                     fontSize = MaterialTheme.typography.headlineMedium.fontSize,
                                     modifier = Modifier
                                         .padding(end = 12.dp)
@@ -327,7 +325,7 @@ fun PickColorFromImageScreen(
                                                         }
                                                         .background(MaterialTheme.colorScheme.secondaryContainer)
                                                         .border(
-                                                            LocalBorderWidth.current,
+                                                            settingsState.borderWidth,
                                                             MaterialTheme.colorScheme.outlineVariant(
                                                                 onTopOf = MaterialTheme.colorScheme.secondaryContainer
                                                             ),
@@ -360,7 +358,7 @@ fun PickColorFromImageScreen(
                                                         .height(40.dp)
                                                         .width(72.dp)
                                                         .border(
-                                                            width = LocalBorderWidth.current,
+                                                            width = settingsState.borderWidth,
                                                             color = MaterialTheme.colorScheme.outlineVariant(
                                                                 onTopOf = animateColorAsState(color).value
                                                             ),
@@ -452,7 +450,7 @@ fun PickColorFromImageScreen(
                                                     }
                                                     .background(MaterialTheme.colorScheme.secondaryContainer)
                                                     .border(
-                                                        LocalBorderWidth.current,
+                                                        settingsState.borderWidth,
                                                         MaterialTheme.colorScheme.outlineVariant(
                                                             onTopOf = MaterialTheme.colorScheme.secondaryContainer
                                                         ),
@@ -482,7 +480,7 @@ fun PickColorFromImageScreen(
                                                     .height(40.dp)
                                                     .width(72.dp)
                                                     .border(
-                                                        width = LocalBorderWidth.current,
+                                                        width = settingsState.borderWidth,
                                                         color = MaterialTheme.colorScheme.outlineVariant(
                                                             onTopOf = animateColorAsState(color).value
                                                         ),
@@ -562,7 +560,7 @@ fun PickColorFromImageScreen(
                             Box(
                                 Modifier
                                     .fillMaxHeight()
-                                    .width(LocalBorderWidth.current.coerceAtLeast(0.25.dp))
+                                    .width(settingsState.borderWidth.coerceAtLeast(0.25.dp))
                                     .background(MaterialTheme.colorScheme.surfaceVariant)
                             )
                             Column(
@@ -620,7 +618,7 @@ fun PickColorFromImageScreen(
                 modifier = Modifier
                     .navigationBarsPadding()
                     .padding(16.dp)
-                    .align(LocalAlignment.current)
+                    .align(settingsState.fabAlignment)
                     .fabBorder(),
                 elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
                 text = {

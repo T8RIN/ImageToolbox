@@ -30,8 +30,8 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.R
-import ru.tech.imageresizershrinker.main_screen.components.LocalBorderWidth
 import ru.tech.imageresizershrinker.theme.outlineVariant
+import ru.tech.imageresizershrinker.utils.LocalSettingsState
 import ru.tech.imageresizershrinker.utils.modifier.block
 
 @Composable
@@ -42,9 +42,10 @@ fun ImageTransformBar(
     onFlip: () -> Unit,
     onRotateRight: () -> Unit,
 ) {
+    val settingsState = LocalSettingsState.current
     val colors = IconButtonDefaults.filledTonalIconButtonColors()
     val border = BorderStroke(
-        LocalBorderWidth.current,
+        settingsState.borderWidth,
         MaterialTheme.colorScheme.outlineVariant()
     )
 
@@ -124,9 +125,10 @@ fun ImageTransformBar(
     onFlip: () -> Unit,
     onRotateRight: () -> Unit,
 ) {
+    val settingsState = LocalSettingsState.current
     val colors = IconButtonDefaults.filledTonalIconButtonColors()
     val border = BorderStroke(
-        LocalBorderWidth.current,
+        settingsState.borderWidth,
         MaterialTheme.colorScheme.outlineVariant()
     )
 

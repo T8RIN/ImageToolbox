@@ -14,12 +14,17 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import ru.tech.imageresizershrinker.R
-import ru.tech.imageresizershrinker.main_screen.components.LocalBorderWidth
 import ru.tech.imageresizershrinker.theme.outlineVariant
+import ru.tech.imageresizershrinker.utils.LocalSettingsState
 import ru.tech.imageresizershrinker.utils.modifier.alertDialog
 
 @Composable
-fun ExitWithoutSavingDialog(onExit: () -> Unit, onDismiss: () -> Unit, visible: Boolean) {
+fun ExitWithoutSavingDialog(
+    onExit: () -> Unit, 
+    onDismiss: () -> Unit,
+    visible: Boolean
+) {
+    val settingsState = LocalSettingsState.current
     if (visible) {
         AlertDialog(
             modifier = Modifier.alertDialog(),
@@ -31,7 +36,7 @@ fun ExitWithoutSavingDialog(onExit: () -> Unit, onDismiss: () -> Unit, visible: 
                         contentColor = MaterialTheme.colorScheme.onSecondaryContainer,
                     ),
                     border = BorderStroke(
-                        LocalBorderWidth.current,
+                        settingsState.borderWidth,
                         MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.secondaryContainer)
                     ),
                     onClick = {
@@ -50,7 +55,7 @@ fun ExitWithoutSavingDialog(onExit: () -> Unit, onDismiss: () -> Unit, visible: 
                         contentColor = MaterialTheme.colorScheme.onPrimary
                     ),
                     border = BorderStroke(
-                        LocalBorderWidth.current,
+                        settingsState.borderWidth,
                         MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.primary)
                     )
                 ) {

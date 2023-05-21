@@ -95,11 +95,7 @@ import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.batch_resize_screen.components.PickImageFromUrisSheet
 import ru.tech.imageresizershrinker.batch_resize_screen.components.SaveExifWidget
 import ru.tech.imageresizershrinker.batch_resize_screen.viewModel.BatchResizeViewModel
-import ru.tech.imageresizershrinker.main_screen.components.LocalAlignment
-import ru.tech.imageresizershrinker.main_screen.components.LocalAllowChangeColorByImage
-import ru.tech.imageresizershrinker.main_screen.components.LocalBorderWidth
 import ru.tech.imageresizershrinker.main_screen.components.LocalConfettiController
-import ru.tech.imageresizershrinker.main_screen.components.LocalSelectedEmoji
 import ru.tech.imageresizershrinker.single_resize_screen.components.BadImageWidget
 import ru.tech.imageresizershrinker.single_resize_screen.components.ExitWithoutSavingDialog
 import ru.tech.imageresizershrinker.single_resize_screen.components.ExtensionGroup
@@ -125,6 +121,7 @@ import ru.tech.imageresizershrinker.utils.BitmapUtils.shareBitmaps
 import ru.tech.imageresizershrinker.utils.BitmapUtils.with
 import ru.tech.imageresizershrinker.utils.ContextUtils.requestStoragePermission
 import ru.tech.imageresizershrinker.utils.LocalFileController
+import ru.tech.imageresizershrinker.utils.LocalSettingsState
 import ru.tech.imageresizershrinker.utils.LocalWindowSizeClass
 import ru.tech.imageresizershrinker.utils.Picker
 import ru.tech.imageresizershrinker.utils.localImagePickerMode
@@ -148,7 +145,9 @@ fun BatchResizeScreen(
     val context = LocalContext.current as ComponentActivity
     val toastHostState = LocalToastHost.current
     val themeState = LocalDynamicThemeState.current
-    val allowChangeColor = LocalAllowChangeColorByImage.current
+
+    val settingsState = LocalSettingsState.current
+    val allowChangeColor = settingsState.allowChangeColorByImage
 
     val scope = rememberCoroutineScope()
     val confettiController = LocalConfettiController.current
@@ -288,7 +287,7 @@ fun BatchResizeScreen(
                                 }
                             },
                             border = BorderStroke(
-                                LocalBorderWidth.current,
+                                settingsState.borderWidth,
                                 MaterialTheme.colorScheme.outlineVariant(
                                     0.1f,
                                     MaterialTheme.colorScheme.surfaceColorAtElevation(1.dp)
@@ -582,7 +581,7 @@ fun BatchResizeScreen(
                     actions = {
                         if (viewModel.bitmap == null) {
                             EmojiItem(
-                                emoji = LocalSelectedEmoji.current,
+                                emoji = settingsState.selectedEmoji,
                                 fontSize = MaterialTheme.typography.headlineMedium.fontSize,
                                 modifier = Modifier
                                     .padding(end = 12.dp)
@@ -714,7 +713,7 @@ fun BatchResizeScreen(
                         Box(
                             Modifier
                                 .fillMaxHeight()
-                                .width(LocalBorderWidth.current.coerceAtLeast(0.25.dp))
+                                .width(settingsState.borderWidth.coerceAtLeast(0.25.dp))
                                 .background(MaterialTheme.colorScheme.surfaceVariant)
                         )
                     }
@@ -808,7 +807,7 @@ fun BatchResizeScreen(
                         Box(
                             Modifier
                                 .fillMaxHeight()
-                                .width(LocalBorderWidth.current.coerceAtLeast(0.25.dp))
+                                .width(settingsState.borderWidth.coerceAtLeast(0.25.dp))
                                 .background(MaterialTheme.colorScheme.surfaceVariant)
                                 .padding(start = 20.dp)
                         )
@@ -819,7 +818,7 @@ fun BatchResizeScreen(
 
             if (imageInside || viewModel.bitmap == null) {
                 Box(
-                    modifier = Modifier.align(LocalAlignment.current)
+                    modifier = Modifier.align(settingsState.fabAlignment)
                 ) {
                     buttons()
                 }
@@ -841,7 +840,7 @@ fun BatchResizeScreen(
                                 contentColor = MaterialTheme.colorScheme.onPrimary,
                             ),
                             border = BorderStroke(
-                                LocalBorderWidth.current,
+                                settingsState.borderWidth,
                                 MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.primary)
                             ),
                             onClick = { showResetDialog = false }
@@ -856,7 +855,7 @@ fun BatchResizeScreen(
                                 contentColor = MaterialTheme.colorScheme.onSecondaryContainer,
                             ),
                             border = BorderStroke(
-                                LocalBorderWidth.current,
+                                settingsState.borderWidth,
                                 MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.secondaryContainer)
                             ),
                             onClick = {
