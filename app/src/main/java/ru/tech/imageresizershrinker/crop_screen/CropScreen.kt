@@ -96,8 +96,8 @@ import ru.tech.imageresizershrinker.generate_palette_screen.isScrollingUp
 import ru.tech.imageresizershrinker.main_screen.components.LocalAlignment
 import ru.tech.imageresizershrinker.main_screen.components.LocalAllowChangeColorByImage
 import ru.tech.imageresizershrinker.main_screen.components.LocalBorderWidth
+import ru.tech.imageresizershrinker.main_screen.components.LocalConfettiController
 import ru.tech.imageresizershrinker.main_screen.components.LocalSelectedEmoji
-import ru.tech.imageresizershrinker.single_resize_screen.components.BitmapInfo
 import ru.tech.imageresizershrinker.single_resize_screen.components.ExitWithoutSavingDialog
 import ru.tech.imageresizershrinker.single_resize_screen.components.ImageNotPickedWidget
 import ru.tech.imageresizershrinker.single_resize_screen.components.LoadingDialog
@@ -105,11 +105,10 @@ import ru.tech.imageresizershrinker.theme.EmojiItem
 import ru.tech.imageresizershrinker.theme.outlineVariant
 import ru.tech.imageresizershrinker.utils.BitmapUtils.decodeBitmapFromUri
 import ru.tech.imageresizershrinker.utils.BitmapUtils.shareBitmap
-import ru.tech.imageresizershrinker.utils.ContextUtils.isExternalStorageWritable
 import ru.tech.imageresizershrinker.utils.ContextUtils.requestStoragePermission
+import ru.tech.imageresizershrinker.utils.LocalFileController
 import ru.tech.imageresizershrinker.utils.LocalWindowSizeClass
 import ru.tech.imageresizershrinker.utils.Picker
-import ru.tech.imageresizershrinker.utils.SavingFolder
 import ru.tech.imageresizershrinker.utils.localImagePickerMode
 import ru.tech.imageresizershrinker.utils.modifier.drawHorizontalStroke
 import ru.tech.imageresizershrinker.utils.modifier.fabBorder
@@ -124,16 +123,20 @@ import ru.tech.imageresizershrinker.widget.Marquee
 fun CropScreen(
     uriState: Uri?,
     onGoBack: () -> Unit,
-    getSavingFolder: (bitmapInfo: BitmapInfo) -> SavingFolder,
-    savingPathString: String,
-    showConfetti: () -> Unit,
     viewModel: CropViewModel = viewModel()
 ) {
     val context = LocalContext.current as ComponentActivity
     val toastHostState = LocalToastHost.current
-    val scope = rememberCoroutineScope()
     val themeState = LocalDynamicThemeState.current
     val allowChangeColor = LocalAllowChangeColorByImage.current
+
+    val scope = rememberCoroutineScope()
+    val confettiController = LocalConfettiController.current
+    val showConfetti: () -> Unit = {
+        scope.launch {
+            confettiController.showEmpty()
+        }
+    }
 
     var showExitDialog by rememberSaveable { mutableStateOf(false) }
 
@@ -202,12 +205,13 @@ fun CropScreen(
     }
 
     var showSaveLoading by rememberSaveable { mutableStateOf(false) }
+
+    val fileController = LocalFileController.current
     val saveBitmap: (Bitmap) -> Unit = {
         showSaveLoading = true
         viewModel.saveBitmap(
             bitmap = it,
-            isExternalStorageWritable = context.isExternalStorageWritable(),
-            getSavingFolder = getSavingFolder
+            fileController = fileController,
         ) { success ->
             if (!success) context.requestStoragePermission()
             else {
@@ -215,7 +219,7 @@ fun CropScreen(
                     toastHostState.showToast(
                         context.getString(
                             R.string.saved_to,
-                            savingPathString
+                            fileController.savingPath
                         ),
                         Icons.Rounded.Save
                     )

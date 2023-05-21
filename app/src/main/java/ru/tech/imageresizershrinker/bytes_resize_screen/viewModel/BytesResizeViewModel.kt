@@ -3,7 +3,6 @@ package ru.tech.imageresizershrinker.bytes_resize_screen.viewModel
 import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Build
-import android.os.ParcelFileDescriptor
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -24,7 +23,7 @@ import ru.tech.imageresizershrinker.utils.BitmapUtils.copyTo
 import ru.tech.imageresizershrinker.utils.BitmapUtils.previewBitmap
 import ru.tech.imageresizershrinker.utils.BitmapUtils.resizeBitmap
 import ru.tech.imageresizershrinker.utils.BitmapUtils.scaleByMaxBytes
-import ru.tech.imageresizershrinker.utils.SavingFolder
+import ru.tech.imageresizershrinker.utils.FileController
 
 class BytesResizeViewModel : ViewModel() {
 
@@ -182,18 +181,15 @@ class BytesResizeViewModel : ViewModel() {
         _keepExif.value = boolean
     }
 
-    fun save(
-        isExternalStorageWritable: Boolean,
-        getSavingFolder: (bitmapInfo: BitmapInfo) -> SavingFolder,
-        getFileDescriptor: (Uri?) -> ParcelFileDescriptor?,
+    fun saveBitmaps(
+        fileController: FileController,
         getBitmap: suspend (Uri) -> Pair<Bitmap?, ExifInterface?>,
-        getImageSize: (Uri) -> Long?,
-        onSuccess: (Int) -> Unit
+        onResult: (Int) -> Unit
     ) = viewModelScope.launch {
         withContext(Dispatchers.IO) {
             var failed = 0
-            if (!isExternalStorageWritable) {
-                onSuccess(-1)
+            if (!fileController.isExternalStorageWritable()) {
+                onResult(-1)
             } else {
                 _done.value = 0
                 uris?.forEach { uri ->
@@ -208,7 +204,7 @@ class BytesResizeViewModel : ViewModel() {
                                 )
                             } else {
                                 bitmap?.scaleByMaxBytes(
-                                    maxBytes = (getImageSize(uri) ?: 0)
+                                    maxBytes = (fileController.getSize(uri) ?: 0)
                                         .times(_presetSelected.value / 100f)
                                         .toLong(),
                                     compressFormat = mime.extension.compressFormat
@@ -218,7 +214,7 @@ class BytesResizeViewModel : ViewModel() {
                             if (result.isSuccess && result.getOrNull() != null) {
                                 val scaled = result.getOrNull()!!
                                 val localBitmap = scaled.first
-                                val savingFolder = getSavingFolder(
+                                val savingFolder = fileController.getSavingFolder(
                                     BitmapInfo(
                                         mimeTypeInt = mime.extension.mimeTypeInt,
                                         width = localBitmap.width.toString(),
@@ -239,7 +235,8 @@ class BytesResizeViewModel : ViewModel() {
 
                                 if (keepExif) {
                                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                                        val fd = getFileDescriptor(savingFolder.fileUri)
+                                        val fd =
+                                            fileController.getFileDescriptorFor(savingFolder.fileUri)
                                         fd?.fileDescriptor?.let {
                                             val ex = ExifInterface(it)
                                             exif?.copyTo(ex)
@@ -258,7 +255,7 @@ class BytesResizeViewModel : ViewModel() {
                     }
                     _done.value += 1
                 }
-                onSuccess(failed)
+                onResult(failed)
             }
         }
     }

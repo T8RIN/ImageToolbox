@@ -2,9 +2,7 @@ package ru.tech.imageresizershrinker.single_resize_screen.viewModel
 
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-import android.net.Uri
 import android.os.Build
-import android.os.ParcelFileDescriptor
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -27,7 +25,7 @@ import ru.tech.imageresizershrinker.utils.BitmapUtils.previewBitmap
 import ru.tech.imageresizershrinker.utils.BitmapUtils.resizeBitmap
 import ru.tech.imageresizershrinker.utils.BitmapUtils.rotate
 import ru.tech.imageresizershrinker.utils.BitmapUtils.scaleUntilCanShow
-import ru.tech.imageresizershrinker.utils.SavingFolder
+import ru.tech.imageresizershrinker.utils.FileController
 import java.io.ByteArrayInputStream
 import java.io.ByteArrayOutputStream
 
@@ -89,17 +87,14 @@ class SingleResizeViewModel : ViewModel() {
     }
 
     fun saveBitmap(
-        bitmap: Bitmap? = _bitmap.value,
-        isExternalStorageWritable: Boolean,
-        getSavingFolder: (bitmapInfo: BitmapInfo) -> SavingFolder,
-        getFileDescriptor: (Uri?) -> ParcelFileDescriptor?,
-        onSuccess: (Boolean) -> Unit
+        fileController: FileController,
+        onComplete: (success: Boolean) -> Unit
     ) = viewModelScope.launch {
         withContext(Dispatchers.IO) {
             bitmap?.let { bitmap ->
                 bitmapInfo.apply {
-                    if (!isExternalStorageWritable) {
-                        onSuccess(false)
+                    if (!fileController.isExternalStorageWritable()) {
+                        onComplete(false)
                     } else {
                         val tWidth = width.toIntOrNull() ?: bitmap.width
                         val tHeight = height.toIntOrNull() ?: bitmap.height
@@ -110,7 +105,7 @@ class SingleResizeViewModel : ViewModel() {
                                 .resizeBitmap(tWidth, tHeight, resizeType)
                                 .flip(isFlipped)
 
-                        val savingFolder = getSavingFolder(bitmapInfo)
+                        val savingFolder = fileController.getSavingFolder(bitmapInfo)
 
                         val fos = savingFolder.outputStream
                         localBitmap.compress(
@@ -134,7 +129,7 @@ class SingleResizeViewModel : ViewModel() {
                         fos.close()
 
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                            val fd = getFileDescriptor(savingFolder.fileUri)
+                            val fd = fileController.getFileDescriptorFor(savingFolder.fileUri)
                             fd?.fileDescriptor?.let {
                                 val ex = ExifInterface(it)
                                 exif?.copyTo(ex)
@@ -153,7 +148,7 @@ class SingleResizeViewModel : ViewModel() {
                             isFlipped = false,
                             rotationDegrees = 0f
                         )
-                        onSuccess(true)
+                        onComplete(true)
                     }
                 }
             }

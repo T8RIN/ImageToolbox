@@ -102,8 +102,6 @@ import ru.tech.imageresizershrinker.widget.Picture
 import kotlin.math.roundToInt
 
 fun LazyListScope.SettingsBlock(
-    currentFolderUri: Uri?,
-    onGetNewFolder: (Uri?) -> Unit,
     onEditPresets: () -> Unit,
     onEditArrangement: () -> Unit,
     onEditFilename: () -> Unit,
@@ -113,6 +111,7 @@ fun LazyListScope.SettingsBlock(
     viewModel: MainViewModel
 ) {
     item {
+        val currentFolderUri = viewModel.saveFolderUri
         val toastHost = LocalToastHost.current
         val scope = rememberCoroutineScope()
         val context = LocalContext.current
@@ -516,7 +515,12 @@ fun LazyListScope.SettingsBlock(
                 },
                 onResult = { uri ->
                     uri?.let {
-                        onGetNewFolder(uri)
+                        viewModel.updateSaveFolderUri(it)
+                        context.contentResolver.takePersistableUriPermission(
+                            it,
+                            Intent.FLAG_GRANT_READ_URI_PERMISSION or
+                                    Intent.FLAG_GRANT_WRITE_URI_PERMISSION
+                        )
                     }
                 }
             )
@@ -525,7 +529,7 @@ fun LazyListScope.SettingsBlock(
                 text = stringResource(R.string.folder),
             )
             PreferenceItem(
-                onClick = { onGetNewFolder(null) },
+                onClick = { viewModel.updateSaveFolderUri(null) },
                 title = stringResource(R.string.def),
                 subtitle = stringResource(R.string.default_folder),
                 color = MaterialTheme.colorScheme.secondaryContainer.copy(

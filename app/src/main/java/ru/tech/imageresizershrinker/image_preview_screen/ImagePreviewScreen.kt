@@ -95,6 +95,7 @@ import ru.tech.imageresizershrinker.main_screen.components.LocalAlignment
 import ru.tech.imageresizershrinker.main_screen.components.LocalAllowChangeColorByImage
 import ru.tech.imageresizershrinker.main_screen.components.LocalAppColorTuple
 import ru.tech.imageresizershrinker.main_screen.components.LocalBorderWidth
+import ru.tech.imageresizershrinker.main_screen.components.LocalConfettiController
 import ru.tech.imageresizershrinker.main_screen.components.LocalDynamicColors
 import ru.tech.imageresizershrinker.main_screen.components.LocalNightMode
 import ru.tech.imageresizershrinker.main_screen.components.LocalSelectedEmoji
@@ -124,13 +125,20 @@ import ru.tech.imageresizershrinker.widget.Picture
 fun ImagePreviewScreen(
     uriState: List<Uri>?,
     onGoBack: () -> Unit,
-    showConfetti: () -> Unit,
     viewModel: ImagePreviewViewModel = viewModel()
 ) {
     val navController = LocalNavController.current
     val context = LocalContext.current as ComponentActivity
     val themeState = LocalDynamicThemeState.current
     val allowChangeColor = LocalAllowChangeColorByImage.current
+
+    val scope = rememberCoroutineScope()
+    val confettiController = LocalConfettiController.current
+    val showConfetti: () -> Unit = {
+        scope.launch {
+            confettiController.showEmpty()
+        }
+    }
 
     val appColorTuple = getAppColorTuple(
         defaultColorTuple = LocalAppColorTuple.current,
@@ -516,7 +524,6 @@ fun ImagePreviewScreen(
                 }
             },
             sheetContent = {
-                val scope = rememberCoroutineScope()
                 val navigate: (Screen) -> Unit = { screen ->
                     scope.launch {
                         wantToEdit.value = false

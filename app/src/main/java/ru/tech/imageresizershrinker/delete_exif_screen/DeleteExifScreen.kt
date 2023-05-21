@@ -85,6 +85,7 @@ import ru.tech.imageresizershrinker.delete_exif_screen.viewModel.DeleteExifViewM
 import ru.tech.imageresizershrinker.main_screen.components.LocalAlignment
 import ru.tech.imageresizershrinker.main_screen.components.LocalAllowChangeColorByImage
 import ru.tech.imageresizershrinker.main_screen.components.LocalBorderWidth
+import ru.tech.imageresizershrinker.main_screen.components.LocalConfettiController
 import ru.tech.imageresizershrinker.main_screen.components.LocalSelectedEmoji
 import ru.tech.imageresizershrinker.single_resize_screen.components.BitmapInfo
 import ru.tech.imageresizershrinker.single_resize_screen.components.ExitWithoutSavingDialog
@@ -102,10 +103,9 @@ import ru.tech.imageresizershrinker.utils.BitmapUtils.fileSize
 import ru.tech.imageresizershrinker.utils.BitmapUtils.getBitmapByUri
 import ru.tech.imageresizershrinker.utils.BitmapUtils.shareBitmaps
 import ru.tech.imageresizershrinker.utils.ContextUtils.failedToSaveImages
-import ru.tech.imageresizershrinker.utils.ContextUtils.isExternalStorageWritable
+import ru.tech.imageresizershrinker.utils.LocalFileController
 import ru.tech.imageresizershrinker.utils.LocalWindowSizeClass
 import ru.tech.imageresizershrinker.utils.Picker
-import ru.tech.imageresizershrinker.utils.SavingFolder
 import ru.tech.imageresizershrinker.utils.localImagePickerMode
 import ru.tech.imageresizershrinker.utils.modifier.block
 import ru.tech.imageresizershrinker.utils.modifier.drawHorizontalStroke
@@ -121,16 +121,20 @@ import ru.tech.imageresizershrinker.widget.Marquee
 fun DeleteExifScreen(
     uriState: List<Uri>?,
     onGoBack: () -> Unit,
-    getSavingFolder: (bitmapInfo: BitmapInfo) -> SavingFolder,
-    savingPathString: String,
-    showConfetti: () -> Unit,
     viewModel: DeleteExifViewModel = viewModel()
 ) {
     val context = LocalContext.current as ComponentActivity
     val toastHostState = LocalToastHost.current
-    val scope = rememberCoroutineScope()
     val themeState = LocalDynamicThemeState.current
     val allowChangeColor = LocalAllowChangeColorByImage.current
+
+    val scope = rememberCoroutineScope()
+    val confettiController = LocalConfettiController.current
+    val showConfetti: () -> Unit = {
+        scope.launch {
+            confettiController.showEmpty()
+        }
+    }
 
     LaunchedEffect(uriState) {
         uriState?.takeIf { it.isNotEmpty() }?.let { uris ->
@@ -193,11 +197,11 @@ fun DeleteExifScreen(
     var showSaveLoading by rememberSaveable { mutableStateOf(false) }
     var showExitDialog by rememberSaveable { mutableStateOf(false) }
 
+    val fileController = LocalFileController.current
     val saveBitmaps: () -> Unit = {
         showSaveLoading = true
-        viewModel.save(
-            isExternalStorageWritable = context.isExternalStorageWritable(),
-            getSavingFolder = getSavingFolder,
+        viewModel.saveBitmaps(
+            fileController = fileController,
             getBitmap = { uri ->
                 context.decodeBitmapFromUriWithMime(uri)
             },
@@ -207,7 +211,7 @@ fun DeleteExifScreen(
                 failed = failed,
                 done = viewModel.done,
                 toastHostState = toastHostState,
-                savingPathString = savingPathString,
+                savingPathString = fileController.savingPath,
                 showConfetti = showConfetti
             )
             showSaveLoading = false
@@ -464,8 +468,8 @@ fun DeleteExifScreen(
                                     context.shareBitmaps(
                                         uris = viewModel.uris ?: emptyList(),
                                         scope = viewModel.viewModelScope,
-                                        bitmapLoader = {
-                                            context.decodeBitmapFromUriWithMime(it)
+                                        bitmapLoader = { uri ->
+                                            context.decodeBitmapFromUriWithMime(uri)
                                                 .takeIf { it.first != null }?.let {
                                                     it.first!! to BitmapInfo(
                                                         mimeTypeInt = it.third,

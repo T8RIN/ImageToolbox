@@ -28,12 +28,12 @@ import ru.tech.imageresizershrinker.theme.harmonizeWithPrimary
 import ru.tech.imageresizershrinker.theme.outlineVariant
 import kotlin.coroutines.resume
 
-@OptIn(ExperimentalAnimationApi::class)
 @Composable
 fun ToastHost(
     hostState: ToastHostState,
     @SuppressLint("ModifierParameter") modifier: Modifier = Modifier.fillMaxSize(),
     alignment: Alignment = Alignment.BottomCenter,
+    transitionSpec: AnimatedContentTransitionScope<ToastData?>.() -> ContentTransform = { ToastDefaults.transition },
     toast: @Composable (ToastData) -> Unit = { Toast(it) }
 ) {
     val currentToastData = hostState.currentToastData
@@ -49,7 +49,7 @@ fun ToastHost(
     AnimatedContent(
         modifier = Modifier.zIndex(100f),
         targetState = currentToastData,
-        transitionSpec = { ToastDefaults.transition }
+        transitionSpec = transitionSpec
     ) {
         Box(modifier = modifier) {
             Box(modifier = Modifier.align(alignment)) {
@@ -130,6 +130,9 @@ class ToastHostState {
         duration: ToastDuration = ToastDuration.Short
     ) = showToast(ToastVisualsImpl(message, icon, duration))
 
+    suspend fun showEmpty(
+        duration: ToastDuration = ToastDuration(4500L)
+    ) = showToast(message = "", duration = duration)
 
     @ExperimentalMaterial3Api
     suspend fun showToast(visuals: ToastVisuals) = mutex.withLock {
@@ -211,10 +214,12 @@ interface ToastVisuals {
     val duration: ToastDuration
 }
 
-enum class ToastDuration { Short, Long }
+open class ToastDuration(val time: kotlin.Long) {
+    object Short : ToastDuration(3500L)
+    object Long : ToastDuration(6500L)
+}
 
 object ToastDefaults {
-    @OptIn(ExperimentalAnimationApi::class)
     val transition: ContentTransform
         get() = fadeIn(tween(300)) + scaleIn(
             tween(500),
@@ -233,10 +238,7 @@ object ToastDefaults {
 private fun ToastDuration.toMillis(
     accessibilityManager: AccessibilityManager?
 ): Long {
-    val original = when (this) {
-        ToastDuration.Long -> 6500L
-        ToastDuration.Short -> 3500L
-    }
+    val original = this.time
     return accessibilityManager?.calculateRecommendedTimeoutMillis(
         original,
         containsIcons = true,

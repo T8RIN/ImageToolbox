@@ -76,6 +76,7 @@ import ru.tech.imageresizershrinker.compare_screen.viewModel.CompareViewModel
 import ru.tech.imageresizershrinker.main_screen.components.LocalAlignment
 import ru.tech.imageresizershrinker.main_screen.components.LocalAllowChangeColorByImage
 import ru.tech.imageresizershrinker.main_screen.components.LocalBorderWidth
+import ru.tech.imageresizershrinker.main_screen.components.LocalConfettiController
 import ru.tech.imageresizershrinker.main_screen.components.LocalSelectedEmoji
 import ru.tech.imageresizershrinker.single_resize_screen.components.ImageNotPickedWidget
 import ru.tech.imageresizershrinker.single_resize_screen.components.LoadingDialog
@@ -100,14 +101,20 @@ import ru.tech.imageresizershrinker.widget.Marquee
 fun CompareScreen(
     comparableUris: Pair<Uri, Uri>?,
     onGoBack: () -> Unit,
-    showConfetti: () -> Unit,
     viewModel: CompareViewModel = viewModel()
 ) {
     val context = LocalContext.current
     val toastHostState = LocalToastHost.current
-    val scope = rememberCoroutineScope()
     val themeState = LocalDynamicThemeState.current
     val allowChangeColor = LocalAllowChangeColorByImage.current
+
+    val scope = rememberCoroutineScope()
+    val confettiController = LocalConfettiController.current
+    val showConfetti: () -> Unit = {
+        scope.launch {
+            confettiController.showEmpty()
+        }
+    }
 
     var progress by rememberSaveable { mutableStateOf(50f) }
 

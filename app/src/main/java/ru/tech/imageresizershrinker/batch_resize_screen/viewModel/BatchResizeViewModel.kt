@@ -3,7 +3,6 @@ package ru.tech.imageresizershrinker.batch_resize_screen.viewModel
 import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Build
-import android.os.ParcelFileDescriptor
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -25,7 +24,7 @@ import ru.tech.imageresizershrinker.utils.BitmapUtils.previewBitmap
 import ru.tech.imageresizershrinker.utils.BitmapUtils.resizeBitmap
 import ru.tech.imageresizershrinker.utils.BitmapUtils.rotate
 import ru.tech.imageresizershrinker.utils.BitmapUtils.scaleUntilCanShow
-import ru.tech.imageresizershrinker.utils.SavingFolder
+import ru.tech.imageresizershrinker.utils.FileController
 
 class BatchResizeViewModel : ViewModel() {
 
@@ -270,17 +269,15 @@ class BatchResizeViewModel : ViewModel() {
         _keepExif.value = boolean
     }
 
-    fun save(
-        isExternalStorageWritable: Boolean,
-        getSavingFolder: (bitmapInfo: BitmapInfo) -> SavingFolder,
-        getFileDescriptor: (Uri?) -> ParcelFileDescriptor?,
+    fun saveBitamps(
+        fileController: FileController,
         getBitmap: suspend (Uri) -> Pair<Bitmap?, ExifInterface?>,
-        onSuccess: (Boolean) -> Unit
+        onComplete: (success: Boolean) -> Unit
     ) = viewModelScope.launch {
         withContext(Dispatchers.IO) {
             bitmapInfo.apply {
-                if (!isExternalStorageWritable) {
-                    onSuccess(false)
+                if (!fileController.isExternalStorageWritable()) {
+                    onComplete(false)
                 } else {
                     _done.value = 0
                     uris?.forEach { uri ->
@@ -293,7 +290,7 @@ class BatchResizeViewModel : ViewModel() {
                             val localBitmap = bitmap!!.rotate(rotationDegrees)
                                 .resizeBitmap(tWidth, tHeight, resizeType)
                                 .flip(isFlipped)
-                            val savingFolder = getSavingFolder(bitmapInfo)
+                            val savingFolder = fileController.getSavingFolder(bitmapInfo)
 
                             val fos = savingFolder.outputStream
 
@@ -308,7 +305,8 @@ class BatchResizeViewModel : ViewModel() {
 
                             if (keepExif) {
                                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                                    val fd = getFileDescriptor(savingFolder.fileUri)
+                                    val fd =
+                                        fileController.getFileDescriptorFor(savingFolder.fileUri)
                                     fd?.fileDescriptor?.let {
                                         val ex = ExifInterface(it)
                                         exif?.copyTo(ex)
@@ -326,7 +324,7 @@ class BatchResizeViewModel : ViewModel() {
                         }
                         _done.value += 1
                     }
-                    onSuccess(true)
+                    onComplete(true)
                 }
             }
         }

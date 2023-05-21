@@ -98,9 +98,9 @@ import ru.tech.imageresizershrinker.batch_resize_screen.viewModel.BatchResizeVie
 import ru.tech.imageresizershrinker.main_screen.components.LocalAlignment
 import ru.tech.imageresizershrinker.main_screen.components.LocalAllowChangeColorByImage
 import ru.tech.imageresizershrinker.main_screen.components.LocalBorderWidth
+import ru.tech.imageresizershrinker.main_screen.components.LocalConfettiController
 import ru.tech.imageresizershrinker.main_screen.components.LocalSelectedEmoji
 import ru.tech.imageresizershrinker.single_resize_screen.components.BadImageWidget
-import ru.tech.imageresizershrinker.single_resize_screen.components.BitmapInfo
 import ru.tech.imageresizershrinker.single_resize_screen.components.ExitWithoutSavingDialog
 import ru.tech.imageresizershrinker.single_resize_screen.components.ExtensionGroup
 import ru.tech.imageresizershrinker.single_resize_screen.components.ImageNotPickedWidget
@@ -123,11 +123,10 @@ import ru.tech.imageresizershrinker.utils.BitmapUtils.decodeBitmapFromUri
 import ru.tech.imageresizershrinker.utils.BitmapUtils.getBitmapByUri
 import ru.tech.imageresizershrinker.utils.BitmapUtils.shareBitmaps
 import ru.tech.imageresizershrinker.utils.BitmapUtils.with
-import ru.tech.imageresizershrinker.utils.ContextUtils.isExternalStorageWritable
 import ru.tech.imageresizershrinker.utils.ContextUtils.requestStoragePermission
+import ru.tech.imageresizershrinker.utils.LocalFileController
 import ru.tech.imageresizershrinker.utils.LocalWindowSizeClass
 import ru.tech.imageresizershrinker.utils.Picker
-import ru.tech.imageresizershrinker.utils.SavingFolder
 import ru.tech.imageresizershrinker.utils.localImagePickerMode
 import ru.tech.imageresizershrinker.utils.modifier.alertDialog
 import ru.tech.imageresizershrinker.utils.modifier.block
@@ -144,16 +143,20 @@ import ru.tech.imageresizershrinker.widget.Marquee
 fun BatchResizeScreen(
     uriState: List<Uri>?,
     onGoBack: () -> Unit,
-    getSavingFolder: (bitmapInfo: BitmapInfo) -> SavingFolder,
-    savingPathString: String,
-    showConfetti: () -> Unit,
     viewModel: BatchResizeViewModel = viewModel()
 ) {
     val context = LocalContext.current as ComponentActivity
     val toastHostState = LocalToastHost.current
-    val scope = rememberCoroutineScope()
     val themeState = LocalDynamicThemeState.current
     val allowChangeColor = LocalAllowChangeColorByImage.current
+
+    val scope = rememberCoroutineScope()
+    val confettiController = LocalConfettiController.current
+    val showConfetti: () -> Unit = {
+        scope.launch {
+            confettiController.showEmpty()
+        }
+    }
 
     LaunchedEffect(uriState) {
         uriState?.takeIf { it.isNotEmpty() }?.let {
@@ -213,15 +216,12 @@ fun BatchResizeScreen(
         pickImageLauncher.pickImage()
     }
 
+    val fileController = LocalFileController.current
     var showSaveLoading by rememberSaveable { mutableStateOf(false) }
     val saveBitmaps: () -> Unit = {
         showSaveLoading = true
-        viewModel.save(
-            isExternalStorageWritable = context.isExternalStorageWritable(),
-            getSavingFolder = getSavingFolder,
-            getFileDescriptor = { uri ->
-                uri?.let { context.contentResolver.openFileDescriptor(uri, "rw", null) }
-            },
+        viewModel.saveBitamps(
+            fileController = fileController,
             getBitmap = { uri ->
                 context.decodeBitmapFromUri(uri)
             }
@@ -232,7 +232,7 @@ fun BatchResizeScreen(
                     toastHostState.showToast(
                         context.getString(
                             R.string.saved_to,
-                            savingPathString
+                            fileController.savingPath
                         ),
                         Icons.Rounded.Save
                     )

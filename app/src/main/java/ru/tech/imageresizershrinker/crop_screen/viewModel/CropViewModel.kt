@@ -21,7 +21,7 @@ import ru.tech.imageresizershrinker.single_resize_screen.components.extension
 import ru.tech.imageresizershrinker.single_resize_screen.components.mimeTypeInt
 import ru.tech.imageresizershrinker.utils.BitmapUtils.canShow
 import ru.tech.imageresizershrinker.utils.BitmapUtils.resizeBitmap
-import ru.tech.imageresizershrinker.utils.SavingFolder
+import ru.tech.imageresizershrinker.utils.FileController
 import java.io.ByteArrayInputStream
 import java.io.ByteArrayOutputStream
 
@@ -87,18 +87,17 @@ class CropViewModel : ViewModel() {
 
     fun saveBitmap(
         bitmap: Bitmap? = _bitmap.value,
-        isExternalStorageWritable: Boolean,
-        getSavingFolder: (bitmapInfo: BitmapInfo) -> SavingFolder,
-        onSuccess: (Boolean) -> Unit
+        fileController: FileController,
+        onComplete: (success: Boolean) -> Unit
     ) = viewModelScope.launch {
         withContext(Dispatchers.IO) {
             bitmap?.let { bitmap ->
-                if (!isExternalStorageWritable) {
-                    onSuccess(false)
+                if (!fileController.isExternalStorageWritable()) {
+                    onComplete(false)
                 } else {
                     val localBitmap = bitmap
 
-                    val savingFolder = getSavingFolder(
+                    val savingFolder = fileController.getSavingFolder(
                         BitmapInfo(
                             mimeTypeInt = mimeType.extension.mimeTypeInt,
                             width = localBitmap.width.toString(),
@@ -120,7 +119,7 @@ class CropViewModel : ViewModel() {
                     fos.close()
 
                     _bitmap.value = decoded
-                    onSuccess(true)
+                    onComplete(true)
                 }
             }
         }

@@ -75,6 +75,7 @@ import ru.tech.imageresizershrinker.generate_palette_screen.viewModel.GeneratePa
 import ru.tech.imageresizershrinker.main_screen.components.LocalAlignment
 import ru.tech.imageresizershrinker.main_screen.components.LocalAllowChangeColorByImage
 import ru.tech.imageresizershrinker.main_screen.components.LocalBorderWidth
+import ru.tech.imageresizershrinker.main_screen.components.LocalConfettiController
 import ru.tech.imageresizershrinker.main_screen.components.LocalSelectedEmoji
 import ru.tech.imageresizershrinker.pick_color_from_image_screen.copyColorIntoClipboard
 import ru.tech.imageresizershrinker.pick_color_from_image_screen.format
@@ -103,15 +104,21 @@ import ru.tech.imageresizershrinker.widget.Marquee
 fun GeneratePaletteScreen(
     uriState: Uri?,
     onGoBack: () -> Unit,
-    showConfetti: () -> Unit,
     viewModel: GeneratePaletteViewModel = viewModel()
 ) {
     val context = LocalContext.current
     val toastHostState = LocalToastHost.current
-    val scope = rememberCoroutineScope()
     val themeState = LocalDynamicThemeState.current
     val allowChangeColor = LocalAllowChangeColorByImage.current
     val navController = LocalNavController.current
+
+    val scope = rememberCoroutineScope()
+    val confettiController = LocalConfettiController.current
+    val showConfetti: () -> Unit = {
+        scope.launch {
+            confettiController.showEmpty()
+        }
+    }
 
     LaunchedEffect(uriState) {
         uriState?.let {

@@ -68,6 +68,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
@@ -81,10 +82,8 @@ import dev.olshevski.navigation.reimagined.NavAction
 import dev.olshevski.navigation.reimagined.navigate
 import dev.olshevski.navigation.reimagined.pop
 import nl.dionsegijn.konfetti.compose.KonfettiView
-import nl.dionsegijn.konfetti.compose.OnParticleSystemUpdateListener
 import nl.dionsegijn.konfetti.core.Angle
 import nl.dionsegijn.konfetti.core.Party
-import nl.dionsegijn.konfetti.core.PartySystem
 import nl.dionsegijn.konfetti.core.Position
 import nl.dionsegijn.konfetti.core.Spread
 import nl.dionsegijn.konfetti.core.emitter.Emitter
@@ -109,6 +108,7 @@ import ru.tech.imageresizershrinker.main_screen.components.LocalAllowChangeColor
 import ru.tech.imageresizershrinker.main_screen.components.LocalAmoledMode
 import ru.tech.imageresizershrinker.main_screen.components.LocalAppColorTuple
 import ru.tech.imageresizershrinker.main_screen.components.LocalBorderWidth
+import ru.tech.imageresizershrinker.main_screen.components.LocalConfettiController
 import ru.tech.imageresizershrinker.main_screen.components.LocalDynamicColors
 import ru.tech.imageresizershrinker.main_screen.components.LocalEditPresets
 import ru.tech.imageresizershrinker.main_screen.components.LocalNightMode
@@ -134,8 +134,10 @@ import ru.tech.imageresizershrinker.theme.outlineVariant
 import ru.tech.imageresizershrinker.utils.APP_RELEASES
 import ru.tech.imageresizershrinker.utils.ContextUtils.needToShowStoragePermissionRequest
 import ru.tech.imageresizershrinker.utils.ContextUtils.requestStoragePermission
+import ru.tech.imageresizershrinker.utils.FileParams
 import ru.tech.imageresizershrinker.utils.IntentUtils.parcelable
 import ru.tech.imageresizershrinker.utils.IntentUtils.parcelableArrayList
+import ru.tech.imageresizershrinker.utils.LocalFileController
 import ru.tech.imageresizershrinker.utils.LocalImagePickerModeInt
 import ru.tech.imageresizershrinker.utils.LocalNavController
 import ru.tech.imageresizershrinker.utils.SavingFolder
@@ -144,12 +146,14 @@ import ru.tech.imageresizershrinker.utils.constructFilename
 import ru.tech.imageresizershrinker.utils.createPrefix
 import ru.tech.imageresizershrinker.utils.getSavingFolder
 import ru.tech.imageresizershrinker.utils.modifier.alertDialog
+import ru.tech.imageresizershrinker.utils.rememberFileController
 import ru.tech.imageresizershrinker.utils.setContentWithWindowSizeClass
 import ru.tech.imageresizershrinker.utils.toUiPath
 import ru.tech.imageresizershrinker.widget.AutoSizeText
 import ru.tech.imageresizershrinker.widget.LocalToastHost
 import ru.tech.imageresizershrinker.widget.ToastHost
 import ru.tech.imageresizershrinker.widget.activity.M3Activity
+import ru.tech.imageresizershrinker.widget.rememberToastHostState
 import java.util.concurrent.TimeUnit
 
 
@@ -167,7 +171,6 @@ class MainActivity : M3Activity() {
         parseImageFromIntent(intent)
 
         setContentWithWindowSizeClass {
-            var showConfetti by remember { mutableStateOf(false) }
             var showExitDialog by rememberSaveable { mutableStateOf(false) }
             val editPresetsState = rememberSaveable { mutableStateOf(false) }
 
@@ -187,7 +190,16 @@ class MainActivity : M3Activity() {
                 LocalAlignment provides viewModel.alignment.toAlignment(),
                 LocalSelectedEmoji provides Emoji.allIcons.getOrNull(viewModel.selectedEmoji),
                 LocalNavController provides viewModel.navController,
-                LocalImagePickerModeInt provides viewModel.imagePickerModeInt
+                LocalImagePickerModeInt provides viewModel.imagePickerModeInt,
+                LocalConfettiController provides rememberToastHostState(),
+                LocalFileController provides rememberFileController(
+                    LocalContext.current,
+                    FileParams(
+                        treeUri = viewModel.saveFolderUri,
+                        filenamePrefix = viewModel.filenamePrefix,
+                        addSizeInFilename = viewModel.addSizeInFilename
+                    )
+                )
             ) {
                 val showSelectSheet =
                     rememberSaveable(viewModel.showSelectDialog) { mutableStateOf(viewModel.showSelectDialog) }
@@ -279,18 +291,6 @@ class MainActivity : M3Activity() {
                             when (screen) {
                                 is Screen.Main -> {
                                     MainScreen(
-                                        currentFolderUri = saveFolderUri,
-                                        onGetNewFolder = {
-                                            viewModel.updateSaveFolderUri(it)
-                                            it?.let { uri ->
-                                                contentResolver.takePersistableUriPermission(
-                                                    uri,
-                                                    Intent.FLAG_GRANT_READ_URI_PERMISSION or
-                                                            Intent.FLAG_GRANT_WRITE_URI_PERMISSION
-                                                )
-                                            }
-                                        },
-                                        showConfetti = { showConfetti = true },
                                         viewModel = viewModel,
                                         screenList = viewModel.screenList
                                     )
@@ -299,74 +299,56 @@ class MainActivity : M3Activity() {
                                 is Screen.SingleResize -> {
                                     SingleResizeScreen(
                                         uriState = screen.uri,
-                                        onGoBack = onGoBack,
-                                        getSavingFolder = getSavingFolder,
-                                        savingPathString = savingPathString,
-                                        showConfetti = { showConfetti = true }
+                                        onGoBack = onGoBack
                                     )
                                 }
 
                                 is Screen.BatchResize -> {
                                     BatchResizeScreen(
                                         uriState = screen.uris,
-                                        onGoBack = onGoBack,
-                                        getSavingFolder = getSavingFolder,
-                                        savingPathString = savingPathString,
-                                        showConfetti = { showConfetti = true }
+                                        onGoBack = onGoBack
                                     )
                                 }
 
                                 is Screen.DeleteExif -> {
                                     DeleteExifScreen(
                                         uriState = screen.uris,
-                                        onGoBack = onGoBack,
-                                        getSavingFolder = getSavingFolder,
-                                        savingPathString = savingPathString,
-                                        showConfetti = { showConfetti = true }
+                                        onGoBack = onGoBack
                                     )
                                 }
 
                                 is Screen.ResizeByBytes -> {
                                     BytesResizeScreen(
                                         uriState = screen.uris,
-                                        onGoBack = onGoBack,
-                                        getSavingFolder = getSavingFolder,
-                                        savingPathString = savingPathString,
-                                        showConfetti = { showConfetti = true }
+                                        onGoBack = onGoBack
                                     )
                                 }
 
                                 is Screen.Crop -> {
                                     CropScreen(
                                         uriState = screen.uri,
-                                        onGoBack = onGoBack,
-                                        getSavingFolder = getSavingFolder,
-                                        savingPathString = savingPathString,
-                                        showConfetti = { showConfetti = true }
+                                        onGoBack = onGoBack
                                     )
                                 }
 
                                 is Screen.PickColorFromImage -> {
                                     PickColorFromImageScreen(
                                         uriState = screen.uri,
-                                        onGoBack = onGoBack,
-                                        showConfetti = { showConfetti = true }
+                                        onGoBack = onGoBack
                                     )
                                 }
 
                                 is Screen.ImagePreview -> {
                                     ImagePreviewScreen(
                                         uriState = screen.uris,
-                                        onGoBack = onGoBack,
-                                        showConfetti = { showConfetti = true }
+                                        onGoBack = onGoBack
                                     )
                                 }
 
                                 is Screen.GeneratePalette -> {
                                     GeneratePaletteScreen(
                                         uriState = screen.uri,
-                                        onGoBack = onGoBack,
-                                        showConfetti = { showConfetti = true }
+                                        onGoBack = onGoBack
                                     )
                                 }
 
@@ -375,27 +357,10 @@ class MainActivity : M3Activity() {
                                         comparableUris = screen.uris
                                             ?.takeIf { it.size == 2 }
                                             ?.let { it[0] to it[1] },
-                                        onGoBack = onGoBack,
-                                        showConfetti = { showConfetti = true }
+                                        onGoBack = onGoBack
                                     )
                                 }
                             }
-                        }
-
-                        if (showConfetti) {
-                            val primary = MaterialTheme.colorScheme.primary
-                            KonfettiView(
-                                modifier = Modifier.fillMaxSize(),
-                                parties = remember { particles(primary) },
-                                updateListener = object : OnParticleSystemUpdateListener {
-                                    override fun onParticleSystemEnded(
-                                        system: PartySystem,
-                                        activeSystems: Int
-                                    ) {
-                                        if (activeSystems == 0) showConfetti = false
-                                    }
-                                }
-                            )
                         }
 
                         SimpleSheet(
@@ -466,7 +431,7 @@ class MainActivity : M3Activity() {
                                                 Icon(Icons.Rounded.AddCircle, null)
                                             }
                                             if (expanded) {
-                                                var value by remember { mutableStateOf("50") }
+                                                var value by remember { mutableStateOf("") }
                                                 AlertDialog(
                                                     modifier = Modifier.alertDialog(),
                                                     onDismissRequest = { expanded = false },
@@ -851,6 +816,19 @@ class MainActivity : M3Activity() {
                         )
                     }
 
+                    ToastHost(
+                        hostState = LocalConfettiController.current,
+                        transitionSpec = {
+                            fadeIn() togetherWith fadeOut()
+                        },
+                        toast = {
+                            val primary = MaterialTheme.colorScheme.primary
+                            KonfettiView(
+                                modifier = Modifier.fillMaxSize(),
+                                parties = remember { particles(primary) }
+                            )
+                        }
+                    )
 
                     ToastHost(hostState = LocalToastHost.current)
 

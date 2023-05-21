@@ -151,9 +151,6 @@ import kotlin.math.roundToInt
 )
 @Composable
 fun MainScreen(
-    currentFolderUri: Uri?,
-    onGetNewFolder: (Uri?) -> Unit,
-    showConfetti: () -> Unit,
     screenList: List<Screen>,
     viewModel: MainViewModel
 ) {
@@ -164,6 +161,13 @@ fun MainScreen(
         TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
     val isGrid = LocalWindowSizeClass.current.widthSizeClass != WindowWidthSizeClass.Compact
 
+    val scope = rememberCoroutineScope()
+    val confettiController = LocalConfettiController.current
+    val showConfetti: () -> Unit = {
+        scope.launch {
+            confettiController.showEmpty()
+        }
+    }
 
     val showPickColorDialog = rememberSaveable { mutableStateOf(false) }
     val showAuthorDialog = rememberSaveable { mutableStateOf(false) }
@@ -173,7 +177,6 @@ fun MainScreen(
     var showChangeFilenameDialog by rememberSaveable { mutableStateOf(false) }
 
     val sideSheetState = rememberDrawerState(initialValue = DrawerValue.Closed)
-    val scope = rememberCoroutineScope()
     val toastHost = LocalToastHost.current
 
     val compactHeight =
@@ -360,8 +363,6 @@ fun MainScreen(
                     state = lazyListState
                 ) {
                     SettingsBlock(
-                        currentFolderUri = currentFolderUri,
-                        onGetNewFolder = onGetNewFolder,
                         onEditPresets = { editPresetsState.value = true },
                         onEditArrangement = { showArrangementSheet.value = true },
                         onEditColorScheme = { showPickColorDialog.value = true },

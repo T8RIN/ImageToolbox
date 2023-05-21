@@ -101,8 +101,8 @@ import ru.tech.imageresizershrinker.bytes_resize_screen.viewModel.BytesResizeVie
 import ru.tech.imageresizershrinker.main_screen.components.LocalAlignment
 import ru.tech.imageresizershrinker.main_screen.components.LocalAllowChangeColorByImage
 import ru.tech.imageresizershrinker.main_screen.components.LocalBorderWidth
+import ru.tech.imageresizershrinker.main_screen.components.LocalConfettiController
 import ru.tech.imageresizershrinker.main_screen.components.LocalSelectedEmoji
-import ru.tech.imageresizershrinker.single_resize_screen.components.BitmapInfo
 import ru.tech.imageresizershrinker.single_resize_screen.components.ExitWithoutSavingDialog
 import ru.tech.imageresizershrinker.single_resize_screen.components.ExtensionGroup
 import ru.tech.imageresizershrinker.single_resize_screen.components.ImageNotPickedWidget
@@ -121,10 +121,9 @@ import ru.tech.imageresizershrinker.utils.BitmapUtils.getBitmapByUri
 import ru.tech.imageresizershrinker.utils.BitmapUtils.restrict
 import ru.tech.imageresizershrinker.utils.BitmapUtils.shareBitmaps
 import ru.tech.imageresizershrinker.utils.ContextUtils.failedToSaveImages
-import ru.tech.imageresizershrinker.utils.ContextUtils.isExternalStorageWritable
+import ru.tech.imageresizershrinker.utils.LocalFileController
 import ru.tech.imageresizershrinker.utils.LocalWindowSizeClass
 import ru.tech.imageresizershrinker.utils.Picker
-import ru.tech.imageresizershrinker.utils.SavingFolder
 import ru.tech.imageresizershrinker.utils.localImagePickerMode
 import ru.tech.imageresizershrinker.utils.modifier.block
 import ru.tech.imageresizershrinker.utils.modifier.drawHorizontalStroke
@@ -141,16 +140,20 @@ import ru.tech.imageresizershrinker.widget.RoundedTextField
 fun BytesResizeScreen(
     uriState: List<Uri>?,
     onGoBack: () -> Unit,
-    getSavingFolder: (bitmapInfo: BitmapInfo) -> SavingFolder,
-    savingPathString: String,
-    showConfetti: () -> Unit,
     viewModel: BytesResizeViewModel = viewModel()
 ) {
     val context = LocalContext.current as ComponentActivity
     val toastHostState = LocalToastHost.current
-    val scope = rememberCoroutineScope()
     val themeState = LocalDynamicThemeState.current
     val allowChangeColor = LocalAllowChangeColorByImage.current
+
+    val scope = rememberCoroutineScope()
+    val confettiController = LocalConfettiController.current
+    val showConfetti: () -> Unit = {
+        scope.launch {
+            confettiController.showEmpty()
+        }
+    }
 
     var showAlert by rememberSaveable { mutableStateOf(false) }
 
@@ -221,27 +224,21 @@ fun BytesResizeScreen(
     var showSaveLoading by rememberSaveable { mutableStateOf(false) }
     var showExitDialog by rememberSaveable { mutableStateOf(false) }
 
+    val fileController = LocalFileController.current
     val saveBitmaps: () -> Unit = {
         showSaveLoading = true
-        viewModel.save(
-            isExternalStorageWritable = context.isExternalStorageWritable(),
-            getSavingFolder = getSavingFolder,
-            getFileDescriptor = { uri ->
-                uri?.let { context.contentResolver.openFileDescriptor(uri, "rw", null) }
-            },
+        viewModel.saveBitmaps(
+            fileController = fileController,
             getBitmap = { uri ->
                 context.decodeBitmapFromUri(uri)
             },
-            getImageSize = { uri ->
-                uri.fileSize(context)
-            }
         ) { failed ->
             context.failedToSaveImages(
                 scope = scope,
                 failed = failed,
                 done = viewModel.done,
                 toastHostState = toastHostState,
-                savingPathString = savingPathString,
+                savingPathString = fileController.savingPath,
                 showConfetti = showConfetti
             )
             showSaveLoading = false

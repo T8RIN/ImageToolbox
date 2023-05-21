@@ -16,7 +16,7 @@ import ru.tech.imageresizershrinker.single_resize_screen.components.compressForm
 import ru.tech.imageresizershrinker.single_resize_screen.components.extension
 import ru.tech.imageresizershrinker.utils.BitmapUtils.canShow
 import ru.tech.imageresizershrinker.utils.BitmapUtils.resizeBitmap
-import ru.tech.imageresizershrinker.utils.SavingFolder
+import ru.tech.imageresizershrinker.utils.FileController
 
 class DeleteExifViewModel : ViewModel() {
 
@@ -100,16 +100,15 @@ class DeleteExifViewModel : ViewModel() {
         }
     }
 
-    fun save(
-        isExternalStorageWritable: Boolean,
-        getSavingFolder: (bitmapInfo: BitmapInfo) -> SavingFolder,
+    fun saveBitmaps(
+        fileController: FileController,
         getBitmap: suspend (Uri) -> Triple<Bitmap?, ExifInterface?, Int>,
-        onSuccess: (Int) -> Unit
+        onResult: (Int) -> Unit
     ) = viewModelScope.launch {
         withContext(Dispatchers.IO) {
             var failed = 0
-            if (!isExternalStorageWritable) {
-                onSuccess(-1)
+            if (!fileController.isExternalStorageWritable()) {
+                onResult(-1)
             } else {
                 _done.value = 0
                 uris?.forEach { uri ->
@@ -118,7 +117,7 @@ class DeleteExifViewModel : ViewModel() {
                     }.getOrNull()?.takeIf { it.first != null }?.let { (bitmap, _, mimeInt) ->
                         bitmap?.let { result ->
 
-                            val savingFolder = getSavingFolder(
+                            val savingFolder = fileController.getSavingFolder(
                                 BitmapInfo(
                                     mimeTypeInt = mimeInt,
                                     width = result.width.toString(),
@@ -143,7 +142,7 @@ class DeleteExifViewModel : ViewModel() {
 
                     _done.value += 1
                 }
-                onSuccess(failed)
+                onResult(failed)
             }
         }
     }

@@ -118,11 +118,11 @@ import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.main_screen.components.LocalAlignment
 import ru.tech.imageresizershrinker.main_screen.components.LocalAllowChangeColorByImage
 import ru.tech.imageresizershrinker.main_screen.components.LocalBorderWidth
+import ru.tech.imageresizershrinker.main_screen.components.LocalConfettiController
 import ru.tech.imageresizershrinker.main_screen.components.LocalSelectedEmoji
 import ru.tech.imageresizershrinker.main_screen.components.SimpleSheet
 import ru.tech.imageresizershrinker.main_screen.components.TitleItem
 import ru.tech.imageresizershrinker.single_resize_screen.components.BadImageWidget
-import ru.tech.imageresizershrinker.single_resize_screen.components.BitmapInfo
 import ru.tech.imageresizershrinker.single_resize_screen.components.ExitWithoutSavingDialog
 import ru.tech.imageresizershrinker.single_resize_screen.components.ExtensionGroup
 import ru.tech.imageresizershrinker.single_resize_screen.components.ImageNotPickedWidget
@@ -148,11 +148,9 @@ import ru.tech.imageresizershrinker.utils.BitmapUtils.resizeBitmap
 import ru.tech.imageresizershrinker.utils.BitmapUtils.shareBitmap
 import ru.tech.imageresizershrinker.utils.BitmapUtils.toMap
 import ru.tech.imageresizershrinker.utils.BitmapUtils.with
-import ru.tech.imageresizershrinker.utils.ContextUtils.isExternalStorageWritable
-import ru.tech.imageresizershrinker.utils.ContextUtils.requestStoragePermission
+import ru.tech.imageresizershrinker.utils.LocalFileController
 import ru.tech.imageresizershrinker.utils.LocalWindowSizeClass
 import ru.tech.imageresizershrinker.utils.Picker
-import ru.tech.imageresizershrinker.utils.SavingFolder
 import ru.tech.imageresizershrinker.utils.localImagePickerMode
 import ru.tech.imageresizershrinker.utils.modifier.alertDialog
 import ru.tech.imageresizershrinker.utils.modifier.drawHorizontalStroke
@@ -172,16 +170,20 @@ import ru.tech.imageresizershrinker.widget.RoundedTextField
 fun SingleResizeScreen(
     uriState: Uri?,
     onGoBack: () -> Unit,
-    showConfetti: () -> Unit,
-    getSavingFolder: (bitmapInfo: BitmapInfo) -> SavingFolder,
-    savingPathString: String,
     viewModel: SingleResizeViewModel = viewModel(),
 ) {
     val toastHostState = LocalToastHost.current
-    val scope = rememberCoroutineScope()
     val context = LocalContext.current as ComponentActivity
     val themeState = LocalDynamicThemeState.current
     val allowChangeColor = LocalAllowChangeColorByImage.current
+
+    val scope = rememberCoroutineScope()
+    val confettiController = LocalConfettiController.current
+    val showConfetti: () -> Unit = {
+        scope.launch {
+            confettiController.showEmpty()
+        }
+    }
 
     LaunchedEffect(uriState) {
         uriState?.let {
@@ -254,22 +256,17 @@ fun SingleResizeScreen(
         pickImageLauncher.pickImage()
     }
 
+    val fileController = LocalFileController.current
     val saveBitmap: () -> Unit = {
         showSaveLoading = true
-        viewModel.saveBitmap(
-            isExternalStorageWritable = context.isExternalStorageWritable(),
-            getSavingFolder = getSavingFolder,
-            getFileDescriptor = { uri ->
-                uri?.let { context.contentResolver.openFileDescriptor(it, "rw", null) }
-            }
-        ) { success ->
-            if (!success) context.requestStoragePermission()
+        viewModel.saveBitmap(fileController) { success ->
+            if (!success) fileController.requestReadWritePermissions()
             else {
                 scope.launch {
                     toastHostState.showToast(
                         context.getString(
                             R.string.saved_to,
-                            savingPathString
+                            fileController.savingPath
                         ),
                         Icons.Rounded.Save
                     )
