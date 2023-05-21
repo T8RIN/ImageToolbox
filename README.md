@@ -85,9 +85,10 @@ Go to the [Releases](https://github.com/t8rin/imageresizer/releases/latest) and 
   - Crop by aspect ratio
 - Format Convertion
   - WEBP
-  - PNG
   - JPEG
   - JPG
+  - PNG
+  - SVG, GIF to WEBP, PNG, JPEG, JPG
   - Telegram sticker PNG format
 - Color Utils
   - Palette generation
