@@ -342,11 +342,7 @@ class MainViewModel @Inject constructor(
     }
 
     private fun isNeedUpdate(tag: String): Boolean {
-        return (tag.replace(".", "")
-            .toIntOrNull() ?: Int.MAX_VALUE) > (BuildConfig.VERSION_NAME
-            .replace(".", "")
-            .toIntOrNull()
-            ?: 0) && !tag.contains("beta") && !tag.contains("alpha") && !tag.contains("rc")
+        return (tag != BuildConfig.VERSION_NAME) && !tag.contains("beta") && !tag.contains("alpha") && !tag.contains("rc")
     }
 
     fun hideSelectDialog() {
