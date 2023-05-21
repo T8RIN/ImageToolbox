@@ -147,4 +147,8 @@
     <string name="photo_picker_sub">Сучасна фотозбірка для Android, яка з\'являється внизу екрана, може працювати лише на Android 12+, а також має проблеми з отриманням метаданих EXIF.</string>
     <string name="file_explorer_picker_sub">Використовуйте GetContent для вибору зображення, працює скрізь, але на деяких пристроях можуть виникати проблеми з отриманням зображень на деяких пристроях, це не моя провина.</string>
     <string name="gallery_picker_sub">Простий вибір зображень галереї, він працюватиме, лише якщо у вас є цей застосунок</string>
+    <string name="options_arrangement">Розташування опцій</string>
+    <string name="edit">Редагувати</string>
+    <string name="order">Порядок</string>
+    <string name="order_sub">Визначає порядок опцій на головному екрані</string>
 </resources>
