@@ -72,13 +72,12 @@ import dev.olshevski.navigation.reimagined.pop
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.generate_palette_screen.viewModel.GeneratePaletteViewModel
-import ru.tech.imageresizershrinker.main_screen.components.LocalConfettiController
+import ru.tech.imageresizershrinker.main_screen.components.TopAppBarEmoji
 import ru.tech.imageresizershrinker.pick_color_from_image_screen.copyColorIntoClipboard
 import ru.tech.imageresizershrinker.pick_color_from_image_screen.format
 import ru.tech.imageresizershrinker.single_resize_screen.components.ImageNotPickedWidget
 import ru.tech.imageresizershrinker.single_resize_screen.components.LoadingDialog
 import ru.tech.imageresizershrinker.single_resize_screen.components.ZoomModalSheet
-import ru.tech.imageresizershrinker.theme.EmojiItem
 import ru.tech.imageresizershrinker.theme.PaletteSwatch
 import ru.tech.imageresizershrinker.utils.BitmapUtils.decodeBitmapFromUri
 import ru.tech.imageresizershrinker.utils.LocalNavController
@@ -91,7 +90,6 @@ import ru.tech.imageresizershrinker.utils.modifier.block
 import ru.tech.imageresizershrinker.utils.modifier.drawHorizontalStroke
 import ru.tech.imageresizershrinker.utils.modifier.fabBorder
 import ru.tech.imageresizershrinker.utils.modifier.navBarsPaddingOnlyIfTheyAtTheBottom
-import ru.tech.imageresizershrinker.utils.modifier.scaleOnTap
 import ru.tech.imageresizershrinker.utils.rememberImagePicker
 import ru.tech.imageresizershrinker.widget.LocalToastHost
 import ru.tech.imageresizershrinker.widget.Marquee
@@ -111,12 +109,6 @@ fun GeneratePaletteScreen(
     val navController = LocalNavController.current
 
     val scope = rememberCoroutineScope()
-    val confettiController = LocalConfettiController.current
-    val showConfetti: () -> Unit = {
-        scope.launch {
-            confettiController.showEmpty()
-        }
-    }
 
     LaunchedEffect(uriState) {
         uriState?.let {
@@ -268,13 +260,7 @@ fun GeneratePaletteScreen(
                 },
                 actions = {
                     if (viewModel.uri == null) {
-                        EmojiItem(
-                            emoji = settingsState.selectedEmoji,
-                            fontSize = MaterialTheme.typography.headlineMedium.fontSize,
-                            modifier = Modifier
-                                .padding(end = 12.dp)
-                                .scaleOnTap(onRelease = showConfetti),
-                        )
+                        TopAppBarEmoji()
                     }
                     zoomButton()
                     if (viewModel.uri != null) {

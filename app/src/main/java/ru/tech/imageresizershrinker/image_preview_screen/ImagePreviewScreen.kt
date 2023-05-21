@@ -91,14 +91,13 @@ import ru.tech.imageresizershrinker.main_screen.components.BytesResizePreference
 import ru.tech.imageresizershrinker.main_screen.components.CropPreference
 import ru.tech.imageresizershrinker.main_screen.components.DeleteExifPreference
 import ru.tech.imageresizershrinker.main_screen.components.GeneratePalettePreference
-import ru.tech.imageresizershrinker.main_screen.components.LocalConfettiController
 import ru.tech.imageresizershrinker.main_screen.components.PickColorPreference
 import ru.tech.imageresizershrinker.main_screen.components.SimpleSheet
 import ru.tech.imageresizershrinker.main_screen.components.SingleResizePreference
 import ru.tech.imageresizershrinker.main_screen.components.TitleItem
+import ru.tech.imageresizershrinker.main_screen.components.TopAppBarEmoji
 import ru.tech.imageresizershrinker.single_resize_screen.components.ImageNotPickedWidget
 import ru.tech.imageresizershrinker.theme.CreateAlt
-import ru.tech.imageresizershrinker.theme.EmojiItem
 import ru.tech.imageresizershrinker.theme.outlineVariant
 import ru.tech.imageresizershrinker.utils.BitmapUtils.decodeSampledBitmapFromUri
 import ru.tech.imageresizershrinker.utils.LocalNavController
@@ -108,7 +107,6 @@ import ru.tech.imageresizershrinker.utils.Screen
 import ru.tech.imageresizershrinker.utils.localImagePickerMode
 import ru.tech.imageresizershrinker.utils.modifier.drawHorizontalStroke
 import ru.tech.imageresizershrinker.utils.modifier.fabBorder
-import ru.tech.imageresizershrinker.utils.modifier.scaleOnTap
 import ru.tech.imageresizershrinker.utils.rememberImagePicker
 import ru.tech.imageresizershrinker.widget.Marquee
 import ru.tech.imageresizershrinker.widget.Picture
@@ -127,12 +125,6 @@ fun ImagePreviewScreen(
     val allowChangeColor = settingsState.allowChangeColorByImage
 
     val scope = rememberCoroutineScope()
-    val confettiController = LocalConfettiController.current
-    val showConfetti: () -> Unit = {
-        scope.launch {
-            confettiController.showEmpty()
-        }
-    }
 
     val appColorTuple = getAppColorTuple(
         defaultColorTuple = settingsState.appColorTuple,
@@ -219,13 +211,7 @@ fun ImagePreviewScreen(
                         }
                     },
                     actions = {
-                        EmojiItem(
-                            emoji = settingsState.selectedEmoji,
-                            fontSize = MaterialTheme.typography.headlineMedium.fontSize,
-                            modifier = Modifier
-                                .padding(end = 12.dp)
-                                .scaleOnTap(onRelease = showConfetti),
-                        )
+                        TopAppBarEmoji()
                     }
                 )
                 if (viewModel.uris.isNullOrEmpty()) {

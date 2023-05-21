@@ -83,6 +83,7 @@ import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.batch_resize_screen.components.PickImageFromUrisSheet
 import ru.tech.imageresizershrinker.delete_exif_screen.viewModel.DeleteExifViewModel
 import ru.tech.imageresizershrinker.main_screen.components.LocalConfettiController
+import ru.tech.imageresizershrinker.main_screen.components.TopAppBarEmoji
 import ru.tech.imageresizershrinker.single_resize_screen.components.BitmapInfo
 import ru.tech.imageresizershrinker.single_resize_screen.components.ExitWithoutSavingDialog
 import ru.tech.imageresizershrinker.single_resize_screen.components.ImageNotPickedWidget
@@ -91,7 +92,6 @@ import ru.tech.imageresizershrinker.single_resize_screen.components.LoadingDialo
 import ru.tech.imageresizershrinker.single_resize_screen.components.SimplePicture
 import ru.tech.imageresizershrinker.single_resize_screen.components.ZoomModalSheet
 import ru.tech.imageresizershrinker.single_resize_screen.components.byteCount
-import ru.tech.imageresizershrinker.theme.EmojiItem
 import ru.tech.imageresizershrinker.theme.outlineVariant
 import ru.tech.imageresizershrinker.utils.BitmapUtils.decodeBitmapFromUri
 import ru.tech.imageresizershrinker.utils.BitmapUtils.decodeBitmapFromUriWithMime
@@ -108,7 +108,6 @@ import ru.tech.imageresizershrinker.utils.modifier.block
 import ru.tech.imageresizershrinker.utils.modifier.drawHorizontalStroke
 import ru.tech.imageresizershrinker.utils.modifier.fabBorder
 import ru.tech.imageresizershrinker.utils.modifier.navBarsLandscapePadding
-import ru.tech.imageresizershrinker.utils.modifier.scaleOnTap
 import ru.tech.imageresizershrinker.utils.rememberImagePicker
 import ru.tech.imageresizershrinker.widget.LocalToastHost
 import ru.tech.imageresizershrinker.widget.Marquee
@@ -450,13 +449,7 @@ fun DeleteExifScreen(
                     },
                     actions = {
                         if (viewModel.bitmap == null) {
-                            EmojiItem(
-                                emoji = settingsState.selectedEmoji,
-                                fontSize = MaterialTheme.typography.headlineMedium.fontSize,
-                                modifier = Modifier
-                                    .padding(end = 12.dp)
-                                    .scaleOnTap(onRelease = showConfetti),
-                            )
+                            TopAppBarEmoji()
                         }
                         zoomButton()
                         if (viewModel.previewBitmap != null) {

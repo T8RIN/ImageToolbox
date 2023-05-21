@@ -73,10 +73,9 @@ import com.t8rin.dynamic.theme.extractPrimaryColor
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.compare_screen.viewModel.CompareViewModel
-import ru.tech.imageresizershrinker.main_screen.components.LocalConfettiController
+import ru.tech.imageresizershrinker.main_screen.components.TopAppBarEmoji
 import ru.tech.imageresizershrinker.single_resize_screen.components.ImageNotPickedWidget
 import ru.tech.imageresizershrinker.single_resize_screen.components.LoadingDialog
-import ru.tech.imageresizershrinker.theme.EmojiItem
 import ru.tech.imageresizershrinker.theme.blend
 import ru.tech.imageresizershrinker.theme.outlineVariant
 import ru.tech.imageresizershrinker.utils.BitmapUtils.getBitmapByUri
@@ -88,7 +87,6 @@ import ru.tech.imageresizershrinker.utils.modifier.block
 import ru.tech.imageresizershrinker.utils.modifier.drawHorizontalStroke
 import ru.tech.imageresizershrinker.utils.modifier.fabBorder
 import ru.tech.imageresizershrinker.utils.modifier.navBarsPaddingOnlyIfTheyAtTheBottom
-import ru.tech.imageresizershrinker.utils.modifier.scaleOnTap
 import ru.tech.imageresizershrinker.utils.rememberImagePicker
 import ru.tech.imageresizershrinker.widget.LocalToastHost
 import ru.tech.imageresizershrinker.widget.Marquee
@@ -108,12 +106,6 @@ fun CompareScreen(
     val allowChangeColor = settingsState.allowChangeColorByImage
 
     val scope = rememberCoroutineScope()
-    val confettiController = LocalConfettiController.current
-    val showConfetti: () -> Unit = {
-        scope.launch {
-            confettiController.showEmpty()
-        }
-    }
 
     var progress by rememberSaveable { mutableStateOf(50f) }
 
@@ -216,13 +208,7 @@ fun CompareScreen(
                         containerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(3.dp)
                     ),
                     actions = {
-                        EmojiItem(
-                            emoji = settingsState.selectedEmoji,
-                            fontSize = MaterialTheme.typography.headlineMedium.fontSize,
-                            modifier = Modifier
-                                .padding(end = 12.dp)
-                                .scaleOnTap(onRelease = showConfetti),
-                        )
+                        TopAppBarEmoji()
                     },
                     modifier = Modifier.drawHorizontalStroke()
                 )

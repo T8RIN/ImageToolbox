@@ -20,6 +20,7 @@ interface SettingsState {
     val isNightMode: Boolean
     val isDynamicColors: Boolean
     val allowChangeColorByImage: Boolean
+    val emojisCount: Int
     val isAmoledMode: Boolean
     val appColorTuple: ColorTuple
     val borderWidth: Dp
@@ -30,11 +31,12 @@ interface SettingsState {
 }
 
 @Stable
-private class SettingsStateImpl(
+private data class SettingsStateImpl(
     override val isNightMode: Boolean,
     override val isDynamicColors: Boolean,
     override val allowChangeColorByImage: Boolean,
     override val isAmoledMode: Boolean,
+    override val emojisCount: Int,
     override val appColorTuple: ColorTuple,
     override val borderWidth: Dp,
     override val presets: List<Int>,
@@ -50,6 +52,7 @@ fun SettingsState(
     isAmoledMode: Boolean,
     appColorTuple: ColorTuple,
     borderWidth: Dp,
+    emojisCount: Int,
     presets: List<Int>,
     fabAlignment: Alignment,
     selectedEmoji: ImageVector?,
@@ -62,6 +65,7 @@ fun SettingsState(
     appColorTuple = appColorTuple,
     borderWidth = borderWidth,
     presets = presets,
+    emojisCount = emojisCount,
     fabAlignment = fabAlignment,
     selectedEmoji = selectedEmoji,
     imagePickerModeInt = imagePickerModeInt
@@ -75,6 +79,7 @@ fun rememberSettingsState(
     isAmoledMode: Boolean = false,
     appColorTuple: ColorTuple = ColorTuple(MaterialTheme.colorScheme.primary),
     borderWidth: Dp = 1.dp,
+    emojisCount: Int = 1,
     presets: List<Int> = emptyList(),
     fabAlignment: Alignment = Alignment.Center,
     selectedEmoji: ImageVector? = null,
@@ -85,6 +90,7 @@ fun rememberSettingsState(
     allowChangeColorByImage,
     isAmoledMode,
     appColorTuple,
+    emojisCount,
     borderWidth,
     presets,
     fabAlignment,
@@ -100,6 +106,7 @@ fun rememberSettingsState(
             appColorTuple = appColorTuple,
             borderWidth = borderWidth,
             presets = presets,
+            emojisCount = emojisCount,
             fabAlignment = fabAlignment,
             selectedEmoji = selectedEmoji,
             imagePickerModeInt = imagePickerModeInt

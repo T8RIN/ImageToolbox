@@ -164,6 +164,7 @@
     <string name="edit">Edit</string>
     <string name="order">Order</string>
     <string name="order_sub">Determines order of the options on the main screen</string>
+    <string name="emojis_count">Emojis count</string>
 
     <string-array name="fab_alignment_sub">
         <item>Start</item>

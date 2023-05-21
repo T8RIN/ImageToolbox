@@ -171,7 +171,8 @@ class MainActivity : M3Activity() {
                     presets = viewModel.localPresets,
                     fabAlignment = viewModel.alignment.toAlignment(),
                     selectedEmoji = Emoji.allIcons.getOrNull(viewModel.selectedEmoji),
-                    imagePickerModeInt = viewModel.imagePickerModeInt
+                    imagePickerModeInt = viewModel.imagePickerModeInt,
+                    emojisCount = viewModel.emojisCount
                 ),
                 LocalNavController provides viewModel.navController,
                 LocalEditPresetsState provides editPresetsState,

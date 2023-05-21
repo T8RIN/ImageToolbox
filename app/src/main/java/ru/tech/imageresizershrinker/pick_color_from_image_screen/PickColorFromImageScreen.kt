@@ -83,11 +83,10 @@ import dev.olshevski.navigation.reimagined.navigate
 import dev.olshevski.navigation.reimagined.pop
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.R
-import ru.tech.imageresizershrinker.main_screen.components.LocalConfettiController
+import ru.tech.imageresizershrinker.main_screen.components.TopAppBarEmoji
 import ru.tech.imageresizershrinker.pick_color_from_image_screen.viewModel.PickColorViewModel
 import ru.tech.imageresizershrinker.single_resize_screen.components.ImageNotPickedWidget
 import ru.tech.imageresizershrinker.single_resize_screen.components.LoadingDialog
-import ru.tech.imageresizershrinker.theme.EmojiItem
 import ru.tech.imageresizershrinker.theme.PaletteSwatch
 import ru.tech.imageresizershrinker.theme.outlineVariant
 import ru.tech.imageresizershrinker.utils.BitmapUtils.decodeBitmapFromUri
@@ -102,7 +101,6 @@ import ru.tech.imageresizershrinker.utils.modifier.drawHorizontalStroke
 import ru.tech.imageresizershrinker.utils.modifier.fabBorder
 import ru.tech.imageresizershrinker.utils.modifier.navBarsPaddingOnlyIfTheyAtTheBottom
 import ru.tech.imageresizershrinker.utils.modifier.navBarsPaddingOnlyIfTheyAtTheEnd
-import ru.tech.imageresizershrinker.utils.modifier.scaleOnTap
 import ru.tech.imageresizershrinker.utils.rememberImagePicker
 import ru.tech.imageresizershrinker.widget.LocalToastHost
 import ru.tech.imageresizershrinker.widget.Marquee
@@ -122,12 +120,6 @@ fun PickColorFromImageScreen(
     val allowChangeColor = settingsState.allowChangeColorByImage
 
     val scope = rememberCoroutineScope()
-    val confettiController = LocalConfettiController.current
-    val showConfetti: () -> Unit = {
-        scope.launch {
-            confettiController.showEmpty()
-        }
-    }
 
     var canZoom by rememberSaveable { mutableStateOf(false) }
 
@@ -261,13 +253,7 @@ fun PickColorFromImageScreen(
                         ),
                         actions = {
                             if (viewModel.bitmap == null) {
-                                EmojiItem(
-                                    emoji = settingsState.selectedEmoji,
-                                    fontSize = MaterialTheme.typography.headlineMedium.fontSize,
-                                    modifier = Modifier
-                                        .padding(end = 12.dp)
-                                        .scaleOnTap(onRelease = showConfetti),
-                                )
+                                TopAppBarEmoji()
                             }
                         }
                     )

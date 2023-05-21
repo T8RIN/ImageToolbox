@@ -311,6 +311,71 @@ fun LazyListScope.SettingsBlock(
                 ) {
                     var sliderValue by remember {
                         mutableStateOf(
+                            viewModel.emojisCount.coerceAtLeast(1)
+                        )
+                    }
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Text(
+                            text = stringResource(R.string.emojis_count),
+                            modifier = Modifier
+                                .padding(
+                                    top = 16.dp,
+                                    end = 16.dp,
+                                    start = 16.dp
+                                )
+                                .weight(1f)
+                        )
+                        AnimatedContent(
+                            targetState = sliderValue,
+                            transitionSpec = {
+                                fadeIn() togetherWith fadeOut()
+                            }
+                        ) { value ->
+                            Text(
+                                text = "$value",
+                                color = MaterialTheme.colorScheme.onSurface.copy(
+                                    alpha = 0.5f
+                                ),
+                                modifier = Modifier.padding(top = 16.dp),
+                                lineHeight = 18.sp
+                            )
+                        }
+                        Spacer(
+                            modifier = Modifier.padding(
+                                start = 4.dp,
+                                top = 16.dp,
+                                end = 20.dp
+                            )
+                        )
+                    }
+                    Slider(
+                        modifier = Modifier.padding(horizontal = 16.dp),
+                        value = animateFloatAsState(sliderValue.toFloat()).value,
+                        onValueChange = {
+                            sliderValue = it.toInt()
+                        },
+                        onValueChangeFinished = {
+                            viewModel.updateEmojisCount(sliderValue)
+                        },
+                        valueRange = 1f..5f,
+                        steps = 3
+                    )
+                }
+                Column(
+                    Modifier
+                        .padding(horizontal = 16.dp)
+                        .block(
+                            color = MaterialTheme
+                                .colorScheme
+                                .secondaryContainer
+                                .copy(alpha = 0.2f)
+                        )
+                        .animateContentSize()
+                ) {
+                    var sliderValue by remember {
+                        mutableStateOf(
                             viewModel.borderWidth.coerceAtLeast(0f)
                         )
                     }

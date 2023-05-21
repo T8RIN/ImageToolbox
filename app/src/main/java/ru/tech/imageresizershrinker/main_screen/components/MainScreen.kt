@@ -121,7 +121,6 @@ import ru.tech.imageresizershrinker.single_resize_screen.components.RevealValue
 import ru.tech.imageresizershrinker.single_resize_screen.components.rememberRevealState
 import ru.tech.imageresizershrinker.single_resize_screen.components.revealSwipeable
 import ru.tech.imageresizershrinker.theme.Emoji
-import ru.tech.imageresizershrinker.theme.EmojiItem
 import ru.tech.imageresizershrinker.theme.FileSettings
 import ru.tech.imageresizershrinker.theme.Github
 import ru.tech.imageresizershrinker.theme.GooglePlay
@@ -143,7 +142,6 @@ import ru.tech.imageresizershrinker.utils.modifier.alertDialog
 import ru.tech.imageresizershrinker.utils.modifier.drawHorizontalStroke
 import ru.tech.imageresizershrinker.utils.modifier.fabBorder
 import ru.tech.imageresizershrinker.utils.modifier.pulsate
-import ru.tech.imageresizershrinker.utils.modifier.scaleOnTap
 import ru.tech.imageresizershrinker.widget.LocalToastHost
 import ru.tech.imageresizershrinker.widget.Marquee
 import kotlin.math.roundToInt
@@ -398,11 +396,7 @@ fun MainScreen(
                                     Row(verticalAlignment = Alignment.CenterVertically) {
                                         Text(stringResource(R.string.app_name))
                                         Spacer(Modifier.width(12.dp))
-
-                                        EmojiItem(
-                                            emoji = Emoji.allIcons.getOrNull(viewModel.selectedEmoji),
-                                            modifier = Modifier.scaleOnTap(onRelease = showConfetti),
-                                        )
+                                        TopAppBarEmoji()
                                     }
                                 }
                             }

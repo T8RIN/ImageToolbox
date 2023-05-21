@@ -36,6 +36,7 @@ import ru.tech.imageresizershrinker.utils.BORDER_WIDTH
 import ru.tech.imageresizershrinker.utils.COLOR_TUPLES
 import ru.tech.imageresizershrinker.utils.DYNAMIC_COLORS
 import ru.tech.imageresizershrinker.utils.EMOJI
+import ru.tech.imageresizershrinker.utils.EMOJI_COUNT
 import ru.tech.imageresizershrinker.utils.FILENAME_PREFIX
 import ru.tech.imageresizershrinker.utils.IMAGE_MONET
 import ru.tech.imageresizershrinker.utils.NIGHT_MODE
@@ -57,6 +58,9 @@ class MainViewModel @Inject constructor(
 
     private val _imagePickerModeInt = mutableStateOf(0)
     val imagePickerModeInt by _imagePickerModeInt
+
+    private val _emojisCount = mutableStateOf(1)
+    val emojisCount by _emojisCount
 
     private val _addSizeInFilename = mutableStateOf(true)
     val addSizeInFilename by _addSizeInFilename
@@ -153,6 +157,7 @@ class MainViewModel @Inject constructor(
                     val id = it.toInt()
                     Screen.entries[id]
                 } ?: Screen.entries
+                _emojisCount.value = prefs[EMOJI_COUNT] ?: 1
             }
         }
         dataStore.data.onEach { prefs ->
@@ -191,8 +196,17 @@ class MainViewModel @Inject constructor(
                 val id = it.toInt()
                 Screen.entries[id]
             } ?: Screen.entries
+            _emojisCount.value = prefs[EMOJI_COUNT] ?: 1
         }.launchIn(viewModelScope)
         tryGetUpdate(showDialog = showDialogOnStartUp)
+    }
+
+    fun updateEmojisCount(count: Int) {
+        viewModelScope.launch {
+            dataStore.edit {
+                it[EMOJI_COUNT] = count
+            }
+        }
     }
 
     fun updateImagePickerMode(mode: Int) {
