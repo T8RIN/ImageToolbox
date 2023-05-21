@@ -156,4 +156,5 @@
     <string name="edit">Изменить</string>
     <string name="order">Порядок</string>
     <string name="order_sub">Определяет порядок расположения опций на главном экране приложения</string>
+    <string name="emojis_count">Количество эмодзи</string>
 </resources>
