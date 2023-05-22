@@ -20,6 +20,7 @@ import ru.tech.imageresizershrinker.theme.emoji.Amulet
 import ru.tech.imageresizershrinker.theme.emoji.Anger
 import ru.tech.imageresizershrinker.theme.emoji.Apple
 import ru.tech.imageresizershrinker.theme.emoji.Avocado
+import ru.tech.imageresizershrinker.theme.emoji.Axe
 import ru.tech.imageresizershrinker.theme.emoji.Bacon
 import ru.tech.imageresizershrinker.theme.emoji.Ball
 import ru.tech.imageresizershrinker.theme.emoji.Bandage
@@ -33,19 +34,30 @@ import ru.tech.imageresizershrinker.theme.emoji.Blossom
 import ru.tech.imageresizershrinker.theme.emoji.Blowfish
 import ru.tech.imageresizershrinker.theme.emoji.Bottle
 import ru.tech.imageresizershrinker.theme.emoji.Brain
+import ru.tech.imageresizershrinker.theme.emoji.Bread
 import ru.tech.imageresizershrinker.theme.emoji.Broccoli
+import ru.tech.imageresizershrinker.theme.emoji.Bullseye
+import ru.tech.imageresizershrinker.theme.emoji.Buoy
+import ru.tech.imageresizershrinker.theme.emoji.Cactus
 import ru.tech.imageresizershrinker.theme.emoji.Camera
 import ru.tech.imageresizershrinker.theme.emoji.Cat
 import ru.tech.imageresizershrinker.theme.emoji.Cloud
 import ru.tech.imageresizershrinker.theme.emoji.Clover
+import ru.tech.imageresizershrinker.theme.emoji.Coffin
+import ru.tech.imageresizershrinker.theme.emoji.Comet
+import ru.tech.imageresizershrinker.theme.emoji.ComputerMouse
+import ru.tech.imageresizershrinker.theme.emoji.Construction
 import ru.tech.imageresizershrinker.theme.emoji.Crown
+import ru.tech.imageresizershrinker.theme.emoji.CrystalBall
 import ru.tech.imageresizershrinker.theme.emoji.Diamond
+import ru.tech.imageresizershrinker.theme.emoji.Die
 import ru.tech.imageresizershrinker.theme.emoji.Disco
 import ru.tech.imageresizershrinker.theme.emoji.Disk
 import ru.tech.imageresizershrinker.theme.emoji.Droplets
 import ru.tech.imageresizershrinker.theme.emoji.Eggplant
 import ru.tech.imageresizershrinker.theme.emoji.Eyes
 import ru.tech.imageresizershrinker.theme.emoji.Fire
+import ru.tech.imageresizershrinker.theme.emoji.Firecracker
 import ru.tech.imageresizershrinker.theme.emoji.Frog
 import ru.tech.imageresizershrinker.theme.emoji.Gift
 import ru.tech.imageresizershrinker.theme.emoji.Glass
@@ -98,9 +110,7 @@ private var EmojiList: List<ImageVector>? = null
 
 val Emoji.allIcons: List<ImageVector>
     get() {
-        if (EmojiList != null) {
-            return EmojiList!!
-        }
+        EmojiList?.let { return it }
         EmojiList = listOf(
             Sparkles,
             Alien,
@@ -178,7 +188,19 @@ val Emoji.allIcons: List<ImageVector>
             Warning,
             Wood,
             Zap,
-            Zzz
+            Zzz,
+            Axe,
+            Bread,
+            Bullseye,
+            Buoy,
+            Cactus,
+            Coffin,
+            Comet,
+            ComputerMouse,
+            Construction,
+            CrystalBall,
+            Die,
+            Firecracker
         )
         return EmojiList!!
     }
