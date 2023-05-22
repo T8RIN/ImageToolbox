@@ -15,6 +15,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.theme.emoji.Alien
+import ru.tech.imageresizershrinker.theme.emoji.Alienmonster
 import ru.tech.imageresizershrinker.theme.emoji.Amulet
 import ru.tech.imageresizershrinker.theme.emoji.Anger
 import ru.tech.imageresizershrinker.theme.emoji.Apple
@@ -53,10 +54,13 @@ import ru.tech.imageresizershrinker.theme.emoji.Hamburger
 import ru.tech.imageresizershrinker.theme.emoji.Heart
 import ru.tech.imageresizershrinker.theme.emoji.Heartbroken
 import ru.tech.imageresizershrinker.theme.emoji.Ice
+import ru.tech.imageresizershrinker.theme.emoji.Key
 import ru.tech.imageresizershrinker.theme.emoji.Lamp
 import ru.tech.imageresizershrinker.theme.emoji.Lipstick
+import ru.tech.imageresizershrinker.theme.emoji.Locked
 import ru.tech.imageresizershrinker.theme.emoji.Malesign
 import ru.tech.imageresizershrinker.theme.emoji.Map
+import ru.tech.imageresizershrinker.theme.emoji.Medal
 import ru.tech.imageresizershrinker.theme.emoji.Moai
 import ru.tech.imageresizershrinker.theme.emoji.Money
 import ru.tech.imageresizershrinker.theme.emoji.Moneybag
@@ -73,6 +77,7 @@ import ru.tech.imageresizershrinker.theme.emoji.Picture
 import ru.tech.imageresizershrinker.theme.emoji.Pill
 import ru.tech.imageresizershrinker.theme.emoji.Radioactive
 import ru.tech.imageresizershrinker.theme.emoji.Recycling
+import ru.tech.imageresizershrinker.theme.emoji.Ring
 import ru.tech.imageresizershrinker.theme.emoji.Rocket
 import ru.tech.imageresizershrinker.theme.emoji.Skull
 import ru.tech.imageresizershrinker.theme.emoji.Snowflake
@@ -80,6 +85,7 @@ import ru.tech.imageresizershrinker.theme.emoji.Sparkles
 import ru.tech.imageresizershrinker.theme.emoji.Star
 import ru.tech.imageresizershrinker.theme.emoji.Sunrise
 import ru.tech.imageresizershrinker.theme.emoji.Taxi
+import ru.tech.imageresizershrinker.theme.emoji.Tree
 import ru.tech.imageresizershrinker.theme.emoji.Ufo
 import ru.tech.imageresizershrinker.theme.emoji.Warning
 import ru.tech.imageresizershrinker.theme.emoji.Wood
@@ -98,6 +104,7 @@ val Emoji.allIcons: List<ImageVector>
         EmojiList = listOf(
             Sparkles,
             Alien,
+            Alienmonster,
             Amulet,
             Anger,
             Apple,
@@ -136,10 +143,13 @@ val Emoji.allIcons: List<ImageVector>
             Heart,
             Heartbroken,
             Ice,
+            Key,
             Lamp,
             Lipstick,
+            Locked,
             Malesign,
             Map,
+            Medal,
             Moai,
             Money,
             Moneybag,
@@ -156,12 +166,14 @@ val Emoji.allIcons: List<ImageVector>
             Pill,
             Radioactive,
             Recycling,
+            Ring,
             Rocket,
             Skull,
             Snowflake,
             Star,
             Sunrise,
             Taxi,
+            Tree,
             Ufo,
             Warning,
             Wood,
