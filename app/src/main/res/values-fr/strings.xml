@@ -151,4 +151,5 @@
     <string name="order">Commander</string>
     <string name="options_arrangement">Disposition des options</string>
     <string name="order_sub">Détermine l’ordre des options sur l’écran principal</string>
+    <string name="emojis_count">Nombre d’émojis</string>
 </resources>
