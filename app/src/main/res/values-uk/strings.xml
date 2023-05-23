@@ -131,8 +131,8 @@
     <string name="prefix">Префікс</string>
     <string name="filename">Ім\'я файлу</string>
     <string name="share">Поділитися</string>
-    <string name="emoji_sub">Виберіть, який емодзі буде відображатися на головному екрані</string>
-    <string name="emoji">Емодзі</string>
+    <string name="emoji_sub">Виберіть, який смайл буде відображатися на головному екрані</string>
+    <string name="emoji">Смайли</string>
     <string name="add_file_size">Додати розмір файлу</string>
     <string name="delete_exif">Видалити EXIF</string>
     <string name="delete_exif_sub">Видалення метаданих EXIF з будь-якої пари зображень</string>
@@ -151,4 +151,5 @@
     <string name="edit">Редагувати</string>
     <string name="order">Порядок</string>
     <string name="order_sub">Визначає порядок опцій на головному екрані</string>
+    <string name="emojis_count">Кількість смайлів</string>
 </resources>
