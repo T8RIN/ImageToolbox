@@ -14,9 +14,10 @@ import kotlinx.coroutines.withContext
 import ru.tech.imageresizershrinker.single_resize_screen.components.BitmapInfo
 import ru.tech.imageresizershrinker.single_resize_screen.components.compressFormat
 import ru.tech.imageresizershrinker.single_resize_screen.components.extension
-import ru.tech.imageresizershrinker.utils.BitmapUtils.canShow
-import ru.tech.imageresizershrinker.utils.BitmapUtils.resizeBitmap
 import ru.tech.imageresizershrinker.utils.FileController
+import ru.tech.imageresizershrinker.utils.SaveTarget
+import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.canShow
+import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.resizeBitmap
 
 class DeleteExifViewModel : ViewModel() {
 
@@ -118,10 +119,14 @@ class DeleteExifViewModel : ViewModel() {
                         bitmap?.let { result ->
 
                             val savingFolder = fileController.getSavingFolder(
-                                BitmapInfo(
-                                    mimeTypeInt = mimeInt,
-                                    width = result.width.toString(),
-                                    height = result.height.toString()
+                                SaveTarget(
+                                    bitmapInfo = BitmapInfo(
+                                        mimeTypeInt = mimeInt,
+                                        width = result.width,
+                                        height = result.height
+                                    ),
+                                    uri = uri,
+                                    sequenceNumber = _done.value
                                 )
                             )
 

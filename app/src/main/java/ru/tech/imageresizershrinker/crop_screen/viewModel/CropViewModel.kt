@@ -2,6 +2,7 @@ package ru.tech.imageresizershrinker.crop_screen.viewModel
 
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.net.Uri
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -19,9 +20,10 @@ import ru.tech.imageresizershrinker.single_resize_screen.components.BitmapInfo
 import ru.tech.imageresizershrinker.single_resize_screen.components.compressFormat
 import ru.tech.imageresizershrinker.single_resize_screen.components.extension
 import ru.tech.imageresizershrinker.single_resize_screen.components.mimeTypeInt
-import ru.tech.imageresizershrinker.utils.BitmapUtils.canShow
-import ru.tech.imageresizershrinker.utils.BitmapUtils.resizeBitmap
 import ru.tech.imageresizershrinker.utils.FileController
+import ru.tech.imageresizershrinker.utils.SaveTarget
+import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.canShow
+import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.resizeBitmap
 import java.io.ByteArrayInputStream
 import java.io.ByteArrayOutputStream
 
@@ -38,6 +40,8 @@ class CropViewModel : ViewModel() {
         )
     )
     val cropProperties by _cropProperties
+
+    private val _uri = mutableStateOf(Uri.EMPTY)
 
     private var internalBitmap = mutableStateOf<Bitmap?>(null)
 
@@ -98,10 +102,14 @@ class CropViewModel : ViewModel() {
                     val localBitmap = bitmap
 
                     val savingFolder = fileController.getSavingFolder(
-                        BitmapInfo(
-                            mimeTypeInt = mimeType.extension.mimeTypeInt,
-                            width = localBitmap.width.toString(),
-                            height = localBitmap.height.toString()
+                        SaveTarget(
+                            bitmapInfo = BitmapInfo(
+                                mimeTypeInt = mimeType.extension.mimeTypeInt,
+                                width = localBitmap.width,
+                                height = localBitmap.height
+                            ),
+                            uri = _uri.value,
+                            sequenceNumber = null
                         )
                     )
 
@@ -142,6 +150,10 @@ class CropViewModel : ViewModel() {
 
     fun imageCropFinished() {
         _isLoading.value = false
+    }
+
+    fun setUri(uri: Uri) {
+        _uri.value = uri
     }
 
 }

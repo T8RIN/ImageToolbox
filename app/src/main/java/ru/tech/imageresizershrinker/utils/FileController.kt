@@ -12,9 +12,9 @@ import androidx.compose.runtime.remember
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.single_resize_screen.components.BitmapInfo
 import ru.tech.imageresizershrinker.single_resize_screen.components.extension
-import ru.tech.imageresizershrinker.utils.BitmapUtils.fileSize
-import ru.tech.imageresizershrinker.utils.ContextUtils.isExternalStorageWritable
-import ru.tech.imageresizershrinker.utils.ContextUtils.requestStoragePermission
+import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.fileSize
+import ru.tech.imageresizershrinker.utils.helper.ContextUtils.isExternalStorageWritable
+import ru.tech.imageresizershrinker.utils.helper.ContextUtils.requestStoragePermission
 
 private class FileControllerImpl constructor(
     private val context: Context,
@@ -22,18 +22,15 @@ private class FileControllerImpl constructor(
 ) : FileController {
 
     override fun getSavingFolder(
-        bitmapInfo: BitmapInfo
+        saveTarget: SaveTarget
     ): SavingFolder = context.getSavingFolder(
         treeUri = fileParams.treeUri,
         filename = constructFilename(
-            prefix = createPrefix(
-                filenamePrefix = fileParams.filenamePrefix,
-                addSizeInFilename = fileParams.addSizeInFilename,
-                bitmapInfo = bitmapInfo
-            ),
-            extension = bitmapInfo.mimeTypeInt.extension
+            context = context,
+            fileParams = fileParams,
+            saveTarget = saveTarget
         ),
-        extension = bitmapInfo.mimeTypeInt.extension
+        extension = saveTarget.bitmapInfo.mimeTypeInt.extension
     )
 
     override fun getFileDescriptorFor(uri: Uri?) = uri?.let {
@@ -65,7 +62,7 @@ private class FileControllerImpl constructor(
 interface FileController {
     val fileParams: FileParams
     val savingPath: String
-    fun getSavingFolder(bitmapInfo: BitmapInfo): SavingFolder
+    fun getSavingFolder(saveTarget: SaveTarget): SavingFolder
     fun getFileDescriptorFor(uri: Uri?): ParcelFileDescriptor?
     fun isExternalStorageWritable(): Boolean
     fun requestReadWritePermissions()
@@ -75,7 +72,15 @@ interface FileController {
 data class FileParams(
     val treeUri: Uri?,
     val filenamePrefix: String,
-    val addSizeInFilename: Boolean
+    val addSizeInFilename: Boolean,
+    val addOriginalFilename: Boolean,
+    val addSequenceNumber: Boolean
+)
+
+data class SaveTarget(
+    val bitmapInfo: BitmapInfo,
+    val uri: Uri,
+    val sequenceNumber: Int?
 )
 
 val LocalFileController = compositionLocalOf<FileController> { error("FileController not present") }

@@ -17,14 +17,15 @@ import kotlinx.coroutines.withContext
 import ru.tech.imageresizershrinker.single_resize_screen.components.BitmapInfo
 import ru.tech.imageresizershrinker.single_resize_screen.components.compressFormat
 import ru.tech.imageresizershrinker.single_resize_screen.components.extension
-import ru.tech.imageresizershrinker.utils.BitmapUtils.canShow
-import ru.tech.imageresizershrinker.utils.BitmapUtils.copyTo
-import ru.tech.imageresizershrinker.utils.BitmapUtils.flip
-import ru.tech.imageresizershrinker.utils.BitmapUtils.previewBitmap
-import ru.tech.imageresizershrinker.utils.BitmapUtils.resizeBitmap
-import ru.tech.imageresizershrinker.utils.BitmapUtils.rotate
-import ru.tech.imageresizershrinker.utils.BitmapUtils.scaleUntilCanShow
 import ru.tech.imageresizershrinker.utils.FileController
+import ru.tech.imageresizershrinker.utils.SaveTarget
+import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.canShow
+import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.copyTo
+import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.flip
+import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.previewBitmap
+import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.resizeBitmap
+import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.rotate
+import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.scaleUntilCanShow
 
 class BatchResizeViewModel : ViewModel() {
 
@@ -127,8 +128,8 @@ class BatchResizeViewModel : ViewModel() {
 
                 _bitmapInfo.value = _bitmapInfo.value.run {
                     if (resizeType == 2) copy(
-                        height = preview.height.toString(),
-                        width = preview.width.toString()
+                        height = preview.height,
+                        width = preview.width
                     ) else this
                 }
             }
@@ -142,8 +143,8 @@ class BatchResizeViewModel : ViewModel() {
         return@withContext bitmapInfo.run {
             bitmap.previewBitmap(
                 quality,
-                width.toIntOrNull(),
-                height.toIntOrNull(),
+                width,
+                height,
                 mimeTypeInt,
                 resizeType,
                 rotationDegrees,
@@ -164,8 +165,8 @@ class BatchResizeViewModel : ViewModel() {
 
     fun resetValues(saveMime: Boolean = false) {
         _bitmapInfo.value = BitmapInfo(
-            width = _bitmap.value?.width?.toString() ?: "",
-            height = _bitmap.value?.height?.toString() ?: "",
+            width = _bitmap.value?.width ?: 0,
+            height = _bitmap.value?.height ?: 0,
             mimeTypeInt = if (saveMime) bitmapInfo.mimeTypeInt else 0
         )
         checkBitmapAndUpdate(resetPreset = true, resetTelegram = true)
@@ -177,8 +178,8 @@ class BatchResizeViewModel : ViewModel() {
             _bitmap.value = bitmap?.scaleUntilCanShow()
             resetValues(true)
             _bitmapInfo.value = _bitmapInfo.value.copy(
-                width = size?.first.toString(),
-                height = size?.second.toString()
+                width = size?.first ?: 0,
+                height = size?.second ?: 0
             )
         }
     }
@@ -210,14 +211,14 @@ class BatchResizeViewModel : ViewModel() {
         checkBitmapAndUpdate(resetPreset = false, resetTelegram = false)
     }
 
-    fun updateWidth(width: String) {
+    fun updateWidth(width: Int) {
         if (_bitmapInfo.value.width != width) {
             _bitmapInfo.value = _bitmapInfo.value.copy(width = width)
             checkBitmapAndUpdate(resetPreset = true, resetTelegram = true)
         }
     }
 
-    fun updateHeight(height: String) {
+    fun updateHeight(height: Int) {
         if (_bitmapInfo.value.height != height) {
             _bitmapInfo.value = _bitmapInfo.value.copy(height = height)
             checkBitmapAndUpdate(resetPreset = true, resetTelegram = true)
@@ -252,8 +253,8 @@ class BatchResizeViewModel : ViewModel() {
 
     fun setTelegramSpecs() {
         val new = _bitmapInfo.value.copy(
-            width = "512",
-            height = "512",
+            width = 512,
+            height = 512,
             mimeTypeInt = 3,
             resizeType = 1,
             quality = 100f
@@ -284,13 +285,19 @@ class BatchResizeViewModel : ViewModel() {
                         runCatching {
                             getBitmap(uri)
                         }.getOrNull()?.takeIf { it.first != null }?.let { (bitmap, exif) ->
-                            val tWidth = width.toIntOrNull() ?: bitmap!!.width
-                            val tHeight = height.toIntOrNull() ?: bitmap!!.height
+                            val tWidth = width
+                            val tHeight = height
 
                             val localBitmap = bitmap!!.rotate(rotationDegrees)
                                 .resizeBitmap(tWidth, tHeight, resizeType)
                                 .flip(isFlipped)
-                            val savingFolder = fileController.getSavingFolder(bitmapInfo)
+                            val savingFolder = fileController.getSavingFolder(
+                                SaveTarget(
+                                    bitmapInfo = bitmapInfo,
+                                    uri = uri,
+                                    sequenceNumber = _done.value + 1
+                                )
+                            )
 
                             val fos = savingFolder.outputStream
 
@@ -345,8 +352,8 @@ class BatchResizeViewModel : ViewModel() {
     ): Pair<Bitmap, BitmapInfo>? {
         return bitmapResult.getOrNull()?.let { bitmap ->
             _bitmapInfo.value.run {
-                val tWidth = width.toIntOrNull() ?: bitmap.width
-                val tHeight = height.toIntOrNull() ?: bitmap.height
+                val tWidth = width
+                val tHeight = height
 
                 bitmap
                     .rotate(rotationDegrees)

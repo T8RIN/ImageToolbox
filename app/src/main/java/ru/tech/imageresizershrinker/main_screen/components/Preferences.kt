@@ -23,10 +23,10 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import ru.tech.imageresizershrinker.R
+import ru.tech.imageresizershrinker.common.APP_LINK
 import ru.tech.imageresizershrinker.theme.Github
 import ru.tech.imageresizershrinker.theme.PaletteSwatch
 import ru.tech.imageresizershrinker.theme.outlineVariant
-import ru.tech.imageresizershrinker.utils.APP_LINK
 import ru.tech.imageresizershrinker.utils.LocalSettingsState
 
 

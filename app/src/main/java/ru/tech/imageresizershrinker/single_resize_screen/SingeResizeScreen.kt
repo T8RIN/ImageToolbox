@@ -137,17 +137,17 @@ import ru.tech.imageresizershrinker.single_resize_screen.components.byteCount
 import ru.tech.imageresizershrinker.single_resize_screen.components.extension
 import ru.tech.imageresizershrinker.single_resize_screen.viewModel.SingleResizeViewModel
 import ru.tech.imageresizershrinker.theme.outlineVariant
-import ru.tech.imageresizershrinker.utils.BitmapUtils
-import ru.tech.imageresizershrinker.utils.BitmapUtils.canShow
-import ru.tech.imageresizershrinker.utils.BitmapUtils.decodeBitmapFromUri
-import ru.tech.imageresizershrinker.utils.BitmapUtils.resizeBitmap
-import ru.tech.imageresizershrinker.utils.BitmapUtils.shareBitmap
-import ru.tech.imageresizershrinker.utils.BitmapUtils.toMap
-import ru.tech.imageresizershrinker.utils.BitmapUtils.with
 import ru.tech.imageresizershrinker.utils.LocalFileController
 import ru.tech.imageresizershrinker.utils.LocalSettingsState
 import ru.tech.imageresizershrinker.utils.LocalWindowSizeClass
 import ru.tech.imageresizershrinker.utils.Picker
+import ru.tech.imageresizershrinker.utils.helper.BitmapUtils
+import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.canShow
+import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.decodeBitmapFromUri
+import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.resizeBitmap
+import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.shareBitmap
+import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.toMap
+import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.with
 import ru.tech.imageresizershrinker.utils.localImagePickerMode
 import ru.tech.imageresizershrinker.utils.modifier.alertDialog
 import ru.tech.imageresizershrinker.utils.modifier.drawHorizontalStroke
@@ -184,6 +184,7 @@ fun SingleResizeScreen(
 
     LaunchedEffect(uriState) {
         uriState?.let {
+            viewModel.setUri(it)
             context.decodeBitmapFromUri(
                 uri = it,
                 onGetMimeType = viewModel::setMime,
@@ -229,6 +230,7 @@ fun SingleResizeScreen(
             mode = localImagePickerMode(Picker.Single)
         ) { uris ->
             uris.takeIf { it.isNotEmpty() }?.firstOrNull()?.let {
+                viewModel.setUri(it)
                 context.decodeBitmapFromUri(
                     uri = it,
                     onGetMimeType = viewModel::setMime,

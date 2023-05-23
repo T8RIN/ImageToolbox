@@ -98,13 +98,13 @@ import ru.tech.imageresizershrinker.single_resize_screen.components.ExitWithoutS
 import ru.tech.imageresizershrinker.single_resize_screen.components.ImageNotPickedWidget
 import ru.tech.imageresizershrinker.single_resize_screen.components.LoadingDialog
 import ru.tech.imageresizershrinker.theme.outlineVariant
-import ru.tech.imageresizershrinker.utils.BitmapUtils.decodeBitmapFromUri
-import ru.tech.imageresizershrinker.utils.BitmapUtils.shareBitmap
-import ru.tech.imageresizershrinker.utils.ContextUtils.requestStoragePermission
 import ru.tech.imageresizershrinker.utils.LocalFileController
 import ru.tech.imageresizershrinker.utils.LocalSettingsState
 import ru.tech.imageresizershrinker.utils.LocalWindowSizeClass
 import ru.tech.imageresizershrinker.utils.Picker
+import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.decodeBitmapFromUri
+import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.shareBitmap
+import ru.tech.imageresizershrinker.utils.helper.ContextUtils.requestStoragePermission
 import ru.tech.imageresizershrinker.utils.localImagePickerMode
 import ru.tech.imageresizershrinker.utils.modifier.drawHorizontalStroke
 import ru.tech.imageresizershrinker.utils.modifier.fabBorder
@@ -138,6 +138,7 @@ fun CropScreen(
 
     LaunchedEffect(uriState) {
         uriState?.let {
+            viewModel.setUri(it)
             context.decodeBitmapFromUri(
                 uri = it,
                 onGetMimeType = viewModel::updateMimeType,
@@ -172,6 +173,7 @@ fun CropScreen(
             mode = localImagePickerMode(Picker.Single)
         ) { uris ->
             uris.takeIf { it.isNotEmpty() }?.firstOrNull()?.let {
+                viewModel.setUri(it)
                 context.decodeBitmapFromUri(
                     uri = it,
                     onGetMimeType = {},

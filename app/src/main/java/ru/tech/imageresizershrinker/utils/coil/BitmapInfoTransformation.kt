@@ -4,7 +4,7 @@ import android.graphics.Bitmap
 import coil.size.Size
 import coil.transform.Transformation
 import ru.tech.imageresizershrinker.single_resize_screen.components.BitmapInfo
-import ru.tech.imageresizershrinker.utils.BitmapUtils.previewBitmap
+import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.previewBitmap
 
 class BitmapInfoTransformation(
     private val bitmapInfo: BitmapInfo
@@ -15,8 +15,8 @@ class BitmapInfoTransformation(
     override suspend fun transform(input: Bitmap, size: Size): Bitmap {
         return input.previewBitmap(
             quality = bitmapInfo.quality,
-            widthValue = bitmapInfo.width.toIntOrNull(),
-            heightValue = bitmapInfo.height.toIntOrNull(),
+            widthValue = bitmapInfo.width,
+            heightValue = bitmapInfo.height,
             mimeTypeInt = bitmapInfo.mimeTypeInt,
             resizeType = bitmapInfo.resizeType,
             rotationDegrees = bitmapInfo.rotationDegrees,

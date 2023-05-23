@@ -1,4 +1,4 @@
-package ru.tech.imageresizershrinker.utils
+package ru.tech.imageresizershrinker.utils.helper
 
 import android.content.ContentResolver
 import android.content.Context
@@ -232,6 +232,7 @@ object BitmapUtils {
         isFlipped: Boolean,
         onByteCount: (Int) -> Unit
     ): Bitmap = withContext(Dispatchers.IO) {
+        if (heightValue == 0 || widthValue == 0) return@withContext this@previewBitmap
         val out = ByteArrayOutputStream()
         val tWidth = widthValue ?: width
         val tHeight = heightValue ?: height
@@ -438,7 +439,7 @@ object BitmapUtils {
         val rotated = abs(currentInfo.rotationDegrees) % 180 != 0f
         fun Bitmap.width() = if (rotated) height else width
         fun Bitmap.height() = if (rotated) width else height
-        fun Int.calc(cnt: Int): String = (this * (cnt / 100f)).toInt().toString()
+        fun Int.calc(cnt: Int): Int = (this * (cnt / 100f)).toInt()
 
         return when (val percent = this) {
             in 500 downTo 99 -> {
@@ -452,8 +453,8 @@ object BitmapUtils {
             100 -> {
                 currentInfo.copy(
                     quality = percent.toFloat(),
-                    width = bitmap.width().toString(),
-                    height = bitmap.height().toString()
+                    width = bitmap.width(),
+                    height = bitmap.height()
                 )
             }
 

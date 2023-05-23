@@ -12,7 +12,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.R
-import ru.tech.imageresizershrinker.utils.BitmapUtils.restrict
+import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.restrict
 import ru.tech.imageresizershrinker.utils.modifier.block
 import ru.tech.imageresizershrinker.widget.RoundedTextField
 
@@ -20,15 +20,15 @@ import ru.tech.imageresizershrinker.widget.RoundedTextField
 fun ResizeImageField(
     bitmapInfo: BitmapInfo,
     bitmap: Bitmap?,
-    onWidthChange: (String) -> Unit,
-    onHeightChange: (String) -> Unit
+    onWidthChange: (Int) -> Unit,
+    onHeightChange: (Int) -> Unit
 ) {
     Row(Modifier.block(shape = RoundedCornerShape(24.dp))) {
         RoundedTextField(
             enabled = bitmap != null,
-            value = bitmapInfo.width,
+            value = bitmapInfo.width.takeIf { it != 0 }.let { it ?: "" }.toString(),
             onValueChange = {
-                onWidthChange(it.restrict())
+                onWidthChange(it.restrict().toIntOrNull() ?: 0)
             },
             shape = RoundedCornerShape(12.dp),
             keyboardOptions = KeyboardOptions(
@@ -53,9 +53,9 @@ fun ResizeImageField(
         )
         RoundedTextField(
             enabled = bitmap != null,
-            value = bitmapInfo.height,
+            value = bitmapInfo.height.takeIf { it != 0 }.let { it ?: "" }.toString(),
             onValueChange = {
-                onHeightChange(it.restrict())
+                onHeightChange(it.restrict().toIntOrNull() ?: 0)
             },
             keyboardOptions = KeyboardOptions(
                 keyboardType = KeyboardType.Number

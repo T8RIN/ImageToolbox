@@ -165,6 +165,13 @@
     <string name="order">Order</string>
     <string name="order_sub">Determines order of the options on the main screen</string>
     <string name="emojis_count">Emojis count</string>
+    <string name="sequence_num">sequenceNum</string>
+    <string name="original_filename">originalFilename</string>
+    <string name="add_original_filename">Add original filename</string>
+    <string name="add_original_filename_sub">If enabled adds original filename in the name of the output image</string>
+    <string name="add_sequence_number">Add sequence number</string>
+    <string name="add_sequence_number_sub">If enabled replaces strandard timestamp to the image sequence number if you use batch processing</string>
+    <string name="filename_not_work_with_photopicker">Adding original filename doesn\'t work if photopicker image source selected</string>
 
     <string-array name="fab_alignment_sub">
         <item>Start</item>

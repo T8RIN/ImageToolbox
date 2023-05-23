@@ -2,6 +2,7 @@ package ru.tech.imageresizershrinker.single_resize_screen.viewModel
 
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.net.Uri
 import android.os.Build
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
@@ -17,19 +18,22 @@ import kotlinx.coroutines.withContext
 import ru.tech.imageresizershrinker.single_resize_screen.components.BitmapInfo
 import ru.tech.imageresizershrinker.single_resize_screen.components.compressFormat
 import ru.tech.imageresizershrinker.single_resize_screen.components.extension
-import ru.tech.imageresizershrinker.utils.BitmapUtils
-import ru.tech.imageresizershrinker.utils.BitmapUtils.canShow
-import ru.tech.imageresizershrinker.utils.BitmapUtils.copyTo
-import ru.tech.imageresizershrinker.utils.BitmapUtils.flip
-import ru.tech.imageresizershrinker.utils.BitmapUtils.previewBitmap
-import ru.tech.imageresizershrinker.utils.BitmapUtils.resizeBitmap
-import ru.tech.imageresizershrinker.utils.BitmapUtils.rotate
-import ru.tech.imageresizershrinker.utils.BitmapUtils.scaleUntilCanShow
 import ru.tech.imageresizershrinker.utils.FileController
+import ru.tech.imageresizershrinker.utils.SaveTarget
+import ru.tech.imageresizershrinker.utils.helper.BitmapUtils
+import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.canShow
+import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.copyTo
+import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.flip
+import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.previewBitmap
+import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.resizeBitmap
+import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.rotate
+import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.scaleUntilCanShow
 import java.io.ByteArrayInputStream
 import java.io.ByteArrayOutputStream
 
 class SingleResizeViewModel : ViewModel() {
+
+    private val _uri = mutableStateOf(Uri.EMPTY)
 
     private val _bitmap: MutableState<Bitmap?> = mutableStateOf(null)
     val bitmap: Bitmap? by _bitmap
@@ -77,8 +81,8 @@ class SingleResizeViewModel : ViewModel() {
 
                 _bitmapInfo.value = _bitmapInfo.value.run {
                     if (resizeType == 2) copy(
-                        height = preview.height.toString(),
-                        width = preview.width.toString()
+                        height = preview.height,
+                        width = preview.width
                     ) else this
                 }
             }
@@ -96,8 +100,8 @@ class SingleResizeViewModel : ViewModel() {
                     if (!fileController.isExternalStorageWritable()) {
                         onComplete(false)
                     } else {
-                        val tWidth = width.toIntOrNull() ?: bitmap.width
-                        val tHeight = height.toIntOrNull() ?: bitmap.height
+                        val tWidth = width
+                        val tHeight = height
 
                         val localBitmap =
                             bitmap
@@ -105,7 +109,13 @@ class SingleResizeViewModel : ViewModel() {
                                 .resizeBitmap(tWidth, tHeight, resizeType)
                                 .flip(isFlipped)
 
-                        val savingFolder = fileController.getSavingFolder(bitmapInfo)
+                        val savingFolder = fileController.getSavingFolder(
+                            SaveTarget(
+                                bitmapInfo = bitmapInfo,
+                                uri = _uri.value,
+                                sequenceNumber = null
+                            )
+                        )
 
                         val fos = savingFolder.outputStream
                         localBitmap.compress(
@@ -160,13 +170,13 @@ class SingleResizeViewModel : ViewModel() {
     ): Bitmap = withContext(Dispatchers.IO) {
         return@withContext bitmapInfo.run {
             bitmap.previewBitmap(
-                quality,
-                width.toIntOrNull(),
-                height.toIntOrNull(),
-                mimeTypeInt,
-                resizeType,
-                rotationDegrees,
-                isFlipped
+                quality = quality,
+                widthValue = width,
+                heightValue = height,
+                mimeTypeInt = mimeTypeInt,
+                resizeType = resizeType,
+                rotationDegrees = rotationDegrees,
+                isFlipped = isFlipped
             ) {
                 _bitmapInfo.value = _bitmapInfo.value.copy(sizeInBytes = it)
             }
@@ -191,8 +201,8 @@ class SingleResizeViewModel : ViewModel() {
 
     fun resetValues(saveMime: Boolean = false) {
         _bitmapInfo.value = BitmapInfo(
-            width = _bitmap.value?.width?.toString() ?: "",
-            height = _bitmap.value?.height?.toString() ?: "",
+            width = _bitmap.value?.width ?: 0,
+            height = _bitmap.value?.height ?: 0,
             mimeTypeInt = if (saveMime) bitmapInfo.mimeTypeInt else 0
         )
         checkBitmapAndUpdate(resetPreset = true, resetTelegram = true)
@@ -204,8 +214,8 @@ class SingleResizeViewModel : ViewModel() {
             _bitmap.value = bitmap?.scaleUntilCanShow()
             resetValues(saveMime = true)
             _bitmapInfo.value = _bitmapInfo.value.copy(
-                width = size?.first.toString(),
-                height = size?.second.toString()
+                width = size?.first ?: 0,
+                height = size?.second ?: 0
             )
         }
     }
@@ -237,14 +247,14 @@ class SingleResizeViewModel : ViewModel() {
         checkBitmapAndUpdate(resetPreset = false, resetTelegram = false)
     }
 
-    fun updateWidth(width: String) {
+    fun updateWidth(width: Int) {
         if (_bitmapInfo.value.width != width) {
             _bitmapInfo.value = _bitmapInfo.value.copy(width = width)
             checkBitmapAndUpdate(resetPreset = true, resetTelegram = true)
         }
     }
 
-    fun updateHeight(height: String) {
+    fun updateHeight(height: Int) {
         if (_bitmapInfo.value.height != height) {
             _bitmapInfo.value = _bitmapInfo.value.copy(height = height)
             checkBitmapAndUpdate(resetPreset = true, resetTelegram = true)
@@ -279,8 +289,8 @@ class SingleResizeViewModel : ViewModel() {
 
     fun setTelegramSpecs() {
         val new = _bitmapInfo.value.copy(
-            width = "512",
-            height = "512",
+            width = 512,
+            height = 512,
             mimeTypeInt = 3,
             resizeType = 1,
             quality = 100f
@@ -306,6 +316,10 @@ class SingleResizeViewModel : ViewModel() {
         val exifInterface = _exif.value
         exifInterface?.setAttribute(tag, value)
         updateExif(exifInterface)
+    }
+
+    fun setUri(uri: Uri) {
+        _uri.value = uri
     }
 
 }

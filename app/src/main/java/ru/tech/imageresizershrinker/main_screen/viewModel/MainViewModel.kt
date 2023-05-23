@@ -24,27 +24,29 @@ import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 import org.w3c.dom.Element
 import ru.tech.imageresizershrinker.BuildConfig
+import ru.tech.imageresizershrinker.common.ADD_ORIGINAL_NAME
+import ru.tech.imageresizershrinker.common.ADD_SEQ_NUM
+import ru.tech.imageresizershrinker.common.ADD_SIZE
+import ru.tech.imageresizershrinker.common.ALIGNMENT
+import ru.tech.imageresizershrinker.common.AMOLED_MODE
+import ru.tech.imageresizershrinker.common.APP_COLOR
+import ru.tech.imageresizershrinker.common.APP_RELEASES
+import ru.tech.imageresizershrinker.common.BORDER_WIDTH
+import ru.tech.imageresizershrinker.common.COLOR_TUPLES
+import ru.tech.imageresizershrinker.common.DYNAMIC_COLORS
+import ru.tech.imageresizershrinker.common.EMOJI
+import ru.tech.imageresizershrinker.common.EMOJI_COUNT
+import ru.tech.imageresizershrinker.common.FILENAME_PREFIX
+import ru.tech.imageresizershrinker.common.IMAGE_MONET
+import ru.tech.imageresizershrinker.common.NIGHT_MODE
+import ru.tech.imageresizershrinker.common.ORDER
+import ru.tech.imageresizershrinker.common.PICKER_MODE
+import ru.tech.imageresizershrinker.common.PRESETS
+import ru.tech.imageresizershrinker.common.SAVE_FOLDER
+import ru.tech.imageresizershrinker.common.SHOW_DIALOG
 import ru.tech.imageresizershrinker.theme.asString
 import ru.tech.imageresizershrinker.theme.defaultColorTuple
 import ru.tech.imageresizershrinker.theme.toColorTupleList
-import ru.tech.imageresizershrinker.utils.ADD_SIZE
-import ru.tech.imageresizershrinker.utils.ALIGNMENT
-import ru.tech.imageresizershrinker.utils.AMOLED_MODE
-import ru.tech.imageresizershrinker.utils.APP_COLOR
-import ru.tech.imageresizershrinker.utils.APP_RELEASES
-import ru.tech.imageresizershrinker.utils.BORDER_WIDTH
-import ru.tech.imageresizershrinker.utils.COLOR_TUPLES
-import ru.tech.imageresizershrinker.utils.DYNAMIC_COLORS
-import ru.tech.imageresizershrinker.utils.EMOJI
-import ru.tech.imageresizershrinker.utils.EMOJI_COUNT
-import ru.tech.imageresizershrinker.utils.FILENAME_PREFIX
-import ru.tech.imageresizershrinker.utils.IMAGE_MONET
-import ru.tech.imageresizershrinker.utils.NIGHT_MODE
-import ru.tech.imageresizershrinker.utils.ORDER
-import ru.tech.imageresizershrinker.utils.PICKER_MODE
-import ru.tech.imageresizershrinker.utils.PRESETS
-import ru.tech.imageresizershrinker.utils.SAVE_FOLDER
-import ru.tech.imageresizershrinker.utils.SHOW_DIALOG
 import ru.tech.imageresizershrinker.utils.Screen
 import ru.tech.imageresizershrinker.widget.ToastHostState
 import java.net.URL
@@ -64,6 +66,12 @@ class MainViewModel @Inject constructor(
 
     private val _addSizeInFilename = mutableStateOf(true)
     val addSizeInFilename by _addSizeInFilename
+
+    private val _addOriginalFilename = mutableStateOf(true)
+    val addOriginalFilename by _addOriginalFilename
+
+    private val _addSequenceNumber = mutableStateOf(true)
+    val addSequenceNumber by _addSequenceNumber
 
     private val _selectedEmoji = mutableStateOf(0)
     val selectedEmoji by _selectedEmoji
@@ -197,8 +205,26 @@ class MainViewModel @Inject constructor(
                 Screen.entries[id]
             } ?: Screen.entries
             _emojisCount.value = prefs[EMOJI_COUNT] ?: 1
+            _addOriginalFilename.value = prefs[ADD_ORIGINAL_NAME] ?: true
+            _addSequenceNumber.value = prefs[ADD_SEQ_NUM] ?: false
         }.launchIn(viewModelScope)
         tryGetUpdate(showDialog = showDialogOnStartUp)
+    }
+
+    fun updateAddSequenceNumber() {
+        viewModelScope.launch {
+            dataStore.edit {
+                it[ADD_SEQ_NUM] = !_addSequenceNumber.value
+            }
+        }
+    }
+
+    fun updateAddOriginalFilename() {
+        viewModelScope.launch {
+            dataStore.edit {
+                it[ADD_ORIGINAL_NAME] = !_addOriginalFilename.value
+            }
+        }
     }
 
     fun updateEmojisCount(count: Int) {
@@ -216,7 +242,6 @@ class MainViewModel @Inject constructor(
             }
         }
     }
-
 
     fun updateAddFileSize() {
         viewModelScope.launch {

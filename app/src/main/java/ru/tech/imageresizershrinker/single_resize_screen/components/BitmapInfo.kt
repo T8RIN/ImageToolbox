@@ -11,8 +11,8 @@ import java.util.Locale
 @Stable
 @Parcelize
 data class BitmapInfo(
-    val width: String = "",
-    val height: String = "",
+    val width: Int = 0,
+    val height: Int = 0,
     val quality: Float = 100f,
     val mimeTypeInt: Int = 0,
     val resizeType: Int = 0,

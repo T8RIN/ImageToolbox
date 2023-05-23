@@ -13,12 +13,12 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.runBlocking
+import ru.tech.imageresizershrinker.common.AMOLED_MODE
+import ru.tech.imageresizershrinker.common.APP_COLOR
+import ru.tech.imageresizershrinker.common.BORDER_WIDTH
+import ru.tech.imageresizershrinker.common.DYNAMIC_COLORS
+import ru.tech.imageresizershrinker.common.NIGHT_MODE
 import ru.tech.imageresizershrinker.theme.defaultColorTuple
-import ru.tech.imageresizershrinker.utils.AMOLED_MODE
-import ru.tech.imageresizershrinker.utils.APP_COLOR
-import ru.tech.imageresizershrinker.utils.BORDER_WIDTH
-import ru.tech.imageresizershrinker.utils.DYNAMIC_COLORS
-import ru.tech.imageresizershrinker.utils.NIGHT_MODE
 import javax.inject.Inject
 
 @HiltViewModel

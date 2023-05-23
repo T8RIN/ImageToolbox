@@ -18,12 +18,13 @@ import ru.tech.imageresizershrinker.single_resize_screen.components.BitmapInfo
 import ru.tech.imageresizershrinker.single_resize_screen.components.compressFormat
 import ru.tech.imageresizershrinker.single_resize_screen.components.extension
 import ru.tech.imageresizershrinker.single_resize_screen.components.mimeTypeInt
-import ru.tech.imageresizershrinker.utils.BitmapUtils.canShow
-import ru.tech.imageresizershrinker.utils.BitmapUtils.copyTo
-import ru.tech.imageresizershrinker.utils.BitmapUtils.previewBitmap
-import ru.tech.imageresizershrinker.utils.BitmapUtils.resizeBitmap
-import ru.tech.imageresizershrinker.utils.BitmapUtils.scaleByMaxBytes
 import ru.tech.imageresizershrinker.utils.FileController
+import ru.tech.imageresizershrinker.utils.SaveTarget
+import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.canShow
+import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.copyTo
+import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.previewBitmap
+import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.resizeBitmap
+import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.scaleByMaxBytes
 
 class BytesResizeViewModel : ViewModel() {
 
@@ -215,10 +216,14 @@ class BytesResizeViewModel : ViewModel() {
                                 val scaled = result.getOrNull()!!
                                 val localBitmap = scaled.first
                                 val savingFolder = fileController.getSavingFolder(
-                                    BitmapInfo(
-                                        mimeTypeInt = mime.extension.mimeTypeInt,
-                                        width = localBitmap.width.toString(),
-                                        height = localBitmap.height.toString()
+                                    SaveTarget(
+                                        bitmapInfo = BitmapInfo(
+                                            mimeTypeInt = mime.extension.mimeTypeInt,
+                                            width = localBitmap.width,
+                                            height = localBitmap.height
+                                        ),
+                                        uri = uri,
+                                        sequenceNumber = _done.value + 1
                                     )
                                 )
 
@@ -317,8 +322,8 @@ class BytesResizeViewModel : ViewModel() {
                 scaled.first to BitmapInfo(
                     mimeTypeInt = _mime.value,
                     quality = scaled.second.toFloat(),
-                    width = scaled.first.width.toString(),
-                    height = scaled.first.height.toString()
+                    width = scaled.first.width,
+                    height = scaled.first.height
                 )
             } else null
         }

@@ -1,4 +1,4 @@
-package ru.tech.imageresizershrinker.utils
+package ru.tech.imageresizershrinker.common
 
 import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.floatPreferencesKey
@@ -22,3 +22,5 @@ val ADD_SIZE = booleanPreferencesKey("add_size")
 val PICKER_MODE = intPreferencesKey("picker_mode")
 val ORDER = stringPreferencesKey("order")
 val EMOJI_COUNT = intPreferencesKey("em_count")
+val ADD_ORIGINAL_NAME = booleanPreferencesKey("ADD_ORIGINAL_NAME")
+val ADD_SEQ_NUM = booleanPreferencesKey("ADD_SEQ_NUM")

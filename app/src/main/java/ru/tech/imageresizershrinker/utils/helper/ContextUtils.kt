@@ -1,10 +1,13 @@
-package ru.tech.imageresizershrinker.utils
+package ru.tech.imageresizershrinker.utils.helper
 
 import android.Manifest
 import android.app.Activity
+import android.content.ContentResolver
 import android.content.Context
 import android.content.pm.PackageManager
+import android.net.Uri
 import android.os.Build
+import android.provider.MediaStore
 import android.widget.Toast
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.ErrorOutline
@@ -20,6 +23,7 @@ import ru.tech.imageresizershrinker.utils.permission.PermissionUtils.checkPermis
 import ru.tech.imageresizershrinker.utils.permission.PermissionUtils.setPermissionsAllowed
 import ru.tech.imageresizershrinker.widget.ToastDuration
 import ru.tech.imageresizershrinker.widget.ToastHostState
+import java.io.File
 import kotlin.math.min
 
 
@@ -152,7 +156,7 @@ object ContextUtils {
         )
     ): Boolean = validInstallers.contains(getInstallerPackageName(packageName))
 
-    fun Context.getInstallerPackageName(packageName: String): String? {
+    private fun Context.getInstallerPackageName(packageName: String): String? {
         kotlin.runCatching {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R)
                 return packageManager.getInstallSourceInfo(packageName).installingPackageName
@@ -161,4 +165,17 @@ object ContextUtils {
         }
         return null
     }
+
+    fun Context.getFileName(uri: Uri): String? = when (uri.scheme) {
+        ContentResolver.SCHEME_CONTENT -> getContentFileName(uri)
+        else -> uri.path?.let(::File)?.name
+    }
+
+    private fun Context.getContentFileName(uri: Uri): String? = runCatching {
+        contentResolver.query(uri, null, null, null, null)?.use { cursor ->
+            cursor.moveToFirst()
+            return@use cursor.getColumnIndexOrThrow(MediaStore.Images.ImageColumns.TITLE)
+                .let(cursor::getString)
+        }
+    }.getOrNull()
 }

@@ -1,4 +1,4 @@
-package ru.tech.imageresizershrinker.utils
+package ru.tech.imageresizershrinker.common
 
 const val APP_LINK = "https://github.com/T8RIN/ImageResizer"
 const val WEBLATE_LINK = "https://hosted.weblate.org/engage/image-resizer/"

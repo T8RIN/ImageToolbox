@@ -8,7 +8,8 @@ import android.os.Environment
 import android.provider.MediaStore
 import androidx.documentfile.provider.DocumentFile
 import ru.tech.imageresizershrinker.R
-import ru.tech.imageresizershrinker.single_resize_screen.components.BitmapInfo
+import ru.tech.imageresizershrinker.single_resize_screen.components.extension
+import ru.tech.imageresizershrinker.utils.helper.ContextUtils.getFileName
 import java.io.File
 import java.io.FileOutputStream
 import java.io.OutputStream
@@ -54,47 +55,43 @@ fun Uri?.toUiPath(context: Context, default: String): String = this?.let { uri -
 
 fun defaultPrefix() = "ResizedImage"
 
-fun createPrefix(
-    filenamePrefix: String,
-    addSizeInFilename: Boolean,
-    bitmapInfo: BitmapInfo
-): String = filenamePrefix.let {
-    if (addSizeInFilename) {
-        (it.takeIf { it.isNotEmpty() }
-            ?: defaultPrefix()) + "(" + bitmapInfo.width + ")x(" + bitmapInfo.height + ")"
-    } else it
-}
-
-fun previewPrefix(
+fun constructFilename(
     context: Context,
-    filenamePrefix: String,
-    addSizeInFilename: Boolean
+    fileParams: FileParams,
+    saveTarget: SaveTarget
 ): String {
-    return filenamePrefix.let {
-        if (addSizeInFilename) {
-            (it.takeIf { it.isNotEmpty() }
-                ?: defaultPrefix()) + "(" + context.getString(R.string.width)
-                .split(" ")[0] + ")x(" + context.getString(R.string.height).split(" ")[0] + ")"
-        } else it
-    }
-}
+    val wh = "(" + (if (saveTarget.uri == Uri.EMPTY) context.getString(R.string.width)
+        .split(" ")[0] else saveTarget.bitmapInfo.width) + ")x(" + (if (saveTarget.uri == Uri.EMPTY) context.getString(
+        R.string.height
+    ).split(" ")[0] else saveTarget.bitmapInfo.height) + ")"
 
-fun defaultFilename(extension: String): String =
-    constructFilename(prefix = defaultPrefix(), extension = extension)
+    var prefix = fileParams.filenamePrefix
+    val extension = saveTarget.bitmapInfo.mimeTypeInt.extension
 
-fun constructFilename(prefix: String, extension: String): String {
-    if (prefix.isEmpty()) return defaultFilename(extension)
+    if (prefix.isEmpty()) prefix = defaultPrefix()
+
+    if (fileParams.addOriginalFilename) prefix += "_${
+        if (saveTarget.uri != Uri.EMPTY) context.getFileName(
+            saveTarget.uri
+        ) ?: "" else context.getString(R.string.original_filename)
+    }"
+    if (fileParams.addSizeInFilename) prefix += wh
+
     val timeStamp = SimpleDateFormat(
         "yyyy-MM-dd_HH-mm-ss_ms",
         Locale.getDefault()
     ).format(Date())
-    return "$prefix$timeStamp.$extension"
+    return "${prefix}_${
+        if (fileParams.addSequenceNumber && saveTarget.sequenceNumber != null) saveTarget.sequenceNumber else if (saveTarget.uri == Uri.EMPTY && fileParams.addSequenceNumber) context.getString(
+            R.string.sequence_num
+        ) else timeStamp
+    }.$extension"
 }
 
 fun Context.getSavingFolder(
     treeUri: Uri?,
     extension: String,
-    filename: String = defaultFilename(extension),
+    filename: String,
 ): SavingFolder {
     return if (treeUri == null) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {

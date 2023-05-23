@@ -30,6 +30,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.BurstMode
+import androidx.compose.material.icons.outlined.ErrorOutline
 import androidx.compose.material.icons.outlined.Image
 import androidx.compose.material.icons.rounded.AddCircleOutline
 import androidx.compose.material.icons.rounded.Block
@@ -50,6 +51,7 @@ import androidx.compose.material.icons.rounded.TableRows
 import androidx.compose.material.icons.rounded.Translate
 import androidx.compose.material.icons.rounded.WbSunny
 import androidx.compose.material3.Divider
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Slider
@@ -77,7 +79,12 @@ import com.t8rin.dynamic.theme.ColorTupleItem
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.BuildConfig
 import ru.tech.imageresizershrinker.R
+import ru.tech.imageresizershrinker.common.AUTHOR_AVATAR
+import ru.tech.imageresizershrinker.common.DONATE
+import ru.tech.imageresizershrinker.common.ISSUE_TRACKER
+import ru.tech.imageresizershrinker.common.WEBLATE_LINK
 import ru.tech.imageresizershrinker.main_screen.viewModel.MainViewModel
+import ru.tech.imageresizershrinker.single_resize_screen.components.BitmapInfo
 import ru.tech.imageresizershrinker.theme.CreateAlt
 import ru.tech.imageresizershrinker.theme.Emoji
 import ru.tech.imageresizershrinker.theme.EmojiItem
@@ -87,23 +94,21 @@ import ru.tech.imageresizershrinker.theme.allIcons
 import ru.tech.imageresizershrinker.theme.blend
 import ru.tech.imageresizershrinker.theme.inverse
 import ru.tech.imageresizershrinker.theme.outlineVariant
-import ru.tech.imageresizershrinker.utils.AUTHOR_AVATAR
-import ru.tech.imageresizershrinker.utils.DONATE
-import ru.tech.imageresizershrinker.utils.ISSUE_TRACKER
+import ru.tech.imageresizershrinker.utils.LocalFileController
 import ru.tech.imageresizershrinker.utils.LocalSettingsState
-import ru.tech.imageresizershrinker.utils.WEBLATE_LINK
+import ru.tech.imageresizershrinker.utils.SaveTarget
 import ru.tech.imageresizershrinker.utils.constructFilename
 import ru.tech.imageresizershrinker.utils.isNightMode
 import ru.tech.imageresizershrinker.utils.modifier.block
 import ru.tech.imageresizershrinker.utils.modifier.pulsate
 import ru.tech.imageresizershrinker.utils.modifier.scaleOnTap
-import ru.tech.imageresizershrinker.utils.previewPrefix
 import ru.tech.imageresizershrinker.utils.toAlignment
 import ru.tech.imageresizershrinker.utils.toUiPath
 import ru.tech.imageresizershrinker.widget.LocalToastHost
 import ru.tech.imageresizershrinker.widget.Picture
 import kotlin.math.roundToInt
 
+@OptIn(ExperimentalMaterial3Api::class)
 fun LazyListScope.SettingsBlock(
     onEditPresets: () -> Unit,
     onEditArrangement: () -> Unit,
@@ -655,6 +660,7 @@ fun LazyListScope.SettingsBlock(
         Divider()
         // File
         Column {
+            val fileController = LocalFileController.current
             TitleItem(
                 icon = Icons.Rounded.FileSettings,
                 text = stringResource(R.string.filename),
@@ -664,17 +670,20 @@ fun LazyListScope.SettingsBlock(
                 title = stringResource(R.string.prefix),
                 subtitle = remember(
                     viewModel.filenamePrefix,
-                    viewModel.addSizeInFilename
+                    viewModel.addSizeInFilename,
+                    viewModel.addOriginalFilename,
+                    viewModel.addSequenceNumber
                 ) {
                     derivedStateOf {
                         constructFilename(
-                            prefix = previewPrefix(
-                                context = context,
-                                filenamePrefix = viewModel.filenamePrefix,
-                                addSizeInFilename = viewModel.addSizeInFilename
-                            ),
-                            "img"
-                        ).split("_")[0] + ".img"
+                            context = context,
+                            fileParams = fileController.fileParams,
+                            saveTarget = SaveTarget(BitmapInfo(), Uri.EMPTY, null)
+                        ).split(".")[0].let {
+                            if (viewModel.imagePickerModeInt == 0) {
+                                it.replace("_" + context.getString(R.string.original_filename), "")
+                            } else it
+                        } + ".img"
                     }
                 }.value,
                 color = MaterialTheme
@@ -692,6 +701,35 @@ fun LazyListScope.SettingsBlock(
                 title = stringResource(R.string.add_file_size),
                 subtitle = stringResource(R.string.add_file_size_sub),
                 checked = viewModel.addSizeInFilename
+            )
+            Spacer(Modifier.height(8.dp))
+            val enabled = viewModel.imagePickerModeInt != 0
+            PreferenceRowSwitch(
+                modifier = Modifier.alpha(
+                    animateFloatAsState(
+                        if (enabled) 1f
+                        else 0.5f
+                    ).value
+                ),
+                onClick = {
+                    if (enabled) viewModel.updateAddOriginalFilename()
+                    else scope.launch {
+                        toastHost.showToast(
+                            message = context.getString(R.string.filename_not_work_with_photopicker),
+                            icon = Icons.Outlined.ErrorOutline
+                        )
+                    }
+                },
+                title = stringResource(R.string.add_original_filename),
+                subtitle = stringResource(R.string.add_original_filename_sub),
+                checked = viewModel.addOriginalFilename && enabled
+            )
+            Spacer(Modifier.height(8.dp))
+            PreferenceRowSwitch(
+                onClick = { viewModel.updateAddSequenceNumber() },
+                title = stringResource(R.string.add_sequence_number),
+                subtitle = stringResource(R.string.add_sequence_number_sub),
+                checked = viewModel.addSequenceNumber
             )
             Spacer(Modifier.height(16.dp))
         }

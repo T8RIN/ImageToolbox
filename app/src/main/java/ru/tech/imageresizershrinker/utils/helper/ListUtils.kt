@@ -1,4 +1,4 @@
-package ru.tech.imageresizershrinker.utils
+package ru.tech.imageresizershrinker.utils.helper
 
 object ListUtils {
     fun <T> List<T>.nearestFor(item: T): T? {

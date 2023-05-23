@@ -115,6 +115,8 @@ import org.burnoutcrew.reorderable.rememberReorderableLazyListState
 import org.burnoutcrew.reorderable.reorderable
 import ru.tech.imageresizershrinker.BuildConfig
 import ru.tech.imageresizershrinker.R
+import ru.tech.imageresizershrinker.common.APP_LINK
+import ru.tech.imageresizershrinker.common.AUTHOR_LINK
 import ru.tech.imageresizershrinker.main_screen.viewModel.MainViewModel
 import ru.tech.imageresizershrinker.single_resize_screen.components.RevealDirection
 import ru.tech.imageresizershrinker.single_resize_screen.components.RevealValue
@@ -128,15 +130,13 @@ import ru.tech.imageresizershrinker.theme.Telegram
 import ru.tech.imageresizershrinker.theme.allIcons
 import ru.tech.imageresizershrinker.theme.outlineVariant
 import ru.tech.imageresizershrinker.theme.suggestContainerColorBy
-import ru.tech.imageresizershrinker.utils.APP_LINK
-import ru.tech.imageresizershrinker.utils.AUTHOR_LINK
-import ru.tech.imageresizershrinker.utils.ContextUtils.verifyInstallerId
 import ru.tech.imageresizershrinker.utils.LocalEditPresetsState
 import ru.tech.imageresizershrinker.utils.LocalNavController
 import ru.tech.imageresizershrinker.utils.LocalSettingsState
 import ru.tech.imageresizershrinker.utils.LocalWindowSizeClass
 import ru.tech.imageresizershrinker.utils.Screen
 import ru.tech.imageresizershrinker.utils.defaultPrefix
+import ru.tech.imageresizershrinker.utils.helper.ContextUtils.verifyInstallerId
 import ru.tech.imageresizershrinker.utils.isNightMode
 import ru.tech.imageresizershrinker.utils.modifier.alertDialog
 import ru.tech.imageresizershrinker.utils.modifier.drawHorizontalStroke

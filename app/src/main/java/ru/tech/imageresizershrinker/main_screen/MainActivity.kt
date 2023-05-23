@@ -90,6 +90,7 @@ import nl.dionsegijn.konfetti.core.emitter.Emitter
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.batch_resize_screen.BatchResizeScreen
 import ru.tech.imageresizershrinker.bytes_resize_screen.BytesResizeScreen
+import ru.tech.imageresizershrinker.common.APP_RELEASES
 import ru.tech.imageresizershrinker.compare_screen.CompareScreen
 import ru.tech.imageresizershrinker.crop_screen.CropScreen
 import ru.tech.imageresizershrinker.delete_exif_screen.DeleteExifScreen
@@ -117,17 +118,16 @@ import ru.tech.imageresizershrinker.theme.ImageResizerTheme
 import ru.tech.imageresizershrinker.theme.allIcons
 import ru.tech.imageresizershrinker.theme.blend
 import ru.tech.imageresizershrinker.theme.outlineVariant
-import ru.tech.imageresizershrinker.utils.APP_RELEASES
-import ru.tech.imageresizershrinker.utils.ContextUtils.needToShowStoragePermissionRequest
-import ru.tech.imageresizershrinker.utils.ContextUtils.requestStoragePermission
 import ru.tech.imageresizershrinker.utils.FileParams
-import ru.tech.imageresizershrinker.utils.IntentUtils.parcelable
-import ru.tech.imageresizershrinker.utils.IntentUtils.parcelableArrayList
 import ru.tech.imageresizershrinker.utils.LocalEditPresetsState
 import ru.tech.imageresizershrinker.utils.LocalFileController
 import ru.tech.imageresizershrinker.utils.LocalNavController
 import ru.tech.imageresizershrinker.utils.LocalSettingsState
 import ru.tech.imageresizershrinker.utils.Screen
+import ru.tech.imageresizershrinker.utils.helper.ContextUtils.needToShowStoragePermissionRequest
+import ru.tech.imageresizershrinker.utils.helper.ContextUtils.requestStoragePermission
+import ru.tech.imageresizershrinker.utils.helper.IntentUtils.parcelable
+import ru.tech.imageresizershrinker.utils.helper.IntentUtils.parcelableArrayList
 import ru.tech.imageresizershrinker.utils.isNightMode
 import ru.tech.imageresizershrinker.utils.modifier.alertDialog
 import ru.tech.imageresizershrinker.utils.rememberFileController
@@ -182,7 +182,9 @@ class MainActivity : M3Activity() {
                     FileParams(
                         treeUri = viewModel.saveFolderUri,
                         filenamePrefix = viewModel.filenamePrefix,
-                        addSizeInFilename = viewModel.addSizeInFilename
+                        addSizeInFilename = viewModel.addSizeInFilename,
+                        addOriginalFilename = viewModel.addOriginalFilename,
+                        addSequenceNumber = viewModel.addSequenceNumber,
                     )
                 )
             ) {
