@@ -111,8 +111,7 @@ private var EmojiList: List<ImageVector>? = null
 val Emoji.allIcons: List<ImageVector>
     get() {
         EmojiList?.let { return it }
-        EmojiList = listOf(
-            Sparkles,
+        EmojiList = listOf(Sparkles) + listOf(
             Alien,
             Alienmonster,
             Amulet,
@@ -201,7 +200,7 @@ val Emoji.allIcons: List<ImageVector>
             CrystalBall,
             Die,
             Firecracker
-        )
+        ).sortedBy { it.name }
         return EmojiList!!
     }
 
