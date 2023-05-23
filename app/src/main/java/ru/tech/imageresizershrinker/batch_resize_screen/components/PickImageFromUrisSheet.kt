@@ -34,14 +34,17 @@ import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.main_screen.components.SimpleSheet
 import ru.tech.imageresizershrinker.main_screen.components.TitleItem
+import ru.tech.imageresizershrinker.single_resize_screen.components.BitmapInfo
 import ru.tech.imageresizershrinker.theme.outlineVariant
 import ru.tech.imageresizershrinker.utils.LocalSettingsState
+import ru.tech.imageresizershrinker.utils.coil.BitmapInfoTransformation
 import ru.tech.imageresizershrinker.utils.modifier.block
 import ru.tech.imageresizershrinker.widget.Picture
 
 @Composable
 fun PickImageFromUrisSheet(
     visible: Boolean,
+    previewBitmapInfo: BitmapInfo = BitmapInfo(),
     uris: List<Uri>?,
     selectedUri: Uri?,
     onUriRemoved: (Uri) -> Unit,
@@ -74,6 +77,9 @@ fun PickImageFromUrisSheet(
                                     .block(RoundedCornerShape(8.dp))
                             ) {
                                 Picture(
+                                    transformations = listOf(
+                                        BitmapInfoTransformation(previewBitmapInfo)
+                                    ),
                                     model = uri,
                                     modifier = Modifier
                                         .padding(4.dp)

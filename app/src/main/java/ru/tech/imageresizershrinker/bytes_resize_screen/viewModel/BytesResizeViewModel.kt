@@ -149,9 +149,9 @@ class BytesResizeViewModel : ViewModel() {
                             quality = 100f,
                             widthValue = null,
                             heightValue = null,
-                            mime = mime,
-                            resize = 0,
-                            rotation = 0f,
+                            mimeTypeInt = mime,
+                            resizeType = 0,
+                            rotationDegrees = 0f,
                             isFlipped = false,
                             onByteCount = {}
                         )

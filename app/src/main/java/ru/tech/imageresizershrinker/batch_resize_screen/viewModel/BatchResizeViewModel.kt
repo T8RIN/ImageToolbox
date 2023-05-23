@@ -97,7 +97,7 @@ class BatchResizeViewModel : ViewModel() {
                             _bitmap.value = loader(it)
                         }
                     }
-                    resetValues(saveMime = true)
+                    resetValues(true)
                 }
                 val u = _uris.value?.toMutableList()?.apply {
                     remove(removedUri)
@@ -175,7 +175,7 @@ class BatchResizeViewModel : ViewModel() {
         viewModelScope.launch {
             val size = bitmap?.let { bitmap.width to bitmap.height }
             _bitmap.value = bitmap?.scaleUntilCanShow()
-            resetValues(saveMime = true)
+            resetValues(true)
             _bitmapInfo.value = _bitmapInfo.value.copy(
                 width = size?.first.toString(),
                 height = size?.second.toString()
@@ -334,7 +334,7 @@ class BatchResizeViewModel : ViewModel() {
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
                 _bitmap.value = loader()
-                resetValues(saveMime = true)
+                checkBitmapAndUpdate(resetPreset = false, resetTelegram = false)
                 _selectedUri.value = uri
             }
         }

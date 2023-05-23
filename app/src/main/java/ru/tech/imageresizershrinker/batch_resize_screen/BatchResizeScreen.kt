@@ -870,6 +870,7 @@ fun BatchResizeScreen(
             PickImageFromUrisSheet(
                 visible = showPickImageFromUrisDialog,
                 uris = viewModel.uris,
+                previewBitmapInfo = viewModel.bitmapInfo,
                 selectedUri = viewModel.selectedUri,
                 onDismiss = {
                     showPickImageFromUrisDialog = false

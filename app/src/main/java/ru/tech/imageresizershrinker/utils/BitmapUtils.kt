@@ -226,9 +226,9 @@ object BitmapUtils {
         quality: Float,
         widthValue: Int?,
         heightValue: Int?,
-        mime: Int,
-        resize: Int,
-        rotation: Float,
+        mimeTypeInt: Int,
+        resizeType: Int,
+        rotationDegrees: Float,
         isFlipped: Boolean,
         onByteCount: (Int) -> Unit
     ): Bitmap = withContext(Dispatchers.IO) {
@@ -236,10 +236,10 @@ object BitmapUtils {
         val tWidth = widthValue ?: width
         val tHeight = heightValue ?: height
 
-        rotate(rotation)
-            .resizeBitmap(tWidth, tHeight, resize)
+        rotate(rotationDegrees)
+            .resizeBitmap(tWidth, tHeight, resizeType)
             .flip(isFlipped)
-            .compress(mime.extension.compressFormat, quality.toInt().coerceIn(0, 100), out)
+            .compress(mimeTypeInt.extension.compressFormat, quality.toInt().coerceIn(0, 100), out)
         val b = out.toByteArray()
         onByteCount(b.size)
 
