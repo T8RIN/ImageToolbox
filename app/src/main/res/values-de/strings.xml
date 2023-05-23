@@ -142,4 +142,8 @@
     <string name="cropping">Zuschneiden</string>
     <string name="image_source">Bildquelle</string>
     <string name="gallery_picker">Galerie</string>
+    <string name="photo_picker">Bildauswahl</string>
+    <string name="gallery_picker_sub">Bildauswahl mittels „Schlichte Galerie“. Funktioniert nur, wenn du diese App installiert hast.</string>
+    <string name="order">Reihenfolge</string>
+    <string name="order_sub">Legt die Reihenfolge der Optionen im Hauptfenster fest</string>
 </resources>
