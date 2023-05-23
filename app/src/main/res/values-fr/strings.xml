@@ -152,4 +152,11 @@
     <string name="options_arrangement">Disposition des options</string>
     <string name="order_sub">Détermine l’ordre des options sur l’écran principal</string>
     <string name="emojis_count">Nombre d’émojis</string>
+    <string name="add_original_filename">Ajouter le nom de fichier original</string>
+    <string name="add_original_filename_sub">Si activé, ajoute le nom de fichier d\'origine au nom de l\'image de sortie</string>
+    <string name="add_sequence_number_sub">Si cette option est activée, l’horodatage de Standard remplace le numéro de séquence d’image si vous utilisez le traitement par lots</string>
+    <string name="sequence_num">numéro de séquence</string>
+    <string name="original_filename">fichier original</string>
+    <string name="add_sequence_number">Ajouter un numéro de séquence</string>
+    <string name="filename_not_work_with_photopicker">L’ajout du nom de fichier original ne fonctionne pas si la source d’image du photopicker est sélectionnée</string>
 </resources>
