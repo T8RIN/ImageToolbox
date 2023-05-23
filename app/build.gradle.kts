@@ -119,7 +119,7 @@ dependencies {
     implementation("io.coil-kt:coil:2.3.0")
     implementation("io.coil-kt:coil-compose:2.3.0")
     implementation("io.coil-kt:coil-gif:2.4.0")
-    implementation("io.coil-kt:coil-svg:2.3.0")
+    implementation("io.coil-kt:coil-svg:2.4.0")
 
     //Modules
     implementation(project(":cropper"))
