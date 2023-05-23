@@ -146,7 +146,7 @@
     <string name="delete_exif">Supprimer EXIF</string>
     <string name="delete_exif_sub">Supprimer les métadonnées EXIF de tout ensemble d\'images</string>
     <string name="image_preview">Aperçu de l\'image</string>
-    <string name="image_preview_sub">Aperçu de tout type d’images : GIF, SVG, et ainsi de suite</string>
+    <string name="image_preview_sub">Aperçu de tout type d’images : GIF, SVG, et ainsi de suite</string>
     <string name="photo_picker_sub">Sélecteur moderne de photos Android apparaissant en bas de l\'écran, ne fonctionne que sur Android 12+.A des problèmes de réception des métadonnées EXIF</string>
     <string name="file_explorer_picker_sub">Utiliser l\'intent GetContent pour sélectionner l\'image. Fonctionne partout, mais celui-ci est connu pour avoir des difficultés à recevoir les images sélectionnées sur certains appareils. Cela n\'est pas de ma faute.</string>
     <string name="image_source">Source de l\'image</string>
@@ -334,7 +334,7 @@
     <string name="font_scale">Taille de la Police</string>
     <string name="defaultt">Défaut</string>
     <string name="using_large_fonts_warn">L’utilisation de grandes échelles de police peut provoquer des erreurs d’interface utilisateur ainsi que d\'autres problèmes qui ne seront pas corrigés. A utiliser avec précaution.</string>
-    <string name="alphabet_and_numbers">Aa Bb Cc Dd Ee Ff Gg Hh Ii Jj Kk Ll Mm Nn Oo Pp Qq Rr Ss Tt Uu Vv Ww Xx Yy Zz 0123456789 !\?</string>
+    <string name="alphabet_and_numbers">Aa Bb Cc Dd Ee Ff Gg Hh Ii Jj Kk Ll Mm Nn Oo Pp Qq Rr Ss Tt Uu Vv Ww Xx Yy Zz 0123456789 !?</string>
     <string name="emotions">Emotions</string>
     <string name="food_and_drink">Nourriture et Boisson</string>
     <string name="nature_and_animals">Nature et animaux</string>
@@ -439,7 +439,7 @@
     <string name="images_to_pdf_sub">Emballer les images données dans le fichier PDF de sortie</string>
     <string name="preview_pdf_sub">Aperçu PDF simple</string>
     <string name="invert_colors">Inverser les couleurs</string>
-    <string name="pdf_tools_sub">Fonctionner avec des fichiers PDF : prévisualiser, convertir en lot d\'images ou en créer une à partir d\'images données</string>
+    <string name="pdf_tools_sub">Fonctionner avec des fichiers PDF : prévisualiser, convertir en lot d\'images ou en créer une à partir d\'images données</string>
     <string name="attention">Precison</string>
     <string name="pdf_to_images_sub">Convertir un PDF en images dans un format de sortie donné</string>
     <string name="mask_filter">Filtre de masque</string>
@@ -491,7 +491,7 @@
     <string name="auto_rotate_limits_sub">Permet d\'adopter une boîte de limite pour l\'orientation de l\'image</string>
     <string name="lasso">Lasso</string>
     <string name="privacy_blur_sub">L\'image est floue sous le chemin tracé pour sécuriser tout ce que vous souhaitez cacher</string>
-    <string name="pen_sub">Celui par défaut, le plus simple : juste la couleur</string>
+    <string name="pen_sub">Celui par défaut, le plus simple : juste la couleur</string>
     <string name="line_arrow">Flèche de ligne</string>
     <string name="containers_shadow">Conteneurs</string>
     <string name="line_sub">Dessine le chemin du point de départ au point final sous forme de ligne</string>
