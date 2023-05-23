@@ -6,6 +6,8 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -28,10 +30,14 @@ import androidx.compose.material.icons.rounded.ContentCopy
 import androidx.compose.material.icons.rounded.RestartAlt
 import androidx.compose.material.icons.twotone.ErrorOutline
 import androidx.compose.material3.Button
-import androidx.compose.material3.Card
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.FilledIconButton
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButtonDefaults
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedCard
+import androidx.compose.material3.OutlinedIconButton
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.CompositionLocalProvider
@@ -52,6 +58,7 @@ import ru.tech.imageresizershrinker.crash_screen.components.GlobalExceptionHandl
 import ru.tech.imageresizershrinker.crash_screen.viewModel.CrashViewModel
 import ru.tech.imageresizershrinker.main_screen.MainActivity
 import ru.tech.imageresizershrinker.theme.ImageResizerTheme
+import ru.tech.imageresizershrinker.theme.outlineVariant
 import ru.tech.imageresizershrinker.utils.LocalSettingsState
 import ru.tech.imageresizershrinker.utils.isNightMode
 import ru.tech.imageresizershrinker.utils.rememberSettingsState
@@ -80,9 +87,11 @@ class CrashActivity : M3Activity() {
                     isNightMode = viewModel.nightMode.isNightMode(),
                     isDynamicColors = viewModel.dynamicColors,
                     isAmoledMode = viewModel.amoledMode,
-                    appColorTuple = viewModel.appColorTuple
+                    appColorTuple = viewModel.appColorTuple,
+                    borderWidth = animateFloatAsState(viewModel.borderWidth).value.dp
                 )
             ) {
+                val settingsState = LocalSettingsState.current
                 ImageResizerTheme {
                     val conf = LocalConfiguration.current
                     val size = min(conf.screenWidthDp.dp, conf.screenHeightDp.dp)
@@ -110,11 +119,16 @@ class CrashActivity : M3Activity() {
                                     fontSize = 26.sp
                                 )
                                 Spacer(modifier = Modifier.height(16.dp))
-                                Card(
-                                    Modifier
+                                OutlinedCard(
+                                    colors = CardDefaults.cardColors(),
+                                    modifier = Modifier
                                         .fillMaxWidth()
                                         .padding(horizontal = 16.dp)
                                         .navigationBarsPadding(),
+                                    border = BorderStroke(
+                                        settingsState.borderWidth,
+                                        MaterialTheme.colorScheme.outlineVariant()
+                                    ),
                                     shape = RoundedCornerShape(24.dp)
                                 ) {
                                     Text(
@@ -132,6 +146,11 @@ class CrashActivity : M3Activity() {
                                     .align(Alignment.BottomCenter)
                             ) {
                                 Button(
+                                    colors = ButtonDefaults.buttonColors(),
+                                    border = BorderStroke(
+                                        settingsState.borderWidth,
+                                        MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.primary)
+                                    ),
                                     onClick = {
                                         startActivity(
                                             Intent(
@@ -152,22 +171,29 @@ class CrashActivity : M3Activity() {
                                     )
                                 }
                                 Spacer(Modifier.width(8.dp))
-                                FilledIconButton(onClick = {
-                                    (getSystemService(CLIPBOARD_SERVICE) as ClipboardManager).apply {
-                                        setPrimaryClip(
-                                            ClipData.newPlainText(
-                                                getString(R.string.exception),
-                                                crashReason
+                                OutlinedIconButton(
+                                    colors = IconButtonDefaults.filledIconButtonColors(),
+                                    border = BorderStroke(
+                                        settingsState.borderWidth,
+                                        MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.primary)
+                                    ),
+                                    onClick = {
+                                        (getSystemService(CLIPBOARD_SERVICE) as ClipboardManager).apply {
+                                            setPrimaryClip(
+                                                ClipData.newPlainText(
+                                                    getString(R.string.exception),
+                                                    crashReason
+                                                )
                                             )
-                                        )
+                                        }
+                                        scope.launch {
+                                            toastHostState.showToast(
+                                                icon = Icons.Rounded.ContentCopy,
+                                                message = getString(R.string.copied),
+                                            )
+                                        }
                                     }
-                                    scope.launch {
-                                        toastHostState.showToast(
-                                            icon = Icons.Rounded.ContentCopy,
-                                            message = getString(R.string.copied),
-                                        )
-                                    }
-                                }) {
+                                ) {
                                     Icon(Icons.Rounded.ContentCopy, null)
                                 }
                             }

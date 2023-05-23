@@ -150,7 +150,7 @@ class MainViewModel @Inject constructor(
                         surface = colorTuple.getOrNull(3)?.toIntOrNull()?.let { Color(it) },
                     )
                 }) ?: defaultColorTuple
-                _borderWidth.value = prefs[BORDER_WIDTH]?.toFloatOrNull() ?: 1f
+                _borderWidth.value = prefs[BORDER_WIDTH] ?: 1f
                 _showDialogOnStartUp.value = prefs[SHOW_DIALOG] ?: true
                 _selectedEmoji.value = prefs[EMOJI] ?: 0
                 _screenList.value = prefs[ORDER]?.split("/")?.map {
@@ -179,7 +179,7 @@ class MainViewModel @Inject constructor(
                     surface = colorTuple.getOrNull(3)?.toIntOrNull()?.let { Color(it) },
                 )
             }) ?: defaultColorTuple
-            _borderWidth.value = prefs[BORDER_WIDTH]?.toFloatOrNull() ?: 1f
+            _borderWidth.value = prefs[BORDER_WIDTH] ?: 1f
             _localPresets.value = ((prefs[PRESETS]?.split("*")?.map {
                 it.toInt()
             } ?: emptyList()) + List(7) { 100 - it * 10 }).toSortedSet().reversed().toList()
@@ -282,7 +282,7 @@ class MainViewModel @Inject constructor(
         job = viewModelScope.launch {
             delay(10)
             dataStore.edit {
-                it[BORDER_WIDTH] = width.toString()
+                it[BORDER_WIDTH] = width
             }
         }
     }
