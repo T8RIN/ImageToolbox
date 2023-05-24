@@ -42,13 +42,13 @@ import ru.tech.imageresizershrinker.theme.CreateAlt
 import ru.tech.imageresizershrinker.theme.mixedColor
 import ru.tech.imageresizershrinker.theme.onMixedColor
 import ru.tech.imageresizershrinker.theme.outlineVariant
-import ru.tech.imageresizershrinker.widget.utils.LocalEditPresetsState
-import ru.tech.imageresizershrinker.widget.utils.LocalSettingsState
 import ru.tech.imageresizershrinker.utils.modifier.block
 import ru.tech.imageresizershrinker.widget.RevealValue
 import ru.tech.imageresizershrinker.widget.SwipeToReveal
 import ru.tech.imageresizershrinker.widget.rememberRevealState
 import ru.tech.imageresizershrinker.widget.text.AutoSizeText
+import ru.tech.imageresizershrinker.widget.utils.LocalEditPresetsState
+import ru.tech.imageresizershrinker.widget.utils.LocalSettingsState
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable

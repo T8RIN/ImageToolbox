@@ -11,10 +11,10 @@ import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.remember
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.utils.helper.BitmapInfo
-import ru.tech.imageresizershrinker.utils.helper.extension
 import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.fileSize
 import ru.tech.imageresizershrinker.utils.helper.ContextUtils.isExternalStorageWritable
 import ru.tech.imageresizershrinker.utils.helper.ContextUtils.requestStoragePermission
+import ru.tech.imageresizershrinker.utils.helper.extension
 
 private class FileControllerImpl constructor(
     private val context: Context,

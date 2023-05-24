@@ -16,10 +16,6 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import ru.tech.imageresizershrinker.utils.helper.BitmapInfo
-import ru.tech.imageresizershrinker.utils.helper.compressFormat
-import ru.tech.imageresizershrinker.utils.helper.extension
-import ru.tech.imageresizershrinker.utils.storage.FileController
-import ru.tech.imageresizershrinker.utils.storage.SaveTarget
 import ru.tech.imageresizershrinker.utils.helper.BitmapUtils
 import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.canShow
 import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.copyTo
@@ -28,6 +24,10 @@ import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.previewBitmap
 import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.resizeBitmap
 import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.rotate
 import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.scaleUntilCanShow
+import ru.tech.imageresizershrinker.utils.helper.compressFormat
+import ru.tech.imageresizershrinker.utils.helper.extension
+import ru.tech.imageresizershrinker.utils.storage.FileController
+import ru.tech.imageresizershrinker.utils.storage.SaveTarget
 import java.io.ByteArrayInputStream
 import java.io.ByteArrayOutputStream
 

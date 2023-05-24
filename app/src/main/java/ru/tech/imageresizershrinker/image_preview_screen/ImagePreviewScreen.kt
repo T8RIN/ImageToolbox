@@ -93,24 +93,24 @@ import ru.tech.imageresizershrinker.main_screen.components.CropPreference
 import ru.tech.imageresizershrinker.main_screen.components.DeleteExifPreference
 import ru.tech.imageresizershrinker.main_screen.components.GeneratePalettePreference
 import ru.tech.imageresizershrinker.main_screen.components.PickColorPreference
-import ru.tech.imageresizershrinker.widget.sheets.SimpleSheet
 import ru.tech.imageresizershrinker.main_screen.components.SingleResizePreference
+import ru.tech.imageresizershrinker.theme.CreateAlt
+import ru.tech.imageresizershrinker.theme.outlineVariant
+import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.decodeSampledBitmapFromUri
+import ru.tech.imageresizershrinker.utils.modifier.drawHorizontalStroke
+import ru.tech.imageresizershrinker.utils.modifier.fabBorder
+import ru.tech.imageresizershrinker.utils.navigation.LocalNavController
+import ru.tech.imageresizershrinker.utils.navigation.Screen
+import ru.tech.imageresizershrinker.utils.storage.Picker
+import ru.tech.imageresizershrinker.utils.storage.localImagePickerMode
+import ru.tech.imageresizershrinker.utils.storage.rememberImagePicker
 import ru.tech.imageresizershrinker.widget.TitleItem
 import ru.tech.imageresizershrinker.widget.TopAppBarEmoji
 import ru.tech.imageresizershrinker.widget.image.ImageNotPickedWidget
-import ru.tech.imageresizershrinker.theme.CreateAlt
-import ru.tech.imageresizershrinker.theme.outlineVariant
-import ru.tech.imageresizershrinker.utils.navigation.LocalNavController
-import ru.tech.imageresizershrinker.widget.utils.LocalSettingsState
-import ru.tech.imageresizershrinker.utils.storage.Picker
-import ru.tech.imageresizershrinker.utils.navigation.Screen
-import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.decodeSampledBitmapFromUri
-import ru.tech.imageresizershrinker.utils.storage.localImagePickerMode
-import ru.tech.imageresizershrinker.utils.modifier.drawHorizontalStroke
-import ru.tech.imageresizershrinker.utils.modifier.fabBorder
-import ru.tech.imageresizershrinker.utils.storage.rememberImagePicker
-import ru.tech.imageresizershrinker.widget.text.Marquee
 import ru.tech.imageresizershrinker.widget.image.Picture
+import ru.tech.imageresizershrinker.widget.sheets.SimpleSheet
+import ru.tech.imageresizershrinker.widget.text.Marquee
+import ru.tech.imageresizershrinker.widget.utils.LocalSettingsState
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
 @Composable
@@ -162,9 +162,9 @@ fun ImagePreviewScreen(
                 if (!addImages) {
                     viewModel.updateUris(list)
                 } else {
-                    val uris= (viewModel.uris ?: emptyList()).toMutableList()
+                    val uris = (viewModel.uris ?: emptyList()).toMutableList()
                     list.forEach {
-                        if(it !in uris) uris.add(it)
+                        if (it !in uris) uris.add(it)
                     }
                     viewModel.updateUris(uris)
                 }

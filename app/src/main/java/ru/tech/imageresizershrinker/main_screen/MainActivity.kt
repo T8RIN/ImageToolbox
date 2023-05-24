@@ -103,14 +103,10 @@ import ru.tech.imageresizershrinker.main_screen.components.ComparePreference
 import ru.tech.imageresizershrinker.main_screen.components.CropPreference
 import ru.tech.imageresizershrinker.main_screen.components.DeleteExifPreference
 import ru.tech.imageresizershrinker.main_screen.components.GeneratePalettePreference
-import ru.tech.imageresizershrinker.widget.text.HtmlText
 import ru.tech.imageresizershrinker.main_screen.components.ImagePreviewPreference
-import ru.tech.imageresizershrinker.utils.LocalConfettiController
 import ru.tech.imageresizershrinker.main_screen.components.MainScreen
 import ru.tech.imageresizershrinker.main_screen.components.PickColorPreference
-import ru.tech.imageresizershrinker.widget.sheets.SimpleSheet
 import ru.tech.imageresizershrinker.main_screen.components.SingleResizePreference
-import ru.tech.imageresizershrinker.widget.TitleItem
 import ru.tech.imageresizershrinker.main_screen.viewModel.MainViewModel
 import ru.tech.imageresizershrinker.pick_color_from_image_screen.PickColorFromImageScreen
 import ru.tech.imageresizershrinker.single_resize_screen.SingleResizeScreen
@@ -119,27 +115,31 @@ import ru.tech.imageresizershrinker.theme.ImageResizerTheme
 import ru.tech.imageresizershrinker.theme.allIcons
 import ru.tech.imageresizershrinker.theme.blend
 import ru.tech.imageresizershrinker.theme.outlineVariant
-import ru.tech.imageresizershrinker.utils.storage.FileParams
-import ru.tech.imageresizershrinker.widget.utils.LocalEditPresetsState
-import ru.tech.imageresizershrinker.utils.storage.LocalFileController
-import ru.tech.imageresizershrinker.utils.navigation.LocalNavController
-import ru.tech.imageresizershrinker.widget.utils.LocalSettingsState
-import ru.tech.imageresizershrinker.utils.navigation.Screen
+import ru.tech.imageresizershrinker.utils.LocalConfettiController
 import ru.tech.imageresizershrinker.utils.helper.ContextUtils.needToShowStoragePermissionRequest
 import ru.tech.imageresizershrinker.utils.helper.ContextUtils.requestStoragePermission
 import ru.tech.imageresizershrinker.utils.helper.IntentUtils.parcelable
 import ru.tech.imageresizershrinker.utils.helper.IntentUtils.parcelableArrayList
-import ru.tech.imageresizershrinker.widget.utils.isNightMode
 import ru.tech.imageresizershrinker.utils.modifier.alertDialog
+import ru.tech.imageresizershrinker.utils.navigation.LocalNavController
+import ru.tech.imageresizershrinker.utils.navigation.Screen
+import ru.tech.imageresizershrinker.utils.storage.FileParams
+import ru.tech.imageresizershrinker.utils.storage.LocalFileController
 import ru.tech.imageresizershrinker.utils.storage.rememberFileController
-import ru.tech.imageresizershrinker.widget.utils.rememberSettingsState
-import ru.tech.imageresizershrinker.widget.utils.setContentWithWindowSizeClass
-import ru.tech.imageresizershrinker.widget.utils.toAlignment
-import ru.tech.imageresizershrinker.widget.text.AutoSizeText
 import ru.tech.imageresizershrinker.widget.LocalToastHost
+import ru.tech.imageresizershrinker.widget.TitleItem
 import ru.tech.imageresizershrinker.widget.ToastHost
 import ru.tech.imageresizershrinker.widget.activity.M3Activity
 import ru.tech.imageresizershrinker.widget.rememberToastHostState
+import ru.tech.imageresizershrinker.widget.sheets.SimpleSheet
+import ru.tech.imageresizershrinker.widget.text.AutoSizeText
+import ru.tech.imageresizershrinker.widget.text.HtmlText
+import ru.tech.imageresizershrinker.widget.utils.LocalEditPresetsState
+import ru.tech.imageresizershrinker.widget.utils.LocalSettingsState
+import ru.tech.imageresizershrinker.widget.utils.isNightMode
+import ru.tech.imageresizershrinker.widget.utils.rememberSettingsState
+import ru.tech.imageresizershrinker.widget.utils.setContentWithWindowSizeClass
+import ru.tech.imageresizershrinker.widget.utils.toAlignment
 import java.util.concurrent.TimeUnit
 
 
@@ -159,7 +159,7 @@ class MainActivity : M3Activity() {
         setContentWithWindowSizeClass {
             var showExitDialog by rememberSaveable { mutableStateOf(false) }
             val editPresetsState = rememberSaveable { mutableStateOf(false) }
-            
+
             CompositionLocalProvider(
                 LocalToastHost provides viewModel.toastHostState,
                 LocalSettingsState provides rememberSettingsState(

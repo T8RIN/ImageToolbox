@@ -33,10 +33,10 @@ import androidx.compose.ui.zIndex
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.theme.mixedColor
 import ru.tech.imageresizershrinker.theme.onMixedColor
-import ru.tech.imageresizershrinker.widget.utils.LocalSettingsState
 import ru.tech.imageresizershrinker.utils.modifier.block
 import ru.tech.imageresizershrinker.widget.buttons.GroupRipple
 import ru.tech.imageresizershrinker.widget.text.AutoSizeText
+import ru.tech.imageresizershrinker.widget.utils.LocalSettingsState
 
 @Composable
 fun ExtensionGroup(

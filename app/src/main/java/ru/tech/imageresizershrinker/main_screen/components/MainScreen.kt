@@ -118,10 +118,6 @@ import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.common.APP_LINK
 import ru.tech.imageresizershrinker.common.AUTHOR_LINK
 import ru.tech.imageresizershrinker.main_screen.viewModel.MainViewModel
-import ru.tech.imageresizershrinker.widget.RevealDirection
-import ru.tech.imageresizershrinker.widget.RevealValue
-import ru.tech.imageresizershrinker.widget.rememberRevealState
-import ru.tech.imageresizershrinker.widget.revealSwipeable
 import ru.tech.imageresizershrinker.theme.Emoji
 import ru.tech.imageresizershrinker.theme.FileSettings
 import ru.tech.imageresizershrinker.theme.Github
@@ -131,23 +127,27 @@ import ru.tech.imageresizershrinker.theme.allIcons
 import ru.tech.imageresizershrinker.theme.outlineVariant
 import ru.tech.imageresizershrinker.theme.suggestContainerColorBy
 import ru.tech.imageresizershrinker.utils.LocalConfettiController
-import ru.tech.imageresizershrinker.widget.utils.LocalEditPresetsState
-import ru.tech.imageresizershrinker.utils.navigation.LocalNavController
-import ru.tech.imageresizershrinker.widget.utils.LocalSettingsState
-import ru.tech.imageresizershrinker.widget.utils.LocalWindowSizeClass
-import ru.tech.imageresizershrinker.utils.navigation.Screen
-import ru.tech.imageresizershrinker.utils.storage.defaultPrefix
 import ru.tech.imageresizershrinker.utils.helper.ContextUtils.verifyInstallerId
-import ru.tech.imageresizershrinker.widget.utils.isNightMode
 import ru.tech.imageresizershrinker.utils.modifier.alertDialog
 import ru.tech.imageresizershrinker.utils.modifier.drawHorizontalStroke
 import ru.tech.imageresizershrinker.utils.modifier.fabBorder
 import ru.tech.imageresizershrinker.utils.modifier.pulsate
+import ru.tech.imageresizershrinker.utils.navigation.LocalNavController
+import ru.tech.imageresizershrinker.utils.navigation.Screen
+import ru.tech.imageresizershrinker.utils.storage.defaultPrefix
 import ru.tech.imageresizershrinker.widget.LocalToastHost
-import ru.tech.imageresizershrinker.widget.text.Marquee
-import ru.tech.imageresizershrinker.widget.sheets.SimpleSheet
+import ru.tech.imageresizershrinker.widget.RevealDirection
+import ru.tech.imageresizershrinker.widget.RevealValue
 import ru.tech.imageresizershrinker.widget.TitleItem
 import ru.tech.imageresizershrinker.widget.TopAppBarEmoji
+import ru.tech.imageresizershrinker.widget.rememberRevealState
+import ru.tech.imageresizershrinker.widget.revealSwipeable
+import ru.tech.imageresizershrinker.widget.sheets.SimpleSheet
+import ru.tech.imageresizershrinker.widget.text.Marquee
+import ru.tech.imageresizershrinker.widget.utils.LocalEditPresetsState
+import ru.tech.imageresizershrinker.widget.utils.LocalSettingsState
+import ru.tech.imageresizershrinker.widget.utils.LocalWindowSizeClass
+import ru.tech.imageresizershrinker.widget.utils.isNightMode
 import kotlin.math.roundToInt
 
 @OptIn(
