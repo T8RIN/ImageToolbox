@@ -153,7 +153,6 @@
     <string name="original_filename">orihinal na pangalan ng file</string>
     <string name="add_original_filename">Magdagdag ng orihinal na filename</string>
     <string name="add_original_filename_sub">Kung pinagana ay nagdaragdag ng orihinal na filename sa pangalan ng output na imahe</string>
-    <string name="add_sequence_number_sub">Kung pinagana, papalitan ang strandard timestamp sa numero ng pagkakasunud-sunod ng imahe kung gumagamit ka ng batch processing</string>
     <string name="file_explorer_picker">File explorer</string>
     <string name="photo_picker_sub">Android modernong photo picker na lumalabas sa ibaba ng screen, ay maaaring gumana lamang sa adnroid 12+ at mayroon ding mga isyu sa pagtanggap ng EXIF metadata</string>
     <string name="order_sub">Tinutukoy ang pagkakasunud-sunod ng mga opsyon sa pangunahing screen</string>
