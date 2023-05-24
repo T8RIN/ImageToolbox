@@ -16,6 +16,7 @@ import java.io.OutputStream
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
+import kotlin.random.Random
 
 data class SavingFolder(
     val outputStream: OutputStream? = null,
@@ -71,20 +72,26 @@ fun constructFilename(
     if (prefix.isEmpty()) prefix = defaultPrefix()
 
     if (fileParams.addOriginalFilename) prefix += "_${
-        if (saveTarget.uri != Uri.EMPTY) context.getFileName(
-            saveTarget.uri
-        ) ?: "" else context.getString(R.string.original_filename)
+        if (saveTarget.uri != Uri.EMPTY) {
+            context.getFileName(saveTarget.uri) ?: ""
+        } else {
+            context.getString(R.string.original_filename)
+        }
     }"
     if (fileParams.addSizeInFilename) prefix += wh
 
     val timeStamp = SimpleDateFormat(
-        "yyyy-MM-dd_HH-mm",
+        "yyyy-MM-dd_HH-mm-ss",
         Locale.getDefault()
-    ).format(Date()) + "_${Date().hashCode()}"
+    ).format(Date()) + "_${Random(Random.nextInt()).hashCode().toString().take(4)}"
     return "${prefix}_${
-        if (fileParams.addSequenceNumber && saveTarget.sequenceNumber != null) saveTarget.sequenceNumber else if (saveTarget.uri == Uri.EMPTY && fileParams.addSequenceNumber) context.getString(
-            R.string.sequence_num
-        ) else timeStamp
+        if (fileParams.addSequenceNumber && saveTarget.sequenceNumber != null) {
+            saveTarget.sequenceNumber
+        } else if (saveTarget.uri == Uri.EMPTY && fileParams.addSequenceNumber) {
+            context.getString(R.string.sequence_num)
+        } else {
+            timeStamp
+        }
     }.$extension"
 }
 
