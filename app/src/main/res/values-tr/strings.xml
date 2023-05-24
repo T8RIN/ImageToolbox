@@ -131,4 +131,11 @@
     <string name="prefix">Önek</string>
     <string name="filename">Dosya adı</string>
     <string name="share">Paylaş</string>
+    <string name="emoji_sub">Ana ekranda hangi emojinin görüntüleneceğini seç</string>
+    <string name="add_file_size">Dosya boyutunu ekle</string>
+    <string name="add_file_size_sub">Etkinleştirilirse, kaydedilen görüntünün genişlik ve yüksekliğini çıktı dosyasının adına ekler</string>
+    <string name="delete_exif">EXIF\'i kaldır</string>
+    <string name="delete_exif_sub">Herhangi bir görüntü çiftinden EXIF meta verilerini silin</string>
+    <string name="image_preview">Resim önizleme</string>
+    <string name="image_preview_sub">Her tür görüntüyü önizleyin: GIF, SVG ve benzeri</string>
 </resources>
