@@ -84,6 +84,7 @@ import com.smarttoolfactory.image.zoom.rememberAnimatedZoomState
 import com.t8rin.dynamic.theme.LocalDynamicThemeState
 import com.t8rin.dynamic.theme.getAppColorTuple
 import dev.olshevski.navigation.reimagined.navigate
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.image_preview_screen.viewModel.ImagePreviewViewModel
@@ -92,24 +93,24 @@ import ru.tech.imageresizershrinker.main_screen.components.CropPreference
 import ru.tech.imageresizershrinker.main_screen.components.DeleteExifPreference
 import ru.tech.imageresizershrinker.main_screen.components.GeneratePalettePreference
 import ru.tech.imageresizershrinker.main_screen.components.PickColorPreference
-import ru.tech.imageresizershrinker.main_screen.components.SimpleSheet
+import ru.tech.imageresizershrinker.widget.sheets.SimpleSheet
 import ru.tech.imageresizershrinker.main_screen.components.SingleResizePreference
-import ru.tech.imageresizershrinker.main_screen.components.TitleItem
-import ru.tech.imageresizershrinker.main_screen.components.TopAppBarEmoji
-import ru.tech.imageresizershrinker.single_resize_screen.components.ImageNotPickedWidget
+import ru.tech.imageresizershrinker.widget.TitleItem
+import ru.tech.imageresizershrinker.widget.TopAppBarEmoji
+import ru.tech.imageresizershrinker.widget.image.ImageNotPickedWidget
 import ru.tech.imageresizershrinker.theme.CreateAlt
 import ru.tech.imageresizershrinker.theme.outlineVariant
-import ru.tech.imageresizershrinker.utils.LocalNavController
-import ru.tech.imageresizershrinker.utils.LocalSettingsState
-import ru.tech.imageresizershrinker.utils.Picker
-import ru.tech.imageresizershrinker.utils.Screen
+import ru.tech.imageresizershrinker.utils.navigation.LocalNavController
+import ru.tech.imageresizershrinker.widget.utils.LocalSettingsState
+import ru.tech.imageresizershrinker.utils.storage.Picker
+import ru.tech.imageresizershrinker.utils.navigation.Screen
 import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.decodeSampledBitmapFromUri
-import ru.tech.imageresizershrinker.utils.localImagePickerMode
+import ru.tech.imageresizershrinker.utils.storage.localImagePickerMode
 import ru.tech.imageresizershrinker.utils.modifier.drawHorizontalStroke
 import ru.tech.imageresizershrinker.utils.modifier.fabBorder
-import ru.tech.imageresizershrinker.utils.rememberImagePicker
-import ru.tech.imageresizershrinker.widget.Marquee
-import ru.tech.imageresizershrinker.widget.Picture
+import ru.tech.imageresizershrinker.utils.storage.rememberImagePicker
+import ru.tech.imageresizershrinker.widget.text.Marquee
+import ru.tech.imageresizershrinker.widget.image.Picture
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
 @Composable
@@ -510,7 +511,7 @@ fun ImagePreviewScreen(
                 val navigate: (Screen) -> Unit = { screen ->
                     scope.launch {
                         wantToEdit.value = false
-                        kotlinx.coroutines.delay(200)
+                        delay(200)
                         navController.navigate(screen)
                     }
                 }

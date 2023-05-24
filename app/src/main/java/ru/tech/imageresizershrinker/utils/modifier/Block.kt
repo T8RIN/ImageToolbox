@@ -35,7 +35,7 @@ import androidx.compose.ui.unit.isUnspecified
 import androidx.compose.ui.zIndex
 import ru.tech.imageresizershrinker.theme.outlineVariant
 import ru.tech.imageresizershrinker.theme.suggestContainerColorBy
-import ru.tech.imageresizershrinker.utils.LocalSettingsState
+import ru.tech.imageresizershrinker.widget.utils.LocalSettingsState
 
 fun Modifier.block(
     shape: Shape = RoundedCornerShape(16.dp),

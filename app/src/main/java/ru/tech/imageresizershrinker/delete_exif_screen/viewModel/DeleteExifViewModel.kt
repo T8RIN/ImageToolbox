@@ -11,11 +11,11 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import ru.tech.imageresizershrinker.single_resize_screen.components.BitmapInfo
-import ru.tech.imageresizershrinker.single_resize_screen.components.compressFormat
-import ru.tech.imageresizershrinker.single_resize_screen.components.extension
-import ru.tech.imageresizershrinker.utils.FileController
-import ru.tech.imageresizershrinker.utils.SaveTarget
+import ru.tech.imageresizershrinker.utils.helper.BitmapInfo
+import ru.tech.imageresizershrinker.utils.helper.compressFormat
+import ru.tech.imageresizershrinker.utils.helper.extension
+import ru.tech.imageresizershrinker.utils.storage.FileController
+import ru.tech.imageresizershrinker.utils.storage.SaveTarget
 import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.canShow
 import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.resizeBitmap
 

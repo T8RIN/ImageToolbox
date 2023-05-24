@@ -40,8 +40,8 @@ import com.smarttoolfactory.cropper.util.createRectShape
 import com.smarttoolfactory.cropper.widget.AspectRatioSelectionCard
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.theme.outlineVariant
-import ru.tech.imageresizershrinker.utils.LocalSettingsState
-import ru.tech.imageresizershrinker.widget.AutoSizeText
+import ru.tech.imageresizershrinker.widget.text.AutoSizeText
+import ru.tech.imageresizershrinker.widget.utils.LocalSettingsState
 
 @Composable
 fun AspectRatioSelection(

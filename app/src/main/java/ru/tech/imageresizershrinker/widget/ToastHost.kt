@@ -25,7 +25,7 @@ import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import ru.tech.imageresizershrinker.theme.harmonizeWithPrimary
 import ru.tech.imageresizershrinker.theme.outlineVariant
-import ru.tech.imageresizershrinker.utils.LocalSettingsState
+import ru.tech.imageresizershrinker.widget.utils.LocalSettingsState
 import kotlin.coroutines.resume
 
 @Composable

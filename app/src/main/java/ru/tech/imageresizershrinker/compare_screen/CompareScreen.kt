@@ -73,23 +73,23 @@ import com.t8rin.dynamic.theme.extractPrimaryColor
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.compare_screen.viewModel.CompareViewModel
-import ru.tech.imageresizershrinker.main_screen.components.TopAppBarEmoji
-import ru.tech.imageresizershrinker.single_resize_screen.components.ImageNotPickedWidget
-import ru.tech.imageresizershrinker.single_resize_screen.components.LoadingDialog
 import ru.tech.imageresizershrinker.theme.blend
 import ru.tech.imageresizershrinker.theme.outlineVariant
-import ru.tech.imageresizershrinker.utils.LocalSettingsState
-import ru.tech.imageresizershrinker.utils.LocalWindowSizeClass
-import ru.tech.imageresizershrinker.utils.Picker
 import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.getBitmapByUri
-import ru.tech.imageresizershrinker.utils.localImagePickerMode
 import ru.tech.imageresizershrinker.utils.modifier.block
 import ru.tech.imageresizershrinker.utils.modifier.drawHorizontalStroke
 import ru.tech.imageresizershrinker.utils.modifier.fabBorder
 import ru.tech.imageresizershrinker.utils.modifier.navBarsPaddingOnlyIfTheyAtTheBottom
-import ru.tech.imageresizershrinker.utils.rememberImagePicker
+import ru.tech.imageresizershrinker.utils.storage.Picker
+import ru.tech.imageresizershrinker.utils.storage.localImagePickerMode
+import ru.tech.imageresizershrinker.utils.storage.rememberImagePicker
+import ru.tech.imageresizershrinker.widget.LoadingDialog
 import ru.tech.imageresizershrinker.widget.LocalToastHost
-import ru.tech.imageresizershrinker.widget.Marquee
+import ru.tech.imageresizershrinker.widget.TopAppBarEmoji
+import ru.tech.imageresizershrinker.widget.image.ImageNotPickedWidget
+import ru.tech.imageresizershrinker.widget.text.Marquee
+import ru.tech.imageresizershrinker.widget.utils.LocalSettingsState
+import ru.tech.imageresizershrinker.widget.utils.LocalWindowSizeClass
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

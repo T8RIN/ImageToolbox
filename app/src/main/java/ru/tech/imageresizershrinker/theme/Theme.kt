@@ -6,7 +6,7 @@ import androidx.compose.ui.unit.Density
 import com.t8rin.dynamic.theme.DynamicTheme
 import com.t8rin.dynamic.theme.getAppColorTuple
 import com.t8rin.dynamic.theme.rememberDynamicThemeState
-import ru.tech.imageresizershrinker.utils.LocalSettingsState
+import ru.tech.imageresizershrinker.widget.utils.LocalSettingsState
 import kotlin.math.min
 
 @Composable

@@ -90,9 +90,11 @@ import ru.tech.imageresizershrinker.theme.PaletteSwatch
 import ru.tech.imageresizershrinker.theme.defaultColorTuple
 import ru.tech.imageresizershrinker.theme.inverse
 import ru.tech.imageresizershrinker.theme.outlineVariant
-import ru.tech.imageresizershrinker.utils.LocalSettingsState
 import ru.tech.imageresizershrinker.utils.helper.ListUtils.nearestFor
 import ru.tech.imageresizershrinker.utils.modifier.alertDialog
+import ru.tech.imageresizershrinker.widget.TitleItem
+import ru.tech.imageresizershrinker.widget.sheets.SimpleSheet
+import ru.tech.imageresizershrinker.widget.utils.LocalSettingsState
 
 @ExperimentalMaterial3Api
 @Composable

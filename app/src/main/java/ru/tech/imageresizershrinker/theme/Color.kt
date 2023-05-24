@@ -11,7 +11,7 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.unit.dp
 import androidx.core.graphics.ColorUtils
 import com.t8rin.dynamic.theme.ColorTuple
-import ru.tech.imageresizershrinker.utils.LocalSettingsState
+import ru.tech.imageresizershrinker.widget.utils.LocalSettingsState
 
 
 val md_theme_light_primary = Color(0xFF3D6A00)

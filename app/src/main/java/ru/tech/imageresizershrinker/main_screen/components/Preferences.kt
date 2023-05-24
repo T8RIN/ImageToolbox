@@ -27,7 +27,7 @@ import ru.tech.imageresizershrinker.common.APP_LINK
 import ru.tech.imageresizershrinker.theme.Github
 import ru.tech.imageresizershrinker.theme.PaletteSwatch
 import ru.tech.imageresizershrinker.theme.outlineVariant
-import ru.tech.imageresizershrinker.utils.LocalSettingsState
+import ru.tech.imageresizershrinker.widget.utils.LocalSettingsState
 
 
 @Composable

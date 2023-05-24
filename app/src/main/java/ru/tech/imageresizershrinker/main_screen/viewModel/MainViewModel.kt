@@ -47,7 +47,7 @@ import ru.tech.imageresizershrinker.common.SHOW_DIALOG
 import ru.tech.imageresizershrinker.theme.asString
 import ru.tech.imageresizershrinker.theme.defaultColorTuple
 import ru.tech.imageresizershrinker.theme.toColorTupleList
-import ru.tech.imageresizershrinker.utils.Screen
+import ru.tech.imageresizershrinker.utils.navigation.Screen
 import ru.tech.imageresizershrinker.widget.ToastHostState
 import java.net.URL
 import javax.inject.Inject

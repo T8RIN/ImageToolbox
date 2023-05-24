@@ -32,14 +32,14 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.R
-import ru.tech.imageresizershrinker.main_screen.components.SimpleSheet
-import ru.tech.imageresizershrinker.main_screen.components.TitleItem
-import ru.tech.imageresizershrinker.single_resize_screen.components.BitmapInfo
+import ru.tech.imageresizershrinker.widget.sheets.SimpleSheet
+import ru.tech.imageresizershrinker.widget.TitleItem
+import ru.tech.imageresizershrinker.utils.helper.BitmapInfo
 import ru.tech.imageresizershrinker.theme.outlineVariant
-import ru.tech.imageresizershrinker.utils.LocalSettingsState
+import ru.tech.imageresizershrinker.widget.utils.LocalSettingsState
 import ru.tech.imageresizershrinker.utils.coil.BitmapInfoTransformation
 import ru.tech.imageresizershrinker.utils.modifier.block
-import ru.tech.imageresizershrinker.widget.Picture
+import ru.tech.imageresizershrinker.widget.image.Picture
 
 @Composable
 fun PickImageFromUrisSheet(

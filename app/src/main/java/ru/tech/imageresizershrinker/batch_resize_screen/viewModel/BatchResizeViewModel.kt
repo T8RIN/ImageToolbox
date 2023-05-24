@@ -14,11 +14,7 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import ru.tech.imageresizershrinker.single_resize_screen.components.BitmapInfo
-import ru.tech.imageresizershrinker.single_resize_screen.components.compressFormat
-import ru.tech.imageresizershrinker.single_resize_screen.components.extension
-import ru.tech.imageresizershrinker.utils.FileController
-import ru.tech.imageresizershrinker.utils.SaveTarget
+import ru.tech.imageresizershrinker.utils.helper.BitmapInfo
 import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.canShow
 import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.copyTo
 import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.flip
@@ -26,6 +22,10 @@ import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.previewBitmap
 import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.resizeBitmap
 import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.rotate
 import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.scaleUntilCanShow
+import ru.tech.imageresizershrinker.utils.helper.compressFormat
+import ru.tech.imageresizershrinker.utils.helper.extension
+import ru.tech.imageresizershrinker.utils.storage.FileController
+import ru.tech.imageresizershrinker.utils.storage.SaveTarget
 
 class BatchResizeViewModel : ViewModel() {
 

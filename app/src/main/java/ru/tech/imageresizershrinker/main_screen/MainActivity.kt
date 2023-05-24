@@ -73,6 +73,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.max
 import androidx.core.text.isDigitsOnly
 import com.t8rin.dynamic.theme.LocalDynamicThemeState
 import com.t8rin.dynamic.theme.getAppColorTuple
@@ -102,14 +103,14 @@ import ru.tech.imageresizershrinker.main_screen.components.ComparePreference
 import ru.tech.imageresizershrinker.main_screen.components.CropPreference
 import ru.tech.imageresizershrinker.main_screen.components.DeleteExifPreference
 import ru.tech.imageresizershrinker.main_screen.components.GeneratePalettePreference
-import ru.tech.imageresizershrinker.main_screen.components.HtmlText
+import ru.tech.imageresizershrinker.widget.text.HtmlText
 import ru.tech.imageresizershrinker.main_screen.components.ImagePreviewPreference
-import ru.tech.imageresizershrinker.main_screen.components.LocalConfettiController
+import ru.tech.imageresizershrinker.utils.LocalConfettiController
 import ru.tech.imageresizershrinker.main_screen.components.MainScreen
 import ru.tech.imageresizershrinker.main_screen.components.PickColorPreference
-import ru.tech.imageresizershrinker.main_screen.components.SimpleSheet
+import ru.tech.imageresizershrinker.widget.sheets.SimpleSheet
 import ru.tech.imageresizershrinker.main_screen.components.SingleResizePreference
-import ru.tech.imageresizershrinker.main_screen.components.TitleItem
+import ru.tech.imageresizershrinker.widget.TitleItem
 import ru.tech.imageresizershrinker.main_screen.viewModel.MainViewModel
 import ru.tech.imageresizershrinker.pick_color_from_image_screen.PickColorFromImageScreen
 import ru.tech.imageresizershrinker.single_resize_screen.SingleResizeScreen
@@ -118,23 +119,23 @@ import ru.tech.imageresizershrinker.theme.ImageResizerTheme
 import ru.tech.imageresizershrinker.theme.allIcons
 import ru.tech.imageresizershrinker.theme.blend
 import ru.tech.imageresizershrinker.theme.outlineVariant
-import ru.tech.imageresizershrinker.utils.FileParams
-import ru.tech.imageresizershrinker.utils.LocalEditPresetsState
-import ru.tech.imageresizershrinker.utils.LocalFileController
-import ru.tech.imageresizershrinker.utils.LocalNavController
-import ru.tech.imageresizershrinker.utils.LocalSettingsState
-import ru.tech.imageresizershrinker.utils.Screen
+import ru.tech.imageresizershrinker.utils.storage.FileParams
+import ru.tech.imageresizershrinker.widget.utils.LocalEditPresetsState
+import ru.tech.imageresizershrinker.utils.storage.LocalFileController
+import ru.tech.imageresizershrinker.utils.navigation.LocalNavController
+import ru.tech.imageresizershrinker.widget.utils.LocalSettingsState
+import ru.tech.imageresizershrinker.utils.navigation.Screen
 import ru.tech.imageresizershrinker.utils.helper.ContextUtils.needToShowStoragePermissionRequest
 import ru.tech.imageresizershrinker.utils.helper.ContextUtils.requestStoragePermission
 import ru.tech.imageresizershrinker.utils.helper.IntentUtils.parcelable
 import ru.tech.imageresizershrinker.utils.helper.IntentUtils.parcelableArrayList
-import ru.tech.imageresizershrinker.utils.isNightMode
+import ru.tech.imageresizershrinker.widget.utils.isNightMode
 import ru.tech.imageresizershrinker.utils.modifier.alertDialog
-import ru.tech.imageresizershrinker.utils.rememberFileController
-import ru.tech.imageresizershrinker.utils.rememberSettingsState
-import ru.tech.imageresizershrinker.utils.setContentWithWindowSizeClass
-import ru.tech.imageresizershrinker.utils.toAlignment
-import ru.tech.imageresizershrinker.widget.AutoSizeText
+import ru.tech.imageresizershrinker.utils.storage.rememberFileController
+import ru.tech.imageresizershrinker.widget.utils.rememberSettingsState
+import ru.tech.imageresizershrinker.widget.utils.setContentWithWindowSizeClass
+import ru.tech.imageresizershrinker.widget.utils.toAlignment
+import ru.tech.imageresizershrinker.widget.text.AutoSizeText
 import ru.tech.imageresizershrinker.widget.LocalToastHost
 import ru.tech.imageresizershrinker.widget.ToastHost
 import ru.tech.imageresizershrinker.widget.activity.M3Activity
@@ -386,7 +387,7 @@ class MainActivity : M3Activity() {
                                                     expanded = true
                                                 },
                                                 border = BorderStroke(
-                                                    androidx.compose.ui.unit.max(
+                                                    max(
                                                         settingsState.borderWidth,
                                                         1.dp
                                                     ),

@@ -54,18 +54,18 @@ import androidx.compose.ui.unit.sp
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.R
-import ru.tech.imageresizershrinker.crash_screen.components.GlobalExceptionHandler.Companion.getExceptionString
 import ru.tech.imageresizershrinker.crash_screen.viewModel.CrashViewModel
 import ru.tech.imageresizershrinker.main_screen.MainActivity
 import ru.tech.imageresizershrinker.theme.ImageResizerTheme
 import ru.tech.imageresizershrinker.theme.outlineVariant
-import ru.tech.imageresizershrinker.utils.LocalSettingsState
-import ru.tech.imageresizershrinker.utils.isNightMode
-import ru.tech.imageresizershrinker.utils.rememberSettingsState
-import ru.tech.imageresizershrinker.widget.AutoSizeText
+import ru.tech.imageresizershrinker.utils.GlobalExceptionHandler.Companion.getExceptionString
 import ru.tech.imageresizershrinker.widget.ToastHost
 import ru.tech.imageresizershrinker.widget.activity.M3Activity
 import ru.tech.imageresizershrinker.widget.rememberToastHostState
+import ru.tech.imageresizershrinker.widget.text.AutoSizeText
+import ru.tech.imageresizershrinker.widget.utils.LocalSettingsState
+import ru.tech.imageresizershrinker.widget.utils.isNightMode
+import ru.tech.imageresizershrinker.widget.utils.rememberSettingsState
 
 @AndroidEntryPoint
 class CrashActivity : M3Activity() {

@@ -3,7 +3,7 @@ package ru.tech.imageresizershrinker.utils.coil
 import android.graphics.Bitmap
 import coil.size.Size
 import coil.transform.Transformation
-import ru.tech.imageresizershrinker.single_resize_screen.components.BitmapInfo
+import ru.tech.imageresizershrinker.utils.helper.BitmapInfo
 import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.previewBitmap
 
 class BitmapInfoTransformation(
