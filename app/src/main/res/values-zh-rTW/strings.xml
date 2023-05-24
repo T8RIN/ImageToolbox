@@ -153,7 +153,6 @@
     <string name="original_filename">原始文件名</string>
     <string name="add_original_filename">添加原始文件名</string>
     <string name="add_original_filename_sub">如果啟用，則在輸出圖像的名稱中添加原始文件名</string>
-    <string name="add_sequence_number">添加序號</string>
     <string name="add_sequence_number_sub">如果啟用，則在使用批處理時將標準時間戳替換為圖像序列號</string>
     <string name="filename_not_work_with_photopicker">如果選擇了照片選擇器圖像源，添加原始文件名不起作用</string>
     <string name="file_explorer_picker">文件管理器</string>

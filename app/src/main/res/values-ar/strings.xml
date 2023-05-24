@@ -148,7 +148,6 @@
     <string name="original_filename">originalFilename</string>
     <string name="add_original_filename">أضف اسم الملف الأصلي</string>
     <string name="add_original_filename_sub">في حالة التمكين ، يضيف اسم الملف الأصلي في اسم الصورة الناتجة</string>
-    <string name="add_sequence_number">أضف رقم التسلسل</string>
     <string name="add_sequence_number_sub">في حالة التمكين ، يستبدل الطابع الزمني strandard برقم تسلسل الصورة إذا كنت تستخدم معالجة الدُفعات</string>
     <string name="image_preview_sub">قم بمعاينة أي نوع من الصور: GIF و SVG وما إلى ذلك</string>
     <string name="photo_picker">منتقي الصور</string>
