@@ -78,9 +78,9 @@ fun constructFilename(
     if (fileParams.addSizeInFilename) prefix += wh
 
     val timeStamp = SimpleDateFormat(
-        "yyyy-MM-dd_HH-mm-ss_ms",
+        "yyyy-MM-dd_HH-mm",
         Locale.getDefault()
-    ).format(Date())
+    ).format(Date()) + "_${Date().hashCode()}"
     return "${prefix}_${
         if (fileParams.addSequenceNumber && saveTarget.sequenceNumber != null) saveTarget.sequenceNumber else if (saveTarget.uri == Uri.EMPTY && fileParams.addSequenceNumber) context.getString(
             R.string.sequence_num

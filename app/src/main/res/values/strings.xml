@@ -157,9 +157,9 @@
     <string name="photo_picker">Photo picker</string>
     <string name="gallery_picker">Gallery</string>
     <string name="file_explorer_picker">File explorer</string>
-    <string name="photo_picker_sub">Android modern photo picker which appears at the bottom of the screen, may work only on adnroid 12+ and also has issues with receiving EXIF metadata</string>
+    <string name="photo_picker_sub">Android modern photo picker which appears at the bottom of the screen, may work only on android 12+ and also has issues with receiving EXIF metadata</string>
     <string name="gallery_picker_sub">Simple gallery image picker, it will work only if you have that app</string>
-    <string name="file_explorer_picker_sub">Use GetContent intent to pick image, works everywhere, but also can have issues with recieving pciked images on some devices, that\'s not my fault</string>
+    <string name="file_explorer_picker_sub">Use GetContent intent to pick image, works everywhere, but also can have issues with receiving picked images on some devices, that\'s not my fault</string>
     <string name="options_arrangement">Options arrangement</string>
     <string name="edit">Edit</string>
     <string name="order">Order</string>
@@ -169,9 +169,9 @@
     <string name="original_filename">originalFilename</string>
     <string name="add_original_filename">Add original filename</string>
     <string name="add_original_filename_sub">If enabled adds original filename in the name of the output image</string>
-    <string name="add_sequence_number">Add sequence number</string>
-    <string name="add_sequence_number_sub">If enabled replaces strandard timestamp to the image sequence number if you use batch processing</string>
-    <string name="filename_not_work_with_photopicker">Adding original filename doesn\'t work if photopicker image source selected</string>
+    <string name="replace_sequence_number">Replace sequence number</string>
+    <string name="replace_sequence_number_sub">If enabled replaces standard timestamp to the image sequence number if you use batch processing</string>
+    <string name="filename_not_work_with_photopicker">Adding original filename doesn\'t work if photo picker image source selected</string>
 
     <string-array name="fab_alignment_sub">
         <item>Start</item>

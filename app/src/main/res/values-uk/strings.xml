@@ -152,10 +152,10 @@
     <string name="order">Порядок</string>
     <string name="order_sub">Визначає порядок опцій на головному екрані</string>
     <string name="emojis_count">Кількість смайлів</string>
-    <string name="add_sequence_number">Додати порядковий номер</string>
+    <string name="replace_sequence_number">Додати порядковий номер</string>
     <string name="sequence_num">порядковий номер</string>
     <string name="add_original_filename">Додати оригінальне ім\'я файлу</string>
-    <string name="add_sequence_number_sub">Якщо ввімкнено, замінює стандартну мітку часу на порядковий номер зображення, якщо ви використовуєте пакетну обробку</string>
+    <string name="replace_sequence_number_sub">Якщо ввімкнено, замінює стандартну мітку часу на порядковий номер зображення, якщо ви використовуєте пакетну обробку</string>
     <string name="original_filename">оригінальне ім\'я файлу</string>
     <string name="add_original_filename_sub">Якщо ввімкнено, додає назву оригінального файлу до назви вихідного зображення</string>
     <string name="filename_not_work_with_photopicker">Додавання оригінальної назви файлу не працює, якщо вибрано джерело зображення photopicker</string>

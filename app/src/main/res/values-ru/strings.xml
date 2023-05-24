@@ -161,7 +161,7 @@
     <string name="original_filename">originalFilename</string>
     <string name="add_original_filename">Добавить оригинальное имя файла</string>
     <string name="add_original_filename_sub">Если включено, добавляет имя исходного файла в имя выходного изображения</string>
-    <string name="add_sequence_number">Добавить порядковый номер</string>
-    <string name="add_sequence_number_sub">Если включено, заменяет стандартную метку времени на порядковый номер изображения, если используется пакетная обработка.</string>
+    <string name="replace_sequence_number">Добавить порядковый номер</string>
+    <string name="replace_sequence_number_sub">Если включено, заменяет стандартную метку времени на порядковый номер изображения, если используется пакетная обработка.</string>
     <string name="filename_not_work_with_photopicker">Добавление оригинального имени файла не работает, если выбран источник изображения photopicker</string>
 </resources>

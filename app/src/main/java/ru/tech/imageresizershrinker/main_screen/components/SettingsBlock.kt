@@ -727,8 +727,8 @@ fun LazyListScope.SettingsBlock(
             Spacer(Modifier.height(8.dp))
             PreferenceRowSwitch(
                 onClick = { viewModel.updateAddSequenceNumber() },
-                title = stringResource(R.string.add_sequence_number),
-                subtitle = stringResource(R.string.add_sequence_number_sub),
+                title = stringResource(R.string.replace_sequence_number),
+                subtitle = stringResource(R.string.replace_sequence_number_sub),
                 checked = viewModel.addSequenceNumber
             )
             Spacer(Modifier.height(16.dp))

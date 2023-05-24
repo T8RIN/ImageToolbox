@@ -156,7 +156,7 @@
     <string name="order_sub">मुख्य स्क्रीन पर विकल्पों का क्रम निर्धारित करता है</string>
     <string name="add_original_filename">मूल फ़ाइल नाम जोड़ें</string>
     <string name="add_original_filename_sub">सक्षम होने पर आउटपुट छवि के नाम पर मूल फ़ाइल नाम जोड़ता है</string>
-    <string name="add_sequence_number">अनुक्रम संख्या जोड़ें</string>
-    <string name="add_sequence_number_sub">यदि आप बैच प्रोसेसिंग का उपयोग करते हैं तो छवि अनुक्रम संख्या में स्ट्रैंडर्ड टाइमस्टैम्प को सक्षम किया जाता है</string>
+    <string name="replace_sequence_number">अनुक्रम संख्या जोड़ें</string>
+    <string name="replace_sequence_number_sub">यदि आप बैच प्रोसेसिंग का उपयोग करते हैं तो छवि अनुक्रम संख्या में स्ट्रैंडर्ड टाइमस्टैम्प को सक्षम किया जाता है</string>
     <string name="filename_not_work_with_photopicker">अगर फोटोपिकर छवि स्रोत चुना गया है तो मूल फ़ाइल नाम जोड़ना काम नहीं करता है</string>
 </resources>
