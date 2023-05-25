@@ -80,7 +80,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.t8rin.dynamic.theme.LocalDynamicThemeState
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.R
-import ru.tech.imageresizershrinker.batch_resize_screen.components.PickImageFromUrisSheet
+import ru.tech.imageresizershrinker.widget.sheets.PickImageFromUrisSheet
 import ru.tech.imageresizershrinker.delete_exif_screen.viewModel.DeleteExifViewModel
 import ru.tech.imageresizershrinker.theme.outlineVariant
 import ru.tech.imageresizershrinker.utils.LocalConfettiController

@@ -102,6 +102,7 @@ import ru.tech.imageresizershrinker.utils.helper.compressFormat
 import ru.tech.imageresizershrinker.utils.helper.extension
 import ru.tech.imageresizershrinker.utils.modifier.drawHorizontalStroke
 import ru.tech.imageresizershrinker.utils.modifier.fabBorder
+import ru.tech.imageresizershrinker.utils.modifier.navBarsPaddingOnlyIfTheyAtTheBottom
 import ru.tech.imageresizershrinker.utils.modifier.navBarsPaddingOnlyIfTheyAtTheEnd
 import ru.tech.imageresizershrinker.utils.storage.LocalFileController
 import ru.tech.imageresizershrinker.utils.storage.Picker
@@ -253,11 +254,11 @@ fun CropScreen(
     var crop by remember { mutableStateOf(false) }
     var share by remember { mutableStateOf(false) }
     var save by remember { mutableStateOf(false) }
-    val content: @Composable (PaddingValues) -> Unit = {
+    val content: @Composable (PaddingValues) -> Unit = { paddingValues ->
         Box(
             Modifier
                 .fillMaxSize()
-                .padding(it)
+                .padding(paddingValues)
                 .nestedScroll(scrollBehavior.nestedScrollConnection)
         ) {
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
@@ -470,6 +471,17 @@ fun CropScreen(
                             ) { aspect ->
                                 viewModel.setCropAspectRatio(aspect.aspectRatio)
                             }
+                            ExtensionGroup(
+                                modifier = Modifier
+                                    .padding(16.dp)
+                                    .navBarsPaddingOnlyIfTheyAtTheBottom(),
+                                orientation = Orientation.Horizontal,
+                                enabled = viewModel.bitmap != null,
+                                mime = viewModel.mimeType,
+                                onMimeChange = {
+                                    viewModel.updateMimeType(it)
+                                }
+                            )
                             Box(
                                 Modifier
                                     .fillMaxHeight()

@@ -1,4 +1,4 @@
-package ru.tech.imageresizershrinker.batch_resize_screen.components
+package ru.tech.imageresizershrinker.widget.sheets
 
 import android.net.Uri
 import androidx.compose.foundation.BorderStroke
@@ -38,7 +38,6 @@ import ru.tech.imageresizershrinker.utils.helper.BitmapInfo
 import ru.tech.imageresizershrinker.utils.modifier.block
 import ru.tech.imageresizershrinker.widget.TitleItem
 import ru.tech.imageresizershrinker.widget.image.Picture
-import ru.tech.imageresizershrinker.widget.sheets.SimpleSheet
 import ru.tech.imageresizershrinker.widget.utils.LocalSettingsState
 
 @Composable
