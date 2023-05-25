@@ -298,7 +298,7 @@ fun ExtensionGroup(
 
                                             else ->
                                                 Modifier
-                                                    .offset(y = (-27).dp)
+                                                    .offset(y = (-24).dp)
                                                     .zIndex(if (mime == index) 2f else 1f)
                                         }
                                     ),

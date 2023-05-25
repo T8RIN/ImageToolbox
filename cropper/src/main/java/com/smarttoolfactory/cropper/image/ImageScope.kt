@@ -114,13 +114,15 @@ internal fun getScaledImageBitmap(
             // because of that thumbLayout either should have rectangle and some
             // complex calculation for srcOffset and srcSide along side with touch offset
             // or we can create a new bitmap that only contains area bounded by rectangle
-            Bitmap.createBitmap(
-                bitmap.asAndroidBitmap(),
-                rect.left,
-                rect.top,
-                rect.width,
-                rect.height
-            ).asImageBitmap()
+            runCatching {
+                Bitmap.createBitmap(
+                    bitmap.asAndroidBitmap(),
+                    rect.left,
+                    rect.top,
+                    rect.width,
+                    rect.height
+                ).asImageBitmap()
+            }.getOrNull() ?: bitmap
         }
     return scaledBitmap
 }

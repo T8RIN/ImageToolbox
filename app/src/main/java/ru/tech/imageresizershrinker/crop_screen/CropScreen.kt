@@ -402,7 +402,10 @@ fun CropScreen(
                             }
                         }
                     } else {
-                        Row(Modifier.navBarsPaddingOnlyIfTheyAtTheEnd()) {
+                        Row(
+                            modifier = Modifier.navBarsPaddingOnlyIfTheyAtTheEnd(),
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
                             Box(
                                 Modifier.weight(0.8f)
                             ) {
@@ -475,7 +478,7 @@ fun CropScreen(
                                 modifier = Modifier
                                     .padding(16.dp)
                                     .navBarsPaddingOnlyIfTheyAtTheBottom(),
-                                orientation = Orientation.Horizontal,
+                                orientation = Orientation.Vertical,
                                 enabled = viewModel.bitmap != null,
                                 mime = viewModel.mimeType,
                                 onMimeChange = {
