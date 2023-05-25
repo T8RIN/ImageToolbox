@@ -14,6 +14,7 @@ import androidx.compose.animation.fadeOut
 import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
+import androidx.compose.foundation.gestures.Orientation
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -33,11 +34,11 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.AspectRatio
 import androidx.compose.material.icons.outlined.RestartAlt
 import androidx.compose.material.icons.outlined.Share
 import androidx.compose.material.icons.rounded.AddPhotoAlternate
 import androidx.compose.material.icons.rounded.ArrowBack
+import androidx.compose.material.icons.rounded.Build
 import androidx.compose.material.icons.rounded.Crop
 import androidx.compose.material.icons.rounded.ErrorOutline
 import androidx.compose.material.icons.rounded.Save
@@ -97,6 +98,8 @@ import ru.tech.imageresizershrinker.utils.LocalConfettiController
 import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.decodeBitmapFromUri
 import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.shareBitmap
 import ru.tech.imageresizershrinker.utils.helper.ContextUtils.requestStoragePermission
+import ru.tech.imageresizershrinker.utils.helper.compressFormat
+import ru.tech.imageresizershrinker.utils.helper.extension
 import ru.tech.imageresizershrinker.utils.modifier.drawHorizontalStroke
 import ru.tech.imageresizershrinker.utils.modifier.fabBorder
 import ru.tech.imageresizershrinker.utils.modifier.navBarsPaddingOnlyIfTheyAtTheEnd
@@ -107,6 +110,7 @@ import ru.tech.imageresizershrinker.utils.storage.rememberImagePicker
 import ru.tech.imageresizershrinker.widget.LoadingDialog
 import ru.tech.imageresizershrinker.widget.LocalToastHost
 import ru.tech.imageresizershrinker.widget.TopAppBarEmoji
+import ru.tech.imageresizershrinker.widget.controls.ExtensionGroup
 import ru.tech.imageresizershrinker.widget.dialogs.ExitWithoutSavingDialog
 import ru.tech.imageresizershrinker.widget.image.ImageNotPickedWidget
 import ru.tech.imageresizershrinker.widget.text.Marquee
@@ -325,7 +329,7 @@ fun CropScreen(
                                         }
                                     },
                                 ) {
-                                    Icon(Icons.Outlined.AspectRatio, null)
+                                    Icon(Icons.Rounded.Build, null)
                                 }
                             }
                             IconButton(
@@ -377,7 +381,7 @@ fun CropScreen(
                                             showSaveLoading = true
                                             context.shareBitmap(
                                                 bitmap = image.asAndroidBitmap(),
-                                                compressFormat = viewModel.mimeType,
+                                                compressFormat = viewModel.mimeType.extension.compressFormat,
                                                 onComplete = {
                                                     showConfetti()
                                                     showSaveLoading = false
@@ -429,7 +433,7 @@ fun CropScreen(
                                                 showSaveLoading = true
                                                 context.shareBitmap(
                                                     bitmap = image.asAndroidBitmap(),
-                                                    compressFormat = viewModel.mimeType,
+                                                    compressFormat = viewModel.mimeType.extension.compressFormat,
                                                     onComplete = {
                                                         showConfetti()
                                                         showSaveLoading = false
@@ -629,13 +633,25 @@ fun CropScreen(
                 AspectRatioSelection(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .navigationBarsPadding(),
+                        .padding(vertical = 16.dp),
                     selectedIndex = aspectRatios.indexOfFirst { cr ->
                         cr.aspectRatio == viewModel.cropProperties.aspectRatio
                     }
                 ) { aspect ->
                     viewModel.setCropAspectRatio(aspect.aspectRatio)
                 }
+                Divider()
+                ExtensionGroup(
+                    modifier = Modifier
+                        .padding(16.dp)
+                        .navigationBarsPadding(),
+                    orientation = Orientation.Horizontal,
+                    enabled = viewModel.bitmap != null,
+                    mime = viewModel.mimeType,
+                    onMimeChange = {
+                        viewModel.updateMimeType(it)
+                    }
+                )
             },
             content = content
         )

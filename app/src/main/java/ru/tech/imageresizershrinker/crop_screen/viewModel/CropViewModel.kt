@@ -50,8 +50,8 @@ class CropViewModel : ViewModel() {
 
     val isBitmapChanged get() = internalBitmap.value != _bitmap.value
 
-    var mimeType = Bitmap.CompressFormat.PNG
-        private set
+    private val _mimeType = mutableStateOf(0)
+    val mimeType by _mimeType
 
     private val _isLoading: MutableState<Boolean> = mutableStateOf(false)
     val isLoading: Boolean by _isLoading
@@ -86,7 +86,7 @@ class CropViewModel : ViewModel() {
     }
 
     fun updateMimeType(mime: Int) {
-        mimeType = mime.extension.compressFormat
+        _mimeType.value = mime
     }
 
     fun saveBitmap(
@@ -115,9 +115,9 @@ class CropViewModel : ViewModel() {
 
                     val fos = savingFolder.outputStream
 
-                    localBitmap.compress(mimeType, 100, fos)
+                    localBitmap.compress(mimeType.extension.compressFormat, 100, fos)
                     val out = ByteArrayOutputStream()
-                    localBitmap.compress(mimeType, 100, out)
+                    localBitmap.compress(mimeType.extension.compressFormat, 100, out)
                     val decoded =
                         BitmapFactory.decodeStream(ByteArrayInputStream(out.toByteArray()))
 

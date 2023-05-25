@@ -58,10 +58,10 @@ fun AspectRatioSelection(
             modifier = modifier,
             horizontalArrangement = Arrangement.spacedBy(4.dp, Alignment.CenterHorizontally),
             contentPadding = PaddingValues(
-                start = 4.dp,
+                start = 16.dp,
                 top = 4.dp,
                 bottom = 4.dp,
-                end = 4.dp + WindowInsets
+                end = 16.dp + WindowInsets
                     .navigationBars
                     .asPaddingValues()
                     .calculateEndPadding(LocalLayoutDirection.current)

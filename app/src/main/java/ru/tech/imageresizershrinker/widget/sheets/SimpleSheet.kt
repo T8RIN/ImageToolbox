@@ -25,6 +25,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.t8rin.modalsheet.ModalSheet
@@ -69,7 +70,10 @@ fun SimpleSheet(
                 shape = BottomSheetDefaults.ExpandedShape,
                 elevation = 16.dp
             )
-            .animateContentSize(),
+            .animateContentSize()
+            .onGloballyPositioned {
+
+            },
         elevation = 0.dp,
         visible = showSheet,
         onVisibleChange = { showSheet = it },
