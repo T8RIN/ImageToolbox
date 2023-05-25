@@ -51,7 +51,6 @@ import androidx.compose.material.icons.rounded.TableRows
 import androidx.compose.material.icons.rounded.Translate
 import androidx.compose.material.icons.rounded.WbSunny
 import androidx.compose.material3.Divider
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Slider
@@ -60,7 +59,6 @@ import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -76,6 +74,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.t8rin.dynamic.theme.ColorTupleItem
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.BuildConfig
 import ru.tech.imageresizershrinker.R
@@ -101,17 +100,16 @@ import ru.tech.imageresizershrinker.utils.storage.LocalFileController
 import ru.tech.imageresizershrinker.utils.storage.SaveTarget
 import ru.tech.imageresizershrinker.utils.storage.constructFilename
 import ru.tech.imageresizershrinker.utils.storage.toUiPath
-import ru.tech.imageresizershrinker.widget.LocalToastHost
 import ru.tech.imageresizershrinker.widget.PreferenceRow
 import ru.tech.imageresizershrinker.widget.PreferenceRowSwitch
 import ru.tech.imageresizershrinker.widget.TitleItem
+import ru.tech.imageresizershrinker.widget.ToastHostState
 import ru.tech.imageresizershrinker.widget.image.Picture
-import ru.tech.imageresizershrinker.widget.utils.LocalSettingsState
+import ru.tech.imageresizershrinker.widget.utils.SettingsState
 import ru.tech.imageresizershrinker.widget.utils.isNightMode
 import ru.tech.imageresizershrinker.widget.utils.toAlignment
 import kotlin.math.roundToInt
 
-@OptIn(ExperimentalMaterial3Api::class)
 fun LazyListScope.SettingsBlock(
     onEditPresets: () -> Unit,
     onEditArrangement: () -> Unit,
@@ -119,14 +117,14 @@ fun LazyListScope.SettingsBlock(
     onEditEmoji: () -> Unit,
     onEditColorScheme: () -> Unit,
     onShowAuthor: () -> Unit,
+    settingsState: SettingsState,
+    currentFolderUri: Uri?,
+    toastHost: ToastHostState,
+    scope: CoroutineScope,
+    context: Context,
     viewModel: MainViewModel
 ) {
     item {
-        val settingsState = LocalSettingsState.current
-        val currentFolderUri = viewModel.saveFolderUri
-        val toastHost = LocalToastHost.current
-        val scope = rememberCoroutineScope()
-        val context = LocalContext.current
         // Night mode
         Column {
             TitleItem(
@@ -171,6 +169,8 @@ fun LazyListScope.SettingsBlock(
             Spacer(Modifier.height(16.dp))
         }
         Divider()
+    }
+    item {
         // Customization
         Column {
             TitleItem(
@@ -528,6 +528,8 @@ fun LazyListScope.SettingsBlock(
             Spacer(Modifier.height(16.dp))
         }
         Divider()
+    }
+    item {
         // Arrangement
         Column {
             TitleItem(
@@ -550,6 +552,8 @@ fun LazyListScope.SettingsBlock(
             Spacer(Modifier.height(16.dp))
         }
         Divider()
+    }
+    item {
         // Presets
         Column {
             TitleItem(
@@ -572,6 +576,8 @@ fun LazyListScope.SettingsBlock(
             Spacer(Modifier.height(16.dp))
         }
         Divider()
+    }
+    item {
         // Folder
         Column {
             val launcher = rememberLauncherForActivityResult(
@@ -661,6 +667,8 @@ fun LazyListScope.SettingsBlock(
             Spacer(Modifier.height(16.dp))
         }
         Divider()
+    }
+    item {
         // File
         Column {
             val fileController = LocalFileController.current
@@ -737,6 +745,8 @@ fun LazyListScope.SettingsBlock(
             Spacer(Modifier.height(16.dp))
         }
         Divider()
+    }
+    item {
         // Source
         Column {
             TitleItem(
@@ -826,6 +836,8 @@ fun LazyListScope.SettingsBlock(
             Spacer(Modifier.height(16.dp))
         }
         Divider()
+    }
+    item {
         // About app
         Column {
             TitleItem(

@@ -87,7 +87,7 @@ android {
 dependencies {
 
     //AndroidX
-    implementation("androidx.activity:activity-compose:1.7.1")
+    implementation("androidx.activity:activity-compose:1.7.2")
     implementation("androidx.core:core-splashscreen:1.0.1")
     implementation("androidx.exifinterface:exifinterface:1.3.6")
     implementation("androidx.appcompat:appcompat:1.7.0-alpha02")
@@ -103,10 +103,10 @@ dependencies {
     implementation("nl.dionsegijn:konfetti-compose:2.0.2")
 
     //Compose
-    implementation("androidx.compose.material3:material3:1.2.0-alpha01")
-    implementation("androidx.compose.material3:material3-window-size-class:1.2.0-alpha01")
-    implementation("androidx.compose.material:material-icons-extended:1.5.0-alpha04")
-    implementation("androidx.compose.material:material:1.5.0-alpha04")
+    implementation("androidx.compose.material3:material3:1.2.0-alpha02")
+    implementation("androidx.compose.material3:material3-window-size-class:1.2.0-alpha02")
+    implementation("androidx.compose.material:material-icons-extended:1.5.0-beta01")
+    implementation("androidx.compose.material:material:1.5.0-beta01")
 
     //Di
     implementation("com.google.dagger:hilt-android:2.46.1")

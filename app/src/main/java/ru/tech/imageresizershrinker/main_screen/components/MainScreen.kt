@@ -364,6 +364,7 @@ fun MainScreen(
                     }
                 )
                 Divider()
+                val currentFolderUri = viewModel.saveFolderUri
                 LazyColumn(
                     contentPadding = WindowInsets.navigationBars.asPaddingValues(),
                     state = lazyListState
@@ -371,10 +372,15 @@ fun MainScreen(
                     SettingsBlock(
                         onEditPresets = { editPresetsState.value = true },
                         onEditArrangement = { showArrangementSheet.value = true },
-                        onEditColorScheme = { showPickColorDialog.value = true },
-                        onEditEmoji = { showEmojiDialog.value = true },
                         onEditFilename = { showChangeFilenameDialog = true },
+                        onEditEmoji = { showEmojiDialog.value = true },
+                        onEditColorScheme = { showPickColorDialog.value = true },
                         onShowAuthor = { showAuthorDialog.value = true },
+                        settingsState = settingsState,
+                        currentFolderUri = currentFolderUri,
+                        toastHost = toastHost,
+                        scope = scope,
+                        context = context,
                         viewModel = viewModel
                     )
                 }
