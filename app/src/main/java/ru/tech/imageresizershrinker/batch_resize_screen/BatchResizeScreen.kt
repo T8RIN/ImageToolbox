@@ -92,7 +92,6 @@ import com.t8rin.dynamic.theme.LocalDynamicThemeState
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.R
-import ru.tech.imageresizershrinker.widget.sheets.PickImageFromUrisSheet
 import ru.tech.imageresizershrinker.batch_resize_screen.components.SaveExifWidget
 import ru.tech.imageresizershrinker.batch_resize_screen.viewModel.BatchResizeViewModel
 import ru.tech.imageresizershrinker.theme.outlineVariant
@@ -129,6 +128,7 @@ import ru.tech.imageresizershrinker.widget.dialogs.ExitWithoutSavingDialog
 import ru.tech.imageresizershrinker.widget.image.BadImageWidget
 import ru.tech.imageresizershrinker.widget.image.ImageNotPickedWidget
 import ru.tech.imageresizershrinker.widget.image.SimplePicture
+import ru.tech.imageresizershrinker.widget.sheets.PickImageFromUrisSheet
 import ru.tech.imageresizershrinker.widget.sheets.ZoomModalSheet
 import ru.tech.imageresizershrinker.widget.text.Marquee
 import ru.tech.imageresizershrinker.widget.utils.LocalSettingsState
