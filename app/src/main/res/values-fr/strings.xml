@@ -140,8 +140,8 @@
     <string name="image_preview">aperçu de l\'image</string>
     <string name="image_preview_sub">Aperçu de tout type d’images : GIF, SVG, et ainsi de suite</string>
     <string name="cropping">recadrage</string>
-    <string name="photo_picker_sub">Android modern photo picker qui apparaît au bas de l’écran, peut fonctionner uniquement sur Android 12+ et a également des problèmes avec la réception de métadonnées EXIF</string>
-    <string name="file_explorer_picker_sub">Utilisez l\'intention obtenir du contenu pour sélectionner l\'image, fonctionne partout, mais peut également avoir des problèmes avec la réception d\'images sélectionnées sur certains appareils, ce n\'est pas ma faute</string>
+    <string name="photo_picker_sub">Android capteur de photos moderne qui apparaît en bas de l\'écran, ne peut fonctionner que sur Android 12+ et a également des problèmes avec la réception de métadonnées EXIF.</string>
+    <string name="file_explorer_picker_sub">Utilisation GetContent intention de choisir l\'image, fonctionne partout, mais peut aussi avoir des problèmes avec la réception des images sélectionnées sur certains appareils, ce n\'est pas ma faute.</string>
     <string name="image_source">source de l\'image</string>
     <string name="photo_picker">Sélecteur de photos</string>
     <string name="gallery_picker">Galerie</string>
@@ -158,5 +158,5 @@
     <string name="sequence_num">numéro de séquence</string>
     <string name="original_filename">fichier original</string>
     <string name="replace_sequence_number">Ajouter un numéro de séquence</string>
-    <string name="filename_not_work_with_photopicker">L’ajout du nom de fichier original ne fonctionne pas si la source d’image du photopicker est sélectionnée</string>
+    <string name="filename_not_work_with_photopicker">Ajouter le nom de fichier d\'origine ne fonctionne pas si la source d\'image du sélecteur de photo est sélectionnée.</string>
 </resources>
