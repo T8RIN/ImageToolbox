@@ -151,4 +151,5 @@
     <string name="options_arrangement">Anordnung der Optionen</string>
     <string name="add_original_filename">Ursprünglichen Namen hinzufügen</string>
     <string name="add_original_filename_sub">Wenn aktiviert, fügt dies den ursprünglichen Dateinamen zum Namen des ausgegebenen Bildes hinzu</string>
+    <string name="original_filename">Ursprünglicher Dateiname</string>
 </resources>
