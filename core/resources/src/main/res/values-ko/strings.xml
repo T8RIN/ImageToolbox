@@ -755,8 +755,7 @@
     <string name="standard">기준</string>
     <string name="best">최상의</string>
     <string name="no_data">데이터 없음</string>
-    <string name="download_description">Tesseract OCR이 제대로 작동하려면 추가 학습 데이터(%1$s)를 기기에 다운로드해야 합니다.
-\n%2$s 데이터를 다운로드하시겠습니까?</string>
+    <string name="download_description">Tesseract OCR이 제대로 작동하려면 추가 학습 데이터(%1$s)를 기기에 다운로드해야 합니다. \n%2$s 데이터를 다운로드하시겠습니까?</string>
     <string name="download">다운로드</string>
     <string name="no_connection">연결되지 않았습니다. 기차 모델을 다운로드하려면 확인하고 다시 시도하세요.</string>
     <string name="downloaded_languages">다운로드된 언어</string>
