@@ -124,7 +124,7 @@ import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.decodeBitmapFromUri
 import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.resizeBitmap
 import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.shareBitmap
 import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.toMap
-import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.with
+import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.applyPresetBy
 import ru.tech.imageresizershrinker.utils.helper.byteCount
 import ru.tech.imageresizershrinker.utils.helper.extension
 import ru.tech.imageresizershrinker.utils.modifier.alertDialog
@@ -702,7 +702,7 @@ fun SingleResizeScreen(
                                         selectedPreset = viewModel.presetSelected,
                                         onPresetSelected = {
                                             viewModel.setBitmapInfo(
-                                                it.with(
+                                                it.applyPresetBy(
                                                     viewModel.bitmap,
                                                     viewModel.bitmapInfo
                                                 )

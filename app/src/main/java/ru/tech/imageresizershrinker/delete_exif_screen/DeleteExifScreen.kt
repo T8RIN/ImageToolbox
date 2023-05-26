@@ -563,6 +563,7 @@ fun DeleteExifScreen(
             }
 
             PickImageFromUrisSheet(
+                presetSelected = 100,
                 visible = showPickImageFromUrisDialog,
                 uris = viewModel.uris,
                 selectedUri = viewModel.selectedUri,

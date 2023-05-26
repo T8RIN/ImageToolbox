@@ -57,7 +57,8 @@ import androidx.compose.material3.Slider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.mutableFloatStateOf
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -84,11 +85,9 @@ import ru.tech.imageresizershrinker.common.ISSUE_TRACKER
 import ru.tech.imageresizershrinker.common.WEBLATE_LINK
 import ru.tech.imageresizershrinker.main_screen.viewModel.MainViewModel
 import ru.tech.imageresizershrinker.theme.CreateAlt
-import ru.tech.imageresizershrinker.theme.Emoji
 import ru.tech.imageresizershrinker.theme.EmojiItem
 import ru.tech.imageresizershrinker.theme.FileSettings
 import ru.tech.imageresizershrinker.theme.Lamp
-import ru.tech.imageresizershrinker.theme.allIcons
 import ru.tech.imageresizershrinker.theme.blend
 import ru.tech.imageresizershrinker.theme.inverse
 import ru.tech.imageresizershrinker.theme.outlineVariant
@@ -105,6 +104,7 @@ import ru.tech.imageresizershrinker.widget.PreferenceRowSwitch
 import ru.tech.imageresizershrinker.widget.TitleItem
 import ru.tech.imageresizershrinker.widget.ToastHostState
 import ru.tech.imageresizershrinker.widget.image.Picture
+import ru.tech.imageresizershrinker.widget.utils.LocalSettingsState
 import ru.tech.imageresizershrinker.widget.utils.SettingsState
 import ru.tech.imageresizershrinker.widget.utils.isNightMode
 import ru.tech.imageresizershrinker.widget.utils.toAlignment
@@ -186,8 +186,7 @@ fun LazyListScope.SettingsBlock(
                         onEditEmoji()
                     },
                     endContent = {
-                        val emoji =
-                            Emoji.allIcons.getOrNull(viewModel.selectedEmoji)
+                        val emoji = LocalSettingsState.current.selectedEmoji
                         Box(
                             modifier = Modifier
                                 .size(64.dp)
@@ -318,7 +317,7 @@ fun LazyListScope.SettingsBlock(
                         .animateContentSize()
                 ) {
                     var sliderValue by remember {
-                        mutableStateOf(
+                        mutableIntStateOf(
                             viewModel.emojisCount.coerceAtLeast(1)
                         )
                     }
@@ -383,7 +382,7 @@ fun LazyListScope.SettingsBlock(
                         .animateContentSize()
                 ) {
                     var sliderValue by remember {
-                        mutableStateOf(
+                        mutableFloatStateOf(
                             viewModel.borderWidth.coerceAtLeast(0f)
                         )
                     }
@@ -464,7 +463,7 @@ fun LazyListScope.SettingsBlock(
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         var sliderValue by remember {
-                            mutableStateOf(viewModel.alignment.toFloat())
+                            mutableFloatStateOf(viewModel.alignment.toFloat())
                         }
                         Column(
                             Modifier

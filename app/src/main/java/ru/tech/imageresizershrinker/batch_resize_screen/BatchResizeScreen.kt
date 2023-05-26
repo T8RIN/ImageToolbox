@@ -100,7 +100,7 @@ import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.canShow
 import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.decodeBitmapFromUri
 import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.getBitmapByUri
 import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.shareBitmaps
-import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.with
+import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.applyPresetBy
 import ru.tech.imageresizershrinker.utils.helper.ContextUtils.requestStoragePermission
 import ru.tech.imageresizershrinker.utils.helper.byteCount
 import ru.tech.imageresizershrinker.utils.helper.extension
@@ -748,7 +748,7 @@ fun BatchResizeScreen(
                                         selectedPreset = viewModel.presetSelected,
                                         onPresetSelected = {
                                             viewModel.setBitmapInfo(
-                                                it.with(
+                                                it.applyPresetBy(
                                                     viewModel.bitmap,
                                                     viewModel.bitmapInfo
                                                 )
@@ -868,6 +868,7 @@ fun BatchResizeScreen(
             }
 
             PickImageFromUrisSheet(
+                presetSelected = viewModel.presetSelected,
                 visible = showPickImageFromUrisDialog,
                 uris = viewModel.uris,
                 previewBitmapInfo = viewModel.bitmapInfo,

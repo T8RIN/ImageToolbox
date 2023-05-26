@@ -428,7 +428,7 @@ object BitmapUtils {
         return hashMap
     }
 
-    fun Int.with(bitmap: Bitmap?, currentInfo: BitmapInfo): BitmapInfo {
+    fun Int.applyPresetBy(bitmap: Bitmap?, currentInfo: BitmapInfo): BitmapInfo {
         if (bitmap == null) return currentInfo
 
 
@@ -438,7 +438,7 @@ object BitmapUtils {
         fun Int.calc(cnt: Int): Int = (this * (cnt / 100f)).toInt()
 
         return when (val percent = this) {
-            in 500 downTo 99 -> {
+            in 500 downTo 70 -> {
                 currentInfo.copy(
                     quality = percent.toFloat(),
                     width = bitmap.width().calc(percent),
@@ -446,21 +446,7 @@ object BitmapUtils {
                 )
             }
 
-            100 -> {
-                currentInfo.copy(
-                    quality = percent.toFloat(),
-                    width = bitmap.width(),
-                    height = bitmap.height()
-                )
-            }
-
-            in 90 downTo 70 -> currentInfo.copy(
-                width = bitmap.width().calc(percent),
-                height = bitmap.height().calc(percent),
-                quality = percent.toFloat()
-            )
-
-            in 60 downTo 10 -> currentInfo.run {
+            in 69 downTo 10 -> currentInfo.run {
                 copy(
                     width = bitmap.width().calc(percent + 15),
                     height = bitmap.height().calc(percent + 15),

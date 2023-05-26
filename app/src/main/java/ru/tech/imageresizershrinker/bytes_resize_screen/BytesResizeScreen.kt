@@ -711,6 +711,7 @@ fun BytesResizeScreen(
             }
 
             PickImageFromUrisSheet(
+                presetSelected = viewModel.presetSelected,
                 visible = showPickImageFromUrisDialog,
                 uris = viewModel.uris,
                 selectedUri = viewModel.selectedUri,

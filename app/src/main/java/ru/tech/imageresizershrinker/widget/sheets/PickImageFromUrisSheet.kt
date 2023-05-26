@@ -44,6 +44,7 @@ import ru.tech.imageresizershrinker.widget.utils.LocalSettingsState
 fun PickImageFromUrisSheet(
     visible: Boolean,
     previewBitmapInfo: BitmapInfo = BitmapInfo(),
+    presetSelected: Int,
     uris: List<Uri>?,
     selectedUri: Uri?,
     onUriRemoved: (Uri) -> Unit,
@@ -77,7 +78,7 @@ fun PickImageFromUrisSheet(
                             ) {
                                 Picture(
                                     transformations = listOf(
-                                        BitmapInfoTransformation(previewBitmapInfo)
+                                        BitmapInfoTransformation(previewBitmapInfo, presetSelected)
                                     ),
                                     model = uri,
                                     modifier = Modifier
