@@ -92,7 +92,6 @@ import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.crop_screen.components.AspectRatioSelection
 import ru.tech.imageresizershrinker.crop_screen.components.aspectRatios
 import ru.tech.imageresizershrinker.crop_screen.viewModel.CropViewModel
-import ru.tech.imageresizershrinker.generate_palette_screen.isScrollingUp
 import ru.tech.imageresizershrinker.theme.outlineVariant
 import ru.tech.imageresizershrinker.utils.LocalConfettiController
 import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.decodeBitmapFromUri
@@ -117,6 +116,7 @@ import ru.tech.imageresizershrinker.widget.image.ImageNotPickedWidget
 import ru.tech.imageresizershrinker.widget.text.Marquee
 import ru.tech.imageresizershrinker.widget.utils.LocalSettingsState
 import ru.tech.imageresizershrinker.widget.utils.LocalWindowSizeClass
+import ru.tech.imageresizershrinker.widget.utils.isScrollingUp
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

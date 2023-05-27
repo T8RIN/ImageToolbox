@@ -33,6 +33,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
+import androidx.compose.foundation.lazy.staggeredgrid.rememberLazyStaggeredGridState
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.rememberScrollState
@@ -111,6 +112,7 @@ import ru.tech.imageresizershrinker.widget.image.Picture
 import ru.tech.imageresizershrinker.widget.sheets.SimpleSheet
 import ru.tech.imageresizershrinker.widget.text.Marquee
 import ru.tech.imageresizershrinker.widget.utils.LocalSettingsState
+import ru.tech.imageresizershrinker.widget.utils.isScrollingUp
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
 @Composable
@@ -177,6 +179,8 @@ fun ImagePreviewScreen(
     }
 
     var showImagePreviewDialog by rememberSaveable { mutableStateOf(false) }
+
+    val gridState = rememberLazyStaggeredGridState()
 
     Surface(
         color = MaterialTheme.colorScheme.background
@@ -246,6 +250,7 @@ fun ImagePreviewScreen(
                             12.dp,
                             Alignment.CenterHorizontally
                         ),
+                        state = gridState,
                         contentPadding = PaddingValues(
                             bottom = 88.dp + WindowInsets
                                 .navigationBars
@@ -323,6 +328,7 @@ fun ImagePreviewScreen(
                     .fabBorder()
                     .align(settingsState.fabAlignment),
                 elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
+                expanded = if (settingsState.fabAlignment == Alignment.Center) true else gridState.isScrollingUp(),
                 text = {
                     Text(stringResource(R.string.pick_image_alt))
                 },
@@ -369,6 +375,7 @@ fun ImagePreviewScreen(
         )
         LaunchedEffect(state.currentPage) {
             viewModel.selectUri(viewModel.uris?.getOrNull(state.currentPage))
+            gridState.animateScrollToItem(state.currentPage)
         }
         Box(
             Modifier
