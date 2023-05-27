@@ -47,6 +47,7 @@ import androidx.compose.material.icons.outlined.Share
 import androidx.compose.material.icons.rounded.AddCircle
 import androidx.compose.material.icons.rounded.AddPhotoAlternate
 import androidx.compose.material.icons.rounded.ArrowBack
+import androidx.compose.material.icons.rounded.Compare
 import androidx.compose.material.icons.rounded.Crop
 import androidx.compose.material.icons.rounded.Dataset
 import androidx.compose.material.icons.rounded.Delete
@@ -119,12 +120,12 @@ import ru.tech.imageresizershrinker.single_resize_screen.viewModel.SingleResizeV
 import ru.tech.imageresizershrinker.theme.outlineVariant
 import ru.tech.imageresizershrinker.utils.LocalConfettiController
 import ru.tech.imageresizershrinker.utils.helper.BitmapUtils
+import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.applyPresetBy
 import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.canShow
 import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.decodeBitmapFromUri
 import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.resizeBitmap
 import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.shareBitmap
 import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.toMap
-import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.applyPresetBy
 import ru.tech.imageresizershrinker.utils.helper.byteCount
 import ru.tech.imageresizershrinker.utils.helper.extension
 import ru.tech.imageresizershrinker.utils.modifier.alertDialog
@@ -151,6 +152,7 @@ import ru.tech.imageresizershrinker.widget.dialogs.ExitWithoutSavingDialog
 import ru.tech.imageresizershrinker.widget.image.BadImageWidget
 import ru.tech.imageresizershrinker.widget.image.ImageNotPickedWidget
 import ru.tech.imageresizershrinker.widget.image.SimplePicture
+import ru.tech.imageresizershrinker.widget.sheets.CompareSheet
 import ru.tech.imageresizershrinker.widget.sheets.SimpleSheet
 import ru.tech.imageresizershrinker.widget.sheets.ZoomModalSheet
 import ru.tech.imageresizershrinker.widget.text.Marquee
@@ -479,6 +481,24 @@ fun SingleResizeScreen(
         }
     }
 
+    val showCompareSheet = rememberSaveable { mutableStateOf(false) }
+    val compareButton = @Composable {
+        AnimatedVisibility(viewModel.bitmap != null && viewModel.shouldShowPreview) {
+            IconButton(
+                onClick = {
+                    showCompareSheet.value = true
+                }
+            ) {
+                Icon(Icons.Rounded.Compare, null)
+            }
+        }
+    }
+
+    CompareSheet(
+        data = viewModel.bitmap to viewModel.previewBitmap,
+        visible = showCompareSheet
+    )
+
     ZoomModalSheet(
         bitmap = viewModel.previewBitmap,
         visible = showSheet
@@ -555,6 +575,7 @@ fun SingleResizeScreen(
                         if (viewModel.bitmap == null) {
                             TopAppBarEmoji()
                         }
+                        compareButton()
                         zoomButton()
                         if (!imageInside && viewModel.bitmap != null) {
                             TelegramButton(

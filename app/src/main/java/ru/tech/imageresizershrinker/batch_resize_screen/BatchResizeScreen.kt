@@ -42,6 +42,7 @@ import androidx.compose.material.icons.outlined.Share
 import androidx.compose.material.icons.rounded.AddPhotoAlternate
 import androidx.compose.material.icons.rounded.ArrowBack
 import androidx.compose.material.icons.rounded.ChangeCircle
+import androidx.compose.material.icons.rounded.Compare
 import androidx.compose.material.icons.rounded.DoneOutline
 import androidx.compose.material.icons.rounded.ErrorOutline
 import androidx.compose.material.icons.rounded.History
@@ -96,11 +97,11 @@ import ru.tech.imageresizershrinker.batch_resize_screen.components.SaveExifWidge
 import ru.tech.imageresizershrinker.batch_resize_screen.viewModel.BatchResizeViewModel
 import ru.tech.imageresizershrinker.theme.outlineVariant
 import ru.tech.imageresizershrinker.utils.LocalConfettiController
+import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.applyPresetBy
 import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.canShow
 import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.decodeBitmapFromUri
 import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.getBitmapByUri
 import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.shareBitmaps
-import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.applyPresetBy
 import ru.tech.imageresizershrinker.utils.helper.ContextUtils.requestStoragePermission
 import ru.tech.imageresizershrinker.utils.helper.byteCount
 import ru.tech.imageresizershrinker.utils.helper.extension
@@ -128,6 +129,7 @@ import ru.tech.imageresizershrinker.widget.dialogs.ExitWithoutSavingDialog
 import ru.tech.imageresizershrinker.widget.image.BadImageWidget
 import ru.tech.imageresizershrinker.widget.image.ImageNotPickedWidget
 import ru.tech.imageresizershrinker.widget.image.SimplePicture
+import ru.tech.imageresizershrinker.widget.sheets.CompareSheet
 import ru.tech.imageresizershrinker.widget.sheets.PickImageFromUrisSheet
 import ru.tech.imageresizershrinker.widget.sheets.ZoomModalSheet
 import ru.tech.imageresizershrinker.widget.text.Marquee
@@ -502,12 +504,13 @@ fun BatchResizeScreen(
 
     val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
 
-    val showSheet = rememberSaveable { mutableStateOf(false) }
+    val showZoomSheet = rememberSaveable { mutableStateOf(false) }
+
     val zoomButton = @Composable {
         AnimatedVisibility(viewModel.bitmap != null && viewModel.shouldShowPreview) {
             IconButton(
                 onClick = {
-                    showSheet.value = true
+                    showZoomSheet.value = true
                 }
             ) {
                 Icon(Icons.Rounded.ZoomIn, null)
@@ -515,9 +518,27 @@ fun BatchResizeScreen(
         }
     }
 
+    val showCompareSheet = rememberSaveable { mutableStateOf(false) }
+    val compareButton = @Composable {
+        AnimatedVisibility(viewModel.bitmap != null && viewModel.shouldShowPreview) {
+            IconButton(
+                onClick = {
+                    showCompareSheet.value = true
+                }
+            ) {
+                Icon(Icons.Rounded.Compare, null)
+            }
+        }
+    }
+
+    CompareSheet(
+        data = viewModel.bitmap to viewModel.previewBitmap,
+        visible = showCompareSheet
+    )
+
     ZoomModalSheet(
         bitmap = viewModel.previewBitmap,
-        visible = showSheet
+        visible = showZoomSheet
     )
 
     Surface(
@@ -581,6 +602,7 @@ fun BatchResizeScreen(
                         if (viewModel.bitmap == null) {
                             TopAppBarEmoji()
                         }
+                        compareButton()
                         zoomButton()
                         if (!imageInside && !viewModel.uris.isNullOrEmpty()) {
                             TelegramButton(
