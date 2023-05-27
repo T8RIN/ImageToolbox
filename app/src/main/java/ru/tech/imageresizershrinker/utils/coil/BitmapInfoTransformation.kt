@@ -11,17 +11,26 @@ class BitmapInfoTransformation(
     private val bitmapInfo: BitmapInfo,
     private val preset: Int
 ) : Transformation {
+
+    private var previousInfo: BitmapInfo = BitmapInfo()
+
     override val cacheKey: String
-        get() = Pair(bitmapInfo, preset).hashCode().toString()
+        get() = Triple(bitmapInfo, preset, previousInfo).hashCode().toString()
 
     override suspend fun transform(input: Bitmap, size: Size): Bitmap {
         var info = bitmapInfo
         if (preset != -1) {
+            val currentInfo = info.copy()
             info = preset.applyPresetBy(
                 bitmap = input,
                 currentInfo = info
-            )
+            ).let {
+                if (previousInfo.quality != currentInfo.quality) {
+                    it.copy(quality = currentInfo.quality)
+                } else it
+            }
         }
+        previousInfo = info.copy()
         return input.previewBitmap(
             quality = info.quality,
             widthValue = info.width,
