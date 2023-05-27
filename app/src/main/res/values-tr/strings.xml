@@ -138,4 +138,25 @@
     <string name="delete_exif_sub">Herhangi bir görüntü çiftinden EXIF meta verilerini silin</string>
     <string name="image_preview">Resim önizleme</string>
     <string name="image_preview_sub">Her tür görüntüyü önizleyin: GIF, SVG ve benzeri</string>
+    <string name="emoji">emojisi</string>
+    <string name="cropping">Kırpma</string>
+    <string name="image_source">Resim kaynağı</string>
+    <string name="photo_picker">fotoğraf seçici</string>
+    <string name="gallery_picker">Galeri</string>
+    <string name="file_explorer_picker">Dosya Gezgini</string>
+    <string name="photo_picker_sub">Ekranın altında görünen Android modern fotoğraf seçici, yalnızca Android 12+ üzerinde çalışabilir ve ayrıca EXIF meta verilerini almayla ilgili sorunları olabilir.</string>
+    <string name="gallery_picker_sub">Basit galeri resim seçici, yalnızca bu uygulamaya sahipseniz çalışır</string>
+    <string name="file_explorer_picker_sub">Görüntü seçmek için GetContent amacını kullanın, her yerde çalışır, ancak bazı cihazlarda seçilen görüntüleri almayla ilgili sorunlar da olabilir, bu benim hatam değil</string>
+    <string name="options_arrangement">Seçenekler düzenlemesi</string>
+    <string name="edit">Düzenlemek</string>
+    <string name="order">Emir</string>
+    <string name="order_sub">Ana ekrandaki seçeneklerin sırasını belirler</string>
+    <string name="emojis_count">emoji sayısı</string>
+    <string name="sequence_num">sıraNum</string>
+    <string name="original_filename">orijinal dosyaadı</string>
+    <string name="add_original_filename">Orijinal dosya adı ekle</string>
+    <string name="add_original_filename_sub">Etkinleştirilirse, çıktı görüntüsünün adına orijinal dosya adını ekler</string>
+    <string name="filename_not_work_with_photopicker">Fotoğraf seçici görüntü kaynağı seçiliyse orijinal dosya adının eklenmesi çalışmıyor</string>
+    <string name="replace_sequence_number">Sıra numarasını değiştir</string>
+    <string name="replace_sequence_number_sub">Etkinleştirilirse, toplu işleme kullanıyorsanız standart zaman damgasını görüntü sıra numarasıyla değiştirir</string>
 </resources>
