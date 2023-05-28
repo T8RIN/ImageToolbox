@@ -264,7 +264,7 @@ class SingleResizeViewModel : ViewModel() {
     fun setQuality(quality: Float) {
         if (_bitmapInfo.value.quality != quality) {
             _bitmapInfo.value = _bitmapInfo.value.copy(quality = quality.coerceIn(0f, 100f))
-            checkBitmapAndUpdate(resetPreset = true, resetTelegram = false)
+            checkBitmapAndUpdate(resetPreset = false, resetTelegram = false)
         }
     }
 

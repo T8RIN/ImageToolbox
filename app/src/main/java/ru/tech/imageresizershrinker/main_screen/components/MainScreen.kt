@@ -5,6 +5,7 @@ import android.content.Intent
 import android.net.Uri
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.core.animateDpAsState
+import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -126,7 +127,6 @@ import ru.tech.imageresizershrinker.theme.Telegram
 import ru.tech.imageresizershrinker.theme.allIcons
 import ru.tech.imageresizershrinker.theme.outlineVariant
 import ru.tech.imageresizershrinker.theme.suggestContainerColorBy
-import ru.tech.imageresizershrinker.utils.LocalConfettiController
 import ru.tech.imageresizershrinker.utils.helper.ContextUtils.verifyInstallerId
 import ru.tech.imageresizershrinker.utils.modifier.alertDialog
 import ru.tech.imageresizershrinker.utils.modifier.drawHorizontalStroke
@@ -168,12 +168,6 @@ fun MainScreen(
     val isGrid = LocalWindowSizeClass.current.widthSizeClass != WindowWidthSizeClass.Compact
 
     val scope = rememberCoroutineScope()
-    val confettiController = LocalConfettiController.current
-    val showConfetti: () -> Unit = {
-        scope.launch {
-            confettiController.showEmpty()
-        }
-    }
 
     val showPickColorDialog = rememberSaveable { mutableStateOf(false) }
     val showAuthorDialog = rememberSaveable { mutableStateOf(false) }
@@ -269,7 +263,7 @@ fun MainScreen(
                                 DrawerDefaults.shape
                             )
                     } else Modifier.revealSwipeable(
-                        maxRevealPx = with(LocalDensity.current) { 50.dp.toPx() },
+                        maxRevealPx = with(LocalDensity.current) { 100.dp.toPx() },
                         directions = setOf(
                             RevealDirection.EndToStart,
                         ),
@@ -354,9 +348,7 @@ fun MainScreen(
                                     Icons.Rounded.MenuOpen,
                                     null,
                                     modifier = Modifier.rotate(
-                                        (state.offset.value * -2f).coerceAtMost(
-                                            180f
-                                        )
+                                        animateFloatAsState(if (state.currentValue == RevealValue.Default) 0f else 180f).value
                                     )
                                 )
                             }
