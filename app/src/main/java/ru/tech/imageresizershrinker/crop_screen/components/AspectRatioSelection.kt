@@ -251,9 +251,19 @@ fun aspectRatios(
             aspectRatio = AspectRatio(9 / 16f)
         ),
         CropAspectRatio(
+            title = "9:18.5",
+            shape = createRectShape(AspectRatio(9f / 18.5f)),
+            aspectRatio = AspectRatio(9f / 18.5f)
+        ),
+        CropAspectRatio(
             title = "9:21",
             shape = createRectShape(AspectRatio(9 / 21f)),
             aspectRatio = AspectRatio(9 / 21f)
+        ),
+        CropAspectRatio(
+            title = "1:1.91",
+            shape = createRectShape(AspectRatio(1 / 1.91f)),
+            aspectRatio = AspectRatio(1f / 1.91f)
         ),
         CropAspectRatio(
             title = "2:3",
@@ -284,6 +294,11 @@ fun aspectRatios(
             title = "21:9",
             shape = createRectShape(AspectRatio(21 / 9f)),
             aspectRatio = AspectRatio(21 / 9f)
+        ),
+        CropAspectRatio(
+            title = "18.5:9",
+            shape = createRectShape(AspectRatio(18.5f / 9f)),
+            aspectRatio = AspectRatio(18.5f / 9f)
         ),
         CropAspectRatio(
             title = "16:9",
