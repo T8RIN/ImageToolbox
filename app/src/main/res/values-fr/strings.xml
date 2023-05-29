@@ -32,7 +32,7 @@
     <string name="add_tag">Ajouter une balise</string>
     <string name="might_be_error_with_exif">Si le format de compression JPEG n\'est pas choisi, les métadonnées EXIF peuvent être affichées de manière incorrecte dans d\'autres applications.</string>
     <string name="save">Sauvegarder</string>
-    <string name="clear">Claire</string>
+    <string name="clear">Effacer</string>
     <string name="clear_exif">Effacer les EXIF</string>
     <string name="cancel">Annuler</string>
     <string name="clear_exif_sub">Toutes les données EXIF de l\'image seront effacées, cette action ne peut pas être annulée !</string>
