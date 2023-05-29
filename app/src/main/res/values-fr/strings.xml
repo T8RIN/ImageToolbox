@@ -22,7 +22,7 @@
     <string name="reset_image_sub">Les valeurs de l\'image seront restaurés aux valeurs de départ</string>
     <string name="values_reset">Les valeurs ont été correctement réinitialisées</string>
     <string name="reset">Réinitialiser</string>
-    <string name="something_went_wrong">une erreur c\'est produite</string>
+    <string name="something_went_wrong">Une erreur c\'est produite</string>
     <string name="restart_app">Redémarrer l\'application</string>
     <string name="copied">Copié dans le presse-papier</string>
     <string name="exception">Exception</string>
@@ -32,7 +32,7 @@
     <string name="add_tag">Ajouter une balise</string>
     <string name="might_be_error_with_exif">Si le format de compression JPEG n\'est pas choisi, les métadonnées EXIF peuvent être affichées de manière incorrecte dans d\'autres applications.</string>
     <string name="save">Sauvegarder</string>
-    <string name="clear">Claire</string>
+    <string name="clear">Effacer</string>
     <string name="clear_exif">Effacer les EXIF</string>
     <string name="cancel">Annuler</string>
     <string name="clear_exif_sub">Toutes les données EXIF de l\'image seront effacées, cette action ne peut pas être annulée !</string>
@@ -137,15 +137,15 @@
     <string name="add_file_size_sub">Si activé, ajoute la largeur et la hauteur de l\'image enregistrée au nom du fichier de sortie</string>
     <string name="delete_exif">Supprimer EXIF</string>
     <string name="delete_exif_sub">Supprimer les métadonnées EXIF de quelques images</string>
-    <string name="image_preview">aperçu de l\'image</string>
+    <string name="image_preview">Aperçu de l\'image</string>
     <string name="image_preview_sub">Aperçu de tout type d’images : GIF, SVG, et ainsi de suite</string>
-    <string name="cropping">recadrage</string>
+    <string name="cropping">Recadrage</string>
     <string name="photo_picker_sub">Android capteur de photos moderne qui apparaît en bas de l\'écran, ne peut fonctionner que sur Android 12+ et a également des problèmes avec la réception de métadonnées EXIF.</string>
     <string name="file_explorer_picker_sub">Utilisation GetContent intention de choisir l\'image, fonctionne partout, mais peut aussi avoir des problèmes avec la réception des images sélectionnées sur certains appareils, ce n\'est pas ma faute.</string>
-    <string name="image_source">source de l\'image</string>
+    <string name="image_source">Source de l\'image</string>
     <string name="photo_picker">Sélecteur de photos</string>
     <string name="gallery_picker">Galerie</string>
-    <string name="file_explorer_picker">explorateur de fichiers</string>
+    <string name="file_explorer_picker">Explorateur de fichiers</string>
     <string name="gallery_picker_sub">Simple sélecteur d’image de galerie, il ne fonctionnera que si vous avez cette application</string>
     <string name="edit">Modifier</string>
     <string name="order">Commander</string>
@@ -155,8 +155,8 @@
     <string name="add_original_filename">Ajouter le nom de fichier original</string>
     <string name="add_original_filename_sub">Si activé, ajoute le nom de fichier d\'origine au nom de l\'image de sortie</string>
     <string name="replace_sequence_number_sub">Si cette option est activée, l’horodatage de Standard remplace le numéro de séquence d’image si vous utilisez le traitement par lots</string>
-    <string name="sequence_num">numéro de séquence</string>
-    <string name="original_filename">fichier original</string>
+    <string name="sequence_num">Numéro de séquence</string>
+    <string name="original_filename">Fichier original</string>
     <string name="replace_sequence_number">Ajouter un numéro de séquence</string>
     <string name="filename_not_work_with_photopicker">Ajouter le nom de fichier d\'origine ne fonctionne pas si la source d\'image du sélecteur de photo est sélectionnée.</string>
 </resources>
