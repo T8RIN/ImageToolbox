@@ -328,7 +328,7 @@ fun ImagePreviewScreen(
                     .fabBorder()
                     .align(settingsState.fabAlignment),
                 elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
-                expanded = if (settingsState.fabAlignment == Alignment.Center) true else gridState.isScrollingUp(),
+                expanded = if (settingsState.fabAlignment == Alignment.BottomCenter) true else gridState.isScrollingUp(),
                 text = {
                     Text(stringResource(R.string.pick_image_alt))
                 },
