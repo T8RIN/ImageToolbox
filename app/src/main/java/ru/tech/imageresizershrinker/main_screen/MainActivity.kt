@@ -18,6 +18,8 @@ import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -30,8 +32,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
-import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
@@ -57,6 +59,7 @@ import androidx.compose.material3.OutlinedIconButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.SideEffect
@@ -67,13 +70,17 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.max
+import androidx.compose.ui.unit.sp
 import androidx.core.text.isDigitsOnly
 import com.t8rin.dynamic.theme.LocalDynamicThemeState
 import com.t8rin.dynamic.theme.getAppColorTuple
@@ -130,6 +137,7 @@ import ru.tech.imageresizershrinker.widget.LocalToastHost
 import ru.tech.imageresizershrinker.widget.TitleItem
 import ru.tech.imageresizershrinker.widget.ToastHost
 import ru.tech.imageresizershrinker.widget.activity.M3Activity
+import ru.tech.imageresizershrinker.widget.image.Picture
 import ru.tech.imageresizershrinker.widget.rememberToastHostState
 import ru.tech.imageresizershrinker.widget.sheets.SimpleSheet
 import ru.tech.imageresizershrinker.widget.text.AutoSizeText
@@ -523,15 +531,81 @@ class MainActivity : M3Activity() {
                                 }
                                 val color = MaterialTheme.colorScheme.secondaryContainer
                                 Box(Modifier.fillMaxWidth()) {
-                                    LazyVerticalStaggeredGrid(
-                                        columns = StaggeredGridCells.Adaptive(250.dp),
+                                    LazyColumn(
                                         contentPadding = PaddingValues(16.dp),
-                                        verticalItemSpacing = 8.dp,
-                                        horizontalArrangement = Arrangement.spacedBy(
+                                        verticalArrangement = Arrangement.spacedBy(
                                             8.dp,
-                                            Alignment.CenterHorizontally
+                                            Alignment.CenterVertically
                                         )
                                     ) {
+                                        item {
+                                            val pic: @Composable (Uri?, Dp, Int) -> Unit =
+                                                { uri, height, extra ->
+                                                    Box(
+                                                        Modifier
+                                                            .padding(
+                                                                bottom = 8.dp,
+                                                                start = 4.dp,
+                                                                end = 4.dp
+                                                            )
+                                                            .height(height)
+                                                            .width(120.dp)
+                                                            .border(
+                                                                width = settingsState.borderWidth,
+                                                                color = MaterialTheme.colorScheme.outlineVariant(),
+                                                                shape = MaterialTheme.shapes.extraLarge
+                                                            )
+                                                            .clip(shape = MaterialTheme.shapes.extraLarge)
+                                                    ) {
+                                                        Picture(
+                                                            model = uri,
+                                                            shape = MaterialTheme.shapes.extraLarge,
+                                                            modifier = Modifier.fillMaxSize()
+                                                        )
+                                                        if (extra > 0) {
+                                                            Box(
+                                                                Modifier
+                                                                    .fillMaxSize()
+                                                                    .background(
+                                                                        MaterialTheme.colorScheme.scrim.copy(
+                                                                            alpha = 0.6f
+                                                                        )
+                                                                    ),
+                                                                contentAlignment = Alignment.Center
+                                                            ) {
+                                                                Text(
+                                                                    text = "+$extra",
+                                                                    color = Color.White,
+                                                                    fontSize = 20.sp,
+                                                                    fontWeight = FontWeight.Bold
+                                                                )
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            val uris = viewModel.uris ?: emptyList()
+                                            if (uris.size in 1..2) {
+                                                Row(
+                                                    modifier = Modifier.fillMaxWidth(),
+                                                    horizontalArrangement = Arrangement.Center
+                                                ) {
+                                                    repeat(uris.size) {
+                                                        pic(uris.getOrNull(it), 100.dp, 0)
+                                                    }
+                                                }
+                                            } else if (uris.size >= 3) {
+                                                Row(
+                                                    modifier = Modifier.fillMaxWidth(),
+                                                    horizontalArrangement = Arrangement.Center
+                                                ) {
+                                                    pic(uris.getOrNull(0), 100.dp, 0)
+                                                    Column {
+                                                        pic(uris.getOrNull(1), 60.dp, 0)
+                                                        pic(uris.getOrNull(2), 60.dp, uris.size - 3)
+                                                    }
+                                                }
+                                            }
+                                        }
                                         if ((viewModel.uris?.size ?: 0) <= 1) {
                                             item {
                                                 SingleResizePreference(
