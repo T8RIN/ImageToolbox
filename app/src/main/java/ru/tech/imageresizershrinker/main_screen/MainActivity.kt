@@ -18,22 +18,17 @@ import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
@@ -44,7 +39,6 @@ import androidx.compose.material.icons.outlined.PhotoSizeSelectSmall
 import androidx.compose.material.icons.rounded.AddCircle
 import androidx.compose.material.icons.rounded.Download
 import androidx.compose.material.icons.rounded.ErrorOutline
-import androidx.compose.material.icons.rounded.Image
 import androidx.compose.material.icons.rounded.PhotoSizeSelectSmall
 import androidx.compose.material.icons.rounded.Storage
 import androidx.compose.material3.AlertDialog
@@ -59,7 +53,6 @@ import androidx.compose.material3.OutlinedIconButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.SideEffect
@@ -70,17 +63,13 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.max
-import androidx.compose.ui.unit.sp
 import androidx.core.text.isDigitsOnly
 import com.t8rin.dynamic.theme.LocalDynamicThemeState
 import com.t8rin.dynamic.theme.getAppColorTuple
@@ -104,16 +93,8 @@ import ru.tech.imageresizershrinker.crop_screen.CropScreen
 import ru.tech.imageresizershrinker.delete_exif_screen.DeleteExifScreen
 import ru.tech.imageresizershrinker.generate_palette_screen.GeneratePaletteScreen
 import ru.tech.imageresizershrinker.image_preview_screen.ImagePreviewScreen
-import ru.tech.imageresizershrinker.main_screen.components.BatchResizePreference
-import ru.tech.imageresizershrinker.main_screen.components.BytesResizePreference
-import ru.tech.imageresizershrinker.main_screen.components.ComparePreference
-import ru.tech.imageresizershrinker.main_screen.components.CropPreference
-import ru.tech.imageresizershrinker.main_screen.components.DeleteExifPreference
-import ru.tech.imageresizershrinker.main_screen.components.GeneratePalettePreference
-import ru.tech.imageresizershrinker.main_screen.components.ImagePreviewPreference
 import ru.tech.imageresizershrinker.main_screen.components.MainScreen
-import ru.tech.imageresizershrinker.main_screen.components.PickColorPreference
-import ru.tech.imageresizershrinker.main_screen.components.SingleResizePreference
+import ru.tech.imageresizershrinker.main_screen.components.ProcessImagesPreferenceSheet
 import ru.tech.imageresizershrinker.main_screen.viewModel.MainViewModel
 import ru.tech.imageresizershrinker.pick_color_from_image_screen.PickColorFromImageScreen
 import ru.tech.imageresizershrinker.single_resize_screen.SingleResizeScreen
@@ -137,7 +118,6 @@ import ru.tech.imageresizershrinker.widget.LocalToastHost
 import ru.tech.imageresizershrinker.widget.TitleItem
 import ru.tech.imageresizershrinker.widget.ToastHost
 import ru.tech.imageresizershrinker.widget.activity.M3Activity
-import ru.tech.imageresizershrinker.widget.image.Picture
 import ru.tech.imageresizershrinker.widget.rememberToastHostState
 import ru.tech.imageresizershrinker.widget.sheets.SimpleSheet
 import ru.tech.imageresizershrinker.widget.text.AutoSizeText
@@ -500,262 +480,9 @@ class MainActivity : M3Activity() {
                                 }
                             }
                         )
-                        SimpleSheet(
-                            title = {
-                                TitleItem(
-                                    text = stringResource(R.string.image),
-                                    icon = Icons.Rounded.Image
-                                )
-                            },
-                            confirmButton = {
-                                OutlinedButton(
-                                    onClick = {
-                                        showSelectSheet.value = false
-                                    },
-                                    border = BorderStroke(
-                                        settingsState.borderWidth,
-                                        MaterialTheme.colorScheme.outlineVariant()
-                                    )
-                                ) {
-                                    Text(stringResource(id = R.string.cancel))
-                                }
-                            },
-                            sheetContent = {
-                                val navigate: (Screen) -> Unit = { screen ->
-                                    viewModel.apply {
-                                        navController.apply {
-                                            navigate(screen)
-                                            showSelectSheet.value = false
-                                        }
-                                    }
-                                }
-                                val color = MaterialTheme.colorScheme.secondaryContainer
-                                Box(Modifier.fillMaxWidth()) {
-                                    LazyColumn(
-                                        contentPadding = PaddingValues(16.dp),
-                                        verticalArrangement = Arrangement.spacedBy(
-                                            8.dp,
-                                            Alignment.CenterVertically
-                                        )
-                                    ) {
-                                        item {
-                                            val pic: @Composable (Uri?, Dp, Int) -> Unit =
-                                                { uri, height, extra ->
-                                                    Box(
-                                                        Modifier
-                                                            .padding(
-                                                                bottom = 8.dp,
-                                                                start = 4.dp,
-                                                                end = 4.dp
-                                                            )
-                                                            .height(height)
-                                                            .width(120.dp)
-                                                            .border(
-                                                                width = settingsState.borderWidth,
-                                                                color = MaterialTheme.colorScheme.outlineVariant(),
-                                                                shape = MaterialTheme.shapes.extraLarge
-                                                            )
-                                                            .clip(shape = MaterialTheme.shapes.extraLarge)
-                                                    ) {
-                                                        Picture(
-                                                            model = uri,
-                                                            shape = MaterialTheme.shapes.extraLarge,
-                                                            modifier = Modifier.fillMaxSize()
-                                                        )
-                                                        if (extra > 0) {
-                                                            Box(
-                                                                Modifier
-                                                                    .fillMaxSize()
-                                                                    .background(
-                                                                        MaterialTheme.colorScheme.scrim.copy(
-                                                                            alpha = 0.6f
-                                                                        )
-                                                                    ),
-                                                                contentAlignment = Alignment.Center
-                                                            ) {
-                                                                Text(
-                                                                    text = "+$extra",
-                                                                    color = Color.White,
-                                                                    fontSize = 20.sp,
-                                                                    fontWeight = FontWeight.Bold
-                                                                )
-                                                            }
-                                                        }
-                                                    }
-                                                }
-                                            val uris = viewModel.uris ?: emptyList()
-                                            if (uris.size in 1..2) {
-                                                Row(
-                                                    modifier = Modifier.fillMaxWidth(),
-                                                    horizontalArrangement = Arrangement.Center
-                                                ) {
-                                                    repeat(uris.size) {
-                                                        pic(uris.getOrNull(it), 100.dp, 0)
-                                                    }
-                                                }
-                                            } else if (uris.size >= 3) {
-                                                Row(
-                                                    modifier = Modifier.fillMaxWidth(),
-                                                    horizontalArrangement = Arrangement.Center
-                                                ) {
-                                                    pic(uris.getOrNull(0), 100.dp, 0)
-                                                    Column {
-                                                        pic(uris.getOrNull(1), 60.dp, 0)
-                                                        pic(uris.getOrNull(2), 60.dp, uris.size - 3)
-                                                    }
-                                                }
-                                            }
-                                        }
-                                        if ((viewModel.uris?.size ?: 0) <= 1) {
-                                            item {
-                                                SingleResizePreference(
-                                                    modifier = Modifier.fillMaxWidth(),
-                                                    onClick = {
-                                                        navigate(
-                                                            Screen.SingleResize(
-                                                                viewModel.uris?.firstOrNull()
-                                                            )
-                                                        )
-                                                    },
-                                                    color = color
-                                                )
-                                            }
-                                            item {
-                                                BytesResizePreference(
-                                                    modifier = Modifier.fillMaxWidth(),
-                                                    onClick = {
-                                                        navigate(
-                                                            Screen.ResizeByBytes(
-                                                                viewModel.uris
-                                                            )
-                                                        )
-                                                    },
-                                                    color = color
-                                                )
-                                            }
-                                            item {
-                                                DeleteExifPreference(
-                                                    modifier = Modifier.fillMaxWidth(),
-                                                    onClick = { navigate(Screen.DeleteExif(viewModel.uris)) },
-                                                    color = color
-                                                )
-                                            }
-                                            item {
-                                                CropPreference(
-                                                    modifier = Modifier.fillMaxWidth(),
-                                                    onClick = { navigate(Screen.Crop(viewModel.uris?.firstOrNull())) },
-                                                    color = color
-                                                )
-                                            }
-                                            item {
-                                                ImagePreviewPreference(
-                                                    modifier = Modifier.fillMaxWidth(),
-                                                    onClick = {
-                                                        navigate(
-                                                            Screen.ImagePreview(
-                                                                viewModel.uris
-                                                            )
-                                                        )
-                                                    },
-                                                    color = color
-                                                )
-                                            }
-                                            item {
-                                                PickColorPreference(
-                                                    modifier = Modifier.fillMaxWidth(),
-                                                    onClick = {
-                                                        navigate(
-                                                            Screen.PickColorFromImage(
-                                                                viewModel.uris?.firstOrNull()
-                                                            )
-                                                        )
-                                                    },
-                                                    color = color
-                                                )
-                                            }
-                                            item {
-                                                GeneratePalettePreference(
-                                                    modifier = Modifier.fillMaxWidth(),
-                                                    onClick = {
-                                                        navigate(
-                                                            Screen.GeneratePalette(
-                                                                viewModel.uris?.firstOrNull()
-                                                            )
-                                                        )
-                                                    },
-                                                    color = color
-                                                )
-                                            }
-                                        } else {
-                                            item {
-                                                BatchResizePreference(
-                                                    modifier = Modifier.fillMaxWidth(),
-                                                    onClick = {
-                                                        navigate(
-                                                            Screen.BatchResize(
-                                                                viewModel.uris
-                                                            )
-                                                        )
-                                                    },
-                                                    color = color
-                                                )
-                                            }
-                                            item {
-                                                BytesResizePreference(
-                                                    modifier = Modifier.fillMaxWidth(),
-                                                    onClick = {
-                                                        navigate(
-                                                            Screen.ResizeByBytes(
-                                                                viewModel.uris
-                                                            )
-                                                        )
-                                                    },
-                                                    color = color
-                                                )
-                                            }
-                                            item {
-                                                DeleteExifPreference(
-                                                    modifier = Modifier.fillMaxWidth(),
-                                                    onClick = { navigate(Screen.DeleteExif(viewModel.uris)) },
-                                                    color = color
-                                                )
-                                            }
-                                            item {
-                                                ImagePreviewPreference(
-                                                    modifier = Modifier.fillMaxWidth(),
-                                                    onClick = {
-                                                        navigate(
-                                                            Screen.ImagePreview(
-                                                                viewModel.uris
-                                                            )
-                                                        )
-                                                    },
-                                                    color = color
-                                                )
-                                            }
-                                            if (viewModel.uris?.size == 2) {
-                                                item {
-                                                    ComparePreference(
-                                                        modifier = Modifier.fillMaxWidth(),
-                                                        onClick = {
-                                                            navigate(
-                                                                Screen.Compare(
-                                                                    viewModel.uris
-                                                                )
-                                                            )
-                                                        },
-                                                        color = color
-                                                    )
-                                                }
-                                            }
-                                        }
-
-                                    }
-                                    Divider(Modifier.align(Alignment.TopCenter))
-                                    Divider(Modifier.align(Alignment.BottomCenter))
-                                }
-                            },
-                            visible = showSelectSheet,
+                        ProcessImagesPreferenceSheet(
+                            uris = viewModel.uris ?: emptyList(),
+                            visible = showSelectSheet
                         )
                     }
 
