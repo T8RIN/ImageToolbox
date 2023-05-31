@@ -40,7 +40,6 @@ import androidx.compose.material.icons.rounded.AddCircle
 import androidx.compose.material.icons.rounded.Download
 import androidx.compose.material.icons.rounded.ErrorOutline
 import androidx.compose.material.icons.rounded.PhotoSizeSelectSmall
-import androidx.compose.material.icons.rounded.Storage
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Divider
@@ -94,6 +93,7 @@ import ru.tech.imageresizershrinker.delete_exif_screen.DeleteExifScreen
 import ru.tech.imageresizershrinker.generate_palette_screen.GeneratePaletteScreen
 import ru.tech.imageresizershrinker.image_preview_screen.ImagePreviewScreen
 import ru.tech.imageresizershrinker.main_screen.components.MainScreen
+import ru.tech.imageresizershrinker.main_screen.components.PermissionDialog
 import ru.tech.imageresizershrinker.main_screen.components.ProcessImagesPreferenceSheet
 import ru.tech.imageresizershrinker.main_screen.viewModel.MainViewModel
 import ru.tech.imageresizershrinker.pick_color_from_image_screen.PickColorFromImageScreen
@@ -104,8 +104,6 @@ import ru.tech.imageresizershrinker.theme.allIcons
 import ru.tech.imageresizershrinker.theme.blend
 import ru.tech.imageresizershrinker.theme.outlineVariant
 import ru.tech.imageresizershrinker.utils.LocalConfettiController
-import ru.tech.imageresizershrinker.utils.helper.ContextUtils.needToShowStoragePermissionRequest
-import ru.tech.imageresizershrinker.utils.helper.ContextUtils.requestStoragePermission
 import ru.tech.imageresizershrinker.utils.helper.IntentUtils.parcelable
 import ru.tech.imageresizershrinker.utils.helper.IntentUtils.parcelableArrayList
 import ru.tech.imageresizershrinker.utils.modifier.alertDialog
@@ -607,39 +605,7 @@ class MainActivity : M3Activity() {
 
                     SideEffect { viewModel.tryGetUpdate(showDialog = viewModel.showDialogOnStartUp) }
 
-                    val showPermission = needToShowStoragePermissionRequest()
-
-                    if (showPermission) {
-                        AlertDialog(
-                            modifier = Modifier.alertDialog(),
-                            onDismissRequest = { },
-                            icon = {
-                                Icon(Icons.Rounded.Storage, null)
-                            },
-                            title = { Text(stringResource(R.string.permission)) },
-                            text = {
-                                Text(stringResource(R.string.permission_sub))
-                            },
-                            confirmButton = {
-                                OutlinedButton(
-                                    colors = ButtonDefaults.outlinedButtonColors(
-                                        containerColor = MaterialTheme.colorScheme.primary,
-                                        contentColor = MaterialTheme.colorScheme.onPrimary,
-                                    ),
-                                    border = BorderStroke(
-                                        settingsState.borderWidth,
-                                        MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.primary)
-                                    ),
-                                    onClick = {
-                                        requestStoragePermission()
-                                    }
-                                ) {
-                                    Text(stringResource(id = R.string.grant))
-                                }
-                            }
-                        )
-                    }
-
+                    PermissionDialog()
                 }
             }
         }

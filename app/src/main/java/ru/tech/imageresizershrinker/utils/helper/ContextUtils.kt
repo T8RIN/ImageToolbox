@@ -76,17 +76,13 @@ object ContextUtils {
         ) == PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(
             this,
             Manifest.permission.READ_EXTERNAL_STORAGE
-        ) == PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(
-            this,
-            Manifest.permission.ACCESS_MEDIA_LOCATION
         ) == PackageManager.PERMISSION_GRANTED)
 
         if (!show) {
             setPermissionsAllowed(
                 listOf(
                     Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                    Manifest.permission.READ_EXTERNAL_STORAGE,
-                    Manifest.permission.ACCESS_MEDIA_LOCATION
+                    Manifest.permission.READ_EXTERNAL_STORAGE
                 )
             )
         }
