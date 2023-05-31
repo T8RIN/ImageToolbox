@@ -87,11 +87,17 @@ import ru.tech.imageresizershrinker.theme.emoji.Pepper
 import ru.tech.imageresizershrinker.theme.emoji.Phone
 import ru.tech.imageresizershrinker.theme.emoji.Picture
 import ru.tech.imageresizershrinker.theme.emoji.Pill
+import ru.tech.imageresizershrinker.theme.emoji.Pushpin
+import ru.tech.imageresizershrinker.theme.emoji.Puzzle
+import ru.tech.imageresizershrinker.theme.emoji.Radio
 import ru.tech.imageresizershrinker.theme.emoji.Radioactive
 import ru.tech.imageresizershrinker.theme.emoji.Recycling
+import ru.tech.imageresizershrinker.theme.emoji.Rice
 import ru.tech.imageresizershrinker.theme.emoji.Ring
 import ru.tech.imageresizershrinker.theme.emoji.Rocket
+import ru.tech.imageresizershrinker.theme.emoji.Sauropod
 import ru.tech.imageresizershrinker.theme.emoji.Skull
+import ru.tech.imageresizershrinker.theme.emoji.Slots
 import ru.tech.imageresizershrinker.theme.emoji.Snowflake
 import ru.tech.imageresizershrinker.theme.emoji.Sparkles
 import ru.tech.imageresizershrinker.theme.emoji.Star
@@ -199,7 +205,8 @@ val Emoji.allIcons: List<ImageVector>
             Construction,
             CrystalBall,
             Die,
-            Firecracker
+            Firecracker,
+            Pushpin, Puzzle, Radio, Rice, Sauropod, Slots
         ).sortedBy { it.name }
         return EmojiList!!
     }

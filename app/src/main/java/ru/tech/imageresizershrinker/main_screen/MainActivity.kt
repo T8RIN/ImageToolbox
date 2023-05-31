@@ -9,9 +9,7 @@ import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.togetherWith
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.CompositionLocalProvider
@@ -78,9 +76,6 @@ import ru.tech.imageresizershrinker.widget.utils.setContentWithWindowSizeClass
 import ru.tech.imageresizershrinker.widget.utils.toAlignment
 import java.util.concurrent.TimeUnit
 
-
-@ExperimentalFoundationApi
-@ExperimentalMaterial3Api
 @AndroidEntryPoint
 class MainActivity : M3Activity() {
 
