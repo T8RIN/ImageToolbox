@@ -50,10 +50,14 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.saveable.Saver
 import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.asImageBitmap
+import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
@@ -108,8 +112,16 @@ fun GeneratePaletteScreen(
 
     val scope = rememberCoroutineScope()
 
+    var color by rememberSaveable(
+        saver = Saver(
+            save = { it.value.toArgb() },
+            restore = { mutableStateOf(Color(it)) }
+        )
+    ) { mutableStateOf(Color.Unspecified) }
+
     LaunchedEffect(uriState) {
         uriState?.let {
+            color = Color.Unspecified
             viewModel.setUri(it)
             context.decodeBitmapFromUri(
                 uri = it,
@@ -130,9 +142,16 @@ fun GeneratePaletteScreen(
             )
         }
     }
-    LaunchedEffect(viewModel.bitmap) {
+
+    LaunchedEffect(viewModel.bitmap, color) {
         viewModel.bitmap?.let {
-            if (allowChangeColor) themeState.updateColorByImage(it)
+            if (allowChangeColor) {
+                if (color == Color.Unspecified) {
+                    themeState.updateColorByImage(it)
+                } else {
+                    themeState.updateColor(color)
+                }
+            }
         }
     }
 
@@ -141,6 +160,7 @@ fun GeneratePaletteScreen(
             mode = localImagePickerMode(Picker.Single)
         ) { uris ->
             uris.takeIf { it.isNotEmpty() }?.firstOrNull()?.let {
+                color = Color.Unspecified
                 viewModel.setUri(it)
                 context.decodeBitmapFromUri(
                     uri = it,
@@ -314,6 +334,7 @@ fun GeneratePaletteScreen(
                                             it.color.format()
                                         )
                                         scope.launch {
+                                            color = it.color
                                             toastHostState.showToast(
                                                 icon = Icons.Rounded.ContentPaste,
                                                 message = context.getString(R.string.color_copied)
@@ -355,6 +376,7 @@ fun GeneratePaletteScreen(
                                         it.color.format()
                                     )
                                     scope.launch {
+                                        color = it.color
                                         toastHostState.showToast(
                                             icon = Icons.Rounded.ContentPaste,
                                             message = context.getString(R.string.color_copied)
