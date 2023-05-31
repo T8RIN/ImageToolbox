@@ -4,6 +4,7 @@ import android.Manifest
 import android.app.Activity
 import android.content.ContentResolver
 import android.content.Context
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Build
@@ -12,11 +13,15 @@ import android.widget.Toast
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.ErrorOutline
 import androidx.compose.material.icons.rounded.Save
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.R
+import ru.tech.imageresizershrinker.utils.helper.IntentUtils.parcelable
+import ru.tech.imageresizershrinker.utils.helper.IntentUtils.parcelableArrayList
+import ru.tech.imageresizershrinker.utils.navigation.Screen
 import ru.tech.imageresizershrinker.utils.permission.PermissionStatus
 import ru.tech.imageresizershrinker.utils.permission.PermissionUtils.askUserToRequestPermissionExplicitly
 import ru.tech.imageresizershrinker.utils.permission.PermissionUtils.checkPermissions
@@ -174,4 +179,60 @@ object ContextUtils {
                 .let(cursor::getString)
         }
     }.getOrNull()
+
+    fun Context.parseImageFromIntent(
+        intent: Intent?,
+        onStart: () -> Unit,
+        onColdStart: () -> Unit,
+        showToast: (message: String, icon: ImageVector) -> Unit,
+        navigate: (Screen) -> Unit,
+        onGetUris: (List<Uri>) -> Unit,
+        notHasUris: Boolean
+    ) {
+        onStart()
+        if (intent?.type != null && notHasUris) onColdStart()
+        if (intent?.type?.startsWith("image/") == true) {
+            when (intent.action) {
+                Intent.ACTION_VIEW -> {
+                    val data = intent.data
+                    val clipData = intent.clipData
+                    if (clipData != null) {
+                        navigate(
+                            Screen.ImagePreview(
+                                List(
+                                    size = clipData.itemCount,
+                                    init = {
+                                        clipData.getItemAt(it).uri
+                                    }
+                                )
+                            )
+                        )
+                    } else if (data != null) {
+                        navigate(Screen.ImagePreview(listOf(data)))
+                    }
+                }
+
+                Intent.ACTION_SEND -> {
+                    intent.parcelable<Uri>(Intent.EXTRA_STREAM)?.let {
+                        onGetUris(listOf(it))
+                    }
+                }
+
+                Intent.ACTION_SEND_MULTIPLE -> {
+                    intent.parcelableArrayList<Uri>(Intent.EXTRA_STREAM)?.let {
+                        onGetUris(it)
+                    }
+                }
+
+                else -> {
+                    intent.data?.let { onGetUris(listOf(it)) }
+                }
+            }
+        } else if (intent?.type != null) {
+            showToast(
+                getString(R.string.unsupported_type, intent.type),
+                Icons.Rounded.ErrorOutline
+            )
+        }
+    }
 }
