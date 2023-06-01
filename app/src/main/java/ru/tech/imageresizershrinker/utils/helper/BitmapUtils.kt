@@ -530,7 +530,7 @@ object BitmapUtils {
         }
     }
 
-    private fun Context.cacheImage(
+    fun Context.cacheImage(
         image: Bitmap,
         bitmapInfo: BitmapInfo,
         name: String = "shared_image"

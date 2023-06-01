@@ -43,6 +43,7 @@ import ru.tech.imageresizershrinker.crop_screen.CropScreen
 import ru.tech.imageresizershrinker.delete_exif_screen.DeleteExifScreen
 import ru.tech.imageresizershrinker.generate_palette_screen.GeneratePaletteScreen
 import ru.tech.imageresizershrinker.image_preview_screen.ImagePreviewScreen
+import ru.tech.imageresizershrinker.load_net_image.LoadNetImageScreen
 import ru.tech.imageresizershrinker.main_screen.components.AppExitDialog
 import ru.tech.imageresizershrinker.main_screen.components.EditPresetsSheet
 import ru.tech.imageresizershrinker.main_screen.components.MainScreen
@@ -237,6 +238,12 @@ class MainActivity : M3Activity() {
                                         comparableUris = screen.uris
                                             ?.takeIf { it.size == 2 }
                                             ?.let { it[0] to it[1] },
+                                        onGoBack = onGoBack
+                                    )
+                                }
+
+                                is Screen.LoadNetImage -> {
+                                    LoadNetImageScreen(
                                         onGoBack = onGoBack
                                     )
                                 }

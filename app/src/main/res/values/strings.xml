@@ -172,6 +172,10 @@
     <string name="replace_sequence_number">Replace sequence number</string>
     <string name="replace_sequence_number_sub">If enabled replaces standard timestamp to the image sequence number if you use batch processing</string>
     <string name="filename_not_work_with_photopicker">Adding original filename doesn\'t work if photo picker image source selected</string>
+    <string name="load_image_from_net">Load image from net</string>
+    <string name="load_image_from_net_sub">Load any image form internet, preview it, zoom, and also save or edit it if you want</string>
+    <string name="no_image">No image</string>
+    <string name="image_link">Image link</string>
 
     <string-array name="fab_alignment_sub">
         <item>Start</item>
