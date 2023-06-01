@@ -159,4 +159,8 @@
     <string name="original_filename">оригінальне ім\'я файлу</string>
     <string name="add_original_filename_sub">Якщо ввімкнено, додає назву оригінального файлу до назви вихідного зображення</string>
     <string name="filename_not_work_with_photopicker">Додавання оригінальної назви файлу не працює, якщо вибрано джерело зображення за допомогою фотопікселя</string>
+    <string name="load_image_from_net">Завантажити зображення з мережі</string>
+    <string name="load_image_from_net_sub">Завантажуйте будь-яке зображення з Інтернету, переглядайте його, масштабуйте, а також зберігайте або редагуйте його за бажанням</string>
+    <string name="no_image">Немає зображення</string>
+    <string name="image_link">Посилання на зображення</string>
 </resources>
