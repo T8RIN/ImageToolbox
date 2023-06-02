@@ -64,10 +64,10 @@ class MainViewModel @Inject constructor(
     private val _emojisCount = mutableStateOf(1)
     val emojisCount by _emojisCount
 
-    private val _addSizeInFilename = mutableStateOf(true)
+    private val _addSizeInFilename = mutableStateOf(false)
     val addSizeInFilename by _addSizeInFilename
 
-    private val _addOriginalFilename = mutableStateOf(true)
+    private val _addOriginalFilename = mutableStateOf(false)
     val addOriginalFilename by _addOriginalFilename
 
     private val _addSequenceNumber = mutableStateOf(true)
@@ -198,15 +198,15 @@ class MainViewModel @Inject constructor(
             _showDialogOnStartUp.value = prefs[SHOW_DIALOG] ?: true
             _filenamePrefix.value = prefs[FILENAME_PREFIX] ?: ""
             _selectedEmoji.value = prefs[EMOJI] ?: 0
-            _addSizeInFilename.value = prefs[ADD_SIZE] ?: true
+            _addSizeInFilename.value = prefs[ADD_SIZE] ?: false
             _imagePickerModeInt.value = prefs[PICKER_MODE] ?: 0
             _screenList.value = prefs[ORDER]?.split("/")?.map {
                 val id = it.toInt()
                 Screen.entries[id]
             } ?: Screen.entries
             _emojisCount.value = prefs[EMOJI_COUNT] ?: 1
-            _addOriginalFilename.value = prefs[ADD_ORIGINAL_NAME] ?: true
-            _addSequenceNumber.value = prefs[ADD_SEQ_NUM] ?: false
+            _addOriginalFilename.value = prefs[ADD_ORIGINAL_NAME] ?: false
+            _addSequenceNumber.value = prefs[ADD_SEQ_NUM] ?: true
         }.launchIn(viewModelScope)
         tryGetUpdate(showDialog = showDialogOnStartUp)
     }
