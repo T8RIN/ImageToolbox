@@ -505,7 +505,7 @@ fun SingleResizeScreen(
     )
 
     val onBack = {
-        if (viewModel.bitmapInfo.haveChanges(viewModel.bitmap)) showExitDialog = true
+        if (bitmapInfo.haveChanges(viewModel.bitmap)) showExitDialog = true
         else onGoBack()
     }
 
@@ -1218,7 +1218,7 @@ fun SingleResizeScreen(
                             onCropStart = {},
                             crop = crop,
                             onCropSuccess = { image ->
-                                viewModel.updateBitmap(image.asAndroidBitmap())
+                                viewModel.setPreview(image.asAndroidBitmap())
                                 crop = false
                                 showCropDialog.value = false
                             }
