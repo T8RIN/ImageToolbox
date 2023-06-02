@@ -164,4 +164,8 @@
     <string name="replace_sequence_number">Добавить порядковый номер</string>
     <string name="replace_sequence_number_sub">Если включено, заменяет стандартную метку времени на порядковый номер изображения, если используется пакетная обработка.</string>
     <string name="filename_not_work_with_photopicker">Добавление оригинального имени файла не работает, если выбран источник изображения photopicker</string>
+    <string name="no_image">Нет изображения</string>
+    <string name="load_image_from_net">Загрузить из интернета</string>
+    <string name="load_image_from_net_sub">Загрузите любое изображение из Интернета, просмотрите его, измените масштаб, а также сохраните или отредактируйте его, если хотите</string>
+    <string name="image_link">Ссылка на изображение</string>
 </resources>
