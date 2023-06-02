@@ -15,6 +15,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import ru.tech.imageresizershrinker.utils.helper.BitmapInfo
+import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.applyPresetBy
 import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.canShow
 import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.copyTo
 import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.flip
@@ -108,7 +109,10 @@ class BatchResizeViewModel : ViewModel() {
         }
     }
 
-    private fun checkBitmapAndUpdate(resetPreset: Boolean, resetTelegram: Boolean) {
+    private fun checkBitmapAndUpdate(
+        resetPreset: Boolean,
+        resetTelegram: Boolean
+    ) {
         if (resetPreset) {
             _presetSelected.value = -1
         }
@@ -341,6 +345,14 @@ class BatchResizeViewModel : ViewModel() {
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
                 _bitmap.value = loader()
+                if (_presetSelected.value != -1) {
+                    setBitmapInfo(
+                        _presetSelected.value.applyPresetBy(
+                            _bitmap.value,
+                            _bitmapInfo.value
+                        )
+                    )
+                }
                 checkBitmapAndUpdate(resetPreset = false, resetTelegram = false)
                 _selectedUri.value = uri
             }
