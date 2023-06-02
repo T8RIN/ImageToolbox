@@ -109,7 +109,6 @@ import ru.tech.imageresizershrinker.utils.modifier.navBarsLandscapePadding
 import ru.tech.imageresizershrinker.utils.navigation.LocalNavController
 import ru.tech.imageresizershrinker.utils.navigation.Screen
 import ru.tech.imageresizershrinker.utils.storage.LocalFileController
-import ru.tech.imageresizershrinker.widget.Loading
 import ru.tech.imageresizershrinker.widget.LoadingDialog
 import ru.tech.imageresizershrinker.widget.LocalToastHost
 import ru.tech.imageresizershrinker.widget.TitleItem
@@ -188,13 +187,14 @@ fun LoadNetImageScreen(
                 modifier = Modifier
                     .then(if (scale == ContentScale.FillWidth) Modifier.fillMaxWidth() else Modifier)
                     .padding(bottom = 16.dp)
+                    .then(
+                        if (viewModel.bitmap == null) Modifier.height(140.dp)
+                        else Modifier
+                    )
                     .block()
                     .padding(4.dp),
                 contentScale = scale,
                 shape = MaterialTheme.shapes.small,
-                loading = {
-                    Loading()
-                },
                 error = {
                     Column(
                         Modifier.fillMaxWidth(),
@@ -205,11 +205,11 @@ fun LoadNetImageScreen(
                             Icons.Rounded.BrokenImage,
                             null,
                             modifier = Modifier
-                                .padding(16.dp)
+                                .padding(vertical = 8.dp, horizontal = 16.dp)
                                 .size(64.dp)
                         )
                         Text(stringResource(id = R.string.no_image))
-                        Spacer(Modifier.height(16.dp))
+                        Spacer(Modifier.height(8.dp))
                     }
                 },
                 onState = {
@@ -460,6 +460,10 @@ fun LoadNetImageScreen(
                             ) {
                                 if (!landscape) imageBlock()
                                 ToggleGroupButton(
+                                    modifier = Modifier
+                                        .block(shape = RoundedCornerShape(24.dp))
+                                        .padding(start = 3.dp, end = 2.dp),
+                                    title = stringResource(id = R.string.content_scale),
                                     enabled = viewModel.bitmap != null,
                                     items = listOf(
                                         stringResource(R.string.fill),
@@ -474,6 +478,7 @@ fun LoadNetImageScreen(
                                         }
                                     }
                                 )
+                                Spacer(Modifier.height(8.dp))
                                 RoundedTextField(
                                     modifier = Modifier
                                         .block(shape = RoundedCornerShape(24.dp))

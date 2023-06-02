@@ -34,6 +34,31 @@ fun ToggleGroupButton(
     title: String? = null,
     indexChanged: (Int) -> Unit
 ) {
+    ToggleGroupButton(
+        enabled = enabled,
+        items = items,
+        selectedIndex = selectedIndex,
+        indexChanged = indexChanged,
+        modifier = modifier,
+        title = {
+            title?.let {
+                Spacer(modifier = Modifier.height(8.dp))
+                Text(it, Modifier.fillMaxWidth(), textAlign = TextAlign.Center)
+                Spacer(modifier = Modifier.height(8.dp))
+            }
+        }
+    )
+}
+
+@Composable
+fun ToggleGroupButton(
+    @SuppressLint("ModifierParameter") modifier: Modifier = defaultModifier,
+    enabled: Boolean,
+    items: List<String>,
+    selectedIndex: Int,
+    title: @Composable () -> Unit = {},
+    indexChanged: (Int) -> Unit
+) {
     val settingsState = LocalSettingsState.current
     val cornerRadius = 1000.dp
 
@@ -51,11 +76,7 @@ fun ToggleGroupButton(
             modifier = modifier,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            title?.let {
-                Spacer(modifier = Modifier.height(8.dp))
-                Text(it, Modifier.fillMaxWidth(), textAlign = TextAlign.Center)
-                Spacer(modifier = Modifier.height(8.dp))
-            }
+            title()
             CompositionLocalProvider(
                 LocalRippleTheme provides GroupRipple
             ) {
