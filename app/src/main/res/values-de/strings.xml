@@ -146,10 +146,20 @@
     <string name="gallery_picker_sub">Bildauswahl mittels „Schlichte Galerie“. Funktioniert nur, wenn du diese App installiert hast.</string>
     <string name="order">Reihenfolge</string>
     <string name="order_sub">Legt die Reihenfolge der Optionen im Hauptfenster fest</string>
-    <string name="file_explorer_picker_sub">Nutzt GetContent intent für die Bildauswahl. Funktioniert überall, kann aber auf manchen Geräten Probleme mit dem Empfangen der Bildauswahl haben (nicht meine Schuld)</string>
+    <string name="file_explorer_picker_sub">Nutzt GetContent-Intent für die Bildauswahl. Funktioniert überall, kann aber auf manchen Geräten Probleme mit dem Empfangen der Bildauswahl haben (nicht meine Schuld)</string>
     <string name="edit">Bearbeiten</string>
     <string name="options_arrangement">Anordnung der Optionen</string>
     <string name="add_original_filename">Ursprünglichen Namen hinzufügen</string>
     <string name="add_original_filename_sub">Wenn aktiviert, fügt dies den ursprünglichen Dateinamen zum Namen des ausgegebenen Bildes hinzu</string>
     <string name="original_filename">Ursprünglicher Dateiname</string>
+    <string name="file_explorer_picker">Dateimanager</string>
+    <string name="photo_picker_sub">Nutzt GetContent-Intent für die Bildauswahl. Funktioniert überall, kann aber auf manchen Geräten Probleme mit dem Empfangen der Bildauswahl haben (nicht meine Schuld)</string>
+    <string name="image_link">Bild-Link</string>
+    <string name="load_image_from_net">Bild aus dem Netz laden</string>
+    <string name="load_image_from_net_sub">Lade jegliches Bild aus dem Netz, betrachte es, zoome, bearbeite und speichere es</string>
+    <string name="no_image">Kein Bild</string>
+    <string name="emojis_count">Anzahl der Emojis</string>
+    <string name="filename_not_work_with_photopicker">Funktioniert nicht, wenn »Bildauswahl« als Bildquelle gewählt wurde</string>
+    <string name="replace_sequence_number">Bildfolgenummer ersetzen</string>
+    <string name="replace_sequence_number_sub">Wenn aktiviert, ersetzt dies bei der Stapelverarbeitung den Zeitstempel durch die Bildfolgenummer</string>
 </resources>
