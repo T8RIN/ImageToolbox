@@ -336,6 +336,11 @@ fun BatchResizeScreen(
 
     var showExitDialog by rememberSaveable { mutableStateOf(false) }
 
+    val onBack = {
+        if (viewModel.bitmapInfo.haveChanges(viewModel.bitmap)) showExitDialog = true
+        else onGoBack()
+    }
+
     val buttons = @Composable {
         if (viewModel.bitmap == null) {
             ExtendedFloatingActionButton(
@@ -702,10 +707,7 @@ fun BatchResizeScreen(
                     },
                     navigationIcon = {
                         IconButton(
-                            onClick = {
-                                if (viewModel.uris?.isNotEmpty() == true) showExitDialog = true
-                                else onGoBack()
-                            }
+                            onClick = onBack
                         ) {
                             Icon(Icons.Rounded.ArrowBack, null)
                         }
@@ -936,10 +938,7 @@ fun BatchResizeScreen(
                 visible = showExitDialog
             )
 
-            BackHandler {
-                if (viewModel.uris?.isNotEmpty() == true) showExitDialog = true
-                else onGoBack()
-            }
+            BackHandler(onBack = onBack)
         }
     }
 }

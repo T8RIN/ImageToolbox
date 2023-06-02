@@ -19,7 +19,12 @@ data class BitmapInfo(
     val rotationDegrees: Float = 0f,
     val isFlipped: Boolean = false,
     val sizeInBytes: Int = 0
-) : Parcelable
+) : Parcelable {
+    fun haveChanges(original: Bitmap?): Boolean {
+        if (original == null) return false
+        return quality != 100f || rotationDegrees != 0f || isFlipped || width != original.width || height != original.height
+    }
+}
 
 val Int.extension: String get() = if (this == 0) "jpg" else if (this == 1) "webp" else if (this == 2) "jpeg" else "png"
 

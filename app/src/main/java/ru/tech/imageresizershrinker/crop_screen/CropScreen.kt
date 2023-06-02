@@ -141,6 +141,11 @@ fun CropScreen(
 
     var showExitDialog by rememberSaveable { mutableStateOf(false) }
 
+    val onBack = {
+        if (viewModel.bitmap != null) showExitDialog = true
+        else onGoBack()
+    }
+
     LaunchedEffect(uriState) {
         uriState?.let {
             viewModel.setUri(it)
@@ -280,10 +285,7 @@ fun CropScreen(
                         ),
                         navigationIcon = {
                             IconButton(
-                                onClick = {
-                                    if (viewModel.bitmap != null) showExitDialog = true
-                                    else onGoBack()
-                                }
+                                onClick = onBack
                             ) {
                                 Icon(Icons.Rounded.ArrowBack, null)
                             }
@@ -309,10 +311,7 @@ fun CropScreen(
                         ),
                         navigationIcon = {
                             IconButton(
-                                onClick = {
-                                    if (viewModel.bitmap != null) showExitDialog = true
-                                    else onGoBack()
-                                }
+                                onClick = onBack
                             ) {
                                 Icon(Icons.Rounded.ArrowBack, null)
                             }
@@ -684,8 +683,5 @@ fun CropScreen(
         visible = showExitDialog
     )
 
-    BackHandler {
-        if (viewModel.bitmap != null) showExitDialog = true
-        else onGoBack()
-    }
+    BackHandler(onBack = onBack)
 }

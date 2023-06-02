@@ -222,6 +222,11 @@ fun BytesResizeScreen(
     var showSaveLoading by rememberSaveable { mutableStateOf(false) }
     var showExitDialog by rememberSaveable { mutableStateOf(false) }
 
+    val onBack = {
+        if (viewModel.canSave) showExitDialog = true
+        else onGoBack()
+    }
+
     val fileController = LocalFileController.current
     val saveBitmaps: () -> Unit = {
         showSaveLoading = true
@@ -498,10 +503,7 @@ fun BytesResizeScreen(
                     ),
                     navigationIcon = {
                         IconButton(
-                            onClick = {
-                                if (viewModel.uris?.isNotEmpty() == true) showExitDialog = true
-                                else onGoBack()
-                            }
+                            onClick = onBack
                         ) {
                             Icon(Icons.Rounded.ArrowBack, null)
                         }
@@ -756,10 +758,7 @@ fun BytesResizeScreen(
                 visible = showExitDialog
             )
 
-            BackHandler {
-                if (viewModel.uris?.isNotEmpty() == true) showExitDialog = true
-                else onGoBack()
-            }
+            BackHandler(onBack = onBack)
         }
     }
 }

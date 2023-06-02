@@ -504,6 +504,11 @@ fun SingleResizeScreen(
         visible = showSheet
     )
 
+    val onBack = {
+        if (viewModel.bitmapInfo.haveChanges(viewModel.bitmap)) showExitDialog = true
+        else onGoBack()
+    }
+
     Surface(
         color = MaterialTheme.colorScheme.background,
         modifier = Modifier
@@ -563,10 +568,7 @@ fun SingleResizeScreen(
                     ),
                     navigationIcon = {
                         IconButton(
-                            onClick = {
-                                if (viewModel.bitmap != null) showExitDialog = true
-                                else onGoBack()
-                            }
+                            onClick = onBack
                         ) {
                             Icon(Icons.Rounded.ArrowBack, null)
                         }
@@ -1257,10 +1259,7 @@ fun SingleResizeScreen(
                 visible = showExitDialog
             )
 
-            BackHandler {
-                if (viewModel.bitmap != null) showExitDialog = true
-                else onGoBack()
-            }
+            BackHandler(onBack = onBack)
 
         }
     }
