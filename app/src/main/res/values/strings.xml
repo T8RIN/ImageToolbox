@@ -176,6 +176,8 @@
     <string name="load_image_from_net_sub">Load any image form internet, preview it, zoom, and also save or edit it if you want</string>
     <string name="no_image">No image</string>
     <string name="image_link">Image link</string>
+    <string name="fill">Fill</string>
+    <string name="fit">Fit</string>
 
     <string-array name="fab_alignment_sub">
         <item>Start</item>

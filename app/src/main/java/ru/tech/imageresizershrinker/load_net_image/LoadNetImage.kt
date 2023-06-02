@@ -4,6 +4,7 @@ import android.content.res.Configuration
 import android.os.Build
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.BackHandler
+import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
@@ -59,6 +60,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.saveable.Saver
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -112,6 +114,7 @@ import ru.tech.imageresizershrinker.widget.LoadingDialog
 import ru.tech.imageresizershrinker.widget.LocalToastHost
 import ru.tech.imageresizershrinker.widget.TitleItem
 import ru.tech.imageresizershrinker.widget.TopAppBarEmoji
+import ru.tech.imageresizershrinker.widget.buttons.ToggleGroupButton
 import ru.tech.imageresizershrinker.widget.image.Picture
 import ru.tech.imageresizershrinker.widget.sheets.SimpleSheet
 import ru.tech.imageresizershrinker.widget.sheets.ZoomModalSheet
@@ -151,6 +154,23 @@ fun LoadNetImageScreen(
         } ?: themeState.updateColorTuple(appColorTuple)
     }
 
+    var scaleType by rememberSaveable(
+        saver = Saver(
+            save = {
+                if (it == ContentScale.FillWidth) 0 else 1
+            },
+            restore = {
+                mutableStateOf(
+                    if (it == 0) {
+                        ContentScale.FillWidth
+                    } else {
+                        ContentScale.Fit
+                    }
+                )
+            }
+        )
+    ) { mutableStateOf(ContentScale.FillWidth) }
+
     val landscape =
         LocalWindowSizeClass.current.widthSizeClass != WindowWidthSizeClass.Compact || LocalConfiguration.current.orientation == Configuration.ORIENTATION_LANDSCAPE
 
@@ -161,46 +181,48 @@ fun LoadNetImageScreen(
         )
     }
     val imageBlock = @Composable {
-        Picture(
-            allowHardware = false,
-            model = link,
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(16.dp)
-                .block()
-                .padding(4.dp),
-            contentScale = ContentScale.Fit,
-            shape = MaterialTheme.shapes.small,
-            loading = {
-                Loading()
-            },
-            error = {
-                Column(
-                    Modifier.fillMaxWidth(),
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement.Center
-                ) {
-                    Icon(
-                        Icons.Rounded.BrokenImage,
-                        null,
-                        modifier = Modifier
-                            .padding(16.dp)
-                            .size(64.dp)
-                    )
-                    Text(stringResource(id = R.string.no_image))
-                    Spacer(Modifier.height(16.dp))
-                }
-            },
-            onState = {
-                if (it is AsyncImagePainter.State.Error) {
-                    viewModel.updateBitmap(it.result.drawable?.toBitmap())
-                }
-                if (it is AsyncImagePainter.State.Success) {
-                    viewModel.updateBitmap(it.result.drawable.toBitmap())
-                }
-                state = it
-            },
-        )
+        AnimatedContent(scaleType) { scale ->
+            Picture(
+                allowHardware = false,
+                model = link,
+                modifier = Modifier
+                    .then(if (scale == ContentScale.FillWidth) Modifier.fillMaxWidth() else Modifier)
+                    .padding(bottom = 16.dp)
+                    .block()
+                    .padding(4.dp),
+                contentScale = scale,
+                shape = MaterialTheme.shapes.small,
+                loading = {
+                    Loading()
+                },
+                error = {
+                    Column(
+                        Modifier.fillMaxWidth(),
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        verticalArrangement = Arrangement.Center
+                    ) {
+                        Icon(
+                            Icons.Rounded.BrokenImage,
+                            null,
+                            modifier = Modifier
+                                .padding(16.dp)
+                                .size(64.dp)
+                        )
+                        Text(stringResource(id = R.string.no_image))
+                        Spacer(Modifier.height(16.dp))
+                    }
+                },
+                onState = {
+                    if (it is AsyncImagePainter.State.Error) {
+                        viewModel.updateBitmap(it.result.drawable?.toBitmap())
+                    }
+                    if (it is AsyncImagePainter.State.Success) {
+                        viewModel.updateBitmap(it.result.drawable.toBitmap())
+                    }
+                    state = it
+                },
+            )
+        }
     }
 
     val showSheet = rememberSaveable { mutableStateOf(false) }
@@ -437,6 +459,21 @@ fun LoadNetImageScreen(
                                 horizontalAlignment = Alignment.CenterHorizontally
                             ) {
                                 if (!landscape) imageBlock()
+                                ToggleGroupButton(
+                                    enabled = viewModel.bitmap != null,
+                                    items = listOf(
+                                        stringResource(R.string.fill),
+                                        stringResource(R.string.fit)
+                                    ),
+                                    selectedIndex = (scaleType == ContentScale.Fit).toInt(),
+                                    indexChanged = {
+                                        scaleType = if (it == 0) {
+                                            ContentScale.FillWidth
+                                        } else {
+                                            ContentScale.Fit
+                                        }
+                                    }
+                                )
                                 RoundedTextField(
                                     modifier = Modifier
                                         .block(shape = RoundedCornerShape(24.dp))
@@ -582,5 +619,6 @@ fun LoadNetImageScreen(
             }
         }
     )
-
 }
+
+private fun Boolean.toInt() = if (this) 1 else 0
