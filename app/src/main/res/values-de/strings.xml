@@ -80,7 +80,7 @@
     <string name="version">Version</string>
     <string name="resize_batch_image">Ändere die Eigenschaften mehrerer Bilder gleichzeitig</string>
     <string name="images">Bilder: %d</string>
-    <string name="change_preview">Ändere Vorschau</string>
+    <string name="change_preview">Wechsele Vorschaubild</string>
     <string name="remove">Entfernen</string>
     <string name="palette_sub">Erzeuge eine Farbpalette aus einem bestimmten Bild</string>
     <string name="palette">Farbpalette</string>
@@ -151,7 +151,7 @@
     <string name="options_arrangement">Anordnung der Optionen</string>
     <string name="add_original_filename">Ursprünglichen Namen hinzufügen</string>
     <string name="add_original_filename_sub">Wenn aktiviert, fügt dies den ursprünglichen Dateinamen zum Namen des ausgegebenen Bildes hinzu</string>
-    <string name="original_filename">OrigName</string>
+    <string name="original_filename">UrsprName</string>
     <string name="file_explorer_picker">Dateimanager</string>
     <string name="photo_picker_sub">Nutzt GetContent-Intent für die Bildauswahl. Funktioniert überall, kann aber auf manchen Geräten Probleme mit dem Empfangen der Bildauswahl haben (nicht meine Schuld)</string>
     <string name="image_link">Bild-Link</string>
@@ -163,6 +163,10 @@
     <string name="replace_sequence_number">Bildfolgenummer ersetzen</string>
     <string name="replace_sequence_number_sub">Wenn aktiviert, ersetzt dies bei der Stapelverarbeitung den Zeitstempel durch die Bildfolgenummer</string>
     <string name="fit">Einpassen</string>
-    <string name="sequence_num">folgeNum</string>
+    <string name="sequence_num">FolgeNum</string>
     <string name="fill">Füllen</string>
+    <string name="ratio_description">Bewahrt das Seitenverhältnis und skaliert das Bild entsprechend des jew. zuletzt bei Höhe oder Breite eingegebenen Werts</string>
+    <string name="content_scale">Inhaltsskalierung</string>
+    <string name="flexible_description">Bewahrt das Seitenverhältnis und passt die längere Seite des Bildes in ein durch den Wert für Breite vorgegebenes Format ein</string>
+    <string name="explicit_description">Zwingt jedes Bild in das durch die Werte für Breite und Höhe vorgegebene Format (Verzerrung möglich)</string>
 </resources>
