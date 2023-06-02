@@ -165,4 +165,5 @@
     <string name="image_link">Lien de l\'image</string>
     <string name="fit">Ajuster</string>
     <string name="fill">Remplissage</string>
+    <string name="content_scale">Échelle de contenu</string>
 </resources>
