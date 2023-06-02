@@ -151,7 +151,7 @@
     <string name="options_arrangement">Anordnung der Optionen</string>
     <string name="add_original_filename">Ursprünglichen Namen hinzufügen</string>
     <string name="add_original_filename_sub">Wenn aktiviert, fügt dies den ursprünglichen Dateinamen zum Namen des ausgegebenen Bildes hinzu</string>
-    <string name="original_filename">Ursprünglicher Dateiname</string>
+    <string name="original_filename">OrigName</string>
     <string name="file_explorer_picker">Dateimanager</string>
     <string name="photo_picker_sub">Nutzt GetContent-Intent für die Bildauswahl. Funktioniert überall, kann aber auf manchen Geräten Probleme mit dem Empfangen der Bildauswahl haben (nicht meine Schuld)</string>
     <string name="image_link">Bild-Link</string>
@@ -162,4 +162,7 @@
     <string name="filename_not_work_with_photopicker">Funktioniert nicht, wenn »Bildauswahl« als Bildquelle gewählt wurde</string>
     <string name="replace_sequence_number">Bildfolgenummer ersetzen</string>
     <string name="replace_sequence_number_sub">Wenn aktiviert, ersetzt dies bei der Stapelverarbeitung den Zeitstempel durch die Bildfolgenummer</string>
+    <string name="fit">Einpassen</string>
+    <string name="sequence_num">folgeNum</string>
+    <string name="fill">Füllen</string>
 </resources>
