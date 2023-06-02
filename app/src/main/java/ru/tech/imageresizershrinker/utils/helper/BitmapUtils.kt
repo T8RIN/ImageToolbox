@@ -22,6 +22,7 @@ import coil.decode.ImageDecoderDecoder
 import coil.decode.SvgDecoder
 import coil.imageLoader
 import coil.request.ImageRequest
+import coil.transform.Transformation
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -742,6 +743,29 @@ object BitmapUtils {
         else this.trim().filter {
             !listOf('-', '.', ',', ' ', "\n").contains(it)
         }
+    }
+
+    fun Context.applyTransformations(
+        bitmap: Bitmap,
+        transformations: List<Transformation>,
+        onSuccess: (bitmap: Bitmap) -> Unit
+    ) {
+        val loader = imageLoader.newBuilder().components {
+            if (Build.VERSION.SDK_INT >= 28) add(ImageDecoderDecoder.Factory())
+            else add(GifDecoder.Factory())
+            add(SvgDecoder.Factory())
+        }.allowHardware(false).build()
+
+        val request = ImageRequest
+            .Builder(this)
+            .data(bitmap)
+            .transformations(transformations)
+            .target { drawable ->
+                drawable.toBitmap()?.let { onSuccess(it) }
+            }
+            .build()
+
+        loader.enqueue(request)
     }
 
 }
