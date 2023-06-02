@@ -166,4 +166,7 @@
     <string name="fit">Ajuster</string>
     <string name="fill">Remplissage</string>
     <string name="content_scale">Échelle de contenu</string>
+    <string name="explicit_description">Contraint chaque image à s\'adapter à une taille spécifique déterminée par les paramètres de largeur et de hauteur, ce qui peut altérer le rapport d\'aspect.</string>
+    <string name="flexible_description">Redimensionne les images pour qu\'elles correspondent à une taille spécifique déterminée par le paramètre de largeur du côté le plus long, en conservant le rapport d\'aspect</string>
+    <string name="ratio_description">Redimensionne les images pour qu\'elles correspondent à une taille déterminée par la dernière largeur ou hauteur éditée, tout en conservant le rapport d\'aspect</string>
 </resources>
