@@ -24,11 +24,14 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.EmojiSymbols
 import androidx.compose.material.icons.rounded.Block
+import androidx.compose.material.icons.rounded.Shuffle
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Divider
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
+import androidx.compose.material3.OutlinedIconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
@@ -46,6 +49,7 @@ import ru.tech.imageresizershrinker.theme.outlineVariant
 import ru.tech.imageresizershrinker.widget.TitleItem
 import ru.tech.imageresizershrinker.widget.sheets.SimpleSheet
 import ru.tech.imageresizershrinker.widget.utils.LocalSettingsState
+import kotlin.random.Random
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
@@ -169,6 +173,18 @@ fun EmojiSheet(
             ) {
                 TitleItem(text = stringResource(R.string.emoji), icon = Icons.Outlined.EmojiSymbols)
                 Spacer(Modifier.weight(1f))
+                OutlinedIconButton(
+                    onClick = { onEmojiPicked(Random.nextInt(0, emojis.lastIndex)) },
+                    colors = IconButtonDefaults.filledTonalIconButtonColors(
+                        containerColor = MaterialTheme.colorScheme.tertiaryContainer,
+                        contentColor = MaterialTheme.colorScheme.onTertiaryContainer
+                    ),
+                    border = BorderStroke(
+                        settingsState.borderWidth, MaterialTheme.colorScheme.outlineVariant()
+                    )
+                ) {
+                    Icon(Icons.Rounded.Shuffle, null)
+                }
                 OutlinedButton(
                     onClick = { showSheet = false },
                     colors = ButtonDefaults.filledTonalButtonColors(),

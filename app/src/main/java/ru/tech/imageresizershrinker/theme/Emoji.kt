@@ -22,9 +22,12 @@ import ru.tech.imageresizershrinker.theme.emoji.Apple
 import ru.tech.imageresizershrinker.theme.emoji.Avocado
 import ru.tech.imageresizershrinker.theme.emoji.Axe
 import ru.tech.imageresizershrinker.theme.emoji.Bacon
+import ru.tech.imageresizershrinker.theme.emoji.Bagel
 import ru.tech.imageresizershrinker.theme.emoji.Ball
+import ru.tech.imageresizershrinker.theme.emoji.Banana
 import ru.tech.imageresizershrinker.theme.emoji.Bandage
 import ru.tech.imageresizershrinker.theme.emoji.Bang
+import ru.tech.imageresizershrinker.theme.emoji.Battery
 import ru.tech.imageresizershrinker.theme.emoji.Bear
 import ru.tech.imageresizershrinker.theme.emoji.Beaver
 import ru.tech.imageresizershrinker.theme.emoji.Beef
@@ -40,7 +43,13 @@ import ru.tech.imageresizershrinker.theme.emoji.Bullseye
 import ru.tech.imageresizershrinker.theme.emoji.Buoy
 import ru.tech.imageresizershrinker.theme.emoji.Cactus
 import ru.tech.imageresizershrinker.theme.emoji.Camera
+import ru.tech.imageresizershrinker.theme.emoji.Candle
+import ru.tech.imageresizershrinker.theme.emoji.Card
 import ru.tech.imageresizershrinker.theme.emoji.Cat
+import ru.tech.imageresizershrinker.theme.emoji.Cherries
+import ru.tech.imageresizershrinker.theme.emoji.Cigarette
+import ru.tech.imageresizershrinker.theme.emoji.Clinking1
+import ru.tech.imageresizershrinker.theme.emoji.Clinking2
 import ru.tech.imageresizershrinker.theme.emoji.Cloud
 import ru.tech.imageresizershrinker.theme.emoji.Clover
 import ru.tech.imageresizershrinker.theme.emoji.Coffin
@@ -80,6 +89,7 @@ import ru.tech.imageresizershrinker.theme.emoji.MoonA
 import ru.tech.imageresizershrinker.theme.emoji.MoonB
 import ru.tech.imageresizershrinker.theme.emoji.Package
 import ru.tech.imageresizershrinker.theme.emoji.Palette
+import ru.tech.imageresizershrinker.theme.emoji.Paperclip
 import ru.tech.imageresizershrinker.theme.emoji.Park
 import ru.tech.imageresizershrinker.theme.emoji.Party
 import ru.tech.imageresizershrinker.theme.emoji.Peach
@@ -103,9 +113,11 @@ import ru.tech.imageresizershrinker.theme.emoji.Sparkles
 import ru.tech.imageresizershrinker.theme.emoji.Star
 import ru.tech.imageresizershrinker.theme.emoji.Sunrise
 import ru.tech.imageresizershrinker.theme.emoji.Taxi
+import ru.tech.imageresizershrinker.theme.emoji.Tick
 import ru.tech.imageresizershrinker.theme.emoji.Tree
 import ru.tech.imageresizershrinker.theme.emoji.Ufo
 import ru.tech.imageresizershrinker.theme.emoji.Warning
+import ru.tech.imageresizershrinker.theme.emoji.Wine
 import ru.tech.imageresizershrinker.theme.emoji.Wood
 import ru.tech.imageresizershrinker.theme.emoji.Zap
 import ru.tech.imageresizershrinker.theme.emoji.Zzz
@@ -206,7 +218,24 @@ val Emoji.allIcons: List<ImageVector>
             CrystalBall,
             Die,
             Firecracker,
-            Pushpin, Puzzle, Radio, Rice, Sauropod, Slots
+            Pushpin,
+            Puzzle,
+            Radio,
+            Rice,
+            Sauropod,
+            Slots,
+            Bagel,
+            Banana,
+            Battery,
+            Candle,
+            Card,
+            Cherries,
+            Cigarette,
+            Clinking1,
+            Clinking2,
+            Paperclip,
+            Tick,
+            Wine
         ).sortedBy { it.name }
         return EmojiList!!
     }
