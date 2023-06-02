@@ -159,4 +159,11 @@
     <string name="original_filename">Fichier original</string>
     <string name="replace_sequence_number">Ajouter un numéro de séquence</string>
     <string name="filename_not_work_with_photopicker">Ajouter le nom de fichier d\'origine ne fonctionne pas si la source d\'image du sélecteur de photo est sélectionnée.</string>
+    <string name="load_image_from_net">Charger une image depuis Internet</string>
+    <string name="load_image_from_net_sub">Charger n\'importe quelle image à partir d\'Internet, la prévisualiser, zoomer, et également l\'enregistrer ou l\'éditer si vous le souhaitez</string>
+    <string name="no_image">Aucune image</string>
+    <string name="image_link">Lien de l\'image</string>
+    <string name="fit">Ajuster</string>
+    <string name="fill">Remplissage</string>
+    <string name="content_scale">Échelle de contenu</string>
 </resources>
