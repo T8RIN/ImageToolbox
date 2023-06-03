@@ -184,7 +184,7 @@
     <string name="temperature">Température</string>
     <string name="tint">Teinte</string>
     <string name="monochrome">Monochrome</string>
-    <string name="highlights_shadows">Tons clairs et foncés</string>
+    <string name="highlights_shadows">Points saillants et ombres</string>
     <string name="exposure">Exposition</string>
     <string name="gamma">Gamma</string>
 </resources>
