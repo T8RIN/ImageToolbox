@@ -187,4 +187,8 @@
     <string name="highlights_shadows">Points saillants et ombres</string>
     <string name="exposure">Exposition</string>
     <string name="gamma">Gamma</string>
+    <string name="shadows">Ombres</string>
+    <string name="haze">Flou</string>
+    <string name="effect">Effet</string>
+    <string name="distance">Distance</string>
 </resources>
