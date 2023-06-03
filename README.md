@@ -39,7 +39,7 @@
   </a>
 </p>
 
-<h4 align="center">Powerful image resizer with width/height selection, SVG to image convertion, cropping, EXIF editing, quality and output image type picking and batch processing feature. Based on Material You design following official Google guidelines</h4>
+<h4 align="center">Powerful image editor with width/height selection, applying filters, SVG to image convertion, cropping, EXIF editing, quality and output image type picking and batch processing feature.</h4>
 
 
 ![Frame 5](https://user-images.githubusercontent.com/52178347/229357418-3ed5e83b-df35-4e61-87ca-e74135e831d1.png)
@@ -69,8 +69,10 @@ Go to the [Releases](https://github.com/t8rin/imageresizer/releases/latest) and 
 
 # ✨ Features
 - Batch processing
+- Applying filter chains (More than 25 various filters)
 - Saving to any specific folder
-- EXIF metadata editing
+- EXIF metadata editing/deleting
+- Loading images from internet
 - Image Resizing
   - Width changing
   - Height changing
