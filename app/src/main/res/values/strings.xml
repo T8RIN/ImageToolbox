@@ -179,9 +179,9 @@
     <string name="fill">Fill</string>
     <string name="fit">Fit</string>
     <string name="content_scale">Content scale</string>
-    <string name="explicit_description">Forces every picture into an image give by the Width and Height parameter - may change aspect ratio</string>
-    <string name="flexible_description">Resizes pictures to images with a long side given by the Width parameter - keeps aspect ratio</string>
-    <string name="ratio_description">Resizes pictures to images with a last edited Width or Height side - keeps aspect ratio</string>
+    <string name="explicit_description">Forces every picture into an image given by the Width and Height parameter - may change aspect ratio</string>
+    <string name="flexible_description">Resizes pictures to images with a long side given by the Width or Height parameter, all size calculations will be done after saving - keeps aspect ratio</string>
+    <string name="ratio_description">Resizes pictures to images with a last edited Width or Height side, shows final image size in realtime - keeps aspect ratio</string>
 
     <string-array name="fab_alignment_sub">
         <item>Start</item>
