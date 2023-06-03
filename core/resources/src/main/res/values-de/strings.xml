@@ -349,7 +349,7 @@
     <string name="blur_radius">Unschärfe-Radius</string>
     <string name="pipette">Pipette</string>
     <string name="draw_mode">Zeichenmodus</string>
-    <string name="alphabet_and_numbers">Aa Bb Cc Dd Ee Ff Gg Hh Ii Jj Kk Ll Mm Nn Oo Pp Qq Rr Ss Tt Uu Vv Ww Xx Yy Zz 0123456789 !\?</string>
+    <string name="alphabet_and_numbers">Aa Bb Cc Dd Ee Ff Gg Hh Ii Jj Kk Ll Mm Nn Oo Pp Qq Rr Ss Tt Uu Vv Ww Xx Yy Zz 0123456789 !?</string>
     <string name="keep_exif_sub">Die Metadaten des Originalbilds bleiben erhalten</string>
     <string name="background_remover">Hintergrund entfernen</string>
     <string name="background_remover_sub">Entferne den Hintergrund eines Bildes durch zeichnen oder verwende die Automatikfunktion</string>
