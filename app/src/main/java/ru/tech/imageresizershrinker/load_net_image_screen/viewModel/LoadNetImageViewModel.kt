@@ -1,4 +1,4 @@
-package ru.tech.imageresizershrinker.load_net_image.viewModel
+package ru.tech.imageresizershrinker.load_net_image_screen.viewModel
 
 
 import android.graphics.Bitmap

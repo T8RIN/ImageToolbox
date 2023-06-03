@@ -99,6 +99,8 @@ import ru.tech.imageresizershrinker.batch_resize_screen.components.SaveExifWidge
 import ru.tech.imageresizershrinker.bytes_resize_screen.viewModel.BytesResizeViewModel
 import ru.tech.imageresizershrinker.theme.outlineVariant
 import ru.tech.imageresizershrinker.utils.LocalConfettiController
+import ru.tech.imageresizershrinker.utils.coil.BitmapInfoTransformation
+import ru.tech.imageresizershrinker.utils.helper.BitmapInfo
 import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.decodeBitmapFromUri
 import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.fileSize
 import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.getBitmapByUri
@@ -269,7 +271,7 @@ fun BytesResizeScreen(
             },
             targetState = Triple(viewModel.isLoading, viewModel.bitmap, viewModel.previewBitmap),
             transitionSpec = { fadeIn() togetherWith fadeOut() }
-        ) { (loading, _, _) ->
+        ) { (loading, _, previewBitmap) ->
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
                 viewModel.uris?.size?.takeIf { it > 1 && !loading }?.let {
                     Row(
@@ -319,7 +321,7 @@ fun BytesResizeScreen(
                         } else Modifier
                     )
                 ) {
-                    SimplePicture(bitmap = viewModel.previewBitmap, loading = loading)
+                    SimplePicture(bitmap = previewBitmap, loading = loading)
                     if (loading) Loading()
                 }
             }
@@ -713,7 +715,12 @@ fun BytesResizeScreen(
             }
 
             PickImageFromUrisSheet(
-                presetSelected = 100,
+                transformations = listOf(
+                    BitmapInfoTransformation(
+                        bitmapInfo = BitmapInfo(),
+                        preset = 100
+                    )
+                ),
                 visible = showPickImageFromUrisDialog,
                 uris = viewModel.uris,
                 selectedUri = viewModel.selectedUri,

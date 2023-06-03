@@ -31,6 +31,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import coil.transform.Transformation
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.theme.outlineVariant
 import ru.tech.imageresizershrinker.utils.coil.BitmapInfoTransformation
@@ -43,8 +44,7 @@ import ru.tech.imageresizershrinker.widget.utils.LocalSettingsState
 @Composable
 fun PickImageFromUrisSheet(
     visible: Boolean,
-    previewBitmapInfo: BitmapInfo = BitmapInfo(),
-    presetSelected: Int,
+    transformations: List<Transformation>,
     uris: List<Uri>?,
     selectedUri: Uri?,
     onUriRemoved: (Uri) -> Unit,
@@ -77,9 +77,7 @@ fun PickImageFromUrisSheet(
                                     .block(RoundedCornerShape(8.dp))
                             ) {
                                 Picture(
-                                    transformations = listOf(
-                                        BitmapInfoTransformation(previewBitmapInfo, presetSelected)
-                                    ),
+                                    transformations = transformations,
                                     model = uri,
                                     modifier = Modifier
                                         .padding(4.dp)

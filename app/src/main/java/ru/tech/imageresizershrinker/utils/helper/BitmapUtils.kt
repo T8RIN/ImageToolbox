@@ -28,7 +28,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import ru.tech.imageresizershrinker.R
-import ru.tech.imageresizershrinker.utils.coil.filters.HueTransformation
 import java.io.ByteArrayInputStream
 import java.io.ByteArrayOutputStream
 import java.io.File
@@ -767,6 +766,25 @@ object BitmapUtils {
             .build()
 
         loader.enqueue(request)
+    }
+
+    suspend fun Context.getBitmapFromUriWithTransformations(
+        uri: Uri,
+        transformations: List<Transformation>
+    ): Bitmap? {
+        val loader = imageLoader.newBuilder().components {
+            if (Build.VERSION.SDK_INT >= 28) add(ImageDecoderDecoder.Factory())
+            else add(GifDecoder.Factory())
+            add(SvgDecoder.Factory())
+        }.allowHardware(false).build()
+
+        val request = ImageRequest
+            .Builder(this)
+            .data(uri)
+            .transformations(transformations)
+            .build()
+
+        return loader.execute(request)?.drawable?.toBitmap()
     }
 
 }

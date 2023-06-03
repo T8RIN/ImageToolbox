@@ -182,6 +182,17 @@
     <string name="explicit_description">Forces every picture into an image given by the Width and Height parameter - may change aspect ratio</string>
     <string name="flexible_description">Resizes pictures to images with a long side given by the Width or Height parameter, all size calculations will be done after saving - keeps aspect ratio</string>
     <string name="ratio_description">Resizes pictures to images with a last edited Width or Height side, shows final image size in realtime - keeps aspect ratio</string>
+    <string name="brightness">Brightness</string>
+    <string name="contrast">Contrast</string>
+    <string name="hue">Hue</string>
+    <string name="saturation">Saturation</string>
+    <string name="add_filter">Add filter</string>
+    <string name="filter">Filter</string>
+    <string name="filter_sub">Apply any filter chain to given images</string>
+    <string name="filters">Filters</string>
+    <string name="light_aka_illumination">Light</string>
+    <string name="color_filter">Color filter</string>
+    <string name="alpha">Alpha</string>
 
     <string-array name="fab_alignment_sub">
         <item>Start</item>

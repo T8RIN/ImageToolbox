@@ -76,6 +76,7 @@ import androidx.compose.ui.zIndex
 import androidx.core.graphics.blue
 import androidx.core.graphics.green
 import androidx.core.graphics.red
+import com.smarttoolfactory.colordetector.util.RGBUtil.alpha
 import com.t8rin.dynamic.theme.ColorTuple
 import com.t8rin.dynamic.theme.ColorTupleItem
 import com.t8rin.dynamic.theme.calculateSecondaryColor
@@ -95,6 +96,7 @@ import ru.tech.imageresizershrinker.utils.modifier.alertDialog
 import ru.tech.imageresizershrinker.widget.TitleItem
 import ru.tech.imageresizershrinker.widget.sheets.SimpleSheet
 import ru.tech.imageresizershrinker.widget.utils.LocalSettingsState
+import kotlin.math.roundToInt
 
 @ExperimentalMaterial3Api
 @Composable
@@ -478,6 +480,62 @@ private fun ColorCustomComponent(
             color = color,
             onColorChange = onColorChange
         )
+    }
+}
+
+@Composable
+fun AlphaColorCustomComponent(
+    color: Int,
+    onColorChange: (Int) -> Unit,
+) {
+    Column {
+        var alphaValue by remember(color) { mutableStateOf(color.alpha) }
+        ColorCustomInfoComponent(
+            color = color,
+            onColorChange = {
+                onColorChange(
+                    Color(it).copy(alphaValue.div(255f)).toArgb()
+                )
+            },
+        )
+        ColorCustomControlComponent(
+            color = color,
+            onColorChange = {
+                onColorChange(
+                    Color(it).copy(alphaValue.div(255f)).toArgb()
+                )
+            },
+        )
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Text(
+                text = stringResource(id = R.string.alpha),
+                style = MaterialTheme.typography.labelMedium,
+            )
+
+            Slider(
+                modifier = Modifier
+                    .weight(1f)
+                    .padding(horizontal = 16.dp),
+                valueRange = 0f..255f,
+                value = animateFloatAsState(targetValue = alphaValue.toFloat()).value,
+                onValueChange = {
+                    alphaValue = it.toInt()
+                    onColorChange(
+                        Color(color).copy(it.roundToInt().div(255f)).toArgb()
+                    )
+                },
+            )
+
+            Text(
+                modifier = Modifier.width(32.dp),
+                text = alphaValue.toString(),
+                style = MaterialTheme.typography.labelMedium,
+                textAlign = TextAlign.End,
+            )
+        }
     }
 }
 

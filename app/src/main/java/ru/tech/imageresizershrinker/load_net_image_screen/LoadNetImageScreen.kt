@@ -1,4 +1,4 @@
-package ru.tech.imageresizershrinker.load_net_image
+package ru.tech.imageresizershrinker.load_net_image_screen
 
 import android.content.res.Configuration
 import android.os.Build
@@ -88,7 +88,7 @@ import dev.olshevski.navigation.reimagined.navigate
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.R
-import ru.tech.imageresizershrinker.load_net_image.viewModel.LoadNetImageViewModel
+import ru.tech.imageresizershrinker.load_net_image_screen.viewModel.LoadNetImageViewModel
 import ru.tech.imageresizershrinker.main_screen.components.BytesResizePreference
 import ru.tech.imageresizershrinker.main_screen.components.CropPreference
 import ru.tech.imageresizershrinker.main_screen.components.DeleteExifPreference

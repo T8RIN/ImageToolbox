@@ -41,9 +41,10 @@ import ru.tech.imageresizershrinker.bytes_resize_screen.BytesResizeScreen
 import ru.tech.imageresizershrinker.compare_screen.CompareScreen
 import ru.tech.imageresizershrinker.crop_screen.CropScreen
 import ru.tech.imageresizershrinker.delete_exif_screen.DeleteExifScreen
+import ru.tech.imageresizershrinker.filters_screen.FiltersScreen
 import ru.tech.imageresizershrinker.generate_palette_screen.GeneratePaletteScreen
 import ru.tech.imageresizershrinker.image_preview_screen.ImagePreviewScreen
-import ru.tech.imageresizershrinker.load_net_image.LoadNetImageScreen
+import ru.tech.imageresizershrinker.load_net_image_screen.LoadNetImageScreen
 import ru.tech.imageresizershrinker.main_screen.components.AppExitDialog
 import ru.tech.imageresizershrinker.main_screen.components.EditPresetsSheet
 import ru.tech.imageresizershrinker.main_screen.components.MainScreen
@@ -244,6 +245,13 @@ class MainActivity : M3Activity() {
 
                                 is Screen.LoadNetImage -> {
                                     LoadNetImageScreen(
+                                        onGoBack = onGoBack
+                                    )
+                                }
+
+                                is Screen.Filter -> {
+                                    FiltersScreen(
+                                        uriState = screen.uris,
                                         onGoBack = onGoBack
                                     )
                                 }

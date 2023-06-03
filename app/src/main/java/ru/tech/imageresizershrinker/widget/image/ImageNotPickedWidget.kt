@@ -112,14 +112,14 @@ fun SimplePicture(
         ?.takeIf { visible }
         ?.let {
             Box(
-                modifier = Modifier.block(RoundedCornerShape(6.dp)),
+                modifier = Modifier.block().padding(4.dp),
                 contentAlignment = Alignment.Center
             ) {
                 Image(
                     bitmap = it,
                     contentDescription = null,
                     modifier = Modifier
-                        .clip(RoundedCornerShape(4.dp))
+                        .clip(MaterialTheme.shapes.medium)
                         .shimmer(loading, MaterialTheme.colorScheme.surfaceColorAtElevation(12.dp))
                 )
             }

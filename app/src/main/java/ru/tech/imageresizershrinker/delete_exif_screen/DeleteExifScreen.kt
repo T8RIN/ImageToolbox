@@ -42,6 +42,7 @@ import androidx.compose.material.icons.rounded.ErrorOutline
 import androidx.compose.material.icons.rounded.Save
 import androidx.compose.material.icons.rounded.ZoomIn
 import androidx.compose.material3.BottomAppBar
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExtendedFloatingActionButton
 import androidx.compose.material3.FloatingActionButton
@@ -51,6 +52,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.LargeTopAppBar
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedIconButton
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -83,6 +85,7 @@ import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.delete_exif_screen.viewModel.DeleteExifViewModel
 import ru.tech.imageresizershrinker.theme.outlineVariant
 import ru.tech.imageresizershrinker.utils.LocalConfettiController
+import ru.tech.imageresizershrinker.utils.coil.BitmapInfoTransformation
 import ru.tech.imageresizershrinker.utils.helper.BitmapInfo
 import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.decodeBitmapFromUri
 import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.decodeBitmapFromUriWithMime
@@ -312,27 +315,28 @@ fun DeleteExifScreen(
         } else if (imageInside) {
             BottomAppBar(
                 modifier = Modifier.drawHorizontalStroke(true),
-                actions = {},
+                actions = {
+                    OutlinedButton(
+                        colors = ButtonDefaults.filledTonalButtonColors(),
+                        border = BorderStroke(
+                            settingsState.borderWidth,
+                            MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.secondaryContainer)
+                        ),
+                        onClick = pickImage,
+                        modifier = Modifier.padding(horizontal = 16.dp)
+                    ) {
+                        Icon(Icons.Rounded.AddPhotoAlternate, null)
+                        Spacer(Modifier.width(8.dp))
+                        Text(stringResource(id = R.string.pick_image_alt))
+                    }
+                },
                 floatingActionButton = {
-                    Row {
-                        FloatingActionButton(
-                            onClick = pickImage,
-                            modifier = Modifier.fabBorder(),
-                            containerColor = MaterialTheme.colorScheme.tertiaryContainer,
-                            elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation()
-                        ) {
-                            Icon(Icons.Rounded.AddPhotoAlternate, null)
-                        }
-                        Row {
-                            Spacer(Modifier.width(16.dp))
-                            FloatingActionButton(
-                                onClick = saveBitmaps,
-                                modifier = Modifier.fabBorder(),
-                                elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation()
-                            ) {
-                                Icon(Icons.Rounded.Save, null)
-                            }
-                        }
+                    FloatingActionButton(
+                        onClick = saveBitmaps,
+                        modifier = Modifier.fabBorder(),
+                        elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation()
+                    ) {
+                        Icon(Icons.Rounded.Save, null)
                     }
                 }
             )
@@ -563,7 +567,12 @@ fun DeleteExifScreen(
             }
 
             PickImageFromUrisSheet(
-                presetSelected = 100,
+                transformations = listOf(
+                    BitmapInfoTransformation(
+                        bitmapInfo = BitmapInfo(),
+                        preset = 100
+                    )
+                ),
                 visible = showPickImageFromUrisDialog,
                 uris = viewModel.uris,
                 selectedUri = viewModel.selectedUri,
