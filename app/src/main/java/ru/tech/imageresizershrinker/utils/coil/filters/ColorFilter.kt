@@ -16,11 +16,11 @@ import ru.tech.imageresizershrinker.R
 
 data class ColorFilter(
     private val context: Context,
-    override val value: Float = 0f,
-) : FilterTransformation(
+    override val value: Color = Color.Transparent,
+) : FilterTransformation<Color>(
     context = context,
     title = R.string.color_filter,
-    value = value,
+    value = Color.Transparent,
     valueRange = 0f..0f
 ) {
     override val cacheKey: String
@@ -37,7 +37,7 @@ data class ColorFilter(
         val canvas = Canvas(output)
         val paint = Paint()
         paint.isAntiAlias = true
-        paint.colorFilter = PorterDuffColorFilter(value.toInt(), PorterDuff.Mode.SRC_ATOP)
+        paint.colorFilter = PorterDuffColorFilter(value.toArgb(), PorterDuff.Mode.SRC_ATOP)
         canvas.drawBitmap(input, 0f, 0f, paint)
 
         return output

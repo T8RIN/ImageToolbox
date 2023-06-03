@@ -9,7 +9,7 @@ import ru.tech.imageresizershrinker.R
 class SaturationFilter(
     private val context: Context,
     override val value: Float = 1f,
-) : FilterTransformation(
+) : FilterTransformation<Float>(
     context = context,
     title = R.string.saturation,
     value = value,

@@ -2,15 +2,18 @@ package ru.tech.imageresizershrinker.filters_screen.components
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.AddCircleOutline
 import androidx.compose.material.icons.rounded.FormatColorFill
 import androidx.compose.material.icons.rounded.Light
 import androidx.compose.material.icons.rounded.PhotoFilter
@@ -24,6 +27,7 @@ import androidx.compose.material3.TabRow
 import androidx.compose.material3.TabRowDefaults
 import androidx.compose.material3.TabRowDefaults.tabIndicatorOffset
 import androidx.compose.material3.Text
+import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.rememberCoroutineScope
@@ -35,8 +39,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.R
+import ru.tech.imageresizershrinker.main_screen.components.PreferenceItem
 import ru.tech.imageresizershrinker.theme.outlineVariant
-import ru.tech.imageresizershrinker.utils.coil.filters.BrightnessFilter
 import ru.tech.imageresizershrinker.utils.coil.filters.ColorFilter
 import ru.tech.imageresizershrinker.utils.coil.filters.FilterTransformation
 import ru.tech.imageresizershrinker.utils.coil.filters.HueFilter
@@ -49,7 +53,7 @@ import ru.tech.imageresizershrinker.widget.utils.LocalSettingsState
 @Composable
 fun AddFiltersSheet(
     visible: MutableState<Boolean>,
-    onFilterPicked: (FilterTransformation) -> Unit
+    onFilterPicked: (FilterTransformation<*>) -> Unit
 ) {
     val settingsState = LocalSettingsState.current
     val context = LocalContext.current
@@ -62,6 +66,7 @@ fun AddFiltersSheet(
             Box {
                 Column {
                     TabRow(
+                        containerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(2.dp),
                         selectedTabIndex = pagerState.currentPage,
                         indicator = { tabPositions ->
                             if (pagerState.currentPage < tabPositions.size) {
@@ -80,6 +85,7 @@ fun AddFiltersSheet(
                             Icons.Rounded.Light to stringResource(R.string.light_aka_illumination)
                         ).forEachIndexed { index, (icon, title) ->
                             Tab(
+                                unselectedContentColor = MaterialTheme.colorScheme.onSurface,
                                 modifier = Modifier
                                     .padding(8.dp)
                                     .clip(CircleShape),
@@ -95,12 +101,28 @@ fun AddFiltersSheet(
                         }
                     }
                     HorizontalPager(state = pagerState) {
-                        if(it == 0) {
-                            listOf(
-                                HueFilter(context),
-                                ColorFilter(context),
-                                SaturationFilter(context),
-                            ).forEach(onFilterPicked)
+                        Column(
+                            Modifier
+                                .verticalScroll(rememberScrollState())
+                                .padding(vertical = 16.dp),
+                            verticalArrangement = Arrangement.spacedBy(8.dp)
+                        ) {
+                            if (it == 0) {
+                                listOf(
+                                    HueFilter(context),
+                                    ColorFilter(context),
+                                    SaturationFilter(context),
+                                ).forEach {
+                                    PreferenceItem(
+                                        title = stringResource(it.title),
+                                        endIcon = Icons.Rounded.AddCircleOutline,
+                                        onClick = {
+                                            visible.value = false
+                                            onFilterPicked(it)
+                                        }
+                                    )
+                                }
+                            }
                         }
                     }
                 }

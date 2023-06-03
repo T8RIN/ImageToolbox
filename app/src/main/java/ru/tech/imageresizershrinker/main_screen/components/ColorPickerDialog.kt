@@ -96,7 +96,6 @@ import ru.tech.imageresizershrinker.utils.modifier.alertDialog
 import ru.tech.imageresizershrinker.widget.TitleItem
 import ru.tech.imageresizershrinker.widget.sheets.SimpleSheet
 import ru.tech.imageresizershrinker.widget.utils.LocalSettingsState
-import kotlin.math.roundToInt
 
 @ExperimentalMaterial3Api
 @Composable
@@ -486,25 +485,19 @@ private fun ColorCustomComponent(
 @Composable
 fun AlphaColorCustomComponent(
     color: Int,
-    onColorChange: (Int) -> Unit,
+    onColorChange: (Int, Int) -> Unit,
 ) {
     Column {
         var alphaValue by remember(color) { mutableStateOf(color.alpha) }
         ColorCustomInfoComponent(
             color = color,
             onColorChange = {
-                onColorChange(
-                    Color(it).copy(alphaValue.div(255f)).toArgb()
-                )
+                onColorChange(it, alphaValue)
             },
         )
         ColorCustomControlComponent(
             color = color,
-            onColorChange = {
-                onColorChange(
-                    Color(it).copy(alphaValue.div(255f)).toArgb()
-                )
-            },
+            onColorChange = { onColorChange(it, alphaValue) }
         )
         Row(
             modifier = Modifier.fillMaxWidth(),
@@ -523,9 +516,7 @@ fun AlphaColorCustomComponent(
                 value = animateFloatAsState(targetValue = alphaValue.toFloat()).value,
                 onValueChange = {
                     alphaValue = it.toInt()
-                    onColorChange(
-                        Color(color).copy(it.roundToInt().div(255f)).toArgb()
-                    )
+                    onColorChange(color, alphaValue)
                 },
             )
 

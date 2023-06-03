@@ -784,7 +784,30 @@ object BitmapUtils {
             .transformations(transformations)
             .build()
 
-        return loader.execute(request)?.drawable?.toBitmap()
+        return loader.execute(request).drawable?.toBitmap()
+    }
+
+    suspend fun Context.getBitmapFromUriWithTransformationsAndExif(
+        uri: Uri,
+        transformations: List<Transformation>
+    ): Pair<Bitmap?, ExifInterface?> {
+        val fd = contentResolver.openFileDescriptor(uri, "r")
+        val exif = fd?.fileDescriptor?.let { ExifInterface(it) }
+        fd?.close()
+
+        val loader = imageLoader.newBuilder().components {
+            if (Build.VERSION.SDK_INT >= 28) add(ImageDecoderDecoder.Factory())
+            else add(GifDecoder.Factory())
+            add(SvgDecoder.Factory())
+        }.allowHardware(false).build()
+
+        val request = ImageRequest
+            .Builder(this)
+            .data(uri)
+            .transformations(transformations)
+            .build()
+
+        return loader.execute(request).drawable?.toBitmap() to exif
     }
 
 }

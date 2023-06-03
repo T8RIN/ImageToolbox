@@ -56,14 +56,11 @@ class FilterViewModel : ViewModel() {
     private val _mime = mutableStateOf(0)
     val mime by _mime
 
-    private val _filterList = mutableStateOf(listOf<FilterTransformation>())
+    private val _filterList = mutableStateOf(listOf<FilterTransformation<*>>())
     val filterList by _filterList
 
     fun setMime(mime: Int) {
-        if (_mime.value != mime) {
-            _mime.value = mime
-            updatePreview()
-        }
+        _mime.value = mime
     }
 
     fun updateUris(uris: List<Uri>?) {
@@ -129,48 +126,6 @@ class FilterViewModel : ViewModel() {
     }
 
     private var job: Job? = null
-
-    private fun updatePreview() {
-        job?.cancel()
-        job = viewModelScope.launch {
-            updateCanSave()
-            withContext(Dispatchers.IO) {
-                delay(400)
-                _isLoading.value = true
-                var bmp: Bitmap?
-                withContext(Dispatchers.IO) {
-                    val bitmap = _bitmap.value
-                        ?.previewBitmap(
-                            quality = 100f,
-                            widthValue = null,
-                            heightValue = null,
-                            mimeTypeInt = mime,
-                            resizeType = 0,
-                            rotationDegrees = 0f,
-                            isFlipped = false,
-                            onByteCount = {}
-                        )
-                    bmp = if (bitmap?.canShow() == false) {
-                        bitmap.resizeBitmap(
-                            height_ = (bitmap.height * 0.9f).toInt(),
-                            width_ = (bitmap.width * 0.9f).toInt(),
-                            resize = 1
-                        )
-                    } else bitmap
-
-                    while (bmp?.canShow() == false) {
-                        bmp = bmp?.resizeBitmap(
-                            height_ = (bmp!!.height * 0.9f).toInt(),
-                            width_ = (bmp!!.width * 0.9f).toInt(),
-                            resize = 1
-                        )
-                    }
-                }
-                _previewBitmap.value = bmp
-                _isLoading.value = false
-            }
-        }
-    }
 
     fun setKeepExif(boolean: Boolean) {
         _keepExif.value = boolean
@@ -287,13 +242,13 @@ class FilterViewModel : ViewModel() {
         _done.value = progress
     }
 
-    fun addFilter(filter: FilterTransformation) {
+    fun addFilter(filter: FilterTransformation<*>) {
         _filterList.value = _filterList.value + filter
         _filterList.value = _filterList.value.distinctBy { it::class.java.name }
         updateCanSave()
     }
 
-    fun removeFilter(filter: FilterTransformation) {
+    fun removeFilter(filter: FilterTransformation<*>) {
         _filterList.value = _filterList.value - filter
         updateCanSave()
     }
@@ -302,10 +257,11 @@ class FilterViewModel : ViewModel() {
         _previewBitmap.value = bitmap
     }
 
-    fun updateFilter(filter: FilterTransformation, value: Float) {
-        val list = _filterList.value
-        val newFilter = list[list.indexOf(filter)].copy(value)
-        _filterList.value = list - filter + newFilter
+    fun <T : Any> updateFilter(filter: FilterTransformation<*>, value: T) {
+        val list = _filterList.value.toMutableList()
+        val index = list.indexOf(filter)
+        list[index] = list[index].copy(value)
+        _filterList.value = list
     }
 
 }

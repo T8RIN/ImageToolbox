@@ -8,7 +8,7 @@ import ru.tech.imageresizershrinker.R
 data class HueFilter(
     private val context: Context,
     override val value: Float = 90f,
-) : FilterTransformation(
+) : FilterTransformation<Float>(
     context = context,
     title = R.string.hue,
     value = value,

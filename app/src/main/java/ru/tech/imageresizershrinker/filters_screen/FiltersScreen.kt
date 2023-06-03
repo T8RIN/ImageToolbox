@@ -104,6 +104,7 @@ import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.decodeBitmapFromUri
 import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.fileSize
 import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.getBitmapByUri
 import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.getBitmapFromUriWithTransformations
+import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.getBitmapFromUriWithTransformationsAndExif
 import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.shareBitmaps
 import ru.tech.imageresizershrinker.utils.helper.ContextUtils.failedToSaveImages
 import ru.tech.imageresizershrinker.utils.helper.byteCount
@@ -189,8 +190,8 @@ fun FiltersScreen(
             )
         }
     }
-    LaunchedEffect(viewModel.bitmap) {
-        viewModel.bitmap?.let {
+    LaunchedEffect(viewModel.previewBitmap) {
+        viewModel.previewBitmap?.let {
             if (allowChangeColor) themeState.updateColorByImage(it)
         }
     }
@@ -240,7 +241,7 @@ fun FiltersScreen(
         viewModel.saveBitmaps(
             fileController = fileController,
             getBitmap = { uri ->
-                context.decodeBitmapFromUri(uri)
+                context.getBitmapFromUriWithTransformationsAndExif(uri, filterList)
             },
         ) { failed ->
             context.failedToSaveImages(

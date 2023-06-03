@@ -9,7 +9,7 @@ import ru.tech.imageresizershrinker.R
 class ContrastFilter(
     private val context: Context,
     override val value: Float = 0f,
-) : FilterTransformation(
+) : FilterTransformation<Float>(
     context = context,
     title = R.string.contrast,
     value = value,

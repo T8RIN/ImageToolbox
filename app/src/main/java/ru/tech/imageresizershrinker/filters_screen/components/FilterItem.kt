@@ -25,22 +25,23 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import ru.tech.imageresizershrinker.main_screen.components.AlphaColorCustomComponent
-import ru.tech.imageresizershrinker.utils.coil.filters.ColorFilter
 import ru.tech.imageresizershrinker.utils.coil.filters.FilterTransformation
 import ru.tech.imageresizershrinker.utils.modifier.block
 import ru.tech.imageresizershrinker.widget.utils.LocalSettingsState
 import kotlin.math.roundToInt
 
 @Composable
-fun FilterItem(
-    filter: FilterTransformation,
+fun <T> FilterItem(
+    filter: FilterTransformation<T>,
     showDragHandle: Boolean,
     onRemove: () -> Unit,
-    onFilterChange: (value: Float) -> Unit
+    onFilterChange: (value: Any) -> Unit
 ) {
     val settingsState = LocalSettingsState.current
     Row(
@@ -69,7 +70,7 @@ fun FilterItem(
         Column(Modifier.weight(1f)) {
             var sliderValue by remember(filter) {
                 mutableStateOf(
-                    filter.value
+                    (filter.value as? Float) ?: 0f
                 )
             }
             Row(
@@ -86,13 +87,13 @@ fun FilterItem(
                             )
                             .weight(1f)
                     )
-                    if (filter is ColorFilter) {
+                    if (filter.value is Color) {
                         IconButton(onClick = onRemove) {
                             Icon(Icons.Rounded.RemoveCircle, null)
                         }
                     }
                 }
-                if (filter !is ColorFilter) {
+                if (filter.value !is Color) {
                     Text(
                         text = "$sliderValue",
                         color = MaterialTheme.colorScheme.onSurface.copy(
@@ -110,12 +111,12 @@ fun FilterItem(
                     )
                 )
             }
-            if (filter is ColorFilter) {
+            if (filter.value is Color) {
                 Box(modifier = Modifier.padding(start = 16.dp, top = 16.dp, end = 16.dp)) {
                     AlphaColorCustomComponent(
-                        color = filter.value.toInt(),
-                        onColorChange = { color ->
-                            onFilterChange(color.toFloat())
+                        color = (filter.value as Color).toArgb(),
+                        onColorChange = { c, alpha ->
+                            onFilterChange(Color(c).copy(alpha / 255f))
                         }
                     )
                 }
@@ -132,7 +133,7 @@ fun FilterItem(
                 )
             }
         }
-        if (filter !is ColorFilter) {
+        if (filter.value !is Color) {
             Box(
                 Modifier
                     .height(48.dp)
