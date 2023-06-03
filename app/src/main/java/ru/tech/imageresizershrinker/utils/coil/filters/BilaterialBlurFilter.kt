@@ -10,15 +10,15 @@ import ru.tech.imageresizershrinker.R
 @Parcelize
 data class BilaterialBlurFilter(
     private val context: @RawValue Context,
-    override val value: Float = 8f,
+    override val value: Float = -8f,
 ) : FilterTransformation<Float>(
     context = context,
     title = R.string.bilaterial_blur,
     value = value,
-    valueRange = 0f..100f
+    valueRange = -8f..30f
 ) {
     override val cacheKey: String
         get() = (value to context).hashCode().toString()
 
-    override fun createFilter(): GPUImageFilter = GPUImageBilateralBlurFilter(value)
+    override fun createFilter(): GPUImageFilter = GPUImageBilateralBlurFilter(-value)
 }

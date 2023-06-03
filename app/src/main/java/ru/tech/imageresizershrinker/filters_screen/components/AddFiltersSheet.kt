@@ -24,6 +24,7 @@ import androidx.compose.material3.Divider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
+import androidx.compose.material3.ScrollableTabRow
 import androidx.compose.material3.Tab
 import androidx.compose.material3.TabRow
 import androidx.compose.material3.TabRowDefaults
@@ -91,7 +92,8 @@ fun AddFiltersSheet(
         sheetContent = {
             Box {
                 Column {
-                    TabRow(
+                    ScrollableTabRow(
+                        edgePadding = 8.dp,
                         containerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(2.dp),
                         selectedTabIndex = pagerState.currentPage,
                         indicator = { tabPositions ->
