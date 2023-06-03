@@ -92,6 +92,7 @@ import ru.tech.imageresizershrinker.image_preview_screen.viewModel.ImagePreviewV
 import ru.tech.imageresizershrinker.main_screen.components.BytesResizePreference
 import ru.tech.imageresizershrinker.main_screen.components.CropPreference
 import ru.tech.imageresizershrinker.main_screen.components.DeleteExifPreference
+import ru.tech.imageresizershrinker.main_screen.components.FilterPreference
 import ru.tech.imageresizershrinker.main_screen.components.GeneratePalettePreference
 import ru.tech.imageresizershrinker.main_screen.components.PickColorPreference
 import ru.tech.imageresizershrinker.main_screen.components.SingleResizePreference
@@ -548,9 +549,9 @@ fun ImagePreviewScreen(
                             )
                         }
                         item {
-                            DeleteExifPreference(
+                            FilterPreference(
                                 modifier = Modifier.fillMaxWidth(),
-                                onClick = { navigate(Screen.DeleteExif(listOf(viewModel.selectedUri!!))) },
+                                onClick = { navigate(Screen.Filter(listOf(viewModel.selectedUri!!))) },
                                 color = color
                             )
                         }
@@ -572,6 +573,13 @@ fun ImagePreviewScreen(
                             GeneratePalettePreference(
                                 modifier = Modifier.fillMaxWidth(),
                                 onClick = { navigate(Screen.GeneratePalette(viewModel.selectedUri)) },
+                                color = color
+                            )
+                        }
+                        item {
+                            DeleteExifPreference(
+                                modifier = Modifier.fillMaxWidth(),
+                                onClick = { navigate(Screen.DeleteExif(listOf(viewModel.selectedUri!!))) },
                                 color = color
                             )
                         }

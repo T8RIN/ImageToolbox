@@ -176,16 +176,20 @@ fun ProcessImagesPreferenceSheet(
                             )
                         }
                         item {
-                            DeleteExifPreference(
+                            CropPreference(
                                 modifier = Modifier.fillMaxWidth(),
-                                onClick = { navigate(Screen.DeleteExif(uris)) },
+                                onClick = { navigate(Screen.Crop(uris.firstOrNull())) },
                                 color = color
                             )
                         }
                         item {
-                            CropPreference(
+                            FilterPreference(
                                 modifier = Modifier.fillMaxWidth(),
-                                onClick = { navigate(Screen.Crop(uris.firstOrNull())) },
+                                onClick = {
+                                    navigate(
+                                        Screen.Filter(uris)
+                                    )
+                                },
                                 color = color
                             )
                         }
@@ -222,6 +226,13 @@ fun ProcessImagesPreferenceSheet(
                                 color = color
                             )
                         }
+                        item {
+                            DeleteExifPreference(
+                                modifier = Modifier.fillMaxWidth(),
+                                onClick = { navigate(Screen.DeleteExif(uris)) },
+                                color = color
+                            )
+                        }
                     } else {
                         item {
                             BatchResizePreference(
@@ -246,9 +257,13 @@ fun ProcessImagesPreferenceSheet(
                             )
                         }
                         item {
-                            DeleteExifPreference(
+                            FilterPreference(
                                 modifier = Modifier.fillMaxWidth(),
-                                onClick = { navigate(Screen.DeleteExif(uris)) },
+                                onClick = {
+                                    navigate(
+                                        Screen.Filter(uris)
+                                    )
+                                },
                                 color = color
                             )
                         }
@@ -276,8 +291,14 @@ fun ProcessImagesPreferenceSheet(
                                 )
                             }
                         }
+                        item {
+                            DeleteExifPreference(
+                                modifier = Modifier.fillMaxWidth(),
+                                onClick = { navigate(Screen.DeleteExif(uris)) },
+                                color = color
+                            )
+                        }
                     }
-
                 }
                 Divider(Modifier.align(Alignment.TopCenter))
                 Divider(Modifier.align(Alignment.BottomCenter))

@@ -74,6 +74,24 @@ fun SingleResizePreference(
 }
 
 @Composable
+fun FilterPreference(
+    onClick: () -> Unit,
+    color: Color = MaterialTheme.colorScheme.surfaceColorAtElevation(1.dp),
+    @SuppressLint("ModifierParameter") modifier: Modifier = Modifier
+        .fillMaxWidth()
+        .padding(horizontal = 12.dp)
+) {
+    PreferenceItem(
+        onClick = onClick,
+        icon = Icons.Rounded.PhotoFilter,
+        title = stringResource(R.string.filter),
+        subtitle = stringResource(R.string.filter_sub),
+        color = color,
+        modifier = modifier
+    )
+}
+
+@Composable
 fun BytesResizePreference(
     onClick: () -> Unit,
     color: Color = MaterialTheme.colorScheme.surfaceColorAtElevation(1.dp),
