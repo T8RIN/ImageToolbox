@@ -186,7 +186,17 @@ fun FiltersScreen(
                     viewModel.setMime(it)
                 },
                 onGetExif = {},
-                onGetBitmap = viewModel::updateBitmap,
+                onGetBitmap = {
+                    uris.firstOrNull()?.let { uri ->
+                        viewModel.setBitmap(
+                            loader = { it },
+                            getPreview = {
+                                context.getBitmapFromUriWithTransformations(uri, filterList)
+                            },
+                            uri = uri
+                        )
+                    }
+                },
                 onError = {
                     scope.launch {
                         toastHostState.showToast(
@@ -217,7 +227,17 @@ fun FiltersScreen(
                     uri = uris[0],
                     onGetMimeType = viewModel::setMime,
                     onGetExif = {},
-                    onGetBitmap = viewModel::updateBitmap,
+                    onGetBitmap = {
+                        uris.firstOrNull()?.let { uri ->
+                            viewModel.setBitmap(
+                                loader = { it },
+                                getPreview = {
+                                    context.getBitmapFromUriWithTransformations(uri, filterList)
+                                },
+                                uri = uri
+                            )
+                        }
+                    },
                     onError = {
                         scope.launch {
                             toastHostState.showToast(

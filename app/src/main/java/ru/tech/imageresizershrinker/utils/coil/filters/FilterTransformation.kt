@@ -1,3 +1,5 @@
+@file:Suppress("UNCHECKED_CAST")
+
 package ru.tech.imageresizershrinker.utils.coil.filters
 
 import android.content.Context
@@ -33,6 +35,12 @@ sealed class FilterTransformation<T>(
             )
 
             is HazeFilter -> HazeFilter(context, value as Pair<Float, Float>)
+            is SepiaFilter -> SepiaFilter(context, value as Float)
+            is SharpenFilter -> SharpenFilter(context, value as Float)
+            is NegativeFilter -> NegativeFilter(context)
+            is SolarizeFilter -> SolarizeFilter(context, value as Float)
+            is VibranceFilter -> VibranceFilter(context, value as Float)
+            is LuminanceFilter -> LuminanceFilter(context)
         }
     }
 }

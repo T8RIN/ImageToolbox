@@ -16,6 +16,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.AddCircleOutline
 import androidx.compose.material.icons.rounded.Filter2
 import androidx.compose.material.icons.rounded.FormatColorFill
+import androidx.compose.material.icons.rounded.Grain
 import androidx.compose.material.icons.rounded.Light
 import androidx.compose.material.icons.rounded.PhotoFilter
 import androidx.compose.material3.ButtonDefaults
@@ -51,8 +52,14 @@ import ru.tech.imageresizershrinker.utils.coil.filters.GammaFilter
 import ru.tech.imageresizershrinker.utils.coil.filters.HazeFilter
 import ru.tech.imageresizershrinker.utils.coil.filters.HighlightsAndShadowsFilter
 import ru.tech.imageresizershrinker.utils.coil.filters.HueFilter
+import ru.tech.imageresizershrinker.utils.coil.filters.LuminanceFilter
 import ru.tech.imageresizershrinker.utils.coil.filters.MonochromeFilter
+import ru.tech.imageresizershrinker.utils.coil.filters.NegativeFilter
 import ru.tech.imageresizershrinker.utils.coil.filters.SaturationFilter
+import ru.tech.imageresizershrinker.utils.coil.filters.SepiaFilter
+import ru.tech.imageresizershrinker.utils.coil.filters.SharpenFilter
+import ru.tech.imageresizershrinker.utils.coil.filters.SolarizeFilter
+import ru.tech.imageresizershrinker.utils.coil.filters.VibranceFilter
 import ru.tech.imageresizershrinker.utils.coil.filters.WhiteBalanceFilter
 import ru.tech.imageresizershrinker.widget.TitleItem
 import ru.tech.imageresizershrinker.widget.sheets.SimpleSheet
@@ -92,7 +99,7 @@ fun AddFiltersSheet(
                         listOf(
                             Icons.Rounded.FormatColorFill to stringResource(id = R.string.color),
                             Icons.Rounded.Light to stringResource(R.string.light_aka_illumination),
-                            Icons.Rounded.Filter2 to stringResource(R.string.effect)
+                            Icons.Rounded.Grain to stringResource(R.string.effect)
                         ).forEachIndexed { index, (icon, title) ->
                             Tab(
                                 unselectedContentColor = MaterialTheme.colorScheme.onSurface,
@@ -123,7 +130,8 @@ fun AddFiltersSheet(
                                         HueFilter(context),
                                         ColorFilter(context),
                                         SaturationFilter(context),
-                                        MonochromeFilter(context)
+                                        VibranceFilter(context),
+                                        LuminanceFilter(context)
                                     ).forEach {
                                         PreferenceItem(
                                             title = stringResource(it.title),
@@ -156,7 +164,12 @@ fun AddFiltersSheet(
                                 }
                                 2 -> {
                                     listOf(
-                                        HazeFilter(context)
+                                        HazeFilter(context),
+                                        SharpenFilter(context),
+                                        MonochromeFilter(context),
+                                        SepiaFilter(context),
+                                        NegativeFilter(context),
+                                        SolarizeFilter(context)
                                     ).forEach {
                                         PreferenceItem(
                                             title = stringResource(it.title),

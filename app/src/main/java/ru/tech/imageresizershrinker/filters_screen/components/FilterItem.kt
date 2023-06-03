@@ -144,7 +144,7 @@ fun <T> FilterItem(
                         )
                     }
                 }
-            } else {
+            } else if (filter.value !is Unit) {
                 when (filter) {
                     is WhiteBalanceFilter -> {
                         var temp by remember(filter) {
@@ -435,6 +435,8 @@ fun <T> FilterItem(
                         )
                     }
                 }
+            } else {
+                Spacer(modifier = Modifier.height(16.dp))
             }
         }
         if (filter.value !is Color && !previewOnly) {
