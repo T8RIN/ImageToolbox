@@ -48,6 +48,8 @@ sealed class FilterTransformation<T>(
             is GaussianBlurFilter -> GaussianBlurFilter(context, value as Float)
             is BilaterialBlurFilter -> BilaterialBlurFilter(context, value as Float)
             is BoxBlurFilter -> BoxBlurFilter(context, value as Float)
+            is EmbossFilter -> EmbossFilter(context, value as Float)
+            is LaplacianFilter -> LaplacianFilter(context)
         }
     }
 }

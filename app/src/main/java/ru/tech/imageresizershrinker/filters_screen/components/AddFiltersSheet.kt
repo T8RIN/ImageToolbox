@@ -50,6 +50,7 @@ import ru.tech.imageresizershrinker.utils.coil.filters.BrightnessFilter
 import ru.tech.imageresizershrinker.utils.coil.filters.ColorFilter
 import ru.tech.imageresizershrinker.utils.coil.filters.ContrastFilter
 import ru.tech.imageresizershrinker.utils.coil.filters.CrosshatchFilter
+import ru.tech.imageresizershrinker.utils.coil.filters.EmbossFilter
 import ru.tech.imageresizershrinker.utils.coil.filters.ExposureFilter
 import ru.tech.imageresizershrinker.utils.coil.filters.FilterTransformation
 import ru.tech.imageresizershrinker.utils.coil.filters.GCAColorSpaceFilter
@@ -59,6 +60,7 @@ import ru.tech.imageresizershrinker.utils.coil.filters.HalftoneFilter
 import ru.tech.imageresizershrinker.utils.coil.filters.HazeFilter
 import ru.tech.imageresizershrinker.utils.coil.filters.HighlightsAndShadowsFilter
 import ru.tech.imageresizershrinker.utils.coil.filters.HueFilter
+import ru.tech.imageresizershrinker.utils.coil.filters.LaplacianFilter
 import ru.tech.imageresizershrinker.utils.coil.filters.MonochromeFilter
 import ru.tech.imageresizershrinker.utils.coil.filters.NegativeFilter
 import ru.tech.imageresizershrinker.utils.coil.filters.SaturationFilter
@@ -125,7 +127,7 @@ fun AddFiltersSheet(
                             )
                         }
                     }
-                    HorizontalPager(state = pagerState) {
+                    HorizontalPager(state = pagerState, beyondBoundsPageCount = 4) {
                         Column(
                             Modifier
                                 .verticalScroll(rememberScrollState())
@@ -150,6 +152,9 @@ fun AddFiltersSheet(
                                             }
                                         )
                                     }
+                                    repeat(5) {
+                                        PreferenceItem(title = "")
+                                    }
                                 }
                                 1 -> {
                                     listOf(
@@ -171,6 +176,9 @@ fun AddFiltersSheet(
                                             }
                                         )
                                     }
+                                    repeat(2) {
+                                        PreferenceItem(title = "")
+                                    }
                                 }
                                 2 -> {
                                     listOf(
@@ -181,7 +189,9 @@ fun AddFiltersSheet(
                                         BlackAndWhiteFilter(context),
                                         CrosshatchFilter(context),
                                         SobelEdgeDetectionFilter(context),
-                                        HalftoneFilter(context)
+                                        HalftoneFilter(context),
+                                        EmbossFilter(context),
+                                        LaplacianFilter(context),
                                     ).forEach {
                                         PreferenceItem(
                                             title = stringResource(it.title),
@@ -207,6 +217,9 @@ fun AddFiltersSheet(
                                                 onFilterPicked(it)
                                             }
                                         )
+                                    }
+                                    repeat(7) {
+                                        PreferenceItem(title = "")
                                     }
                                 }
                             }

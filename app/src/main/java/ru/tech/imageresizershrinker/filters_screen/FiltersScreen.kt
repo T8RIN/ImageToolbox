@@ -122,6 +122,7 @@ import ru.tech.imageresizershrinker.utils.modifier.block
 import ru.tech.imageresizershrinker.utils.modifier.drawHorizontalStroke
 import ru.tech.imageresizershrinker.utils.modifier.fabBorder
 import ru.tech.imageresizershrinker.utils.modifier.navBarsLandscapePadding
+import ru.tech.imageresizershrinker.utils.modifier.navBarsPaddingOnlyIfTheyAtTheEnd
 import ru.tech.imageresizershrinker.utils.storage.LocalFileController
 import ru.tech.imageresizershrinker.utils.storage.Picker
 import ru.tech.imageresizershrinker.utils.storage.localImagePickerMode
@@ -510,10 +511,11 @@ fun FiltersScreen(
                 modifier = Modifier
                     .fillMaxHeight()
                     .padding(horizontal = 16.dp)
-                    .navigationBarsPadding(),
+                    .navBarsPaddingOnlyIfTheyAtTheEnd(),
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Center
             ) {
+                Spacer(Modifier.height(8.dp))
                 FloatingActionButton(
                     onClick = pickImage,
                     containerColor = MaterialTheme.colorScheme.tertiaryContainer,
@@ -522,7 +524,7 @@ fun FiltersScreen(
                 ) {
                     Icon(Icons.Rounded.AddPhotoAlternate, null)
                 }
-                Spacer(Modifier.height(16.dp))
+                Spacer(Modifier.height(8.dp))
                 FloatingActionButton(
                     containerColor = MaterialTheme.colorScheme.secondaryContainer,
                     elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
@@ -531,14 +533,17 @@ fun FiltersScreen(
                 ) {
                     Icon(Icons.Rounded.PhotoFilter, null)
                 }
-                Spacer(Modifier.height(16.dp))
+                Spacer(Modifier.height(8.dp))
                 AnimatedVisibility(viewModel.canSave) {
-                    FloatingActionButton(
-                        onClick = saveBitmaps,
-                        elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
-                        modifier = Modifier.fabBorder(),
-                    ) {
-                        Icon(Icons.Rounded.Save, null)
+                    Column {
+                        FloatingActionButton(
+                            onClick = saveBitmaps,
+                            elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
+                            modifier = Modifier.fabBorder(),
+                        ) {
+                            Icon(Icons.Rounded.Save, null)
+                        }
+                        Spacer(Modifier.height(8.dp))
                     }
                 }
             }

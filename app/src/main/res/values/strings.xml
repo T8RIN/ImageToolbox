@@ -223,6 +223,8 @@
     <string name="gaussian_blur">Gaussian blur</string>
     <string name="box_blur">Box blur</string>
     <string name="bilaterial_blur">Bilaterial blur</string>
+    <string name="emboss">Emboss</string>
+    <string name="laplacian">Laplacian</string>
 
     <string-array name="fab_alignment_sub">
         <item>Start</item>
