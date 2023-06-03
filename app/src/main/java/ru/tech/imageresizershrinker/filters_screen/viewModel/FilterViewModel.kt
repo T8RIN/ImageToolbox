@@ -12,14 +12,12 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import ru.tech.imageresizershrinker.utils.coil.filters.FilterTransformation
 import ru.tech.imageresizershrinker.utils.helper.BitmapInfo
 import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.canShow
 import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.copyTo
-import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.previewBitmap
 import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.resizeBitmap
 import ru.tech.imageresizershrinker.utils.helper.compressFormat
 import ru.tech.imageresizershrinker.utils.helper.extension
@@ -53,14 +51,14 @@ class FilterViewModel : ViewModel() {
     private val _selectedUri: MutableState<Uri?> = mutableStateOf(null)
     val selectedUri by _selectedUri
 
-    private val _mime = mutableStateOf(0)
-    val mime by _mime
+    private val _mimeTypeInt = mutableStateOf(0)
+    val mimeTypeInt by _mimeTypeInt
 
     private val _filterList = mutableStateOf(listOf<FilterTransformation<*>>())
     val filterList by _filterList
 
     fun setMime(mime: Int) {
-        _mime.value = mime
+        _mimeTypeInt.value = mime
     }
 
     fun updateUris(uris: List<Uri>?) {
@@ -151,7 +149,7 @@ class FilterViewModel : ViewModel() {
                             val savingFolder = fileController.getSavingFolder(
                                 SaveTarget(
                                     bitmapInfo = BitmapInfo(
-                                        mimeTypeInt = mime.extension.mimeTypeInt,
+                                        mimeTypeInt = mimeTypeInt.extension.mimeTypeInt,
                                         width = localBitmap.width,
                                         height = localBitmap.height
                                     ),
@@ -163,7 +161,7 @@ class FilterViewModel : ViewModel() {
                             val fos = savingFolder.outputStream
 
                             localBitmap.compress(
-                                mime.extension.compressFormat,
+                                mimeTypeInt.extension.compressFormat,
                                 100,
                                 fos
                             )
@@ -217,24 +215,14 @@ class FilterViewModel : ViewModel() {
     }
 
     fun proceedBitmap(
-        uri: Uri,
         bitmapResult: Result<Bitmap?>,
-        getImageSize: (Uri) -> Long?
     ): Pair<Bitmap, BitmapInfo>? {
         return bitmapResult.getOrNull()?.let { bitmap ->
-            runCatching<Pair<Bitmap, ExifInterface>> {
-                error("COCK")
-            }
-        }?.let { result ->
-            if (result.isSuccess && result.getOrNull() != null) {
-                val scaled = result.getOrNull()!!
-                scaled.first to BitmapInfo(
-                    mimeTypeInt = _mime.value,
-                    quality = 0f,
-                    width = scaled.first.width,
-                    height = scaled.first.height
-                )
-            } else null
+            bitmap to BitmapInfo(
+                bitmap.width,
+                bitmap.height,
+                mimeTypeInt = mimeTypeInt
+            )
         }
     }
 

@@ -692,12 +692,8 @@ fun FiltersScreen(
                                         scope = viewModel.viewModelScope,
                                         bitmapLoader = {
                                             viewModel.proceedBitmap(
-                                                uri = it,
                                                 bitmapResult = kotlin.runCatching {
-                                                    context.decodeBitmapFromUri(it).first
-                                                },
-                                                getImageSize = { uri ->
-                                                    uri.fileSize(context)
+                                                    context.getBitmapFromUriWithTransformations(it, filterList)
                                                 }
                                             )
                                         },
@@ -828,7 +824,7 @@ fun FiltersScreen(
                                     Spacer(Modifier.size(8.dp))
                                     ExtensionGroup(
                                         enabled = viewModel.bitmap != null,
-                                        mime = viewModel.mime,
+                                        mime = viewModel.mimeTypeInt,
                                         onMimeChange = {
                                             viewModel.setMime(it)
                                         }
