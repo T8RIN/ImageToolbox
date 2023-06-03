@@ -219,6 +219,10 @@
     <string name="pixellation">Pixellation</string>
     <string name="blur">Blur</string>
     <string name="halftone">Halftone</string>
+    <string name="gca_colorspace">GCA colorspace</string>
+    <string name="gaussian_blur">Gaussian blur</string>
+    <string name="box_blur">Box blur</string>
+    <string name="bilaterial_blur">Bilaterial blur</string>
 
     <string-array name="fab_alignment_sub">
         <item>Start</item>

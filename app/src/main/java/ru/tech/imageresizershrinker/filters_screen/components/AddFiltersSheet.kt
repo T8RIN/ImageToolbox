@@ -43,18 +43,22 @@ import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.main_screen.components.PreferenceItem
 import ru.tech.imageresizershrinker.theme.outlineVariant
+import ru.tech.imageresizershrinker.utils.coil.filters.BilaterialBlurFilter
+import ru.tech.imageresizershrinker.utils.coil.filters.BlackAndWhiteFilter
+import ru.tech.imageresizershrinker.utils.coil.filters.BoxBlurFilter
 import ru.tech.imageresizershrinker.utils.coil.filters.BrightnessFilter
 import ru.tech.imageresizershrinker.utils.coil.filters.ColorFilter
 import ru.tech.imageresizershrinker.utils.coil.filters.ContrastFilter
+import ru.tech.imageresizershrinker.utils.coil.filters.CrosshatchFilter
 import ru.tech.imageresizershrinker.utils.coil.filters.ExposureFilter
 import ru.tech.imageresizershrinker.utils.coil.filters.FilterTransformation
+import ru.tech.imageresizershrinker.utils.coil.filters.GCAColorSpaceFilter
 import ru.tech.imageresizershrinker.utils.coil.filters.GammaFilter
+import ru.tech.imageresizershrinker.utils.coil.filters.GaussianBlurFilter
+import ru.tech.imageresizershrinker.utils.coil.filters.HalftoneFilter
 import ru.tech.imageresizershrinker.utils.coil.filters.HazeFilter
 import ru.tech.imageresizershrinker.utils.coil.filters.HighlightsAndShadowsFilter
 import ru.tech.imageresizershrinker.utils.coil.filters.HueFilter
-import ru.tech.imageresizershrinker.utils.coil.filters.BlackAndWhiteFilter
-import ru.tech.imageresizershrinker.utils.coil.filters.CrosshatchFilter
-import ru.tech.imageresizershrinker.utils.coil.filters.HalftoneFilter
 import ru.tech.imageresizershrinker.utils.coil.filters.MonochromeFilter
 import ru.tech.imageresizershrinker.utils.coil.filters.NegativeFilter
 import ru.tech.imageresizershrinker.utils.coil.filters.SaturationFilter
@@ -134,7 +138,8 @@ fun AddFiltersSheet(
                                         HueFilter(context),
                                         ColorFilter(context),
                                         SaturationFilter(context),
-                                        VibranceFilter(context)
+                                        VibranceFilter(context),
+                                        GCAColorSpaceFilter(context)
                                     ).forEach {
                                         PreferenceItem(
                                             title = stringResource(it.title),
@@ -153,7 +158,9 @@ fun AddFiltersSheet(
                                         ExposureFilter(context),
                                         WhiteBalanceFilter(context),
                                         GammaFilter(context),
-                                        HighlightsAndShadowsFilter(context)
+                                        HighlightsAndShadowsFilter(context),
+                                        SolarizeFilter(context),
+                                        HazeFilter(context),
                                     ).forEach {
                                         PreferenceItem(
                                             title = stringResource(it.title),
@@ -167,12 +174,10 @@ fun AddFiltersSheet(
                                 }
                                 2 -> {
                                     listOf(
-                                        HazeFilter(context),
                                         SharpenFilter(context),
                                         MonochromeFilter(context),
                                         SepiaFilter(context),
                                         NegativeFilter(context),
-                                        SolarizeFilter(context),
                                         BlackAndWhiteFilter(context),
                                         CrosshatchFilter(context),
                                         SobelEdgeDetectionFilter(context),
@@ -189,7 +194,20 @@ fun AddFiltersSheet(
                                     }
                                 }
                                 3 -> {
-
+                                    listOf(
+                                        GaussianBlurFilter(context),
+                                        BoxBlurFilter(context),
+                                        BilaterialBlurFilter(context)
+                                    ).forEach {
+                                        PreferenceItem(
+                                            title = stringResource(it.title),
+                                            endIcon = Icons.Rounded.AddCircleOutline,
+                                            onClick = {
+                                                visible.value = false
+                                                onFilterPicked(it)
+                                            }
+                                        )
+                                    }
                                 }
                             }
                         }
