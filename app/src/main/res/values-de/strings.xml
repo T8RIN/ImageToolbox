@@ -165,8 +165,19 @@
     <string name="fit">Einpassen</string>
     <string name="sequence_num">FolgeNum</string>
     <string name="fill">Füllen</string>
-    <string name="ratio_description">Bewahrt das Seitenverhältnis und skaliert das Bild entsprechend des jew. zuletzt bei Höhe oder Breite eingegebenen Werts</string>
+    <string name="ratio_description">Bewahrt das Seitenverhältnis und skaliert das Bild entsprechend des jew. zuletzt bei Höhe oder Breite eingegebenen Werts. Zeigt das Endergebnis in Echtzeit an.</string>
     <string name="content_scale">Inhaltsskalierung</string>
-    <string name="flexible_description">Bewahrt das Seitenverhältnis und passt die längere Seite des Bildes in ein durch den Wert für Breite vorgegebenes Format ein</string>
+    <string name="flexible_description">Bewahrt das Seitenverhältnis und passt die längere Seite des Bildes in das durch deine eigenen Werte vorgegebene Format ein. Die Größenberechnung erfolgt nach dem Sichern.</string>
     <string name="explicit_description">Zwingt jedes Bild in das durch die Werte für Breite und Höhe vorgegebene Format (Verzerrung möglich)</string>
+    <string name="brightness">Helligkeit</string>
+    <string name="contrast">Kontrast</string>
+    <string name="hue">Farbton</string>
+    <string name="saturation">Farbsättigung</string>
+    <string name="filter">Filtern</string>
+    <string name="filter_sub">Wende eine beliebige Abfolge von Filtern auf bestimmte Bilder an</string>
+    <string name="filters">Filter</string>
+    <string name="light_aka_illumination">Belichtung</string>
+    <string name="alpha">Alpha</string>
+    <string name="add_filter">Filter hinzufügen</string>
+    <string name="color_filter">Farbfilter</string>
 </resources>
