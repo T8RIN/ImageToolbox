@@ -40,7 +40,7 @@ sealed class FilterTransformation<T>(
             is NegativeFilter -> NegativeFilter(context)
             is SolarizeFilter -> SolarizeFilter(context, value as Float)
             is VibranceFilter -> VibranceFilter(context, value as Float)
-            is LuminanceFilter -> LuminanceFilter(context)
+            is BlackAndWhiteFilter -> BlackAndWhiteFilter(context)
         }
     }
 }

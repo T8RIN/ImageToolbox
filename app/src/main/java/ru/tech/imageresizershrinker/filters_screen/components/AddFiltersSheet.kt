@@ -14,7 +14,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.AddCircleOutline
-import androidx.compose.material.icons.rounded.Filter2
 import androidx.compose.material.icons.rounded.FormatColorFill
 import androidx.compose.material.icons.rounded.Grain
 import androidx.compose.material.icons.rounded.Light
@@ -52,7 +51,7 @@ import ru.tech.imageresizershrinker.utils.coil.filters.GammaFilter
 import ru.tech.imageresizershrinker.utils.coil.filters.HazeFilter
 import ru.tech.imageresizershrinker.utils.coil.filters.HighlightsAndShadowsFilter
 import ru.tech.imageresizershrinker.utils.coil.filters.HueFilter
-import ru.tech.imageresizershrinker.utils.coil.filters.LuminanceFilter
+import ru.tech.imageresizershrinker.utils.coil.filters.BlackAndWhiteFilter
 import ru.tech.imageresizershrinker.utils.coil.filters.MonochromeFilter
 import ru.tech.imageresizershrinker.utils.coil.filters.NegativeFilter
 import ru.tech.imageresizershrinker.utils.coil.filters.SaturationFilter
@@ -131,7 +130,7 @@ fun AddFiltersSheet(
                                         ColorFilter(context),
                                         SaturationFilter(context),
                                         VibranceFilter(context),
-                                        LuminanceFilter(context)
+                                        BlackAndWhiteFilter(context)
                                     ).forEach {
                                         PreferenceItem(
                                             title = stringResource(it.title),

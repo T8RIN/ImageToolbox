@@ -211,7 +211,7 @@
     <string name="negative">Negative</string>
     <string name="solarize">Solarize</string>
     <string name="vibrance">Vibrance</string>
-    <string name="luminance">Luminance</string>
+    <string name="black_and_white">Black and White</string>
 
     <string-array name="fab_alignment_sub">
         <item>Start</item>

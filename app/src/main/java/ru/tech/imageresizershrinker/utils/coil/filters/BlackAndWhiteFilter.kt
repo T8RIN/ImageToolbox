@@ -9,7 +9,7 @@ import ru.tech.imageresizershrinker.R
 
 
 @Parcelize
-data class LuminanceFilter(
+data class BlackAndWhiteFilter(
     private val context: @RawValue Context,
     override val value: Unit = Unit,
 ) : FilterTransformation<Unit>(
