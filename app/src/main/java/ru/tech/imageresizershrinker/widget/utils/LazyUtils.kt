@@ -112,7 +112,7 @@ fun <T> rememberPrevious(
 fun <T> rememberRef(): MutableState<T?> {
     // for some reason it always recreated the value with vararg keys,
     // leaving out the keys as a parameter for remember for now
-    return remember() {
+    return remember {
         object : MutableState<T?> {
             override var value: T? = null
 

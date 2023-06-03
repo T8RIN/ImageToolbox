@@ -693,7 +693,10 @@ fun FiltersScreen(
                                         bitmapLoader = {
                                             viewModel.proceedBitmap(
                                                 bitmapResult = kotlin.runCatching {
-                                                    context.getBitmapFromUriWithTransformations(it, filterList)
+                                                    context.getBitmapFromUriWithTransformations(
+                                                        it,
+                                                        filterList
+                                                    )
                                                 }
                                             )
                                         },
@@ -764,7 +767,7 @@ fun FiltersScreen(
                                 if (imageInside) imageBlock()
                                 if (viewModel.bitmap != null) {
                                     if (imageInside) Spacer(Modifier.size(20.dp))
-                                    if(filterList.isNotEmpty()) {
+                                    if (filterList.isNotEmpty()) {
                                         Column(Modifier.block(MaterialTheme.shapes.extraLarge)) {
                                             TitleItem(text = stringResource(R.string.filters))
                                             Column(

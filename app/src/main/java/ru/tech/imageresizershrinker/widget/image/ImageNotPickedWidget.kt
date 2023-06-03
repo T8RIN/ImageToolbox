@@ -112,7 +112,9 @@ fun SimplePicture(
         ?.takeIf { visible }
         ?.let {
             Box(
-                modifier = Modifier.block().padding(4.dp),
+                modifier = Modifier
+                    .block()
+                    .padding(4.dp),
                 contentAlignment = Alignment.Center
             ) {
                 Image(

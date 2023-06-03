@@ -11,7 +11,7 @@ import androidx.compose.ui.graphics.vector.path
 import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.theme.Emoji
 
-public val Emoji.Ring: ImageVector
+val Emoji.Ring: ImageVector
     get() {
         if (_ring != null) {
             return _ring!!

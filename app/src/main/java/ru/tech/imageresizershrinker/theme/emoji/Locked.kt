@@ -11,7 +11,7 @@ import androidx.compose.ui.graphics.vector.path
 import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.theme.Emoji
 
-public val Emoji.Locked: ImageVector
+val Emoji.Locked: ImageVector
     get() {
         if (_locked != null) {
             return _locked!!

@@ -13,7 +13,7 @@ import androidx.compose.ui.graphics.vector.path
 import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.theme.Emoji
 
-public val Emoji.Alienmonster: ImageVector
+val Emoji.Alienmonster: ImageVector
     get() {
         if (_alienmonster != null) {
             return _alienmonster!!

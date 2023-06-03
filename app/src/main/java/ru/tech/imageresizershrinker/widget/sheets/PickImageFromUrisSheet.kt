@@ -34,8 +34,6 @@ import androidx.compose.ui.unit.dp
 import coil.transform.Transformation
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.theme.outlineVariant
-import ru.tech.imageresizershrinker.utils.coil.BitmapInfoTransformation
-import ru.tech.imageresizershrinker.utils.helper.BitmapInfo
 import ru.tech.imageresizershrinker.utils.modifier.block
 import ru.tech.imageresizershrinker.widget.TitleItem
 import ru.tech.imageresizershrinker.widget.image.Picture
