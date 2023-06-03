@@ -216,7 +216,6 @@
     <string name="spacing">Spacing</string>
     <string name="line_width">Line width</string>
     <string name="sobel_edge">Sobel edge</string>
-    <string name="pixellation">Pixellation</string>
     <string name="blur">Blur</string>
     <string name="halftone">Halftone</string>
     <string name="gca_colorspace">GCA colorspace</string>
