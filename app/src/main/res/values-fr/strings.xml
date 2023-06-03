@@ -202,7 +202,6 @@
     <string name="spacing">Espacement</string>
     <string name="line_width">Largeur de ligne</string>
     <string name="sobel_edge">Bord de sobel</string>
-    <string name="pixellation">Pixellisation</string>
     <string name="blur">Flou</string>
     <string name="crosshatch">Hachure</string>
     <string name="halftone">Demi-teinte</string>

@@ -198,7 +198,6 @@
     <string name="solarize">Solarisieren</string>
     <string name="vibrance">Lebendigkeit</string>
     <string name="black_and_white">Schwarzweiß</string>
-    <string name="pixellation">Pixelierung</string>
     <string name="blur">Weichzeichner</string>
     <string name="sobel_edge">Sobel-Kanten</string>
     <string name="bilaterial_blur">Bewegungsunschärfe</string>
