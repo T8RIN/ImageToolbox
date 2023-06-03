@@ -180,4 +180,11 @@
     <string name="saturation">Saturation</string>
     <string name="filter_sub">Appliquer n\'importe quelle chaîne de filtres aux images données</string>
     <string name="alpha">Alpha</string>
+    <string name="white_balance">Balance des blancs</string>
+    <string name="temperature">Température</string>
+    <string name="tint">Teinte</string>
+    <string name="monochrome">Monochrome</string>
+    <string name="highlights_shadows">Tons clairs et foncés</string>
+    <string name="exposure">Exposition</string>
+    <string name="gamma">Gamma</string>
 </resources>
