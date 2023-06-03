@@ -191,4 +191,12 @@
     <string name="haze">Flou</string>
     <string name="effect">Effet</string>
     <string name="distance">Distance</string>
+    <string name="sharpen">Affiner</string>
+    <string name="sepia">Sepia</string>
+    <string name="negative">Negative</string>
+    <string name="solarize">Solariser</string>
+    <string name="vibrance">Vibe</string>
+    <string name="highlights">Points Saillants</string>
+    <string name="slope">Pente</string>
+    <string name="black_and_white">Noir et Blanc</string>
 </resources>
