@@ -211,4 +211,7 @@
     <string name="box_blur">Box-Weichzeichner</string>
     <string name="emboss">Stanzen</string>
     <string name="laplacian">Laplace-Kanten</string>
+    <string name="vignette">Vignettierung</string>
+    <string name="start">Anfang</string>
+    <string name="end">Ende</string>
 </resources>
