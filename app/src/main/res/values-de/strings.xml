@@ -193,4 +193,22 @@
     <string name="exposure">Belichtung</string>
     <string name="slope">Steilheit</string>
     <string name="distance">Abstand</string>
+    <string name="sepia">Sepia</string>
+    <string name="negative">Negativ</string>
+    <string name="solarize">Solarisieren</string>
+    <string name="vibrance">Lebendigkeit</string>
+    <string name="black_and_white">Schwarzweiß</string>
+    <string name="pixellation">Pixelierung</string>
+    <string name="blur">Weichzeichner</string>
+    <string name="sobel_edge">Sobel-Kanten</string>
+    <string name="bilaterial_blur">Bewegungsunschärfe</string>
+    <string name="sharpen">Schärfen</string>
+    <string name="crosshatch">Schraffieren</string>
+    <string name="line_width">Linienstärke</string>
+    <string name="gaussian_blur">Gaussscher Weichzeichner</string>
+    <string name="halftone">Halbton</string>
+    <string name="gca_colorspace">GCA-Farbraum</string>
+    <string name="box_blur">Box-Weichzeichner</string>
+    <string name="emboss">Stanzen</string>
+    <string name="laplacian">Laplace-Kanten</string>
 </resources>
