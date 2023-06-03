@@ -34,15 +34,17 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.smarttoolfactory.colordetector.util.ColorUtil.roundToTwoDigits
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.main_screen.components.AlphaColorCustomComponent
+import ru.tech.imageresizershrinker.utils.coil.filters.CrosshatchFilter
 import ru.tech.imageresizershrinker.utils.coil.filters.FilterTransformation
+import ru.tech.imageresizershrinker.utils.coil.filters.HalftoneFilter
 import ru.tech.imageresizershrinker.utils.coil.filters.HazeFilter
 import ru.tech.imageresizershrinker.utils.coil.filters.HighlightsAndShadowsFilter
 import ru.tech.imageresizershrinker.utils.coil.filters.WhiteBalanceFilter
 import ru.tech.imageresizershrinker.utils.modifier.block
 import ru.tech.imageresizershrinker.widget.utils.LocalSettingsState
+import kotlin.math.pow
 import kotlin.math.roundToInt
 
 @Composable
@@ -285,7 +287,7 @@ fun <T> FilterItem(
                                 modifier = Modifier.padding(horizontal = 16.dp),
                                 value = animateFloatAsState(highs).value,
                                 onValueChange = {
-                                    highs = it.roundToTwoDigits()
+                                    highs = it.roundTo()
                                     onFilterChange(highs to shadows)
                                 },
                                 valueRange = filter.valueRange
@@ -326,7 +328,7 @@ fun <T> FilterItem(
                                 modifier = Modifier.padding(horizontal = 16.dp),
                                 value = animateFloatAsState(shadows).value,
                                 onValueChange = {
-                                    shadows = it.roundToTwoDigits()
+                                    shadows = it.roundTo()
                                     onFilterChange(highs to shadows)
                                 },
                                 valueRange = filter.valueRange
@@ -377,7 +379,7 @@ fun <T> FilterItem(
                                 modifier = Modifier.padding(horizontal = 16.dp),
                                 value = animateFloatAsState(distance).value,
                                 onValueChange = {
-                                    distance = it.roundToTwoDigits()
+                                    distance = it.roundTo()
                                     onFilterChange(distance to slope)
                                 },
                                 valueRange = filter.valueRange
@@ -418,8 +420,100 @@ fun <T> FilterItem(
                                 modifier = Modifier.padding(horizontal = 16.dp),
                                 value = animateFloatAsState(slope).value,
                                 onValueChange = {
-                                    slope = it.roundToTwoDigits()
+                                    slope = it.roundTo()
                                     onFilterChange(distance to slope)
+                                },
+                                valueRange = filter.valueRange
+                            )
+                        }
+
+                        is CrosshatchFilter -> {
+                            var spacing by remember(filter) {
+                                mutableFloatStateOf(filter.value.first)
+                            }
+                            var width by remember(filter) {
+                                mutableFloatStateOf(filter.value.second)
+                            }
+                            Spacer(Modifier.height(8.dp))
+                            Row(
+                                verticalAlignment = Alignment.CenterVertically
+                            ) {
+                                Row(Modifier.weight(1f)) {
+                                    Text(
+                                        text = stringResource(R.string.spacing),
+                                        modifier = Modifier
+                                            .padding(
+                                                top = 16.dp,
+                                                end = 16.dp,
+                                                start = 16.dp
+                                            )
+                                            .weight(1f)
+                                    )
+                                }
+                                Text(
+                                    text = "$spacing",
+                                    color = MaterialTheme.colorScheme.onSurface.copy(
+                                        alpha = 0.5f
+                                    ),
+                                    modifier = Modifier.padding(top = 16.dp),
+                                    lineHeight = 18.sp
+                                )
+                                Spacer(
+                                    modifier = Modifier.padding(
+                                        start = 4.dp,
+                                        top = 16.dp,
+                                        end = 20.dp
+                                    )
+                                )
+                            }
+                            Slider(
+                                enabled = !previewOnly,
+                                modifier = Modifier.padding(horizontal = 16.dp),
+                                value = animateFloatAsState(spacing).value,
+                                onValueChange = {
+                                    spacing = it.roundTo(3)
+                                    onFilterChange(spacing to width)
+                                },
+                                valueRange = filter.valueRange
+                            )
+                            Row(
+                                verticalAlignment = Alignment.CenterVertically
+                            ) {
+                                Row(Modifier.weight(1f)) {
+                                    Text(
+                                        text = stringResource(R.string.line_width),
+                                        modifier = Modifier
+                                            .padding(
+                                                top = 16.dp,
+                                                end = 16.dp,
+                                                start = 16.dp
+                                            )
+                                            .weight(1f)
+                                    )
+                                }
+                                Text(
+                                    text = "$width",
+                                    color = MaterialTheme.colorScheme.onSurface.copy(
+                                        alpha = 0.5f
+                                    ),
+                                    modifier = Modifier.padding(top = 16.dp),
+                                    lineHeight = 18.sp
+                                )
+                                Spacer(
+                                    modifier = Modifier.padding(
+                                        start = 4.dp,
+                                        top = 16.dp,
+                                        end = 20.dp
+                                    )
+                                )
+                            }
+                            Slider(
+                                enabled = !previewOnly,
+                                modifier = Modifier.padding(horizontal = 16.dp),
+                                value = animateFloatAsState(width).value,
+                                onValueChange = {
+                                    width = it.roundTo(3)
+                                    onFilterChange(spacing to width)
                                 },
                                 valueRange = filter.valueRange
                             )
@@ -431,7 +525,7 @@ fun <T> FilterItem(
                                 modifier = Modifier.padding(horizontal = 16.dp),
                                 value = animateFloatAsState(sliderValue).value,
                                 onValueChange = {
-                                    sliderValue = it.roundToTwoDigits()
+                                    sliderValue = it.roundTo(if (filter is HalftoneFilter) 4 else 2)
                                     onFilterChange(sliderValue)
                                 },
                                 valueRange = filter.valueRange
@@ -460,4 +554,5 @@ fun <T> FilterItem(
     }
 }
 
-private fun Float.roundToTwoDigits() = (this * 100.0f).roundToInt() / 100.0f
+private fun Float.roundTo(digits: Int = 2) =
+    (this * 10f.pow(digits)).roundToInt() / (10f.pow(digits))

@@ -16,6 +16,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.AddCircleOutline
 import androidx.compose.material.icons.rounded.FormatColorFill
 import androidx.compose.material.icons.rounded.Grain
+import androidx.compose.material.icons.rounded.LensBlur
 import androidx.compose.material.icons.rounded.Light
 import androidx.compose.material.icons.rounded.PhotoFilter
 import androidx.compose.material3.ButtonDefaults
@@ -52,11 +53,14 @@ import ru.tech.imageresizershrinker.utils.coil.filters.HazeFilter
 import ru.tech.imageresizershrinker.utils.coil.filters.HighlightsAndShadowsFilter
 import ru.tech.imageresizershrinker.utils.coil.filters.HueFilter
 import ru.tech.imageresizershrinker.utils.coil.filters.BlackAndWhiteFilter
+import ru.tech.imageresizershrinker.utils.coil.filters.CrosshatchFilter
+import ru.tech.imageresizershrinker.utils.coil.filters.HalftoneFilter
 import ru.tech.imageresizershrinker.utils.coil.filters.MonochromeFilter
 import ru.tech.imageresizershrinker.utils.coil.filters.NegativeFilter
 import ru.tech.imageresizershrinker.utils.coil.filters.SaturationFilter
 import ru.tech.imageresizershrinker.utils.coil.filters.SepiaFilter
 import ru.tech.imageresizershrinker.utils.coil.filters.SharpenFilter
+import ru.tech.imageresizershrinker.utils.coil.filters.SobelEdgeDetectionFilter
 import ru.tech.imageresizershrinker.utils.coil.filters.SolarizeFilter
 import ru.tech.imageresizershrinker.utils.coil.filters.VibranceFilter
 import ru.tech.imageresizershrinker.utils.coil.filters.WhiteBalanceFilter
@@ -74,7 +78,7 @@ fun AddFiltersSheet(
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
 
-    val pagerState = rememberPagerState(pageCount = { 3 })
+    val pagerState = rememberPagerState(pageCount = { 4 })
 
     SimpleSheet(
         sheetContent = {
@@ -98,7 +102,8 @@ fun AddFiltersSheet(
                         listOf(
                             Icons.Rounded.FormatColorFill to stringResource(id = R.string.color),
                             Icons.Rounded.Light to stringResource(R.string.light_aka_illumination),
-                            Icons.Rounded.Grain to stringResource(R.string.effect)
+                            Icons.Rounded.Grain to stringResource(R.string.effect),
+                            Icons.Rounded.LensBlur to stringResource(R.string.blur)
                         ).forEachIndexed { index, (icon, title) ->
                             Tab(
                                 unselectedContentColor = MaterialTheme.colorScheme.onSurface,
@@ -168,7 +173,10 @@ fun AddFiltersSheet(
                                         SepiaFilter(context),
                                         NegativeFilter(context),
                                         SolarizeFilter(context),
-                                        BlackAndWhiteFilter(context)
+                                        BlackAndWhiteFilter(context),
+                                        CrosshatchFilter(context),
+                                        SobelEdgeDetectionFilter(context),
+                                        HalftoneFilter(context)
                                     ).forEach {
                                         PreferenceItem(
                                             title = stringResource(it.title),
@@ -179,6 +187,9 @@ fun AddFiltersSheet(
                                             }
                                         )
                                     }
+                                }
+                                3 -> {
+
                                 }
                             }
                         }

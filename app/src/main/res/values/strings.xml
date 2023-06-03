@@ -212,6 +212,13 @@
     <string name="solarize">Solarize</string>
     <string name="vibrance">Vibrance</string>
     <string name="black_and_white">Black and White</string>
+    <string name="crosshatch">Crosshatch</string>
+    <string name="spacing">Spacing</string>
+    <string name="line_width">Line width</string>
+    <string name="sobel_edge">Sobel edge</string>
+    <string name="pixellation">Pixellation</string>
+    <string name="blur">Blur</string>
+    <string name="halftone">Halftone</string>
 
     <string-array name="fab_alignment_sub">
         <item>Start</item>
