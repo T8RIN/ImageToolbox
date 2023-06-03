@@ -193,6 +193,19 @@
     <string name="light_aka_illumination">Light</string>
     <string name="color_filter">Color filter</string>
     <string name="alpha">Alpha</string>
+    <string name="exposure">Exposure</string>
+    <string name="white_balance">White balance</string>
+    <string name="temperature">Temperature</string>
+    <string name="tint">Tint</string>
+    <string name="monochrome">Monochrome</string>
+    <string name="gamma">Gamma</string>
+    <string name="highlights_shadows">Highlights and shadows</string>
+    <string name="highlights">Highlights</string>
+    <string name="shadows">Shadows</string>
+    <string name="haze">Haze</string>
+    <string name="effect">Effect</string>
+    <string name="distance">Distance</string>
+    <string name="slope">Slope</string>
 
     <string-array name="fab_alignment_sub">
         <item>Start</item>

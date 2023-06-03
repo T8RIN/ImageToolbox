@@ -244,7 +244,6 @@ class FilterViewModel : ViewModel() {
 
     fun addFilter(filter: FilterTransformation<*>) {
         _filterList.value = _filterList.value + filter
-        _filterList.value = _filterList.value.distinctBy { it::class.java.name }
         updateCanSave()
     }
 
@@ -260,8 +259,14 @@ class FilterViewModel : ViewModel() {
     fun <T : Any> updateFilter(filter: FilterTransformation<*>, value: T) {
         val list = _filterList.value.toMutableList()
         val index = list.indexOf(filter)
-        list[index] = list[index].copy(value)
-        _filterList.value = list
+        kotlin.runCatching {
+            list[index] = list[index].copy(value)
+            _filterList.value = list
+        }
+    }
+
+    fun updateOrder(value: List<FilterTransformation<*>>) {
+        _filterList.value = value
     }
 
 }

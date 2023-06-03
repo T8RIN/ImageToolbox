@@ -4,11 +4,14 @@ package ru.tech.imageresizershrinker.utils.coil.filters
 import android.content.Context
 import jp.co.cyberagent.android.gpuimage.filter.GPUImageContrastFilter
 import jp.co.cyberagent.android.gpuimage.filter.GPUImageFilter
+import kotlinx.parcelize.Parcelize
+import kotlinx.parcelize.RawValue
 import ru.tech.imageresizershrinker.R
 
+@Parcelize
 class ContrastFilter(
-    private val context: Context,
-    override val value: Float = 0f,
+    private val context: @RawValue Context,
+    override val value: Float = 1f,
 ) : FilterTransformation<Float>(
     context = context,
     title = R.string.contrast,

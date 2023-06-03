@@ -14,6 +14,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.AddCircleOutline
+import androidx.compose.material.icons.rounded.Filter2
 import androidx.compose.material.icons.rounded.FormatColorFill
 import androidx.compose.material.icons.rounded.Light
 import androidx.compose.material.icons.rounded.PhotoFilter
@@ -41,10 +42,18 @@ import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.main_screen.components.PreferenceItem
 import ru.tech.imageresizershrinker.theme.outlineVariant
+import ru.tech.imageresizershrinker.utils.coil.filters.BrightnessFilter
 import ru.tech.imageresizershrinker.utils.coil.filters.ColorFilter
+import ru.tech.imageresizershrinker.utils.coil.filters.ContrastFilter
+import ru.tech.imageresizershrinker.utils.coil.filters.ExposureFilter
 import ru.tech.imageresizershrinker.utils.coil.filters.FilterTransformation
+import ru.tech.imageresizershrinker.utils.coil.filters.GammaFilter
+import ru.tech.imageresizershrinker.utils.coil.filters.HazeFilter
+import ru.tech.imageresizershrinker.utils.coil.filters.HighlightsAndShadowsFilter
 import ru.tech.imageresizershrinker.utils.coil.filters.HueFilter
+import ru.tech.imageresizershrinker.utils.coil.filters.MonochromeFilter
 import ru.tech.imageresizershrinker.utils.coil.filters.SaturationFilter
+import ru.tech.imageresizershrinker.utils.coil.filters.WhiteBalanceFilter
 import ru.tech.imageresizershrinker.widget.TitleItem
 import ru.tech.imageresizershrinker.widget.sheets.SimpleSheet
 import ru.tech.imageresizershrinker.widget.utils.LocalSettingsState
@@ -82,7 +91,8 @@ fun AddFiltersSheet(
                     ) {
                         listOf(
                             Icons.Rounded.FormatColorFill to stringResource(id = R.string.color),
-                            Icons.Rounded.Light to stringResource(R.string.light_aka_illumination)
+                            Icons.Rounded.Light to stringResource(R.string.light_aka_illumination),
+                            Icons.Rounded.Filter2 to stringResource(R.string.effect)
                         ).forEachIndexed { index, (icon, title) ->
                             Tab(
                                 unselectedContentColor = MaterialTheme.colorScheme.onSurface,
@@ -107,20 +117,56 @@ fun AddFiltersSheet(
                                 .padding(vertical = 16.dp),
                             verticalArrangement = Arrangement.spacedBy(8.dp)
                         ) {
-                            if (it == 0) {
-                                listOf(
-                                    HueFilter(context),
-                                    ColorFilter(context),
-                                    SaturationFilter(context),
-                                ).forEach {
-                                    PreferenceItem(
-                                        title = stringResource(it.title),
-                                        endIcon = Icons.Rounded.AddCircleOutline,
-                                        onClick = {
-                                            visible.value = false
-                                            onFilterPicked(it)
-                                        }
-                                    )
+                            when (it) {
+                                0 -> {
+                                    listOf(
+                                        HueFilter(context),
+                                        ColorFilter(context),
+                                        SaturationFilter(context),
+                                        MonochromeFilter(context)
+                                    ).forEach {
+                                        PreferenceItem(
+                                            title = stringResource(it.title),
+                                            endIcon = Icons.Rounded.AddCircleOutline,
+                                            onClick = {
+                                                visible.value = false
+                                                onFilterPicked(it)
+                                            }
+                                        )
+                                    }
+                                }
+                                1 -> {
+                                    listOf(
+                                        BrightnessFilter(context),
+                                        ContrastFilter(context),
+                                        ExposureFilter(context),
+                                        WhiteBalanceFilter(context),
+                                        GammaFilter(context),
+                                        HighlightsAndShadowsFilter(context)
+                                    ).forEach {
+                                        PreferenceItem(
+                                            title = stringResource(it.title),
+                                            endIcon = Icons.Rounded.AddCircleOutline,
+                                            onClick = {
+                                                visible.value = false
+                                                onFilterPicked(it)
+                                            }
+                                        )
+                                    }
+                                }
+                                2 -> {
+                                    listOf(
+                                        HazeFilter(context)
+                                    ).forEach {
+                                        PreferenceItem(
+                                            title = stringResource(it.title),
+                                            endIcon = Icons.Rounded.AddCircleOutline,
+                                            onClick = {
+                                                visible.value = false
+                                                onFilterPicked(it)
+                                            }
+                                        )
+                                    }
                                 }
                             }
                         }

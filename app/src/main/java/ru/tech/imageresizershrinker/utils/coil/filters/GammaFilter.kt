@@ -2,23 +2,23 @@ package ru.tech.imageresizershrinker.utils.coil.filters
 
 import android.content.Context
 import jp.co.cyberagent.android.gpuimage.filter.GPUImageFilter
-import jp.co.cyberagent.android.gpuimage.filter.GPUImageHueFilter
+import jp.co.cyberagent.android.gpuimage.filter.GPUImageGammaFilter
 import kotlinx.parcelize.Parcelize
 import kotlinx.parcelize.RawValue
 import ru.tech.imageresizershrinker.R
 
 @Parcelize
-data class HueFilter(
+data class GammaFilter(
     private val context: @RawValue Context,
-    override val value: Float = 90f,
+    override val value: Float = 1f,
 ) : FilterTransformation<Float>(
     context = context,
-    title = R.string.hue,
+    title = R.string.gamma,
     value = value,
-    valueRange = 0f..255f
+    valueRange = 0f..3f
 ) {
     override val cacheKey: String
         get() = (value to context).hashCode().toString()
 
-    override fun createFilter(): GPUImageFilter = GPUImageHueFilter(value)
+    override fun createFilter(): GPUImageFilter = GPUImageGammaFilter(value)
 }

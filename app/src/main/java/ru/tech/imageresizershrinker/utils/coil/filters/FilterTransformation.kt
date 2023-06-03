@@ -1,17 +1,21 @@
 package ru.tech.imageresizershrinker.utils.coil.filters
 
 import android.content.Context
+import android.os.Parcelable
 import androidx.annotation.StringRes
 import androidx.compose.ui.graphics.Color
 import coil.transform.Transformation
 import com.commit451.coiltransformations.gpu.GPUFilterTransformation
+import kotlinx.parcelize.Parcelize
+import kotlinx.parcelize.RawValue
 
+@Parcelize
 sealed class FilterTransformation<T>(
-    private val context: Context,
+    private val context: @RawValue Context,
     @StringRes val title: Int,
-    val valueRange: ClosedFloatingPointRange<Float>,
-    open val value: T,
-) : GPUFilterTransformation(context), Transformation {
+    val valueRange: @RawValue ClosedFloatingPointRange<Float>,
+    open val value: @RawValue T,
+) : GPUFilterTransformation(context), Transformation, Parcelable {
     fun <T : Any> copy(value: T): FilterTransformation<*> {
         return when (this) {
             is BrightnessFilter -> BrightnessFilter(context, value as Float)
@@ -19,6 +23,16 @@ sealed class FilterTransformation<T>(
             is HueFilter -> HueFilter(context, value as Float)
             is SaturationFilter -> SaturationFilter(context, value as Float)
             is ColorFilter -> ColorFilter(context, value as Color)
+            is ExposureFilter -> ExposureFilter(context, value as Float)
+            is WhiteBalanceFilter -> WhiteBalanceFilter(context, value as Pair<Float, Float>)
+            is MonochromeFilter -> MonochromeFilter(context, value as Float)
+            is GammaFilter -> GammaFilter(context, value as Float)
+            is HighlightsAndShadowsFilter -> HighlightsAndShadowsFilter(
+                context,
+                value as Pair<Float, Float>
+            )
+
+            is HazeFilter -> HazeFilter(context, value as Pair<Float, Float>)
         }
     }
 }

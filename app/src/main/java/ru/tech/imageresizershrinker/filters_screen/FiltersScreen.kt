@@ -6,6 +6,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.togetherWith
@@ -26,6 +27,7 @@ import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.ime
 import androidx.compose.foundation.layout.navigationBars
@@ -34,6 +36,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -41,6 +44,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Share
 import androidx.compose.material.icons.rounded.AddPhotoAlternate
 import androidx.compose.material.icons.rounded.ArrowBack
+import androidx.compose.material.icons.rounded.Build
 import androidx.compose.material.icons.rounded.ChangeCircle
 import androidx.compose.material.icons.rounded.Compare
 import androidx.compose.material.icons.rounded.ErrorOutline
@@ -50,6 +54,7 @@ import androidx.compose.material.icons.rounded.Save
 import androidx.compose.material.icons.rounded.ZoomIn
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExtendedFloatingActionButton
 import androidx.compose.material3.FloatingActionButton
@@ -78,6 +83,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.clipToBounds
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalConfiguration
@@ -91,6 +97,10 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.t8rin.dynamic.theme.LocalDynamicThemeState
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import org.burnoutcrew.reorderable.ReorderableItem
+import org.burnoutcrew.reorderable.detectReorderAfterLongPress
+import org.burnoutcrew.reorderable.rememberReorderableLazyListState
+import org.burnoutcrew.reorderable.reorderable
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.batch_resize_screen.components.SaveExifWidget
 import ru.tech.imageresizershrinker.filters_screen.components.AddFiltersSheet
@@ -127,6 +137,7 @@ import ru.tech.imageresizershrinker.widget.image.ImageNotPickedWidget
 import ru.tech.imageresizershrinker.widget.image.SimplePicture
 import ru.tech.imageresizershrinker.widget.sheets.CompareSheet
 import ru.tech.imageresizershrinker.widget.sheets.PickImageFromUrisSheet
+import ru.tech.imageresizershrinker.widget.sheets.SimpleSheet
 import ru.tech.imageresizershrinker.widget.sheets.ZoomModalSheet
 import ru.tech.imageresizershrinker.widget.text.Marquee
 import ru.tech.imageresizershrinker.widget.utils.LocalSettingsState
@@ -256,6 +267,33 @@ fun FiltersScreen(
         }
     }
 
+    val showSheet = rememberSaveable { mutableStateOf(false) }
+    val zoomButton = @Composable {
+        AnimatedVisibility(viewModel.bitmap != null) {
+            IconButton(
+                onClick = {
+                    showSheet.value = true
+                }
+            ) {
+                Icon(Icons.Rounded.ZoomIn, null)
+            }
+        }
+    }
+    val showCompareSheet = rememberSaveable { mutableStateOf(false) }
+    val compareButton = @Composable {
+        AnimatedVisibility(viewModel.bitmap != null && filterList.isNotEmpty()) {
+            IconButton(
+                onClick = {
+                    showCompareSheet.value = true
+                }
+            ) {
+                Icon(Icons.Rounded.Compare, null)
+            }
+        }
+    }
+
+    val interactionSource = remember { MutableInteractionSource() }
+
     val focus = LocalFocusManager.current
     var showPickImageFromUrisDialog by rememberSaveable { mutableStateOf(false) }
 
@@ -346,6 +384,7 @@ fun FiltersScreen(
         }
     }
 
+    val showReorderSheet = rememberSaveable { mutableStateOf(false) }
 
     val buttons = @Composable {
         if (viewModel.bitmap == null) {
@@ -367,18 +406,58 @@ fun FiltersScreen(
             BottomAppBar(
                 modifier = Modifier.drawHorizontalStroke(true),
                 actions = {
-                    OutlinedButton(
-                        colors = ButtonDefaults.filledTonalButtonColors(),
-                        border = BorderStroke(
-                            settingsState.borderWidth,
-                            MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.secondaryContainer)
-                        ),
-                        onClick = { showFilterSheet.value = true },
-                        modifier = Modifier.padding(horizontal = 16.dp)
-                    ) {
-                        Icon(Icons.Rounded.PhotoFilter, null)
-                        Spacer(Modifier.width(8.dp))
-                        Text(stringResource(id = R.string.add_filter))
+                    Spacer(modifier = Modifier.width(8.dp))
+                    if (viewModel.bitmap != null) {
+                        Box(
+                            modifier = Modifier
+                                .clip(CircleShape)
+                                .indication(
+                                    interactionSource,
+                                    LocalIndication.current
+                                )
+                                .pointerInput(Unit) {
+                                    detectTapGestures(
+                                        onPress = {
+                                            val press = PressInteraction.Press(it)
+                                            interactionSource.emit(press)
+                                            val pos =
+                                                state.firstVisibleItemIndex to state.firstVisibleItemScrollOffset
+                                            if (viewModel.bitmap?.canShow() == true) {
+                                                showOriginal = true
+                                                delay(100)
+                                            }
+                                            state.animateScrollToItem(0, -10000)
+                                            tryAwaitRelease()
+                                            showOriginal = false
+                                            interactionSource.emit(
+                                                PressInteraction.Release(
+                                                    press
+                                                )
+                                            )
+                                            state.animateScrollToItem(
+                                                pos.first,
+                                                pos.second
+                                            )
+                                        }
+                                    )
+                                }
+                        ) {
+                            Icon(
+                                Icons.Rounded.History,
+                                null,
+                                tint = MaterialTheme.colorScheme.onSurfaceVariant,
+                                modifier = Modifier
+                                    .align(Alignment.Center)
+                                    .padding(8.dp)
+                            )
+                        }
+                    }
+                    compareButton()
+                    zoomButton()
+                    if (viewModel.bitmap != null && filterList.size >= 2) {
+                        IconButton(onClick = { showReorderSheet.value = true }) {
+                            Icon(Icons.Rounded.Build, null)
+                        }
                     }
                 },
                 floatingActionButton = {
@@ -446,44 +525,15 @@ fun FiltersScreen(
         }
     }
 
-    val showSheet = rememberSaveable { mutableStateOf(false) }
-    val zoomButton = @Composable {
-        AnimatedVisibility(viewModel.bitmap != null) {
-            IconButton(
-                onClick = {
-                    showSheet.value = true
-                }
-            ) {
-                Icon(Icons.Rounded.ZoomIn, null)
-            }
-        }
-    }
-
     ZoomModalSheet(
         bitmap = viewModel.previewBitmap,
         visible = showSheet
     )
 
-    val showCompareSheet = rememberSaveable { mutableStateOf(false) }
-    val compareButton = @Composable {
-        AnimatedVisibility(viewModel.bitmap != null && filterList.isNotEmpty()) {
-            IconButton(
-                onClick = {
-                    showCompareSheet.value = true
-                }
-            ) {
-                Icon(Icons.Rounded.Compare, null)
-            }
-        }
-    }
-
     CompareSheet(
         data = viewModel.bitmap to viewModel.previewBitmap,
         visible = showCompareSheet
     )
-
-    val interactionSource = remember { MutableInteractionSource() }
-
 
     Surface(
         color = MaterialTheme.colorScheme.background,
@@ -551,6 +601,20 @@ fun FiltersScreen(
                             TopAppBarEmoji()
                         }
                         if (viewModel.bitmap != null) {
+                            IconButton(
+                                onClick = { showFilterSheet.value = true }
+                            ) {
+                                Icon(Icons.Rounded.PhotoFilter, null)
+                            }
+                        }
+                        if (viewModel.bitmap != null && !imageInside) {
+                            if (filterList.size >= 2) {
+                                IconButton(onClick = { showReorderSheet.value = true }) {
+                                    Icon(Icons.Rounded.Build, null)
+                                }
+                            }
+                            compareButton()
+                            zoomButton()
                             Box(
                                 modifier = Modifier
                                     .clip(CircleShape)
@@ -594,8 +658,6 @@ fun FiltersScreen(
                                 )
                             }
                         }
-                        compareButton()
-                        zoomButton()
                         if (viewModel.previewBitmap != null) {
                             IconButton(
                                 onClick = {
@@ -681,6 +743,58 @@ fun FiltersScreen(
                                 if (imageInside) imageBlock()
                                 if (viewModel.bitmap != null) {
                                     if (imageInside) Spacer(Modifier.size(20.dp))
+                                    if(filterList.isNotEmpty()) {
+                                        Column(Modifier.block(MaterialTheme.shapes.extraLarge)) {
+                                            TitleItem(text = stringResource(R.string.filters))
+                                            Column(
+                                                horizontalAlignment = Alignment.CenterHorizontally,
+                                                verticalArrangement = Arrangement.spacedBy(8.dp),
+                                                modifier = Modifier.padding(8.dp)
+                                            ) {
+                                                filterList.forEach { filter ->
+                                                    FilterItem(
+                                                        filter = filter,
+                                                        onFilterChange = {
+                                                            viewModel.updateFilter(filter, it)
+                                                        },
+                                                        showDragHandle = false,
+                                                        onRemove = {
+                                                            viewModel.removeFilter(filter)
+                                                        }
+                                                    )
+                                                }
+                                                OutlinedButton(
+                                                    colors = ButtonDefaults.filledTonalButtonColors(),
+                                                    border = BorderStroke(
+                                                        settingsState.borderWidth,
+                                                        MaterialTheme.colorScheme.outlineVariant(
+                                                            onTopOf = MaterialTheme.colorScheme.secondaryContainer
+                                                        )
+                                                    ),
+                                                    onClick = { showFilterSheet.value = true },
+                                                    modifier = Modifier.padding(horizontal = 16.dp)
+                                                ) {
+                                                    Icon(Icons.Rounded.PhotoFilter, null)
+                                                    Spacer(Modifier.width(8.dp))
+                                                    Text(stringResource(id = R.string.add_filter))
+                                                }
+                                            }
+                                        }
+                                    } else {
+                                        OutlinedButton(
+                                            colors = ButtonDefaults.filledTonalButtonColors(),
+                                            border = BorderStroke(
+                                                settingsState.borderWidth,
+                                                MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.secondaryContainer)
+                                            ),
+                                            onClick = { showFilterSheet.value = true },
+                                            modifier = Modifier.padding(horizontal = 16.dp)
+                                        ) {
+                                            Icon(Icons.Rounded.PhotoFilter, null)
+                                            Spacer(Modifier.width(8.dp))
+                                            Text(stringResource(id = R.string.add_filter))
+                                        }
+                                    }
                                     Spacer(Modifier.size(8.dp))
                                     SaveExifWidget(
                                         selected = viewModel.keepExif,
@@ -694,29 +808,6 @@ fun FiltersScreen(
                                             viewModel.setMime(it)
                                         }
                                     )
-                                    if(filterList.isNotEmpty()) {
-                                        Spacer(Modifier.size(16.dp))
-                                        Column(Modifier.block(MaterialTheme.shapes.extraLarge)) {
-                                            TitleItem(text = stringResource(R.string.filters))
-                                            Column(
-                                                verticalArrangement = Arrangement.spacedBy(8.dp),
-                                                modifier = Modifier.padding(8.dp)
-                                            ) {
-                                                filterList.forEach { filter ->
-                                                    FilterItem(
-                                                        filter = filter,
-                                                        onFilterChange = {
-                                                            viewModel.updateFilter(filter, it)
-                                                        },
-                                                        showDragHandle = filterList.size >= 2,
-                                                        onRemove = {
-                                                            viewModel.removeFilter(filter)
-                                                        }
-                                                    )
-                                                }
-                                            }
-                                        }
-                                    }
                                 } else if (!viewModel.isLoading) {
                                     ImageNotPickedWidget(onPickImage = pickImage)
                                     Spacer(Modifier.size(8.dp))
@@ -802,6 +893,77 @@ fun FiltersScreen(
                 onExit = onGoBack,
                 onDismiss = { showExitDialog = false },
                 visible = showExitDialog
+            )
+
+            SimpleSheet(
+                sheetContent = {
+                    Box {
+                        val data = remember { mutableStateOf(filterList) }
+                        val state = rememberReorderableLazyListState(
+                            onMove = { from, to ->
+                                data.value = data.value.toMutableList().apply {
+                                    add(to.index, removeAt(from.index))
+                                }
+                            },
+                            onDragEnd = { _, _ ->
+                                viewModel.updateOrder(data.value)
+                            }
+                        )
+                        LazyColumn(
+                            state = state.listState,
+                            modifier = Modifier
+                                .reorderable(state)
+                                .detectReorderAfterLongPress(state),
+                            contentPadding = PaddingValues(8.dp),
+                            verticalArrangement = Arrangement.spacedBy(8.dp)
+                        ) {
+                            items(data.value, key = { it }) { filter ->
+                                ReorderableItem(state, key = filter) { isDragging ->
+                                    val elevation by animateDpAsState(if (isDragging) 16.dp else 0.dp)
+                                    val tonalElevation by animateDpAsState(if (isDragging) 16.dp else 1.dp)
+                                    FilterItem(
+                                        filter = filter,
+                                        onFilterChange = {
+                                            viewModel.updateFilter(filter, it)
+                                        },
+                                        modifier = Modifier
+                                            .fillMaxWidth()
+                                            .shadow(elevation, RoundedCornerShape(16.dp)),
+                                        backgroundColor = MaterialTheme.colorScheme.surfaceColorAtElevation(
+                                            tonalElevation
+                                        ),
+                                        previewOnly = true,
+                                        showDragHandle = filterList.size >= 2,
+                                        onRemove = {
+                                            viewModel.removeFilter(filter)
+                                        }
+                                    )
+                                }
+                            }
+                        }
+                        Divider(Modifier.align(Alignment.TopCenter))
+                        Divider(Modifier.align(Alignment.BottomCenter))
+                    }
+                },
+                visible = showReorderSheet,
+                title = {
+                    TitleItem(
+                        text = stringResource(R.string.filter),
+                        icon = Icons.Rounded.PhotoFilter
+                    )
+                },
+                confirmButton = {
+                    OutlinedButton(
+                        colors = ButtonDefaults.filledTonalButtonColors(),
+                        border = BorderStroke(
+                            settingsState.borderWidth,
+                            MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.secondaryContainer)
+                        ),
+                        onClick = { showReorderSheet.value = false }
+                    ) {
+                        Text(stringResource(R.string.close))
+                    }
+                },
             )
 
             BackHandler(onBack = onBack)
