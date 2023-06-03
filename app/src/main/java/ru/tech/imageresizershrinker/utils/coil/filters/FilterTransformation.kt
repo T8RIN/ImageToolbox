@@ -50,6 +50,7 @@ sealed class FilterTransformation<T>(
             is BoxBlurFilter -> BoxBlurFilter(context, value as Float)
             is EmbossFilter -> EmbossFilter(context, value as Float)
             is LaplacianFilter -> LaplacianFilter(context)
+            is VignetteFilter -> VignetteFilter(context, value as Pair<Float, Float>)
         }
     }
 }

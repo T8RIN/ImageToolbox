@@ -41,6 +41,7 @@ import ru.tech.imageresizershrinker.utils.coil.filters.FilterTransformation
 import ru.tech.imageresizershrinker.utils.coil.filters.HalftoneFilter
 import ru.tech.imageresizershrinker.utils.coil.filters.HazeFilter
 import ru.tech.imageresizershrinker.utils.coil.filters.HighlightsAndShadowsFilter
+import ru.tech.imageresizershrinker.utils.coil.filters.VignetteFilter
 import ru.tech.imageresizershrinker.utils.coil.filters.WhiteBalanceFilter
 import ru.tech.imageresizershrinker.utils.modifier.block
 import ru.tech.imageresizershrinker.widget.utils.LocalSettingsState
@@ -514,6 +515,98 @@ fun <T> FilterItem(
                                 onValueChange = {
                                     width = it.roundTo(3)
                                     onFilterChange(spacing to width)
+                                },
+                                valueRange = filter.valueRange
+                            )
+                        }
+
+                        is VignetteFilter -> {
+                            var start by remember(filter) {
+                                mutableFloatStateOf(filter.value.first)
+                            }
+                            var end by remember(filter) {
+                                mutableFloatStateOf(filter.value.second)
+                            }
+                            Spacer(Modifier.height(8.dp))
+                            Row(
+                                verticalAlignment = Alignment.CenterVertically
+                            ) {
+                                Row(Modifier.weight(1f)) {
+                                    Text(
+                                        text = stringResource(R.string.start),
+                                        modifier = Modifier
+                                            .padding(
+                                                top = 16.dp,
+                                                end = 16.dp,
+                                                start = 16.dp
+                                            )
+                                            .weight(1f)
+                                    )
+                                }
+                                Text(
+                                    text = "$start",
+                                    color = MaterialTheme.colorScheme.onSurface.copy(
+                                        alpha = 0.5f
+                                    ),
+                                    modifier = Modifier.padding(top = 16.dp),
+                                    lineHeight = 18.sp
+                                )
+                                Spacer(
+                                    modifier = Modifier.padding(
+                                        start = 4.dp,
+                                        top = 16.dp,
+                                        end = 20.dp
+                                    )
+                                )
+                            }
+                            Slider(
+                                enabled = !previewOnly,
+                                modifier = Modifier.padding(horizontal = 16.dp),
+                                value = animateFloatAsState(start).value,
+                                onValueChange = {
+                                    start = it.roundTo()
+                                    onFilterChange(start to end)
+                                },
+                                valueRange = filter.valueRange
+                            )
+                            Row(
+                                verticalAlignment = Alignment.CenterVertically
+                            ) {
+                                Row(Modifier.weight(1f)) {
+                                    Text(
+                                        text = stringResource(R.string.end),
+                                        modifier = Modifier
+                                            .padding(
+                                                top = 16.dp,
+                                                end = 16.dp,
+                                                start = 16.dp
+                                            )
+                                            .weight(1f)
+                                    )
+                                }
+                                Text(
+                                    text = "$end",
+                                    color = MaterialTheme.colorScheme.onSurface.copy(
+                                        alpha = 0.5f
+                                    ),
+                                    modifier = Modifier.padding(top = 16.dp),
+                                    lineHeight = 18.sp
+                                )
+                                Spacer(
+                                    modifier = Modifier.padding(
+                                        start = 4.dp,
+                                        top = 16.dp,
+                                        end = 20.dp
+                                    )
+                                )
+                            }
+                            Slider(
+                                enabled = !previewOnly,
+                                modifier = Modifier.padding(horizontal = 16.dp),
+                                value = animateFloatAsState(end).value,
+                                onValueChange = {
+                                    end = it.roundTo()
+                                    onFilterChange(start to end)
                                 },
                                 valueRange = filter.valueRange
                             )

@@ -69,6 +69,7 @@ import ru.tech.imageresizershrinker.utils.coil.filters.SharpenFilter
 import ru.tech.imageresizershrinker.utils.coil.filters.SobelEdgeDetectionFilter
 import ru.tech.imageresizershrinker.utils.coil.filters.SolarizeFilter
 import ru.tech.imageresizershrinker.utils.coil.filters.VibranceFilter
+import ru.tech.imageresizershrinker.utils.coil.filters.VignetteFilter
 import ru.tech.imageresizershrinker.utils.coil.filters.WhiteBalanceFilter
 import ru.tech.imageresizershrinker.widget.TitleItem
 import ru.tech.imageresizershrinker.widget.sheets.SimpleSheet
@@ -152,7 +153,7 @@ fun AddFiltersSheet(
                                             }
                                         )
                                     }
-                                    repeat(5) {
+                                    repeat(6) {
                                         PreferenceItem(title = "")
                                     }
                                 }
@@ -176,7 +177,7 @@ fun AddFiltersSheet(
                                             }
                                         )
                                     }
-                                    repeat(2) {
+                                    repeat(3) {
                                         PreferenceItem(title = "")
                                     }
                                 }
@@ -192,6 +193,7 @@ fun AddFiltersSheet(
                                         HalftoneFilter(context),
                                         EmbossFilter(context),
                                         LaplacianFilter(context),
+                                        VignetteFilter(context)
                                     ).forEach {
                                         PreferenceItem(
                                             title = stringResource(it.title),
@@ -218,7 +220,7 @@ fun AddFiltersSheet(
                                             }
                                         )
                                     }
-                                    repeat(7) {
+                                    repeat(8) {
                                         PreferenceItem(title = "")
                                     }
                                 }
