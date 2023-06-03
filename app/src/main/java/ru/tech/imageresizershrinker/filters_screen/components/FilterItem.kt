@@ -126,317 +126,323 @@ fun <T> FilterItem(
                     )
                 }
             }
-            if (filter.value is Color) {
-                Box(modifier = Modifier.padding(start = 16.dp, top = 16.dp, end = 16.dp)) {
-                    AlphaColorCustomComponent(
-                        color = (filter.value as Color).toArgb(),
-                        onColorChange = { c, alpha ->
-                            onFilterChange(Color(c).copy(alpha / 255f))
+            when (filter.value) {
+                is Color -> {
+                    Box(modifier = Modifier.padding(start = 16.dp, top = 16.dp, end = 16.dp)) {
+                        AlphaColorCustomComponent(
+                            color = (filter.value as Color).toArgb(),
+                            onColorChange = { c, alpha ->
+                                onFilterChange(Color(c).copy(alpha / 255f))
+                            }
+                        )
+                        if (previewOnly) {
+                            Box(
+                                Modifier
+                                    .matchParentSize()
+                                    .pointerInput(Unit) {
+                                        detectTapGestures { }
+                                    }
+                            )
                         }
-                    )
-                    if (previewOnly) {
-                        Box(
-                            Modifier
-                                .matchParentSize()
-                                .pointerInput(Unit) {
-                                    detectTapGestures { }
+                    }
+                }
+
+                !is Unit -> {
+                    when (filter) {
+                        is WhiteBalanceFilter -> {
+                            var temp by remember(filter) {
+                                mutableFloatStateOf(filter.value.first)
+                            }
+                            var tint by remember(filter) {
+                                mutableFloatStateOf(filter.value.second)
+                            }
+                            Spacer(Modifier.height(8.dp))
+                            Row(
+                                verticalAlignment = Alignment.CenterVertically
+                            ) {
+                                Row(Modifier.weight(1f)) {
+                                    Text(
+                                        text = stringResource(R.string.temperature),
+                                        modifier = Modifier
+                                            .padding(
+                                                top = 16.dp,
+                                                end = 16.dp,
+                                                start = 16.dp
+                                            )
+                                            .weight(1f)
+                                    )
                                 }
-                        )
+                                Text(
+                                    text = "$temp",
+                                    color = MaterialTheme.colorScheme.onSurface.copy(
+                                        alpha = 0.5f
+                                    ),
+                                    modifier = Modifier.padding(top = 16.dp),
+                                    lineHeight = 18.sp
+                                )
+                                Spacer(
+                                    modifier = Modifier.padding(
+                                        start = 4.dp,
+                                        top = 16.dp,
+                                        end = 20.dp
+                                    )
+                                )
+                            }
+                            Slider(
+                                enabled = !previewOnly,
+                                modifier = Modifier.padding(horizontal = 16.dp),
+                                value = animateFloatAsState(temp).value,
+                                onValueChange = {
+                                    temp = it.roundToInt().toFloat()
+                                    onFilterChange(temp to tint)
+                                },
+                                valueRange = filter.valueRange
+                            )
+                            Row(
+                                verticalAlignment = Alignment.CenterVertically
+                            ) {
+                                Row(Modifier.weight(1f)) {
+                                    Text(
+                                        text = stringResource(R.string.tint),
+                                        modifier = Modifier
+                                            .padding(
+                                                top = 16.dp,
+                                                end = 16.dp,
+                                                start = 16.dp
+                                            )
+                                            .weight(1f)
+                                    )
+                                }
+                                Text(
+                                    text = "$tint",
+                                    color = MaterialTheme.colorScheme.onSurface.copy(
+                                        alpha = 0.5f
+                                    ),
+                                    modifier = Modifier.padding(top = 16.dp),
+                                    lineHeight = 18.sp
+                                )
+                                Spacer(
+                                    modifier = Modifier.padding(
+                                        start = 4.dp,
+                                        top = 16.dp,
+                                        end = 20.dp
+                                    )
+                                )
+                            }
+                            Slider(
+                                enabled = !previewOnly,
+                                modifier = Modifier.padding(horizontal = 16.dp),
+                                value = animateFloatAsState(tint).value,
+                                onValueChange = {
+                                    tint = it.roundToInt().toFloat()
+                                    onFilterChange(temp to tint)
+                                },
+                                valueRange = -100f..100f
+                            )
+                        }
+
+                        is HighlightsAndShadowsFilter -> {
+                            var highs by remember(filter) {
+                                mutableFloatStateOf(filter.value.first)
+                            }
+                            var shadows by remember(filter) {
+                                mutableFloatStateOf(filter.value.second)
+                            }
+                            Spacer(Modifier.height(8.dp))
+                            Row(
+                                verticalAlignment = Alignment.CenterVertically
+                            ) {
+                                Row(Modifier.weight(1f)) {
+                                    Text(
+                                        text = stringResource(R.string.highlights),
+                                        modifier = Modifier
+                                            .padding(
+                                                top = 16.dp,
+                                                end = 16.dp,
+                                                start = 16.dp
+                                            )
+                                            .weight(1f)
+                                    )
+                                }
+                                Text(
+                                    text = "$highs",
+                                    color = MaterialTheme.colorScheme.onSurface.copy(
+                                        alpha = 0.5f
+                                    ),
+                                    modifier = Modifier.padding(top = 16.dp),
+                                    lineHeight = 18.sp
+                                )
+                                Spacer(
+                                    modifier = Modifier.padding(
+                                        start = 4.dp,
+                                        top = 16.dp,
+                                        end = 20.dp
+                                    )
+                                )
+                            }
+                            Slider(
+                                enabled = !previewOnly,
+                                modifier = Modifier.padding(horizontal = 16.dp),
+                                value = animateFloatAsState(highs).value,
+                                onValueChange = {
+                                    highs = it.roundToTwoDigits()
+                                    onFilterChange(highs to shadows)
+                                },
+                                valueRange = filter.valueRange
+                            )
+                            Row(
+                                verticalAlignment = Alignment.CenterVertically
+                            ) {
+                                Row(Modifier.weight(1f)) {
+                                    Text(
+                                        text = stringResource(R.string.shadows),
+                                        modifier = Modifier
+                                            .padding(
+                                                top = 16.dp,
+                                                end = 16.dp,
+                                                start = 16.dp
+                                            )
+                                            .weight(1f)
+                                    )
+                                }
+                                Text(
+                                    text = "$shadows",
+                                    color = MaterialTheme.colorScheme.onSurface.copy(
+                                        alpha = 0.5f
+                                    ),
+                                    modifier = Modifier.padding(top = 16.dp),
+                                    lineHeight = 18.sp
+                                )
+                                Spacer(
+                                    modifier = Modifier.padding(
+                                        start = 4.dp,
+                                        top = 16.dp,
+                                        end = 20.dp
+                                    )
+                                )
+                            }
+                            Slider(
+                                enabled = !previewOnly,
+                                modifier = Modifier.padding(horizontal = 16.dp),
+                                value = animateFloatAsState(shadows).value,
+                                onValueChange = {
+                                    shadows = it.roundToTwoDigits()
+                                    onFilterChange(highs to shadows)
+                                },
+                                valueRange = filter.valueRange
+                            )
+                        }
+
+                        is HazeFilter -> {
+                            var distance by remember(filter) {
+                                mutableFloatStateOf(filter.value.first)
+                            }
+                            var slope by remember(filter) {
+                                mutableFloatStateOf(filter.value.second)
+                            }
+                            Spacer(Modifier.height(8.dp))
+                            Row(
+                                verticalAlignment = Alignment.CenterVertically
+                            ) {
+                                Row(Modifier.weight(1f)) {
+                                    Text(
+                                        text = stringResource(R.string.distance),
+                                        modifier = Modifier
+                                            .padding(
+                                                top = 16.dp,
+                                                end = 16.dp,
+                                                start = 16.dp
+                                            )
+                                            .weight(1f)
+                                    )
+                                }
+                                Text(
+                                    text = "$distance",
+                                    color = MaterialTheme.colorScheme.onSurface.copy(
+                                        alpha = 0.5f
+                                    ),
+                                    modifier = Modifier.padding(top = 16.dp),
+                                    lineHeight = 18.sp
+                                )
+                                Spacer(
+                                    modifier = Modifier.padding(
+                                        start = 4.dp,
+                                        top = 16.dp,
+                                        end = 20.dp
+                                    )
+                                )
+                            }
+                            Slider(
+                                enabled = !previewOnly,
+                                modifier = Modifier.padding(horizontal = 16.dp),
+                                value = animateFloatAsState(distance).value,
+                                onValueChange = {
+                                    distance = it.roundToTwoDigits()
+                                    onFilterChange(distance to slope)
+                                },
+                                valueRange = filter.valueRange
+                            )
+                            Row(
+                                verticalAlignment = Alignment.CenterVertically
+                            ) {
+                                Row(Modifier.weight(1f)) {
+                                    Text(
+                                        text = stringResource(R.string.slope),
+                                        modifier = Modifier
+                                            .padding(
+                                                top = 16.dp,
+                                                end = 16.dp,
+                                                start = 16.dp
+                                            )
+                                            .weight(1f)
+                                    )
+                                }
+                                Text(
+                                    text = "$slope",
+                                    color = MaterialTheme.colorScheme.onSurface.copy(
+                                        alpha = 0.5f
+                                    ),
+                                    modifier = Modifier.padding(top = 16.dp),
+                                    lineHeight = 18.sp
+                                )
+                                Spacer(
+                                    modifier = Modifier.padding(
+                                        start = 4.dp,
+                                        top = 16.dp,
+                                        end = 20.dp
+                                    )
+                                )
+                            }
+                            Slider(
+                                enabled = !previewOnly,
+                                modifier = Modifier.padding(horizontal = 16.dp),
+                                value = animateFloatAsState(slope).value,
+                                onValueChange = {
+                                    slope = it.roundToTwoDigits()
+                                    onFilterChange(distance to slope)
+                                },
+                                valueRange = filter.valueRange
+                            )
+                        }
+
+                        else -> {
+                            Slider(
+                                enabled = !previewOnly,
+                                modifier = Modifier.padding(horizontal = 16.dp),
+                                value = animateFloatAsState(sliderValue).value,
+                                onValueChange = {
+                                    sliderValue = it.roundToTwoDigits()
+                                    onFilterChange(sliderValue)
+                                },
+                                valueRange = filter.valueRange
+                            )
+                        }
                     }
                 }
-            } else if (filter.value !is Unit) {
-                when (filter) {
-                    is WhiteBalanceFilter -> {
-                        var temp by remember(filter) {
-                            mutableFloatStateOf(filter.value.first)
-                        }
-                        var tint by remember(filter) {
-                            mutableFloatStateOf(filter.value.second)
-                        }
-                        Spacer(Modifier.height(8.dp))
-                        Row(
-                            verticalAlignment = Alignment.CenterVertically
-                        ) {
-                            Row(Modifier.weight(1f)) {
-                                Text(
-                                    text = stringResource(R.string.temperature),
-                                    modifier = Modifier
-                                        .padding(
-                                            top = 16.dp,
-                                            end = 16.dp,
-                                            start = 16.dp
-                                        )
-                                        .weight(1f)
-                                )
-                            }
-                            Text(
-                                text = "$temp",
-                                color = MaterialTheme.colorScheme.onSurface.copy(
-                                    alpha = 0.5f
-                                ),
-                                modifier = Modifier.padding(top = 16.dp),
-                                lineHeight = 18.sp
-                            )
-                            Spacer(
-                                modifier = Modifier.padding(
-                                    start = 4.dp,
-                                    top = 16.dp,
-                                    end = 20.dp
-                                )
-                            )
-                        }
-                        Slider(
-                            enabled = !previewOnly,
-                            modifier = Modifier.padding(horizontal = 16.dp),
-                            value = animateFloatAsState(temp).value,
-                            onValueChange = {
-                                temp = it.roundToInt().toFloat()
-                                onFilterChange(temp to tint)
-                            },
-                            valueRange = filter.valueRange
-                        )
-                        Row(
-                            verticalAlignment = Alignment.CenterVertically
-                        ) {
-                            Row(Modifier.weight(1f)) {
-                                Text(
-                                    text = stringResource(R.string.tint),
-                                    modifier = Modifier
-                                        .padding(
-                                            top = 16.dp,
-                                            end = 16.dp,
-                                            start = 16.dp
-                                        )
-                                        .weight(1f)
-                                )
-                            }
-                            Text(
-                                text = "$tint",
-                                color = MaterialTheme.colorScheme.onSurface.copy(
-                                    alpha = 0.5f
-                                ),
-                                modifier = Modifier.padding(top = 16.dp),
-                                lineHeight = 18.sp
-                            )
-                            Spacer(
-                                modifier = Modifier.padding(
-                                    start = 4.dp,
-                                    top = 16.dp,
-                                    end = 20.dp
-                                )
-                            )
-                        }
-                        Slider(
-                            enabled = !previewOnly,
-                            modifier = Modifier.padding(horizontal = 16.dp),
-                            value = animateFloatAsState(tint).value,
-                            onValueChange = {
-                                tint = it.roundToInt().toFloat()
-                                onFilterChange(temp to tint)
-                            },
-                            valueRange = -100f..100f
-                        )
-                    }
 
-                    is HighlightsAndShadowsFilter -> {
-                        var highs by remember(filter) {
-                            mutableFloatStateOf(filter.value.first)
-                        }
-                        var shadows by remember(filter) {
-                            mutableFloatStateOf(filter.value.second)
-                        }
-                        Spacer(Modifier.height(8.dp))
-                        Row(
-                            verticalAlignment = Alignment.CenterVertically
-                        ) {
-                            Row(Modifier.weight(1f)) {
-                                Text(
-                                    text = stringResource(R.string.highlights),
-                                    modifier = Modifier
-                                        .padding(
-                                            top = 16.dp,
-                                            end = 16.dp,
-                                            start = 16.dp
-                                        )
-                                        .weight(1f)
-                                )
-                            }
-                            Text(
-                                text = "$highs",
-                                color = MaterialTheme.colorScheme.onSurface.copy(
-                                    alpha = 0.5f
-                                ),
-                                modifier = Modifier.padding(top = 16.dp),
-                                lineHeight = 18.sp
-                            )
-                            Spacer(
-                                modifier = Modifier.padding(
-                                    start = 4.dp,
-                                    top = 16.dp,
-                                    end = 20.dp
-                                )
-                            )
-                        }
-                        Slider(
-                            enabled = !previewOnly,
-                            modifier = Modifier.padding(horizontal = 16.dp),
-                            value = animateFloatAsState(highs).value,
-                            onValueChange = {
-                                highs = it.roundToTwoDigits()
-                                onFilterChange(highs to shadows)
-                            },
-                            valueRange = filter.valueRange
-                        )
-                        Row(
-                            verticalAlignment = Alignment.CenterVertically
-                        ) {
-                            Row(Modifier.weight(1f)) {
-                                Text(
-                                    text = stringResource(R.string.shadows),
-                                    modifier = Modifier
-                                        .padding(
-                                            top = 16.dp,
-                                            end = 16.dp,
-                                            start = 16.dp
-                                        )
-                                        .weight(1f)
-                                )
-                            }
-                            Text(
-                                text = "$shadows",
-                                color = MaterialTheme.colorScheme.onSurface.copy(
-                                    alpha = 0.5f
-                                ),
-                                modifier = Modifier.padding(top = 16.dp),
-                                lineHeight = 18.sp
-                            )
-                            Spacer(
-                                modifier = Modifier.padding(
-                                    start = 4.dp,
-                                    top = 16.dp,
-                                    end = 20.dp
-                                )
-                            )
-                        }
-                        Slider(
-                            enabled = !previewOnly,
-                            modifier = Modifier.padding(horizontal = 16.dp),
-                            value = animateFloatAsState(shadows).value,
-                            onValueChange = {
-                                shadows = it.roundToTwoDigits()
-                                onFilterChange(highs to shadows)
-                            },
-                            valueRange = filter.valueRange
-                        )
-                    }
-
-                    is HazeFilter -> {
-                        var distance by remember(filter) {
-                            mutableFloatStateOf(filter.value.first)
-                        }
-                        var slope by remember(filter) {
-                            mutableFloatStateOf(filter.value.second)
-                        }
-                        Spacer(Modifier.height(8.dp))
-                        Row(
-                            verticalAlignment = Alignment.CenterVertically
-                        ) {
-                            Row(Modifier.weight(1f)) {
-                                Text(
-                                    text = stringResource(R.string.distance),
-                                    modifier = Modifier
-                                        .padding(
-                                            top = 16.dp,
-                                            end = 16.dp,
-                                            start = 16.dp
-                                        )
-                                        .weight(1f)
-                                )
-                            }
-                            Text(
-                                text = "$distance",
-                                color = MaterialTheme.colorScheme.onSurface.copy(
-                                    alpha = 0.5f
-                                ),
-                                modifier = Modifier.padding(top = 16.dp),
-                                lineHeight = 18.sp
-                            )
-                            Spacer(
-                                modifier = Modifier.padding(
-                                    start = 4.dp,
-                                    top = 16.dp,
-                                    end = 20.dp
-                                )
-                            )
-                        }
-                        Slider(
-                            enabled = !previewOnly,
-                            modifier = Modifier.padding(horizontal = 16.dp),
-                            value = animateFloatAsState(distance).value,
-                            onValueChange = {
-                                distance = it.roundToTwoDigits()
-                                onFilterChange(distance to slope)
-                            },
-                            valueRange = filter.valueRange
-                        )
-                        Row(
-                            verticalAlignment = Alignment.CenterVertically
-                        ) {
-                            Row(Modifier.weight(1f)) {
-                                Text(
-                                    text = stringResource(R.string.slope),
-                                    modifier = Modifier
-                                        .padding(
-                                            top = 16.dp,
-                                            end = 16.dp,
-                                            start = 16.dp
-                                        )
-                                        .weight(1f)
-                                )
-                            }
-                            Text(
-                                text = "$slope",
-                                color = MaterialTheme.colorScheme.onSurface.copy(
-                                    alpha = 0.5f
-                                ),
-                                modifier = Modifier.padding(top = 16.dp),
-                                lineHeight = 18.sp
-                            )
-                            Spacer(
-                                modifier = Modifier.padding(
-                                    start = 4.dp,
-                                    top = 16.dp,
-                                    end = 20.dp
-                                )
-                            )
-                        }
-                        Slider(
-                            enabled = !previewOnly,
-                            modifier = Modifier.padding(horizontal = 16.dp),
-                            value = animateFloatAsState(slope).value,
-                            onValueChange = {
-                                slope = it.roundToTwoDigits()
-                                onFilterChange(distance to slope)
-                            },
-                            valueRange = filter.valueRange
-                        )
-                    }
-
-                    else -> {
-                        Slider(
-                            enabled = !previewOnly,
-                            modifier = Modifier.padding(horizontal = 16.dp),
-                            value = animateFloatAsState(sliderValue).value,
-                            onValueChange = {
-                                sliderValue = it.roundToTwoDigits()
-                                onFilterChange(sliderValue)
-                            },
-                            valueRange = filter.valueRange
-                        )
-                    }
+                else -> {
+                    Spacer(modifier = Modifier.height(16.dp))
                 }
-            } else {
-                Spacer(modifier = Modifier.height(16.dp))
             }
         }
         if (filter.value !is Color && !previewOnly) {

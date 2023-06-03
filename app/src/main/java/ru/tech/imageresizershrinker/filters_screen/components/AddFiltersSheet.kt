@@ -129,8 +129,7 @@ fun AddFiltersSheet(
                                         HueFilter(context),
                                         ColorFilter(context),
                                         SaturationFilter(context),
-                                        VibranceFilter(context),
-                                        BlackAndWhiteFilter(context)
+                                        VibranceFilter(context)
                                     ).forEach {
                                         PreferenceItem(
                                             title = stringResource(it.title),
@@ -168,7 +167,8 @@ fun AddFiltersSheet(
                                         MonochromeFilter(context),
                                         SepiaFilter(context),
                                         NegativeFilter(context),
-                                        SolarizeFilter(context)
+                                        SolarizeFilter(context),
+                                        BlackAndWhiteFilter(context)
                                     ).forEach {
                                         PreferenceItem(
                                             title = stringResource(it.title),

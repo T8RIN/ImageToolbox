@@ -14,7 +14,7 @@ data class BlackAndWhiteFilter(
     override val value: Unit = Unit,
 ) : FilterTransformation<Unit>(
     context = context,
-    title = R.string.luminance,
+    title = R.string.black_and_white,
     value = value,
     valueRange = 0f..0f
 ) {
