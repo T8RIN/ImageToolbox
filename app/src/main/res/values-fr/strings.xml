@@ -231,4 +231,10 @@
     <string name="coming_soon">Bientôt disponible</string>
     <string name="limits_resize">Limites de redimensionnement</string>
     <string name="limits_resize_sub">Redimensionnez les images données pour suivre les limites de largeur et de hauteur données tout en préservant le rapport d\'aspect</string>
+    <string name="sketch">Esquisse</string>
+    <string name="threshold">Seuil</string>
+    <string name="quantizationLevels">Niveaux de quantification</string>
+    <string name="snooth_toon">Lisse cartoon</string>
+    <string name="toon">Dessin animé</string>
+    <string name="posterize">Postériser</string>
 </resources>
