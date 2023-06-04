@@ -7,6 +7,7 @@ import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.animateDpAsState
+import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.togetherWith
@@ -33,6 +34,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.ime
 import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.navigationBarsPadding
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -44,6 +46,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Share
 import androidx.compose.material.icons.rounded.AddPhotoAlternate
 import androidx.compose.material.icons.rounded.ArrowBack
+import androidx.compose.material.icons.rounded.ArrowDropDownCircle
 import androidx.compose.material.icons.rounded.Build
 import androidx.compose.material.icons.rounded.ChangeCircle
 import androidx.compose.material.icons.rounded.Compare
@@ -84,6 +87,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.clipToBounds
+import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.nestedscroll.nestedScroll
@@ -337,17 +341,19 @@ fun FiltersScreen(
     val imageInside =
         LocalConfiguration.current.orientation != Configuration.ORIENTATION_LANDSCAPE || LocalWindowSizeClass.current.widthSizeClass == WindowWidthSizeClass.Compact
 
-    var holding by remember { mutableStateOf(false) }
+    var imageHolding by remember { mutableStateOf(false) }
+
+    var imageCollapsed by rememberSaveable { mutableStateOf(false) }
 
     val imageBlock = @Composable {
         AnimatedContent(
             modifier = Modifier.pointerInput(Unit) {
                 detectTapGestures(
                     onPress = {
-                        holding = true
+                        imageHolding = true
                         tryAwaitRelease()
                         delay(1000)
-                        holding = false
+                        imageHolding = false
                     }
                 )
             },
@@ -547,8 +553,8 @@ fun FiltersScreen(
         val scrollBehavior =
             TopAppBarDefaults.exitUntilCollapsedScrollBehavior(state = topAppBarState)
 
-        LaunchedEffect(holding, showOriginal) {
-            if (holding || showOriginal) {
+        LaunchedEffect(imageHolding, showOriginal) {
+            if (imageHolding || showOriginal) {
                 while (topAppBarState.heightOffset > topAppBarState.heightOffsetLimit) {
                     topAppBarState.heightOffset -= 5f
                     delay(1)
@@ -744,7 +750,12 @@ fun FiltersScreen(
                                 Column(
                                     Modifier
                                         .fillMaxWidth()
-                                        .height(availableHeight(showOriginal || holding))
+                                        .height(
+                                            availableHeight(
+                                                expanded = showOriginal || imageHolding,
+                                                collapsed = imageCollapsed
+                                            )
+                                        )
                                         .background(MaterialTheme.colorScheme.surface.copy(alpha = 0.85f))
                                         .padding(20.dp),
                                     verticalArrangement = Arrangement.Center,
@@ -752,13 +763,35 @@ fun FiltersScreen(
                                 ) {
                                     imageBlock()
                                 }
-                                GradientEdge(
-                                    modifier = Modifier
-                                        .fillMaxWidth()
-                                        .height(16.dp),
-                                    startColor = MaterialTheme.colorScheme.surface.copy(alpha = 0.85f),
-                                    endColor = Color.Transparent
-                                )
+                                Box {
+                                    GradientEdge(
+                                        modifier = Modifier
+                                            .fillMaxWidth()
+                                            .height(16.dp),
+                                        startColor = MaterialTheme.colorScheme.surface.copy(alpha = 0.85f),
+                                        endColor = Color.Transparent
+                                    )
+                                    OutlinedIconButton(
+                                        border = BorderStroke(
+                                            settingsState.borderWidth,
+                                            MaterialTheme.colorScheme.outlineVariant()
+                                        ),
+                                        onClick = { imageCollapsed = !imageCollapsed },
+                                        modifier = Modifier
+                                            .align(
+                                                Alignment.BottomEnd
+                                            )
+                                            .offset(y = (-40).dp)
+                                    ) {
+                                        Icon(
+                                            imageVector = Icons.Rounded.ArrowDropDownCircle,
+                                            contentDescription = null,
+                                            modifier = Modifier.rotate(
+                                                animateFloatAsState(targetValue = if (imageCollapsed) 0f else 180f).value
+                                            )
+                                        )
+                                    }
+                                }
                             }
                         }
                         item {
