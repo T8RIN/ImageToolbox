@@ -53,6 +53,7 @@ import androidx.compose.material.icons.rounded.Person
 import androidx.compose.material.icons.rounded.Settings
 import androidx.compose.material.icons.rounded.TableRows
 import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.Badge
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -397,6 +398,12 @@ fun MainScreen(
                                 ) {
                                     Row(verticalAlignment = Alignment.CenterVertically) {
                                         Text(stringResource(R.string.app_name))
+                                        Badge(
+                                            content = { Text("${Screen.entries.size}") },
+                                            modifier = Modifier
+                                                .padding(horizontal = 2.dp)
+                                                .padding(bottom = 12.dp)
+                                        )
                                         Spacer(Modifier.width(12.dp))
                                         TopAppBarEmoji()
                                     }
