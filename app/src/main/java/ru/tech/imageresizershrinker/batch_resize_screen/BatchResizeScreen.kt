@@ -10,6 +10,7 @@ import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.LocalIndication
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.detectTapGestures
@@ -26,6 +27,7 @@ import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.ime
 import androidx.compose.foundation.layout.navigationBars
@@ -34,9 +36,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Share
 import androidx.compose.material.icons.rounded.AddPhotoAlternate
@@ -66,6 +66,7 @@ import androidx.compose.material3.OutlinedIconButton
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
@@ -80,6 +81,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.clipToBounds
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalConfiguration
@@ -115,6 +117,7 @@ import ru.tech.imageresizershrinker.utils.storage.LocalFileController
 import ru.tech.imageresizershrinker.utils.storage.Picker
 import ru.tech.imageresizershrinker.utils.storage.localImagePickerMode
 import ru.tech.imageresizershrinker.utils.storage.rememberImagePicker
+import ru.tech.imageresizershrinker.widget.GradientEdge
 import ru.tech.imageresizershrinker.widget.Loading
 import ru.tech.imageresizershrinker.widget.LoadingDialog
 import ru.tech.imageresizershrinker.widget.LocalToastHost
@@ -136,8 +139,9 @@ import ru.tech.imageresizershrinker.widget.sheets.ZoomModalSheet
 import ru.tech.imageresizershrinker.widget.text.Marquee
 import ru.tech.imageresizershrinker.widget.utils.LocalSettingsState
 import ru.tech.imageresizershrinker.widget.utils.LocalWindowSizeClass
+import ru.tech.imageresizershrinker.widget.utils.availableHeight
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
 @Composable
 fun BatchResizeScreen(
     uriState: List<Uri>?,
@@ -249,21 +253,22 @@ fun BatchResizeScreen(
     var showOriginal by rememberSaveable { mutableStateOf(false) }
     var showPickImageFromUrisDialog by rememberSaveable { mutableStateOf(false) }
 
-    val state = rememberLazyListState()
-
     val bitmapInfo = viewModel.bitmapInfo
 
     val imageInside =
         LocalConfiguration.current.orientation != Configuration.ORIENTATION_LANDSCAPE || LocalWindowSizeClass.current.widthSizeClass == WindowWidthSizeClass.Compact
 
+    var holding by remember { mutableStateOf(false) }
+
     val imageBlock = @Composable {
         AnimatedContent(
             modifier = Modifier.pointerInput(Unit) {
                 detectTapGestures(
-                    onTap = {
-                        if ((viewModel.uris?.size ?: 0) > 1) {
-                            showPickImageFromUrisDialog = true
-                        }
+                    onPress = {
+                        holding = true
+                        tryAwaitRelease()
+                        delay(1000)
+                        holding = false
                     }
                 )
             },
@@ -271,41 +276,6 @@ fun BatchResizeScreen(
             transitionSpec = { fadeIn() togetherWith fadeOut() }
         ) { (bmp, loading, showOrig) ->
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                viewModel.uris?.size?.takeIf { it > 1 && !viewModel.isLoading }?.let {
-                    Row(
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        Text(
-                            stringResource(R.string.images, it),
-                            Modifier
-                                .block()
-                                .padding(vertical = 4.dp, horizontal = 8.dp),
-                            color = MaterialTheme.colorScheme.onSurfaceVariant
-                        )
-                        OutlinedIconButton(
-                            onClick = {
-                                if ((viewModel.uris?.size ?: 0) > 1) {
-                                    showPickImageFromUrisDialog = true
-                                }
-                            },
-                            border = BorderStroke(
-                                settingsState.borderWidth,
-                                MaterialTheme.colorScheme.outlineVariant(
-                                    0.1f,
-                                    MaterialTheme.colorScheme.surfaceColorAtElevation(1.dp)
-                                ),
-                            ),
-                            shape = RoundedCornerShape(16.dp),
-                            colors = IconButtonDefaults.filledIconButtonColors(
-                                containerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(1.dp),
-                                contentColor = MaterialTheme.colorScheme.onSurfaceVariant
-                            )
-                        ) {
-                            Icon(Icons.Rounded.ChangeCircle, null)
-                        }
-                    }
-                    Spacer(Modifier.height(4.dp))
-                }
                 Box(
                     contentAlignment = Alignment.Center,
                     modifier = Modifier.then(
@@ -420,15 +390,8 @@ fun BatchResizeScreen(
                                         onPress = {
                                             val press = PressInteraction.Press(it)
                                             interactionSource.emit(press)
-                                            val pos =
-                                                state.firstVisibleItemIndex to state.firstVisibleItemScrollOffset
                                             if (viewModel.bitmap?.canShow() == true) {
                                                 showOriginal = true
-                                                delay(100)
-                                                state.animateScrollToItem(
-                                                    0,
-                                                    -10000
-                                                )
                                             }
                                             tryAwaitRelease()
                                             showOriginal = false
@@ -436,10 +399,6 @@ fun BatchResizeScreen(
                                                 PressInteraction.Release(
                                                     press
                                                 )
-                                            )
-                                            state.animateScrollToItem(
-                                                pos.first,
-                                                pos.second
                                             )
                                         }
                                     )
@@ -508,7 +467,17 @@ fun BatchResizeScreen(
         }
     }
 
-    val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
+    val topAppBarState = rememberTopAppBarState()
+    val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior(state = topAppBarState)
+
+    LaunchedEffect(holding, showOriginal) {
+        if (holding || showOriginal) {
+            while (topAppBarState.heightOffset > topAppBarState.heightOffsetLimit) {
+                topAppBarState.heightOffset -= 5f
+                delay(1)
+            }
+        }
+    }
 
     val showZoomSheet = rememberSaveable { mutableStateOf(false) }
 
@@ -668,11 +637,8 @@ fun BatchResizeScreen(
                                                 onPress = {
                                                     val press = PressInteraction.Press(it)
                                                     interactionSource.emit(press)
-                                                    val pos =
-                                                        state.firstVisibleItemIndex to state.firstVisibleItemScrollOffset
                                                     if (viewModel.bitmap?.canShow() == true) {
                                                         showOriginal = true
-                                                        delay(100)
                                                     }
                                                     tryAwaitRelease()
                                                     showOriginal = false
@@ -680,10 +646,6 @@ fun BatchResizeScreen(
                                                         PressInteraction.Release(
                                                             press
                                                         )
-                                                    )
-                                                    state.animateScrollToItem(
-                                                        pos.first,
-                                                        pos.second
                                                     )
                                                 }
                                             )
@@ -736,7 +698,6 @@ fun BatchResizeScreen(
                         )
                     }
                     LazyColumn(
-                        state = state,
                         contentPadding = PaddingValues(
                             bottom = WindowInsets
                                 .navigationBars
@@ -744,7 +705,7 @@ fun BatchResizeScreen(
                                 .calculateBottomPadding() + WindowInsets.ime
                                 .asPaddingValues()
                                 .calculateBottomPadding() + (if (!imageInside && viewModel.bitmap != null) 20.dp else 100.dp),
-                            top = 20.dp,
+                            top = if (viewModel.bitmap == null || !imageInside) 20.dp else 0.dp,
                             start = 20.dp,
                             end = 20.dp
                         ),
@@ -752,6 +713,28 @@ fun BatchResizeScreen(
                             .weight(1f)
                             .clipToBounds()
                     ) {
+                        if (imageInside && viewModel.bitmap != null) {
+                            stickyHeader {
+                                Column(
+                                    Modifier
+                                        .fillMaxWidth()
+                                        .height(availableHeight(showOriginal || holding))
+                                        .background(MaterialTheme.colorScheme.surface.copy(alpha = 0.85f))
+                                        .padding(20.dp),
+                                    verticalArrangement = Arrangement.Center,
+                                    horizontalAlignment = Alignment.CenterHorizontally
+                                ) {
+                                    imageBlock()
+                                }
+                                GradientEdge(
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .height(16.dp),
+                                    startColor = MaterialTheme.colorScheme.surface.copy(alpha = 0.85f),
+                                    endColor = Color.Transparent
+                                )
+                            }
+                        }
                         item {
                             Column(
                                 modifier = Modifier
@@ -760,9 +743,50 @@ fun BatchResizeScreen(
                                 verticalArrangement = Arrangement.Center,
                                 horizontalAlignment = Alignment.CenterHorizontally
                             ) {
-                                if (imageInside) imageBlock()
+                                if (imageInside && viewModel.bitmap == null) imageBlock()
                                 if (viewModel.bitmap != null) {
-                                    if (imageInside) Spacer(Modifier.size(20.dp))
+                                    viewModel.uris?.size?.takeIf { it > 1 && !viewModel.isLoading }
+                                        ?.let {
+                                            Row(
+                                                verticalAlignment = Alignment.CenterVertically
+                                            ) {
+                                                Text(
+                                                    stringResource(R.string.images, it),
+                                                    Modifier
+                                                        .block()
+                                                        .padding(
+                                                            vertical = 4.dp,
+                                                            horizontal = 8.dp
+                                                        ),
+                                                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                                                )
+                                                OutlinedIconButton(
+                                                    onClick = {
+                                                        if ((viewModel.uris?.size ?: 0) > 1) {
+                                                            showPickImageFromUrisDialog = true
+                                                        }
+                                                    },
+                                                    border = BorderStroke(
+                                                        settingsState.borderWidth,
+                                                        MaterialTheme.colorScheme.outlineVariant(
+                                                            0.1f,
+                                                            MaterialTheme.colorScheme.surfaceColorAtElevation(
+                                                                1.dp
+                                                            )
+                                                        ),
+                                                    ),
+                                                    colors = IconButtonDefaults.filledIconButtonColors(
+                                                        containerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(
+                                                            1.dp
+                                                        ),
+                                                        contentColor = MaterialTheme.colorScheme.onSurfaceVariant
+                                                    )
+                                                ) {
+                                                    Icon(Icons.Rounded.ChangeCircle, null)
+                                                }
+                                            }
+                                            Spacer(Modifier.height(8.dp))
+                                        }
                                     ImageTransformBar(
                                         onRotateLeft = viewModel::rotateLeft,
                                         onFlip = viewModel::flip,

@@ -688,7 +688,7 @@ fun <T> FilterItem(
                                     scale = it.roundTo()
                                     onFilterChange(scale to radius.toInt())
                                 },
-                                valueRange = 0f..1f
+                                valueRange = 0.01f..1f
                             )
                             Row(
                                 verticalAlignment = Alignment.CenterVertically

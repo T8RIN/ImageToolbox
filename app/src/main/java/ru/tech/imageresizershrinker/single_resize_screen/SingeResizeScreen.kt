@@ -38,7 +38,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
@@ -78,6 +77,7 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
@@ -93,6 +93,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.clipToBounds
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.asAndroidBitmap
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.input.nestedscroll.nestedScroll
@@ -136,6 +137,7 @@ import ru.tech.imageresizershrinker.utils.storage.LocalFileController
 import ru.tech.imageresizershrinker.utils.storage.Picker
 import ru.tech.imageresizershrinker.utils.storage.localImagePickerMode
 import ru.tech.imageresizershrinker.utils.storage.rememberImagePicker
+import ru.tech.imageresizershrinker.widget.GradientEdge
 import ru.tech.imageresizershrinker.widget.Loading
 import ru.tech.imageresizershrinker.widget.LoadingDialog
 import ru.tech.imageresizershrinker.widget.LocalToastHost
@@ -159,6 +161,7 @@ import ru.tech.imageresizershrinker.widget.text.Marquee
 import ru.tech.imageresizershrinker.widget.text.RoundedTextField
 import ru.tech.imageresizershrinker.widget.utils.LocalSettingsState
 import ru.tech.imageresizershrinker.widget.utils.LocalWindowSizeClass
+import ru.tech.imageresizershrinker.widget.utils.availableHeight
 
 @OptIn(
     ExperimentalMaterial3Api::class,
@@ -220,8 +223,6 @@ fun SingleResizeScreen(
     val showCropDialog = rememberSaveable { mutableStateOf(false) }
     var showExitDialog by rememberSaveable { mutableStateOf(false) }
 
-    val state = rememberLazyListState()
-
     val bitmapInfo = viewModel.bitmapInfo
     var map by remember(viewModel.exif) {
         mutableStateOf(viewModel.exif?.toMap())
@@ -281,11 +282,23 @@ fun SingleResizeScreen(
     val imageInside =
         LocalConfiguration.current.orientation != Configuration.ORIENTATION_LANDSCAPE || LocalWindowSizeClass.current.widthSizeClass == WindowWidthSizeClass.Compact
 
+    var holding by remember { mutableStateOf(false) }
+
     val imageBlock = @Composable {
 
         AnimatedContent(
             targetState = Triple(viewModel.previewBitmap, viewModel.isLoading, showOriginal),
-            transitionSpec = { fadeIn() togetherWith fadeOut() }
+            transitionSpec = { fadeIn() togetherWith fadeOut() },
+            modifier = Modifier.pointerInput(Unit) {
+                detectTapGestures(
+                    onPress = {
+                        holding = true
+                        tryAwaitRelease()
+                        delay(1000)
+                        holding = false
+                    }
+                )
+            },
         ) { (bmp, loading, showOrig) ->
             Box(
                 contentAlignment = Alignment.Center,
@@ -378,15 +391,8 @@ fun SingleResizeScreen(
                                         onPress = {
                                             val press = PressInteraction.Press(it)
                                             interactionSource.emit(press)
-                                            val pos =
-                                                state.firstVisibleItemIndex to state.firstVisibleItemScrollOffset
                                             if (viewModel.bitmap?.canShow() == true) {
                                                 showOriginal = true
-                                                delay(100)
-                                                state.animateScrollToItem(
-                                                    0,
-                                                    -10000
-                                                )
                                             }
                                             tryAwaitRelease()
                                             showOriginal = false
@@ -394,10 +400,6 @@ fun SingleResizeScreen(
                                                 PressInteraction.Release(
                                                     press
                                                 )
-                                            )
-                                            state.animateScrollToItem(
-                                                pos.first,
-                                                pos.second
                                             )
                                         }
                                     )
@@ -466,7 +468,17 @@ fun SingleResizeScreen(
         }
     }
 
-    val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
+    val topAppBarState = rememberTopAppBarState()
+    val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior(state = topAppBarState)
+
+    LaunchedEffect(holding, showOriginal) {
+        if (holding || showOriginal) {
+            while (topAppBarState.heightOffset > topAppBarState.heightOffsetLimit) {
+                topAppBarState.heightOffset -= 5f
+                delay(1)
+            }
+        }
+    }
 
     val showSheet = rememberSaveable { mutableStateOf(false) }
     val zoomButton = @Composable {
@@ -625,8 +637,6 @@ fun SingleResizeScreen(
                                                 onPress = {
                                                     val press = PressInteraction.Press(it)
                                                     interactionSource.emit(press)
-                                                    val pos =
-                                                        state.firstVisibleItemIndex to state.firstVisibleItemScrollOffset
                                                     if (viewModel.bitmap?.canShow() == true) {
                                                         showOriginal = true
                                                         delay(100)
@@ -637,10 +647,6 @@ fun SingleResizeScreen(
                                                         PressInteraction.Release(
                                                             press
                                                         )
-                                                    )
-                                                    state.animateScrollToItem(
-                                                        pos.first,
-                                                        pos.second
                                                     )
                                                 }
                                             )
@@ -686,7 +692,6 @@ fun SingleResizeScreen(
                         )
                     }
                     LazyColumn(
-                        state = state,
                         contentPadding = PaddingValues(
                             bottom = WindowInsets
                                 .navigationBars
@@ -694,7 +699,7 @@ fun SingleResizeScreen(
                                 .calculateBottomPadding() + WindowInsets.ime
                                 .asPaddingValues()
                                 .calculateBottomPadding() + (if (!imageInside && viewModel.bitmap != null) 20.dp else 100.dp),
-                            top = 20.dp,
+                            top = if (viewModel.bitmap == null || !imageInside) 20.dp else 0.dp,
                             start = 20.dp,
                             end = 20.dp
                         ),
@@ -702,6 +707,28 @@ fun SingleResizeScreen(
                             .weight(1f)
                             .clipToBounds()
                     ) {
+                        if (imageInside && viewModel.bitmap != null) {
+                            stickyHeader {
+                                Column(
+                                    Modifier
+                                        .fillMaxWidth()
+                                        .height(availableHeight(showOriginal || holding))
+                                        .background(MaterialTheme.colorScheme.surface.copy(alpha = 0.85f))
+                                        .padding(20.dp),
+                                    verticalArrangement = Arrangement.Center,
+                                    horizontalAlignment = Alignment.CenterHorizontally
+                                ) {
+                                    imageBlock()
+                                }
+                                GradientEdge(
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .height(16.dp),
+                                    startColor = MaterialTheme.colorScheme.surface.copy(alpha = 0.85f),
+                                    endColor = Color.Transparent
+                                )
+                            }
+                        }
                         item {
                             Column(
                                 modifier = Modifier
@@ -710,9 +737,8 @@ fun SingleResizeScreen(
                                 verticalArrangement = Arrangement.Center,
                                 horizontalAlignment = Alignment.CenterHorizontally
                             ) {
-                                if (imageInside) imageBlock()
+                                if (imageInside && viewModel.bitmap == null) imageBlock()
                                 if (viewModel.bitmap != null) {
-                                    if (imageInside) Spacer(Modifier.size(20.dp))
                                     ImageTransformBar(
                                         onEditExif = { showEditExifDialog.value = true },
                                         onCrop = { showCropDialog.value = true },

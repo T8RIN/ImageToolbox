@@ -11,6 +11,7 @@ import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.LocalIndication
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.detectTapGestures
@@ -37,7 +38,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -69,6 +69,7 @@ import androidx.compose.material3.OutlinedIconButton
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
@@ -84,6 +85,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalConfiguration
@@ -127,7 +129,7 @@ import ru.tech.imageresizershrinker.utils.storage.LocalFileController
 import ru.tech.imageresizershrinker.utils.storage.Picker
 import ru.tech.imageresizershrinker.utils.storage.localImagePickerMode
 import ru.tech.imageresizershrinker.utils.storage.rememberImagePicker
-import ru.tech.imageresizershrinker.widget.Loading
+import ru.tech.imageresizershrinker.widget.GradientEdge
 import ru.tech.imageresizershrinker.widget.LoadingDialog
 import ru.tech.imageresizershrinker.widget.LocalToastHost
 import ru.tech.imageresizershrinker.widget.TitleItem
@@ -143,8 +145,9 @@ import ru.tech.imageresizershrinker.widget.sheets.ZoomModalSheet
 import ru.tech.imageresizershrinker.widget.text.Marquee
 import ru.tech.imageresizershrinker.widget.utils.LocalSettingsState
 import ru.tech.imageresizershrinker.widget.utils.LocalWindowSizeClass
+import ru.tech.imageresizershrinker.widget.utils.availableHeight
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
 @Composable
 fun FiltersScreen(
     uriState: List<Uri>?,
@@ -331,19 +334,20 @@ fun FiltersScreen(
 
     var showOriginal by remember { mutableStateOf(false) }
 
-    val state = rememberLazyListState()
-
     val imageInside =
         LocalConfiguration.current.orientation != Configuration.ORIENTATION_LANDSCAPE || LocalWindowSizeClass.current.widthSizeClass == WindowWidthSizeClass.Compact
+
+    var holding by remember { mutableStateOf(false) }
 
     val imageBlock = @Composable {
         AnimatedContent(
             modifier = Modifier.pointerInput(Unit) {
                 detectTapGestures(
-                    onTap = {
-                        if ((viewModel.uris?.size ?: 0) > 1) {
-                            showPickImageFromUrisDialog = true
-                        }
+                    onPress = {
+                        holding = true
+                        tryAwaitRelease()
+                        delay(1000)
+                        holding = false
                     }
                 )
             },
@@ -351,41 +355,6 @@ fun FiltersScreen(
             transitionSpec = { fadeIn() togetherWith fadeOut() }
         ) { (loading, showOrig) ->
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                viewModel.uris?.size?.takeIf { it > 1 && !loading }?.let {
-                    Row(
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        Text(
-                            stringResource(R.string.images, it),
-                            Modifier
-                                .block()
-                                .padding(vertical = 4.dp, horizontal = 8.dp),
-                            color = MaterialTheme.colorScheme.onSurfaceVariant
-                        )
-                        OutlinedIconButton(
-                            onClick = {
-                                if ((viewModel.uris?.size ?: 0) > 1) {
-                                    showPickImageFromUrisDialog = true
-                                }
-                            },
-                            border = BorderStroke(
-                                settingsState.borderWidth,
-                                MaterialTheme.colorScheme.outlineVariant(
-                                    0.1f,
-                                    MaterialTheme.colorScheme.surfaceColorAtElevation(1.dp)
-                                ),
-                            ),
-                            shape = RoundedCornerShape(16.dp),
-                            colors = IconButtonDefaults.filledIconButtonColors(
-                                containerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(1.dp),
-                                contentColor = MaterialTheme.colorScheme.onSurfaceVariant
-                            )
-                        ) {
-                            Icon(Icons.Rounded.ChangeCircle, null)
-                        }
-                    }
-                    Spacer(Modifier.height(4.dp))
-                }
                 Box(
                     contentAlignment = Alignment.Center,
                     modifier = Modifier.then(
@@ -410,7 +379,6 @@ fun FiltersScreen(
                             )
                         }
                     }
-                    if (loading) Loading()
                 }
             }
         }
@@ -452,23 +420,15 @@ fun FiltersScreen(
                                         onPress = {
                                             val press = PressInteraction.Press(it)
                                             interactionSource.emit(press)
-                                            val pos =
-                                                state.firstVisibleItemIndex to state.firstVisibleItemScrollOffset
                                             if (viewModel.bitmap?.canShow() == true) {
                                                 showOriginal = true
-                                                delay(100)
                                             }
-                                            state.animateScrollToItem(0, -10000)
                                             tryAwaitRelease()
                                             showOriginal = false
                                             interactionSource.emit(
                                                 PressInteraction.Release(
                                                     press
                                                 )
-                                            )
-                                            state.animateScrollToItem(
-                                                pos.first,
-                                                pos.second
                                             )
                                         }
                                     )
@@ -583,7 +543,19 @@ fun FiltersScreen(
                 )
             }
     ) {
-        val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
+        val topAppBarState = rememberTopAppBarState()
+        val scrollBehavior =
+            TopAppBarDefaults.exitUntilCollapsedScrollBehavior(state = topAppBarState)
+
+        LaunchedEffect(holding, showOriginal) {
+            if (holding || showOriginal) {
+                while (topAppBarState.heightOffset > topAppBarState.heightOffsetLimit) {
+                    topAppBarState.heightOffset -= 5f
+                    delay(1)
+                }
+            }
+        }
+
         Box(
             Modifier
                 .fillMaxSize()
@@ -684,11 +656,8 @@ fun FiltersScreen(
                                             onPress = {
                                                 val press = PressInteraction.Press(it)
                                                 interactionSource.emit(press)
-                                                val pos =
-                                                    state.firstVisibleItemIndex to state.firstVisibleItemScrollOffset
                                                 if (viewModel.bitmap?.canShow() == true) {
                                                     showOriginal = true
-                                                    delay(100)
                                                 }
                                                 tryAwaitRelease()
                                                 showOriginal = false
@@ -696,10 +665,6 @@ fun FiltersScreen(
                                                     PressInteraction.Release(
                                                         press
                                                     )
-                                                )
-                                                state.animateScrollToItem(
-                                                    pos.first,
-                                                    pos.second
                                                 )
                                             }
                                         )
@@ -757,8 +722,8 @@ fun FiltersScreen(
                                 .background(MaterialTheme.colorScheme.surfaceVariant)
                         )
                     }
+
                     LazyColumn(
-                        state = state,
                         contentPadding = PaddingValues(
                             bottom = WindowInsets
                                 .navigationBars
@@ -766,7 +731,7 @@ fun FiltersScreen(
                                 .calculateBottomPadding() + WindowInsets.ime
                                 .asPaddingValues()
                                 .calculateBottomPadding() + (if (!imageInside && viewModel.bitmap != null) 20.dp else 100.dp),
-                            top = 20.dp,
+                            top = if (viewModel.bitmap == null || !imageInside) 20.dp else 0.dp,
                             start = 20.dp,
                             end = 20.dp
                         ),
@@ -774,6 +739,28 @@ fun FiltersScreen(
                             .weight(1f)
                             .clipToBounds()
                     ) {
+                        if (imageInside && viewModel.bitmap != null) {
+                            stickyHeader {
+                                Column(
+                                    Modifier
+                                        .fillMaxWidth()
+                                        .height(availableHeight(showOriginal || holding))
+                                        .background(MaterialTheme.colorScheme.surface.copy(alpha = 0.85f))
+                                        .padding(20.dp),
+                                    verticalArrangement = Arrangement.Center,
+                                    horizontalAlignment = Alignment.CenterHorizontally
+                                ) {
+                                    imageBlock()
+                                }
+                                GradientEdge(
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .height(16.dp),
+                                    startColor = MaterialTheme.colorScheme.surface.copy(alpha = 0.85f),
+                                    endColor = Color.Transparent
+                                )
+                            }
+                        }
                         item {
                             Column(
                                 modifier = Modifier
@@ -782,9 +769,46 @@ fun FiltersScreen(
                                 verticalArrangement = Arrangement.Center,
                                 horizontalAlignment = Alignment.CenterHorizontally
                             ) {
-                                if (imageInside) imageBlock()
+                                if (imageInside && viewModel.bitmap == null) imageBlock()
                                 if (viewModel.bitmap != null) {
-                                    if (imageInside) Spacer(Modifier.size(20.dp))
+                                    viewModel.uris?.size?.takeIf { it > 1 }?.let {
+                                        Row(
+                                            verticalAlignment = Alignment.CenterVertically
+                                        ) {
+                                            Text(
+                                                stringResource(R.string.images, it),
+                                                Modifier
+                                                    .block()
+                                                    .padding(vertical = 4.dp, horizontal = 8.dp),
+                                                color = MaterialTheme.colorScheme.onSurfaceVariant
+                                            )
+                                            OutlinedIconButton(
+                                                onClick = {
+                                                    if ((viewModel.uris?.size ?: 0) > 1) {
+                                                        showPickImageFromUrisDialog = true
+                                                    }
+                                                },
+                                                border = BorderStroke(
+                                                    settingsState.borderWidth,
+                                                    MaterialTheme.colorScheme.outlineVariant(
+                                                        0.1f,
+                                                        MaterialTheme.colorScheme.surfaceColorAtElevation(
+                                                            1.dp
+                                                        )
+                                                    ),
+                                                ),
+                                                colors = IconButtonDefaults.filledIconButtonColors(
+                                                    containerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(
+                                                        1.dp
+                                                    ),
+                                                    contentColor = MaterialTheme.colorScheme.onSurfaceVariant
+                                                )
+                                            ) {
+                                                Icon(Icons.Rounded.ChangeCircle, null)
+                                            }
+                                        }
+                                        Spacer(Modifier.height(8.dp))
+                                    }
                                     if (filterList.isNotEmpty()) {
                                         Column(Modifier.block(MaterialTheme.shapes.extraLarge)) {
                                             TitleItem(text = stringResource(R.string.filters))
