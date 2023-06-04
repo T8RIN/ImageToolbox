@@ -633,22 +633,43 @@ fun FiltersScreen(
                         }
                     },
                     actions = {
+                        if (viewModel.previewBitmap != null) {
+                            IconButton(
+                                onClick = {
+                                    showSaveLoading = true
+                                    context.shareBitmaps(
+                                        uris = viewModel.uris ?: emptyList(),
+                                        scope = viewModel.viewModelScope,
+                                        bitmapLoader = {
+                                            viewModel.proceedBitmap(
+                                                bitmapResult = kotlin.runCatching {
+                                                    context.getBitmapFromUriWithTransformations(
+                                                        uri = it,
+                                                        transformations = filterList
+                                                    )
+                                                }
+                                            )
+                                        },
+                                        onProgressChange = {
+                                            if (it == -1) {
+                                                showSaveLoading = false
+                                                viewModel.setProgress(0)
+                                                showConfetti()
+                                            } else {
+                                                viewModel.setProgress(it)
+                                            }
+                                        }
+                                    )
+                                },
+                                enabled = viewModel.canSave
+                            ) {
+                                Icon(Icons.Outlined.Share, null)
+                            }
+                        }
                         if (viewModel.bitmap == null) {
                             TopAppBarEmoji()
                         }
-                        if (viewModel.bitmap != null) {
-                            IconButton(
-                                onClick = { showFilterSheet.value = true }
-                            ) {
-                                Icon(Icons.Rounded.PhotoFilter, null)
-                            }
-                        }
                         if (viewModel.bitmap != null && !imageInside) {
-                            if (filterList.size >= 2) {
-                                IconButton(onClick = { showReorderSheet.value = true }) {
-                                    Icon(Icons.Rounded.Build, null)
-                                }
-                            }
                             compareButton()
                             zoomButton()
                             Box(
@@ -693,38 +714,24 @@ fun FiltersScreen(
                                         .padding(8.dp)
                                 )
                             }
+                            if (filterList.size >= 2) {
+                                IconButton(onClick = { showReorderSheet.value = true }) {
+                                    Icon(Icons.Rounded.Build, null)
+                                }
+                            }
                         }
-                        if (viewModel.previewBitmap != null) {
-                            IconButton(
-                                onClick = {
-                                    showSaveLoading = true
-                                    context.shareBitmaps(
-                                        uris = viewModel.uris ?: emptyList(),
-                                        scope = viewModel.viewModelScope,
-                                        bitmapLoader = {
-                                            viewModel.proceedBitmap(
-                                                bitmapResult = kotlin.runCatching {
-                                                    context.getBitmapFromUriWithTransformations(
-                                                        uri = it,
-                                                        transformations = filterList
-                                                    )
-                                                }
-                                            )
-                                        },
-                                        onProgressChange = {
-                                            if (it == -1) {
-                                                showSaveLoading = false
-                                                viewModel.setProgress(0)
-                                                showConfetti()
-                                            } else {
-                                                viewModel.setProgress(it)
-                                            }
-                                        }
+                        if (viewModel.bitmap != null && imageInside) {
+                            OutlinedIconButton(
+                                onClick = { showFilterSheet.value = true },
+                                colors = IconButtonDefaults.filledTonalIconButtonColors(),
+                                border = BorderStroke(
+                                    settingsState.borderWidth,
+                                    MaterialTheme.colorScheme.outlineVariant(
+                                        onTopOf = MaterialTheme.colorScheme.secondaryContainer
                                     )
-                                },
-                                enabled = viewModel.canSave
+                                ),
                             ) {
-                                Icon(Icons.Outlined.Share, null)
+                                Icon(Icons.Rounded.PhotoFilter, null)
                             }
                         }
                     }

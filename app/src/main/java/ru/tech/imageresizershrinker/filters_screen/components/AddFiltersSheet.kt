@@ -5,6 +5,8 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
@@ -101,45 +103,51 @@ fun AddFiltersSheet(
         sheetContent = {
             Box {
                 Column {
-                    ScrollableTabRow(
-                        edgePadding = 8.dp,
-                        containerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(2.dp),
-                        selectedTabIndex = pagerState.currentPage,
-                        indicator = { tabPositions ->
-                            if (pagerState.currentPage < tabPositions.size) {
-                                TabRowDefaults.PrimaryIndicator(
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.Center
+                    ) {
+                        ScrollableTabRow(
+                            divider = {},
+                            containerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(2.dp),
+                            selectedTabIndex = pagerState.currentPage,
+                            indicator = { tabPositions ->
+                                if (pagerState.currentPage < tabPositions.size) {
+                                    TabRowDefaults.PrimaryIndicator(
+                                        modifier = Modifier
+                                            .tabIndicatorOffset(tabPositions[pagerState.currentPage]),
+                                        width = 60.dp,
+                                        height = 4.dp,
+                                        shape = RoundedCornerShape(topStart = 100f, topEnd = 100f)
+                                    )
+                                }
+                            }
+                        ) {
+                            listOf(
+                                Icons.Rounded.FormatColorFill to stringResource(id = R.string.color),
+                                Icons.Rounded.Light to stringResource(R.string.light_aka_illumination),
+                                Icons.Rounded.Grain to stringResource(R.string.effect),
+                                Icons.Rounded.LensBlur to stringResource(R.string.blur),
+                                Icons.Rounded.Animation to stringResource(R.string.distortion)
+                            ).forEachIndexed { index, (icon, title) ->
+                                Tab(
+                                    unselectedContentColor = MaterialTheme.colorScheme.onSurface,
                                     modifier = Modifier
-                                        .tabIndicatorOffset(tabPositions[pagerState.currentPage]),
-                                    width = 60.dp,
-                                    height = 4.dp,
-                                    shape = RoundedCornerShape(topStart = 100f, topEnd = 100f)
+                                        .padding(8.dp)
+                                        .clip(CircleShape),
+                                    selected = pagerState.currentPage == index,
+                                    onClick = {
+                                        scope.launch {
+                                            pagerState.animateScrollToPage(index)
+                                        }
+                                    },
+                                    icon = { Icon(icon, null) },
+                                    text = { Text(title) }
                                 )
                             }
                         }
-                    ) {
-                        listOf(
-                            Icons.Rounded.FormatColorFill to stringResource(id = R.string.color),
-                            Icons.Rounded.Light to stringResource(R.string.light_aka_illumination),
-                            Icons.Rounded.Grain to stringResource(R.string.effect),
-                            Icons.Rounded.LensBlur to stringResource(R.string.blur),
-                            Icons.Rounded.Animation to stringResource(R.string.distortion)
-                        ).forEachIndexed { index, (icon, title) ->
-                            Tab(
-                                unselectedContentColor = MaterialTheme.colorScheme.onSurface,
-                                modifier = Modifier
-                                    .padding(8.dp)
-                                    .clip(CircleShape),
-                                selected = pagerState.currentPage == index,
-                                onClick = {
-                                    scope.launch {
-                                        pagerState.animateScrollToPage(index)
-                                    }
-                                },
-                                icon = { Icon(icon, null) },
-                                text = { Text(title) }
-                            )
-                        }
                     }
+                    Divider()
                     HorizontalPager(state = pagerState, beyondBoundsPageCount = 4) {
                         Column(
                             Modifier
@@ -193,7 +201,10 @@ fun AddFiltersSheet(
                                         )
                                     }
                                     repeat(2) {
-                                        PreferenceItem(title = "", subtitle = stringResource(id = R.string.coming_soon))
+                                        PreferenceItem(
+                                            title = "",
+                                            subtitle = stringResource(id = R.string.coming_soon)
+                                        )
                                     }
                                 }
 
@@ -238,7 +249,10 @@ fun AddFiltersSheet(
                                         )
                                     }
                                     repeat(6) {
-                                        PreferenceItem(title = "", subtitle = stringResource(id = R.string.coming_soon))
+                                        PreferenceItem(
+                                            title = "",
+                                            subtitle = stringResource(id = R.string.coming_soon)
+                                        )
                                     }
                                 }
 
@@ -259,14 +273,16 @@ fun AddFiltersSheet(
                                         )
                                     }
                                     repeat(6) {
-                                        PreferenceItem(title = "", subtitle = stringResource(id = R.string.coming_soon))
+                                        PreferenceItem(
+                                            title = "",
+                                            subtitle = stringResource(id = R.string.coming_soon)
+                                        )
                                     }
                                 }
                             }
                         }
                     }
                 }
-                Divider(Modifier.align(Alignment.TopCenter))
                 Divider(Modifier.align(Alignment.BottomCenter))
             }
         },
