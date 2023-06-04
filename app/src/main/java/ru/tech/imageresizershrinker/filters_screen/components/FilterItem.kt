@@ -1106,7 +1106,7 @@ fun <T> FilterItem(
                                         var string = ""
                                         it.forEachIndexed { index, float ->
                                             string += "$float, "
-                                            if(index % 4 == 3) string += "\n"
+                                            if (index % 4 == 3) string += "\n"
                                         }
                                         string.dropLast(3)
                                     }

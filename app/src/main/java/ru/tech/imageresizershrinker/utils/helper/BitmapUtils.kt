@@ -113,7 +113,7 @@ object BitmapUtils {
                     .Builder(this@decodeBitmapFromUri)
                     .data(uri)
                     .apply {
-                        if(originalSize) size(Size.ORIGINAL)
+                        if (originalSize) size(Size.ORIGINAL)
                     }
                     .target { drawable ->
                         drawable.toBitmap()?.let { onGetBitmap(it) }
@@ -774,7 +774,7 @@ object BitmapUtils {
             .data(bitmap)
             .transformations(transformations)
             .apply {
-                if(originalSize) size(Size.ORIGINAL)
+                if (originalSize) size(Size.ORIGINAL)
             }
             .build()
 
@@ -797,7 +797,7 @@ object BitmapUtils {
             .data(uri)
             .transformations(transformations)
             .apply {
-                if(originalSize) size(Size.ORIGINAL)
+                if (originalSize) size(Size.ORIGINAL)
             }
             .build()
 
@@ -824,7 +824,7 @@ object BitmapUtils {
             .data(uri)
             .transformations(transformations)
             .apply {
-                if(originalSize) size(Size.ORIGINAL)
+                if (originalSize) size(Size.ORIGINAL)
             }
             .build()
 
