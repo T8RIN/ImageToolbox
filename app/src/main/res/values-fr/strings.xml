@@ -214,4 +214,5 @@
     <string name="gaussian_blur">Flou Gaussien</string>
     <string name="box_blur">Flou encadré</string>
     <string name="bilaterial_blur">Flou bilatéral</string>
+    <string name="kuwahara">Lissage de Kuwahara</string>
 </resources>
