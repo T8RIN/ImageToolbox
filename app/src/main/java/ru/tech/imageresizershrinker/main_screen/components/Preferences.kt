@@ -8,6 +8,7 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.Margin
 import androidx.compose.material.icons.rounded.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
@@ -235,6 +236,24 @@ fun ComparePreference(
     )
 }
 
+@Composable
+fun LimitsPreference(
+    onClick: () -> Unit,
+    color: Color = MaterialTheme.colorScheme.surfaceColorAtElevation(1.dp),
+    @SuppressLint("ModifierParameter") modifier: Modifier = Modifier
+        .fillMaxWidth()
+        .padding(horizontal = 12.dp)
+) {
+    PreferenceItem(
+        onClick = onClick,
+        icon = Icons.Outlined.Margin,
+        title = stringResource(R.string.limits_resize),
+        subtitle = stringResource(R.string.limits_resize_sub),
+        color = color,
+        modifier = modifier
+    )
+}
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun PreferenceItem(
@@ -286,7 +305,7 @@ fun PreferenceItem(
                             .weight(1f)
                             .padding(end = 16.dp)
                     ) {
-                        if(title.isNotEmpty()) {
+                        if (title.isNotEmpty()) {
                             Text(
                                 text = title,
                                 fontSize = 16.sp,

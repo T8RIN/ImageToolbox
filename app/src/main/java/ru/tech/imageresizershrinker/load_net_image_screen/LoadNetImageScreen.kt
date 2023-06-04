@@ -92,7 +92,9 @@ import ru.tech.imageresizershrinker.load_net_image_screen.viewModel.LoadNetImage
 import ru.tech.imageresizershrinker.main_screen.components.BytesResizePreference
 import ru.tech.imageresizershrinker.main_screen.components.CropPreference
 import ru.tech.imageresizershrinker.main_screen.components.DeleteExifPreference
+import ru.tech.imageresizershrinker.main_screen.components.FilterPreference
 import ru.tech.imageresizershrinker.main_screen.components.GeneratePalettePreference
+import ru.tech.imageresizershrinker.main_screen.components.LimitsPreference
 import ru.tech.imageresizershrinker.main_screen.components.PickColorPreference
 import ru.tech.imageresizershrinker.main_screen.components.SingleResizePreference
 import ru.tech.imageresizershrinker.theme.CreateAlt
@@ -591,9 +593,9 @@ fun LoadNetImageScreen(
                         )
                     }
                     item {
-                        DeleteExifPreference(
+                        FilterPreference(
                             modifier = Modifier.fillMaxWidth(),
-                            onClick = { navigate(Screen.DeleteExif(listOf(viewModel.tempUri!!))) },
+                            onClick = { navigate(Screen.Filter(listOf(viewModel.tempUri!!))) },
                             color = color
                         )
                     }
@@ -615,6 +617,20 @@ fun LoadNetImageScreen(
                         GeneratePalettePreference(
                             modifier = Modifier.fillMaxWidth(),
                             onClick = { navigate(Screen.GeneratePalette(viewModel.tempUri)) },
+                            color = color
+                        )
+                    }
+                    item {
+                        LimitsPreference(
+                            modifier = Modifier.fillMaxWidth(),
+                            onClick = { navigate(Screen.LimitResize(listOf(viewModel.tempUri!!))) },
+                            color = color
+                        )
+                    }
+                    item {
+                        DeleteExifPreference(
+                            modifier = Modifier.fillMaxWidth(),
+                            onClick = { navigate(Screen.DeleteExif(listOf(viewModel.tempUri!!))) },
                             color = color
                         )
                     }

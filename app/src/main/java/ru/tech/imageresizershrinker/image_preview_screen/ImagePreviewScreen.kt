@@ -94,6 +94,7 @@ import ru.tech.imageresizershrinker.main_screen.components.CropPreference
 import ru.tech.imageresizershrinker.main_screen.components.DeleteExifPreference
 import ru.tech.imageresizershrinker.main_screen.components.FilterPreference
 import ru.tech.imageresizershrinker.main_screen.components.GeneratePalettePreference
+import ru.tech.imageresizershrinker.main_screen.components.LimitsPreference
 import ru.tech.imageresizershrinker.main_screen.components.PickColorPreference
 import ru.tech.imageresizershrinker.main_screen.components.SingleResizePreference
 import ru.tech.imageresizershrinker.theme.CreateAlt
@@ -580,6 +581,13 @@ fun ImagePreviewScreen(
                             DeleteExifPreference(
                                 modifier = Modifier.fillMaxWidth(),
                                 onClick = { navigate(Screen.DeleteExif(listOf(viewModel.selectedUri!!))) },
+                                color = color
+                            )
+                        }
+                        item {
+                            LimitsPreference(
+                                modifier = Modifier.fillMaxWidth(),
+                                onClick = { navigate(Screen.LimitResize(viewModel.uris)) },
                                 color = color
                             )
                         }

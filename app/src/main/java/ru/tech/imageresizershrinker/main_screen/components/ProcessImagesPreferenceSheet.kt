@@ -233,6 +233,13 @@ fun ProcessImagesPreferenceSheet(
                                 color = color
                             )
                         }
+                        item {
+                            LimitsPreference(
+                                modifier = Modifier.fillMaxWidth(),
+                                onClick = { navigate(Screen.LimitResize(uris)) },
+                                color = color
+                            )
+                        }
                     } else {
                         item {
                             BatchResizePreference(
@@ -290,6 +297,13 @@ fun ProcessImagesPreferenceSheet(
                                     color = color
                                 )
                             }
+                        }
+                        item {
+                            LimitsPreference(
+                                modifier = Modifier.fillMaxWidth(),
+                                onClick = { navigate(Screen.LimitResize(uris)) },
+                                color = color
+                            )
                         }
                         item {
                             DeleteExifPreference(

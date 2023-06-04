@@ -4,12 +4,12 @@ import android.net.Uri
 import android.os.Parcelable
 import androidx.annotation.StringRes
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.Margin
 import androidx.compose.material.icons.rounded.Colorize
 import androidx.compose.material.icons.rounded.Compare
 import androidx.compose.material.icons.rounded.Crop
 import androidx.compose.material.icons.rounded.Dataset
 import androidx.compose.material.icons.rounded.InsertDriveFile
-import androidx.compose.material.icons.rounded.Margin
 import androidx.compose.material.icons.rounded.Photo
 import androidx.compose.material.icons.rounded.PhotoFilter
 import androidx.compose.material.icons.rounded.PhotoLibrary
@@ -108,7 +108,7 @@ sealed class Screen(
 
     class LimitResize(val uris: List<Uri>? = null) : Screen(
         id = 11,
-        icon = Icons.Rounded.Margin,
+        icon = Icons.Outlined.Margin,
         title = R.string.limits_resize,
         subtitle = R.string.limits_resize_sub
     )
