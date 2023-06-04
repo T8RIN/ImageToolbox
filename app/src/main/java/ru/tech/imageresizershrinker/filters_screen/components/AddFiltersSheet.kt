@@ -193,7 +193,7 @@ fun AddFiltersSheet(
                                         )
                                     }
                                     repeat(2) {
-                                        PreferenceItem(title = "")
+                                        PreferenceItem(title = "", subtitle = stringResource(id = R.string.coming_soon))
                                     }
                                 }
 
@@ -238,7 +238,7 @@ fun AddFiltersSheet(
                                         )
                                     }
                                     repeat(6) {
-                                        PreferenceItem(title = "")
+                                        PreferenceItem(title = "", subtitle = stringResource(id = R.string.coming_soon))
                                     }
                                 }
 
@@ -259,7 +259,7 @@ fun AddFiltersSheet(
                                         )
                                     }
                                     repeat(6) {
-                                        PreferenceItem(title = "")
+                                        PreferenceItem(title = "", subtitle = stringResource(id = R.string.coming_soon))
                                     }
                                 }
                             }

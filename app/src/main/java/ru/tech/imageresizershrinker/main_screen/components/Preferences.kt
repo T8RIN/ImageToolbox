@@ -286,12 +286,14 @@ fun PreferenceItem(
                             .weight(1f)
                             .padding(end = 16.dp)
                     ) {
-                        Text(
-                            text = title,
-                            fontSize = 16.sp,
-                            fontWeight = FontWeight.Medium,
-                            lineHeight = 18.sp
-                        )
+                        if(title.isNotEmpty()) {
+                            Text(
+                                text = title,
+                                fontSize = 16.sp,
+                                fontWeight = FontWeight.Medium,
+                                lineHeight = 18.sp
+                            )
+                        }
                         AnimatedContent(
                             targetState = subtitle,
                             transitionSpec = { fadeIn() togetherWith fadeOut() }
