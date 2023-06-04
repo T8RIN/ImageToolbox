@@ -17,7 +17,7 @@ data class DummyBlurFilter(
     override val value: Pair<Float, Int> = 0.5f to 25,
 ) : FilterTransformation<Pair<Float, Int>>(
     context = context,
-    title = R.string.dummy_blur,
+    title = R.string.slow_blur,
     value = value,
     valueRange = 0f..100f
 ) {
