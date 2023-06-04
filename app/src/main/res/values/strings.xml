@@ -227,6 +227,7 @@
     <string name="vignette">Vignette</string>
     <string name="start">Start</string>
     <string name="end">End</string>
+    <string name="kuwahara">Kuwahara smoothing</string>
 
     <string-array name="fab_alignment_sub">
         <item>Start</item>

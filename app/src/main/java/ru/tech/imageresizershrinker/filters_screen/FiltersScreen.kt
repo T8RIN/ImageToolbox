@@ -172,6 +172,7 @@ fun FiltersScreen(
         viewModel.bitmap?.let {
             context.applyTransformations(
                 bitmap = it,
+                originalSize = false,
                 transformations = filterList,
                 onSuccess = viewModel::setFilteredPreview
             )
@@ -192,7 +193,11 @@ fun FiltersScreen(
                         viewModel.setBitmap(
                             loader = { it },
                             getPreview = {
-                                context.getBitmapFromUriWithTransformations(uri, filterList)
+                                context.getBitmapFromUriWithTransformations(
+                                    uri = uri,
+                                    transformations = filterList,
+                                    originalSize = false
+                                )
                             },
                             uri = uri
                         )
@@ -228,12 +233,17 @@ fun FiltersScreen(
                     uri = uris[0],
                     onGetMimeType = viewModel::setMime,
                     onGetExif = {},
+                    originalSize = false,
                     onGetBitmap = {
                         uris.firstOrNull()?.let { uri ->
                             viewModel.setBitmap(
                                 loader = { it },
                                 getPreview = {
-                                    context.getBitmapFromUriWithTransformations(uri, filterList)
+                                    context.getBitmapFromUriWithTransformations(
+                                        uri = uri,
+                                        transformations = filterList,
+                                        originalSize = false
+                                    )
                                 },
                                 uri = uri
                             )
@@ -694,8 +704,8 @@ fun FiltersScreen(
                                             viewModel.proceedBitmap(
                                                 bitmapResult = kotlin.runCatching {
                                                     context.getBitmapFromUriWithTransformations(
-                                                        it,
-                                                        filterList
+                                                        uri = it,
+                                                        transformations = filterList
                                                     )
                                                 }
                                             )
@@ -775,15 +785,15 @@ fun FiltersScreen(
                                                 verticalArrangement = Arrangement.spacedBy(8.dp),
                                                 modifier = Modifier.padding(8.dp)
                                             ) {
-                                                filterList.forEach { filter ->
+                                                filterList.forEachIndexed {index, filter ->
                                                     FilterItem(
                                                         filter = filter,
                                                         onFilterChange = {
-                                                            viewModel.updateFilter(filter, it)
+                                                            viewModel.updateFilter(value = it, index = index)
                                                         },
                                                         showDragHandle = false,
                                                         onRemove = {
-                                                            viewModel.removeFilter(filter)
+                                                            viewModel.removeFilterAtIndex(index)
                                                         }
                                                     )
                                                 }
@@ -880,7 +890,11 @@ fun FiltersScreen(
                                 context.getBitmapByUri(uri)
                             },
                             getPreview = {
-                                context.getBitmapFromUriWithTransformations(uri, filterList)
+                                context.getBitmapFromUriWithTransformations(
+                                    uri = uri,
+                                    transformations = filterList,
+                                    originalSize = false
+                                )
                             },
                             uri = uri
                         )
@@ -947,9 +961,7 @@ fun FiltersScreen(
                                     val tonalElevation by animateDpAsState(if (isDragging) 16.dp else 1.dp)
                                     FilterItem(
                                         filter = filter,
-                                        onFilterChange = {
-                                            viewModel.updateFilter(filter, it)
-                                        },
+                                        onFilterChange = {},
                                         modifier = Modifier
                                             .fillMaxWidth()
                                             .shadow(elevation, RoundedCornerShape(16.dp)),
@@ -958,9 +970,7 @@ fun FiltersScreen(
                                         ),
                                         previewOnly = true,
                                         showDragHandle = filterList.size >= 2,
-                                        onRemove = {
-                                            viewModel.removeFilter(filter)
-                                        }
+                                        onRemove = {}
                                     )
                                 }
                             }

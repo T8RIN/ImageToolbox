@@ -11,14 +11,12 @@ import androidx.exifinterface.media.ExifInterface
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import ru.tech.imageresizershrinker.utils.coil.filters.FilterTransformation
 import ru.tech.imageresizershrinker.utils.helper.BitmapInfo
-import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.canShow
 import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.copyTo
-import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.resizeBitmap
+import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.scaleUntilCanShow
 import ru.tech.imageresizershrinker.utils.helper.compressFormat
 import ru.tech.imageresizershrinker.utils.helper.extension
 import ru.tech.imageresizershrinker.utils.helper.mimeTypeInt
@@ -99,31 +97,11 @@ class FilterViewModel : ViewModel() {
     fun updateBitmap(bitmap: Bitmap?, preview: Bitmap? = null) {
         viewModelScope.launch {
             _isLoading.value = true
-            _bitmap.value = bitmap
-            var bmp: Bitmap?
-            withContext(Dispatchers.IO) {
-                bmp = if (bitmap?.canShow() == false) {
-                    bitmap.resizeBitmap(
-                        height_ = (bitmap.height * 0.9f).toInt(),
-                        width_ = (bitmap.width * 0.9f).toInt(),
-                        resize = 1
-                    )
-                } else bitmap
-
-                while (bmp?.canShow() == false) {
-                    bmp = bmp?.resizeBitmap(
-                        height_ = (bmp!!.height * 0.9f).toInt(),
-                        width_ = (bmp!!.width * 0.9f).toInt(),
-                        resize = 1
-                    )
-                }
-            }
-            _previewBitmap.value = preview ?: bmp
+            _bitmap.value = bitmap?.scaleUntilCanShow()
+            _previewBitmap.value = preview ?: _bitmap.value
             _isLoading.value = false
         }
     }
-
-    private var job: Job? = null
 
     fun setKeepExif(boolean: Boolean) {
         _keepExif.value = boolean
@@ -235,8 +213,10 @@ class FilterViewModel : ViewModel() {
         updateCanSave()
     }
 
-    fun removeFilter(filter: FilterTransformation<*>) {
-        _filterList.value = _filterList.value - filter
+    fun removeFilterAtIndex(index: Int) {
+        _filterList.value = _filterList.value.toMutableList().apply {
+            removeAt(index)
+        }
         updateCanSave()
     }
 
@@ -244,9 +224,8 @@ class FilterViewModel : ViewModel() {
         _previewBitmap.value = bitmap
     }
 
-    fun <T : Any> updateFilter(filter: FilterTransformation<*>, value: T) {
+    fun <T : Any> updateFilter(value: T, index: Int) {
         val list = _filterList.value.toMutableList()
-        val index = list.indexOf(filter)
         kotlin.runCatching {
             list[index] = list[index].copy(value)
             _filterList.value = list

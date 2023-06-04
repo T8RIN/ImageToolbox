@@ -2,23 +2,23 @@ package ru.tech.imageresizershrinker.utils.coil.filters
 
 import android.content.Context
 import jp.co.cyberagent.android.gpuimage.filter.GPUImageFilter
-import jp.co.cyberagent.android.gpuimage.filter.GPUImageHalftoneFilter
+import jp.co.cyberagent.android.gpuimage.filter.GPUImageKuwaharaFilter
 import kotlinx.parcelize.Parcelize
 import kotlinx.parcelize.RawValue
 import ru.tech.imageresizershrinker.R
 
 @Parcelize
-class HalftoneFilter(
+data class KuwaharaFilter(
     private val context: @RawValue Context,
-    override val value: Float = 0.005f,
+    override val value: Float = 3f,
 ) : FilterTransformation<Float>(
     context = context,
-    title = R.string.halftone,
+    title = R.string.kuwahara,
     value = value,
-    valueRange = 0.001f..0.2f
+    valueRange = 0f..10f
 ) {
     override val cacheKey: String
         get() = (value to context).hashCode().toString()
 
-    override fun createFilter(): GPUImageFilter = GPUImageHalftoneFilter(value)
+    override fun createFilter(): GPUImageFilter = GPUImageKuwaharaFilter(value.toInt())
 }

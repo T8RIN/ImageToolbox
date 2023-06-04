@@ -86,7 +86,10 @@ fun constructFilename(
     ).format(Date()) + "_${Random(Random.nextInt()).hashCode().toString().take(4)}"
     return "${prefix}_${
         if (fileParams.addSequenceNumber && saveTarget.sequenceNumber != null) {
-            saveTarget.sequenceNumber
+            SimpleDateFormat(
+                "yyyy-MM-dd_HH-mm_ss",
+                Locale.getDefault()
+            ).format(Date()) + "_" + saveTarget.sequenceNumber
         } else if (saveTarget.uri == Uri.EMPTY && fileParams.addSequenceNumber) {
             context.getString(R.string.sequence_num)
         } else {

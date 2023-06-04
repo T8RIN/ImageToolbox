@@ -60,6 +60,7 @@ import ru.tech.imageresizershrinker.utils.coil.filters.HalftoneFilter
 import ru.tech.imageresizershrinker.utils.coil.filters.HazeFilter
 import ru.tech.imageresizershrinker.utils.coil.filters.HighlightsAndShadowsFilter
 import ru.tech.imageresizershrinker.utils.coil.filters.HueFilter
+import ru.tech.imageresizershrinker.utils.coil.filters.KuwaharaFilter
 import ru.tech.imageresizershrinker.utils.coil.filters.LaplacianFilter
 import ru.tech.imageresizershrinker.utils.coil.filters.MonochromeFilter
 import ru.tech.imageresizershrinker.utils.coil.filters.NegativeFilter
@@ -154,7 +155,7 @@ fun AddFiltersSheet(
                                             }
                                         )
                                     }
-                                    repeat(6) {
+                                    repeat(7) {
                                         PreferenceItem(title = "")
                                     }
                                 }
@@ -179,7 +180,7 @@ fun AddFiltersSheet(
                                             }
                                         )
                                     }
-                                    repeat(3) {
+                                    repeat(4) {
                                         PreferenceItem(title = "")
                                     }
                                 }
@@ -196,7 +197,8 @@ fun AddFiltersSheet(
                                         HalftoneFilter(context),
                                         EmbossFilter(context),
                                         LaplacianFilter(context),
-                                        VignetteFilter(context)
+                                        VignetteFilter(context),
+                                        KuwaharaFilter(context)
                                     ).forEach {
                                         PreferenceItem(
                                             title = stringResource(it.title),
@@ -224,7 +226,7 @@ fun AddFiltersSheet(
                                             }
                                         )
                                     }
-                                    repeat(8) {
+                                    repeat(9) {
                                         PreferenceItem(title = "")
                                     }
                                 }

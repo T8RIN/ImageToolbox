@@ -41,6 +41,7 @@ import ru.tech.imageresizershrinker.utils.coil.filters.FilterTransformation
 import ru.tech.imageresizershrinker.utils.coil.filters.HalftoneFilter
 import ru.tech.imageresizershrinker.utils.coil.filters.HazeFilter
 import ru.tech.imageresizershrinker.utils.coil.filters.HighlightsAndShadowsFilter
+import ru.tech.imageresizershrinker.utils.coil.filters.KuwaharaFilter
 import ru.tech.imageresizershrinker.utils.coil.filters.VignetteFilter
 import ru.tech.imageresizershrinker.utils.coil.filters.WhiteBalanceFilter
 import ru.tech.imageresizershrinker.utils.modifier.block
@@ -111,7 +112,7 @@ fun <T> FilterItem(
                         }
                     }
                 }
-                if (filter.value is Float) {
+                if (filter.value is Number) {
                     Text(
                         text = "$sliderValue",
                         color = MaterialTheme.colorScheme.onSurface.copy(
@@ -607,6 +608,19 @@ fun <T> FilterItem(
                                 onValueChange = {
                                     end = it.roundTo()
                                     onFilterChange(start to end)
+                                },
+                                valueRange = filter.valueRange
+                            )
+                        }
+
+                        is KuwaharaFilter -> {
+                            Slider(
+                                enabled = !previewOnly,
+                                modifier = Modifier.padding(horizontal = 16.dp),
+                                value = animateFloatAsState(sliderValue).value,
+                                onValueChange = {
+                                    sliderValue = it.roundToInt().toFloat()
+                                    onFilterChange(sliderValue)
                                 },
                                 valueRange = filter.valueRange
                             )

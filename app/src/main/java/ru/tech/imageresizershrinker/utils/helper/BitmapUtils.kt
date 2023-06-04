@@ -22,6 +22,7 @@ import coil.decode.ImageDecoderDecoder
 import coil.decode.SvgDecoder
 import coil.imageLoader
 import coil.request.ImageRequest
+import coil.size.Size
 import coil.transform.Transformation
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -88,6 +89,7 @@ object BitmapUtils {
 
     fun Context.decodeBitmapFromUri(
         uri: Uri,
+        originalSize: Boolean = true,
         onGetBitmap: (Bitmap) -> Unit,
         onGetExif: (ExifInterface?) -> Unit,
         onGetMimeType: (Int) -> Unit,
@@ -109,7 +111,11 @@ object BitmapUtils {
             loader.enqueue(
                 ImageRequest
                     .Builder(this@decodeBitmapFromUri)
-                    .data(uri).target { drawable ->
+                    .data(uri)
+                    .apply {
+                        if(originalSize) size(Size.ORIGINAL)
+                    }
+                    .target { drawable ->
                         drawable.toBitmap()?.let { onGetBitmap(it) }
                     }.build()
             )
@@ -157,7 +163,9 @@ object BitmapUtils {
             loader.execute(
                 ImageRequest
                     .Builder(this@getBitmapByUri)
-                    .data(uri).build()
+                    .data(uri)
+                    .size(Size.ORIGINAL)
+                    .build()
             ).drawable?.toBitmap()
         }.getOrNull()
 
@@ -179,7 +187,9 @@ object BitmapUtils {
             loader.execute(
                 ImageRequest
                     .Builder(this@decodeBitmapFromUri)
-                    .data(uri).build()
+                    .data(uri)
+                    .size(Size.ORIGINAL)
+                    .build()
             ).drawable?.toBitmap()
         }.getOrNull() to exif
     }
@@ -202,7 +212,9 @@ object BitmapUtils {
             loader.execute(
                 ImageRequest
                     .Builder(this@decodeBitmapFromUriWithMime)
-                    .data(uri).build()
+                    .data(uri)
+                    .size(Size.ORIGINAL)
+                    .build()
             ).drawable?.toBitmap()
         }.getOrNull(), exif, mime.mimeTypeInt)
     }
@@ -657,7 +669,8 @@ object BitmapUtils {
             ImageRequest
                 .Builder(this@decodeSampledBitmapFromUri)
                 .size(reqWidth, reqHeight)
-                .data(uri).build()
+                .data(uri)
+                .build()
         ).drawable?.toBitmap()
     }
 
@@ -748,6 +761,7 @@ object BitmapUtils {
     fun Context.applyTransformations(
         bitmap: Bitmap,
         transformations: List<Transformation>,
+        originalSize: Boolean = true,
         onSuccess: (bitmap: Bitmap) -> Unit
     ) {
         val loader = imageLoader.newBuilder().components {
@@ -760,6 +774,9 @@ object BitmapUtils {
             .Builder(this)
             .data(bitmap)
             .transformations(transformations)
+            .apply {
+                if(originalSize) size(Size.ORIGINAL)
+            }
             .target { drawable ->
                 drawable.toBitmap()?.let { onSuccess(it) }
             }
@@ -770,7 +787,8 @@ object BitmapUtils {
 
     suspend fun Context.getBitmapFromUriWithTransformations(
         uri: Uri,
-        transformations: List<Transformation>
+        transformations: List<Transformation>,
+        originalSize: Boolean = true,
     ): Bitmap? {
         val loader = imageLoader.newBuilder().components {
             if (Build.VERSION.SDK_INT >= 28) add(ImageDecoderDecoder.Factory())
@@ -782,6 +800,9 @@ object BitmapUtils {
             .Builder(this)
             .data(uri)
             .transformations(transformations)
+            .apply {
+                if(originalSize) size(Size.ORIGINAL)
+            }
             .build()
 
         return loader.execute(request).drawable?.toBitmap()
@@ -789,7 +810,8 @@ object BitmapUtils {
 
     suspend fun Context.getBitmapFromUriWithTransformationsAndExif(
         uri: Uri,
-        transformations: List<Transformation>
+        transformations: List<Transformation>,
+        originalSize: Boolean = true,
     ): Pair<Bitmap?, ExifInterface?> {
         val fd = contentResolver.openFileDescriptor(uri, "r")
         val exif = fd?.fileDescriptor?.let { ExifInterface(it) }
@@ -805,6 +827,9 @@ object BitmapUtils {
             .Builder(this)
             .data(uri)
             .transformations(transformations)
+            .apply {
+                if(originalSize) size(Size.ORIGINAL)
+            }
             .build()
 
         return loader.execute(request).drawable?.toBitmap() to exif
