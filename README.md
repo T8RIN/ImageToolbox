@@ -69,7 +69,7 @@ Go to the [Releases](https://github.com/t8rin/imageresizer/releases/latest) and 
 
 # ✨ Features
 - Batch processing
-- Applying filter chains (More than 25 various filters)
+- Applying filter chains (More than 35 various filters)
 - Saving to any specific folder
 - EXIF metadata editing/deleting
 - Loading images from internet
