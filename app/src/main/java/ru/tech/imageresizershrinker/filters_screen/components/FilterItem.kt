@@ -37,7 +37,7 @@ import androidx.compose.ui.unit.sp
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.main_screen.components.AlphaColorCustomComponent
 import ru.tech.imageresizershrinker.utils.coil.filters.CrosshatchFilter
-import ru.tech.imageresizershrinker.utils.coil.filters.DummyBlurFilter
+import ru.tech.imageresizershrinker.utils.coil.filters.SlowBlurFilter
 import ru.tech.imageresizershrinker.utils.coil.filters.FilterTransformation
 import ru.tech.imageresizershrinker.utils.coil.filters.HalftoneFilter
 import ru.tech.imageresizershrinker.utils.coil.filters.HazeFilter
@@ -627,7 +627,7 @@ fun <T> FilterItem(
                             )
                         }
 
-                        is DummyBlurFilter -> {
+                        is SlowBlurFilter -> {
                             var scale by remember(filter) {
                                 mutableFloatStateOf(filter.value.first)
                             }

@@ -50,7 +50,7 @@ import ru.tech.imageresizershrinker.utils.coil.filters.BrightnessFilter
 import ru.tech.imageresizershrinker.utils.coil.filters.ColorFilter
 import ru.tech.imageresizershrinker.utils.coil.filters.ContrastFilter
 import ru.tech.imageresizershrinker.utils.coil.filters.CrosshatchFilter
-import ru.tech.imageresizershrinker.utils.coil.filters.DummyBlurFilter
+import ru.tech.imageresizershrinker.utils.coil.filters.SlowBlurFilter
 import ru.tech.imageresizershrinker.utils.coil.filters.EmbossFilter
 import ru.tech.imageresizershrinker.utils.coil.filters.ExposureFilter
 import ru.tech.imageresizershrinker.utils.coil.filters.FilterTransformation
@@ -217,7 +217,7 @@ fun AddFiltersSheet(
                                         GaussianBlurFilter(context),
                                         BoxBlurFilter(context),
                                         BilaterialBlurFilter(context),
-                                        DummyBlurFilter(context)
+                                        SlowBlurFilter(context)
                                     ).forEach {
                                         PreferenceItem(
                                             title = stringResource(it.title),

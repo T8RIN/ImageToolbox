@@ -786,11 +786,14 @@ fun FiltersScreen(
                                                 verticalArrangement = Arrangement.spacedBy(8.dp),
                                                 modifier = Modifier.padding(8.dp)
                                             ) {
-                                                filterList.forEachIndexed {index, filter ->
+                                                filterList.forEachIndexed { index, filter ->
                                                     FilterItem(
                                                         filter = filter,
                                                         onFilterChange = {
-                                                            viewModel.updateFilter(value = it, index = index)
+                                                            viewModel.updateFilter(
+                                                                value = it,
+                                                                index = index
+                                                            )
                                                         },
                                                         showDragHandle = false,
                                                         onRemove = {

@@ -12,7 +12,7 @@ import kotlin.math.abs
 import kotlin.math.roundToInt
 
 @Parcelize
-data class DummyBlurFilter(
+data class SlowBlurFilter(
     private val context: @RawValue Context,
     override val value: Pair<Float, Int> = 0.5f to 25,
 ) : FilterTransformation<Pair<Float, Int>>(
