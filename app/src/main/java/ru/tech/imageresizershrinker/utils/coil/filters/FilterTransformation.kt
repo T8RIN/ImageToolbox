@@ -29,11 +29,6 @@ sealed class FilterTransformation<T>(
             is WhiteBalanceFilter -> WhiteBalanceFilter(context, value as Pair<Float, Float>)
             is MonochromeFilter -> MonochromeFilter(context, value as Float)
             is GammaFilter -> GammaFilter(context, value as Float)
-            is HighlightsAndShadowsFilter -> HighlightsAndShadowsFilter(
-                context,
-                value as Pair<Float, Float>
-            )
-
             is HazeFilter -> HazeFilter(context, value as Pair<Float, Float>)
             is SepiaFilter -> SepiaFilter(context, value as Float)
             is SharpenFilter -> SharpenFilter(context, value as Float)
@@ -54,6 +49,25 @@ sealed class FilterTransformation<T>(
             is KuwaharaFilter -> KuwaharaFilter(context, value as Float)
             is SlowBlurFilter -> SlowBlurFilter(context, value as Pair<Float, Int>)
             is SwirlDistortionEffect -> SwirlDistortionEffect(context, value as Pair<Float, Float>)
+            is BulgeDistortionEffect -> BulgeDistortionEffect(context, value as Pair<Float, Float>)
+            is DilationFilter -> DilationFilter(context, value as Int)
+
+            is SphereRefractionFilter -> SphereRefractionFilter(
+                context,
+                value as Pair<Float, Float>
+            )
+
+            is GlassSphereRefractionFilter -> GlassSphereRefractionFilter(
+                context,
+                value as Pair<Float, Float>
+            )
+
+            is HighlightsAndShadowsFilter -> HighlightsAndShadowsFilter(
+                context,
+                value as Pair<Float, Float>
+            )
+
+            is ColorMatrixFilter -> ColorMatrixFilter(context, value as FloatArray)
         }
     }
 }

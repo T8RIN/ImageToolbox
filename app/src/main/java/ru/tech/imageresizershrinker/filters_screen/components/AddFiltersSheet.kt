@@ -48,16 +48,19 @@ import ru.tech.imageresizershrinker.utils.coil.filters.BilaterialBlurFilter
 import ru.tech.imageresizershrinker.utils.coil.filters.BlackAndWhiteFilter
 import ru.tech.imageresizershrinker.utils.coil.filters.BoxBlurFilter
 import ru.tech.imageresizershrinker.utils.coil.filters.BrightnessFilter
+import ru.tech.imageresizershrinker.utils.coil.filters.BulgeDistortionEffect
 import ru.tech.imageresizershrinker.utils.coil.filters.ColorFilter
+import ru.tech.imageresizershrinker.utils.coil.filters.ColorMatrixFilter
 import ru.tech.imageresizershrinker.utils.coil.filters.ContrastFilter
 import ru.tech.imageresizershrinker.utils.coil.filters.CrosshatchFilter
-import ru.tech.imageresizershrinker.utils.coil.filters.SlowBlurFilter
+import ru.tech.imageresizershrinker.utils.coil.filters.DilationFilter
 import ru.tech.imageresizershrinker.utils.coil.filters.EmbossFilter
 import ru.tech.imageresizershrinker.utils.coil.filters.ExposureFilter
 import ru.tech.imageresizershrinker.utils.coil.filters.FilterTransformation
 import ru.tech.imageresizershrinker.utils.coil.filters.GCAColorSpaceFilter
 import ru.tech.imageresizershrinker.utils.coil.filters.GammaFilter
 import ru.tech.imageresizershrinker.utils.coil.filters.GaussianBlurFilter
+import ru.tech.imageresizershrinker.utils.coil.filters.GlassSphereRefractionFilter
 import ru.tech.imageresizershrinker.utils.coil.filters.HalftoneFilter
 import ru.tech.imageresizershrinker.utils.coil.filters.HazeFilter
 import ru.tech.imageresizershrinker.utils.coil.filters.HighlightsAndShadowsFilter
@@ -69,8 +72,10 @@ import ru.tech.imageresizershrinker.utils.coil.filters.NegativeFilter
 import ru.tech.imageresizershrinker.utils.coil.filters.SaturationFilter
 import ru.tech.imageresizershrinker.utils.coil.filters.SepiaFilter
 import ru.tech.imageresizershrinker.utils.coil.filters.SharpenFilter
+import ru.tech.imageresizershrinker.utils.coil.filters.SlowBlurFilter
 import ru.tech.imageresizershrinker.utils.coil.filters.SobelEdgeDetectionFilter
 import ru.tech.imageresizershrinker.utils.coil.filters.SolarizeFilter
+import ru.tech.imageresizershrinker.utils.coil.filters.SphereRefractionFilter
 import ru.tech.imageresizershrinker.utils.coil.filters.SwirlDistortionEffect
 import ru.tech.imageresizershrinker.utils.coil.filters.VibranceFilter
 import ru.tech.imageresizershrinker.utils.coil.filters.VignetteFilter
@@ -148,7 +153,12 @@ fun AddFiltersSheet(
                                         ColorFilter(context),
                                         SaturationFilter(context),
                                         VibranceFilter(context),
-                                        GCAColorSpaceFilter(context)
+                                        GCAColorSpaceFilter(context),
+                                        MonochromeFilter(context),
+                                        SepiaFilter(context),
+                                        NegativeFilter(context),
+                                        BlackAndWhiteFilter(context),
+                                        ColorMatrixFilter(context)
                                     ).forEach {
                                         PreferenceItem(
                                             title = stringResource(it.title),
@@ -158,9 +168,6 @@ fun AddFiltersSheet(
                                                 onFilterPicked(it)
                                             }
                                         )
-                                    }
-                                    repeat(7) {
-                                        PreferenceItem(title = "")
                                     }
                                 }
 
@@ -184,7 +191,7 @@ fun AddFiltersSheet(
                                             }
                                         )
                                     }
-                                    repeat(4) {
+                                    repeat(2) {
                                         PreferenceItem(title = "")
                                     }
                                 }
@@ -192,17 +199,14 @@ fun AddFiltersSheet(
                                 2 -> {
                                     listOf(
                                         SharpenFilter(context),
-                                        MonochromeFilter(context),
-                                        SepiaFilter(context),
-                                        NegativeFilter(context),
-                                        BlackAndWhiteFilter(context),
                                         CrosshatchFilter(context),
                                         SobelEdgeDetectionFilter(context),
                                         HalftoneFilter(context),
                                         EmbossFilter(context),
                                         LaplacianFilter(context),
                                         VignetteFilter(context),
-                                        KuwaharaFilter(context)
+                                        KuwaharaFilter(context),
+                                        DilationFilter(context),
                                     ).forEach {
                                         PreferenceItem(
                                             title = stringResource(it.title),
@@ -212,6 +216,9 @@ fun AddFiltersSheet(
                                                 onFilterPicked(it)
                                             }
                                         )
+                                    }
+                                    repeat(1) {
+                                        PreferenceItem(title = "")
                                     }
                                 }
 
@@ -231,14 +238,17 @@ fun AddFiltersSheet(
                                             }
                                         )
                                     }
-                                    repeat(9) {
+                                    repeat(6) {
                                         PreferenceItem(title = "")
                                     }
                                 }
 
                                 4 -> {
                                     listOf(
-                                        SwirlDistortionEffect(context)
+                                        SwirlDistortionEffect(context),
+                                        BulgeDistortionEffect(context),
+                                        SphereRefractionFilter(context),
+                                        GlassSphereRefractionFilter(context)
                                     ).forEach {
                                         PreferenceItem(
                                             title = stringResource(it.title),
@@ -249,7 +259,7 @@ fun AddFiltersSheet(
                                             }
                                         )
                                     }
-                                    repeat(9) {
+                                    repeat(6) {
                                         PreferenceItem(title = "")
                                     }
                                 }

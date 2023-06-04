@@ -234,6 +234,13 @@
     <string name="distortion">Distortion</string>
     <string name="angle">Angle</string>
     <string name="swirl">Swirl</string>
+    <string name="bulge">Bulge</string>
+    <string name="dilation">Dilation</string>
+    <string name="sphere_refraction">Sphere refraction</string>
+    <string name="refractive_index">Refractive index</string>
+    <string name="glass_sphere_refraction">Glass sphere refraction</string>
+    <string name="color_matrix">Color matrix</string>
+    <string name="float_array_of" translatable="false">floatArrayOf(f, f, f)</string>
 
     <string-array name="fab_alignment_sub">
         <item>Start</item>

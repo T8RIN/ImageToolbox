@@ -11,7 +11,9 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.Done
 import androidx.compose.material.icons.rounded.DragHandle
 import androidx.compose.material.icons.rounded.RemoveCircle
 import androidx.compose.material3.Icon
@@ -22,7 +24,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -32,21 +36,28 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.main_screen.components.AlphaColorCustomComponent
+import ru.tech.imageresizershrinker.utils.coil.filters.BulgeDistortionEffect
+import ru.tech.imageresizershrinker.utils.coil.filters.ColorMatrixFilter
 import ru.tech.imageresizershrinker.utils.coil.filters.CrosshatchFilter
-import ru.tech.imageresizershrinker.utils.coil.filters.SlowBlurFilter
+import ru.tech.imageresizershrinker.utils.coil.filters.DilationFilter
 import ru.tech.imageresizershrinker.utils.coil.filters.FilterTransformation
+import ru.tech.imageresizershrinker.utils.coil.filters.GlassSphereRefractionFilter
 import ru.tech.imageresizershrinker.utils.coil.filters.HalftoneFilter
 import ru.tech.imageresizershrinker.utils.coil.filters.HazeFilter
 import ru.tech.imageresizershrinker.utils.coil.filters.HighlightsAndShadowsFilter
 import ru.tech.imageresizershrinker.utils.coil.filters.KuwaharaFilter
+import ru.tech.imageresizershrinker.utils.coil.filters.SlowBlurFilter
+import ru.tech.imageresizershrinker.utils.coil.filters.SphereRefractionFilter
 import ru.tech.imageresizershrinker.utils.coil.filters.SwirlDistortionEffect
 import ru.tech.imageresizershrinker.utils.coil.filters.VignetteFilter
 import ru.tech.imageresizershrinker.utils.coil.filters.WhiteBalanceFilter
 import ru.tech.imageresizershrinker.utils.modifier.block
+import ru.tech.imageresizershrinker.widget.text.RoundedTextField
 import ru.tech.imageresizershrinker.widget.utils.LocalSettingsState
 import kotlin.math.pow
 import kotlin.math.roundToInt
@@ -808,7 +819,356 @@ fun <T> FilterItem(
                                     angle = it.roundToInt().toFloat()
                                     onFilterChange(radius to angle)
                                 },
-                                valueRange = -360f..360f
+                                valueRange = -3f..3f
+                            )
+                        }
+
+                        is BulgeDistortionEffect -> {
+                            var radius by remember(filter) {
+                                mutableFloatStateOf(filter.value.first)
+                            }
+                            var scale by remember(filter) {
+                                mutableFloatStateOf(filter.value.second)
+                            }
+                            Spacer(Modifier.height(8.dp))
+                            Row(
+                                verticalAlignment = Alignment.CenterVertically
+                            ) {
+                                Row(Modifier.weight(1f)) {
+                                    Text(
+                                        text = stringResource(R.string.radius),
+                                        modifier = Modifier
+                                            .padding(
+                                                top = 16.dp,
+                                                end = 16.dp,
+                                                start = 16.dp
+                                            )
+                                            .weight(1f)
+                                    )
+                                }
+                                Text(
+                                    text = "$radius",
+                                    color = MaterialTheme.colorScheme.onSurface.copy(
+                                        alpha = 0.5f
+                                    ),
+                                    modifier = Modifier.padding(top = 16.dp),
+                                    lineHeight = 18.sp
+                                )
+                                Spacer(
+                                    modifier = Modifier.padding(
+                                        start = 4.dp,
+                                        top = 16.dp,
+                                        end = 20.dp
+                                    )
+                                )
+                            }
+                            Slider(
+                                enabled = !previewOnly,
+                                modifier = Modifier.padding(horizontal = 16.dp),
+                                value = animateFloatAsState(radius).value,
+                                onValueChange = {
+                                    radius = it.roundTo()
+                                    onFilterChange(radius to scale)
+                                },
+                                valueRange = 0f..1f
+                            )
+                            Row(
+                                verticalAlignment = Alignment.CenterVertically
+                            ) {
+                                Row(Modifier.weight(1f)) {
+                                    Text(
+                                        text = stringResource(R.string.scale),
+                                        modifier = Modifier
+                                            .padding(
+                                                top = 16.dp,
+                                                end = 16.dp,
+                                                start = 16.dp
+                                            )
+                                            .weight(1f)
+                                    )
+                                }
+                                Text(
+                                    text = "$scale",
+                                    color = MaterialTheme.colorScheme.onSurface.copy(
+                                        alpha = 0.5f
+                                    ),
+                                    modifier = Modifier.padding(top = 16.dp),
+                                    lineHeight = 18.sp
+                                )
+                                Spacer(
+                                    modifier = Modifier.padding(
+                                        start = 4.dp,
+                                        top = 16.dp,
+                                        end = 20.dp
+                                    )
+                                )
+                            }
+                            Slider(
+                                enabled = !previewOnly,
+                                modifier = Modifier.padding(horizontal = 16.dp),
+                                value = animateFloatAsState(scale).value,
+                                onValueChange = {
+                                    scale = it.roundTo()
+                                    onFilterChange(radius to scale)
+                                },
+                                valueRange = filter.valueRange
+                            )
+                        }
+
+                        is SphereRefractionFilter -> {
+                            var radius by remember(filter) {
+                                mutableFloatStateOf(filter.value.first)
+                            }
+                            var refractiveIndex by remember(filter) {
+                                mutableFloatStateOf(filter.value.second)
+                            }
+                            Spacer(Modifier.height(8.dp))
+                            Row(
+                                verticalAlignment = Alignment.CenterVertically
+                            ) {
+                                Row(Modifier.weight(1f)) {
+                                    Text(
+                                        text = stringResource(R.string.radius),
+                                        modifier = Modifier
+                                            .padding(
+                                                top = 16.dp,
+                                                end = 16.dp,
+                                                start = 16.dp
+                                            )
+                                            .weight(1f)
+                                    )
+                                }
+                                Text(
+                                    text = "$radius",
+                                    color = MaterialTheme.colorScheme.onSurface.copy(
+                                        alpha = 0.5f
+                                    ),
+                                    modifier = Modifier.padding(top = 16.dp),
+                                    lineHeight = 18.sp
+                                )
+                                Spacer(
+                                    modifier = Modifier.padding(
+                                        start = 4.dp,
+                                        top = 16.dp,
+                                        end = 20.dp
+                                    )
+                                )
+                            }
+                            Slider(
+                                enabled = !previewOnly,
+                                modifier = Modifier.padding(horizontal = 16.dp),
+                                value = animateFloatAsState(radius).value,
+                                onValueChange = {
+                                    radius = it.roundTo()
+                                    onFilterChange(radius to refractiveIndex)
+                                },
+                                valueRange = filter.valueRange
+                            )
+                            Row(
+                                verticalAlignment = Alignment.CenterVertically
+                            ) {
+                                Row(Modifier.weight(1f)) {
+                                    Text(
+                                        text = stringResource(R.string.refractive_index),
+                                        modifier = Modifier
+                                            .padding(
+                                                top = 16.dp,
+                                                end = 16.dp,
+                                                start = 16.dp
+                                            )
+                                            .weight(1f)
+                                    )
+                                }
+                                Text(
+                                    text = "$refractiveIndex",
+                                    color = MaterialTheme.colorScheme.onSurface.copy(
+                                        alpha = 0.5f
+                                    ),
+                                    modifier = Modifier.padding(top = 16.dp),
+                                    lineHeight = 18.sp
+                                )
+                                Spacer(
+                                    modifier = Modifier.padding(
+                                        start = 4.dp,
+                                        top = 16.dp,
+                                        end = 20.dp
+                                    )
+                                )
+                            }
+                            Slider(
+                                enabled = !previewOnly,
+                                modifier = Modifier.padding(horizontal = 16.dp),
+                                value = animateFloatAsState(refractiveIndex).value,
+                                onValueChange = {
+                                    refractiveIndex = it.roundTo()
+                                    onFilterChange(radius to refractiveIndex)
+                                },
+                                valueRange = filter.valueRange
+                            )
+                        }
+
+                        is GlassSphereRefractionFilter -> {
+                            var radius by remember(filter) {
+                                mutableFloatStateOf(filter.value.first)
+                            }
+                            var refractiveIndex by remember(filter) {
+                                mutableFloatStateOf(filter.value.second)
+                            }
+                            Spacer(Modifier.height(8.dp))
+                            Row(
+                                verticalAlignment = Alignment.CenterVertically
+                            ) {
+                                Row(Modifier.weight(1f)) {
+                                    Text(
+                                        text = stringResource(R.string.radius),
+                                        modifier = Modifier
+                                            .padding(
+                                                top = 16.dp,
+                                                end = 16.dp,
+                                                start = 16.dp
+                                            )
+                                            .weight(1f)
+                                    )
+                                }
+                                Text(
+                                    text = "$radius",
+                                    color = MaterialTheme.colorScheme.onSurface.copy(
+                                        alpha = 0.5f
+                                    ),
+                                    modifier = Modifier.padding(top = 16.dp),
+                                    lineHeight = 18.sp
+                                )
+                                Spacer(
+                                    modifier = Modifier.padding(
+                                        start = 4.dp,
+                                        top = 16.dp,
+                                        end = 20.dp
+                                    )
+                                )
+                            }
+                            Slider(
+                                enabled = !previewOnly,
+                                modifier = Modifier.padding(horizontal = 16.dp),
+                                value = animateFloatAsState(radius).value,
+                                onValueChange = {
+                                    radius = it.roundTo()
+                                    onFilterChange(radius to refractiveIndex)
+                                },
+                                valueRange = filter.valueRange
+                            )
+                            Row(
+                                verticalAlignment = Alignment.CenterVertically
+                            ) {
+                                Row(Modifier.weight(1f)) {
+                                    Text(
+                                        text = stringResource(R.string.refractive_index),
+                                        modifier = Modifier
+                                            .padding(
+                                                top = 16.dp,
+                                                end = 16.dp,
+                                                start = 16.dp
+                                            )
+                                            .weight(1f)
+                                    )
+                                }
+                                Text(
+                                    text = "$refractiveIndex",
+                                    color = MaterialTheme.colorScheme.onSurface.copy(
+                                        alpha = 0.5f
+                                    ),
+                                    modifier = Modifier.padding(top = 16.dp),
+                                    lineHeight = 18.sp
+                                )
+                                Spacer(
+                                    modifier = Modifier.padding(
+                                        start = 4.dp,
+                                        top = 16.dp,
+                                        end = 20.dp
+                                    )
+                                )
+                            }
+                            Slider(
+                                enabled = !previewOnly,
+                                modifier = Modifier.padding(horizontal = 16.dp),
+                                value = animateFloatAsState(refractiveIndex).value,
+                                onValueChange = {
+                                    refractiveIndex = it.roundTo()
+                                    onFilterChange(radius to refractiveIndex)
+                                },
+                                valueRange = filter.valueRange
+                            )
+                        }
+
+                        is ColorMatrixFilter -> {
+                            var text by rememberSaveable(filter) {
+                                mutableStateOf(
+                                    filter.value.let {
+                                        var string = ""
+                                        it.forEachIndexed { index, float ->
+                                            string += "$float, "
+                                            if(index % 4 == 3) string += "\n"
+                                        }
+                                        string.dropLast(3)
+                                    }
+                                )
+                            }
+                            RoundedTextField(
+                                enabled = !previewOnly,
+                                modifier = Modifier.padding(16.dp),
+                                singleLine = false,
+                                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                                onValueChange = { text = it },
+                                onLoseFocusTransformation = {
+                                    val matrix = floatArrayOf(
+                                        1.0f, 0.0f, 0.0f, 0.0f,
+                                        0.0f, 1.0f, 0.0f, 0.0f,
+                                        0.0f, 0.0f, 1.0f, 0.0f,
+                                        0.0f, 0.0f, 0.0f, 1.0f
+                                    )
+                                    split(", ").mapIndexed { index, num ->
+                                        num.toFloatOrNull()?.let {
+                                            matrix[index] = it
+                                        }
+                                    }
+                                    onFilterChange(matrix)
+                                    this
+                                },
+                                startIcon = {
+                                    IconButton(
+                                        onClick = {
+                                            val matrix = floatArrayOf(
+                                                1.0f, 0.0f, 0.0f, 0.0f,
+                                                0.0f, 1.0f, 0.0f, 0.0f,
+                                                0.0f, 0.0f, 1.0f, 0.0f,
+                                                0.0f, 0.0f, 0.0f, 1.0f
+                                            )
+                                            text.split(", ").mapIndexed { index, num ->
+                                                num.toFloatOrNull()?.let {
+                                                    matrix[index] = it
+                                                }
+                                            }
+                                            onFilterChange(matrix)
+                                        }
+                                    ) {
+                                        Icon(Icons.Rounded.Done, null)
+                                    }
+                                },
+                                value = text,
+                                label = { Text(stringResource(R.string.float_array_of)) }
+                            )
+                        }
+
+                        is DilationFilter -> {
+                            Slider(
+                                enabled = !previewOnly,
+                                modifier = Modifier.padding(horizontal = 16.dp),
+                                value = animateFloatAsState(sliderValue).value,
+                                onValueChange = {
+                                    sliderValue = it
+                                    onFilterChange(sliderValue.toInt())
+                                },
+                                steps = 2,
+                                valueRange = filter.valueRange
                             )
                         }
 
