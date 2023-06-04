@@ -52,6 +52,7 @@ sealed class FilterTransformation<T>(
             is LaplacianFilter -> LaplacianFilter(context)
             is VignetteFilter -> VignetteFilter(context, value as Pair<Float, Float>)
             is KuwaharaFilter -> KuwaharaFilter(context, value as Float)
+            is DummyBlurFilter -> DummyBlurFilter(context, value as Pair<Float, Int>)
         }
     }
 }

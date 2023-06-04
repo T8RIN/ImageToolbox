@@ -758,12 +758,11 @@ object BitmapUtils {
         }
     }
 
-    fun Context.applyTransformations(
+    suspend fun Context.applyTransformations(
         bitmap: Bitmap,
         transformations: List<Transformation>,
-        originalSize: Boolean = true,
-        onSuccess: (bitmap: Bitmap) -> Unit
-    ) {
+        originalSize: Boolean = true
+    ): Bitmap? {
         val loader = imageLoader.newBuilder().components {
             if (Build.VERSION.SDK_INT >= 28) add(ImageDecoderDecoder.Factory())
             else add(GifDecoder.Factory())
@@ -777,12 +776,9 @@ object BitmapUtils {
             .apply {
                 if(originalSize) size(Size.ORIGINAL)
             }
-            .target { drawable ->
-                drawable.toBitmap()?.let { onSuccess(it) }
-            }
             .build()
 
-        loader.enqueue(request)
+        return loader.execute(request).drawable?.toBitmap()
     }
 
     suspend fun Context.getBitmapFromUriWithTransformations(

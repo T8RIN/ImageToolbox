@@ -11,6 +11,7 @@ import androidx.exifinterface.media.ExifInterface
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import ru.tech.imageresizershrinker.utils.coil.filters.FilterTransformation
@@ -220,8 +221,15 @@ class FilterViewModel : ViewModel() {
         updateCanSave()
     }
 
-    fun setFilteredPreview(bitmap: Bitmap) {
-        _previewBitmap.value = bitmap
+    private var filterJob: Job? = null
+    fun setFilteredPreview(getBitmap: suspend () -> Bitmap?) {
+        filterJob?.cancel()
+        filterJob = viewModelScope.launch {
+            kotlinx.coroutines.delay(500)
+            _isLoading.value = true
+            _previewBitmap.value = getBitmap()
+            _isLoading.value = false
+        }
     }
 
     fun <T : Any> updateFilter(value: T, index: Int) {

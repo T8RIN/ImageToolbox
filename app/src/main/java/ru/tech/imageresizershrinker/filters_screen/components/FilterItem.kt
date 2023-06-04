@@ -37,6 +37,7 @@ import androidx.compose.ui.unit.sp
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.main_screen.components.AlphaColorCustomComponent
 import ru.tech.imageresizershrinker.utils.coil.filters.CrosshatchFilter
+import ru.tech.imageresizershrinker.utils.coil.filters.DummyBlurFilter
 import ru.tech.imageresizershrinker.utils.coil.filters.FilterTransformation
 import ru.tech.imageresizershrinker.utils.coil.filters.HalftoneFilter
 import ru.tech.imageresizershrinker.utils.coil.filters.HazeFilter
@@ -621,6 +622,98 @@ fun <T> FilterItem(
                                 onValueChange = {
                                     sliderValue = it.roundToInt().toFloat()
                                     onFilterChange(sliderValue)
+                                },
+                                valueRange = filter.valueRange
+                            )
+                        }
+
+                        is DummyBlurFilter -> {
+                            var scale by remember(filter) {
+                                mutableFloatStateOf(filter.value.first)
+                            }
+                            var radius by remember(filter) {
+                                mutableFloatStateOf(filter.value.second.toFloat())
+                            }
+                            Spacer(Modifier.height(8.dp))
+                            Row(
+                                verticalAlignment = Alignment.CenterVertically
+                            ) {
+                                Row(Modifier.weight(1f)) {
+                                    Text(
+                                        text = stringResource(R.string.scale),
+                                        modifier = Modifier
+                                            .padding(
+                                                top = 16.dp,
+                                                end = 16.dp,
+                                                start = 16.dp
+                                            )
+                                            .weight(1f)
+                                    )
+                                }
+                                Text(
+                                    text = "$scale",
+                                    color = MaterialTheme.colorScheme.onSurface.copy(
+                                        alpha = 0.5f
+                                    ),
+                                    modifier = Modifier.padding(top = 16.dp),
+                                    lineHeight = 18.sp
+                                )
+                                Spacer(
+                                    modifier = Modifier.padding(
+                                        start = 4.dp,
+                                        top = 16.dp,
+                                        end = 20.dp
+                                    )
+                                )
+                            }
+                            Slider(
+                                enabled = !previewOnly,
+                                modifier = Modifier.padding(horizontal = 16.dp),
+                                value = animateFloatAsState(scale).value,
+                                onValueChange = {
+                                    scale = it.roundTo()
+                                    onFilterChange(scale to radius.toInt())
+                                },
+                                valueRange = 0f..1f
+                            )
+                            Row(
+                                verticalAlignment = Alignment.CenterVertically
+                            ) {
+                                Row(Modifier.weight(1f)) {
+                                    Text(
+                                        text = stringResource(R.string.radius),
+                                        modifier = Modifier
+                                            .padding(
+                                                top = 16.dp,
+                                                end = 16.dp,
+                                                start = 16.dp
+                                            )
+                                            .weight(1f)
+                                    )
+                                }
+                                Text(
+                                    text = "$radius",
+                                    color = MaterialTheme.colorScheme.onSurface.copy(
+                                        alpha = 0.5f
+                                    ),
+                                    modifier = Modifier.padding(top = 16.dp),
+                                    lineHeight = 18.sp
+                                )
+                                Spacer(
+                                    modifier = Modifier.padding(
+                                        start = 4.dp,
+                                        top = 16.dp,
+                                        end = 20.dp
+                                    )
+                                )
+                            }
+                            Slider(
+                                enabled = !previewOnly,
+                                modifier = Modifier.padding(horizontal = 16.dp),
+                                value = animateFloatAsState(radius).value,
+                                onValueChange = {
+                                    radius = it.roundToInt().toFloat()
+                                    onFilterChange(scale to radius.toInt())
                                 },
                                 valueRange = filter.valueRange
                             )

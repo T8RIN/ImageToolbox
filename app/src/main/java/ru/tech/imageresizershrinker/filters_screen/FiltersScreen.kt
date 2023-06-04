@@ -170,12 +170,13 @@ fun FiltersScreen(
 
     LaunchedEffect(filterList) {
         viewModel.bitmap?.let {
-            context.applyTransformations(
-                bitmap = it,
-                originalSize = false,
-                transformations = filterList,
-                onSuccess = viewModel::setFilteredPreview
-            )
+            viewModel.setFilteredPreview {
+                context.applyTransformations(
+                    bitmap = it,
+                    originalSize = false,
+                    transformations = filterList
+                )
+            }
         }
     }
 
@@ -346,7 +347,7 @@ fun FiltersScreen(
                     }
                 )
             },
-            targetState = Pair(viewModel.isLoading, showOriginal),
+            targetState = viewModel.isLoading to showOriginal,
             transitionSpec = { fadeIn() togetherWith fadeOut() }
         ) { (loading, showOrig) ->
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
