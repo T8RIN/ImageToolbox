@@ -215,4 +215,10 @@
     <string name="box_blur">Flou encadré</string>
     <string name="bilaterial_blur">Flou bilatéral</string>
     <string name="kuwahara">Lissage de Kuwahara</string>
+    <string name="radius">Rayon</string>
+    <string name="scale">Échelle</string>
+    <string name="slow_blur">Flou lent</string>
+    <string name="angle">Angle</string>
+    <string name="swirl">Tourbillon</string>
+    <string name="distortion">Distorsion</string>
 </resources>
