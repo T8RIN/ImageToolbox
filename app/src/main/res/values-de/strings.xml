@@ -236,4 +236,8 @@
     <string name="quantizationLevels">Stärke des Effekts</string>
     <string name="limits_resize_sub">Bewahrt das Seitenverhältnis und passt die Bilder in das durch deine Werte vorgegebene Format ein.</string>
     <string name="snooth_toon">Geglätteter Cartoon</string>
+    <string name="limits_resize">Größenbegrenzung</string>
+    <string name="lookup">Lookup</string>
+    <string name="non_maximum_suppression">Nicht-maximale Unterdrückung</string>
+    <string name="weak_pixel_inclusion">Schwacher Pixel-Einschluss</string>
 </resources>
