@@ -221,4 +221,14 @@
     <string name="angle">Angle</string>
     <string name="swirl">Tourbillon</string>
     <string name="distortion">Distorsion</string>
+    <string name="dilation">Dilatation</string>
+    <string name="sphere_refraction">Réfraction de la sphère</string>
+    <string name="glass_sphere_refraction">Réfraction de la sphère en verre</string>
+    <string name="color_matrix">Matrice de couleur</string>
+    <string name="bulge">Bosse</string>
+    <string name="refractive_index">indice de réfraction</string>
+    <string name="opacity">Opacité</string>
+    <string name="coming_soon">Bientôt disponible</string>
+    <string name="limits_resize">Limites de redimensionnement</string>
+    <string name="limits_resize_sub">Redimensionnez les images données pour suivre les limites de largeur et de hauteur données tout en préservant le rapport d\'aspect</string>
 </resources>
