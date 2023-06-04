@@ -2,23 +2,23 @@ package ru.tech.imageresizershrinker.utils.coil.filters
 
 import android.content.Context
 import jp.co.cyberagent.android.gpuimage.filter.GPUImageFilter
-import jp.co.cyberagent.android.gpuimage.filter.GPUImageKuwaharaFilter
+import jp.co.cyberagent.android.gpuimage.filter.GPUImageSketchFilter
 import kotlinx.parcelize.Parcelize
 import kotlinx.parcelize.RawValue
 import ru.tech.imageresizershrinker.R
 
 @Parcelize
-data class KuwaharaFilter(
+data class SketchFilter(
     private val context: @RawValue Context,
-    override val value: Float = 3f,
-) : FilterTransformation<Float>(
+    override val value: Unit = Unit,
+) : FilterTransformation<Unit>(
     context = context,
-    title = R.string.kuwahara,
+    title = R.string.sketch,
     value = value,
-    valueRange = 0f..30f
+    valueRange = 0f..0f
 ) {
     override val cacheKey: String
         get() = (value to context).hashCode().toString()
 
-    override fun createFilter(): GPUImageFilter = GPUImageKuwaharaFilter(value.toInt())
+    override fun createFilter(): GPUImageFilter = GPUImageSketchFilter()
 }

@@ -72,14 +72,18 @@ import ru.tech.imageresizershrinker.utils.coil.filters.LaplacianFilter
 import ru.tech.imageresizershrinker.utils.coil.filters.MonochromeFilter
 import ru.tech.imageresizershrinker.utils.coil.filters.NegativeFilter
 import ru.tech.imageresizershrinker.utils.coil.filters.OpacityFilter
+import ru.tech.imageresizershrinker.utils.coil.filters.PosterizeFilter
 import ru.tech.imageresizershrinker.utils.coil.filters.SaturationFilter
 import ru.tech.imageresizershrinker.utils.coil.filters.SepiaFilter
 import ru.tech.imageresizershrinker.utils.coil.filters.SharpenFilter
+import ru.tech.imageresizershrinker.utils.coil.filters.SketchFilter
 import ru.tech.imageresizershrinker.utils.coil.filters.SlowBlurFilter
+import ru.tech.imageresizershrinker.utils.coil.filters.SmoothToonFilter
 import ru.tech.imageresizershrinker.utils.coil.filters.SobelEdgeDetectionFilter
 import ru.tech.imageresizershrinker.utils.coil.filters.SolarizeFilter
 import ru.tech.imageresizershrinker.utils.coil.filters.SphereRefractionFilter
 import ru.tech.imageresizershrinker.utils.coil.filters.SwirlDistortionEffect
+import ru.tech.imageresizershrinker.utils.coil.filters.ToonFilter
 import ru.tech.imageresizershrinker.utils.coil.filters.VibranceFilter
 import ru.tech.imageresizershrinker.utils.coil.filters.VignetteFilter
 import ru.tech.imageresizershrinker.utils.coil.filters.WhiteBalanceFilter
@@ -167,7 +171,8 @@ fun AddFiltersSheet(
                                         SepiaFilter(context),
                                         NegativeFilter(context),
                                         BlackAndWhiteFilter(context),
-                                        ColorMatrixFilter(context)
+                                        ColorMatrixFilter(context),
+                                        PosterizeFilter(context)
                                     ).forEach {
                                         PreferenceItem(
                                             title = stringResource(it.title),
@@ -176,6 +181,12 @@ fun AddFiltersSheet(
                                                 visible.value = false
                                                 onFilterPicked(it)
                                             }
+                                        )
+                                    }
+                                    repeat(2) {
+                                        PreferenceItem(
+                                            title = "",
+                                            subtitle = stringResource(id = R.string.coming_soon)
                                         )
                                     }
                                 }
@@ -200,7 +211,7 @@ fun AddFiltersSheet(
                                             }
                                         )
                                     }
-                                    repeat(2) {
+                                    repeat(5) {
                                         PreferenceItem(
                                             title = "",
                                             subtitle = stringResource(id = R.string.coming_soon)
@@ -219,7 +230,10 @@ fun AddFiltersSheet(
                                         VignetteFilter(context),
                                         KuwaharaFilter(context),
                                         DilationFilter(context),
-                                        OpacityFilter(context)
+                                        OpacityFilter(context),
+                                        ToonFilter(context),
+                                        SmoothToonFilter(context),
+                                        SketchFilter(context)
                                     ).forEach {
                                         PreferenceItem(
                                             title = stringResource(it.title),
@@ -248,7 +262,7 @@ fun AddFiltersSheet(
                                             }
                                         )
                                     }
-                                    repeat(6) {
+                                    repeat(9) {
                                         PreferenceItem(
                                             title = "",
                                             subtitle = stringResource(id = R.string.coming_soon)
@@ -272,7 +286,7 @@ fun AddFiltersSheet(
                                             }
                                         )
                                     }
-                                    repeat(6) {
+                                    repeat(9) {
                                         PreferenceItem(
                                             title = "",
                                             subtitle = stringResource(id = R.string.coming_soon)

@@ -69,6 +69,10 @@ sealed class FilterTransformation<T>(
 
             is ColorMatrixFilter -> ColorMatrixFilter(context, value as FloatArray)
             is OpacityFilter -> OpacityFilter(context, value as Float)
+            is SketchFilter -> SketchFilter(context)
+            is ToonFilter -> ToonFilter(context)
+            is PosterizeFilter -> PosterizeFilter(context, value as Int)
+            is SmoothToonFilter -> SmoothToonFilter(context)
         }
     }
 }
