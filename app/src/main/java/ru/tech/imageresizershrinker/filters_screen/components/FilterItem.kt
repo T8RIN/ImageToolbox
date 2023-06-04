@@ -1169,7 +1169,7 @@ fun <T> FilterItem(
                                     sliderValue = it.roundToInt().toFloat()
                                 },
                                 onValueChangeFinished = {
-                                    onFilterChange(sliderValue.toInt())
+                                    onFilterChange(sliderValue)
                                 },
                                 steps = 2,
                                 valueRange = filter.valueRange
@@ -1277,9 +1277,9 @@ fun <T> FilterItem(
                                     sliderValue = it.roundToInt().toFloat()
                                 },
                                 onValueChangeFinished = {
-                                    onFilterChange(sliderValue.toInt())
+                                    onFilterChange(sliderValue)
                                 },
-                                steps = 62,
+                                steps = 254,
                                 valueRange = filter.valueRange
                             )
                         }

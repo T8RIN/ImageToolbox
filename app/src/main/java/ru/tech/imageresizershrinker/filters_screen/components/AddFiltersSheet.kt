@@ -171,8 +171,7 @@ fun AddFiltersSheet(
                                         SepiaFilter(context),
                                         NegativeFilter(context),
                                         BlackAndWhiteFilter(context),
-                                        ColorMatrixFilter(context),
-                                        PosterizeFilter(context)
+                                        ColorMatrixFilter(context)
                                     ).forEach {
                                         PreferenceItem(
                                             title = stringResource(it.title),
@@ -181,12 +180,6 @@ fun AddFiltersSheet(
                                                 visible.value = false
                                                 onFilterPicked(it)
                                             }
-                                        )
-                                    }
-                                    repeat(2) {
-                                        PreferenceItem(
-                                            title = "",
-                                            subtitle = stringResource(id = R.string.coming_soon)
                                         )
                                     }
                                 }
@@ -211,12 +204,6 @@ fun AddFiltersSheet(
                                             }
                                         )
                                     }
-                                    repeat(5) {
-                                        PreferenceItem(
-                                            title = "",
-                                            subtitle = stringResource(id = R.string.coming_soon)
-                                        )
-                                    }
                                 }
 
                                 2 -> {
@@ -233,7 +220,8 @@ fun AddFiltersSheet(
                                         OpacityFilter(context),
                                         ToonFilter(context),
                                         SmoothToonFilter(context),
-                                        SketchFilter(context)
+                                        SketchFilter(context),
+                                        PosterizeFilter(context)
                                     ).forEach {
                                         PreferenceItem(
                                             title = stringResource(it.title),
@@ -262,12 +250,6 @@ fun AddFiltersSheet(
                                             }
                                         )
                                     }
-                                    repeat(9) {
-                                        PreferenceItem(
-                                            title = "",
-                                            subtitle = stringResource(id = R.string.coming_soon)
-                                        )
-                                    }
                                 }
 
                                 4 -> {
@@ -284,12 +266,6 @@ fun AddFiltersSheet(
                                                 visible.value = false
                                                 onFilterPicked(it)
                                             }
-                                        )
-                                    }
-                                    repeat(9) {
-                                        PreferenceItem(
-                                            title = "",
-                                            subtitle = stringResource(id = R.string.coming_soon)
                                         )
                                     }
                                 }

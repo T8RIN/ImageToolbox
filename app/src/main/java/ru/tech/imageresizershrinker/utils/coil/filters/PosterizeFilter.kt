@@ -11,15 +11,15 @@ import ru.tech.imageresizershrinker.R
 @Parcelize
 data class PosterizeFilter(
     private val context: @RawValue Context,
-    override val value: Int = 10,
-) : FilterTransformation<Int>(
+    override val value: Float = 10f,
+) : FilterTransformation<Float>(
     context = context,
     title = R.string.posterize,
     value = value,
-    valueRange = 1f..64f
+    valueRange = 1f..256f
 ) {
     override val cacheKey: String
         get() = (value to context).hashCode().toString()
 
-    override fun createFilter(): GPUImageFilter = GPUImagePosterizeFilter(value)
+    override fun createFilter(): GPUImageFilter = GPUImagePosterizeFilter(value.toInt())
 }

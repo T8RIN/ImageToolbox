@@ -10,8 +10,8 @@ import ru.tech.imageresizershrinker.R
 @Parcelize
 data class DilationFilter(
     private val context: @RawValue Context,
-    override val value: Int = 1,
-) : FilterTransformation<Int>(
+    override val value: Float = 1f,
+) : FilterTransformation<Float>(
     context = context,
     title = R.string.dilation,
     value = value,
@@ -20,5 +20,5 @@ data class DilationFilter(
     override val cacheKey: String
         get() = (value to context).hashCode().toString()
 
-    override fun createFilter(): GPUImageFilter = GPUImageDilationFilter(value)
+    override fun createFilter(): GPUImageFilter = GPUImageDilationFilter(value.toInt())
 }

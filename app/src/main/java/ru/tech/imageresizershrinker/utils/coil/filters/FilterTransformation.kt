@@ -50,7 +50,7 @@ sealed class FilterTransformation<T>(
             is SlowBlurFilter -> SlowBlurFilter(context, value as Pair<Float, Int>)
             is SwirlDistortionEffect -> SwirlDistortionEffect(context, value as Pair<Float, Float>)
             is BulgeDistortionEffect -> BulgeDistortionEffect(context, value as Pair<Float, Float>)
-            is DilationFilter -> DilationFilter(context, value as Int)
+            is DilationFilter -> DilationFilter(context, value as Float)
 
             is SphereRefractionFilter -> SphereRefractionFilter(
                 context,
@@ -71,7 +71,7 @@ sealed class FilterTransformation<T>(
             is OpacityFilter -> OpacityFilter(context, value as Float)
             is SketchFilter -> SketchFilter(context)
             is ToonFilter -> ToonFilter(context)
-            is PosterizeFilter -> PosterizeFilter(context, value as Int)
+            is PosterizeFilter -> PosterizeFilter(context, value as Float)
             is SmoothToonFilter -> SmoothToonFilter(context)
         }
     }
