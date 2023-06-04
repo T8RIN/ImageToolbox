@@ -69,6 +69,7 @@ import ru.tech.imageresizershrinker.utils.coil.filters.KuwaharaFilter
 import ru.tech.imageresizershrinker.utils.coil.filters.LaplacianFilter
 import ru.tech.imageresizershrinker.utils.coil.filters.MonochromeFilter
 import ru.tech.imageresizershrinker.utils.coil.filters.NegativeFilter
+import ru.tech.imageresizershrinker.utils.coil.filters.OpacityFilter
 import ru.tech.imageresizershrinker.utils.coil.filters.SaturationFilter
 import ru.tech.imageresizershrinker.utils.coil.filters.SepiaFilter
 import ru.tech.imageresizershrinker.utils.coil.filters.SharpenFilter
@@ -207,6 +208,7 @@ fun AddFiltersSheet(
                                         VignetteFilter(context),
                                         KuwaharaFilter(context),
                                         DilationFilter(context),
+                                        OpacityFilter(context)
                                     ).forEach {
                                         PreferenceItem(
                                             title = stringResource(it.title),
@@ -216,9 +218,6 @@ fun AddFiltersSheet(
                                                 onFilterPicked(it)
                                             }
                                         )
-                                    }
-                                    repeat(1) {
-                                        PreferenceItem(title = "")
                                     }
                                 }
 

@@ -241,6 +241,7 @@
     <string name="glass_sphere_refraction">Glass sphere refraction</string>
     <string name="color_matrix">Color matrix</string>
     <string name="float_array_of" translatable="false">floatArrayOf(f, f, f)</string>
+    <string name="opacity">Opacity</string>
 
     <string-array name="fab_alignment_sub">
         <item>Start</item>
