@@ -53,6 +53,7 @@ sealed class FilterTransformation<T>(
             is VignetteFilter -> VignetteFilter(context, value as Pair<Float, Float>)
             is KuwaharaFilter -> KuwaharaFilter(context, value as Float)
             is SlowBlurFilter -> SlowBlurFilter(context, value as Pair<Float, Int>)
+            is SwirlDistortionEffect -> SwirlDistortionEffect(context, value as Pair<Float, Float>)
         }
     }
 }

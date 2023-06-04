@@ -43,6 +43,7 @@ import ru.tech.imageresizershrinker.utils.coil.filters.HalftoneFilter
 import ru.tech.imageresizershrinker.utils.coil.filters.HazeFilter
 import ru.tech.imageresizershrinker.utils.coil.filters.HighlightsAndShadowsFilter
 import ru.tech.imageresizershrinker.utils.coil.filters.KuwaharaFilter
+import ru.tech.imageresizershrinker.utils.coil.filters.SwirlDistortionEffect
 import ru.tech.imageresizershrinker.utils.coil.filters.VignetteFilter
 import ru.tech.imageresizershrinker.utils.coil.filters.WhiteBalanceFilter
 import ru.tech.imageresizershrinker.utils.modifier.block
@@ -716,6 +717,98 @@ fun <T> FilterItem(
                                     onFilterChange(scale to radius.toInt())
                                 },
                                 valueRange = filter.valueRange
+                            )
+                        }
+
+                        is SwirlDistortionEffect -> {
+                            var radius by remember(filter) {
+                                mutableFloatStateOf(filter.value.first)
+                            }
+                            var angle by remember(filter) {
+                                mutableFloatStateOf(filter.value.second)
+                            }
+                            Spacer(Modifier.height(8.dp))
+                            Row(
+                                verticalAlignment = Alignment.CenterVertically
+                            ) {
+                                Row(Modifier.weight(1f)) {
+                                    Text(
+                                        text = stringResource(R.string.radius),
+                                        modifier = Modifier
+                                            .padding(
+                                                top = 16.dp,
+                                                end = 16.dp,
+                                                start = 16.dp
+                                            )
+                                            .weight(1f)
+                                    )
+                                }
+                                Text(
+                                    text = "$radius",
+                                    color = MaterialTheme.colorScheme.onSurface.copy(
+                                        alpha = 0.5f
+                                    ),
+                                    modifier = Modifier.padding(top = 16.dp),
+                                    lineHeight = 18.sp
+                                )
+                                Spacer(
+                                    modifier = Modifier.padding(
+                                        start = 4.dp,
+                                        top = 16.dp,
+                                        end = 20.dp
+                                    )
+                                )
+                            }
+                            Slider(
+                                enabled = !previewOnly,
+                                modifier = Modifier.padding(horizontal = 16.dp),
+                                value = animateFloatAsState(radius).value,
+                                onValueChange = {
+                                    radius = it.roundTo()
+                                    onFilterChange(radius to angle)
+                                },
+                                valueRange = 0f..1f
+                            )
+                            Row(
+                                verticalAlignment = Alignment.CenterVertically
+                            ) {
+                                Row(Modifier.weight(1f)) {
+                                    Text(
+                                        text = stringResource(R.string.angle),
+                                        modifier = Modifier
+                                            .padding(
+                                                top = 16.dp,
+                                                end = 16.dp,
+                                                start = 16.dp
+                                            )
+                                            .weight(1f)
+                                    )
+                                }
+                                Text(
+                                    text = "$angle",
+                                    color = MaterialTheme.colorScheme.onSurface.copy(
+                                        alpha = 0.5f
+                                    ),
+                                    modifier = Modifier.padding(top = 16.dp),
+                                    lineHeight = 18.sp
+                                )
+                                Spacer(
+                                    modifier = Modifier.padding(
+                                        start = 4.dp,
+                                        top = 16.dp,
+                                        end = 20.dp
+                                    )
+                                )
+                            }
+                            Slider(
+                                enabled = !previewOnly,
+                                modifier = Modifier.padding(horizontal = 16.dp),
+                                value = animateFloatAsState(angle).value,
+                                onValueChange = {
+                                    angle = it.roundToInt().toFloat()
+                                    onFilterChange(radius to angle)
+                                },
+                                valueRange = -360f..360f
                             )
                         }
 

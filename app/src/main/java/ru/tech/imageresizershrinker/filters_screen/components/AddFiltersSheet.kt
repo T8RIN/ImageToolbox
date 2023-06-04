@@ -14,6 +14,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.AddCircleOutline
+import androidx.compose.material.icons.rounded.Animation
 import androidx.compose.material.icons.rounded.FormatColorFill
 import androidx.compose.material.icons.rounded.Grain
 import androidx.compose.material.icons.rounded.LensBlur
@@ -70,6 +71,7 @@ import ru.tech.imageresizershrinker.utils.coil.filters.SepiaFilter
 import ru.tech.imageresizershrinker.utils.coil.filters.SharpenFilter
 import ru.tech.imageresizershrinker.utils.coil.filters.SobelEdgeDetectionFilter
 import ru.tech.imageresizershrinker.utils.coil.filters.SolarizeFilter
+import ru.tech.imageresizershrinker.utils.coil.filters.SwirlDistortionEffect
 import ru.tech.imageresizershrinker.utils.coil.filters.VibranceFilter
 import ru.tech.imageresizershrinker.utils.coil.filters.VignetteFilter
 import ru.tech.imageresizershrinker.utils.coil.filters.WhiteBalanceFilter
@@ -87,7 +89,7 @@ fun AddFiltersSheet(
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
 
-    val pagerState = rememberPagerState(pageCount = { 4 })
+    val pagerState = rememberPagerState(pageCount = { 5 })
 
     SimpleSheet(
         sheetContent = {
@@ -113,7 +115,8 @@ fun AddFiltersSheet(
                             Icons.Rounded.FormatColorFill to stringResource(id = R.string.color),
                             Icons.Rounded.Light to stringResource(R.string.light_aka_illumination),
                             Icons.Rounded.Grain to stringResource(R.string.effect),
-                            Icons.Rounded.LensBlur to stringResource(R.string.blur)
+                            Icons.Rounded.LensBlur to stringResource(R.string.blur),
+                            Icons.Rounded.Animation to stringResource(R.string.distortion)
                         ).forEachIndexed { index, (icon, title) ->
                             Tab(
                                 unselectedContentColor = MaterialTheme.colorScheme.onSurface,
@@ -218,6 +221,24 @@ fun AddFiltersSheet(
                                         BoxBlurFilter(context),
                                         BilaterialBlurFilter(context),
                                         SlowBlurFilter(context)
+                                    ).forEach {
+                                        PreferenceItem(
+                                            title = stringResource(it.title),
+                                            endIcon = Icons.Rounded.AddCircleOutline,
+                                            onClick = {
+                                                visible.value = false
+                                                onFilterPicked(it)
+                                            }
+                                        )
+                                    }
+                                    repeat(9) {
+                                        PreferenceItem(title = "")
+                                    }
+                                }
+
+                                4 -> {
+                                    listOf(
+                                        SwirlDistortionEffect(context)
                                     ).forEach {
                                         PreferenceItem(
                                             title = stringResource(it.title),
