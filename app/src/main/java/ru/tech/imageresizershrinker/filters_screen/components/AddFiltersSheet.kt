@@ -69,8 +69,10 @@ import ru.tech.imageresizershrinker.utils.coil.filters.HighlightsAndShadowsFilte
 import ru.tech.imageresizershrinker.utils.coil.filters.HueFilter
 import ru.tech.imageresizershrinker.utils.coil.filters.KuwaharaFilter
 import ru.tech.imageresizershrinker.utils.coil.filters.LaplacianFilter
+import ru.tech.imageresizershrinker.utils.coil.filters.LookupFilter
 import ru.tech.imageresizershrinker.utils.coil.filters.MonochromeFilter
 import ru.tech.imageresizershrinker.utils.coil.filters.NegativeFilter
+import ru.tech.imageresizershrinker.utils.coil.filters.NonMaximumSuppressionFilter
 import ru.tech.imageresizershrinker.utils.coil.filters.OpacityFilter
 import ru.tech.imageresizershrinker.utils.coil.filters.PosterizeFilter
 import ru.tech.imageresizershrinker.utils.coil.filters.SaturationFilter
@@ -86,6 +88,7 @@ import ru.tech.imageresizershrinker.utils.coil.filters.SwirlDistortionEffect
 import ru.tech.imageresizershrinker.utils.coil.filters.ToonFilter
 import ru.tech.imageresizershrinker.utils.coil.filters.VibranceFilter
 import ru.tech.imageresizershrinker.utils.coil.filters.VignetteFilter
+import ru.tech.imageresizershrinker.utils.coil.filters.WeakPixelFilter
 import ru.tech.imageresizershrinker.utils.coil.filters.WhiteBalanceFilter
 import ru.tech.imageresizershrinker.widget.TitleItem
 import ru.tech.imageresizershrinker.widget.sheets.SimpleSheet
@@ -221,7 +224,10 @@ fun AddFiltersSheet(
                                         ToonFilter(context),
                                         SmoothToonFilter(context),
                                         SketchFilter(context),
-                                        PosterizeFilter(context)
+                                        PosterizeFilter(context),
+                                        LookupFilter(context),
+                                        NonMaximumSuppressionFilter(context),
+                                        WeakPixelFilter(context)
                                     ).forEach {
                                         PreferenceItem(
                                             title = stringResource(it.title),

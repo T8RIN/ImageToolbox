@@ -73,6 +73,9 @@ sealed class FilterTransformation<T>(
             is ToonFilter -> ToonFilter(context)
             is PosterizeFilter -> PosterizeFilter(context, value as Float)
             is SmoothToonFilter -> SmoothToonFilter(context)
+            is LookupFilter -> LookupFilter(context, value as Float)
+            is NonMaximumSuppressionFilter -> NonMaximumSuppressionFilter(context)
+            is WeakPixelFilter -> WeakPixelFilter(context)
         }
     }
 }

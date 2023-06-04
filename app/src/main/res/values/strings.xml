@@ -252,6 +252,9 @@
     <string name="snooth_toon">Smooth toon</string>
     <string name="toon">Toon</string>
     <string name="posterize">Posterize</string>
+    <string name="non_maximum_suppression">Non maximum suppression</string>
+    <string name="weak_pixel_inclusion">Weak pixel inclusion</string>
+    <string name="lookup">Lookup</string>
 
     <string-array name="fab_alignment_sub">
         <item>Start</item>
