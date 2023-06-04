@@ -228,7 +228,7 @@
     <string name="start">Start</string>
     <string name="end">End</string>
     <string name="kuwahara">Kuwahara smoothing</string>
-    <string name="slow_blur">Dummy blur</string>
+    <string name="slow_blur">Slow blur</string>
     <string name="radius">Radius</string>
     <string name="scale">Scale</string>
 
