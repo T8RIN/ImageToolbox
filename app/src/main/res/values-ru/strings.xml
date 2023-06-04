@@ -242,4 +242,7 @@
     <string name="snooth_toon">Гладкий мультяшный</string>
     <string name="threshold">Порог</string>
     <string name="toon">Мультяшный</string>
+    <string name="non_maximum_suppression">Немаксимальное подавление</string>
+    <string name="lookup">Поиск</string>
+    <string name="weak_pixel_inclusion">Слабое включение пикселей</string>
 </resources>
