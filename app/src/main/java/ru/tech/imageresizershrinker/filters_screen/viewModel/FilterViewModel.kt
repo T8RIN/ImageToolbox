@@ -225,9 +225,9 @@ class FilterViewModel : ViewModel() {
     fun setFilteredPreview(getBitmap: suspend () -> Bitmap?) {
         filterJob?.cancel()
         filterJob = viewModelScope.launch {
-            kotlinx.coroutines.delay(100)
+            kotlinx.coroutines.delay(150)
             _isLoading.value = true
-            _previewBitmap.value = getBitmap()
+            _previewBitmap.value = getBitmap() ?: _previewBitmap.value
             _isLoading.value = false
         }
     }
