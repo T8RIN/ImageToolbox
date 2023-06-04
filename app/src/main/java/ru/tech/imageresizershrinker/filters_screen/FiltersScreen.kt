@@ -841,7 +841,7 @@ fun FiltersScreen(
                                     Spacer(Modifier.size(8.dp))
                                     ExtensionGroup(
                                         enabled = viewModel.bitmap != null,
-                                        mime = viewModel.mimeTypeInt,
+                                        mimeTypeInt = viewModel.mimeTypeInt,
                                         onMimeChange = {
                                             viewModel.setMime(it)
                                         }

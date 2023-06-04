@@ -831,4 +831,7 @@ object BitmapUtils {
         return loader.execute(request).drawable?.toBitmap() to exif
     }
 
+    val Bitmap.aspectRatio: Float get() = width / height.toFloat()
+
+    val BitmapInfo.aspectRatio: Float get() = width / height.toFloat()
 }

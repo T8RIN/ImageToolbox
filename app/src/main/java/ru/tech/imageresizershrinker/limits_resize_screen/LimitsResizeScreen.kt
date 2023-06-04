@@ -1,4 +1,4 @@
-package ru.tech.imageresizershrinker.bytes_resize_screen
+package ru.tech.imageresizershrinker.limits_resize_screen
 
 import android.content.res.Configuration
 import android.net.Uri
@@ -6,16 +6,11 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.expandIn
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
-import androidx.compose.animation.shrinkOut
-import androidx.compose.animation.slideInVertically
-import androidx.compose.animation.slideOutVertically
 import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -37,20 +32,15 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Share
 import androidx.compose.material.icons.rounded.AddPhotoAlternate
 import androidx.compose.material.icons.rounded.ArrowBack
 import androidx.compose.material.icons.rounded.ChangeCircle
 import androidx.compose.material.icons.rounded.ErrorOutline
-import androidx.compose.material.icons.rounded.FrontHand
-import androidx.compose.material.icons.rounded.PhotoSizeSelectSmall
 import androidx.compose.material.icons.rounded.Save
 import androidx.compose.material.icons.rounded.ZoomIn
 import androidx.compose.material3.BottomAppBar
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExtendedFloatingActionButton
 import androidx.compose.material3.FloatingActionButton
@@ -59,12 +49,9 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.LargeTopAppBar
-import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedIconButton
 import androidx.compose.material3.Surface
-import androidx.compose.material3.Switch
-import androidx.compose.material3.SwitchDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.surfaceColorAtElevation
@@ -85,18 +72,15 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.t8rin.dynamic.theme.LocalDynamicThemeState
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.batch_resize_screen.components.SaveExifWidget
-import ru.tech.imageresizershrinker.bytes_resize_screen.viewModel.BytesResizeViewModel
+import ru.tech.imageresizershrinker.limits_resize_screen.viewModel.LimitsResizeViewModel
 import ru.tech.imageresizershrinker.theme.outlineVariant
 import ru.tech.imageresizershrinker.utils.LocalConfettiController
 import ru.tech.imageresizershrinker.utils.coil.BitmapInfoTransformation
@@ -104,11 +88,9 @@ import ru.tech.imageresizershrinker.utils.helper.BitmapInfo
 import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.decodeBitmapFromUri
 import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.fileSize
 import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.getBitmapByUri
-import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.restrict
 import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.shareBitmaps
 import ru.tech.imageresizershrinker.utils.helper.ContextUtils.failedToSaveImages
 import ru.tech.imageresizershrinker.utils.helper.byteCount
-import ru.tech.imageresizershrinker.utils.helper.extension
 import ru.tech.imageresizershrinker.utils.modifier.block
 import ru.tech.imageresizershrinker.utils.modifier.drawHorizontalStroke
 import ru.tech.imageresizershrinker.utils.modifier.fabBorder
@@ -122,23 +104,22 @@ import ru.tech.imageresizershrinker.widget.LoadingDialog
 import ru.tech.imageresizershrinker.widget.LocalToastHost
 import ru.tech.imageresizershrinker.widget.TopAppBarEmoji
 import ru.tech.imageresizershrinker.widget.controls.ExtensionGroup
-import ru.tech.imageresizershrinker.widget.controls.PresetWidget
+import ru.tech.imageresizershrinker.widget.controls.ResizeImageField
 import ru.tech.imageresizershrinker.widget.dialogs.ExitWithoutSavingDialog
 import ru.tech.imageresizershrinker.widget.image.ImageNotPickedWidget
 import ru.tech.imageresizershrinker.widget.image.SimplePicture
 import ru.tech.imageresizershrinker.widget.sheets.PickImageFromUrisSheet
 import ru.tech.imageresizershrinker.widget.sheets.ZoomModalSheet
 import ru.tech.imageresizershrinker.widget.text.Marquee
-import ru.tech.imageresizershrinker.widget.text.RoundedTextField
 import ru.tech.imageresizershrinker.widget.utils.LocalSettingsState
 import ru.tech.imageresizershrinker.widget.utils.LocalWindowSizeClass
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun BytesResizeScreen(
+fun LimitsResizeScreen(
     uriState: List<Uri>?,
     onGoBack: () -> Unit,
-    viewModel: BytesResizeViewModel = viewModel()
+    viewModel: LimitsResizeViewModel = viewModel()
 ) {
     val settingsState = LocalSettingsState.current
 
@@ -155,15 +136,12 @@ fun BytesResizeScreen(
         }
     }
 
-    var showAlert by rememberSaveable { mutableStateOf(false) }
-
     LaunchedEffect(uriState) {
         uriState?.takeIf { it.isNotEmpty() }?.let { uris ->
             viewModel.updateUris(uris)
             context.decodeBitmapFromUri(
                 uri = uris[0],
                 onGetMimeType = {
-                    showAlert = it.extension == "png"
                     viewModel.setMime(it)
                 },
                 onGetExif = {},
@@ -197,7 +175,6 @@ fun BytesResizeScreen(
                 context.decodeBitmapFromUri(
                     uri = uris[0],
                     onGetMimeType = {
-                        showAlert = it.extension == "png"
                         viewModel.setMime(it)
                     },
                     onGetExif = {},
@@ -328,29 +305,6 @@ fun BytesResizeScreen(
         }
     }
 
-    val switch = @Composable {
-        Switch(
-            modifier = Modifier.padding(horizontal = 16.dp),
-            colors = SwitchDefaults.colors(
-                uncheckedBorderColor = MaterialTheme.colorScheme.primary,
-                uncheckedThumbColor = MaterialTheme.colorScheme.onPrimary,
-                uncheckedTrackColor = MaterialTheme.colorScheme.primary,
-                uncheckedIconColor = MaterialTheme.colorScheme.onPrimaryContainer,
-            ),
-            checked = viewModel.handMode,
-            onCheckedChange = { viewModel.updateHandMode() },
-            thumbContent = {
-                AnimatedContent(viewModel.handMode) { handMode ->
-                    Icon(
-                        if (handMode) Icons.Rounded.FrontHand else Icons.Rounded.PhotoSizeSelectSmall,
-                        null,
-                        Modifier.size(SwitchDefaults.IconSize)
-                    )
-                }
-            }
-        )
-    }
-
     val buttons = @Composable {
         if (viewModel.bitmap == null) {
             ExtendedFloatingActionButton(
@@ -370,9 +324,7 @@ fun BytesResizeScreen(
         } else if (imageInside) {
             BottomAppBar(
                 modifier = Modifier.drawHorizontalStroke(true),
-                actions = {
-                    switch()
-                },
+                actions = {},
                 floatingActionButton = {
                     Row {
                         FloatingActionButton(
@@ -407,7 +359,6 @@ fun BytesResizeScreen(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Center
             ) {
-                switch()
                 Spacer(Modifier.height(16.dp))
                 FloatingActionButton(
                     onClick = pickImage,
@@ -482,7 +433,7 @@ fun BytesResizeScreen(
                                 val size = viewModel.selectedUri?.fileSize(LocalContext.current)
                                 if (bmp == null) {
                                     Text(
-                                        stringResource(R.string.by_bytes_resize),
+                                        stringResource(R.string.limits_resize),
                                         textAlign = TextAlign.Center
                                     )
                                 } else if (size != null && !loading) {
@@ -524,12 +475,8 @@ fun BytesResizeScreen(
                                         scope = viewModel.viewModelScope,
                                         bitmapLoader = {
                                             viewModel.proceedBitmap(
-                                                uri = it,
                                                 bitmapResult = kotlin.runCatching {
                                                     context.decodeBitmapFromUri(it).first
-                                                },
-                                                getImageSize = { uri ->
-                                                    uri.fileSize(context)
                                                 }
                                             )
                                         },
@@ -600,39 +547,12 @@ fun BytesResizeScreen(
                                 if (imageInside) imageBlock()
                                 if (viewModel.bitmap != null) {
                                     if (imageInside) Spacer(Modifier.size(20.dp))
-                                    AnimatedContent(
-                                        targetState = viewModel.handMode,
-                                        transitionSpec = {
-                                            if (!targetState) {
-                                                slideInVertically { it } + fadeIn() togetherWith slideOutVertically { -it } + fadeOut()
-                                            } else {
-                                                slideInVertically { -it } + fadeIn() togetherWith slideOutVertically { it } + fadeOut()
-                                            }
-                                        }
-                                    ) { handMode ->
-                                        if (handMode) {
-                                            RoundedTextField(
-                                                modifier = Modifier
-                                                    .block(shape = RoundedCornerShape(24.dp))
-                                                    .padding(8.dp),
-                                                enabled = viewModel.bitmap != null,
-                                                value = (viewModel.maxBytes / 1024).toString()
-                                                    .takeIf { it != "0" } ?: "",
-                                                onValueChange = {
-                                                    viewModel.updateMaxBytes(it.restrict(1_000_000))
-                                                },
-                                                keyboardOptions = KeyboardOptions(
-                                                    keyboardType = KeyboardType.Number
-                                                ),
-                                                label = stringResource(R.string.max_bytes)
-                                            )
-                                        } else {
-                                            PresetWidget(
-                                                selectedPreset = viewModel.presetSelected,
-                                                onPresetSelected = viewModel::selectPreset
-                                            )
-                                        }
-                                    }
+                                    ResizeImageField(
+                                        bitmapInfo = viewModel.bitmapInfo,
+                                        bitmap = viewModel.bitmap,
+                                        onWidthChange = viewModel::updateWidth,
+                                        onHeightChange = viewModel::updateHeight
+                                    )
                                     Spacer(Modifier.size(8.dp))
                                     SaveExifWidget(
                                         selected = viewModel.keepExif,
@@ -641,46 +561,11 @@ fun BytesResizeScreen(
                                     Spacer(Modifier.size(8.dp))
                                     ExtensionGroup(
                                         enabled = viewModel.bitmap != null,
-                                        mimeTypeInt = viewModel.mime,
+                                        mimeTypeInt = viewModel.bitmapInfo.mimeTypeInt,
                                         onMimeChange = {
-                                            showAlert = it.extension == "png"
                                             viewModel.setMime(it)
                                         }
                                     )
-                                    AnimatedVisibility(
-                                        visible = showAlert,
-                                        enter = fadeIn() + expandIn(expandFrom = Alignment.TopCenter),
-                                        exit = fadeOut() + shrinkOut(),
-                                    ) {
-                                        Card(
-                                            colors = CardDefaults.cardColors(
-                                                containerColor = MaterialTheme.colorScheme.errorContainer.copy(
-                                                    alpha = 0.7f
-                                                ),
-                                                contentColor = MaterialTheme.colorScheme.onErrorContainer
-                                            ),
-                                            modifier = Modifier
-                                                .padding(16.dp)
-                                                .border(
-                                                    1.dp,
-                                                    MaterialTheme.colorScheme.onErrorContainer.copy(
-                                                        0.4f
-                                                    ),
-                                                    RoundedCornerShape(24.dp)
-                                                ),
-                                            shape = RoundedCornerShape(24.dp)
-                                        ) {
-                                            Text(
-                                                text = stringResource(R.string.png_warning_bytes),
-                                                fontSize = 12.sp,
-                                                modifier = Modifier.padding(8.dp),
-                                                textAlign = TextAlign.Center,
-                                                fontWeight = FontWeight.SemiBold,
-                                                lineHeight = 14.sp,
-                                                color = LocalContentColor.current.copy(alpha = 0.5f)
-                                            )
-                                        }
-                                    }
                                 } else if (!viewModel.isLoading) {
                                     ImageNotPickedWidget(onPickImage = pickImage)
                                     Spacer(Modifier.size(8.dp))

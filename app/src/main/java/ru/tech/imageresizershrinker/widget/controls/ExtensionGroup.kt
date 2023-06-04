@@ -44,7 +44,7 @@ import ru.tech.imageresizershrinker.widget.utils.LocalSettingsState
 fun ExtensionGroup(
     modifier: Modifier = Modifier,
     enabled: Boolean,
-    mime: Int,
+    mimeTypeInt: Int,
     orientation: Orientation = Orientation.Horizontal,
     onMimeChange: (Int) -> Unit
 ) {
@@ -99,12 +99,12 @@ fun ExtensionGroup(
                                                 0 ->
                                                     Modifier
                                                         .offset(0.dp, 0.dp)
-                                                        .zIndex(if (mime == 0) 1f else 0f)
+                                                        .zIndex(if (mimeTypeInt == 0) 1f else 0f)
 
                                                 else ->
                                                     Modifier
                                                         .offset((-1 * index).dp, 0.dp)
-                                                        .zIndex(if (mime == index) 1f else 0f)
+                                                        .zIndex(if (mimeTypeInt == index) 1f else 0f)
                                             }
                                         ),
                                     shape = when (index) {
@@ -128,14 +128,14 @@ fun ExtensionGroup(
                                     ),
                                     colors = ButtonDefaults.outlinedButtonColors(
                                         containerColor = if (!enabled) disColor
-                                        else if (mime == index) MaterialTheme.colorScheme.mixedColor
+                                        else if (mimeTypeInt == index) MaterialTheme.colorScheme.mixedColor
                                         else Color.Transparent
                                     )
                                 ) {
                                     AutoSizeText(
                                         text = item,
                                         color = if (!enabled) disColor
-                                        else if (mime == index) MaterialTheme.colorScheme.onMixedColor
+                                        else if (mimeTypeInt == index) MaterialTheme.colorScheme.onMixedColor
                                         else MaterialTheme.colorScheme.onSurface,
                                         modifier = Modifier.padding(horizontal = 8.dp),
                                         maxLines = 1
@@ -158,12 +158,12 @@ fun ExtensionGroup(
                                                 2 ->
                                                     Modifier
                                                         .offset(0.dp, (-9).dp)
-                                                        .zIndex(if (mime == 0) 2f else 1f)
+                                                        .zIndex(if (mimeTypeInt == 0) 2f else 1f)
 
                                                 else ->
                                                     Modifier
                                                         .offset((-1 * i).dp, (-9).dp)
-                                                        .zIndex(if (mime == index) 2f else 1f)
+                                                        .zIndex(if (mimeTypeInt == index) 2f else 1f)
                                             }
                                         ),
                                     shape = when (index) {
@@ -187,14 +187,14 @@ fun ExtensionGroup(
                                     ),
                                     colors = ButtonDefaults.outlinedButtonColors(
                                         containerColor = if (!enabled) disColor
-                                        else if (mime == index) MaterialTheme.colorScheme.mixedColor
+                                        else if (mimeTypeInt == index) MaterialTheme.colorScheme.mixedColor
                                         else Color.Transparent
                                     )
                                 ) {
                                     AutoSizeText(
                                         text = item,
                                         color = if (!enabled) disColor
-                                        else if (mime == index) MaterialTheme.colorScheme.onMixedColor
+                                        else if (mimeTypeInt == index) MaterialTheme.colorScheme.onMixedColor
                                         else MaterialTheme.colorScheme.onSurface,
                                         modifier = Modifier.padding(horizontal = 8.dp),
                                         maxLines = 1
@@ -238,12 +238,12 @@ fun ExtensionGroup(
                                     .width(80.dp)
                                     .then(
                                         when (index) {
-                                            0 -> Modifier.zIndex(if (mime == 0) 1f else 0f)
+                                            0 -> Modifier.zIndex(if (mimeTypeInt == 0) 1f else 0f)
 
                                             else ->
                                                 Modifier
                                                     .offset(y = (-9).dp)
-                                                    .zIndex(if (mime == index) 1f else 0f)
+                                                    .zIndex(if (mimeTypeInt == index) 1f else 0f)
                                         }
                                     ),
                                 shape = when (index) {
@@ -267,14 +267,14 @@ fun ExtensionGroup(
                                 ),
                                 colors = ButtonDefaults.outlinedButtonColors(
                                     containerColor = if (!enabled) disColor
-                                    else if (mime == index) MaterialTheme.colorScheme.mixedColor
+                                    else if (mimeTypeInt == index) MaterialTheme.colorScheme.mixedColor
                                     else Color.Transparent
                                 )
                             ) {
                                 AutoSizeText(
                                     text = item,
                                     color = if (!enabled) disColor
-                                    else if (mime == index) MaterialTheme.colorScheme.onMixedColor
+                                    else if (mimeTypeInt == index) MaterialTheme.colorScheme.onMixedColor
                                     else MaterialTheme.colorScheme.onSurface,
                                     modifier = Modifier.padding(horizontal = 8.dp),
                                     maxLines = 1
@@ -294,12 +294,12 @@ fun ExtensionGroup(
                                             2 ->
                                                 Modifier
                                                     .offset(y = (-18).dp)
-                                                    .zIndex(if (mime == 0) 2f else 1f)
+                                                    .zIndex(if (mimeTypeInt == 0) 2f else 1f)
 
                                             else ->
                                                 Modifier
                                                     .offset(y = (-24).dp)
-                                                    .zIndex(if (mime == index) 2f else 1f)
+                                                    .zIndex(if (mimeTypeInt == index) 2f else 1f)
                                         }
                                     ),
                                 shape = when (index) {
@@ -323,14 +323,14 @@ fun ExtensionGroup(
                                 ),
                                 colors = ButtonDefaults.outlinedButtonColors(
                                     containerColor = if (!enabled) disColor
-                                    else if (mime == index) MaterialTheme.colorScheme.mixedColor
+                                    else if (mimeTypeInt == index) MaterialTheme.colorScheme.mixedColor
                                     else Color.Transparent
                                 )
                             ) {
                                 AutoSizeText(
                                     text = item,
                                     color = if (!enabled) disColor
-                                    else if (mime == index) MaterialTheme.colorScheme.onMixedColor
+                                    else if (mimeTypeInt == index) MaterialTheme.colorScheme.onMixedColor
                                     else MaterialTheme.colorScheme.onSurface,
                                     modifier = Modifier.padding(horizontal = 8.dp),
                                     maxLines = 1

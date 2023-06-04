@@ -806,7 +806,7 @@ fun BatchResizeScreen(
                                     Spacer(Modifier.height(8.dp))
                                     ExtensionGroup(
                                         enabled = viewModel.bitmap != null,
-                                        mime = bitmapInfo.mimeTypeInt,
+                                        mimeTypeInt = bitmapInfo.mimeTypeInt,
                                         onMimeChange = viewModel::setMime
                                     )
                                     Spacer(Modifier.height(8.dp))

@@ -479,7 +479,7 @@ fun CropScreen(
                                     .navBarsPaddingOnlyIfTheyAtTheBottom(),
                                 orientation = Orientation.Vertical,
                                 enabled = viewModel.bitmap != null,
-                                mime = viewModel.mimeType,
+                                mimeTypeInt = viewModel.mimeType,
                                 onMimeChange = {
                                     viewModel.updateMimeType(it)
                                 }
@@ -661,7 +661,7 @@ fun CropScreen(
                         .navigationBarsPadding(),
                     orientation = Orientation.Horizontal,
                     enabled = viewModel.bitmap != null,
-                    mime = viewModel.mimeType,
+                    mimeTypeInt = viewModel.mimeType,
                     onMimeChange = {
                         viewModel.updateMimeType(it)
                     }

@@ -44,6 +44,7 @@ import ru.tech.imageresizershrinker.delete_exif_screen.DeleteExifScreen
 import ru.tech.imageresizershrinker.filters_screen.FiltersScreen
 import ru.tech.imageresizershrinker.generate_palette_screen.GeneratePaletteScreen
 import ru.tech.imageresizershrinker.image_preview_screen.ImagePreviewScreen
+import ru.tech.imageresizershrinker.limits_resize_screen.LimitsResizeScreen
 import ru.tech.imageresizershrinker.load_net_image_screen.LoadNetImageScreen
 import ru.tech.imageresizershrinker.main_screen.components.AppExitDialog
 import ru.tech.imageresizershrinker.main_screen.components.EditPresetsSheet
@@ -251,6 +252,13 @@ class MainActivity : M3Activity() {
 
                                 is Screen.Filter -> {
                                     FiltersScreen(
+                                        uriState = screen.uris,
+                                        onGoBack = onGoBack
+                                    )
+                                }
+
+                                is Screen.LimitResize -> {
+                                    LimitsResizeScreen(
                                         uriState = screen.uris,
                                         onGoBack = onGoBack
                                     )

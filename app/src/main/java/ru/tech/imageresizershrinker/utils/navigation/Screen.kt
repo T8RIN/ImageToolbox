@@ -9,6 +9,7 @@ import androidx.compose.material.icons.rounded.Compare
 import androidx.compose.material.icons.rounded.Crop
 import androidx.compose.material.icons.rounded.Dataset
 import androidx.compose.material.icons.rounded.InsertDriveFile
+import androidx.compose.material.icons.rounded.Margin
 import androidx.compose.material.icons.rounded.Photo
 import androidx.compose.material.icons.rounded.PhotoFilter
 import androidx.compose.material.icons.rounded.PhotoLibrary
@@ -105,6 +106,13 @@ sealed class Screen(
         subtitle = R.string.compare_sub
     )
 
+    class LimitResize(val uris: List<Uri>? = null) : Screen(
+        id = 11,
+        icon = Icons.Rounded.Margin,
+        title = R.string.limits_resize,
+        subtitle = R.string.limits_resize_sub
+    )
+
     companion object {
         val entries = listOf(
             SingleResize(),
@@ -117,7 +125,8 @@ sealed class Screen(
             PickColorFromImage(),
             GeneratePalette(),
             DeleteExif(),
-            Compare()
+            Compare(),
+            LimitResize()
         )
     }
 }

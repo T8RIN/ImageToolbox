@@ -244,6 +244,8 @@
     <string name="float_array_of" translatable="false">floatArrayOf(f, f, f)</string>
     <string name="opacity">Opacity</string>
     <string name="coming_soon">Coming soon</string>
+    <string name="limits_resize">Limits resize</string>
+    <string name="limits_resize_sub">Resize given images to follow given width and height limits with saving aspect ratio</string>
 
     <string-array name="fab_alignment_sub">
         <item>Start</item>
