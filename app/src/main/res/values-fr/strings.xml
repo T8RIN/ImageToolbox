@@ -237,4 +237,7 @@
     <string name="snooth_toon">Lisse cartoon</string>
     <string name="toon">Dessin animé</string>
     <string name="posterize">Postériser</string>
+    <string name="lookup">Consultation</string>
+    <string name="weak_pixel_inclusion">Inclusion de pixels faibles</string>
+    <string name="non_maximum_suppression">Suppression de non maximum</string>
 </resources>
