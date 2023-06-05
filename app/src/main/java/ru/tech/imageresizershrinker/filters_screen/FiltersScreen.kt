@@ -1018,7 +1018,7 @@ fun FiltersScreen(
 
             AddFiltersSheet(
                 visible = showFilterSheet,
-                onFilterPicked = { viewModel.addFilter(it) }
+                onFilterPicked = { viewModel.addFilter(it.newInstance()) }
             )
 
             ExitWithoutSavingDialog(
