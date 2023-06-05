@@ -818,7 +818,7 @@ fun <T> FilterItem(
                                 modifier = Modifier.padding(horizontal = 16.dp),
                                 value = animateFloatAsState(angle).value,
                                 onValueChange = {
-                                    angle = it.roundToInt().toFloat()
+                                    angle = it.roundTo()
                                     onFilterChange(radius to angle)
                                 },
                                 valueRange = -3f..3f
