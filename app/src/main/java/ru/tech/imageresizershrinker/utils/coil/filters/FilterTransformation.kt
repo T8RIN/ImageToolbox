@@ -80,7 +80,7 @@ sealed class FilterTransformation<T>(
         }
     }
     
-    fun <T : Any> newInstance() : FilterTransformation<*> {
+    fun newInstance() : FilterTransformation<*> {
         return when (this) {
 
             is BrightnessFilter -> BrightnessFilter(context)
