@@ -1049,8 +1049,8 @@ fun FiltersScreen(
                             contentPadding = PaddingValues(8.dp),
                             verticalArrangement = Arrangement.spacedBy(8.dp)
                         ) {
-                            items(data.value, key = { it.hashCode() }) { filter ->
-                                ReorderableItem(state, key = filter.hashCode()) { isDragging ->
+                            items(data.value, key = { it }) { filter ->
+                                ReorderableItem(state, key = filter) { isDragging ->
                                     val elevation by animateDpAsState(if (isDragging) 16.dp else 0.dp)
                                     val tonalElevation by animateDpAsState(if (isDragging) 16.dp else 1.dp)
                                     FilterItem(
