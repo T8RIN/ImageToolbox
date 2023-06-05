@@ -59,6 +59,7 @@ import ru.tech.imageresizershrinker.utils.coil.filters.CrosshatchFilter
 import ru.tech.imageresizershrinker.utils.coil.filters.DilationFilter
 import ru.tech.imageresizershrinker.utils.coil.filters.EmbossFilter
 import ru.tech.imageresizershrinker.utils.coil.filters.ExposureFilter
+import ru.tech.imageresizershrinker.utils.coil.filters.FalseColorFilter
 import ru.tech.imageresizershrinker.utils.coil.filters.FilterTransformation
 import ru.tech.imageresizershrinker.utils.coil.filters.GCAColorSpaceFilter
 import ru.tech.imageresizershrinker.utils.coil.filters.GammaFilter
@@ -172,6 +173,7 @@ fun AddFiltersSheet(
                                         SaturationFilter(context),
                                         VibranceFilter(context),
                                         RGBFilter(context),
+                                        FalseColorFilter(context),
                                         GCAColorSpaceFilter(context),
                                         MonochromeFilter(context),
                                         SepiaFilter(context),

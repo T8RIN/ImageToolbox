@@ -18,6 +18,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Done
 import androidx.compose.material.icons.rounded.DragHandle
 import androidx.compose.material.icons.rounded.RemoveCircle
+import androidx.compose.material3.Divider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -44,6 +45,7 @@ import androidx.compose.ui.unit.sp
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.main_screen.components.AlphaColorCustomComponent
 import ru.tech.imageresizershrinker.main_screen.components.ColorCustomComponent
+import ru.tech.imageresizershrinker.utils.coil.filters.FalseColorFilter
 import ru.tech.imageresizershrinker.utils.coil.filters.FilterTransformation
 import ru.tech.imageresizershrinker.utils.coil.filters.RGBFilter
 import ru.tech.imageresizershrinker.utils.modifier.block
@@ -110,7 +112,7 @@ fun <T> FilterItem(
                             )
                             .weight(1f)
                     )
-                    if (filter.value is Color && !previewOnly) {
+                    if (filter.value.toString().contains("Color") && !previewOnly) {
                         IconButton(onClick = onRemove) {
                             Icon(Icons.Rounded.RemoveCircle, null)
                         }
@@ -233,7 +235,65 @@ fun <T> FilterItem(
 
                     is Pair<*, *> -> {
                         val value = filter.value as? Pair<Number, Number>
-                        if (value != null) {
+                        if (filter is FalseColorFilter) {
+                            Box(
+                                modifier = Modifier.padding(
+                                    start = 16.dp,
+                                    top = 8.dp,
+                                    end = 16.dp
+                                )
+                            ) {
+                                var color1 by remember(filter) { mutableStateOf(filter.value.first) }
+                                var color2 by remember(filter) { mutableStateOf(filter.value.second) }
+
+                                Column {
+                                    Divider()
+                                    Text(
+                                        text = stringResource(R.string.first_color),
+                                        modifier = Modifier
+                                            .padding(
+                                                bottom = 16.dp,
+                                                top = 16.dp,
+                                                end = 16.dp,
+                                            )
+                                    )
+                                    ColorCustomComponent(
+                                        color = color1.toArgb(),
+                                        onColorChange = { c ->
+                                            color1 = Color(c)
+                                            onFilterChange(color1 to color2)
+                                        }
+                                    )
+                                    Spacer(Modifier.height(8.dp))
+                                    Divider()
+                                    Text(
+                                        text = stringResource(R.string.second_color),
+                                        modifier = Modifier
+                                            .padding(
+                                                top = 16.dp,
+                                                bottom = 16.dp,
+                                                end = 16.dp
+                                            )
+                                    )
+                                    ColorCustomComponent(
+                                        color = color2.toArgb(),
+                                        onColorChange = { c ->
+                                            color2 = Color(c)
+                                            onFilterChange(color1 to color2)
+                                        }
+                                    )
+                                }
+                                if (previewOnly) {
+                                    Box(
+                                        Modifier
+                                            .matchParentSize()
+                                            .pointerInput(Unit) {
+                                                detectTapGestures { }
+                                            }
+                                    )
+                                }
+                            }
+                        } else if (value != null) {
                             var sliderState1 by remember(value) { mutableFloatStateOf(value.first.toFloat()) }
                             var sliderState2 by remember(value) { mutableFloatStateOf(value.second.toFloat()) }
 
@@ -330,7 +390,7 @@ fun <T> FilterItem(
                 }
             }
         }
-        if (filter.value !is Color && !previewOnly) {
+        if (!filter.value.toString().contains("Color") && !previewOnly) {
             Box(
                 Modifier
                     .height(48.dp)
