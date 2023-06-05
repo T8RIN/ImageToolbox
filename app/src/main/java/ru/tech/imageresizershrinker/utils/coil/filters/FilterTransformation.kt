@@ -78,4 +78,93 @@ sealed class FilterTransformation<T>(
             is WeakPixelFilter -> WeakPixelFilter(context)
         }
     }
+    
+    fun <T : Any> newInstance() : FilterTransformation<T> {
+        return when (this) {
+
+            is BrightnessFilter -> BrightnessFilter(context)
+
+            is ContrastFilter -> ContrastFilter(context)
+
+            is HueFilter -> HueFilter(context)
+
+            is SaturationFilter -> SaturationFilter(context)
+
+            is ColorFilter -> ColorFilter(context)
+
+            is ExposureFilter -> ExposureFilter(context)
+
+            is WhiteBalanceFilter -> WhiteBalanceFilter(context)
+
+            is MonochromeFilter -> MonochromeFilter(context)
+
+            is GammaFilter -> GammaFilter(context)
+
+            is HazeFilter -> HazeFilter(context)
+
+            is SepiaFilter -> SepiaFilter(context)
+
+            is SharpenFilter -> SharpenFilter(context)
+
+            is NegativeFilter -> NegativeFilter(context)
+
+            is SolarizeFilter -> SolarizeFilter(context)
+
+            is VibranceFilter -> VibranceFilter(context)
+
+            is BlackAndWhiteFilter -> BlackAndWhiteFilter(context)
+
+            is CrosshatchFilter -> CrosshatchFilter(context)
+
+            is SobelEdgeDetectionFilter -> SobelEdgeDetectionFilter(context)
+
+            is HalftoneFilter -> HalftoneFilter(context)
+
+            is GCAColorSpaceFilter -> GCAColorSpaceFilter(context)
+
+            is GaussianBlurFilter -> GaussianBlurFilter(context)
+
+            is BilaterialBlurFilter -> BilaterialBlurFilter(context)
+
+            is BoxBlurFilter -> BoxBlurFilter(context)
+
+            is EmbossFilter -> EmbossFilter(context)
+
+            is LaplacianFilter -> LaplacianFilter(context)
+
+            is VignetteFilter -> VignetteFilter(context)
+
+            is KuwaharaFilter -> KuwaharaFilter(context)
+
+            is SlowBlurFilter -> SlowBlurFilter(context)
+
+            is SwirlDistortionEffect -> SwirlDistortionEffect(context)
+
+            is BulgeDistortionEffect -> BulgeDistortionEffect(context)
+
+            is DilationFilter -> DilationFilter(context)
+
+            is SphereRefractionFilter -> SphereRefractionFilter(context)
+
+            is GlassSphereRefractionFilter -> GlassSphereRefractionFilter(context)
+
+            is HighlightsAndShadowsFilter -> HighlightsAndShadowsFilter(context)
+
+            is ColorMatrixFilter -> ColorMatrixFilter(context, value as FloatArray)
+
+            is OpacityFilter -> OpacityFilter(context, value as Float)
+
+            is SketchFilter -> SketchFilter(context)
+
+            is ToonFilter -> ToonFilter(context)
+
+            is PosterizeFilter -> PosterizeFilter(context, value as Float)
+
+            is SmoothToonFilter -> SmoothToonFilter(context)
+
+            is LookupFilter -> LookupFilter(context, value as Float)
+
+            is NonMaximumSuppressionFilter -> NonMaximumSuppressionFilter(context)
+
+            is WeakPixelFilter -> WeakPixelFilter(context)
 }
