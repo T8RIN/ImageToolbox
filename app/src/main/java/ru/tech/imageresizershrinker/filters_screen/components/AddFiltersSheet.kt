@@ -54,6 +54,7 @@ import ru.tech.imageresizershrinker.utils.coil.filters.BulgeDistortionEffect
 import ru.tech.imageresizershrinker.utils.coil.filters.ColorFilter
 import ru.tech.imageresizershrinker.utils.coil.filters.ColorMatrixFilter
 import ru.tech.imageresizershrinker.utils.coil.filters.ContrastFilter
+import ru.tech.imageresizershrinker.utils.coil.filters.Convolution3x3Filter
 import ru.tech.imageresizershrinker.utils.coil.filters.CrosshatchFilter
 import ru.tech.imageresizershrinker.utils.coil.filters.DilationFilter
 import ru.tech.imageresizershrinker.utils.coil.filters.EmbossFilter
@@ -75,6 +76,7 @@ import ru.tech.imageresizershrinker.utils.coil.filters.NegativeFilter
 import ru.tech.imageresizershrinker.utils.coil.filters.NonMaximumSuppressionFilter
 import ru.tech.imageresizershrinker.utils.coil.filters.OpacityFilter
 import ru.tech.imageresizershrinker.utils.coil.filters.PosterizeFilter
+import ru.tech.imageresizershrinker.utils.coil.filters.RGBFilter
 import ru.tech.imageresizershrinker.utils.coil.filters.SaturationFilter
 import ru.tech.imageresizershrinker.utils.coil.filters.SepiaFilter
 import ru.tech.imageresizershrinker.utils.coil.filters.SharpenFilter
@@ -169,6 +171,7 @@ fun AddFiltersSheet(
                                         ColorFilter(context),
                                         SaturationFilter(context),
                                         VibranceFilter(context),
+                                        RGBFilter(context),
                                         GCAColorSpaceFilter(context),
                                         MonochromeFilter(context),
                                         SepiaFilter(context),
@@ -227,7 +230,8 @@ fun AddFiltersSheet(
                                         PosterizeFilter(context),
                                         LookupFilter(context),
                                         NonMaximumSuppressionFilter(context),
-                                        WeakPixelFilter(context)
+                                        WeakPixelFilter(context),
+                                        Convolution3x3Filter(context)
                                     ).forEach {
                                         PreferenceItem(
                                             title = stringResource(it.title),

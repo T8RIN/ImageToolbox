@@ -466,7 +466,7 @@ fun AvailableColorTuplesDialog(
 }
 
 @Composable
-private fun ColorCustomComponent(
+fun ColorCustomComponent(
     color: Int,
     onColorChange: (Int) -> Unit,
 ) {

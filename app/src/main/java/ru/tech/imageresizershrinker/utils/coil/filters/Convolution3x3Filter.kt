@@ -2,29 +2,28 @@ package ru.tech.imageresizershrinker.utils.coil.filters
 
 
 import android.content.Context
-import jp.co.cyberagent.android.gpuimage.filter.GPUImageColorMatrixFilter
+import jp.co.cyberagent.android.gpuimage.filter.GPUImage3x3ConvolutionFilter
 import jp.co.cyberagent.android.gpuimage.filter.GPUImageFilter
 import kotlinx.parcelize.Parcelize
 import kotlinx.parcelize.RawValue
 import ru.tech.imageresizershrinker.R
 
 @Parcelize
-class ColorMatrixFilter(
+class Convolution3x3Filter(
     private val context: @RawValue Context,
     override val value: FloatArray = floatArrayOf(
-        1.0f, 0.0f, 0.0f, 0.0f,
-        0.0f, 1.0f, 0.0f, 0.0f,
-        0.0f, 0.0f, 1.0f, 0.0f,
-        0.0f, 0.0f, 0.0f, 1.0f
+        0.0f, 0.0f, 0.0f,
+        0.0f, 1.0f, 0.0f,
+        0.0f, 0.0f, 0.0f
     ),
 ) : FilterTransformation<FloatArray>(
     context = context,
-    title = R.string.color_matrix,
+    title = R.string.convolution3x3,
     value = value,
-    valueRange = 4f..4f
+    valueRange = 3f..3f
 ) {
     override val cacheKey: String
         get() = (value to context).hashCode().toString()
 
-    override fun createFilter(): GPUImageFilter = GPUImageColorMatrixFilter(1f, value)
+    override fun createFilter(): GPUImageFilter = GPUImage3x3ConvolutionFilter(value)
 }

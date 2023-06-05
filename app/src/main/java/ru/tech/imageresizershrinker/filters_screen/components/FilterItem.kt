@@ -43,10 +43,13 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.main_screen.components.AlphaColorCustomComponent
+import ru.tech.imageresizershrinker.main_screen.components.ColorCustomComponent
 import ru.tech.imageresizershrinker.utils.coil.filters.FilterTransformation
+import ru.tech.imageresizershrinker.utils.coil.filters.RGBFilter
 import ru.tech.imageresizershrinker.utils.modifier.block
 import ru.tech.imageresizershrinker.widget.text.RoundedTextField
 import ru.tech.imageresizershrinker.widget.utils.LocalSettingsState
+import kotlin.math.absoluteValue
 import kotlin.math.pow
 import kotlin.math.roundToInt
 
@@ -137,12 +140,21 @@ fun <T> FilterItem(
                 when (filter.value) {
                     is Color -> {
                         Box(modifier = Modifier.padding(start = 16.dp, top = 16.dp, end = 16.dp)) {
-                            AlphaColorCustomComponent(
-                                color = (filter.value as Color).toArgb(),
-                                onColorChange = { c, alpha ->
-                                    onFilterChange(Color(c).copy(alpha / 255f))
-                                }
-                            )
+                            if (filter is RGBFilter) {
+                                ColorCustomComponent(
+                                    color = filter.value.toArgb(),
+                                    onColorChange = { c ->
+                                        onFilterChange(Color(c))
+                                    }
+                                )
+                            } else {
+                                AlphaColorCustomComponent(
+                                    color = (filter.value as Color).toArgb(),
+                                    onColorChange = { c, alpha ->
+                                        onFilterChange(Color(c).copy(alpha / 255f))
+                                    }
+                                )
+                            }
                             if (previewOnly) {
                                 Box(
                                     Modifier
@@ -157,13 +169,14 @@ fun <T> FilterItem(
 
                     is FloatArray -> {
                         val value = filter.value as FloatArray
+                        val rows = filter.paramsInfo[0].valueRange.start.toInt().absoluteValue
                         var text by rememberSaveable(filter) {
                             mutableStateOf(
                                 value.let {
                                     var string = ""
                                     it.forEachIndexed { index, float ->
                                         string += "$float, "
-                                        if (index % 4 == 3) string += "\n"
+                                        if (index % rows == (rows - 1)) string += "\n"
                                     }
                                     string.dropLast(3)
                                 }
@@ -176,12 +189,7 @@ fun <T> FilterItem(
                             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                             onValueChange = { text = it },
                             onLoseFocusTransformation = {
-                                val matrix = floatArrayOf(
-                                    1.0f, 0.0f, 0.0f, 0.0f,
-                                    0.0f, 1.0f, 0.0f, 0.0f,
-                                    0.0f, 0.0f, 1.0f, 0.0f,
-                                    0.0f, 0.0f, 0.0f, 1.0f
-                                )
+                                val matrix = filter.newInstance().value as FloatArray
                                 split(", ").mapIndexed { index, num ->
                                     num.toFloatOrNull()?.let {
                                         matrix[index] = it
@@ -193,12 +201,7 @@ fun <T> FilterItem(
                             startIcon = {
                                 IconButton(
                                     onClick = {
-                                        val matrix = floatArrayOf(
-                                            1.0f, 0.0f, 0.0f, 0.0f,
-                                            0.0f, 1.0f, 0.0f, 0.0f,
-                                            0.0f, 0.0f, 1.0f, 0.0f,
-                                            0.0f, 0.0f, 0.0f, 1.0f
-                                        )
+                                        val matrix = filter.newInstance().value as FloatArray
                                         text.split(", ").mapIndexed { index, num ->
                                             num.toFloatOrNull()?.let {
                                                 matrix[index] = it

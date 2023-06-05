@@ -255,6 +255,8 @@
     <string name="non_maximum_suppression">Non maximum suppression</string>
     <string name="weak_pixel_inclusion">Weak pixel inclusion</string>
     <string name="lookup">Lookup</string>
+    <string name="convolution3x3">Convolution 3x3</string>
+    <string name="rgb_filter">RGB filter</string>
 
     <string-array name="fab_alignment_sub">
         <item>Start</item>
