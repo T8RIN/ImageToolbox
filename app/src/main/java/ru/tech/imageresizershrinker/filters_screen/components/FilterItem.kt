@@ -1,5 +1,3 @@
-@file:Suppress("UNCHECKED_CAST")
-
 package ru.tech.imageresizershrinker.filters_screen.components
 
 import androidx.compose.animation.animateContentSize
@@ -45,7 +43,6 @@ import androidx.compose.ui.unit.sp
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.main_screen.components.AlphaColorCustomComponent
 import ru.tech.imageresizershrinker.main_screen.components.ColorCustomComponent
-import ru.tech.imageresizershrinker.utils.coil.filters.FalseColorFilter
 import ru.tech.imageresizershrinker.utils.coil.filters.FilterTransformation
 import ru.tech.imageresizershrinker.utils.coil.filters.RGBFilter
 import ru.tech.imageresizershrinker.utils.modifier.block
@@ -234,68 +231,10 @@ fun <T> FilterItem(
                     }
 
                     is Pair<*, *> -> {
-                        val value = filter.value as? Pair<Number, Number>
-                        if (filter is FalseColorFilter) {
-                            Box(
-                                modifier = Modifier.padding(
-                                    start = 16.dp,
-                                    top = 8.dp,
-                                    end = 16.dp
-                                )
-                            ) {
-                                var color1 by remember(filter) { mutableStateOf(filter.value.first) }
-                                var color2 by remember(filter) { mutableStateOf(filter.value.second) }
-
-                                Column {
-                                    Divider()
-                                    Text(
-                                        text = stringResource(R.string.first_color),
-                                        modifier = Modifier
-                                            .padding(
-                                                bottom = 16.dp,
-                                                top = 16.dp,
-                                                end = 16.dp,
-                                            )
-                                    )
-                                    ColorCustomComponent(
-                                        color = color1.toArgb(),
-                                        onColorChange = { c ->
-                                            color1 = Color(c)
-                                            onFilterChange(color1 to color2)
-                                        }
-                                    )
-                                    Spacer(Modifier.height(8.dp))
-                                    Divider()
-                                    Text(
-                                        text = stringResource(R.string.second_color),
-                                        modifier = Modifier
-                                            .padding(
-                                                top = 16.dp,
-                                                bottom = 16.dp,
-                                                end = 16.dp
-                                            )
-                                    )
-                                    ColorCustomComponent(
-                                        color = color2.toArgb(),
-                                        onColorChange = { c ->
-                                            color2 = Color(c)
-                                            onFilterChange(color1 to color2)
-                                        }
-                                    )
-                                }
-                                if (previewOnly) {
-                                    Box(
-                                        Modifier
-                                            .matchParentSize()
-                                            .pointerInput(Unit) {
-                                                detectTapGestures { }
-                                            }
-                                    )
-                                }
-                            }
-                        } else if (value != null) {
-                            var sliderState1 by remember(value) { mutableFloatStateOf(value.first.toFloat()) }
-                            var sliderState2 by remember(value) { mutableFloatStateOf(value.second.toFloat()) }
+                        val value = filter.value as Pair<*, *>
+                        if (value.first is Number && value.second is Number) {
+                            var sliderState1 by remember(value) { mutableFloatStateOf((value.first as Number).toFloat()) }
+                            var sliderState2 by remember(value) { mutableFloatStateOf((value.second as Number).toFloat()) }
 
                             Spacer(Modifier.height(8.dp))
                             filter.paramsInfo[0].title?.let {
@@ -385,6 +324,64 @@ fun <T> FilterItem(
                                 },
                                 valueRange = filter.paramsInfo[1].valueRange
                             )
+                        } else if (value.first is Color && value.second is Color) {
+                            Box(
+                                modifier = Modifier.padding(
+                                    start = 16.dp,
+                                    top = 8.dp,
+                                    end = 16.dp
+                                )
+                            ) {
+                                var color1 by remember(value) { mutableStateOf(value.first as Color) }
+                                var color2 by remember(value) { mutableStateOf(value.second as Color) }
+
+                                Column {
+                                    Divider()
+                                    Text(
+                                        text = stringResource(R.string.first_color),
+                                        modifier = Modifier
+                                            .padding(
+                                                bottom = 16.dp,
+                                                top = 16.dp,
+                                                end = 16.dp,
+                                            )
+                                    )
+                                    ColorCustomComponent(
+                                        color = color1.toArgb(),
+                                        onColorChange = { c ->
+                                            color1 = Color(c)
+                                            onFilterChange(color1 to color2)
+                                        }
+                                    )
+                                    Spacer(Modifier.height(8.dp))
+                                    Divider()
+                                    Text(
+                                        text = stringResource(R.string.second_color),
+                                        modifier = Modifier
+                                            .padding(
+                                                top = 16.dp,
+                                                bottom = 16.dp,
+                                                end = 16.dp
+                                            )
+                                    )
+                                    ColorCustomComponent(
+                                        color = color2.toArgb(),
+                                        onColorChange = { c ->
+                                            color2 = Color(c)
+                                            onFilterChange(color1 to color2)
+                                        }
+                                    )
+                                }
+                                if (previewOnly) {
+                                    Box(
+                                        Modifier
+                                            .matchParentSize()
+                                            .pointerInput(Unit) {
+                                                detectTapGestures { }
+                                            }
+                                    )
+                                }
+                            }
                         }
                     }
                 }
