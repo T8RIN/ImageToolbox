@@ -6,7 +6,6 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.togetherWith
@@ -15,6 +14,7 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.LocalIndication
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.indication
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -48,7 +48,6 @@ import androidx.compose.material.icons.outlined.Share
 import androidx.compose.material.icons.rounded.AddCircle
 import androidx.compose.material.icons.rounded.AddPhotoAlternate
 import androidx.compose.material.icons.rounded.ArrowBack
-import androidx.compose.material.icons.rounded.ArrowDropDownCircle
 import androidx.compose.material.icons.rounded.Compare
 import androidx.compose.material.icons.rounded.Crop
 import androidx.compose.material.icons.rounded.Dataset
@@ -56,6 +55,7 @@ import androidx.compose.material.icons.rounded.Delete
 import androidx.compose.material.icons.rounded.DoneOutline
 import androidx.compose.material.icons.rounded.ErrorOutline
 import androidx.compose.material.icons.rounded.History
+import androidx.compose.material.icons.rounded.RemoveCircle
 import androidx.compose.material.icons.rounded.RemoveCircleOutline
 import androidx.compose.material.icons.rounded.RestartAlt
 import androidx.compose.material.icons.rounded.Save
@@ -76,7 +76,6 @@ import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedCard
-import androidx.compose.material3.OutlinedIconButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -97,7 +96,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.clipToBounds
-import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.asAndroidBitmap
 import androidx.compose.ui.graphics.asImageBitmap
@@ -287,25 +285,13 @@ fun SingleResizeScreen(
     val imageInside =
         LocalConfiguration.current.orientation != Configuration.ORIENTATION_LANDSCAPE || LocalWindowSizeClass.current.widthSizeClass == WindowWidthSizeClass.Compact
 
-    var imageHolding by remember { mutableStateOf(false) }
-
-    var imageCollapsed by rememberSaveable { mutableStateOf(false) }
+    var imageState by remember { mutableStateOf(1) }
 
     val imageBlock = @Composable {
 
         AnimatedContent(
             targetState = Triple(viewModel.previewBitmap, viewModel.isLoading, showOriginal),
-            transitionSpec = { fadeIn() togetherWith fadeOut() },
-            modifier = Modifier.pointerInput(Unit) {
-                detectTapGestures(
-                    onPress = {
-                        imageHolding = true
-                        tryAwaitRelease()
-                        delay(1000)
-                        imageHolding = false
-                    }
-                )
-            },
+            transitionSpec = { fadeIn() togetherWith fadeOut() }
         ) { (bmp, loading, showOrig) ->
             Box(
                 contentAlignment = Alignment.Center,
@@ -476,10 +462,12 @@ fun SingleResizeScreen(
     }
 
     val topAppBarState = rememberTopAppBarState()
-    val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior(state = topAppBarState)
+    val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior(
+        state = topAppBarState, canScroll = { imageState != 2 && !showOriginal }
+    )
 
-    LaunchedEffect(imageHolding, showOriginal) {
-        if (imageHolding || showOriginal) {
+    LaunchedEffect(imageState, showOriginal) {
+        if (imageState == 2 || showOriginal) {
             while (topAppBarState.heightOffset > topAppBarState.heightOffsetLimit) {
                 topAppBarState.heightOffset -= 5f
                 delay(1)
@@ -721,8 +709,8 @@ fun SingleResizeScreen(
                                         .fillMaxWidth()
                                         .height(
                                             availableHeight(
-                                                expanded = showOriginal || imageHolding,
-                                                collapsed = imageCollapsed
+                                                expanded = showOriginal || imageState == 2,
+                                                collapsed = imageState == 0
                                             )
                                         )
                                         .background(MaterialTheme.colorScheme.surface.copy(alpha = 0.85f))
@@ -740,25 +728,57 @@ fun SingleResizeScreen(
                                         startColor = MaterialTheme.colorScheme.surface.copy(alpha = 0.85f),
                                         endColor = Color.Transparent
                                     )
-                                    OutlinedIconButton(
-                                        border = BorderStroke(
-                                            settingsState.borderWidth,
-                                            MaterialTheme.colorScheme.outlineVariant()
-                                        ),
-                                        onClick = { imageCollapsed = !imageCollapsed },
-                                        modifier = Modifier
-                                            .align(
-                                                Alignment.BottomEnd
-                                            )
+                                    Row(
+                                        Modifier
+                                            .align(Alignment.BottomEnd)
                                             .offset(y = (-40).dp)
-                                    ) {
-                                        Icon(
-                                            imageVector = Icons.Rounded.ArrowDropDownCircle,
-                                            contentDescription = null,
-                                            modifier = Modifier.rotate(
-                                                animateFloatAsState(targetValue = if (imageCollapsed) 0f else 180f).value
+                                            .background(
+                                                MaterialTheme.colorScheme.secondaryContainer.copy(
+                                                    alpha = 0.85f
+                                                ), CircleShape
                                             )
-                                        )
+                                            .border(
+                                                settingsState.borderWidth,
+                                                MaterialTheme.colorScheme
+                                                    .outlineVariant()
+                                                    .copy(alpha = 0.85f),
+                                                CircleShape
+                                            )
+                                    ) {
+                                        AnimatedVisibility(imageState != 0) {
+                                            Box(
+                                                Modifier
+                                                    .size(36.dp)
+                                                    .clip(CircleShape)
+                                                    .clickable {
+                                                        if (imageState > 0) {
+                                                            imageState -= 1
+                                                        } else imageState = 0
+                                                    }, contentAlignment = Alignment.Center
+                                            ) {
+                                                Icon(
+                                                    imageVector = Icons.Rounded.RemoveCircle,
+                                                    contentDescription = null
+                                                )
+                                            }
+                                        }
+                                        AnimatedVisibility(imageState != 2) {
+                                            Box(
+                                                Modifier
+                                                    .size(36.dp)
+                                                    .clip(CircleShape)
+                                                    .clickable {
+                                                        if (imageState < 2) {
+                                                            imageState += 1
+                                                        } else imageState = 2
+                                                    }, contentAlignment = Alignment.Center
+                                            ) {
+                                                Icon(
+                                                    imageVector = Icons.Rounded.AddCircle,
+                                                    contentDescription = null
+                                                )
+                                            }
+                                        }
                                     }
                                 }
                             }
