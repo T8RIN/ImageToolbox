@@ -18,6 +18,7 @@ sealed class FilterTransformation<T>(
     val valueRange: @RawValue ClosedFloatingPointRange<Float>,
     open val value: @RawValue T,
 ) : GPUFilterTransformation(context), Transformation, Parcelable {
+    
     fun <T : Any> copy(value: T): FilterTransformation<*> {
         return when (this) {
             is BrightnessFilter -> BrightnessFilter(context, value as Float)
@@ -79,7 +80,7 @@ sealed class FilterTransformation<T>(
         }
     }
     
-    fun <T : Any> newInstance() : FilterTransformation<T> {
+    fun <T : Any> newInstance() : FilterTransformation<*> {
         return when (this) {
 
             is BrightnessFilter -> BrightnessFilter(context)
@@ -150,21 +151,23 @@ sealed class FilterTransformation<T>(
 
             is HighlightsAndShadowsFilter -> HighlightsAndShadowsFilter(context)
 
-            is ColorMatrixFilter -> ColorMatrixFilter(context, value as FloatArray)
+            is ColorMatrixFilter -> ColorMatrixFilter(context)
 
-            is OpacityFilter -> OpacityFilter(context, value as Float)
+            is OpacityFilter -> OpacityFilter(context)
 
             is SketchFilter -> SketchFilter(context)
 
             is ToonFilter -> ToonFilter(context)
 
-            is PosterizeFilter -> PosterizeFilter(context, value as Float)
+            is PosterizeFilter -> PosterizeFilter(context)
 
             is SmoothToonFilter -> SmoothToonFilter(context)
 
-            is LookupFilter -> LookupFilter(context, value as Float)
+            is LookupFilter -> LookupFilter(context)
 
             is NonMaximumSuppressionFilter -> NonMaximumSuppressionFilter(context)
 
             is WeakPixelFilter -> WeakPixelFilter(context)
+        }
+    }
 }
