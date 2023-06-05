@@ -8,14 +8,13 @@ import kotlinx.parcelize.RawValue
 import ru.tech.imageresizershrinker.R
 
 @Parcelize
-data class NegativeFilter(
+class NegativeFilter(
     private val context: @RawValue Context,
     override val value: Unit = Unit,
 ) : FilterTransformation<Unit>(
     context = context,
     title = R.string.negative,
-    value = value,
-    valueRange = 0f..0f
+    value = value
 ) {
     override val cacheKey: String
         get() = (value to context).hashCode().toString()

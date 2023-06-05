@@ -10,7 +10,7 @@ import ru.tech.imageresizershrinker.R
 
 
 @Parcelize
-data class SobelEdgeDetectionFilter(
+class SobelEdgeDetectionFilter(
     private val context: @RawValue Context,
     override val value: Unit = Unit,
 ) : FilterTransformation<Unit>(

@@ -8,7 +8,7 @@ import kotlinx.parcelize.RawValue
 import ru.tech.imageresizershrinker.R
 
 @Parcelize
-data class NonMaximumSuppressionFilter(
+class NonMaximumSuppressionFilter(
     private val context: @RawValue Context,
     override val value: Unit = Unit,
 ) : FilterTransformation<Unit>(

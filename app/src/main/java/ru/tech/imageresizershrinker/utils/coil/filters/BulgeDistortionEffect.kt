@@ -10,14 +10,17 @@ import ru.tech.imageresizershrinker.R
 
 
 @Parcelize
-data class BulgeDistortionEffect(
+class BulgeDistortionEffect(
     private val context: @RawValue Context,
     override val value: Pair<Float, Float> = 0.25f to 0.5f,
 ) : FilterTransformation<Pair<Float, Float>>(
     context = context,
     title = R.string.bulge,
     value = value,
-    valueRange = -1f..1f
+    paramsInfo = listOf(
+        R.string.radius paramTo 0f..1f,
+        R.string.scale paramTo -1f..1f
+    )
 ) {
     override val cacheKey: String
         get() = (value to context).hashCode().toString()

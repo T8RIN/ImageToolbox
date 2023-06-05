@@ -8,14 +8,16 @@ import kotlinx.parcelize.RawValue
 import ru.tech.imageresizershrinker.R
 
 @Parcelize
-data class KuwaharaFilter(
+class KuwaharaFilter(
     private val context: @RawValue Context,
     override val value: Float = 3f,
 ) : FilterTransformation<Float>(
     context = context,
     title = R.string.kuwahara,
     value = value,
-    valueRange = 0f..30f
+    paramsInfo = listOf(
+        FilterParam(null, 0f..30f, 0)
+    )
 ) {
     override val cacheKey: String
         get() = (value to context).hashCode().toString()

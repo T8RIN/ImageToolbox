@@ -12,14 +12,17 @@ import kotlin.math.abs
 import kotlin.math.roundToInt
 
 @Parcelize
-data class SlowBlurFilter(
+class SlowBlurFilter(
     private val context: @RawValue Context,
     override val value: Pair<Float, Int> = 0.5f to 25,
 ) : FilterTransformation<Pair<Float, Int>>(
     context = context,
     title = R.string.slow_blur,
     value = value,
-    valueRange = 0f..100f
+    paramsInfo = listOf(
+        FilterParam(R.string.scale, 0.01f..1f, 2),
+        FilterParam(R.string.radius, 0f..100f, 0)
+    )
 ) {
     override val cacheKey: String
         get() = (value to context).hashCode().toString()

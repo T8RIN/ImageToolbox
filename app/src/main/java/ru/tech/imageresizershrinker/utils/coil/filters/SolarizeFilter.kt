@@ -9,7 +9,7 @@ import ru.tech.imageresizershrinker.R
 
 
 @Parcelize
-data class SolarizeFilter(
+class SolarizeFilter(
     private val context: @RawValue Context,
     override val value: Float = 0.5f,
 ) : FilterTransformation<Float>(

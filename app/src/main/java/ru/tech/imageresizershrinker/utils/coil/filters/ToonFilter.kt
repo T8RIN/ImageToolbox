@@ -8,14 +8,17 @@ import kotlinx.parcelize.RawValue
 import ru.tech.imageresizershrinker.R
 
 @Parcelize
-data class ToonFilter(
+class ToonFilter(
     private val context: @RawValue Context,
     override val value: Pair<Float, Float> = 0.2f to 10f,
 ) : FilterTransformation<Pair<Float, Float>>(
     context = context,
     title = R.string.toon,
     value = value,
-    valueRange = 0f..100f
+    paramsInfo = listOf(
+        R.string.threshold paramTo 0f..5f,
+        R.string.quantizationLevels paramTo 0f..100f
+    )
 ) {
     override val cacheKey: String
         get() = (value to context).hashCode().toString()

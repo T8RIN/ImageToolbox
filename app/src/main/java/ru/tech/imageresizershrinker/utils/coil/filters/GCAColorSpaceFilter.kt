@@ -8,14 +8,13 @@ import kotlinx.parcelize.RawValue
 import ru.tech.imageresizershrinker.R
 
 @Parcelize
-data class GCAColorSpaceFilter(
+class GCAColorSpaceFilter(
     private val context: @RawValue Context,
     override val value: Unit = Unit,
 ) : FilterTransformation<Unit>(
     context = context,
     title = R.string.gca_colorspace,
-    value = value,
-    valueRange = -10f..10f
+    value = value
 ) {
     override val cacheKey: String
         get() = (value to context).hashCode().toString()

@@ -9,14 +9,16 @@ import kotlinx.parcelize.RawValue
 import ru.tech.imageresizershrinker.R
 
 @Parcelize
-data class PosterizeFilter(
+class PosterizeFilter(
     private val context: @RawValue Context,
     override val value: Float = 10f,
 ) : FilterTransformation<Float>(
     context = context,
     title = R.string.posterize,
     value = value,
-    valueRange = 1f..256f
+    paramsInfo = listOf(
+        FilterParam(null, 1f..256f, 0)
+    )
 ) {
     override val cacheKey: String
         get() = (value to context).hashCode().toString()

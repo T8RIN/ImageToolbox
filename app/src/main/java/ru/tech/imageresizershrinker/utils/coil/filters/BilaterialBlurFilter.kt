@@ -8,7 +8,7 @@ import kotlinx.parcelize.RawValue
 import ru.tech.imageresizershrinker.R
 
 @Parcelize
-data class BilaterialBlurFilter(
+class BilaterialBlurFilter(
     private val context: @RawValue Context,
     override val value: Float = -8f,
 ) : FilterTransformation<Float>(

@@ -16,14 +16,13 @@ import kotlinx.parcelize.RawValue
 import ru.tech.imageresizershrinker.R
 
 @Parcelize
-data class ColorFilter(
+class ColorFilter(
     private val context: @RawValue Context,
     override val value: @RawValue Color = Color.Transparent,
 ) : FilterTransformation<Color>(
     context = context,
     title = R.string.color_filter,
-    value = Color.Transparent,
-    valueRange = 0f..0f
+    value = Color.Transparent
 ) {
     override val cacheKey: String
         get() = (value to context).hashCode().toString()

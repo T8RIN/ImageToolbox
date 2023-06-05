@@ -10,7 +10,7 @@ import ru.tech.imageresizershrinker.R
 
 
 @Parcelize
-data class VibranceFilter(
+class VibranceFilter(
     private val context: @RawValue Context,
     override val value: Float = 0f,
 ) : FilterTransformation<Float>(

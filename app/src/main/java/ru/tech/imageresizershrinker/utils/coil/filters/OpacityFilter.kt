@@ -9,7 +9,7 @@ import kotlinx.parcelize.RawValue
 import ru.tech.imageresizershrinker.R
 
 @Parcelize
-data class OpacityFilter(
+class OpacityFilter(
     private val context: @RawValue Context,
     override val value: Float = 1f,
 ) : FilterTransformation<Float>(

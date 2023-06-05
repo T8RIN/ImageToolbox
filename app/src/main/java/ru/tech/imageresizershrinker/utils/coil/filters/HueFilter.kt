@@ -8,7 +8,7 @@ import kotlinx.parcelize.RawValue
 import ru.tech.imageresizershrinker.R
 
 @Parcelize
-data class HueFilter(
+class HueFilter(
     private val context: @RawValue Context,
     override val value: Float = 90f,
 ) : FilterTransformation<Float>(

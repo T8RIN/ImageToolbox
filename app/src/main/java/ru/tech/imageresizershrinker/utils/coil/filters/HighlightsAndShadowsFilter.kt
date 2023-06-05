@@ -8,14 +8,17 @@ import kotlinx.parcelize.RawValue
 import ru.tech.imageresizershrinker.R
 
 @Parcelize
-data class HighlightsAndShadowsFilter(
+class HighlightsAndShadowsFilter(
     private val context: @RawValue Context,
     override val value: Pair<Float, Float> = 0f to 1f
 ) : FilterTransformation<Pair<Float, Float>>(
     context = context,
     title = R.string.highlights_shadows,
     value = value,
-    valueRange = 0f..1f
+    paramsInfo = listOf(
+        R.string.highlights paramTo 0f..1f,
+        R.string.shadows paramTo 0f..1f
+    )
 ) {
     override val cacheKey: String
         get() = (value to context).hashCode().toString()

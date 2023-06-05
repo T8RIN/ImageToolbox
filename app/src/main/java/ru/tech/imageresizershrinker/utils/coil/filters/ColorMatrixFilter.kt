@@ -20,8 +20,7 @@ class ColorMatrixFilter(
 ) : FilterTransformation<FloatArray>(
     context = context,
     title = R.string.color_matrix,
-    value = value,
-    valueRange = 0f..0f
+    value = value
 ) {
     override val cacheKey: String
         get() = (value to context).hashCode().toString()
