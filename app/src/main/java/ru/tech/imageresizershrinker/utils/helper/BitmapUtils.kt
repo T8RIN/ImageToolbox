@@ -528,7 +528,11 @@ object BitmapUtils {
                     val ext = mime.extension
                     val file = File(imagesFolder, "$name.$ext")
                     val stream = FileOutputStream(file)
-                    image.compress(ext.compressFormat, bitmapInfo.quality.toInt().coerceIn(0, 100), stream)
+                    image.compress(
+                        ext.compressFormat,
+                        bitmapInfo.quality.toInt().coerceIn(0, 100),
+                        stream
+                    )
                     stream.flush()
                     stream.close()
                     FileProvider.getUriForFile(
