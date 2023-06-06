@@ -10,6 +10,7 @@ import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.resizeBitmap
 import kotlin.math.roundToInt
 
+
 @Parcelize
 class FastBlurFilter(
     private val context: @RawValue Context,

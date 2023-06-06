@@ -88,12 +88,14 @@ import ru.tech.imageresizershrinker.utils.coil.filters.SmoothToonFilter
 import ru.tech.imageresizershrinker.utils.coil.filters.SobelEdgeDetectionFilter
 import ru.tech.imageresizershrinker.utils.coil.filters.SolarizeFilter
 import ru.tech.imageresizershrinker.utils.coil.filters.SphereRefractionFilter
+import ru.tech.imageresizershrinker.utils.coil.filters.StackBlurFilter
 import ru.tech.imageresizershrinker.utils.coil.filters.SwirlDistortionEffect
 import ru.tech.imageresizershrinker.utils.coil.filters.ToonFilter
 import ru.tech.imageresizershrinker.utils.coil.filters.VibranceFilter
 import ru.tech.imageresizershrinker.utils.coil.filters.VignetteFilter
 import ru.tech.imageresizershrinker.utils.coil.filters.WeakPixelFilter
 import ru.tech.imageresizershrinker.utils.coil.filters.WhiteBalanceFilter
+import ru.tech.imageresizershrinker.utils.coil.filters.ZoomBlurFilter
 import ru.tech.imageresizershrinker.widget.TitleItem
 import ru.tech.imageresizershrinker.widget.sheets.SimpleSheet
 import ru.tech.imageresizershrinker.widget.utils.LocalSettingsState
@@ -253,7 +255,9 @@ fun AddFiltersSheet(
                                         BoxBlurFilter(context),
                                         BilaterialBlurFilter(context),
                                         SlowBlurFilter(context),
-                                        FastBlurFilter(context)
+                                        FastBlurFilter(context),
+                                        StackBlurFilter(context),
+                                        ZoomBlurFilter(context)
                                     ).forEach {
                                         PreferenceItem(
                                             title = stringResource(it.title),

@@ -394,6 +394,148 @@ fun <T> FilterItem(
                             }
                         }
                     }
+
+                    is Triple<*, *, *> -> {
+                        val value = filter.value as Triple<*, *, *>
+                        if (value.first is Number && value.second is Number) {
+                            var sliderState1 by remember(value) { mutableFloatStateOf((value.first as Number).toFloat()) }
+                            var sliderState2 by remember(value) { mutableFloatStateOf((value.second as Number).toFloat()) }
+                            var sliderState3 by remember(value) { mutableFloatStateOf((value.third as Number).toFloat()) }
+
+                            Spacer(Modifier.height(8.dp))
+                            filter.paramsInfo[0].title?.let {
+                                Row(
+                                    verticalAlignment = Alignment.CenterVertically
+                                ) {
+                                    Row(Modifier.weight(1f)) {
+                                        Text(
+                                            text = stringResource(it),
+                                            modifier = Modifier
+                                                .padding(
+                                                    top = 16.dp,
+                                                    end = 16.dp,
+                                                    start = 16.dp
+                                                )
+                                                .weight(1f)
+                                        )
+                                    }
+                                    Text(
+                                        text = "$sliderState1",
+                                        color = MaterialTheme.colorScheme.onSurface.copy(
+                                            alpha = 0.5f
+                                        ),
+                                        modifier = Modifier.padding(top = 16.dp),
+                                        lineHeight = 18.sp
+                                    )
+                                    Spacer(
+                                        modifier = Modifier.padding(
+                                            start = 4.dp,
+                                            top = 16.dp,
+                                            end = 20.dp
+                                        )
+                                    )
+                                }
+                            }
+                            Slider(
+                                enabled = !previewOnly,
+                                modifier = Modifier.padding(horizontal = 16.dp),
+                                value = animateFloatAsState(sliderState1).value,
+                                onValueChange = {
+                                    sliderState1 = it.roundTo(filter.paramsInfo[0].roundTo)
+                                    onFilterChange(Triple(sliderState1, sliderState2, sliderState3))
+                                },
+                                valueRange = filter.paramsInfo[0].valueRange
+                            )
+                            Spacer(Modifier.height(8.dp))
+                            filter.paramsInfo[1].title?.let {
+                                Row(
+                                    verticalAlignment = Alignment.CenterVertically
+                                ) {
+                                    Row(Modifier.weight(1f)) {
+                                        Text(
+                                            text = stringResource(it),
+                                            modifier = Modifier
+                                                .padding(
+                                                    top = 16.dp,
+                                                    end = 16.dp,
+                                                    start = 16.dp
+                                                )
+                                                .weight(1f)
+                                        )
+                                    }
+                                    Text(
+                                        text = "$sliderState2",
+                                        color = MaterialTheme.colorScheme.onSurface.copy(
+                                            alpha = 0.5f
+                                        ),
+                                        modifier = Modifier.padding(top = 16.dp),
+                                        lineHeight = 18.sp
+                                    )
+                                    Spacer(
+                                        modifier = Modifier.padding(
+                                            start = 4.dp,
+                                            top = 16.dp,
+                                            end = 20.dp
+                                        )
+                                    )
+                                }
+                            }
+                            Slider(
+                                enabled = !previewOnly,
+                                modifier = Modifier.padding(horizontal = 16.dp),
+                                value = animateFloatAsState(sliderState2).value,
+                                onValueChange = {
+                                    sliderState2 = it.roundTo(filter.paramsInfo[1].roundTo)
+                                    onFilterChange(Triple(sliderState1, sliderState2, sliderState3))
+                                },
+                                valueRange = filter.paramsInfo[1].valueRange
+                            )
+                            Spacer(Modifier.height(8.dp))
+                            filter.paramsInfo[2].title?.let {
+                                Row(
+                                    verticalAlignment = Alignment.CenterVertically
+                                ) {
+                                    Row(Modifier.weight(1f)) {
+                                        Text(
+                                            text = stringResource(it),
+                                            modifier = Modifier
+                                                .padding(
+                                                    top = 16.dp,
+                                                    end = 16.dp,
+                                                    start = 16.dp
+                                                )
+                                                .weight(1f)
+                                        )
+                                    }
+                                    Text(
+                                        text = "$sliderState3",
+                                        color = MaterialTheme.colorScheme.onSurface.copy(
+                                            alpha = 0.5f
+                                        ),
+                                        modifier = Modifier.padding(top = 16.dp),
+                                        lineHeight = 18.sp
+                                    )
+                                    Spacer(
+                                        modifier = Modifier.padding(
+                                            start = 4.dp,
+                                            top = 16.dp,
+                                            end = 20.dp
+                                        )
+                                    )
+                                }
+                            }
+                            Slider(
+                                enabled = !previewOnly,
+                                modifier = Modifier.padding(horizontal = 16.dp),
+                                value = animateFloatAsState(sliderState3).value,
+                                onValueChange = {
+                                    sliderState3 = it.roundTo(filter.paramsInfo[2].roundTo)
+                                    onFilterChange(Triple(sliderState1, sliderState2, sliderState3))
+                                },
+                                valueRange = filter.paramsInfo[2].valueRange
+                            )
+                        }
+                    }
                 }
             }
         }
