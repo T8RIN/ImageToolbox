@@ -54,6 +54,7 @@ import androidx.compose.material.icons.rounded.Compare
 import androidx.compose.material.icons.rounded.History
 import androidx.compose.material.icons.rounded.PhotoFilter
 import androidx.compose.material.icons.rounded.RemoveCircle
+import androidx.compose.material.icons.rounded.Reorder
 import androidx.compose.material.icons.rounded.Save
 import androidx.compose.material.icons.rounded.ZoomIn
 import androidx.compose.material3.BottomAppBar
@@ -887,6 +888,11 @@ fun FiltersScreen(
                                                                 }
                                                             )
                                                         },
+                                                        onLongPress = {
+                                                            if (filterList.size >= 2) {
+                                                                showReorderSheet.value = true
+                                                            }
+                                                        },
                                                         showDragHandle = false,
                                                         onRemove = {
                                                             viewModel.removeFilterAtIndex(index)
@@ -1071,8 +1077,8 @@ fun FiltersScreen(
                 visible = showReorderSheet,
                 title = {
                     TitleItem(
-                        text = stringResource(R.string.filter),
-                        icon = Icons.Rounded.PhotoFilter
+                        text = stringResource(R.string.reorder),
+                        icon = Icons.Rounded.Reorder
                     )
                 },
                 confirmButton = {

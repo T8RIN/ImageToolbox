@@ -260,6 +260,7 @@
     <string name="false_color">False color</string>
     <string name="first_color">First color</string>
     <string name="second_color">Second color</string>
+    <string name="reorder">Reorder</string>
 
     <string-array name="fab_alignment_sub">
         <item>Start</item>

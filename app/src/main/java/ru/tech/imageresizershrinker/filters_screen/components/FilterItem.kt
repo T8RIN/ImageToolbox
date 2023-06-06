@@ -57,6 +57,7 @@ fun <T> FilterItem(
     filter: FilterTransformation<T>,
     showDragHandle: Boolean,
     onRemove: () -> Unit,
+    onLongPress: (() -> Unit)? = null,
     previewOnly: Boolean = false,
     onFilterChange: (value: Any) -> Unit,
     modifier: Modifier = Modifier,
@@ -69,7 +70,16 @@ fun <T> FilterItem(
     Row(
         modifier = modifier
             .block(color = backgroundColor)
-            .animateContentSize(),
+            .animateContentSize()
+            .then(
+                onLongPress?.let {
+                    Modifier.pointerInput(Unit) {
+                        detectTapGestures(
+                            onLongPress = { it() }
+                        )
+                    }
+                } ?: Modifier
+            ),
         verticalAlignment = Alignment.CenterVertically
     ) {
         if (showDragHandle && filter.value !is Color) {
