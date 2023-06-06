@@ -217,7 +217,7 @@
     <string name="kuwahara">Lissage de Kuwahara</string>
     <string name="radius">Rayon</string>
     <string name="scale">Échelle</string>
-    <string name="slow_blur">Flou lent</string>
+    <string name="stack_blur">Flou lent</string>
     <string name="angle">Angle</string>
     <string name="swirl">Tourbillon</string>
     <string name="distortion">Distorsion</string>

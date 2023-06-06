@@ -84,7 +84,6 @@ import ru.tech.imageresizershrinker.utils.coil.filters.SaturationFilter
 import ru.tech.imageresizershrinker.utils.coil.filters.SepiaFilter
 import ru.tech.imageresizershrinker.utils.coil.filters.SharpenFilter
 import ru.tech.imageresizershrinker.utils.coil.filters.SketchFilter
-import ru.tech.imageresizershrinker.utils.coil.filters.SlowBlurFilter
 import ru.tech.imageresizershrinker.utils.coil.filters.SmoothToonFilter
 import ru.tech.imageresizershrinker.utils.coil.filters.SobelEdgeDetectionFilter
 import ru.tech.imageresizershrinker.utils.coil.filters.SolarizeFilter
@@ -256,7 +255,6 @@ fun AddFiltersSheet(
                                         GaussianBlurFilter(context),
                                         BoxBlurFilter(context),
                                         BilaterialBlurFilter(context),
-                                        SlowBlurFilter(context),
                                         FastBlurFilter(context),
                                         StackBlurFilter(context),
                                         ZoomBlurFilter(context)

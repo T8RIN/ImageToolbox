@@ -173,7 +173,7 @@
     <string name="bulge">उभाड़ना</string>
     <string name="load_image_from_net">नेट से छवि लोड करें</string>
     <string name="limits_resize">सीमाओं का आकार बदलना</string>
-    <string name="slow_blur">धीमा धुंधलापन</string>
+    <string name="stack_blur">धीमा धुंधलापन</string>
     <string name="load_image_from_net_sub">किसी भी छवि को इंटरनेट से लोड करें, उसका पूर्वावलोकन करें, ज़ूम करें, और यदि आप चाहें तो उसे सहेज या संपादित भी कर सकते हैं</string>
     <string name="no_image">चित्र उपलब्द नहीं है</string>
     <string name="fit">उपयुक्त</string>

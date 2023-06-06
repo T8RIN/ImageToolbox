@@ -219,7 +219,7 @@
     <string name="box_blur">Размытие прямоугольника</string>
     <string name="start">Начало</string>
     <string name="end">Конец</string>
-    <string name="slow_blur">Медленное размытие</string>
+    <string name="stack_blur">Медленное размытие</string>
     <string name="scale">Увеличение</string>
     <string name="radius">Радиус</string>
     <string name="distortion">Искажение</string>

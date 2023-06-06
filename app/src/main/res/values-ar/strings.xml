@@ -167,7 +167,7 @@
     <string name="sobel_edge">حافة سوبل</string>
     <string name="radius">نصف القطر</string>
     <string name="scale">حجم</string>
-    <string name="slow_blur">طمس بطيء</string>
+    <string name="stack_blur">طمس بطيء</string>
     <string name="sketch">رسم</string>
     <string name="threshold">عتبة</string>
     <string name="coming_soon">قريباً</string>

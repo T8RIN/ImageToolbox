@@ -229,7 +229,7 @@
     <string name="start">Start</string>
     <string name="end">End</string>
     <string name="kuwahara">Kuwahara smoothing</string>
-    <string name="slow_blur">Slow blur</string>
+    <string name="stack_blur">Stack blur</string>
     <string name="radius">Radius</string>
     <string name="scale">Scale</string>
     <string name="distortion">Distortion</string>
@@ -262,7 +262,6 @@
     <string name="second_color">Second color</string>
     <string name="reorder">Reorder</string>
     <string name="fast_blur">Fast blur</string>
-    <string name="stack_blur">Stack blur</string>
     <string name="blur_size">Blur size</string>
     <string name="blur_center_x">Blur center x</string>
     <string name="blur_center_y">Blur center y</string>

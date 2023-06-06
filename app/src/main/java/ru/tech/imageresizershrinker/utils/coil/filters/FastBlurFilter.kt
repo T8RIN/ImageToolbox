@@ -146,6 +146,5 @@ private fun Bitmap.fastBlur(scale: Float, radius: Int): Bitmap {
         x++
     }
     bitmap.setPixels(pix, 0, w, 0, 0, w, h)
-    sentBitmap.recycle()
     return bitmap.resizeBitmap((bitmap.width / scale).toInt(), (bitmap.height / scale).toInt(), 0)
 }

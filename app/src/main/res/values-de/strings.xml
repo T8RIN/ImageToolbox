@@ -214,7 +214,7 @@
     <string name="start">Anfang</string>
     <string name="end">Ende</string>
     <string name="spacing">Abstand der Linien</string>
-    <string name="slow_blur">Verwischen (langsam)</string>
+    <string name="stack_blur">Verwischen (langsam)</string>
     <string name="angle">Winkel</string>
     <string name="swirl">Wirbel</string>
     <string name="bulge">Schwellung</string>
