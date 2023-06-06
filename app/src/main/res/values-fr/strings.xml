@@ -240,4 +240,9 @@
     <string name="lookup">Consultation</string>
     <string name="weak_pixel_inclusion">Inclusion de pixels faibles</string>
     <string name="non_maximum_suppression">Suppression de non maximum</string>
+    <string name="convolution3x3">Convolution 3x3</string>
+    <string name="false_color">Couleur fausse</string>
+    <string name="second_color">Seconde couleur</string>
+    <string name="rgb_filter">Filtre RGB</string>
+    <string name="first_color">Première couleur</string>
 </resources>
