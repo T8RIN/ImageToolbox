@@ -74,6 +74,7 @@ import ru.tech.imageresizershrinker.utils.coil.filters.HueFilter
 import ru.tech.imageresizershrinker.utils.coil.filters.KuwaharaFilter
 import ru.tech.imageresizershrinker.utils.coil.filters.LaplacianFilter
 import ru.tech.imageresizershrinker.utils.coil.filters.LookupFilter
+import ru.tech.imageresizershrinker.utils.coil.filters.LuminanceThresholdFilter
 import ru.tech.imageresizershrinker.utils.coil.filters.MonochromeFilter
 import ru.tech.imageresizershrinker.utils.coil.filters.NegativeFilter
 import ru.tech.imageresizershrinker.utils.coil.filters.NonMaximumSuppressionFilter
@@ -237,7 +238,8 @@ fun AddFiltersSheet(
                                         LookupFilter(context),
                                         NonMaximumSuppressionFilter(context),
                                         WeakPixelFilter(context),
-                                        Convolution3x3Filter(context)
+                                        Convolution3x3Filter(context),
+                                        LuminanceThresholdFilter(context)
                                     ).forEach {
                                         PreferenceItem(
                                             title = stringResource(it.title),
