@@ -36,7 +36,6 @@ import androidx.compose.material.icons.rounded.AddPhotoAlternate
 import androidx.compose.material.icons.rounded.ArrowBack
 import androidx.compose.material.icons.rounded.Colorize
 import androidx.compose.material.icons.rounded.ContentPaste
-import androidx.compose.material.icons.rounded.ErrorOutline
 import androidx.compose.material.icons.rounded.ZoomIn
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -77,6 +76,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import coil.size.Size
 import com.smarttoolfactory.colordetector.ImageColorDetector
 import com.t8rin.dynamic.theme.LocalDynamicThemeState
 import dev.olshevski.navigation.reimagined.navigate
@@ -86,6 +86,7 @@ import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.pick_color_from_image_screen.viewModel.PickColorViewModel
 import ru.tech.imageresizershrinker.theme.PaletteSwatch
 import ru.tech.imageresizershrinker.theme.outlineVariant
+import ru.tech.imageresizershrinker.utils.coil.filters.SaturationFilter
 import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.decodeBitmapFromUri
 import ru.tech.imageresizershrinker.utils.modifier.block
 import ru.tech.imageresizershrinker.utils.modifier.drawHorizontalStroke
@@ -101,6 +102,7 @@ import ru.tech.imageresizershrinker.widget.LoadingDialog
 import ru.tech.imageresizershrinker.widget.LocalToastHost
 import ru.tech.imageresizershrinker.widget.TopAppBarEmoji
 import ru.tech.imageresizershrinker.widget.image.ImageNotPickedWidget
+import ru.tech.imageresizershrinker.widget.showError
 import ru.tech.imageresizershrinker.widget.text.Marquee
 import ru.tech.imageresizershrinker.widget.utils.LocalSettingsState
 import ru.tech.imageresizershrinker.widget.utils.LocalWindowSizeClass
@@ -133,13 +135,7 @@ fun PickColorFromImageScreen(
                 onGetBitmap = viewModel::updateBitmap,
                 onError = {
                     scope.launch {
-                        toastHostState.showToast(
-                            context.getString(
-                                R.string.smth_went_wrong,
-                                it.localizedMessage ?: ""
-                            ),
-                            Icons.Rounded.ErrorOutline
-                        )
+                        toastHostState.showError(context, it)
                     }
                 }
             )
@@ -148,7 +144,11 @@ fun PickColorFromImageScreen(
 
     LaunchedEffect(viewModel.bitmap) {
         viewModel.bitmap?.let {
-            if (allowChangeColor) themeState.updateColorByImage(it)
+            if (allowChangeColor) {
+                themeState.updateColorByImage(
+                    SaturationFilter(context, 2f).transform(it, Size.ORIGINAL)
+                )
+            }
         }
     }
 
@@ -171,13 +171,7 @@ fun PickColorFromImageScreen(
                     onGetBitmap = viewModel::updateBitmap,
                     onError = {
                         scope.launch {
-                            toastHostState.showToast(
-                                context.getString(
-                                    R.string.smth_went_wrong,
-                                    it.localizedMessage ?: ""
-                                ),
-                                Icons.Rounded.ErrorOutline
-                            )
+                            toastHostState.showError(context, it)
                         }
                     }
                 )

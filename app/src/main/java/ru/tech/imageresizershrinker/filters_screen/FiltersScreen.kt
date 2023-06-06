@@ -51,7 +51,6 @@ import androidx.compose.material.icons.rounded.ArrowBack
 import androidx.compose.material.icons.rounded.Build
 import androidx.compose.material.icons.rounded.ChangeCircle
 import androidx.compose.material.icons.rounded.Compare
-import androidx.compose.material.icons.rounded.ErrorOutline
 import androidx.compose.material.icons.rounded.History
 import androidx.compose.material.icons.rounded.PhotoFilter
 import androidx.compose.material.icons.rounded.RemoveCircle
@@ -101,6 +100,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.compose.viewModel
+import coil.size.Size
 import com.t8rin.dynamic.theme.LocalDynamicThemeState
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -115,6 +115,7 @@ import ru.tech.imageresizershrinker.filters_screen.components.FilterItem
 import ru.tech.imageresizershrinker.filters_screen.viewModel.FilterViewModel
 import ru.tech.imageresizershrinker.theme.outlineVariant
 import ru.tech.imageresizershrinker.utils.LocalConfettiController
+import ru.tech.imageresizershrinker.utils.coil.filters.SaturationFilter
 import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.applyTransformations
 import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.canShow
 import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.decodeBitmapFromUri
@@ -147,6 +148,7 @@ import ru.tech.imageresizershrinker.widget.sheets.CompareSheet
 import ru.tech.imageresizershrinker.widget.sheets.PickImageFromUrisSheet
 import ru.tech.imageresizershrinker.widget.sheets.SimpleSheet
 import ru.tech.imageresizershrinker.widget.sheets.ZoomModalSheet
+import ru.tech.imageresizershrinker.widget.showError
 import ru.tech.imageresizershrinker.widget.text.Marquee
 import ru.tech.imageresizershrinker.widget.utils.LocalSettingsState
 import ru.tech.imageresizershrinker.widget.utils.LocalWindowSizeClass
@@ -214,13 +216,7 @@ fun FiltersScreen(
                 },
                 onError = {
                     scope.launch {
-                        toastHostState.showToast(
-                            context.getString(
-                                R.string.smth_went_wrong,
-                                it.localizedMessage ?: ""
-                            ),
-                            Icons.Rounded.ErrorOutline
-                        )
+                        toastHostState.showError(context, it)
                     }
                 }
             )
@@ -228,7 +224,11 @@ fun FiltersScreen(
     }
     LaunchedEffect(viewModel.previewBitmap) {
         viewModel.previewBitmap?.let {
-            if (allowChangeColor) themeState.updateColorByImage(it)
+            if (allowChangeColor) {
+                themeState.updateColorByImage(
+                    SaturationFilter(context, 2f).transform(it, Size.ORIGINAL)
+                )
+            }
         }
     }
 
@@ -260,13 +260,7 @@ fun FiltersScreen(
                     },
                     onError = {
                         scope.launch {
-                            toastHostState.showToast(
-                                context.getString(
-                                    R.string.smth_went_wrong,
-                                    it.localizedMessage ?: ""
-                                ),
-                                Icons.Rounded.ErrorOutline
-                            )
+                            toastHostState.showError(context, it)
                         }
                     }
                 )
@@ -882,7 +876,15 @@ fun FiltersScreen(
                                                         onFilterChange = {
                                                             viewModel.updateFilter(
                                                                 value = it,
-                                                                index = index
+                                                                index = index,
+                                                                showError = {
+                                                                    scope.launch {
+                                                                        toastHostState.showError(
+                                                                            context,
+                                                                            it
+                                                                        )
+                                                                    }
+                                                                }
                                                             )
                                                         },
                                                         showDragHandle = false,
@@ -994,14 +996,7 @@ fun FiltersScreen(
                         )
                     } catch (e: Exception) {
                         scope.launch {
-                            toastHostState.showToast(
-                                context.getString(
-                                    R.string.smth_went_wrong,
-                                    e.localizedMessage
-                                        ?: ""
-                                ),
-                                Icons.Rounded.ErrorOutline
-                            )
+                            toastHostState.showError(context, e)
                         }
                     }
                 },

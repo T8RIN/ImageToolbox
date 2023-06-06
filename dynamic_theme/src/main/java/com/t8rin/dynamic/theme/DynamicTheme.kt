@@ -379,7 +379,7 @@ fun Bitmap.extractPrimaryColor(default: Int = 0, blendWithVibrant: Boolean = tru
 
     return Color(
         palette.getDominantColor(default).run {
-            if (blendWithVibrant) blend(palette.getVibrantColor(default))
+            if (blendWithVibrant) blend(palette.getVibrantColor(default), 0.5f)
             else this
         }
     )

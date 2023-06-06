@@ -48,7 +48,6 @@ import androidx.compose.material.icons.rounded.AddCircle
 import androidx.compose.material.icons.rounded.AddPhotoAlternate
 import androidx.compose.material.icons.rounded.ArrowBack
 import androidx.compose.material.icons.rounded.ChangeCircle
-import androidx.compose.material.icons.rounded.ErrorOutline
 import androidx.compose.material.icons.rounded.FrontHand
 import androidx.compose.material.icons.rounded.PhotoSizeSelectSmall
 import androidx.compose.material.icons.rounded.RemoveCircle
@@ -102,6 +101,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.compose.viewModel
+import coil.size.Size
 import com.t8rin.dynamic.theme.LocalDynamicThemeState
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -111,6 +111,7 @@ import ru.tech.imageresizershrinker.bytes_resize_screen.viewModel.BytesResizeVie
 import ru.tech.imageresizershrinker.theme.outlineVariant
 import ru.tech.imageresizershrinker.utils.LocalConfettiController
 import ru.tech.imageresizershrinker.utils.coil.BitmapInfoTransformation
+import ru.tech.imageresizershrinker.utils.coil.filters.SaturationFilter
 import ru.tech.imageresizershrinker.utils.helper.BitmapInfo
 import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.decodeBitmapFromUri
 import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.fileSize
@@ -140,6 +141,7 @@ import ru.tech.imageresizershrinker.widget.image.ImageNotPickedWidget
 import ru.tech.imageresizershrinker.widget.image.SimplePicture
 import ru.tech.imageresizershrinker.widget.sheets.PickImageFromUrisSheet
 import ru.tech.imageresizershrinker.widget.sheets.ZoomModalSheet
+import ru.tech.imageresizershrinker.widget.showError
 import ru.tech.imageresizershrinker.widget.text.Marquee
 import ru.tech.imageresizershrinker.widget.text.RoundedTextField
 import ru.tech.imageresizershrinker.widget.utils.LocalSettingsState
@@ -183,13 +185,7 @@ fun BytesResizeScreen(
                 onGetBitmap = viewModel::updateBitmap,
                 onError = {
                     scope.launch {
-                        toastHostState.showToast(
-                            context.getString(
-                                R.string.smth_went_wrong,
-                                it.localizedMessage ?: ""
-                            ),
-                            Icons.Rounded.ErrorOutline
-                        )
+                        toastHostState.showError(context, it)
                     }
                 }
             )
@@ -197,7 +193,11 @@ fun BytesResizeScreen(
     }
     LaunchedEffect(viewModel.bitmap) {
         viewModel.bitmap?.let {
-            if (allowChangeColor) themeState.updateColorByImage(it)
+            if (allowChangeColor) {
+                themeState.updateColorByImage(
+                    SaturationFilter(context, 2f).transform(it, Size.ORIGINAL)
+                )
+            }
         }
     }
 
@@ -217,13 +217,7 @@ fun BytesResizeScreen(
                     onGetBitmap = viewModel::updateBitmap,
                     onError = {
                         scope.launch {
-                            toastHostState.showToast(
-                                context.getString(
-                                    R.string.smth_went_wrong,
-                                    it.localizedMessage ?: ""
-                                ),
-                                Icons.Rounded.ErrorOutline
-                            )
+                            toastHostState.showError(context, it)
                         }
                     }
                 )
@@ -846,14 +840,7 @@ fun BytesResizeScreen(
                         )
                     } catch (e: Exception) {
                         scope.launch {
-                            toastHostState.showToast(
-                                context.getString(
-                                    R.string.smth_went_wrong,
-                                    e.localizedMessage
-                                        ?: ""
-                                ),
-                                Icons.Rounded.ErrorOutline
-                            )
+                            toastHostState.showError(context, e)
                         }
                     }
                 },

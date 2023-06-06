@@ -79,6 +79,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import coil.size.Size
 import com.smarttoolfactory.image.zoom.ZoomLevel
 import com.smarttoolfactory.image.zoom.animatedZoom
 import com.smarttoolfactory.image.zoom.rememberAnimatedZoomState
@@ -99,6 +100,7 @@ import ru.tech.imageresizershrinker.main_screen.components.PickColorPreference
 import ru.tech.imageresizershrinker.main_screen.components.SingleResizePreference
 import ru.tech.imageresizershrinker.theme.CreateAlt
 import ru.tech.imageresizershrinker.theme.outlineVariant
+import ru.tech.imageresizershrinker.utils.coil.filters.SaturationFilter
 import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.decodeSampledBitmapFromUri
 import ru.tech.imageresizershrinker.utils.modifier.drawHorizontalStroke
 import ru.tech.imageresizershrinker.utils.modifier.fabBorder
@@ -151,7 +153,11 @@ fun ImagePreviewScreen(
                     reqWidth = 1200,
                     reqHeight = 1200
                 )
-                image?.let { it1 -> themeState.updateColorByImage(it1) }
+                image?.let { it1 ->
+                    themeState.updateColorByImage(
+                        SaturationFilter(context, 2f).transform(it1, Size.ORIGINAL)
+                    )
+                }
             }
         } ?: themeState.updateColorTuple(appColorTuple)
     }

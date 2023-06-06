@@ -49,11 +49,9 @@ import androidx.compose.material.icons.rounded.AddCircle
 import androidx.compose.material.icons.rounded.AddPhotoAlternate
 import androidx.compose.material.icons.rounded.ArrowBack
 import androidx.compose.material.icons.rounded.Compare
-import androidx.compose.material.icons.rounded.Crop
 import androidx.compose.material.icons.rounded.Dataset
 import androidx.compose.material.icons.rounded.Delete
 import androidx.compose.material.icons.rounded.DoneOutline
-import androidx.compose.material.icons.rounded.ErrorOutline
 import androidx.compose.material.icons.rounded.History
 import androidx.compose.material.icons.rounded.RemoveCircle
 import androidx.compose.material.icons.rounded.RemoveCircleOutline
@@ -87,6 +85,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -97,8 +96,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.asAndroidBitmap
-import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalConfiguration
@@ -111,11 +108,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.smarttoolfactory.cropper.ImageCropper
-import com.smarttoolfactory.cropper.model.OutlineType
-import com.smarttoolfactory.cropper.model.RectCropShape
-import com.smarttoolfactory.cropper.settings.CropDefaults
-import com.smarttoolfactory.cropper.settings.CropOutlineProperty
+import coil.size.Size
 import com.t8rin.dynamic.theme.LocalDynamicThemeState
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -123,11 +116,11 @@ import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.single_resize_screen.viewModel.SingleResizeViewModel
 import ru.tech.imageresizershrinker.theme.outlineVariant
 import ru.tech.imageresizershrinker.utils.LocalConfettiController
+import ru.tech.imageresizershrinker.utils.coil.filters.SaturationFilter
 import ru.tech.imageresizershrinker.utils.helper.BitmapUtils
 import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.applyPresetBy
 import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.canShow
 import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.decodeBitmapFromUri
-import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.resizeBitmap
 import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.shareBitmap
 import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.toMap
 import ru.tech.imageresizershrinker.utils.helper.byteCount
@@ -160,6 +153,7 @@ import ru.tech.imageresizershrinker.widget.image.SimplePicture
 import ru.tech.imageresizershrinker.widget.sheets.CompareSheet
 import ru.tech.imageresizershrinker.widget.sheets.SimpleSheet
 import ru.tech.imageresizershrinker.widget.sheets.ZoomModalSheet
+import ru.tech.imageresizershrinker.widget.showError
 import ru.tech.imageresizershrinker.widget.text.Marquee
 import ru.tech.imageresizershrinker.widget.text.RoundedTextField
 import ru.tech.imageresizershrinker.widget.utils.LocalSettingsState
@@ -200,21 +194,20 @@ fun SingleResizeScreen(
                 onGetBitmap = viewModel::updateBitmap,
                 onError = {
                     scope.launch {
-                        toastHostState.showToast(
-                            context.getString(
-                                R.string.smth_went_wrong,
-                                it.localizedMessage ?: ""
-                            ),
-                            Icons.Rounded.ErrorOutline
-                        )
+                        toastHostState.showError(context, it)
                     }
                 }
             )
         }
     }
+
     LaunchedEffect(viewModel.bitmap) {
         viewModel.bitmap?.let {
-            if (allowChangeColor) themeState.updateColorByImage(it)
+            if (allowChangeColor) {
+                themeState.updateColorByImage(
+                    SaturationFilter(context, 2f).transform(it, Size.ORIGINAL)
+                )
+            }
         }
     }
 
@@ -223,7 +216,6 @@ fun SingleResizeScreen(
     var showSaveLoading by rememberSaveable { mutableStateOf(false) }
     var showOriginal by rememberSaveable { mutableStateOf(false) }
     val showEditExifDialog = rememberSaveable { mutableStateOf(false) }
-    val showCropDialog = rememberSaveable { mutableStateOf(false) }
     var showExitDialog by rememberSaveable { mutableStateOf(false) }
 
     val bitmapInfo = viewModel.bitmapInfo
@@ -244,13 +236,7 @@ fun SingleResizeScreen(
                     onGetBitmap = viewModel::updateBitmap,
                     onError = {
                         scope.launch {
-                            toastHostState.showToast(
-                                context.getString(
-                                    R.string.smth_went_wrong,
-                                    it.localizedMessage ?: ""
-                                ),
-                                Icons.Rounded.ErrorOutline
-                            )
+                            toastHostState.showError(context, it)
                         }
                     }
                 )
@@ -285,7 +271,7 @@ fun SingleResizeScreen(
     val imageInside =
         LocalConfiguration.current.orientation != Configuration.ORIENTATION_LANDSCAPE || LocalWindowSizeClass.current.widthSizeClass == WindowWidthSizeClass.Compact
 
-    var imageState by remember { mutableStateOf(1) }
+    var imageState by remember { mutableIntStateOf(1) }
 
     val imageBlock = @Composable {
 
@@ -795,7 +781,6 @@ fun SingleResizeScreen(
                                 if (viewModel.bitmap != null) {
                                     ImageTransformBar(
                                         onEditExif = { showEditExifDialog.value = true },
-                                        onCrop = { showCropDialog.value = true },
                                         onRotateLeft = viewModel::rotateLeft,
                                         onFlip = viewModel::flip,
                                         onRotateRight = viewModel::rotateRight
@@ -1259,79 +1244,6 @@ fun SingleResizeScreen(
                     }
                 }
             )
-
-            viewModel.bitmap?.let {
-                val bmp = remember(it) {
-                    if (!it.canShow()) it.resizeBitmap(4000, 4000, 1).asImageBitmap()
-                    else it.asImageBitmap()
-                }
-                var crop by remember { mutableStateOf(false) }
-                SimpleSheet(
-                    sheetContent = {
-                        ImageCropper(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .weight(1f)
-                                .padding(
-                                    start = 16.dp,
-                                    end = 16.dp,
-                                )
-                                .border(
-                                    settingsState.borderWidth.coerceAtLeast(1.dp),
-                                    MaterialTheme.colorScheme.outlineVariant(),
-                                    RoundedCornerShape(4.dp)
-                                )
-                                .background(
-                                    MaterialTheme.colorScheme
-                                        .outlineVariant()
-                                        .copy(alpha = 0.1f),
-                                    RoundedCornerShape(4.dp)
-                                ),
-                            imageBitmap = bmp,
-                            contentDescription = null,
-                            cropProperties = CropDefaults.properties(
-                                cropOutlineProperty = CropOutlineProperty(
-                                    OutlineType.Rect,
-                                    RectCropShape(0, "")
-                                )
-                            ),
-                            onCropStart = {},
-                            crop = crop,
-                            onCropSuccess = { image ->
-                                viewModel.setPreview(image.asAndroidBitmap())
-                                crop = false
-                                showCropDialog.value = false
-                            }
-                        )
-                        Row(
-                            modifier = Modifier
-                                .padding(16.dp)
-                                .padding(end = 16.dp)
-                                .navigationBarsPadding()
-                        ) {
-                            TitleItem(
-                                text = stringResource(R.string.cropping),
-                                icon = Icons.Rounded.Crop
-                            )
-                            Spacer(Modifier.weight(1f))
-                            OutlinedButton(
-                                colors = ButtonDefaults.outlinedButtonColors(
-                                    containerColor = MaterialTheme.colorScheme.primary,
-                                    contentColor = MaterialTheme.colorScheme.onPrimary,
-                                ),
-                                border = BorderStroke(
-                                    settingsState.borderWidth,
-                                    MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.primary)
-                                ),
-                                onClick = { crop = true }
-                            ) {
-                                Text(stringResource(R.string.crop))
-                            }
-                        }
-                    },
-                    visible = showCropDialog
-                )
-            }
 
             ExitWithoutSavingDialog(
                 onExit = onGoBack,

@@ -29,7 +29,6 @@ import androidx.compose.material.icons.rounded.AddPhotoAlternate
 import androidx.compose.material.icons.rounded.ArrowBack
 import androidx.compose.material.icons.rounded.Colorize
 import androidx.compose.material.icons.rounded.ContentPaste
-import androidx.compose.material.icons.rounded.ErrorOutline
 import androidx.compose.material.icons.rounded.ZoomIn
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FilledIconButton
@@ -66,6 +65,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import coil.size.Size
 import com.smarttoolfactory.colordetector.ImageColorPalette
 import com.t8rin.dynamic.theme.LocalDynamicThemeState
 import dev.olshevski.navigation.reimagined.navigate
@@ -76,6 +76,7 @@ import ru.tech.imageresizershrinker.generate_palette_screen.viewModel.GeneratePa
 import ru.tech.imageresizershrinker.pick_color_from_image_screen.copyColorIntoClipboard
 import ru.tech.imageresizershrinker.pick_color_from_image_screen.format
 import ru.tech.imageresizershrinker.theme.PaletteSwatch
+import ru.tech.imageresizershrinker.utils.coil.filters.SaturationFilter
 import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.decodeBitmapFromUri
 import ru.tech.imageresizershrinker.utils.modifier.block
 import ru.tech.imageresizershrinker.utils.modifier.drawHorizontalStroke
@@ -91,6 +92,7 @@ import ru.tech.imageresizershrinker.widget.LocalToastHost
 import ru.tech.imageresizershrinker.widget.TopAppBarEmoji
 import ru.tech.imageresizershrinker.widget.image.ImageNotPickedWidget
 import ru.tech.imageresizershrinker.widget.sheets.ZoomModalSheet
+import ru.tech.imageresizershrinker.widget.showError
 import ru.tech.imageresizershrinker.widget.text.Marquee
 import ru.tech.imageresizershrinker.widget.utils.LocalSettingsState
 import ru.tech.imageresizershrinker.widget.utils.LocalWindowSizeClass
@@ -130,13 +132,7 @@ fun GeneratePaletteScreen(
                 onGetBitmap = viewModel::updateBitmap,
                 onError = {
                     scope.launch {
-                        toastHostState.showToast(
-                            context.getString(
-                                R.string.smth_went_wrong,
-                                it.localizedMessage ?: ""
-                            ),
-                            Icons.Rounded.ErrorOutline
-                        )
+                        toastHostState.showError(context, it)
                     }
                 }
             )
@@ -147,7 +143,9 @@ fun GeneratePaletteScreen(
         viewModel.bitmap?.let {
             if (allowChangeColor) {
                 if (color == Color.Unspecified) {
-                    themeState.updateColorByImage(it)
+                    themeState.updateColorByImage(
+                        SaturationFilter(context, 2f).transform(it, Size.ORIGINAL)
+                    )
                 } else {
                     themeState.updateColor(color)
                 }
@@ -169,13 +167,7 @@ fun GeneratePaletteScreen(
                     onGetBitmap = viewModel::updateBitmap,
                     onError = {
                         scope.launch {
-                            toastHostState.showToast(
-                                context.getString(
-                                    R.string.smth_went_wrong,
-                                    it.localizedMessage ?: ""
-                                ),
-                                Icons.Rounded.ErrorOutline
-                            )
+                            toastHostState.showError(context, it)
                         }
                     }
                 )

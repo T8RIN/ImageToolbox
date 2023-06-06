@@ -321,13 +321,4 @@ class SingleResizeViewModel : ViewModel() {
     fun setUri(uri: Uri) {
         _uri.value = uri
     }
-
-    fun setPreview(bitmap: Bitmap) {
-        _previewBitmap.value = bitmap
-        _bitmapInfo.value = _bitmapInfo.value.copy(
-            width = bitmap.width,
-            height = bitmap.height
-        )
-    }
-
 }

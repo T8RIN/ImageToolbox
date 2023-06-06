@@ -1,10 +1,13 @@
 package ru.tech.imageresizershrinker.widget
 
 import android.annotation.SuppressLint
+import android.content.Context
 import androidx.compose.animation.*
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.ErrorOutline
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -23,6 +26,7 @@ import androidx.compose.ui.zIndex
 import kotlinx.coroutines.*
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
+import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.theme.harmonizeWithPrimary
 import ru.tech.imageresizershrinker.theme.outlineVariant
 import ru.tech.imageresizershrinker.widget.utils.LocalSettingsState
@@ -250,3 +254,14 @@ private fun ToastDuration.toMillis(
 fun rememberToastHostState() = remember { ToastHostState() }
 
 val LocalToastHost = compositionLocalOf { ToastHostState() }
+
+suspend fun ToastHostState.showError(
+    context: Context,
+    error: Throwable
+) = showToast(
+    context.getString(
+        R.string.smth_went_wrong,
+        error.localizedMessage ?: ""
+    ),
+    Icons.Rounded.ErrorOutline
+)

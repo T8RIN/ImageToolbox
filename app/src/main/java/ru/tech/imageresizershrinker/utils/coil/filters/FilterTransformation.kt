@@ -29,10 +29,14 @@ sealed class FilterTransformation<T>(
         value = value
     )
 
-    fun <T : Any> copy(value: T): FilterTransformation<*> =
-        this::class.primaryConstructor!!.call(context, value)
+    fun <T : Any> copy(value: T): FilterTransformation<*> {
+        if (this.value == null) return newInstance()
+        return if (this.value!!::class.simpleName == value::class.simpleName) {
+            this::class.primaryConstructor!!.call(context, value)
+        } else newInstance()
+    }
 
-    fun newInstance(): FilterTransformation<*> {
+    fun newInstance(): FilterTransformation<T> {
         return this::class.primaryConstructor!!.run { callBy(mapOf(parameters[0] to context)) }
     }
 

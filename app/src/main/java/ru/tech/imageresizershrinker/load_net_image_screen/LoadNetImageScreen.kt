@@ -82,6 +82,7 @@ import coil.decode.ImageDecoderDecoder
 import coil.decode.SvgDecoder
 import coil.imageLoader
 import coil.request.ImageRequest
+import coil.size.Size
 import com.t8rin.dynamic.theme.LocalDynamicThemeState
 import com.t8rin.dynamic.theme.getAppColorTuple
 import dev.olshevski.navigation.reimagined.navigate
@@ -100,6 +101,7 @@ import ru.tech.imageresizershrinker.main_screen.components.SingleResizePreferenc
 import ru.tech.imageresizershrinker.theme.CreateAlt
 import ru.tech.imageresizershrinker.theme.outlineVariant
 import ru.tech.imageresizershrinker.utils.LocalConfettiController
+import ru.tech.imageresizershrinker.utils.coil.filters.SaturationFilter
 import ru.tech.imageresizershrinker.utils.helper.BitmapInfo
 import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.cacheImage
 import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.shareBitmap
@@ -150,7 +152,9 @@ fun LoadNetImageScreen(
     LaunchedEffect(viewModel.bitmap) {
         viewModel.bitmap?.let { image ->
             if (allowChangeColor) {
-                image.let { it1 -> themeState.updateColorByImage(it1) }
+                themeState.updateColorByImage(
+                    SaturationFilter(context, 2f).transform(image, Size.ORIGINAL)
+                )
             }
         } ?: themeState.updateColorTuple(appColorTuple)
     }

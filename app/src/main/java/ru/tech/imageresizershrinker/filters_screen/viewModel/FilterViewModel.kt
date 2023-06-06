@@ -231,12 +231,15 @@ class FilterViewModel : ViewModel() {
         }
     }
 
-    fun <T : Any> updateFilter(value: T, index: Int) {
+    fun <T : Any> updateFilter(
+        value: T, index: Int,
+        showError: (Throwable) -> Unit
+    ) {
         val list = _filterList.value.toMutableList()
         kotlin.runCatching {
             list[index] = list[index].copy(value)
             _filterList.value = list
-        }
+        }.exceptionOrNull()?.let(showError)
     }
 
     fun updateOrder(value: List<FilterTransformation<*>>) {

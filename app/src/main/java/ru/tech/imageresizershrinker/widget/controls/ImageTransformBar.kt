@@ -13,7 +13,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Crop
 import androidx.compose.material.icons.filled.Flip
 import androidx.compose.material.icons.filled.RotateLeft
 import androidx.compose.material.icons.filled.RotateRight
@@ -37,7 +36,6 @@ import ru.tech.imageresizershrinker.widget.utils.LocalSettingsState
 @Composable
 fun ImageTransformBar(
     onEditExif: () -> Unit,
-    onCrop: () -> Unit,
     onRotateLeft: () -> Unit,
     onFlip: () -> Unit,
     onRotateRight: () -> Unit,
@@ -76,16 +74,6 @@ fun ImageTransformBar(
                 Text(stringResource(R.string.edit_exif))
                 Spacer(Modifier.width(8.dp))
             }
-        }
-
-        Spacer(Modifier.width(4.dp))
-
-        OutlinedIconButton(
-            onClick = onCrop,
-            colors = colors,
-            border = border
-        ) {
-            Icon(Icons.Default.Crop, null)
         }
 
         Spacer(
