@@ -10,9 +10,16 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.stringResource
+import com.t8rin.dynamic.theme.observeAsState
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.theme.outlineVariant
 import ru.tech.imageresizershrinker.utils.helper.ContextUtils.needToShowStoragePermissionRequest
@@ -26,7 +33,22 @@ fun PermissionDialog() {
     val context = LocalContext.current.findActivity()
     val settingsState = LocalSettingsState.current
 
-    if (context?.needToShowStoragePermissionRequest() == true) {
+    var showDialog by remember { mutableStateOf(false) }
+
+    LaunchedEffect(
+        showDialog,
+        context,
+        settingsState,
+        LocalLifecycleOwner.current.lifecycle.observeAsState()
+    ) {
+        showDialog = context?.needToShowStoragePermissionRequest() == true
+        while (showDialog) {
+            showDialog = context?.needToShowStoragePermissionRequest() == true
+            kotlinx.coroutines.delay(100)
+        }
+    }
+
+    if (showDialog) {
         AlertDialog(
             modifier = Modifier.alertDialog(),
             onDismissRequest = { },
@@ -48,7 +70,7 @@ fun PermissionDialog() {
                         MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.primary)
                     ),
                     onClick = {
-                        context.requestStoragePermission()
+                        context!!.requestStoragePermission()
                     }
                 ) {
                     Text(stringResource(id = R.string.grant))
