@@ -267,6 +267,7 @@
     <string name="blur_center_x">Blur center x</string>
     <string name="blur_center_y">Blur center y</string>
     <string name="zoom_blur">Zoom blur</string>
+    <string name="color_balance">Color balance</string>
 
     <string-array name="fab_alignment_sub">
         <item>Start</item>

@@ -51,6 +51,7 @@ import ru.tech.imageresizershrinker.utils.coil.filters.BlackAndWhiteFilter
 import ru.tech.imageresizershrinker.utils.coil.filters.BoxBlurFilter
 import ru.tech.imageresizershrinker.utils.coil.filters.BrightnessFilter
 import ru.tech.imageresizershrinker.utils.coil.filters.BulgeDistortionEffect
+import ru.tech.imageresizershrinker.utils.coil.filters.ColorBalanceFilter
 import ru.tech.imageresizershrinker.utils.coil.filters.ColorFilter
 import ru.tech.imageresizershrinker.utils.coil.filters.ColorMatrixFilter
 import ru.tech.imageresizershrinker.utils.coil.filters.ContrastFilter
@@ -182,7 +183,8 @@ fun AddFiltersSheet(
                                         SepiaFilter(context),
                                         NegativeFilter(context),
                                         BlackAndWhiteFilter(context),
-                                        ColorMatrixFilter(context)
+                                        ColorMatrixFilter(context),
+                                        ColorBalanceFilter(context)
                                     ).forEach {
                                         PreferenceItem(
                                             title = stringResource(it.title),
@@ -204,7 +206,7 @@ fun AddFiltersSheet(
                                         GammaFilter(context),
                                         HighlightsAndShadowsFilter(context),
                                         SolarizeFilter(context),
-                                        HazeFilter(context),
+                                        HazeFilter(context)
                                     ).forEach {
                                         PreferenceItem(
                                             title = stringResource(it.title),
