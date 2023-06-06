@@ -38,8 +38,7 @@ object ContextUtils {
         val state = checkPermissions(
             listOf(
                 Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                Manifest.permission.READ_EXTERNAL_STORAGE,
-                Manifest.permission.ACCESS_MEDIA_LOCATION
+                Manifest.permission.READ_EXTERNAL_STORAGE
             )
         )
         when (state.permissionStatus.values.first()) {
@@ -48,8 +47,7 @@ object ContextUtils {
                     this,
                     arrayOf(
                         Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                        Manifest.permission.READ_EXTERNAL_STORAGE,
-                        Manifest.permission.ACCESS_MEDIA_LOCATION
+                        Manifest.permission.READ_EXTERNAL_STORAGE
                     ),
                     0
                 )
