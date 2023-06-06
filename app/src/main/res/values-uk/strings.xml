@@ -163,4 +163,8 @@
     <string name="load_image_from_net_sub">Завантажуйте будь-яке зображення з Інтернету, переглядайте його, масштабуйте, а також зберігайте або редагуйте його за бажанням</string>
     <string name="no_image">Немає зображення</string>
     <string name="image_link">Посилання на зображення</string>
+    <string name="fill">Заповнити</string>
+    <string name="fit">Адаптувати</string>
+    <string name="explicit_description">Примушує кожну картинку відповідати зображенню, заданому параметрами Висота та Ширини- може змінювати співвідношення сторін</string>
+    <string name="content_scale">Масштаб змісту</string>
 </resources>
