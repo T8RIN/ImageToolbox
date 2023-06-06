@@ -82,32 +82,26 @@ sealed class FilterTransformation<T>(
                 is LuminanceThresholdFilter -> LuminanceThresholdFilter(context, value as Float)
                 is RGBFilter -> RGBFilter(context, value as Color)
                 is ZoomBlurFilter -> ZoomBlurFilter(context, value as Triple<Float, Float, Float>)
-
                 is SwirlDistortionEffect -> SwirlDistortionEffect(
                     context,
                     value as Pair<Float, Float>
                 )
-
                 is BulgeDistortionEffect -> BulgeDistortionEffect(
                     context = context,
                     value = value as Pair<Float, Float>
                 )
-
                 is SphereRefractionFilter -> SphereRefractionFilter(
                     context = context,
                     value = value as Pair<Float, Float>
                 )
-
                 is GlassSphereRefractionFilter -> GlassSphereRefractionFilter(
                     context = context,
                     value = value as Pair<Float, Float>
                 )
-
                 is HighlightsAndShadowsFilter -> HighlightsAndShadowsFilter(
                     context = context,
                     value = value as Pair<Float, Float>
                 )
-
             }
         }.getOrNull() ?: newInstance()
     }
