@@ -66,7 +66,6 @@ private fun Bitmap.fastBlur(scale: Float, radius: Int): Bitmap {
     var p2: Int
     var yp: Int
     var yi: Int
-    var yw: Int
     val vmin = IntArray(w.coerceAtLeast(h))
     val vmax = IntArray(w.coerceAtLeast(h))
     val pix = IntArray(w * h)
@@ -78,12 +77,12 @@ private fun Bitmap.fastBlur(scale: Float, radius: Int): Bitmap {
         i++
     }
     yi = 0
-    yw = yi
+    var yw = 0
     y = 0
     while (y < h) {
         bsum = 0
-        gsum = bsum
-        rsum = gsum
+        gsum = 0
+        rsum = 0
         i = -radius
         while (i <= radius) {
             p = pix[yi + wm.coerceAtMost(i.coerceAtLeast(0))]
@@ -115,8 +114,8 @@ private fun Bitmap.fastBlur(scale: Float, radius: Int): Bitmap {
     x = 0
     while (x < w) {
         bsum = 0
-        gsum = bsum
-        rsum = gsum
+        gsum = 0
+        rsum = 0
         yp = -radius * w
         i = -radius
         while (i <= radius) {

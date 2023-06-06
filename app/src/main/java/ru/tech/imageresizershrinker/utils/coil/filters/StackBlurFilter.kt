@@ -8,6 +8,7 @@ import kotlinx.parcelize.Parcelize
 import kotlinx.parcelize.RawValue
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.resizeBitmap
+import kotlin.math.abs
 import kotlin.math.roundToInt
 
 
@@ -70,7 +71,6 @@ private fun Bitmap.stackBlur(scale: Float, radius: Int): Bitmap {
     var p: Int
     var yp: Int
     var yi: Int
-    var yw: Int
     val vmin = IntArray(w.coerceAtLeast(h))
 
     var divsum = div + 1 shr 1
@@ -82,7 +82,8 @@ private fun Bitmap.stackBlur(scale: Float, radius: Int): Bitmap {
         i++
     }
 
-    yw = 0.also { yi = it }
+    var yw = 0
+    yi = 0
 
     val stack = Array(div) {
         IntArray(
@@ -104,14 +105,14 @@ private fun Bitmap.stackBlur(scale: Float, radius: Int): Bitmap {
     y = 0
     while (y < h) {
         bsum = 0
-        gsum = bsum
-        rsum = gsum
-        boutsum = rsum
-        goutsum = boutsum
-        routsum = goutsum
-        binsum = routsum
-        ginsum = binsum
-        rinsum = ginsum
+        gsum = 0
+        rsum = 0
+        boutsum = 0
+        goutsum = 0
+        routsum = 0
+        binsum = 0
+        ginsum = 0
+        rinsum = 0
         i = -radius
         while (i <= radius) {
             p = pix[yi + Math.min(wm, Math.max(i, 0))]
@@ -149,7 +150,7 @@ private fun Bitmap.stackBlur(scale: Float, radius: Int): Bitmap {
             goutsum -= sir[1]
             boutsum -= sir[2]
             if (y == 0) {
-                vmin[x] = Math.min(x + radius + 1, wm)
+                vmin[x] = (x + radius + 1).coerceAtMost(wm)
             }
             p = pix[yw + vmin[x]]
             sir[0] = p and 0xff0000 shr 16
@@ -178,23 +179,23 @@ private fun Bitmap.stackBlur(scale: Float, radius: Int): Bitmap {
     x = 0
     while (x < w) {
         bsum = 0
-        gsum = bsum
-        rsum = gsum
-        boutsum = rsum
-        goutsum = boutsum
-        routsum = goutsum
-        binsum = routsum
-        ginsum = binsum
-        rinsum = ginsum
+        gsum = 0
+        rsum = 0
+        boutsum = 0
+        goutsum = 0
+        routsum = 0
+        binsum = 0
+        ginsum = 0
+        rinsum = 0
         yp = -radius * w
         i = -radius
         while (i <= radius) {
-            yi = Math.max(0, yp) + x
+            yi = 0.coerceAtLeast(yp) + x
             sir = stack[i + radius]
             sir[0] = r[yi]
             sir[1] = g[yi]
             sir[2] = b[yi]
-            rbs = r1 - Math.abs(i)
+            rbs = r1 - abs(i)
             rsum += r[yi] * rbs
             gsum += g[yi] * rbs
             bsum += b[yi] * rbs
@@ -228,7 +229,7 @@ private fun Bitmap.stackBlur(scale: Float, radius: Int): Bitmap {
             goutsum -= sir[1]
             boutsum -= sir[2]
             if (x == 0) {
-                vmin[y] = Math.min(y + r1, hm) * w
+                vmin[y] = (y + r1).coerceAtMost(hm) * w
             }
             p = x + vmin[y]
             sir[0] = r[p]
