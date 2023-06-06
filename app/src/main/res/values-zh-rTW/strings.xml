@@ -232,7 +232,6 @@
     <string name="blur">模糊化</string>
     <string name="gaussian_blur">高斯模糊</string>
     <string name="bilaterial_blur">雙邊模糊</string>
-    <string name="slow_blur">Slow 模糊</string>
     <string name="glass_sphere_refraction">玻璃球折射</string>
     <string name="refractive_index">折射率</string>
     <string name="color_matrix">色彩矩陣</string>
