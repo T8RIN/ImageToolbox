@@ -133,6 +133,7 @@ import ru.tech.imageresizershrinker.utils.modifier.alertDialog
 import ru.tech.imageresizershrinker.utils.modifier.drawHorizontalStroke
 import ru.tech.imageresizershrinker.utils.modifier.fabBorder
 import ru.tech.imageresizershrinker.utils.modifier.pulsate
+import ru.tech.imageresizershrinker.utils.modifier.scaleOnTap
 import ru.tech.imageresizershrinker.utils.navigation.LocalNavController
 import ru.tech.imageresizershrinker.utils.navigation.Screen
 import ru.tech.imageresizershrinker.utils.storage.defaultPrefix
@@ -403,6 +404,7 @@ fun MainScreen(
                                             modifier = Modifier
                                                 .padding(horizontal = 2.dp)
                                                 .padding(bottom = 12.dp)
+                                                .scaleOnTap {}
                                         )
                                         Spacer(Modifier.width(12.dp))
                                         TopAppBarEmoji()
