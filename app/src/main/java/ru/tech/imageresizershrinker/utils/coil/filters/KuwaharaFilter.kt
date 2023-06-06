@@ -16,7 +16,7 @@ class KuwaharaFilter(
     title = R.string.kuwahara,
     value = value,
     paramsInfo = listOf(
-        FilterParam(null, 0f..30f, 0)
+        FilterParam(null, 0f..10f, 0)
     )
 ) {
     override val cacheKey: String
