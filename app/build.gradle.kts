@@ -14,8 +14,8 @@ android {
         applicationId = "ru.tech.imageresizershrinker"
         minSdk = 21
         targetSdk = 33
-        versionCode = 64
-        versionName = "2.1.1"
+        versionCode = 65
+        versionName = "2.1.2"
         resourceConfigurations += setOf(
             "en",
             "ar",
@@ -54,7 +54,7 @@ android {
     }
 
     buildTypes {
-        release {
+        debug {
             isMinifyEnabled = true
             isShrinkResources = true
             proguardFiles(

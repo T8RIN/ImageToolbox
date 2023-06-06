@@ -15,7 +15,7 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Done
 import androidx.compose.material.icons.rounded.DragHandle
-import androidx.compose.material.icons.rounded.RemoveCircle
+import androidx.compose.material.icons.rounded.RemoveCircleOutline
 import androidx.compose.material3.Divider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -121,7 +121,7 @@ fun <T> FilterItem(
                     )
                     if (filter.value.toString().contains("Color") && !previewOnly) {
                         IconButton(onClick = onRemove) {
-                            Icon(Icons.Rounded.RemoveCircle, null)
+                            Icon(Icons.Rounded.RemoveCircleOutline, null)
                         }
                     }
                 }
@@ -548,7 +548,7 @@ fun <T> FilterItem(
                     .padding(start = 20.dp)
             )
             IconButton(onClick = onRemove) {
-                Icon(Icons.Rounded.RemoveCircle, null)
+                Icon(Icons.Rounded.RemoveCircleOutline, null)
             }
         }
     }
