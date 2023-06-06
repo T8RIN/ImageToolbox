@@ -33,21 +33,21 @@ class SlowBlurFilter(
     override suspend fun transform(
         input: Bitmap,
         size: Size
-    ): Bitmap = input.blur(value.first, value.second) ?: input
+    ): Bitmap = input.slowBlur(value.first, value.second)
 
 }
 
-private fun Bitmap.blur(
+private fun Bitmap.slowBlur(
     scale: Float,
     radius: Int
-): Bitmap? {
-    var sentBitmap = this@blur
+): Bitmap {
+    var sentBitmap = this@slowBlur
     val width = (sentBitmap.width * scale).roundToInt()
     val height = (sentBitmap.height * scale).roundToInt()
     sentBitmap = Bitmap.createScaledBitmap(sentBitmap, width, height, false)
     val bitmap = sentBitmap.copy(sentBitmap.config, true)
     if (radius < 1) {
-        return null
+        return this
     }
     val w = bitmap.width
     val h = bitmap.height

@@ -261,6 +261,7 @@
     <string name="first_color">First color</string>
     <string name="second_color">Second color</string>
     <string name="reorder">Reorder</string>
+    <string name="fast_blur">Fast blur</string>
 
     <string-array name="fab_alignment_sub">
         <item>Start</item>
