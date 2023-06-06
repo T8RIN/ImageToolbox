@@ -245,4 +245,17 @@
     <string name="non_maximum_suppression">Немаксимальное подавление</string>
     <string name="lookup">Поиск</string>
     <string name="weak_pixel_inclusion">Слабое включение пикселей</string>
+    <string name="zoom_blur">Размытие приближением</string>
+    <string name="color_balance">Цветовой баланс</string>
+    <string name="luminance_threshold">Порог свечения</string>
+    <string name="convolution3x3">Конволюция 3x3</string>
+    <string name="fast_blur">Быстрое размытие</string>
+    <string name="false_color">Ложный цвет</string>
+    <string name="blur_center_x">Центр размытия x</string>
+    <string name="blur_center_y">Центр размытия y</string>
+    <string name="rgb_filter">RGB-фильтр</string>
+    <string name="first_color">Первый цвет</string>
+    <string name="second_color">Второй цвет</string>
+    <string name="reorder">Порядок</string>
+    <string name="blur_size">Размер размытия</string>
 </resources>
