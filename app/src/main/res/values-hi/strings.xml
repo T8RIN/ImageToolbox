@@ -237,4 +237,20 @@
     <string name="fill">भरना</string>
     <string name="explicit_description">चौड़ाई और ऊंचाई पैरामीटर द्वारा दी गई छवि में हर तस्वीर को बल देता है - पहलू अनुपात बदल सकता है</string>
     <string name="content_scale">सामग्री का पैमाना</string>
+    <string name="non_maximum_suppression">गैर अधिकतम दमन</string>
+    <string name="weak_pixel_inclusion">कमजोर पिक्सेल समावेशन</string>
+    <string name="convolution3x3">कनवल्शन 3x3</string>
+    <string name="blur_size">धुंधला आकार</string>
+    <string name="blur_center_x">ब्लर सेंटर x</string>
+    <string name="blur_center_y">ब्लर सेंटर वाई</string>
+    <string name="zoom_blur">ज़ूम ब्लर</string>
+    <string name="color_balance">रंग संतुलन</string>
+    <string name="luminance_threshold">चमक दहलीज</string>
+    <string name="lookup">ऊपर देखो</string>
+    <string name="rgb_filter">आरजीबी फिल्टर</string>
+    <string name="false_color">झूठा रंग</string>
+    <string name="first_color">पहला रंग</string>
+    <string name="second_color">दूसरा रंग</string>
+    <string name="reorder">पुन: व्यवस्थित करें</string>
+    <string name="fast_blur">तेजी से धुंधला</string>
 </resources>
