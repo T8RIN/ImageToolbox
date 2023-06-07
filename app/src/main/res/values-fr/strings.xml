@@ -245,4 +245,6 @@
     <string name="second_color">Seconde couleur</string>
     <string name="rgb_filter">Filtre RGB</string>
     <string name="first_color">Première couleur</string>
+    <string name="reorder">Réorganiser</string>
+    <string name="fast_blur">Flou rapide</string>
 </resources>
