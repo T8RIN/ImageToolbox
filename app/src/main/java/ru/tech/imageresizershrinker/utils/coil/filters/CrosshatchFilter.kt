@@ -16,8 +16,8 @@ class CrosshatchFilter(
     title = R.string.crosshatch,
     value = value,
     paramsInfo = listOf(
-        R.string.spacing paramTo 0.001f..0.05f,
-        R.string.line_width paramTo 0.001f..0.05f
+        FilterParam(title = R.string.spacing, valueRange = 0.001f..0.05f, roundTo = 4),
+        FilterParam(title = R.string.line_width, valueRange = 0.001f..0.02f, roundTo = 4)
     )
 ) {
     override val cacheKey: String

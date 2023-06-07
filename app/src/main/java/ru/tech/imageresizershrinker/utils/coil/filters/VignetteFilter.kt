@@ -17,8 +17,8 @@ class VignetteFilter(
     title = R.string.vignette,
     value = value,
     paramsInfo = listOf(
-        R.string.start paramTo -4f..4f,
-        R.string.end paramTo -4f..4f
+        R.string.start paramTo -2f..2f,
+        R.string.end paramTo -2f..2f
     )
 ) {
     override val cacheKey: String
