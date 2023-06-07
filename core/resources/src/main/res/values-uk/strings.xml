@@ -735,8 +735,7 @@
     <string name="standard">Стандартний</string>
     <string name="best">Найкращий</string>
     <string name="no_data">Немає даних</string>
-    <string name="download_description">Для належної роботи Tesseract OCR необхідно завантажити додаткові навчальні дані (%1$s) на ваш пристрій.
-\nВи хочете завантажити дані %2$s?</string>
+    <string name="download_description">Для належної роботи Tesseract OCR необхідно завантажити додаткові навчальні дані (%1$s) на ваш пристрій. \nВи хочете завантажити дані %2$s?</string>
     <string name="download">Завантажити</string>
     <string name="no_connection">Немає з’єднання, перевірте його та повторіть спробу, щоб завантажити моделі поїздів</string>
     <string name="downloaded_languages">Завантажені мови</string>
