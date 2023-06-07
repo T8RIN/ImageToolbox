@@ -21,49 +21,25 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
-import com.t8rin.dynamic.theme.LocalDynamicThemeState
-import com.t8rin.dynamic.theme.getAppColorTuple
 import dagger.hilt.android.AndroidEntryPoint
-import dev.olshevski.navigation.reimagined.AnimatedNavHost
 import dev.olshevski.navigation.reimagined.navigate
-import dev.olshevski.navigation.reimagined.pop
 import nl.dionsegijn.konfetti.compose.KonfettiView
-import nl.dionsegijn.konfetti.core.Angle
-import nl.dionsegijn.konfetti.core.Party
-import nl.dionsegijn.konfetti.core.Position
-import nl.dionsegijn.konfetti.core.Spread
-import nl.dionsegijn.konfetti.core.emitter.Emitter
-import ru.tech.imageresizershrinker.batch_resize_screen.BatchResizeScreen
-import ru.tech.imageresizershrinker.bytes_resize_screen.BytesResizeScreen
-import ru.tech.imageresizershrinker.compare_screen.CompareScreen
-import ru.tech.imageresizershrinker.crop_screen.CropScreen
-import ru.tech.imageresizershrinker.delete_exif_screen.DeleteExifScreen
-import ru.tech.imageresizershrinker.filters_screen.FiltersScreen
-import ru.tech.imageresizershrinker.generate_palette_screen.GeneratePaletteScreen
-import ru.tech.imageresizershrinker.image_preview_screen.ImagePreviewScreen
-import ru.tech.imageresizershrinker.limits_resize_screen.LimitsResizeScreen
-import ru.tech.imageresizershrinker.load_net_image_screen.LoadNetImageScreen
 import ru.tech.imageresizershrinker.main_screen.components.AppExitDialog
 import ru.tech.imageresizershrinker.main_screen.components.EditPresetsSheet
-import ru.tech.imageresizershrinker.main_screen.components.MainScreen
-import ru.tech.imageresizershrinker.main_screen.components.NavTransitionSpec
 import ru.tech.imageresizershrinker.main_screen.components.PermissionDialog
 import ru.tech.imageresizershrinker.main_screen.components.ProcessImagesPreferenceSheet
+import ru.tech.imageresizershrinker.main_screen.components.ScreenSelector
 import ru.tech.imageresizershrinker.main_screen.components.UpdateSheet
+import ru.tech.imageresizershrinker.main_screen.components.particles
 import ru.tech.imageresizershrinker.main_screen.viewModel.MainViewModel
-import ru.tech.imageresizershrinker.pick_color_from_image_screen.PickColorFromImageScreen
-import ru.tech.imageresizershrinker.single_resize_screen.SingleResizeScreen
 import ru.tech.imageresizershrinker.theme.Emoji
 import ru.tech.imageresizershrinker.theme.ImageResizerTheme
 import ru.tech.imageresizershrinker.theme.allIcons
-import ru.tech.imageresizershrinker.theme.blend
 import ru.tech.imageresizershrinker.utils.LocalConfettiController
 import ru.tech.imageresizershrinker.utils.helper.ContextUtils.parseImageFromIntent
 import ru.tech.imageresizershrinker.utils.navigation.LocalNavController
-import ru.tech.imageresizershrinker.utils.navigation.Screen
 import ru.tech.imageresizershrinker.utils.storage.FileParams
 import ru.tech.imageresizershrinker.utils.storage.LocalFileController
 import ru.tech.imageresizershrinker.utils.storage.rememberFileController
@@ -77,7 +53,6 @@ import ru.tech.imageresizershrinker.widget.utils.isNightMode
 import ru.tech.imageresizershrinker.widget.utils.rememberSettingsState
 import ru.tech.imageresizershrinker.widget.utils.setContentWithWindowSizeClass
 import ru.tech.imageresizershrinker.widget.utils.toAlignment
-import java.util.concurrent.TimeUnit
 
 @AndroidEntryPoint
 class MainActivity : M3Activity() {
@@ -141,22 +116,7 @@ class MainActivity : M3Activity() {
                         viewModel.cancelledUpdate()
                     }
                 }
-                val navController = LocalNavController.current
                 ImageResizerTheme {
-                    val themeState = LocalDynamicThemeState.current
-                    val appColorTuple = getAppColorTuple(
-                        defaultColorTuple = viewModel.appColorTuple,
-                        dynamicColor = viewModel.dynamicColors,
-                        darkTheme = viewModel.nightMode.isNightMode()
-                    )
-                    val onGoBack: () -> Unit = {
-                        viewModel.updateUris(null)
-                        themeState.updateColorTuple(appColorTuple)
-                        navController.apply {
-                            if (backstack.entries.size > 1) pop()
-                        }
-                    }
-
                     val tiramisu = Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU
 
                     if (!tiramisu) {
@@ -167,104 +127,7 @@ class MainActivity : M3Activity() {
                     }
 
                     Surface(Modifier.fillMaxSize()) {
-                        AnimatedNavHost(
-                            controller = navController,
-                            transitionSpec = NavTransitionSpec
-                        ) { screen ->
-                            when (screen) {
-                                is Screen.Main -> {
-                                    MainScreen(
-                                        viewModel = viewModel,
-                                        screenList = viewModel.screenList
-                                    )
-                                }
-
-                                is Screen.SingleResize -> {
-                                    SingleResizeScreen(
-                                        uriState = screen.uri,
-                                        onGoBack = onGoBack
-                                    )
-                                }
-
-                                is Screen.BatchResize -> {
-                                    BatchResizeScreen(
-                                        uriState = screen.uris,
-                                        onGoBack = onGoBack
-                                    )
-                                }
-
-                                is Screen.DeleteExif -> {
-                                    DeleteExifScreen(
-                                        uriState = screen.uris,
-                                        onGoBack = onGoBack
-                                    )
-                                }
-
-                                is Screen.ResizeByBytes -> {
-                                    BytesResizeScreen(
-                                        uriState = screen.uris,
-                                        onGoBack = onGoBack
-                                    )
-                                }
-
-                                is Screen.Crop -> {
-                                    CropScreen(
-                                        uriState = screen.uri,
-                                        onGoBack = onGoBack
-                                    )
-                                }
-
-                                is Screen.PickColorFromImage -> {
-                                    PickColorFromImageScreen(
-                                        uriState = screen.uri,
-                                        onGoBack = onGoBack
-                                    )
-                                }
-
-                                is Screen.ImagePreview -> {
-                                    ImagePreviewScreen(
-                                        uriState = screen.uris,
-                                        onGoBack = onGoBack
-                                    )
-                                }
-
-                                is Screen.GeneratePalette -> {
-                                    GeneratePaletteScreen(
-                                        uriState = screen.uri,
-                                        onGoBack = onGoBack
-                                    )
-                                }
-
-                                is Screen.Compare -> {
-                                    CompareScreen(
-                                        comparableUris = screen.uris
-                                            ?.takeIf { it.size == 2 }
-                                            ?.let { it[0] to it[1] },
-                                        onGoBack = onGoBack
-                                    )
-                                }
-
-                                is Screen.LoadNetImage -> {
-                                    LoadNetImageScreen(
-                                        onGoBack = onGoBack
-                                    )
-                                }
-
-                                is Screen.Filter -> {
-                                    FiltersScreen(
-                                        uriState = screen.uris,
-                                        onGoBack = onGoBack
-                                    )
-                                }
-
-                                is Screen.LimitResize -> {
-                                    LimitsResizeScreen(
-                                        uriState = screen.uris,
-                                        onGoBack = onGoBack
-                                    )
-                                }
-                            }
-                        }
+                        ScreenSelector(viewModel)
 
                         EditPresetsSheet(
                             editPresetsState = editPresetsState,
@@ -338,42 +201,3 @@ class MainActivity : M3Activity() {
         )
     }
 }
-
-private fun particles(primary: Color) = listOf(
-    Party(
-        speed = 0f,
-        maxSpeed = 15f,
-        damping = 0.9f,
-        angle = Angle.BOTTOM,
-        spread = Spread.ROUND,
-        colors = listOf(0xfce18a, 0xff726d, 0xf4306d, 0xb48def).map {
-            it.blend(primary)
-        },
-        emitter = Emitter(duration = 2, TimeUnit.SECONDS).perSecond(100),
-        position = Position.Relative(0.0, 0.0).between(Position.Relative(1.0, 0.0))
-    ),
-    Party(
-        speed = 10f,
-        maxSpeed = 30f,
-        damping = 0.9f,
-        angle = Angle.RIGHT - 45,
-        spread = 60,
-        colors = listOf(0xfce18a, 0xff726d, 0xf4306d, 0xb48def).map {
-            it.blend(primary)
-        },
-        emitter = Emitter(duration = 2, TimeUnit.SECONDS).perSecond(100),
-        position = Position.Relative(0.0, 1.0)
-    ),
-    Party(
-        speed = 10f,
-        maxSpeed = 30f,
-        damping = 0.9f,
-        angle = Angle.RIGHT - 135,
-        spread = 60,
-        colors = listOf(0xfce18a, 0xff726d, 0xf4306d, 0xb48def).map {
-            it.blend(primary)
-        },
-        emitter = Emitter(duration = 2, TimeUnit.SECONDS).perSecond(100),
-        position = Position.Relative(1.0, 1.0)
-    )
-)
