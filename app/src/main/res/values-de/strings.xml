@@ -245,7 +245,7 @@
     <string name="false_color">Falsche Farbe</string>
     <string name="first_color">Erste Farbe</string>
     <string name="second_color">Zweite Farbe</string>
-    <string name="reorder">Nachbestellung</string>
+    <string name="reorder">Umsortieren</string>
     <string name="fast_blur">Schnelle Unschärfe</string>
     <string name="blur_size">Größe der Unschärfe</string>
     <string name="blur_center_x">Unschärfe Mitte x</string>
