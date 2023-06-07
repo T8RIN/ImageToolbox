@@ -240,4 +240,17 @@
     <string name="lookup">Lookup</string>
     <string name="non_maximum_suppression">Nicht-maximale Unterdrückung</string>
     <string name="weak_pixel_inclusion">Schwacher Pixel-Einschluss</string>
+    <string name="convolution3x3">Faltung 3x3</string>
+    <string name="rgb_filter">RGB-Filter</string>
+    <string name="false_color">Falsche Farbe</string>
+    <string name="first_color">Erste Farbe</string>
+    <string name="second_color">Zweite Farbe</string>
+    <string name="reorder">Nachbestellung</string>
+    <string name="fast_blur">Schnelle Unschärfe</string>
+    <string name="blur_size">Größe der Unschärfe</string>
+    <string name="blur_center_x">Unschärfe Mitte x</string>
+    <string name="color_balance">Farbbalance</string>
+    <string name="blur_center_y">Unschärfe Mitte y</string>
+    <string name="zoom_blur">Unschärfe vergrößern</string>
+    <string name="luminance_threshold">Schwellenwert für die Leuchtdichte</string>
 </resources>
