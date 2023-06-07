@@ -236,4 +236,21 @@
     <string name="refractive_index">折射率</string>
     <string name="color_matrix">色彩矩陣</string>
     <string name="content_scale">內容縮放</string>
+    <string name="coming_soon">即將推出</string>
+    <string name="weak_pixel_inclusion">弱像素包含</string>
+    <string name="lookup">抬頭</string>
+    <string name="stack_blur">堆棧模糊</string>
+    <string name="convolution3x3">卷積 3x3</string>
+    <string name="rgb_filter">RGB濾鏡</string>
+    <string name="false_color">假色</string>
+    <string name="first_color">第一種顏色</string>
+    <string name="second_color">第二種顏色</string>
+    <string name="reorder">重新訂購</string>
+    <string name="fast_blur">快速模糊</string>
+    <string name="blur_size">模糊尺寸</string>
+    <string name="blur_center_x">模糊中心 x</string>
+    <string name="blur_center_y">模糊中心 y</string>
+    <string name="zoom_blur">縮放模糊</string>
+    <string name="color_balance">色彩均衡</string>
+    <string name="luminance_threshold">亮度閾值</string>
 </resources>
