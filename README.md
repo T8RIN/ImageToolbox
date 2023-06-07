@@ -42,7 +42,8 @@
 <h4 align="center">Powerful image toolbox with width/height selection, filters applying, SVG to image convertion, cropping, EXIF editing, quality and output image type picking and batch processing feature.</h4>
 
 
-![Frame 5](https://user-images.githubusercontent.com/52178347/229357418-3ed5e83b-df35-4e61-87ca-e74135e831d1.png)
+![Frame 7](https://github.com/T8RIN/ImageToolbox/assets/52178347/90829782-8bb1-4362-81b3-2b0a542baf7e)
+
 
 <div align="center">
 
@@ -103,7 +104,7 @@ Go to the [Releases](https://github.com/t8rin/imageresizer/releases/latest) and 
   
 
 #
-![Frame 6](https://user-images.githubusercontent.com/52178347/229357423-22ea1144-d838-438d-bc39-6ae431e491e6.png)
+![Frame 8](https://github.com/T8RIN/ImageToolbox/assets/52178347/019a1ee7-3a89-4705-8936-d94c02ed4c51)
 
   
 # 🌟 UI tweaks
