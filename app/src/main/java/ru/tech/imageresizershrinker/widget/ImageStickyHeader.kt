@@ -18,9 +18,10 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.AddCircle
-import androidx.compose.material.icons.rounded.RemoveCircle
+import androidx.compose.material.icons.rounded.ZoomInMap
+import androidx.compose.material.icons.rounded.ZoomOutMap
 import androidx.compose.material3.Icon
+import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -44,7 +45,7 @@ fun LazyListScope.imageStickyHeader(
         stickyHeader {
             val settingsState = LocalSettingsState.current
             Column(
-                Modifier
+                modifier = Modifier
                     .fillMaxWidth()
                     .height(
                         availableHeight(
@@ -53,6 +54,7 @@ fun LazyListScope.imageStickyHeader(
                         )
                     )
                     .background(MaterialTheme.colorScheme.surface.copy(alpha = 0.85f))
+                    .clip(MaterialTheme.shapes.medium)
                     .padding(20.dp),
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally
@@ -69,53 +71,80 @@ fun LazyListScope.imageStickyHeader(
                     endColor = Color.Transparent
                 )
                 Row(
-                    Modifier
+                    modifier = Modifier
                         .align(Alignment.BottomEnd)
                         .offset(y = (-24).dp)
                         .background(
-                            MaterialTheme.colorScheme.secondaryContainer.copy(
+                            color = MaterialTheme.colorScheme.secondaryContainer.copy(
                                 alpha = 0.85f
-                            ), CircleShape
+                            ),
+                            shape = CircleShape
                         )
                         .border(
-                            settingsState.borderWidth,
-                            MaterialTheme.colorScheme
+                            width = settingsState.borderWidth,
+                            color = MaterialTheme.colorScheme
                                 .outlineVariant()
                                 .copy(alpha = 0.85f),
-                            CircleShape
+                            shape = CircleShape
                         )
                 ) {
-                    AnimatedVisibility(imageState != 0) {
+                    AnimatedVisibility(visible = imageState != 0) {
                         Box(
-                            Modifier
+                            modifier = Modifier
                                 .size(36.dp)
                                 .clip(CircleShape)
                                 .clickable {
                                     if (imageState > 0) {
                                         onStateChange(imageState - 1)
                                     } else onStateChange(0)
-                                }, contentAlignment = Alignment.Center
+                                },
+                            contentAlignment = Alignment.Center
                         ) {
+                            Box(
+                                modifier = Modifier
+                                    .size(24.dp)
+                                    .background(
+                                        color = LocalContentColor.current,
+                                        shape = CircleShape
+                                    )
+                            )
                             Icon(
-                                imageVector = Icons.Rounded.RemoveCircle,
-                                contentDescription = null
+                                imageVector = Icons.Rounded.ZoomInMap,
+                                contentDescription = null,
+                                modifier = Modifier.size(18.dp),
+                                tint = MaterialTheme.colorScheme.secondaryContainer.copy(
+                                    alpha = 0.85f
+                                )
                             )
                         }
                     }
-                    AnimatedVisibility(imageState != 2) {
+                    AnimatedVisibility(visible = imageState != 2) {
                         Box(
-                            Modifier
+                            modifier = Modifier
                                 .size(36.dp)
                                 .clip(CircleShape)
                                 .clickable {
                                     if (imageState < 2) {
                                         onStateChange(imageState + 1)
                                     } else onStateChange(2)
-                                }, contentAlignment = Alignment.Center
+                                },
+                            contentAlignment = Alignment.Center
                         ) {
+                            Box(
+                                modifier = Modifier
+                                    .size(24.dp)
+                                    .background(
+                                        color = LocalContentColor.current,
+                                        shape = CircleShape
+                                    )
+                            )
                             Icon(
-                                imageVector = Icons.Rounded.AddCircle,
-                                contentDescription = null
+                                imageVector = Icons.Rounded.ZoomOutMap,
+                                contentDescription = null,
+                                modifier = Modifier.size(18.dp),
+                                tint = MaterialTheme.colorScheme.secondaryContainer.copy(
+                                    alpha = 0.85f
+                                )
                             )
                         }
                     }
