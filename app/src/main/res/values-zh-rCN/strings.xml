@@ -142,7 +142,7 @@
     <string name="cropping">裁剪</string>
     <string name="color_filter">颜色滤镜</string>
     <string name="alpha">Alpha 值</string>
-    <string name="vibrance">活力</string>
+    <string name="vibrance">色相</string>
     <string name="crosshatch">交叉影线</string>
     <string name="sobel_edge">索贝尔边</string>
     <string name="start">开始</string>
@@ -202,12 +202,12 @@
     <string name="haze">雾气</string>
     <string name="effect">效果</string>
     <string name="distance">距离</string>
-    <string name="slope">坡</string>
+    <string name="slope">坡度</string>
     <string name="sharpen">锐化</string>
-    <string name="sepia">棕褐色</string>
-    <string name="negative">消极的</string>
+    <string name="sepia">做旧</string>
+    <string name="negative">反色</string>
     <string name="solarize">曝光</string>
-    <string name="black_and_white">黑与白</string>
+    <string name="black_and_white">黑白</string>
     <string name="spacing">间距</string>
     <string name="line_width">行宽</string>
     <string name="blur">模糊</string>
