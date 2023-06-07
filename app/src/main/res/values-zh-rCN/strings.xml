@@ -114,7 +114,7 @@
     <string name="permission">权限</string>
     <string name="grant">授予</string>
     <string name="permission_sub">应用程序必须访问您的存储来保存图像。请在接下来的对话框中授予权限</string>
-    <string name="grant_permission_manual">应用程序需要此权限才能工作，请手动授予它</string>
+    <string name="grant_permission_manual">应用程序需要此权限才能工作，请手动授权</string>
     <string name="border_thickness">边框宽度</string>
     <string name="surface">表面</string>
     <string name="buy_me_a_coffee">请我喝杯咖啡</string>
@@ -149,7 +149,7 @@
     <string name="end">结尾</string>
     <string name="box_blur">框模糊</string>
     <string name="bilaterial_blur">双边模糊</string>
-    <string name="options_arrangement">期权安排</string>
+    <string name="options_arrangement">功能管理</string>
     <string name="load_image_from_net">从网络加载图像</string>
     <string name="image_link">图片链接</string>
     <string name="brightness">亮度</string>
@@ -169,7 +169,7 @@
     <string name="fast_blur">快速模糊</string>
     <string name="blur_size">模糊大小</string>
     <string name="photo_picker_sub">出现在屏幕底部的 Android 现代照片选择器可能仅适用于 Android 12+，并且在接收 EXIF 元数据方面也有问题</string>
-    <string name="file_explorer_picker_sub">使用 GetContent 意图选取图像，无处不在，但在某些设备上接收选取的图像时也会出现问题，这不是我的错</string>
+    <string name="file_explorer_picker_sub">使用 GetContent 意图来选取图像，兼容性好，但在某些设备上接收选取的图像时也会出现问题，这与本 App 无关</string>
     <string name="edit">编辑</string>
     <string name="order">命令</string>
     <string name="order_sub">确定主屏幕上选项的顺序</string>
@@ -177,9 +177,9 @@
     <string name="replace_sequence_number">替换序号</string>
     <string name="replace_sequence_number_sub">如果启用，则在使用批处理时将标准时间戳替换为图像序列号</string>
     <string name="filename_not_work_with_photopicker">如果选择了照片选择器图像源，则添加原始文件名不起作用</string>
-    <string name="fill">充满</string>
-    <string name="fit">合身</string>
-    <string name="explicit_description">将每张图片强制为宽度和高度参数给定的图像 - 可能会改变纵横比</string>
+    <string name="fill">填充</string>
+    <string name="fit">适合</string>
+    <string name="explicit_description">将图片强制设定为指定的宽度和高度，可能改变纵横比</string>
     <string name="flexible_description">将图片调整为宽度或高度参数给定的长边图像，所有尺寸计算将在保存后完成 - 保持纵横比</string>
     <string name="ratio_description">将图片调整为具有最后编辑的宽度或高度边的图像，实时显示最终图像大小 - 保持纵横比</string>
     <string name="contrast">对比</string>
@@ -244,11 +244,11 @@
     <string name="load_image_from_net_sub">从互联网加载任何图像，预览，缩放，并根据需要保存或编辑</string>
     <string name="image_source">图片来源</string>
     <string name="photo_picker">照片选择器</string>
-    <string name="gallery_picker">画廊</string>
+    <string name="gallery_picker">相册</string>
     <string name="file_explorer_picker">文件管理器</string>
-    <string name="gallery_picker_sub">简单的画廊图像选择器，只有当你有那个应用程序时它才会工作</string>
+    <string name="gallery_picker_sub">使用简单图库 App 的图像选择器，仅在已安装该应用程序时才可用</string>
     <string name="no_image">没有图像</string>
-    <string name="content_scale">内容量表</string>
+    <string name="content_scale">内容缩放</string>
     <string name="sequence_num">序号</string>
     <string name="original_filename">原始文件名</string>
     <string name="add_original_filename">添加原始文件名</string>
