@@ -252,4 +252,5 @@
     <string name="zoom_blur">Zoom flou</string>
     <string name="color_balance">Balance de couleur</string>
     <string name="luminance_threshold">Seuil de luminance</string>
+    <string name="blur_center_x">Flou centre x</string>
 </resources>
