@@ -237,4 +237,20 @@
     <string name="toon">تون</string>
     <string name="posterize">تتالي</string>
     <string name="content_scale">مقياس المحتوى</string>
+    <string name="convolution3x3">التفاف 3x3</string>
+    <string name="rgb_filter">مرشح RGB</string>
+    <string name="color_balance">توازن الالوان</string>
+    <string name="non_maximum_suppression">عدم الحد الأقصى للقمع</string>
+    <string name="weak_pixel_inclusion">إدراج ضعيف للبكسل</string>
+    <string name="lookup">ابحث عن</string>
+    <string name="false_color">لون مزيف</string>
+    <string name="first_color">اللون الأول</string>
+    <string name="second_color">اللون الثاني</string>
+    <string name="reorder">إعادة ترتيب</string>
+    <string name="fast_blur">طمس سريع</string>
+    <string name="blur_size">حجم التمويه</string>
+    <string name="blur_center_x">مركز طمس x</string>
+    <string name="blur_center_y">مركز طمس ذ</string>
+    <string name="zoom_blur">زووم طمس</string>
+    <string name="luminance_threshold">عتبة النصوع</string>
 </resources>
