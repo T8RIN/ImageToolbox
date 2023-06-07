@@ -105,8 +105,8 @@ dependencies {
     //Compose
     implementation("androidx.compose.material3:material3:1.2.0-alpha02")
     implementation("androidx.compose.material3:material3-window-size-class:1.2.0-alpha02")
-    implementation("androidx.compose.material:material-icons-extended:1.5.0-beta01")
-    implementation("androidx.compose.material:material:1.5.0-beta01")
+    implementation("androidx.compose.material:material-icons-extended:1.5.0-beta02")
+    implementation("androidx.compose.material:material:1.5.0-beta02")
 
     //Di
     implementation("com.google.dagger:hilt-android:2.46.1")
