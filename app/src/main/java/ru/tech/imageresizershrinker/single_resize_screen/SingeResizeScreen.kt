@@ -300,142 +300,146 @@ fun SingleResizeScreen(
     }
 
     val buttons = @Composable {
-        if (viewModel.bitmap == null) {
-            ExtendedFloatingActionButton(
-                onClick = pickImage,
-                modifier = Modifier
-                    .navigationBarsPadding()
-                    .padding(16.dp)
-                    .fabBorder(),
-                elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
-                text = {
-                    Text(stringResource(R.string.pick_image_alt))
-                },
-                icon = {
-                    Icon(Icons.Rounded.AddPhotoAlternate, null)
-                }
-            )
-        } else if (imageInside) {
-            BottomAppBar(
-                modifier = Modifier.drawHorizontalStroke(true),
-                actions = {
-                    TelegramButton(
-                        enabled = viewModel.bitmap != null,
-                        isTelegramSpecs = viewModel.isTelegramSpecs,
-                        onClick = { viewModel.setTelegramSpecs() },
-                    )
-                    IconButton(
-                        onClick = {
-                            showSaveLoading = true
-                            context.shareBitmap(
-                                bitmap = viewModel.previewBitmap,
-                                bitmapInfo = viewModel.bitmapInfo,
-                                onComplete = {
-                                    showSaveLoading = false
-                                    showConfetti()
-                                }
-                            )
-                        },
-                        enabled = viewModel.previewBitmap != null
-                    ) {
-                        Icon(Icons.Outlined.Share, null)
+        AnimatedContent(
+            targetState = (viewModel.uri != Uri.EMPTY) to imageInside
+        ) { (isNull, inside) ->
+            if (isNull) {
+                ExtendedFloatingActionButton(
+                    onClick = pickImage,
+                    modifier = Modifier
+                        .navigationBarsPadding()
+                        .padding(16.dp)
+                        .fabBorder(),
+                    elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
+                    text = {
+                        Text(stringResource(R.string.pick_image_alt))
+                    },
+                    icon = {
+                        Icon(Icons.Rounded.AddPhotoAlternate, null)
                     }
-
-                    val interactionSource = remember { MutableInteractionSource() }
-                    IconButton(
-                        enabled = viewModel.bitmap != null,
-                        onClick = { showResetDialog = true }
-                    ) {
-                        Icon(
-                            imageVector = Icons.Rounded.RestartAlt,
-                            contentDescription = null
+                )
+            } else if (inside) {
+                BottomAppBar(
+                    modifier = Modifier.drawHorizontalStroke(true),
+                    actions = {
+                        TelegramButton(
+                            enabled = viewModel.bitmap != null,
+                            isTelegramSpecs = viewModel.isTelegramSpecs,
+                            onClick = { viewModel.setTelegramSpecs() },
                         )
-                    }
-                    if (viewModel.bitmap != null && viewModel.bitmap?.canShow() == true) {
-                        Box(
-                            modifier = Modifier
-                                .clip(CircleShape)
-                                .indication(
-                                    interactionSource,
-                                    LocalIndication.current
+                        IconButton(
+                            onClick = {
+                                showSaveLoading = true
+                                context.shareBitmap(
+                                    bitmap = viewModel.previewBitmap,
+                                    bitmapInfo = viewModel.bitmapInfo,
+                                    onComplete = {
+                                        showSaveLoading = false
+                                        showConfetti()
+                                    }
                                 )
-                                .pointerInput(Unit) {
-                                    detectTapGestures(
-                                        onPress = {
-                                            val press = PressInteraction.Press(it)
-                                            interactionSource.emit(press)
-                                            if (viewModel.bitmap?.canShow() == true) {
-                                                showOriginal = true
-                                            }
-                                            tryAwaitRelease()
-                                            showOriginal = false
-                                            interactionSource.emit(
-                                                PressInteraction.Release(
-                                                    press
-                                                )
-                                            )
-                                        }
-                                    )
-                                }
+                            },
+                            enabled = viewModel.previewBitmap != null
+                        ) {
+                            Icon(Icons.Outlined.Share, null)
+                        }
+
+                        val interactionSource = remember { MutableInteractionSource() }
+                        IconButton(
+                            enabled = viewModel.bitmap != null,
+                            onClick = { showResetDialog = true }
                         ) {
                             Icon(
-                                Icons.Rounded.History,
-                                null,
-                                tint = MaterialTheme.colorScheme.onSurfaceVariant,
-                                modifier = Modifier
-                                    .align(Alignment.Center)
-                                    .padding(8.dp)
+                                imageVector = Icons.Rounded.RestartAlt,
+                                contentDescription = null
                             )
                         }
-                    } else {
-                        IconButton(
-                            enabled = false,
-                            onClick = {}
-                        ) { Icon(Icons.Rounded.History, null) }
-                    }
-                },
-                floatingActionButton = {
-                    Row {
-                        FloatingActionButton(
-                            onClick = pickImage,
-                            modifier = Modifier.fabBorder(),
-                            containerColor = MaterialTheme.colorScheme.tertiaryContainer,
-                            elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation()
-                        ) {
-                            Icon(Icons.Rounded.AddPhotoAlternate, null)
+                        if (viewModel.bitmap != null && viewModel.bitmap?.canShow() == true) {
+                            Box(
+                                modifier = Modifier
+                                    .clip(CircleShape)
+                                    .indication(
+                                        interactionSource,
+                                        LocalIndication.current
+                                    )
+                                    .pointerInput(Unit) {
+                                        detectTapGestures(
+                                            onPress = {
+                                                val press = PressInteraction.Press(it)
+                                                interactionSource.emit(press)
+                                                if (viewModel.bitmap?.canShow() == true) {
+                                                    showOriginal = true
+                                                }
+                                                tryAwaitRelease()
+                                                showOriginal = false
+                                                interactionSource.emit(
+                                                    PressInteraction.Release(
+                                                        press
+                                                    )
+                                                )
+                                            }
+                                        )
+                                    }
+                            ) {
+                                Icon(
+                                    Icons.Rounded.History,
+                                    null,
+                                    tint = MaterialTheme.colorScheme.onSurfaceVariant,
+                                    modifier = Modifier
+                                        .align(Alignment.Center)
+                                        .padding(8.dp)
+                                )
+                            }
+                        } else {
+                            IconButton(
+                                enabled = false,
+                                onClick = {}
+                            ) { Icon(Icons.Rounded.History, null) }
                         }
-                        Spacer(Modifier.width(16.dp))
-                        FloatingActionButton(
-                            onClick = saveBitmap,
-                            elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
-                            modifier = Modifier.fabBorder(),
-                        ) {
-                            Icon(Icons.Rounded.Save, null)
+                    },
+                    floatingActionButton = {
+                        Row {
+                            FloatingActionButton(
+                                onClick = pickImage,
+                                modifier = Modifier.fabBorder(),
+                                containerColor = MaterialTheme.colorScheme.tertiaryContainer,
+                                elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation()
+                            ) {
+                                Icon(Icons.Rounded.AddPhotoAlternate, null)
+                            }
+                            Spacer(Modifier.width(16.dp))
+                            FloatingActionButton(
+                                onClick = saveBitmap,
+                                elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
+                                modifier = Modifier.fabBorder(),
+                            ) {
+                                Icon(Icons.Rounded.Save, null)
+                            }
                         }
                     }
-                }
-            )
-        } else {
-            Column(
-                Modifier
-                    .padding(horizontal = 16.dp)
-                    .navigationBarsPadding()
-            ) {
-                FloatingActionButton(
-                    onClick = pickImage,
-                    elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
-                    modifier = Modifier.fabBorder(),
-                    containerColor = MaterialTheme.colorScheme.tertiaryContainer,
+                )
+            } else {
+                Column(
+                    Modifier
+                        .padding(horizontal = 16.dp)
+                        .navigationBarsPadding()
                 ) {
-                    Icon(Icons.Rounded.AddPhotoAlternate, null)
-                }
-                Spacer(Modifier.height(16.dp))
-                FloatingActionButton(
-                    elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
-                    modifier = Modifier.fabBorder(),
-                    onClick = saveBitmap
-                ) {
-                    Icon(Icons.Rounded.Save, null)
+                    FloatingActionButton(
+                        onClick = pickImage,
+                        elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
+                        modifier = Modifier.fabBorder(),
+                        containerColor = MaterialTheme.colorScheme.tertiaryContainer,
+                    ) {
+                        Icon(Icons.Rounded.AddPhotoAlternate, null)
+                    }
+                    Spacer(Modifier.height(16.dp))
+                    FloatingActionButton(
+                        elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
+                        modifier = Modifier.fabBorder(),
+                        onClick = saveBitmap
+                    ) {
+                        Icon(Icons.Rounded.Save, null)
+                    }
                 }
             }
         }

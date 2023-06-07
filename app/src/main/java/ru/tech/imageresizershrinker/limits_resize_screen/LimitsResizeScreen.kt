@@ -277,76 +277,80 @@ fun LimitsResizeScreen(
     }
 
     val buttons = @Composable {
-        if (viewModel.bitmap == null) {
-            ExtendedFloatingActionButton(
-                onClick = pickImage,
-                modifier = Modifier
-                    .navigationBarsPadding()
-                    .padding(16.dp)
-                    .fabBorder(),
-                elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
-                text = {
-                    Text(stringResource(R.string.pick_image_alt))
-                },
-                icon = {
-                    Icon(Icons.Rounded.AddPhotoAlternate, null)
-                }
-            )
-        } else if (imageInside) {
-            BottomAppBar(
-                modifier = Modifier.drawHorizontalStroke(true),
-                actions = {},
-                floatingActionButton = {
-                    Row {
-                        FloatingActionButton(
-                            onClick = pickImage,
-                            modifier = Modifier.fabBorder(),
-                            containerColor = MaterialTheme.colorScheme.tertiaryContainer,
-                            elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation()
-                        ) {
-                            Icon(Icons.Rounded.AddPhotoAlternate, null)
-                        }
-                        AnimatedVisibility(viewModel.canSave) {
-                            Row {
-                                Spacer(Modifier.width(16.dp))
-                                FloatingActionButton(
-                                    onClick = saveBitmaps,
-                                    modifier = Modifier.fabBorder(),
-                                    elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation()
-                                ) {
-                                    Icon(Icons.Rounded.Save, null)
+        AnimatedContent(
+            targetState = (viewModel.uris.isNullOrEmpty()) to imageInside
+        ) { (isNull, inside) ->
+            if (isNull) {
+                ExtendedFloatingActionButton(
+                    onClick = pickImage,
+                    modifier = Modifier
+                        .navigationBarsPadding()
+                        .padding(16.dp)
+                        .fabBorder(),
+                    elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
+                    text = {
+                        Text(stringResource(R.string.pick_image_alt))
+                    },
+                    icon = {
+                        Icon(Icons.Rounded.AddPhotoAlternate, null)
+                    }
+                )
+            } else if (inside) {
+                BottomAppBar(
+                    modifier = Modifier.drawHorizontalStroke(true),
+                    actions = {},
+                    floatingActionButton = {
+                        Row {
+                            FloatingActionButton(
+                                onClick = pickImage,
+                                modifier = Modifier.fabBorder(),
+                                containerColor = MaterialTheme.colorScheme.tertiaryContainer,
+                                elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation()
+                            ) {
+                                Icon(Icons.Rounded.AddPhotoAlternate, null)
+                            }
+                            AnimatedVisibility(viewModel.canSave) {
+                                Row {
+                                    Spacer(Modifier.width(16.dp))
+                                    FloatingActionButton(
+                                        onClick = saveBitmaps,
+                                        modifier = Modifier.fabBorder(),
+                                        elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation()
+                                    ) {
+                                        Icon(Icons.Rounded.Save, null)
+                                    }
                                 }
                             }
                         }
                     }
-                }
-            )
-        } else {
-            Column(
-                modifier = Modifier
-                    .fillMaxHeight()
-                    .padding(horizontal = 16.dp)
-                    .navigationBarsPadding(),
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.Center
-            ) {
-                Spacer(Modifier.height(16.dp))
-                FloatingActionButton(
-                    onClick = pickImage,
-                    containerColor = MaterialTheme.colorScheme.tertiaryContainer,
-                    elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
-                    modifier = Modifier.fabBorder(),
+                )
+            } else {
+                Column(
+                    modifier = Modifier
+                        .fillMaxHeight()
+                        .padding(horizontal = 16.dp)
+                        .navigationBarsPadding(),
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.Center
                 ) {
-                    Icon(Icons.Rounded.AddPhotoAlternate, null)
-                }
-                Spacer(Modifier.height(16.dp))
-                AnimatedVisibility(viewModel.canSave) {
+                    Spacer(Modifier.height(16.dp))
                     FloatingActionButton(
-                        onClick = saveBitmaps,
+                        onClick = pickImage,
+                        containerColor = MaterialTheme.colorScheme.tertiaryContainer,
                         elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
                         modifier = Modifier.fabBorder(),
                     ) {
-                        Icon(Icons.Rounded.Save, null)
+                        Icon(Icons.Rounded.AddPhotoAlternate, null)
+                    }
+                    Spacer(Modifier.height(16.dp))
+                    AnimatedVisibility(viewModel.canSave) {
+                        FloatingActionButton(
+                            onClick = saveBitmaps,
+                            elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
+                            modifier = Modifier.fabBorder(),
+                        ) {
+                            Icon(Icons.Rounded.Save, null)
+                        }
                     }
                 }
             }

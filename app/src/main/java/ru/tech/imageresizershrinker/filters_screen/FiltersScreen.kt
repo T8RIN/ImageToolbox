@@ -389,134 +389,138 @@ fun FiltersScreen(
     val showReorderSheet = rememberSaveable { mutableStateOf(false) }
 
     val buttons = @Composable {
-        if (viewModel.bitmap == null) {
-            ExtendedFloatingActionButton(
-                onClick = pickImage,
-                modifier = Modifier
-                    .navigationBarsPadding()
-                    .padding(16.dp)
-                    .fabBorder(),
-                elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
-                text = {
-                    Text(stringResource(R.string.pick_image_alt))
-                },
-                icon = {
-                    Icon(Icons.Rounded.AddPhotoAlternate, null)
-                }
-            )
-        } else if (imageInside) {
-            BottomAppBar(
-                modifier = Modifier.drawHorizontalStroke(true),
-                actions = {
-                    Spacer(modifier = Modifier.width(8.dp))
-                    if (viewModel.bitmap != null) {
-                        Box(
-                            modifier = Modifier
-                                .clip(CircleShape)
-                                .indication(
-                                    interactionSource,
-                                    LocalIndication.current
-                                )
-                                .pointerInput(Unit) {
-                                    detectTapGestures(
-                                        onPress = {
-                                            val press = PressInteraction.Press(it)
-                                            interactionSource.emit(press)
-                                            if (viewModel.bitmap?.canShow() == true) {
-                                                showOriginal = true
-                                            }
-                                            tryAwaitRelease()
-                                            showOriginal = false
-                                            interactionSource.emit(
-                                                PressInteraction.Release(
-                                                    press
-                                                )
-                                            )
-                                        }
-                                    )
-                                }
-                        ) {
-                            Icon(
-                                Icons.Rounded.History,
-                                null,
-                                tint = MaterialTheme.colorScheme.onSurfaceVariant,
+        AnimatedContent(
+            targetState = (viewModel.uris.isNullOrEmpty()) to imageInside
+        ) { (isNull, inside) ->
+            if (isNull) {
+                ExtendedFloatingActionButton(
+                    onClick = pickImage,
+                    modifier = Modifier
+                        .navigationBarsPadding()
+                        .padding(16.dp)
+                        .fabBorder(),
+                    elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
+                    text = {
+                        Text(stringResource(R.string.pick_image_alt))
+                    },
+                    icon = {
+                        Icon(Icons.Rounded.AddPhotoAlternate, null)
+                    }
+                )
+            } else if (inside) {
+                BottomAppBar(
+                    modifier = Modifier.drawHorizontalStroke(true),
+                    actions = {
+                        Spacer(modifier = Modifier.width(8.dp))
+                        if (viewModel.bitmap != null) {
+                            Box(
                                 modifier = Modifier
-                                    .align(Alignment.Center)
-                                    .padding(8.dp)
-                            )
+                                    .clip(CircleShape)
+                                    .indication(
+                                        interactionSource,
+                                        LocalIndication.current
+                                    )
+                                    .pointerInput(Unit) {
+                                        detectTapGestures(
+                                            onPress = {
+                                                val press = PressInteraction.Press(it)
+                                                interactionSource.emit(press)
+                                                if (viewModel.bitmap?.canShow() == true) {
+                                                    showOriginal = true
+                                                }
+                                                tryAwaitRelease()
+                                                showOriginal = false
+                                                interactionSource.emit(
+                                                    PressInteraction.Release(
+                                                        press
+                                                    )
+                                                )
+                                            }
+                                        )
+                                    }
+                            ) {
+                                Icon(
+                                    Icons.Rounded.History,
+                                    null,
+                                    tint = MaterialTheme.colorScheme.onSurfaceVariant,
+                                    modifier = Modifier
+                                        .align(Alignment.Center)
+                                        .padding(8.dp)
+                                )
+                            }
                         }
-                    }
-                    compareButton()
-                    zoomButton()
-                    if (viewModel.bitmap != null && filterList.size >= 2) {
-                        IconButton(onClick = { showReorderSheet.value = true }) {
-                            Icon(Icons.Rounded.Build, null)
+                        compareButton()
+                        zoomButton()
+                        if (viewModel.bitmap != null && filterList.size >= 2) {
+                            IconButton(onClick = { showReorderSheet.value = true }) {
+                                Icon(Icons.Rounded.Build, null)
+                            }
                         }
-                    }
-                },
-                floatingActionButton = {
-                    Row {
-                        FloatingActionButton(
-                            onClick = pickImage,
-                            modifier = Modifier.fabBorder(),
-                            containerColor = MaterialTheme.colorScheme.tertiaryContainer,
-                            elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation()
-                        ) {
-                            Icon(Icons.Rounded.AddPhotoAlternate, null)
-                        }
-                        AnimatedVisibility(viewModel.canSave) {
-                            Row {
-                                Spacer(Modifier.width(16.dp))
-                                FloatingActionButton(
-                                    onClick = saveBitmaps,
-                                    modifier = Modifier.fabBorder(),
-                                    elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation()
-                                ) {
-                                    Icon(Icons.Rounded.Save, null)
+                    },
+                    floatingActionButton = {
+                        Row {
+                            FloatingActionButton(
+                                onClick = pickImage,
+                                modifier = Modifier.fabBorder(),
+                                containerColor = MaterialTheme.colorScheme.tertiaryContainer,
+                                elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation()
+                            ) {
+                                Icon(Icons.Rounded.AddPhotoAlternate, null)
+                            }
+                            AnimatedVisibility(viewModel.canSave) {
+                                Row {
+                                    Spacer(Modifier.width(16.dp))
+                                    FloatingActionButton(
+                                        onClick = saveBitmaps,
+                                        modifier = Modifier.fabBorder(),
+                                        elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation()
+                                    ) {
+                                        Icon(Icons.Rounded.Save, null)
+                                    }
                                 }
                             }
                         }
                     }
-                }
-            )
-        } else {
-            Column(
-                modifier = Modifier
-                    .fillMaxHeight()
-                    .padding(horizontal = 16.dp)
-                    .navBarsPaddingOnlyIfTheyAtTheEnd(),
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.Center
-            ) {
-                Spacer(Modifier.height(8.dp))
-                FloatingActionButton(
-                    onClick = pickImage,
-                    containerColor = MaterialTheme.colorScheme.tertiaryContainer,
-                    elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
-                    modifier = Modifier.fabBorder(),
+                )
+            } else {
+                Column(
+                    modifier = Modifier
+                        .fillMaxHeight()
+                        .padding(horizontal = 16.dp)
+                        .navBarsPaddingOnlyIfTheyAtTheEnd(),
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.Center
                 ) {
-                    Icon(Icons.Rounded.AddPhotoAlternate, null)
-                }
-                Spacer(Modifier.height(8.dp))
-                FloatingActionButton(
-                    containerColor = MaterialTheme.colorScheme.secondaryContainer,
-                    elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
-                    onClick = { showFilterSheet.value = true },
-                    modifier = Modifier.fabBorder()
-                ) {
-                    Icon(Icons.Rounded.PhotoFilter, null)
-                }
-                Spacer(Modifier.height(8.dp))
-                AnimatedVisibility(viewModel.canSave) {
-                    Column {
-                        FloatingActionButton(
-                            onClick = saveBitmaps,
-                            elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
-                            modifier = Modifier.fabBorder(),
-                        ) {
-                            Icon(Icons.Rounded.Save, null)
+                    Spacer(Modifier.height(8.dp))
+                    FloatingActionButton(
+                        onClick = pickImage,
+                        containerColor = MaterialTheme.colorScheme.tertiaryContainer,
+                        elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
+                        modifier = Modifier.fabBorder(),
+                    ) {
+                        Icon(Icons.Rounded.AddPhotoAlternate, null)
+                    }
+                    Spacer(Modifier.height(8.dp))
+                    FloatingActionButton(
+                        containerColor = MaterialTheme.colorScheme.secondaryContainer,
+                        elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
+                        onClick = { showFilterSheet.value = true },
+                        modifier = Modifier.fabBorder()
+                    ) {
+                        Icon(Icons.Rounded.PhotoFilter, null)
+                    }
+                    Spacer(Modifier.height(8.dp))
+                    AnimatedVisibility(viewModel.canSave) {
+                        Column {
+                            FloatingActionButton(
+                                onClick = saveBitmaps,
+                                elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
+                                modifier = Modifier.fabBorder(),
+                            ) {
+                                Icon(Icons.Rounded.Save, null)
+                            }
+                            Spacer(Modifier.height(8.dp))
                         }
-                        Spacer(Modifier.height(8.dp))
                     }
                 }
             }
@@ -694,7 +698,7 @@ fun FiltersScreen(
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.Center,
                 ) {
-                    if (!imageInside && viewModel.bitmap != null) {
+                    if (!imageInside) {
                         Box(
                             Modifier
                                 .weight(0.8f)

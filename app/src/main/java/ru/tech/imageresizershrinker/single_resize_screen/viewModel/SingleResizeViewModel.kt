@@ -34,6 +34,7 @@ import java.io.ByteArrayOutputStream
 class SingleResizeViewModel : ViewModel() {
 
     private val _uri = mutableStateOf(Uri.EMPTY)
+    val uri by _uri
 
     private val _bitmap: MutableState<Bitmap?> = mutableStateOf(null)
     val bitmap: Bitmap? by _bitmap
