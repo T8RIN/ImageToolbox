@@ -684,7 +684,7 @@ private fun ColorCustomInfoComponent(
                                     maxLines = 1,
                                     onValueChange = { colorString ->
                                         val newValue =
-                                            (colorString + "0" * (7 - colorString.length)).take(9)
+                                            (colorString + "0" * (7 - colorString.length)).take(7)
                                         if (newValue.matches(Regex("^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$"))) {
                                             value = newValue
                                         }

@@ -3,24 +3,34 @@ package ru.tech.imageresizershrinker.filters_screen.components
 import android.annotation.SuppressLint
 import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.detectTapGestures
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.ViewArray
 import androidx.compose.material.icons.rounded.Done
 import androidx.compose.material.icons.rounded.DragHandle
 import androidx.compose.material.icons.rounded.RemoveCircleOutline
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Divider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedButton
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Slider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -33,19 +43,23 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.main_screen.components.AlphaColorCustomComponent
 import ru.tech.imageresizershrinker.main_screen.components.ColorCustomComponent
+import ru.tech.imageresizershrinker.theme.outlineVariant
 import ru.tech.imageresizershrinker.utils.coil.filters.FilterTransformation
 import ru.tech.imageresizershrinker.utils.coil.filters.RGBFilter
+import ru.tech.imageresizershrinker.utils.modifier.alertDialog
 import ru.tech.imageresizershrinker.utils.modifier.block
 import ru.tech.imageresizershrinker.widget.text.RoundedTextField
 import ru.tech.imageresizershrinker.widget.utils.LocalSettingsState
@@ -102,7 +116,7 @@ fun <T> FilterItem(
         ) {
             var sliderValue by remember(filter) {
                 mutableFloatStateOf(
-                    (filter.value as? Float) ?: 0f
+                    ((filter.value as? Number)?.toFloat()) ?: 0f
                 )
             }
             Row(
@@ -127,20 +141,15 @@ fun <T> FilterItem(
                     }
                 }
                 if (filter.value is Number) {
-                    Text(
-                        text = "$sliderValue",
-                        color = MaterialTheme.colorScheme.onSurface.copy(
-                            alpha = 0.5f
-                        ),
-                        modifier = Modifier.padding(top = 16.dp),
-                        lineHeight = 18.sp
-                    )
-                    Spacer(
-                        modifier = Modifier.padding(
-                            start = 4.dp,
-                            top = 16.dp,
-                            end = 20.dp
-                        )
+                    var showValueDialog by remember { mutableStateOf(false) }
+                    ValueText(value = sliderValue, onClick = { showValueDialog = true })
+                    ValueDialog(
+                        roundTo = filter.paramsInfo[0].roundTo,
+                        valueRange = filter.paramsInfo[0].valueRange,
+                        valueState = sliderValue.toString(),
+                        expanded = showValueDialog,
+                        onDismiss = { showValueDialog = false },
+                        onValueUpdate = { onFilterChange(it) }
                     )
                 }
             }
@@ -248,39 +257,37 @@ fun <T> FilterItem(
                             var sliderState2 by remember(value) { mutableFloatStateOf((value.second as Number).toFloat()) }
 
                             Spacer(Modifier.height(8.dp))
-                            filter.paramsInfo[0].title?.let {
-                                Row(
-                                    verticalAlignment = Alignment.CenterVertically
-                                ) {
-                                    Row(Modifier.weight(1f)) {
-                                        Text(
-                                            text = stringResource(it),
-                                            modifier = Modifier
-                                                .padding(
-                                                    top = 16.dp,
-                                                    end = 16.dp,
-                                                    start = 16.dp
-                                                )
-                                                .weight(1f)
+                            filter.paramsInfo[0].takeIf { it.title != null }
+                                ?.let { (title, valueRange, roundTo) ->
+                                    Row(
+                                        verticalAlignment = Alignment.CenterVertically
+                                    ) {
+                                        Row(Modifier.weight(1f)) {
+                                            Text(
+                                                text = stringResource(title!!),
+                                                modifier = Modifier
+                                                    .padding(
+                                                        top = 16.dp,
+                                                        end = 16.dp,
+                                                        start = 16.dp
+                                                    )
+                                                    .weight(1f)
+                                            )
+                                        }
+                                        var showValueDialog by remember { mutableStateOf(false) }
+                                        ValueText(
+                                            value = sliderState1,
+                                            onClick = { showValueDialog = true })
+                                        ValueDialog(
+                                            roundTo = roundTo,
+                                            valueRange = valueRange,
+                                            valueState = sliderState1.toString(),
+                                            expanded = showValueDialog,
+                                            onDismiss = { showValueDialog = false },
+                                            onValueUpdate = { onFilterChange(it to sliderState2) }
                                         )
                                     }
-                                    Text(
-                                        text = "$sliderState1",
-                                        color = MaterialTheme.colorScheme.onSurface.copy(
-                                            alpha = 0.5f
-                                        ),
-                                        modifier = Modifier.padding(top = 16.dp),
-                                        lineHeight = 18.sp
-                                    )
-                                    Spacer(
-                                        modifier = Modifier.padding(
-                                            start = 4.dp,
-                                            top = 16.dp,
-                                            end = 20.dp
-                                        )
-                                    )
                                 }
-                            }
                             Slider(
                                 enabled = !previewOnly,
                                 modifier = Modifier.padding(horizontal = 16.dp),
@@ -292,39 +299,37 @@ fun <T> FilterItem(
                                 valueRange = filter.paramsInfo[0].valueRange
                             )
                             Spacer(Modifier.height(8.dp))
-                            filter.paramsInfo[1].title?.let {
-                                Row(
-                                    verticalAlignment = Alignment.CenterVertically
-                                ) {
-                                    Row(Modifier.weight(1f)) {
-                                        Text(
-                                            text = stringResource(it),
-                                            modifier = Modifier
-                                                .padding(
-                                                    top = 16.dp,
-                                                    end = 16.dp,
-                                                    start = 16.dp
-                                                )
-                                                .weight(1f)
+                            filter.paramsInfo[1].takeIf { it.title != null }
+                                ?.let { (title, valueRange, roundTo) ->
+                                    Row(
+                                        verticalAlignment = Alignment.CenterVertically
+                                    ) {
+                                        Row(Modifier.weight(1f)) {
+                                            Text(
+                                                text = stringResource(title!!),
+                                                modifier = Modifier
+                                                    .padding(
+                                                        top = 16.dp,
+                                                        end = 16.dp,
+                                                        start = 16.dp
+                                                    )
+                                                    .weight(1f)
+                                            )
+                                        }
+                                        var showValueDialog by remember { mutableStateOf(false) }
+                                        ValueText(
+                                            value = sliderState2,
+                                            onClick = { showValueDialog = true })
+                                        ValueDialog(
+                                            roundTo = roundTo,
+                                            valueRange = valueRange,
+                                            valueState = sliderState2.toString(),
+                                            expanded = showValueDialog,
+                                            onDismiss = { showValueDialog = false },
+                                            onValueUpdate = { onFilterChange(sliderState1 to it) }
                                         )
                                     }
-                                    Text(
-                                        text = "$sliderState2",
-                                        color = MaterialTheme.colorScheme.onSurface.copy(
-                                            alpha = 0.5f
-                                        ),
-                                        modifier = Modifier.padding(top = 16.dp),
-                                        lineHeight = 18.sp
-                                    )
-                                    Spacer(
-                                        modifier = Modifier.padding(
-                                            start = 4.dp,
-                                            top = 16.dp,
-                                            end = 20.dp
-                                        )
-                                    )
                                 }
-                            }
                             Slider(
                                 enabled = !previewOnly,
                                 modifier = Modifier.padding(horizontal = 16.dp),
@@ -404,39 +409,45 @@ fun <T> FilterItem(
                             var sliderState3 by remember(value) { mutableFloatStateOf((value.third as Number).toFloat()) }
 
                             Spacer(Modifier.height(8.dp))
-                            filter.paramsInfo[0].title?.let {
-                                Row(
-                                    verticalAlignment = Alignment.CenterVertically
-                                ) {
-                                    Row(Modifier.weight(1f)) {
-                                        Text(
-                                            text = stringResource(it),
-                                            modifier = Modifier
-                                                .padding(
-                                                    top = 16.dp,
-                                                    end = 16.dp,
-                                                    start = 16.dp
+                            filter.paramsInfo[0].takeIf { it.title != null }
+                                ?.let { (title, valueRange, roundTo) ->
+                                    Row(
+                                        verticalAlignment = Alignment.CenterVertically
+                                    ) {
+                                        Row(Modifier.weight(1f)) {
+                                            Text(
+                                                text = stringResource(title!!),
+                                                modifier = Modifier
+                                                    .padding(
+                                                        top = 16.dp,
+                                                        end = 16.dp,
+                                                        start = 16.dp
+                                                    )
+                                                    .weight(1f)
+                                            )
+                                        }
+                                        var showValueDialog by remember { mutableStateOf(false) }
+                                        ValueText(
+                                            value = sliderState1,
+                                            onClick = { showValueDialog = true })
+                                        ValueDialog(
+                                            valueRange = valueRange,
+                                            roundTo = roundTo,
+                                            valueState = sliderState1.toString(),
+                                            expanded = showValueDialog,
+                                            onDismiss = { showValueDialog = false },
+                                            onValueUpdate = {
+                                                onFilterChange(
+                                                    Triple(
+                                                        it,
+                                                        sliderState2,
+                                                        sliderState3
+                                                    )
                                                 )
-                                                .weight(1f)
+                                            }
                                         )
                                     }
-                                    Text(
-                                        text = "$sliderState1",
-                                        color = MaterialTheme.colorScheme.onSurface.copy(
-                                            alpha = 0.5f
-                                        ),
-                                        modifier = Modifier.padding(top = 16.dp),
-                                        lineHeight = 18.sp
-                                    )
-                                    Spacer(
-                                        modifier = Modifier.padding(
-                                            start = 4.dp,
-                                            top = 16.dp,
-                                            end = 20.dp
-                                        )
-                                    )
                                 }
-                            }
                             Slider(
                                 enabled = !previewOnly,
                                 modifier = Modifier.padding(horizontal = 16.dp),
@@ -448,39 +459,45 @@ fun <T> FilterItem(
                                 valueRange = filter.paramsInfo[0].valueRange
                             )
                             Spacer(Modifier.height(8.dp))
-                            filter.paramsInfo[1].title?.let {
-                                Row(
-                                    verticalAlignment = Alignment.CenterVertically
-                                ) {
-                                    Row(Modifier.weight(1f)) {
-                                        Text(
-                                            text = stringResource(it),
-                                            modifier = Modifier
-                                                .padding(
-                                                    top = 16.dp,
-                                                    end = 16.dp,
-                                                    start = 16.dp
+                            filter.paramsInfo[1].takeIf { it.title != null }
+                                ?.let { (title, valueRange, roundTo) ->
+                                    Row(
+                                        verticalAlignment = Alignment.CenterVertically
+                                    ) {
+                                        Row(Modifier.weight(1f)) {
+                                            Text(
+                                                text = stringResource(title!!),
+                                                modifier = Modifier
+                                                    .padding(
+                                                        top = 16.dp,
+                                                        end = 16.dp,
+                                                        start = 16.dp
+                                                    )
+                                                    .weight(1f)
+                                            )
+                                        }
+                                        var showValueDialog by remember { mutableStateOf(false) }
+                                        ValueText(
+                                            value = sliderState2,
+                                            onClick = { showValueDialog = true })
+                                        ValueDialog(
+                                            valueRange = valueRange,
+                                            roundTo = roundTo,
+                                            valueState = sliderState2.toString(),
+                                            expanded = showValueDialog,
+                                            onDismiss = { showValueDialog = false },
+                                            onValueUpdate = {
+                                                onFilterChange(
+                                                    Triple(
+                                                        sliderState1,
+                                                        it,
+                                                        sliderState3
+                                                    )
                                                 )
-                                                .weight(1f)
+                                            }
                                         )
                                     }
-                                    Text(
-                                        text = "$sliderState2",
-                                        color = MaterialTheme.colorScheme.onSurface.copy(
-                                            alpha = 0.5f
-                                        ),
-                                        modifier = Modifier.padding(top = 16.dp),
-                                        lineHeight = 18.sp
-                                    )
-                                    Spacer(
-                                        modifier = Modifier.padding(
-                                            start = 4.dp,
-                                            top = 16.dp,
-                                            end = 20.dp
-                                        )
-                                    )
                                 }
-                            }
                             Slider(
                                 enabled = !previewOnly,
                                 modifier = Modifier.padding(horizontal = 16.dp),
@@ -492,39 +509,45 @@ fun <T> FilterItem(
                                 valueRange = filter.paramsInfo[1].valueRange
                             )
                             Spacer(Modifier.height(8.dp))
-                            filter.paramsInfo[2].title?.let {
-                                Row(
-                                    verticalAlignment = Alignment.CenterVertically
-                                ) {
-                                    Row(Modifier.weight(1f)) {
-                                        Text(
-                                            text = stringResource(it),
-                                            modifier = Modifier
-                                                .padding(
-                                                    top = 16.dp,
-                                                    end = 16.dp,
-                                                    start = 16.dp
+                            filter.paramsInfo[2].takeIf { it.title != null }
+                                ?.let { (title, valueRange, roundTo) ->
+                                    Row(
+                                        verticalAlignment = Alignment.CenterVertically
+                                    ) {
+                                        Row(Modifier.weight(1f)) {
+                                            Text(
+                                                text = stringResource(title!!),
+                                                modifier = Modifier
+                                                    .padding(
+                                                        top = 16.dp,
+                                                        end = 16.dp,
+                                                        start = 16.dp
+                                                    )
+                                                    .weight(1f)
+                                            )
+                                        }
+                                        var showValueDialog by remember { mutableStateOf(false) }
+                                        ValueText(
+                                            value = sliderState3,
+                                            onClick = { showValueDialog = true })
+                                        ValueDialog(
+                                            valueRange = valueRange,
+                                            roundTo = roundTo,
+                                            valueState = sliderState3.toString(),
+                                            expanded = showValueDialog,
+                                            onDismiss = { showValueDialog = false },
+                                            onValueUpdate = {
+                                                onFilterChange(
+                                                    Triple(
+                                                        sliderState1,
+                                                        sliderState2,
+                                                        it
+                                                    )
                                                 )
-                                                .weight(1f)
+                                            }
                                         )
                                     }
-                                    Text(
-                                        text = "$sliderState3",
-                                        color = MaterialTheme.colorScheme.onSurface.copy(
-                                            alpha = 0.5f
-                                        ),
-                                        modifier = Modifier.padding(top = 16.dp),
-                                        lineHeight = 18.sp
-                                    )
-                                    Spacer(
-                                        modifier = Modifier.padding(
-                                            start = 4.dp,
-                                            top = 16.dp,
-                                            end = 20.dp
-                                        )
-                                    )
                                 }
-                            }
                             Slider(
                                 enabled = !previewOnly,
                                 modifier = Modifier.padding(horizontal = 16.dp),
@@ -557,3 +580,125 @@ fun <T> FilterItem(
 
 private fun Float.roundTo(digits: Int = 2) =
     (this * 10f.pow(digits)).roundToInt() / (10f.pow(digits))
+
+@Composable
+private fun ValueText(
+    value: Float,
+    onClick: () -> Unit
+) {
+    Row(
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Text(
+            text = "$value",
+            color = MaterialTheme.colorScheme.onSurface.copy(
+                alpha = 0.5f
+            ),
+            modifier = Modifier
+                .padding(top = 16.dp)
+                .clip(MaterialTheme.shapes.medium)
+                .clickable {
+                    onClick()
+                }
+                .padding(horizontal = 8.dp, vertical = 2.dp),
+            lineHeight = 18.sp
+        )
+        Spacer(
+            modifier = Modifier.padding(
+                start = 4.dp,
+                top = 16.dp,
+                end = 20.dp
+            )
+        )
+    }
+}
+
+@Composable
+private fun ValueDialog(
+    roundTo: Int,
+    valueRange: ClosedFloatingPointRange<Float>,
+    valueState: String,
+    expanded: Boolean,
+    onDismiss: () -> Unit,
+    onValueUpdate: (Float) -> Unit
+) {
+    if (expanded) {
+        var value by remember(valueState) { mutableStateOf(valueState) }
+        AlertDialog(
+            modifier = Modifier.alertDialog(),
+            onDismissRequest = onDismiss,
+            icon = {
+                Icon(Icons.Outlined.ViewArray, null)
+            },
+            title = {
+                Text(stringResource(R.string.color))
+            },
+            text = {
+                Column(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.Center
+                ) {
+                    OutlinedTextField(
+                        shape = RoundedCornerShape(16.dp),
+                        value = value,
+                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                        textStyle = MaterialTheme.typography.titleMedium.copy(textAlign = TextAlign.Center),
+                        maxLines = 1,
+                        onValueChange = { number ->
+                            var tempS = number.trim {
+                                it !in listOf(
+                                    '1',
+                                    '2',
+                                    '3',
+                                    '4',
+                                    '5',
+                                    '6',
+                                    '7',
+                                    '8',
+                                    '9',
+                                    '0',
+                                    '.',
+                                    '-'
+                                )
+                            }
+                            tempS = (if (tempS.firstOrNull() == '-') "-" else "").plus(
+                                tempS.replace("-", "")
+                            )
+                            val temp = tempS.split(".")
+                            value = when (temp.size) {
+                                1 -> temp[0]
+                                2 -> temp[0] + "." + temp[1]
+                                else -> {
+                                    temp[0] + "." + temp[1] + temp.drop(2).joinToString("")
+                                }
+                            }
+                        }
+                    )
+                }
+            },
+            confirmButton = {
+                OutlinedButton(
+                    onClick = {
+                        onDismiss()
+                        onValueUpdate(
+                            (value.toFloatOrNull() ?: 0f).roundTo(roundTo).coerceIn(valueRange)
+                        )
+                    },
+                    colors = ButtonDefaults.outlinedButtonColors(
+                        containerColor = MaterialTheme.colorScheme.secondaryContainer,
+                        contentColor = MaterialTheme.colorScheme.onSecondaryContainer,
+                    ),
+                    border = BorderStroke(
+                        LocalSettingsState.current.borderWidth,
+                        MaterialTheme.colorScheme.outlineVariant(
+                            onTopOf = MaterialTheme.colorScheme.secondaryContainer
+                        )
+                    ),
+                ) {
+                    Text(stringResource(R.string.ok))
+                }
+            }
+        )
+    }
+}
