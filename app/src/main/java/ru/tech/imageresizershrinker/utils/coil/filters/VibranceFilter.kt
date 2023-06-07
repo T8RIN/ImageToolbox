@@ -17,7 +17,7 @@ class VibranceFilter(
     context = context,
     title = R.string.vibrance,
     value = value,
-    valueRange = -100f..100f
+    valueRange = -20f..20f
 ) {
     override val cacheKey: String
         get() = (value to context).hashCode().toString()

@@ -14,8 +14,6 @@ import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.LocalIndication
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.indication
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -35,7 +33,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.ime
 import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.navigationBarsPadding
-import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -45,7 +42,6 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Share
-import androidx.compose.material.icons.rounded.AddCircle
 import androidx.compose.material.icons.rounded.AddPhotoAlternate
 import androidx.compose.material.icons.rounded.ArrowBack
 import androidx.compose.material.icons.rounded.Build
@@ -53,7 +49,6 @@ import androidx.compose.material.icons.rounded.ChangeCircle
 import androidx.compose.material.icons.rounded.Compare
 import androidx.compose.material.icons.rounded.History
 import androidx.compose.material.icons.rounded.PhotoFilter
-import androidx.compose.material.icons.rounded.RemoveCircle
 import androidx.compose.material.icons.rounded.Reorder
 import androidx.compose.material.icons.rounded.Save
 import androidx.compose.material.icons.rounded.ZoomIn
@@ -91,7 +86,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.draw.shadow
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalConfiguration
@@ -137,7 +131,6 @@ import ru.tech.imageresizershrinker.utils.storage.LocalFileController
 import ru.tech.imageresizershrinker.utils.storage.Picker
 import ru.tech.imageresizershrinker.utils.storage.localImagePickerMode
 import ru.tech.imageresizershrinker.utils.storage.rememberImagePicker
-import ru.tech.imageresizershrinker.widget.GradientEdge
 import ru.tech.imageresizershrinker.widget.LoadingDialog
 import ru.tech.imageresizershrinker.widget.LocalToastHost
 import ru.tech.imageresizershrinker.widget.TitleItem
@@ -146,6 +139,7 @@ import ru.tech.imageresizershrinker.widget.controls.ExtensionGroup
 import ru.tech.imageresizershrinker.widget.dialogs.ExitWithoutSavingDialog
 import ru.tech.imageresizershrinker.widget.image.ImageNotPickedWidget
 import ru.tech.imageresizershrinker.widget.image.SimplePicture
+import ru.tech.imageresizershrinker.widget.imageStickyHeader
 import ru.tech.imageresizershrinker.widget.sheets.CompareSheet
 import ru.tech.imageresizershrinker.widget.sheets.PickImageFromUrisSheet
 import ru.tech.imageresizershrinker.widget.sheets.SimpleSheet
@@ -154,7 +148,6 @@ import ru.tech.imageresizershrinker.widget.showError
 import ru.tech.imageresizershrinker.widget.text.Marquee
 import ru.tech.imageresizershrinker.widget.utils.LocalSettingsState
 import ru.tech.imageresizershrinker.widget.utils.LocalWindowSizeClass
-import ru.tech.imageresizershrinker.widget.utils.availableHeight
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
 @Composable
@@ -735,87 +728,13 @@ fun FiltersScreen(
                             .weight(1f)
                             .clipToBounds()
                     ) {
-                        if (imageInside && viewModel.bitmap != null) {
-                            stickyHeader {
-                                Column(
-                                    Modifier
-                                        .fillMaxWidth()
-                                        .height(
-                                            availableHeight(
-                                                expanded = showOriginal || imageState == 2,
-                                                collapsed = imageState == 0
-                                            )
-                                        )
-                                        .background(MaterialTheme.colorScheme.surface.copy(alpha = 0.85f))
-                                        .padding(20.dp),
-                                    verticalArrangement = Arrangement.Center,
-                                    horizontalAlignment = Alignment.CenterHorizontally
-                                ) {
-                                    imageBlock()
-                                }
-                                Box {
-                                    GradientEdge(
-                                        modifier = Modifier
-                                            .fillMaxWidth()
-                                            .height(16.dp),
-                                        startColor = MaterialTheme.colorScheme.surface.copy(alpha = 0.85f),
-                                        endColor = Color.Transparent
-                                    )
-                                    Row(
-                                        Modifier
-                                            .align(Alignment.BottomEnd)
-                                            .offset(y = (-40).dp)
-                                            .background(
-                                                MaterialTheme.colorScheme.secondaryContainer.copy(
-                                                    alpha = 0.85f
-                                                ), CircleShape
-                                            )
-                                            .border(
-                                                settingsState.borderWidth,
-                                                MaterialTheme.colorScheme
-                                                    .outlineVariant()
-                                                    .copy(alpha = 0.85f),
-                                                CircleShape
-                                            )
-                                    ) {
-                                        AnimatedVisibility(imageState != 0) {
-                                            Box(
-                                                Modifier
-                                                    .size(36.dp)
-                                                    .clip(CircleShape)
-                                                    .clickable {
-                                                        if (imageState > 0) {
-                                                            imageState -= 1
-                                                        } else imageState = 0
-                                                    }, contentAlignment = Alignment.Center
-                                            ) {
-                                                Icon(
-                                                    imageVector = Icons.Rounded.RemoveCircle,
-                                                    contentDescription = null
-                                                )
-                                            }
-                                        }
-                                        AnimatedVisibility(imageState != 2) {
-                                            Box(
-                                                Modifier
-                                                    .size(36.dp)
-                                                    .clip(CircleShape)
-                                                    .clickable {
-                                                        if (imageState < 2) {
-                                                            imageState += 1
-                                                        } else imageState = 2
-                                                    }, contentAlignment = Alignment.Center
-                                            ) {
-                                                Icon(
-                                                    imageVector = Icons.Rounded.AddCircle,
-                                                    contentDescription = null
-                                                )
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
+                        imageStickyHeader(
+                            visible = imageInside && viewModel.bitmap != null,
+                            expanded = showOriginal,
+                            imageState = imageState,
+                            onStateChange = { imageState = it },
+                            imageBlock = imageBlock
+                        )
                         item {
                             Column(
                                 modifier = Modifier
