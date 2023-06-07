@@ -251,6 +251,6 @@
     <string name="blur_center_x">Unschärfe Mitte x</string>
     <string name="color_balance">Farbbalance</string>
     <string name="blur_center_y">Unschärfe Mitte y</string>
-    <string name="zoom_blur">Unschärfe vergrößern</string>
-    <string name="luminance_threshold">Schwellenwert für die Leuchtdichte</string>
+    <string name="zoom_blur">Bewegungsunschärfe</string>
+    <string name="luminance_threshold">Luminanzschwelle</string>
 </resources>
