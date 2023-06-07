@@ -80,6 +80,7 @@ import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -337,7 +338,7 @@ fun FiltersScreen(
     val imageInside =
         LocalConfiguration.current.orientation != Configuration.ORIENTATION_LANDSCAPE || LocalWindowSizeClass.current.widthSizeClass == WindowWidthSizeClass.Compact
 
-    var imageState by remember { mutableStateOf(1) }
+    var imageState by remember { mutableIntStateOf(1) }
     val topAppBarState = rememberTopAppBarState()
     val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior(
         state = topAppBarState, canScroll = { imageState != 2 && !showOriginal }
@@ -889,9 +890,7 @@ fun FiltersScreen(
                                                             )
                                                         },
                                                         onLongPress = {
-                                                            if (filterList.size >= 2) {
-                                                                showReorderSheet.value = true
-                                                            }
+                                                            showReorderSheet.value = true
                                                         },
                                                         showDragHandle = false,
                                                         onRemove = {
@@ -1030,6 +1029,9 @@ fun FiltersScreen(
 
             SimpleSheet(
                 sheetContent = {
+                    if (filterList.size < 2) {
+                        showReorderSheet.value = false
+                    }
                     Box {
                         val data = remember { mutableStateOf(filterList) }
                         val state = rememberReorderableLazyListState(
