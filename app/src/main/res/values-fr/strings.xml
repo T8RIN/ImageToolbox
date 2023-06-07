@@ -247,4 +247,9 @@
     <string name="first_color">Première couleur</string>
     <string name="reorder">Réorganiser</string>
     <string name="fast_blur">Flou rapide</string>
+    <string name="blur_size">Taille floue</string>
+    <string name="blur_center_y">Centre flou y</string>
+    <string name="zoom_blur">Zoom flou</string>
+    <string name="color_balance">Balance de couleur</string>
+    <string name="luminance_threshold">Seuil de luminance</string>
 </resources>
