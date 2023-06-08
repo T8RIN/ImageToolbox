@@ -63,6 +63,7 @@ class FilterViewModel : ViewModel() {
 
     fun setMime(mime: Int) {
         _mimeTypeInt.value = mime
+        calcSize(5)
     }
 
     fun updateUris(uris: List<Uri>?) {
@@ -120,11 +121,13 @@ class FilterViewModel : ViewModel() {
     }
 
     private var sizeJob: Job? = null
-    private fun calcSize() {
+    private fun calcSize(delay: Long = 500) {
         sizeJob?.cancel()
         sizeJob = viewModelScope.launch {
-            kotlinx.coroutines.delay(500)
+            kotlinx.coroutines.delay(delay)
+            _isLoading.value = true
             _bitmapSize.value = _previewBitmap.value?.calcSize(mimeTypeInt)
+            _isLoading.value = false
         }
     }
 

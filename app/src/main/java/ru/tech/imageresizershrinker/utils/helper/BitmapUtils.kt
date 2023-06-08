@@ -261,11 +261,15 @@ object BitmapUtils {
         return@withContext bitmap.scaleUntilCanShow() ?: this@previewBitmap
     }
 
-    fun Bitmap.calcSize(mimeTypeInt: Int, quality: Float = 100f): Long {
-        val out = ByteArrayOutputStream()
-        compress(mimeTypeInt.extension.compressFormat, quality.toInt().coerceIn(0, 100), out)
-        return out.toByteArray().size.toLong()
-    }
+    suspend fun Bitmap.calcSize(
+        mimeTypeInt: Int,
+        quality: Float = 100f
+    ): Long =
+        withContext(Dispatchers.IO) {
+            val out = ByteArrayOutputStream()
+            compress(mimeTypeInt.extension.compressFormat, quality.toInt().coerceIn(0, 100), out)
+            return@withContext out.toByteArray().size.toLong()
+        }
 
     suspend fun Bitmap.scaleUntilCanShow(
         context: CoroutineContext = Dispatchers.IO
