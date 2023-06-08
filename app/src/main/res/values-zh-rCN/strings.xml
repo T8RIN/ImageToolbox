@@ -246,7 +246,7 @@
     <string name="photo_picker">照片选择器</string>
     <string name="gallery_picker">相册</string>
     <string name="file_explorer_picker">文件管理器</string>
-    <string name="gallery_picker_sub">使用简单图库 App 的图像选择器，仅在已安装该应用程序时才可用</string>
+    <string name="gallery_picker_sub">简单的图库图片选取器，只有当你有任何提供媒体选取的应用程序时，它才能工作。</string>
     <string name="no_image">没有图像</string>
     <string name="content_scale">内容缩放</string>
     <string name="sequence_num">序号</string>
