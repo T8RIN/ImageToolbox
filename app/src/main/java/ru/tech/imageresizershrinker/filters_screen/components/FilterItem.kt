@@ -16,6 +16,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
@@ -604,11 +605,11 @@ private fun ValueText(
             ),
             modifier = Modifier
                 .padding(top = 16.dp)
-                .clip(MaterialTheme.shapes.medium)
+                .clip(CircleShape)
                 .clickable {
                     onClick()
                 }
-                .padding(horizontal = 8.dp, vertical = 2.dp),
+                .padding(horizontal = 16.dp, vertical = 6.dp),
             lineHeight = 18.sp
         )
         Spacer(

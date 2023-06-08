@@ -173,12 +173,14 @@ fun FiltersScreen(
 
     LaunchedEffect(filterList) {
         viewModel.bitmap?.let {
-            viewModel.setFilteredPreview {
-                context.applyTransformations(
-                    bitmap = it,
-                    originalSize = false,
-                    transformations = filterList
-                )
+            if (viewModel.needToApplyFilters) {
+                viewModel.setFilteredPreview {
+                    context.applyTransformations(
+                        bitmap = it,
+                        originalSize = false,
+                        transformations = filterList
+                    )
+                }
             }
         }
     }

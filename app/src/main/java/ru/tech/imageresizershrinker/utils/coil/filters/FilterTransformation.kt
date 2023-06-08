@@ -7,7 +7,6 @@ import android.os.Parcelable
 import androidx.annotation.StringRes
 import androidx.compose.ui.graphics.Color
 import coil.transform.Transformation
-import com.commit451.coiltransformations.gpu.GPUFilterTransformation
 import kotlinx.parcelize.Parcelize
 import kotlinx.parcelize.RawValue
 

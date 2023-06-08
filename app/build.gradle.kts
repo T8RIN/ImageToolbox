@@ -125,10 +125,8 @@ dependencies {
     implementation(project(":beforeafter"))
     implementation(project(":image"))
     implementation(project(":modalsheet"))
+    implementation(project(":gpuimage"))
 
     implementation("org.burnoutcrew.composereorderable:reorderable:0.9.6")
-
-    implementation("com.github.Commit451.coil-transformations:transformations-gpu:2.0.2")
-    implementation("com.github.Commit451.coil-transformations:transformations:2.0.2")
 
 }

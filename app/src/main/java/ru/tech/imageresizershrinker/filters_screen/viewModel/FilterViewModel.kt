@@ -61,9 +61,17 @@ class FilterViewModel : ViewModel() {
     private val _filterList = mutableStateOf(listOf<FilterTransformation<*>>())
     val filterList by _filterList
 
+    private val _needToApplyFilters = mutableStateOf(true)
+    val needToApplyFilters by _needToApplyFilters
+
     fun setMime(mime: Int) {
         _mimeTypeInt.value = mime
-        calcSize(5)
+
+        calcSize(
+            delay = 5,
+            onStart = { _isLoading.value = true },
+            onFinish = { _isLoading.value = false }
+        )
     }
 
     fun updateUris(uris: List<Uri>?) {
@@ -121,13 +129,13 @@ class FilterViewModel : ViewModel() {
     }
 
     private var sizeJob: Job? = null
-    private fun calcSize(delay: Long = 500) {
+    private fun calcSize(delay: Long = 250, onStart: () -> Unit = {}, onFinish: () -> Unit = {}) {
         sizeJob?.cancel()
         sizeJob = viewModelScope.launch {
             kotlinx.coroutines.delay(delay)
-            _isLoading.value = true
+            onStart()
             _bitmapSize.value = _previewBitmap.value?.calcSize(mimeTypeInt)
-            _isLoading.value = false
+            onFinish()
         }
     }
 
@@ -239,6 +247,7 @@ class FilterViewModel : ViewModel() {
     fun addFilter(filter: FilterTransformation<*>) {
         _filterList.value = _filterList.value + filter
         updateCanSave()
+        _needToApplyFilters.value = true
     }
 
     fun removeFilterAtIndex(index: Int) {
@@ -246,6 +255,7 @@ class FilterViewModel : ViewModel() {
             removeAt(index)
         }
         updateCanSave()
+        _needToApplyFilters.value = true
     }
 
     private var filterJob: Job? = null
@@ -255,6 +265,7 @@ class FilterViewModel : ViewModel() {
             _isLoading.value = true
             updateBitmap(_bitmap.value, getBitmap() ?: _previewBitmap.value)
             _isLoading.value = false
+            _needToApplyFilters.value = false
         }
     }
 
@@ -272,10 +283,12 @@ class FilterViewModel : ViewModel() {
             list[index] = list[index].newInstance()
             _filterList.value = list
         }
+        _needToApplyFilters.value = true
     }
 
     fun updateOrder(value: List<FilterTransformation<*>>) {
         _filterList.value = value
+        _needToApplyFilters.value = true
     }
 
 }
