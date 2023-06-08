@@ -238,19 +238,19 @@
     <string name="snooth_toon">Geglätteter Cartoon</string>
     <string name="limits_resize">Größenbegrenzung</string>
     <string name="lookup">Lookup</string>
-    <string name="non_maximum_suppression">Nicht-maximale Unterdrückung</string>
-    <string name="weak_pixel_inclusion">Schwacher Pixel-Einschluss</string>
-    <string name="convolution3x3">Faltung 3x3</string>
+    <string name="non_maximum_suppression">Nicht-Maximales unterdrücken</string>
+    <string name="weak_pixel_inclusion">Helle Pixel heller</string>
+    <string name="convolution3x3">sog. Faltungsmatrix 3x3</string>
     <string name="rgb_filter">RGB-Filter</string>
-    <string name="false_color">Falsche Farbe</string>
+    <string name="false_color">Falschfarben</string>
     <string name="first_color">Erste Farbe</string>
     <string name="second_color">Zweite Farbe</string>
     <string name="reorder">Umsortieren</string>
     <string name="fast_blur">Schnelle Unschärfe</string>
     <string name="blur_size">Größe der Unschärfe</string>
-    <string name="blur_center_x">Unschärfe Mitte x</string>
+    <string name="blur_center_x">Bewegungsursprung x-Achse</string>
     <string name="color_balance">Farbbalance</string>
-    <string name="blur_center_y">Unschärfe Mitte y</string>
+    <string name="blur_center_y">Bewegungsursprung y-Achse</string>
     <string name="zoom_blur">Bewegungsunschärfe</string>
     <string name="luminance_threshold">Luminanzschwelle</string>
 </resources>
