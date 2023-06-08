@@ -11,7 +11,6 @@ import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.LocalIndication
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.detectTapGestures
@@ -115,7 +114,6 @@ import ru.tech.imageresizershrinker.utils.coil.filters.SaturationFilter
 import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.applyTransformations
 import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.canShow
 import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.decodeBitmapFromUri
-import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.fileSize
 import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.getBitmapByUri
 import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.getBitmapFromUriWithTransformations
 import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.getBitmapFromUriWithTransformationsAndExif
@@ -149,7 +147,7 @@ import ru.tech.imageresizershrinker.widget.text.Marquee
 import ru.tech.imageresizershrinker.widget.utils.LocalSettingsState
 import ru.tech.imageresizershrinker.widget.utils.LocalWindowSizeClass
 
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun FiltersScreen(
     uriState: List<Uri>?,
@@ -563,10 +561,13 @@ fun FiltersScreen(
                             edgeColor = MaterialTheme.colorScheme.surfaceColorAtElevation(3.dp)
                         ) {
                             AnimatedContent(
-                                targetState = viewModel.isLoading to viewModel.bitmap,
+                                targetState = Triple(
+                                    viewModel.isLoading,
+                                    viewModel.bitmap,
+                                    viewModel.bitmapSize
+                                ),
                                 transitionSpec = { fadeIn() togetherWith fadeOut() }
-                            ) { (loading, bmp) ->
-                                val size = viewModel.selectedUri?.fileSize(LocalContext.current)
+                            ) { (loading, bmp, size) ->
                                 if (bmp == null) {
                                     Text(
                                         stringResource(R.string.filter),

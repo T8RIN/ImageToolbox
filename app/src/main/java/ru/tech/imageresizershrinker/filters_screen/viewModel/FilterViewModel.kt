@@ -16,6 +16,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import ru.tech.imageresizershrinker.utils.coil.filters.FilterTransformation
 import ru.tech.imageresizershrinker.utils.helper.BitmapInfo
+import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.calcSize
 import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.copyTo
 import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.scaleUntilCanShow
 import ru.tech.imageresizershrinker.utils.helper.compressFormat
@@ -25,6 +26,9 @@ import ru.tech.imageresizershrinker.utils.storage.FileController
 import ru.tech.imageresizershrinker.utils.storage.SaveTarget
 
 class FilterViewModel : ViewModel() {
+
+    private val _bitmapSize = mutableStateOf<Long?>(null)
+    val bitmapSize by _bitmapSize
 
     private val _canSave = mutableStateOf(false)
     val canSave by _canSave
@@ -100,6 +104,7 @@ class FilterViewModel : ViewModel() {
             _isLoading.value = true
             _bitmap.value = bitmap?.scaleUntilCanShow()
             _previewBitmap.value = preview ?: _bitmap.value
+            _bitmapSize.value = _previewBitmap.value?.calcSize(mimeTypeInt)
             _isLoading.value = false
         }
     }
@@ -227,6 +232,7 @@ class FilterViewModel : ViewModel() {
         filterJob = viewModelScope.launch {
             _isLoading.value = true
             _previewBitmap.value = getBitmap() ?: _previewBitmap.value
+            _bitmapSize.value = _previewBitmap.value?.calcSize(mimeTypeInt)
             _isLoading.value = false
         }
     }
