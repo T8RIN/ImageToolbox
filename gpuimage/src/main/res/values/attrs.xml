@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="GPUImageView">
+        <attr name="gpuimage_surface_type" format="enum">
+            <enum name="surface_view" value="0" />
+            <enum name="texture_view" value="1" />
+        </attr>
+        <attr name="gpuimage_show_loading" format="boolean"/>
+    </declare-styleable>
+</resources>

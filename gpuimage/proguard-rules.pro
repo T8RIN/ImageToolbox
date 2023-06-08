@@ -1,0 +1,1 @@
+-dontwarn jp.co.cyberagent.android.gpuimage.**
