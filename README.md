@@ -71,6 +71,63 @@ Go to the [Releases](https://github.com/t8rin/imageresizer/releases/latest) and 
 # ✨ Features
 - Batch processing
 - Applying filter chains (More than 45 various filters)
+
+  <details>
+  <summary>Available filters</summary>
+  <br>
+  
+  - [x] Saturation
+  - [x] Contrast
+  - [x] Brightness
+  - [x] Exposure
+  - [x] RGB
+  - [x] Hue
+  - [x] White Balance
+  - [x] Monochrome
+  - [x] Black and White
+  - [x] False Color
+  - [x] Sharpen
+  - [x] Gamma
+  - [x] Highlights and Shadows
+  - [x] Haze
+  - [x] Sepia Tone
+  - [x] Color Inversion
+  - [x] Solarize
+  - [x] Vibrance
+  - [x] Luminance Threshold
+  - [x] Pixellate
+  - [x] Halftone
+  - [x] Crosshatch
+  - [x] Sobel Edge Detection
+  - [x] Sketch Filter
+  - [x] Toon Filter
+  - [x] SmoothToon Filter
+  - [x] CGA Colorspace Filter
+  - [x] Posterize
+  - [x] Convolution 3x3
+  - [x] Emboss Filter
+  - [x] Laplacian
+  - [x] Kuwahara Filter
+  - [x] Vignette
+  - [x] Gaussian Blur
+  - [x] Box Blur
+  - [x] Stack Blur
+  - [x] Fast Blur
+  - [x] Bilateral Blur
+  - [x] Zoom Blur
+  - [x] Swirl Distortion
+  - [x] Bulge Distortion
+  - [x] Sphere Refraction
+  - [x] Glass Sphere Refraction
+  - [x] Dilation
+  - [x] Non Maximum Suppression
+  - [x] Opacity
+  - [x] Weak Pixel Inclusion Filter
+  - [x] Color Matrix
+  - [x] Lookup
+  
+  </details>
+  
 - Saving to any specific folder
 - EXIF metadata editing/deleting
 - Loading images from internet
@@ -139,7 +196,7 @@ Go to the [Releases](https://github.com/t8rin/imageresizer/releases/latest) and 
 
 - [Compose Navigation Reimagined](https://github.com/olshevski/compose-navigation-reimagined) - High intelligence navigation library for Jetpack Compose.
 
-- [Konfetti](https://github.com/DanielMartinus/Konfetti) to establish beatyfull particle system.
+- [Konfetti](https://github.com/DanielMartinus/Konfetti) to establish beatyful particle system.
 
 - Jetpack
   - [Compose](https://developer.android.com/jetpack/compose) - Modern Declarative UI style framework based on composable functions.
@@ -153,6 +210,8 @@ Go to the [Releases](https://github.com/t8rin/imageresizer/releases/latest) and 
   - [Lifecycle](https://developer.android.com/jetpack/androidx/releases/lifecycle) - Observe Android lifecycles and handle UI states upon the lifecycle changes.
   
   - [Exif Interface](https://developer.android.com/jetpack/androidx/releases/exifinterface) - Read and write image file EXIF tags.
+
+- [GPU Image](https://github.com/cats-oss/android-gpuimage) for creating and applying filters to the images.
 
 <div align="center">
 

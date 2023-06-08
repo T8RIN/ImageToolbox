@@ -143,7 +143,7 @@
     <string name="image_source">Bildquelle</string>
     <string name="gallery_picker">Galerie</string>
     <string name="photo_picker">Bildauswahl</string>
-    <string name="gallery_picker_sub">Bildauswahl mittels „Schlichte Galerie“. Funktioniert nur, wenn du diese App installiert hast.</string>
+    <string name="gallery_picker_sub">Einfache Bildauswahl mittels einer Galerie-App. Funktioniert nur, wenn du eine solche App installiert hast.</string>
     <string name="order">Reihenfolge</string>
     <string name="order_sub">Legt die Reihenfolge der Optionen im Hauptfenster fest</string>
     <string name="file_explorer_picker_sub">Nutzt GetContent-Intent für die Bildauswahl. Funktioniert überall, kann aber auf manchen Geräten Probleme mit dem Empfangen der Bildauswahl haben (nicht meine Schuld)</string>
@@ -206,7 +206,7 @@
     <string name="line_width">Linienstärke</string>
     <string name="gaussian_blur">Gaussscher Weichzeichner</string>
     <string name="halftone">Halbton</string>
-    <string name="cga_colorspace">GCA-Farbraum</string>
+    <string name="cga_colorspace">CGA-Farbraum</string>
     <string name="box_blur">Box-Weichzeichner</string>
     <string name="emboss">Prägen</string>
     <string name="laplacian">Laplace-Kanten</string>
