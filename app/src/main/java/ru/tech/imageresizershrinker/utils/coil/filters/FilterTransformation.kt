@@ -10,7 +10,6 @@ import coil.transform.Transformation
 import com.commit451.coiltransformations.gpu.GPUFilterTransformation
 import kotlinx.parcelize.Parcelize
 import kotlinx.parcelize.RawValue
-import kotlin.reflect.full.primaryConstructor
 
 @Parcelize
 sealed class FilterTransformation<T>(
@@ -111,8 +110,59 @@ sealed class FilterTransformation<T>(
         }
     }
 
-    fun newInstance(): FilterTransformation<T> {
-        return this::class.primaryConstructor!!.run { callBy(mapOf(parameters[0] to context)) }
+    fun newInstance(): FilterTransformation<*> {
+        return when (this) {
+            is BrightnessFilter -> BrightnessFilter(context)
+            is ContrastFilter -> ContrastFilter(context)
+            is HueFilter -> HueFilter(context)
+            is SaturationFilter -> SaturationFilter(context)
+            is ColorFilter -> ColorFilter(context)
+            is ExposureFilter -> ExposureFilter(context)
+            is WhiteBalanceFilter -> WhiteBalanceFilter(context)
+            is MonochromeFilter -> MonochromeFilter(context)
+            is GammaFilter -> GammaFilter(context)
+            is HazeFilter -> HazeFilter(context)
+            is SepiaFilter -> SepiaFilter(context)
+            is SharpenFilter -> SharpenFilter(context)
+            is NegativeFilter -> NegativeFilter(context)
+            is SolarizeFilter -> SolarizeFilter(context)
+            is VibranceFilter -> VibranceFilter(context)
+            is BlackAndWhiteFilter -> BlackAndWhiteFilter(context)
+            is CrosshatchFilter -> CrosshatchFilter(context)
+            is SobelEdgeDetectionFilter -> SobelEdgeDetectionFilter(context)
+            is HalftoneFilter -> HalftoneFilter(context)
+            is GCAColorSpaceFilter -> GCAColorSpaceFilter(context)
+            is GaussianBlurFilter -> GaussianBlurFilter(context)
+            is BilaterialBlurFilter -> BilaterialBlurFilter(context)
+            is BoxBlurFilter -> BoxBlurFilter(context)
+            is EmbossFilter -> EmbossFilter(context)
+            is LaplacianFilter -> LaplacianFilter(context)
+            is VignetteFilter -> VignetteFilter(context)
+            is KuwaharaFilter -> KuwaharaFilter(context)
+            is StackBlurFilter -> StackBlurFilter(context)
+            is DilationFilter -> DilationFilter(context)
+            is ColorMatrixFilter -> ColorMatrixFilter(context)
+            is OpacityFilter -> OpacityFilter(context)
+            is SketchFilter -> SketchFilter(context)
+            is ToonFilter -> ToonFilter(context)
+            is PosterizeFilter -> PosterizeFilter(context)
+            is SmoothToonFilter -> SmoothToonFilter(context)
+            is LookupFilter -> LookupFilter(context)
+            is NonMaximumSuppressionFilter -> NonMaximumSuppressionFilter(context)
+            is WeakPixelFilter -> WeakPixelFilter(context)
+            is ColorBalanceFilter -> ColorBalanceFilter(context)
+            is Convolution3x3Filter -> Convolution3x3Filter(context)
+            is FalseColorFilter -> FalseColorFilter(context)
+            is FastBlurFilter -> FastBlurFilter(context)
+            is LuminanceThresholdFilter -> LuminanceThresholdFilter(context)
+            is RGBFilter -> RGBFilter(context)
+            is ZoomBlurFilter -> ZoomBlurFilter(context)
+            is SwirlDistortionEffect -> SwirlDistortionEffect(context)
+            is BulgeDistortionEffect -> BulgeDistortionEffect(context)
+            is SphereRefractionFilter -> SphereRefractionFilter(context)
+            is GlassSphereRefractionFilter -> GlassSphereRefractionFilter(context)
+            is HighlightsAndShadowsFilter -> HighlightsAndShadowsFilter(context)
+        }
     }
 
 }
