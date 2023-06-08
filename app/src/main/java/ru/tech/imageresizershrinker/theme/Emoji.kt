@@ -27,6 +27,7 @@ import ru.tech.imageresizershrinker.theme.emoji.Ball
 import ru.tech.imageresizershrinker.theme.emoji.Banana
 import ru.tech.imageresizershrinker.theme.emoji.Bandage
 import ru.tech.imageresizershrinker.theme.emoji.Bang
+import ru.tech.imageresizershrinker.theme.emoji.Bathtub
 import ru.tech.imageresizershrinker.theme.emoji.Battery
 import ru.tech.imageresizershrinker.theme.emoji.Bear
 import ru.tech.imageresizershrinker.theme.emoji.Beaver
@@ -35,6 +36,7 @@ import ru.tech.imageresizershrinker.theme.emoji.Beer
 import ru.tech.imageresizershrinker.theme.emoji.Biohazard
 import ru.tech.imageresizershrinker.theme.emoji.Blossom
 import ru.tech.imageresizershrinker.theme.emoji.Blowfish
+import ru.tech.imageresizershrinker.theme.emoji.Bone
 import ru.tech.imageresizershrinker.theme.emoji.Bottle
 import ru.tech.imageresizershrinker.theme.emoji.Brain
 import ru.tech.imageresizershrinker.theme.emoji.Bread
@@ -52,10 +54,12 @@ import ru.tech.imageresizershrinker.theme.emoji.Clinking1
 import ru.tech.imageresizershrinker.theme.emoji.Clinking2
 import ru.tech.imageresizershrinker.theme.emoji.Cloud
 import ru.tech.imageresizershrinker.theme.emoji.Clover
+import ru.tech.imageresizershrinker.theme.emoji.Cocktail
 import ru.tech.imageresizershrinker.theme.emoji.Coffin
 import ru.tech.imageresizershrinker.theme.emoji.Comet
 import ru.tech.imageresizershrinker.theme.emoji.ComputerMouse
 import ru.tech.imageresizershrinker.theme.emoji.Construction
+import ru.tech.imageresizershrinker.theme.emoji.Couch
 import ru.tech.imageresizershrinker.theme.emoji.Crown
 import ru.tech.imageresizershrinker.theme.emoji.CrystalBall
 import ru.tech.imageresizershrinker.theme.emoji.Diamond
@@ -97,6 +101,7 @@ import ru.tech.imageresizershrinker.theme.emoji.Pepper
 import ru.tech.imageresizershrinker.theme.emoji.Phone
 import ru.tech.imageresizershrinker.theme.emoji.Picture
 import ru.tech.imageresizershrinker.theme.emoji.Pill
+import ru.tech.imageresizershrinker.theme.emoji.Pole
 import ru.tech.imageresizershrinker.theme.emoji.Pushpin
 import ru.tech.imageresizershrinker.theme.emoji.Puzzle
 import ru.tech.imageresizershrinker.theme.emoji.Radio
@@ -106,6 +111,7 @@ import ru.tech.imageresizershrinker.theme.emoji.Rice
 import ru.tech.imageresizershrinker.theme.emoji.Ring
 import ru.tech.imageresizershrinker.theme.emoji.Rocket
 import ru.tech.imageresizershrinker.theme.emoji.Sauropod
+import ru.tech.imageresizershrinker.theme.emoji.Siren
 import ru.tech.imageresizershrinker.theme.emoji.Skull
 import ru.tech.imageresizershrinker.theme.emoji.Slots
 import ru.tech.imageresizershrinker.theme.emoji.Snowflake
@@ -235,7 +241,7 @@ val Emoji.allIcons: List<ImageVector>
             Clinking2,
             Paperclip,
             Tick,
-            Wine
+            Wine, Bathtub, Bone, Cocktail, Couch, Pole, Siren
         ).sortedBy { it.name }
         return EmojiList!!
     }

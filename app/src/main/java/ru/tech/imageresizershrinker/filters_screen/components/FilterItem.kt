@@ -142,12 +142,15 @@ fun <T> FilterItem(
                 }
                 if (filter.value is Number) {
                     var showValueDialog by remember { mutableStateOf(false) }
-                    ValueText(value = sliderValue, onClick = { showValueDialog = true })
+                    ValueText(
+                        value = sliderValue,
+                        onClick = { showValueDialog = true }
+                    )
                     ValueDialog(
                         roundTo = filter.paramsInfo[0].roundTo,
                         valueRange = filter.paramsInfo[0].valueRange,
                         valueState = sliderValue.toString(),
-                        expanded = showValueDialog,
+                        expanded = showValueDialog && !previewOnly,
                         onDismiss = { showValueDialog = false },
                         onValueUpdate = { onFilterChange(it) }
                     )
@@ -277,12 +280,13 @@ fun <T> FilterItem(
                                         var showValueDialog by remember { mutableStateOf(false) }
                                         ValueText(
                                             value = sliderState1,
-                                            onClick = { showValueDialog = true })
+                                            onClick = { showValueDialog = true }
+                                        )
                                         ValueDialog(
                                             roundTo = roundTo,
                                             valueRange = valueRange,
                                             valueState = sliderState1.toString(),
-                                            expanded = showValueDialog,
+                                            expanded = showValueDialog && !previewOnly,
                                             onDismiss = { showValueDialog = false },
                                             onValueUpdate = { onFilterChange(it to sliderState2) }
                                         )
@@ -319,12 +323,13 @@ fun <T> FilterItem(
                                         var showValueDialog by remember { mutableStateOf(false) }
                                         ValueText(
                                             value = sliderState2,
-                                            onClick = { showValueDialog = true })
+                                            onClick = { showValueDialog = true }
+                                        )
                                         ValueDialog(
                                             roundTo = roundTo,
                                             valueRange = valueRange,
                                             valueState = sliderState2.toString(),
-                                            expanded = showValueDialog,
+                                            expanded = showValueDialog && !previewOnly,
                                             onDismiss = { showValueDialog = false },
                                             onValueUpdate = { onFilterChange(sliderState1 to it) }
                                         )
@@ -429,12 +434,13 @@ fun <T> FilterItem(
                                         var showValueDialog by remember { mutableStateOf(false) }
                                         ValueText(
                                             value = sliderState1,
-                                            onClick = { showValueDialog = true })
+                                            onClick = { showValueDialog = true }
+                                        )
                                         ValueDialog(
                                             valueRange = valueRange,
                                             roundTo = roundTo,
                                             valueState = sliderState1.toString(),
-                                            expanded = showValueDialog,
+                                            expanded = showValueDialog && !previewOnly,
                                             onDismiss = { showValueDialog = false },
                                             onValueUpdate = {
                                                 onFilterChange(
@@ -479,12 +485,13 @@ fun <T> FilterItem(
                                         var showValueDialog by remember { mutableStateOf(false) }
                                         ValueText(
                                             value = sliderState2,
-                                            onClick = { showValueDialog = true })
+                                            onClick = { showValueDialog = true }
+                                        )
                                         ValueDialog(
                                             valueRange = valueRange,
                                             roundTo = roundTo,
                                             valueState = sliderState2.toString(),
-                                            expanded = showValueDialog,
+                                            expanded = showValueDialog && !previewOnly,
                                             onDismiss = { showValueDialog = false },
                                             onValueUpdate = {
                                                 onFilterChange(
@@ -529,12 +536,13 @@ fun <T> FilterItem(
                                         var showValueDialog by remember { mutableStateOf(false) }
                                         ValueText(
                                             value = sliderState3,
-                                            onClick = { showValueDialog = true })
+                                            onClick = { showValueDialog = true }
+                                        )
                                         ValueDialog(
                                             valueRange = valueRange,
                                             roundTo = roundTo,
                                             valueState = sliderState3.toString(),
-                                            expanded = showValueDialog,
+                                            expanded = showValueDialog && !previewOnly,
                                             onDismiss = { showValueDialog = false },
                                             onValueUpdate = {
                                                 onFilterChange(
