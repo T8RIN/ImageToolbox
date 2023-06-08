@@ -18,6 +18,7 @@ import ru.tech.imageresizershrinker.utils.coil.filters.FilterTransformation
 import ru.tech.imageresizershrinker.utils.helper.BitmapInfo
 import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.calcSize
 import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.copyTo
+import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.resizeBitmap
 import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.scaleUntilCanShow
 import ru.tech.imageresizershrinker.utils.helper.compressFormat
 import ru.tech.imageresizershrinker.utils.helper.extension
@@ -104,6 +105,13 @@ class FilterViewModel : ViewModel() {
             _isLoading.value = true
             _bitmap.value = bitmap?.scaleUntilCanShow()
             _previewBitmap.value = preview ?: _bitmap.value
+            _bitmap.value?.let {
+                _previewBitmap.value = _previewBitmap.value?.resizeBitmap(
+                    width_ = it.width,
+                    height_ = it.height,
+                    resize = 1
+                ) ?: _previewBitmap.value
+            }
             _bitmapSize.value = _previewBitmap.value?.calcSize(mimeTypeInt)
             _isLoading.value = false
         }
@@ -231,8 +239,7 @@ class FilterViewModel : ViewModel() {
         filterJob?.cancel()
         filterJob = viewModelScope.launch {
             _isLoading.value = true
-            _previewBitmap.value = getBitmap() ?: _previewBitmap.value
-            _bitmapSize.value = _previewBitmap.value?.calcSize(mimeTypeInt)
+            updateBitmap(_bitmap.value, getBitmap() ?: _previewBitmap.value)
             _isLoading.value = false
         }
     }
