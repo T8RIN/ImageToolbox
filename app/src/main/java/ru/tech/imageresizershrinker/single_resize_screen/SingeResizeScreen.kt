@@ -301,7 +301,7 @@ fun SingleResizeScreen(
 
     val buttons = @Composable {
         AnimatedContent(
-            targetState = (viewModel.uri != Uri.EMPTY) to imageInside
+            targetState = (viewModel.uri == Uri.EMPTY) to imageInside
         ) { (isNull, inside) ->
             if (isNull) {
                 ExtendedFloatingActionButton(

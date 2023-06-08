@@ -104,7 +104,7 @@ fun LazyListScope.imageStickyHeader(
                                 modifier = Modifier
                                     .size(24.dp)
                                     .background(
-                                        color = LocalContentColor.current,
+                                        color = LocalContentColor.current.copy(alpha = 0.8f),
                                         shape = CircleShape
                                     )
                             )
@@ -134,7 +134,7 @@ fun LazyListScope.imageStickyHeader(
                                 modifier = Modifier
                                     .size(24.dp)
                                     .background(
-                                        color = LocalContentColor.current,
+                                        color = LocalContentColor.current.copy(alpha = 0.8f),
                                         shape = CircleShape
                                     )
                             )
