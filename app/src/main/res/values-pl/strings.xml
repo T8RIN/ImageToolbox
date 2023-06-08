@@ -137,7 +137,7 @@
     <string name="sobel_edge">Krawędź Sobela</string>
     <string name="photo_picker">Selektor zdjęć</string>
     <string name="brightness">Jasność</string>
-    <string name="gca_colorspace">Przestrzeń barw GCA</string>
+    <string name="cga_colorspace">Przestrzeń barw GCA</string>
     <string name="gaussian_blur">rozmycie Gaussa</string>
     <string name="radius">Promień</string>
     <string name="scale">Skala</string>

@@ -208,7 +208,7 @@
     <string name="solarize">Solarizați</string>
     <string name="vibrance">Vibranță</string>
     <string name="halftone">Semitonuri</string>
-    <string name="gca_colorspace">Spațiu de culoare GCA</string>
+    <string name="cga_colorspace">Spațiu de culoare GCA</string>
     <string name="gaussian_blur">estompare gaussiană</string>
     <string name="box_blur">Cutie estompată</string>
     <string name="bilaterial_blur">estompare bilaterală</string>

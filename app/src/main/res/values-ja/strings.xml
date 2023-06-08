@@ -214,7 +214,7 @@
     <string name="sobel_edge">ソーベルエッジ</string>
     <string name="blur">ぼかし</string>
     <string name="halftone">ハーフトーン</string>
-    <string name="gca_colorspace">GCA色空間</string>
+    <string name="cga_colorspace">GCA色空間</string>
     <string name="gaussian_blur">ガウスぼかし</string>
     <string name="box_blur">ボックスブラー</string>
     <string name="bilaterial_blur">左右ブレ</string>

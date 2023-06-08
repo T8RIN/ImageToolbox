@@ -208,7 +208,7 @@
     <string name="crosshatch">Tratteggio incrociato</string>
     <string name="blur">Sfocatura</string>
     <string name="halftone">Mezzitoni</string>
-    <string name="gca_colorspace">Spazio colore GCA</string>
+    <string name="cga_colorspace">Spazio colore GCA</string>
     <string name="gaussian_blur">sfocatura gaussiana</string>
     <string name="box_blur">Sfocatura della casella</string>
     <string name="bilaterial_blur">Sfocatura bilaterale</string>

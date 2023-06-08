@@ -215,7 +215,7 @@
     <string name="spacing">Spasiëring</string>
     <string name="blur">Vervaag</string>
     <string name="halftone">Halftoon</string>
-    <string name="gca_colorspace">GCA kleurruimte</string>
+    <string name="cga_colorspace">GCA kleurruimte</string>
     <string name="gaussian_blur">Gaussiese vervaag</string>
     <string name="bilaterial_blur">Bilaterale vervaging</string>
     <string name="emboss">Reliëf</string>

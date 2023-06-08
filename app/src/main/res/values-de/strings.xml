@@ -206,7 +206,7 @@
     <string name="line_width">Linienstärke</string>
     <string name="gaussian_blur">Gaussscher Weichzeichner</string>
     <string name="halftone">Halbton</string>
-    <string name="gca_colorspace">GCA-Farbraum</string>
+    <string name="cga_colorspace">GCA-Farbraum</string>
     <string name="box_blur">Box-Weichzeichner</string>
     <string name="emboss">Prägen</string>
     <string name="laplacian">Laplace-Kanten</string>

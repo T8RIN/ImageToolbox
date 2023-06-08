@@ -201,7 +201,7 @@
     <string name="sepia">ซีเปีย</string>
     <string name="solarize">โซลาไรซ์</string>
     <string name="halftone">ฮาล์ฟโทน</string>
-    <string name="gca_colorspace">GCA คัลเลอร์สเปซ</string>
+    <string name="cga_colorspace">GCA คัลเลอร์สเปซ</string>
     <string name="gaussian_blur">เกาส์เบลอ</string>
     <string name="box_blur">กล่องเบลอ</string>
     <string name="bilaterial_blur">เบลอแบบทวิภาคี</string>

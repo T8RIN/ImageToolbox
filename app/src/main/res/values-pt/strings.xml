@@ -149,7 +149,7 @@
     <string name="blur">Borrão</string>
     <string name="emboss">Relevo</string>
     <string name="edit">Editar</string>
-    <string name="gca_colorspace">espaço de cores GCA</string>
+    <string name="cga_colorspace">espaço de cores GCA</string>
     <string name="scale">Escala</string>
     <string name="limits_resize">Redimensionar limites</string>
     <string name="quantizationLevels">Níveis de quantização</string>

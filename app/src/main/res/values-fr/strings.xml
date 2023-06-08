@@ -210,7 +210,7 @@
     <string name="vignette">Vignette</string>
     <string name="start">Commencer</string>
     <string name="end">Fin</string>
-    <string name="gca_colorspace">Espace colorimétrique CGA</string>
+    <string name="cga_colorspace">Espace colorimétrique CGA</string>
     <string name="gaussian_blur">Flou Gaussien</string>
     <string name="box_blur">Flou encadré</string>
     <string name="bilaterial_blur">Flou bilatéral</string>

@@ -51,6 +51,7 @@ import ru.tech.imageresizershrinker.utils.coil.filters.BlackAndWhiteFilter
 import ru.tech.imageresizershrinker.utils.coil.filters.BoxBlurFilter
 import ru.tech.imageresizershrinker.utils.coil.filters.BrightnessFilter
 import ru.tech.imageresizershrinker.utils.coil.filters.BulgeDistortionEffect
+import ru.tech.imageresizershrinker.utils.coil.filters.CGAColorSpaceFilter
 import ru.tech.imageresizershrinker.utils.coil.filters.ColorBalanceFilter
 import ru.tech.imageresizershrinker.utils.coil.filters.ColorFilter
 import ru.tech.imageresizershrinker.utils.coil.filters.ColorMatrixFilter
@@ -63,7 +64,6 @@ import ru.tech.imageresizershrinker.utils.coil.filters.ExposureFilter
 import ru.tech.imageresizershrinker.utils.coil.filters.FalseColorFilter
 import ru.tech.imageresizershrinker.utils.coil.filters.FastBlurFilter
 import ru.tech.imageresizershrinker.utils.coil.filters.FilterTransformation
-import ru.tech.imageresizershrinker.utils.coil.filters.GCAColorSpaceFilter
 import ru.tech.imageresizershrinker.utils.coil.filters.GammaFilter
 import ru.tech.imageresizershrinker.utils.coil.filters.GaussianBlurFilter
 import ru.tech.imageresizershrinker.utils.coil.filters.GlassSphereRefractionFilter
@@ -178,7 +178,7 @@ fun AddFiltersSheet(
                                         VibranceFilter(context),
                                         RGBFilter(context),
                                         FalseColorFilter(context),
-                                        GCAColorSpaceFilter(context),
+                                        CGAColorSpaceFilter(context),
                                         MonochromeFilter(context),
                                         SepiaFilter(context),
                                         NegativeFilter(context),

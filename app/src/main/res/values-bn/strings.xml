@@ -207,7 +207,7 @@
     <string name="black_and_white">সাদাকালো</string>
     <string name="blur">ঝাপসা</string>
     <string name="halftone">হাফটোন</string>
-    <string name="gca_colorspace">GCA রঙের স্থান</string>
+    <string name="cga_colorspace">GCA রঙের স্থান</string>
     <string name="gaussian_blur">গাউসিয়ান ব্লার</string>
     <string name="box_blur">বক্স ঝাপসা</string>
     <string name="end">শেষ</string>

@@ -202,7 +202,7 @@
     <string name="solarize">曝光過度</string>
     <string name="black_and_white">黑白色</string>
     <string name="halftone">半色調</string>
-    <string name="gca_colorspace">GCA 色彩空間</string>
+    <string name="cga_colorspace">GCA 色彩空間</string>
     <string name="line_width">線條寬度</string>
     <string name="spacing">間距</string>
     <string name="sobel_edge">索伯運算子</string>

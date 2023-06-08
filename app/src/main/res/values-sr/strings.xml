@@ -207,7 +207,7 @@
     <string name="line_width">Ширина линије</string>
     <string name="blur">Блур</string>
     <string name="halftone">Полутон</string>
-    <string name="gca_colorspace">ГЦА простор боја</string>
+    <string name="cga_colorspace">ГЦА простор боја</string>
     <string name="gaussian_blur">Гаусово замућење</string>
     <string name="box_blur">Замућење кутије</string>
     <string name="bilaterial_blur">Двострано замућење</string>

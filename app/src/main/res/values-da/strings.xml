@@ -206,7 +206,7 @@
     <string name="line_width">Linjebredde</string>
     <string name="sobel_edge">Sobel kant</string>
     <string name="blur">Slør</string>
-    <string name="gca_colorspace">GCA farverum</string>
+    <string name="cga_colorspace">GCA farverum</string>
     <string name="gaussian_blur">Gaussisk sløring</string>
     <string name="emboss">Præg</string>
     <string name="laplacian">Laplacian</string>

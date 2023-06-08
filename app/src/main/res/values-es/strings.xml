@@ -148,7 +148,7 @@
     <string name="sepia">Sepia</string>
     <string name="crosshatch">sombreado</string>
     <string name="spacing">Espaciado</string>
-    <string name="gca_colorspace">espacio de color GCA</string>
+    <string name="cga_colorspace">espacio de color GCA</string>
     <string name="coming_soon">Muy pronto</string>
     <string name="kuwahara">Suavizado Kuwahara</string>
     <string name="image_preview_sub">Vista previa de cualquier tipo de imagen: GIF, SVG, etc.</string>

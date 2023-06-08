@@ -211,7 +211,7 @@
     <string name="black_and_white">검정색과 흰색</string>
     <string name="blur">흐림</string>
     <string name="halftone">반음</string>
-    <string name="gca_colorspace">GCA 색상 공간</string>
+    <string name="cga_colorspace">GCA 색상 공간</string>
     <string name="gaussian_blur">가우스 흐림</string>
     <string name="box_blur">상자 흐림</string>
     <string name="bilaterial_blur">양자 흐림</string>

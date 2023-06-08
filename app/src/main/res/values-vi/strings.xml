@@ -217,7 +217,7 @@
     <string name="spacing">khoảng cách</string>
     <string name="line_width">Chiều rộng dòng</string>
     <string name="halftone">bán sắc</string>
-    <string name="gca_colorspace">không gian màu GCA</string>
+    <string name="cga_colorspace">không gian màu GCA</string>
     <string name="box_blur">Hộp mờ</string>
     <string name="bilaterial_blur">mờ song phương</string>
     <string name="emboss">dập nổi</string>

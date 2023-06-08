@@ -212,7 +212,7 @@
     <string name="line_width">线宽</string>
     <string name="blur">模糊</string>
     <string name="halftone">半色调</string>
-    <string name="gca_colorspace">GCA 色彩空间</string>
+    <string name="cga_colorspace">GCA 色彩空间</string>
     <string name="gaussian_blur">高斯模糊</string>
     <string name="emboss">浮雕</string>
     <string name="laplacian">拉普拉斯过滤</string>

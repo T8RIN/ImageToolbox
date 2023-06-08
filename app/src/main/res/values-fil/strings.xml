@@ -217,7 +217,7 @@
     <string name="spacing">Spacing</string>
     <string name="line_width">Lapad ng linya</string>
     <string name="sobel_edge">Sobel gilid</string>
-    <string name="gca_colorspace">colorspace ng GCA</string>
+    <string name="cga_colorspace">colorspace ng GCA</string>
     <string name="gaussian_blur">Gaussian blur</string>
     <string name="box_blur">Malabo ang kahon</string>
     <string name="bilaterial_blur">Bilateral blur</string>

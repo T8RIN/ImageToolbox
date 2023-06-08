@@ -164,7 +164,7 @@
     <string name="crosshatch">क्रॉसहैच</string>
     <string name="spacing">अंतर</string>
     <string name="line_width">रेखा की चौडाई</string>
-    <string name="gca_colorspace">जीसीए कलरस्पेस</string>
+    <string name="cga_colorspace">जीसीए कलरस्पेस</string>
     <string name="coming_soon">जल्द आ रहा है</string>
     <string name="radius">RADIUS</string>
     <string name="scale">पैमाना</string>

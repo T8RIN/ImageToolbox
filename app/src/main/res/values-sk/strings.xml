@@ -146,7 +146,7 @@
     <string name="spacing">Medzery</string>
     <string name="line_width">Šírka čiary</string>
     <string name="sobel_edge">Okraj Sobel</string>
-    <string name="gca_colorspace">farebný priestor GCA</string>
+    <string name="cga_colorspace">farebný priestor GCA</string>
     <string name="gaussian_blur">Gaussovské rozostrenie</string>
     <string name="box_blur">Box rozostrenie</string>
     <string name="emboss">Embosovať</string>

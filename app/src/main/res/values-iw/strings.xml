@@ -215,7 +215,7 @@
     <string name="spacing">מרווחים</string>
     <string name="sobel_edge">קצה סובל</string>
     <string name="halftone">חצי טון</string>
-    <string name="gca_colorspace">מרחב הצבעים של GCA</string>
+    <string name="cga_colorspace">מרחב הצבעים של GCA</string>
     <string name="gaussian_blur">טישטוש גאוסיאני</string>
     <string name="box_blur">טשטוש תיבה</string>
     <string name="bilaterial_blur">טשטוש דו צדדי</string>

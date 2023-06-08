@@ -217,7 +217,7 @@
     <string name="black_and_white">Preto e branco</string>
     <string name="blur">Borrão</string>
     <string name="halftone">meio-tom</string>
-    <string name="gca_colorspace">espaço de cores GCA</string>
+    <string name="cga_colorspace">espaço de cores GCA</string>
     <string name="gaussian_blur">Desfoque Gaussiano</string>
     <string name="box_blur">Borrão de caixa</string>
     <string name="bilaterial_blur">borrão bilateral</string>

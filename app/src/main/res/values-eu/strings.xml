@@ -206,7 +206,7 @@
     <string name="sobel_edge">Sobel ertza</string>
     <string name="blur">Lausotzea</string>
     <string name="halftone">Tonu erdia</string>
-    <string name="gca_colorspace">GCA kolore-espazioa</string>
+    <string name="cga_colorspace">GCA kolore-espazioa</string>
     <string name="gaussian_blur">Gauss lausotzea</string>
     <string name="box_blur">Kutxa lausotzea</string>
     <string name="bilaterial_blur">Aldebiko lausotzea</string>

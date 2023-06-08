@@ -219,7 +219,7 @@
     <string name="sobel_edge">Sobel edge</string>
     <string name="blur">Blur</string>
     <string name="halftone">Halftone</string>
-    <string name="gca_colorspace">CGA colorspace</string>
+    <string name="cga_colorspace">CGA colorspace</string>
     <string name="gaussian_blur">Gaussian blur</string>
     <string name="box_blur">Box blur</string>
     <string name="bilaterial_blur">Bilaterial blur</string>

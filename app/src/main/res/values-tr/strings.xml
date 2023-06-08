@@ -209,7 +209,7 @@
     <string name="black_and_white">Siyah ve beyaz</string>
     <string name="line_width">Hat genişliği</string>
     <string name="sobel_edge">Sobel kenarı</string>
-    <string name="gca_colorspace">GCA renk alanı</string>
+    <string name="cga_colorspace">GCA renk alanı</string>
     <string name="gaussian_blur">Gauss bulanıklığı</string>
     <string name="box_blur">Kutu bulanıklığı</string>
     <string name="bilaterial_blur">ikili bulanıklık</string>

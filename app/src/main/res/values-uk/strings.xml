@@ -189,7 +189,7 @@
     <string name="exposure">Експозиція</string>
     <string name="halftone">Напівтон</string>
     <string name="blur">Розмиття</string>
-    <string name="gca_colorspace">Колірний простір GCA</string>
+    <string name="cga_colorspace">Колірний простір GCA</string>
     <string name="gaussian_blur">Гаусове розмиття</string>
     <string name="box_blur">Розмиття поля</string>
     <string name="tint">Тонування</string>
