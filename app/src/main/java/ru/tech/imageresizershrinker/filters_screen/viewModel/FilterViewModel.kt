@@ -106,14 +106,25 @@ class FilterViewModel : ViewModel() {
             _bitmap.value = bitmap?.scaleUntilCanShow()
             _previewBitmap.value = preview ?: _bitmap.value
             _bitmap.value?.let {
-                _previewBitmap.value = _previewBitmap.value?.resizeBitmap(
-                    width_ = it.width,
-                    height_ = it.height,
-                    resize = 1
-                ) ?: _previewBitmap.value
+                if (_previewBitmap.value?.width != it.width) {
+                    _previewBitmap.value = _previewBitmap.value?.resizeBitmap(
+                        width_ = it.width,
+                        height_ = it.height,
+                        resize = 1
+                    ) ?: _previewBitmap.value
+                }
             }
-            _bitmapSize.value = _previewBitmap.value?.calcSize(mimeTypeInt)
+            calcSize()
             _isLoading.value = false
+        }
+    }
+
+    private var sizeJob: Job? = null
+    private fun calcSize() {
+        sizeJob?.cancel()
+        sizeJob = viewModelScope.launch {
+            kotlinx.coroutines.delay(500)
+            _bitmapSize.value = _previewBitmap.value?.calcSize(mimeTypeInt)
         }
     }
 
