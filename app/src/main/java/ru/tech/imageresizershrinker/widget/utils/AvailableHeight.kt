@@ -43,7 +43,7 @@ fun availableHeight(expanded: Boolean, collapsed: Boolean = false): Dp {
                         .weight(1f)
                         .onSizeChanged {
                             with(density) {
-                                fullHeight = it.height.toDp() - 20.dp
+                                fullHeight = it.height.toDp() - 16.dp
                             }
                         }
                 )

@@ -21,7 +21,9 @@ fun GradientEdge(
                 modifier = modifier
                     .background(
                         brush = Brush.verticalGradient(
-                            0f to startColor, 1f to endColor
+                            0f to startColor,
+                            0.7f to startColor,
+                            1f to endColor
                         )
                     )
             )
@@ -32,7 +34,7 @@ fun GradientEdge(
                 modifier = modifier
                     .background(
                         brush = Brush.horizontalGradient(
-                            0f to startColor, 1f to endColor
+                            0f to startColor, 0.7f to startColor, 1f to endColor
                         )
                     )
             )
