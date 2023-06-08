@@ -155,7 +155,7 @@
     <string name="add_original_filename_sub">如果啟用，則在輸出圖片的檔案名稱中插入原始檔名</string>
     <string name="filename_not_work_with_photopicker">如果選擇了照片選擇器圖像來源，加入原始檔案名稱將不起作用</string>
     <string name="file_explorer_picker">檔案管理器</string>
-    <string name="gallery_picker_sub">Simple Gallery 圖片選擇器，只有當你有那個應用程式時它才會工作</string>
+    <string name="gallery_picker_sub">简单的图库图片选取器，只有当你有任何提供媒体选取的应用程序时，它才能工作。</string>
     <string name="file_explorer_picker_sub">使用 GetContent 隨時隨地挑選圖片，但在某些裝置上接收選取的圖片時也會出現問題，這不是我的錯</string>
     <string name="brightness">亮度</string>
     <string name="gamma">伽馬</string>
