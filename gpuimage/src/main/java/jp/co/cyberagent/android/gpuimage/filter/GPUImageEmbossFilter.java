@@ -44,6 +44,10 @@ public class GPUImageEmbossFilter extends GPUImage3x3ConvolutionFilter {
         setIntensity(intensity);
     }
 
+    public float getIntensity() {
+        return intensity;
+    }
+
     public void setIntensity(final float intensity) {
         this.intensity = intensity;
         setConvolutionKernel(new float[]{
@@ -51,9 +55,5 @@ public class GPUImageEmbossFilter extends GPUImage3x3ConvolutionFilter {
                 -intensity, 1.0f, intensity,
                 0.0f, intensity, intensity * 2.0f,
         });
-    }
-
-    public float getIntensity() {
-        return intensity;
     }
 }

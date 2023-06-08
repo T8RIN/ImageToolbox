@@ -16,6 +16,8 @@
 
 package jp.co.cyberagent.android.gpuimage;
 
+import static jp.co.cyberagent.android.gpuimage.util.TextureRotationUtil.TEXTURE_NO_ROTATION;
+
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.SurfaceTexture;
@@ -41,35 +43,28 @@ import jp.co.cyberagent.android.gpuimage.util.OpenGlUtils;
 import jp.co.cyberagent.android.gpuimage.util.Rotation;
 import jp.co.cyberagent.android.gpuimage.util.TextureRotationUtil;
 
-import static jp.co.cyberagent.android.gpuimage.util.TextureRotationUtil.TEXTURE_NO_ROTATION;
-
 public class GPUImageRenderer implements GLSurfaceView.Renderer, GLTextureView.Renderer, PreviewCallback {
-    private static final int NO_IMAGE = -1;
     public static final float[] CUBE = {
             -1.0f, -1.0f,
             1.0f, -1.0f,
             -1.0f, 1.0f,
             1.0f, 1.0f,
     };
-
-    private GPUImageFilter filter;
-
+    private static final int NO_IMAGE = -1;
     public final Object surfaceChangedWaiter = new Object();
-
-    private int glTextureId = NO_IMAGE;
-    private SurfaceTexture surfaceTexture = null;
     private final FloatBuffer glCubeBuffer;
     private final FloatBuffer glTextureBuffer;
+    private final Queue<Runnable> runOnDraw;
+    private final Queue<Runnable> runOnDrawEnd;
+    private GPUImageFilter filter;
+    private int glTextureId = NO_IMAGE;
+    private SurfaceTexture surfaceTexture = null;
     private IntBuffer glRgbBuffer;
-
     private int outputWidth;
     private int outputHeight;
     private int imageWidth;
     private int imageHeight;
     private int addedPadding;
-
-    private final Queue<Runnable> runOnDraw;
-    private final Queue<Runnable> runOnDrawEnd;
     private Rotation rotation;
     private boolean flipHorizontal;
     private boolean flipVertical;
@@ -324,11 +319,6 @@ public class GPUImageRenderer implements GLSurfaceView.Renderer, GLTextureView.R
         setRotation(rotation, flipVertical, flipHorizontal);
     }
 
-    public void setRotation(final Rotation rotation) {
-        this.rotation = rotation;
-        adjustImageScaling();
-    }
-
     public void setRotation(final Rotation rotation,
                             final boolean flipHorizontal, final boolean flipVertical) {
         this.flipHorizontal = flipHorizontal;
@@ -338,6 +328,11 @@ public class GPUImageRenderer implements GLSurfaceView.Renderer, GLTextureView.R
 
     public Rotation getRotation() {
         return rotation;
+    }
+
+    public void setRotation(final Rotation rotation) {
+        this.rotation = rotation;
+        adjustImageScaling();
     }
 
     public boolean isFlippedHorizontally() {

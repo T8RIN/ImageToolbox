@@ -16,6 +16,9 @@
 
 package jp.co.cyberagent.android.gpuimage;
 
+import static jp.co.cyberagent.android.gpuimage.GPUImage.SURFACE_TYPE_SURFACE_VIEW;
+import static jp.co.cyberagent.android.gpuimage.GPUImage.SURFACE_TYPE_TEXTURE_VIEW;
+
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
@@ -44,21 +47,17 @@ import java.util.concurrent.Semaphore;
 import jp.co.cyberagent.android.gpuimage.filter.GPUImageFilter;
 import jp.co.cyberagent.android.gpuimage.util.Rotation;
 
-import static jp.co.cyberagent.android.gpuimage.GPUImage.SURFACE_TYPE_SURFACE_VIEW;
-import static jp.co.cyberagent.android.gpuimage.GPUImage.SURFACE_TYPE_TEXTURE_VIEW;
-
 public class GPUImageView extends FrameLayout {
 
+    public final static int RENDERMODE_WHEN_DIRTY = 0;
+    public final static int RENDERMODE_CONTINUOUSLY = 1;
+    public Size forceSize = null;
     private int surfaceType = SURFACE_TYPE_SURFACE_VIEW;
     private View surfaceView;
     private GPUImage gpuImage;
     private boolean isShowLoading = true;
     private GPUImageFilter filter;
-    public Size forceSize = null;
     private float ratio = 0.0f;
-
-    public final static int RENDERMODE_WHEN_DIRTY = 0;
-    public final static int RENDERMODE_CONTINUOUSLY = 1;
 
     public GPUImageView(Context context) {
         super(context);
@@ -224,6 +223,15 @@ public class GPUImageView extends FrameLayout {
     }
 
     /**
+     * Get the current applied filter.
+     *
+     * @return the current filter
+     */
+    public GPUImageFilter getFilter() {
+        return filter;
+    }
+
+    /**
      * Set the filter to be applied on the image.
      *
      * @param filter Filter that should be applied on the image.
@@ -232,15 +240,6 @@ public class GPUImageView extends FrameLayout {
         this.filter = filter;
         gpuImage.setFilter(filter);
         requestRender();
-    }
-
-    /**
-     * Get the current applied filter.
-     *
-     * @return the current filter
-     */
-    public GPUImageFilter getFilter() {
-        return filter;
     }
 
     /**
@@ -441,6 +440,10 @@ public class GPUImageView extends FrameLayout {
         }
     }
 
+    public interface OnPictureSavedListener {
+        void onPictureSaved(Uri uri);
+    }
+
     public static class Size {
         int width;
         int height;
@@ -578,9 +581,5 @@ public class GPUImageView extends FrameLayout {
                 e.printStackTrace();
             }
         }
-    }
-
-    public interface OnPictureSavedListener {
-        void onPictureSaved(Uri uri);
     }
 }

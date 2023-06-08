@@ -8,17 +8,6 @@
 
 package jp.co.cyberagent.android.gpuimage;
 
-import android.graphics.Bitmap;
-import android.opengl.GLSurfaceView;
-import android.util.Log;
-
-import javax.microedition.khronos.egl.EGL10;
-import javax.microedition.khronos.egl.EGLConfig;
-import javax.microedition.khronos.egl.EGLContext;
-import javax.microedition.khronos.egl.EGLDisplay;
-import javax.microedition.khronos.egl.EGLSurface;
-import javax.microedition.khronos.opengles.GL10;
-
 import static javax.microedition.khronos.egl.EGL10.EGL_ALPHA_SIZE;
 import static javax.microedition.khronos.egl.EGL10.EGL_BLUE_SIZE;
 import static javax.microedition.khronos.egl.EGL10.EGL_DEFAULT_DISPLAY;
@@ -31,24 +20,32 @@ import static javax.microedition.khronos.egl.EGL10.EGL_RED_SIZE;
 import static javax.microedition.khronos.egl.EGL10.EGL_STENCIL_SIZE;
 import static javax.microedition.khronos.egl.EGL10.EGL_WIDTH;
 
+import android.graphics.Bitmap;
+import android.opengl.GLSurfaceView;
+import android.util.Log;
+
+import javax.microedition.khronos.egl.EGL10;
+import javax.microedition.khronos.egl.EGLConfig;
+import javax.microedition.khronos.egl.EGLContext;
+import javax.microedition.khronos.egl.EGLDisplay;
+import javax.microedition.khronos.egl.EGLSurface;
+import javax.microedition.khronos.opengles.GL10;
+
 public class PixelBuffer {
     private final static String TAG = "PixelBuffer";
     private final static boolean LIST_CONFIGS = false;
-
-    private GLSurfaceView.Renderer renderer; // borrow this interface
     private final int width;
     private final int height;
-    private Bitmap bitmap;
-
     private final EGL10 egl10;
     private final EGLDisplay eglDisplay;
-    private EGLConfig[] eglConfigs;
     private final EGLConfig eglConfig;
     private final EGLContext eglContext;
     private final EGLSurface eglSurface;
     private final GL10 gl10;
-
     private final String mThreadOwner;
+    private GLSurfaceView.Renderer renderer; // borrow this interface
+    private Bitmap bitmap;
+    private EGLConfig[] eglConfigs;
 
     public PixelBuffer(final int width, final int height) {
         this.width = width;

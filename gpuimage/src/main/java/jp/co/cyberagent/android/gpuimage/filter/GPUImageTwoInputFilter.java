@@ -74,6 +74,10 @@ public class GPUImageTwoInputFilter extends GPUImageFilter {
         }
     }
 
+    public Bitmap getBitmap() {
+        return bitmap;
+    }
+
     public void setBitmap(final Bitmap bitmap) {
         if (bitmap != null && bitmap.isRecycled()) {
             return;
@@ -93,10 +97,6 @@ public class GPUImageTwoInputFilter extends GPUImageFilter {
                 }
             }
         });
-    }
-
-    public Bitmap getBitmap() {
-        return bitmap;
     }
 
     public void recycleBitmap() {

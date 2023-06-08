@@ -54,11 +54,8 @@ import jp.co.cyberagent.android.gpuimage.util.Rotation;
  */
 public class GPUImage {
 
-    public enum ScaleType {CENTER_INSIDE, CENTER_CROP}
-
     static final int SURFACE_TYPE_SURFACE_VIEW = 0;
     static final int SURFACE_TYPE_TEXTURE_VIEW = 1;
-
     private final Context context;
     private final GPUImageRenderer renderer;
     private int surfaceType = SURFACE_TYPE_SURFACE_VIEW;
@@ -68,7 +65,6 @@ public class GPUImage {
     private Bitmap currentBitmap;
     private ScaleType scaleType = ScaleType.CENTER_CROP;
     private int scaleWidth, scaleHeight;
-
     /**
      * Instantiates a new GPUImage object.
      *
@@ -82,6 +78,36 @@ public class GPUImage {
         this.context = context;
         filter = new GPUImageFilter();
         renderer = new GPUImageRenderer(filter);
+    }
+
+    /**
+     * Gets the images for multiple filters on a image. This can be used to
+     * quickly get thumbnail images for filters. <br>
+     * Whenever a new Bitmap is ready, the listener will be called with the
+     * bitmap. The order of the calls to the listener will be the same as the
+     * filter order.
+     *
+     * @param bitmap   the bitmap on which the filters will be applied
+     * @param filters  the filters which will be applied on the bitmap
+     * @param listener the listener on which the results will be notified
+     */
+    public static void getBitmapForMultipleFilters(final Bitmap bitmap,
+                                                   final List<GPUImageFilter> filters, final ResponseListener<Bitmap> listener) {
+        if (filters.isEmpty()) {
+            return;
+        }
+        GPUImageRenderer renderer = new GPUImageRenderer(filters.get(0));
+        renderer.setImageBitmap(bitmap, false);
+        PixelBuffer buffer = new PixelBuffer(bitmap.getWidth(), bitmap.getHeight());
+        buffer.setRenderer(renderer);
+
+        for (GPUImageFilter filter : filters) {
+            renderer.setFilter(filter);
+            listener.response(buffer.getBitmap());
+            filter.destroy();
+        }
+        renderer.deleteImage();
+        buffer.destroy();
     }
 
     /**
@@ -259,7 +285,7 @@ public class GPUImage {
      * @return array with width and height of bitmap image
      */
     public int[] getScaleSize() {
-        return new int[] {scaleWidth, scaleHeight};
+        return new int[]{scaleWidth, scaleHeight};
     }
 
     /**
@@ -396,36 +422,6 @@ public class GPUImage {
     }
 
     /**
-     * Gets the images for multiple filters on a image. This can be used to
-     * quickly get thumbnail images for filters. <br>
-     * Whenever a new Bitmap is ready, the listener will be called with the
-     * bitmap. The order of the calls to the listener will be the same as the
-     * filter order.
-     *
-     * @param bitmap   the bitmap on which the filters will be applied
-     * @param filters  the filters which will be applied on the bitmap
-     * @param listener the listener on which the results will be notified
-     */
-    public static void getBitmapForMultipleFilters(final Bitmap bitmap,
-                                                   final List<GPUImageFilter> filters, final ResponseListener<Bitmap> listener) {
-        if (filters.isEmpty()) {
-            return;
-        }
-        GPUImageRenderer renderer = new GPUImageRenderer(filters.get(0));
-        renderer.setImageBitmap(bitmap, false);
-        PixelBuffer buffer = new PixelBuffer(bitmap.getWidth(), bitmap.getHeight());
-        buffer.setRenderer(renderer);
-
-        for (GPUImageFilter filter : filters) {
-            renderer.setFilter(filter);
-            listener.response(buffer.getBitmap());
-            filter.destroy();
-        }
-        renderer.deleteImage();
-        buffer.destroy();
-    }
-
-    /**
      * Save current image with applied filter to Pictures. It will be stored on
      * the default Picture folder on the phone below the given folderName and
      * fileName. <br>
@@ -493,6 +489,20 @@ public class GPUImage {
         }
     }
 
+    public GPUImageRenderer getRenderer() {
+        return renderer;
+    }
+
+    public enum ScaleType {CENTER_INSIDE, CENTER_CROP}
+
+    public interface OnPictureSavedListener {
+        void onPictureSaved(Uri uri);
+    }
+
+    public interface ResponseListener<T> {
+        void response(T item);
+    }
+
     @Deprecated
     private class SaveTask extends AsyncTask<Void, Void, Void> {
 
@@ -546,10 +556,6 @@ public class GPUImage {
                 e.printStackTrace();
             }
         }
-    }
-
-    public interface OnPictureSavedListener {
-        void onPictureSaved(Uri uri);
     }
 
     private class LoadImageUriTask extends LoadImageTask {
@@ -774,13 +780,5 @@ public class GPUImage {
         }
 
         protected abstract int getImageOrientation() throws IOException;
-    }
-
-    public interface ResponseListener<T> {
-        void response(T item);
-    }
-
-    public GPUImageRenderer getRenderer() {
-        return renderer;
     }
 }

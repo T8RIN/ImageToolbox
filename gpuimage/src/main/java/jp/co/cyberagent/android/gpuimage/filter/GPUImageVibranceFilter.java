@@ -21,12 +21,6 @@ public class GPUImageVibranceFilter extends GPUImageFilter {
     private int vibranceLocation;
     private float vibrance;
 
-    @Override
-    public void onInit() {
-        super.onInit();
-        vibranceLocation = GLES20.glGetUniformLocation(getProgram(), "vibrance");
-    }
-
     public GPUImageVibranceFilter() {
         this(0f);
     }
@@ -34,6 +28,12 @@ public class GPUImageVibranceFilter extends GPUImageFilter {
     public GPUImageVibranceFilter(float vibrance) {
         super(NO_FILTER_VERTEX_SHADER, VIBRANCE_FRAGMENT_SHADER);
         this.vibrance = vibrance;
+    }
+
+    @Override
+    public void onInit() {
+        super.onInit();
+        vibranceLocation = GLES20.glGetUniformLocation(getProgram(), "vibrance");
     }
 
     @Override

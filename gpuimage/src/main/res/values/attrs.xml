@@ -5,6 +5,6 @@
             <enum name="surface_view" value="0" />
             <enum name="texture_view" value="1" />
         </attr>
-        <attr name="gpuimage_show_loading" format="boolean"/>
+        <attr name="gpuimage_show_loading" format="boolean" />
     </declare-styleable>
 </resources>

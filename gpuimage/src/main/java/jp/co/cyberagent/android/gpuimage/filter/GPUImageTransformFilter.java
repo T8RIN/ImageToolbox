@@ -38,11 +38,9 @@ public class GPUImageTransformFilter extends GPUImageFilter {
             "     gl_Position = transformMatrix * vec4(position.xyz, 1.0) * orthographicMatrix;\n" +
             "     textureCoordinate = inputTextureCoordinate.xy;\n" +
             " }";
-
+    private final float[] orthographicMatrix;
     private int transformMatrixUniform;
     private int orthographicMatrixUniform;
-    private final float[] orthographicMatrix;
-
     private float[] transform3D;
 
     // This applies the transform to the raw frame data if set to YES, the default of NO takes the aspect ratio of the image input into account when rotating
@@ -114,13 +112,13 @@ public class GPUImageTransformFilter extends GPUImageFilter {
         super.onDraw(textureId, vertBuffer, textureBuffer);
     }
 
+    public float[] getTransform3D() {
+        return transform3D;
+    }
+
     public void setTransform3D(float[] transform3D) {
         this.transform3D = transform3D;
         setUniformMatrix4f(transformMatrixUniform, transform3D);
-    }
-
-    public float[] getTransform3D() {
-        return transform3D;
     }
 
     public void setIgnoreAspectRatio(boolean ignoreAspectRatio) {

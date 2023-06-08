@@ -16,6 +16,9 @@
 
 package jp.co.cyberagent.android.gpuimage.filter;
 
+import static jp.co.cyberagent.android.gpuimage.GPUImageRenderer.CUBE;
+import static jp.co.cyberagent.android.gpuimage.util.TextureRotationUtil.TEXTURE_NO_ROTATION;
+
 import android.annotation.SuppressLint;
 import android.opengl.GLES20;
 
@@ -28,23 +31,19 @@ import java.util.List;
 import jp.co.cyberagent.android.gpuimage.util.Rotation;
 import jp.co.cyberagent.android.gpuimage.util.TextureRotationUtil;
 
-import static jp.co.cyberagent.android.gpuimage.GPUImageRenderer.CUBE;
-import static jp.co.cyberagent.android.gpuimage.util.TextureRotationUtil.TEXTURE_NO_ROTATION;
-
 /**
  * Resembles a filter that consists of multiple filters applied after each
  * other.
  */
 public class GPUImageFilterGroup extends GPUImageFilter {
 
+    private final FloatBuffer glCubeBuffer;
+    private final FloatBuffer glTextureBuffer;
+    private final FloatBuffer glTextureFlipBuffer;
     private List<GPUImageFilter> filters;
     private List<GPUImageFilter> mergedFilters;
     private int[] frameBuffers;
     private int[] frameBufferTextures;
-
-    private final FloatBuffer glCubeBuffer;
-    private final FloatBuffer glTextureBuffer;
-    private final FloatBuffer glTextureFlipBuffer;
 
     /**
      * Instantiates a new GPUImageFilterGroup with no filters.

@@ -7,8 +7,6 @@ import android.opengl.GLES20;
  */
 public class GPUImageLevelsFilter extends GPUImageFilter {
 
-    private static final String LOGTAG = GPUImageLevelsFilter.class.getSimpleName();
-
     public static final String LEVELS_FRAGMET_SHADER =
 
             " varying highp vec2 textureCoordinate;\n" +
@@ -26,17 +24,17 @@ public class GPUImageLevelsFilter extends GPUImageFilter {
                     "     \n" +
                     "     gl_FragColor = vec4( mix(minOutput, maxOutput, pow(min(max(textureColor.rgb -levelMinimum, vec3(0.0)) / (levelMaximum - levelMinimum  ), vec3(1.0)), 1.0 /levelMiddle)) , textureColor.a);\n" +
                     " }\n";
-
-    private int minLocation;
+    private static final String LOGTAG = GPUImageLevelsFilter.class.getSimpleName();
     private final float[] min;
-    private int midLocation;
     private final float[] mid;
-    private int maxLocation;
     private final float[] max;
-    private int minOutputLocation;
     private final float[] minOutput;
-    private int maxOutputLocation;
     private final float[] maxOutput;
+    private int minLocation;
+    private int midLocation;
+    private int maxLocation;
+    private int minOutputLocation;
+    private int maxOutputLocation;
 
     public GPUImageLevelsFilter() {
         this(new float[]{0.0f, 0.0f, 0.0f}, new float[]{1.0f, 1.0f, 1.0f}, new float[]{1.0f, 1.0f, 1.0f}, new float[]{0.0f, 0.0f, 0.0f}, new float[]{1.0f, 1.0f, 1.0f});

@@ -70,6 +70,26 @@ public class GPUImageFilter {
         this.fragmentShader = fragmentShader;
     }
 
+    public static String loadShader(String file, Context context) {
+        try {
+            AssetManager assetManager = context.getAssets();
+            InputStream ims = assetManager.open(file);
+
+            String re = convertStreamToString(ims);
+            ims.close();
+            return re;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return "";
+    }
+
+    public static String convertStreamToString(java.io.InputStream is) {
+        java.util.Scanner s = new java.util.Scanner(is).useDelimiter("\\A");
+        return s.hasNext() ? s.next() : "";
+    }
+
     private final void init() {
         onInit();
         onInitialized();
@@ -269,25 +289,5 @@ public class GPUImageFilter {
         synchronized (runOnDraw) {
             runOnDraw.addLast(runnable);
         }
-    }
-
-    public static String loadShader(String file, Context context) {
-        try {
-            AssetManager assetManager = context.getAssets();
-            InputStream ims = assetManager.open(file);
-
-            String re = convertStreamToString(ims);
-            ims.close();
-            return re;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        return "";
-    }
-
-    public static String convertStreamToString(java.io.InputStream is) {
-        java.util.Scanner s = new java.util.Scanner(is).useDelimiter("\\A");
-        return s.hasNext() ? s.next() : "";
     }
 }

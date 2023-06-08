@@ -125,7 +125,7 @@ Java_jp_co_cyberagent_android_gpuimage_GPUImageNativeLibrary_YUVtoARBG(JNIEnv *e
 
 JNIEXPORT void JNICALL
 Java_jp_co_cyberagent_android_gpuimage_GPUImageNativeLibrary_adjustBitmap(JNIEnv *jenv, jclass thiz,
-                                                                       jobject src) {
+                                                                          jobject src) {
     unsigned char *srcByteBuffer;
     int result = 0;
     int i, j;
