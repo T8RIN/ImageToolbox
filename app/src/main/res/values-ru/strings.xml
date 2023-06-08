@@ -212,7 +212,7 @@
     <string name="sobel_edge">Кромка Собеля</string>
     <string name="bilaterial_blur">Двухстороннее размытие</string>
     <string name="laplacian">Лапласа</string>
-    <string name="gca_colorspace">Цветовое пространство GCA</string>
+    <string name="gca_colorspace">Цветовое пространство CGA</string>
     <string name="emboss">Эмбосс</string>
     <string name="vignette">Виньетка</string>
     <string name="gaussian_blur">Размытие по Гауссу</string>
