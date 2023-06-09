@@ -39,7 +39,10 @@ fun FullscreenDialog(
                     attributes.copyFrom(activityWindow.attributes)
                     attributes.type = dialogWindow.attributes.type
                     dialogWindow.attributes = attributes
-                    parentView.layoutParams = FrameLayout.LayoutParams(activityWindow.decorView.width, activityWindow.decorView.height)
+                    parentView.layoutParams = FrameLayout.LayoutParams(
+                        activityWindow.decorView.width,
+                        activityWindow.decorView.height
+                    )
                 }
             }
 

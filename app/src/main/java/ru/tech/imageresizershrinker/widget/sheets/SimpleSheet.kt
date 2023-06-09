@@ -156,7 +156,7 @@ fun SimpleSheet(
 fun SimpleSheet(
     nestedScrollEnabled: Boolean = false,
     sheetContent: @Composable ColumnScope.() -> Unit,
-    confirmButton: (@Composable RowScope.() -> Unit)? =null,
+    confirmButton: (@Composable RowScope.() -> Unit)? = null,
     title: (@Composable () -> Unit)? = null,
     visible: Boolean,
     onDismiss: (Boolean) -> Unit
@@ -200,7 +200,7 @@ fun SimpleSheet(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 content = sheetContent
             )
-            if(confirmButton != null && title != null) {
+            if (confirmButton != null && title != null) {
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()

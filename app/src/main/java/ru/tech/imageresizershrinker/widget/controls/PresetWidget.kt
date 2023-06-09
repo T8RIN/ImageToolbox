@@ -39,8 +39,6 @@ import androidx.compose.ui.unit.max
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.theme.CreateAlt
-import ru.tech.imageresizershrinker.theme.mixedColor
-import ru.tech.imageresizershrinker.theme.onMixedColor
 import ru.tech.imageresizershrinker.theme.outlineVariant
 import ru.tech.imageresizershrinker.utils.modifier.block
 import ru.tech.imageresizershrinker.widget.RevealValue
