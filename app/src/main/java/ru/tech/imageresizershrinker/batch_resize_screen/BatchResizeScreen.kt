@@ -167,7 +167,6 @@ fun BatchResizeScreen(
             viewModel.updateUris(it)
             context.decodeBitmapByUri(
                 uri = it[0],
-                originalSize = false,
                 onGetMimeType = viewModel::setMime,
                 onGetExif = {},
                 onGetBitmap = viewModel::updateBitmap,
@@ -197,7 +196,6 @@ fun BatchResizeScreen(
                 viewModel.updateUris(list)
                 context.decodeBitmapByUri(
                     uri = it[0],
-                    originalSize = false,
                     onGetMimeType = viewModel::setMime,
                     onGetExif = {},
                     onGetBitmap = viewModel::updateBitmap,
@@ -911,7 +909,7 @@ fun BatchResizeScreen(
                     try {
                         viewModel.setBitmap(
                             loader = {
-                                context.getBitmapByUri(uri, originalSize = false)
+                                context.getBitmapByUri(uri)
                             },
                             uri = uri
                         )
@@ -925,7 +923,7 @@ fun BatchResizeScreen(
                     viewModel.updateUrisSilently(
                         removedUri = uri,
                         loader = {
-                            context.getBitmapByUri(it, originalSize = false)
+                            context.getBitmapByUri(it)
                         }
                     )
                 },

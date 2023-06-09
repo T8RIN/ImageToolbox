@@ -153,7 +153,6 @@ fun CropScreen(
             viewModel.setUri(it)
             context.decodeBitmapByUri(
                 uri = it,
-                originalSize = false,
                 onGetMimeType = viewModel::updateMimeType,
                 onGetExif = {},
                 onGetBitmap = { bmp ->
@@ -189,7 +188,6 @@ fun CropScreen(
                     uri = it,
                     onGetMimeType = {},
                     onGetExif = {},
-                    originalSize = false,
                     onGetBitmap = { bmp ->
                         viewModel.updateBitmap(
                             bitmap = bmp, newBitmap = true

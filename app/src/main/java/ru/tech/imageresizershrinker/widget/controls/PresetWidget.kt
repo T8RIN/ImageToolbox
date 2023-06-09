@@ -104,17 +104,17 @@ fun PresetWidget(
                                     border = BorderStroke(
                                         max(settingsState.borderWidth, 1.dp),
                                         animateColorAsState(
-                                            if (selected) MaterialTheme.colorScheme.outlineVariant
+                                            if (selected) MaterialTheme.colorScheme.outlineVariant()
                                             else Color.Transparent
                                         ).value
                                     ),
                                     colors = IconButtonDefaults.outlinedIconButtonColors(
                                         containerColor = animateColorAsState(
-                                            if (selected) MaterialTheme.colorScheme.mixedColor
+                                            if (selected) MaterialTheme.colorScheme.tertiaryContainer
                                             else MaterialTheme.colorScheme.surfaceVariant
                                         ).value,
                                         contentColor = animateColorAsState(
-                                            if (selected) MaterialTheme.colorScheme.onMixedColor
+                                            if (selected) MaterialTheme.colorScheme.onTertiaryContainer
                                             else MaterialTheme.colorScheme.onSurface
                                         ).value,
                                     )

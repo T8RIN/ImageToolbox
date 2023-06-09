@@ -147,7 +147,6 @@ fun LimitsResizeScreen(
             viewModel.updateUris(uris)
             context.decodeBitmapByUri(
                 uri = uris[0],
-                originalSize = false,
                 onGetMimeType = {
                     viewModel.setMime(it)
                 },
@@ -178,7 +177,6 @@ fun LimitsResizeScreen(
             list.takeIf { it.isNotEmpty() }?.let { uris ->
                 viewModel.updateUris(list)
                 context.decodeBitmapByUri(
-                    originalSize = false,
                     uri = uris[0],
                     onGetMimeType = {
                         viewModel.setMime(it)
@@ -641,7 +639,7 @@ fun LimitsResizeScreen(
                     try {
                         viewModel.setBitmap(
                             loader = {
-                                context.getBitmapByUri(uri, originalSize = false)
+                                context.getBitmapByUri(uri)
                             },
                             uri = uri
                         )
@@ -655,7 +653,7 @@ fun LimitsResizeScreen(
                     viewModel.updateUrisSilently(
                         removedUri = uri,
                         loader = {
-                            context.getBitmapByUri(it, originalSize = false)
+                            context.getBitmapByUri(it)
                         }
                     )
                 },

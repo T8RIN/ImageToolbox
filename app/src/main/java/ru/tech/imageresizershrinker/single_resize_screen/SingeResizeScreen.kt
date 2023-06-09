@@ -183,7 +183,7 @@ fun SingleResizeScreen(
             viewModel.setUri(it)
             context.decodeBitmapByUri(
                 uri = it,
-                originalSize = false,
+
                 onGetMimeType = viewModel::setMime,
                 onGetExif = viewModel::updateExif,
                 onGetBitmap = viewModel::updateBitmap,
@@ -226,7 +226,6 @@ fun SingleResizeScreen(
                 viewModel.setUri(it)
                 context.decodeBitmapByUri(
                     uri = it,
-                    originalSize = false,
                     onGetMimeType = viewModel::setMime,
                     onGetExif = viewModel::updateExif,
                     onGetBitmap = viewModel::updateBitmap,
@@ -287,7 +286,10 @@ fun SingleResizeScreen(
                 )
             ) {
                 if (showOrig) {
-                    SimplePicture(bitmap = viewModel.bitmap, loading = loading)
+                    SimplePicture(
+                        bitmap = viewModel.bitmap,
+                        loading = loading
+                    )
                 } else {
                     SimplePicture(
                         loading = loading,
