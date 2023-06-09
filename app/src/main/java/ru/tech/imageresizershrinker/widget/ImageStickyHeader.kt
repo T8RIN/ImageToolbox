@@ -27,6 +27,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.isSpecified
 import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.theme.outlineVariant
 import ru.tech.imageresizershrinker.widget.utils.LocalSettingsState
@@ -38,10 +39,15 @@ fun LazyListScope.imageStickyHeader(
     expanded: Boolean = false,
     imageState: Int,
     onStateChange: (Int) -> Unit,
+    backgroundColor: Color = Color.Unspecified,
     imageBlock: @Composable () -> Unit,
 ) {
     if (visible) {
         stickyHeader {
+            val color = if (backgroundColor.isSpecified) {
+                backgroundColor
+            } else MaterialTheme.colorScheme.surface.copy(alpha = 0.85f)
+
             val settingsState = LocalSettingsState.current
             Column(
                 modifier = Modifier
@@ -52,7 +58,7 @@ fun LazyListScope.imageStickyHeader(
                             collapsed = imageState == 0
                         )
                     )
-                    .background(MaterialTheme.colorScheme.surface.copy(alpha = 0.85f))
+                    .background(color)
                     .clip(MaterialTheme.shapes.medium)
                     .padding(20.dp),
                 verticalArrangement = Arrangement.Center,
@@ -68,7 +74,7 @@ fun LazyListScope.imageStickyHeader(
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(16.dp),
-                    startColor = MaterialTheme.colorScheme.surface.copy(alpha = 0.85f),
+                    startColor = color,
                     endColor = Color.Transparent
                 )
                 Row(

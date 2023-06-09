@@ -323,7 +323,6 @@ fun DeleteExifScreen(
             BottomAppBar(
                 modifier = Modifier.drawHorizontalStroke(true),
                 actions = {
-                    zoomButton()
                     if (viewModel.previewBitmap != null) {
                         IconButton(
                             onClick = {
@@ -356,6 +355,7 @@ fun DeleteExifScreen(
                             Icon(Icons.Outlined.Share, null)
                         }
                     }
+                    zoomButton()
                 },
                 floatingActionButton = {
                     Row {

@@ -5,7 +5,6 @@ import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -13,14 +12,13 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.asPaddingValues
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.ime
 import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.rememberScrollState
@@ -30,7 +28,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.AddCircleOutline
 import androidx.compose.material.icons.rounded.Animation
-import androidx.compose.material.icons.rounded.ArrowBack
+import androidx.compose.material.icons.rounded.Close
 import androidx.compose.material.icons.rounded.Done
 import androidx.compose.material.icons.rounded.FormatColorFill
 import androidx.compose.material.icons.rounded.Grain
@@ -57,20 +55,18 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.window.Dialog
-import androidx.compose.ui.window.DialogProperties
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.main_screen.components.PreferenceItemOverload
@@ -129,6 +125,7 @@ import ru.tech.imageresizershrinker.utils.coil.filters.ZoomBlurFilter
 import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.applyTransformations
 import ru.tech.imageresizershrinker.widget.TitleItem
 import ru.tech.imageresizershrinker.widget.image.SimplePicture
+import ru.tech.imageresizershrinker.widget.imageStickyHeader
 import ru.tech.imageresizershrinker.widget.sheets.SimpleSheet
 import ru.tech.imageresizershrinker.widget.utils.LocalSettingsState
 
@@ -146,7 +143,7 @@ fun AddFiltersSheet(
 
     val pagerState = rememberPagerState(pageCount = { 5 })
 
-    var showPopup by remember { mutableStateOf<FilterTransformation<*>?>(null) }
+    var showPopup by rememberSaveable() { mutableStateOf<FilterTransformation<*>?>(null) }
 
     val filters = remember(context) {
         listOf(
@@ -330,82 +327,85 @@ fun AddFiltersSheet(
         visible = visible
     )
 
-    if (showPopup != null) {
-        val insets = WindowInsets.navigationBars.asPaddingValues()
-        val ime = WindowInsets.ime.asPaddingValues()
-        Dialog(
-            onDismissRequest = { showPopup = null },
-            properties = DialogProperties(usePlatformDefaultWidth = false)
-        ) {
-            Box(contentAlignment = Alignment.Center) {
-                Box(
-                    Modifier
-                        .fillMaxSize()
-                        .background(
-                            MaterialTheme.colorScheme.scrim.copy(0.5f)
-                        )
-                        .pointerInput(Unit) {
-                            detectTapGestures {}
+    val showPopupState = remember { mutableStateOf(false) }
+    var transformedBitmap by remember(previewBitmap) {
+        mutableStateOf(
+            previewBitmap
+        )
+    }
+    var loading by remember { mutableStateOf(false) }
+    LaunchedEffect(showPopup) {
+        showPopupState.value = showPopup != null
+        if (previewBitmap != null && showPopup != null) {
+            loading = true
+            transformedBitmap =
+                context.applyTransformations(previewBitmap, listOf(showPopup!!))
+            loading = false
+        }
+    }
+    var imageState by rememberSaveable { mutableIntStateOf(1) }
+    val backgroundColor = MaterialTheme.colorScheme.surfaceColorAtElevation(2.dp).copy(0.8f)
+    SimpleSheet(
+        sheetContent = {
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally,
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                CenterAlignedTopAppBar(
+                    navigationIcon = {
+                        IconButton(onClick = { showPopup = null }) {
+                            Icon(Icons.Rounded.Close, null)
                         }
-                )
-                Column(
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(insets)
-                        .padding(ime)
-                ) {
-                    CenterAlignedTopAppBar(
-                        navigationIcon = {
-                            IconButton(onClick = { showPopup = null }) {
-                                Icon(Icons.Rounded.ArrowBack, null)
-                            }
-                        },
-                        actions = {
-                            IconButton(
-                                onClick = {
-                                    showPopup?.let {
-                                        onFilterPickedWithParams(it.copy(it.value!!))
-                                    }
-                                    showPopup = null
-                                    visible.value = false
+                    },
+                    colors = TopAppBarDefaults.topAppBarColors(
+                        MaterialTheme.colorScheme.surfaceColorAtElevation(
+                            2.dp
+                        )
+                    ),
+                    actions = {
+                        IconButton(
+                            onClick = {
+                                showPopup?.let {
+                                    onFilterPickedWithParams(it.copy(it.value!!))
                                 }
-                            ) {
-                                Icon(Icons.Rounded.Done, null)
+                                showPopup = null
+                                visible.value = false
                             }
-                        },
-                        title = {
-                            Text(
-                                stringResource(
-                                    id = showPopup?.title ?: R.string.app_name
-                                )
+                        ) {
+                            Icon(Icons.Rounded.Done, null)
+                        }
+                    },
+                    title = {
+                        Text(
+                            text = stringResource(
+                                id = showPopup?.title ?: R.string.app_name
+                            ),
+                        )
+                    }
+                )
+                Divider()
+                LazyColumn(
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                ) {
+                    imageStickyHeader(
+                        visible = true,
+                        imageState = imageState,
+                        onStateChange = { imageState = it },
+                        imageBlock = {
+                            SimplePicture(
+                                bitmap = transformedBitmap,
+                                loading = loading
                             )
                         },
-                        colors = TopAppBarDefaults.topAppBarColors(containerColor = Color.Transparent)
+                        backgroundColor = backgroundColor
                     )
-
-                    var transformedBitmap by remember(previewBitmap) { mutableStateOf(previewBitmap) }
-                    var loading by remember { mutableStateOf(false) }
-
-                    LaunchedEffect(showPopup) {
-                        if (previewBitmap != null && showPopup != null) {
-                            loading = true
-                            transformedBitmap =
-                                context.applyTransformations(previewBitmap, listOf(showPopup!!))
-                            loading = false
-                        }
-                    }
-
-                    SimplePicture(
-                        boxModifier = Modifier.padding(16.dp),
-                        modifier = Modifier.weight(1f, false),
-                        bitmap = transformedBitmap,
-                        loading = loading
-                    )
-                    showPopup?.takeIf { it.value != Unit }?.let {
-                        Divider()
-                        Column(Modifier.verticalScroll(rememberScrollState())) {
+                    item {
+                        showPopup?.takeIf { it.value != Unit }?.let {
+                            Divider()
                             FilterItem(
+                                backgroundColor = MaterialTheme
+                                    .colorScheme
+                                    .surfaceVariant,
                                 modifier = Modifier.padding(16.dp),
                                 filter = it,
                                 showDragHandle = false,
@@ -416,10 +416,18 @@ fun AddFiltersSheet(
                             )
                             Spacer(Modifier.height(16.dp))
                         }
+                        Spacer(
+                            Modifier.height(
+                                WindowInsets
+                                    .navigationBars
+                                    .asPaddingValues()
+                                    .calculateBottomPadding()
+                            )
+                        )
                     }
                 }
-
             }
-        }
-    }
+        },
+        visible = showPopupState
+    )
 }

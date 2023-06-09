@@ -156,8 +156,8 @@ fun SimpleSheet(
 fun SimpleSheet(
     nestedScrollEnabled: Boolean = false,
     sheetContent: @Composable ColumnScope.() -> Unit,
-    confirmButton: @Composable RowScope.() -> Unit,
-    title: @Composable () -> Unit,
+    confirmButton: (@Composable RowScope.() -> Unit)? =null,
+    title: (@Composable () -> Unit)? = null,
     visible: Boolean,
     onDismiss: (Boolean) -> Unit
 ) {
@@ -200,17 +200,19 @@ fun SimpleSheet(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 content = sheetContent
             )
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .navigationBarsPadding()
-                    .padding(16.dp)
-                    .padding(end = 16.dp),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                title()
-                Spacer(modifier = Modifier.weight(1f))
-                confirmButton()
+            if(confirmButton != null && title != null) {
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .navigationBarsPadding()
+                        .padding(16.dp)
+                        .padding(end = 16.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    title()
+                    Spacer(modifier = Modifier.weight(1f))
+                    confirmButton()
+                }
             }
         }
     )
