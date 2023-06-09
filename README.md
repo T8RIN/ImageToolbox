@@ -1,6 +1,6 @@
 <div align="center">
 </br>
-<img src="https://github.com/T8RIN/ImageToolbox/assets/52178347/a3155851-91ed-4b7c-a882-5f943788ca34" width="250" />
+<img src="https://github.com/T8RIN/ImageToolbox/assets/52178347/a3155851-91ed-4b7c-a882-5f943788ca34" width="200" />
 
 </div>
 
