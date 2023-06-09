@@ -18,10 +18,9 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.ZoomInMap
-import androidx.compose.material.icons.rounded.ZoomOutMap
+import androidx.compose.material.icons.rounded.AddCircle
+import androidx.compose.material.icons.rounded.RemoveCircle
 import androidx.compose.material3.Icon
-import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -102,21 +101,10 @@ fun LazyListScope.imageStickyHeader(
                                 },
                             contentAlignment = Alignment.Center
                         ) {
-                            Box(
-                                modifier = Modifier
-                                    .size(24.dp)
-                                    .background(
-                                        color = LocalContentColor.current.copy(alpha = 0.8f),
-                                        shape = CircleShape
-                                    )
-                            )
                             Icon(
-                                imageVector = Icons.Rounded.ZoomInMap,
+                                imageVector = Icons.Rounded.RemoveCircle,
                                 contentDescription = null,
-                                modifier = Modifier.size(18.dp),
-                                tint = MaterialTheme.colorScheme.secondaryContainer.copy(
-                                    alpha = 0.85f
-                                )
+                                modifier = Modifier.size(20.dp)
                             )
                         }
                     }
@@ -132,21 +120,10 @@ fun LazyListScope.imageStickyHeader(
                                 },
                             contentAlignment = Alignment.Center
                         ) {
-                            Box(
-                                modifier = Modifier
-                                    .size(24.dp)
-                                    .background(
-                                        color = LocalContentColor.current.copy(alpha = 0.8f),
-                                        shape = CircleShape
-                                    )
-                            )
                             Icon(
-                                imageVector = Icons.Rounded.ZoomOutMap,
+                                imageVector = Icons.Rounded.AddCircle,
                                 contentDescription = null,
-                                modifier = Modifier.size(18.dp),
-                                tint = MaterialTheme.colorScheme.secondaryContainer.copy(
-                                    alpha = 0.85f
-                                )
+                                modifier = Modifier.size(20.dp)
                             )
                         }
                     }

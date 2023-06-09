@@ -276,6 +276,20 @@ fun LimitsResizeScreen(
         }
     }
 
+    val showSheet = rememberSaveable { mutableStateOf(false) }
+    val zoomButton = @Composable {
+        AnimatedVisibility(viewModel.bitmap != null) {
+            IconButton(
+                onClick = {
+                    showSheet.value = true
+                }
+            ) {
+                Icon(Icons.Rounded.ZoomIn, null)
+            }
+        }
+    }
+
+
     val buttons = @Composable {
         AnimatedContent(
             targetState = (viewModel.uris.isNullOrEmpty()) to imageInside
@@ -298,7 +312,39 @@ fun LimitsResizeScreen(
             } else if (inside) {
                 BottomAppBar(
                     modifier = Modifier.drawHorizontalStroke(true),
-                    actions = {},
+                    actions = {
+                        zoomButton()
+                        if (viewModel.previewBitmap != null) {
+                            IconButton(
+                                onClick = {
+                                    showSaveLoading = true
+                                    context.shareBitmaps(
+                                        uris = viewModel.uris ?: emptyList(),
+                                        scope = viewModel.viewModelScope,
+                                        bitmapLoader = {
+                                            viewModel.proceedBitmap(
+                                                bitmapResult = kotlin.runCatching {
+                                                    context.decodeBitmapByUri(it).first
+                                                }
+                                            )
+                                        },
+                                        onProgressChange = {
+                                            if (it == -1) {
+                                                showSaveLoading = false
+                                                viewModel.setProgress(0)
+                                                showConfetti()
+                                            } else {
+                                                viewModel.setProgress(it)
+                                            }
+                                        }
+                                    )
+                                },
+                                enabled = viewModel.canSave
+                            ) {
+                                Icon(Icons.Outlined.Share, null)
+                            }
+                        }
+                    },
                     floatingActionButton = {
                         Row {
                             FloatingActionButton(
@@ -353,19 +399,6 @@ fun LimitsResizeScreen(
                         }
                     }
                 }
-            }
-        }
-    }
-
-    val showSheet = rememberSaveable { mutableStateOf(false) }
-    val zoomButton = @Composable {
-        AnimatedVisibility(viewModel.bitmap != null) {
-            IconButton(
-                onClick = {
-                    showSheet.value = true
-                }
-            ) {
-                Icon(Icons.Rounded.ZoomIn, null)
             }
         }
     }
@@ -439,35 +472,37 @@ fun LimitsResizeScreen(
                         if (viewModel.bitmap == null) {
                             TopAppBarEmoji()
                         }
-                        zoomButton()
-                        if (viewModel.previewBitmap != null) {
-                            IconButton(
-                                onClick = {
-                                    showSaveLoading = true
-                                    context.shareBitmaps(
-                                        uris = viewModel.uris ?: emptyList(),
-                                        scope = viewModel.viewModelScope,
-                                        bitmapLoader = {
-                                            viewModel.proceedBitmap(
-                                                bitmapResult = kotlin.runCatching {
-                                                    context.decodeBitmapByUri(it).first
+                        if (!imageInside) {
+                            zoomButton()
+                            if (viewModel.previewBitmap != null) {
+                                IconButton(
+                                    onClick = {
+                                        showSaveLoading = true
+                                        context.shareBitmaps(
+                                            uris = viewModel.uris ?: emptyList(),
+                                            scope = viewModel.viewModelScope,
+                                            bitmapLoader = {
+                                                viewModel.proceedBitmap(
+                                                    bitmapResult = kotlin.runCatching {
+                                                        context.decodeBitmapByUri(it).first
+                                                    }
+                                                )
+                                            },
+                                            onProgressChange = {
+                                                if (it == -1) {
+                                                    showSaveLoading = false
+                                                    viewModel.setProgress(0)
+                                                    showConfetti()
+                                                } else {
+                                                    viewModel.setProgress(it)
                                                 }
-                                            )
-                                        },
-                                        onProgressChange = {
-                                            if (it == -1) {
-                                                showSaveLoading = false
-                                                viewModel.setProgress(0)
-                                                showConfetti()
-                                            } else {
-                                                viewModel.setProgress(it)
                                             }
-                                        }
-                                    )
-                                },
-                                enabled = viewModel.canSave
-                            ) {
-                                Icon(Icons.Outlined.Share, null)
+                                        )
+                                    },
+                                    enabled = viewModel.canSave
+                                ) {
+                                    Icon(Icons.Outlined.Share, null)
+                                }
                             }
                         }
                     }

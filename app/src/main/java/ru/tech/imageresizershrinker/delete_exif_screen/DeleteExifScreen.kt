@@ -41,7 +41,6 @@ import androidx.compose.material.icons.rounded.ChangeCircle
 import androidx.compose.material.icons.rounded.Save
 import androidx.compose.material.icons.rounded.ZoomIn
 import androidx.compose.material3.BottomAppBar
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExtendedFloatingActionButton
 import androidx.compose.material3.FloatingActionButton
@@ -51,7 +50,6 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.LargeTopAppBar
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedIconButton
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -292,6 +290,19 @@ fun DeleteExifScreen(
         }
     }
 
+    val showSheet = rememberSaveable { mutableStateOf(false) }
+    val zoomButton = @Composable {
+        AnimatedVisibility(viewModel.bitmap != null) {
+            IconButton(
+                onClick = {
+                    showSheet.value = true
+                }
+            ) {
+                Icon(Icons.Rounded.ZoomIn, null)
+            }
+        }
+    }
+
     val buttons = @Composable {
         if (viewModel.bitmap == null) {
             ExtendedFloatingActionButton(
@@ -312,27 +323,58 @@ fun DeleteExifScreen(
             BottomAppBar(
                 modifier = Modifier.drawHorizontalStroke(true),
                 actions = {
-                    OutlinedButton(
-                        colors = ButtonDefaults.filledTonalButtonColors(),
-                        border = BorderStroke(
-                            settingsState.borderWidth,
-                            MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.secondaryContainer)
-                        ),
-                        onClick = pickImage,
-                        modifier = Modifier.padding(horizontal = 16.dp)
-                    ) {
-                        Icon(Icons.Rounded.AddPhotoAlternate, null)
-                        Spacer(Modifier.width(8.dp))
-                        Text(stringResource(id = R.string.pick_image_alt))
+                    zoomButton()
+                    if (viewModel.previewBitmap != null) {
+                        IconButton(
+                            onClick = {
+                                showSaveLoading = true
+                                context.shareBitmaps(
+                                    uris = viewModel.uris ?: emptyList(),
+                                    scope = viewModel.viewModelScope,
+                                    bitmapLoader = { uri ->
+                                        context.decodeBitmapFromUriWithMime(uri)
+                                            .takeIf { it.first != null }?.let {
+                                                it.first!! to BitmapInfo(
+                                                    mimeTypeInt = it.third,
+                                                    width = it.first!!.width,
+                                                    height = it.first!!.height
+                                                )
+                                            }
+                                    },
+                                    onProgressChange = {
+                                        if (it == -1) {
+                                            showSaveLoading = false
+                                            viewModel.setProgress(0)
+                                            showConfetti()
+                                        } else {
+                                            viewModel.setProgress(it)
+                                        }
+                                    }
+                                )
+                            }
+                        ) {
+                            Icon(Icons.Outlined.Share, null)
+                        }
                     }
                 },
                 floatingActionButton = {
-                    FloatingActionButton(
-                        onClick = saveBitmaps,
-                        modifier = Modifier.fabBorder(),
-                        elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation()
-                    ) {
-                        Icon(Icons.Rounded.Save, null)
+                    Row {
+                        FloatingActionButton(
+                            onClick = pickImage,
+                            modifier = Modifier.fabBorder(),
+                            containerColor = MaterialTheme.colorScheme.tertiaryContainer,
+                            elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation()
+                        ) {
+                            Icon(Icons.Rounded.AddPhotoAlternate, null)
+                        }
+                        Spacer(Modifier.width(16.dp))
+                        FloatingActionButton(
+                            onClick = saveBitmaps,
+                            modifier = Modifier.fabBorder(),
+                            elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation()
+                        ) {
+                            Icon(Icons.Rounded.Save, null)
+                        }
                     }
                 }
             )
@@ -361,19 +403,6 @@ fun DeleteExifScreen(
                 ) {
                     Icon(Icons.Rounded.Save, null)
                 }
-            }
-        }
-    }
-
-    val showSheet = rememberSaveable { mutableStateOf(false) }
-    val zoomButton = @Composable {
-        AnimatedVisibility(viewModel.bitmap != null) {
-            IconButton(
-                onClick = {
-                    showSheet.value = true
-                }
-            ) {
-                Icon(Icons.Rounded.ZoomIn, null)
             }
         }
     }
@@ -451,37 +480,39 @@ fun DeleteExifScreen(
                         if (viewModel.bitmap == null) {
                             TopAppBarEmoji()
                         }
-                        zoomButton()
-                        if (viewModel.previewBitmap != null) {
-                            IconButton(
-                                onClick = {
-                                    showSaveLoading = true
-                                    context.shareBitmaps(
-                                        uris = viewModel.uris ?: emptyList(),
-                                        scope = viewModel.viewModelScope,
-                                        bitmapLoader = { uri ->
-                                            context.decodeBitmapFromUriWithMime(uri)
-                                                .takeIf { it.first != null }?.let {
-                                                    it.first!! to BitmapInfo(
-                                                        mimeTypeInt = it.third,
-                                                        width = it.first!!.width,
-                                                        height = it.first!!.height
-                                                    )
+                        if (!imageInside) {
+                            zoomButton()
+                            if (viewModel.previewBitmap != null) {
+                                IconButton(
+                                    onClick = {
+                                        showSaveLoading = true
+                                        context.shareBitmaps(
+                                            uris = viewModel.uris ?: emptyList(),
+                                            scope = viewModel.viewModelScope,
+                                            bitmapLoader = { uri ->
+                                                context.decodeBitmapFromUriWithMime(uri)
+                                                    .takeIf { it.first != null }?.let {
+                                                        it.first!! to BitmapInfo(
+                                                            mimeTypeInt = it.third,
+                                                            width = it.first!!.width,
+                                                            height = it.first!!.height
+                                                        )
+                                                    }
+                                            },
+                                            onProgressChange = {
+                                                if (it == -1) {
+                                                    showSaveLoading = false
+                                                    viewModel.setProgress(0)
+                                                    showConfetti()
+                                                } else {
+                                                    viewModel.setProgress(it)
                                                 }
-                                        },
-                                        onProgressChange = {
-                                            if (it == -1) {
-                                                showSaveLoading = false
-                                                viewModel.setProgress(0)
-                                                showConfetti()
-                                            } else {
-                                                viewModel.setProgress(it)
                                             }
-                                        }
-                                    )
+                                        )
+                                    }
+                                ) {
+                                    Icon(Icons.Outlined.Share, null)
                                 }
-                            ) {
-                                Icon(Icons.Outlined.Share, null)
                             }
                         }
                     }
