@@ -14,8 +14,8 @@ android {
         applicationId = "ru.tech.imageresizershrinker"
         minSdk = 21
         targetSdk = 33
-        versionCode = 66
-        versionName = "2.1.3"
+        versionCode = 67
+        versionName = "2.1.4"
         resourceConfigurations += setOf(
             "en",
             "ar",
@@ -129,6 +129,6 @@ dependencies {
 
     implementation("org.burnoutcrew.composereorderable:reorderable:0.9.6")
 
-    implementation("com.google.accompanist:accompanist-systemuicontroller:0.30.1")
+    implementation("com.google.accompanist:accompanist-systemuicontroller:0.31.3-beta")
 
 }
