@@ -20,18 +20,25 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import com.t8rin.dynamic.theme.observeAsState
 import com.t8rin.modalsheet.FullscreenPopup
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun availableHeight(expanded: Boolean, collapsed: Boolean = false): Dp {
-    val conf = LocalConfiguration.current
-    var fullHeight by remember(conf) { mutableStateOf(0.dp) }
+fun availableHeight(
+    expanded: Boolean,
+    collapsed: Boolean = false
+): Dp {
+    var fullHeight by remember(
+        LocalConfiguration.current,
+        LocalLifecycleOwner.current.lifecycle.observeAsState()
+    ) { mutableStateOf(0.dp) }
     val density = LocalDensity.current
 
-    if(fullHeight == 0.dp) {
+    if (fullHeight == 0.dp) {
         FullscreenPopup {
             Column {
                 TopAppBar(
