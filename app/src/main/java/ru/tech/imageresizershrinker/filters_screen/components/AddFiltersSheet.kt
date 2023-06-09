@@ -1,13 +1,26 @@
 package ru.tech.imageresizershrinker.filters_screen.components
 
+import android.graphics.Bitmap
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.asPaddingValues
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.ime
+import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.rememberScrollState
@@ -17,14 +30,20 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.AddCircleOutline
 import androidx.compose.material.icons.rounded.Animation
+import androidx.compose.material.icons.rounded.ArrowBack
+import androidx.compose.material.icons.rounded.Done
 import androidx.compose.material.icons.rounded.FormatColorFill
 import androidx.compose.material.icons.rounded.Grain
 import androidx.compose.material.icons.rounded.LensBlur
 import androidx.compose.material.icons.rounded.Light
 import androidx.compose.material.icons.rounded.PhotoFilter
+import androidx.compose.material.icons.rounded.Slideshow
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.Divider
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.ScrollableTabRow
@@ -32,19 +51,29 @@ import androidx.compose.material3.Tab
 import androidx.compose.material3.TabRowDefaults
 import androidx.compose.material3.TabRowDefaults.tabIndicatorOffset
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.window.Dialog
+import androidx.compose.ui.window.DialogProperties
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.R
-import ru.tech.imageresizershrinker.main_screen.components.PreferenceItem
+import ru.tech.imageresizershrinker.main_screen.components.PreferenceItemOverload
 import ru.tech.imageresizershrinker.theme.outlineVariant
 import ru.tech.imageresizershrinker.utils.coil.filters.BilaterialBlurFilter
 import ru.tech.imageresizershrinker.utils.coil.filters.BlackAndWhiteFilter
@@ -97,21 +126,92 @@ import ru.tech.imageresizershrinker.utils.coil.filters.VignetteFilter
 import ru.tech.imageresizershrinker.utils.coil.filters.WeakPixelFilter
 import ru.tech.imageresizershrinker.utils.coil.filters.WhiteBalanceFilter
 import ru.tech.imageresizershrinker.utils.coil.filters.ZoomBlurFilter
+import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.applyTransformations
 import ru.tech.imageresizershrinker.widget.TitleItem
+import ru.tech.imageresizershrinker.widget.image.SimplePicture
 import ru.tech.imageresizershrinker.widget.sheets.SimpleSheet
 import ru.tech.imageresizershrinker.widget.utils.LocalSettingsState
 
-@OptIn(ExperimentalFoundationApi::class)
+@OptIn(ExperimentalFoundationApi::class, ExperimentalMaterial3Api::class)
 @Composable
 fun AddFiltersSheet(
     visible: MutableState<Boolean>,
-    onFilterPicked: (FilterTransformation<*>) -> Unit
+    previewBitmap: Bitmap?,
+    onFilterPicked: (FilterTransformation<*>) -> Unit,
+    onFilterPickedWithParams: (FilterTransformation<*>) -> Unit
 ) {
     val settingsState = LocalSettingsState.current
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
 
     val pagerState = rememberPagerState(pageCount = { 5 })
+
+    var showPopup by remember { mutableStateOf<FilterTransformation<*>?>(null) }
+
+    val filters = remember(context) {
+        listOf(
+            listOf(
+                HueFilter(context),
+                ColorFilter(context),
+                SaturationFilter(context),
+                VibranceFilter(context),
+                RGBFilter(context),
+                FalseColorFilter(context),
+                CGAColorSpaceFilter(context),
+                MonochromeFilter(context),
+                SepiaFilter(context),
+                NegativeFilter(context),
+                BlackAndWhiteFilter(context),
+                ColorMatrixFilter(context),
+                ColorBalanceFilter(context)
+            ),
+            listOf(
+                BrightnessFilter(context),
+                ContrastFilter(context),
+                ExposureFilter(context),
+                WhiteBalanceFilter(context),
+                GammaFilter(context),
+                HighlightsAndShadowsFilter(context),
+                SolarizeFilter(context),
+                HazeFilter(context)
+            ),
+            listOf(
+                SharpenFilter(context),
+                CrosshatchFilter(context),
+                SobelEdgeDetectionFilter(context),
+                HalftoneFilter(context),
+                EmbossFilter(context),
+                LaplacianFilter(context),
+                VignetteFilter(context),
+                KuwaharaFilter(context),
+                DilationFilter(context),
+                OpacityFilter(context),
+                ToonFilter(context),
+                SmoothToonFilter(context),
+                SketchFilter(context),
+                PosterizeFilter(context),
+                LookupFilter(context),
+                NonMaximumSuppressionFilter(context),
+                WeakPixelFilter(context),
+                Convolution3x3Filter(context),
+                LuminanceThresholdFilter(context)
+            ),
+            listOf(
+                GaussianBlurFilter(context),
+                BoxBlurFilter(context),
+                BilaterialBlurFilter(context),
+                FastBlurFilter(context),
+                StackBlurFilter(context),
+                ZoomBlurFilter(context)
+            ),
+            listOf(
+                SwirlDistortionEffect(context),
+                BulgeDistortionEffect(context),
+                SphereRefractionFilter(context),
+                GlassSphereRefractionFilter(context)
+            )
+        )
+    }
 
     SimpleSheet(
         sheetContent = {
@@ -162,133 +262,49 @@ fun AddFiltersSheet(
                         }
                     }
                     Divider()
-                    HorizontalPager(state = pagerState, beyondBoundsPageCount = 4) {
+                    HorizontalPager(state = pagerState, beyondBoundsPageCount = 4) { page ->
                         Column(
                             Modifier
                                 .verticalScroll(rememberScrollState())
                                 .padding(vertical = 16.dp),
                             verticalArrangement = Arrangement.spacedBy(8.dp)
                         ) {
-                            when (it) {
-                                0 -> {
-                                    listOf(
-                                        HueFilter(context),
-                                        ColorFilter(context),
-                                        SaturationFilter(context),
-                                        VibranceFilter(context),
-                                        RGBFilter(context),
-                                        FalseColorFilter(context),
-                                        CGAColorSpaceFilter(context),
-                                        MonochromeFilter(context),
-                                        SepiaFilter(context),
-                                        NegativeFilter(context),
-                                        BlackAndWhiteFilter(context),
-                                        ColorMatrixFilter(context),
-                                        ColorBalanceFilter(context)
-                                    ).forEach {
-                                        PreferenceItem(
-                                            title = stringResource(it.title),
-                                            endIcon = Icons.Rounded.AddCircleOutline,
-                                            onClick = {
-                                                visible.value = false
-                                                onFilterPicked(it)
+                            filters[page].forEach { filter ->
+                                PreferenceItemOverload(
+                                    title = stringResource(filter.title),
+                                    icon = {
+                                        Row(verticalAlignment = Alignment.CenterVertically) {
+                                            Box(
+                                                Modifier
+                                                    .size(36.dp)
+                                                    .clip(CircleShape)
+                                                    .clickable { showPopup = filter },
+                                                contentAlignment = Alignment.Center
+                                            ) {
+                                                Icon(Icons.Rounded.Slideshow, null)
                                             }
-                                        )
-                                    }
-                                }
+                                            Spacer(Modifier.width(16.dp))
+                                            Box(
+                                                Modifier
+                                                    .height(36.dp)
+                                                    .width(
+                                                        settingsState.borderWidth.coerceAtLeast(
+                                                            0.25.dp
+                                                        )
+                                                    )
+                                                    .background(MaterialTheme.colorScheme.surfaceVariant)
 
-                                1 -> {
-                                    listOf(
-                                        BrightnessFilter(context),
-                                        ContrastFilter(context),
-                                        ExposureFilter(context),
-                                        WhiteBalanceFilter(context),
-                                        GammaFilter(context),
-                                        HighlightsAndShadowsFilter(context),
-                                        SolarizeFilter(context),
-                                        HazeFilter(context)
-                                    ).forEach {
-                                        PreferenceItem(
-                                            title = stringResource(it.title),
-                                            endIcon = Icons.Rounded.AddCircleOutline,
-                                            onClick = {
-                                                visible.value = false
-                                                onFilterPicked(it)
-                                            }
-                                        )
+                                            )
+                                        }
+                                    },
+                                    endIcon = {
+                                        Icon(Icons.Rounded.AddCircleOutline, null)
+                                    },
+                                    onClick = {
+                                        visible.value = false
+                                        onFilterPicked(filter)
                                     }
-                                }
-
-                                2 -> {
-                                    listOf(
-                                        SharpenFilter(context),
-                                        CrosshatchFilter(context),
-                                        SobelEdgeDetectionFilter(context),
-                                        HalftoneFilter(context),
-                                        EmbossFilter(context),
-                                        LaplacianFilter(context),
-                                        VignetteFilter(context),
-                                        KuwaharaFilter(context),
-                                        DilationFilter(context),
-                                        OpacityFilter(context),
-                                        ToonFilter(context),
-                                        SmoothToonFilter(context),
-                                        SketchFilter(context),
-                                        PosterizeFilter(context),
-                                        LookupFilter(context),
-                                        NonMaximumSuppressionFilter(context),
-                                        WeakPixelFilter(context),
-                                        Convolution3x3Filter(context),
-                                        LuminanceThresholdFilter(context)
-                                    ).forEach {
-                                        PreferenceItem(
-                                            title = stringResource(it.title),
-                                            endIcon = Icons.Rounded.AddCircleOutline,
-                                            onClick = {
-                                                visible.value = false
-                                                onFilterPicked(it)
-                                            }
-                                        )
-                                    }
-                                }
-
-                                3 -> {
-                                    listOf(
-                                        GaussianBlurFilter(context),
-                                        BoxBlurFilter(context),
-                                        BilaterialBlurFilter(context),
-                                        FastBlurFilter(context),
-                                        StackBlurFilter(context),
-                                        ZoomBlurFilter(context)
-                                    ).forEach {
-                                        PreferenceItem(
-                                            title = stringResource(it.title),
-                                            endIcon = Icons.Rounded.AddCircleOutline,
-                                            onClick = {
-                                                visible.value = false
-                                                onFilterPicked(it)
-                                            }
-                                        )
-                                    }
-                                }
-
-                                4 -> {
-                                    listOf(
-                                        SwirlDistortionEffect(context),
-                                        BulgeDistortionEffect(context),
-                                        SphereRefractionFilter(context),
-                                        GlassSphereRefractionFilter(context)
-                                    ).forEach {
-                                        PreferenceItem(
-                                            title = stringResource(it.title),
-                                            endIcon = Icons.Rounded.AddCircleOutline,
-                                            onClick = {
-                                                visible.value = false
-                                                onFilterPicked(it)
-                                            }
-                                        )
-                                    }
-                                }
+                                )
                             }
                         }
                     }
@@ -313,5 +329,97 @@ fun AddFiltersSheet(
         },
         visible = visible
     )
-}
 
+    if (showPopup != null) {
+        val insets = WindowInsets.navigationBars.asPaddingValues()
+        val ime = WindowInsets.ime.asPaddingValues()
+        Dialog(
+            onDismissRequest = { showPopup = null },
+            properties = DialogProperties(usePlatformDefaultWidth = false)
+        ) {
+            Box(contentAlignment = Alignment.Center) {
+                Box(
+                    Modifier
+                        .fillMaxSize()
+                        .background(
+                            MaterialTheme.colorScheme.scrim.copy(0.5f)
+                        )
+                        .pointerInput(Unit) {
+                            detectTapGestures {}
+                        }
+                )
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(insets)
+                        .padding(ime)
+                ) {
+                    CenterAlignedTopAppBar(
+                        navigationIcon = {
+                            IconButton(onClick = { showPopup = null }) {
+                                Icon(Icons.Rounded.ArrowBack, null)
+                            }
+                        },
+                        actions = {
+                            IconButton(
+                                onClick = {
+                                    showPopup?.let {
+                                        onFilterPickedWithParams(it.copy(it.value!!))
+                                    }
+                                    showPopup = null
+                                    visible.value = false
+                                }
+                            ) {
+                                Icon(Icons.Rounded.Done, null)
+                            }
+                        },
+                        title = {
+                            Text(
+                                stringResource(
+                                    id = showPopup?.title ?: R.string.app_name
+                                )
+                            )
+                        },
+                        colors = TopAppBarDefaults.topAppBarColors(containerColor = Color.Transparent)
+                    )
+
+                    var transformedBitmap by remember(previewBitmap) { mutableStateOf(previewBitmap) }
+                    var loading by remember { mutableStateOf(false) }
+
+                    LaunchedEffect(showPopup) {
+                        if (previewBitmap != null && showPopup != null) {
+                            loading = true
+                            transformedBitmap =
+                                context.applyTransformations(previewBitmap, listOf(showPopup!!))
+                            loading = false
+                        }
+                    }
+
+                    SimplePicture(
+                        boxModifier = Modifier.padding(16.dp),
+                        modifier = Modifier.weight(1f, false),
+                        bitmap = transformedBitmap,
+                        loading = loading
+                    )
+                    showPopup?.takeIf { it.value != Unit }?.let {
+                        Divider()
+                        Column(Modifier.verticalScroll(rememberScrollState())) {
+                            FilterItem(
+                                modifier = Modifier.padding(16.dp),
+                                filter = it,
+                                showDragHandle = false,
+                                onRemove = { showPopup = null },
+                                onFilterChange = { v ->
+                                    showPopup = showPopup?.copy(v)
+                                }
+                            )
+                            Spacer(Modifier.height(16.dp))
+                        }
+                    }
+                }
+
+            }
+        }
+    }
+}

@@ -115,7 +115,7 @@ import ru.tech.imageresizershrinker.utils.coil.filters.SaturationFilter
 import ru.tech.imageresizershrinker.utils.helper.BitmapUtils
 import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.applyPresetBy
 import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.canShow
-import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.decodeBitmapFromUri
+import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.decodeBitmapByUri
 import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.shareBitmap
 import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.toMap
 import ru.tech.imageresizershrinker.utils.helper.byteCount
@@ -181,8 +181,9 @@ fun SingleResizeScreen(
     LaunchedEffect(uriState) {
         uriState?.let {
             viewModel.setUri(it)
-            context.decodeBitmapFromUri(
+            context.decodeBitmapByUri(
                 uri = it,
+                originalSize = false,
                 onGetMimeType = viewModel::setMime,
                 onGetExif = viewModel::updateExif,
                 onGetBitmap = viewModel::updateBitmap,
@@ -223,8 +224,9 @@ fun SingleResizeScreen(
         ) { uris ->
             uris.takeIf { it.isNotEmpty() }?.firstOrNull()?.let {
                 viewModel.setUri(it)
-                context.decodeBitmapFromUri(
+                context.decodeBitmapByUri(
                     uri = it,
+                    originalSize = false,
                     onGetMimeType = viewModel::setMime,
                     onGetExif = viewModel::updateExif,
                     onGetBitmap = viewModel::updateBitmap,

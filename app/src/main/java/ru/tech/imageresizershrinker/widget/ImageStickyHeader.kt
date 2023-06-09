@@ -59,8 +59,10 @@ fun LazyListScope.imageStickyHeader(
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                imageBlock()
-                Spacer(Modifier.height(32.dp))
+                Box(Modifier.weight(1f, false)) {
+                    imageBlock()
+                }
+                Spacer(Modifier.height(24.dp))
             }
             Box {
                 GradientEdge(
@@ -73,7 +75,7 @@ fun LazyListScope.imageStickyHeader(
                 Row(
                     modifier = Modifier
                         .align(Alignment.BottomEnd)
-                        .offset(y = (-24).dp)
+                        .offset(y = (-44).dp)
                         .background(
                             color = MaterialTheme.colorScheme.secondaryContainer.copy(
                                 alpha = 0.85f

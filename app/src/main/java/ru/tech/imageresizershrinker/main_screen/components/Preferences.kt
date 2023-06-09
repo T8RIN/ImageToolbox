@@ -4,7 +4,9 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.net.Uri
 import androidx.compose.animation.*
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.border
+import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -14,6 +16,7 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -268,6 +271,39 @@ fun PreferenceItem(
         .fillMaxWidth()
         .padding(horizontal = 12.dp)
 ) {
+    val _icon: (@Composable () -> Unit)? = if (icon == null) null else {
+        { Icon(icon, null) }
+    }
+    val _icon2: (@Composable () -> Unit)? = if (endIcon == null) null else {
+        { Icon(endIcon, null) }
+    }
+    PreferenceItemOverload(
+        onClick = onClick,
+        title = title,
+        subtitle = subtitle,
+        icon = _icon,
+        endIcon = _icon2,
+        shape = shape,
+        color = color,
+        modifier = modifier
+    )
+}
+
+@OptIn(ExperimentalFoundationApi::class)
+@Composable
+fun PreferenceItemOverload(
+    onClick: (() -> Unit)? = null,
+    onLongClick: (() -> Unit)? = null,
+    title: String,
+    subtitle: String? = null,
+    icon: (@Composable () -> Unit)? = null,
+    endIcon: (@Composable () -> Unit)? = null,
+    shape: Shape = RoundedCornerShape(16.dp),
+    color: Color = MaterialTheme.colorScheme.surfaceColorAtElevation(1.dp),
+    @SuppressLint("ModifierParameter") modifier: Modifier = Modifier
+        .fillMaxWidth()
+        .padding(horizontal = 12.dp)
+) {
     val contentColor =
         if (color == MaterialTheme.colorScheme.surfaceColorAtElevation(1.dp)) contentColorFor(
             backgroundColor = MaterialTheme.colorScheme.surfaceVariant
@@ -276,78 +312,20 @@ fun PreferenceItem(
     val settingsState = LocalSettingsState.current
 
     ProvideTextStyle(value = LocalTextStyle.current.copy(textAlign = TextAlign.Start)) {
-        onClick?.let {
-            Card(
-                shape = shape,
-                modifier = modifier.border(
+        Card(
+            shape = shape,
+            modifier = modifier
+                .border(
                     settingsState.borderWidth,
                     MaterialTheme.colorScheme.outlineVariant(0.1f, color),
                     shape
-                ),
-                onClick = onClick,
-                colors = CardDefaults.cardColors(
-                    containerColor = color,
-                    contentColor = contentColor
                 )
-            ) {
-                Row(
-                    Modifier
-                        .fillMaxSize()
-                        .padding(16.dp),
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    icon?.let {
-                        Icon(imageVector = icon, contentDescription = null)
-                        Spacer(modifier = Modifier.width(16.dp))
-                    }
-                    Column(
-                        Modifier
-                            .weight(1f)
-                            .padding(end = 16.dp)
-                    ) {
-                        if (title.isNotEmpty()) {
-                            Text(
-                                text = title,
-                                fontSize = 16.sp,
-                                fontWeight = FontWeight.Medium,
-                                lineHeight = 18.sp
-                            )
-                        }
-                        AnimatedContent(
-                            targetState = subtitle,
-                            transitionSpec = { fadeIn() togetherWith fadeOut() }
-                        ) { sub ->
-                            sub?.let {
-                                Column {
-                                    Spacer(modifier = Modifier.height(2.dp))
-                                    Text(
-                                        text = sub,
-                                        fontSize = 12.sp,
-                                        fontWeight = FontWeight.Normal,
-                                        lineHeight = 14.sp,
-                                        color = LocalContentColor.current.copy(alpha = 0.5f)
-                                    )
-                                }
-                            }
-                        }
-                    }
-                    AnimatedContent(
-                        targetState = endIcon,
-                        transitionSpec = { fadeIn() + scaleIn() togetherWith fadeOut() + scaleOut() }
-                    ) { icon ->
-                        icon?.let {
-                            Icon(imageVector = it, contentDescription = null)
-                        }
-                    }
-                }
-            }
-        } ?: Card(
-            shape = shape,
-            modifier = modifier.border(
-                settingsState.borderWidth,
-                MaterialTheme.colorScheme.outlineVariant(0.1f, color),
-                shape
-            ),
+                .clip(shape)
+                .then(
+                    if (onClick != null) {
+                        Modifier.combinedClickable(onClick = onClick, onLongClick = onLongClick)
+                    } else Modifier
+                ),
             colors = CardDefaults.cardColors(
                 containerColor = color,
                 contentColor = contentColor
@@ -360,7 +338,7 @@ fun PreferenceItem(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 icon?.let {
-                    Icon(imageVector = icon, contentDescription = null)
+                    it()
                     Spacer(modifier = Modifier.width(16.dp))
                 }
                 Column(
@@ -397,7 +375,7 @@ fun PreferenceItem(
                     transitionSpec = { fadeIn() + scaleIn() togetherWith fadeOut() + scaleOut() }
                 ) { icon ->
                     icon?.let {
-                        Icon(imageVector = it, contentDescription = null)
+                        it()
                     }
                 }
             }

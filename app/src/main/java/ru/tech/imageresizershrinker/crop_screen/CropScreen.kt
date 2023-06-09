@@ -95,7 +95,7 @@ import ru.tech.imageresizershrinker.crop_screen.viewModel.CropViewModel
 import ru.tech.imageresizershrinker.theme.outlineVariant
 import ru.tech.imageresizershrinker.utils.LocalConfettiController
 import ru.tech.imageresizershrinker.utils.coil.filters.SaturationFilter
-import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.decodeBitmapFromUri
+import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.decodeBitmapByUri
 import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.shareBitmap
 import ru.tech.imageresizershrinker.utils.helper.ContextUtils.requestStoragePermission
 import ru.tech.imageresizershrinker.utils.helper.compressFormat
@@ -151,8 +151,9 @@ fun CropScreen(
     LaunchedEffect(uriState) {
         uriState?.let {
             viewModel.setUri(it)
-            context.decodeBitmapFromUri(
+            context.decodeBitmapByUri(
                 uri = it,
+                originalSize = false,
                 onGetMimeType = viewModel::updateMimeType,
                 onGetExif = {},
                 onGetBitmap = { bmp ->
@@ -184,10 +185,11 @@ fun CropScreen(
         ) { uris ->
             uris.takeIf { it.isNotEmpty() }?.firstOrNull()?.let {
                 viewModel.setUri(it)
-                context.decodeBitmapFromUri(
+                context.decodeBitmapByUri(
                     uri = it,
                     onGetMimeType = {},
                     onGetExif = {},
+                    originalSize = false,
                     onGetBitmap = { bmp ->
                         viewModel.updateBitmap(
                             bitmap = bmp, newBitmap = true

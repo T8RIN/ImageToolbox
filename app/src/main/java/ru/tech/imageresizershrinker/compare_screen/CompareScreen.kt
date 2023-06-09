@@ -119,8 +119,8 @@ fun CompareScreen(
 
     LaunchedEffect(comparableUris) {
         comparableUris?.let { (before, after) ->
-            val newBeforeBitmap = context.getBitmapByUri(before)
-            val newAfterBitmap = context.getBitmapByUri(after)
+            val newBeforeBitmap = context.getBitmapByUri(before, originalSize = false)
+            val newAfterBitmap = context.getBitmapByUri(after, originalSize = false)
             if (newAfterBitmap != null && newBeforeBitmap != null) {
                 viewModel.updateBitmapData(
                     newBeforeBitmap = newBeforeBitmap,
@@ -155,7 +155,10 @@ fun CompareScreen(
                         onSuccess = {
                             progress = 50f
                         }, loader = {
-                            context.getBitmapByUri(uris[0]) to context.getBitmapByUri(uris[1])
+                            context.getBitmapByUri(
+                                uris[0],
+                                originalSize = false,
+                            ) to context.getBitmapByUri(uris[1], originalSize = false)
                         }, onError = {
                             scope.launch {
                                 toastHostState.showToast(

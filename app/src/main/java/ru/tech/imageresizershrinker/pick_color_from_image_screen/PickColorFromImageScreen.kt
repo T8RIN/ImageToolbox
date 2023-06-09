@@ -87,7 +87,7 @@ import ru.tech.imageresizershrinker.pick_color_from_image_screen.viewModel.PickC
 import ru.tech.imageresizershrinker.theme.PaletteSwatch
 import ru.tech.imageresizershrinker.theme.outlineVariant
 import ru.tech.imageresizershrinker.utils.coil.filters.SaturationFilter
-import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.decodeBitmapFromUri
+import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.decodeBitmapByUri
 import ru.tech.imageresizershrinker.utils.modifier.block
 import ru.tech.imageresizershrinker.utils.modifier.drawHorizontalStroke
 import ru.tech.imageresizershrinker.utils.modifier.fabBorder
@@ -128,8 +128,9 @@ fun PickColorFromImageScreen(
     LaunchedEffect(uriState) {
         uriState?.let {
             viewModel.setUri(it)
-            context.decodeBitmapFromUri(
+            context.decodeBitmapByUri(
                 uri = it,
+                originalSize = false,
                 onGetMimeType = {},
                 onGetExif = {},
                 onGetBitmap = viewModel::updateBitmap,
@@ -164,8 +165,9 @@ fun PickColorFromImageScreen(
         ) { uris ->
             uris.takeIf { it.isNotEmpty() }?.firstOrNull()?.let {
                 viewModel.setUri(it)
-                context.decodeBitmapFromUri(
+                context.decodeBitmapByUri(
                     uri = it,
+                    originalSize = false,
                     onGetMimeType = {},
                     onGetExif = {},
                     onGetBitmap = viewModel::updateBitmap,

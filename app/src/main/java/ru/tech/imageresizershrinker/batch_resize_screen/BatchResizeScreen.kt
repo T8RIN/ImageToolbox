@@ -101,7 +101,7 @@ import ru.tech.imageresizershrinker.utils.coil.BitmapInfoTransformation
 import ru.tech.imageresizershrinker.utils.coil.filters.SaturationFilter
 import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.applyPresetBy
 import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.canShow
-import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.decodeBitmapFromUri
+import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.decodeBitmapByUri
 import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.getBitmapByUri
 import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.shareBitmaps
 import ru.tech.imageresizershrinker.utils.helper.ContextUtils.requestStoragePermission
@@ -165,8 +165,9 @@ fun BatchResizeScreen(
     LaunchedEffect(uriState) {
         uriState?.takeIf { it.isNotEmpty() }?.let {
             viewModel.updateUris(it)
-            context.decodeBitmapFromUri(
+            context.decodeBitmapByUri(
                 uri = it[0],
+                originalSize = false,
                 onGetMimeType = viewModel::setMime,
                 onGetExif = {},
                 onGetBitmap = viewModel::updateBitmap,
@@ -194,8 +195,9 @@ fun BatchResizeScreen(
         ) { list ->
             list.takeIf { it.isNotEmpty() }?.let {
                 viewModel.updateUris(list)
-                context.decodeBitmapFromUri(
+                context.decodeBitmapByUri(
                     uri = it[0],
+                    originalSize = false,
                     onGetMimeType = viewModel::setMime,
                     onGetExif = {},
                     onGetBitmap = viewModel::updateBitmap,
@@ -219,7 +221,7 @@ fun BatchResizeScreen(
         viewModel.saveBitamps(
             fileController = fileController,
             getBitmap = { uri ->
-                context.decodeBitmapFromUri(uri)
+                context.decodeBitmapByUri(uri)
             }
         ) { success ->
             if (!success) context.requestStoragePermission()
@@ -349,7 +351,7 @@ fun BatchResizeScreen(
                                     bitmapLoader = {
                                         viewModel.proceedBitmap(
                                             kotlin.runCatching {
-                                                context.decodeBitmapFromUri(it).first
+                                                context.decodeBitmapByUri(it).first
                                             }
                                         )
                                     },
@@ -586,7 +588,7 @@ fun BatchResizeScreen(
                                         bitmapLoader = {
                                             viewModel.proceedBitmap(
                                                 kotlin.runCatching {
-                                                    context.decodeBitmapFromUri(it).first
+                                                    context.decodeBitmapByUri(it).first
                                                 }
                                             )
                                         },
@@ -909,7 +911,7 @@ fun BatchResizeScreen(
                     try {
                         viewModel.setBitmap(
                             loader = {
-                                context.getBitmapByUri(uri)
+                                context.getBitmapByUri(uri, originalSize = false)
                             },
                             uri = uri
                         )
@@ -923,7 +925,7 @@ fun BatchResizeScreen(
                     viewModel.updateUrisSilently(
                         removedUri = uri,
                         loader = {
-                            context.getBitmapByUri(it)
+                            context.getBitmapByUri(it, originalSize = false)
                         }
                     )
                 },

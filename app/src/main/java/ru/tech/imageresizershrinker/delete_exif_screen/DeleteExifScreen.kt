@@ -88,7 +88,7 @@ import ru.tech.imageresizershrinker.utils.LocalConfettiController
 import ru.tech.imageresizershrinker.utils.coil.BitmapInfoTransformation
 import ru.tech.imageresizershrinker.utils.coil.filters.SaturationFilter
 import ru.tech.imageresizershrinker.utils.helper.BitmapInfo
-import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.decodeBitmapFromUri
+import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.decodeBitmapByUri
 import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.decodeBitmapFromUriWithMime
 import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.fileSize
 import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.getBitmapByUri
@@ -141,7 +141,8 @@ fun DeleteExifScreen(
     LaunchedEffect(uriState) {
         uriState?.takeIf { it.isNotEmpty() }?.let { uris ->
             viewModel.updateUris(uris)
-            context.decodeBitmapFromUri(
+            context.decodeBitmapByUri(
+                originalSize = false,
                 uri = uris[0],
                 onGetMimeType = {},
                 onGetExif = {},
@@ -170,8 +171,9 @@ fun DeleteExifScreen(
         ) { list ->
             list.takeIf { it.isNotEmpty() }?.let { uris ->
                 viewModel.updateUris(list)
-                context.decodeBitmapFromUri(
+                context.decodeBitmapByUri(
                     uri = uris[0],
+                    originalSize = false,
                     onGetMimeType = {},
                     onGetExif = {},
                     onGetBitmap = viewModel::updateBitmap,
@@ -577,7 +579,7 @@ fun DeleteExifScreen(
                     try {
                         viewModel.setBitmap(
                             loader = {
-                                context.getBitmapByUri(uri)
+                                context.getBitmapByUri(uri, originalSize = false)
                             },
                             uri = uri
                         )
@@ -591,7 +593,7 @@ fun DeleteExifScreen(
                     viewModel.updateUrisSilently(
                         removedUri = uri,
                         loader = {
-                            context.getBitmapByUri(it)
+                            context.getBitmapByUri(it, originalSize = false)
                         }
                     )
                 },

@@ -113,7 +113,7 @@ import ru.tech.imageresizershrinker.utils.LocalConfettiController
 import ru.tech.imageresizershrinker.utils.coil.filters.SaturationFilter
 import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.applyTransformations
 import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.canShow
-import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.decodeBitmapFromUri
+import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.decodeBitmapByUri
 import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.getBitmapByUri
 import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.getBitmapFromUriWithTransformations
 import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.getBitmapFromUriWithTransformationsAndExif
@@ -188,7 +188,7 @@ fun FiltersScreen(
     LaunchedEffect(uriState) {
         uriState?.takeIf { it.isNotEmpty() }?.let { uris ->
             viewModel.updateUris(uris)
-            context.decodeBitmapFromUri(
+            context.decodeBitmapByUri(
                 uri = uris[0],
                 onGetMimeType = {
                     viewModel.setMime(it)
@@ -233,7 +233,7 @@ fun FiltersScreen(
         ) { list ->
             list.takeIf { it.isNotEmpty() }?.let { uris ->
                 viewModel.updateUris(list)
-                context.decodeBitmapFromUri(
+                context.decodeBitmapByUri(
                     uri = uris[0],
                     onGetMimeType = viewModel::setMime,
                     onGetExif = {},
@@ -372,7 +372,10 @@ fun FiltersScreen(
                 ) {
                     viewModel.previewBitmap?.let {
                         if (!showOrig) {
-                            SimplePicture(bitmap = it, loading = loading)
+                            SimplePicture(
+                                bitmap = it,
+                                loading = loading
+                            )
                         } else {
                             SimplePicture(
                                 loading = loading,
@@ -914,7 +917,7 @@ fun FiltersScreen(
                     try {
                         viewModel.setBitmap(
                             loader = {
-                                context.getBitmapByUri(uri)
+                                context.getBitmapByUri(uri, false)
                             },
                             getPreview = {
                                 context.getBitmapFromUriWithTransformations(
@@ -935,7 +938,7 @@ fun FiltersScreen(
                     viewModel.updateUrisSilently(
                         removedUri = uri,
                         loader = {
-                            context.getBitmapByUri(it)
+                            context.getBitmapByUri(it, false)
                         }
                     )
                 },
@@ -944,7 +947,9 @@ fun FiltersScreen(
 
             AddFiltersSheet(
                 visible = showFilterSheet,
-                onFilterPicked = { viewModel.addFilter(it.newInstance()) }
+                previewBitmap = viewModel.previewBitmap,
+                onFilterPicked = { viewModel.addFilter(it.newInstance()) },
+                onFilterPickedWithParams = { viewModel.addFilter(it) }
             )
 
             ExitWithoutSavingDialog(

@@ -77,7 +77,7 @@ import ru.tech.imageresizershrinker.pick_color_from_image_screen.copyColorIntoCl
 import ru.tech.imageresizershrinker.pick_color_from_image_screen.format
 import ru.tech.imageresizershrinker.theme.PaletteSwatch
 import ru.tech.imageresizershrinker.utils.coil.filters.SaturationFilter
-import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.decodeBitmapFromUri
+import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.decodeBitmapByUri
 import ru.tech.imageresizershrinker.utils.modifier.block
 import ru.tech.imageresizershrinker.utils.modifier.drawHorizontalStroke
 import ru.tech.imageresizershrinker.utils.modifier.fabBorder
@@ -125,8 +125,9 @@ fun GeneratePaletteScreen(
         uriState?.let {
             color = Color.Unspecified
             viewModel.setUri(it)
-            context.decodeBitmapFromUri(
+            context.decodeBitmapByUri(
                 uri = it,
+                originalSize = false,
                 onGetMimeType = {},
                 onGetExif = {},
                 onGetBitmap = viewModel::updateBitmap,
@@ -160,8 +161,9 @@ fun GeneratePaletteScreen(
             uris.takeIf { it.isNotEmpty() }?.firstOrNull()?.let {
                 color = Color.Unspecified
                 viewModel.setUri(it)
-                context.decodeBitmapFromUri(
+                context.decodeBitmapByUri(
                     uri = it,
+                    originalSize = false,
                     onGetMimeType = {},
                     onGetExif = {},
                     onGetBitmap = viewModel::updateBitmap,

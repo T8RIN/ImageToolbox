@@ -87,7 +87,7 @@ object BitmapUtils {
     }
 
 
-    fun Context.decodeBitmapFromUri(
+    fun Context.decodeBitmapByUri(
         uri: Uri,
         originalSize: Boolean = true,
         onGetBitmap: (Bitmap) -> Unit,
@@ -110,7 +110,7 @@ object BitmapUtils {
             }.allowHardware(false).build()
             loader.enqueue(
                 ImageRequest
-                    .Builder(this@decodeBitmapFromUri)
+                    .Builder(this@decodeBitmapByUri)
                     .data(uri)
                     .apply {
                         if (originalSize) size(Size.ORIGINAL)
@@ -150,7 +150,7 @@ object BitmapUtils {
         return bitmap
     }
 
-    suspend fun Context.getBitmapByUri(uri: Uri): Bitmap? {
+    suspend fun Context.getBitmapByUri(uri: Uri, originalSize: Boolean = true): Bitmap? {
         val fd = contentResolver.openFileDescriptor(uri, "r")
         fd?.close()
 
@@ -164,14 +164,16 @@ object BitmapUtils {
                 ImageRequest
                     .Builder(this@getBitmapByUri)
                     .data(uri)
-                    .size(Size.ORIGINAL)
+                    .apply {
+                        if (originalSize) size(Size.ORIGINAL)
+                    }
                     .build()
             ).drawable?.toBitmap()
         }.getOrNull()
 
     }
 
-    suspend fun Context.decodeBitmapFromUri(
+    suspend fun Context.decodeBitmapByUri(
         uri: Uri
     ): Pair<Bitmap?, ExifInterface?> {
         val fd = contentResolver.openFileDescriptor(uri, "r")
@@ -186,7 +188,7 @@ object BitmapUtils {
             }.allowHardware(false).build()
             loader.execute(
                 ImageRequest
-                    .Builder(this@decodeBitmapFromUri)
+                    .Builder(this@decodeBitmapByUri)
                     .data(uri)
                     .size(Size.ORIGINAL)
                     .build()
