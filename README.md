@@ -1,6 +1,6 @@
 <div align="center">
 </br>
-<img src="https://user-images.githubusercontent.com/52178347/236916263-f8f97c5c-0f07-4180-ace4-2b35289b344f.png" width="150" />
+<img src="https://github.com/T8RIN/ImageToolbox/assets/52178347/a3155851-91ed-4b7c-a882-5f943788ca34" width="250" />
 
 </div>
 
@@ -214,6 +214,8 @@ Go to the [Releases](https://github.com/t8rin/imageresizer/releases/latest) and 
 - [GPU Image](https://github.com/cats-oss/android-gpuimage) for creating and applying filters to the images.
 
 <div align="center">
+
+![Frame 9](https://github.com/T8RIN/ImageToolbox/assets/52178347/5ad63127-9d09-46f2-86d8-50a2783cb667)
 
 
 # 🌐 Translation
