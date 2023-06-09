@@ -104,7 +104,7 @@ fun LazyListScope.imageStickyHeader(
                             Icon(
                                 imageVector = Icons.Rounded.RemoveCircle,
                                 contentDescription = null,
-                                modifier = Modifier.size(20.dp)
+                                modifier = Modifier.size(22.dp)
                             )
                         }
                     }
@@ -123,7 +123,7 @@ fun LazyListScope.imageStickyHeader(
                             Icon(
                                 imageVector = Icons.Rounded.AddCircle,
                                 contentDescription = null,
-                                modifier = Modifier.size(20.dp)
+                                modifier = Modifier.size(22.dp)
                             )
                         }
                     }
