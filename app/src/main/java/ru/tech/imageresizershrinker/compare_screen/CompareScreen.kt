@@ -329,7 +329,7 @@ fun CompareScreen(
                                 Modifier
                                     .fillMaxHeight()
                                     .width(settingsState.borderWidth.coerceAtLeast(0.25.dp))
-                                    .background(MaterialTheme.colorScheme.surfaceVariant)
+                                    .background(MaterialTheme.colorScheme.outlineVariant())
                             )
                             Column(
                                 Modifier

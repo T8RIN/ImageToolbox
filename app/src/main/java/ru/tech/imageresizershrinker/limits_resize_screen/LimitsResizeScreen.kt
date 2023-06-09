@@ -490,7 +490,7 @@ fun LimitsResizeScreen(
                             Modifier
                                 .fillMaxHeight()
                                 .width(settingsState.borderWidth.coerceAtLeast(0.25.dp))
-                                .background(MaterialTheme.colorScheme.surfaceVariant)
+                                .background(MaterialTheme.colorScheme.outlineVariant())
                         )
                     }
 
@@ -602,7 +602,7 @@ fun LimitsResizeScreen(
                             Modifier
                                 .fillMaxHeight()
                                 .width(settingsState.borderWidth.coerceAtLeast(0.25.dp))
-                                .background(MaterialTheme.colorScheme.surfaceVariant)
+                                .background(MaterialTheme.colorScheme.outlineVariant())
                                 .padding(start = 20.dp)
                         )
                         buttons()
