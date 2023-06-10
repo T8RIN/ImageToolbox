@@ -1,6 +1,7 @@
 <div align="center">
 </br>
-<img src="https://github.com/T8RIN/ImageToolbox/assets/52178347/a3155851-91ed-4b7c-a882-5f943788ca34" width="200" />
+<img src="https://github.com/T8RIN/ImageToolbox/assets/52178347/cbf2087d-e87f-4e87-9199-aec15edd4a6f" width="250" />
+
 
 </div>
 
@@ -215,8 +216,8 @@ Go to the [Releases](https://github.com/t8rin/imageresizer/releases/latest) and 
 
 <div align="center">
 
-![Frame 9](https://github.com/T8RIN/ImageToolbox/assets/52178347/5ad63127-9d09-46f2-86d8-50a2783cb667)
-
+#
+![Frame 9](https://github.com/T8RIN/ImageToolbox/assets/52178347/1727027c-c8ac-4154-9e9d-a9319fcf8057)
 
 # 🌐 Translation
 You can help translate ImageResizer into your language on [Hosted Weblate](https://hosted.weblate.org/engage/image-resizer/)
