@@ -143,7 +143,7 @@ fun AddFiltersSheet(
 
     val pagerState = rememberPagerState(pageCount = { 5 })
 
-    var showPopup by rememberSaveable() { mutableStateOf<FilterTransformation<*>?>(null) }
+    var previewSheetData by rememberSaveable() { mutableStateOf<FilterTransformation<*>?>(null) }
 
     val filters = remember(context) {
         listOf(
@@ -275,7 +275,7 @@ fun AddFiltersSheet(
                                                 Modifier
                                                     .size(36.dp)
                                                     .clip(CircleShape)
-                                                    .clickable { showPopup = filter },
+                                                    .clickable { previewSheetData = filter },
                                                 contentAlignment = Alignment.Center
                                             ) {
                                                 Icon(Icons.Rounded.Slideshow, null)
@@ -327,19 +327,19 @@ fun AddFiltersSheet(
         visible = visible
     )
 
-    val showPopupState = remember { mutableStateOf(false) }
+    val showPreviewState = remember { mutableStateOf(false) }
     var transformedBitmap by remember(previewBitmap) {
         mutableStateOf(
             previewBitmap
         )
     }
     var loading by remember { mutableStateOf(false) }
-    LaunchedEffect(showPopup) {
-        showPopupState.value = showPopup != null
-        if (previewBitmap != null && showPopup != null) {
+    LaunchedEffect(previewSheetData) {
+        showPreviewState.value = previewSheetData != null
+        if (previewBitmap != null && previewSheetData != null) {
             loading = true
             transformedBitmap =
-                context.applyTransformations(previewBitmap, listOf(showPopup!!))
+                context.applyTransformations(previewBitmap, listOf(previewSheetData!!))
             loading = false
         }
     }
@@ -353,7 +353,7 @@ fun AddFiltersSheet(
             ) {
                 CenterAlignedTopAppBar(
                     navigationIcon = {
-                        IconButton(onClick = { showPopup = null }) {
+                        IconButton(onClick = { previewSheetData = null }) {
                             Icon(Icons.Rounded.Close, null)
                         }
                     },
@@ -365,10 +365,10 @@ fun AddFiltersSheet(
                     actions = {
                         IconButton(
                             onClick = {
-                                showPopup?.let {
+                                previewSheetData?.let {
                                     onFilterPickedWithParams(it.copy(it.value!!))
                                 }
-                                showPopup = null
+                                previewSheetData = null
                                 visible.value = false
                             }
                         ) {
@@ -378,12 +378,11 @@ fun AddFiltersSheet(
                     title = {
                         Text(
                             text = stringResource(
-                                id = showPopup?.title ?: R.string.app_name
+                                id = previewSheetData?.title ?: R.string.app_name
                             ),
                         )
                     }
                 )
-                Divider()
                 LazyColumn(
                     horizontalAlignment = Alignment.CenterHorizontally,
                 ) {
@@ -400,7 +399,7 @@ fun AddFiltersSheet(
                         backgroundColor = backgroundColor
                     )
                     item {
-                        showPopup?.takeIf { it.value != Unit }?.let {
+                        previewSheetData?.takeIf { it.value != Unit }?.let {
                             Divider()
                             FilterItem(
                                 backgroundColor = MaterialTheme
@@ -409,9 +408,9 @@ fun AddFiltersSheet(
                                 modifier = Modifier.padding(16.dp),
                                 filter = it,
                                 showDragHandle = false,
-                                onRemove = { showPopup = null },
+                                onRemove = { previewSheetData = null },
                                 onFilterChange = { v ->
-                                    showPopup = showPopup?.copy(v)
+                                    previewSheetData = previewSheetData?.copy(v)
                                 }
                             )
                             Spacer(Modifier.height(16.dp))
@@ -428,6 +427,6 @@ fun AddFiltersSheet(
                 }
             }
         },
-        visible = showPopupState
+        visible = showPreviewState
     )
 }
