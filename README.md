@@ -1,6 +1,6 @@
 <div align="center">
 </br>
-<img src="https://user-images.githubusercontent.com/52178347/236916263-f8f97c5c-0f07-4180-ace4-2b35289b344f.png" width="150" />
+<img src="https://github.com/T8RIN/ImageToolbox/assets/52178347/a3155851-91ed-4b7c-a882-5f943788ca34" width="200" />
 
 </div>
 
@@ -42,7 +42,7 @@
 <h4 align="center">Powerful image toolbox with width/height selection, filters applying, SVG to image convertion, cropping, EXIF editing, quality and output image type picking and batch processing feature.</h4>
 
 
-![Frame 7](https://github.com/T8RIN/ImageToolbox/assets/52178347/90829782-8bb1-4362-81b3-2b0a542baf7e)
+![Frame 7 (1)](https://github.com/T8RIN/ImageToolbox/assets/52178347/0e7514fb-574b-483a-8ca7-1a9e62e2d408)
 
 
 <div align="center">
@@ -161,7 +161,7 @@ Go to the [Releases](https://github.com/t8rin/imageresizer/releases/latest) and 
   
 
 #
-![Frame 8](https://github.com/T8RIN/ImageToolbox/assets/52178347/019a1ee7-3a89-4705-8936-d94c02ed4c51)
+![Frame 8 (3)](https://github.com/T8RIN/ImageToolbox/assets/52178347/147ecde5-4d92-4926-9356-636db84e3a86)
 
   
 # 🌟 UI tweaks
@@ -214,6 +214,8 @@ Go to the [Releases](https://github.com/t8rin/imageresizer/releases/latest) and 
 - [GPU Image](https://github.com/cats-oss/android-gpuimage) for creating and applying filters to the images.
 
 <div align="center">
+
+![Frame 9](https://github.com/T8RIN/ImageToolbox/assets/52178347/5ad63127-9d09-46f2-86d8-50a2783cb667)
 
 
 # 🌐 Translation
