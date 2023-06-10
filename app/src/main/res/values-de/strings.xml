@@ -153,7 +153,7 @@
     <string name="add_original_filename_sub">Wenn aktiviert, fügt dies den ursprünglichen Dateinamen zum Namen des ausgegebenen Bildes hinzu</string>
     <string name="original_filename">UrsprName</string>
     <string name="file_explorer_picker">Dateimanager</string>
-    <string name="photo_picker_sub">Nutzt GetContent-Intent für die Bildauswahl. Funktioniert überall, kann aber auf manchen Geräten Probleme mit dem Empfangen der Bildauswahl haben (nicht meine Schuld)</string>
+    <string name="photo_picker_sub">Androids aktuelle Fotoauswahl, die am unteren Rand des Bildschirms erscheint. Funktioniert möglicherweise nur auf Android 12+ und hat zudem Probleme mit dem Empfang von EXIF-Metadaten</string>
     <string name="image_link">Bild-Link</string>
     <string name="load_image_from_net">Bild aus dem Netz laden</string>
     <string name="load_image_from_net_sub">Lade jegliches Bild aus dem Netz, betrachte es, zoome, bearbeite und speichere es</string>
