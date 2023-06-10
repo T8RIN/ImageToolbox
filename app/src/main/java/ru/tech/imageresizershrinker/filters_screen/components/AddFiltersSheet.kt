@@ -143,7 +143,7 @@ fun AddFiltersSheet(
 
     val pagerState = rememberPagerState(pageCount = { 5 })
 
-    var previewSheetData by rememberSaveable() { mutableStateOf<FilterTransformation<*>?>(null) }
+    var previewSheetData by rememberSaveable { mutableStateOf<FilterTransformation<*>?>(null) }
 
     val filters = remember(context) {
         listOf(
@@ -400,7 +400,6 @@ fun AddFiltersSheet(
                     )
                     item {
                         previewSheetData?.takeIf { it.value != Unit }?.let {
-                            Divider()
                             FilterItem(
                                 backgroundColor = MaterialTheme
                                     .colorScheme
