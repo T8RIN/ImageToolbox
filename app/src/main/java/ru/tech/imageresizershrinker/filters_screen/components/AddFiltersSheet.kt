@@ -52,6 +52,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
@@ -123,10 +124,12 @@ import ru.tech.imageresizershrinker.utils.coil.filters.WeakPixelFilter
 import ru.tech.imageresizershrinker.utils.coil.filters.WhiteBalanceFilter
 import ru.tech.imageresizershrinker.utils.coil.filters.ZoomBlurFilter
 import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.applyTransformations
+import ru.tech.imageresizershrinker.utils.modifier.drawHorizontalStroke
 import ru.tech.imageresizershrinker.widget.TitleItem
 import ru.tech.imageresizershrinker.widget.image.SimplePicture
 import ru.tech.imageresizershrinker.widget.imageStickyHeader
 import ru.tech.imageresizershrinker.widget.sheets.SimpleSheet
+import ru.tech.imageresizershrinker.widget.text.Marquee
 import ru.tech.imageresizershrinker.widget.utils.LocalSettingsState
 
 @OptIn(ExperimentalFoundationApi::class, ExperimentalMaterial3Api::class)
@@ -144,6 +147,14 @@ fun AddFiltersSheet(
     val pagerState = rememberPagerState(pageCount = { 5 })
 
     var previewSheetData by rememberSaveable { mutableStateOf<FilterTransformation<*>?>(null) }
+    val showPreviewState = remember { mutableStateOf(false) }
+
+    LaunchedEffect(previewBitmap) {
+        if (previewBitmap == null) {
+            visible.value = false
+            previewSheetData = null
+        }
+    }
 
     val filters = remember(context) {
         listOf(
@@ -275,7 +286,10 @@ fun AddFiltersSheet(
                                                 Modifier
                                                     .size(36.dp)
                                                     .clip(CircleShape)
-                                                    .clickable { previewSheetData = filter },
+                                                    .clickable {
+                                                        previewSheetData = filter
+                                                        showPreviewState.value = true
+                                                    },
                                                 contentAlignment = Alignment.Center
                                             ) {
                                                 Icon(Icons.Rounded.Slideshow, null)
@@ -296,6 +310,10 @@ fun AddFiltersSheet(
                                     },
                                     endIcon = {
                                         Icon(Icons.Rounded.AddCircleOutline, null)
+                                    },
+                                    onLongClick = {
+                                        previewSheetData = filter
+                                        showPreviewState.value = true
                                     },
                                     onClick = {
                                         visible.value = false
@@ -327,26 +345,35 @@ fun AddFiltersSheet(
         visible = visible
     )
 
-    val showPreviewState = remember { mutableStateOf(false) }
     var transformedBitmap by remember(previewBitmap) {
         mutableStateOf(
             previewBitmap
         )
     }
+
+    var imageState by rememberSaveable { mutableIntStateOf(1) }
     var loading by remember { mutableStateOf(false) }
     LaunchedEffect(previewSheetData) {
         showPreviewState.value = previewSheetData != null
         if (previewBitmap != null && previewSheetData != null) {
+            if (previewSheetData?.value is Unit) {
+                imageState = 2
+            }
             loading = true
             transformedBitmap =
                 context.applyTransformations(previewBitmap, listOf(previewSheetData!!))
             loading = false
         }
     }
-    var imageState by rememberSaveable { mutableIntStateOf(1) }
+
     val backgroundColor = MaterialTheme.colorScheme.surfaceColorAtElevation(2.dp).copy(0.8f)
     SimpleSheet(
         sheetContent = {
+            DisposableEffect(Unit) {
+                onDispose {
+                    imageState = 1
+                }
+            }
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 modifier = Modifier.fillMaxWidth()
@@ -362,6 +389,7 @@ fun AddFiltersSheet(
                             2.dp
                         )
                     ),
+                    modifier = Modifier.drawHorizontalStroke(),
                     actions = {
                         IconButton(
                             onClick = {
@@ -376,11 +404,13 @@ fun AddFiltersSheet(
                         }
                     },
                     title = {
-                        Text(
-                            text = stringResource(
-                                id = previewSheetData?.title ?: R.string.app_name
-                            ),
-                        )
+                        Marquee(edgeColor = MaterialTheme.colorScheme.surfaceColorAtElevation(2.dp)) {
+                            Text(
+                                text = stringResource(
+                                    id = previewSheetData?.title ?: R.string.app_name
+                                ),
+                            )
+                        }
                     }
                 )
                 LazyColumn(
@@ -403,8 +433,8 @@ fun AddFiltersSheet(
                             FilterItem(
                                 backgroundColor = MaterialTheme
                                     .colorScheme
-                                    .surfaceVariant,
-                                modifier = Modifier.padding(16.dp),
+                                    .surfaceColorAtElevation(8.dp),
+                                modifier = Modifier.padding(horizontal = 16.dp),
                                 filter = it,
                                 showDragHandle = false,
                                 onRemove = { previewSheetData = null },
