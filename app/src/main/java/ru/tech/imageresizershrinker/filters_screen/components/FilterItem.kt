@@ -253,6 +253,7 @@ fun <T> FilterItem(
                                     color = MaterialTheme.colorScheme.secondaryContainer,
                                     shape = CircleShape
                                 )
+                                .height(40.dp)
                                 .border(
                                     width = settingsState.borderWidth,
                                     color = MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.secondaryContainer),
@@ -282,9 +283,7 @@ fun <T> FilterItem(
                             Spacer(Modifier.height(8.dp))
                             filter.paramsInfo[0].takeIf { it.title != null }
                                 ?.let { (title, valueRange, roundTo) ->
-                                    Row(
-                                        verticalAlignment = Alignment.CenterVertically
-                                    ) {
+                                    Row(verticalAlignment = Alignment.CenterVertically) {
                                         Row(Modifier.weight(1f)) {
                                             Text(
                                                 text = stringResource(title!!),
@@ -313,8 +312,25 @@ fun <T> FilterItem(
                                     }
                                 }
                             Slider(
+                                modifier = Modifier
+                                    .padding(top = 16.dp, start = 12.dp, end = 12.dp, bottom = 8.dp)
+                                    .offset(y = (-2).dp)
+                                    .background(
+                                        color = MaterialTheme.colorScheme.secondaryContainer,
+                                        shape = CircleShape
+                                    )
+                                    .height(40.dp)
+                                    .border(
+                                        width = settingsState.borderWidth,
+                                        color = MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.secondaryContainer),
+                                        shape = CircleShape
+                                    )
+                                    .padding(horizontal = 16.dp),
+                                colors = SliderDefaults.colors(
+                                    inactiveTrackColor =
+                                    MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.secondaryContainer)
+                                ),
                                 enabled = !previewOnly,
-                                modifier = Modifier.padding(horizontal = 16.dp),
                                 value = animateFloatAsState(sliderState1).value,
                                 onValueChange = {
                                     sliderState1 = it.roundTo(filter.paramsInfo[0].roundTo)
@@ -356,8 +372,25 @@ fun <T> FilterItem(
                                     }
                                 }
                             Slider(
+                                modifier = Modifier
+                                    .padding(top = 16.dp, start = 12.dp, end = 12.dp, bottom = 8.dp)
+                                    .offset(y = (-2).dp)
+                                    .background(
+                                        color = MaterialTheme.colorScheme.secondaryContainer,
+                                        shape = CircleShape
+                                    )
+                                    .height(40.dp)
+                                    .border(
+                                        width = settingsState.borderWidth,
+                                        color = MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.secondaryContainer),
+                                        shape = CircleShape
+                                    )
+                                    .padding(horizontal = 16.dp),
+                                colors = SliderDefaults.colors(
+                                    inactiveTrackColor =
+                                    MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.secondaryContainer)
+                                ),
                                 enabled = !previewOnly,
-                                modifier = Modifier.padding(horizontal = 16.dp),
                                 value = animateFloatAsState(sliderState2).value,
                                 onValueChange = {
                                     sliderState2 = it.roundTo(filter.paramsInfo[1].roundTo)
@@ -475,8 +508,25 @@ fun <T> FilterItem(
                                     }
                                 }
                             Slider(
+                                modifier = Modifier
+                                    .padding(top = 16.dp, start = 12.dp, end = 12.dp, bottom = 8.dp)
+                                    .offset(y = (-2).dp)
+                                    .background(
+                                        color = MaterialTheme.colorScheme.secondaryContainer,
+                                        shape = CircleShape
+                                    )
+                                    .height(40.dp)
+                                    .border(
+                                        width = settingsState.borderWidth,
+                                        color = MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.secondaryContainer),
+                                        shape = CircleShape
+                                    )
+                                    .padding(horizontal = 16.dp),
+                                colors = SliderDefaults.colors(
+                                    inactiveTrackColor =
+                                    MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.secondaryContainer)
+                                ),
                                 enabled = !previewOnly,
-                                modifier = Modifier.padding(horizontal = 16.dp),
                                 value = animateFloatAsState(sliderState1).value,
                                 onValueChange = {
                                     sliderState1 = it.roundTo(filter.paramsInfo[0].roundTo)
@@ -526,8 +576,25 @@ fun <T> FilterItem(
                                     }
                                 }
                             Slider(
+                                modifier = Modifier
+                                    .padding(top = 16.dp, start = 12.dp, end = 12.dp, bottom = 8.dp)
+                                    .offset(y = (-2).dp)
+                                    .background(
+                                        color = MaterialTheme.colorScheme.secondaryContainer,
+                                        shape = CircleShape
+                                    )
+                                    .height(40.dp)
+                                    .border(
+                                        width = settingsState.borderWidth,
+                                        color = MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.secondaryContainer),
+                                        shape = CircleShape
+                                    )
+                                    .padding(horizontal = 16.dp),
+                                colors = SliderDefaults.colors(
+                                    inactiveTrackColor =
+                                    MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.secondaryContainer)
+                                ),
                                 enabled = !previewOnly,
-                                modifier = Modifier.padding(horizontal = 16.dp),
                                 value = animateFloatAsState(sliderState2).value,
                                 onValueChange = {
                                     sliderState2 = it.roundTo(filter.paramsInfo[1].roundTo)
@@ -577,8 +644,26 @@ fun <T> FilterItem(
                                     }
                                 }
                             Slider(
+                                modifier = Modifier
+                                    .padding(top = 16.dp, start = 12.dp, end = 12.dp, bottom = 8.dp)
+                                    .offset(y = (-2).dp)
+                                    .background(
+                                        color = MaterialTheme.colorScheme.secondaryContainer,
+                                        shape = CircleShape
+                                    )
+                                    .height(40.dp)
+                                    .border(
+                                        width = settingsState.borderWidth,
+                                        color = MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.secondaryContainer),
+                                        shape = CircleShape
+                                    )
+                                    .padding(horizontal = 16.dp),
+                                colors = SliderDefaults.colors(
+                                    inactiveTrackColor =
+                                    MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.secondaryContainer)
+                                ),
                                 enabled = !previewOnly,
-                                modifier = Modifier.padding(horizontal = 16.dp),
+
                                 value = animateFloatAsState(sliderState3).value,
                                 onValueChange = {
                                     sliderState3 = it.roundTo(filter.paramsInfo[2].roundTo)
