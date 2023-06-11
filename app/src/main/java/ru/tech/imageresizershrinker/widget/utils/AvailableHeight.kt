@@ -8,10 +8,8 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
-import androidx.compose.material3.windowsizeclass.WindowHeightSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -30,7 +28,7 @@ import com.t8rin.modalsheet.FullscreenPopup
 @Composable
 fun availableHeight(
     expanded: Boolean,
-    collapsed: Boolean = false
+    imageState: Int
 ): Dp {
     var fullHeight by remember(
         LocalConfiguration.current,
@@ -63,10 +61,19 @@ fun availableHeight(
         }
     }
 
-    var mid by remember { mutableFloatStateOf(0.5f) }
-    val sizeClass = LocalWindowSizeClass.current
-    if (sizeClass.heightSizeClass == WindowHeightSizeClass.Expanded) mid = 0.4f
     return animateDpAsState(
-        fullHeight * (if (expanded) 1f else if (collapsed) 0.2f else mid)
+        targetValue = fullHeight.times(
+            when {
+                expanded || imageState.isExpanded() -> 1f
+                imageState == 3 -> 0.7f
+                imageState == 2 -> 0.5f
+                imageState == 1 -> 0.35f
+                else -> 0.2f
+            }
+        )
     ).value
 }
+
+fun Int.isExpanded() = this == 4
+
+fun middleImageState() = 2

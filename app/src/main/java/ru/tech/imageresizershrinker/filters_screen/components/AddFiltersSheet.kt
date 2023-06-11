@@ -231,7 +231,7 @@ fun AddFiltersSheet(
                     ) {
                         ScrollableTabRow(
                             divider = {},
-                            containerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(2.dp),
+                            containerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(10.dp),
                             selectedTabIndex = pagerState.currentPage,
                             indicator = { tabPositions ->
                                 if (pagerState.currentPage < tabPositions.size) {
@@ -386,7 +386,7 @@ fun AddFiltersSheet(
                     },
                     colors = TopAppBarDefaults.topAppBarColors(
                         MaterialTheme.colorScheme.surfaceColorAtElevation(
-                            2.dp
+                            10.dp
                         )
                     ),
                     modifier = Modifier.drawHorizontalStroke(),

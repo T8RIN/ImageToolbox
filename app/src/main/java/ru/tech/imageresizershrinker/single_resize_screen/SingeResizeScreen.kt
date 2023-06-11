@@ -42,7 +42,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Share
-import androidx.compose.material.icons.rounded.AddCircle
+import androidx.compose.material.icons.rounded.AddCircleOutline
 import androidx.compose.material.icons.rounded.AddPhotoAlternate
 import androidx.compose.material.icons.rounded.ArrowBack
 import androidx.compose.material.icons.rounded.Compare
@@ -153,6 +153,8 @@ import ru.tech.imageresizershrinker.widget.text.Marquee
 import ru.tech.imageresizershrinker.widget.text.RoundedTextField
 import ru.tech.imageresizershrinker.widget.utils.LocalSettingsState
 import ru.tech.imageresizershrinker.widget.utils.LocalWindowSizeClass
+import ru.tech.imageresizershrinker.widget.utils.isExpanded
+import ru.tech.imageresizershrinker.widget.utils.middleImageState
 
 @OptIn(
     ExperimentalMaterial3Api::class,
@@ -266,7 +268,7 @@ fun SingleResizeScreen(
     val imageInside =
         LocalConfiguration.current.orientation != Configuration.ORIENTATION_LANDSCAPE || LocalWindowSizeClass.current.widthSizeClass == WindowWidthSizeClass.Compact
 
-    var imageState by remember { mutableIntStateOf(1) }
+    var imageState by remember { mutableIntStateOf(middleImageState()) }
 
     val imageBlock = @Composable {
 
@@ -451,11 +453,11 @@ fun SingleResizeScreen(
 
     val topAppBarState = rememberTopAppBarState()
     val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior(
-        state = topAppBarState, canScroll = { imageState != 2 && !showOriginal }
+        state = topAppBarState, canScroll = { !imageState.isExpanded() && !showOriginal }
     )
 
     LaunchedEffect(imageState, showOriginal) {
-        if (imageState == 2 || showOriginal) {
+        if (imageState.isExpanded() || showOriginal) {
             while (topAppBarState.heightOffset > topAppBarState.heightOffsetLimit) {
                 topAppBarState.heightOffset -= 5f
                 delay(1)
@@ -892,10 +894,17 @@ fun SingleResizeScreen(
                 visible = showEditExifDialog,
                 sheetContent = {
                     if (map?.isEmpty() == false) {
-                        TitleItem(
-                            text = stringResource(id = R.string.edit_exif),
-                            icon = Icons.Rounded.Dataset
-                        )
+                        Row(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .background(MaterialTheme.colorScheme.surfaceColorAtElevation(10.dp)),
+                            horizontalArrangement = Arrangement.Center
+                        ) {
+                            TitleItem(
+                                text = stringResource(id = R.string.edit_exif),
+                                icon = Icons.Rounded.Dataset
+                            )
+                        }
                         Box {
                             LazyColumn(
                                 contentPadding = PaddingValues(8.dp)
@@ -1005,21 +1014,25 @@ fun SingleResizeScreen(
                                     }
                                 }
                                 LazyColumn(
-                                    contentPadding = PaddingValues(8.dp),
+                                    contentPadding = PaddingValues(bottom = 8.dp),
                                     modifier = Modifier.weight(1f, false)
                                 ) {
                                     stickyHeader {
                                         Column(
-                                            Modifier.background(
-                                                MaterialTheme.colorScheme.surfaceColorAtElevation(
-                                                    2.dp
+                                            modifier = Modifier
+                                                .background(
+                                                    MaterialTheme.colorScheme.surfaceColorAtElevation(
+                                                        10.dp
+                                                    )
                                                 )
-                                            )
                                         ) {
                                             RoundedTextField(
                                                 textStyle = LocalTextStyle.current.copy(
                                                     textAlign = TextAlign.Start
                                                 ),
+                                                modifier = Modifier
+                                                    .fillMaxWidth()
+                                                    .padding(horizontal = 16.dp, vertical = 8.dp),
                                                 shape = RoundedCornerShape(30),
                                                 label = stringResource(R.string.search_here),
                                                 onValueChange = { query = it },
@@ -1039,7 +1052,7 @@ fun SingleResizeScreen(
                                                 MaterialTheme.colorScheme.outlineVariant()
                                             ),
                                             modifier = Modifier
-                                                .padding(vertical = 4.dp),
+                                                .padding(vertical = 4.dp, horizontal = 8.dp),
                                             colors = CardDefaults.cardColors(
                                                 containerColor = MaterialTheme.colorScheme.surfaceVariant.copy(
                                                     alpha = 0.5f
@@ -1070,8 +1083,8 @@ fun SingleResizeScreen(
                                                         }
                                                     ) {
                                                         Icon(
-                                                            Icons.Rounded.AddCircle,
-                                                            null
+                                                            imageVector = Icons.Rounded.AddCircleOutline,
+                                                            contentDescription = null
                                                         )
                                                     }
                                                 }
@@ -1099,6 +1112,11 @@ fun SingleResizeScreen(
                                 Divider()
                                 Row(
                                     modifier = Modifier
+                                        .background(
+                                            MaterialTheme.colorScheme.surfaceColorAtElevation(
+                                                10.dp
+                                            )
+                                        )
                                         .padding(16.dp)
                                         .padding(end = 16.dp)
                                         .navigationBarsPadding()

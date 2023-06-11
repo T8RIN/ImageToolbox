@@ -5,6 +5,7 @@ import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Row
@@ -17,7 +18,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Compare
+import androidx.compose.material3.BottomSheetDefaults
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
@@ -42,6 +45,7 @@ import ru.tech.imageresizershrinker.utils.modifier.block
 import ru.tech.imageresizershrinker.widget.TitleItem
 import ru.tech.imageresizershrinker.widget.utils.LocalSettingsState
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CompareSheet(
     data: Pair<Bitmap?, Bitmap?>?,
@@ -132,7 +136,15 @@ fun CompareSheet(
     if (data != null) {
         SimpleSheet(
             sheetContent = sheetContent,
-            visible = visible
+            visible = visible,
+            dragHandle = {
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.Center
+                ) {
+                    BottomSheetDefaults.DragHandle()
+                }
+            }
         )
     }
 }

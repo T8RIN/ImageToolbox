@@ -4,7 +4,9 @@ import androidx.activity.compose.BackHandler
 import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.CubicBezierEasing
 import androidx.compose.animation.core.tween
+import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Row
@@ -25,7 +27,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.t8rin.modalsheet.ModalSheet
@@ -38,6 +39,16 @@ import ru.tech.imageresizershrinker.widget.utils.LocalSettingsState
 fun SimpleSheet(
     nestedScrollEnabled: Boolean = false,
     sheetContent: @Composable ColumnScope.() -> Unit,
+    dragHandle: @Composable ColumnScope.() -> Unit = {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .background(MaterialTheme.colorScheme.surfaceColorAtElevation(10.dp)),
+            horizontalArrangement = Arrangement.Center
+        ) {
+            BottomSheetDefaults.DragHandle()
+        }
+    },
     visible: MutableState<Boolean>
 ) {
     val settingsState = LocalSettingsState.current
@@ -49,6 +60,7 @@ fun SimpleSheet(
             durationMillis = 600,
             easing = CubicBezierEasing(0.05f, 0.7f, 0.1f, 1f)
         ),
+        dragHandle = dragHandle,
         containerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(2.dp),
         sheetModifier = Modifier
             .statusBarsPadding()
@@ -70,10 +82,7 @@ fun SimpleSheet(
                 shape = BottomSheetDefaults.ExpandedShape,
                 elevation = 16.dp
             )
-            .animateContentSize()
-            .onGloballyPositioned {
-
-            },
+            .animateContentSize(),
         elevation = 0.dp,
         visible = showSheet,
         onVisibleChange = { showSheet = it },
@@ -103,6 +112,16 @@ fun SimpleSheet(
             durationMillis = 600,
             easing = CubicBezierEasing(0.05f, 0.7f, 0.1f, 1f)
         ),
+        dragHandle = {
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .background(MaterialTheme.colorScheme.surfaceColorAtElevation(10.dp)),
+                horizontalArrangement = Arrangement.Center
+            ) {
+                BottomSheetDefaults.DragHandle()
+            }
+        },
         containerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(2.dp),
         sheetModifier = Modifier
             .statusBarsPadding()
@@ -138,6 +157,7 @@ fun SimpleSheet(
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
+                    .background(MaterialTheme.colorScheme.surfaceColorAtElevation(10.dp))
                     .padding(16.dp)
                     .navigationBarsPadding()
                     .padding(end = endConfirmButtonPadding),
@@ -168,6 +188,16 @@ fun SimpleSheet(
             durationMillis = 600,
             easing = CubicBezierEasing(0.05f, 0.7f, 0.1f, 1f)
         ),
+        dragHandle = {
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .background(MaterialTheme.colorScheme.surfaceColorAtElevation(10.dp)),
+                horizontalArrangement = Arrangement.Center
+            ) {
+                BottomSheetDefaults.DragHandle()
+            }
+        },
         containerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(2.dp),
         sheetModifier = Modifier
             .statusBarsPadding()
@@ -204,6 +234,7 @@ fun SimpleSheet(
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
+                        .background(MaterialTheme.colorScheme.surfaceColorAtElevation(10.dp))
                         .navigationBarsPadding()
                         .padding(16.dp)
                         .padding(end = 16.dp),

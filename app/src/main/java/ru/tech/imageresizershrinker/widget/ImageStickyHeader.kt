@@ -32,6 +32,7 @@ import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.theme.outlineVariant
 import ru.tech.imageresizershrinker.widget.utils.LocalSettingsState
 import ru.tech.imageresizershrinker.widget.utils.availableHeight
+import ru.tech.imageresizershrinker.widget.utils.isExpanded
 
 @OptIn(ExperimentalFoundationApi::class)
 fun LazyListScope.imageStickyHeader(
@@ -53,10 +54,7 @@ fun LazyListScope.imageStickyHeader(
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(
-                        availableHeight(
-                            expanded = expanded || imageState == 2,
-                            collapsed = imageState == 0
-                        )
+                        availableHeight(expanded = expanded, imageState = imageState)
                     )
                     .background(color)
                     .clip(MaterialTheme.shapes.medium)
@@ -114,15 +112,15 @@ fun LazyListScope.imageStickyHeader(
                             )
                         }
                     }
-                    AnimatedVisibility(visible = imageState != 2) {
+                    AnimatedVisibility(visible = !imageState.isExpanded()) {
                         Box(
                             modifier = Modifier
                                 .size(36.dp)
                                 .clip(CircleShape)
                                 .clickable {
-                                    if (imageState < 2) {
+                                    if (imageState < 4) {
                                         onStateChange(imageState + 1)
-                                    } else onStateChange(2)
+                                    } else onStateChange(4)
                                 },
                             contentAlignment = Alignment.Center
                         ) {

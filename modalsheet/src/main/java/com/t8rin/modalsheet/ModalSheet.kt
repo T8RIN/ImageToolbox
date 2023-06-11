@@ -44,6 +44,14 @@ fun ModalSheet(
     visible: Boolean,
     onVisibleChange: (Boolean) -> Unit,
     modifier: Modifier = Modifier,
+    dragHandle: @Composable ColumnScope.() -> Unit = {
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.Center
+        ) {
+            BottomSheetDefaults.DragHandle()
+        }
+    },
     nestedScrollEnabled: Boolean = false,
     animationSpec: AnimationSpec<Float> = SwipeableV2Defaults.AnimationSpec,
     sheetModifier: Modifier = Modifier,
@@ -91,6 +99,7 @@ fun ModalSheet(
                 onVisibleChange(false)
             }
         },
+        dragHandle = dragHandle,
         nestedScrollEnabled = nestedScrollEnabled,
         sheetModifier = sheetModifier,
         modifier = modifier,
@@ -129,6 +138,14 @@ fun ModalSheet(
 fun ModalSheet(
     modifier: Modifier = Modifier,
     sheetModifier: Modifier = Modifier,
+    dragHandle: @Composable ColumnScope.() -> Unit = {
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.Center
+        ) {
+            BottomSheetDefaults.DragHandle()
+        }
+    },
     sheetState: ModalSheetState,
     onDismiss: (() -> Unit)?,
     nestedScrollEnabled: Boolean = false,
@@ -146,6 +163,7 @@ fun ModalSheet(
             ModalSheetLayout(
                 nestedScrollEnabled = nestedScrollEnabled,
                 sheetModifier = sheetModifier,
+                dragHandle = dragHandle,
                 modifier = modifier.align(Alignment.BottomCenter),
                 sheetState = sheetState,
                 sheetShape = shape,

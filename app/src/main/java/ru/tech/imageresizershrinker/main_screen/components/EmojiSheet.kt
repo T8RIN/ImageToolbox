@@ -33,6 +33,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedIconButton
 import androidx.compose.material3.Text
+import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
@@ -64,9 +65,7 @@ fun EmojiSheet(
 
     val sheetContent: @Composable ColumnScope.() -> Unit = {
         Column(
-            Modifier
-                .fillMaxSize()
-                .navigationBarsPadding()
+            Modifier.fillMaxSize()
         ) {
             Divider()
             FlowRow(
@@ -168,7 +167,9 @@ fun EmojiSheet(
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(16.dp),
+                    .background(MaterialTheme.colorScheme.surfaceColorAtElevation(10.dp))
+                    .padding(16.dp)
+                    .navigationBarsPadding(),
             ) {
                 TitleItem(text = stringResource(R.string.emoji), icon = Icons.Outlined.EmojiSymbols)
                 Spacer(Modifier.weight(1f))

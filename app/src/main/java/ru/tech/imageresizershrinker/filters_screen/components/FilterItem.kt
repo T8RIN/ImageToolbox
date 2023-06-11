@@ -5,6 +5,7 @@ import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
@@ -14,6 +15,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
@@ -33,6 +35,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Slider
+import androidx.compose.material3.SliderDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -85,7 +88,7 @@ fun <T> FilterItem(
     val settingsState = LocalSettingsState.current
     Row(
         modifier = modifier
-            .block(color = backgroundColor)
+            .block(color = backgroundColor, shape = MaterialTheme.shapes.large)
             .animateContentSize()
             .then(
                 onLongPress?.let {
@@ -104,9 +107,9 @@ fun <T> FilterItem(
             Spacer(Modifier.width(8.dp))
             Box(
                 Modifier
-                    .height(48.dp)
+                    .height(64.dp)
                     .width(settingsState.borderWidth.coerceAtLeast(0.25.dp))
-                    .background(MaterialTheme.colorScheme.surfaceVariant)
+                    .background(MaterialTheme.colorScheme.outlineVariant())
                     .padding(start = 20.dp)
             )
         }
@@ -243,8 +246,24 @@ fun <T> FilterItem(
 
                     is Float -> {
                         Slider(
+                            modifier = Modifier
+                                .padding(top = 16.dp, start = 12.dp, end = 12.dp, bottom = 8.dp)
+                                .offset(y = (-2).dp)
+                                .background(
+                                    color = MaterialTheme.colorScheme.secondaryContainer,
+                                    shape = CircleShape
+                                )
+                                .border(
+                                    width = settingsState.borderWidth,
+                                    color = MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.secondaryContainer),
+                                    shape = CircleShape
+                                )
+                                .padding(horizontal = 16.dp),
+                            colors = SliderDefaults.colors(
+                                inactiveTrackColor =
+                                MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.secondaryContainer)
+                            ),
                             enabled = !previewOnly,
-                            modifier = Modifier.padding(horizontal = 16.dp),
                             value = animateFloatAsState(sliderValue).value,
                             onValueChange = {
                                 sliderValue = it.roundTo(filter.paramsInfo.first().roundTo)
@@ -575,9 +594,9 @@ fun <T> FilterItem(
         if (!filter.value.toString().contains("Color") && !previewOnly) {
             Box(
                 Modifier
-                    .height(48.dp)
+                    .height(64.dp)
                     .width(settingsState.borderWidth.coerceAtLeast(0.25.dp))
-                    .background(MaterialTheme.colorScheme.surfaceVariant)
+                    .background(MaterialTheme.colorScheme.outlineVariant())
                     .padding(start = 20.dp)
             )
             IconButton(onClick = onRemove) {

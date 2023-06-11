@@ -298,6 +298,14 @@ fun rememberModalBottomSheetState(
 fun ModalSheetLayout(
     sheetContent: @Composable ColumnScope.() -> Unit,
     modifier: Modifier = Modifier,
+    dragHandle: @Composable ColumnScope.() -> Unit = {
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.Center
+        ) {
+            BottomSheetDefaults.DragHandle()
+        }
+    },
     nestedScrollEnabled: Boolean = true,
     sheetModifier: Modifier = Modifier,
     sheetState: ModalSheetState = rememberModalBottomSheetState(Hidden),
@@ -412,12 +420,7 @@ fun ModalSheetLayout(
         ) {
             Column(
                 content = {
-                    Row(
-                        modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.Center
-                    ) {
-                        BottomSheetDefaults.DragHandle()
-                    }
+                    dragHandle()
                     sheetContent()
                 }
             )

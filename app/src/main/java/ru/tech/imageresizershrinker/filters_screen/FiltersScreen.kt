@@ -108,6 +108,8 @@ import ru.tech.imageresizershrinker.batch_resize_screen.components.SaveExifWidge
 import ru.tech.imageresizershrinker.filters_screen.components.AddFiltersSheet
 import ru.tech.imageresizershrinker.filters_screen.components.FilterItem
 import ru.tech.imageresizershrinker.filters_screen.viewModel.FilterViewModel
+import ru.tech.imageresizershrinker.theme.mixedColor
+import ru.tech.imageresizershrinker.theme.onMixedColor
 import ru.tech.imageresizershrinker.theme.outlineVariant
 import ru.tech.imageresizershrinker.utils.LocalConfettiController
 import ru.tech.imageresizershrinker.utils.coil.filters.SaturationFilter
@@ -146,6 +148,8 @@ import ru.tech.imageresizershrinker.widget.showError
 import ru.tech.imageresizershrinker.widget.text.Marquee
 import ru.tech.imageresizershrinker.widget.utils.LocalSettingsState
 import ru.tech.imageresizershrinker.widget.utils.LocalWindowSizeClass
+import ru.tech.imageresizershrinker.widget.utils.isExpanded
+import ru.tech.imageresizershrinker.widget.utils.middleImageState
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -331,14 +335,14 @@ fun FiltersScreen(
     val imageInside =
         LocalConfiguration.current.orientation != Configuration.ORIENTATION_LANDSCAPE || LocalWindowSizeClass.current.widthSizeClass == WindowWidthSizeClass.Compact
 
-    var imageState by remember { mutableIntStateOf(1) }
+    var imageState by remember { mutableIntStateOf(middleImageState()) }
     val topAppBarState = rememberTopAppBarState()
     val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior(
-        state = topAppBarState, canScroll = { imageState != 2 && !showOriginal }
+        state = topAppBarState, canScroll = { !imageState.isExpanded() && !showOriginal }
     )
 
     LaunchedEffect(imageState, showOriginal) {
-        if (imageState == 2 || showOriginal) {
+        if (imageState.isExpanded() || showOriginal) {
             while (topAppBarState.heightOffset > topAppBarState.heightOffsetLimit) {
                 topAppBarState.heightOffset -= 5f
                 delay(1)
@@ -687,11 +691,14 @@ fun FiltersScreen(
                         if (viewModel.bitmap != null && imageInside) {
                             OutlinedIconButton(
                                 onClick = { showFilterSheet.value = true },
-                                colors = IconButtonDefaults.filledTonalIconButtonColors(),
+                                colors = IconButtonDefaults.filledTonalIconButtonColors(
+                                    containerColor = MaterialTheme.colorScheme.mixedColor,
+                                    contentColor = MaterialTheme.colorScheme.onMixedColor
+                                ),
                                 border = BorderStroke(
                                     settingsState.borderWidth,
                                     MaterialTheme.colorScheme.outlineVariant(
-                                        onTopOf = MaterialTheme.colorScheme.secondaryContainer
+                                        onTopOf = MaterialTheme.colorScheme.mixedColor
                                     )
                                 ),
                             ) {
@@ -828,11 +835,14 @@ fun FiltersScreen(
                                                     )
                                                 }
                                                 OutlinedButton(
-                                                    colors = ButtonDefaults.filledTonalButtonColors(),
+                                                    colors = ButtonDefaults.filledTonalButtonColors(
+                                                        containerColor = MaterialTheme.colorScheme.mixedColor,
+                                                        contentColor = MaterialTheme.colorScheme.onMixedColor
+                                                    ),
                                                     border = BorderStroke(
                                                         settingsState.borderWidth,
                                                         MaterialTheme.colorScheme.outlineVariant(
-                                                            onTopOf = MaterialTheme.colorScheme.secondaryContainer
+                                                            onTopOf = MaterialTheme.colorScheme.mixedColor
                                                         )
                                                     ),
                                                     onClick = { showFilterSheet.value = true },
@@ -846,10 +856,15 @@ fun FiltersScreen(
                                         }
                                     } else {
                                         OutlinedButton(
-                                            colors = ButtonDefaults.filledTonalButtonColors(),
+                                            colors = ButtonDefaults.filledTonalButtonColors(
+                                                containerColor = MaterialTheme.colorScheme.mixedColor,
+                                                contentColor = MaterialTheme.colorScheme.onMixedColor
+                                            ),
                                             border = BorderStroke(
-                                                settingsState.borderWidth,
-                                                MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.secondaryContainer)
+                                                width = settingsState.borderWidth,
+                                                color = MaterialTheme.colorScheme.outlineVariant(
+                                                    onTopOf = MaterialTheme.colorScheme.mixedColor
+                                                )
                                             ),
                                             onClick = { showFilterSheet.value = true },
                                             modifier = Modifier.padding(horizontal = 16.dp)

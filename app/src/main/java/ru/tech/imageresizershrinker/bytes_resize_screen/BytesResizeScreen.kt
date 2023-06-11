@@ -71,6 +71,7 @@ import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -137,6 +138,8 @@ import ru.tech.imageresizershrinker.widget.text.Marquee
 import ru.tech.imageresizershrinker.widget.text.RoundedTextField
 import ru.tech.imageresizershrinker.widget.utils.LocalSettingsState
 import ru.tech.imageresizershrinker.widget.utils.LocalWindowSizeClass
+import ru.tech.imageresizershrinker.widget.utils.isExpanded
+import ru.tech.imageresizershrinker.widget.utils.middleImageState
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -255,14 +258,14 @@ fun BytesResizeScreen(
     val imageInside =
         LocalConfiguration.current.orientation != Configuration.ORIENTATION_LANDSCAPE || LocalWindowSizeClass.current.widthSizeClass == WindowWidthSizeClass.Compact
 
-    var imageState by remember { mutableStateOf(1) }
+    var imageState by remember { mutableIntStateOf(middleImageState()) }
     val topAppBarState = rememberTopAppBarState()
     val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior(
-        state = topAppBarState, canScroll = { imageState != 2 }
+        state = topAppBarState, canScroll = { !imageState.isExpanded() }
     )
 
     LaunchedEffect(imageState) {
-        if (imageState == 2) {
+        if (imageState.isExpanded()) {
             while (topAppBarState.heightOffset > topAppBarState.heightOffsetLimit) {
                 topAppBarState.heightOffset -= 5f
                 delay(1)
