@@ -1,6 +1,8 @@
 package ru.tech.imageresizershrinker.widget
 
+import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -15,7 +17,13 @@ import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.Lock
+import androidx.compose.material.icons.rounded.LockOpen
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedIconToggleButton
 import androidx.compose.material3.Slider
 import androidx.compose.material3.SliderDefaults
 import androidx.compose.runtime.Composable
@@ -27,14 +35,15 @@ import androidx.compose.ui.graphics.isSpecified
 import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.theme.outlineVariant
 import ru.tech.imageresizershrinker.widget.utils.LocalSettingsState
-import ru.tech.imageresizershrinker.widget.utils.availableHeight
+import ru.tech.imageresizershrinker.widget.utils.rememberAvailableHeight
+import ru.tech.imageresizershrinker.widget.utils.rememberFullHeight
 
 @OptIn(ExperimentalFoundationApi::class)
 fun LazyListScope.imageStickyHeader(
     visible: Boolean,
     expanded: Boolean = false,
-    imageState: Int,
-    onStateChange: (Int) -> Unit,
+    imageState: ImageHeaderState,
+    onStateChange: (ImageHeaderState) -> Unit,
     backgroundColor: Color = Color.Unspecified,
     imageBlock: @Composable () -> Unit,
 ) {
@@ -49,11 +58,12 @@ fun LazyListScope.imageStickyHeader(
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(
-                        availableHeight(expanded = expanded, imageState = imageState)
+                        rememberAvailableHeight(expanded = expanded, imageState = imageState)
                     )
                     .background(color)
                     .clip(MaterialTheme.shapes.medium)
-                    .padding(20.dp),
+                    .padding(vertical = 20.dp)
+                    .animateItemPlacement(),
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
@@ -74,38 +84,83 @@ fun LazyListScope.imageStickyHeader(
                     modifier = Modifier
                         .align(Alignment.BottomCenter)
                         .offset(y = (-48).dp)
-                        .background(
-                            color = MaterialTheme.colorScheme.tertiaryContainer.copy(alpha = 0.3f),
-                            shape = CircleShape
+                        .fillMaxWidth(0.7f),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Row(
+                        modifier = Modifier
+                            .weight(1f)
+                            .background(
+                                color = MaterialTheme.colorScheme.tertiaryContainer.copy(alpha = 0.3f),
+                                shape = CircleShape
+                            )
+                            .height(40.dp)
+                            .border(
+                                width = settingsState.borderWidth,
+                                color = MaterialTheme.colorScheme
+                                    .outlineVariant()
+                                    .copy(alpha = 0.3f),
+                                shape = CircleShape
+                            )
+                    ) {
+                        Slider(
+                            modifier = Modifier.padding(horizontal = 10.dp),
+                            value = animateFloatAsState(targetValue = imageState.position.toFloat()).value,
+                            onValueChange = {
+                                onStateChange(imageState.copy(position = it.toInt()))
+                            },
+                            colors = SliderDefaults.colors(
+                                inactiveTrackColor = MaterialTheme.colorScheme.outlineVariant(
+                                    onTopOf = MaterialTheme.colorScheme.tertiaryContainer
+                                ).copy(0.5f),
+                                thumbColor = MaterialTheme.colorScheme.tertiary,
+                                activeTrackColor = MaterialTheme.colorScheme.tertiary.copy(0.5f)
+                            ),
+                            steps = 3,
+                            valueRange = 0f..4f
                         )
-                        .height(40.dp)
-                        .fillMaxWidth(0.7f)
-                        .border(
+                    }
+                    OutlinedIconToggleButton(
+                        checked = imageState.isBlocked,
+                        onCheckedChange = {
+                            onStateChange(imageState.copy(isBlocked = it))
+                        },
+                        border = BorderStroke(
                             width = settingsState.borderWidth,
                             color = MaterialTheme.colorScheme
                                 .outlineVariant()
-                                .copy(alpha = 0.3f),
-                            shape = CircleShape
-                        )
-                ) {
-                    val modifier = Modifier.padding(horizontal = 10.dp)
-
-                    Slider(
-                        modifier = modifier,
-                        value = animateFloatAsState(targetValue = imageState.toFloat()).value,
-                        onValueChange = {
-                            onStateChange(it.toInt())
-                        },
-                        colors = SliderDefaults.colors(
-                            inactiveTrackColor = MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.tertiaryContainer)
-                                .copy(0.5f),
-                            thumbColor = MaterialTheme.colorScheme.tertiary,
-                            activeTrackColor = MaterialTheme.colorScheme.tertiary.copy(0.5f)
+                                .copy(alpha = 0.3f)
                         ),
-                        steps = 3,
-                        valueRange = 0f..4f
-                    )
+                        colors = IconButtonDefaults.filledTonalIconToggleButtonColors(
+                            checkedContainerColor = MaterialTheme.colorScheme.secondaryContainer.copy(
+                                0.5f
+                            ),
+                            checkedContentColor = MaterialTheme.colorScheme.onSecondaryContainer,
+                            containerColor = MaterialTheme.colorScheme.surfaceVariant.copy(0.5f),
+                            contentColor = MaterialTheme.colorScheme.onSurfaceVariant
+                        )
+                    ) {
+                        AnimatedContent(targetState = imageState.isBlocked) { blocked ->
+                            if (blocked) {
+                                Icon(Icons.Rounded.Lock, null)
+                            } else {
+                                Icon(Icons.Rounded.LockOpen, null)
+                            }
+                        }
+                    }
                 }
+            }
+        }
+        if (!imageState.isBlocked) {
+            stickyHeader {
+                Spacer(
+                    Modifier.height(
+                        rememberAvailableHeight(
+                            expanded = expanded,
+                            imageState = imageState
+                        ) - rememberFullHeight()
+                    )
+                )
             }
         }
     }

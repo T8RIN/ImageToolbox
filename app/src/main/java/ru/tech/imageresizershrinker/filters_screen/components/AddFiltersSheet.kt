@@ -56,7 +56,6 @@ import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -352,13 +351,13 @@ fun AddFiltersSheet(
         )
     }
 
-    var imageState by rememberSaveable { mutableIntStateOf(middleImageState()) }
+    var imageState by remember { mutableStateOf(middleImageState()) }
     var loading by remember { mutableStateOf(false) }
     LaunchedEffect(previewSheetData) {
         showPreviewState.value = previewSheetData != null
         if (previewBitmap != null && previewSheetData != null) {
             if (previewSheetData?.value is Unit) {
-                imageState = 2
+                imageState = imageState.copy(position = 2)
             }
             loading = true
             transformedBitmap =
@@ -372,7 +371,7 @@ fun AddFiltersSheet(
         sheetContent = {
             DisposableEffect(Unit) {
                 onDispose {
-                    imageState = 1
+                    imageState = imageState.copy(position = 2)
                 }
             }
             Column(

@@ -23,13 +23,31 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.t8rin.dynamic.theme.observeAsState
 import com.t8rin.modalsheet.FullscreenPopup
+import ru.tech.imageresizershrinker.widget.ImageHeaderState
+
+@Composable
+fun rememberAvailableHeight(
+    expanded: Boolean,
+    imageState: ImageHeaderState
+): Dp {
+    val fullHeight = rememberFullHeight()
+
+    return animateDpAsState(
+        targetValue = fullHeight.times(
+            when {
+                expanded || imageState.position == 4 -> 1f
+                imageState.position == 3 -> 0.7f
+                imageState.position == 2 -> 0.5f
+                imageState.position == 1 -> 0.35f
+                else -> 0.2f
+            }
+        )
+    ).value
+}
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun availableHeight(
-    expanded: Boolean,
-    imageState: Int
-): Dp {
+fun rememberFullHeight(): Dp {
     var fullHeight by remember(
         LocalConfiguration.current,
         LocalLifecycleOwner.current.lifecycle.observeAsState()
@@ -61,19 +79,9 @@ fun availableHeight(
         }
     }
 
-    return animateDpAsState(
-        targetValue = fullHeight.times(
-            when {
-                expanded || imageState.isExpanded() -> 1f
-                imageState == 3 -> 0.7f
-                imageState == 2 -> 0.5f
-                imageState == 1 -> 0.35f
-                else -> 0.2f
-            }
-        )
-    ).value
+    return fullHeight
 }
 
-fun Int.isExpanded() = this == 4
+fun ImageHeaderState.isExpanded() = this.position == 4 && isBlocked
 
-fun middleImageState() = 2
+fun middleImageState() = ImageHeaderState()

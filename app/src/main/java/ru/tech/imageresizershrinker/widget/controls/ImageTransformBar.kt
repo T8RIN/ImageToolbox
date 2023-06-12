@@ -68,10 +68,14 @@ fun ImageTransformBar(
                 Spacer(Modifier.width(8.dp))
                 Icon(
                     imageVector = Icons.Rounded.Dataset,
-                    contentDescription = null
+                    contentDescription = null,
+                    tint = MaterialTheme.colorScheme.onSecondaryContainer
                 )
                 Spacer(Modifier.width(8.dp))
-                Text(stringResource(R.string.edit_exif))
+                Text(
+                    text = stringResource(R.string.edit_exif),
+                    color = MaterialTheme.colorScheme.onSecondaryContainer
+                )
                 Spacer(Modifier.width(8.dp))
             }
         }
