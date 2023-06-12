@@ -107,6 +107,7 @@ import com.t8rin.dynamic.theme.LocalDynamicThemeState
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.R
+import ru.tech.imageresizershrinker.main_screen.components.PreferenceItemOverload
 import ru.tech.imageresizershrinker.single_resize_screen.viewModel.SingleResizeViewModel
 import ru.tech.imageresizershrinker.theme.outlineVariant
 import ru.tech.imageresizershrinker.utils.LocalConfettiController
@@ -917,8 +918,8 @@ fun SingleResizeScreen(
                                         modifier = Modifier
                                             .padding(vertical = 4.dp),
                                         colors = CardDefaults.cardColors(
-                                            containerColor = MaterialTheme.colorScheme.surfaceVariant.copy(
-                                                alpha = 0.5f
+                                            containerColor = MaterialTheme.colorScheme.secondaryContainer.copy(
+                                                alpha = 0.1f
                                             )
                                         )
                                     ) {
@@ -953,14 +954,14 @@ fun SingleResizeScreen(
                                             OutlinedTextField(
                                                 onValueChange = {
                                                     viewModel.updateExifByTag(
-                                                        tag,
-                                                        it
+                                                        tag = tag,
+                                                        value = it
                                                     )
-                                                    map =
-                                                        map?.toMutableMap()
-                                                            ?.apply {
-                                                                this[tag] = it
-                                                            }
+                                                    map = map
+                                                        ?.toMutableMap()
+                                                        ?.apply {
+                                                            this[tag] = it
+                                                        }
                                                 },
                                                 value = value,
                                                 textStyle = LocalTextStyle.current.copy(
@@ -982,13 +983,17 @@ fun SingleResizeScreen(
                             Divider(Modifier.align(Alignment.BottomCenter))
                         }
                     } else {
-                        Text(
-                            stringResource(R.string.no_exif),
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(12.dp),
-                            textAlign = TextAlign.Center
-                        )
+                        Box {
+                            Text(
+                                stringResource(R.string.no_exif),
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(12.dp),
+                                textAlign = TextAlign.Center
+                            )
+                            Divider(Modifier.align(Alignment.TopCenter))
+                            Divider(Modifier.align(Alignment.BottomCenter))
+                        }
                     }
                     SimpleSheet(
                         nestedScrollEnabled = false,
@@ -1045,50 +1050,25 @@ fun SingleResizeScreen(
                                         Spacer(Modifier.height(8.dp))
                                     }
                                     items(list) { tag ->
-                                        OutlinedCard(
-                                            border = BorderStroke(
-                                                settingsState.borderWidth,
-                                                MaterialTheme.colorScheme.outlineVariant()
-                                            ),
+                                        PreferenceItemOverload(
+                                            title = tag,
                                             modifier = Modifier
                                                 .padding(vertical = 4.dp, horizontal = 8.dp),
-                                            colors = CardDefaults.cardColors(
-                                                containerColor = MaterialTheme.colorScheme.surfaceVariant.copy(
-                                                    alpha = 0.5f
+                                            endIcon = {
+                                                Icon(
+                                                    imageVector = Icons.Rounded.AddCircleOutline,
+                                                    contentDescription = null
                                                 )
-                                            )
-                                        ) {
-                                            Column(Modifier.fillMaxWidth()) {
-                                                Row {
-                                                    Text(
-                                                        text = tag,
-                                                        fontSize = 16.sp,
-                                                        modifier = Modifier
-                                                            .padding(12.dp)
-                                                            .weight(1f),
-                                                        textAlign = TextAlign.Start
-                                                    )
-                                                    IconButton(
-                                                        onClick = {
-                                                            viewModel.removeExifTag(
-                                                                tag
-                                                            )
-                                                            map =
-                                                                map?.toMutableMap()
-                                                                    ?.apply {
-                                                                        this[tag] =
-                                                                            ""
-                                                                    }
-                                                        }
-                                                    ) {
-                                                        Icon(
-                                                            imageVector = Icons.Rounded.AddCircleOutline,
-                                                            contentDescription = null
-                                                        )
-                                                    }
-                                                }
+                                            },
+                                            color = MaterialTheme.colorScheme.secondaryContainer.copy(
+                                                0.1f
+                                            ),
+                                            onClick = {
+                                                viewModel.removeExifTag(tag)
+                                                map = map?.toMutableMap()
+                                                    ?.apply { this[tag] = "" }
                                             }
-                                        }
+                                        )
                                     }
                                     if (list.isEmpty()) {
                                         item {
@@ -1103,7 +1083,11 @@ fun SingleResizeScreen(
                                                     ),
                                                 contentAlignment = Alignment.Center
                                             ) {
-                                                Text(stringResource(R.string.nothing_found_by_search))
+                                                Text(
+                                                    text = stringResource(R.string.nothing_found_by_search),
+                                                    modifier = Modifier.fillMaxWidth(),
+                                                    textAlign = TextAlign.Center
+                                                )
                                             }
                                         }
                                     }
