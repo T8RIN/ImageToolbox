@@ -19,6 +19,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -52,11 +53,22 @@ fun Marquee(
     params: MarqueeParams = defaultMarqueeParams(edgeColor),
     content: @Composable (Modifier) -> Unit
 ) {
+    Marquee(modifier, edgeColor, params, keys = arrayOf(null), content)
+}
+
+@Composable
+fun Marquee(
+    modifier: Modifier = Modifier,
+    edgeColor: Color = MaterialTheme.colorScheme.background,
+    params: MarqueeParams = defaultMarqueeParams(edgeColor),
+    vararg keys: Any? = arrayOf(Unit),
+    content: @Composable (Modifier) -> Unit
+) {
     val density = LocalDensity.current
     val gradientEdgeWidth = with(density) { params.gradientEdgeWidth.toPx().toInt() }
 
-    var xOffset by remember { mutableStateOf(gradientEdgeWidth) }
-    val layoutInfoState = remember { mutableStateOf<MarqueeLayoutInfo?>(null) }
+    var xOffset by remember(keys = keys) { mutableIntStateOf(gradientEdgeWidth) }
+    val layoutInfoState = remember(keys = keys) { mutableStateOf<MarqueeLayoutInfo?>(null) }
 
     LaunchedEffect(layoutInfoState.value) {
         val ltr = params.direction == LayoutDirection.Ltr

@@ -711,7 +711,7 @@ fun FiltersScreen(
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.Center,
                 ) {
-                    if (!imageInside) {
+                    if (!imageInside && !viewModel.uris.isNullOrEmpty()) {
                         Box(
                             Modifier
                                 .weight(0.8f)

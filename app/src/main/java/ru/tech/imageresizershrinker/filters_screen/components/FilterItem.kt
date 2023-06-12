@@ -49,6 +49,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.compositeOver
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.res.stringResource
@@ -84,6 +85,7 @@ fun <T> FilterItem(
         .colorScheme
         .secondaryContainer
         .copy(0.2f)
+        .compositeOver(MaterialTheme.colorScheme.surface)
 ) {
     val settingsState = LocalSettingsState.current
     Row(
@@ -107,7 +109,7 @@ fun <T> FilterItem(
             Spacer(Modifier.width(8.dp))
             Box(
                 Modifier
-                    .height(64.dp)
+                    .height(if (filter.value is Unit) 32.dp else 64.dp)
                     .width(settingsState.borderWidth.coerceAtLeast(0.25.dp))
                     .background(MaterialTheme.colorScheme.outlineVariant())
                     .padding(start = 20.dp)
@@ -123,17 +125,18 @@ fun <T> FilterItem(
                     ((filter.value as? Number)?.toFloat()) ?: 0f
                 )
             }
-            Row(
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Row(Modifier.weight(1f)) {
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                Row(
+                    modifier = Modifier.weight(1f),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
                     Text(
                         text = stringResource(filter.title),
                         fontWeight = FontWeight.SemiBold,
                         modifier = Modifier
                             .padding(
-                                top = 16.dp,
-                                end = 28.dp,
+                                top = 8.dp,
+                                end = 8.dp,
                                 start = 16.dp
                             )
                             .weight(1f)
@@ -161,7 +164,7 @@ fun <T> FilterItem(
                 }
             }
             if (filter.value is Unit) {
-                Spacer(modifier = Modifier.height(16.dp))
+                Spacer(modifier = Modifier.height(8.dp))
             } else {
                 when (filter.value) {
                     is Color -> {
@@ -259,7 +262,7 @@ fun <T> FilterItem(
                                     color = MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.secondaryContainer),
                                     shape = CircleShape
                                 )
-                                .padding(horizontal = 16.dp),
+                                .padding(horizontal = 10.dp),
                             colors = SliderDefaults.colors(
                                 inactiveTrackColor =
                                 MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.secondaryContainer)
@@ -325,7 +328,7 @@ fun <T> FilterItem(
                                         color = MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.secondaryContainer),
                                         shape = CircleShape
                                     )
-                                    .padding(horizontal = 16.dp),
+                                    .padding(horizontal = 10.dp),
                                 colors = SliderDefaults.colors(
                                     inactiveTrackColor =
                                     MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.secondaryContainer)
@@ -338,7 +341,6 @@ fun <T> FilterItem(
                                 },
                                 valueRange = filter.paramsInfo[0].valueRange
                             )
-                            Spacer(Modifier.height(8.dp))
                             filter.paramsInfo[1].takeIf { it.title != null }
                                 ?.let { (title, valueRange, roundTo) ->
                                     Row(
@@ -385,7 +387,7 @@ fun <T> FilterItem(
                                         color = MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.secondaryContainer),
                                         shape = CircleShape
                                     )
-                                    .padding(horizontal = 16.dp),
+                                    .padding(horizontal = 10.dp),
                                 colors = SliderDefaults.colors(
                                     inactiveTrackColor =
                                     MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.secondaryContainer)
@@ -477,7 +479,7 @@ fun <T> FilterItem(
                                                 text = stringResource(title!!),
                                                 modifier = Modifier
                                                     .padding(
-                                                        top = 16.dp,
+                                                        top = 8.dp,
                                                         end = 16.dp,
                                                         start = 16.dp
                                                     )
@@ -521,7 +523,7 @@ fun <T> FilterItem(
                                         color = MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.secondaryContainer),
                                         shape = CircleShape
                                     )
-                                    .padding(horizontal = 16.dp),
+                                    .padding(horizontal = 10.dp),
                                 colors = SliderDefaults.colors(
                                     inactiveTrackColor =
                                     MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.secondaryContainer)
@@ -534,7 +536,6 @@ fun <T> FilterItem(
                                 },
                                 valueRange = filter.paramsInfo[0].valueRange
                             )
-                            Spacer(Modifier.height(8.dp))
                             filter.paramsInfo[1].takeIf { it.title != null }
                                 ?.let { (title, valueRange, roundTo) ->
                                     Row(
@@ -545,7 +546,7 @@ fun <T> FilterItem(
                                                 text = stringResource(title!!),
                                                 modifier = Modifier
                                                     .padding(
-                                                        top = 16.dp,
+                                                        top = 8.dp,
                                                         end = 16.dp,
                                                         start = 16.dp
                                                     )
@@ -589,7 +590,7 @@ fun <T> FilterItem(
                                         color = MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.secondaryContainer),
                                         shape = CircleShape
                                     )
-                                    .padding(horizontal = 16.dp),
+                                    .padding(horizontal = 10.dp),
                                 colors = SliderDefaults.colors(
                                     inactiveTrackColor =
                                     MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.secondaryContainer)
@@ -602,7 +603,6 @@ fun <T> FilterItem(
                                 },
                                 valueRange = filter.paramsInfo[1].valueRange
                             )
-                            Spacer(Modifier.height(8.dp))
                             filter.paramsInfo[2].takeIf { it.title != null }
                                 ?.let { (title, valueRange, roundTo) ->
                                     Row(
@@ -613,7 +613,7 @@ fun <T> FilterItem(
                                                 text = stringResource(title!!),
                                                 modifier = Modifier
                                                     .padding(
-                                                        top = 16.dp,
+                                                        top = 8.dp,
                                                         end = 16.dp,
                                                         start = 16.dp
                                                     )
@@ -657,7 +657,7 @@ fun <T> FilterItem(
                                         color = MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.secondaryContainer),
                                         shape = CircleShape
                                     )
-                                    .padding(horizontal = 16.dp),
+                                    .padding(horizontal = 10.dp),
                                 colors = SliderDefaults.colors(
                                     inactiveTrackColor =
                                     MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.secondaryContainer)
@@ -679,7 +679,7 @@ fun <T> FilterItem(
         if (!filter.value.toString().contains("Color") && !previewOnly) {
             Box(
                 Modifier
-                    .height(64.dp)
+                    .height(if (filter.value is Unit) 32.dp else 64.dp)
                     .width(settingsState.borderWidth.coerceAtLeast(0.25.dp))
                     .background(MaterialTheme.colorScheme.outlineVariant())
                     .padding(start = 20.dp)
@@ -699,31 +699,20 @@ private fun ValueText(
     value: Float,
     onClick: () -> Unit
 ) {
-    Row(
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        Text(
-            text = "$value",
-            color = MaterialTheme.colorScheme.onSurface.copy(
-                alpha = 0.5f
-            ),
-            modifier = Modifier
-                .padding(top = 16.dp)
-                .clip(CircleShape)
-                .clickable {
-                    onClick()
-                }
-                .padding(horizontal = 16.dp, vertical = 6.dp),
-            lineHeight = 18.sp
-        )
-        Spacer(
-            modifier = Modifier.padding(
-                start = 4.dp,
-                top = 16.dp,
-                end = 20.dp
-            )
-        )
-    }
+    Text(
+        text = "$value",
+        color = MaterialTheme.colorScheme.onSurface.copy(
+            alpha = 0.5f
+        ),
+        modifier = Modifier
+            .padding(top = 8.dp, end = 8.dp)
+            .clip(CircleShape)
+            .clickable {
+                onClick()
+            }
+            .padding(horizontal = 16.dp, vertical = 6.dp),
+        lineHeight = 18.sp
+    )
 }
 
 @Composable

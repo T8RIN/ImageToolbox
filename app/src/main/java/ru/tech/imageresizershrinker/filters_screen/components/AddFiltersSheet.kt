@@ -131,6 +131,7 @@ import ru.tech.imageresizershrinker.widget.imageStickyHeader
 import ru.tech.imageresizershrinker.widget.sheets.SimpleSheet
 import ru.tech.imageresizershrinker.widget.text.Marquee
 import ru.tech.imageresizershrinker.widget.utils.LocalSettingsState
+import ru.tech.imageresizershrinker.widget.utils.middleImageState
 
 @OptIn(ExperimentalFoundationApi::class, ExperimentalMaterial3Api::class)
 @Composable
@@ -351,7 +352,7 @@ fun AddFiltersSheet(
         )
     }
 
-    var imageState by rememberSaveable { mutableIntStateOf(1) }
+    var imageState by rememberSaveable { mutableIntStateOf(middleImageState()) }
     var loading by remember { mutableStateOf(false) }
     LaunchedEffect(previewSheetData) {
         showPreviewState.value = previewSheetData != null

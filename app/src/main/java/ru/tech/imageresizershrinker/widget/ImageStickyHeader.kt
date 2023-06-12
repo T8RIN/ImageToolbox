@@ -75,20 +75,20 @@ fun LazyListScope.imageStickyHeader(
                         .align(Alignment.BottomCenter)
                         .offset(y = (-48).dp)
                         .background(
-                            color = MaterialTheme.colorScheme.tertiaryContainer.copy(alpha = 0.7f),
+                            color = MaterialTheme.colorScheme.tertiaryContainer.copy(alpha = 0.3f),
                             shape = CircleShape
                         )
                         .height(40.dp)
-                        .fillMaxWidth(0.8f)
+                        .fillMaxWidth(0.7f)
                         .border(
                             width = settingsState.borderWidth,
                             color = MaterialTheme.colorScheme
                                 .outlineVariant()
-                                .copy(alpha = 0.85f),
+                                .copy(alpha = 0.3f),
                             shape = CircleShape
                         )
                 ) {
-                    val modifier = Modifier.padding(horizontal = 16.dp)
+                    val modifier = Modifier.padding(horizontal = 10.dp)
 
                     Slider(
                         modifier = modifier,
@@ -97,9 +97,10 @@ fun LazyListScope.imageStickyHeader(
                             onStateChange(it.toInt())
                         },
                         colors = SliderDefaults.colors(
-                            inactiveTrackColor = MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.secondaryContainer),
+                            inactiveTrackColor = MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.tertiaryContainer)
+                                .copy(0.5f),
                             thumbColor = MaterialTheme.colorScheme.tertiary,
-                            activeTrackColor = MaterialTheme.colorScheme.tertiary
+                            activeTrackColor = MaterialTheme.colorScheme.tertiary.copy(0.5f)
                         ),
                         steps = 3,
                         valueRange = 0f..4f

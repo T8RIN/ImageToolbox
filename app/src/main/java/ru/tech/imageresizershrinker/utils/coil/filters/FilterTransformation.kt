@@ -54,7 +54,7 @@ sealed class FilterTransformation<T>(
             is VibranceFilter -> VibranceFilter(context, value as Float)
             is BlackAndWhiteFilter -> BlackAndWhiteFilter(context)
             is CrosshatchFilter -> CrosshatchFilter(context, value as Pair<Float, Float>)
-            is SobelEdgeDetectionFilter -> SobelEdgeDetectionFilter(context)
+            is SobelEdgeDetectionFilter -> SobelEdgeDetectionFilter(context, value as Float)
             is HalftoneFilter -> HalftoneFilter(context, value as Float)
             is CGAColorSpaceFilter -> CGAColorSpaceFilter(context)
             is GaussianBlurFilter -> GaussianBlurFilter(context, value as Float)

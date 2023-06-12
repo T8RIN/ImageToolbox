@@ -112,7 +112,7 @@ class FilterViewModel : ViewModel() {
     fun updateBitmap(bitmap: Bitmap?, preview: Bitmap? = null) {
         viewModelScope.launch {
             _isLoading.value = true
-            _bitmap.value = bitmap?.scaleUntilCanShow()
+            _bitmap.value = bitmap?.scaleUntilCanShow()?.upscale()
             _previewBitmap.value = preview ?: _bitmap.value
             _bitmap.value?.let {
                 if (_previewBitmap.value?.width != it.width) {
@@ -291,4 +291,9 @@ class FilterViewModel : ViewModel() {
         _needToApplyFilters.value = true
     }
 
+    private fun Bitmap.upscale(): Bitmap {
+        return if (this.width * this.height < 2000 * 2000) {
+            this.resizeBitmap(2000, 2000, 1)
+        } else this
+    }
 }
