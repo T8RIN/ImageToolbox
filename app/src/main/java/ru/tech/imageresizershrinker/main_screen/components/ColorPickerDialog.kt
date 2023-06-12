@@ -23,6 +23,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -50,11 +51,14 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Slider
+import androidx.compose.material3.SliderDefaults
 import androidx.compose.material3.Text
+import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -106,20 +110,20 @@ fun ColorPickerDialog(
     title: String = stringResource(R.string.color_scheme),
     onColorChange: (ColorTuple) -> Unit
 ) {
-    var primary by rememberSaveable { mutableStateOf(colorTuple.primary.toArgb()) }
+    var primary by rememberSaveable { mutableIntStateOf(colorTuple.primary.toArgb()) }
     var secondary by rememberSaveable {
-        mutableStateOf(
+        mutableIntStateOf(
             colorTuple.secondary?.toArgb() ?: colorTuple.primary.calculateSecondaryColor()
         )
     }
     var tertiary by rememberSaveable {
-        mutableStateOf(
+        mutableIntStateOf(
             colorTuple.tertiary?.toArgb() ?: colorTuple.primary.calculateTertiaryColor()
         )
     }
 
     var surface by rememberSaveable {
-        mutableStateOf(
+        mutableIntStateOf(
             colorTuple.surface?.toArgb() ?: colorTuple.primary.calculateSurfaceColor()
         )
     }
@@ -322,10 +326,16 @@ fun AvailableColorTuplesDialog(
             }
         },
         sheetContent = {
-            TitleItem(
-                text = stringResource(R.string.color_scheme),
-                icon = Icons.Rounded.PaletteSwatch
-            )
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .background(MaterialTheme.colorScheme.surfaceColorAtElevation(10.dp))
+            ) {
+                TitleItem(
+                    text = stringResource(R.string.color_scheme),
+                    icon = Icons.Rounded.PaletteSwatch
+                )
+            }
             Box(Modifier.fillMaxWidth(), contentAlignment = Alignment.Center) {
                 Divider(
                     Modifier
@@ -488,7 +498,7 @@ fun AlphaColorCustomComponent(
     onColorChange: (Int, Int) -> Unit,
 ) {
     Column {
-        var alphaValue by remember(color) { mutableStateOf(color.alpha) }
+        var alphaValue by remember(color) { mutableIntStateOf(color.alpha) }
         ColorCustomInfoComponent(
             color = color,
             onColorChange = {
@@ -507,11 +517,27 @@ fun AlphaColorCustomComponent(
                 text = stringResource(id = R.string.alpha),
                 style = MaterialTheme.typography.labelMedium,
             )
-
+            val settingsState = LocalSettingsState.current
             Slider(
                 modifier = Modifier
                     .weight(1f)
-                    .padding(horizontal = 16.dp),
+                    .padding(top = 16.dp, start = 12.dp, end = 12.dp, bottom = 8.dp)
+                    .offset(y = (-2).dp)
+                    .background(
+                        color = MaterialTheme.colorScheme.secondaryContainer,
+                        shape = CircleShape
+                    )
+                    .height(40.dp)
+                    .border(
+                        width = settingsState.borderWidth,
+                        color = MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.secondaryContainer),
+                        shape = CircleShape
+                    )
+                    .padding(horizontal = 10.dp),
+                colors = SliderDefaults.colors(
+                    inactiveTrackColor =
+                    MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.secondaryContainer)
+                ),
                 valueRange = 0f..255f,
                 value = animateFloatAsState(targetValue = alphaValue.toFloat()).value,
                 onValueChange = {
@@ -734,12 +760,12 @@ private fun ColorCustomControlComponent(
     color: Int,
     onColorChange: (Int) -> Unit
 ) {
-    val redValue = remember(color) { mutableStateOf(color.red) }
-    val greenValue = remember(color) { mutableStateOf(color.green) }
-    val blueValue = remember(color) { mutableStateOf(color.blue) }
+    val redValue = remember(color) { mutableIntStateOf(color.red) }
+    val greenValue = remember(color) { mutableIntStateOf(color.green) }
+    val blueValue = remember(color) { mutableIntStateOf(color.blue) }
 
-    val newColor by remember(redValue.value, greenValue.value, blueValue.value) {
-        mutableStateOf(Color(redValue.value, greenValue.value, blueValue.value))
+    val newColor by remember(redValue.intValue, greenValue.intValue, blueValue.intValue) {
+        mutableStateOf(Color(redValue.intValue, greenValue.intValue, blueValue.intValue))
     }
 
     LaunchedEffect(newColor) { onColorChange.invoke(newColor.toArgb()) }
@@ -757,8 +783,8 @@ private fun ColorCustomControlComponent(
         colorItems.forEach { entry ->
             ColorCustomControlItemComponent(
                 label = entry.first,
-                value = entry.second.value,
-                onValueChange = { entry.second.value = it },
+                value = entry.second.intValue,
+                onValueChange = { entry.second.intValue = it },
                 colorItemLabelWidth = colorItemLabelWidth,
                 colorValueLabelWidth = colorValueLabelWidth
             )
@@ -797,10 +823,27 @@ private fun ColorCustomControlItemComponent(
             style = MaterialTheme.typography.labelMedium,
         )
 
+        val settingsState = LocalSettingsState.current
         Slider(
             modifier = Modifier
                 .weight(1f)
-                .padding(horizontal = 16.dp),
+                .padding(top = 16.dp, start = 12.dp, end = 12.dp, bottom = 8.dp)
+                .offset(y = (-2).dp)
+                .background(
+                    color = MaterialTheme.colorScheme.secondaryContainer,
+                    shape = CircleShape
+                )
+                .height(40.dp)
+                .border(
+                    width = settingsState.borderWidth,
+                    color = MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.secondaryContainer),
+                    shape = CircleShape
+                )
+                .padding(horizontal = 10.dp),
+            colors = SliderDefaults.colors(
+                inactiveTrackColor =
+                MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.secondaryContainer)
+            ),
             valueRange = 0f..255f,
             value = animateFloatAsState(targetValue = value.toFloat()).value,
             onValueChange = { onValueChange(it.toInt()) },

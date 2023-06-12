@@ -16,7 +16,7 @@ class HalftoneFilter(
     title = R.string.halftone,
     value = value,
     paramsInfo = listOf(
-        FilterParam(valueRange = 0.001f..0.05f, roundTo = 4)
+        FilterParam(valueRange = 0.001f..0.02f, roundTo = 4)
     )
 ) {
     override val cacheKey: String

@@ -10,12 +10,10 @@ import ru.tech.imageresizershrinker.R
 @Parcelize
 class WeakPixelFilter(
     private val context: @RawValue Context,
-    override val value: Unit = Unit,
 ) : FilterTransformation<Unit>(
     context = context,
     title = R.string.weak_pixel_inclusion,
-    value = value,
-    valueRange = 0f..0f
+    value = Unit
 ) {
     override val cacheKey: String
         get() = (value to context).hashCode().toString()

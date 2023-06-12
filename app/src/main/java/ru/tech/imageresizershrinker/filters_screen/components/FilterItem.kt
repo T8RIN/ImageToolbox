@@ -404,7 +404,7 @@ fun <T> FilterItem(
                             Box(
                                 modifier = Modifier.padding(
                                     start = 16.dp,
-                                    top = 8.dp,
+                                    top = 16.dp,
                                     end = 16.dp
                                 )
                             ) {
@@ -479,7 +479,7 @@ fun <T> FilterItem(
                                                 text = stringResource(title!!),
                                                 modifier = Modifier
                                                     .padding(
-                                                        top = 8.dp,
+                                                        top = 16.dp,
                                                         end = 16.dp,
                                                         start = 16.dp
                                                     )

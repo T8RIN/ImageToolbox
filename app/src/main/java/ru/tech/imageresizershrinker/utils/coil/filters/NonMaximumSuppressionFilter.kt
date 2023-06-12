@@ -10,12 +10,10 @@ import ru.tech.imageresizershrinker.R
 @Parcelize
 class NonMaximumSuppressionFilter(
     private val context: @RawValue Context,
-    override val value: Unit = Unit,
 ) : FilterTransformation<Unit>(
     context = context,
     title = R.string.non_maximum_suppression,
-    value = value,
-    valueRange = 0f..0f
+    value = Unit
 ) {
     override val cacheKey: String
         get() = (value to context).hashCode().toString()

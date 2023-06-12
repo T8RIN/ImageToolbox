@@ -10,11 +10,10 @@ import ru.tech.imageresizershrinker.R
 @Parcelize
 class NegativeFilter(
     private val context: @RawValue Context,
-    override val value: Unit = Unit,
 ) : FilterTransformation<Unit>(
     context = context,
     title = R.string.negative,
-    value = value
+    value = Unit
 ) {
     override val cacheKey: String
         get() = (value to context).hashCode().toString()

@@ -11,11 +11,10 @@ import ru.tech.imageresizershrinker.R
 @Parcelize
 class LaplacianFilter(
     private val context: @RawValue Context,
-    override val value: Unit = Unit,
 ) : FilterTransformation<Unit>(
     context = context,
     title = R.string.laplacian,
-    value = value,
+    value = Unit,
     valueRange = 0f..0f
 ) {
     override val cacheKey: String
