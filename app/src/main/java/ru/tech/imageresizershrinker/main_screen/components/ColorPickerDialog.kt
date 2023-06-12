@@ -264,7 +264,8 @@ fun ColorPickerDialog(
 
 @OptIn(
     ExperimentalLayoutApi::class,
-    ExperimentalFoundationApi::class, ExperimentalMaterial3Api::class
+    ExperimentalFoundationApi::class,
+    ExperimentalMaterial3Api::class
 )
 @Composable
 fun AvailableColorTuplesDialog(

@@ -10,7 +10,6 @@ import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.LocalIndication
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.detectTapGestures
@@ -142,7 +141,7 @@ import ru.tech.imageresizershrinker.widget.utils.LocalWindowSizeClass
 import ru.tech.imageresizershrinker.widget.utils.isExpanded
 import ru.tech.imageresizershrinker.widget.utils.middleImageState
 
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun BatchResizeScreen(
     uriState: List<Uri>?,
