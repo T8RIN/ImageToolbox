@@ -31,6 +31,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.BurstMode
 import androidx.compose.material.icons.outlined.ErrorOutline
+import androidx.compose.material.icons.outlined.FolderOff
 import androidx.compose.material.icons.outlined.Image
 import androidx.compose.material.icons.rounded.AddCircleOutline
 import androidx.compose.material.icons.rounded.Block
@@ -102,6 +103,7 @@ import ru.tech.imageresizershrinker.utils.storage.toUiPath
 import ru.tech.imageresizershrinker.widget.PreferenceRow
 import ru.tech.imageresizershrinker.widget.PreferenceRowSwitch
 import ru.tech.imageresizershrinker.widget.TitleItem
+import ru.tech.imageresizershrinker.widget.ToastDuration
 import ru.tech.imageresizershrinker.widget.ToastHostState
 import ru.tech.imageresizershrinker.widget.image.Picture
 import ru.tech.imageresizershrinker.widget.utils.LocalSettingsState
@@ -119,7 +121,7 @@ fun LazyListScope.SettingsBlock(
     onShowAuthor: () -> Unit,
     settingsState: SettingsState,
     currentFolderUri: Uri?,
-    toastHost: ToastHostState,
+    toastHostState: ToastHostState,
     scope: CoroutineScope,
     context: Context,
     viewModel: MainViewModel
@@ -244,7 +246,7 @@ fun LazyListScope.SettingsBlock(
                     onClick = {
                         if (enabled) onEditColorScheme()
                         else scope.launch {
-                            toastHost.showToast(
+                            toastHostState.showToast(
                                 icon = Icons.Rounded.Palette,
                                 message = context.getString(R.string.cannot_change_palette_while_dynamic_colors_applied)
                             )
@@ -580,21 +582,7 @@ fun LazyListScope.SettingsBlock(
         // Folder
         Column {
             val launcher = rememberLauncherForActivityResult(
-                contract = object :
-                    ActivityResultContracts.OpenDocumentTree() {
-                    override fun createIntent(
-                        context: Context,
-                        input: Uri?
-                    ): Intent {
-                        val intent = super.createIntent(context, input)
-                        intent.addFlags(
-                            Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION or
-                                    Intent.FLAG_GRANT_WRITE_URI_PERMISSION or
-                                    Intent.FLAG_GRANT_READ_URI_PERMISSION
-                        )
-                        return intent
-                    }
-                },
+                contract = ActivityResultContracts.OpenDocumentTree(),
                 onResult = { uri ->
                     uri?.let {
                         viewModel.updateSaveFolderUri(it)
@@ -636,7 +624,17 @@ fun LazyListScope.SettingsBlock(
             )
             Spacer(modifier = Modifier.height(8.dp))
             PreferenceItem(
-                onClick = { launcher.launch(currentFolderUri) },
+                onClick = {
+                    kotlin.runCatching {
+                        launcher.launch(currentFolderUri)
+                    }.getOrNull() ?: scope.launch {
+                        toastHostState.showToast(
+                            context.getString(R.string.activate_files),
+                            icon = Icons.Outlined.FolderOff,
+                            duration = ToastDuration.Long
+                        )
+                    }
+                },
                 title = stringResource(R.string.custom),
                 subtitle = currentFolderUri.toUiPath(
                     context = LocalContext.current,
@@ -724,7 +722,7 @@ fun LazyListScope.SettingsBlock(
                 onClick = {
                     if (enabled) viewModel.updateAddOriginalFilename()
                     else scope.launch {
-                        toastHost.showToast(
+                        toastHostState.showToast(
                             message = context.getString(R.string.filename_not_work_with_photopicker),
                             icon = Icons.Outlined.ErrorOutline
                         )
@@ -894,7 +892,7 @@ fun LazyListScope.SettingsBlock(
                             newRequest = true,
                             onNoUpdates = {
                                 scope.launch {
-                                    toastHost.showToast(
+                                    toastHostState.showToast(
                                         icon = Icons.Rounded.FileDownloadOff,
                                         message = context.getString(R.string.no_updates)
                                     )

@@ -372,7 +372,7 @@ fun MainScreen(
                         onShowAuthor = { showAuthorDialog.value = true },
                         settingsState = settingsState,
                         currentFolderUri = currentFolderUri,
-                        toastHost = toastHost,
+                        toastHostState = toastHost,
                         scope = scope,
                         context = context,
                         viewModel = viewModel
