@@ -110,19 +110,19 @@ fun ColorPickerDialog(
     title: String = stringResource(R.string.color_scheme),
     onColorChange: (ColorTuple) -> Unit
 ) {
-    var primary by rememberSaveable { mutableIntStateOf(colorTuple.primary.toArgb()) }
-    var secondary by rememberSaveable {
+    var primary by rememberSaveable(colorTuple) { mutableIntStateOf(colorTuple.primary.toArgb()) }
+    var secondary by rememberSaveable(colorTuple) {
         mutableIntStateOf(
             colorTuple.secondary?.toArgb() ?: colorTuple.primary.calculateSecondaryColor()
         )
     }
-    var tertiary by rememberSaveable {
+    var tertiary by rememberSaveable(colorTuple) {
         mutableIntStateOf(
             colorTuple.tertiary?.toArgb() ?: colorTuple.primary.calculateTertiaryColor()
         )
     }
 
-    var surface by rememberSaveable {
+    var surface by rememberSaveable(colorTuple) {
         mutableIntStateOf(
             colorTuple.surface?.toArgb() ?: colorTuple.primary.calculateSurfaceColor()
         )
@@ -330,7 +330,9 @@ fun AvailableColorTuplesDialog(
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .background(MaterialTheme.colorScheme.surfaceColorAtElevation(10.dp))
+                    .background(MaterialTheme.colorScheme.surfaceColorAtElevation(10.dp)),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.Center
             ) {
                 TitleItem(
                     text = stringResource(R.string.color_scheme),

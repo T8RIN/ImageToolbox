@@ -55,6 +55,7 @@ import androidx.compose.material3.Divider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Slider
+import androidx.compose.material3.SliderDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
@@ -360,7 +361,24 @@ fun LazyListScope.SettingsBlock(
                         )
                     }
                     Slider(
-                        modifier = Modifier.padding(horizontal = 16.dp),
+                        modifier = Modifier
+                            .padding(top = 16.dp, start = 12.dp, end = 12.dp, bottom = 8.dp)
+                            .offset(y = (-2).dp)
+                            .background(
+                                color = MaterialTheme.colorScheme.secondaryContainer,
+                                shape = CircleShape
+                            )
+                            .height(40.dp)
+                            .border(
+                                width = settingsState.borderWidth,
+                                color = MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.secondaryContainer),
+                                shape = CircleShape
+                            )
+                            .padding(horizontal = 10.dp),
+                        colors = SliderDefaults.colors(
+                            inactiveTrackColor =
+                            MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.secondaryContainer)
+                        ),
                         value = animateFloatAsState(sliderValue.toFloat()).value,
                         onValueChange = {
                             sliderValue = it.toInt()
@@ -430,7 +448,24 @@ fun LazyListScope.SettingsBlock(
                         )
                     }
                     Slider(
-                        modifier = Modifier.padding(horizontal = 16.dp),
+                        modifier = Modifier
+                            .padding(top = 16.dp, start = 12.dp, end = 12.dp, bottom = 8.dp)
+                            .offset(y = (-2).dp)
+                            .background(
+                                color = MaterialTheme.colorScheme.secondaryContainer,
+                                shape = CircleShape
+                            )
+                            .height(40.dp)
+                            .border(
+                                width = settingsState.borderWidth,
+                                color = MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.secondaryContainer),
+                                shape = CircleShape
+                            )
+                            .padding(horizontal = 10.dp),
+                        colors = SliderDefaults.colors(
+                            inactiveTrackColor =
+                            MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.secondaryContainer)
+                        ),
                         value = animateFloatAsState(sliderValue).value,
                         onValueChange = {
                             sliderValue = it
@@ -470,7 +505,7 @@ fun LazyListScope.SettingsBlock(
                         Column(
                             Modifier
                                 .weight(1f)
-                                .height(115.dp)
+                                .height(136.dp)
                         ) {
                             Text(
                                 text = stringResource(R.string.fab_alignment),
@@ -506,7 +541,24 @@ fun LazyListScope.SettingsBlock(
                             }
                             Spacer(modifier = Modifier.weight(1f))
                             Slider(
-                                modifier = Modifier.padding(horizontal = 12.dp),
+                                modifier = Modifier
+                                    .padding(start = 12.dp, end = 12.dp, bottom = 4.dp, top = 4.dp)
+                                    .offset(y = (-2).dp)
+                                    .background(
+                                        color = MaterialTheme.colorScheme.secondaryContainer,
+                                        shape = CircleShape
+                                    )
+                                    .height(40.dp)
+                                    .border(
+                                        width = settingsState.borderWidth,
+                                        color = MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.secondaryContainer),
+                                        shape = CircleShape
+                                    )
+                                    .padding(horizontal = 10.dp),
+                                colors = SliderDefaults.colors(
+                                    inactiveTrackColor =
+                                    MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.secondaryContainer)
+                                ),
                                 value = animateFloatAsState(sliderValue).value,
                                 onValueChange = {
                                     sliderValue = it
@@ -517,11 +569,10 @@ fun LazyListScope.SettingsBlock(
                                 valueRange = 0f..2f,
                                 steps = 1
                             )
-                            Spacer(modifier = Modifier.weight(1f))
                         }
                         FabPreview(
                             alignment = sliderValue.roundToInt().toAlignment(),
-                            modifier = Modifier.width(64.dp)
+                            modifier = Modifier.width(74.dp)
                         )
                     }
                 }
