@@ -5,6 +5,7 @@ import android.net.Uri
 import android.os.Build
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.exifinterface.media.ExifInterface
 import androidx.lifecycle.ViewModel
@@ -48,7 +49,7 @@ class BatchResizeViewModel : ViewModel() {
     private val _shouldShowPreview: MutableState<Boolean> = mutableStateOf(true)
     val shouldShowPreview by _shouldShowPreview
 
-    private val _presetSelected: MutableState<Int> = mutableStateOf(-1)
+    private val _presetSelected: MutableState<Int> = mutableIntStateOf(-1)
     val presetSelected by _presetSelected
 
     private val _isTelegramSpecs: MutableState<Boolean> = mutableStateOf(false)
@@ -57,7 +58,7 @@ class BatchResizeViewModel : ViewModel() {
     private val _previewBitmap: MutableState<Bitmap?> = mutableStateOf(null)
     val previewBitmap: Bitmap? by _previewBitmap
 
-    private val _done: MutableState<Int> = mutableStateOf(0)
+    private val _done: MutableState<Int> = mutableIntStateOf(0)
     val done by _done
 
     private val _selectedUri: MutableState<Uri?> = mutableStateOf(null)
@@ -280,39 +281,38 @@ class BatchResizeViewModel : ViewModel() {
         onComplete: (success: Boolean) -> Unit
     ) = viewModelScope.launch {
         withContext(Dispatchers.IO) {
-            bitmapInfo.apply {
-                if (!fileController.isExternalStorageWritable()) {
-                    onComplete(false)
-                } else {
-                    _done.value = 0
-                    uris?.forEach { uri ->
-                        runCatching {
-                            getBitmap(uri)
-                        }.getOrNull()?.takeIf { it.first != null }?.let { (bitmap, exif) ->
-                            val tWidth = width
-                            val tHeight = height
-
+            if (!fileController.isExternalStorageWritable()) {
+                onComplete(false)
+            } else {
+                _done.value = 0
+                uris?.forEach { uri ->
+                    runCatching {
+                        getBitmap(uri)
+                    }.getOrNull()?.takeIf { it.first != null }?.let { (bitmap, exif) ->
+                        bitmapInfo.let {
+                            presetSelected.applyPresetBy(
+                                bitmap = bitmap,
+                                currentInfo = it
+                            )
+                        }.apply {
                             val localBitmap = bitmap!!.rotate(rotationDegrees)
-                                .resizeBitmap(tWidth, tHeight, resizeType)
+                                .resizeBitmap(width, height, resizeType)
                                 .flip(isFlipped)
                             val savingFolder = fileController.getSavingFolder(
                                 SaveTarget(
-                                    bitmapInfo = bitmapInfo,
+                                    bitmapInfo = this,
                                     uri = uri,
                                     sequenceNumber = _done.value + 1
                                 )
                             )
 
-                            val fos = savingFolder.outputStream
-
-                            localBitmap.compress(
-                                mimeTypeInt.extension.compressFormat,
-                                quality.toInt().coerceIn(0, 100),
-                                fos
-                            )
-
-                            fos!!.flush()
-                            fos.close()
+                            savingFolder.outputStream?.use {
+                                localBitmap.compress(
+                                    mimeTypeInt.extension.compressFormat,
+                                    quality.toInt().coerceIn(0, 100),
+                                    it
+                                )
+                            }
 
                             if (keepExif) {
                                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
@@ -331,12 +331,11 @@ class BatchResizeViewModel : ViewModel() {
                                     ex.saveAttributes()
                                 }
                             }
-
                         }
-                        _done.value += 1
                     }
-                    onComplete(true)
+                    _done.value += 1
                 }
+                onComplete(true)
             }
         }
     }
