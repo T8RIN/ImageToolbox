@@ -126,6 +126,7 @@ dependencies {
     implementation(project(":image"))
     implementation(project(":modalsheet"))
     implementation(project(":gpuimage"))
+    implementation(project(":drawbox"))
 
     implementation("org.burnoutcrew.composereorderable:reorderable:0.9.6")
 

@@ -269,6 +269,8 @@
     <string name="color_balance">Color balance</string>
     <string name="luminance_threshold">Luminance threshold</string>
     <string name="activate_files">You disabled Files app, activate it to use this feature</string>
+    <string name="draw">Draw</string>
+    <string name="draw_sub">Draw on image like in a sketchbook, or draw on the background itself</string>
     <string-array name="fab_alignment_sub">
         <item>Start</item>
         <item>Center</item>

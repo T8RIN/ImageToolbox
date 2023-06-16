@@ -126,6 +126,12 @@ class DrawView @JvmOverloads constructor(
         invalidate()
     }
 
+    override fun clearPaths() {
+        paths = LinkedHashMap()
+        lastPaths = LinkedHashMap()
+        undonePaths = LinkedHashMap()
+    }
+
     fun clearCanvas() {
         lastPaths = paths.clone() as LinkedHashMap<DrawPath, PaintOptions>
         drawPath.reset()

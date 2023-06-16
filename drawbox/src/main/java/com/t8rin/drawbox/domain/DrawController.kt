@@ -40,4 +40,6 @@ interface DrawController {
     fun changePaint(paintOptions: PaintOptions)
 
     fun toggleEraser()
+
+    fun clearPaths()
 }

@@ -9,6 +9,7 @@ import androidx.compose.material.icons.rounded.Colorize
 import androidx.compose.material.icons.rounded.Compare
 import androidx.compose.material.icons.rounded.Crop
 import androidx.compose.material.icons.rounded.Dataset
+import androidx.compose.material.icons.rounded.Draw
 import androidx.compose.material.icons.rounded.InsertDriveFile
 import androidx.compose.material.icons.rounded.Photo
 import androidx.compose.material.icons.rounded.PhotoFilter
@@ -64,50 +65,57 @@ sealed class Screen(
         subtitle = R.string.filter_sub
     )
 
-    class ImagePreview(val uris: List<Uri>? = null) : Screen(
+    class Draw(val uri: Uri? = null) : Screen(
         id = 5,
+        icon = Icons.Rounded.Draw,
+        title = R.string.draw,
+        subtitle = R.string.draw_sub
+    )
+
+    class ImagePreview(val uris: List<Uri>? = null) : Screen(
+        id = 6,
         icon = Icons.Rounded.Photo,
         title = R.string.image_preview,
         subtitle = R.string.image_preview_sub
     )
 
     class LoadNetImage(val uris: List<Uri>? = null) : Screen(
-        id = 6,
+        id = 7,
         icon = Icons.Rounded.Public,
         title = R.string.load_image_from_net,
         subtitle = R.string.load_image_from_net_sub
     )
 
     class PickColorFromImage(val uri: Uri? = null) : Screen(
-        id = 7,
+        id = 8,
         icon = Icons.Rounded.Colorize,
         title = R.string.pick_color,
         subtitle = R.string.pick_color_sub
     )
 
     class GeneratePalette(val uri: Uri? = null) : Screen(
-        id = 8,
+        id = 9,
         icon = Icons.Rounded.PaletteSwatch,
         title = R.string.generate_palette,
         subtitle = R.string.palette_sub
     )
 
     class DeleteExif(val uris: List<Uri>? = null) : Screen(
-        id = 9,
+        id = 10,
         icon = Icons.Rounded.Dataset,
         title = R.string.delete_exif,
         subtitle = R.string.delete_exif_sub
     )
 
     class Compare(val uris: List<Uri>? = null) : Screen(
-        id = 10,
+        id = 11,
         icon = Icons.Rounded.Compare,
         title = R.string.compare,
         subtitle = R.string.compare_sub
     )
 
     class LimitResize(val uris: List<Uri>? = null) : Screen(
-        id = 11,
+        id = 12,
         icon = Icons.Outlined.Margin,
         title = R.string.limits_resize,
         subtitle = R.string.limits_resize_sub
@@ -120,6 +128,7 @@ sealed class Screen(
             ResizeByBytes(),
             Crop(),
             Filter(),
+            Draw(),
             ImagePreview(),
             LoadNetImage(),
             PickColorFromImage(),

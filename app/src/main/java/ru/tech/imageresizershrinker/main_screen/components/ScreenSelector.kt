@@ -10,6 +10,7 @@ import ru.tech.imageresizershrinker.bytes_resize_screen.BytesResizeScreen
 import ru.tech.imageresizershrinker.compare_screen.CompareScreen
 import ru.tech.imageresizershrinker.crop_screen.CropScreen
 import ru.tech.imageresizershrinker.delete_exif_screen.DeleteExifScreen
+import ru.tech.imageresizershrinker.draw_screen.DrawScreen
 import ru.tech.imageresizershrinker.filters_screen.FiltersScreen
 import ru.tech.imageresizershrinker.generate_palette_screen.GeneratePaletteScreen
 import ru.tech.imageresizershrinker.image_preview_screen.ImagePreviewScreen
@@ -132,6 +133,13 @@ fun ScreenSelector(
             is Screen.LimitResize -> {
                 LimitsResizeScreen(
                     uriState = screen.uris,
+                    onGoBack = onGoBack
+                )
+            }
+
+            is Screen.Draw -> {
+                DrawScreen(
+                    uriState = screen.uri,
                     onGoBack = onGoBack
                 )
             }
