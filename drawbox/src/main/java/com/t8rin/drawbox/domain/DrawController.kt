@@ -1,5 +1,3 @@
-@file:Suppress("UNCHECKED_CAST")
-
 package com.t8rin.drawbox.domain
 
 import android.graphics.Bitmap
