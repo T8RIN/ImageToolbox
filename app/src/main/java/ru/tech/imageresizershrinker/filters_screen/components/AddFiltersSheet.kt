@@ -404,7 +404,7 @@ fun AddFiltersSheet(
                         }
                     },
                     title = {
-                        Marquee(edgeColor = MaterialTheme.colorScheme.surfaceColorAtElevation(2.dp)) {
+                        Marquee(edgeColor = MaterialTheme.colorScheme.surfaceColorAtElevation(10.dp)) {
                             Text(
                                 text = stringResource(
                                     id = previewSheetData?.title ?: R.string.app_name

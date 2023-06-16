@@ -3,9 +3,11 @@ package ru.tech.imageresizershrinker.main_screen.components
 import android.content.Intent
 import android.net.Uri
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -19,6 +21,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.ProvideTextStyle
 import androidx.compose.material3.Text
+import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.MutableState
@@ -52,14 +55,21 @@ fun UpdateSheet(changelog: String, tag: String, visible: MutableState<Boolean>) 
                         verticalArrangement = Arrangement.Center,
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
-                        CompositionLocalProvider(
-                            LocalContentColor.provides(MaterialTheme.colorScheme.onSurface),
-                            LocalTextStyle.provides(MaterialTheme.typography.bodyLarge)
+                        Box(
+                            contentAlignment = Alignment.Center,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .background(MaterialTheme.colorScheme.surfaceColorAtElevation(10.dp))
                         ) {
-                            TitleItem(
-                                text = stringResource(R.string.new_version, tag),
-                                icon = Icons.Rounded.Download
-                            )
+                            CompositionLocalProvider(
+                                LocalContentColor.provides(MaterialTheme.colorScheme.onSurface),
+                                LocalTextStyle.provides(MaterialTheme.typography.bodyLarge)
+                            ) {
+                                TitleItem(
+                                    text = stringResource(R.string.new_version, tag),
+                                    icon = Icons.Rounded.Download
+                                )
+                            }
                         }
                         Divider()
                         Column(Modifier.verticalScroll(rememberScrollState())) {
