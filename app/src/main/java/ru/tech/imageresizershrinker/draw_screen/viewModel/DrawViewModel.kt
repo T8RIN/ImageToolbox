@@ -13,6 +13,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import ru.tech.imageresizershrinker.utils.helper.BitmapInfo
+import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.overlayWith
+import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.resizeBitmap
 import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.scaleUntilCanShow
 import ru.tech.imageresizershrinker.utils.helper.compressFormat
 import ru.tech.imageresizershrinker.utils.helper.extension
@@ -35,7 +37,7 @@ class DrawViewModel : ViewModel() {
     private val _bitmap: MutableState<Bitmap?> = mutableStateOf(null)
     val bitmap: Bitmap? by _bitmap
 
-    val isBitmapChanged get() = internalBitmap.value != _bitmap.value
+    val isBitmapChanged: Boolean get() = !drawController?.paths.isNullOrEmpty()
 
     private val _mimeType = mutableStateOf(0)
     val mimeType by _mimeType
@@ -73,34 +75,40 @@ class DrawViewModel : ViewModel() {
                 if (!fileController.isExternalStorageWritable()) {
                     onComplete(false)
                 } else {
-                    val localBitmap = bitmap
-
-                    val savingFolder = fileController.getSavingFolder(
-                        SaveTarget(
-                            bitmapInfo = BitmapInfo(
-                                mimeTypeInt = mimeType.extension.mimeTypeInt,
-                                width = localBitmap.width,
-                                height = localBitmap.height
-                            ),
-                            uri = _uri.value,
-                            sequenceNumber = null
+                    drawController?.getBitmap()?.let {
+                        bitmap.overlayWith(
+                            it.resizeBitmap(
+                                width_ = bitmap.width,
+                                height_ = bitmap.height,
+                                resize = 0
+                            )
                         )
-                    )
+                    }?.let { localBitmap ->
+                        val savingFolder = fileController.getSavingFolder(
+                            SaveTarget(
+                                bitmapInfo = BitmapInfo(
+                                    mimeTypeInt = mimeType.extension.mimeTypeInt,
+                                    width = localBitmap.width,
+                                    height = localBitmap.height
+                                ),
+                                uri = _uri.value,
+                                sequenceNumber = null
+                            )
+                        )
 
-                    val fos = savingFolder.outputStream
+                        val fos = savingFolder.outputStream
 
-                    localBitmap.compress(mimeType.extension.compressFormat, 100, fos)
-                    val out = ByteArrayOutputStream()
-                    localBitmap.compress(mimeType.extension.compressFormat, 100, out)
-                    val decoded =
-                        BitmapFactory.decodeStream(ByteArrayInputStream(out.toByteArray()))
+                        localBitmap.compress(mimeType.extension.compressFormat, 100, fos)
+                        val out = ByteArrayOutputStream()
+                        localBitmap.compress(mimeType.extension.compressFormat, 100, out)
+                        val decoded =
+                            BitmapFactory.decodeStream(ByteArrayInputStream(out.toByteArray()))
 
-                    out.flush()
-                    out.close()
-                    fos!!.flush()
-                    fos.close()
-
-                    _bitmap.value = decoded
+                        out.flush()
+                        out.close()
+                        fos!!.flush()
+                        fos.close()
+                    }
                     onComplete(true)
                 }
             }

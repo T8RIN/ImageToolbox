@@ -2,7 +2,6 @@ package ru.tech.imageresizershrinker.draw_screen
 
 
 import android.content.res.Configuration
-import android.graphics.Bitmap
 import android.net.Uri
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.BackHandler
@@ -130,6 +129,7 @@ import ru.tech.imageresizershrinker.widget.text.Marquee
 import ru.tech.imageresizershrinker.widget.utils.LocalSettingsState
 import ru.tech.imageresizershrinker.widget.utils.LocalWindowSizeClass
 import ru.tech.imageresizershrinker.widget.utils.isScrollingUp
+import kotlin.math.roundToInt
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -220,10 +220,9 @@ fun DrawScreen(
     var showSaveLoading by rememberSaveable { mutableStateOf(false) }
 
     val fileController = LocalFileController.current
-    val saveBitmap: (Bitmap) -> Unit = {
+    val saveBitmap: () -> Unit = {
         showSaveLoading = true
         viewModel.saveBitmap(
-            bitmap = it,
             fileController = fileController,
         ) { success ->
             if (!success) context.requestStoragePermission()
@@ -330,7 +329,7 @@ fun DrawScreen(
                             }
                             IconButton(
                                 onClick = {
-                                    viewModel.resetBitmap()
+                                    viewModel.drawController?.clearPaths()
                                 },
                                 enabled = viewModel.bitmap != null && viewModel.isBitmapChanged
                             ) {
@@ -420,9 +419,7 @@ fun DrawScreen(
                                 )
                                 Spacer(modifier = Modifier.height(16.dp))
                                 FloatingActionButton(
-                                    onClick = {
-                                        /*TODO*/
-                                    },
+                                    onClick = saveBitmap,
                                     modifier = Modifier.fabBorder(),
                                     elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
                                 ) {
@@ -537,9 +534,7 @@ fun DrawScreen(
                             }
                             Spacer(modifier = Modifier.width(16.dp))
                             FloatingActionButton(
-                                onClick = {
-                                    /*TODO*/
-                                },
+                                onClick = saveBitmap,
                                 modifier = Modifier.fabBorder(),
                                 elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
                             ) {
@@ -569,7 +564,7 @@ fun DrawScreen(
                         LazyRow(
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .height(1.2.dp * 50 + 32.dp),
+                                .height(1.2.dp * 40 + 32.dp),
                             contentPadding = PaddingValues(horizontal = 16.dp),
                             horizontalArrangement = Arrangement.spacedBy(16.dp),
                             verticalAlignment = Alignment.CenterVertically
@@ -583,9 +578,9 @@ fun DrawScreen(
                                     Modifier
                                         .size(
                                             animateDpAsState(
-                                                50.dp.times(
+                                                40.dp.times(
                                                     if (viewModel.drawController?.paintOptions?.color == alphaColor) {
-                                                        1.2f
+                                                        1.3f
                                                     } else 1f
                                                 )
                                             ).value
@@ -607,7 +602,7 @@ fun DrawScreen(
                             modifier = Modifier
                                 .align(Alignment.CenterStart)
                                 .width(6.dp)
-                                .height(1.2.dp * 50 + 32.dp)
+                                .height(1.3.dp * 40 + 16.dp)
                                 .background(
                                     brush = Brush.horizontalGradient(
                                         0f to MaterialTheme.colorScheme.surfaceColorAtElevation(1.dp),
@@ -619,7 +614,7 @@ fun DrawScreen(
                             modifier = Modifier
                                 .align(Alignment.CenterEnd)
                                 .width(6.dp)
-                                .height(1.2.dp * 50 + 32.dp)
+                                .height(1.3.dp * 40 + 16.dp)
                                 .background(
                                     brush = Brush.horizontalGradient(
                                         0f to Color.Transparent,
@@ -628,6 +623,61 @@ fun DrawScreen(
                                 )
                         )
                     }
+                }
+                Column(
+                    Modifier
+                        .padding(start = 16.dp, end = 16.dp, bottom = 16.dp)
+                        .block()
+                        .animateContentSize()
+                ) {
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Text(
+                            text = stringResource(R.string.alpha),
+                            modifier = Modifier
+                                .padding(
+                                    top = 16.dp,
+                                    end = 16.dp,
+                                    start = 16.dp
+                                )
+                                .weight(1f)
+                        )
+                        Text(
+                            text = "${((viewModel.drawController?.paintOptions?.alpha?.toFloat() ?: 100f) / 255 * 100).roundToInt()}",
+                            color = MaterialTheme.colorScheme.onSurface.copy(
+                                alpha = 0.5f
+                            ),
+                            modifier = Modifier.padding(top = 16.dp, end = 16.dp),
+                            lineHeight = 18.sp
+                        )
+                    }
+                    Slider(
+                        modifier = Modifier
+                            .padding(top = 16.dp, start = 12.dp, end = 12.dp, bottom = 8.dp)
+                            .offset(y = (-2).dp)
+                            .background(
+                                color = MaterialTheme.colorScheme.secondaryContainer,
+                                shape = CircleShape
+                            )
+                            .height(40.dp)
+                            .border(
+                                width = settingsState.borderWidth,
+                                color = MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.secondaryContainer),
+                                shape = CircleShape
+                            )
+                            .padding(horizontal = 10.dp),
+                        colors = SliderDefaults.colors(
+                            inactiveTrackColor =
+                            MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.secondaryContainer)
+                        ),
+                        value = (viewModel.drawController?.paintOptions?.alpha?.toFloat()
+                            ?: 100f) / 255 * 100,
+                        valueRange = 1f..100f,
+                        onValueChange = {
+                            viewModel.drawController?.setAlpha(it.roundToInt())
+                        }
+                    )
                 }
                 Column(
                     Modifier

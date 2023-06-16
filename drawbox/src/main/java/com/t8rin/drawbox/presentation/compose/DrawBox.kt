@@ -55,7 +55,6 @@ fun DrawBox(
                     it.isEraserOn = isEraserOn
                     it.curX = curX
                     it.curY = curY
-                    it.isSaving = isSaving
                     it.isStrokeWidthBarEnabled = isStrokeWidthBarEnabled
                     it.lastPaths = lastPaths
                     it.paint = paint

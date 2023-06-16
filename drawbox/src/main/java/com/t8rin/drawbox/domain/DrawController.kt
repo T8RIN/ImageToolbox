@@ -20,7 +20,6 @@ interface DrawController {
     var curY: Float
     var startX: Float
     var startY: Float
-    var isSaving: Boolean
     var isStrokeWidthBarEnabled: Boolean
     var isEraserOn: Boolean
 
@@ -34,7 +33,7 @@ interface DrawController {
 
     fun setStrokeWidth(newStrokeWidth: Float)
 
-    fun getBitmap(): Bitmap
+    suspend fun getBitmap(): Bitmap
 
     fun addPath(path: DrawPath, options: PaintOptions)
 

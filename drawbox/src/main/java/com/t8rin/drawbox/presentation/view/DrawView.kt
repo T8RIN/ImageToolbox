@@ -38,7 +38,6 @@ class DrawView @JvmOverloads constructor(
     override var curY = 0f
     override var startX = 0f
     override var startY = 0f
-    override var isSaving by mutableStateOf(false)
     override var isStrokeWidthBarEnabled by mutableStateOf(false)
 
     override var isEraserOn by mutableStateOf(false)
@@ -114,12 +113,10 @@ class DrawView @JvmOverloads constructor(
         }
     }
 
-    override fun getBitmap(): Bitmap {
+    override suspend fun getBitmap(): Bitmap {
         val bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
         val canvas = Canvas(bitmap)
-        isSaving = true
         draw(canvas)
-        isSaving = false
         return bitmap
     }
 
@@ -149,6 +146,7 @@ class DrawView @JvmOverloads constructor(
         paths = linkedMapOf()
         lastPaths = linkedMapOf()
         undonePaths = linkedMapOf()
+        invalidate()
     }
 
     fun clearCanvas() {
