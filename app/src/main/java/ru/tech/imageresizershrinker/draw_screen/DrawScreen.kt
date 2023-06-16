@@ -7,6 +7,7 @@ import android.net.Uri
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -27,6 +28,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.navigationBarsPadding
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -41,7 +43,9 @@ import androidx.compose.material.icons.outlined.Share
 import androidx.compose.material.icons.rounded.AddPhotoAlternate
 import androidx.compose.material.icons.rounded.ArrowBack
 import androidx.compose.material.icons.rounded.Build
+import androidx.compose.material.icons.rounded.Redo
 import androidx.compose.material.icons.rounded.Save
+import androidx.compose.material.icons.rounded.Undo
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.BottomSheetScaffold
 import androidx.compose.material3.Divider
@@ -54,6 +58,8 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.LargeTopAppBar
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SheetValue
+import androidx.compose.material3.Slider
+import androidx.compose.material3.SliderDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
@@ -71,6 +77,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.asImageBitmap
@@ -95,6 +102,7 @@ import ru.tech.imageresizershrinker.utils.LocalConfettiController
 import ru.tech.imageresizershrinker.utils.coil.filters.SaturationFilter
 import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.decodeBitmapByUri
 import ru.tech.imageresizershrinker.utils.helper.ContextUtils.requestStoragePermission
+import ru.tech.imageresizershrinker.utils.modifier.block
 import ru.tech.imageresizershrinker.utils.modifier.drawHorizontalStroke
 import ru.tech.imageresizershrinker.utils.modifier.fabBorder
 import ru.tech.imageresizershrinker.utils.modifier.navBarsPaddingOnlyIfTheyAtTheBottom
@@ -261,7 +269,7 @@ fun DrawScreen(
                             Marquee(
                                 edgeColor = MaterialTheme.colorScheme.surfaceColorAtElevation(3.dp)
                             ) {
-                                Text(stringResource(R.string.crop))
+                                Text(stringResource(R.string.draw))
                             }
                         },
                         colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
@@ -287,7 +295,38 @@ fun DrawScreen(
                             Marquee(
                                 edgeColor = MaterialTheme.colorScheme.surfaceColorAtElevation(3.dp)
                             ) {
-                                Text(stringResource(R.string.crop))
+                                Text(stringResource(R.string.draw))
+                            }
+                        },
+                        actions = {
+                            IconButton(
+                                onClick = {
+                                    scope.launch {
+                                        if (scaffoldState.bottomSheetState.currentValue == SheetValue.Expanded) {
+                                            scaffoldState.bottomSheetState.partialExpand()
+                                        } else {
+                                            scaffoldState.bottomSheetState.expand()
+                                        }
+                                    }
+                                },
+                            ) {
+                                Icon(Icons.Rounded.Build, null)
+                            }
+                            IconButton(
+                                onClick = {
+                                    /*TODO*/
+                                },
+                                enabled = viewModel.bitmap != null
+                            ) {
+                                Icon(Icons.Outlined.Share, null)
+                            }
+                            IconButton(
+                                onClick = {
+                                    viewModel.resetBitmap()
+                                },
+                                enabled = viewModel.bitmap != null && viewModel.isBitmapChanged
+                            ) {
+                                Icon(Icons.Outlined.RestartAlt, null)
                             }
                         },
                         colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
@@ -429,33 +468,16 @@ fun DrawScreen(
                     modifier = Modifier.drawHorizontalStroke(true),
                     actions = {
                         IconButton(
-                            onClick = {
-                                viewModel.resetBitmap()
-                            },
-                            enabled = viewModel.bitmap != null && viewModel.isBitmapChanged
+                            onClick = { viewModel.drawController?.undo() },
+                            enabled = !viewModel.drawController?.paths.isNullOrEmpty()
                         ) {
-                            Icon(Icons.Outlined.RestartAlt, null)
+                            Icon(Icons.Rounded.Undo, null)
                         }
                         IconButton(
-                            onClick = {
-                                /*TODO*/
-                            },
-                            enabled = viewModel.bitmap != null
+                            onClick = { viewModel.drawController?.redo() },
+                            enabled = !viewModel.drawController?.undonePaths.isNullOrEmpty()
                         ) {
-                            Icon(Icons.Outlined.Share, null)
-                        }
-                        IconButton(
-                            onClick = {
-                                scope.launch {
-                                    if (scaffoldState.bottomSheetState.currentValue == SheetValue.Expanded) {
-                                        scaffoldState.bottomSheetState.partialExpand()
-                                    } else {
-                                        scaffoldState.bottomSheetState.expand()
-                                    }
-                                }
-                            },
-                        ) {
-                            Icon(Icons.Rounded.Build, null)
+                            Icon(Icons.Rounded.Redo, null)
                         }
                     },
                     floatingActionButton = {
@@ -496,53 +518,151 @@ fun DrawScreen(
                     }
                 )
                 Divider()
-                Row(
-                    Modifier.fillMaxWidth(),
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.Center
+                Column(
+                    Modifier
+                        .padding(16.dp)
+                        .block()
                 ) {
-                    Text(
-                        stringResource(R.string.color),
-                        modifier = Modifier.padding(top = 16.dp),
-                        fontSize = 18.sp
-                    )
-                }
-                LazyRow(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(1.2.dp * 50 + 32.dp),
-                    contentPadding = PaddingValues(16.dp),
-                    horizontalArrangement = Arrangement.spacedBy(16.dp),
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    items(defaultColorList) { color ->
-                        val alphaColor = ColorUtils.setAlphaComponent(
-                            color.toArgb(),
-                            viewModel.drawController?.paintOptions?.alpha ?: 255
-                        )
-                        Box(
-                            Modifier
-                                .size(
-                                    animateDpAsState(
-                                        50.dp.times(
-                                            if (viewModel.drawController?.paintOptions?.color == alphaColor) {
-                                                1.2f
-                                            } else 1f
-                                        )
-                                    ).value
-                                )
-                                .border(
-                                    width = settingsState.borderWidth,
-                                    color = MaterialTheme.colorScheme.outlineVariant(onTopOf = color),
-                                    shape = CircleShape
-                                )
-                                .clip(CircleShape)
-                                .background(color)
-                                .clickable {
-                                    viewModel.drawController?.setColor(alphaColor)
-                                }
+                    Row(
+                        Modifier.fillMaxWidth(),
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.Center
+                    ) {
+                        Text(
+                            stringResource(R.string.color),
+                            modifier = Modifier.padding(top = 16.dp),
+                            fontSize = 18.sp
                         )
                     }
+                    Box {
+                        LazyRow(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .height(1.2.dp * 50 + 32.dp),
+                            contentPadding = PaddingValues(horizontal = 16.dp),
+                            horizontalArrangement = Arrangement.spacedBy(16.dp),
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            items(defaultColorList) { color ->
+                                val alphaColor = ColorUtils.setAlphaComponent(
+                                    color.toArgb(),
+                                    viewModel.drawController?.paintOptions?.alpha ?: 255
+                                )
+                                Box(
+                                    Modifier
+                                        .size(
+                                            animateDpAsState(
+                                                50.dp.times(
+                                                    if (viewModel.drawController?.paintOptions?.color == alphaColor) {
+                                                        1.2f
+                                                    } else 1f
+                                                )
+                                            ).value
+                                        )
+                                        .border(
+                                            width = settingsState.borderWidth,
+                                            color = MaterialTheme.colorScheme.outlineVariant(onTopOf = color),
+                                            shape = CircleShape
+                                        )
+                                        .clip(CircleShape)
+                                        .background(color)
+                                        .clickable {
+                                            viewModel.drawController?.setColor(alphaColor)
+                                        }
+                                )
+                            }
+                        }
+                        Box(
+                            modifier = Modifier
+                                .align(Alignment.CenterStart)
+                                .width(6.dp)
+                                .height(1.2.dp * 50 + 32.dp)
+                                .background(
+                                    brush = Brush.horizontalGradient(
+                                        0f to MaterialTheme.colorScheme.surfaceColorAtElevation(1.dp),
+                                        1f to Color.Transparent
+                                    )
+                                )
+                        )
+                        Box(
+                            modifier = Modifier
+                                .align(Alignment.CenterEnd)
+                                .width(6.dp)
+                                .height(1.2.dp * 50 + 32.dp)
+                                .background(
+                                    brush = Brush.horizontalGradient(
+                                        0f to Color.Transparent,
+                                        1f to MaterialTheme.colorScheme.surfaceColorAtElevation(1.dp)
+                                    )
+                                )
+                        )
+                    }
+                }
+                Column(
+                    Modifier
+                        .padding(start = 16.dp, end = 16.dp, bottom = 16.dp)
+                        .block()
+                        .animateContentSize()
+                ) {
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Text(
+                            text = stringResource(R.string.line_width),
+                            modifier = Modifier
+                                .padding(
+                                    top = 16.dp,
+                                    end = 16.dp,
+                                    start = 16.dp
+                                )
+                                .weight(1f)
+                        )
+                        Text(
+                            text = "${viewModel.drawController?.paintOptions?.strokeWidth ?: 8f}",
+                            color = MaterialTheme.colorScheme.onSurface.copy(
+                                alpha = 0.5f
+                            ),
+                            modifier = Modifier.padding(top = 16.dp),
+                            lineHeight = 18.sp
+                        )
+                        Text(
+                            maxLines = 1,
+                            text = "Px",
+                            color = MaterialTheme.colorScheme.onSurface.copy(
+                                alpha = 0.5f
+                            ),
+                            modifier = Modifier.padding(
+                                start = 4.dp,
+                                top = 16.dp,
+                                end = 16.dp
+                            )
+                        )
+                    }
+                    Slider(
+                        modifier = Modifier
+                            .padding(top = 16.dp, start = 12.dp, end = 12.dp, bottom = 8.dp)
+                            .offset(y = (-2).dp)
+                            .background(
+                                color = MaterialTheme.colorScheme.secondaryContainer,
+                                shape = CircleShape
+                            )
+                            .height(40.dp)
+                            .border(
+                                width = settingsState.borderWidth,
+                                color = MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.secondaryContainer),
+                                shape = CircleShape
+                            )
+                            .padding(horizontal = 10.dp),
+                        colors = SliderDefaults.colors(
+                            inactiveTrackColor =
+                            MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.secondaryContainer)
+                        ),
+                        value = viewModel.drawController?.paintOptions?.strokeWidth ?: 8f,
+                        valueRange = 1f..100f,
+                        onValueChange = {
+                            viewModel.drawController?.setStrokeWidth((it * 100).toInt() / 100f)
+                        }
+                    )
                 }
                 Divider()
                 ExtensionGroup(

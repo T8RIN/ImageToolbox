@@ -13,6 +13,7 @@ import android.view.MotionEvent
 import android.view.View
 import androidx.annotation.ColorInt
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateMapOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.core.graphics.ColorUtils
@@ -23,10 +24,10 @@ import com.t8rin.drawbox.presentation.model.PaintOptions
 class DrawView @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
 ) : View(context, attrs, defStyleAttr), DrawController {
-    override var paths = LinkedHashMap<DrawPath, PaintOptions>()
+    override val paths = mutableStateMapOf<DrawPath, PaintOptions>()
 
-    override var lastPaths = LinkedHashMap<DrawPath, PaintOptions>()
-    override var undonePaths = LinkedHashMap<DrawPath, PaintOptions>()
+    override val lastPaths = mutableStateMapOf<DrawPath, PaintOptions>()
+    override val undonePaths = mutableStateMapOf<DrawPath, PaintOptions>()
 
     override var paint by mutableStateOf(Paint())
     override var drawPath by mutableStateOf(DrawPath())
@@ -54,7 +55,8 @@ class DrawView @JvmOverloads constructor(
 
     override fun undo() {
         if (paths.isEmpty() && lastPaths.isNotEmpty()) {
-            paths = lastPaths.clone() as LinkedHashMap<DrawPath, PaintOptions>
+            paths.clear()
+            paths.putAll(lastPaths)
             lastPaths.clear()
             invalidate()
             return
@@ -130,13 +132,13 @@ class DrawView @JvmOverloads constructor(
     }
 
     override fun clearPaths() {
-        paths = LinkedHashMap()
-        lastPaths = LinkedHashMap()
-        undonePaths = LinkedHashMap()
+        paths.clear()
+        lastPaths.clear()
+        undonePaths.clear()
     }
 
     fun clearCanvas() {
-        lastPaths = paths.clone() as LinkedHashMap<DrawPath, PaintOptions>
+        lastPaths.putAll(paths)
         drawPath.reset()
         paths.clear()
         invalidate()

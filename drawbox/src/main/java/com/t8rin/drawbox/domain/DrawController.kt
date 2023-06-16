@@ -2,15 +2,16 @@ package com.t8rin.drawbox.domain
 
 import android.graphics.Bitmap
 import android.graphics.Paint
+import androidx.compose.runtime.snapshots.SnapshotStateMap
 import com.t8rin.drawbox.presentation.model.DrawPath
 import com.t8rin.drawbox.presentation.model.PaintOptions
 
 
 interface DrawController {
-    var paths: LinkedHashMap<DrawPath, PaintOptions>
 
-    var lastPaths: LinkedHashMap<DrawPath, PaintOptions>
-    var undonePaths: LinkedHashMap<DrawPath, PaintOptions>
+    val paths: SnapshotStateMap<DrawPath, PaintOptions>
+    val lastPaths: SnapshotStateMap<DrawPath, PaintOptions>
+    val undonePaths: SnapshotStateMap<DrawPath, PaintOptions>
 
     var paint: Paint
     var drawPath: DrawPath

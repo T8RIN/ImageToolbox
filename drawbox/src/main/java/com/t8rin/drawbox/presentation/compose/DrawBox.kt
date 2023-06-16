@@ -52,16 +52,17 @@ fun DrawBox(
             modifier = drawingModifier.size(size),
             update = {
                 drawController?.apply {
+                    it.clearPaths()
                     it.isEraserOn = isEraserOn
                     it.curX = curX
                     it.curY = curY
                     it.isSaving = isSaving
                     it.isStrokeWidthBarEnabled = isStrokeWidthBarEnabled
-                    it.lastPaths = lastPaths
+                    it.lastPaths.putAll(lastPaths)
                     it.paint = paint
-                    it.paths = paths
+                    it.paths.putAll(paths)
                     it.paintOptions = paintOptions
-                    it.undonePaths = undonePaths
+                    it.undonePaths.putAll(undonePaths)
                     it.drawPath = drawPath
                     it.startX = startX
                     it.startY = startY
