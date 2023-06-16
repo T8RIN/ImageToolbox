@@ -29,6 +29,7 @@ interface DrawController {
     fun redo()
 
     fun setColor(newColor: Int)
+
     fun setAlpha(newAlpha: Int)
 
     fun setStrokeWidth(newStrokeWidth: Float)

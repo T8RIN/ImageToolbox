@@ -12,6 +12,9 @@ import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.View
 import androidx.annotation.ColorInt
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.core.graphics.ColorUtils
 import com.t8rin.drawbox.domain.DrawController
 import com.t8rin.drawbox.presentation.model.DrawPath
@@ -25,18 +28,18 @@ class DrawView @JvmOverloads constructor(
     override var lastPaths = LinkedHashMap<DrawPath, PaintOptions>()
     override var undonePaths = LinkedHashMap<DrawPath, PaintOptions>()
 
-    override var paint = Paint()
-    override var drawPath = DrawPath()
-    override var paintOptions = PaintOptions()
+    override var paint by mutableStateOf(Paint())
+    override var drawPath by mutableStateOf(DrawPath())
+    override var paintOptions by mutableStateOf(PaintOptions())
 
     override var curX = 0f
     override var curY = 0f
     override var startX = 0f
     override var startY = 0f
-    override var isSaving = false
-    override var isStrokeWidthBarEnabled = false
+    override var isSaving by mutableStateOf(false)
+    override var isStrokeWidthBarEnabled by mutableStateOf(false)
 
-    override var isEraserOn = false
+    override var isEraserOn by mutableStateOf(false)
 
     init {
         paint.apply {
@@ -83,7 +86,7 @@ class DrawView @JvmOverloads constructor(
     override fun setColor(newColor: Int) {
         @ColorInt
         val alphaColor = ColorUtils.setAlphaComponent(newColor, paintOptions.alpha)
-        paintOptions.color = alphaColor
+        paintOptions = paintOptions.copy(color = alphaColor)
         if (isStrokeWidthBarEnabled) {
             invalidate()
         }
@@ -91,12 +94,12 @@ class DrawView @JvmOverloads constructor(
 
     override fun setAlpha(newAlpha: Int) {
         val alpha = (newAlpha * 255) / 100
-        paintOptions.alpha = alpha
+        paintOptions = paintOptions.copy(alpha = alpha)
         setColor(paintOptions.color)
     }
 
     override fun setStrokeWidth(newStrokeWidth: Float) {
-        paintOptions.strokeWidth = newStrokeWidth
+        paintOptions = paintOptions.copy(strokeWidth = newStrokeWidth)
         if (isStrokeWidthBarEnabled) {
             invalidate()
         }
@@ -122,7 +125,7 @@ class DrawView @JvmOverloads constructor(
 
     override fun toggleEraser() {
         isEraserOn = !isEraserOn
-        paintOptions.isEraserOn = isEraserOn
+        paintOptions = paintOptions.copy(isEraserOn = isEraserOn)
         invalidate()
     }
 

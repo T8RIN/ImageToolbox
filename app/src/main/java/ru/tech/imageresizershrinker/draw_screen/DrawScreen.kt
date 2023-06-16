@@ -10,6 +10,8 @@ import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.Orientation
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -21,12 +23,17 @@ import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.RestartAlt
@@ -63,14 +70,19 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.asImageBitmap
+import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import androidx.core.graphics.ColorUtils
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.size.Size
 import com.t8rin.drawbox.presentation.compose.DrawBox
@@ -484,7 +496,54 @@ fun DrawScreen(
                     }
                 )
                 Divider()
-
+                Row(
+                    Modifier.fillMaxWidth(),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.Center
+                ) {
+                    Text(
+                        stringResource(R.string.color),
+                        modifier = Modifier.padding(top = 16.dp),
+                        fontSize = 18.sp
+                    )
+                }
+                LazyRow(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(1.2.dp * 50 + 32.dp),
+                    contentPadding = PaddingValues(16.dp),
+                    horizontalArrangement = Arrangement.spacedBy(16.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    items(defaultColorList) { color ->
+                        val alphaColor = ColorUtils.setAlphaComponent(
+                            color.toArgb(),
+                            viewModel.drawController?.paintOptions?.alpha ?: 255
+                        )
+                        Box(
+                            Modifier
+                                .size(
+                                    animateDpAsState(
+                                        50.dp.times(
+                                            if (viewModel.drawController?.paintOptions?.color == alphaColor) {
+                                                1.2f
+                                            } else 1f
+                                        )
+                                    ).value
+                                )
+                                .border(
+                                    width = settingsState.borderWidth,
+                                    color = MaterialTheme.colorScheme.outlineVariant(onTopOf = color),
+                                    shape = CircleShape
+                                )
+                                .clip(CircleShape)
+                                .background(color)
+                                .clickable {
+                                    viewModel.drawController?.setColor(alphaColor)
+                                }
+                        )
+                    }
+                }
                 Divider()
                 ExtensionGroup(
                     modifier = Modifier
@@ -516,3 +575,30 @@ fun DrawScreen(
 
     BackHandler(onBack = onBack)
 }
+
+private val defaultColorList = listOf(
+    Color(0xFFf8130d),
+    Color(0xFFb8070d),
+    Color(0xFF7a000b),
+    Color(0xFF8a3a00),
+    Color(0xFFff7900),
+    Color(0xFFfcf721),
+    Color(0xFFf8df09),
+    Color(0xFFc0dc18),
+    Color(0xFF88dd20),
+    Color(0xFF07ddc3),
+    Color(0xFF01a0a3),
+    Color(0xFF59cbf0),
+    Color(0xFF005FFF),
+    Color(0xFFfa64e1),
+    Color(0xFFfc50a6),
+    Color(0xFFd7036a),
+    Color(0xFFdb94fe),
+    Color(0xFFb035f8),
+    Color(0xFF7b2bec),
+    Color(0xFF022b6d),
+    Color(0xFFFFFFFF),
+    Color(0xFF768484),
+    Color(0xFF333333),
+    Color(0xFF0a0c0b),
+)
