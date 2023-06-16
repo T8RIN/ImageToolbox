@@ -86,11 +86,11 @@ import ru.tech.imageresizershrinker.common.DONATE
 import ru.tech.imageresizershrinker.common.ISSUE_TRACKER
 import ru.tech.imageresizershrinker.common.WEBLATE_LINK
 import ru.tech.imageresizershrinker.main_screen.viewModel.MainViewModel
-import ru.tech.imageresizershrinker.theme.CreateAlt
 import ru.tech.imageresizershrinker.theme.EmojiItem
-import ru.tech.imageresizershrinker.theme.FileSettings
-import ru.tech.imageresizershrinker.theme.Lamp
 import ru.tech.imageresizershrinker.theme.blend
+import ru.tech.imageresizershrinker.theme.icons.CreateAlt
+import ru.tech.imageresizershrinker.theme.icons.FileSettings
+import ru.tech.imageresizershrinker.theme.icons.Lamp
 import ru.tech.imageresizershrinker.theme.inverse
 import ru.tech.imageresizershrinker.theme.outlineVariant
 import ru.tech.imageresizershrinker.utils.helper.BitmapInfo

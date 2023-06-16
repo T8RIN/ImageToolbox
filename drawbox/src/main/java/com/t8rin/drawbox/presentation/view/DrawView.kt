@@ -1,4 +1,4 @@
-@file:Suppress("UNCHECKED_CAST", "unused", "MemberVisibilityCanBePrivate")
+@file:Suppress("unused", "MemberVisibilityCanBePrivate")
 
 package com.t8rin.drawbox.presentation.view
 
@@ -8,12 +8,13 @@ import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
+import android.graphics.PorterDuff
+import android.graphics.PorterDuffXfermode
 import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.View
 import androidx.annotation.ColorInt
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateMapOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.core.graphics.ColorUtils
@@ -24,10 +25,10 @@ import com.t8rin.drawbox.presentation.model.PaintOptions
 class DrawView @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
 ) : View(context, attrs, defStyleAttr), DrawController {
-    override val paths = mutableStateMapOf<DrawPath, PaintOptions>()
 
-    override val lastPaths = mutableStateMapOf<DrawPath, PaintOptions>()
-    override val undonePaths = mutableStateMapOf<DrawPath, PaintOptions>()
+    override var paths: Map<DrawPath, PaintOptions> by mutableStateOf(linkedMapOf())
+    override var lastPaths: Map<DrawPath, PaintOptions> by mutableStateOf(linkedMapOf())
+    override var undonePaths: Map<DrawPath, PaintOptions> by mutableStateOf(linkedMapOf())
 
     override var paint by mutableStateOf(Paint())
     override var drawPath by mutableStateOf(DrawPath())
@@ -51,13 +52,13 @@ class DrawView @JvmOverloads constructor(
             strokeWidth = paintOptions.strokeWidth
             isAntiAlias = true
         }
+        setLayerType(LAYER_TYPE_SOFTWARE, null)
     }
 
     override fun undo() {
         if (paths.isEmpty() && lastPaths.isNotEmpty()) {
-            paths.clear()
-            paths.putAll(lastPaths)
-            lastPaths.clear()
+            paths = lastPaths
+            lastPaths = linkedMapOf()
             invalidate()
             return
         }
@@ -67,9 +68,13 @@ class DrawView @JvmOverloads constructor(
         val lastPath = paths.values.lastOrNull()
         val lastKey = paths.keys.lastOrNull()
 
-        paths.remove(lastKey)
+        paths = paths.toMutableMap().apply {
+            remove(lastKey)
+        }
         if (lastPath != null && lastKey != null) {
-            undonePaths[lastKey] = lastPath
+            undonePaths = undonePaths.toMutableMap().apply {
+                this[lastKey] = lastPath
+            }
         }
         invalidate()
     }
@@ -81,7 +86,9 @@ class DrawView @JvmOverloads constructor(
 
         val lastKey = undonePaths.keys.last()
         addPath(lastKey, undonePaths.values.last())
-        undonePaths.remove(lastKey)
+        undonePaths = undonePaths.toMutableMap().apply {
+            remove(lastKey)
+        }
         invalidate()
     }
 
@@ -117,12 +124,19 @@ class DrawView @JvmOverloads constructor(
     }
 
     override fun addPath(path: DrawPath, options: PaintOptions) {
-        paths[path] = options
+        paths = paths.toMutableMap().apply {
+            this[path] = options
+        }
     }
 
     override fun changePaint(paintOptions: PaintOptions) {
-        paint.color = if (paintOptions.isEraserOn) Color.WHITE else paintOptions.color
+        paint.color = if (paintOptions.isEraserOn) Color.TRANSPARENT else paintOptions.color
         paint.strokeWidth = paintOptions.strokeWidth
+        if (paintOptions.isEraserOn) {
+            paint.xfermode = PorterDuffXfermode(PorterDuff.Mode.CLEAR)
+        } else {
+            paint.xfermode = null
+        }
     }
 
     override fun toggleEraser() {
@@ -132,15 +146,15 @@ class DrawView @JvmOverloads constructor(
     }
 
     override fun clearPaths() {
-        paths.clear()
-        lastPaths.clear()
-        undonePaths.clear()
+        paths = linkedMapOf()
+        lastPaths = linkedMapOf()
+        undonePaths = linkedMapOf()
     }
 
     fun clearCanvas() {
-        lastPaths.putAll(paths)
+        lastPaths = paths
         drawPath.reset()
-        paths.clear()
+        paths = linkedMapOf()
         invalidate()
     }
 
@@ -179,7 +193,9 @@ class DrawView @JvmOverloads constructor(
             drawPath.lineTo(curX + 1, curY)
         }
 
-        paths[drawPath] = paintOptions
+        paths = paths.toMutableMap().apply {
+            this[drawPath] = paintOptions
+        }
         drawPath = DrawPath()
         paintOptions = PaintOptions(
             paintOptions.color,
@@ -199,7 +215,7 @@ class DrawView @JvmOverloads constructor(
                 startX = x
                 startY = y
                 actionDown(x, y)
-                undonePaths.clear()
+                undonePaths = linkedMapOf()
             }
 
             MotionEvent.ACTION_MOVE -> actionMove(x, y)

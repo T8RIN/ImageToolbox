@@ -11,7 +11,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.max
-import ru.tech.imageresizershrinker.theme.Telegram
+import ru.tech.imageresizershrinker.theme.icons.Telegram
 import ru.tech.imageresizershrinker.theme.mixedColor
 import ru.tech.imageresizershrinker.theme.onMixedColor
 import ru.tech.imageresizershrinker.widget.utils.LocalSettingsState

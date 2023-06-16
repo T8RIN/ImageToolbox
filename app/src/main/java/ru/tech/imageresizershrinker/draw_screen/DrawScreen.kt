@@ -7,8 +7,10 @@ import android.net.Uri
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.animateDpAsState
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -55,8 +57,10 @@ import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.FloatingActionButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.LargeTopAppBar
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedIconButton
 import androidx.compose.material3.SheetValue
 import androidx.compose.material3.Slider
 import androidx.compose.material3.SliderDefaults
@@ -88,6 +92,7 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.max
 import androidx.compose.ui.unit.sp
 import androidx.core.graphics.ColorUtils
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -97,6 +102,9 @@ import com.t8rin.dynamic.theme.LocalDynamicThemeState
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.draw_screen.viewModel.DrawViewModel
+import ru.tech.imageresizershrinker.theme.icons.Eraser
+import ru.tech.imageresizershrinker.theme.mixedColor
+import ru.tech.imageresizershrinker.theme.onMixedColor
 import ru.tech.imageresizershrinker.theme.outlineVariant
 import ru.tech.imageresizershrinker.utils.LocalConfettiController
 import ru.tech.imageresizershrinker.utils.coil.filters.SaturationFilter
@@ -478,6 +486,29 @@ fun DrawScreen(
                             enabled = !viewModel.drawController?.undonePaths.isNullOrEmpty()
                         ) {
                             Icon(Icons.Rounded.Redo, null)
+                        }
+                        val isEraserOn = viewModel.drawController?.isEraserOn == true
+                        OutlinedIconButton(
+                            colors = IconButtonDefaults.filledIconButtonColors(
+                                containerColor = animateColorAsState(
+                                    if (isEraserOn) MaterialTheme.colorScheme.mixedColor
+                                    else Color.Transparent
+                                ).value,
+                                contentColor = animateColorAsState(
+                                    if (isEraserOn) MaterialTheme.colorScheme.onMixedColor
+                                    else MaterialTheme.colorScheme.onSurface
+                                ).value,
+                                disabledContainerColor = Color.Transparent
+                            ),
+                            border = BorderStroke(
+                                max(settingsState.borderWidth, 1.dp), animateColorAsState(
+                                    if (isEraserOn) MaterialTheme.colorScheme.outlineVariant
+                                    else Color.Transparent
+                                ).value
+                            ),
+                            onClick = { viewModel.drawController?.toggleEraser() }
+                        ) {
+                            Icon(Icons.Rounded.Eraser, null)
                         }
                     },
                     floatingActionButton = {

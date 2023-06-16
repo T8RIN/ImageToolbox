@@ -98,7 +98,7 @@ import ru.tech.imageresizershrinker.main_screen.components.GeneratePalettePrefer
 import ru.tech.imageresizershrinker.main_screen.components.LimitsPreference
 import ru.tech.imageresizershrinker.main_screen.components.PickColorPreference
 import ru.tech.imageresizershrinker.main_screen.components.SingleResizePreference
-import ru.tech.imageresizershrinker.theme.CreateAlt
+import ru.tech.imageresizershrinker.theme.icons.CreateAlt
 import ru.tech.imageresizershrinker.theme.outlineVariant
 import ru.tech.imageresizershrinker.utils.LocalConfettiController
 import ru.tech.imageresizershrinker.utils.coil.filters.SaturationFilter

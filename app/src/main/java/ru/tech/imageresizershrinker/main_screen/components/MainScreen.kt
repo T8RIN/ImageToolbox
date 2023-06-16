@@ -121,11 +121,11 @@ import ru.tech.imageresizershrinker.common.APP_LINK
 import ru.tech.imageresizershrinker.common.AUTHOR_LINK
 import ru.tech.imageresizershrinker.main_screen.viewModel.MainViewModel
 import ru.tech.imageresizershrinker.theme.Emoji
-import ru.tech.imageresizershrinker.theme.FileSettings
-import ru.tech.imageresizershrinker.theme.Github
-import ru.tech.imageresizershrinker.theme.GooglePlay
-import ru.tech.imageresizershrinker.theme.Telegram
 import ru.tech.imageresizershrinker.theme.allIcons
+import ru.tech.imageresizershrinker.theme.icons.FileSettings
+import ru.tech.imageresizershrinker.theme.icons.Github
+import ru.tech.imageresizershrinker.theme.icons.GooglePlay
+import ru.tech.imageresizershrinker.theme.icons.Telegram
 import ru.tech.imageresizershrinker.theme.outlineVariant
 import ru.tech.imageresizershrinker.theme.suggestContainerColorBy
 import ru.tech.imageresizershrinker.utils.helper.ContextUtils.verifyInstallerId
