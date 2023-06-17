@@ -1,8 +1,6 @@
 package ru.tech.imageresizershrinker.widget.image
 
 import android.app.Activity
-import android.content.Context
-import android.content.ContextWrapper
 import android.content.res.Configuration
 import android.os.Build.VERSION.SDK_INT
 import androidx.annotation.FloatRange
@@ -73,6 +71,7 @@ import com.google.accompanist.placeholder.material.shimmer
 import com.google.accompanist.placeholder.placeholder
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
+import ru.tech.imageresizershrinker.utils.helper.findActivity
 import ru.tech.imageresizershrinker.widget.image.StatusBarUtils.hideSystemBars
 import ru.tech.imageresizershrinker.widget.image.StatusBarUtils.isSystemBarsHidden
 import ru.tech.imageresizershrinker.widget.image.StatusBarUtils.showSystemBars
@@ -540,12 +539,6 @@ class ZoomableState(
 
 private fun Dp.toPx(density: Density): Float {
     return with(density) { toPx() }
-}
-
-fun Context.findActivity(): Activity? = when (this) {
-    is Activity -> this
-    is ContextWrapper -> baseContext.findActivity()
-    else -> null
 }
 
 @Composable

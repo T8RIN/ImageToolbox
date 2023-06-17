@@ -10,7 +10,6 @@ import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -83,7 +82,6 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
-import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.layout.ContentScale
@@ -95,7 +93,6 @@ import androidx.compose.ui.unit.max
 import androidx.compose.ui.unit.sp
 import androidx.core.graphics.ColorUtils
 import androidx.lifecycle.viewmodel.compose.viewModel
-import coil.size.Size
 import com.t8rin.drawbox.presentation.compose.DrawBox
 import com.t8rin.dynamic.theme.LocalDynamicThemeState
 import kotlinx.coroutines.launch
@@ -106,8 +103,9 @@ import ru.tech.imageresizershrinker.theme.mixedColor
 import ru.tech.imageresizershrinker.theme.onMixedColor
 import ru.tech.imageresizershrinker.theme.outlineVariant
 import ru.tech.imageresizershrinker.utils.LocalConfettiController
+import ru.tech.imageresizershrinker.utils.coil.UpscaleTransformation
 import ru.tech.imageresizershrinker.utils.coil.filters.SaturationFilter
-import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.decodeBitmapByUri
+import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.getBitmapFromUriWithTransformations
 import ru.tech.imageresizershrinker.utils.helper.ContextUtils.requestStoragePermission
 import ru.tech.imageresizershrinker.utils.modifier.block
 import ru.tech.imageresizershrinker.utils.modifier.drawHorizontalStroke
@@ -124,7 +122,7 @@ import ru.tech.imageresizershrinker.widget.TopAppBarEmoji
 import ru.tech.imageresizershrinker.widget.controls.ExtensionGroup
 import ru.tech.imageresizershrinker.widget.dialogs.ExitWithoutSavingDialog
 import ru.tech.imageresizershrinker.widget.image.ImageNotPickedWidget
-import ru.tech.imageresizershrinker.widget.showError
+import ru.tech.imageresizershrinker.widget.image.Picture
 import ru.tech.imageresizershrinker.widget.text.Marquee
 import ru.tech.imageresizershrinker.widget.utils.LocalSettingsState
 import ru.tech.imageresizershrinker.widget.utils.LocalWindowSizeClass
@@ -155,37 +153,21 @@ fun DrawScreen(
     var showExitDialog by rememberSaveable { mutableStateOf(false) }
 
     val onBack = {
-        if (viewModel.bitmap != null) showExitDialog = true
+        if (viewModel.uri != Uri.EMPTY && viewModel.isBitmapChanged) showExitDialog = true
         else onGoBack()
     }
 
     LaunchedEffect(uriState) {
         uriState?.let {
             viewModel.setUri(it)
-            context.decodeBitmapByUri(
-                uri = it,
-                onGetMimeType = viewModel::updateMimeType,
-                onGetExif = {},
-                onGetBitmap = { bmp ->
-                    viewModel.updateBitmap(
-                        bitmap = bmp, newBitmap = true
-                    )
-                },
-                onError = {
-                    scope.launch {
-                        toastHostState.showError(context, it)
-                    }
-                }
-            )
         }
     }
-    LaunchedEffect(viewModel.bitmap) {
-        viewModel.bitmap?.let {
-            if (allowChangeColor) {
-                themeState.updateColorByImage(
-                    SaturationFilter(context, 2f).transform(it, Size.ORIGINAL)
-                )
-            }
+    LaunchedEffect(viewModel.uri) {
+        context.getBitmapFromUriWithTransformations(
+            uri = viewModel.uri,
+            transformations = listOf(SaturationFilter(context, 2f))
+        )?.let {
+            if (allowChangeColor) themeState.updateColorByImage(it)
         }
     }
 
@@ -195,21 +177,6 @@ fun DrawScreen(
         ) { uris ->
             uris.takeIf { it.isNotEmpty() }?.firstOrNull()?.let {
                 viewModel.setUri(it)
-                context.decodeBitmapByUri(
-                    uri = it,
-                    onGetMimeType = {},
-                    onGetExif = {},
-                    onGetBitmap = { bmp ->
-                        viewModel.updateBitmap(
-                            bitmap = bmp, newBitmap = true
-                        )
-                    },
-                    onError = {
-                        scope.launch {
-                            toastHostState.showError(context, it)
-                        }
-                    }
-                )
             }
         }
 
@@ -223,6 +190,13 @@ fun DrawScreen(
     val saveBitmap: () -> Unit = {
         showSaveLoading = true
         viewModel.saveBitmap(
+            getBitmap = { uri ->
+                context.getBitmapFromUriWithTransformations(
+                    uri = uri,
+                    originalSize = false,
+                    transformations = listOf(UpscaleTransformation())
+                )
+            },
             fileController = fileController,
         ) { success ->
             if (!success) context.requestStoragePermission()
@@ -268,7 +242,7 @@ fun DrawScreen(
                 .nestedScroll(scrollBehavior.nestedScrollConnection)
         ) {
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                if (viewModel.bitmap == null) {
+                if (viewModel.uri == Uri.EMPTY) {
                     LargeTopAppBar(
                         scrollBehavior = scrollBehavior,
                         modifier = Modifier.drawHorizontalStroke(),
@@ -323,7 +297,7 @@ fun DrawScreen(
                                 onClick = {
                                     /*TODO*/
                                 },
-                                enabled = viewModel.bitmap != null
+                                enabled = viewModel.uri != Uri.EMPTY
                             ) {
                                 Icon(Icons.Outlined.Share, null)
                             }
@@ -331,7 +305,7 @@ fun DrawScreen(
                                 onClick = {
                                     viewModel.drawController?.clearPaths()
                                 },
-                                enabled = viewModel.bitmap != null && viewModel.isBitmapChanged
+                                enabled = viewModel.uri != Uri.EMPTY && viewModel.isBitmapChanged
                             ) {
                                 Icon(Icons.Outlined.RestartAlt, null)
                             }
@@ -350,7 +324,7 @@ fun DrawScreen(
                         },
                     )
                 }
-                viewModel.bitmap?.let {
+                viewModel.uri.takeIf { it != Uri.EMPTY }?.let {
                     if (portrait) {
                         Column {
                             DrawBox(
@@ -358,10 +332,15 @@ fun DrawScreen(
                                 drawController = viewModel.drawController,
                                 onGetDrawController = viewModel::updateDrawController
                             ) {
-                                Image(
-                                    bitmap = it.asImageBitmap(),
-                                    contentScale = ContentScale.Inside,
-                                    contentDescription = null
+                                Picture(
+                                    model = it,
+                                    contentScale = ContentScale.Fit,
+                                    shape = RectangleShape,
+                                    modifier = Modifier.border(
+                                        width = settingsState.borderWidth.coerceAtLeast(0.25.dp),
+                                        color = MaterialTheme.colorScheme.outlineVariant()
+                                    ),
+                                    transformations = listOf(UpscaleTransformation())
                                 )
                             }
                         }
@@ -387,7 +366,7 @@ fun DrawScreen(
                                     .padding(16.dp)
                                     .navBarsPaddingOnlyIfTheyAtTheBottom(),
                                 orientation = Orientation.Vertical,
-                                enabled = viewModel.bitmap != null,
+                                enabled = viewModel.uri != Uri.EMPTY,
                                 mimeTypeInt = viewModel.mimeType,
                                 onMimeChange = {
                                     viewModel.updateMimeType(it)
@@ -438,7 +417,7 @@ fun DrawScreen(
                 }
             }
 
-            if (viewModel.bitmap == null) {
+            if (viewModel.uri == Uri.EMPTY) {
                 Row(
                     modifier = Modifier
                         .padding(16.dp)
@@ -461,7 +440,7 @@ fun DrawScreen(
         }
     }
 
-    if (portrait && viewModel.bitmap != null) {
+    if (portrait && viewModel.uri != Uri.EMPTY) {
         BottomSheetScaffold(
             scaffoldState = scaffoldState,
             sheetPeekHeight = 80.dp + WindowInsets.navigationBars.asPaddingValues()
@@ -517,7 +496,7 @@ fun DrawScreen(
                                 elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
                             ) {
                                 val expanded =
-                                    scrollState.isScrollingUp() && viewModel.bitmap == null
+                                    scrollState.isScrollingUp() && viewModel.uri == Uri.EMPTY
                                 val horizontalPadding by animateDpAsState(targetValue = if (expanded) 16.dp else 0.dp)
                                 Row(
                                     modifier = Modifier.padding(horizontal = horizontalPadding),
@@ -751,7 +730,7 @@ fun DrawScreen(
                         .padding(16.dp)
                         .navigationBarsPadding(),
                     orientation = Orientation.Horizontal,
-                    enabled = viewModel.bitmap != null,
+                    enabled = viewModel.uri != Uri.EMPTY,
                     mimeTypeInt = viewModel.mimeType,
                     onMimeChange = {
                         viewModel.updateMimeType(it)

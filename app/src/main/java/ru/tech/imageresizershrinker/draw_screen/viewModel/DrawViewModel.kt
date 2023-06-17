@@ -1,7 +1,6 @@
 package ru.tech.imageresizershrinker.draw_screen.viewModel
 
 import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.net.Uri
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
@@ -12,17 +11,15 @@ import com.t8rin.drawbox.domain.DrawController
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import ru.tech.imageresizershrinker.draw_screen.components.DrawBehavior
 import ru.tech.imageresizershrinker.utils.helper.BitmapInfo
 import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.overlayWith
 import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.resizeBitmap
-import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.scaleUntilCanShow
 import ru.tech.imageresizershrinker.utils.helper.compressFormat
 import ru.tech.imageresizershrinker.utils.helper.extension
 import ru.tech.imageresizershrinker.utils.helper.mimeTypeInt
 import ru.tech.imageresizershrinker.utils.storage.FileController
 import ru.tech.imageresizershrinker.utils.storage.SaveTarget
-import java.io.ByteArrayInputStream
-import java.io.ByteArrayOutputStream
 
 
 class DrawViewModel : ViewModel() {
@@ -31,11 +28,7 @@ class DrawViewModel : ViewModel() {
         private set
 
     private val _uri = mutableStateOf(Uri.EMPTY)
-
-    private var internalBitmap = mutableStateOf<Bitmap?>(null)
-
-    private val _bitmap: MutableState<Bitmap?> = mutableStateOf(null)
-    val bitmap: Bitmap? by _bitmap
+    val uri: Uri by _uri
 
     val isBitmapChanged: Boolean get() = !drawController?.paths.isNullOrEmpty()
 
@@ -45,33 +38,20 @@ class DrawViewModel : ViewModel() {
     private val _isLoading: MutableState<Boolean> = mutableStateOf(false)
     val isLoading: Boolean by _isLoading
 
-    fun updateBitmap(bitmap: Bitmap?, newBitmap: Boolean = false) {
-        viewModelScope.launch {
-            _isLoading.value = true
-            var bmp: Bitmap?
-            withContext(Dispatchers.IO) {
-                drawController?.clearPaths()
-                bmp = bitmap?.scaleUntilCanShow()
-            }
-            if (newBitmap) {
-                internalBitmap.value = bmp
-            }
-            _bitmap.value = bmp
-            _isLoading.value = false
-        }
-    }
+    private val _drawBehavior: MutableState<DrawBehavior> = mutableStateOf(DrawBehavior.None)
+    val drawBehavior by _drawBehavior
 
     fun updateMimeType(mime: Int) {
         _mimeType.value = mime
     }
 
     fun saveBitmap(
-        bitmap: Bitmap? = _bitmap.value,
+        getBitmap: suspend (Uri) -> Bitmap?,
         fileController: FileController,
         onComplete: (success: Boolean) -> Unit
     ) = viewModelScope.launch {
         withContext(Dispatchers.IO) {
-            bitmap?.let { bitmap ->
+            getBitmap(_uri.value)?.let { bitmap ->
                 if (!fileController.isExternalStorageWritable()) {
                     onComplete(false)
                 } else {
@@ -96,18 +76,10 @@ class DrawViewModel : ViewModel() {
                             )
                         )
 
-                        val fos = savingFolder.outputStream
+                        savingFolder.outputStream?.use {
+                            localBitmap.compress(mimeType.extension.compressFormat, 100, it)
+                        }
 
-                        localBitmap.compress(mimeType.extension.compressFormat, 100, fos)
-                        val out = ByteArrayOutputStream()
-                        localBitmap.compress(mimeType.extension.compressFormat, 100, out)
-                        val decoded =
-                            BitmapFactory.decodeStream(ByteArrayInputStream(out.toByteArray()))
-
-                        out.flush()
-                        out.close()
-                        fos!!.flush()
-                        fos.close()
                     }
                     onComplete(true)
                 }
@@ -115,11 +87,8 @@ class DrawViewModel : ViewModel() {
         }
     }
 
-    fun resetBitmap() {
-        _bitmap.value = internalBitmap.value
-    }
-
     fun setUri(uri: Uri) {
+        drawController?.clearPaths()
         _uri.value = uri
     }
 
