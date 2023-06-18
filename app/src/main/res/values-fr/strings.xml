@@ -253,4 +253,6 @@
     <string name="color_balance">Balance de couleur</string>
     <string name="luminance_threshold">Seuil de luminance</string>
     <string name="blur_center_x">Flou centre x</string>
+    <string name="draw">Dessiner</string>
+    <string name="activate_files">Vous avez désactivé l\'application Fichiers, activez-la pour utiliser cette fonctionnalité</string>
 </resources>
