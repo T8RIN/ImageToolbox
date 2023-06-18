@@ -101,7 +101,7 @@ class DrawViewModel : ViewModel() {
 
     fun processBitmapForSharing(
         getBitmap: suspend (Uri) -> Bitmap?,
-        onComplete: suspend (Bitmap?) -> Unit
+        onComplete: (Bitmap?) -> Unit
     ) = viewModelScope.launch {
         withContext(Dispatchers.IO) {
             getBitmap(_uri.value)?.let { bitmap ->
