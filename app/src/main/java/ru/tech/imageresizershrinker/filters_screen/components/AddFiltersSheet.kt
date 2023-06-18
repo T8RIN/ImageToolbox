@@ -30,8 +30,8 @@ import androidx.compose.material.icons.rounded.AddCircleOutline
 import androidx.compose.material.icons.rounded.Animation
 import androidx.compose.material.icons.rounded.Close
 import androidx.compose.material.icons.rounded.Done
+import androidx.compose.material.icons.rounded.FilterHdr
 import androidx.compose.material.icons.rounded.FormatColorFill
-import androidx.compose.material.icons.rounded.Grain
 import androidx.compose.material.icons.rounded.LensBlur
 import androidx.compose.material.icons.rounded.Light
 import androidx.compose.material.icons.rounded.PhotoFilter
@@ -248,7 +248,7 @@ fun AddFiltersSheet(
                             listOf(
                                 Icons.Rounded.FormatColorFill to stringResource(id = R.string.color),
                                 Icons.Rounded.Light to stringResource(R.string.light_aka_illumination),
-                                Icons.Rounded.Grain to stringResource(R.string.effect),
+                                Icons.Rounded.FilterHdr to stringResource(R.string.effect),
                                 Icons.Rounded.LensBlur to stringResource(R.string.blur),
                                 Icons.Rounded.Animation to stringResource(R.string.distortion)
                             ).forEachIndexed { index, (icon, title) ->
