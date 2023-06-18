@@ -51,7 +51,7 @@ fun DrawColorSelector(drawController: DrawController) {
             horizontalArrangement = Arrangement.Center
         ) {
             Text(
-                stringResource(R.string.color),
+                stringResource(R.string.paint_color),
                 modifier = Modifier.padding(top = 16.dp),
                 fontSize = 18.sp
             )

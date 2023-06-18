@@ -271,6 +271,8 @@
     <string name="activate_files">You disabled Files app, activate it to use this feature</string>
     <string name="draw">Draw</string>
     <string name="draw_sub">Draw on image like in a sketchbook, or draw on the background itself</string>
+    <string name="paint_color">Paint color</string>
+    <string name="paint_alpha">Paint alpha</string>
     <string-array name="fab_alignment_sub">
         <item>Start</item>
         <item>Center</item>

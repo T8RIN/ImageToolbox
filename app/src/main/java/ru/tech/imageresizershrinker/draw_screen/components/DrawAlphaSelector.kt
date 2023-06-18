@@ -39,7 +39,7 @@ fun DrawAlphaSelector(drawController: DrawController) {
             verticalAlignment = Alignment.CenterVertically
         ) {
             Text(
-                text = stringResource(R.string.alpha),
+                text = stringResource(R.string.paint_alpha),
                 modifier = Modifier
                     .padding(
                         top = 16.dp,

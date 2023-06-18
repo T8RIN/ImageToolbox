@@ -1,6 +1,7 @@
 package ru.tech.imageresizershrinker.draw_screen
 
 
+import android.content.Context
 import android.content.pm.ActivityInfo
 import android.content.res.Configuration
 import android.net.Uri
@@ -31,6 +32,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Delete
@@ -101,6 +103,7 @@ import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.getBitmapByUri
 import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.getBitmapFromUriWithTransformations
 import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.overlayWith
 import ru.tech.imageresizershrinker.utils.helper.ContextUtils.requestStoragePermission
+import ru.tech.imageresizershrinker.utils.modifier.block
 import ru.tech.imageresizershrinker.utils.modifier.drawHorizontalStroke
 import ru.tech.imageresizershrinker.utils.modifier.fabBorder
 import ru.tech.imageresizershrinker.utils.modifier.navBarsPaddingOnlyIfTheyAtTheEnd
@@ -152,13 +155,7 @@ fun DrawScreen(
     LaunchedEffect(uriState) {
         uriState?.let {
             viewModel.setUri(it) { uri ->
-                val bmp = context.getBitmapByUri(uri = uri, originalSize = false)
-                val imageRatio = (bmp?.width ?: 0) / (bmp?.height?.toFloat() ?: 1f)
-                val screenRatio = context.resources.configuration.run {
-                    screenWidthDp / screenHeightDp.toFloat()
-                }
-                if (imageRatio - screenRatio <= 1) ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
-                else ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
+                context.calculateScreenOrientationBasedOnUri(uri)
             }
         }
     }
@@ -184,13 +181,7 @@ fun DrawScreen(
         ) { uris ->
             uris.takeIf { it.isNotEmpty() }?.firstOrNull()?.let {
                 viewModel.setUri(it) { uri ->
-                    val bmp = context.getBitmapByUri(uri = uri, originalSize = false)
-                    val imageRatio = (bmp?.width ?: 0) / (bmp?.height?.toFloat() ?: 1f)
-                    val screenRatio = context.resources.configuration.run {
-                        screenWidthDp / screenHeightDp.toFloat()
-                    }
-                    if (imageRatio - screenRatio <= 1) ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
-                    else ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
+                    context.calculateScreenOrientationBasedOnUri(uri)
                 }
             }
         }
@@ -393,6 +384,7 @@ fun DrawScreen(
                             )
                             viewModel.drawController?.let { drawController ->
                                 LazyColumn(
+                                    horizontalAlignment = Alignment.CenterHorizontally,
                                     contentPadding = PaddingValues(
                                         bottom = WindowInsets
                                             .navigationBars
@@ -407,6 +399,53 @@ fun DrawScreen(
                                         .clipToBounds()
                                 ) {
                                     item {
+                                        val border = BorderStroke(
+                                            settingsState.borderWidth,
+                                            MaterialTheme.colorScheme.outlineVariant(luminance = 0.1f)
+                                        )
+                                        Row(
+                                            Modifier
+                                                .padding(
+                                                    top = 16.dp,
+                                                    start = 16.dp,
+                                                    end = 16.dp
+                                                )
+                                                .block(shape = CircleShape)
+                                        ) {
+                                            OutlinedIconButton(
+                                                border = border,
+                                                onClick = { viewModel.drawController?.undo() },
+                                                enabled = !viewModel.drawController?.paths.isNullOrEmpty()
+                                            ) {
+                                                Icon(Icons.Rounded.Undo, null)
+                                            }
+                                            OutlinedIconButton(
+                                                border = border,
+                                                onClick = { viewModel.drawController?.redo() },
+                                                enabled = !viewModel.drawController?.undonePaths.isNullOrEmpty()
+                                            ) {
+                                                Icon(Icons.Rounded.Redo, null)
+                                            }
+                                            val isEraserOn =
+                                                viewModel.drawController?.isEraserOn == true
+                                            OutlinedIconButton(
+                                                colors = IconButtonDefaults.filledIconButtonColors(
+                                                    containerColor = animateColorAsState(
+                                                        if (isEraserOn) MaterialTheme.colorScheme.mixedColor
+                                                        else Color.Transparent
+                                                    ).value,
+                                                    contentColor = animateColorAsState(
+                                                        if (isEraserOn) MaterialTheme.colorScheme.onMixedColor
+                                                        else MaterialTheme.colorScheme.onSurface
+                                                    ).value,
+                                                    disabledContainerColor = Color.Transparent
+                                                ),
+                                                border = border,
+                                                onClick = { viewModel.drawController?.toggleEraser() }
+                                            ) {
+                                                Icon(Icons.Rounded.Eraser, null)
+                                            }
+                                        }
                                         DrawColorSelector(drawController)
                                         DrawAlphaSelector(drawController)
                                         LineWidthSelector(drawController)
@@ -615,4 +654,14 @@ fun DrawScreen(
     BackHandler(onBack = onBack)
 
     LockScreenOrientation(orientation = viewModel.drawBehavior.orientation)
+}
+
+private suspend fun Context.calculateScreenOrientationBasedOnUri(uri: Uri): Int {
+    val bmp = getBitmapByUri(uri = uri, originalSize = false)
+    val imageRatio = (bmp?.width ?: 0) / (bmp?.height?.toFloat() ?: 1f)
+    return if (imageRatio <= 1f) {
+        ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
+    } else {
+        ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
+    }
 }
