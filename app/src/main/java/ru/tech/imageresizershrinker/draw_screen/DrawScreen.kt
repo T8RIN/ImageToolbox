@@ -24,6 +24,7 @@ import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.ime
 import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
@@ -70,6 +71,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.input.nestedscroll.nestedScroll
@@ -101,7 +103,6 @@ import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.overlayWith
 import ru.tech.imageresizershrinker.utils.helper.ContextUtils.requestStoragePermission
 import ru.tech.imageresizershrinker.utils.modifier.drawHorizontalStroke
 import ru.tech.imageresizershrinker.utils.modifier.fabBorder
-import ru.tech.imageresizershrinker.utils.modifier.navBarsPaddingOnlyIfTheyAtTheBottom
 import ru.tech.imageresizershrinker.utils.modifier.navBarsPaddingOnlyIfTheyAtTheEnd
 import ru.tech.imageresizershrinker.utils.storage.LocalFileController
 import ru.tech.imageresizershrinker.utils.storage.Picker
@@ -339,23 +340,23 @@ fun DrawScreen(
                 }
                 viewModel.uri.takeIf { it != Uri.EMPTY }?.let {
                     if (portrait) {
-                        Column {
-                            DrawBox(
-                                modifier = Modifier.fillMaxSize(),
-                                drawController = viewModel.drawController,
-                                onGetDrawController = viewModel::updateDrawController
-                            ) {
-                                Picture(
-                                    model = it,
-                                    contentScale = ContentScale.Fit,
-                                    shape = RectangleShape,
-                                    modifier = Modifier.border(
-                                        width = settingsState.borderWidth.coerceAtLeast(0.25.dp),
-                                        color = MaterialTheme.colorScheme.outlineVariant()
-                                    ),
-                                    transformations = listOf(UpscaleTransformation())
-                                )
-                            }
+                        DrawBox(
+                            modifier = Modifier
+                                .fillMaxSize()
+                                .padding(8.dp),
+                            drawController = viewModel.drawController,
+                            drawingModifier = Modifier.border(
+                                width = 1.dp,
+                                color = MaterialTheme.colorScheme.outlineVariant()
+                            ),
+                            onGetDrawController = viewModel::updateDrawController
+                        ) {
+                            Picture(
+                                model = it,
+                                contentScale = ContentScale.Fit,
+                                shape = RectangleShape,
+                                transformations = listOf(UpscaleTransformation())
+                            )
                         }
                     } else {
                         Row(
@@ -365,7 +366,24 @@ fun DrawScreen(
                             Box(
                                 Modifier.weight(0.8f)
                             ) {
-
+                                DrawBox(
+                                    modifier = Modifier
+                                        .fillMaxSize()
+                                        .padding(8.dp),
+                                    drawController = viewModel.drawController,
+                                    drawingModifier = Modifier.border(
+                                        width = 1.dp,
+                                        color = MaterialTheme.colorScheme.outlineVariant()
+                                    ),
+                                    onGetDrawController = viewModel::updateDrawController
+                                ) {
+                                    Picture(
+                                        model = it,
+                                        contentScale = ContentScale.Fit,
+                                        shape = RectangleShape,
+                                        transformations = listOf(UpscaleTransformation())
+                                    )
+                                }
                             }
                             Box(
                                 Modifier
@@ -373,18 +391,39 @@ fun DrawScreen(
                                     .width(settingsState.borderWidth.coerceAtLeast(0.25.dp))
                                     .background(MaterialTheme.colorScheme.outlineVariant())
                             )
-
-                            ExtensionGroup(
-                                modifier = Modifier
-                                    .padding(16.dp)
-                                    .navBarsPaddingOnlyIfTheyAtTheBottom(),
-                                orientation = Orientation.Vertical,
-                                enabled = viewModel.uri != Uri.EMPTY,
-                                mimeTypeInt = viewModel.mimeType,
-                                onMimeChange = {
-                                    viewModel.updateMimeType(it)
+                            viewModel.drawController?.let { drawController ->
+                                LazyColumn(
+                                    contentPadding = PaddingValues(
+                                        bottom = WindowInsets
+                                            .navigationBars
+                                            .asPaddingValues()
+                                            .calculateBottomPadding() + WindowInsets.ime
+                                            .asPaddingValues()
+                                            .calculateBottomPadding(),
+                                        top = if (viewModel.uri == Uri.EMPTY) 20.dp else 0.dp,
+                                    ),
+                                    modifier = Modifier
+                                        .weight(0.5f)
+                                        .clipToBounds()
+                                ) {
+                                    item {
+                                        DrawColorSelector(drawController)
+                                        DrawAlphaSelector(drawController)
+                                        LineWidthSelector(drawController)
+                                        ExtensionGroup(
+                                            modifier = Modifier
+                                                .padding(16.dp)
+                                                .navigationBarsPadding(),
+                                            orientation = Orientation.Horizontal,
+                                            enabled = viewModel.uri != Uri.EMPTY,
+                                            mimeTypeInt = viewModel.mimeType,
+                                            onMimeChange = {
+                                                viewModel.updateMimeType(it)
+                                            }
+                                        )
+                                    }
                                 }
-                            )
+                            }
                             Box(
                                 Modifier
                                     .fillMaxHeight()
