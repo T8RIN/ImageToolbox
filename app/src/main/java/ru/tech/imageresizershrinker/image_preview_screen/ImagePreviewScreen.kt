@@ -93,6 +93,7 @@ import ru.tech.imageresizershrinker.image_preview_screen.viewModel.ImagePreviewV
 import ru.tech.imageresizershrinker.main_screen.components.BytesResizePreference
 import ru.tech.imageresizershrinker.main_screen.components.CropPreference
 import ru.tech.imageresizershrinker.main_screen.components.DeleteExifPreference
+import ru.tech.imageresizershrinker.main_screen.components.DrawPreference
 import ru.tech.imageresizershrinker.main_screen.components.FilterPreference
 import ru.tech.imageresizershrinker.main_screen.components.GeneratePalettePreference
 import ru.tech.imageresizershrinker.main_screen.components.LimitsPreference
@@ -566,6 +567,13 @@ fun ImagePreviewScreen(
                             CropPreference(
                                 modifier = Modifier.fillMaxWidth(),
                                 onClick = { navigate(Screen.Crop(viewModel.selectedUri)) },
+                                color = color
+                            )
+                        }
+                        item {
+                            DrawPreference(
+                                modifier = Modifier.fillMaxWidth(),
+                                onClick = { navigate(Screen.Draw(viewModel.selectedUri)) },
                                 color = color
                             )
                         }

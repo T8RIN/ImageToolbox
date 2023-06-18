@@ -102,10 +102,14 @@ import ru.tech.imageresizershrinker.utils.coil.filters.SaturationFilter
 import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.getBitmapByUri
 import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.getBitmapFromUriWithTransformations
 import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.overlayWith
+import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.shareBitmap
 import ru.tech.imageresizershrinker.utils.helper.ContextUtils.requestStoragePermission
+import ru.tech.imageresizershrinker.utils.helper.compressFormat
+import ru.tech.imageresizershrinker.utils.helper.extension
 import ru.tech.imageresizershrinker.utils.modifier.block
 import ru.tech.imageresizershrinker.utils.modifier.drawHorizontalStroke
 import ru.tech.imageresizershrinker.utils.modifier.fabBorder
+import ru.tech.imageresizershrinker.utils.modifier.navBarsPaddingOnlyIfTheyAtTheBottom
 import ru.tech.imageresizershrinker.utils.modifier.navBarsPaddingOnlyIfTheyAtTheEnd
 import ru.tech.imageresizershrinker.utils.storage.LocalFileController
 import ru.tech.imageresizershrinker.utils.storage.Picker
@@ -300,7 +304,24 @@ fun DrawScreen(
                             }
                             IconButton(
                                 onClick = {
-                                    /*TODO*/
+                                    viewModel.processBitmapForSharing(
+                                        getBitmap = { uri ->
+                                            context.getBitmapFromUriWithTransformations(
+                                                uri = uri,
+                                                originalSize = false,
+                                                transformations = listOf(UpscaleTransformation())
+                                            )
+                                        }
+                                    ) { bitmap ->
+                                        showSaveLoading = true
+                                        context.shareBitmap(
+                                            bitmap = bitmap,
+                                            compressFormat = viewModel.mimeType.extension.compressFormat
+                                        ) {
+                                            showSaveLoading = false
+                                            showConfetti()
+                                        }
+                                    }
                                 },
                                 enabled = viewModel.uri != Uri.EMPTY
                             ) {
@@ -360,7 +381,8 @@ fun DrawScreen(
                                 DrawBox(
                                     modifier = Modifier
                                         .fillMaxSize()
-                                        .padding(8.dp),
+                                        .padding(8.dp)
+                                        .navBarsPaddingOnlyIfTheyAtTheBottom(),
                                     drawController = viewModel.drawController,
                                     drawingModifier = Modifier.border(
                                         width = 1.dp,

@@ -185,11 +185,14 @@ fun ProcessImagesPreferenceSheet(
                         item {
                             FilterPreference(
                                 modifier = Modifier.fillMaxWidth(),
-                                onClick = {
-                                    navigate(
-                                        Screen.Filter(uris)
-                                    )
-                                },
+                                onClick = { navigate(Screen.Filter(uris)) },
+                                color = color
+                            )
+                        }
+                        item {
+                            DrawPreference(
+                                modifier = Modifier.fillMaxWidth(),
+                                onClick = { navigate(Screen.Draw(uris.firstOrNull())) },
                                 color = color
                             )
                         }

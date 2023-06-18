@@ -93,6 +93,7 @@ import ru.tech.imageresizershrinker.load_net_image_screen.viewModel.LoadNetImage
 import ru.tech.imageresizershrinker.main_screen.components.BytesResizePreference
 import ru.tech.imageresizershrinker.main_screen.components.CropPreference
 import ru.tech.imageresizershrinker.main_screen.components.DeleteExifPreference
+import ru.tech.imageresizershrinker.main_screen.components.DrawPreference
 import ru.tech.imageresizershrinker.main_screen.components.FilterPreference
 import ru.tech.imageresizershrinker.main_screen.components.GeneratePalettePreference
 import ru.tech.imageresizershrinker.main_screen.components.LimitsPreference
@@ -607,6 +608,13 @@ fun LoadNetImageScreen(
                         CropPreference(
                             modifier = Modifier.fillMaxWidth(),
                             onClick = { navigate(Screen.Crop(viewModel.tempUri)) },
+                            color = color
+                        )
+                    }
+                    item {
+                        DrawPreference(
+                            modifier = Modifier.fillMaxWidth(),
+                            onClick = { navigate(Screen.Draw(viewModel.tempUri)) },
                             color = color
                         )
                     }

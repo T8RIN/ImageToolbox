@@ -78,6 +78,24 @@ fun SingleResizePreference(
 }
 
 @Composable
+fun DrawPreference(
+    onClick: () -> Unit,
+    color: Color = MaterialTheme.colorScheme.surfaceColorAtElevation(1.dp),
+    @SuppressLint("ModifierParameter") modifier: Modifier = Modifier
+        .fillMaxWidth()
+        .padding(horizontal = 12.dp)
+) {
+    PreferenceItem(
+        onClick = onClick,
+        icon = Icons.Rounded.Draw,
+        title = stringResource(R.string.draw),
+        subtitle = stringResource(R.string.draw_sub),
+        color = color,
+        modifier = modifier
+    )
+}
+
+@Composable
 fun FilterPreference(
     onClick: () -> Unit,
     color: Color = MaterialTheme.colorScheme.surfaceColorAtElevation(1.dp),

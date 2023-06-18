@@ -99,4 +99,25 @@ class DrawViewModel : ViewModel() {
         this.drawController = drawController
     }
 
+    fun processBitmapForSharing(
+        getBitmap: suspend (Uri) -> Bitmap?,
+        onComplete: suspend (Bitmap?) -> Unit
+    ) = viewModelScope.launch {
+        withContext(Dispatchers.IO) {
+            getBitmap(_uri.value)?.let { bitmap ->
+                onComplete(
+                    drawController?.getBitmap()?.let {
+                        bitmap.overlayWith(
+                            it.resizeBitmap(
+                                width_ = bitmap.width,
+                                height_ = bitmap.height,
+                                resize = 0
+                            )
+                        )
+                    }
+                )
+            }
+        }
+    }
+
 }
