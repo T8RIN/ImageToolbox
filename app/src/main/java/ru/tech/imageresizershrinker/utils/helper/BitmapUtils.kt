@@ -851,7 +851,7 @@ object BitmapUtils {
 
     val BitmapInfo.aspectRatio: Float get() = width / height.toFloat()
 
-    fun Bitmap.overlayWith(overlay: Bitmap): Bitmap? {
+    fun Bitmap.overlayWith(overlay: Bitmap): Bitmap {
         val finalBitmap = Bitmap.createBitmap(width, height, config)
         val canvas = Canvas(finalBitmap)
         canvas.drawBitmap(this, Matrix(), null)

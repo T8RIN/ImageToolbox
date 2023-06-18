@@ -97,6 +97,7 @@ import ru.tech.imageresizershrinker.utils.coil.UpscaleTransformation
 import ru.tech.imageresizershrinker.utils.coil.filters.SaturationFilter
 import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.getBitmapByUri
 import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.getBitmapFromUriWithTransformations
+import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.overlayWith
 import ru.tech.imageresizershrinker.utils.helper.ContextUtils.requestStoragePermission
 import ru.tech.imageresizershrinker.utils.modifier.drawHorizontalStroke
 import ru.tech.imageresizershrinker.utils.modifier.fabBorder
@@ -160,12 +161,19 @@ fun DrawScreen(
             }
         }
     }
-    LaunchedEffect(viewModel.uri) {
+    LaunchedEffect(viewModel.uri, viewModel.drawController?.paths) {
         context.getBitmapFromUriWithTransformations(
             uri = viewModel.uri,
             transformations = listOf(SaturationFilter(context, 2f))
         )?.let {
-            if (allowChangeColor) themeState.updateColorByImage(it)
+            val overlay = viewModel.drawController?.getBitmap()
+            if (allowChangeColor) {
+                if (overlay != null) {
+                    themeState.updateColorByImage(it.overlayWith(overlay))
+                } else {
+                    themeState.updateColorByImage(it)
+                }
+            }
         }
     }
 

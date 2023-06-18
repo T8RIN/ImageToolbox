@@ -33,7 +33,7 @@ interface DrawController {
 
     fun setStrokeWidth(newStrokeWidth: Float)
 
-    suspend fun getBitmap(): Bitmap
+    suspend fun getBitmap(): Bitmap?
 
     fun addPath(path: DrawPath, options: PaintOptions)
 

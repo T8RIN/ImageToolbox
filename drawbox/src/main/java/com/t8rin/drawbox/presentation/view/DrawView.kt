@@ -113,12 +113,12 @@ class DrawView @JvmOverloads constructor(
         }
     }
 
-    override suspend fun getBitmap(): Bitmap {
+    override suspend fun getBitmap(): Bitmap? = kotlin.runCatching {
         val bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
         val canvas = Canvas(bitmap)
         draw(canvas)
-        return bitmap
-    }
+        bitmap
+    }.getOrNull()
 
     override fun addPath(path: DrawPath, options: PaintOptions) {
         paths = paths.toMutableMap().apply {
