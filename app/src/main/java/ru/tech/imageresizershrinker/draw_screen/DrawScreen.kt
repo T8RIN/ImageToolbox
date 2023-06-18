@@ -89,6 +89,7 @@ import com.t8rin.dynamic.theme.LocalDynamicThemeState
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.draw_screen.components.DrawAlphaSelector
+import ru.tech.imageresizershrinker.draw_screen.components.DrawBehavior
 import ru.tech.imageresizershrinker.draw_screen.components.DrawColorSelector
 import ru.tech.imageresizershrinker.draw_screen.components.LineWidthSelector
 import ru.tech.imageresizershrinker.draw_screen.viewModel.DrawViewModel
@@ -152,7 +153,8 @@ fun DrawScreen(
     var showExitDialog by rememberSaveable { mutableStateOf(false) }
 
     val onBack = {
-        if (viewModel.uri != Uri.EMPTY && viewModel.isBitmapChanged) showExitDialog = true
+        if (viewModel.drawBehavior !is DrawBehavior.None && viewModel.isBitmapChanged) showExitDialog =
+            true
         else onGoBack()
     }
 
@@ -251,7 +253,7 @@ fun DrawScreen(
                 .nestedScroll(scrollBehavior.nestedScrollConnection)
         ) {
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                if (viewModel.uri == Uri.EMPTY) {
+                if (viewModel.drawBehavior is DrawBehavior.None) {
                     LargeTopAppBar(
                         scrollBehavior = scrollBehavior,
                         modifier = Modifier.drawHorizontalStroke(),
@@ -323,7 +325,7 @@ fun DrawScreen(
                                         }
                                     }
                                 },
-                                enabled = viewModel.uri != Uri.EMPTY
+                                enabled = viewModel.drawBehavior !is DrawBehavior.None
                             ) {
                                 Icon(Icons.Outlined.Share, null)
                             }
@@ -331,7 +333,7 @@ fun DrawScreen(
                                 onClick = {
                                     viewModel.drawController?.clearPaths()
                                 },
-                                enabled = viewModel.uri != Uri.EMPTY && viewModel.isBitmapChanged
+                                enabled = viewModel.drawBehavior !is DrawBehavior.None && viewModel.isBitmapChanged
                             ) {
                                 Icon(Icons.Outlined.Delete, null)
                             }
@@ -350,7 +352,7 @@ fun DrawScreen(
                         },
                     )
                 }
-                viewModel.uri.takeIf { it != Uri.EMPTY }?.let {
+                viewModel.uri.takeIf { viewModel.drawBehavior !is DrawBehavior.None }?.let {
                     if (portrait) {
                         DrawBox(
                             modifier = Modifier
@@ -414,7 +416,7 @@ fun DrawScreen(
                                             .calculateBottomPadding() + WindowInsets.ime
                                             .asPaddingValues()
                                             .calculateBottomPadding(),
-                                        top = if (viewModel.uri == Uri.EMPTY) 20.dp else 0.dp,
+                                        top = if (viewModel.drawBehavior is DrawBehavior.None) 20.dp else 0.dp,
                                     ),
                                     modifier = Modifier
                                         .weight(0.5f)
@@ -476,7 +478,7 @@ fun DrawScreen(
                                                 .padding(16.dp)
                                                 .navigationBarsPadding(),
                                             orientation = Orientation.Horizontal,
-                                            enabled = viewModel.uri != Uri.EMPTY,
+                                            enabled = viewModel.drawBehavior !is DrawBehavior.None,
                                             mimeTypeInt = viewModel.mimeType,
                                             onMimeChange = {
                                                 viewModel.updateMimeType(it)
@@ -530,7 +532,7 @@ fun DrawScreen(
                 }
             }
 
-            if (viewModel.uri == Uri.EMPTY) {
+            if (viewModel.drawBehavior is DrawBehavior.None) {
                 Row(
                     modifier = Modifier
                         .padding(16.dp)
@@ -553,7 +555,7 @@ fun DrawScreen(
         }
     }
 
-    if (portrait && viewModel.uri != Uri.EMPTY) {
+    if (portrait && viewModel.drawBehavior !is DrawBehavior.None) {
         BottomSheetScaffold(
             scaffoldState = scaffoldState,
             sheetPeekHeight = 80.dp + WindowInsets.navigationBars.asPaddingValues()
@@ -609,7 +611,7 @@ fun DrawScreen(
                                 elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
                             ) {
                                 val expanded =
-                                    scrollState.isScrollingUp() && viewModel.uri == Uri.EMPTY
+                                    scrollState.isScrollingUp() && viewModel.drawBehavior is DrawBehavior.None
                                 val horizontalPadding by animateDpAsState(targetValue = if (expanded) 16.dp else 0.dp)
                                 Row(
                                     modifier = Modifier.padding(horizontal = horizontalPadding),
@@ -647,7 +649,7 @@ fun DrawScreen(
                                     .padding(16.dp)
                                     .navigationBarsPadding(),
                                 orientation = Orientation.Horizontal,
-                                enabled = viewModel.uri != Uri.EMPTY,
+                                enabled = viewModel.drawBehavior !is DrawBehavior.None,
                                 mimeTypeInt = viewModel.mimeType,
                                 onMimeChange = {
                                     viewModel.updateMimeType(it)
