@@ -87,9 +87,12 @@ class DrawViewModel : ViewModel() {
         }
     }
 
-    fun setUri(uri: Uri) {
-        drawController?.clearPaths()
-        _uri.value = uri
+    fun setUri(uri: Uri, getDrawOrientation: suspend (Uri) -> Int) {
+        viewModelScope.launch {
+            drawController?.clearPaths()
+            _uri.value = uri
+            _drawBehavior.value = DrawBehavior.Image(getDrawOrientation(uri))
+        }
     }
 
     fun updateDrawController(drawController: DrawController) {

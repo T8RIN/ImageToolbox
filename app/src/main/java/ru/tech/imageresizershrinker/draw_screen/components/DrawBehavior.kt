@@ -1,5 +1,17 @@
 package ru.tech.imageresizershrinker.draw_screen.components
 
-enum class DrawBehavior {
-    None, Image, Background
+import android.content.pm.ActivityInfo
+
+sealed class DrawBehavior(
+    open val orientation: Int
+) {
+    object None : DrawBehavior(ActivityInfo.SCREEN_ORIENTATION_USER)
+
+    class Image(
+        override val orientation: Int
+    ) : DrawBehavior(orientation = orientation)
+
+    class Background(
+        override val orientation: Int
+    ) : DrawBehavior(orientation = orientation)
 }

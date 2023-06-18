@@ -14,10 +14,10 @@ class UpscaleTransformation(
 
     override suspend fun transform(input: Bitmap, size: Size): Bitmap {
         val (w, h) = input.width to input.height
-        if (w * h < 1500 * 1500) {
+        if (w * h < 2000 * 2000) {
             return input.resizeBitmap(
-                max(w * fraction.toInt(), 1500),
-                max(h * fraction.toInt(), 1500),
+                max(w * fraction.toInt(), 2000),
+                max(h * fraction.toInt(), 2000),
                 1
             )
         }
