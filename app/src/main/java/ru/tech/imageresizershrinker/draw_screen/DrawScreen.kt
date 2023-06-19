@@ -1,13 +1,9 @@
-@file:Suppress("UNUSED_PARAMETER")
-
 package ru.tech.imageresizershrinker.draw_screen
 
 
 import android.content.Context
 import android.content.pm.ActivityInfo
 import android.content.res.Configuration
-import android.graphics.Bitmap
-import android.graphics.Paint
 import android.net.Uri
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.BackHandler
@@ -108,10 +104,8 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.max
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.t8rin.drawbox.domain.DrawController
+import com.t8rin.drawbox.domain.AbstractDrawController
 import com.t8rin.drawbox.presentation.compose.DrawBox
-import com.t8rin.drawbox.presentation.model.DrawPath
-import com.t8rin.drawbox.presentation.model.PaintOptions
 import com.t8rin.dynamic.theme.LocalDynamicThemeState
 import com.t8rin.dynamic.theme.getAppColorTuple
 import com.t8rin.dynamic.theme.observeAsState
@@ -381,7 +375,7 @@ fun DrawScreen(
                             }
                             IconButton(
                                 onClick = {
-                                    viewModel.drawController?.clearPaths()
+                                    viewModel.drawController?.clearDrawing()
                                 },
                                 enabled = viewModel.drawBehavior !is DrawBehavior.None && viewModel.isBitmapChanged
                             ) {
@@ -501,7 +495,7 @@ fun DrawScreen(
                                                     OutlinedIconButton(
                                                         border = border,
                                                         onClick = { drawController.undo() },
-                                                        enabled = drawController.paths.isNotEmpty()
+                                                        enabled = drawController.lastPaths.isNotEmpty() || drawController.paths.isNotEmpty()
                                                     ) {
                                                         Icon(Icons.Rounded.Undo, null)
                                                     }
@@ -661,7 +655,7 @@ fun DrawScreen(
                                                     OutlinedIconButton(
                                                         border = border,
                                                         onClick = { drawController.undo() },
-                                                        enabled = drawController.paths.isNotEmpty()
+                                                        enabled = drawController.lastPaths.isNotEmpty() || drawController.paths.isNotEmpty()
                                                     ) {
                                                         Icon(Icons.Rounded.Undo, null)
                                                     }
@@ -832,7 +826,7 @@ fun DrawScreen(
                         actions = {
                             IconButton(
                                 onClick = { viewModel.drawController?.undo() },
-                                enabled = !viewModel.drawController?.paths.isNullOrEmpty()
+                                enabled = !viewModel.drawController?.lastPaths.isNullOrEmpty() || !viewModel.drawController?.paths.isNullOrEmpty()
                             ) {
                                 Icon(Icons.Rounded.Undo, null)
                             }
@@ -1055,86 +1049,10 @@ private suspend fun Context.calculateScreenOrientationBasedOnUri(uri: Uri): Int 
 @Composable
 private fun colorSelectorDrawController(onColorChange: (Color) -> Unit, color: Color) =
     remember(onColorChange, color) {
-        object : DrawController {
-            override val paths: Map<DrawPath, PaintOptions>
-                get() = error("")
-            override val lastPaths: Map<DrawPath, PaintOptions>
-                get() = error("")
-            override val undonePaths: Map<DrawPath, PaintOptions>
-                get() = error("")
-            override var paint: Paint
-                get() = error("")
-                set(value) {}
-            override var drawPath: DrawPath
-                get() = error("")
-                set(value) {}
-            override var paintOptions: PaintOptions
-                get() = error("")
-                set(value) {}
+        object : AbstractDrawController() {
             override val backgroundColor: Color
                 get() = color
-            override var curX: Float
-                get() = error("")
-                set(value) {}
-            override var curY: Float
-                get() = error("")
-                set(value) {}
-            override var startX: Float
-                get() = error("")
-                set(value) {}
-            override var startY: Float
-                get() = error("")
-                set(value) {}
-            override var isStrokeWidthBarEnabled: Boolean
-                get() = error("")
-                set(value) {}
-            override var isEraserOn: Boolean
-                get() = error("")
-                set(value) {}
 
-            override fun undo() {
-                error("")
-            }
-
-            override fun redo() {
-                error("")
-            }
-
-            override fun setColor(newColor: Int) {
-                error("")
-            }
-
-            override fun setDrawBackground(color: Color) {
-                onColorChange(color)
-            }
-
-            override fun setAlpha(newAlpha: Int) {
-                error("")
-            }
-
-            override fun setStrokeWidth(newStrokeWidth: Float) {
-                error("")
-            }
-
-            override suspend fun getBitmap(): Bitmap? {
-                error("")
-            }
-
-            override fun addPath(path: DrawPath, options: PaintOptions) {
-                error("")
-            }
-
-            override fun changePaint(paintOptions: PaintOptions) {
-                error("")
-            }
-
-            override fun toggleEraser() {
-                error("")
-            }
-
-            override fun clearPaths() {
-                error("")
-            }
-
+            override fun setDrawBackground(color: Color) = onColorChange(color)
         }
     }

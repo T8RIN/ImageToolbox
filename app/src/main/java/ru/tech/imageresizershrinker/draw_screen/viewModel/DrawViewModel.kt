@@ -123,7 +123,7 @@ class DrawViewModel : ViewModel() {
 
     fun setUri(uri: Uri, getDrawOrientation: suspend (Uri) -> Int) {
         viewModelScope.launch {
-            resetDrawBehavior()
+            drawController?.clearPaths()
             _uri.value = uri
             _drawBehavior.value = DrawBehavior.Image(getDrawOrientation(uri))
         }
@@ -166,10 +166,13 @@ class DrawViewModel : ViewModel() {
 
     fun resetDrawBehavior() {
         _drawBehavior.value = DrawBehavior.None
-        drawController?.setDrawBackground(Color.Transparent)
-        drawController?.setColor(Color.Black.toArgb())
-        drawController?.setAlpha(100)
-        drawController?.clearPaths()
+        drawController?.apply {
+            setDrawBackground(Color.Transparent)
+            setColor(Color.Black.toArgb())
+            setAlpha(100)
+            setStrokeWidth(8f)
+            clearPaths()
+        }
         _uri.value = Uri.EMPTY
     }
 

@@ -47,4 +47,69 @@ interface DrawController {
     fun toggleEraser()
 
     fun clearPaths()
+
+    fun clearDrawing()
+}
+
+@Suppress("UNUSED_PARAMETER")
+abstract class AbstractDrawController : DrawController {
+    override val paths: Map<DrawPath, PaintOptions>
+        get() = emptyMap()
+    override val lastPaths: Map<DrawPath, PaintOptions>
+        get() = emptyMap()
+    override val undonePaths: Map<DrawPath, PaintOptions>
+        get() = emptyMap()
+    override var paint: Paint
+        get() = Paint()
+        set(value) {}
+    override var drawPath: DrawPath
+        get() = DrawPath()
+        set(value) {}
+    override var paintOptions: PaintOptions
+        get() = PaintOptions()
+        set(value) {}
+    override val backgroundColor: Color
+        get() = Color.Transparent
+    override var curX: Float
+        get() = 0f
+        set(value) {}
+    override var curY: Float
+        get() = 0f
+        set(value) {}
+    override var startX: Float
+        get() = 0f
+        set(value) {}
+    override var startY: Float
+        get() = 0f
+        set(value) {}
+    override var isStrokeWidthBarEnabled: Boolean
+        get() = false
+        set(value) {}
+    override var isEraserOn: Boolean
+        get() = false
+        set(value) {}
+
+    override fun undo() {}
+
+    override fun redo() {}
+
+    override fun setColor(newColor: Int) {}
+
+    override fun setDrawBackground(color: Color) {}
+
+    override fun setAlpha(newAlpha: Int) {}
+
+    override fun setStrokeWidth(newStrokeWidth: Float) {}
+
+    override suspend fun getBitmap(): Bitmap? = null
+
+    override fun addPath(path: DrawPath, options: PaintOptions) {}
+
+    override fun changePaint(paintOptions: PaintOptions) {}
+
+    override fun toggleEraser() {}
+
+    override fun clearPaths() {}
+
+    override fun clearDrawing() {}
 }

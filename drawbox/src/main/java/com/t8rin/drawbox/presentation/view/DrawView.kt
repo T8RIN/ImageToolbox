@@ -160,11 +160,14 @@ class DrawView @JvmOverloads constructor(
         invalidate()
     }
 
-    fun clearCanvas() {
-        lastPaths = paths
-        drawPath.reset()
-        paths = linkedMapOf()
-        invalidate()
+    override fun clearDrawing() {
+        if (paths.isNotEmpty()) {
+            lastPaths = paths
+            drawPath.reset()
+            paths = linkedMapOf()
+            undonePaths = linkedMapOf()
+            invalidate()
+        }
     }
 
     override fun onDraw(canvas: Canvas) {
