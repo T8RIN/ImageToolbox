@@ -173,7 +173,7 @@ class DrawViewModel : ViewModel() {
         _uri.value = Uri.EMPTY
     }
 
-    fun startDrawOnBackground(width: Int, height: Int) {
+    fun startDrawOnBackground(width: Int, height: Int, color: Color) {
         val imageRatio = width / height.toFloat()
         _drawBehavior.value = DrawBehavior.Background(
             orientation = if (imageRatio <= 1f) {
@@ -186,8 +186,8 @@ class DrawViewModel : ViewModel() {
         )
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
-                while (drawController?.backgroundColor != Color.White) {
-                    drawController?.setDrawBackground(Color.White)
+                while (drawController?.backgroundColor != color) {
+                    drawController?.setDrawBackground(color)
                 }
             }
         }

@@ -1,9 +1,13 @@
+@file:Suppress("UNUSED_PARAMETER")
+
 package ru.tech.imageresizershrinker.draw_screen
 
 
 import android.content.Context
 import android.content.pm.ActivityInfo
 import android.content.res.Configuration
+import android.graphics.Bitmap
+import android.graphics.Paint
 import android.net.Uri
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.BackHandler
@@ -37,9 +41,11 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Delete
 import androidx.compose.material.icons.outlined.Share
@@ -57,6 +63,7 @@ import androidx.compose.material3.BottomSheetScaffold
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.ExtendedFloatingActionButton
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.FloatingActionButtonDefaults
 import androidx.compose.material3.Icon
@@ -76,6 +83,7 @@ import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
@@ -94,14 +102,19 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalLayoutDirection
+import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.max
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.t8rin.drawbox.domain.DrawController
 import com.t8rin.drawbox.presentation.compose.DrawBox
+import com.t8rin.drawbox.presentation.model.DrawPath
+import com.t8rin.drawbox.presentation.model.PaintOptions
 import com.t8rin.dynamic.theme.LocalDynamicThemeState
 import com.t8rin.dynamic.theme.getAppColorTuple
+import com.t8rin.dynamic.theme.observeAsState
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.draw_screen.components.DrawAlphaSelector
@@ -260,8 +273,14 @@ fun DrawScreen(
 
     val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
 
+    val configuration = LocalConfiguration.current
+    val sizeClass = LocalWindowSizeClass.current.widthSizeClass
     val portrait =
-        LocalConfiguration.current.orientation != Configuration.ORIENTATION_LANDSCAPE || LocalWindowSizeClass.current.widthSizeClass == WindowWidthSizeClass.Compact
+        remember(LocalLifecycleOwner.current.lifecycle.observeAsState(), sizeClass, configuration) {
+            derivedStateOf {
+                configuration.orientation != Configuration.ORIENTATION_LANDSCAPE || sizeClass == WindowWidthSizeClass.Compact
+            }
+        }.value
 
     val scaffoldState = rememberBottomSheetScaffoldState(
         bottomSheetState = rememberStandardBottomSheetState(
@@ -383,15 +402,22 @@ fun DrawScreen(
                         },
                     )
                 }
-                AnimatedContent(targetState = viewModel.drawBehavior to portrait) { (drawBehavior, portrait) ->
+                AnimatedContent(
+                    modifier = Modifier.weight(1f),
+                    targetState = Pair(
+                        viewModel.drawBehavior,
+                        portrait
+                    )
+                ) { (drawBehavior, isPortrait) ->
+                    val drawController = viewModel.drawController
                     when (drawBehavior) {
                         is DrawBehavior.Background -> {
-                            if (portrait) {
+                            if (isPortrait) {
                                 DrawBox(
                                     modifier = Modifier
                                         .fillMaxSize()
                                         .padding(8.dp),
-                                    drawController = viewModel.drawController,
+                                    drawController = drawController,
                                     drawingModifier = Modifier.border(
                                         width = 1.dp,
                                         color = MaterialTheme.colorScheme.outlineVariant()
@@ -403,8 +429,7 @@ fun DrawScreen(
                                             .aspectRatio(drawBehavior.run { width / height.toFloat() })
                                             .fillMaxSize()
                                             .background(
-                                                viewModel.drawController?.backgroundColor
-                                                    ?: Color.Transparent
+                                                drawController?.backgroundColor ?: Color.Transparent
                                             )
                                     )
                                 }
@@ -421,7 +446,7 @@ fun DrawScreen(
                                                 .fillMaxSize()
                                                 .padding(8.dp)
                                                 .navBarsPaddingOnlyIfTheyAtTheBottom(),
-                                            drawController = viewModel.drawController,
+                                            drawController = drawController,
                                             drawingModifier = Modifier.border(
                                                 width = 1.dp,
                                                 color = MaterialTheme.colorScheme.outlineVariant()
@@ -433,7 +458,7 @@ fun DrawScreen(
                                                     .aspectRatio(drawBehavior.run { width / height.toFloat() })
                                                     .fillMaxSize()
                                                     .background(
-                                                        viewModel.drawController?.backgroundColor
+                                                        drawController?.backgroundColor
                                                             ?: Color.Transparent
                                                     )
                                             )
@@ -445,7 +470,7 @@ fun DrawScreen(
                                             .width(settingsState.borderWidth.coerceAtLeast(0.25.dp))
                                             .background(MaterialTheme.colorScheme.outlineVariant())
                                     )
-                                    viewModel.drawController?.let { drawController ->
+                                    drawController?.let { drawController ->
                                         LazyColumn(
                                             horizontalAlignment = Alignment.CenterHorizontally,
                                             contentPadding = PaddingValues(
@@ -455,7 +480,7 @@ fun DrawScreen(
                                                     .calculateBottomPadding() + WindowInsets.ime
                                                     .asPaddingValues()
                                                     .calculateBottomPadding(),
-                                                top = if (viewModel.drawBehavior is DrawBehavior.None) 20.dp else 0.dp,
+                                                top = if (drawBehavior is DrawBehavior.None) 20.dp else 0.dp,
                                             ),
                                             modifier = Modifier
                                                 .weight(0.5f)
@@ -475,20 +500,19 @@ fun DrawScreen(
                                                 ) {
                                                     OutlinedIconButton(
                                                         border = border,
-                                                        onClick = { viewModel.drawController?.undo() },
-                                                        enabled = !viewModel.drawController?.paths.isNullOrEmpty()
+                                                        onClick = { drawController.undo() },
+                                                        enabled = drawController.paths.isNotEmpty()
                                                     ) {
                                                         Icon(Icons.Rounded.Undo, null)
                                                     }
                                                     OutlinedIconButton(
                                                         border = border,
-                                                        onClick = { viewModel.drawController?.redo() },
-                                                        enabled = !viewModel.drawController?.undonePaths.isNullOrEmpty()
+                                                        onClick = { drawController.redo() },
+                                                        enabled = drawController.undonePaths.isNotEmpty()
                                                     ) {
                                                         Icon(Icons.Rounded.Redo, null)
                                                     }
-                                                    val isEraserOn =
-                                                        viewModel.drawController?.isEraserOn == true
+                                                    val isEraserOn = drawController.isEraserOn
                                                     OutlinedIconButton(
                                                         colors = IconButtonDefaults.filledIconButtonColors(
                                                             containerColor = animateColorAsState(
@@ -502,14 +526,12 @@ fun DrawScreen(
                                                             disabledContainerColor = Color.Transparent
                                                         ),
                                                         border = border,
-                                                        onClick = { viewModel.drawController?.toggleEraser() }
+                                                        onClick = { drawController.toggleEraser() }
                                                     ) {
                                                         Icon(Icons.Rounded.Eraser, null)
                                                     }
                                                 }
-                                                if (viewModel.drawBehavior is DrawBehavior.Background) {
-                                                    DrawBackgroundSelector(drawController)
-                                                }
+                                                DrawBackgroundSelector(drawController)
                                                 DrawColorSelector(drawController)
                                                 DrawAlphaSelector(drawController)
                                                 LineWidthSelector(drawController)
@@ -518,7 +540,7 @@ fun DrawScreen(
                                                         .padding(16.dp)
                                                         .navigationBarsPadding(),
                                                     orientation = Orientation.Horizontal,
-                                                    enabled = viewModel.drawBehavior !is DrawBehavior.None,
+                                                    enabled = drawBehavior !is DrawBehavior.None,
                                                     mimeTypeInt = viewModel.mimeType,
                                                     onMimeChange = {
                                                         viewModel.updateMimeType(it)
@@ -555,12 +577,12 @@ fun DrawScreen(
                         }
 
                         is DrawBehavior.Image -> {
-                            if (portrait) {
+                            if (isPortrait) {
                                 DrawBox(
                                     modifier = Modifier
                                         .fillMaxSize()
                                         .padding(8.dp),
-                                    drawController = viewModel.drawController,
+                                    drawController = drawController,
                                     drawingModifier = Modifier.border(
                                         width = 1.dp,
                                         color = MaterialTheme.colorScheme.outlineVariant()
@@ -587,7 +609,7 @@ fun DrawScreen(
                                                 .fillMaxSize()
                                                 .padding(8.dp)
                                                 .navBarsPaddingOnlyIfTheyAtTheBottom(),
-                                            drawController = viewModel.drawController,
+                                            drawController = drawController,
                                             drawingModifier = Modifier.border(
                                                 width = 1.dp,
                                                 color = MaterialTheme.colorScheme.outlineVariant()
@@ -608,7 +630,7 @@ fun DrawScreen(
                                             .width(settingsState.borderWidth.coerceAtLeast(0.25.dp))
                                             .background(MaterialTheme.colorScheme.outlineVariant())
                                     )
-                                    viewModel.drawController?.let { drawController ->
+                                    drawController?.let { drawController ->
                                         LazyColumn(
                                             horizontalAlignment = Alignment.CenterHorizontally,
                                             contentPadding = PaddingValues(
@@ -618,7 +640,7 @@ fun DrawScreen(
                                                     .calculateBottomPadding() + WindowInsets.ime
                                                     .asPaddingValues()
                                                     .calculateBottomPadding(),
-                                                top = if (viewModel.drawBehavior is DrawBehavior.None) 20.dp else 0.dp,
+                                                top = if (drawBehavior is DrawBehavior.None) 20.dp else 0.dp,
                                             ),
                                             modifier = Modifier
                                                 .weight(0.5f)
@@ -638,20 +660,19 @@ fun DrawScreen(
                                                 ) {
                                                     OutlinedIconButton(
                                                         border = border,
-                                                        onClick = { viewModel.drawController?.undo() },
-                                                        enabled = !viewModel.drawController?.paths.isNullOrEmpty()
+                                                        onClick = { drawController.undo() },
+                                                        enabled = drawController.paths.isNotEmpty()
                                                     ) {
                                                         Icon(Icons.Rounded.Undo, null)
                                                     }
                                                     OutlinedIconButton(
                                                         border = border,
-                                                        onClick = { viewModel.drawController?.redo() },
-                                                        enabled = !viewModel.drawController?.undonePaths.isNullOrEmpty()
+                                                        onClick = { drawController.redo() },
+                                                        enabled = drawController.undonePaths.isNotEmpty()
                                                     ) {
                                                         Icon(Icons.Rounded.Redo, null)
                                                     }
-                                                    val isEraserOn =
-                                                        viewModel.drawController?.isEraserOn == true
+                                                    val isEraserOn = drawController.isEraserOn
                                                     OutlinedIconButton(
                                                         colors = IconButtonDefaults.filledIconButtonColors(
                                                             containerColor = animateColorAsState(
@@ -665,16 +686,12 @@ fun DrawScreen(
                                                             disabledContainerColor = Color.Transparent
                                                         ),
                                                         border = border,
-                                                        onClick = { viewModel.drawController?.toggleEraser() }
+                                                        onClick = { drawController.toggleEraser() }
                                                     ) {
                                                         Icon(Icons.Rounded.Eraser, null)
                                                     }
                                                 }
-                                                if (viewModel.drawBehavior is DrawBehavior.Background) {
-                                                    DrawBackgroundSelector(drawController)
-                                                } else {
-                                                    Spacer(Modifier.height(16.dp))
-                                                }
+                                                Spacer(Modifier.height(16.dp))
                                                 DrawColorSelector(drawController)
                                                 DrawAlphaSelector(drawController)
                                                 LineWidthSelector(drawController)
@@ -683,7 +700,7 @@ fun DrawScreen(
                                                         .padding(16.dp)
                                                         .navigationBarsPadding(),
                                                     orientation = Orientation.Horizontal,
-                                                    enabled = viewModel.drawBehavior !is DrawBehavior.None,
+                                                    enabled = drawBehavior !is DrawBehavior.None,
                                                     mimeTypeInt = viewModel.mimeType,
                                                     onMimeChange = {
                                                         viewModel.updateMimeType(it)
@@ -771,6 +788,30 @@ fun DrawScreen(
                                 }
                             }
                         }
+                    }
+                }
+                if (viewModel.drawBehavior is DrawBehavior.None) {
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .background(MaterialTheme.colorScheme.surfaceColorAtElevation(3.dp))
+                            .drawHorizontalStroke(true),
+                        horizontalArrangement = Arrangement.Center
+                    ) {
+                        ExtendedFloatingActionButton(
+                            onClick = pickImage,
+                            modifier = Modifier
+                                .navigationBarsPadding()
+                                .padding(16.dp)
+                                .fabBorder(),
+                            elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
+                            text = {
+                                Text(stringResource(R.string.pick_image_alt))
+                            },
+                            icon = {
+                                Icon(Icons.Rounded.AddPhotoAlternate, null)
+                            }
+                        )
                     }
                 }
             }
@@ -897,7 +938,6 @@ fun DrawScreen(
         visible = showExitDialog
     )
 
-    val configuration = LocalConfiguration.current
     val density = LocalDensity.current
     var height by remember(showBackgroundDrawingSetup.value, configuration) {
         mutableIntStateOf(with(density) { configuration.screenHeightDp.dp.roundToPx() })
@@ -905,6 +945,7 @@ fun DrawScreen(
     var width by remember(showBackgroundDrawingSetup.value, configuration) {
         mutableIntStateOf(with(density) { configuration.screenWidthDp.dp.roundToPx() })
     }
+    var color by remember { mutableStateOf(Color.White) }
     SimpleSheet(
         title = {
             TitleItem(
@@ -922,7 +963,9 @@ fun DrawScreen(
                 onClick = {
                     showBackgroundDrawingSetup.value = false
                     viewModel.startDrawOnBackground(
-                        width = width, height = height
+                        width = width,
+                        height = height,
+                        color = color
                     )
                 }
             ) {
@@ -930,54 +973,65 @@ fun DrawScreen(
             }
         },
         sheetContent = {
-            Row(
-                Modifier
-                    .background(MaterialTheme.colorScheme.surfaceColorAtElevation(10.dp))
-                    .padding(16.dp)
-                    .block(shape = RoundedCornerShape(24.dp))
-            ) {
-                RoundedTextField(
-                    value = width.toString(),
-                    onValueChange = {
-                        width = it.restrict(4096).toIntOrNull() ?: 0
-                    },
-                    shape = RoundedCornerShape(12.dp),
-                    keyboardOptions = KeyboardOptions(
-                        keyboardType = KeyboardType.Number
-                    ),
-                    label = {
-                        Text(stringResource(R.string.width, " "))
-                    },
-                    modifier = Modifier
-                        .weight(1f)
-                        .padding(
-                            start = 8.dp,
-                            top = 8.dp,
-                            bottom = 8.dp,
-                            end = 4.dp
+            Box {
+                Column(Modifier.verticalScroll(rememberScrollState())) {
+                    Row(
+                        Modifier
+                            .padding(16.dp)
+                            .block(shape = RoundedCornerShape(24.dp))
+                    ) {
+                        RoundedTextField(
+                            value = width.toString(),
+                            onValueChange = {
+                                width = it.restrict(4096).toIntOrNull() ?: 0
+                            },
+                            shape = RoundedCornerShape(12.dp),
+                            keyboardOptions = KeyboardOptions(
+                                keyboardType = KeyboardType.Number
+                            ),
+                            label = {
+                                Text(stringResource(R.string.width, " "))
+                            },
+                            modifier = Modifier
+                                .weight(1f)
+                                .padding(
+                                    start = 8.dp,
+                                    top = 8.dp,
+                                    bottom = 8.dp,
+                                    end = 4.dp
+                                )
                         )
-                )
-                RoundedTextField(
-                    value = height.toString(),
-                    onValueChange = {
-                        height = it.restrict(4096).toIntOrNull() ?: 0
-                    },
-                    keyboardOptions = KeyboardOptions(
-                        keyboardType = KeyboardType.Number
-                    ),
-                    shape = RoundedCornerShape(12.dp),
-                    label = {
-                        Text(stringResource(R.string.height, " "))
-                    },
-                    modifier = Modifier
-                        .weight(1f)
-                        .padding(
-                            start = 4.dp,
-                            top = 8.dp,
-                            bottom = 8.dp,
-                            end = 8.dp
-                        ),
-                )
+                        RoundedTextField(
+                            value = height.toString(),
+                            onValueChange = {
+                                height = it.restrict(4096).toIntOrNull() ?: 0
+                            },
+                            keyboardOptions = KeyboardOptions(
+                                keyboardType = KeyboardType.Number
+                            ),
+                            shape = RoundedCornerShape(12.dp),
+                            label = {
+                                Text(stringResource(R.string.height, " "))
+                            },
+                            modifier = Modifier
+                                .weight(1f)
+                                .padding(
+                                    start = 4.dp,
+                                    top = 8.dp,
+                                    bottom = 8.dp,
+                                    end = 8.dp
+                                ),
+                        )
+                    }
+                    DrawBackgroundSelector(
+                        drawController = colorSelectorDrawController(
+                            onColorChange = { color = it },
+                            color = color
+                        )
+                    )
+                }
+                Divider()
+                Divider(Modifier.align(Alignment.BottomCenter))
             }
         },
         visible = showBackgroundDrawingSetup
@@ -997,3 +1051,90 @@ private suspend fun Context.calculateScreenOrientationBasedOnUri(uri: Uri): Int 
         ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
     }
 }
+
+@Composable
+private fun colorSelectorDrawController(onColorChange: (Color) -> Unit, color: Color) =
+    remember(onColorChange, color) {
+        object : DrawController {
+            override val paths: Map<DrawPath, PaintOptions>
+                get() = error("")
+            override val lastPaths: Map<DrawPath, PaintOptions>
+                get() = error("")
+            override val undonePaths: Map<DrawPath, PaintOptions>
+                get() = error("")
+            override var paint: Paint
+                get() = error("")
+                set(value) {}
+            override var drawPath: DrawPath
+                get() = error("")
+                set(value) {}
+            override var paintOptions: PaintOptions
+                get() = error("")
+                set(value) {}
+            override val backgroundColor: Color
+                get() = color
+            override var curX: Float
+                get() = error("")
+                set(value) {}
+            override var curY: Float
+                get() = error("")
+                set(value) {}
+            override var startX: Float
+                get() = error("")
+                set(value) {}
+            override var startY: Float
+                get() = error("")
+                set(value) {}
+            override var isStrokeWidthBarEnabled: Boolean
+                get() = error("")
+                set(value) {}
+            override var isEraserOn: Boolean
+                get() = error("")
+                set(value) {}
+
+            override fun undo() {
+                error("")
+            }
+
+            override fun redo() {
+                error("")
+            }
+
+            override fun setColor(newColor: Int) {
+                error("")
+            }
+
+            override fun setDrawBackground(color: Color) {
+                onColorChange(color)
+            }
+
+            override fun setAlpha(newAlpha: Int) {
+                error("")
+            }
+
+            override fun setStrokeWidth(newStrokeWidth: Float) {
+                error("")
+            }
+
+            override suspend fun getBitmap(): Bitmap? {
+                error("")
+            }
+
+            override fun addPath(path: DrawPath, options: PaintOptions) {
+                error("")
+            }
+
+            override fun changePaint(paintOptions: PaintOptions) {
+                error("")
+            }
+
+            override fun toggleEraser() {
+                error("")
+            }
+
+            override fun clearPaths() {
+                error("")
+            }
+
+        }
+    }
