@@ -957,8 +957,8 @@ fun DrawScreen(
                 onClick = {
                     showBackgroundDrawingSetup.value = false
                     viewModel.startDrawOnBackground(
-                        width = width,
-                        height = height,
+                        reqWidth = width,
+                        reqHeight = height,
                         color = color
                     )
                 }
@@ -975,9 +975,9 @@ fun DrawScreen(
                             .block(shape = RoundedCornerShape(24.dp))
                     ) {
                         RoundedTextField(
-                            value = width.toString(),
+                            value = width.takeIf { it != 0 }?.toString() ?: "",
                             onValueChange = {
-                                width = it.restrict(4096).toIntOrNull() ?: 0
+                                width = it.restrict(8192).toIntOrNull() ?: 0
                             },
                             shape = RoundedCornerShape(12.dp),
                             keyboardOptions = KeyboardOptions(
@@ -996,9 +996,9 @@ fun DrawScreen(
                                 )
                         )
                         RoundedTextField(
-                            value = height.toString(),
+                            value = height.takeIf { it != 0 }?.toString() ?: "",
                             onValueChange = {
-                                height = it.restrict(4096).toIntOrNull() ?: 0
+                                height = it.restrict(8192).toIntOrNull() ?: 0
                             },
                             keyboardOptions = KeyboardOptions(
                                 keyboardType = KeyboardType.Number

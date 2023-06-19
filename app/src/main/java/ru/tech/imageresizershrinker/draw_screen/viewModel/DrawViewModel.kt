@@ -176,7 +176,9 @@ class DrawViewModel : ViewModel() {
         _uri.value = Uri.EMPTY
     }
 
-    fun startDrawOnBackground(width: Int, height: Int, color: Color) {
+    fun startDrawOnBackground(reqWidth: Int, reqHeight: Int, color: Color) {
+        val width = reqWidth.takeIf { it > 0 } ?: 1
+        val height = reqHeight.takeIf { it > 0 } ?: 1
         val imageRatio = width / height.toFloat()
         _drawBehavior.value = DrawBehavior.Background(
             orientation = if (imageRatio <= 1f) {
