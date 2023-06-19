@@ -1,5 +1,6 @@
 package ru.tech.imageresizershrinker.draw_screen.viewModel
 
+import android.content.pm.ActivityInfo
 import android.graphics.Bitmap
 import android.net.Uri
 import androidx.compose.runtime.MutableState
@@ -118,6 +119,24 @@ class DrawViewModel : ViewModel() {
                 )
             }
         }
+    }
+
+    fun resetDrawBehavior() {
+        _drawBehavior.value = DrawBehavior.None
+        _uri.value = Uri.EMPTY
+    }
+
+    fun startDrawOnBackground(width: Int, height: Int) {
+        val imageRatio = width / height.toFloat()
+        _drawBehavior.value = DrawBehavior.Background(
+            orientation = if (imageRatio <= 1f) {
+                ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
+            } else {
+                ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
+            },
+            width = width,
+            height = height
+        )
     }
 
 }

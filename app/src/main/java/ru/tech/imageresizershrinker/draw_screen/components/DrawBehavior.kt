@@ -12,6 +12,8 @@ sealed class DrawBehavior(
     ) : DrawBehavior(orientation = orientation)
 
     class Background(
-        override val orientation: Int
+        override val orientation: Int,
+        val width: Int,
+        val height: Int,
     ) : DrawBehavior(orientation = orientation)
 }

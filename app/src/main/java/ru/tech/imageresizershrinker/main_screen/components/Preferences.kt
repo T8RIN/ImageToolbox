@@ -275,7 +275,6 @@ fun LimitsPreference(
     )
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun PreferenceItem(
     onClick: (() -> Unit)? = null,

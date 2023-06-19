@@ -273,6 +273,10 @@
     <string name="draw_sub">Draw on image like in a sketchbook, or draw on the background itself</string>
     <string name="paint_color">Paint color</string>
     <string name="paint_alpha">Paint alpha</string>
+    <string name="draw_on_image">Draw on image</string>
+    <string name="draw_on_image_sub">Pick an image and draw something on it</string>
+    <string name="draw_on_background">Draw on background</string>
+    <string name="draw_on_background_sub">Pick background color and draw on top of it</string>
     <string-array name="fab_alignment_sub">
         <item>Start</item>
         <item>Center</item>
