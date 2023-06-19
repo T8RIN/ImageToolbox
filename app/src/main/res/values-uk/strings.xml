@@ -196,9 +196,9 @@
     <string name="monochrome">Монохромний</string>
     <string name="gamma">Гамма</string>
     <string name="highlights_shadows">Відблиски і тіні</string>
-    <string name="highlights">Основні моменти</string>
+    <string name="highlights">Відблиски</string>
     <string name="shadows">Тіні</string>
-    <string name="haze">Серпанок</string>
+    <string name="haze">Туман</string>
     <string name="effect">Ефект</string>
     <string name="distance">Відстань</string>
     <string name="bulge">опуклість</string>
@@ -221,18 +221,18 @@
     <string name="fast_blur">Швидке розмиття</string>
     <string name="blur_size">Розмір розмиття</string>
     <string name="luminance_threshold">Поріг яскравості</string>
-    <string name="slope">Схил</string>
-    <string name="sharpen">Гостріти</string>
-    <string name="sepia">сепія</string>
-    <string name="negative">Негативний</string>
-    <string name="solarize">Соляризуйте</string>
-    <string name="vibrance">Жвавість</string>
+    <string name="slope">Нахил</string>
+    <string name="sharpen">Різкість</string>
+    <string name="sepia">Сепія</string>
+    <string name="negative">Негатив</string>
+    <string name="solarize">Соляризація</string>
+    <string name="vibrance">Вібранс</string>
     <string name="black_and_white">Чорний і білий</string>
     <string name="bilaterial_blur">Двостороннє розмиття</string>
     <string name="emboss">Тиснення</string>
-    <string name="laplacian">лапласівський</string>
+    <string name="laplacian">Лапласіан</string>
     <string name="vignette">Віньєтка</string>
-    <string name="start">старт</string>
+    <string name="start">Старт</string>
     <string name="end">Кінець</string>
     <string name="kuwahara">Згладжування Кувахара</string>
     <string name="distortion">Спотворення</string>
@@ -253,4 +253,7 @@
     <string name="blur_center_y">Центр розмиття y</string>
     <string name="zoom_blur">Збільшити розмиття</string>
     <string name="color_balance">Колірний баланс</string>
+    <string name="draw">Малювати</string>
+    <string name="draw_sub">Малюйте на зображенні, як в альбомі, або малюйте на самому фоні</string>
+    <string name="activate_files">Ви вимкнули застосунок \"Файли\", ввімкніть його, щоб скористатися цією функцією</string>
 </resources>
