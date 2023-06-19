@@ -6,6 +6,9 @@ import android.net.Uri
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.toArgb
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.t8rin.drawbox.domain.DrawController
@@ -25,7 +28,7 @@ import ru.tech.imageresizershrinker.utils.storage.SaveTarget
 
 class DrawViewModel : ViewModel() {
 
-    var drawController: DrawController? = null
+    var drawController: DrawController? by mutableStateOf(null)
         private set
 
     private val _uri = mutableStateOf(Uri.EMPTY)
@@ -52,19 +55,49 @@ class DrawViewModel : ViewModel() {
         onComplete: (success: Boolean) -> Unit
     ) = viewModelScope.launch {
         withContext(Dispatchers.IO) {
-            getBitmap(_uri.value)?.let { bitmap ->
+            if (drawBehavior is DrawBehavior.Image) {
+                getBitmap(_uri.value)?.let { bitmap ->
+                    if (!fileController.isExternalStorageWritable()) {
+                        onComplete(false)
+                    } else {
+                        drawController?.getBitmap()?.let {
+                            bitmap.overlayWith(
+                                it.resizeBitmap(
+                                    width_ = bitmap.width,
+                                    height_ = bitmap.height,
+                                    resize = 0
+                                )
+                            )
+                        }?.let { localBitmap ->
+                            val savingFolder = fileController.getSavingFolder(
+                                SaveTarget(
+                                    bitmapInfo = BitmapInfo(
+                                        mimeTypeInt = mimeType.extension.mimeTypeInt,
+                                        width = localBitmap.width,
+                                        height = localBitmap.height
+                                    ),
+                                    uri = _uri.value,
+                                    sequenceNumber = null
+                                )
+                            )
+
+                            savingFolder.outputStream?.use {
+                                localBitmap.compress(mimeType.extension.compressFormat, 100, it)
+                            }
+
+                        }
+                        onComplete(true)
+                    }
+                }
+            } else if (drawBehavior is DrawBehavior.Background) {
                 if (!fileController.isExternalStorageWritable()) {
                     onComplete(false)
                 } else {
-                    drawController?.getBitmap()?.let {
-                        bitmap.overlayWith(
-                            it.resizeBitmap(
-                                width_ = bitmap.width,
-                                height_ = bitmap.height,
-                                resize = 0
-                            )
-                        )
-                    }?.let { localBitmap ->
+                    drawController?.getBitmap()?.resizeBitmap(
+                        width_ = (drawBehavior as DrawBehavior.Background).width,
+                        height_ = (drawBehavior as DrawBehavior.Background).height,
+                        resize = 0
+                    )?.let { localBitmap ->
                         val savingFolder = fileController.getSavingFolder(
                             SaveTarget(
                                 bitmapInfo = BitmapInfo(
@@ -72,7 +105,7 @@ class DrawViewModel : ViewModel() {
                                     width = localBitmap.width,
                                     height = localBitmap.height
                                 ),
-                                uri = _uri.value,
+                                uri = Uri.parse("drawing"),
                                 sequenceNumber = null
                             )
                         )
@@ -90,7 +123,7 @@ class DrawViewModel : ViewModel() {
 
     fun setUri(uri: Uri, getDrawOrientation: suspend (Uri) -> Int) {
         viewModelScope.launch {
-            drawController?.clearPaths()
+            resetDrawBehavior()
             _uri.value = uri
             _drawBehavior.value = DrawBehavior.Image(getDrawOrientation(uri))
         }
@@ -105,17 +138,27 @@ class DrawViewModel : ViewModel() {
         onComplete: (Bitmap?) -> Unit
     ) = viewModelScope.launch {
         withContext(Dispatchers.IO) {
-            getBitmap(_uri.value)?.let { bitmap ->
-                onComplete(
-                    drawController?.getBitmap()?.let {
-                        bitmap.overlayWith(
-                            it.resizeBitmap(
-                                width_ = bitmap.width,
-                                height_ = bitmap.height,
-                                resize = 0
+            if (drawBehavior is DrawBehavior.Image) {
+                getBitmap(_uri.value)?.let { bitmap ->
+                    onComplete(
+                        drawController?.getBitmap()?.let {
+                            bitmap.overlayWith(
+                                it.resizeBitmap(
+                                    width_ = bitmap.width,
+                                    height_ = bitmap.height,
+                                    resize = 0
+                                )
                             )
-                        )
-                    }
+                        }
+                    )
+                }
+            } else if (drawBehavior is DrawBehavior.Background) {
+                onComplete(
+                    drawController?.getBitmap()?.resizeBitmap(
+                        width_ = (drawBehavior as DrawBehavior.Background).width,
+                        height_ = (drawBehavior as DrawBehavior.Background).height,
+                        resize = 0
+                    )
                 )
             }
         }
@@ -123,6 +166,10 @@ class DrawViewModel : ViewModel() {
 
     fun resetDrawBehavior() {
         _drawBehavior.value = DrawBehavior.None
+        drawController?.setDrawBackground(Color.Transparent)
+        drawController?.setColor(Color.Black.toArgb())
+        drawController?.setAlpha(100)
+        drawController?.clearPaths()
         _uri.value = Uri.EMPTY
     }
 
@@ -137,6 +184,13 @@ class DrawViewModel : ViewModel() {
             width = width,
             height = height
         )
+        viewModelScope.launch {
+            withContext(Dispatchers.IO) {
+                while (drawController?.backgroundColor != Color.White) {
+                    drawController?.setDrawBackground(Color.White)
+                }
+            }
+        }
     }
 
 }

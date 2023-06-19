@@ -277,6 +277,7 @@
     <string name="draw_on_image_sub">Pick an image and draw something on it</string>
     <string name="draw_on_background">Draw on background</string>
     <string name="draw_on_background_sub">Pick background color and draw on top of it</string>
+    <string name="background_color">Background color</string>
     <string-array name="fab_alignment_sub">
         <item>Start</item>
         <item>Center</item>

@@ -45,7 +45,6 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.core.graphics.ColorUtils
 import com.t8rin.drawbox.domain.DrawController
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.main_screen.components.ColorCustomComponent
@@ -57,7 +56,7 @@ import ru.tech.imageresizershrinker.widget.sheets.SimpleSheet
 import ru.tech.imageresizershrinker.widget.utils.LocalSettingsState
 
 @Composable
-fun DrawColorSelector(drawController: DrawController) {
+fun DrawBackgroundSelector(drawController: DrawController) {
     val settingsState = LocalSettingsState.current
 
     var customColor by remember { mutableStateOf<Color?>(null) }
@@ -65,7 +64,7 @@ fun DrawColorSelector(drawController: DrawController) {
 
     Column(
         Modifier
-            .padding(start = 16.dp, end = 16.dp, bottom = 16.dp)
+            .padding(16.dp)
             .block()
     ) {
         Row(
@@ -74,7 +73,7 @@ fun DrawColorSelector(drawController: DrawController) {
             horizontalArrangement = Arrangement.Center
         ) {
             Text(
-                stringResource(R.string.paint_color),
+                stringResource(R.string.background_color),
                 modifier = Modifier.padding(top = 16.dp),
                 fontSize = 18.sp
             )
@@ -127,16 +126,12 @@ fun DrawColorSelector(drawController: DrawController) {
                     }
                 }
                 items(defaultColorList) { color ->
-                    val alphaColor = ColorUtils.setAlphaComponent(
-                        color.toArgb(),
-                        drawController.paintOptions.alpha
-                    )
                     Box(
                         Modifier
                             .size(
                                 animateDpAsState(
                                     40.dp.times(
-                                        if (drawController.paintOptions.color == alphaColor) {
+                                        if (drawController.backgroundColor == color) {
                                             1.3f
                                         } else 1f
                                     )
@@ -152,7 +147,7 @@ fun DrawColorSelector(drawController: DrawController) {
                             .clip(CircleShape)
                             .background(color)
                             .clickable {
-                                drawController.setColor(alphaColor)
+                                drawController.setDrawBackground(color)
                                 customColor = null
                             }
                     )
@@ -201,7 +196,7 @@ fun DrawColorSelector(drawController: DrawController) {
                         color = customColor?.toArgb() ?: 0,
                         onColorChange = {
                             customColor = Color(it)
-                            drawController.setColor(it)
+                            drawController.setDrawBackground(Color(it))
                         }
                     )
                 }
@@ -234,6 +229,11 @@ fun DrawColorSelector(drawController: DrawController) {
 }
 
 private val defaultColorList = listOf(
+    Color(0xFFFFFFFF),
+    Color(0xFF768484),
+    Color(0xFF333333),
+    Color(0xFF000000),
+) + listOf(
     Color(0xFFf8130d),
     Color(0xFFb8070d),
     Color(0xFF7a000b),
@@ -254,8 +254,4 @@ private val defaultColorList = listOf(
     Color(0xFFb035f8),
     Color(0xFF7b2bec),
     Color(0xFF022b6d),
-    Color(0xFFFFFFFF),
-    Color(0xFF768484),
-    Color(0xFF333333),
-    Color(0xFF000000),
-)
+).reversed()

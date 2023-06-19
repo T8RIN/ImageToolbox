@@ -2,6 +2,7 @@ package com.t8rin.drawbox.domain
 
 import android.graphics.Bitmap
 import android.graphics.Paint
+import androidx.compose.ui.graphics.Color
 import com.t8rin.drawbox.presentation.model.DrawPath
 import com.t8rin.drawbox.presentation.model.PaintOptions
 
@@ -16,6 +17,8 @@ interface DrawController {
     var drawPath: DrawPath
     var paintOptions: PaintOptions
 
+    val backgroundColor: Color
+
     var curX: Float
     var curY: Float
     var startX: Float
@@ -28,6 +31,8 @@ interface DrawController {
     fun redo()
 
     fun setColor(newColor: Int)
+
+    fun setDrawBackground(color: Color)
 
     fun setAlpha(newAlpha: Int)
 

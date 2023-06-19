@@ -50,6 +50,7 @@ fun DrawBox(
                     it.isStrokeWidthBarEnabled = isStrokeWidthBarEnabled
                     it.lastPaths = lastPaths
                     it.paint = paint
+                    it.setDrawBackground(backgroundColor)
                     it.paths = paths
                     it.paintOptions = paintOptions
                     it.undonePaths = undonePaths

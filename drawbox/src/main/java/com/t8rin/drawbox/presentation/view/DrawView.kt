@@ -17,10 +17,12 @@ import androidx.annotation.ColorInt
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.graphics.toArgb
 import androidx.core.graphics.ColorUtils
 import com.t8rin.drawbox.domain.DrawController
 import com.t8rin.drawbox.presentation.model.DrawPath
 import com.t8rin.drawbox.presentation.model.PaintOptions
+import androidx.compose.ui.graphics.Color as ComposeColor
 
 class DrawView @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
@@ -33,6 +35,9 @@ class DrawView @JvmOverloads constructor(
     override var paint by mutableStateOf(Paint())
     override var drawPath by mutableStateOf(DrawPath())
     override var paintOptions by mutableStateOf(PaintOptions())
+    private var _backgroundColor by mutableStateOf(ComposeColor.Transparent)
+    override val backgroundColor: ComposeColor
+        get() = _backgroundColor
 
     override var curX = 0f
     override var curY = 0f
@@ -100,6 +105,11 @@ class DrawView @JvmOverloads constructor(
         }
     }
 
+    override fun setDrawBackground(color: ComposeColor) {
+        _backgroundColor = color
+        invalidate()
+    }
+
     override fun setAlpha(newAlpha: Int) {
         val alpha = (newAlpha * 255) / 100
         paintOptions = paintOptions.copy(alpha = alpha)
@@ -116,6 +126,7 @@ class DrawView @JvmOverloads constructor(
     override suspend fun getBitmap(): Bitmap? = kotlin.runCatching {
         val bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
         val canvas = Canvas(bitmap)
+        canvas.drawColor(backgroundColor.toArgb())
         draw(canvas)
         bitmap
     }.getOrNull()
@@ -158,7 +169,7 @@ class DrawView @JvmOverloads constructor(
 
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
-
+        canvas.drawColor(backgroundColor.toArgb())
         for ((key, value) in paths) {
             changePaint(value)
             canvas.drawPath(key, paint)
