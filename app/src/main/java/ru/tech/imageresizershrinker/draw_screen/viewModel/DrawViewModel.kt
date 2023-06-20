@@ -23,7 +23,7 @@ import ru.tech.imageresizershrinker.utils.helper.compressFormat
 import ru.tech.imageresizershrinker.utils.helper.extension
 import ru.tech.imageresizershrinker.utils.helper.mimeTypeInt
 import ru.tech.imageresizershrinker.utils.storage.FileController
-import ru.tech.imageresizershrinker.utils.storage.SaveTarget
+import ru.tech.imageresizershrinker.utils.storage.BitmapSaveTarget
 
 
 class DrawViewModel : ViewModel() {
@@ -70,7 +70,7 @@ class DrawViewModel : ViewModel() {
                             )
                         }?.let { localBitmap ->
                             val savingFolder = fileController.getSavingFolder(
-                                SaveTarget(
+                                BitmapSaveTarget(
                                     bitmapInfo = BitmapInfo(
                                         mimeTypeInt = mimeType.extension.mimeTypeInt,
                                         width = localBitmap.width,
@@ -99,7 +99,7 @@ class DrawViewModel : ViewModel() {
                         resize = 0
                     )?.let { localBitmap ->
                         val savingFolder = fileController.getSavingFolder(
-                            SaveTarget(
+                            BitmapSaveTarget(
                                 bitmapInfo = BitmapInfo(
                                     mimeTypeInt = mimeType.extension.mimeTypeInt,
                                     width = localBitmap.width,

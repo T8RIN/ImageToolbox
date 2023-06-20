@@ -59,7 +59,7 @@ fun defaultPrefix() = "ResizedImage"
 fun constructFilename(
     context: Context,
     fileParams: FileParams,
-    saveTarget: SaveTarget
+    saveTarget: BitmapSaveTarget
 ): String {
     val wh = "(" + (if (saveTarget.uri == Uri.EMPTY) context.getString(R.string.width)
         .split(" ")[0] else saveTarget.bitmapInfo.width) + ")x(" + (if (saveTarget.uri == Uri.EMPTY) context.getString(
@@ -100,16 +100,15 @@ fun constructFilename(
 
 fun Context.getSavingFolder(
     treeUri: Uri?,
-    extension: String,
-    filename: String,
+    saveTarget: SaveTarget
 ): SavingFolder {
     return if (treeUri == null) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
             val contentValues = ContentValues().apply {
-                put(MediaStore.MediaColumns.DISPLAY_NAME, filename)
+                put(MediaStore.MediaColumns.DISPLAY_NAME, saveTarget.filename)
                 put(
                     MediaStore.MediaColumns.MIME_TYPE,
-                    "image/$extension"
+                    saveTarget.mimeType
                 )
                 put(
                     MediaStore.MediaColumns.RELATIVE_PATH,
@@ -117,7 +116,15 @@ fun Context.getSavingFolder(
                 )
             }
             val imageUri = contentResolver.insert(
-                MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+                if ("image" in saveTarget.mimeType) {
+                    MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
+                } else if ("video" in saveTarget.mimeType) {
+                    MediaStore.Video.Media.EXTERNAL_CONTENT_URI;
+                } else if ("audio" in saveTarget.mimeType) {
+                    MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
+                } else {
+                    MediaStore.Files.getContentUri("external")
+                },
                 contentValues
             )
 
@@ -133,15 +140,15 @@ fun Context.getSavingFolder(
             )
             if (!imagesDir.exists()) imagesDir.mkdir()
             SavingFolder(
-                outputStream = FileOutputStream(File(imagesDir, filename)),
-                file = File(imagesDir, filename)
+                outputStream = FileOutputStream(File(imagesDir, saveTarget.filename!!)),
+                file = File(imagesDir, saveTarget.filename!!)
             )
         }
     } else {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
             val imageUri = DocumentFile
                 .fromTreeUri(this, treeUri)
-                ?.createFile("image/$extension", filename)?.uri!!
+                ?.createFile(saveTarget.mimeType, saveTarget.mimeType)?.uri!!
 
             SavingFolder(
                 outputStream = contentResolver.openOutputStream(imageUri),
@@ -158,8 +165,8 @@ fun Context.getSavingFolder(
             )
             if (!imagesDir.exists()) imagesDir.mkdir()
             SavingFolder(
-                outputStream = FileOutputStream(File(imagesDir, filename)),
-                file = File(imagesDir, filename)
+                outputStream = FileOutputStream(File(imagesDir, saveTarget.filename!!)),
+                file = File(imagesDir, saveTarget.filename!!)
             )
         }
     }

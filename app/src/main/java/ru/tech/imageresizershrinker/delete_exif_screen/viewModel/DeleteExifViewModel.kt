@@ -17,7 +17,7 @@ import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.resizeBitmap
 import ru.tech.imageresizershrinker.utils.helper.compressFormat
 import ru.tech.imageresizershrinker.utils.helper.extension
 import ru.tech.imageresizershrinker.utils.storage.FileController
-import ru.tech.imageresizershrinker.utils.storage.SaveTarget
+import ru.tech.imageresizershrinker.utils.storage.BitmapSaveTarget
 
 class DeleteExifViewModel : ViewModel() {
 
@@ -119,7 +119,7 @@ class DeleteExifViewModel : ViewModel() {
                         bitmap?.let { result ->
 
                             val savingFolder = fileController.getSavingFolder(
-                                SaveTarget(
+                                BitmapSaveTarget(
                                     bitmapInfo = BitmapInfo(
                                         mimeTypeInt = mimeInt,
                                         width = result.width,

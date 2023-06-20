@@ -98,7 +98,7 @@ import ru.tech.imageresizershrinker.utils.modifier.block
 import ru.tech.imageresizershrinker.utils.modifier.pulsate
 import ru.tech.imageresizershrinker.utils.modifier.scaleOnTap
 import ru.tech.imageresizershrinker.utils.storage.LocalFileController
-import ru.tech.imageresizershrinker.utils.storage.SaveTarget
+import ru.tech.imageresizershrinker.utils.storage.BitmapSaveTarget
 import ru.tech.imageresizershrinker.utils.storage.constructFilename
 import ru.tech.imageresizershrinker.utils.storage.toUiPath
 import ru.tech.imageresizershrinker.widget.PreferenceRow
@@ -737,7 +737,7 @@ fun LazyListScope.SettingsBlock(
                         constructFilename(
                             context = context,
                             fileParams = fileController.fileParams,
-                            saveTarget = SaveTarget(BitmapInfo(), Uri.EMPTY, null)
+                            saveTarget = BitmapSaveTarget(BitmapInfo(), Uri.EMPTY, null)
                         ).split(".")[0].let {
                             if (viewModel.imagePickerModeInt == 0) {
                                 it.replace("_" + context.getString(R.string.original_filename), "")

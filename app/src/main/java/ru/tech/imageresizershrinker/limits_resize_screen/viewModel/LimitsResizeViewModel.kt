@@ -21,7 +21,7 @@ import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.scaleUntilCanShow
 import ru.tech.imageresizershrinker.utils.helper.compressFormat
 import ru.tech.imageresizershrinker.utils.helper.extension
 import ru.tech.imageresizershrinker.utils.storage.FileController
-import ru.tech.imageresizershrinker.utils.storage.SaveTarget
+import ru.tech.imageresizershrinker.utils.storage.BitmapSaveTarget
 
 class LimitsResizeViewModel : ViewModel() {
 
@@ -149,7 +149,7 @@ then resize by HeighthLimit.
                                 }
                             }
                             val savingFolder = fileController.getSavingFolder(
-                                SaveTarget(
+                                BitmapSaveTarget(
                                     bitmapInfo = _bitmapInfo.value,
                                     uri = uri,
                                     sequenceNumber = _done.value + 1

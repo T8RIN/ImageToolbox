@@ -99,7 +99,7 @@ object BitmapUtils {
             val fd = contentResolver.openFileDescriptor(uri, "r")
             val exif = fd?.fileDescriptor?.let { ExifInterface(it) }
             onGetExif(exif)
-            val mime = contentResolver.getMimeType(uri) ?: ""
+            val mime = getMimeType(uri) ?: ""
             val mimeInt = mime.mimeTypeInt
             onGetMimeType(mimeInt)
             fd?.close()
@@ -203,7 +203,7 @@ object BitmapUtils {
         val exif = fd?.fileDescriptor?.let { ExifInterface(it) }
         fd?.close()
 
-        val mime = contentResolver.getMimeType(uri) ?: ""
+        val mime = getMimeType(uri) ?: ""
 
         return Triple(kotlin.runCatching {
             val loader = imageLoader.newBuilder().components {
@@ -221,8 +221,8 @@ object BitmapUtils {
         }.getOrNull(), exif, mime.mimeTypeInt)
     }
 
-    private fun ContentResolver.getMimeType(uri: Uri): String? {
-        return if (ContentResolver.SCHEME_CONTENT == uri.scheme) getType(uri)
+    fun Context.getMimeType(uri: Uri): String? {
+        return if (ContentResolver.SCHEME_CONTENT == uri.scheme) contentResolver.getType(uri)
         else {
             MimeTypeMap.getSingleton()
                 .getMimeTypeFromExtension(
@@ -232,6 +232,9 @@ object BitmapUtils {
                 )
         }
     }
+
+    fun String.getExtensionFromMimeType() =
+        MimeTypeMap.getSingleton().getExtensionFromMimeType(this)
 
     suspend fun Bitmap.previewBitmap(
         quality: Float,

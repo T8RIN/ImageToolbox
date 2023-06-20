@@ -24,7 +24,7 @@ import ru.tech.imageresizershrinker.utils.helper.compressFormat
 import ru.tech.imageresizershrinker.utils.helper.extension
 import ru.tech.imageresizershrinker.utils.helper.mimeTypeInt
 import ru.tech.imageresizershrinker.utils.storage.FileController
-import ru.tech.imageresizershrinker.utils.storage.SaveTarget
+import ru.tech.imageresizershrinker.utils.storage.BitmapSaveTarget
 
 class BytesResizeViewModel : ViewModel() {
 
@@ -216,7 +216,7 @@ class BytesResizeViewModel : ViewModel() {
                                 val scaled = result.getOrNull()!!
                                 val localBitmap = scaled.first
                                 val savingFolder = fileController.getSavingFolder(
-                                    SaveTarget(
+                                    BitmapSaveTarget(
                                         bitmapInfo = BitmapInfo(
                                             mimeTypeInt = mime.extension.mimeTypeInt,
                                             width = localBitmap.width,

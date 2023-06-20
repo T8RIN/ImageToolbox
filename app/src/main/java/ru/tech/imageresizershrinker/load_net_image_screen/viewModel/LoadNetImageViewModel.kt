@@ -14,7 +14,7 @@ import kotlinx.coroutines.withContext
 import ru.tech.imageresizershrinker.utils.helper.BitmapInfo
 import ru.tech.imageresizershrinker.utils.helper.compressFormat
 import ru.tech.imageresizershrinker.utils.storage.FileController
-import ru.tech.imageresizershrinker.utils.storage.SaveTarget
+import ru.tech.imageresizershrinker.utils.storage.BitmapSaveTarget
 
 class LoadNetImageViewModel : ViewModel() {
 
@@ -50,7 +50,7 @@ class LoadNetImageViewModel : ViewModel() {
                 }
 
                 val savingFolder = fileController.getSavingFolder(
-                    SaveTarget(
+                    BitmapSaveTarget(
                         bitmapInfo = BitmapInfo(
                             width = localBitmap.width,
                             height = localBitmap.height

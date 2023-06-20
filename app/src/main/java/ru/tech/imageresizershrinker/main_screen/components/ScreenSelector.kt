@@ -11,6 +11,7 @@ import ru.tech.imageresizershrinker.compare_screen.CompareScreen
 import ru.tech.imageresizershrinker.crop_screen.CropScreen
 import ru.tech.imageresizershrinker.delete_exif_screen.DeleteExifScreen
 import ru.tech.imageresizershrinker.draw_screen.DrawScreen
+import ru.tech.imageresizershrinker.file_cipher_screen.FileCipherScreen
 import ru.tech.imageresizershrinker.filters_screen.FiltersScreen
 import ru.tech.imageresizershrinker.generate_palette_screen.GeneratePaletteScreen
 import ru.tech.imageresizershrinker.image_preview_screen.ImagePreviewScreen
@@ -139,6 +140,13 @@ fun ScreenSelector(
 
             is Screen.Draw -> {
                 DrawScreen(
+                    uriState = screen.uri,
+                    onGoBack = onGoBack
+                )
+            }
+
+            is Screen.Cipher -> {
+                FileCipherScreen(
                     uriState = screen.uri,
                     onGoBack = onGoBack
                 )

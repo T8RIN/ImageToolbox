@@ -25,12 +25,15 @@ private class FileControllerImpl constructor(
         saveTarget: SaveTarget
     ): SavingFolder = context.getSavingFolder(
         treeUri = fileParams.treeUri,
-        filename = constructFilename(
-            context = context,
-            fileParams = fileParams,
-            saveTarget = saveTarget
-        ),
-        extension = saveTarget.bitmapInfo.mimeTypeInt.extension
+        saveTarget = if (saveTarget is BitmapSaveTarget) {
+            saveTarget.copy(
+                filename = constructFilename(
+                    context = context,
+                    fileParams = fileParams,
+                    saveTarget = saveTarget
+                )
+            )
+        } else saveTarget,
     )
 
     override fun getFileDescriptorFor(uri: Uri?) = uri?.let {
@@ -77,11 +80,26 @@ data class FileParams(
     val addSequenceNumber: Boolean
 )
 
-data class SaveTarget(
+data class BitmapSaveTarget(
     val bitmapInfo: BitmapInfo,
     val uri: Uri,
-    val sequenceNumber: Int?
-)
+    val sequenceNumber: Int?,
+    override val filename: String? = null,
+    override val extension: String = bitmapInfo.mimeTypeInt.extension,
+    override val mimeType: String = "image/$extension"
+) : SaveTarget
+
+data class FileSaveTarget(
+    override val filename: String,
+    override val extension: String,
+    override val mimeType: String,
+) : SaveTarget
+
+interface SaveTarget {
+    val filename: String?
+    val extension: String
+    val mimeType: String
+}
 
 val LocalFileController = compositionLocalOf<FileController> { error("FileController not present") }
 

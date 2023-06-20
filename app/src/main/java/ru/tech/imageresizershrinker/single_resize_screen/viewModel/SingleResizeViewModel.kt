@@ -27,7 +27,7 @@ import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.scaleUntilCanShow
 import ru.tech.imageresizershrinker.utils.helper.compressFormat
 import ru.tech.imageresizershrinker.utils.helper.extension
 import ru.tech.imageresizershrinker.utils.storage.FileController
-import ru.tech.imageresizershrinker.utils.storage.SaveTarget
+import ru.tech.imageresizershrinker.utils.storage.BitmapSaveTarget
 import java.io.ByteArrayInputStream
 import java.io.ByteArrayOutputStream
 
@@ -111,7 +111,7 @@ class SingleResizeViewModel : ViewModel() {
                                 .flip(isFlipped)
 
                         val savingFolder = fileController.getSavingFolder(
-                            SaveTarget(
+                            BitmapSaveTarget(
                                 bitmapInfo = bitmapInfo,
                                 uri = _uri.value,
                                 sequenceNumber = null
