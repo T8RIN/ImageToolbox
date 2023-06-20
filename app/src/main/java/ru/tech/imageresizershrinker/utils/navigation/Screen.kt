@@ -10,17 +10,13 @@ import androidx.compose.material.icons.rounded.Compare
 import androidx.compose.material.icons.rounded.Crop
 import androidx.compose.material.icons.rounded.Dataset
 import androidx.compose.material.icons.rounded.Draw
-import androidx.compose.material.icons.rounded.EnhancedEncryption
 import androidx.compose.material.icons.rounded.InsertDriveFile
-import androidx.compose.material.icons.rounded.Lock
-import androidx.compose.material.icons.rounded.Password
 import androidx.compose.material.icons.rounded.Photo
 import androidx.compose.material.icons.rounded.PhotoFilter
 import androidx.compose.material.icons.rounded.PhotoLibrary
 import androidx.compose.material.icons.rounded.PhotoSizeSelectLarge
 import androidx.compose.material.icons.rounded.Public
 import androidx.compose.material.icons.rounded.Security
-import androidx.compose.material.icons.rounded.Shield
 import androidx.compose.ui.graphics.vector.ImageVector
 import kotlinx.parcelize.Parcelize
 import kotlinx.parcelize.RawValue
@@ -77,18 +73,18 @@ sealed class Screen(
         subtitle = R.string.draw_sub
     )
 
-    class ImagePreview(val uris: List<Uri>? = null) : Screen(
-        id = 6,
-        icon = Icons.Rounded.Photo,
-        title = R.string.image_preview,
-        subtitle = R.string.image_preview_sub
-    )
-
     class Cipher(val uri: Uri? = null) : Screen(
-        id = 7,
+        id = 6,
         icon = Icons.Rounded.Security,
         title = R.string.cipher,
         subtitle = R.string.cipher_sub
+    )
+
+    class ImagePreview(val uris: List<Uri>? = null) : Screen(
+        id = 7,
+        icon = Icons.Rounded.Photo,
+        title = R.string.image_preview,
+        subtitle = R.string.image_preview_sub
     )
 
     class LoadNetImage(val uris: List<Uri>? = null) : Screen(
@@ -141,8 +137,8 @@ sealed class Screen(
             Crop(),
             Filter(),
             Draw(),
-            ImagePreview(),
             Cipher(),
+            ImagePreview(),
             LoadNetImage(),
             PickColorFromImage(),
             GeneratePalette(),

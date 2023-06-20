@@ -289,6 +289,14 @@
     <string name="key">Key</string>
     <string name="file_proceed">File proceed</string>
     <string name="store_file_desc">Store this file on your device or use share action to put it wherever you want</string>
+    <string name="features">Features</string>
+    <string name="implementation">Implementation</string>
+    <string name="compatibility">Compatibility</string>
+    <string name="features_sub">Password-based encryption of files. Proceeded files can be stored in the Crypto directory or shared. Decrypted files can also directly be opened.</string>
+    <string name="implementation_sub">AES-256, GCM mode, no padding, 12 bytes random IVs. Keys are used as SHA-3 hashes (256 bits).</string>
+    <string name="file_size">File size</string>
+    <string name="file_size_sub">The maximum file size is restricted by the Android OS and the memory available, which is obviously depending on your device.\nPlease note: memory is not storage.</string>
+    <string name="compatibility_sub">Please note that compatibility to other file encryption software or services is not guaranteed. A slightly different key treatment or cipher configuration may be reasons for incompatibility.</string>
     <string-array name="fab_alignment_sub">
         <item>Start</item>
         <item>Center</item>

@@ -34,8 +34,10 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Cancel
 import androidx.compose.material.icons.rounded.ArrowBack
@@ -45,12 +47,14 @@ import androidx.compose.material.icons.rounded.FileOpen
 import androidx.compose.material.icons.rounded.FolderOpen
 import androidx.compose.material.icons.rounded.HelpOutline
 import androidx.compose.material.icons.rounded.Save
+import androidx.compose.material.icons.rounded.Security
 import androidx.compose.material.icons.rounded.Share
 import androidx.compose.material.icons.rounded.Shuffle
 import androidx.compose.material.icons.twotone.FileOpen
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FilledIconButton
 import androidx.compose.material3.FilledTonalButton
@@ -62,6 +66,7 @@ import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.LargeTopAppBar
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedCard
 import androidx.compose.material3.OutlinedIconButton
 import androidx.compose.material3.Surface
@@ -106,13 +111,14 @@ import ru.tech.imageresizershrinker.utils.helper.ContextUtils.getFileName
 import ru.tech.imageresizershrinker.utils.modifier.block
 import ru.tech.imageresizershrinker.utils.modifier.drawHorizontalStroke
 import ru.tech.imageresizershrinker.utils.modifier.fabBorder
-import ru.tech.imageresizershrinker.utils.storage.LocalFileController
 import ru.tech.imageresizershrinker.widget.LoadingDialog
 import ru.tech.imageresizershrinker.widget.LocalToastHost
 import ru.tech.imageresizershrinker.widget.PreferenceRow
+import ru.tech.imageresizershrinker.widget.TitleItem
 import ru.tech.imageresizershrinker.widget.TopAppBarEmoji
 import ru.tech.imageresizershrinker.widget.buttons.ToggleGroupButton
 import ru.tech.imageresizershrinker.widget.dialogs.ExitWithoutSavingDialog
+import ru.tech.imageresizershrinker.widget.sheets.SimpleSheet
 import ru.tech.imageresizershrinker.widget.showError
 import ru.tech.imageresizershrinker.widget.text.AutoSizeText
 import ru.tech.imageresizershrinker.widget.text.Marquee
@@ -133,7 +139,6 @@ fun FileCipherScreen(
     }
 
     val context = LocalContext.current
-    val fileController = LocalFileController.current
     val settingsState = LocalSettingsState.current
     val toastHostState = LocalToastHost.current
     val scope = rememberCoroutineScope()
@@ -144,7 +149,8 @@ fun FileCipherScreen(
 
     var key by rememberSaveable { mutableStateOf("") }
     val onBack = {
-        if (viewModel.uri != null && (key.isNotEmpty() || viewModel.byteArray != null)) showExitDialog = true
+        if (viewModel.uri != null && (key.isNotEmpty() || viewModel.byteArray != null)) showExitDialog =
+            true
         else onGoBack()
     }
     var showSaveLoading by rememberSaveable { mutableStateOf(false) }
@@ -328,7 +334,7 @@ fun FileCipherScreen(
                                     )
                                     OutlinedIconButton(
                                         onClick = {
-                                            /*TODO*/
+                                            showTip.value = true
                                         },
                                         colors = IconButtonDefaults.filledTonalIconButtonColors(),
                                         border = BorderStroke(
@@ -340,10 +346,10 @@ fun FileCipherScreen(
                                     }
                                 }
 
-                                viewModel.uri?.let {
+                                viewModel.uri?.let { uri ->
                                     PreferenceRow(
                                         modifier = Modifier.padding(top = 16.dp),
-                                        title = context.getFileName(it)
+                                        title = context.getFileName(uri)
                                             ?: stringResource(R.string.something_went_wrong),
                                         onClick = null,
                                         titleFontStyle = TextStyle(
@@ -683,6 +689,70 @@ fun FileCipherScreen(
         onExit = onGoBack,
         onDismiss = { showExitDialog = false },
         visible = showExitDialog
+    )
+
+    SimpleSheet(
+        sheetContent = {
+            Box {
+                Column(Modifier.verticalScroll(rememberScrollState())) {
+                    TitleItem(text = stringResource(R.string.features))
+                    Text(
+                        stringResource(R.string.features_sub),
+                        modifier = Modifier.padding(start = 16.dp, end = 16.dp, bottom = 16.dp),
+                        fontSize = 14.sp,
+                        lineHeight = 18.sp
+                    )
+                    Divider()
+
+                    TitleItem(text = stringResource(R.string.implementation))
+                    Text(
+                        stringResource(id = R.string.implementation_sub),
+                        modifier = Modifier.padding(start = 16.dp, end = 16.dp, bottom = 16.dp),
+                        fontSize = 14.sp,
+                        lineHeight = 18.sp
+                    )
+                    Divider()
+
+                    TitleItem(text = stringResource(R.string.file_size))
+                    Text(
+                        stringResource(id = R.string.file_size_sub),
+                        modifier = Modifier.padding(start = 16.dp, end = 16.dp, bottom = 16.dp),
+                        fontSize = 14.sp,
+                        lineHeight = 18.sp
+                    )
+                    Divider()
+
+                    TitleItem(text = stringResource(R.string.compatibility))
+                    Text(
+                        stringResource(id = R.string.compatibility_sub),
+                        modifier = Modifier.padding(start = 16.dp, end = 16.dp, bottom = 16.dp),
+                        fontSize = 14.sp,
+                        lineHeight = 18.sp
+                    )
+                }
+                Divider()
+                Divider(Modifier.align(Alignment.BottomCenter))
+            }
+        },
+        visible = showTip,
+        title = {
+            TitleItem(
+                text = stringResource(R.string.cipher),
+                icon = Icons.Rounded.Security
+            )
+        },
+        confirmButton = {
+            OutlinedButton(
+                colors = ButtonDefaults.filledTonalButtonColors(),
+                border = BorderStroke(
+                    settingsState.borderWidth,
+                    MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.secondaryContainer)
+                ),
+                onClick = { showTip.value = false }
+            ) {
+                Text(stringResource(R.string.close))
+            }
+        },
     )
 
     BackHandler(onBack = onBack)
