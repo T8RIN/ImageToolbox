@@ -253,4 +253,7 @@
     <string name="blur_center_y">Bewegungsursprung y-Achse</string>
     <string name="zoom_blur">Bewegungsunschärfe</string>
     <string name="luminance_threshold">Luminanzschwelle</string>
+    <string name="draw">Zeichnen</string>
+    <string name="draw_sub">Zeichne auf einem Bild wie in einem Skizzenbuch oder zeichne auf dem Hintergrund selbst</string>
+    <string name="activate_files">Deine Dateien-App ist deaktiviert. Aktiviere sie, um diese Funktion zu nutzen.</string>
 </resources>
