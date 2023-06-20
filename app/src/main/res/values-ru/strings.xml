@@ -258,4 +258,14 @@
     <string name="second_color">Второй цвет</string>
     <string name="reorder">Порядок</string>
     <string name="blur_size">Размер размытия</string>
+    <string name="activate_files">Вы отключили приложение «Файлы». Активируйте его, чтобы использовать эту функцию.</string>
+    <string name="draw">Рисовать</string>
+    <string name="draw_sub">Рисуйте на изображении, как в альбоме для рисования, или рисуйте на самом фоне</string>
+    <string name="paint_color">Цвет краски</string>
+    <string name="paint_alpha">Краска альфа</string>
+    <string name="draw_on_image">Рисовать на изображении</string>
+    <string name="draw_on_image_sub">Выберите изображение и нарисуйте на нем что-нибудь</string>
+    <string name="draw_on_background">Рисовать на фоне</string>
+    <string name="draw_on_background_sub">Выберите цвет фона и нарисуйте поверх него.</string>
+    <string name="background_color">Фоновый цвет</string>
 </resources>
