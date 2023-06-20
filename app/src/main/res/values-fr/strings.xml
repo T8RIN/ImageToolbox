@@ -256,4 +256,11 @@
     <string name="draw">Dessiner</string>
     <string name="activate_files">Vous avez désactivé l\'application Fichiers, activez-la pour utiliser cette fonctionnalité</string>
     <string name="draw_sub">Dessinez sur l\'image comme dans un carnet de croquis, ou dessinez sur l\'arrière-plan lui-même</string>
+    <string name="paint_alpha">Peinture alpha</string>
+    <string name="draw_on_image">Dessiner sur l’image</string>
+    <string name="draw_on_background">Dessiner en arrière-plan</string>
+    <string name="draw_on_background_sub">Choisissez la couleur de fond et dessinez dessus</string>
+    <string name="background_color">Couleur d\'arrière-plan</string>
+    <string name="paint_color">Couleur de peinture</string>
+    <string name="draw_on_image_sub">Choisissez une image et dessinez quelque chose dessus</string>
 </resources>
