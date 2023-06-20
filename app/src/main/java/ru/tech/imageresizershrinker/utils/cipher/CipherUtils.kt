@@ -17,9 +17,10 @@ object CipherUtils {
     * Specification for encryption and decryption
     */
     private const val HASHING_ALGORITHM = "SHA-256"
-    private const val ENCRYPTION_STANDARD = "AES/CBC/PKCS5Padding"
+    private const val ENCRYPTION_STANDARD = "AES/GCM/NoPadding"
     private const val CHARS = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
     private const val SALT_LEN = 4
+    private const val IV_LENGTH = 12
 
     /**
      * Hash text with salt
@@ -109,7 +110,13 @@ object CipherUtils {
     fun ByteArray.decrypt(pw: String): ByteArray {
         val keySpec = createKey(pw)
         val cipher = Cipher.getInstance(ENCRYPTION_STANDARD)
-        cipher.init(Cipher.DECRYPT_MODE, keySpec, IvParameterSpec(keySpec?.encoded, 0, cipher.blockSize))
+        val iv = ByteArray(IV_LENGTH)
+        SecureRandom().nextBytes(iv)
+        cipher.init(
+            Cipher.DECRYPT_MODE,
+            keySpec,
+            IvParameterSpec(iv, 0, cipher.blockSize)
+        )
         return cipher.doFinal(this)
     }
 
@@ -123,7 +130,13 @@ object CipherUtils {
     fun ByteArray.encrypt(pw: String): ByteArray {
         val keySpec = createKey(pw)
         val cipher = Cipher.getInstance(ENCRYPTION_STANDARD)
-        cipher.init(Cipher.ENCRYPT_MODE, keySpec, IvParameterSpec(keySpec?.encoded, 0, cipher.blockSize))
+        val iv = ByteArray(IV_LENGTH)
+        SecureRandom().nextBytes(iv)
+        cipher.init(
+            Cipher.ENCRYPT_MODE,
+            keySpec,
+            IvParameterSpec(iv, 0, cipher.blockSize)
+        )
         return cipher.doFinal(this)
     }
 

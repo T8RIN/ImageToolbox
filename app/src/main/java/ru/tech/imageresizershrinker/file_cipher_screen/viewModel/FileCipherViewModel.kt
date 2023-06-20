@@ -10,8 +10,19 @@ class FileCipherViewModel : ViewModel() {
     private val _uri = mutableStateOf<Uri?>(null)
     val uri by _uri
 
+    private val _isEncrypt = mutableStateOf(true)
+    val isEncrypt by _isEncrypt
+
     fun setUri(newUri: Uri) {
         _uri.value = newUri
+    }
+
+    fun startCryptography(onComplete: () -> Unit) {
+
+    }
+
+    fun setIsEncrypt(isEncrypt: Boolean) {
+        _isEncrypt.value = isEncrypt
     }
 
 }

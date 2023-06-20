@@ -278,6 +278,14 @@
     <string name="draw_on_background">Draw on background</string>
     <string name="draw_on_background_sub">Pick background color and draw on top of it</string>
     <string name="background_color">Background color</string>
+    <string name="cipher">Cipher</string>
+    <string name="cipher_sub">Encrypt and Decrypt any file (not only the image) based on AES crypto algorythm</string>
+    <string name="pick_file">Pick file</string>
+    <string name="encrypt">Encrypt</string>
+    <string name="decrypt">Decrypt</string>
+    <string name="pick_file_to_start">Pick file to start</string>
+    <string name="decryption">Decryption</string>
+    <string name="encryption">Encryption</string>
     <string-array name="fab_alignment_sub">
         <item>Start</item>
         <item>Center</item>
