@@ -268,4 +268,24 @@
     <string name="draw_on_background">Рисовать на фоне</string>
     <string name="draw_on_background_sub">Выберите цвет фона и нарисуйте поверх него.</string>
     <string name="background_color">Фоновый цвет</string>
+    <string name="pick_file">Выбрать файл</string>
+    <string name="decryption">Расшифровка</string>
+    <string name="encryption">Шифрование</string>
+    <string name="key">Ключ</string>
+    <string name="compatibility">Совместимость</string>
+    <string name="cipher">Шифр</string>
+    <string name="cipher_sub">Зашифруйте и расшифруйте любой файл (не только изображение) на основе криптоалгоритма AES.</string>
+    <string name="encrypt">Шифровать</string>
+    <string name="decrypt">расшифровать</string>
+    <string name="pick_file_to_start">Выберите файл для запуска</string>
+    <string name="file_proceed">Файл продолжить</string>
+    <string name="features">Функции</string>
+    <string name="implementation">Выполнение</string>
+    <string name="features_sub">Шифрование файлов на основе пароля. Полученные файлы могут храниться в каталоге Crypto или совместно использоваться. Расшифрованные файлы также могут быть открыты напрямую.</string>
+    <string name="implementation_sub">AES-256, режим GCM, без заполнения, 12 байт случайных IV. Ключи используются в виде хэшей SHA-3 (256 бит).</string>
+    <string name="file_size">Размер файла</string>
+    <string name="file_size_sub">Максимальный размер файла ограничен ОС Android и доступной памятью, что, очевидно, зависит от вашего устройства.
+\nОбратите внимание: память не является хранилищем.</string>
+    <string name="compatibility_sub">Обратите внимание, что совместимость с другим программным обеспечением или службами для шифрования файлов не гарантируется. Немного другая обработка ключа или конфигурация шифра могут быть причинами несовместимости.</string>
+    <string name="store_file_desc">Сохраните этот файл на своем устройстве или используйте действие «Поделиться», чтобы поместить его куда угодно</string>
 </resources>
