@@ -256,4 +256,11 @@
     <string name="draw">Zeichnen</string>
     <string name="draw_sub">Zeichne auf einem Bild wie in einem Skizzenbuch oder zeichne auf dem Hintergrund selbst</string>
     <string name="activate_files">Deine Dateien-App ist deaktiviert. Aktiviere sie, um diese Funktion zu nutzen.</string>
+    <string name="paint_alpha">Deckkraft</string>
+    <string name="draw_on_image">Auf Bild zeichnen</string>
+    <string name="draw_on_image_sub">Wähle ein Bild und zeichne etwas darauf</string>
+    <string name="draw_on_background">Zeichne auf Hintergrund</string>
+    <string name="background_color">Hintergrundfarbe</string>
+    <string name="paint_color">Zeichenfarbe</string>
+    <string name="draw_on_background_sub">Wähle eine Hintergrundfarbe und zeichne darauf</string>
 </resources>
