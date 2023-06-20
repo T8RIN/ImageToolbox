@@ -128,9 +128,10 @@ Go to the [Releases](https://github.com/t8rin/imageresizer/releases/latest) and 
   
   </details>
   
-- Saving to any specific folder
+- AES-256 GCM No Padding files encryption and decryption
 - EXIF metadata editing/deleting
 - Loading images from internet
+- Drawing on Image/Background
 - Image Resizing
   - Width changing
   - Height changing
@@ -158,8 +159,7 @@ Go to the [Releases](https://github.com/t8rin/imageresizer/releases/latest) and 
   - Flipping
   - Comparing images
   - Previewing SVG, GIF and all types of images
-  - Drawing
-  
+  - Saving to any specific folder
 
 #
 ![Frame 8 (3)](https://github.com/T8RIN/ImageToolbox/assets/52178347/147ecde5-4d92-4926-9356-636db84e3a86)
