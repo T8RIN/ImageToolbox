@@ -256,4 +256,10 @@
     <string name="draw">Малювати</string>
     <string name="draw_sub">Малюйте на зображенні, як в альбомі, або малюйте на самому фоні</string>
     <string name="activate_files">Ви вимкнули застосунок \"Файли\", ввімкніть його, щоб скористатися цією функцією</string>
+    <string name="draw_on_image_sub">Виберіть зображення та намалюйте щось на ньому</string>
+    <string name="draw_on_background">Малювати на фоні</string>
+    <string name="background_color">Колір фону</string>
+    <string name="draw_on_image">Малювати на зображенні</string>
+    <string name="paint_color">Колір фарби</string>
+    <string name="draw_on_background_sub">Виберіть колір фону і малюйте поверх нього</string>
 </resources>
