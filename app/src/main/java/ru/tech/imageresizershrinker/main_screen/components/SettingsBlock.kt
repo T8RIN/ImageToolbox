@@ -97,8 +97,8 @@ import ru.tech.imageresizershrinker.utils.helper.BitmapInfo
 import ru.tech.imageresizershrinker.utils.modifier.block
 import ru.tech.imageresizershrinker.utils.modifier.pulsate
 import ru.tech.imageresizershrinker.utils.modifier.scaleOnTap
-import ru.tech.imageresizershrinker.utils.storage.LocalFileController
 import ru.tech.imageresizershrinker.utils.storage.BitmapSaveTarget
+import ru.tech.imageresizershrinker.utils.storage.LocalFileController
 import ru.tech.imageresizershrinker.utils.storage.constructFilename
 import ru.tech.imageresizershrinker.utils.storage.toUiPath
 import ru.tech.imageresizershrinker.widget.PreferenceRow

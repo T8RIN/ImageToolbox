@@ -461,15 +461,20 @@ fun MainScreen(
                         ),
                         content = {
                             items(screenList) { screen ->
-                                PreferenceItem(
+                                PreferenceItemOverload(
                                     onClick = {
                                         navController.popUpTo { it == Screen.Main }
                                         navController.navigate(screen)
                                     },
+                                    onLongClick = {
+                                        showArrangementSheet.value = true
+                                    },
                                     modifier = Modifier.fillMaxWidth(),
                                     title = stringResource(screen.title),
                                     subtitle = stringResource(screen.subtitle),
-                                    icon = screen.icon,
+                                    icon = {
+                                        Icon(screen.icon!!, null)
+                                    },
                                     color = MaterialTheme.colorScheme.surfaceColorAtElevation(1.dp)
                                 )
                             }

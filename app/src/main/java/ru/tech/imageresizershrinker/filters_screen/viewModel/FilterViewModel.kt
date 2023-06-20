@@ -23,8 +23,8 @@ import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.scaleUntilCanShow
 import ru.tech.imageresizershrinker.utils.helper.compressFormat
 import ru.tech.imageresizershrinker.utils.helper.extension
 import ru.tech.imageresizershrinker.utils.helper.mimeTypeInt
-import ru.tech.imageresizershrinker.utils.storage.FileController
 import ru.tech.imageresizershrinker.utils.storage.BitmapSaveTarget
+import ru.tech.imageresizershrinker.utils.storage.FileController
 
 class FilterViewModel : ViewModel() {
 

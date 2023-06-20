@@ -13,8 +13,8 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import ru.tech.imageresizershrinker.utils.helper.BitmapInfo
 import ru.tech.imageresizershrinker.utils.helper.compressFormat
-import ru.tech.imageresizershrinker.utils.storage.FileController
 import ru.tech.imageresizershrinker.utils.storage.BitmapSaveTarget
+import ru.tech.imageresizershrinker.utils.storage.FileController
 
 class LoadNetImageViewModel : ViewModel() {
 

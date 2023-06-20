@@ -16,8 +16,8 @@ import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.canShow
 import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.resizeBitmap
 import ru.tech.imageresizershrinker.utils.helper.compressFormat
 import ru.tech.imageresizershrinker.utils.helper.extension
-import ru.tech.imageresizershrinker.utils.storage.FileController
 import ru.tech.imageresizershrinker.utils.storage.BitmapSaveTarget
+import ru.tech.imageresizershrinker.utils.storage.FileController
 
 class DeleteExifViewModel : ViewModel() {
 

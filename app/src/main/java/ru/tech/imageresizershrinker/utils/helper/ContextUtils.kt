@@ -2,14 +2,12 @@ package ru.tech.imageresizershrinker.utils.helper
 
 import android.Manifest
 import android.app.Activity
-import android.content.ContentResolver
 import android.content.Context
 import android.content.ContextWrapper
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Build
-import android.provider.MediaStore
 import android.widget.Toast
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.ErrorOutline
@@ -30,7 +28,6 @@ import ru.tech.imageresizershrinker.utils.permission.PermissionUtils.checkPermis
 import ru.tech.imageresizershrinker.utils.permission.PermissionUtils.setPermissionsAllowed
 import ru.tech.imageresizershrinker.widget.ToastDuration
 import ru.tech.imageresizershrinker.widget.ToastHostState
-import java.io.File
 import kotlin.math.min
 
 
@@ -167,7 +164,7 @@ object ContextUtils {
         return null
     }
 
-    fun Context.getFileName(uri: Uri, ): String? = DocumentFile.fromSingleUri(this, uri)?.name
+    fun Context.getFileName(uri: Uri): String? = DocumentFile.fromSingleUri(this, uri)?.name
 
     fun Context.parseImageFromIntent(
         intent: Intent?,
