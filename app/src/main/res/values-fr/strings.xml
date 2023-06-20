@@ -255,4 +255,5 @@
     <string name="blur_center_x">Flou centre x</string>
     <string name="draw">Dessiner</string>
     <string name="activate_files">Vous avez désactivé l\'application Fichiers, activez-la pour utiliser cette fonctionnalité</string>
+    <string name="draw_sub">Dessinez sur l\'image comme dans un carnet de croquis, ou dessinez sur l\'arrière-plan lui-même</string>
 </resources>
