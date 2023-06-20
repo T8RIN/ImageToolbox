@@ -20,15 +20,8 @@ object CipherUtils {
     private const val ENCRYPTION_STANDARD = "AES/GCM/NoPadding"
     private const val CHARS = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
     private const val SALT_LEN = 4
-    private const val IV_LENGTH = 12
 
-    /**
-     * Hash text with salt
-     *
-     * @param str  text
-     * @param salt salt
-     * @return hash in `byte[]` or `NULL` if error happens
-     */
+
     fun hash(str: String, salt: String): ByteArray? {
         return try {
             // append salt to password
@@ -52,7 +45,7 @@ object CipherUtils {
      * @param len length of salt
      * @return salt
      */
-    private fun randSalt(len: Int): String {
+    fun randSalt(len: Int): String {
         val sr = SecureRandom()
         val sb = StringBuilder(len)
         for (i in 0 until len) {
@@ -71,71 +64,39 @@ object CipherUtils {
         return randSalt(SALT_LEN)
     }
 
-    /**
-     * create the a `SecretKeySpec` for the specified
-     * `ENCRYPTION_STANDARD` through hashing given password using the
-     * specified `HASHING_ALGORITHM`
-     *
-     * @param pw password
-     * @return SecretKeySpec
-     * @see {@link CryptoUtil.HASHING_ALGORITHM}
-     *
-     * @see {@link CryptoUtil.ENCRYPTION_STANDARD}
-     */
-    private fun createKey(pw: String): SecretKeySpec? {
-        return try {
-            val pwBytes = pw.toByteArray(charset("UTF-8"))
 
-            // Create secret Key factory based on the specified algorithm
-            val md = MessageDigest.getInstance(HASHING_ALGORITHM)
+    private fun createKey(password: String): SecretKeySpec {
+        val pwBytes = password.toByteArray(charset("UTF-8"))
 
-            // digest the pwBytes to be a new key
-            md.update(pwBytes, 0, pwBytes.size)
-            val key = md.digest()
-            SecretKeySpec(key, ENCRYPTION_STANDARD)
-        } catch (e: Exception) {
-            e.printStackTrace()
-            null
-        }
+        // Create secret Key factory based on the specified algorithm
+        val md = MessageDigest.getInstance(HASHING_ALGORITHM)
+
+        // digest the pwBytes to be a new key
+        md.update(pwBytes, 0, pwBytes.size)
+        val key = md.digest()
+        return SecretKeySpec(key, ENCRYPTION_STANDARD)
     }
 
-    /**
-     * Decrypt using specified `ENCRYPTION_STANDARD`
-     *
-     * @param data encryptedData
-     * @param pw   password
-     * @return original data byte[]
-     * @see {@link CryptoUtil.ENCRYPTION_STANDARD}
-     */
-    fun ByteArray.decrypt(pw: String): ByteArray {
-        val keySpec = createKey(pw)
+
+    fun ByteArray.decrypt(key: String): ByteArray {
+        val keySpec = createKey(key)
         val cipher = Cipher.getInstance(ENCRYPTION_STANDARD)
-        val iv = ByteArray(IV_LENGTH)
-        SecureRandom().nextBytes(iv)
         cipher.init(
             Cipher.DECRYPT_MODE,
             keySpec,
-            IvParameterSpec(iv, 0, cipher.blockSize)
+            IvParameterSpec(keySpec.encoded, 0, cipher.blockSize)
         )
         return cipher.doFinal(this)
     }
 
-    /**
-     * Encrypt using specified `ENCRYPTION_STANDARD`
-     *
-     * @param data image data
-     * @param pw   password
-     * @return encrypted byte[]
-     */
-    fun ByteArray.encrypt(pw: String): ByteArray {
-        val keySpec = createKey(pw)
+
+    fun ByteArray.encrypt(key: String): ByteArray {
+        val keySpec = createKey(key)
         val cipher = Cipher.getInstance(ENCRYPTION_STANDARD)
-        val iv = ByteArray(IV_LENGTH)
-        SecureRandom().nextBytes(iv)
         cipher.init(
             Cipher.ENCRYPT_MODE,
             keySpec,
-            IvParameterSpec(iv, 0, cipher.blockSize)
+            IvParameterSpec(keySpec.encoded, 0, cipher.blockSize)
         )
         return cipher.doFinal(this)
     }

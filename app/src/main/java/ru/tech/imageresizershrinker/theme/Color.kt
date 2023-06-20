@@ -167,3 +167,6 @@ fun List<ColorTuple>.asString(): String =
 val defaultColorTuple = ColorTuple(md_theme_dark_primary)
 
 fun Int.toColor() = Color(this)
+
+
+inline val Green: Color @Composable get() = Color(0xFFBADB94).blend(MaterialTheme.colorScheme.primary, 0.1f)

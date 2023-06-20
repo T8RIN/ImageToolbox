@@ -286,6 +286,9 @@
     <string name="pick_file_to_start">Pick file to start</string>
     <string name="decryption">Decryption</string>
     <string name="encryption">Encryption</string>
+    <string name="key">Key</string>
+    <string name="file_proceed">File proceed</string>
+    <string name="store_file_desc">Store this file on your device or use share action to put it wherever you want</string>
     <string-array name="fab_alignment_sub">
         <item>Start</item>
         <item>Center</item>

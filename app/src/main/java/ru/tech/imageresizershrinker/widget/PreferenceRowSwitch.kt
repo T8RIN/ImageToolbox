@@ -13,6 +13,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Check
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalContentColor
+import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Switch
 import androidx.compose.material3.SwitchDefaults
@@ -25,6 +26,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -86,10 +89,12 @@ fun PreferenceRow(
     color: Color = MaterialTheme.colorScheme.secondaryContainer.copy(
         alpha = 0.2f
     ),
+    applyHorPadding: Boolean = true,
     maxLines: Int = Int.MAX_VALUE,
     startContent: (@Composable () -> Unit)? = null,
     endContent: (@Composable () -> Unit)? = null,
-    onClick: () -> Unit
+    titleFontStyle: TextStyle = LocalTextStyle.current.copy(lineHeight = 18.sp),
+    onClick: (() -> Unit)?
 ) {
     val contentColor =
         if (color == MaterialTheme.colorScheme.surfaceColorAtElevation(1.dp)) contentColorFor(
@@ -98,16 +103,24 @@ fun PreferenceRow(
     CompositionLocalProvider(LocalContentColor provides contentColor) {
         Row(
             modifier = modifier
-                .padding(horizontal = 16.dp)
+                .then(
+                    if(applyHorPadding) {
+                        Modifier.padding(horizontal = 16.dp)
+                    } else Modifier
+                )
                 .clip(RoundedCornerShape(16.dp))
-                .clickable { onClick() }
+                .then(
+                    onClick?.let {
+                        Modifier.clickable { onClick() }
+                    } ?: Modifier
+                )
                 .block(color = color)
                 .padding(horizontal = if (startContent != null) 0.dp else 16.dp, vertical = 8.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
             startContent?.invoke()
             Column(modifier = Modifier.weight(1f)) {
-                Text(text = title, maxLines = maxLines, lineHeight = 18.sp)
+                Text(text = title, maxLines = maxLines, style = titleFontStyle)
                 Spacer(modifier = Modifier.height(2.dp))
                 subtitle?.let {
                     Text(

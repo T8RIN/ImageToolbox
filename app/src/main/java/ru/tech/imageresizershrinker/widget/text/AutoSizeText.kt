@@ -35,8 +35,8 @@ fun AutoSizeText(
     minLines: Int = 1,
     style: TextStyle = LocalTextStyle.current,
 ) {
-    var sizedStyle by remember { mutableStateOf(style) }
-    var readyToDraw by remember { mutableStateOf(false) }
+    var sizedStyle by remember(style) { mutableStateOf(style) }
+    var readyToDraw by remember(minLines) { mutableStateOf(false) }
 
     Text(
         text = text,

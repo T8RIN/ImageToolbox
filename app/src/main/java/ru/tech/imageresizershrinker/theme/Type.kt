@@ -50,7 +50,7 @@ val Typography: Typography
         ),
         headlineMedium = TextStyle(
             fontFamily = Montserrat,
-            fontWeight = FontWeight.Normal,
+            fontWeight = FontWeight.SemiBold,
             fontSize = 28.sp,
             lineHeight = 36.sp,
             letterSpacing = 0.sp,
@@ -65,7 +65,7 @@ val Typography: Typography
         ),
         titleLarge = TextStyle(
             fontFamily = Montserrat,
-            fontWeight = FontWeight.Medium,
+            fontWeight = FontWeight.SemiBold,
             fontSize = 22.sp,
             lineHeight = 28.sp,
             letterSpacing = 0.sp,

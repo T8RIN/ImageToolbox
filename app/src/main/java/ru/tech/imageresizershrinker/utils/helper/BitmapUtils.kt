@@ -556,7 +556,7 @@ object BitmapUtils {
                         file
                     )
                 }
-                uri.getOrNull()?.let { shareImageUri(it) }
+                uri.getOrNull()?.let { shareUri(it) }
                 onComplete()
             }
         }
@@ -603,17 +603,17 @@ object BitmapUtils {
                         file
                     )
                 }.getOrNull()
-                uri?.let { shareImageUri(it) }
+                uri?.let { shareUri(it) }
                 onComplete()
             }
         }
     }
 
-    fun Context.shareImageUri(uri: Uri) {
+    fun Context.shareUri(uri: Uri, type: String = "image/*") {
         val sendIntent = Intent(Intent.ACTION_SEND).apply {
             putExtra(Intent.EXTRA_STREAM, uri)
             addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
-            type = "image/*"
+            this.type = type
         }
         val shareIntent = Intent.createChooser(sendIntent, getString(R.string.share))
         startActivity(shareIntent)
@@ -672,6 +672,30 @@ object BitmapUtils {
         onComplete: () -> Unit
     ) = bitmap?.let {
         shareImage(it, compressFormat, onComplete)
+    }
+
+    fun Context.shareFile(
+        byteArray: ByteArray,
+        filename: String,
+        onComplete: () -> Unit
+    ) = CoroutineScope(Dispatchers.Main).launch {
+        withContext(Dispatchers.IO) {
+            val imagesFolder = File(cacheDir, "images")
+            val uri = kotlin.runCatching {
+                imagesFolder.mkdirs()
+                val file = File(imagesFolder, filename)
+                FileOutputStream(file).use {
+                    it.write(byteArray)
+                }
+                FileProvider.getUriForFile(
+                    this@shareFile,
+                    getString(R.string.file_provider),
+                    file
+                )
+            }.getOrNull()
+            uri?.let { shareUri(uri = it, type = this@shareFile.getMimeType(uri) ?: "*/*") }
+            onComplete()
+        }
     }
 
     suspend fun Context.decodeSampledBitmapFromUri(

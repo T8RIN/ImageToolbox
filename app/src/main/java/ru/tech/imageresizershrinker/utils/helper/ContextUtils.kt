@@ -17,6 +17,7 @@ import androidx.compose.material.icons.rounded.Save
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.documentfile.provider.DocumentFile
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.R
@@ -166,18 +167,7 @@ object ContextUtils {
         return null
     }
 
-    fun Context.getFileName(uri: Uri): String? = when (uri.scheme) {
-        ContentResolver.SCHEME_CONTENT -> getContentFileName(uri)
-        else -> uri.path?.let(::File)?.name
-    }
-
-    private fun Context.getContentFileName(uri: Uri): String? = runCatching {
-        contentResolver.query(uri, null, null, null, null)?.use { cursor ->
-            cursor.moveToFirst()
-            return@use cursor.getColumnIndexOrThrow(MediaStore.Images.ImageColumns.TITLE)
-                .let(cursor::getString)
-        }
-    }.getOrNull()
+    fun Context.getFileName(uri: Uri, ): String? = DocumentFile.fromSingleUri(this, uri)?.name
 
     fun Context.parseImageFromIntent(
         intent: Intent?,
