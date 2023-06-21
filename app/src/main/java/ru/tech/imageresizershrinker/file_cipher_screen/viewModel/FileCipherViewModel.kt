@@ -11,6 +11,7 @@ import kotlinx.coroutines.withContext
 import ru.tech.imageresizershrinker.utils.cipher.CipherUtils.decrypt
 import ru.tech.imageresizershrinker.utils.cipher.CipherUtils.encrypt
 import java.io.OutputStream
+import java.security.InvalidKeyException
 
 class FileCipherViewModel : ViewModel() {
 
@@ -46,7 +47,13 @@ class FileCipherViewModel : ViewModel() {
                     } else {
                         _byteArray.value = file?.decrypt(key)
                     }
-                }.exceptionOrNull().let(onComplete)
+                }.exceptionOrNull().let {
+                    onComplete(
+                        if (it?.message?.contains("mac") == true && it.message?.contains("failed") == true) {
+                            InvalidKeyException()
+                        } else it
+                    )
+                }
             }
         }
     }

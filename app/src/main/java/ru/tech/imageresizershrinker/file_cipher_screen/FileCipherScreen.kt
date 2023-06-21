@@ -44,6 +44,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Cancel
 import androidx.compose.material.icons.rounded.ArrowBack
 import androidx.compose.material.icons.rounded.CheckCircle
+import androidx.compose.material.icons.rounded.ErrorOutline
 import androidx.compose.material.icons.rounded.FileDownload
 import androidx.compose.material.icons.rounded.FileOpen
 import androidx.compose.material.icons.rounded.FolderOpen
@@ -127,6 +128,7 @@ import ru.tech.imageresizershrinker.widget.text.Marquee
 import ru.tech.imageresizershrinker.widget.text.RoundedTextField
 import ru.tech.imageresizershrinker.widget.utils.LocalSettingsState
 import ru.tech.imageresizershrinker.widget.utils.isScrollingUp
+import java.security.InvalidKeyException
 import kotlin.random.Random
 
 
@@ -458,9 +460,20 @@ fun FileCipherScreen(
                                                     ?.use { it.toByteArray() }
                                             }
                                         ) {
-                                            if (it != null) {
+                                            if (it is InvalidKeyException) {
+                                                scope.launch {
+                                                    toastHostState.showToast(
+                                                        context.getString(R.string.invalid_password_or_not_encrypted),
+                                                        Icons.Rounded.ErrorOutline
+                                                    )
+                                                }
+                                            } else if (it != null) {
                                                 scope.launch {
                                                     toastHostState.showError(context, it)
+                                                }
+                                            } else {
+                                                scope.launch {
+                                                    confettiController.showEmpty()
                                                 }
                                             }
                                             showSaveLoading = false
