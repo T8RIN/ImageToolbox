@@ -148,7 +148,7 @@ fun Context.getSavingFolder(
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
             val imageUri = DocumentFile
                 .fromTreeUri(this, treeUri)
-                ?.createFile(saveTarget.mimeType, saveTarget.mimeType)?.uri!!
+                ?.createFile(saveTarget.mimeType, saveTarget.filename!!)?.uri!!
 
             SavingFolder(
                 outputStream = contentResolver.openOutputStream(imageUri),

@@ -13,6 +13,7 @@ import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Build
 import android.provider.OpenableColumns
+import android.util.Log
 import android.webkit.MimeTypeMap
 import androidx.core.content.FileProvider
 import androidx.core.text.isDigitsOnly
@@ -54,8 +55,14 @@ object BitmapUtils {
         } else this
     }
 
-    fun Bitmap.resizeBitmap(width_: Int, height_: Int, resize: Int): Bitmap {
+
+    fun Bitmap.resizeBitmap(
+        width_: Int,
+        height_: Int,
+        resize: Int
+    ): Bitmap {
         val max = max(width_, height_)
+
         return when (resize) {
             0 -> {
                 Bitmap.createScaledBitmap(
@@ -85,7 +92,6 @@ object BitmapUtils {
             }
         }
     }
-
 
     fun Context.decodeBitmapByUri(
         uri: Uri,
@@ -248,9 +254,15 @@ object BitmapUtils {
     ): Bitmap = withContext(Dispatchers.IO) {
         if (heightValue == 0 || widthValue == 0) return@withContext this@previewBitmap
         val out = ByteArrayOutputStream()
-        val tWidth = widthValue ?: width
-        val tHeight = heightValue ?: height
+        var tWidth = widthValue ?: width
+        var tHeight = heightValue ?: height
 
+        while (tHeight * tWidth * 4L >= 4096 * 4096 * 5L) {
+            tHeight = (tHeight * 0.9f).roundToInt()
+            tWidth = (tWidth * 0.9f).roundToInt()
+        }
+
+        Log.d("COCK", "$tWidth $tHeight")
         rotate(rotationDegrees)
             .resizeBitmap(tWidth, tHeight, resizeType)
             .flip(isFlipped)
@@ -794,7 +806,7 @@ object BitmapUtils {
     fun String.restrict(`by`: Int = 24000): String {
         if (isEmpty()) return this
 
-        return if ((this.toIntOrNull() ?: 0) > `by`) `by`.toString()
+        return if ((this.toIntOrNull() ?: 0) >= `by`) `by`.toString()
         else if (this.isDigitsOnly() && (this.toIntOrNull() ?: 0) == 0) ""
         else this.trim().filter {
             !listOf('-', '.', ',', ' ', "\n").contains(it)

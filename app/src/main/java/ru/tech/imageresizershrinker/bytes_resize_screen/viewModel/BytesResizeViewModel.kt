@@ -11,13 +11,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import ru.tech.imageresizershrinker.utils.helper.BitmapInfo
 import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.canShow
 import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.copyTo
-import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.previewBitmap
 import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.resizeBitmap
 import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.scaleByMaxBytes
 import ru.tech.imageresizershrinker.utils.helper.compressFormat
@@ -67,7 +65,6 @@ class BytesResizeViewModel : ViewModel() {
     fun setMime(mime: Int) {
         if (_mime.value != mime) {
             _mime.value = mime
-            updatePreview()
         }
     }
 
@@ -135,48 +132,6 @@ class BytesResizeViewModel : ViewModel() {
     }
 
     private var job: Job? = null
-
-    private fun updatePreview() {
-        job?.cancel()
-        job = viewModelScope.launch {
-            updateCanSave()
-            withContext(Dispatchers.IO) {
-                delay(400)
-                _isLoading.value = true
-                var bmp: Bitmap?
-                withContext(Dispatchers.IO) {
-                    val bitmap = _bitmap.value
-                        ?.previewBitmap(
-                            quality = 100f,
-                            widthValue = null,
-                            heightValue = null,
-                            mimeTypeInt = mime,
-                            resizeType = 0,
-                            rotationDegrees = 0f,
-                            isFlipped = false,
-                            onByteCount = {}
-                        )
-                    bmp = if (bitmap?.canShow() == false) {
-                        bitmap.resizeBitmap(
-                            height_ = (bitmap.height * 0.9f).toInt(),
-                            width_ = (bitmap.width * 0.9f).toInt(),
-                            resize = 1
-                        )
-                    } else bitmap
-
-                    while (bmp?.canShow() == false) {
-                        bmp = bmp?.resizeBitmap(
-                            height_ = (bmp!!.height * 0.9f).toInt(),
-                            width_ = (bmp!!.width * 0.9f).toInt(),
-                            resize = 1
-                        )
-                    }
-                }
-                _previewBitmap.value = bmp
-                _isLoading.value = false
-            }
-        }
-    }
 
     fun setKeepExif(boolean: Boolean) {
         _keepExif.value = boolean

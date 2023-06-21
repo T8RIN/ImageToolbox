@@ -28,8 +28,10 @@ fun ResizeImageField(
         RoundedTextField(
             enabled = bitmap != null,
             value = bitmapInfo.width.takeIf { it != 0 }.let { it ?: "" }.toString(),
-            onValueChange = {
-                onWidthChange(it.restrict().toIntOrNull() ?: 0)
+            onValueChange = { value ->
+                onWidthChange(
+                    value.restrict().toIntOrNull() ?: 0
+                )
             },
             shape = RoundedCornerShape(12.dp),
             keyboardOptions = KeyboardOptions(
@@ -55,8 +57,10 @@ fun ResizeImageField(
         RoundedTextField(
             enabled = bitmap != null,
             value = bitmapInfo.height.takeIf { it != 0 }.let { it ?: "" }.toString(),
-            onValueChange = {
-                onHeightChange(it.restrict().toIntOrNull() ?: 0)
+            onValueChange = { value ->
+                onHeightChange(
+                    value.restrict().toIntOrNull() ?: 0
+                )
             },
             keyboardOptions = KeyboardOptions(
                 keyboardType = KeyboardType.Number

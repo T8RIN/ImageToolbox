@@ -221,10 +221,14 @@ object ContextUtils {
             )
         }
     }
-}
 
-tailrec fun Context.findActivity(): Activity? = when (this) {
-    is Activity -> this
-    is ContextWrapper -> baseContext.findActivity()
-    else -> null
+    tailrec fun Context.findActivity(): Activity? = when (this) {
+        is Activity -> this
+        is ContextWrapper -> baseContext.findActivity()
+        else -> null
+    }
+
+    fun Context.clearCache() = cacheDir.deleteRecursively()
+
+    fun Context.cacheSize() = cacheDir.walkTopDown().filter { it.isFile }.map { it.length() }.sum()
 }

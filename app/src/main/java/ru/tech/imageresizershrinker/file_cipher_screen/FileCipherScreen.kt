@@ -13,6 +13,7 @@ import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
@@ -35,6 +36,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
@@ -127,6 +129,7 @@ import ru.tech.imageresizershrinker.widget.utils.LocalSettingsState
 import ru.tech.imageresizershrinker.widget.utils.isScrollingUp
 import kotlin.random.Random
 
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun FileCipherScreen(
@@ -148,6 +151,7 @@ fun FileCipherScreen(
     val showTip = rememberSaveable { mutableStateOf(false) }
 
     var key by rememberSaveable { mutableStateOf("") }
+
     val onBack = {
         if (viewModel.uri != null && (key.isNotEmpty() || viewModel.byteArray != null)) showExitDialog =
             true
@@ -225,17 +229,22 @@ fun FileCipherScreen(
                             Marquee(
                                 edgeColor = MaterialTheme.colorScheme.surfaceColorAtElevation(3.dp)
                             ) {
-                                Text(
-                                    stringResource(R.string.cipher).plus(
-                                        if (viewModel.uri != null) {
-                                            " " + listOf(
+                                AnimatedContent(
+                                    targetState = viewModel.uri to viewModel.isEncrypt,
+                                    transitionSpec = { fadeIn() togetherWith fadeOut() }
+                                ) { (uri, isEncrypt) ->
+                                    Text(
+                                        if (uri == null) {
+                                            stringResource(R.string.cipher)
+                                        } else {
+                                            listOf(
                                                 stringResource(R.string.encryption),
                                                 stringResource(R.string.decryption)
-                                            )[if (viewModel.isEncrypt) 0 else 1]
-                                        } else ""
-                                    ),
-                                    textAlign = TextAlign.Center
-                                )
+                                            )[if (isEncrypt) 0 else 1]
+                                        },
+                                        textAlign = TextAlign.Center
+                                    )
+                                }
                             }
                         },
                         colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
@@ -396,7 +405,10 @@ fun FileCipherScreen(
                                         value = key,
                                         startIcon = {
                                             IconButton(
-                                                onClick = { key = randSalt(18) },
+                                                onClick = {
+                                                    key = randSalt(18)
+                                                    viewModel.resetCalculatedData()
+                                                },
                                                 modifier = Modifier.padding(start = 4.dp)
                                             ) {
                                                 Icon(
@@ -408,7 +420,10 @@ fun FileCipherScreen(
                                         },
                                         endIcon = {
                                             IconButton(
-                                                onClick = { key = "" },
+                                                onClick = {
+                                                    key = ""
+                                                    viewModel.resetCalculatedData()
+                                                },
                                                 modifier = Modifier.padding(end = 4.dp)
                                             ) {
                                                 Icon(
@@ -420,7 +435,10 @@ fun FileCipherScreen(
                                         },
                                         keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
                                         singleLine = false,
-                                        onValueChange = { key = it },
+                                        onValueChange = {
+                                            key = it
+                                            viewModel.resetCalculatedData()
+                                        },
                                         label = {
                                             Text(stringResource(R.string.key))
                                         }
@@ -507,7 +525,6 @@ fun FileCipherScreen(
                                         }
                                     }
                                 }
-
                                 AnimatedVisibility(visible = viewModel.byteArray != null) {
                                     OutlinedCard(
                                         modifier = Modifier
@@ -522,7 +539,7 @@ fun FileCipherScreen(
                                                 10.dp
                                             )
                                         ),
-                                        shape = MaterialTheme.shapes.large
+                                        shape = MaterialTheme.shapes.extraLarge
                                     ) {
                                         Column(Modifier.padding(16.dp)) {
                                             Row(verticalAlignment = Alignment.CenterVertically) {
@@ -530,7 +547,18 @@ fun FileCipherScreen(
                                                     Icons.Rounded.CheckCircle,
                                                     null,
                                                     tint = Green,
-                                                    modifier = Modifier.size(32.dp)
+                                                    modifier = Modifier
+                                                        .size(36.dp)
+                                                        .background(
+                                                            color = MaterialTheme.colorScheme.surface,
+                                                            shape = CircleShape
+                                                        )
+                                                        .border(
+                                                            width = settingsState.borderWidth,
+                                                            color = MaterialTheme.colorScheme.outlineVariant(),
+                                                            shape = CircleShape
+                                                        )
+                                                        .padding(4.dp)
                                                 )
                                                 Spacer(modifier = Modifier.width(16.dp))
                                                 Text(
