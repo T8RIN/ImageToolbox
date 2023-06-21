@@ -66,6 +66,8 @@ class FileCipherViewModel : ViewModel() {
                 it.write(_byteArray.value)
             }
         }.exceptionOrNull().let(onComplete)
+
+        /*TODO explicitly show password error to user*/
     }
 
 }

@@ -715,6 +715,8 @@ fun LazyListScope.SettingsBlock(
             Spacer(Modifier.height(16.dp))
         }
         Divider()
+
+        /*TODO add cache clearing option*/
     }
     item {
         // File

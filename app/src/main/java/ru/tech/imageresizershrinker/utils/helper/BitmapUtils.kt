@@ -61,6 +61,7 @@ object BitmapUtils {
         height_: Int,
         resize: Int
     ): Bitmap {
+        /*TODO try to catch attempt of processing too large bitmaps*/
         val max = max(width_, height_)
 
         return when (resize) {
