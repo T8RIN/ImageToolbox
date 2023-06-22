@@ -471,10 +471,6 @@ fun FileCipherScreen(
                                                 scope.launch {
                                                     toastHostState.showError(context, it)
                                                 }
-                                            } else {
-                                                scope.launch {
-                                                    confettiController.showEmpty()
-                                                }
                                             }
                                             showSaveLoading = false
                                         }
