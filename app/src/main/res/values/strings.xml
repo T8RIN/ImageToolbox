@@ -304,7 +304,7 @@
     <string name="found_s">Found %1$s</string>
     <string name="auto_cache_clearing">Auto cache clearing</string>
     <string name="auto_cache_clearing_sub">If enabled app cache will be cleared on app startup</string>
-    <string name="compose">Compose</string>
+    <string name="create">Create</string>
     <string name="tools">Tools</string>
     <string name="group_options_by_type">Group options by type</string>
     <string name="group_options_by_type_sub">Groups options on the main screen of their type instead of custom list arrangement</string>

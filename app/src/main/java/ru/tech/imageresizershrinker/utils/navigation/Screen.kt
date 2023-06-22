@@ -166,7 +166,7 @@ sealed class Screen(
                 Draw(),
                 DeleteExif(),
             ) to Triple(
-                R.string.compose,
+                R.string.create,
                 Icons.Rounded.Draw,
                 Icons.Outlined.Draw
             ),

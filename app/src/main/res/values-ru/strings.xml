@@ -290,7 +290,6 @@
     <string name="store_file_desc">Сохраните этот файл на своем устройстве или используйте действие «Поделиться», чтобы поместить его куда угодно</string>
     <string name="found_s">Найдено %1$s</string>
     <string name="invalid_password_or_not_encrypted">Неверный пароль или выбранный файл не зашифрован</string>
-    <string name="compose">Написать</string>
     <string name="tools">Инструменты</string>
     <string name="group_options_by_type">Сгруппировать параметры по типу</string>
     <string name="group_options_by_type_sub">Группирует параметры на главном экране в соответствии с их типом вместо произвольного расположения списка.</string>
@@ -300,4 +299,5 @@
     <string name="cache">Кэш</string>
     <string name="cache_size">Размер кэша</string>
     <string name="auto_cache_clearing_sub">Если включено, кеш приложения будет очищаться при запуске приложения.</string>
+    <string name="create">Создать</string>
 </resources>
