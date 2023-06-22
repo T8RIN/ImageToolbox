@@ -216,13 +216,18 @@ object ContextUtils {
                     intent.data?.let { onGetUris(listOf(it)) }
                 }
             }
-        } else if (intent?.type != null) {
-            intent.parcelable<Uri>(Intent.EXTRA_STREAM)?.let {
-                navigate(Screen.Cipher(it))
-            } ?: showToast(
-                getString(R.string.unsupported_type, intent.type),
-                Icons.Rounded.ErrorOutline
-            )
+        }
+        else if (intent?.type != null) {
+            if(intent.type?.contains("text") == true) {
+                navigate(Screen.LoadNetImage(intent.dataString ?: ""))
+            } else {
+                intent.parcelable<Uri>(Intent.EXTRA_STREAM)?.let {
+                    navigate(Screen.Cipher(it))
+                } ?: showToast(
+                    getString(R.string.unsupported_type, intent.type),
+                    Icons.Rounded.ErrorOutline
+                )
+            }
         }
     }
 

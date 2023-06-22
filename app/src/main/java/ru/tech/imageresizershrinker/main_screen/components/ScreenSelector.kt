@@ -120,6 +120,7 @@ fun ScreenSelector(
 
             is Screen.LoadNetImage -> {
                 LoadNetImageScreen(
+                    url = screen.url,
                     onGoBack = onGoBack
                 )
             }

@@ -128,7 +128,6 @@ fun LazyListScope.SettingsBlock(
     onEditColorScheme: () -> Unit,
     onShowAuthor: () -> Unit,
     settingsState: SettingsState,
-    currentFolderUri: Uri?,
     toastHostState: ToastHostState,
     scope: CoroutineScope,
     context: Context,
@@ -639,6 +638,7 @@ fun LazyListScope.SettingsBlock(
     item {
         // Folder
         Column {
+            val currentFolderUri = viewModel.saveFolderUri
             val launcher = rememberLauncherForActivityResult(
                 contract = ActivityResultContracts.OpenDocumentTree(),
                 onResult = { uri ->

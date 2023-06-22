@@ -131,6 +131,7 @@ import ru.tech.imageresizershrinker.widget.utils.LocalWindowSizeClass
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun LoadNetImageScreen(
+    url: String,
     onGoBack: () -> Unit,
     viewModel: LoadNetImageViewModel = hiltViewModel()
 ) {
@@ -181,7 +182,7 @@ fun LoadNetImageScreen(
     val landscape =
         LocalWindowSizeClass.current.widthSizeClass != WindowWidthSizeClass.Compact || LocalConfiguration.current.orientation == Configuration.ORIENTATION_LANDSCAPE
 
-    var link by rememberSaveable { mutableStateOf("") }
+    var link by rememberSaveable(url) { mutableStateOf(url) }
     var state: AsyncImagePainter.State by remember {
         mutableStateOf(
             AsyncImagePainter.State.Empty

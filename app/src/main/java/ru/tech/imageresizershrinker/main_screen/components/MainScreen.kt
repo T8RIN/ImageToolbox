@@ -165,8 +165,7 @@ fun MainScreen(
     val settingsState = LocalSettingsState.current
     val editPresetsState = LocalEditPresetsState.current
     val context = LocalContext.current
-    val scrollBehavior =
-        TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
+    val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
     val isGrid = LocalWindowSizeClass.current.widthSizeClass != WindowWidthSizeClass.Compact
 
     val scope = rememberCoroutineScope()
@@ -358,7 +357,6 @@ fun MainScreen(
                     }
                 )
                 Divider()
-                val currentFolderUri = viewModel.saveFolderUri
                 LazyColumn(
                     contentPadding = WindowInsets.navigationBars.asPaddingValues(),
                     state = lazyListState
@@ -371,7 +369,6 @@ fun MainScreen(
                         onEditColorScheme = { showPickColorDialog.value = true },
                         onShowAuthor = { showAuthorDialog.value = true },
                         settingsState = settingsState,
-                        currentFolderUri = currentFolderUri,
                         toastHostState = toastHost,
                         scope = scope,
                         context = context,

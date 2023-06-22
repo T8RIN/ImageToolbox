@@ -87,7 +87,7 @@ sealed class Screen(
         subtitle = R.string.image_preview_sub
     )
 
-    class LoadNetImage(val uris: List<Uri>? = null) : Screen(
+    class LoadNetImage(val url: String = "") : Screen(
         id = 8,
         icon = Icons.Rounded.Public,
         title = R.string.load_image_from_net,
