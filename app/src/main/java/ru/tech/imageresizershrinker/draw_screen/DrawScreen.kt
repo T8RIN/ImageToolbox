@@ -276,7 +276,7 @@ fun DrawScreen(
     val configuration = LocalConfiguration.current
     val sizeClass = LocalWindowSizeClass.current.widthSizeClass
     val portrait =
-        remember(LocalLifecycleOwner.current.lifecycle.observeAsState(), sizeClass, configuration) {
+        remember(LocalLifecycleOwner.current.lifecycle.observeAsState().value, sizeClass, configuration) {
             derivedStateOf {
                 configuration.orientation != Configuration.ORIENTATION_LANDSCAPE || sizeClass == WindowWidthSizeClass.Compact
             }

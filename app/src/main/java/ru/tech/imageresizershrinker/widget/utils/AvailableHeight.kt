@@ -50,7 +50,7 @@ fun rememberAvailableHeight(
 fun rememberFullHeight(): Dp {
     var fullHeight by remember(
         LocalConfiguration.current,
-        LocalLifecycleOwner.current.lifecycle.observeAsState()
+        LocalLifecycleOwner.current.lifecycle.observeAsState().value
     ) { mutableStateOf(0.dp) }
     val density = LocalDensity.current
 

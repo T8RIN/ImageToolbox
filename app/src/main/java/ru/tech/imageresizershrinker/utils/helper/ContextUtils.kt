@@ -17,7 +17,9 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.documentfile.provider.DocumentFile
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.utils.helper.IntentUtils.parcelable
 import ru.tech.imageresizershrinker.utils.helper.IntentUtils.parcelableArrayList
@@ -230,7 +232,27 @@ object ContextUtils {
         else -> null
     }
 
-    fun Context.clearCache() = cacheDir.deleteRecursively()
+    fun Context.clearCache(onComplete: () -> Unit) {
+        CoroutineScope(Dispatchers.Main).launch {
+            withContext(Dispatchers.IO) {
+                cacheDir.deleteRecursively()
+                codeCacheDir.deleteRecursively()
+                externalCacheDir?.deleteRecursively()
+                externalCacheDirs.forEach {
+                    it.deleteRecursively()
+                }
+            }
+            onComplete()
+        }
+    }
 
-    fun Context.cacheSize() = cacheDir.walkTopDown().filter { it.isFile }.map { it.length() }.sum()
+    fun Context.cacheSize(): String {
+        val cache = cacheDir.walkTopDown().filter { it.isFile }.map { it.length() }.sum()
+        val code = codeCacheDir.walkTopDown().filter { it.isFile }.map { it.length() }.sum()
+        var size = cache + code
+        externalCacheDirs.forEach { file ->
+            size += file.walkTopDown().filter { it.isFile }.map { it.length() }.sum()
+        }
+        return readableByteCount(size)
+    }
 }

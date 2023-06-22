@@ -299,6 +299,9 @@
     <string name="compatibility_sub">Please note that compatibility to other file encryption software or services is not guaranteed. A slightly different key treatment or cipher configuration may be reasons for incompatibility.</string>
     <string name="invalid_password_or_not_encrypted">Invalid password or choosen file is not encrypted</string>
     <string name="image_size_warning">Trying to save image with given width and height might cause an OOM error, do this at your own risk, and don\'t say I didn\'t warn you!</string>
+    <string name="cache">Cache</string>
+    <string name="cache_size">Cache size</string>
+    <string name="found_s">Found %1$s</string>
     <string-array name="fab_alignment_sub">
         <item>Start</item>
         <item>Center</item>

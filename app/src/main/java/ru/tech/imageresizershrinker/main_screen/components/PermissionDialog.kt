@@ -39,7 +39,7 @@ fun PermissionDialog() {
         showDialog,
         context,
         settingsState,
-        LocalLifecycleOwner.current.lifecycle.observeAsState()
+        LocalLifecycleOwner.current.lifecycle.observeAsState().value
     ) {
         showDialog = context?.needToShowStoragePermissionRequest() == true
         while (showDialog) {

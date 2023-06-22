@@ -36,7 +36,9 @@ import androidx.compose.material.icons.outlined.Image
 import androidx.compose.material.icons.rounded.AddCircleOutline
 import androidx.compose.material.icons.rounded.Block
 import androidx.compose.material.icons.rounded.BugReport
+import androidx.compose.material.icons.rounded.Cached
 import androidx.compose.material.icons.rounded.Coffee
+import androidx.compose.material.icons.rounded.DeleteOutline
 import androidx.compose.material.icons.rounded.FileDownloadOff
 import androidx.compose.material.icons.rounded.Folder
 import androidx.compose.material.icons.rounded.FolderOpen
@@ -57,10 +59,12 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Slider
 import androidx.compose.material3.SliderDefaults
 import androidx.compose.material3.Text
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -70,6 +74,7 @@ import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.luminance
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringArrayResource
 import androidx.compose.ui.res.stringResource
@@ -77,6 +82,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.t8rin.dynamic.theme.ColorTupleItem
+import com.t8rin.dynamic.theme.observeAsState
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.BuildConfig
@@ -94,6 +100,8 @@ import ru.tech.imageresizershrinker.theme.icons.Lamp
 import ru.tech.imageresizershrinker.theme.inverse
 import ru.tech.imageresizershrinker.theme.outlineVariant
 import ru.tech.imageresizershrinker.utils.helper.BitmapInfo
+import ru.tech.imageresizershrinker.utils.helper.ContextUtils.cacheSize
+import ru.tech.imageresizershrinker.utils.helper.ContextUtils.clearCache
 import ru.tech.imageresizershrinker.utils.modifier.block
 import ru.tech.imageresizershrinker.utils.modifier.pulsate
 import ru.tech.imageresizershrinker.utils.modifier.scaleOnTap
@@ -715,8 +723,30 @@ fun LazyListScope.SettingsBlock(
             Spacer(Modifier.height(16.dp))
         }
         Divider()
-
-        /*TODO add cache clearing option*/
+    }
+    item {
+        var cache by remember(
+            context,
+            LocalLifecycleOwner.current.lifecycle.observeAsState().value
+        ) { mutableStateOf(context.cacheSize()) }
+        Column {
+            TitleItem(
+                icon = Icons.Rounded.Cached,
+                text = stringResource(R.string.cache),
+            )
+            PreferenceItem(
+                onClick = {
+                    context.clearCache {
+                        cache = context.cacheSize()
+                    }
+                },
+                title = stringResource(R.string.cache_size),
+                subtitle = stringResource(R.string.found_s, cache),
+                endIcon = Icons.Rounded.DeleteOutline
+            )
+            Spacer(modifier = Modifier.height(16.dp))
+        }
+        Divider()
     }
     item {
         // File

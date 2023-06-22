@@ -93,7 +93,7 @@ import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.fileSize
 import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.getBitmapByUri
 import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.shareBitmaps
 import ru.tech.imageresizershrinker.utils.helper.ContextUtils.failedToSaveImages
-import ru.tech.imageresizershrinker.utils.helper.byteCount
+import ru.tech.imageresizershrinker.utils.helper.readableByteCount
 import ru.tech.imageresizershrinker.utils.modifier.block
 import ru.tech.imageresizershrinker.utils.modifier.drawHorizontalStroke
 import ru.tech.imageresizershrinker.utils.modifier.fabBorder
@@ -448,7 +448,7 @@ fun LimitsResizeScreen(
                                     Text(
                                         stringResource(
                                             R.string.size,
-                                            byteCount(size)
+                                            readableByteCount(size)
                                         )
                                     )
                                 } else {

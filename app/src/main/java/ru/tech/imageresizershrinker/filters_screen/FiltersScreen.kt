@@ -120,7 +120,7 @@ import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.getBitmapFromUriWit
 import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.getBitmapFromUriWithTransformationsAndExif
 import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.shareBitmaps
 import ru.tech.imageresizershrinker.utils.helper.ContextUtils.failedToSaveImages
-import ru.tech.imageresizershrinker.utils.helper.byteCount
+import ru.tech.imageresizershrinker.utils.helper.readableByteCount
 import ru.tech.imageresizershrinker.utils.modifier.block
 import ru.tech.imageresizershrinker.utils.modifier.drawHorizontalStroke
 import ru.tech.imageresizershrinker.utils.modifier.fabBorder
@@ -585,7 +585,7 @@ fun FiltersScreen(
                                     Text(
                                         stringResource(
                                             R.string.size,
-                                            byteCount(size)
+                                            readableByteCount(size)
                                         )
                                     )
                                 } else {

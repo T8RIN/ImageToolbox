@@ -118,7 +118,7 @@ import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.canShow
 import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.decodeBitmapByUri
 import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.shareBitmap
 import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.toMap
-import ru.tech.imageresizershrinker.utils.helper.byteCount
+import ru.tech.imageresizershrinker.utils.helper.readableByteCount
 import ru.tech.imageresizershrinker.utils.helper.extension
 import ru.tech.imageresizershrinker.utils.modifier.alertDialog
 import ru.tech.imageresizershrinker.utils.modifier.drawHorizontalStroke
@@ -547,7 +547,7 @@ fun SingleResizeScreen(
                                     Text(
                                         stringResource(
                                             R.string.size,
-                                            byteCount(sizeInBytes.toLong())
+                                            readableByteCount(sizeInBytes.toLong())
                                         )
                                     )
                                 } else {
