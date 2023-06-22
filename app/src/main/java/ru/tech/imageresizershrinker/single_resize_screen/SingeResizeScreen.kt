@@ -732,7 +732,8 @@ fun SingleResizeScreen(
                                         bitmapInfo = bitmapInfo,
                                         bitmap = viewModel.bitmap,
                                         onHeightChange = viewModel::updateHeight,
-                                        onWidthChange = viewModel::updateWidth
+                                        onWidthChange = viewModel::updateWidth,
+                                        showWarning = viewModel.showWarning
                                     )
                                     if (bitmapInfo.mimeTypeInt.extension != "png") Spacer(
                                         Modifier.height(

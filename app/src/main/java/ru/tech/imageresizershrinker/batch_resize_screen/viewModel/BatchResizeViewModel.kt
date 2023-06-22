@@ -49,6 +49,9 @@ class BatchResizeViewModel : ViewModel() {
     private val _shouldShowPreview: MutableState<Boolean> = mutableStateOf(true)
     val shouldShowPreview by _shouldShowPreview
 
+    private val _showWarning: MutableState<Boolean> = mutableStateOf(false)
+    val showWarning: Boolean by _showWarning
+
     private val _presetSelected: MutableState<Int> = mutableIntStateOf(-1)
     val presetSelected by _presetSelected
 
@@ -146,17 +149,19 @@ class BatchResizeViewModel : ViewModel() {
         bitmap: Bitmap
     ): Bitmap = withContext(Dispatchers.IO) {
         return@withContext bitmapInfo.run {
+            _showWarning.value = width * height * 4L >= 10_000 * 10_000 * 3L
             bitmap.previewBitmap(
-                quality,
-                width,
-                height,
-                mimeTypeInt,
-                resizeType,
-                rotationDegrees,
-                isFlipped
-            ) {
-                _bitmapInfo.value = _bitmapInfo.value.copy(sizeInBytes = it)
-            }
+                quality = quality,
+                widthValue = width,
+                heightValue = height,
+                mimeTypeInt = mimeTypeInt,
+                resizeType = resizeType,
+                rotationDegrees = rotationDegrees,
+                isFlipped = isFlipped,
+                onByteCount = {
+                    _bitmapInfo.value = _bitmapInfo.value.copy(sizeInBytes = it)
+                }
+            )
         }
     }
 

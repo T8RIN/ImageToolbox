@@ -675,7 +675,7 @@ fun BytesResizeScreen(
                                     AnimatedVisibility(
                                         visible = showAlert,
                                         enter = fadeIn() + expandIn(expandFrom = Alignment.TopCenter),
-                                        exit = fadeOut() + shrinkOut(),
+                                        exit = fadeOut() + shrinkOut(shrinkTowards = Alignment.TopCenter)
                                     ) {
                                         Card(
                                             colors = CardDefaults.cardColors(
@@ -687,10 +687,8 @@ fun BytesResizeScreen(
                                             modifier = Modifier
                                                 .padding(16.dp)
                                                 .border(
-                                                    1.dp,
-                                                    MaterialTheme.colorScheme.onErrorContainer.copy(
-                                                        0.4f
-                                                    ),
+                                                    settingsState.borderWidth,
+                                                    MaterialTheme.colorScheme.onErrorContainer.copy(0.4f),
                                                     RoundedCornerShape(24.dp)
                                                 ),
                                             shape = RoundedCornerShape(24.dp)

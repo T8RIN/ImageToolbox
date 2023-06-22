@@ -13,7 +13,6 @@ import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Build
 import android.provider.OpenableColumns
-import android.util.Log
 import android.webkit.MimeTypeMap
 import androidx.core.content.FileProvider
 import androidx.core.text.isDigitsOnly
@@ -802,10 +801,10 @@ object BitmapUtils {
         return null
     }
 
-    fun String.restrict(`by`: Int = 24000): String {
+    fun String.restrict(with: Int = (32786*0.78f).roundToInt()): String {
         if (isEmpty()) return this
 
-        return if ((this.toIntOrNull() ?: 0) >= `by`) `by`.toString()
+        return if ((this.toIntOrNull() ?: 0) >= with) with.toString()
         else if (this.isDigitsOnly() && (this.toIntOrNull() ?: 0) == 0) ""
         else this.trim().filter {
             !listOf('-', '.', ',', ' ', "\n").contains(it)

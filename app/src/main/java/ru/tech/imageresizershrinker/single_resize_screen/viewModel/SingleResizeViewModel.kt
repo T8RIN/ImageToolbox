@@ -51,6 +51,9 @@ class SingleResizeViewModel : ViewModel() {
     private val _isLoading: MutableState<Boolean> = mutableStateOf(false)
     val isLoading: Boolean by _isLoading
 
+    private val _showWarning: MutableState<Boolean> = mutableStateOf(false)
+    val showWarning: Boolean by _showWarning
+
     private val _shouldShowPreview: MutableState<Boolean> = mutableStateOf(true)
     val shouldShowPreview by _shouldShowPreview
 
@@ -170,6 +173,7 @@ class SingleResizeViewModel : ViewModel() {
         bitmap: Bitmap
     ): Bitmap = withContext(Dispatchers.IO) {
         return@withContext bitmapInfo.run {
+            _showWarning.value = width * height * 4L >= 10_000 * 10_000 * 3L
             bitmap.previewBitmap(
                 quality = quality,
                 widthValue = width,
