@@ -33,13 +33,13 @@ import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.Cancel
 import androidx.compose.material.icons.outlined.Share
 import androidx.compose.material.icons.rounded.ArrowBack
 import androidx.compose.material.icons.rounded.BrokenImage
 import androidx.compose.material.icons.rounded.Image
 import androidx.compose.material.icons.rounded.Save
 import androidx.compose.material.icons.rounded.ZoomIn
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
@@ -499,22 +499,22 @@ fun LoadNetImageScreen(
                                     singleLine = false,
                                     label = {
                                         Text(stringResource(id = R.string.image_link))
+                                    },
+                                    endIcon = {
+                                        AnimatedVisibility(link.isNotBlank()) {
+                                            IconButton(
+                                                onClick = { link = "" },
+                                                modifier = Modifier.padding(end = 4.dp)
+                                            ) {
+                                                Icon(
+                                                    Icons.Outlined.Cancel,
+                                                    null,
+                                                    tint = MaterialTheme.colorScheme.onPrimaryContainer
+                                                )
+                                            }
+                                        }
                                     }
                                 )
-                                if (link.isNotEmpty()) {
-                                    OutlinedButton(
-                                        colors = ButtonDefaults.filledTonalButtonColors(),
-                                        border = BorderStroke(
-                                            settingsState.borderWidth,
-                                            MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.secondaryContainer)
-                                        ),
-                                        onClick = { link = "" },
-                                        modifier = Modifier.padding(16.dp)
-                                    ) {
-                                        Text(stringResource(id = R.string.clear))
-                                    }
-                                }
-                                Spacer(Modifier.height(8.dp))
                             }
                         }
                     }

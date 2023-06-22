@@ -219,7 +219,7 @@ object ContextUtils {
         }
         else if (intent?.type != null) {
             if(intent.type?.contains("text") == true) {
-                navigate(Screen.LoadNetImage(intent.dataString ?: ""))
+                navigate(Screen.LoadNetImage(intent.getStringExtra(Intent.EXTRA_TEXT) ?: ""))
             } else {
                 intent.parcelable<Uri>(Intent.EXTRA_STREAM)?.let {
                     navigate(Screen.Cipher(it))
