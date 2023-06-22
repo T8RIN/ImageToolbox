@@ -373,7 +373,7 @@ fun MainScreen(
                     contentPadding = WindowInsets.navigationBars.asPaddingValues(),
                     state = lazyListState
                 ) {
-                    SettingsBlock(
+                    settingsBlock(
                         onEditPresets = { editPresetsState.value = true },
                         onEditArrangement = { showArrangementSheet.value = true },
                         onEditFilename = { showChangeFilenameDialog = true },
@@ -542,7 +542,8 @@ fun MainScreen(
                                                 navController.navigate(screen)
                                             },
                                             onLongClick = {
-                                                showArrangementSheet.value = true
+                                                showArrangementSheet.value =
+                                                    settingsState.groupOptionsByTypes
                                             },
                                             modifier = Modifier.fillMaxWidth(),
                                             title = stringResource(screen.title),

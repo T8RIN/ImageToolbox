@@ -120,7 +120,7 @@ import ru.tech.imageresizershrinker.widget.utils.isNightMode
 import ru.tech.imageresizershrinker.widget.utils.toAlignment
 import kotlin.math.roundToInt
 
-fun LazyListScope.SettingsBlock(
+fun LazyListScope.settingsBlock(
     onEditPresets: () -> Unit,
     onEditArrangement: () -> Unit,
     onEditFilename: () -> Unit,
@@ -594,8 +594,27 @@ fun LazyListScope.SettingsBlock(
                 icon = Icons.Rounded.TableRows,
                 text = stringResource(R.string.options_arrangement),
             )
+            val enabled = !settingsState.groupOptionsByTypes
             PreferenceItem(
-                onClick = { onEditArrangement() },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp)
+                    .alpha(
+                        animateFloatAsState(
+                            if (enabled) 1f
+                            else 0.5f
+                        ).value
+                    ),
+                onClick = {
+                    if (enabled) {
+                        onEditArrangement()
+                    } else scope.launch {
+                        toastHostState.showToast(
+                            icon = Icons.Rounded.TableRows,
+                            message = context.getString(R.string.cannot_change_arrangement_while_options_grouping_enabled)
+                        )
+                    }
+                },
                 title = stringResource(R.string.order),
                 subtitle = stringResource(R.string.order_sub),
                 color = MaterialTheme
@@ -603,9 +622,6 @@ fun LazyListScope.SettingsBlock(
                     .secondaryContainer
                     .copy(alpha = 0.2f),
                 endIcon = Icons.Rounded.CreateAlt,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 16.dp)
             )
             Spacer(Modifier.height(8.dp))
             PreferenceRowSwitch(
