@@ -269,7 +269,7 @@
     <string name="decryption">Décryptage</string>
     <string name="encryption">Cryptage</string>
     <string name="key">Clé</string>
-    <string name="file_proceed">Déposer</string>
+    <string name="file_proceed">Le dossier a été traité</string>
     <string name="features">Fonctionnalités</string>
     <string name="implementation">Exécution</string>
     <string name="compatibility">Compatibilité</string>
@@ -279,8 +279,20 @@
     <string name="cipher">Chiffrement</string>
     <string name="store_file_desc">Stockez ce fichier sur votre appareil ou utilisez l’action partage pour le mettre où vous voulez</string>
     <string name="cipher_sub">Chiffrer et déchiffrer tout fichier (pas seulement l’image) basé sur AES crypto algorythm</string>
-    <string name="features_sub">Chiffrement par mot de passe des fichiers. Les fichiers traités peuvent être stockés dans le répertoire Crypto ou partagés. Les fichiers déchiffrés peuvent également être ouverts directement.</string>
+    <string name="features_sub">Chiffrement par mot de passe des fichiers. Les fichiers traités peuvent être stockés dans le répertoire sélectionné ou partagés. Les fichiers déchiffrés peuvent également être ouverts directement.</string>
     <string name="compatibility_sub">Veuillez noter que la compatibilité avec d’autres logiciels ou services de cryptage de fichiers n’est pas garantie. Un traitement clé ou une configuration de chiffrement légèrement différente peuvent être des raisons d’incompatibilité.</string>
     <string name="file_size_sub">La taille maximale du fichier est limitée par le système d\'exploitation Android et la mémoire disponible, qui dépend évidemment de votre appareil.
 \nAttention : la mémoire n\'est pas du stockage.</string>
+    <string name="invalid_password_or_not_encrypted">Mot de passe invalide ou fichier choisi non chiffré</string>
+    <string name="image_size_warning">Essayer d’enregistrer une image avec une largeur et une hauteur données peut provoquer une erreur d’affichage, faites-le à vos propres risques, et ne dites pas que je ne vous ai pas prévenu !</string>
+    <string name="cache">Cache</string>
+    <string name="cache_size">Taille du cache</string>
+    <string name="found_s">Trouvé %1$s</string>
+    <string name="auto_cache_clearing">Effacement automatique du cache</string>
+    <string name="auto_cache_clearing_sub">Si le cache de l’application est activé, il sera effacé au démarrage de l’application</string>
+    <string name="create">Créer</string>
+    <string name="tools">Outils</string>
+    <string name="group_options_by_type">Grouper les options par type</string>
+    <string name="group_options_by_type_sub">Groupes d\'options sur l\'écran principal de leur type au lieu d\'une disposition de liste personnalisée</string>
+    <string name="cannot_change_arrangement_while_options_grouping_enabled">Impossible de modifier la disposition lorsque le groupement d\'options est activé</string>
 </resources>
