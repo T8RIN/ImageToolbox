@@ -119,8 +119,8 @@ class MainActivity : M3Activity() {
                     }
                 }
                 LaunchedEffect(Unit) {
-                    if(viewModel.clearCacheOnLaunch) {
-                        this@MainActivity.clearCache{}
+                    if (viewModel.clearCacheOnLaunch) {
+                        this@MainActivity.clearCache {}
                     }
                 }
                 ImageResizerTheme {

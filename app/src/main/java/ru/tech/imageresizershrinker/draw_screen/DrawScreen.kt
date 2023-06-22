@@ -11,8 +11,6 @@ import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
-import androidx.compose.animation.slideInHorizontally
-import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
@@ -276,7 +274,11 @@ fun DrawScreen(
     val configuration = LocalConfiguration.current
     val sizeClass = LocalWindowSizeClass.current.widthSizeClass
     val portrait =
-        remember(LocalLifecycleOwner.current.lifecycle.observeAsState().value, sizeClass, configuration) {
+        remember(
+            LocalLifecycleOwner.current.lifecycle.observeAsState().value,
+            sizeClass,
+            configuration
+        ) {
             derivedStateOf {
                 configuration.orientation != Configuration.ORIENTATION_LANDSCAPE || sizeClass == WindowWidthSizeClass.Compact
             }

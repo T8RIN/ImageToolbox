@@ -110,8 +110,8 @@ import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.getBitmapByUri
 import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.restrict
 import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.shareBitmaps
 import ru.tech.imageresizershrinker.utils.helper.ContextUtils.failedToSaveImages
-import ru.tech.imageresizershrinker.utils.helper.readableByteCount
 import ru.tech.imageresizershrinker.utils.helper.extension
+import ru.tech.imageresizershrinker.utils.helper.readableByteCount
 import ru.tech.imageresizershrinker.utils.modifier.block
 import ru.tech.imageresizershrinker.utils.modifier.drawHorizontalStroke
 import ru.tech.imageresizershrinker.utils.modifier.fabBorder
@@ -688,7 +688,9 @@ fun BytesResizeScreen(
                                                 .padding(16.dp)
                                                 .border(
                                                     settingsState.borderWidth,
-                                                    MaterialTheme.colorScheme.onErrorContainer.copy(0.4f),
+                                                    MaterialTheme.colorScheme.onErrorContainer.copy(
+                                                        0.4f
+                                                    ),
                                                     RoundedCornerShape(24.dp)
                                                 ),
                                             shape = RoundedCornerShape(24.dp)

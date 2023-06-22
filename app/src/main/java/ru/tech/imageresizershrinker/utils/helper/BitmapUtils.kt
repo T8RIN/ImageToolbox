@@ -801,7 +801,7 @@ object BitmapUtils {
         return null
     }
 
-    fun String.restrict(with: Int = (32786*0.78f).roundToInt()): String {
+    fun String.restrict(with: Int = (32786 * 0.78f).roundToInt()): String {
         if (isEmpty()) return this
 
         return if ((this.toIntOrNull() ?: 0) >= with) with.toString()
