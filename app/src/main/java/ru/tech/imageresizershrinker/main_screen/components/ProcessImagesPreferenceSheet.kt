@@ -197,6 +197,13 @@ fun ProcessImagesPreferenceSheet(
                             )
                         }
                         item {
+                            CipherPreference(
+                                modifier = Modifier.fillMaxWidth(),
+                                onClick = { navigate(Screen.Cipher(uris.firstOrNull())) },
+                                color = color
+                            )
+                        }
+                        item {
                             ImagePreviewPreference(
                                 modifier = Modifier.fillMaxWidth(),
                                 onClick = {

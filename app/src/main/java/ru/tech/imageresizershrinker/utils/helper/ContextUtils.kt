@@ -215,7 +215,9 @@ object ContextUtils {
                 }
             }
         } else if (intent?.type != null) {
-            showToast(
+            intent.parcelable<Uri>(Intent.EXTRA_STREAM)?.let {
+                navigate(Screen.Cipher(it))
+            } ?: showToast(
                 getString(R.string.unsupported_type, intent.type),
                 Icons.Rounded.ErrorOutline
             )

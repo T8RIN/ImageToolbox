@@ -78,6 +78,24 @@ fun SingleResizePreference(
 }
 
 @Composable
+fun CipherPreference(
+    onClick: () -> Unit,
+    color: Color = MaterialTheme.colorScheme.surfaceColorAtElevation(1.dp),
+    @SuppressLint("ModifierParameter") modifier: Modifier = Modifier
+        .fillMaxWidth()
+        .padding(horizontal = 12.dp)
+) {
+    PreferenceItem(
+        onClick = onClick,
+        icon = Icons.Rounded.Security,
+        title = stringResource(R.string.cipher),
+        subtitle = stringResource(R.string.cipher_sub),
+        color = color,
+        modifier = modifier
+    )
+}
+
+@Composable
 fun DrawPreference(
     onClick: () -> Unit,
     color: Color = MaterialTheme.colorScheme.surfaceColorAtElevation(1.dp),

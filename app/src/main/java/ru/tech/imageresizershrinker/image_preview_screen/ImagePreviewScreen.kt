@@ -91,6 +91,7 @@ import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.image_preview_screen.viewModel.ImagePreviewViewModel
 import ru.tech.imageresizershrinker.main_screen.components.BytesResizePreference
+import ru.tech.imageresizershrinker.main_screen.components.CipherPreference
 import ru.tech.imageresizershrinker.main_screen.components.CropPreference
 import ru.tech.imageresizershrinker.main_screen.components.DeleteExifPreference
 import ru.tech.imageresizershrinker.main_screen.components.DrawPreference
@@ -574,6 +575,13 @@ fun ImagePreviewScreen(
                             DrawPreference(
                                 modifier = Modifier.fillMaxWidth(),
                                 onClick = { navigate(Screen.Draw(viewModel.selectedUri)) },
+                                color = color
+                            )
+                        }
+                        item {
+                            CipherPreference(
+                                modifier = Modifier.fillMaxWidth(),
+                                onClick = { navigate(Screen.Cipher(viewModel.selectedUri!!)) },
                                 color = color
                             )
                         }
