@@ -6,7 +6,7 @@ import androidx.annotation.StringRes
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Draw
 import androidx.compose.material.icons.outlined.Margin
-import androidx.compose.material.icons.outlined.PhotoSizeSelectLarge
+import androidx.compose.material.icons.outlined.PhotoSizeSelectSmall
 import androidx.compose.material.icons.rounded.Colorize
 import androidx.compose.material.icons.rounded.Compare
 import androidx.compose.material.icons.rounded.Crop
@@ -158,7 +158,7 @@ sealed class Screen(
             ) to Triple(
                 R.string.edit,
                 Icons.Rounded.PhotoSizeSelectLarge,
-                Icons.Outlined.PhotoSizeSelectLarge
+                Icons.Outlined.PhotoSizeSelectSmall
             ),
             listOf(
                 Crop(),

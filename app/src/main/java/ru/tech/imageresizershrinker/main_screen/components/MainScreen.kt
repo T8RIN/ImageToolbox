@@ -277,7 +277,7 @@ fun MainScreen(
                                 DrawerDefaults.shape
                             )
                     } else Modifier.revealSwipeable(
-                        maxRevealPx = with(LocalDensity.current) { 100.dp.toPx() },
+                        maxRevealPx = with(LocalDensity.current) { 80.dp.toPx() },
                         directions = setOf(
                             RevealDirection.EndToStart,
                         ),
