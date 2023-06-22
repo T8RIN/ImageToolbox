@@ -6,14 +6,20 @@ import android.net.Uri
 import android.os.Build
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.core.edit
 import androidx.exifinterface.media.ExifInterface
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import ru.tech.imageresizershrinker.common.SAVE_FOLDER
 import ru.tech.imageresizershrinker.utils.coil.filters.FilterTransformation
 import ru.tech.imageresizershrinker.utils.helper.BitmapInfo
 import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.calcSize
@@ -25,8 +31,13 @@ import ru.tech.imageresizershrinker.utils.helper.extension
 import ru.tech.imageresizershrinker.utils.helper.mimeTypeInt
 import ru.tech.imageresizershrinker.utils.storage.BitmapSaveTarget
 import ru.tech.imageresizershrinker.utils.storage.FileController
+import ru.tech.imageresizershrinker.utils.storage.SavingFolder
+import javax.inject.Inject
 
-class FilterViewModel : ViewModel() {
+@HiltViewModel
+class FilterViewModel @Inject constructor(
+    private val dataStore: DataStore<Preferences>
+) : ViewModel() {
 
     private val _bitmapSize = mutableStateOf<Long?>(null)
     val bitmapSize by _bitmapSize
@@ -49,13 +60,13 @@ class FilterViewModel : ViewModel() {
     private val _previewBitmap: MutableState<Bitmap?> = mutableStateOf(null)
     val previewBitmap: Bitmap? by _previewBitmap
 
-    private val _done: MutableState<Int> = mutableStateOf(0)
+    private val _done: MutableState<Int> = mutableIntStateOf(0)
     val done by _done
 
     private val _selectedUri: MutableState<Uri?> = mutableStateOf(null)
     val selectedUri by _selectedUri
 
-    private val _mimeTypeInt = mutableStateOf(0)
+    private val _mimeTypeInt = mutableIntStateOf(0)
     val mimeTypeInt by _mimeTypeInt
 
     private val _filterList = mutableStateOf(listOf<FilterTransformation<*>>())
@@ -65,7 +76,7 @@ class FilterViewModel : ViewModel() {
     val needToApplyFilters by _needToApplyFilters
 
     fun setMime(mime: Int) {
-        _mimeTypeInt.value = mime
+        _mimeTypeInt.intValue = mime
 
         calcSize(
             delay = 5,
@@ -160,7 +171,33 @@ class FilterViewModel : ViewModel() {
                     }.getOrNull()?.takeIf { it.first != null }?.let { (bitmap, exif) ->
                         val localBitmap = bitmap
                         if (localBitmap != null) {
-                            val savingFolder = fileController.getSavingFolder(
+                            val writeTo: (SavingFolder) -> Unit = { savingFolder ->
+                                savingFolder.outputStream?.use { outputStream ->
+                                    localBitmap.compress(
+                                        mimeTypeInt.extension.compressFormat,
+                                        100,
+                                        outputStream
+                                    )
+                                    if (keepExif) {
+                                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                                            val fd =
+                                                fileController.getFileDescriptorFor(savingFolder.fileUri)
+                                            fd?.fileDescriptor?.let {
+                                                val ex = ExifInterface(it)
+                                                exif?.copyTo(ex)
+                                                ex.saveAttributes()
+                                            }
+                                            fd?.close()
+                                        } else {
+                                            val image = savingFolder.file!!
+                                            val ex = ExifInterface(image)
+                                            exif?.copyTo(ex)
+                                            ex.saveAttributes()
+                                        }
+                                    }
+                                }
+                            }
+                            fileController.getSavingFolder(
                                 BitmapSaveTarget(
                                     bitmapInfo = BitmapInfo(
                                         mimeTypeInt = mimeTypeInt.extension.mimeTypeInt,
@@ -170,36 +207,8 @@ class FilterViewModel : ViewModel() {
                                     uri = uri,
                                     sequenceNumber = _done.value + 1
                                 )
-                            )
+                            ).getOrNull()?.let(writeTo) ?: dataStore.edit { it[SAVE_FOLDER] = "" }
 
-                            val fos = savingFolder.outputStream
-
-                            localBitmap.compress(
-                                mimeTypeInt.extension.compressFormat,
-                                100,
-                                fos
-                            )
-
-                            fos!!.flush()
-                            fos.close()
-
-                            if (keepExif) {
-                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                                    val fd =
-                                        fileController.getFileDescriptorFor(savingFolder.fileUri)
-                                    fd?.fileDescriptor?.let {
-                                        val ex = ExifInterface(it)
-                                        exif?.copyTo(ex)
-                                        ex.saveAttributes()
-                                    }
-                                    fd?.close()
-                                } else {
-                                    val image = savingFolder.file!!
-                                    val ex = ExifInterface(image)
-                                    exif?.copyTo(ex)
-                                    ex.saveAttributes()
-                                }
-                            }
                         } else failed += 1
                     }
                     _done.value += 1

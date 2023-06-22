@@ -117,11 +117,11 @@ fun Context.getSavingFolder(
             }
             val imageUri = contentResolver.insert(
                 if ("image" in saveTarget.mimeType) {
-                    MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
+                    MediaStore.Images.Media.EXTERNAL_CONTENT_URI
                 } else if ("video" in saveTarget.mimeType) {
-                    MediaStore.Video.Media.EXTERNAL_CONTENT_URI;
+                    MediaStore.Video.Media.EXTERNAL_CONTENT_URI
                 } else if ("audio" in saveTarget.mimeType) {
-                    MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
+                    MediaStore.Audio.Media.EXTERNAL_CONTENT_URI
                 } else {
                     MediaStore.Files.getContentUri("external")
                 },
@@ -146,10 +146,15 @@ fun Context.getSavingFolder(
         }
     } else {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-            val imageUri = DocumentFile
-                .fromTreeUri(this, treeUri)
-                ?.createFile(saveTarget.mimeType, saveTarget.filename!!)?.uri!!
+            val documentFile = DocumentFile.fromTreeUri(this, treeUri)
 
+            if (documentFile?.exists() == false || documentFile == null) {
+                throw NoSuchFileException(File(treeUri.toString()))
+            }
+
+            val file = documentFile.createFile(saveTarget.mimeType, saveTarget.filename!!)
+
+            val imageUri = file!!.uri
             SavingFolder(
                 outputStream = contentResolver.openOutputStream(imageUri),
                 fileUri = imageUri

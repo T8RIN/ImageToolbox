@@ -80,12 +80,12 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.size.Size
 import com.smarttoolfactory.cropper.ImageCropper
 import com.smarttoolfactory.cropper.model.AspectRatio
 import com.smarttoolfactory.cropper.settings.CropDefaults
 import com.t8rin.dynamic.theme.LocalDynamicThemeState
+import dev.olshevski.navigation.reimagined.hilt.hiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.R
@@ -125,7 +125,7 @@ import ru.tech.imageresizershrinker.widget.utils.isScrollingUp
 fun CropScreen(
     uriState: Uri?,
     onGoBack: () -> Unit,
-    viewModel: CropViewModel = viewModel()
+    viewModel: CropViewModel = hiltViewModel()
 ) {
     val settingsState = LocalSettingsState.current
     val context = LocalContext.current as ComponentActivity

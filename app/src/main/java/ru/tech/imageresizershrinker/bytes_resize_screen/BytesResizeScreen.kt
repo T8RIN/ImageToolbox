@@ -91,9 +91,9 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewModelScope
-import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.size.Size
 import com.t8rin.dynamic.theme.LocalDynamicThemeState
+import dev.olshevski.navigation.reimagined.hilt.hiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.R
@@ -145,7 +145,7 @@ import ru.tech.imageresizershrinker.widget.utils.middleImageState
 fun BytesResizeScreen(
     uriState: List<Uri>?,
     onGoBack: () -> Unit,
-    viewModel: BytesResizeViewModel = viewModel()
+    viewModel: BytesResizeViewModel = hiltViewModel()
 ) {
     val settingsState = LocalSettingsState.current
 

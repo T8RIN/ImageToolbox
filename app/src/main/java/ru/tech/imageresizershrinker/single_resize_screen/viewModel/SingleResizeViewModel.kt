@@ -6,15 +6,21 @@ import android.net.Uri
 import android.os.Build
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.core.edit
 import androidx.exifinterface.media.ExifInterface
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import ru.tech.imageresizershrinker.common.SAVE_FOLDER
 import ru.tech.imageresizershrinker.utils.helper.BitmapInfo
 import ru.tech.imageresizershrinker.utils.helper.BitmapUtils
 import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.canShow
@@ -28,13 +34,18 @@ import ru.tech.imageresizershrinker.utils.helper.compressFormat
 import ru.tech.imageresizershrinker.utils.helper.extension
 import ru.tech.imageresizershrinker.utils.storage.BitmapSaveTarget
 import ru.tech.imageresizershrinker.utils.storage.FileController
+import ru.tech.imageresizershrinker.utils.storage.SavingFolder
 import java.io.ByteArrayInputStream
 import java.io.ByteArrayOutputStream
+import javax.inject.Inject
 
-class SingleResizeViewModel : ViewModel() {
+@HiltViewModel
+class SingleResizeViewModel @Inject constructor(
+    private val dataStore: DataStore<Preferences>
+) : ViewModel() {
 
-    private val _uri = mutableStateOf(Uri.EMPTY)
-    val uri by _uri
+    private val _uri: MutableState<Uri> = mutableStateOf(Uri.EMPTY)
+    val uri: Uri by _uri
 
     private val _bitmap: MutableState<Bitmap?> = mutableStateOf(null)
     val bitmap: Bitmap? by _bitmap
@@ -57,7 +68,7 @@ class SingleResizeViewModel : ViewModel() {
     private val _shouldShowPreview: MutableState<Boolean> = mutableStateOf(true)
     val shouldShowPreview by _shouldShowPreview
 
-    private val _presetSelected: MutableState<Int> = mutableStateOf(-1)
+    private val _presetSelected: MutableState<Int> = mutableIntStateOf(-1)
     val presetSelected by _presetSelected
 
     private val _isTelegramSpecs: MutableState<Boolean> = mutableStateOf(false)
@@ -113,20 +124,37 @@ class SingleResizeViewModel : ViewModel() {
                                 .resizeBitmap(tWidth, tHeight, resizeType)
                                 .flip(isFlipped)
 
-                        val savingFolder = fileController.getSavingFolder(
+                        val writeTo: (SavingFolder) -> Unit = { savingFolder ->
+                            savingFolder.outputStream?.use { outputStream ->
+                                localBitmap.compress(
+                                    mimeTypeInt.extension.compressFormat,
+                                    quality.toInt().coerceIn(0, 100),
+                                    outputStream
+                                )
+                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                                    val fd =
+                                        fileController.getFileDescriptorFor(savingFolder.fileUri)
+                                    fd?.fileDescriptor?.let {
+                                        val ex = ExifInterface(it)
+                                        exif?.copyTo(ex)
+                                        ex.saveAttributes()
+                                    }
+                                    fd?.close()
+                                } else {
+                                    val image = savingFolder.file!!
+                                    val ex = ExifInterface(image)
+                                    exif?.copyTo(ex)
+                                    ex.saveAttributes()
+                                }
+                            }
+                        }
+                        fileController.getSavingFolder(
                             BitmapSaveTarget(
-                                bitmapInfo = bitmapInfo,
-                                uri = _uri.value,
+                                bitmapInfo = this,
+                                uri = uri,
                                 sequenceNumber = null
                             )
-                        )
-
-                        val fos = savingFolder.outputStream
-                        localBitmap.compress(
-                            mimeTypeInt.extension.compressFormat,
-                            quality.toInt().coerceIn(0, 100),
-                            fos
-                        )
+                        ).getOrNull()?.let(writeTo) ?: dataStore.edit { it[SAVE_FOLDER] = "" }
 
                         val out = ByteArrayOutputStream()
                         localBitmap.compress(
@@ -139,23 +167,6 @@ class SingleResizeViewModel : ViewModel() {
 
                         out.flush()
                         out.close()
-                        fos!!.flush()
-                        fos.close()
-
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                            val fd = fileController.getFileDescriptorFor(savingFolder.fileUri)
-                            fd?.fileDescriptor?.let {
-                                val ex = ExifInterface(it)
-                                exif?.copyTo(ex)
-                                ex.saveAttributes()
-                            }
-                            fd?.close()
-                        } else {
-                            val image = savingFolder.file!!
-                            val ex = ExifInterface(image)
-                            exif?.copyTo(ex)
-                            ex.saveAttributes()
-                        }
 
                         _bitmap.value = decoded
                         _bitmapInfo.value = _bitmapInfo.value.copy(

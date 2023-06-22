@@ -75,7 +75,6 @@ import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.AsyncImagePainter
 import coil.decode.GifDecoder
 import coil.decode.ImageDecoderDecoder
@@ -85,6 +84,7 @@ import coil.request.ImageRequest
 import coil.size.Size
 import com.t8rin.dynamic.theme.LocalDynamicThemeState
 import com.t8rin.dynamic.theme.getAppColorTuple
+import dev.olshevski.navigation.reimagined.hilt.hiltViewModel
 import dev.olshevski.navigation.reimagined.navigate
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -132,7 +132,7 @@ import ru.tech.imageresizershrinker.widget.utils.LocalWindowSizeClass
 @Composable
 fun LoadNetImageScreen(
     onGoBack: () -> Unit,
-    viewModel: LoadNetImageViewModel = viewModel()
+    viewModel: LoadNetImageViewModel = hiltViewModel()
 ) {
     val navController = LocalNavController.current
     val context = LocalContext.current as ComponentActivity

@@ -6,17 +6,27 @@ import android.net.Uri
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.core.edit
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import ru.tech.imageresizershrinker.common.SAVE_FOLDER
 import ru.tech.imageresizershrinker.utils.helper.BitmapInfo
 import ru.tech.imageresizershrinker.utils.helper.compressFormat
 import ru.tech.imageresizershrinker.utils.storage.BitmapSaveTarget
 import ru.tech.imageresizershrinker.utils.storage.FileController
+import ru.tech.imageresizershrinker.utils.storage.SavingFolder
+import javax.inject.Inject
 
-class LoadNetImageViewModel : ViewModel() {
+@HiltViewModel
+class LoadNetImageViewModel @Inject constructor(
+    private val dataStore: DataStore<Preferences>
+) : ViewModel() {
 
     private val _bitmap = mutableStateOf<Bitmap?>(null)
     val bitmap by _bitmap
@@ -49,7 +59,16 @@ class LoadNetImageViewModel : ViewModel() {
                     return@withContext
                 }
 
-                val savingFolder = fileController.getSavingFolder(
+                val writeTo: (SavingFolder) -> Unit = { savingFolder ->
+                    savingFolder.outputStream?.use {
+                        localBitmap.compress(
+                            "png".compressFormat,
+                            100,
+                            it
+                        )
+                    }
+                }
+                fileController.getSavingFolder(
                     BitmapSaveTarget(
                         bitmapInfo = BitmapInfo(
                             width = localBitmap.width,
@@ -58,17 +77,8 @@ class LoadNetImageViewModel : ViewModel() {
                         uri = Uri.parse("_"),
                         sequenceNumber = null
                     )
-                )
+                ).getOrNull()?.let(writeTo) ?: dataStore.edit { it[SAVE_FOLDER] = "" }
 
-                val fos = savingFolder.outputStream
-                localBitmap.compress(
-                    "png".compressFormat,
-                    100,
-                    fos
-                )
-
-                fos!!.flush()
-                fos.close()
 
                 onComplete(true)
             }

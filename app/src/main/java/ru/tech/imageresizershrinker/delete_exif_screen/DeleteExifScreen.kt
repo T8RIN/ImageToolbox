@@ -75,9 +75,9 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewModelScope
-import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.size.Size
 import com.t8rin.dynamic.theme.LocalDynamicThemeState
+import dev.olshevski.navigation.reimagined.hilt.hiltViewModel
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.delete_exif_screen.viewModel.DeleteExifViewModel
@@ -120,7 +120,7 @@ import ru.tech.imageresizershrinker.widget.utils.LocalWindowSizeClass
 fun DeleteExifScreen(
     uriState: List<Uri>?,
     onGoBack: () -> Unit,
-    viewModel: DeleteExifViewModel = viewModel()
+    viewModel: DeleteExifViewModel = hiltViewModel()
 ) {
     val settingsState = LocalSettingsState.current
     val context = LocalContext.current as ComponentActivity

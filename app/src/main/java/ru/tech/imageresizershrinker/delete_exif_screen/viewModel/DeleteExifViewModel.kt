@@ -5,12 +5,17 @@ import android.net.Uri
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.core.edit
 import androidx.exifinterface.media.ExifInterface
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import ru.tech.imageresizershrinker.common.SAVE_FOLDER
 import ru.tech.imageresizershrinker.utils.helper.BitmapInfo
 import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.canShow
 import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.resizeBitmap
@@ -18,8 +23,12 @@ import ru.tech.imageresizershrinker.utils.helper.compressFormat
 import ru.tech.imageresizershrinker.utils.helper.extension
 import ru.tech.imageresizershrinker.utils.storage.BitmapSaveTarget
 import ru.tech.imageresizershrinker.utils.storage.FileController
+import javax.inject.Inject
 
-class DeleteExifViewModel : ViewModel() {
+@HiltViewModel
+class DeleteExifViewModel @Inject constructor(
+    private val dataStore: DataStore<Preferences>
+) : ViewModel() {
 
     private val _uris = mutableStateOf<List<Uri>?>(null)
     val uris by _uris
@@ -118,7 +127,7 @@ class DeleteExifViewModel : ViewModel() {
                     }.getOrNull()?.takeIf { it.first != null }?.let { (bitmap, _, mimeInt) ->
                         bitmap?.let { result ->
 
-                            val savingFolder = fileController.getSavingFolder(
+                            fileController.getSavingFolder(
                                 BitmapSaveTarget(
                                     bitmapInfo = BitmapInfo(
                                         mimeTypeInt = mimeInt,
@@ -128,18 +137,13 @@ class DeleteExifViewModel : ViewModel() {
                                     uri = uri,
                                     sequenceNumber = _done.value
                                 )
-                            )
-
-                            val fos = savingFolder.outputStream
-
-                            result.compress(
-                                mimeInt.extension.compressFormat,
-                                100,
-                                fos
-                            )
-
-                            fos!!.flush()
-                            fos.close()
+                            ).getOrNull()?.outputStream?.use {
+                                result.compress(
+                                    mimeInt.extension.compressFormat,
+                                    100,
+                                    it
+                                )
+                            } ?: dataStore.edit { it[SAVE_FOLDER] = "" }
                         } ?: {
                             failed += 1
                         }

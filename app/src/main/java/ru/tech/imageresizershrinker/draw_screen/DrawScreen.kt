@@ -113,6 +113,7 @@ import com.t8rin.dynamic.theme.LocalDynamicThemeState
 import com.t8rin.dynamic.theme.getAppColorTuple
 import com.t8rin.dynamic.theme.observeAsState
 import dev.olshevski.navigation.reimagined.AnimatedNavHost
+import dev.olshevski.navigation.reimagined.hilt.hiltViewModel
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.draw_screen.components.DrawAlphaSelector
@@ -165,7 +166,7 @@ import ru.tech.imageresizershrinker.widget.utils.LocalWindowSizeClass
 fun DrawScreen(
     uriState: Uri?,
     onGoBack: () -> Unit,
-    viewModel: DrawViewModel = viewModel()
+    viewModel: DrawViewModel = hiltViewModel()
 ) {
     val settingsState = LocalSettingsState.current
     val context = LocalContext.current as ComponentActivity

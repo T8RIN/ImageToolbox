@@ -93,9 +93,9 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewModelScope
-import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.size.Size
 import com.t8rin.dynamic.theme.LocalDynamicThemeState
+import dev.olshevski.navigation.reimagined.hilt.hiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.burnoutcrew.reorderable.ReorderableItem
@@ -155,7 +155,7 @@ import ru.tech.imageresizershrinker.widget.utils.middleImageState
 fun FiltersScreen(
     uriState: List<Uri>?,
     onGoBack: () -> Unit,
-    viewModel: FilterViewModel = viewModel()
+    viewModel: FilterViewModel = hiltViewModel()
 ) {
     val settingsState = LocalSettingsState.current
 

@@ -6,13 +6,18 @@ import android.os.Build
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.core.edit
 import androidx.exifinterface.media.ExifInterface
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import ru.tech.imageresizershrinker.common.SAVE_FOLDER
 import ru.tech.imageresizershrinker.utils.helper.BitmapInfo
 import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.canShow
 import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.copyTo
@@ -23,8 +28,13 @@ import ru.tech.imageresizershrinker.utils.helper.extension
 import ru.tech.imageresizershrinker.utils.helper.mimeTypeInt
 import ru.tech.imageresizershrinker.utils.storage.BitmapSaveTarget
 import ru.tech.imageresizershrinker.utils.storage.FileController
+import ru.tech.imageresizershrinker.utils.storage.SavingFolder
+import javax.inject.Inject
 
-class BytesResizeViewModel : ViewModel() {
+@HiltViewModel
+class BytesResizeViewModel @Inject constructor(
+    private val dataStore: DataStore<Preferences>
+) : ViewModel() {
 
     private val _canSave = mutableStateOf(false)
     val canSave by _canSave
@@ -170,7 +180,35 @@ class BytesResizeViewModel : ViewModel() {
                             if (result.isSuccess && result.getOrNull() != null) {
                                 val scaled = result.getOrNull()!!
                                 val localBitmap = scaled.first
-                                val savingFolder = fileController.getSavingFolder(
+
+                                val writeTo: (SavingFolder) -> Unit = { savingFolder ->
+                                    savingFolder.outputStream.use {
+                                        localBitmap.compress(
+                                            mime.extension.compressFormat,
+                                            scaled.second,
+                                            it
+                                        )
+                                    }
+
+                                    if (keepExif) {
+                                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                                            val fd =
+                                                fileController.getFileDescriptorFor(savingFolder.fileUri)
+                                            fd?.fileDescriptor?.let {
+                                                val ex = ExifInterface(it)
+                                                exif?.copyTo(ex)
+                                                ex.saveAttributes()
+                                            }
+                                            fd?.close()
+                                        } else {
+                                            val image = savingFolder.file!!
+                                            val ex = ExifInterface(image)
+                                            exif?.copyTo(ex)
+                                            ex.saveAttributes()
+                                        }
+                                    }
+                                }
+                                fileController.getSavingFolder(
                                     BitmapSaveTarget(
                                         bitmapInfo = BitmapInfo(
                                             mimeTypeInt = mime.extension.mimeTypeInt,
@@ -180,35 +218,8 @@ class BytesResizeViewModel : ViewModel() {
                                         uri = uri,
                                         sequenceNumber = _done.value + 1
                                     )
-                                )
-
-                                val fos = savingFolder.outputStream
-
-                                localBitmap.compress(
-                                    mime.extension.compressFormat,
-                                    scaled.second,
-                                    fos
-                                )
-
-                                fos!!.flush()
-                                fos.close()
-
-                                if (keepExif) {
-                                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                                        val fd =
-                                            fileController.getFileDescriptorFor(savingFolder.fileUri)
-                                        fd?.fileDescriptor?.let {
-                                            val ex = ExifInterface(it)
-                                            exif?.copyTo(ex)
-                                            ex.saveAttributes()
-                                        }
-                                        fd?.close()
-                                    } else {
-                                        val image = savingFolder.file!!
-                                        val ex = ExifInterface(image)
-                                        exif?.copyTo(ex)
-                                        ex.saveAttributes()
-                                    }
+                                ).getOrNull()?.let(writeTo) ?: dataStore.edit {
+                                    it[SAVE_FOLDER] = ""
                                 }
                             } else failed += 1
                         }

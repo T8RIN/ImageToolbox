@@ -6,6 +6,9 @@ import android.net.Uri
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.core.edit
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.smarttoolfactory.cropper.model.AspectRatio
@@ -13,9 +16,11 @@ import com.smarttoolfactory.cropper.model.OutlineType
 import com.smarttoolfactory.cropper.model.RectCropShape
 import com.smarttoolfactory.cropper.settings.CropDefaults
 import com.smarttoolfactory.cropper.settings.CropOutlineProperty
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import ru.tech.imageresizershrinker.common.SAVE_FOLDER
 import ru.tech.imageresizershrinker.utils.helper.BitmapInfo
 import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.canShow
 import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.resizeBitmap
@@ -24,11 +29,15 @@ import ru.tech.imageresizershrinker.utils.helper.extension
 import ru.tech.imageresizershrinker.utils.helper.mimeTypeInt
 import ru.tech.imageresizershrinker.utils.storage.BitmapSaveTarget
 import ru.tech.imageresizershrinker.utils.storage.FileController
+import ru.tech.imageresizershrinker.utils.storage.SavingFolder
 import java.io.ByteArrayInputStream
 import java.io.ByteArrayOutputStream
+import javax.inject.Inject
 
-
-class CropViewModel : ViewModel() {
+@HiltViewModel
+class CropViewModel @Inject constructor(
+    private val dataStore: DataStore<Preferences>
+) : ViewModel() {
 
     private val _cropProperties = mutableStateOf(
         CropDefaults.properties(
@@ -101,7 +110,24 @@ class CropViewModel : ViewModel() {
                 } else {
                     val localBitmap = bitmap
 
-                    val savingFolder = fileController.getSavingFolder(
+                    val writeTo: (SavingFolder) -> Unit = { savingFolder ->
+                        savingFolder.outputStream?.use {
+                            localBitmap.compress(
+                                mimeType.extension.compressFormat,
+                                100,
+                                it
+                            )
+                        }
+
+                        val out = ByteArrayOutputStream()
+                        localBitmap.compress(mimeType.extension.compressFormat, 100, out)
+                        val decoded =
+                            BitmapFactory.decodeStream(ByteArrayInputStream(out.toByteArray()))
+
+                        _bitmap.value = decoded
+                    }
+
+                    fileController.getSavingFolder(
                         BitmapSaveTarget(
                             bitmapInfo = BitmapInfo(
                                 mimeTypeInt = mimeType.extension.mimeTypeInt,
@@ -111,22 +137,8 @@ class CropViewModel : ViewModel() {
                             uri = _uri.value,
                             sequenceNumber = null
                         )
-                    )
+                    ).getOrNull()?.let(writeTo) ?: dataStore.edit { it[SAVE_FOLDER] = "" }
 
-                    val fos = savingFolder.outputStream
-
-                    localBitmap.compress(mimeType.extension.compressFormat, 100, fos)
-                    val out = ByteArrayOutputStream()
-                    localBitmap.compress(mimeType.extension.compressFormat, 100, out)
-                    val decoded =
-                        BitmapFactory.decodeStream(ByteArrayInputStream(out.toByteArray()))
-
-                    out.flush()
-                    out.close()
-                    fos!!.flush()
-                    fos.close()
-
-                    _bitmap.value = decoded
                     onComplete(true)
                 }
             }

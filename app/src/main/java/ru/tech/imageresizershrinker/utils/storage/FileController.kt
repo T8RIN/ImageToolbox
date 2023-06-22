@@ -23,18 +23,20 @@ private class FileControllerImpl constructor(
 
     override fun getSavingFolder(
         saveTarget: SaveTarget
-    ): SavingFolder = context.getSavingFolder(
-        treeUri = fileParams.treeUri,
-        saveTarget = if (saveTarget is BitmapSaveTarget) {
-            saveTarget.copy(
-                filename = constructFilename(
-                    context = context,
-                    fileParams = fileParams,
-                    saveTarget = saveTarget
+    ): Result<SavingFolder> = kotlin.runCatching {
+        context.getSavingFolder(
+            treeUri = fileParams.treeUri,
+            saveTarget = if (saveTarget is BitmapSaveTarget) {
+                saveTarget.copy(
+                    filename = constructFilename(
+                        context = context,
+                        fileParams = fileParams,
+                        saveTarget = saveTarget
+                    )
                 )
-            )
-        } else saveTarget,
-    )
+            } else saveTarget
+        )
+    }
 
     override fun getFileDescriptorFor(uri: Uri?) = uri?.let {
         context.contentResolver.openFileDescriptor(it, "rw", null)
@@ -65,7 +67,7 @@ private class FileControllerImpl constructor(
 interface FileController {
     val fileParams: FileParams
     val savingPath: String
-    fun getSavingFolder(saveTarget: SaveTarget): SavingFolder
+    fun getSavingFolder(saveTarget: SaveTarget): Result<SavingFolder>
     fun getFileDescriptorFor(uri: Uri?): ParcelFileDescriptor?
     fun isExternalStorageWritable(): Boolean
     fun requestReadWritePermissions()

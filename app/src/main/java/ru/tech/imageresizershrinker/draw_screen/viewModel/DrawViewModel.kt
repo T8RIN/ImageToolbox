@@ -9,14 +9,19 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.core.edit
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.t8rin.drawbox.domain.DrawController
+import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.olshevski.navigation.reimagined.navController
 import dev.olshevski.navigation.reimagined.navigate
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import ru.tech.imageresizershrinker.common.SAVE_FOLDER
 import ru.tech.imageresizershrinker.draw_screen.components.DrawBehavior
 import ru.tech.imageresizershrinker.utils.helper.BitmapInfo
 import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.overlayWith
@@ -26,9 +31,13 @@ import ru.tech.imageresizershrinker.utils.helper.extension
 import ru.tech.imageresizershrinker.utils.helper.mimeTypeInt
 import ru.tech.imageresizershrinker.utils.storage.BitmapSaveTarget
 import ru.tech.imageresizershrinker.utils.storage.FileController
+import ru.tech.imageresizershrinker.utils.storage.SavingFolder
+import javax.inject.Inject
 
-
-class DrawViewModel : ViewModel() {
+@HiltViewModel
+class DrawViewModel @Inject constructor(
+    private val dataStore: DataStore<Preferences>
+) : ViewModel() {
 
     var drawController: DrawController? by mutableStateOf(null)
         private set
@@ -72,7 +81,12 @@ class DrawViewModel : ViewModel() {
                                 )
                             )
                         }?.let { localBitmap ->
-                            val savingFolder = fileController.getSavingFolder(
+                            val writeTo: (SavingFolder) -> Unit = { savingFolder ->
+                                savingFolder.outputStream?.use {
+                                    localBitmap.compress(mimeType.extension.compressFormat, 100, it)
+                                }
+                            }
+                            fileController.getSavingFolder(
                                 BitmapSaveTarget(
                                     bitmapInfo = BitmapInfo(
                                         mimeTypeInt = mimeType.extension.mimeTypeInt,
@@ -82,12 +96,7 @@ class DrawViewModel : ViewModel() {
                                     uri = _uri.value,
                                     sequenceNumber = null
                                 )
-                            )
-
-                            savingFolder.outputStream?.use {
-                                localBitmap.compress(mimeType.extension.compressFormat, 100, it)
-                            }
-
+                            ).getOrNull()?.let(writeTo) ?: dataStore.edit { it[SAVE_FOLDER] = "" }
                         }
                         onComplete(true)
                     }
@@ -101,7 +110,12 @@ class DrawViewModel : ViewModel() {
                         height_ = (drawBehavior as DrawBehavior.Background).height,
                         resize = 0
                     )?.let { localBitmap ->
-                        val savingFolder = fileController.getSavingFolder(
+                        val writeTo: (SavingFolder) -> Unit = { savingFolder ->
+                            savingFolder.outputStream?.use {
+                                localBitmap.compress(mimeType.extension.compressFormat, 100, it)
+                            }
+                        }
+                        fileController.getSavingFolder(
                             BitmapSaveTarget(
                                 bitmapInfo = BitmapInfo(
                                     mimeTypeInt = mimeType.extension.mimeTypeInt,
@@ -111,12 +125,7 @@ class DrawViewModel : ViewModel() {
                                 uri = Uri.parse("drawing"),
                                 sequenceNumber = null
                             )
-                        )
-
-                        savingFolder.outputStream?.use {
-                            localBitmap.compress(mimeType.extension.compressFormat, 100, it)
-                        }
-
+                        ).getOrNull()?.let(writeTo) ?: dataStore.edit { it[SAVE_FOLDER] = "" }
                     }
                     onComplete(true)
                 }

@@ -86,9 +86,9 @@ import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewModelScope
-import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.size.Size
 import com.t8rin.dynamic.theme.LocalDynamicThemeState
+import dev.olshevski.navigation.reimagined.hilt.hiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.R
@@ -146,7 +146,7 @@ import ru.tech.imageresizershrinker.widget.utils.middleImageState
 fun BatchResizeScreen(
     uriState: List<Uri>?,
     onGoBack: () -> Unit,
-    viewModel: BatchResizeViewModel = viewModel()
+    viewModel: BatchResizeViewModel = hiltViewModel()
 ) {
     val context = LocalContext.current as ComponentActivity
     val toastHostState = LocalToastHost.current

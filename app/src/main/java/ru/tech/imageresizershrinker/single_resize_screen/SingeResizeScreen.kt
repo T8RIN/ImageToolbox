@@ -101,9 +101,9 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.size.Size
 import com.t8rin.dynamic.theme.LocalDynamicThemeState
+import dev.olshevski.navigation.reimagined.hilt.hiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.R
@@ -164,7 +164,7 @@ import ru.tech.imageresizershrinker.widget.utils.middleImageState
 fun SingleResizeScreen(
     uriState: Uri?,
     onGoBack: () -> Unit,
-    viewModel: SingleResizeViewModel = viewModel(),
+    viewModel: SingleResizeViewModel = hiltViewModel(),
 ) {
     val settingsState = LocalSettingsState.current
     val toastHostState = LocalToastHost.current
