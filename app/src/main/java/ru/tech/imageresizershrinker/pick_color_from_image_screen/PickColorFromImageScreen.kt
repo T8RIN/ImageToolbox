@@ -530,6 +530,7 @@ fun PickColorFromImageScreen(
                                             imageBitmap = bitmap.asImageBitmap(),
                                             color = viewModel.color,
                                             modifier = Modifier
+                                                .fillMaxSize()
                                                 .navBarsPaddingOnlyIfTheyAtTheBottom()
                                                 .block(RoundedCornerShape(4.dp))
                                                 .padding(4.dp)
