@@ -66,8 +66,8 @@ fun DrawBox(
                     if (zoomEnabled) false
                     else {
                         (drawController as DrawView).apply {
-                            val x = (it.x / zoomState.zoom).coerceAtMost(this.width.toFloat())
-                            val y = it.y / zoomState.zoom.coerceAtMost(this.height.toFloat())
+                            val x = (it.x / zoomState.zoom).coerceIn(0f, this.width.toFloat())
+                            val y = it.y / zoomState.zoom.coerceIn(0f, this.height.toFloat())
                             when (it.action) {
                                 MotionEvent.ACTION_DOWN -> {
                                     startX = x

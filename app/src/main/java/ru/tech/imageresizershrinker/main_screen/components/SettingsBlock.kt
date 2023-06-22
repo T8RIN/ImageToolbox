@@ -724,6 +724,7 @@ fun LazyListScope.SettingsBlock(
         Divider()
     }
     item {
+        // Cache
         var cache by remember(
             context,
             LocalLifecycleOwner.current.lifecycle.observeAsState().value
@@ -750,7 +751,7 @@ fun LazyListScope.SettingsBlock(
                 subtitle = stringResource(R.string.found_s, cache),
                 endIcon = Icons.Rounded.DeleteOutline
             )
-            Spacer(modifier = Modifier.height(16.dp))
+            Spacer(modifier = Modifier.height(8.dp))
             PreferenceRowSwitch(
                 title = stringResource(R.string.auto_cache_clearing),
                 subtitle = stringResource(R.string.auto_cache_clearing_sub),
