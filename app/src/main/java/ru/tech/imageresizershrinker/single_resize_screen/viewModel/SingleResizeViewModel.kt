@@ -177,10 +177,11 @@ class SingleResizeViewModel : ViewModel() {
                 mimeTypeInt = mimeTypeInt,
                 resizeType = resizeType,
                 rotationDegrees = rotationDegrees,
-                isFlipped = isFlipped
-            ) {
-                _bitmapInfo.value = _bitmapInfo.value.copy(sizeInBytes = it)
-            }
+                isFlipped = isFlipped,
+                onByteCount = {
+                    _bitmapInfo.value = _bitmapInfo.value.copy(sizeInBytes = it)
+                }
+            )
         }
     }
 

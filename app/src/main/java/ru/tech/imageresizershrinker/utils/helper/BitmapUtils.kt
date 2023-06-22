@@ -61,7 +61,6 @@ object BitmapUtils {
         height_: Int,
         resize: Int
     ): Bitmap {
-        /*TODO try to catch attempt of processing too large bitmaps*/
         val max = max(width_, height_)
 
         return when (resize) {
@@ -263,7 +262,6 @@ object BitmapUtils {
             tWidth = (tWidth * 0.9f).roundToInt()
         }
 
-        Log.d("COCK", "$tWidth $tHeight")
         rotate(rotationDegrees)
             .resizeBitmap(tWidth, tHeight, resizeType)
             .flip(isFlipped)
