@@ -263,4 +263,24 @@
     <string name="background_color">Couleur d\'arrière-plan</string>
     <string name="paint_color">Couleur de peinture</string>
     <string name="draw_on_image_sub">Choisissez une image et dessinez quelque chose dessus</string>
+    <string name="encrypt">Crypter</string>
+    <string name="decrypt">Décrypter</string>
+    <string name="pick_file_to_start">Choisir le fichier pour commencer</string>
+    <string name="decryption">Décryptage</string>
+    <string name="encryption">Cryptage</string>
+    <string name="key">Clé</string>
+    <string name="file_proceed">Déposer</string>
+    <string name="features">Fonctionnalités</string>
+    <string name="implementation">Exécution</string>
+    <string name="compatibility">Compatibilité</string>
+    <string name="implementation_sub">AES-256, mode GCM, pas de rembourrage, IV aléatoires de 12 octets. Les clés sont utilisées comme hachages SHA-3 (256 bits).</string>
+    <string name="file_size">Taille du fichier</string>
+    <string name="pick_file">Choisir un dossier</string>
+    <string name="cipher">Chiffrement</string>
+    <string name="store_file_desc">Stockez ce fichier sur votre appareil ou utilisez l’action partage pour le mettre où vous voulez</string>
+    <string name="cipher_sub">Chiffrer et déchiffrer tout fichier (pas seulement l’image) basé sur AES crypto algorythm</string>
+    <string name="features_sub">Chiffrement par mot de passe des fichiers. Les fichiers traités peuvent être stockés dans le répertoire Crypto ou partagés. Les fichiers déchiffrés peuvent également être ouverts directement.</string>
+    <string name="compatibility_sub">Veuillez noter que la compatibilité avec d’autres logiciels ou services de cryptage de fichiers n’est pas garantie. Un traitement clé ou une configuration de chiffrement légèrement différente peuvent être des raisons d’incompatibilité.</string>
+    <string name="file_size_sub">La taille maximale du fichier est limitée par le système d\'exploitation Android et la mémoire disponible, qui dépend évidemment de votre appareil.
+\nAttention : la mémoire n\'est pas du stockage.</string>
 </resources>

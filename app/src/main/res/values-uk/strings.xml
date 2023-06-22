@@ -201,10 +201,10 @@
     <string name="haze">Туман</string>
     <string name="effect">Ефект</string>
     <string name="distance">Відстань</string>
-    <string name="bulge">опуклість</string>
+    <string name="bulge">Опуклість</string>
     <string name="coming_soon">Незабаром</string>
     <string name="radius">Радіус</string>
-    <string name="scale">масштаб</string>
+    <string name="scale">Масштаб</string>
     <string name="limits_resize_sub">Змініть розмір заданих зображень відповідно до заданих обмежень ширини та висоти зі збереженням співвідношення сторін</string>
     <string name="sketch">Ескіз</string>
     <string name="threshold">Поріг</string>
@@ -262,4 +262,25 @@
     <string name="draw_on_image">Малювати на зображенні</string>
     <string name="paint_color">Колір фарби</string>
     <string name="draw_on_background_sub">Виберіть колір фону і малюйте поверх нього</string>
+    <string name="paint_alpha">Прозорість</string>
+    <string name="decrypt">Розшифрувати</string>
+    <string name="pick_file_to_start">Виберіть файл для запуску</string>
+    <string name="decryption">Розшифровка</string>
+    <string name="features">Функції</string>
+    <string name="cipher">Шифр</string>
+    <string name="cipher_sub">Зашифрувати та розшифрувати будь-який файл (не тільки зображення) на основі криптоалгоритму AES</string>
+    <string name="compatibility">Сумісність</string>
+    <string name="file_size_sub">Максимальний розмір файлу обмежений операційною системою Android і доступною пам\'яттю, яка, очевидно, залежить від вашого пристрою.
+\nЗверніть увагу: пам\'ять - це не сховище.</string>
+    <string name="pick_file">Виберіть файл</string>
+    <string name="key">Ключ</string>
+    <string name="store_file_desc">Збережіть цей файл на своєму пристрої або скористайтеся \"Поділитися\", щоб розмістити його де завгодно</string>
+    <string name="implementation">Реалізація</string>
+    <string name="features_sub">Шифрування файлів на основі пароля. Зашифровані файли можна зберігати у теці Crypto або надавати до них спільний доступ. Розшифровані файли також можна відкривати безпосередньо.</string>
+    <string name="implementation_sub">AES-256, режим GCM, без пробілів, випадкові значення довжиною 12 байт. Ключі використовуються як хеші SHA-3 (256 біт).</string>
+    <string name="encrypt">Шифрувати</string>
+    <string name="file_proceed">Продовжити файл</string>
+    <string name="file_size">Розмір файлу</string>
+    <string name="encryption">Шифрування</string>
+    <string name="compatibility_sub">Зверніть увагу, що сумісність з іншими програмами або сервісами для шифрування файлів не гарантується. Причиною несумісності може бути дещо інша обробка ключів або конфігурація шифру.</string>
 </resources>
