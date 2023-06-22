@@ -39,6 +39,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBars
 import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
@@ -453,11 +454,12 @@ fun MainScreen(
                                     color = MaterialTheme.colorScheme.surfaceColorAtElevation(3.dp),
                                     modifier = Modifier
                                         .fillMaxHeight()
-                                        .width(80.dp)
+                                        .widthIn(min = 80.dp)
                                 ) {
                                     Column(
                                         modifier = Modifier
-                                            .fillMaxSize()
+                                            .fillMaxHeight()
+                                            .padding(horizontal = 8.dp)
                                             .verticalScroll(rememberScrollState())
                                             .navigationBarsPadding()
                                             .padding(
