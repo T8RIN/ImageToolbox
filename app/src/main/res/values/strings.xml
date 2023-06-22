@@ -302,6 +302,8 @@
     <string name="cache">Cache</string>
     <string name="cache_size">Cache size</string>
     <string name="found_s">Found %1$s</string>
+    <string name="auto_cache_clearing">Auto cache clearing</string>
+    <string name="auto_cache_clearing_sub">If enabled app cache will be cleared on app startup</string>
     <string-array name="fab_alignment_sub">
         <item>Start</item>
         <item>Center</item>

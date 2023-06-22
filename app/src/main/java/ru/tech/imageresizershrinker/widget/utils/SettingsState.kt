@@ -28,6 +28,7 @@ interface SettingsState {
     val fabAlignment: Alignment
     val selectedEmoji: ImageVector?
     val imagePickerModeInt: Int
+    val clearCacheOnLaunch: Boolean
 }
 
 @Stable
@@ -42,7 +43,8 @@ private data class SettingsStateImpl(
     override val presets: List<Int>,
     override val fabAlignment: Alignment,
     override val selectedEmoji: ImageVector?,
-    override val imagePickerModeInt: Int
+    override val imagePickerModeInt: Int,
+    override val clearCacheOnLaunch: Boolean
 ) : SettingsState
 
 fun SettingsState(
@@ -56,7 +58,8 @@ fun SettingsState(
     presets: List<Int>,
     fabAlignment: Alignment,
     selectedEmoji: ImageVector?,
-    imagePickerModeInt: Int
+    imagePickerModeInt: Int,
+    clearCacheOnLaunch: Boolean
 ): SettingsState = SettingsStateImpl(
     isNightMode = isNightMode,
     isDynamicColors = isDynamicColors,
@@ -68,7 +71,8 @@ fun SettingsState(
     emojisCount = emojisCount,
     fabAlignment = fabAlignment,
     selectedEmoji = selectedEmoji,
-    imagePickerModeInt = imagePickerModeInt
+    imagePickerModeInt = imagePickerModeInt,
+    clearCacheOnLaunch = clearCacheOnLaunch
 )
 
 @Composable
@@ -83,7 +87,8 @@ fun rememberSettingsState(
     presets: List<Int> = emptyList(),
     fabAlignment: Alignment = Alignment.Center,
     selectedEmoji: ImageVector? = null,
-    imagePickerModeInt: Int = 0
+    imagePickerModeInt: Int = 0,
+    clearCacheOnLaunch: Boolean = false
 ): SettingsState = remember(
     isNightMode,
     isDynamicColors,
@@ -95,7 +100,8 @@ fun rememberSettingsState(
     presets,
     fabAlignment,
     selectedEmoji,
-    imagePickerModeInt
+    imagePickerModeInt,
+    clearCacheOnLaunch
 ) {
     derivedStateOf {
         SettingsState(
@@ -109,7 +115,8 @@ fun rememberSettingsState(
             emojisCount = emojisCount,
             fabAlignment = fabAlignment,
             selectedEmoji = selectedEmoji,
-            imagePickerModeInt = imagePickerModeInt
+            imagePickerModeInt = imagePickerModeInt,
+            clearCacheOnLaunch = clearCacheOnLaunch
         )
     }
 }.value

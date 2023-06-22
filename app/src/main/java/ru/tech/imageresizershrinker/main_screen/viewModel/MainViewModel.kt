@@ -31,6 +31,7 @@ import ru.tech.imageresizershrinker.common.ALIGNMENT
 import ru.tech.imageresizershrinker.common.AMOLED_MODE
 import ru.tech.imageresizershrinker.common.APP_COLOR
 import ru.tech.imageresizershrinker.common.APP_RELEASES
+import ru.tech.imageresizershrinker.common.AUTO_CACHE_CLEAR
 import ru.tech.imageresizershrinker.common.BORDER_WIDTH
 import ru.tech.imageresizershrinker.common.COLOR_TUPLES
 import ru.tech.imageresizershrinker.common.DYNAMIC_COLORS
@@ -131,6 +132,9 @@ class MainViewModel @Inject constructor(
     private val _showDialogOnStartUp = mutableStateOf(true)
     val showDialogOnStartUp by _showDialogOnStartUp
 
+    private val _clearCacheOnLaunch = mutableStateOf(false)
+    val clearCacheOnLaunch by _clearCacheOnLaunch
+
     private val _screenList = mutableStateOf(Screen.entries)
     val screenList by _screenList
 
@@ -166,6 +170,7 @@ class MainViewModel @Inject constructor(
                     Screen.entries[id]
                 } ?: Screen.entries
                 _emojisCount.value = prefs[EMOJI_COUNT] ?: 1
+                _clearCacheOnLaunch.value = prefs[AUTO_CACHE_CLEAR] ?: false
             }
         }
         dataStore.data.onEach { prefs ->
@@ -207,6 +212,7 @@ class MainViewModel @Inject constructor(
             _emojisCount.value = prefs[EMOJI_COUNT] ?: 1
             _addOriginalFilename.value = prefs[ADD_ORIGINAL_NAME] ?: false
             _addSequenceNumber.value = prefs[ADD_SEQ_NUM] ?: true
+            _clearCacheOnLaunch.value = prefs[AUTO_CACHE_CLEAR] ?: false
         }.launchIn(viewModelScope)
         tryGetUpdate(showDialog = showDialogOnStartUp)
     }
@@ -439,6 +445,14 @@ class MainViewModel @Inject constructor(
         viewModelScope.launch {
             dataStore.edit {
                 it[ORDER] = data.joinToString("/") { it.id.toString() }
+            }
+        }
+    }
+
+    fun setClearCacheOnLaunch(value: Boolean) {
+        viewModelScope.launch {
+            dataStore.edit {
+                it[AUTO_CACHE_CLEAR] = value
             }
         }
     }

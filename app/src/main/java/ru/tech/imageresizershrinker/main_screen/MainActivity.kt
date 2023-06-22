@@ -38,6 +38,7 @@ import ru.tech.imageresizershrinker.theme.Emoji
 import ru.tech.imageresizershrinker.theme.ImageResizerTheme
 import ru.tech.imageresizershrinker.theme.allIcons
 import ru.tech.imageresizershrinker.utils.LocalConfettiController
+import ru.tech.imageresizershrinker.utils.helper.ContextUtils.clearCache
 import ru.tech.imageresizershrinker.utils.helper.ContextUtils.parseImageFromIntent
 import ru.tech.imageresizershrinker.utils.navigation.LocalNavController
 import ru.tech.imageresizershrinker.utils.storage.FileParams
@@ -81,7 +82,8 @@ class MainActivity : M3Activity() {
                     fabAlignment = viewModel.alignment.toAlignment(),
                     selectedEmoji = Emoji.allIcons.getOrNull(viewModel.selectedEmoji),
                     imagePickerModeInt = viewModel.imagePickerModeInt,
-                    emojisCount = viewModel.emojisCount
+                    emojisCount = viewModel.emojisCount,
+                    clearCacheOnLaunch = viewModel.clearCacheOnLaunch
                 ),
                 LocalNavController provides viewModel.navController,
                 LocalEditPresetsState provides editPresetsState,
@@ -114,6 +116,11 @@ class MainActivity : M3Activity() {
                     if (!showUpdateSheet.value) {
                         kotlinx.coroutines.delay(600)
                         viewModel.cancelledUpdate()
+                    }
+                }
+                LaunchedEffect(Unit) {
+                    if(viewModel.clearCacheOnLaunch) {
+                        this@MainActivity.clearCache{}
                     }
                 }
                 ImageResizerTheme {

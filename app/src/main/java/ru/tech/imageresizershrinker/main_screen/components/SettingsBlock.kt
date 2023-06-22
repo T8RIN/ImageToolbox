@@ -740,9 +740,25 @@ fun LazyListScope.SettingsBlock(
                         cache = context.cacheSize()
                     }
                 },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp),
+                color = MaterialTheme
+                    .colorScheme
+                    .secondaryContainer
+                    .copy(alpha = 0.2f),
                 title = stringResource(R.string.cache_size),
                 subtitle = stringResource(R.string.found_s, cache),
                 endIcon = Icons.Rounded.DeleteOutline
+            )
+            Spacer(modifier = Modifier.height(16.dp))
+            PreferenceRowSwitch(
+                title = stringResource(R.string.auto_cache_clearing),
+                subtitle = stringResource(R.string.auto_cache_clearing_sub),
+                checked = settingsState.clearCacheOnLaunch,
+                onClick = {
+                    viewModel.setClearCacheOnLaunch(it)
+                }
             )
             Spacer(modifier = Modifier.height(16.dp))
         }
