@@ -252,7 +252,6 @@ fun CropScreen(
 
     var crop by remember { mutableStateOf(false) }
     var share by remember { mutableStateOf(false) }
-    var save by remember { mutableStateOf(false) }
     val content: @Composable (PaddingValues) -> Unit = { paddingValues ->
         Box(
             Modifier
@@ -381,13 +380,9 @@ fun CropScreen(
                                                     showSaveLoading = false
                                                 }
                                             )
-                                        } else if (save) {
-                                            saveBitmap(image.asAndroidBitmap())
                                         } else {
                                             viewModel.updateBitmap(image.asAndroidBitmap())
-                                            showConfetti()
                                         }
-                                        save = false
                                         crop = false
                                         share = false
                                     },
@@ -436,13 +431,10 @@ fun CropScreen(
                                                         showSaveLoading = false
                                                     }
                                                 )
-                                            } else if (save) {
-                                                saveBitmap(image.asAndroidBitmap())
                                             } else {
                                                 viewModel.updateBitmap(image.asAndroidBitmap())
                                                 showConfetti()
                                             }
-                                            save = false
                                             crop = false
                                             share = false
                                         }
@@ -518,16 +510,19 @@ fun CropScreen(
                                 ) {
                                     Icon(Icons.Rounded.Crop, null)
                                 }
-                                Spacer(modifier = Modifier.height(16.dp))
-                                FloatingActionButton(
-                                    onClick = {
-                                        crop = true
-                                        save = true
-                                    },
-                                    modifier = Modifier.fabBorder(),
-                                    elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
-                                ) {
-                                    Icon(Icons.Rounded.Save, null)
+                                AnimatedVisibility(viewModel.isBitmapChanged) {
+                                    Column {
+                                        Spacer(modifier = Modifier.height(16.dp))
+                                        FloatingActionButton(
+                                            onClick = {
+                                                viewModel.bitmap?.let(saveBitmap)
+                                            },
+                                            modifier = Modifier.fabBorder(),
+                                            elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
+                                        ) {
+                                            Icon(Icons.Rounded.Save, null)
+                                        }
+                                    }
                                 }
                             }
                         }
@@ -622,16 +617,19 @@ fun CropScreen(
                                     }
                                 }
                             }
-                            Spacer(modifier = Modifier.width(16.dp))
-                            FloatingActionButton(
-                                onClick = {
-                                    crop = true
-                                    save = true
-                                },
-                                modifier = Modifier.fabBorder(),
-                                elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
-                            ) {
-                                Icon(Icons.Rounded.Save, null)
+                            AnimatedVisibility(viewModel.isBitmapChanged) {
+                                Row {
+                                    Spacer(modifier = Modifier.width(16.dp))
+                                    FloatingActionButton(
+                                        onClick = {
+                                            viewModel.bitmap?.let(saveBitmap)
+                                        },
+                                        modifier = Modifier.fabBorder(),
+                                        elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
+                                    ) {
+                                        Icon(Icons.Rounded.Save, null)
+                                    }
+                                }
                             }
                         }
                     }

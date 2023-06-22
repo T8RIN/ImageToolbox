@@ -104,11 +104,7 @@ fun ResizeImageField(
                     ),
             )
         }
-        AnimatedVisibility(
-            visible = showWarning,
-            enter = fadeIn() + expandIn(expandFrom = Alignment.TopCenter),
-            exit = fadeOut() + shrinkOut(shrinkTowards = Alignment.TopCenter),
-        ) {
+        AnimatedVisibility(visible = showWarning) {
             Card(
                 colors = CardDefaults.cardColors(
                     containerColor = MaterialTheme.colorScheme.errorContainer.copy(
