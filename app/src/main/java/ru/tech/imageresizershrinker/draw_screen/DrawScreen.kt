@@ -36,6 +36,7 @@ import androidx.compose.foundation.layout.ime
 import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
@@ -57,6 +58,7 @@ import androidx.compose.material.icons.rounded.Image
 import androidx.compose.material.icons.rounded.Redo
 import androidx.compose.material.icons.rounded.Save
 import androidx.compose.material.icons.rounded.Undo
+import androidx.compose.material.icons.rounded.ZoomIn
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.BottomSheetScaffold
 import androidx.compose.material3.ButtonDefaults
@@ -73,6 +75,8 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedIconButton
 import androidx.compose.material3.SheetValue
+import androidx.compose.material3.Switch
+import androidx.compose.material3.SwitchDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
@@ -106,7 +110,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.max
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.t8rin.drawbox.domain.AbstractDrawController
 import com.t8rin.drawbox.presentation.compose.DrawBox
 import com.t8rin.dynamic.theme.LocalDynamicThemeState
@@ -296,6 +299,31 @@ fun DrawScreen(
         )
     )
 
+    var zoomEnabled by rememberSaveable(viewModel.drawBehavior) { mutableStateOf(false) }
+
+    val switch = @Composable {
+        Switch(
+            modifier = Modifier.padding(horizontal = if (!portrait) 8.dp else 16.dp),
+            colors = SwitchDefaults.colors(
+                uncheckedBorderColor = MaterialTheme.colorScheme.primary,
+                uncheckedThumbColor = MaterialTheme.colorScheme.onPrimary,
+                uncheckedTrackColor = MaterialTheme.colorScheme.primary,
+                uncheckedIconColor = MaterialTheme.colorScheme.onPrimaryContainer,
+            ),
+            checked = !zoomEnabled,
+            onCheckedChange = { zoomEnabled = !zoomEnabled },
+            thumbContent = {
+                AnimatedContent(zoomEnabled) { zoom ->
+                    Icon(
+                        if (!zoom) Icons.Rounded.Draw else Icons.Rounded.ZoomIn,
+                        null,
+                        Modifier.size(SwitchDefaults.IconSize)
+                    )
+                }
+            }
+        )
+    }
+
     val content: @Composable (PaddingValues) -> Unit = { paddingValues ->
         Box(
             Modifier
@@ -420,6 +448,7 @@ fun DrawScreen(
                                     modifier = Modifier
                                         .fillMaxSize()
                                         .padding(8.dp),
+                                    zoomEnabled = zoomEnabled,
                                     drawController = drawController,
                                     drawingModifier = Modifier.border(
                                         width = 1.dp,
@@ -442,7 +471,9 @@ fun DrawScreen(
                                     verticalAlignment = Alignment.CenterVertically
                                 ) {
                                     Box(
-                                        Modifier.weight(0.8f)
+                                        Modifier
+                                            .weight(0.8f)
+                                            .clipToBounds()
                                     ) {
                                         DrawBox(
                                             modifier = Modifier
@@ -454,6 +485,7 @@ fun DrawScreen(
                                                 width = 1.dp,
                                                 color = MaterialTheme.colorScheme.outlineVariant()
                                             ),
+                                            zoomEnabled = zoomEnabled,
                                             onGetDrawController = viewModel::updateDrawController
                                         ) {
                                             Box(
@@ -501,6 +533,7 @@ fun DrawScreen(
                                                         .padding(16.dp)
                                                         .block(shape = CircleShape)
                                                 ) {
+                                                    switch()
                                                     OutlinedIconButton(
                                                         border = border,
                                                         onClick = { drawController.undo() },
@@ -590,6 +623,7 @@ fun DrawScreen(
                                         width = 1.dp,
                                         color = MaterialTheme.colorScheme.outlineVariant()
                                     ),
+                                    zoomEnabled = zoomEnabled,
                                     onGetDrawController = viewModel::updateDrawController
                                 ) {
                                     Picture(
@@ -605,7 +639,9 @@ fun DrawScreen(
                                     verticalAlignment = Alignment.CenterVertically
                                 ) {
                                     Box(
-                                        Modifier.weight(0.8f)
+                                        Modifier
+                                            .weight(0.8f)
+                                            .clipToBounds()
                                     ) {
                                         DrawBox(
                                             modifier = Modifier
@@ -617,6 +653,7 @@ fun DrawScreen(
                                                 width = 1.dp,
                                                 color = MaterialTheme.colorScheme.outlineVariant()
                                             ),
+                                            zoomEnabled = zoomEnabled,
                                             onGetDrawController = viewModel::updateDrawController
                                         ) {
                                             Picture(
@@ -661,6 +698,7 @@ fun DrawScreen(
                                                         .padding(16.dp)
                                                         .block(shape = CircleShape)
                                                 ) {
+                                                    switch()
                                                     OutlinedIconButton(
                                                         border = border,
                                                         onClick = { drawController.undo() },
@@ -845,6 +883,7 @@ fun DrawScreen(
                         BottomAppBar(
                             modifier = Modifier.drawHorizontalStroke(true),
                             actions = {
+                                switch()
                                 IconButton(
                                     onClick = { viewModel.drawController?.undo() },
                                     enabled = !viewModel.drawController?.lastPaths.isNullOrEmpty() || !viewModel.drawController?.paths.isNullOrEmpty()

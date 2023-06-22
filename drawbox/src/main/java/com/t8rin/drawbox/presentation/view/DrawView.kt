@@ -2,7 +2,6 @@
 
 package com.t8rin.drawbox.presentation.view
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.Canvas
@@ -10,8 +9,6 @@ import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.PorterDuff
 import android.graphics.PorterDuffXfermode
-import android.util.AttributeSet
-import android.view.MotionEvent
 import android.view.View
 import androidx.annotation.ColorInt
 import androidx.compose.runtime.getValue
@@ -19,14 +16,20 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.graphics.toArgb
 import androidx.core.graphics.ColorUtils
+import com.smarttoolfactory.image.zoom.AnimatedZoomState
 import com.t8rin.drawbox.domain.DrawController
 import com.t8rin.drawbox.presentation.model.DrawPath
 import com.t8rin.drawbox.presentation.model.PaintOptions
 import androidx.compose.ui.graphics.Color as ComposeColor
 
-class DrawView @JvmOverloads constructor(
-    context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
-) : View(context, attrs, defStyleAttr), DrawController {
+
+class DrawView constructor(
+    context: Context,
+    var zoomState: AnimatedZoomState,
+    var zoomEnabled: Boolean
+) : View(context), DrawController {
+
+    constructor(context: Context) : this(context, AnimatedZoomState(), false)
 
     override var paths: Map<DrawPath, PaintOptions> by mutableStateOf(linkedMapOf())
     override var lastPaths: Map<DrawPath, PaintOptions> by mutableStateOf(linkedMapOf())
@@ -182,20 +185,20 @@ class DrawView @JvmOverloads constructor(
         canvas.drawPath(drawPath, paint)
     }
 
-    private fun actionDown(x: Float, y: Float) {
+    fun actionDown(x: Float, y: Float) {
         drawPath.reset()
         drawPath.moveTo(x, y)
         curX = x
         curY = y
     }
 
-    private fun actionMove(x: Float, y: Float) {
+    fun actionMove(x: Float, y: Float) {
         drawPath.quadTo(curX, curY, (x + curX) / 2, (y + curY) / 2)
         curX = x
         curY = y
     }
 
-    private fun actionUp() {
+    fun actionUp() {
         drawPath.lineTo(curX, curY)
 
         // draw a dot on click
@@ -215,26 +218,5 @@ class DrawView @JvmOverloads constructor(
             paintOptions.alpha,
             paintOptions.isEraserOn
         )
-    }
-
-    @SuppressLint("ClickableViewAccessibility")
-    override fun onTouchEvent(event: MotionEvent): Boolean {
-        val x = event.x
-        val y = event.y
-
-        when (event.action) {
-            MotionEvent.ACTION_DOWN -> {
-                startX = x
-                startY = y
-                actionDown(x, y)
-                undonePaths = linkedMapOf()
-            }
-
-            MotionEvent.ACTION_MOVE -> actionMove(x, y)
-            MotionEvent.ACTION_UP -> actionUp()
-        }
-
-        invalidate()
-        return true
     }
 }
