@@ -4,8 +4,13 @@ import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.net.Uri
 import androidx.activity.compose.BackHandler
+import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -26,10 +31,12 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBars
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.requiredSize
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.statusBars
 import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
@@ -71,9 +78,13 @@ import androidx.compose.material3.LargeTopAppBar
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalDrawerSheet
 import androidx.compose.material3.ModalNavigationDrawer
+import androidx.compose.material3.NavigationBar
+import androidx.compose.material3.NavigationBarItem
+import androidx.compose.material3.NavigationRailItem
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedIconButton
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
@@ -85,6 +96,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -378,6 +390,9 @@ fun MainScreen(
             }
         }
     }
+
+    var currentPage by rememberSaveable { mutableIntStateOf(0) }
+
     val content = @Composable {
         CompositionLocalProvider(LocalLayoutDirection provides layoutDirection) {
             Box {
@@ -431,141 +446,257 @@ fun MainScreen(
                         scrollBehavior = scrollBehavior
                     )
 
-
-                    val cutout = WindowInsets.displayCutout.asPaddingValues()
-                    LazyVerticalStaggeredGrid(
-                        modifier = Modifier
-                            .weight(1f)
-                            .fillMaxWidth(),
-                        columns = StaggeredGridCells.Adaptive(250.dp),
-                        verticalItemSpacing = 12.dp,
-                        horizontalArrangement = Arrangement.spacedBy(
-                            12.dp,
-                            Alignment.CenterHorizontally
-                        ),
-                        contentPadding = PaddingValues(
-                            bottom = 12.dp + if (isGrid) {
-                                WindowInsets
-                                    .navigationBars
-                                    .asPaddingValues()
-                                    .calculateBottomPadding() + if (!compactHeight) {
-                                    128.dp
-                                } else 0.dp
-                            } else 0.dp,
-                            top = 12.dp,
-                            end = 12.dp + cutout.calculateEndPadding(LocalLayoutDirection.current),
-                            start = 12.dp + cutout.calculateStartPadding(LocalLayoutDirection.current)
-                        ),
-                        content = {
-                            items(screenList) { screen ->
-                                PreferenceItemOverload(
-                                    onClick = {
-                                        navController.popUpTo { it == Screen.Main }
-                                        navController.navigate(screen)
-                                    },
-                                    onLongClick = {
-                                        showArrangementSheet.value = true
-                                    },
-                                    modifier = Modifier.fillMaxWidth(),
-                                    title = stringResource(screen.title),
-                                    subtitle = stringResource(screen.subtitle),
-                                    icon = {
-                                        Icon(screen.icon!!, null)
-                                    },
-                                    color = MaterialTheme.colorScheme.surfaceColorAtElevation(1.dp)
+                    Row(Modifier.weight(1f)) {
+                        AnimatedVisibility(!isSheetSlideable && settingsState.groupOptionsByTypes) {
+                            Row {
+                                Surface(
+                                    color = MaterialTheme.colorScheme.surfaceColorAtElevation(3.dp),
+                                    modifier = Modifier
+                                        .fillMaxHeight()
+                                        .width(80.dp)
+                                ) {
+                                    Column(
+                                        modifier = Modifier
+                                            .fillMaxSize()
+                                            .verticalScroll(rememberScrollState())
+                                            .navigationBarsPadding()
+                                            .padding(
+                                                start = WindowInsets
+                                                    .statusBars
+                                                    .asPaddingValues()
+                                                    .calculateStartPadding(LocalLayoutDirection.current)
+                                            )
+                                            .padding(
+                                                start = WindowInsets
+                                                    .displayCutout
+                                                    .asPaddingValues()
+                                                    .calculateStartPadding(LocalLayoutDirection.current)
+                                            ),
+                                        verticalArrangement = Arrangement.Center,
+                                        horizontalAlignment = Alignment.CenterHorizontally
+                                    ) {
+                                        Spacer(Modifier.height(8.dp))
+                                        Screen.typedEntries.forEachIndexed { index, (_, data) ->
+                                            val selected = index == currentPage
+                                            NavigationRailItem(
+                                                selected = selected,
+                                                onClick = { currentPage = index },
+                                                icon = {
+                                                    Icon(
+                                                        if (selected) data.second else data.third,
+                                                        null
+                                                    )
+                                                },
+                                                label = {
+                                                    Text(stringResource(data.first))
+                                                }
+                                            )
+                                        }
+                                        Spacer(Modifier.height(8.dp))
+                                    }
+                                }
+                                Box(
+                                    Modifier
+                                        .fillMaxHeight()
+                                        .width(settingsState.borderWidth)
+                                        .background(
+                                            MaterialTheme.colorScheme.outlineVariant(
+                                                0.3f,
+                                                DrawerDefaults.containerColor
+                                            )
+                                        )
                                 )
                             }
                         }
-                    )
+
+                        val cutout = WindowInsets.displayCutout.asPaddingValues()
+                        LazyVerticalStaggeredGrid(
+                            modifier = Modifier
+                                .fillMaxHeight()
+                                .weight(1f),
+                            columns = StaggeredGridCells.Adaptive(220.dp),
+                            verticalItemSpacing = 12.dp,
+                            horizontalArrangement = Arrangement.spacedBy(
+                                12.dp,
+                                Alignment.CenterHorizontally
+                            ),
+                            contentPadding = PaddingValues(
+                                bottom = 12.dp + if (isGrid) {
+                                    WindowInsets
+                                        .navigationBars
+                                        .asPaddingValues()
+                                        .calculateBottomPadding() + if (!compactHeight) {
+                                        128.dp
+                                    } else 0.dp
+                                } else 0.dp,
+                                top = 12.dp,
+                                end = 12.dp + cutout.calculateEndPadding(LocalLayoutDirection.current),
+                                start = 12.dp + cutout.calculateStartPadding(LocalLayoutDirection.current)
+                            ),
+                            content = {
+                                if (!settingsState.groupOptionsByTypes) {
+                                    items(screenList) { screen ->
+                                        PreferenceItemOverload(
+                                            onClick = {
+                                                navController.popUpTo { it == Screen.Main }
+                                                navController.navigate(screen)
+                                            },
+                                            onLongClick = {
+                                                showArrangementSheet.value = true
+                                            },
+                                            modifier = Modifier.fillMaxWidth(),
+                                            title = stringResource(screen.title),
+                                            subtitle = stringResource(screen.subtitle),
+                                            icon = {
+                                                Icon(screen.icon!!, null)
+                                            },
+                                            color = MaterialTheme.colorScheme.surfaceColorAtElevation(
+                                                1.dp
+                                            )
+                                        )
+                                    }
+                                } else {
+                                    items(Screen.typedEntries[currentPage].first) { screen ->
+                                        PreferenceItemOverload(
+                                            onClick = {
+                                                navController.popUpTo { it == Screen.Main }
+                                                navController.navigate(screen)
+                                            },
+                                            onLongClick = {
+                                                showArrangementSheet.value = true
+                                            },
+                                            modifier = Modifier.fillMaxWidth(),
+                                            title = stringResource(screen.title),
+                                            subtitle = stringResource(screen.subtitle),
+                                            icon = {
+                                                Icon(screen.icon!!, null)
+                                            },
+                                            color = MaterialTheme.colorScheme.surfaceColorAtElevation(
+                                                1.dp
+                                            )
+                                        )
+                                    }
+                                }
+                            }
+                        )
+                    }
 
                     if (isSheetSlideable) {
-                        BottomAppBar(
-                            modifier = Modifier.drawHorizontalStroke(top = true),
-                            actions = {
-                                Button(
-                                    colors = ButtonDefaults.outlinedButtonColors(
-                                        containerColor = MaterialTheme.colorScheme.secondaryContainer,
-                                        contentColor = MaterialTheme.colorScheme.onSecondaryContainer.copy(
-                                            alpha = 0.5f
+                        AnimatedContent(
+                            targetState = settingsState.groupOptionsByTypes,
+                            transitionSpec = { fadeIn() togetherWith fadeOut() }
+                        ) { groupOptionsByTypes ->
+                            if (groupOptionsByTypes) {
+                                NavigationBar(
+                                    modifier = Modifier.drawHorizontalStroke(top = true),
+                                ) {
+                                    Screen.typedEntries.forEachIndexed { index, (_, data) ->
+                                        val selected = index == currentPage
+                                        NavigationBarItem(
+                                            selected = selected,
+                                            onClick = { currentPage = index },
+                                            icon = {
+                                                Icon(
+                                                    if (selected) data.second else data.third,
+                                                    null
+                                                )
+                                            },
+                                            label = {
+                                                Text(stringResource(data.first))
+                                            }
                                         )
-                                    ),
-                                    border = BorderStroke(
-                                        settingsState.borderWidth,
-                                        MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.secondaryContainer)
-                                    ),
-                                    elevation = if (settingsState.borderWidth > 0.dp) {
-                                        null
-                                    } else {
-                                        ButtonDefaults.elevatedButtonElevation()
+                                    }
+                                }
+                            } else {
+                                BottomAppBar(
+                                    modifier = Modifier.drawHorizontalStroke(top = true),
+                                    actions = {
+                                        Button(
+                                            colors = ButtonDefaults.outlinedButtonColors(
+                                                containerColor = MaterialTheme.colorScheme.secondaryContainer,
+                                                contentColor = MaterialTheme.colorScheme.onSecondaryContainer.copy(
+                                                    alpha = 0.5f
+                                                )
+                                            ),
+                                            border = BorderStroke(
+                                                settingsState.borderWidth,
+                                                MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.secondaryContainer)
+                                            ),
+                                            elevation = if (settingsState.borderWidth > 0.dp) {
+                                                null
+                                            } else {
+                                                ButtonDefaults.elevatedButtonElevation()
+                                            },
+                                            modifier = Modifier
+                                                .padding(horizontal = 16.dp)
+                                                .pulsate(enabled = viewModel.updateAvailable),
+                                            onClick = {
+                                                viewModel.tryGetUpdate(
+                                                    newRequest = true,
+                                                    onNoUpdates = {
+                                                        scope.launch {
+                                                            toastHost.showToast(
+                                                                icon = Icons.Rounded.FileDownloadOff,
+                                                                message = context.getString(R.string.no_updates)
+                                                            )
+                                                        }
+                                                    }
+                                                )
+                                            }
+                                        ) {
+                                            Text(
+                                                stringResource(R.string.version) + " ${BuildConfig.VERSION_NAME} (${BuildConfig.VERSION_CODE})"
+                                            )
+                                        }
                                     },
-                                    modifier = Modifier
-                                        .padding(horizontal = 16.dp)
-                                        .pulsate(enabled = viewModel.updateAvailable),
-                                    onClick = {
-                                        viewModel.tryGetUpdate(
-                                            newRequest = true,
-                                            onNoUpdates = {
-                                                scope.launch {
-                                                    toastHost.showToast(
-                                                        icon = Icons.Rounded.FileDownloadOff,
-                                                        message = context.getString(R.string.no_updates)
+                                    floatingActionButton = {
+                                        FloatingActionButton(
+                                            onClick = {
+                                                if (context.verifyInstallerId()) {
+                                                    try {
+                                                        context.startActivity(
+                                                            Intent(
+                                                                Intent.ACTION_VIEW,
+                                                                Uri.parse("market://details?id=${context.packageName}")
+                                                            )
+                                                        )
+                                                    } catch (e: ActivityNotFoundException) {
+                                                        context.startActivity(
+                                                            Intent(
+                                                                Intent.ACTION_VIEW,
+                                                                Uri.parse("https://play.google.com/store/apps/details?id=${context.packageName}")
+                                                            )
+                                                        )
+                                                    }
+                                                } else {
+                                                    context.startActivity(
+                                                        Intent(
+                                                            Intent.ACTION_VIEW,
+                                                            Uri.parse(APP_LINK)
+                                                        )
                                                     )
+                                                }
+                                            },
+                                            modifier = Modifier
+                                                .fabBorder()
+                                                .requiredSize(size = 56.dp),
+                                            elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
+                                            content = {
+                                                if (context.verifyInstallerId()) {
+                                                    Icon(
+                                                        Icons.Rounded.GooglePlay,
+                                                        null,
+                                                        modifier = Modifier.offset(1.5.dp)
+                                                    )
+                                                } else {
+                                                    Icon(Icons.Rounded.Github, null)
                                                 }
                                             }
                                         )
                                     }
-                                ) {
-                                    Text(
-                                        stringResource(R.string.version) + " ${BuildConfig.VERSION_NAME} (${BuildConfig.VERSION_CODE})"
-                                    )
-                                }
-                            },
-                            floatingActionButton = {
-                                FloatingActionButton(
-                                    onClick = {
-                                        if (context.verifyInstallerId()) {
-                                            try {
-                                                context.startActivity(
-                                                    Intent(
-                                                        Intent.ACTION_VIEW,
-                                                        Uri.parse("market://details?id=${context.packageName}")
-                                                    )
-                                                )
-                                            } catch (e: ActivityNotFoundException) {
-                                                context.startActivity(
-                                                    Intent(
-                                                        Intent.ACTION_VIEW,
-                                                        Uri.parse("https://play.google.com/store/apps/details?id=${context.packageName}")
-                                                    )
-                                                )
-                                            }
-                                        } else {
-                                            context.startActivity(
-                                                Intent(
-                                                    Intent.ACTION_VIEW,
-                                                    Uri.parse(APP_LINK)
-                                                )
-                                            )
-                                        }
-                                    },
-                                    modifier = Modifier
-                                        .fabBorder()
-                                        .requiredSize(size = 56.dp),
-                                    elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
-                                    content = {
-                                        if (context.verifyInstallerId()) {
-                                            Icon(
-                                                Icons.Rounded.GooglePlay,
-                                                null,
-                                                modifier = Modifier.offset(1.5.dp)
-                                            )
-                                        } else {
-                                            Icon(Icons.Rounded.Github, null)
-                                        }
-                                    }
                                 )
                             }
-                        )
+                        }
                     }
                 }
                 if (!isSheetSlideable && !compactHeight) {

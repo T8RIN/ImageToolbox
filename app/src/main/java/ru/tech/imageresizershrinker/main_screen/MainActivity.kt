@@ -83,7 +83,8 @@ class MainActivity : M3Activity() {
                     selectedEmoji = Emoji.allIcons.getOrNull(viewModel.selectedEmoji),
                     imagePickerModeInt = viewModel.imagePickerModeInt,
                     emojisCount = viewModel.emojisCount,
-                    clearCacheOnLaunch = viewModel.clearCacheOnLaunch
+                    clearCacheOnLaunch = viewModel.clearCacheOnLaunch,
+                    groupOptionsByType = viewModel.groupOptionsByType
                 ),
                 LocalNavController provides viewModel.navController,
                 LocalEditPresetsState provides editPresetsState,

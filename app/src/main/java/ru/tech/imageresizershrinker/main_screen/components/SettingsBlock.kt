@@ -607,6 +607,15 @@ fun LazyListScope.SettingsBlock(
                     .fillMaxWidth()
                     .padding(horizontal = 16.dp)
             )
+            Spacer(Modifier.height(8.dp))
+            PreferenceRowSwitch(
+                title = stringResource(R.string.group_options_by_type),
+                subtitle = stringResource(R.string.group_options_by_type_sub),
+                checked = settingsState.groupOptionsByTypes,
+                onClick = {
+                    viewModel.updateGroupOptionsByTypes(it)
+                }
+            )
             Spacer(Modifier.height(16.dp))
         }
         Divider()

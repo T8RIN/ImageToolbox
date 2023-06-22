@@ -2,6 +2,8 @@ package ru.tech.imageresizershrinker.main_screen.viewModel
 
 import android.net.Uri
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableFloatStateOf
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
@@ -38,6 +40,7 @@ import ru.tech.imageresizershrinker.common.DYNAMIC_COLORS
 import ru.tech.imageresizershrinker.common.EMOJI
 import ru.tech.imageresizershrinker.common.EMOJI_COUNT
 import ru.tech.imageresizershrinker.common.FILENAME_PREFIX
+import ru.tech.imageresizershrinker.common.GROUP_OPTIONS
 import ru.tech.imageresizershrinker.common.IMAGE_MONET
 import ru.tech.imageresizershrinker.common.NIGHT_MODE
 import ru.tech.imageresizershrinker.common.ORDER
@@ -59,10 +62,10 @@ class MainViewModel @Inject constructor(
     private val dataStore: DataStore<Preferences>
 ) : ViewModel() {
 
-    private val _imagePickerModeInt = mutableStateOf(0)
+    private val _imagePickerModeInt = mutableIntStateOf(0)
     val imagePickerModeInt by _imagePickerModeInt
 
-    private val _emojisCount = mutableStateOf(1)
+    private val _emojisCount = mutableIntStateOf(1)
     val emojisCount by _emojisCount
 
     private val _addSizeInFilename = mutableStateOf(false)
@@ -74,16 +77,16 @@ class MainViewModel @Inject constructor(
     private val _addSequenceNumber = mutableStateOf(true)
     val addSequenceNumber by _addSequenceNumber
 
-    private val _selectedEmoji = mutableStateOf(0)
+    private val _selectedEmoji = mutableIntStateOf(0)
     val selectedEmoji by _selectedEmoji
 
-    private val _alignment = mutableStateOf(1)
+    private val _alignment = mutableIntStateOf(1)
     val alignment by _alignment
 
     private val _saveFolderUri = mutableStateOf<Uri?>(null)
     val saveFolderUri by _saveFolderUri
 
-    private val _nightMode = mutableStateOf(2)
+    private val _nightMode = mutableIntStateOf(2)
     val nightMode by _nightMode
 
     private val _dynamicColors = mutableStateOf(true)
@@ -101,7 +104,7 @@ class MainViewModel @Inject constructor(
     private val _colorTupleList = mutableStateOf(emptyList<ColorTuple>())
     val colorTupleList by _colorTupleList
 
-    private val _borderWidth = mutableStateOf(1f)
+    private val _borderWidth = mutableFloatStateOf(1f)
     val borderWidth by _borderWidth
 
     private val _localPresets = mutableStateOf(emptyList<Int>())
@@ -135,6 +138,9 @@ class MainViewModel @Inject constructor(
     private val _clearCacheOnLaunch = mutableStateOf(false)
     val clearCacheOnLaunch by _clearCacheOnLaunch
 
+    private val _groupOptionsByType = mutableStateOf(true)
+    val groupOptionsByType by _groupOptionsByType
+
     private val _screenList = mutableStateOf(Screen.entries)
     val screenList by _screenList
 
@@ -149,7 +155,7 @@ class MainViewModel @Inject constructor(
     init {
         runBlocking {
             dataStore.edit { prefs ->
-                _nightMode.value = prefs[NIGHT_MODE] ?: 2
+                _nightMode.intValue = prefs[NIGHT_MODE] ?: 2
                 _dynamicColors.value = prefs[DYNAMIC_COLORS] ?: true
                 _amoledMode.value = prefs[AMOLED_MODE] ?: false
                 _appColorTuple.value = (prefs[APP_COLOR]?.let { tuple ->
@@ -162,15 +168,16 @@ class MainViewModel @Inject constructor(
                         surface = colorTuple.getOrNull(3)?.toIntOrNull()?.let { Color(it) },
                     )
                 }) ?: defaultColorTuple
-                _borderWidth.value = prefs[BORDER_WIDTH] ?: 1f
+                _borderWidth.floatValue = prefs[BORDER_WIDTH] ?: 1f
                 _showDialogOnStartUp.value = prefs[SHOW_DIALOG] ?: true
-                _selectedEmoji.value = prefs[EMOJI] ?: 0
+                _selectedEmoji.intValue = prefs[EMOJI] ?: 0
                 _screenList.value = prefs[ORDER]?.split("/")?.map {
                     val id = it.toInt()
                     Screen.entries[id]
                 } ?: Screen.entries
-                _emojisCount.value = prefs[EMOJI_COUNT] ?: 1
+                _emojisCount.intValue = prefs[EMOJI_COUNT] ?: 1
                 _clearCacheOnLaunch.value = prefs[AUTO_CACHE_CLEAR] ?: false
+                _groupOptionsByType.value = prefs[GROUP_OPTIONS] ?: true
             }
         }
         dataStore.data.onEach { prefs ->
@@ -178,7 +185,7 @@ class MainViewModel @Inject constructor(
                 if (uri.isEmpty()) null
                 else Uri.parse(uri)
             }
-            _nightMode.value = prefs[NIGHT_MODE] ?: 2
+            _nightMode.intValue = prefs[NIGHT_MODE] ?: 2
             _dynamicColors.value = prefs[DYNAMIC_COLORS] ?: true
             _allowImageMonet.value = prefs[IMAGE_MONET] ?: true
             _amoledMode.value = prefs[AMOLED_MODE] ?: false
@@ -192,27 +199,28 @@ class MainViewModel @Inject constructor(
                     surface = colorTuple.getOrNull(3)?.toIntOrNull()?.let { Color(it) },
                 )
             }) ?: defaultColorTuple
-            _borderWidth.value = prefs[BORDER_WIDTH] ?: 1f
+            _borderWidth.floatValue = prefs[BORDER_WIDTH] ?: 1f
             _localPresets.value = ((prefs[PRESETS]?.split("*")?.map {
                 it.toInt()
             } ?: emptyList()) + List(7) { 100 - it * 10 }).toSortedSet().reversed().toList()
 
             _colorTupleList.value = prefs[COLOR_TUPLES].toColorTupleList()
 
-            _alignment.value = prefs[ALIGNMENT] ?: 1
+            _alignment.intValue = prefs[ALIGNMENT] ?: 1
             _showDialogOnStartUp.value = prefs[SHOW_DIALOG] ?: true
             _filenamePrefix.value = prefs[FILENAME_PREFIX] ?: ""
-            _selectedEmoji.value = prefs[EMOJI] ?: 0
+            _selectedEmoji.intValue = prefs[EMOJI] ?: 0
             _addSizeInFilename.value = prefs[ADD_SIZE] ?: false
-            _imagePickerModeInt.value = prefs[PICKER_MODE] ?: 0
+            _imagePickerModeInt.intValue = prefs[PICKER_MODE] ?: 0
             _screenList.value = prefs[ORDER]?.split("/")?.map {
                 val id = it.toInt()
                 Screen.entries[id]
             } ?: Screen.entries
-            _emojisCount.value = prefs[EMOJI_COUNT] ?: 1
+            _emojisCount.intValue = prefs[EMOJI_COUNT] ?: 1
             _addOriginalFilename.value = prefs[ADD_ORIGINAL_NAME] ?: false
             _addSequenceNumber.value = prefs[ADD_SEQ_NUM] ?: true
             _clearCacheOnLaunch.value = prefs[AUTO_CACHE_CLEAR] ?: false
+            _groupOptionsByType.value = prefs[GROUP_OPTIONS] ?: true
         }.launchIn(viewModelScope)
         tryGetUpdate(showDialog = showDialogOnStartUp)
     }
@@ -443,8 +451,8 @@ class MainViewModel @Inject constructor(
 
     fun updateOrder(data: List<Screen>) {
         viewModelScope.launch {
-            dataStore.edit {
-                it[ORDER] = data.joinToString("/") { it.id.toString() }
+            dataStore.edit { prefs ->
+                prefs[ORDER] = data.joinToString("/") { it.id.toString() }
             }
         }
     }
@@ -453,6 +461,14 @@ class MainViewModel @Inject constructor(
         viewModelScope.launch {
             dataStore.edit {
                 it[AUTO_CACHE_CLEAR] = value
+            }
+        }
+    }
+
+    fun updateGroupOptionsByTypes(value: Boolean) {
+        viewModelScope.launch {
+            dataStore.edit {
+                it[GROUP_OPTIONS] = value
             }
         }
     }

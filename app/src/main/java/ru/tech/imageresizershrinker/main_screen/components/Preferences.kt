@@ -372,21 +372,33 @@ fun PreferenceItemOverload(
                     .padding(16.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                icon?.let {
-                    it()
-                    Spacer(modifier = Modifier.width(16.dp))
+                AnimatedContent(
+                    targetState = icon,
+                    transitionSpec = { fadeIn() togetherWith fadeOut() }
+                ) { icon ->
+                    icon?.let {
+                        Row {
+                            it()
+                            Spacer(modifier = Modifier.width(16.dp))
+                        }
+                    }
                 }
                 Column(
                     Modifier
                         .weight(1f)
                         .padding(end = 16.dp)
                 ) {
-                    Text(
-                        text = title,
-                        fontSize = 16.sp,
-                        fontWeight = FontWeight.Medium,
-                        lineHeight = 18.sp
-                    )
+                    AnimatedContent(
+                        targetState = title,
+                        transitionSpec = { fadeIn() togetherWith fadeOut() }
+                    ) { title ->
+                        Text(
+                            text = title,
+                            fontSize = 16.sp,
+                            fontWeight = FontWeight.Medium,
+                            lineHeight = 18.sp
+                        )
+                    }
                     AnimatedContent(
                         targetState = subtitle,
                         transitionSpec = { fadeIn() togetherWith fadeOut() }

@@ -4,7 +4,9 @@ import android.net.Uri
 import android.os.Parcelable
 import androidx.annotation.StringRes
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.Draw
 import androidx.compose.material.icons.outlined.Margin
+import androidx.compose.material.icons.outlined.PhotoSizeSelectLarge
 import androidx.compose.material.icons.rounded.Colorize
 import androidx.compose.material.icons.rounded.Compare
 import androidx.compose.material.icons.rounded.Crop
@@ -22,6 +24,7 @@ import kotlinx.parcelize.Parcelize
 import kotlinx.parcelize.RawValue
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.theme.icons.PaletteSwatch
+import ru.tech.imageresizershrinker.theme.icons.Toolbox
 
 @Parcelize
 sealed class Screen(
@@ -145,6 +148,40 @@ sealed class Screen(
             DeleteExif(),
             Compare(),
             LimitResize()
+        )
+        val typedEntries = listOf(
+            listOf(
+                SingleResize(),
+                BatchResize(),
+                ResizeByBytes(),
+                LimitResize()
+            ) to Triple(
+                R.string.edit,
+                Icons.Rounded.PhotoSizeSelectLarge,
+                Icons.Outlined.PhotoSizeSelectLarge
+            ),
+            listOf(
+                Crop(),
+                Filter(),
+                Draw(),
+                DeleteExif(),
+            ) to Triple(
+                R.string.compose,
+                Icons.Rounded.Draw,
+                Icons.Outlined.Draw
+            ),
+            listOf(
+                Cipher(),
+                PickColorFromImage(),
+                Compare(),
+                ImagePreview(),
+                LoadNetImage(),
+                GeneratePalette(),
+            ) to Triple(
+                R.string.tools,
+                Icons.Rounded.Toolbox,
+                Icons.Outlined.Toolbox
+            )
         )
     }
 }

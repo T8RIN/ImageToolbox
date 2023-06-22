@@ -29,6 +29,7 @@ interface SettingsState {
     val selectedEmoji: ImageVector?
     val imagePickerModeInt: Int
     val clearCacheOnLaunch: Boolean
+    val groupOptionsByTypes: Boolean
 }
 
 @Stable
@@ -44,7 +45,8 @@ private data class SettingsStateImpl(
     override val fabAlignment: Alignment,
     override val selectedEmoji: ImageVector?,
     override val imagePickerModeInt: Int,
-    override val clearCacheOnLaunch: Boolean
+    override val clearCacheOnLaunch: Boolean,
+    override val groupOptionsByTypes: Boolean
 ) : SettingsState
 
 fun SettingsState(
@@ -59,7 +61,8 @@ fun SettingsState(
     fabAlignment: Alignment,
     selectedEmoji: ImageVector?,
     imagePickerModeInt: Int,
-    clearCacheOnLaunch: Boolean
+    clearCacheOnLaunch: Boolean,
+    groupOptionsByType: Boolean
 ): SettingsState = SettingsStateImpl(
     isNightMode = isNightMode,
     isDynamicColors = isDynamicColors,
@@ -72,7 +75,8 @@ fun SettingsState(
     fabAlignment = fabAlignment,
     selectedEmoji = selectedEmoji,
     imagePickerModeInt = imagePickerModeInt,
-    clearCacheOnLaunch = clearCacheOnLaunch
+    clearCacheOnLaunch = clearCacheOnLaunch,
+    groupOptionsByTypes = groupOptionsByType
 )
 
 @Composable
@@ -88,7 +92,8 @@ fun rememberSettingsState(
     fabAlignment: Alignment = Alignment.Center,
     selectedEmoji: ImageVector? = null,
     imagePickerModeInt: Int = 0,
-    clearCacheOnLaunch: Boolean = false
+    clearCacheOnLaunch: Boolean = false,
+    groupOptionsByType: Boolean = true
 ): SettingsState = remember(
     isNightMode,
     isDynamicColors,
@@ -101,7 +106,8 @@ fun rememberSettingsState(
     fabAlignment,
     selectedEmoji,
     imagePickerModeInt,
-    clearCacheOnLaunch
+    clearCacheOnLaunch,
+    groupOptionsByType
 ) {
     derivedStateOf {
         SettingsState(
@@ -116,7 +122,8 @@ fun rememberSettingsState(
             fabAlignment = fabAlignment,
             selectedEmoji = selectedEmoji,
             imagePickerModeInt = imagePickerModeInt,
-            clearCacheOnLaunch = clearCacheOnLaunch
+            clearCacheOnLaunch = clearCacheOnLaunch,
+            groupOptionsByType = groupOptionsByType
         )
     }
 }.value
