@@ -136,7 +136,7 @@ fun DrawColorSelector(drawController: DrawController) {
                             .size(
                                 animateDpAsState(
                                     40.dp.times(
-                                        if (drawController.paintOptions.color == alphaColor) {
+                                        if (drawController.paintOptions.color == alphaColor && customColor == null) {
                                             1.3f
                                         } else 1f
                                     )

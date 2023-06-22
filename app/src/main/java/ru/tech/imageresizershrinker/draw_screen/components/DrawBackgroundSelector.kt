@@ -135,7 +135,7 @@ fun DrawBackgroundSelector(drawController: DrawController) {
                             .size(
                                 animateDpAsState(
                                     40.dp.times(
-                                        if (drawController.backgroundColor == color) {
+                                        if (drawController.backgroundColor == color && customColor == null) {
                                             1.3f
                                         } else 1f
                                     )
