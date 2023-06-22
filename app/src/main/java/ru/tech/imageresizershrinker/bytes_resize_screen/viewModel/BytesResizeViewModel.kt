@@ -5,6 +5,8 @@ import android.net.Uri
 import android.os.Build
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableLongStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
@@ -14,7 +16,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import ru.tech.imageresizershrinker.common.SAVE_FOLDER
@@ -39,7 +40,7 @@ class BytesResizeViewModel @Inject constructor(
     private val _canSave = mutableStateOf(false)
     val canSave by _canSave
 
-    private val _presetSelected = mutableStateOf(-1)
+    private val _presetSelected: MutableState<Int> = mutableIntStateOf(-1)
     val presetSelected by _presetSelected
 
     private val _handMode = mutableStateOf(true)
@@ -60,16 +61,16 @@ class BytesResizeViewModel @Inject constructor(
     private val _previewBitmap: MutableState<Bitmap?> = mutableStateOf(null)
     val previewBitmap: Bitmap? by _previewBitmap
 
-    private val _done: MutableState<Int> = mutableStateOf(0)
+    private val _done: MutableState<Int> = mutableIntStateOf(0)
     val done by _done
 
     private val _selectedUri: MutableState<Uri?> = mutableStateOf(null)
     val selectedUri by _selectedUri
 
-    private val _maxBytes = mutableStateOf(0L)
+    private val _maxBytes: MutableState<Long> = mutableLongStateOf(0L)
     val maxBytes by _maxBytes
 
-    private val _mime = mutableStateOf(0)
+    private val _mime: MutableState<Int> = mutableIntStateOf(0)
     val mime by _mime
 
     fun setMime(mime: Int) {
@@ -141,8 +142,6 @@ class BytesResizeViewModel @Inject constructor(
         }
     }
 
-    private var job: Job? = null
-
     fun setKeepExif(boolean: Boolean) {
         _keepExif.value = boolean
     }
@@ -182,29 +181,28 @@ class BytesResizeViewModel @Inject constructor(
                                 val localBitmap = scaled.first
 
                                 val writeTo: (SavingFolder) -> Unit = { savingFolder ->
-                                    savingFolder.outputStream.use {
+                                    savingFolder.outputStream?.use { outputStream ->
                                         localBitmap.compress(
                                             mime.extension.compressFormat,
                                             scaled.second,
-                                            it
+                                            outputStream
                                         )
-                                    }
-
-                                    if (keepExif) {
-                                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                                            val fd =
-                                                fileController.getFileDescriptorFor(savingFolder.fileUri)
-                                            fd?.fileDescriptor?.let {
-                                                val ex = ExifInterface(it)
+                                        if (keepExif) {
+                                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                                                val fd =
+                                                    fileController.getFileDescriptorFor(savingFolder.fileUri)
+                                                fd?.fileDescriptor?.let {
+                                                    val ex = ExifInterface(it)
+                                                    exif?.copyTo(ex)
+                                                    ex.saveAttributes()
+                                                }
+                                                fd?.close()
+                                            } else {
+                                                val image = savingFolder.file!!
+                                                val ex = ExifInterface(image)
                                                 exif?.copyTo(ex)
                                                 ex.saveAttributes()
                                             }
-                                            fd?.close()
-                                        } else {
-                                            val image = savingFolder.file!!
-                                            val ex = ExifInterface(image)
-                                            exif?.copyTo(ex)
-                                            ex.saveAttributes()
                                         }
                                     }
                                 }
