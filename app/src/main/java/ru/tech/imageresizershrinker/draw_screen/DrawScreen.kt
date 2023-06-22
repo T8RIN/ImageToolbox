@@ -9,6 +9,11 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.slideInHorizontally
+import androidx.compose.animation.slideOutHorizontally
+import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -109,6 +114,7 @@ import com.t8rin.drawbox.presentation.compose.DrawBox
 import com.t8rin.dynamic.theme.LocalDynamicThemeState
 import com.t8rin.dynamic.theme.getAppColorTuple
 import com.t8rin.dynamic.theme.observeAsState
+import dev.olshevski.navigation.reimagined.AnimatedNavHost
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.draw_screen.components.DrawAlphaSelector
@@ -396,17 +402,17 @@ fun DrawScreen(
                         },
                     )
                 }
-                AnimatedContent(
+                AnimatedNavHost(
                     modifier = Modifier.weight(1f),
-                    targetState = Pair(
-                        viewModel.drawBehavior,
-                        portrait
-                    )
-                ) { (drawBehavior, isPortrait) ->
+                    controller = viewModel.navController,
+                    transitionSpec = { _, _, _ ->
+                        fadeIn() togetherWith fadeOut()
+                    }
+                ) { drawBehavior ->
                     val drawController = viewModel.drawController
                     when (drawBehavior) {
                         is DrawBehavior.Background -> {
-                            if (isPortrait) {
+                            if (portrait) {
                                 DrawBox(
                                     modifier = Modifier
                                         .fillMaxSize()
@@ -571,7 +577,7 @@ fun DrawScreen(
                         }
 
                         is DrawBehavior.Image -> {
-                            if (isPortrait) {
+                            if (portrait) {
                                 DrawBox(
                                     modifier = Modifier
                                         .fillMaxSize()
@@ -741,180 +747,193 @@ fun DrawScreen(
                         }
 
                         is DrawBehavior.None -> {
-                            val cutout = WindowInsets.displayCutout.asPaddingValues()
-                            LazyVerticalStaggeredGrid(
-                                modifier = Modifier.fillMaxSize(),
-                                columns = StaggeredGridCells.Adaptive(400.dp),
-                                horizontalArrangement = Arrangement.spacedBy(
-                                    12.dp,
-                                    Alignment.CenterHorizontally
-                                ),
-                                verticalItemSpacing = 12.dp,
-                                contentPadding = PaddingValues(
-                                    bottom = 12.dp + WindowInsets
-                                        .navigationBars
-                                        .asPaddingValues()
-                                        .calculateBottomPadding(),
-                                    top = 12.dp,
-                                    end = 12.dp + cutout.calculateEndPadding(LocalLayoutDirection.current),
-                                    start = 12.dp + cutout.calculateStartPadding(
-                                        LocalLayoutDirection.current
-                                    )
-                                ),
-                            ) {
-                                item {
-                                    PreferenceItem(
-                                        onClick = pickImage,
-                                        icon = Icons.Rounded.Image,
-                                        title = stringResource(R.string.draw_on_image),
-                                        subtitle = stringResource(R.string.draw_on_image_sub),
-                                        modifier = Modifier.fillMaxWidth()
-                                    )
+                            Column {
+                                val cutout = WindowInsets.displayCutout.asPaddingValues()
+                                LazyVerticalStaggeredGrid(
+                                    modifier = Modifier.weight(1f),
+                                    columns = StaggeredGridCells.Adaptive(400.dp),
+                                    horizontalArrangement = Arrangement.spacedBy(
+                                        12.dp,
+                                        Alignment.CenterHorizontally
+                                    ),
+                                    verticalItemSpacing = 12.dp,
+                                    contentPadding = PaddingValues(
+                                        bottom = 12.dp + WindowInsets
+                                            .navigationBars
+                                            .asPaddingValues()
+                                            .calculateBottomPadding(),
+                                        top = 12.dp,
+                                        end = 12.dp + cutout.calculateEndPadding(
+                                            LocalLayoutDirection.current
+                                        ),
+                                        start = 12.dp + cutout.calculateStartPadding(
+                                            LocalLayoutDirection.current
+                                        )
+                                    ),
+                                ) {
+                                    item {
+                                        PreferenceItem(
+                                            onClick = pickImage,
+                                            icon = Icons.Rounded.Image,
+                                            title = stringResource(R.string.draw_on_image),
+                                            subtitle = stringResource(R.string.draw_on_image_sub),
+                                            modifier = Modifier.fillMaxWidth()
+                                        )
+                                    }
+                                    item {
+                                        PreferenceItem(
+                                            onClick = { showBackgroundDrawingSetup.value = true },
+                                            icon = Icons.Rounded.FormatPaint,
+                                            title = stringResource(R.string.draw_on_background),
+                                            subtitle = stringResource(R.string.draw_on_background_sub),
+                                            modifier = Modifier.fillMaxWidth()
+                                        )
+                                    }
                                 }
-                                item {
-                                    PreferenceItem(
-                                        onClick = { showBackgroundDrawingSetup.value = true },
-                                        icon = Icons.Rounded.FormatPaint,
-                                        title = stringResource(R.string.draw_on_background),
-                                        subtitle = stringResource(R.string.draw_on_background_sub),
-                                        modifier = Modifier.fillMaxWidth()
+                                Row(
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .background(
+                                            MaterialTheme.colorScheme.surfaceColorAtElevation(
+                                                3.dp
+                                            )
+                                        )
+                                        .drawHorizontalStroke(true),
+                                    horizontalArrangement = Arrangement.Center
+                                ) {
+                                    ExtendedFloatingActionButton(
+                                        onClick = pickImage,
+                                        modifier = Modifier
+                                            .navigationBarsPadding()
+                                            .padding(16.dp)
+                                            .fabBorder(),
+                                        elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
+                                        text = {
+                                            Text(stringResource(R.string.pick_image_alt))
+                                        },
+                                        icon = {
+                                            Icon(Icons.Rounded.AddPhotoAlternate, null)
+                                        }
                                     )
                                 }
                             }
                         }
-                    }
-                }
-                if (viewModel.drawBehavior is DrawBehavior.None) {
-                    Row(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .background(MaterialTheme.colorScheme.surfaceColorAtElevation(3.dp))
-                            .drawHorizontalStroke(true),
-                        horizontalArrangement = Arrangement.Center
-                    ) {
-                        ExtendedFloatingActionButton(
-                            onClick = pickImage,
-                            modifier = Modifier
-                                .navigationBarsPadding()
-                                .padding(16.dp)
-                                .fabBorder(),
-                            elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
-                            text = {
-                                Text(stringResource(R.string.pick_image_alt))
-                            },
-                            icon = {
-                                Icon(Icons.Rounded.AddPhotoAlternate, null)
-                            }
-                        )
                     }
                 }
             }
         }
     }
 
-    if (portrait && viewModel.drawBehavior !is DrawBehavior.None) {
-        BottomSheetScaffold(
-            scaffoldState = scaffoldState,
-            sheetPeekHeight = 80.dp + WindowInsets.navigationBars.asPaddingValues()
-                .calculateBottomPadding(),
-            sheetDragHandle = null,
-            sheetShape = RectangleShape,
-            sheetContent = {
-                Column(Modifier.fillMaxHeight(0.8f)) {
-                    BottomAppBar(
-                        modifier = Modifier.drawHorizontalStroke(true),
-                        actions = {
-                            IconButton(
-                                onClick = { viewModel.drawController?.undo() },
-                                enabled = !viewModel.drawController?.lastPaths.isNullOrEmpty() || !viewModel.drawController?.paths.isNullOrEmpty()
-                            ) {
-                                Icon(Icons.Rounded.Undo, null)
-                            }
-                            IconButton(
-                                onClick = { viewModel.drawController?.redo() },
-                                enabled = !viewModel.drawController?.undonePaths.isNullOrEmpty()
-                            ) {
-                                Icon(Icons.Rounded.Redo, null)
-                            }
-                            val isEraserOn = viewModel.drawController?.isEraserOn == true
-                            OutlinedIconButton(
-                                colors = IconButtonDefaults.filledIconButtonColors(
-                                    containerColor = animateColorAsState(
-                                        if (isEraserOn) MaterialTheme.colorScheme.mixedColor
-                                        else Color.Transparent
-                                    ).value,
-                                    contentColor = animateColorAsState(
-                                        if (isEraserOn) MaterialTheme.colorScheme.onMixedColor
-                                        else MaterialTheme.colorScheme.onSurface
-                                    ).value,
-                                    disabledContainerColor = Color.Transparent
-                                ),
-                                border = BorderStroke(
-                                    max(settingsState.borderWidth, 1.dp), animateColorAsState(
-                                        if (isEraserOn) MaterialTheme.colorScheme.outlineVariant
-                                        else Color.Transparent
-                                    ).value
-                                ),
-                                onClick = { viewModel.drawController?.toggleEraser() }
-                            ) {
-                                Icon(Icons.Rounded.Eraser, null)
-                            }
-                        },
-                        floatingActionButton = {
-                            Row {
-                                if (viewModel.drawBehavior is DrawBehavior.Image) {
+    AnimatedContent(
+        targetState = portrait && viewModel.drawBehavior !is DrawBehavior.None,
+        transitionSpec = {
+            fadeIn() togetherWith fadeOut()
+        }
+    ) { showScaffold ->
+        if (showScaffold) {
+            BottomSheetScaffold(
+                scaffoldState = scaffoldState,
+                sheetPeekHeight = 80.dp + WindowInsets.navigationBars.asPaddingValues()
+                    .calculateBottomPadding(),
+                sheetDragHandle = null,
+                sheetShape = RectangleShape,
+                sheetContent = {
+                    Column(Modifier.fillMaxHeight(0.8f)) {
+                        BottomAppBar(
+                            modifier = Modifier.drawHorizontalStroke(true),
+                            actions = {
+                                IconButton(
+                                    onClick = { viewModel.drawController?.undo() },
+                                    enabled = !viewModel.drawController?.lastPaths.isNullOrEmpty() || !viewModel.drawController?.paths.isNullOrEmpty()
+                                ) {
+                                    Icon(Icons.Rounded.Undo, null)
+                                }
+                                IconButton(
+                                    onClick = { viewModel.drawController?.redo() },
+                                    enabled = !viewModel.drawController?.undonePaths.isNullOrEmpty()
+                                ) {
+                                    Icon(Icons.Rounded.Redo, null)
+                                }
+                                val isEraserOn = viewModel.drawController?.isEraserOn == true
+                                OutlinedIconButton(
+                                    colors = IconButtonDefaults.filledIconButtonColors(
+                                        containerColor = animateColorAsState(
+                                            if (isEraserOn) MaterialTheme.colorScheme.mixedColor
+                                            else Color.Transparent
+                                        ).value,
+                                        contentColor = animateColorAsState(
+                                            if (isEraserOn) MaterialTheme.colorScheme.onMixedColor
+                                            else MaterialTheme.colorScheme.onSurface
+                                        ).value,
+                                        disabledContainerColor = Color.Transparent
+                                    ),
+                                    border = BorderStroke(
+                                        max(settingsState.borderWidth, 1.dp), animateColorAsState(
+                                            if (isEraserOn) MaterialTheme.colorScheme.outlineVariant
+                                            else Color.Transparent
+                                        ).value
+                                    ),
+                                    onClick = { viewModel.drawController?.toggleEraser() }
+                                ) {
+                                    Icon(Icons.Rounded.Eraser, null)
+                                }
+                            },
+                            floatingActionButton = {
+                                Row {
+                                    if (viewModel.drawBehavior is DrawBehavior.Image) {
+                                        FloatingActionButton(
+                                            onClick = pickImage,
+                                            modifier = Modifier.fabBorder(),
+                                            containerColor = MaterialTheme.colorScheme.tertiaryContainer,
+                                            elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
+                                        ) {
+                                            Icon(Icons.Rounded.AddPhotoAlternate, null)
+                                        }
+                                        Spacer(modifier = Modifier.width(16.dp))
+                                    }
                                     FloatingActionButton(
-                                        onClick = pickImage,
+                                        onClick = saveBitmap,
                                         modifier = Modifier.fabBorder(),
-                                        containerColor = MaterialTheme.colorScheme.tertiaryContainer,
                                         elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
                                     ) {
-                                        Icon(Icons.Rounded.AddPhotoAlternate, null)
+                                        Icon(Icons.Rounded.Save, null)
                                     }
-                                    Spacer(modifier = Modifier.width(16.dp))
-                                }
-                                FloatingActionButton(
-                                    onClick = saveBitmap,
-                                    modifier = Modifier.fabBorder(),
-                                    elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
-                                ) {
-                                    Icon(Icons.Rounded.Save, null)
                                 }
                             }
-                        }
-                    )
-                    Divider()
-                    viewModel.drawController?.let { drawController ->
-                        LazyColumn {
-                            item {
-                                if (viewModel.drawBehavior is DrawBehavior.Background) {
-                                    DrawBackgroundSelector(drawController)
-                                } else {
-                                    Spacer(Modifier.height(16.dp))
-                                }
-                                DrawColorSelector(drawController)
-                                DrawAlphaSelector(drawController)
-                                LineWidthSelector(drawController)
-                                ExtensionGroup(
-                                    modifier = Modifier
-                                        .padding(16.dp)
-                                        .navigationBarsPadding(),
-                                    orientation = Orientation.Horizontal,
-                                    enabled = viewModel.drawBehavior !is DrawBehavior.None,
-                                    mimeTypeInt = viewModel.mimeType,
-                                    onMimeChange = {
-                                        viewModel.updateMimeType(it)
+                        )
+                        Divider()
+                        viewModel.drawController?.let { drawController ->
+                            LazyColumn {
+                                item {
+                                    if (viewModel.drawBehavior is DrawBehavior.Background) {
+                                        DrawBackgroundSelector(drawController)
+                                    } else {
+                                        Spacer(Modifier.height(16.dp))
                                     }
-                                )
+                                    DrawColorSelector(drawController)
+                                    DrawAlphaSelector(drawController)
+                                    LineWidthSelector(drawController)
+                                    ExtensionGroup(
+                                        modifier = Modifier
+                                            .padding(16.dp)
+                                            .navigationBarsPadding(),
+                                        orientation = Orientation.Horizontal,
+                                        enabled = viewModel.drawBehavior !is DrawBehavior.None,
+                                        mimeTypeInt = viewModel.mimeType,
+                                        onMimeChange = {
+                                            viewModel.updateMimeType(it)
+                                        }
+                                    )
+                                }
                             }
                         }
                     }
-                }
-            },
-            content = content
-        )
-    } else {
-        content(PaddingValues())
+                },
+                content = content
+            )
+        } else {
+            content(PaddingValues())
+        }
     }
 
     if (showSaveLoading || viewModel.isLoading) {

@@ -12,6 +12,8 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.t8rin.drawbox.domain.DrawController
+import dev.olshevski.navigation.reimagined.navController
+import dev.olshevski.navigation.reimagined.navigate
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -31,6 +33,10 @@ class DrawViewModel : ViewModel() {
     var drawController: DrawController? by mutableStateOf(null)
         private set
 
+    val navController = navController<DrawBehavior>(DrawBehavior.None)
+
+    val drawBehavior get() = navController.backstack.entries.last().destination
+
     private val _uri = mutableStateOf(Uri.EMPTY)
     val uri: Uri by _uri
 
@@ -41,9 +47,6 @@ class DrawViewModel : ViewModel() {
 
     private val _isLoading: MutableState<Boolean> = mutableStateOf(false)
     val isLoading: Boolean by _isLoading
-
-    private val _drawBehavior: MutableState<DrawBehavior> = mutableStateOf(DrawBehavior.None)
-    val drawBehavior by _drawBehavior
 
     fun updateMimeType(mime: Int) {
         _mimeType.value = mime
@@ -125,7 +128,9 @@ class DrawViewModel : ViewModel() {
         viewModelScope.launch {
             drawController?.clearPaths()
             _uri.value = uri
-            _drawBehavior.value = DrawBehavior.Image(getDrawOrientation(uri))
+            navController.navigate(
+                DrawBehavior.Image(getDrawOrientation(uri))
+            )
         }
     }
 
@@ -165,7 +170,6 @@ class DrawViewModel : ViewModel() {
     }
 
     fun resetDrawBehavior() {
-        _drawBehavior.value = DrawBehavior.None
         drawController?.apply {
             setDrawBackground(Color.Transparent)
             setColor(Color.Black.toArgb())
@@ -173,6 +177,7 @@ class DrawViewModel : ViewModel() {
             setStrokeWidth(8f)
             clearPaths()
         }
+        navController.navigate(DrawBehavior.None)
         _uri.value = Uri.EMPTY
     }
 
@@ -180,14 +185,16 @@ class DrawViewModel : ViewModel() {
         val width = reqWidth.takeIf { it > 0 } ?: 1
         val height = reqHeight.takeIf { it > 0 } ?: 1
         val imageRatio = width / height.toFloat()
-        _drawBehavior.value = DrawBehavior.Background(
-            orientation = if (imageRatio <= 1f) {
-                ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
-            } else {
-                ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
-            },
-            width = width,
-            height = height
+        navController.navigate(
+            DrawBehavior.Background(
+                orientation = if (imageRatio <= 1f) {
+                    ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
+                } else {
+                    ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
+                },
+                width = width,
+                height = height
+            )
         )
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
