@@ -100,7 +100,6 @@ import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.shareBitmap
 import ru.tech.imageresizershrinker.utils.helper.ContextUtils.requestStoragePermission
 import ru.tech.imageresizershrinker.utils.helper.compressFormat
 import ru.tech.imageresizershrinker.utils.helper.extension
-import ru.tech.imageresizershrinker.utils.modifier.blink
 import ru.tech.imageresizershrinker.utils.modifier.drawHorizontalStroke
 import ru.tech.imageresizershrinker.utils.modifier.fabBorder
 import ru.tech.imageresizershrinker.utils.modifier.navBarsPaddingOnlyIfTheyAtTheBottom
@@ -570,9 +569,7 @@ fun CropScreen(
             sheetShape = RectangleShape,
             sheetContent = {
                 BottomAppBar(
-                    modifier = Modifier
-                        .blink()
-                        .drawHorizontalStroke(true),
+                    modifier = Modifier.drawHorizontalStroke(true),
                     actions = {
                         var job by remember { mutableStateOf<Job?>(null) }
                         OutlinedButton(

@@ -141,7 +141,6 @@ import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.shareBitmap
 import ru.tech.imageresizershrinker.utils.helper.ContextUtils.requestStoragePermission
 import ru.tech.imageresizershrinker.utils.helper.compressFormat
 import ru.tech.imageresizershrinker.utils.helper.extension
-import ru.tech.imageresizershrinker.utils.modifier.blink
 import ru.tech.imageresizershrinker.utils.modifier.block
 import ru.tech.imageresizershrinker.utils.modifier.drawHorizontalStroke
 import ru.tech.imageresizershrinker.utils.modifier.fabBorder
@@ -882,9 +881,7 @@ fun DrawScreen(
                 sheetContent = {
                     Column(Modifier.fillMaxHeight(0.8f)) {
                         BottomAppBar(
-                            modifier = Modifier
-                                .blink()
-                                .drawHorizontalStroke(true),
+                            modifier = Modifier.drawHorizontalStroke(true),
                             actions = {
                                 switch()
                                 IconButton(
