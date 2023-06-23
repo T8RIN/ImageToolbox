@@ -110,7 +110,7 @@ dependencies {
     kapt("com.google.dagger:hilt-compiler:2.46.1")
 
     //Accompanist
-    implementation("com.google.accompanist:accompanist-placeholder-material:0.31.3-beta")
+    implementation("com.google.accompanist:accompanist-placeholder-material:0.31.4-beta")
 
     //Coil
     implementation("io.coil-kt:coil:2.4.0")
