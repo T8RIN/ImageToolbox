@@ -46,9 +46,9 @@ import androidx.compose.material.icons.rounded.AddCircleOutline
 import androidx.compose.material.icons.rounded.AddPhotoAlternate
 import androidx.compose.material.icons.rounded.ArrowBack
 import androidx.compose.material.icons.rounded.Compare
-import androidx.compose.material.icons.rounded.Dataset
 import androidx.compose.material.icons.rounded.Delete
 import androidx.compose.material.icons.rounded.DoneOutline
+import androidx.compose.material.icons.rounded.Fingerprint
 import androidx.compose.material.icons.rounded.History
 import androidx.compose.material.icons.rounded.RemoveCircleOutline
 import androidx.compose.material.icons.rounded.RestartAlt
@@ -903,7 +903,7 @@ fun SingleResizeScreen(
                         ) {
                             TitleItem(
                                 text = stringResource(id = R.string.edit_exif),
-                                icon = Icons.Rounded.Dataset
+                                icon = Icons.Rounded.Fingerprint
                             )
                         }
                         Box {
@@ -1107,7 +1107,7 @@ fun SingleResizeScreen(
                                 ) {
                                     TitleItem(
                                         text = stringResource(R.string.add_tag),
-                                        icon = Icons.Rounded.Dataset
+                                        icon = Icons.Rounded.Fingerprint
                                     )
                                     Spacer(Modifier.weight(1f))
                                     OutlinedButton(

@@ -16,7 +16,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Flip
 import androidx.compose.material.icons.filled.RotateLeft
 import androidx.compose.material.icons.filled.RotateRight
-import androidx.compose.material.icons.rounded.Dataset
+import androidx.compose.material.icons.rounded.Fingerprint
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.MaterialTheme
@@ -67,7 +67,7 @@ fun ImageTransformBar(
             ) {
                 Spacer(Modifier.width(8.dp))
                 Icon(
-                    imageVector = Icons.Rounded.Dataset,
+                    imageVector = Icons.Rounded.Fingerprint,
                     contentDescription = null,
                     tint = MaterialTheme.colorScheme.onSecondaryContainer
                 )
