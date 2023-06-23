@@ -28,8 +28,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.common.APP_LINK
+import ru.tech.imageresizershrinker.theme.icons.FingerprintOff
 import ru.tech.imageresizershrinker.theme.icons.Github
 import ru.tech.imageresizershrinker.theme.icons.PaletteSwatch
+import ru.tech.imageresizershrinker.theme.icons.Resize
 import ru.tech.imageresizershrinker.theme.outlineVariant
 import ru.tech.imageresizershrinker.widget.utils.LocalSettingsState
 
@@ -69,7 +71,7 @@ fun SingleResizePreference(
 ) {
     PreferenceItem(
         onClick = onClick,
-        icon = Icons.Rounded.PhotoSizeSelectLarge,
+        icon = Icons.Filled.Resize,
         title = stringResource(R.string.single_resize),
         subtitle = stringResource(R.string.resize_single_image),
         color = color,
@@ -159,7 +161,7 @@ fun DeleteExifPreference(
 ) {
     PreferenceItem(
         onClick = onClick,
-        icon = Icons.Rounded.Dataset,
+        icon = Icons.Rounded.FingerprintOff,
         title = stringResource(R.string.delete_exif),
         subtitle = stringResource(R.string.delete_exif_sub),
         color = color,

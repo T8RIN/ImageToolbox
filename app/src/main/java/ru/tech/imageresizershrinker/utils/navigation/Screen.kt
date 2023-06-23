@@ -4,7 +4,8 @@ import android.net.Uri
 import android.os.Parcelable
 import androidx.annotation.StringRes
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.Draw
+import androidx.compose.material.icons.filled.AutoAwesome
+import androidx.compose.material.icons.outlined.AutoAwesome
 import androidx.compose.material.icons.outlined.Margin
 import androidx.compose.material.icons.outlined.PhotoSizeSelectSmall
 import androidx.compose.material.icons.rounded.Colorize
@@ -24,6 +25,7 @@ import kotlinx.parcelize.RawValue
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.theme.icons.FingerprintOff
 import ru.tech.imageresizershrinker.theme.icons.PaletteSwatch
+import ru.tech.imageresizershrinker.theme.icons.Resize
 import ru.tech.imageresizershrinker.theme.icons.Toolbox
 
 @Parcelize
@@ -36,7 +38,7 @@ sealed class Screen(
     object Main : Screen(-1, null, 0, 0)
     class SingleResize(val uri: Uri? = null) : Screen(
         id = 0,
-        icon = Icons.Rounded.PhotoSizeSelectLarge,
+        icon = Icons.Filled.Resize,
         title = R.string.single_resize,
         subtitle = R.string.resize_single_image
     )
@@ -167,8 +169,8 @@ sealed class Screen(
                 DeleteExif(),
             ) to Triple(
                 R.string.create,
-                Icons.Rounded.Draw,
-                Icons.Outlined.Draw
+                Icons.Filled.AutoAwesome,
+                Icons.Outlined.AutoAwesome
             ),
             listOf(
                 Cipher(),
