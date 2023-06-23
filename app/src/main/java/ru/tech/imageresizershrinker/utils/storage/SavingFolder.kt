@@ -87,11 +87,14 @@ fun constructFilename(
     return "${prefix}_${
         if (fileParams.addSequenceNumber && saveTarget.sequenceNumber != null) {
             SimpleDateFormat(
-                "yyyy-MM-dd_HH-mm_ss",
+                "yyyy-MM-dd_HH-mm-ss",
                 Locale.getDefault()
             ).format(Date()) + "_" + saveTarget.sequenceNumber
         } else if (saveTarget.uri == Uri.EMPTY && fileParams.addSequenceNumber) {
-            context.getString(R.string.sequence_num)
+            SimpleDateFormat(
+                "yyyy-MM-dd_HH-mm-ss",
+                Locale.getDefault()
+            ).format(Date()) + "_" + context.getString(R.string.sequence_num)
         } else {
             timeStamp
         }
