@@ -263,4 +263,16 @@
     <string name="background_color">Hintergrundfarbe</string>
     <string name="paint_color">Zeichenfarbe</string>
     <string name="draw_on_background_sub">Wähle eine Hintergrundfarbe und zeichne darauf</string>
+    <string name="pick_file">Datei auswählen</string>
+    <string name="features">Eigenschaften</string>
+    <string name="compatibility">Kompatibilität</string>
+    <string name="cipher">Chiffre</string>
+    <string name="cipher_sub">Ver- und Entschlüsselung beliebiger Dateien (nicht nur des Bildes) basierend auf dem AES-Verschlüsselungsalgorithmus</string>
+    <string name="decrypt">Entschlüsseln</string>
+    <string name="implementation">Implementierung</string>
+    <string name="encrypt">Verschlüsseln</string>
+    <string name="pick_file_to_start">Datei zum Starten auswählen</string>
+    <string name="encryption">Verschlüsselung</string>
+    <string name="decryption">Entschlüsselung</string>
+    <string name="key">Schlüssel</string>
 </resources>
