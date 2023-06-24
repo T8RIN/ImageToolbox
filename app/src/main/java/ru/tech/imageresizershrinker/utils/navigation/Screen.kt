@@ -12,7 +12,6 @@ import androidx.compose.material.icons.rounded.Colorize
 import androidx.compose.material.icons.rounded.Compare
 import androidx.compose.material.icons.rounded.Crop
 import androidx.compose.material.icons.rounded.Draw
-import androidx.compose.material.icons.rounded.InsertDriveFile
 import androidx.compose.material.icons.rounded.Photo
 import androidx.compose.material.icons.rounded.PhotoFilter
 import androidx.compose.material.icons.rounded.PhotoLibrary
@@ -24,6 +23,7 @@ import kotlinx.parcelize.Parcelize
 import kotlinx.parcelize.RawValue
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.theme.icons.FingerprintOff
+import ru.tech.imageresizershrinker.theme.icons.Interface
 import ru.tech.imageresizershrinker.theme.icons.PaletteSwatch
 import ru.tech.imageresizershrinker.theme.icons.Resize
 import ru.tech.imageresizershrinker.theme.icons.Toolbox
@@ -52,7 +52,7 @@ sealed class Screen(
 
     class ResizeByBytes(val uris: List<Uri>? = null) : Screen(
         id = 2,
-        icon = Icons.Rounded.InsertDriveFile,
+        icon = Icons.Filled.Interface,
         title = R.string.by_bytes_resize,
         subtitle = R.string.by_bytes_resize_sub
     )

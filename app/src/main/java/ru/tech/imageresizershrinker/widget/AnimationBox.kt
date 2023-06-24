@@ -7,6 +7,7 @@ import androidx.compose.animation.core.MutableTransitionState
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.remember
 
 @Composable
@@ -20,6 +21,9 @@ fun <T> T.AnimationBox(
             // Start the animation immediately.
             targetState = true
         }
+    }
+    DisposableEffect(Unit) {
+        onDispose { state.targetState = false }
     }
 
     AnimatedVisibility(

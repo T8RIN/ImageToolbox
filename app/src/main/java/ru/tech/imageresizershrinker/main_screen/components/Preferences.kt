@@ -30,6 +30,7 @@ import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.common.APP_LINK
 import ru.tech.imageresizershrinker.theme.icons.FingerprintOff
 import ru.tech.imageresizershrinker.theme.icons.Github
+import ru.tech.imageresizershrinker.theme.icons.Interface
 import ru.tech.imageresizershrinker.theme.icons.PaletteSwatch
 import ru.tech.imageresizershrinker.theme.icons.Resize
 import ru.tech.imageresizershrinker.theme.outlineVariant
@@ -143,7 +144,7 @@ fun BytesResizePreference(
 ) {
     PreferenceItem(
         onClick = onClick,
-        icon = Icons.Rounded.InsertDriveFile,
+        icon = Icons.Filled.Interface,
         title = stringResource(R.string.by_bytes_resize),
         subtitle = stringResource(R.string.by_bytes_resize_sub),
         color = color,

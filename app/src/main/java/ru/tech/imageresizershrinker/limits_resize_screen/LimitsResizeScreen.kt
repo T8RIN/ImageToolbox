@@ -4,12 +4,7 @@ import android.content.res.Configuration
 import android.net.Uri
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.BackHandler
-import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
-import androidx.compose.animation.togetherWith
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
@@ -17,6 +12,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.asPaddingValues
@@ -25,32 +21,20 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.ime
 import androidx.compose.foundation.layout.navigationBars
-import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Share
-import androidx.compose.material.icons.rounded.AddPhotoAlternate
 import androidx.compose.material.icons.rounded.ArrowBack
-import androidx.compose.material.icons.rounded.ChangeCircle
-import androidx.compose.material.icons.rounded.Save
 import androidx.compose.material.icons.rounded.ZoomIn
-import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.ExtendedFloatingActionButton
-import androidx.compose.material3.FloatingActionButton
-import androidx.compose.material3.FloatingActionButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.LargeTopAppBar
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedIconButton
 import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.material3.surfaceColorAtElevation
@@ -72,7 +56,6 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewModelScope
 import coil.size.Size
@@ -93,29 +76,27 @@ import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.fileSize
 import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.getBitmapByUri
 import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.shareBitmaps
 import ru.tech.imageresizershrinker.utils.helper.ContextUtils.failedToSaveImages
-import ru.tech.imageresizershrinker.utils.helper.readableByteCount
-import ru.tech.imageresizershrinker.utils.modifier.block
 import ru.tech.imageresizershrinker.utils.modifier.drawHorizontalStroke
-import ru.tech.imageresizershrinker.utils.modifier.fabBorder
 import ru.tech.imageresizershrinker.utils.modifier.navBarsLandscapePadding
 import ru.tech.imageresizershrinker.utils.storage.LocalFileController
 import ru.tech.imageresizershrinker.utils.storage.Picker
 import ru.tech.imageresizershrinker.utils.storage.localImagePickerMode
 import ru.tech.imageresizershrinker.utils.storage.rememberImagePicker
-import ru.tech.imageresizershrinker.widget.Loading
 import ru.tech.imageresizershrinker.widget.LoadingDialog
 import ru.tech.imageresizershrinker.widget.LocalToastHost
 import ru.tech.imageresizershrinker.widget.TopAppBarEmoji
+import ru.tech.imageresizershrinker.widget.buttons.BottomButtonsBlock
 import ru.tech.imageresizershrinker.widget.controls.ExtensionGroup
 import ru.tech.imageresizershrinker.widget.controls.ResizeImageField
 import ru.tech.imageresizershrinker.widget.dialogs.ExitWithoutSavingDialog
+import ru.tech.imageresizershrinker.widget.image.ImageContainer
+import ru.tech.imageresizershrinker.widget.image.ImageCounter
 import ru.tech.imageresizershrinker.widget.image.ImageNotPickedWidget
-import ru.tech.imageresizershrinker.widget.image.SimplePicture
 import ru.tech.imageresizershrinker.widget.imageStickyHeader
 import ru.tech.imageresizershrinker.widget.sheets.PickImageFromUrisSheet
 import ru.tech.imageresizershrinker.widget.sheets.ZoomModalSheet
 import ru.tech.imageresizershrinker.widget.showError
-import ru.tech.imageresizershrinker.widget.text.Marquee
+import ru.tech.imageresizershrinker.widget.text.TopAppBarTitle
 import ru.tech.imageresizershrinker.widget.utils.LocalSettingsState
 import ru.tech.imageresizershrinker.widget.utils.LocalWindowSizeClass
 import ru.tech.imageresizershrinker.widget.utils.isExpanded
@@ -246,35 +227,21 @@ fun LimitsResizeScreen(
             }
         }
     }
+
     val imageBlock = @Composable {
-        AnimatedContent(
+        ImageContainer(
             modifier = Modifier.pointerInput(Unit) {
                 detectTapGestures(
                     onTap = { showPickImageFromUrisDialog = true }
                 )
             },
-            targetState = Triple(viewModel.isLoading, viewModel.bitmap, viewModel.previewBitmap),
-            transitionSpec = { fadeIn() togetherWith fadeOut() }
-        ) { (loading, _, previewBitmap) ->
-            Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                Box(
-                    contentAlignment = Alignment.Center,
-                    modifier = Modifier.then(
-                        if (!imageInside) {
-                            Modifier.padding(
-                                bottom = WindowInsets
-                                    .navigationBars
-                                    .asPaddingValues()
-                                    .calculateBottomPadding()
-                            )
-                        } else Modifier
-                    )
-                ) {
-                    SimplePicture(bitmap = previewBitmap, loading = loading)
-                    if (loading) Loading()
-                }
-            }
-        }
+            imageInside = imageInside,
+            showOriginal = false,
+            previewBitmap = viewModel.previewBitmap,
+            originalBitmap = viewModel.bitmap,
+            isLoading = viewModel.isLoading,
+            shouldShowPreview = true
+        )
     }
 
     val showSheet = rememberSaveable { mutableStateOf(false) }
@@ -290,118 +257,47 @@ fun LimitsResizeScreen(
         }
     }
 
-
-    val buttons = @Composable {
-        AnimatedContent(
-            targetState = (viewModel.uris.isNullOrEmpty()) to imageInside
-        ) { (isNull, inside) ->
-            if (isNull) {
-                ExtendedFloatingActionButton(
-                    onClick = pickImage,
-                    modifier = Modifier
-                        .navigationBarsPadding()
-                        .padding(16.dp)
-                        .fabBorder(),
-                    elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
-                    text = {
-                        Text(stringResource(R.string.pick_image_alt))
-                    },
-                    icon = {
-                        Icon(Icons.Rounded.AddPhotoAlternate, null)
-                    }
-                )
-            } else if (inside) {
-                BottomAppBar(
-                    modifier = Modifier.drawHorizontalStroke(true),
-                    actions = {
-                        if (viewModel.previewBitmap != null) {
-                            IconButton(
-                                onClick = {
-                                    showSaveLoading = true
-                                    context.shareBitmaps(
-                                        uris = viewModel.uris ?: emptyList(),
-                                        scope = viewModel.viewModelScope,
-                                        bitmapLoader = {
-                                            viewModel.proceedBitmap(
-                                                bitmapResult = kotlin.runCatching {
-                                                    context.decodeBitmapByUri(it).first
-                                                }
-                                            )
-                                        },
-                                        onProgressChange = {
-                                            if (it == -1) {
-                                                showSaveLoading = false
-                                                viewModel.setProgress(0)
-                                                showConfetti()
-                                            } else {
-                                                viewModel.setProgress(it)
-                                            }
-                                        }
-                                    )
-                                },
-                                enabled = viewModel.canSave
-                            ) {
-                                Icon(Icons.Outlined.Share, null)
-                            }
-                        }
-                        zoomButton()
-                    },
-                    floatingActionButton = {
-                        Row {
-                            FloatingActionButton(
-                                onClick = pickImage,
-                                modifier = Modifier.fabBorder(),
-                                containerColor = MaterialTheme.colorScheme.tertiaryContainer,
-                                elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation()
-                            ) {
-                                Icon(Icons.Rounded.AddPhotoAlternate, null)
-                            }
-                            AnimatedVisibility(viewModel.canSave) {
-                                Row {
-                                    Spacer(Modifier.width(16.dp))
-                                    FloatingActionButton(
-                                        onClick = saveBitmaps,
-                                        modifier = Modifier.fabBorder(),
-                                        elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation()
-                                    ) {
-                                        Icon(Icons.Rounded.Save, null)
-                                    }
+    val actions: @Composable RowScope.() -> Unit = {
+        if (viewModel.previewBitmap != null) {
+            IconButton(
+                onClick = {
+                    showSaveLoading = true
+                    context.shareBitmaps(
+                        uris = viewModel.uris ?: emptyList(),
+                        scope = viewModel.viewModelScope,
+                        bitmapLoader = {
+                            viewModel.proceedBitmap(
+                                bitmapResult = kotlin.runCatching {
+                                    context.decodeBitmapByUri(it).first
                                 }
+                            )
+                        },
+                        onProgressChange = {
+                            if (it == -1) {
+                                showSaveLoading = false
+                                viewModel.setProgress(0)
+                                showConfetti()
+                            } else {
+                                viewModel.setProgress(it)
                             }
                         }
-                    }
-                )
-            } else {
-                Column(
-                    modifier = Modifier
-                        .fillMaxHeight()
-                        .padding(horizontal = 16.dp)
-                        .navigationBarsPadding(),
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement.Center
-                ) {
-                    Spacer(Modifier.height(16.dp))
-                    FloatingActionButton(
-                        onClick = pickImage,
-                        containerColor = MaterialTheme.colorScheme.tertiaryContainer,
-                        elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
-                        modifier = Modifier.fabBorder(),
-                    ) {
-                        Icon(Icons.Rounded.AddPhotoAlternate, null)
-                    }
-                    Spacer(Modifier.height(16.dp))
-                    AnimatedVisibility(viewModel.canSave) {
-                        FloatingActionButton(
-                            onClick = saveBitmaps,
-                            elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
-                            modifier = Modifier.fabBorder(),
-                        ) {
-                            Icon(Icons.Rounded.Save, null)
-                        }
-                    }
-                }
+                    )
+                },
+                enabled = viewModel.canSave
+            ) {
+                Icon(Icons.Outlined.Share, null)
             }
         }
+        zoomButton()
+    }
+
+    val buttons = @Composable {
+        BottomButtonsBlock(
+            targetState = (viewModel.uris.isNullOrEmpty()) to imageInside,
+            onPickImage = pickImage,
+            onSaveBitmap = saveBitmaps,
+            actions = actions
+        )
     }
 
     ZoomModalSheet(
@@ -431,31 +327,12 @@ fun LimitsResizeScreen(
                     scrollBehavior = scrollBehavior,
                     modifier = Modifier.drawHorizontalStroke(),
                     title = {
-                        Marquee(
-                            edgeColor = MaterialTheme.colorScheme.surfaceColorAtElevation(3.dp)
-                        ) {
-                            AnimatedContent(
-                                targetState = viewModel.isLoading to viewModel.bitmap,
-                                transitionSpec = { fadeIn() togetherWith fadeOut() }
-                            ) { (loading, bmp) ->
-                                val size = viewModel.selectedUri?.fileSize(LocalContext.current)
-                                if (bmp == null) {
-                                    Text(
-                                        stringResource(R.string.limits_resize),
-                                        textAlign = TextAlign.Center
-                                    )
-                                } else if (size != null && !loading) {
-                                    Text(
-                                        stringResource(
-                                            R.string.size,
-                                            readableByteCount(size)
-                                        )
-                                    )
-                                } else {
-                                    Text(stringResource(R.string.loading))
-                                }
-                            }
-                        }
+                        TopAppBarTitle(
+                            title = stringResource(R.string.limits_resize),
+                            bitmap = viewModel.bitmap,
+                            isLoading = viewModel.isLoading,
+                            size = viewModel.selectedUri?.fileSize(LocalContext.current) ?: 0L
+                        )
                     },
                     colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
                         containerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(
@@ -473,39 +350,7 @@ fun LimitsResizeScreen(
                         if (viewModel.bitmap == null) {
                             TopAppBarEmoji()
                         }
-                        if (!imageInside) {
-                            zoomButton()
-                            if (viewModel.previewBitmap != null) {
-                                IconButton(
-                                    onClick = {
-                                        showSaveLoading = true
-                                        context.shareBitmaps(
-                                            uris = viewModel.uris ?: emptyList(),
-                                            scope = viewModel.viewModelScope,
-                                            bitmapLoader = {
-                                                viewModel.proceedBitmap(
-                                                    bitmapResult = kotlin.runCatching {
-                                                        context.decodeBitmapByUri(it).first
-                                                    }
-                                                )
-                                            },
-                                            onProgressChange = {
-                                                if (it == -1) {
-                                                    showSaveLoading = false
-                                                    viewModel.setProgress(0)
-                                                    showConfetti()
-                                                } else {
-                                                    viewModel.setProgress(it)
-                                                }
-                                            }
-                                        )
-                                    },
-                                    enabled = viewModel.canSave
-                                ) {
-                                    Icon(Icons.Outlined.Share, null)
-                                }
-                            }
-                        }
+                        if (!imageInside) actions()
                     }
                 )
                 Row(
@@ -562,49 +407,12 @@ fun LimitsResizeScreen(
                             ) {
                                 if (imageInside && viewModel.bitmap == null) imageBlock()
                                 if (viewModel.bitmap != null) {
-                                    viewModel.uris?.size?.takeIf { it > 1 && !viewModel.isLoading }
-                                        ?.let {
-                                            Row(
-                                                verticalAlignment = Alignment.CenterVertically
-                                            ) {
-                                                Text(
-                                                    stringResource(R.string.images, it),
-                                                    Modifier
-                                                        .block()
-                                                        .padding(
-                                                            vertical = 4.dp,
-                                                            horizontal = 8.dp
-                                                        ),
-                                                    color = MaterialTheme.colorScheme.onSurfaceVariant
-                                                )
-                                                OutlinedIconButton(
-                                                    onClick = {
-                                                        if ((viewModel.uris?.size ?: 0) > 1) {
-                                                            showPickImageFromUrisDialog = true
-                                                        }
-                                                    },
-                                                    border = BorderStroke(
-                                                        settingsState.borderWidth,
-                                                        MaterialTheme.colorScheme.outlineVariant(
-                                                            0.1f,
-                                                            MaterialTheme.colorScheme.surfaceColorAtElevation(
-                                                                1.dp
-                                                            )
-                                                        ),
-                                                    ),
-                                                    shape = RoundedCornerShape(16.dp),
-                                                    colors = IconButtonDefaults.filledIconButtonColors(
-                                                        containerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(
-                                                            1.dp
-                                                        ),
-                                                        contentColor = MaterialTheme.colorScheme.onSurfaceVariant
-                                                    )
-                                                ) {
-                                                    Icon(Icons.Rounded.ChangeCircle, null)
-                                                }
-                                            }
-                                            Spacer(Modifier.height(8.dp))
+                                    ImageCounter(
+                                        imageCount = viewModel.uris?.size?.takeIf { it > 1 && !viewModel.isLoading },
+                                        onRepick = {
+                                            showPickImageFromUrisDialog = true
                                         }
+                                    )
                                     ResizeImageField(
                                         bitmapInfo = viewModel.bitmapInfo,
                                         bitmap = viewModel.bitmap,
