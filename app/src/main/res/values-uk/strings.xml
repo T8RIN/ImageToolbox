@@ -276,11 +276,23 @@
     <string name="key">Ключ</string>
     <string name="store_file_desc">Збережіть цей файл на своєму пристрої або скористайтеся \"Поділитися\", щоб розмістити його де завгодно</string>
     <string name="implementation">Реалізація</string>
-    <string name="features_sub">Шифрування файлів на основі пароля. Зашифровані файли можна зберігати у теці Crypto або надавати до них спільний доступ. Розшифровані файли також можна відкривати безпосередньо.</string>
+    <string name="features_sub">Шифрування файлів на основі пароля. Отримані файли можна зберігати у вибраному каталозі або надавати спільний доступ. Розшифровані файли також можна безпосередньо відкрити.</string>
     <string name="implementation_sub">AES-256, режим GCM, без пробілів, випадкові значення довжиною 12 байт. Ключі використовуються як хеші SHA-3 (256 біт).</string>
     <string name="encrypt">Шифрувати</string>
-    <string name="file_proceed">Продовжити файл</string>
+    <string name="file_proceed">Файл оброблено</string>
     <string name="file_size">Розмір файлу</string>
     <string name="encryption">Шифрування</string>
     <string name="compatibility_sub">Зверніть увагу, що сумісність з іншими програмами або сервісами для шифрування файлів не гарантується. Причиною несумісності може бути дещо інша обробка ключів або конфігурація шифру.</string>
+    <string name="group_options_by_type_sub">Групує параметри на головному екрані за їхнім типом, а не за власним розташуванням списків</string>
+    <string name="invalid_password_or_not_encrypted">Неправильний пароль або вибраний файл не зашифровано</string>
+    <string name="image_size_warning">Спроба зберегти зображення із заданими шириною і висотою може призвести до помилки OOM, робіть це на свій страх і ризик, і не кажіть, що я вас не попереджав!</string>
+    <string name="cache">Кеш</string>
+    <string name="cache_size">Розмір кешу</string>
+    <string name="found_s">Знайдено %1$s</string>
+    <string name="auto_cache_clearing">Автоматичне очищення кешу</string>
+    <string name="auto_cache_clearing_sub">Якщо ввімкнено, кеш застосунку буде очищено під час запуску застосунку</string>
+    <string name="tools">Інструменти</string>
+    <string name="group_options_by_type">Групування параметрів за типом</string>
+    <string name="cannot_change_arrangement_while_options_grouping_enabled">Неможливо змінити розташування, якщо ввімкнено групування параметрів</string>
+    <string name="create">Створити</string>
 </resources>
