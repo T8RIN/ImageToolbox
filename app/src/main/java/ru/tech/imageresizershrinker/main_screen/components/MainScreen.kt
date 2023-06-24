@@ -12,6 +12,7 @@ import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
@@ -150,6 +151,7 @@ import ru.tech.imageresizershrinker.utils.modifier.scaleOnTap
 import ru.tech.imageresizershrinker.utils.navigation.LocalNavController
 import ru.tech.imageresizershrinker.utils.navigation.Screen
 import ru.tech.imageresizershrinker.utils.storage.defaultPrefix
+import ru.tech.imageresizershrinker.widget.AnimationBox
 import ru.tech.imageresizershrinker.widget.LocalToastHost
 import ru.tech.imageresizershrinker.widget.RevealDirection
 import ru.tech.imageresizershrinker.widget.RevealValue
@@ -167,7 +169,7 @@ import kotlin.math.roundToInt
 
 @OptIn(
     ExperimentalMaterial3Api::class,
-    ExperimentalMaterialApi::class
+    ExperimentalMaterialApi::class, ExperimentalFoundationApi::class
 )
 @Composable
 fun MainScreen(
@@ -511,7 +513,10 @@ fun MainScreen(
                             }
                         }
 
-                        val cutout = WindowInsets.displayCutout.asPaddingValues()
+                        val cutout = if (!settingsState.groupOptionsByTypes) {
+                            WindowInsets.displayCutout.asPaddingValues()
+                        } else PaddingValues()
+
                         LazyVerticalStaggeredGrid(
                             modifier = Modifier
                                 .fillMaxHeight()
@@ -536,8 +541,12 @@ fun MainScreen(
                                 start = 12.dp + cutout.calculateStartPadding(LocalLayoutDirection.current)
                             ),
                             content = {
-                                if (!settingsState.groupOptionsByTypes) {
-                                    items(screenList) { screen ->
+                                items(
+                                    if (settingsState.groupOptionsByTypes) {
+                                        Screen.typedEntries[currentPage].first
+                                    } else screenList
+                                ) { screen ->
+                                    AnimationBox {
                                         PreferenceItemOverload(
                                             onClick = {
                                                 navController.popUpTo { it == Screen.Main }
@@ -545,30 +554,11 @@ fun MainScreen(
                                             },
                                             onLongClick = {
                                                 showArrangementSheet.value =
-                                                    settingsState.groupOptionsByTypes
+                                                    !settingsState.groupOptionsByTypes
                                             },
-                                            modifier = Modifier.fillMaxWidth(),
-                                            title = stringResource(screen.title),
-                                            subtitle = stringResource(screen.subtitle),
-                                            icon = {
-                                                Icon(screen.icon!!, null)
-                                            },
-                                            color = MaterialTheme.colorScheme.surfaceColorAtElevation(
-                                                1.dp
-                                            )
-                                        )
-                                    }
-                                } else {
-                                    items(Screen.typedEntries[currentPage].first) { screen ->
-                                        PreferenceItemOverload(
-                                            onClick = {
-                                                navController.popUpTo { it == Screen.Main }
-                                                navController.navigate(screen)
-                                            },
-                                            onLongClick = {
-                                                showArrangementSheet.value = true
-                                            },
-                                            modifier = Modifier.fillMaxWidth(),
+                                            modifier = Modifier
+                                                .fillMaxWidth()
+                                                .animateItemPlacement(),
                                             title = stringResource(screen.title),
                                             subtitle = stringResource(screen.subtitle),
                                             icon = {
