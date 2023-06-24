@@ -52,7 +52,7 @@ import ru.tech.imageresizershrinker.theme.asString
 import ru.tech.imageresizershrinker.theme.defaultColorTuple
 import ru.tech.imageresizershrinker.theme.toColorTupleList
 import ru.tech.imageresizershrinker.utils.navigation.Screen
-import ru.tech.imageresizershrinker.widget.ToastHostState
+import ru.tech.imageresizershrinker.widget.other.ToastHostState
 import java.net.URL
 import javax.inject.Inject
 import javax.xml.parsers.DocumentBuilderFactory

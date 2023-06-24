@@ -1,4 +1,4 @@
-package ru.tech.imageresizershrinker.widget
+package ru.tech.imageresizershrinker.widget.other
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.Orientation

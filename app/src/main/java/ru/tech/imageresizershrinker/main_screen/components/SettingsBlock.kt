@@ -113,8 +113,8 @@ import ru.tech.imageresizershrinker.widget.preferences.PreferenceRow
 import ru.tech.imageresizershrinker.widget.preferences.PreferenceRowSwitch
 import ru.tech.imageresizershrinker.widget.preferences.screens.SourceCodePreference
 import ru.tech.imageresizershrinker.widget.text.TitleItem
-import ru.tech.imageresizershrinker.widget.ToastDuration
-import ru.tech.imageresizershrinker.widget.ToastHostState
+import ru.tech.imageresizershrinker.widget.other.ToastDuration
+import ru.tech.imageresizershrinker.widget.other.ToastHostState
 import ru.tech.imageresizershrinker.widget.image.Picture
 import ru.tech.imageresizershrinker.widget.utils.LocalSettingsState
 import ru.tech.imageresizershrinker.widget.utils.SettingsState

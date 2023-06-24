@@ -56,10 +56,10 @@ import ru.tech.imageresizershrinker.crash_screen.viewModel.CrashViewModel
 import ru.tech.imageresizershrinker.main_screen.MainActivity
 import ru.tech.imageresizershrinker.theme.ImageResizerTheme
 import ru.tech.imageresizershrinker.theme.outlineVariant
-import ru.tech.imageresizershrinker.utils.GlobalExceptionHandler.Companion.getExceptionString
-import ru.tech.imageresizershrinker.widget.ToastHost
+import ru.tech.imageresizershrinker.utils.exception.GlobalExceptionHandler.Companion.getExceptionString
+import ru.tech.imageresizershrinker.widget.other.ToastHost
 import ru.tech.imageresizershrinker.widget.activity.M3Activity
-import ru.tech.imageresizershrinker.widget.rememberToastHostState
+import ru.tech.imageresizershrinker.widget.other.rememberToastHostState
 import ru.tech.imageresizershrinker.widget.text.AutoSizeText
 import ru.tech.imageresizershrinker.widget.utils.LocalSettingsState
 import ru.tech.imageresizershrinker.widget.utils.isNightMode

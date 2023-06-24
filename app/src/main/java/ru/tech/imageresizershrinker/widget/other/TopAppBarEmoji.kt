@@ -1,4 +1,4 @@
-package ru.tech.imageresizershrinker.widget
+package ru.tech.imageresizershrinker.widget.other
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
@@ -15,7 +15,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.theme.EmojiItem
-import ru.tech.imageresizershrinker.utils.LocalConfettiController
+import ru.tech.imageresizershrinker.utils.confetti.LocalConfettiController
 import ru.tech.imageresizershrinker.utils.modifier.scaleOnTap
 import ru.tech.imageresizershrinker.widget.utils.LocalSettingsState
 

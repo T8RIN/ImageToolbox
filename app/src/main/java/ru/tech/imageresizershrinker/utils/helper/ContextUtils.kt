@@ -28,8 +28,8 @@ import ru.tech.imageresizershrinker.utils.permission.PermissionStatus
 import ru.tech.imageresizershrinker.utils.permission.PermissionUtils.askUserToRequestPermissionExplicitly
 import ru.tech.imageresizershrinker.utils.permission.PermissionUtils.checkPermissions
 import ru.tech.imageresizershrinker.utils.permission.PermissionUtils.setPermissionsAllowed
-import ru.tech.imageresizershrinker.widget.ToastDuration
-import ru.tech.imageresizershrinker.widget.ToastHostState
+import ru.tech.imageresizershrinker.widget.other.ToastDuration
+import ru.tech.imageresizershrinker.widget.other.ToastHostState
 import kotlin.math.min
 
 

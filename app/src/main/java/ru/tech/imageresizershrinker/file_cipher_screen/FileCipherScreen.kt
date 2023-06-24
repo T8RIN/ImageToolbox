@@ -102,7 +102,7 @@ import ru.tech.imageresizershrinker.theme.Green
 import ru.tech.imageresizershrinker.theme.icons.ShieldKey
 import ru.tech.imageresizershrinker.theme.icons.ShieldOpen
 import ru.tech.imageresizershrinker.theme.outlineVariant
-import ru.tech.imageresizershrinker.utils.LocalConfettiController
+import ru.tech.imageresizershrinker.utils.confetti.LocalConfettiController
 import ru.tech.imageresizershrinker.utils.cipher.CipherUtils.randSalt
 import ru.tech.imageresizershrinker.utils.cipher.CipherUtils.toByteArray
 import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.fileSize
@@ -112,13 +112,13 @@ import ru.tech.imageresizershrinker.utils.helper.readableByteCount
 import ru.tech.imageresizershrinker.utils.modifier.block
 import ru.tech.imageresizershrinker.utils.modifier.drawHorizontalStroke
 import ru.tech.imageresizershrinker.utils.modifier.fabBorder
-import ru.tech.imageresizershrinker.widget.LoadingDialog
-import ru.tech.imageresizershrinker.widget.LocalToastHost
+import ru.tech.imageresizershrinker.widget.other.LoadingDialog
+import ru.tech.imageresizershrinker.widget.other.LocalToastHost
 import ru.tech.imageresizershrinker.widget.preferences.PreferenceRow
-import ru.tech.imageresizershrinker.widget.TopAppBarEmoji
+import ru.tech.imageresizershrinker.widget.other.TopAppBarEmoji
 import ru.tech.imageresizershrinker.widget.buttons.ToggleGroupButton
 import ru.tech.imageresizershrinker.widget.dialogs.ExitWithoutSavingDialog
-import ru.tech.imageresizershrinker.widget.showError
+import ru.tech.imageresizershrinker.widget.other.showError
 import ru.tech.imageresizershrinker.widget.text.AutoSizeText
 import ru.tech.imageresizershrinker.widget.text.Marquee
 import ru.tech.imageresizershrinker.widget.text.RoundedTextField

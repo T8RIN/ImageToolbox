@@ -126,7 +126,7 @@ import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.applyTransformation
 import ru.tech.imageresizershrinker.utils.modifier.drawHorizontalStroke
 import ru.tech.imageresizershrinker.widget.text.TitleItem
 import ru.tech.imageresizershrinker.widget.image.SimplePicture
-import ru.tech.imageresizershrinker.widget.imageStickyHeader
+import ru.tech.imageresizershrinker.widget.other.imageStickyHeader
 import ru.tech.imageresizershrinker.widget.sheets.SimpleSheet
 import ru.tech.imageresizershrinker.widget.text.Marquee
 import ru.tech.imageresizershrinker.widget.utils.LocalSettingsState

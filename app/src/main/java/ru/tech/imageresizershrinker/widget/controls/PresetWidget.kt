@@ -41,9 +41,9 @@ import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.theme.icons.CreateAlt
 import ru.tech.imageresizershrinker.theme.outlineVariant
 import ru.tech.imageresizershrinker.utils.modifier.block
-import ru.tech.imageresizershrinker.widget.RevealValue
-import ru.tech.imageresizershrinker.widget.SwipeToReveal
-import ru.tech.imageresizershrinker.widget.rememberRevealState
+import ru.tech.imageresizershrinker.widget.other.RevealValue
+import ru.tech.imageresizershrinker.widget.other.SwipeToReveal
+import ru.tech.imageresizershrinker.widget.other.rememberRevealState
 import ru.tech.imageresizershrinker.widget.text.AutoSizeText
 import ru.tech.imageresizershrinker.widget.utils.LocalEditPresetsState
 import ru.tech.imageresizershrinker.widget.utils.LocalSettingsState

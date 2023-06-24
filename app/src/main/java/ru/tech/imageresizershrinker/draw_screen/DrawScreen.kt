@@ -99,7 +99,7 @@ import ru.tech.imageresizershrinker.draw_screen.viewModel.DrawViewModel
 import ru.tech.imageresizershrinker.theme.icons.Eraser
 import ru.tech.imageresizershrinker.theme.mixedColor
 import ru.tech.imageresizershrinker.theme.onMixedColor
-import ru.tech.imageresizershrinker.utils.LocalConfettiController
+import ru.tech.imageresizershrinker.utils.confetti.LocalConfettiController
 import ru.tech.imageresizershrinker.utils.coil.UpscaleTransformation
 import ru.tech.imageresizershrinker.utils.coil.filters.SaturationFilter
 import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.getBitmapByUri
@@ -115,10 +115,10 @@ import ru.tech.imageresizershrinker.utils.storage.LocalFileController
 import ru.tech.imageresizershrinker.utils.storage.Picker
 import ru.tech.imageresizershrinker.utils.storage.localImagePickerMode
 import ru.tech.imageresizershrinker.utils.storage.rememberImagePicker
-import ru.tech.imageresizershrinker.widget.LoadingDialog
-import ru.tech.imageresizershrinker.widget.LocalToastHost
-import ru.tech.imageresizershrinker.widget.LockScreenOrientation
-import ru.tech.imageresizershrinker.widget.TopAppBarEmoji
+import ru.tech.imageresizershrinker.widget.other.LoadingDialog
+import ru.tech.imageresizershrinker.widget.other.LocalToastHost
+import ru.tech.imageresizershrinker.widget.other.LockScreenOrientation
+import ru.tech.imageresizershrinker.widget.other.TopAppBarEmoji
 import ru.tech.imageresizershrinker.widget.controls.ExtensionGroup
 import ru.tech.imageresizershrinker.widget.dialogs.ExitWithoutSavingDialog
 import ru.tech.imageresizershrinker.widget.text.Marquee

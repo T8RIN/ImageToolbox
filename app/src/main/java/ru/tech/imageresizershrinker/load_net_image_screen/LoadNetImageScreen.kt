@@ -102,7 +102,7 @@ import ru.tech.imageresizershrinker.widget.preferences.screens.PickColorPreferen
 import ru.tech.imageresizershrinker.widget.preferences.screens.SingleResizePreference
 import ru.tech.imageresizershrinker.theme.icons.CreateAlt
 import ru.tech.imageresizershrinker.theme.outlineVariant
-import ru.tech.imageresizershrinker.utils.LocalConfettiController
+import ru.tech.imageresizershrinker.utils.confetti.LocalConfettiController
 import ru.tech.imageresizershrinker.utils.coil.filters.SaturationFilter
 import ru.tech.imageresizershrinker.utils.helper.BitmapInfo
 import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.cacheImage
@@ -115,10 +115,10 @@ import ru.tech.imageresizershrinker.utils.modifier.navBarsLandscapePadding
 import ru.tech.imageresizershrinker.utils.navigation.LocalNavController
 import ru.tech.imageresizershrinker.utils.navigation.Screen
 import ru.tech.imageresizershrinker.utils.storage.LocalFileController
-import ru.tech.imageresizershrinker.widget.LoadingDialog
-import ru.tech.imageresizershrinker.widget.LocalToastHost
+import ru.tech.imageresizershrinker.widget.other.LoadingDialog
+import ru.tech.imageresizershrinker.widget.other.LocalToastHost
 import ru.tech.imageresizershrinker.widget.text.TitleItem
-import ru.tech.imageresizershrinker.widget.TopAppBarEmoji
+import ru.tech.imageresizershrinker.widget.other.TopAppBarEmoji
 import ru.tech.imageresizershrinker.widget.buttons.ToggleGroupButton
 import ru.tech.imageresizershrinker.widget.image.Picture
 import ru.tech.imageresizershrinker.widget.sheets.SimpleSheet

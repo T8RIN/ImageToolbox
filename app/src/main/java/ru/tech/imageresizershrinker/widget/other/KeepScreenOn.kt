@@ -1,4 +1,4 @@
-package ru.tech.imageresizershrinker.widget
+package ru.tech.imageresizershrinker.widget.other
 
 import android.view.View
 import androidx.compose.runtime.Composable

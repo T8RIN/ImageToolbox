@@ -80,7 +80,7 @@ import ru.tech.imageresizershrinker.batch_resize_screen.components.SaveExifWidge
 import ru.tech.imageresizershrinker.bytes_resize_screen.components.PngTypeAlert
 import ru.tech.imageresizershrinker.bytes_resize_screen.viewModel.BytesResizeViewModel
 import ru.tech.imageresizershrinker.theme.outlineVariant
-import ru.tech.imageresizershrinker.utils.LocalConfettiController
+import ru.tech.imageresizershrinker.utils.confetti.LocalConfettiController
 import ru.tech.imageresizershrinker.utils.coil.BitmapInfoTransformation
 import ru.tech.imageresizershrinker.utils.coil.filters.SaturationFilter
 import ru.tech.imageresizershrinker.utils.helper.BitmapInfo
@@ -98,9 +98,9 @@ import ru.tech.imageresizershrinker.utils.storage.LocalFileController
 import ru.tech.imageresizershrinker.utils.storage.Picker
 import ru.tech.imageresizershrinker.utils.storage.localImagePickerMode
 import ru.tech.imageresizershrinker.utils.storage.rememberImagePicker
-import ru.tech.imageresizershrinker.widget.LoadingDialog
-import ru.tech.imageresizershrinker.widget.LocalToastHost
-import ru.tech.imageresizershrinker.widget.TopAppBarEmoji
+import ru.tech.imageresizershrinker.widget.other.LoadingDialog
+import ru.tech.imageresizershrinker.widget.other.LocalToastHost
+import ru.tech.imageresizershrinker.widget.other.TopAppBarEmoji
 import ru.tech.imageresizershrinker.widget.buttons.BottomButtonsBlock
 import ru.tech.imageresizershrinker.widget.controls.ExtensionGroup
 import ru.tech.imageresizershrinker.widget.controls.PresetWidget
@@ -108,10 +108,10 @@ import ru.tech.imageresizershrinker.widget.dialogs.ExitWithoutSavingDialog
 import ru.tech.imageresizershrinker.widget.image.ImageContainer
 import ru.tech.imageresizershrinker.widget.image.ImageCounter
 import ru.tech.imageresizershrinker.widget.image.ImageNotPickedWidget
-import ru.tech.imageresizershrinker.widget.imageStickyHeader
+import ru.tech.imageresizershrinker.widget.other.imageStickyHeader
 import ru.tech.imageresizershrinker.widget.sheets.PickImageFromUrisSheet
 import ru.tech.imageresizershrinker.widget.sheets.ZoomModalSheet
-import ru.tech.imageresizershrinker.widget.showError
+import ru.tech.imageresizershrinker.widget.other.showError
 import ru.tech.imageresizershrinker.widget.text.RoundedTextField
 import ru.tech.imageresizershrinker.widget.text.TopAppBarTitle
 import ru.tech.imageresizershrinker.widget.utils.LocalSettingsState

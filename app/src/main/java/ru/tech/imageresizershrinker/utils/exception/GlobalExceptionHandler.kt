@@ -1,4 +1,4 @@
-package ru.tech.imageresizershrinker.utils
+package ru.tech.imageresizershrinker.utils.exception
 
 import android.app.Activity
 import android.content.Context

@@ -14,7 +14,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import ru.tech.imageresizershrinker.widget.Loading
+import ru.tech.imageresizershrinker.widget.other.Loading
 
 @Composable
 fun ImageContainer(
