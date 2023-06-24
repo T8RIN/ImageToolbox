@@ -34,6 +34,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.isSpecified
 import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.theme.outlineVariant
+import ru.tech.imageresizershrinker.widget.image.ImageHeaderState
 import ru.tech.imageresizershrinker.widget.utils.LocalSettingsState
 import ru.tech.imageresizershrinker.widget.utils.rememberAvailableHeight
 import ru.tech.imageresizershrinker.widget.utils.rememberFullHeight

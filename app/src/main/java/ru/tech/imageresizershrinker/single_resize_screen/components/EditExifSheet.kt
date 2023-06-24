@@ -54,12 +54,12 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.exifinterface.media.ExifInterface
 import ru.tech.imageresizershrinker.R
-import ru.tech.imageresizershrinker.main_screen.components.PreferenceItemOverload
+import ru.tech.imageresizershrinker.widget.preferences.PreferenceItemOverload
 import ru.tech.imageresizershrinker.theme.outlineVariant
 import ru.tech.imageresizershrinker.utils.helper.BitmapUtils
 import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.toMap
 import ru.tech.imageresizershrinker.utils.modifier.alertDialog
-import ru.tech.imageresizershrinker.widget.TitleItem
+import ru.tech.imageresizershrinker.widget.text.TitleItem
 import ru.tech.imageresizershrinker.widget.sheets.SimpleSheet
 import ru.tech.imageresizershrinker.widget.text.RoundedTextField
 import ru.tech.imageresizershrinker.widget.utils.LocalSettingsState

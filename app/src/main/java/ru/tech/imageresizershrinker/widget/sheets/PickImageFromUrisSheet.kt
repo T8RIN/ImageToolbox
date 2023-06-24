@@ -35,7 +35,7 @@ import coil.transform.Transformation
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.theme.outlineVariant
 import ru.tech.imageresizershrinker.utils.modifier.block
-import ru.tech.imageresizershrinker.widget.TitleItem
+import ru.tech.imageresizershrinker.widget.text.TitleItem
 import ru.tech.imageresizershrinker.widget.image.Picture
 import ru.tech.imageresizershrinker.widget.utils.LocalSettingsState
 

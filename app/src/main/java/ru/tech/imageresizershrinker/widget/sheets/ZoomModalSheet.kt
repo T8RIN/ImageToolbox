@@ -39,7 +39,7 @@ import com.smarttoolfactory.image.zoom.animatedZoom
 import com.smarttoolfactory.image.zoom.rememberAnimatedZoomState
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.theme.outlineVariant
-import ru.tech.imageresizershrinker.widget.TitleItem
+import ru.tech.imageresizershrinker.widget.text.TitleItem
 import ru.tech.imageresizershrinker.widget.utils.LocalSettingsState
 
 @OptIn(ExperimentalMaterial3Api::class)

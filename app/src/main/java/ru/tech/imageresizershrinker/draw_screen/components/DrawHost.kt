@@ -83,7 +83,7 @@ import com.t8rin.drawbox.presentation.compose.DrawBox
 import dev.olshevski.navigation.reimagined.AnimatedNavHost
 import dev.olshevski.navigation.reimagined.NavController
 import ru.tech.imageresizershrinker.R
-import ru.tech.imageresizershrinker.main_screen.components.PreferenceItem
+import ru.tech.imageresizershrinker.widget.preferences.PreferenceItem
 import ru.tech.imageresizershrinker.theme.icons.Eraser
 import ru.tech.imageresizershrinker.theme.mixedColor
 import ru.tech.imageresizershrinker.theme.onMixedColor
@@ -95,7 +95,7 @@ import ru.tech.imageresizershrinker.utils.modifier.drawHorizontalStroke
 import ru.tech.imageresizershrinker.utils.modifier.fabBorder
 import ru.tech.imageresizershrinker.utils.modifier.navBarsPaddingOnlyIfTheyAtTheBottom
 import ru.tech.imageresizershrinker.utils.modifier.navBarsPaddingOnlyIfTheyAtTheEnd
-import ru.tech.imageresizershrinker.widget.TitleItem
+import ru.tech.imageresizershrinker.widget.text.TitleItem
 import ru.tech.imageresizershrinker.widget.controls.ExtensionGroup
 import ru.tech.imageresizershrinker.widget.image.Picture
 import ru.tech.imageresizershrinker.widget.sheets.SimpleSheet

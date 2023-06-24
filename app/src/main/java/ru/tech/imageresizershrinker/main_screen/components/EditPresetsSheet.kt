@@ -47,7 +47,7 @@ import androidx.core.text.isDigitsOnly
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.theme.outlineVariant
 import ru.tech.imageresizershrinker.utils.modifier.alertDialog
-import ru.tech.imageresizershrinker.widget.TitleItem
+import ru.tech.imageresizershrinker.widget.text.TitleItem
 import ru.tech.imageresizershrinker.widget.sheets.SimpleSheet
 import ru.tech.imageresizershrinker.widget.text.AutoSizeText
 import ru.tech.imageresizershrinker.widget.utils.LocalSettingsState

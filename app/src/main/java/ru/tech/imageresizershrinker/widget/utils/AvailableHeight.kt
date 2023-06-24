@@ -23,7 +23,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.t8rin.dynamic.theme.observeAsState
 import com.t8rin.modalsheet.FullscreenPopup
-import ru.tech.imageresizershrinker.widget.ImageHeaderState
+import ru.tech.imageresizershrinker.widget.image.ImageHeaderState
 
 @Composable
 fun rememberAvailableHeight(

@@ -153,9 +153,11 @@ import ru.tech.imageresizershrinker.utils.navigation.Screen
 import ru.tech.imageresizershrinker.utils.storage.defaultPrefix
 import ru.tech.imageresizershrinker.widget.AnimationBox
 import ru.tech.imageresizershrinker.widget.LocalToastHost
+import ru.tech.imageresizershrinker.widget.preferences.PreferenceItem
+import ru.tech.imageresizershrinker.widget.preferences.PreferenceItemOverload
 import ru.tech.imageresizershrinker.widget.RevealDirection
 import ru.tech.imageresizershrinker.widget.RevealValue
-import ru.tech.imageresizershrinker.widget.TitleItem
+import ru.tech.imageresizershrinker.widget.text.TitleItem
 import ru.tech.imageresizershrinker.widget.TopAppBarEmoji
 import ru.tech.imageresizershrinker.widget.rememberRevealState
 import ru.tech.imageresizershrinker.widget.revealSwipeable

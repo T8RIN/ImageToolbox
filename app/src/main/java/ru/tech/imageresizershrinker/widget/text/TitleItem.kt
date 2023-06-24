@@ -1,4 +1,4 @@
-package ru.tech.imageresizershrinker.widget
+package ru.tech.imageresizershrinker.widget.text
 
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer

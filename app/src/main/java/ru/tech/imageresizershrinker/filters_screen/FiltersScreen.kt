@@ -117,7 +117,7 @@ import ru.tech.imageresizershrinker.utils.storage.localImagePickerMode
 import ru.tech.imageresizershrinker.utils.storage.rememberImagePicker
 import ru.tech.imageresizershrinker.widget.LoadingDialog
 import ru.tech.imageresizershrinker.widget.LocalToastHost
-import ru.tech.imageresizershrinker.widget.TitleItem
+import ru.tech.imageresizershrinker.widget.text.TitleItem
 import ru.tech.imageresizershrinker.widget.TopAppBarEmoji
 import ru.tech.imageresizershrinker.widget.buttons.BottomButtonsBlock
 import ru.tech.imageresizershrinker.widget.controls.ExtensionGroup

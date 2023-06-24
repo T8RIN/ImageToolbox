@@ -114,7 +114,7 @@ import ru.tech.imageresizershrinker.utils.modifier.drawHorizontalStroke
 import ru.tech.imageresizershrinker.utils.modifier.fabBorder
 import ru.tech.imageresizershrinker.widget.LoadingDialog
 import ru.tech.imageresizershrinker.widget.LocalToastHost
-import ru.tech.imageresizershrinker.widget.PreferenceRow
+import ru.tech.imageresizershrinker.widget.preferences.PreferenceRow
 import ru.tech.imageresizershrinker.widget.TopAppBarEmoji
 import ru.tech.imageresizershrinker.widget.buttons.ToggleGroupButton
 import ru.tech.imageresizershrinker.widget.dialogs.ExitWithoutSavingDialog

@@ -69,7 +69,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.R
-import ru.tech.imageresizershrinker.main_screen.components.PreferenceItemOverload
+import ru.tech.imageresizershrinker.widget.preferences.PreferenceItemOverload
 import ru.tech.imageresizershrinker.theme.outlineVariant
 import ru.tech.imageresizershrinker.utils.coil.filters.BilaterialBlurFilter
 import ru.tech.imageresizershrinker.utils.coil.filters.BlackAndWhiteFilter
@@ -124,7 +124,7 @@ import ru.tech.imageresizershrinker.utils.coil.filters.WhiteBalanceFilter
 import ru.tech.imageresizershrinker.utils.coil.filters.ZoomBlurFilter
 import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.applyTransformations
 import ru.tech.imageresizershrinker.utils.modifier.drawHorizontalStroke
-import ru.tech.imageresizershrinker.widget.TitleItem
+import ru.tech.imageresizershrinker.widget.text.TitleItem
 import ru.tech.imageresizershrinker.widget.image.SimplePicture
 import ru.tech.imageresizershrinker.widget.imageStickyHeader
 import ru.tech.imageresizershrinker.widget.sheets.SimpleSheet

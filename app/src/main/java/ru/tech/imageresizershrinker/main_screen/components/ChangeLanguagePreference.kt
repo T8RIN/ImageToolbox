@@ -41,8 +41,8 @@ import androidx.core.os.LocaleListCompat
 import org.xmlpull.v1.XmlPullParser
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.theme.outlineVariant
-import ru.tech.imageresizershrinker.widget.PreferenceRow
-import ru.tech.imageresizershrinker.widget.TitleItem
+import ru.tech.imageresizershrinker.widget.preferences.PreferenceRow
+import ru.tech.imageresizershrinker.widget.text.TitleItem
 import ru.tech.imageresizershrinker.widget.sheets.SimpleSheet
 import ru.tech.imageresizershrinker.widget.utils.LocalSettingsState
 import java.util.Locale

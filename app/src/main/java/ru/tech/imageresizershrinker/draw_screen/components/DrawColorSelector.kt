@@ -52,7 +52,7 @@ import ru.tech.imageresizershrinker.main_screen.components.ColorCustomComponent
 import ru.tech.imageresizershrinker.theme.inverse
 import ru.tech.imageresizershrinker.theme.outlineVariant
 import ru.tech.imageresizershrinker.utils.modifier.block
-import ru.tech.imageresizershrinker.widget.TitleItem
+import ru.tech.imageresizershrinker.widget.text.TitleItem
 import ru.tech.imageresizershrinker.widget.sheets.SimpleSheet
 import ru.tech.imageresizershrinker.widget.utils.LocalSettingsState
 

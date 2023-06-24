@@ -97,7 +97,7 @@ import ru.tech.imageresizershrinker.theme.inverse
 import ru.tech.imageresizershrinker.theme.outlineVariant
 import ru.tech.imageresizershrinker.utils.helper.ListUtils.nearestFor
 import ru.tech.imageresizershrinker.utils.modifier.alertDialog
-import ru.tech.imageresizershrinker.widget.TitleItem
+import ru.tech.imageresizershrinker.widget.text.TitleItem
 import ru.tech.imageresizershrinker.widget.sheets.SimpleSheet
 import ru.tech.imageresizershrinker.widget.utils.LocalSettingsState
 

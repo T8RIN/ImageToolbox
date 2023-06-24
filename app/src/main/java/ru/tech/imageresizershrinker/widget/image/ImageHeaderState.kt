@@ -1,4 +1,4 @@
-package ru.tech.imageresizershrinker.widget
+package ru.tech.imageresizershrinker.widget.image
 
 data class ImageHeaderState(
     val position: Int = 1,
