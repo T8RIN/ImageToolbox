@@ -6,6 +6,7 @@ import android.net.Uri
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.animateFloatAsState
@@ -14,6 +15,7 @@ import androidx.compose.animation.fadeOut
 import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -34,6 +36,9 @@ import androidx.compose.material.icons.outlined.ErrorOutline
 import androidx.compose.material.icons.outlined.FolderOff
 import androidx.compose.material.icons.outlined.Image
 import androidx.compose.material.icons.rounded.AddCircleOutline
+import androidx.compose.material.icons.rounded.ArrowDownward
+import androidx.compose.material.icons.rounded.ArrowDropDown
+import androidx.compose.material.icons.rounded.ArrowDropDownCircle
 import androidx.compose.material.icons.rounded.Block
 import androidx.compose.material.icons.rounded.BugReport
 import androidx.compose.material.icons.rounded.Cached
@@ -44,6 +49,7 @@ import androidx.compose.material.icons.rounded.Folder
 import androidx.compose.material.icons.rounded.FolderOpen
 import androidx.compose.material.icons.rounded.ImageSearch
 import androidx.compose.material.icons.rounded.Info
+import androidx.compose.material.icons.rounded.KeyboardArrowDown
 import androidx.compose.material.icons.rounded.ModeNight
 import androidx.compose.material.icons.rounded.Palette
 import androidx.compose.material.icons.rounded.PhotoSizeSelectSmall
@@ -55,6 +61,7 @@ import androidx.compose.material.icons.rounded.Translate
 import androidx.compose.material.icons.rounded.WbSunny
 import androidx.compose.material3.Divider
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Slider
 import androidx.compose.material3.SliderDefaults
@@ -65,10 +72,13 @@ import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.luminance
@@ -137,420 +147,362 @@ fun LazyListScope.settingsBlock(
 ) {
     item {
         // Night mode
-        Column {
+        Column(Modifier.animateContentSize()) {
+            var expanded by rememberSaveable { mutableStateOf(false) }
+            val rotation by animateFloatAsState(if(expanded) 180f else 0f)
             TitleItem(
+                modifier = Modifier
+                    .padding(8.dp)
+                    .clip(MaterialTheme.shapes.large)
+                    .clickable { expanded = !expanded }
+                    .padding(8.dp),
                 icon = Icons.Rounded.Lamp,
                 text = stringResource(R.string.night_mode),
+                endContent = {
+                    IconButton(
+                        onClick = { expanded = !expanded }
+                    ) {
+                        Icon(
+                            imageVector = Icons.Rounded.KeyboardArrowDown,
+                            contentDescription = null,
+                            modifier = Modifier.rotate(rotation))
+                    }
+                }
             )
-            Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                listOf(
-                    stringResource(R.string.dark) to Icons.Rounded.ModeNight,
-                    stringResource(R.string.light) to Icons.Rounded.WbSunny,
-                    stringResource(R.string.system) to Icons.Rounded.SettingsSystemDaydream
-                ).forEachIndexed { index, (title, icon) ->
-                    val selected = index == viewModel.nightMode
-                    PreferenceItem(
-                        onClick = { viewModel.setNightMode(index) },
-                        title = title,
-                        color = MaterialTheme.colorScheme.secondaryContainer.copy(
-                            alpha = animateFloatAsState(
-                                if (selected) 0.7f
-                                else 0.2f
-                            ).value
-                        ),
-                        icon = icon,
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(horizontal = 16.dp)
-                            .border(
-                                width = settingsState.borderWidth,
-                                color = animateColorAsState(
-                                    if (selected) MaterialTheme
-                                        .colorScheme
-                                        .onSecondaryContainer
-                                        .copy(alpha = 0.5f)
-                                    else Color.Transparent
-                                ).value,
-                                shape = RoundedCornerShape(16.dp)
-                            ),
-                        endIcon = if (selected) Icons.Rounded.RadioButtonChecked else Icons.Rounded.RadioButtonUnchecked
-                    )
+            AnimatedVisibility(expanded) {
+                Column {
+                    Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                        listOf(
+                            stringResource(R.string.dark) to Icons.Rounded.ModeNight,
+                            stringResource(R.string.light) to Icons.Rounded.WbSunny,
+                            stringResource(R.string.system) to Icons.Rounded.SettingsSystemDaydream
+                        ).forEachIndexed { index, (title, icon) ->
+                            val selected = index == viewModel.nightMode
+                            PreferenceItem(
+                                onClick = { viewModel.setNightMode(index) },
+                                title = title,
+                                color = MaterialTheme.colorScheme.secondaryContainer.copy(
+                                    alpha = animateFloatAsState(
+                                        if (selected) 0.7f
+                                        else 0.2f
+                                    ).value
+                                ),
+                                icon = icon,
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(horizontal = 16.dp)
+                                    .border(
+                                        width = settingsState.borderWidth,
+                                        color = animateColorAsState(
+                                            if (selected) MaterialTheme
+                                                .colorScheme
+                                                .onSecondaryContainer
+                                                .copy(alpha = 0.5f)
+                                            else Color.Transparent
+                                        ).value,
+                                        shape = RoundedCornerShape(16.dp)
+                                    ),
+                                endIcon = if (selected) Icons.Rounded.RadioButtonChecked else Icons.Rounded.RadioButtonUnchecked
+                            )
+                        }
+                    }
+                    Spacer(Modifier.height(16.dp))
                 }
             }
-            Spacer(Modifier.height(16.dp))
         }
         Divider()
     }
     item {
         // Customization
-        Column {
+        Column(Modifier.animateContentSize()) {
+            var expanded by rememberSaveable { mutableStateOf(false) }
+            val rotation by animateFloatAsState(if(expanded) 180f else 0f)
             TitleItem(
                 icon = Icons.Rounded.Palette,
                 text = stringResource(R.string.customization),
+                endContent = {
+                    IconButton(
+                        onClick = { expanded = !expanded }
+                    ) {
+                        Icon(
+                            imageVector = Icons.Rounded.KeyboardArrowDown,
+                            contentDescription = null,
+                            modifier = Modifier.rotate(rotation))
+                    }
+                }
             )
-            Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                ChangeLanguagePreference()
-                PreferenceRow(
-                    title = stringResource(R.string.emoji),
-                    subtitle = stringResource(R.string.emoji_sub),
-                    onClick = {
-                        onEditEmoji()
-                    },
-                    endContent = {
-                        val emoji = LocalSettingsState.current.selectedEmoji
-                        Box(
-                            modifier = Modifier
-                                .size(64.dp)
-                                .offset(x = 7.dp)
-                                .background(
-                                    MaterialTheme
-                                        .colorScheme
-                                        .surfaceVariant
-                                        .copy(alpha = 0.5f),
-                                    MaterialTheme.shapes.medium
-                                )
-                                .border(
-                                    settingsState.borderWidth,
-                                    MaterialTheme.colorScheme.outlineVariant(
-                                        0.2f
-                                    ),
-                                    MaterialTheme.shapes.medium
-                                ),
-                            contentAlignment = Alignment.Center
-                        ) {
-                            EmojiItem(
-                                emoji = emoji,
-                                modifier = Modifier.then(
-                                    if (emoji != null) Modifier.scaleOnTap(onRelease = {})
-                                    else Modifier
-                                ),
-                                fontSize = MaterialTheme.typography.headlineLarge.fontSize,
-                                onNoEmoji = { size ->
-                                    Icon(
-                                        imageVector = Icons.Rounded.Block,
-                                        contentDescription = null,
-                                        modifier = Modifier.size(size)
+            AnimatedVisibility(expanded) {
+                Column {
+                    Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                        ChangeLanguagePreference()
+                        PreferenceRow(
+                            title = stringResource(R.string.emoji),
+                            subtitle = stringResource(R.string.emoji_sub),
+                            onClick = {
+                                onEditEmoji()
+                            },
+                            endContent = {
+                                val emoji = LocalSettingsState.current.selectedEmoji
+                                Box(
+                                    modifier = Modifier
+                                        .size(64.dp)
+                                        .offset(x = 7.dp)
+                                        .background(
+                                            MaterialTheme
+                                                .colorScheme
+                                                .surfaceVariant
+                                                .copy(alpha = 0.5f),
+                                            MaterialTheme.shapes.medium
+                                        )
+                                        .border(
+                                            settingsState.borderWidth,
+                                            MaterialTheme.colorScheme.outlineVariant(
+                                                0.2f
+                                            ),
+                                            MaterialTheme.shapes.medium
+                                        ),
+                                    contentAlignment = Alignment.Center
+                                ) {
+                                    EmojiItem(
+                                        emoji = emoji,
+                                        modifier = Modifier.then(
+                                            if (emoji != null) Modifier.scaleOnTap(onRelease = {})
+                                            else Modifier
+                                        ),
+                                        fontSize = MaterialTheme.typography.headlineLarge.fontSize,
+                                        onNoEmoji = { size ->
+                                            Icon(
+                                                imageVector = Icons.Rounded.Block,
+                                                contentDescription = null,
+                                                modifier = Modifier.size(size)
+                                            )
+                                        }
                                     )
                                 }
-                            )
-                        }
-                    }
-                )
-                PreferenceRowSwitch(
-                    title = stringResource(R.string.dynamic_colors),
-                    subtitle = stringResource(R.string.dynamic_colors_sub),
-                    checked = viewModel.dynamicColors,
-                    onClick = { viewModel.updateDynamicColors() }
-                )
-                val enabled = !viewModel.dynamicColors
-                PreferenceRow(
-                    modifier = Modifier.alpha(
-                        animateFloatAsState(
-                            if (enabled) 1f
-                            else 0.5f
-                        ).value
-                    ),
-                    title = stringResource(R.string.color_scheme),
-                    subtitle = stringResource(R.string.pick_accent_color),
-                    onClick = {
-                        if (enabled) onEditColorScheme()
-                        else scope.launch {
-                            toastHostState.showToast(
-                                icon = Icons.Rounded.Palette,
-                                message = context.getString(R.string.cannot_change_palette_while_dynamic_colors_applied)
-                            )
-                        }
-                    },
-                    endContent = {
-                        ColorTupleItem(
-                            modifier = Modifier
-                                .size(64.dp)
-                                .offset(7.dp)
-                                .border(
-                                    settingsState.borderWidth,
-                                    MaterialTheme.colorScheme.outlineVariant(
-                                        0.2f
-                                    ),
-                                    MaterialTheme.shapes.medium
-                                ),
-                            colorTuple = viewModel.appColorTuple,
-                            backgroundColor = MaterialTheme
-                                .colorScheme
-                                .surfaceVariant
-                                .copy(alpha = 0.5f)
-                        ) {
-                            Box(
-                                modifier = Modifier
-                                    .size(28.dp)
-                                    .background(
-                                        animateColorAsState(
-                                            viewModel.appColorTuple.primary.inverse(
-                                                fraction = {
-                                                    if (it) 0.8f
-                                                    else 0.5f
-                                                },
-                                                darkMode = viewModel.appColorTuple.primary.luminance() < 0.3f
-                                            )
-                                        ).value,
-                                        CircleShape
+                            }
+                        )
+                        PreferenceRowSwitch(
+                            title = stringResource(R.string.dynamic_colors),
+                            subtitle = stringResource(R.string.dynamic_colors_sub),
+                            checked = viewModel.dynamicColors,
+                            onClick = { viewModel.updateDynamicColors() }
+                        )
+                        val enabled = !viewModel.dynamicColors
+                        PreferenceRow(
+                            modifier = Modifier.alpha(
+                                animateFloatAsState(
+                                    if (enabled) 1f
+                                    else 0.5f
+                                ).value
+                            ),
+                            title = stringResource(R.string.color_scheme),
+                            subtitle = stringResource(R.string.pick_accent_color),
+                            onClick = {
+                                if (enabled) onEditColorScheme()
+                                else scope.launch {
+                                    toastHostState.showToast(
+                                        icon = Icons.Rounded.Palette,
+                                        message = context.getString(R.string.cannot_change_palette_while_dynamic_colors_applied)
                                     )
-                            )
-                            Icon(
-                                imageVector = Icons.Rounded.CreateAlt,
-                                contentDescription = null,
-                                tint = viewModel.appColorTuple.primary,
-                                modifier = Modifier.size(14.dp)
-                            )
-                        }
-                    }
-                )
-                PreferenceRowSwitch(
-                    title = stringResource(R.string.allow_image_monet),
-                    subtitle = stringResource(R.string.allow_image_monet_sub),
-                    checked = viewModel.allowImageMonet,
-                    onClick = { viewModel.updateAllowImageMonet() }
-                )
-                PreferenceRowSwitch(
-                    title = stringResource(R.string.amoled_mode),
-                    subtitle = stringResource(R.string.amoled_mode_sub),
-                    checked = viewModel.amoledMode,
-                    onClick = { viewModel.updateAmoledMode() }
-                )
-                Column(
-                    Modifier
-                        .padding(horizontal = 16.dp)
-                        .block(
-                            color = MaterialTheme
-                                .colorScheme
-                                .secondaryContainer
-                                .copy(alpha = 0.2f)
-                        )
-                        .animateContentSize()
-                ) {
-                    var sliderValue by remember {
-                        mutableIntStateOf(
-                            viewModel.emojisCount.coerceAtLeast(1)
-                        )
-                    }
-                    Row(
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        Text(
-                            text = stringResource(R.string.emojis_count),
-                            modifier = Modifier
-                                .padding(
-                                    top = 16.dp,
-                                    end = 16.dp,
-                                    start = 16.dp
-                                )
-                                .weight(1f)
-                        )
-                        AnimatedContent(
-                            targetState = sliderValue,
-                            transitionSpec = {
-                                fadeIn() togetherWith fadeOut()
+                                }
+                            },
+                            endContent = {
+                                ColorTupleItem(
+                                    modifier = Modifier
+                                        .size(64.dp)
+                                        .offset(7.dp)
+                                        .border(
+                                            settingsState.borderWidth,
+                                            MaterialTheme.colorScheme.outlineVariant(
+                                                0.2f
+                                            ),
+                                            MaterialTheme.shapes.medium
+                                        ),
+                                    colorTuple = viewModel.appColorTuple,
+                                    backgroundColor = MaterialTheme
+                                        .colorScheme
+                                        .surfaceVariant
+                                        .copy(alpha = 0.5f)
+                                ) {
+                                    Box(
+                                        modifier = Modifier
+                                            .size(28.dp)
+                                            .background(
+                                                animateColorAsState(
+                                                    viewModel.appColorTuple.primary.inverse(
+                                                        fraction = {
+                                                            if (it) 0.8f
+                                                            else 0.5f
+                                                        },
+                                                        darkMode = viewModel.appColorTuple.primary.luminance() < 0.3f
+                                                    )
+                                                ).value,
+                                                CircleShape
+                                            )
+                                    )
+                                    Icon(
+                                        imageVector = Icons.Rounded.CreateAlt,
+                                        contentDescription = null,
+                                        tint = viewModel.appColorTuple.primary,
+                                        modifier = Modifier.size(14.dp)
+                                    )
+                                }
                             }
-                        ) { value ->
-                            Text(
-                                text = "$value",
-                                color = MaterialTheme.colorScheme.onSurface.copy(
-                                    alpha = 0.5f
-                                ),
-                                modifier = Modifier.padding(top = 16.dp),
-                                lineHeight = 18.sp
-                            )
-                        }
-                        Spacer(
-                            modifier = Modifier.padding(
-                                start = 4.dp,
-                                top = 16.dp,
-                                end = 20.dp
-                            )
                         )
-                    }
-                    Slider(
-                        modifier = Modifier
-                            .padding(top = 16.dp, start = 12.dp, end = 12.dp, bottom = 8.dp)
-                            .offset(y = (-2).dp)
-                            .background(
-                                color = MaterialTheme.colorScheme.secondaryContainer,
-                                shape = CircleShape
-                            )
-                            .height(40.dp)
-                            .border(
-                                width = settingsState.borderWidth,
-                                color = MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.secondaryContainer),
-                                shape = CircleShape
-                            )
-                            .padding(horizontal = 10.dp),
-                        colors = SliderDefaults.colors(
-                            inactiveTrackColor =
-                            MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.secondaryContainer)
-                        ),
-                        value = animateFloatAsState(sliderValue.toFloat()).value,
-                        onValueChange = {
-                            sliderValue = it.toInt()
-                        },
-                        onValueChangeFinished = {
-                            viewModel.updateEmojisCount(sliderValue)
-                        },
-                        valueRange = 1f..5f,
-                        steps = 3
-                    )
-                }
-                Column(
-                    Modifier
-                        .padding(horizontal = 16.dp)
-                        .block(
-                            color = MaterialTheme
-                                .colorScheme
-                                .secondaryContainer
-                                .copy(alpha = 0.2f)
+                        PreferenceRowSwitch(
+                            title = stringResource(R.string.allow_image_monet),
+                            subtitle = stringResource(R.string.allow_image_monet_sub),
+                            checked = viewModel.allowImageMonet,
+                            onClick = { viewModel.updateAllowImageMonet() }
                         )
-                        .animateContentSize()
-                ) {
-                    var sliderValue by remember {
-                        mutableFloatStateOf(
-                            viewModel.borderWidth.coerceAtLeast(0f)
+                        PreferenceRowSwitch(
+                            title = stringResource(R.string.amoled_mode),
+                            subtitle = stringResource(R.string.amoled_mode_sub),
+                            checked = viewModel.amoledMode,
+                            onClick = { viewModel.updateAmoledMode() }
                         )
-                    }
-                    Row(
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        Text(
-                            text = stringResource(R.string.border_thickness),
-                            modifier = Modifier
-                                .padding(
-                                    top = 16.dp,
-                                    end = 16.dp,
-                                    start = 16.dp
+                        Column(
+                            Modifier
+                                .padding(horizontal = 16.dp)
+                                .block(
+                                    color = MaterialTheme
+                                        .colorScheme
+                                        .secondaryContainer
+                                        .copy(alpha = 0.2f)
                                 )
-                                .weight(1f)
-                        )
-                        AnimatedContent(
-                            targetState = sliderValue,
-                            transitionSpec = {
-                                fadeIn() togetherWith fadeOut()
+                                .animateContentSize()
+                        ) {
+                            var sliderValue by remember {
+                                mutableIntStateOf(
+                                    viewModel.emojisCount.coerceAtLeast(1)
+                                )
                             }
-                        ) { value ->
-                            Text(
-                                text = "$value",
-                                color = MaterialTheme.colorScheme.onSurface.copy(
-                                    alpha = 0.5f
+                            Row(
+                                verticalAlignment = Alignment.CenterVertically
+                            ) {
+                                Text(
+                                    text = stringResource(R.string.emojis_count),
+                                    modifier = Modifier
+                                        .padding(
+                                            top = 16.dp,
+                                            end = 16.dp,
+                                            start = 16.dp
+                                        )
+                                        .weight(1f)
+                                )
+                                AnimatedContent(
+                                    targetState = sliderValue,
+                                    transitionSpec = {
+                                        fadeIn() togetherWith fadeOut()
+                                    }
+                                ) { value ->
+                                    Text(
+                                        text = "$value",
+                                        color = MaterialTheme.colorScheme.onSurface.copy(
+                                            alpha = 0.5f
+                                        ),
+                                        modifier = Modifier.padding(top = 16.dp),
+                                        lineHeight = 18.sp
+                                    )
+                                }
+                                Spacer(
+                                    modifier = Modifier.padding(
+                                        start = 4.dp,
+                                        top = 16.dp,
+                                        end = 20.dp
+                                    )
+                                )
+                            }
+                            Slider(
+                                modifier = Modifier
+                                    .padding(top = 16.dp, start = 12.dp, end = 12.dp, bottom = 8.dp)
+                                    .offset(y = (-2).dp)
+                                    .background(
+                                        color = MaterialTheme.colorScheme.secondaryContainer,
+                                        shape = CircleShape
+                                    )
+                                    .height(40.dp)
+                                    .border(
+                                        width = settingsState.borderWidth,
+                                        color = MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.secondaryContainer),
+                                        shape = CircleShape
+                                    )
+                                    .padding(horizontal = 10.dp),
+                                colors = SliderDefaults.colors(
+                                    inactiveTrackColor =
+                                    MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.secondaryContainer)
                                 ),
-                                modifier = Modifier.padding(top = 16.dp),
-                                lineHeight = 18.sp
+                                value = animateFloatAsState(sliderValue.toFloat()).value,
+                                onValueChange = {
+                                    sliderValue = it.toInt()
+                                },
+                                onValueChangeFinished = {
+                                    viewModel.updateEmojisCount(sliderValue)
+                                },
+                                valueRange = 1f..5f,
+                                steps = 3
                             )
-                        }
-                        Text(
-                            maxLines = 1,
-                            text = "Dp",
-                            color = MaterialTheme.colorScheme.onSurface.copy(
-                                alpha = 0.5f
-                            ),
-                            modifier = Modifier.padding(
-                                start = 4.dp,
-                                top = 16.dp,
-                                end = 16.dp
-                            )
-                        )
-                    }
-                    Slider(
-                        modifier = Modifier
-                            .padding(top = 16.dp, start = 12.dp, end = 12.dp, bottom = 8.dp)
-                            .offset(y = (-2).dp)
-                            .background(
-                                color = MaterialTheme.colorScheme.secondaryContainer,
-                                shape = CircleShape
-                            )
-                            .height(40.dp)
-                            .border(
-                                width = settingsState.borderWidth,
-                                color = MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.secondaryContainer),
-                                shape = CircleShape
-                            )
-                            .padding(horizontal = 10.dp),
-                        colors = SliderDefaults.colors(
-                            inactiveTrackColor =
-                            MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.secondaryContainer)
-                        ),
-                        value = animateFloatAsState(sliderValue).value,
-                        onValueChange = {
-                            sliderValue = it
-                        },
-                        onValueChangeFinished = {
-                            viewModel.setBorderWidth(if (sliderValue > 0) sliderValue else -1f)
-                        },
-                        valueRange = 0f..4f,
-                        steps = 15
-                    )
-                }
-                Box(
-                    Modifier
-                        .padding(horizontal = 16.dp)
-                        .block(
-                            color = MaterialTheme
-                                .colorScheme
-                                .secondaryContainer
-                                .copy(alpha = 0.2f)
-                        )
-                        .animateContentSize()
-                ) {
-                    Row(
-                        Modifier
-                            .fillMaxWidth()
-                            .padding(
-                                start = 4.dp,
-                                top = 4.dp,
-                                bottom = 4.dp,
-                                end = 8.dp
-                            ),
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        var sliderValue by remember {
-                            mutableFloatStateOf(viewModel.alignment.toFloat())
                         }
                         Column(
                             Modifier
-                                .weight(1f)
-                                .height(136.dp)
+                                .padding(horizontal = 16.dp)
+                                .block(
+                                    color = MaterialTheme
+                                        .colorScheme
+                                        .secondaryContainer
+                                        .copy(alpha = 0.2f)
+                                )
+                                .animateContentSize()
                         ) {
-                            Text(
-                                text = stringResource(R.string.fab_alignment),
-                                modifier = Modifier
-                                    .padding(
-                                        top = 12.dp,
-                                        end = 12.dp,
-                                        start = 12.dp
-                                    ),
-                                lineHeight = 18.sp
-                            )
-                            AnimatedContent(
-                                targetState = sliderValue,
-                                transitionSpec = {
-                                    fadeIn() togetherWith fadeOut()
-                                }
-                            ) { value ->
+                            var sliderValue by remember {
+                                mutableFloatStateOf(
+                                    viewModel.borderWidth.coerceAtLeast(0f)
+                                )
+                            }
+                            Row(
+                                verticalAlignment = Alignment.CenterVertically
+                            ) {
                                 Text(
-                                    text = stringArrayResource(R.array.fab_alignment_sub)[value.roundToInt()],
+                                    text = stringResource(R.string.border_thickness),
+                                    modifier = Modifier
+                                        .padding(
+                                            top = 16.dp,
+                                            end = 16.dp,
+                                            start = 16.dp
+                                        )
+                                        .weight(1f)
+                                )
+                                AnimatedContent(
+                                    targetState = sliderValue,
+                                    transitionSpec = {
+                                        fadeIn() togetherWith fadeOut()
+                                    }
+                                ) { value ->
+                                    Text(
+                                        text = "$value",
+                                        color = MaterialTheme.colorScheme.onSurface.copy(
+                                            alpha = 0.5f
+                                        ),
+                                        modifier = Modifier.padding(top = 16.dp),
+                                        lineHeight = 18.sp
+                                    )
+                                }
+                                Text(
+                                    maxLines = 1,
+                                    text = "Dp",
                                     color = MaterialTheme.colorScheme.onSurface.copy(
                                         alpha = 0.5f
                                     ),
                                     modifier = Modifier.padding(
-                                        top = 8.dp,
-                                        start = 12.dp,
-                                        bottom = 8.dp,
-                                        end = 12.dp
-                                    ),
-                                    fontSize = 12.sp,
-                                    fontWeight = FontWeight.Normal,
-                                    lineHeight = 14.sp,
+                                        start = 4.dp,
+                                        top = 16.dp,
+                                        end = 16.dp
+                                    )
                                 )
                             }
-                            Spacer(modifier = Modifier.weight(1f))
                             Slider(
                                 modifier = Modifier
-                                    .padding(start = 12.dp, end = 12.dp, bottom = 4.dp, top = 4.dp)
+                                    .padding(top = 16.dp, start = 12.dp, end = 12.dp, bottom = 8.dp)
                                     .offset(y = (-2).dp)
                                     .background(
                                         color = MaterialTheme.colorScheme.secondaryContainer,
@@ -572,69 +524,187 @@ fun LazyListScope.settingsBlock(
                                     sliderValue = it
                                 },
                                 onValueChangeFinished = {
-                                    viewModel.setAlignment(sliderValue)
+                                    viewModel.setBorderWidth(if (sliderValue > 0) sliderValue else -1f)
                                 },
-                                valueRange = 0f..2f,
-                                steps = 1
+                                valueRange = 0f..4f,
+                                steps = 15
                             )
                         }
-                        FabPreview(
-                            alignment = sliderValue.roundToInt().toAlignment(),
-                            modifier = Modifier.width(74.dp)
-                        )
+                        Box(
+                            Modifier
+                                .padding(horizontal = 16.dp)
+                                .block(
+                                    color = MaterialTheme
+                                        .colorScheme
+                                        .secondaryContainer
+                                        .copy(alpha = 0.2f)
+                                )
+                                .animateContentSize()
+                        ) {
+                            Row(
+                                Modifier
+                                    .fillMaxWidth()
+                                    .padding(
+                                        start = 4.dp,
+                                        top = 4.dp,
+                                        bottom = 4.dp,
+                                        end = 8.dp
+                                    ),
+                                verticalAlignment = Alignment.CenterVertically
+                            ) {
+                                var sliderValue by remember {
+                                    mutableFloatStateOf(viewModel.alignment.toFloat())
+                                }
+                                Column(
+                                    Modifier
+                                        .weight(1f)
+                                        .height(136.dp)
+                                ) {
+                                    Text(
+                                        text = stringResource(R.string.fab_alignment),
+                                        modifier = Modifier
+                                            .padding(
+                                                top = 12.dp,
+                                                end = 12.dp,
+                                                start = 12.dp
+                                            ),
+                                        lineHeight = 18.sp
+                                    )
+                                    AnimatedContent(
+                                        targetState = sliderValue,
+                                        transitionSpec = {
+                                            fadeIn() togetherWith fadeOut()
+                                        }
+                                    ) { value ->
+                                        Text(
+                                            text = stringArrayResource(R.array.fab_alignment_sub)[value.roundToInt()],
+                                            color = MaterialTheme.colorScheme.onSurface.copy(
+                                                alpha = 0.5f
+                                            ),
+                                            modifier = Modifier.padding(
+                                                top = 8.dp,
+                                                start = 12.dp,
+                                                bottom = 8.dp,
+                                                end = 12.dp
+                                            ),
+                                            fontSize = 12.sp,
+                                            fontWeight = FontWeight.Normal,
+                                            lineHeight = 14.sp,
+                                        )
+                                    }
+                                    Spacer(modifier = Modifier.weight(1f))
+                                    Slider(
+                                        modifier = Modifier
+                                            .padding(
+                                                start = 12.dp,
+                                                end = 12.dp,
+                                                bottom = 4.dp,
+                                                top = 4.dp
+                                            )
+                                            .offset(y = (-2).dp)
+                                            .background(
+                                                color = MaterialTheme.colorScheme.secondaryContainer,
+                                                shape = CircleShape
+                                            )
+                                            .height(40.dp)
+                                            .border(
+                                                width = settingsState.borderWidth,
+                                                color = MaterialTheme.colorScheme.outlineVariant(
+                                                    onTopOf = MaterialTheme.colorScheme.secondaryContainer
+                                                ),
+                                                shape = CircleShape
+                                            )
+                                            .padding(horizontal = 10.dp),
+                                        colors = SliderDefaults.colors(
+                                            inactiveTrackColor =
+                                            MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.secondaryContainer)
+                                        ),
+                                        value = animateFloatAsState(sliderValue).value,
+                                        onValueChange = {
+                                            sliderValue = it
+                                        },
+                                        onValueChangeFinished = {
+                                            viewModel.setAlignment(sliderValue)
+                                        },
+                                        valueRange = 0f..2f,
+                                        steps = 1
+                                    )
+                                }
+                                FabPreview(
+                                    alignment = sliderValue.roundToInt().toAlignment(),
+                                    modifier = Modifier.width(74.dp)
+                                )
+                            }
+                        }
                     }
+                    Spacer(Modifier.height(16.dp))
                 }
             }
-            Spacer(Modifier.height(16.dp))
         }
         Divider()
     }
     item {
         // Arrangement
-        Column {
+        Column(Modifier.animateContentSize()) {
+            var expanded by rememberSaveable { mutableStateOf(false) }
+            val rotation by animateFloatAsState(if(expanded) 180f else 0f)
             TitleItem(
                 icon = Icons.Rounded.TableRows,
                 text = stringResource(R.string.options_arrangement),
-            )
-            val enabled = !settingsState.groupOptionsByTypes
-            PreferenceItem(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 16.dp)
-                    .alpha(
-                        animateFloatAsState(
-                            if (enabled) 1f
-                            else 0.5f
-                        ).value
-                    ),
-                onClick = {
-                    if (enabled) {
-                        onEditArrangement()
-                    } else scope.launch {
-                        toastHostState.showToast(
-                            icon = Icons.Rounded.TableRows,
-                            message = context.getString(R.string.cannot_change_arrangement_while_options_grouping_enabled)
-                        )
+                endContent = {
+                    IconButton(
+                        onClick = { expanded = !expanded }
+                    ) {
+                        Icon(
+                            imageVector = Icons.Rounded.KeyboardArrowDown,
+                            contentDescription = null,
+                            modifier = Modifier.rotate(rotation))
                     }
-                },
-                title = stringResource(R.string.order),
-                subtitle = stringResource(R.string.order_sub),
-                color = MaterialTheme
-                    .colorScheme
-                    .secondaryContainer
-                    .copy(alpha = 0.2f),
-                endIcon = Icons.Rounded.CreateAlt,
-            )
-            Spacer(Modifier.height(8.dp))
-            PreferenceRowSwitch(
-                title = stringResource(R.string.group_options_by_type),
-                subtitle = stringResource(R.string.group_options_by_type_sub),
-                checked = settingsState.groupOptionsByTypes,
-                onClick = {
-                    viewModel.updateGroupOptionsByTypes(it)
                 }
             )
-            Spacer(Modifier.height(16.dp))
+            AnimatedVisibility(expanded) {
+                val enabled = !settingsState.groupOptionsByTypes
+                Column {
+                    PreferenceItem(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 16.dp)
+                            .alpha(
+                                animateFloatAsState(
+                                    if (enabled) 1f
+                                    else 0.5f
+                                ).value
+                            ),
+                        onClick = {
+                            if (enabled) {
+                                onEditArrangement()
+                            } else scope.launch {
+                                toastHostState.showToast(
+                                    icon = Icons.Rounded.TableRows,
+                                    message = context.getString(R.string.cannot_change_arrangement_while_options_grouping_enabled)
+                                )
+                            }
+                        },
+                        title = stringResource(R.string.order),
+                        subtitle = stringResource(R.string.order_sub),
+                        color = MaterialTheme
+                            .colorScheme
+                            .secondaryContainer
+                            .copy(alpha = 0.2f),
+                        endIcon = Icons.Rounded.CreateAlt,
+                    )
+                    Spacer(Modifier.height(8.dp))
+                    PreferenceRowSwitch(
+                        title = stringResource(R.string.group_options_by_type),
+                        subtitle = stringResource(R.string.group_options_by_type_sub),
+                        checked = settingsState.groupOptionsByTypes,
+                        onClick = {
+                            viewModel.updateGroupOptionsByTypes(it)
+                        }
+                    )
+                    Spacer(Modifier.height(16.dp))
+                }
+            }
         }
         Divider()
     }

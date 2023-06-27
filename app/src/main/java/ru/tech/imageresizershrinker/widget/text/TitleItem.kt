@@ -1,6 +1,8 @@
 package ru.tech.imageresizershrinker.widget.text
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
@@ -15,9 +17,10 @@ import androidx.compose.ui.unit.dp
 
 @Composable
 fun TitleItem(
-    modifier: Modifier = Modifier.padding(16.dp),
     icon: ImageVector? = null,
-    text: String
+    text: String,
+    endContent: (@Composable RowScope.() -> Unit)? = null,
+    @SuppressLint("ModifierParameter") modifier: Modifier = Modifier.padding(16.dp),
 ) {
     Row(
         modifier = modifier,
@@ -27,6 +30,10 @@ fun TitleItem(
             Icon(it, null)
             Spacer(Modifier.width(8.dp))
         }
-        Text(text = text, fontWeight = FontWeight.Bold)
+        Text(text = text, fontWeight = FontWeight.Bold, modifier = Modifier.weight(1f))
+        endContent?.let {
+            Spacer(Modifier.width(8.dp))
+            it()
+        }
     }
 }
