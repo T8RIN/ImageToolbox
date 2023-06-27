@@ -36,9 +36,6 @@ import androidx.compose.material.icons.outlined.ErrorOutline
 import androidx.compose.material.icons.outlined.FolderOff
 import androidx.compose.material.icons.outlined.Image
 import androidx.compose.material.icons.rounded.AddCircleOutline
-import androidx.compose.material.icons.rounded.ArrowDownward
-import androidx.compose.material.icons.rounded.ArrowDropDown
-import androidx.compose.material.icons.rounded.ArrowDropDownCircle
 import androidx.compose.material.icons.rounded.Block
 import androidx.compose.material.icons.rounded.BugReport
 import androidx.compose.material.icons.rounded.Cached
@@ -118,14 +115,14 @@ import ru.tech.imageresizershrinker.utils.storage.BitmapSaveTarget
 import ru.tech.imageresizershrinker.utils.storage.LocalFileController
 import ru.tech.imageresizershrinker.utils.storage.constructFilename
 import ru.tech.imageresizershrinker.utils.storage.toUiPath
+import ru.tech.imageresizershrinker.widget.image.Picture
+import ru.tech.imageresizershrinker.widget.other.ToastDuration
+import ru.tech.imageresizershrinker.widget.other.ToastHostState
 import ru.tech.imageresizershrinker.widget.preferences.PreferenceItem
 import ru.tech.imageresizershrinker.widget.preferences.PreferenceRow
 import ru.tech.imageresizershrinker.widget.preferences.PreferenceRowSwitch
 import ru.tech.imageresizershrinker.widget.preferences.screens.SourceCodePreference
 import ru.tech.imageresizershrinker.widget.text.TitleItem
-import ru.tech.imageresizershrinker.widget.other.ToastDuration
-import ru.tech.imageresizershrinker.widget.other.ToastHostState
-import ru.tech.imageresizershrinker.widget.image.Picture
 import ru.tech.imageresizershrinker.widget.utils.LocalSettingsState
 import ru.tech.imageresizershrinker.widget.utils.SettingsState
 import ru.tech.imageresizershrinker.widget.utils.isNightMode
@@ -148,7 +145,7 @@ fun LazyListScope.settingsBlock(
     item {
         // Night mode
         Column(Modifier.animateContentSize()) {
-            var expanded by rememberSaveable { mutableStateOf(false) }
+            var expanded by rememberSaveable { mutableStateOf(true) }
             val rotation by animateFloatAsState(if(expanded) 180f else 0f)
             TitleItem(
                 modifier = Modifier
@@ -215,9 +212,14 @@ fun LazyListScope.settingsBlock(
     item {
         // Customization
         Column(Modifier.animateContentSize()) {
-            var expanded by rememberSaveable { mutableStateOf(false) }
+            var expanded by rememberSaveable { mutableStateOf(true) }
             val rotation by animateFloatAsState(if(expanded) 180f else 0f)
             TitleItem(
+                modifier = Modifier
+                    .padding(8.dp)
+                    .clip(MaterialTheme.shapes.large)
+                    .clickable { expanded = !expanded }
+                    .padding(8.dp),
                 icon = Icons.Rounded.Palette,
                 text = stringResource(R.string.customization),
                 endContent = {
@@ -227,7 +229,8 @@ fun LazyListScope.settingsBlock(
                         Icon(
                             imageVector = Icons.Rounded.KeyboardArrowDown,
                             contentDescription = null,
-                            modifier = Modifier.rotate(rotation))
+                            modifier = Modifier.rotate(rotation)
+                        )
                     }
                 }
             )
@@ -649,6 +652,11 @@ fun LazyListScope.settingsBlock(
             var expanded by rememberSaveable { mutableStateOf(false) }
             val rotation by animateFloatAsState(if(expanded) 180f else 0f)
             TitleItem(
+                modifier = Modifier
+                    .padding(8.dp)
+                    .clip(MaterialTheme.shapes.large)
+                    .clickable { expanded = !expanded }
+                    .padding(8.dp),
                 icon = Icons.Rounded.TableRows,
                 text = stringResource(R.string.options_arrangement),
                 endContent = {
@@ -658,7 +666,8 @@ fun LazyListScope.settingsBlock(
                         Icon(
                             imageVector = Icons.Rounded.KeyboardArrowDown,
                             contentDescription = null,
-                            modifier = Modifier.rotate(rotation))
+                            modifier = Modifier.rotate(rotation)
+                        )
                     }
                 }
             )
@@ -710,31 +719,53 @@ fun LazyListScope.settingsBlock(
     }
     item {
         // Presets
-        Column {
+        Column(Modifier.animateContentSize()) {
+            var expanded by rememberSaveable { mutableStateOf(false) }
+            val rotation by animateFloatAsState(if (expanded) 180f else 0f)
             TitleItem(
+                modifier = Modifier
+                    .padding(8.dp)
+                    .clip(MaterialTheme.shapes.large)
+                    .clickable { expanded = !expanded }
+                    .padding(8.dp),
                 icon = Icons.Rounded.PhotoSizeSelectSmall,
                 text = stringResource(R.string.presets),
+                endContent = {
+                    IconButton(
+                        onClick = { expanded = !expanded }
+                    ) {
+                        Icon(
+                            imageVector = Icons.Rounded.KeyboardArrowDown,
+                            contentDescription = null,
+                            modifier = Modifier.rotate(rotation)
+                        )
+                    }
+                }
             )
-            PreferenceItem(
-                onClick = { onEditPresets() },
-                title = stringResource(R.string.values),
-                subtitle = settingsState.presets.joinToString(", "),
-                color = MaterialTheme
-                    .colorScheme
-                    .secondaryContainer
-                    .copy(alpha = 0.2f),
-                endIcon = Icons.Rounded.CreateAlt,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 16.dp)
-            )
-            Spacer(Modifier.height(16.dp))
+            AnimatedVisibility(expanded) {
+                Column {
+                    PreferenceItem(
+                        onClick = { onEditPresets() },
+                        title = stringResource(R.string.values),
+                        subtitle = settingsState.presets.joinToString(", "),
+                        color = MaterialTheme
+                            .colorScheme
+                            .secondaryContainer
+                            .copy(alpha = 0.2f),
+                        endIcon = Icons.Rounded.CreateAlt,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 16.dp)
+                    )
+                    Spacer(Modifier.height(16.dp))
+                }
+            }
         }
         Divider()
     }
     item {
         // Folder
-        Column {
+        Column(Modifier.animateContentSize()) {
             val currentFolderUri = viewModel.saveFolderUri
             val launcher = rememberLauncherForActivityResult(
                 contract = ActivityResultContracts.OpenDocumentTree(),
@@ -749,434 +780,549 @@ fun LazyListScope.settingsBlock(
                     }
                 }
             )
+
+            var expanded by rememberSaveable { mutableStateOf(false) }
+            val rotation by animateFloatAsState(if (expanded) 180f else 0f)
             TitleItem(
+                modifier = Modifier
+                    .padding(8.dp)
+                    .clip(MaterialTheme.shapes.large)
+                    .clickable { expanded = !expanded }
+                    .padding(8.dp),
                 icon = Icons.Rounded.Folder,
                 text = stringResource(R.string.folder),
-            )
-            PreferenceItem(
-                onClick = { viewModel.updateSaveFolderUri(null) },
-                title = stringResource(R.string.def),
-                subtitle = stringResource(R.string.default_folder),
-                color = MaterialTheme.colorScheme.secondaryContainer.copy(
-                    alpha = animateFloatAsState(
-                        if (currentFolderUri == null) 0.7f
-                        else 0.2f
-                    ).value
-                ),
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 16.dp)
-                    .border(
-                        width = settingsState.borderWidth,
-                        color = animateColorAsState(
-                            if (currentFolderUri == null) MaterialTheme.colorScheme.onSecondaryContainer.copy(
-                                alpha = 0.5f
-                            )
-                            else Color.Transparent
-                        ).value,
-                        shape = RoundedCornerShape(16.dp)
-                    )
-            )
-            Spacer(modifier = Modifier.height(8.dp))
-            PreferenceItem(
-                onClick = {
-                    kotlin.runCatching {
-                        launcher.launch(currentFolderUri)
-                    }.getOrNull() ?: scope.launch {
-                        toastHostState.showToast(
-                            context.getString(R.string.activate_files),
-                            icon = Icons.Outlined.FolderOff,
-                            duration = ToastDuration.Long
+                endContent = {
+                    IconButton(
+                        onClick = { expanded = !expanded }
+                    ) {
+                        Icon(
+                            imageVector = Icons.Rounded.KeyboardArrowDown,
+                            contentDescription = null,
+                            modifier = Modifier.rotate(rotation)
                         )
                     }
-                },
-                title = stringResource(R.string.custom),
-                subtitle = currentFolderUri.toUiPath(
-                    context = LocalContext.current,
-                    default = stringResource(R.string.unspecified)
-                ),
-                color = MaterialTheme.colorScheme.secondaryContainer.copy(
-                    alpha = animateFloatAsState(
-                        if (currentFolderUri != null) 0.7f
-                        else 0.2f
-                    ).value
-                ),
-                endIcon = if (currentFolderUri != null) Icons.Rounded.CreateAlt else Icons.Rounded.AddCircleOutline,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 16.dp)
-                    .border(
-                        width = settingsState.borderWidth,
-                        color = animateColorAsState(
-                            if (currentFolderUri != null) MaterialTheme.colorScheme.onSecondaryContainer.copy(
-                                alpha = 0.5f
-                            )
-                            else Color.Transparent
-                        ).value,
-                        shape = RoundedCornerShape(16.dp)
-                    )
+                }
             )
-            Spacer(Modifier.height(16.dp))
+            AnimatedVisibility(expanded) {
+                Column {
+                    PreferenceItem(
+                        onClick = { viewModel.updateSaveFolderUri(null) },
+                        title = stringResource(R.string.def),
+                        subtitle = stringResource(R.string.default_folder),
+                        color = MaterialTheme.colorScheme.secondaryContainer.copy(
+                            alpha = animateFloatAsState(
+                                if (currentFolderUri == null) 0.7f
+                                else 0.2f
+                            ).value
+                        ),
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 16.dp)
+                            .border(
+                                width = settingsState.borderWidth,
+                                color = animateColorAsState(
+                                    if (currentFolderUri == null) MaterialTheme.colorScheme.onSecondaryContainer.copy(
+                                        alpha = 0.5f
+                                    )
+                                    else Color.Transparent
+                                ).value,
+                                shape = RoundedCornerShape(16.dp)
+                            )
+                    )
+                    Spacer(modifier = Modifier.height(8.dp))
+                    PreferenceItem(
+                        onClick = {
+                            kotlin.runCatching {
+                                launcher.launch(currentFolderUri)
+                            }.getOrNull() ?: scope.launch {
+                                toastHostState.showToast(
+                                    context.getString(R.string.activate_files),
+                                    icon = Icons.Outlined.FolderOff,
+                                    duration = ToastDuration.Long
+                                )
+                            }
+                        },
+                        title = stringResource(R.string.custom),
+                        subtitle = currentFolderUri.toUiPath(
+                            context = LocalContext.current,
+                            default = stringResource(R.string.unspecified)
+                        ),
+                        color = MaterialTheme.colorScheme.secondaryContainer.copy(
+                            alpha = animateFloatAsState(
+                                if (currentFolderUri != null) 0.7f
+                                else 0.2f
+                            ).value
+                        ),
+                        endIcon = if (currentFolderUri != null) Icons.Rounded.CreateAlt else Icons.Rounded.AddCircleOutline,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 16.dp)
+                            .border(
+                                width = settingsState.borderWidth,
+                                color = animateColorAsState(
+                                    if (currentFolderUri != null) MaterialTheme.colorScheme.onSecondaryContainer.copy(
+                                        alpha = 0.5f
+                                    )
+                                    else Color.Transparent
+                                ).value,
+                                shape = RoundedCornerShape(16.dp)
+                            )
+                    )
+                    Spacer(Modifier.height(16.dp))
+                }
+            }
         }
         Divider()
     }
     item {
         // Cache
-        var cache by remember(
-            context,
-            LocalLifecycleOwner.current.lifecycle.observeAsState().value
-        ) { mutableStateOf(context.cacheSize()) }
-        Column {
+        Column(Modifier.animateContentSize()) {
+            var cache by remember(
+                context,
+                LocalLifecycleOwner.current.lifecycle.observeAsState().value
+            ) { mutableStateOf(context.cacheSize()) }
+
+            var expanded by rememberSaveable { mutableStateOf(false) }
+            val rotation by animateFloatAsState(if (expanded) 180f else 0f)
             TitleItem(
+                modifier = Modifier
+                    .padding(8.dp)
+                    .clip(MaterialTheme.shapes.large)
+                    .clickable { expanded = !expanded }
+                    .padding(8.dp),
                 icon = Icons.Rounded.Cached,
                 text = stringResource(R.string.cache),
-            )
-            PreferenceItem(
-                onClick = {
-                    context.clearCache {
-                        cache = context.cacheSize()
+                endContent = {
+                    IconButton(
+                        onClick = { expanded = !expanded }
+                    ) {
+                        Icon(
+                            imageVector = Icons.Rounded.KeyboardArrowDown,
+                            contentDescription = null,
+                            modifier = Modifier.rotate(rotation)
+                        )
                     }
-                },
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 16.dp),
-                color = MaterialTheme
-                    .colorScheme
-                    .secondaryContainer
-                    .copy(alpha = 0.2f),
-                title = stringResource(R.string.cache_size),
-                subtitle = stringResource(R.string.found_s, cache),
-                endIcon = Icons.Rounded.DeleteOutline
-            )
-            Spacer(modifier = Modifier.height(8.dp))
-            PreferenceRowSwitch(
-                title = stringResource(R.string.auto_cache_clearing),
-                subtitle = stringResource(R.string.auto_cache_clearing_sub),
-                checked = settingsState.clearCacheOnLaunch,
-                onClick = {
-                    viewModel.setClearCacheOnLaunch(it)
                 }
             )
-            Spacer(modifier = Modifier.height(16.dp))
+            AnimatedVisibility(expanded) {
+                Column {
+                    PreferenceItem(
+                        onClick = {
+                            context.clearCache {
+                                cache = context.cacheSize()
+                            }
+                        },
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 16.dp),
+                        color = MaterialTheme
+                            .colorScheme
+                            .secondaryContainer
+                            .copy(alpha = 0.2f),
+                        title = stringResource(R.string.cache_size),
+                        subtitle = stringResource(R.string.found_s, cache),
+                        endIcon = Icons.Rounded.DeleteOutline
+                    )
+                    Spacer(modifier = Modifier.height(8.dp))
+                    PreferenceRowSwitch(
+                        title = stringResource(R.string.auto_cache_clearing),
+                        subtitle = stringResource(R.string.auto_cache_clearing_sub),
+                        checked = settingsState.clearCacheOnLaunch,
+                        onClick = {
+                            viewModel.setClearCacheOnLaunch(it)
+                        }
+                    )
+                    Spacer(modifier = Modifier.height(16.dp))
+                }
+            }
         }
         Divider()
     }
     item {
         // File
-        Column {
-            val fileController = LocalFileController.current
+        Column(Modifier.animateContentSize()) {
+            var expanded by rememberSaveable { mutableStateOf(false) }
+            val rotation by animateFloatAsState(if (expanded) 180f else 0f)
             TitleItem(
+                modifier = Modifier
+                    .padding(8.dp)
+                    .clip(MaterialTheme.shapes.large)
+                    .clickable { expanded = !expanded }
+                    .padding(8.dp),
                 icon = Icons.Rounded.FileSettings,
                 text = stringResource(R.string.filename),
-            )
-            PreferenceItem(
-                onClick = { onEditFilename() },
-                title = stringResource(R.string.prefix),
-                subtitle = remember(
-                    viewModel.filenamePrefix,
-                    viewModel.addSizeInFilename,
-                    viewModel.addOriginalFilename,
-                    viewModel.addSequenceNumber
-                ) {
-                    derivedStateOf {
-                        constructFilename(
-                            context = context,
-                            fileParams = fileController.fileParams,
-                            saveTarget = BitmapSaveTarget(BitmapInfo(), Uri.EMPTY, null)
-                        ).split(".")[0].let {
-                            if (viewModel.imagePickerModeInt == 0) {
-                                it.replace("_" + context.getString(R.string.original_filename), "")
-                            } else it
-                        } + ".img"
-                    }
-                }.value,
-                color = MaterialTheme
-                    .colorScheme
-                    .secondaryContainer
-                    .copy(alpha = 0.2f),
-                endIcon = Icons.Rounded.CreateAlt,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 16.dp)
-            )
-            Spacer(Modifier.height(8.dp))
-            PreferenceRowSwitch(
-                onClick = { viewModel.updateAddFileSize() },
-                title = stringResource(R.string.add_file_size),
-                subtitle = stringResource(R.string.add_file_size_sub),
-                checked = viewModel.addSizeInFilename
-            )
-            Spacer(Modifier.height(8.dp))
-            val enabled = viewModel.imagePickerModeInt != 0
-            PreferenceRowSwitch(
-                modifier = Modifier.alpha(
-                    animateFloatAsState(
-                        if (enabled) 1f
-                        else 0.5f
-                    ).value
-                ),
-                onClick = {
-                    if (enabled) viewModel.updateAddOriginalFilename()
-                    else scope.launch {
-                        toastHostState.showToast(
-                            message = context.getString(R.string.filename_not_work_with_photopicker),
-                            icon = Icons.Outlined.ErrorOutline
+                endContent = {
+                    IconButton(
+                        onClick = { expanded = !expanded }
+                    ) {
+                        Icon(
+                            imageVector = Icons.Rounded.KeyboardArrowDown,
+                            contentDescription = null,
+                            modifier = Modifier.rotate(rotation)
                         )
                     }
-                },
-                title = stringResource(R.string.add_original_filename),
-                subtitle = stringResource(R.string.add_original_filename_sub),
-                checked = viewModel.addOriginalFilename && enabled
+                }
             )
-            Spacer(Modifier.height(8.dp))
-            PreferenceRowSwitch(
-                onClick = { viewModel.updateAddSequenceNumber() },
-                title = stringResource(R.string.replace_sequence_number),
-                subtitle = stringResource(R.string.replace_sequence_number_sub),
-                checked = viewModel.addSequenceNumber
-            )
-            Spacer(Modifier.height(16.dp))
+            AnimatedVisibility(expanded) {
+                Column {
+                    val fileController = LocalFileController.current
+                    PreferenceItem(
+                        onClick = { onEditFilename() },
+                        title = stringResource(R.string.prefix),
+                        subtitle = remember(
+                            viewModel.filenamePrefix,
+                            viewModel.addSizeInFilename,
+                            viewModel.addOriginalFilename,
+                            viewModel.addSequenceNumber
+                        ) {
+                            derivedStateOf {
+                                constructFilename(
+                                    context = context,
+                                    fileParams = fileController.fileParams,
+                                    saveTarget = BitmapSaveTarget(BitmapInfo(), Uri.EMPTY, null)
+                                ).split(".")[0].let {
+                                    if (viewModel.imagePickerModeInt == 0) {
+                                        it.replace(
+                                            "_" + context.getString(R.string.original_filename),
+                                            ""
+                                        )
+                                    } else it
+                                } + ".img"
+                            }
+                        }.value,
+                        color = MaterialTheme
+                            .colorScheme
+                            .secondaryContainer
+                            .copy(alpha = 0.2f),
+                        endIcon = Icons.Rounded.CreateAlt,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 16.dp)
+                    )
+                    Spacer(Modifier.height(8.dp))
+                    PreferenceRowSwitch(
+                        onClick = { viewModel.updateAddFileSize() },
+                        title = stringResource(R.string.add_file_size),
+                        subtitle = stringResource(R.string.add_file_size_sub),
+                        checked = viewModel.addSizeInFilename
+                    )
+                    Spacer(Modifier.height(8.dp))
+                    val enabled = viewModel.imagePickerModeInt != 0
+                    PreferenceRowSwitch(
+                        modifier = Modifier.alpha(
+                            animateFloatAsState(
+                                if (enabled) 1f
+                                else 0.5f
+                            ).value
+                        ),
+                        onClick = {
+                            if (enabled) viewModel.updateAddOriginalFilename()
+                            else scope.launch {
+                                toastHostState.showToast(
+                                    message = context.getString(R.string.filename_not_work_with_photopicker),
+                                    icon = Icons.Outlined.ErrorOutline
+                                )
+                            }
+                        },
+                        title = stringResource(R.string.add_original_filename),
+                        subtitle = stringResource(R.string.add_original_filename_sub),
+                        checked = viewModel.addOriginalFilename && enabled
+                    )
+                    Spacer(Modifier.height(8.dp))
+                    PreferenceRowSwitch(
+                        onClick = { viewModel.updateAddSequenceNumber() },
+                        title = stringResource(R.string.replace_sequence_number),
+                        subtitle = stringResource(R.string.replace_sequence_number_sub),
+                        checked = viewModel.addSequenceNumber
+                    )
+                    Spacer(Modifier.height(16.dp))
+                }
+            }
         }
         Divider()
     }
     item {
         // Source
-        Column {
+        Column(Modifier.animateContentSize()) {
+            var expanded by rememberSaveable { mutableStateOf(false) }
+            val rotation by animateFloatAsState(if (expanded) 180f else 0f)
             TitleItem(
+                modifier = Modifier
+                    .padding(8.dp)
+                    .clip(MaterialTheme.shapes.large)
+                    .clickable { expanded = !expanded }
+                    .padding(8.dp),
                 icon = Icons.Rounded.ImageSearch,
                 text = stringResource(R.string.image_source),
+                endContent = {
+                    IconButton(
+                        onClick = { expanded = !expanded }
+                    ) {
+                        Icon(
+                            imageVector = Icons.Rounded.KeyboardArrowDown,
+                            contentDescription = null,
+                            modifier = Modifier.rotate(rotation)
+                        )
+                    }
+                }
             )
-            PreferenceItem(
-                onClick = { viewModel.updateImagePickerMode(0) },
-                title = stringResource(R.string.photo_picker),
-                icon = Icons.Outlined.BurstMode,
-                subtitle = stringResource(R.string.photo_picker_sub),
-                color = MaterialTheme.colorScheme.secondaryContainer.copy(
-                    alpha = animateFloatAsState(
-                        if (viewModel.imagePickerModeInt == 0) 0.7f
-                        else 0.2f
-                    ).value
-                ),
-                endIcon = if (viewModel.imagePickerModeInt == 0) Icons.Rounded.RadioButtonChecked else Icons.Rounded.RadioButtonUnchecked,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 16.dp)
-                    .border(
-                        width = settingsState.borderWidth,
-                        color = animateColorAsState(
-                            if (viewModel.imagePickerModeInt == 0) MaterialTheme.colorScheme.onSecondaryContainer.copy(
-                                alpha = 0.5f
+            AnimatedVisibility(expanded) {
+                Column {
+                    PreferenceItem(
+                        onClick = { viewModel.updateImagePickerMode(0) },
+                        title = stringResource(R.string.photo_picker),
+                        icon = Icons.Outlined.BurstMode,
+                        subtitle = stringResource(R.string.photo_picker_sub),
+                        color = MaterialTheme.colorScheme.secondaryContainer.copy(
+                            alpha = animateFloatAsState(
+                                if (viewModel.imagePickerModeInt == 0) 0.7f
+                                else 0.2f
+                            ).value
+                        ),
+                        endIcon = if (viewModel.imagePickerModeInt == 0) Icons.Rounded.RadioButtonChecked else Icons.Rounded.RadioButtonUnchecked,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 16.dp)
+                            .border(
+                                width = settingsState.borderWidth,
+                                color = animateColorAsState(
+                                    if (viewModel.imagePickerModeInt == 0) MaterialTheme.colorScheme.onSecondaryContainer.copy(
+                                        alpha = 0.5f
+                                    )
+                                    else Color.Transparent
+                                ).value,
+                                shape = RoundedCornerShape(16.dp)
                             )
-                            else Color.Transparent
-                        ).value,
-                        shape = RoundedCornerShape(16.dp)
                     )
-            )
-            Spacer(modifier = Modifier.height(8.dp))
-            PreferenceItem(
-                onClick = { viewModel.updateImagePickerMode(1) },
-                title = stringResource(R.string.gallery_picker),
-                icon = Icons.Outlined.Image,
-                subtitle = stringResource(R.string.gallery_picker_sub),
-                color = MaterialTheme.colorScheme.secondaryContainer.copy(
-                    alpha = animateFloatAsState(
-                        if (viewModel.imagePickerModeInt == 1) 0.7f
-                        else 0.2f
-                    ).value
-                ),
-                endIcon = if (viewModel.imagePickerModeInt == 1) Icons.Rounded.RadioButtonChecked else Icons.Rounded.RadioButtonUnchecked,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 16.dp)
-                    .border(
-                        width = settingsState.borderWidth,
-                        color = animateColorAsState(
-                            if (viewModel.imagePickerModeInt == 1) MaterialTheme.colorScheme.onSecondaryContainer.copy(
-                                alpha = 0.5f
+                    Spacer(modifier = Modifier.height(8.dp))
+                    PreferenceItem(
+                        onClick = { viewModel.updateImagePickerMode(1) },
+                        title = stringResource(R.string.gallery_picker),
+                        icon = Icons.Outlined.Image,
+                        subtitle = stringResource(R.string.gallery_picker_sub),
+                        color = MaterialTheme.colorScheme.secondaryContainer.copy(
+                            alpha = animateFloatAsState(
+                                if (viewModel.imagePickerModeInt == 1) 0.7f
+                                else 0.2f
+                            ).value
+                        ),
+                        endIcon = if (viewModel.imagePickerModeInt == 1) Icons.Rounded.RadioButtonChecked else Icons.Rounded.RadioButtonUnchecked,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 16.dp)
+                            .border(
+                                width = settingsState.borderWidth,
+                                color = animateColorAsState(
+                                    if (viewModel.imagePickerModeInt == 1) MaterialTheme.colorScheme.onSecondaryContainer.copy(
+                                        alpha = 0.5f
+                                    )
+                                    else Color.Transparent
+                                ).value,
+                                shape = RoundedCornerShape(16.dp)
                             )
-                            else Color.Transparent
-                        ).value,
-                        shape = RoundedCornerShape(16.dp)
                     )
-            )
-            Spacer(modifier = Modifier.height(8.dp))
-            PreferenceItem(
-                onClick = { viewModel.updateImagePickerMode(2) },
-                title = stringResource(R.string.file_explorer_picker),
-                subtitle = stringResource(R.string.file_explorer_picker_sub),
-                icon = Icons.Rounded.FolderOpen,
-                color = MaterialTheme.colorScheme.secondaryContainer.copy(
-                    alpha = animateFloatAsState(
-                        if (viewModel.imagePickerModeInt == 2) 0.7f
-                        else 0.2f
-                    ).value
-                ),
-                endIcon = if (viewModel.imagePickerModeInt == 2) Icons.Rounded.RadioButtonChecked else Icons.Rounded.RadioButtonUnchecked,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 16.dp)
-                    .border(
-                        width = settingsState.borderWidth,
-                        color = animateColorAsState(
-                            if (viewModel.imagePickerModeInt == 2) MaterialTheme.colorScheme.onSecondaryContainer.copy(
-                                alpha = 0.5f
+                    Spacer(modifier = Modifier.height(8.dp))
+                    PreferenceItem(
+                        onClick = { viewModel.updateImagePickerMode(2) },
+                        title = stringResource(R.string.file_explorer_picker),
+                        subtitle = stringResource(R.string.file_explorer_picker_sub),
+                        icon = Icons.Rounded.FolderOpen,
+                        color = MaterialTheme.colorScheme.secondaryContainer.copy(
+                            alpha = animateFloatAsState(
+                                if (viewModel.imagePickerModeInt == 2) 0.7f
+                                else 0.2f
+                            ).value
+                        ),
+                        endIcon = if (viewModel.imagePickerModeInt == 2) Icons.Rounded.RadioButtonChecked else Icons.Rounded.RadioButtonUnchecked,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 16.dp)
+                            .border(
+                                width = settingsState.borderWidth,
+                                color = animateColorAsState(
+                                    if (viewModel.imagePickerModeInt == 2) MaterialTheme.colorScheme.onSecondaryContainer.copy(
+                                        alpha = 0.5f
+                                    )
+                                    else Color.Transparent
+                                ).value,
+                                shape = RoundedCornerShape(16.dp)
                             )
-                            else Color.Transparent
-                        ).value,
-                        shape = RoundedCornerShape(16.dp)
                     )
-            )
-            Spacer(Modifier.height(16.dp))
+                    Spacer(Modifier.height(16.dp))
+                }
+            }
         }
         Divider()
     }
     item {
         // About app
-        Column {
+        Column(Modifier.animateContentSize()) {
+            var expanded by rememberSaveable { mutableStateOf(true) }
+            val rotation by animateFloatAsState(if (expanded) 180f else 0f)
             TitleItem(
+                modifier = Modifier
+                    .padding(8.dp)
+                    .clip(MaterialTheme.shapes.large)
+                    .clickable { expanded = !expanded }
+                    .padding(8.dp),
                 icon = Icons.Rounded.Info,
-                text = stringResource(R.string.about_app)
-            )
-            Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                PreferenceRow(
-                    modifier = Modifier.pulsate(
-                        enabled = viewModel.updateAvailable,
-                        range = 0.98f..1.02f
-                    ),
-                    title = stringResource(R.string.version),
-                    subtitle = "${BuildConfig.VERSION_NAME} (${BuildConfig.VERSION_CODE})",
-                    endContent = {
+                text = stringResource(R.string.about_app),
+                endContent = {
+                    IconButton(
+                        onClick = { expanded = !expanded }
+                    ) {
                         Icon(
-                            painterResource(R.drawable.ic_launcher_monochrome),
-                            null,
-                            tint = animateColorAsState(
-                                if (viewModel.nightMode.isNightMode()) {
-                                    MaterialTheme.colorScheme.primary
-                                } else {
-                                    MaterialTheme.colorScheme.onPrimaryContainer.blend(
-                                        Color.White
-                                    )
-                                }
-                            ).value,
-                            modifier = Modifier
-                                .padding(start = 8.dp)
-                                .size(64.dp)
-                                .offset(7.dp)
-                                .background(
-                                    animateColorAsState(
+                            imageVector = Icons.Rounded.KeyboardArrowDown,
+                            contentDescription = null,
+                            modifier = Modifier.rotate(rotation)
+                        )
+                    }
+                }
+            )
+            AnimatedVisibility(expanded) {
+                Column {
+                    Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                        PreferenceRow(
+                            modifier = Modifier.pulsate(
+                                enabled = viewModel.updateAvailable,
+                                range = 0.98f..1.02f
+                            ),
+                            title = stringResource(R.string.version),
+                            subtitle = "${BuildConfig.VERSION_NAME} (${BuildConfig.VERSION_CODE})",
+                            endContent = {
+                                Icon(
+                                    painterResource(R.drawable.ic_launcher_monochrome),
+                                    null,
+                                    tint = animateColorAsState(
                                         if (viewModel.nightMode.isNightMode()) {
-                                            MaterialTheme.colorScheme.background.blend(
-                                                Color.White,
-                                                0.1f
-                                            )
+                                            MaterialTheme.colorScheme.primary
                                         } else {
-                                            MaterialTheme.colorScheme.primaryContainer
+                                            MaterialTheme.colorScheme.onPrimaryContainer.blend(
+                                                Color.White
+                                            )
                                         }
                                     ).value,
-                                    shape = MaterialTheme.shapes.medium
+                                    modifier = Modifier
+                                        .padding(start = 8.dp)
+                                        .size(64.dp)
+                                        .offset(7.dp)
+                                        .background(
+                                            animateColorAsState(
+                                                if (viewModel.nightMode.isNightMode()) {
+                                                    MaterialTheme.colorScheme.background.blend(
+                                                        Color.White,
+                                                        0.1f
+                                                    )
+                                                } else {
+                                                    MaterialTheme.colorScheme.primaryContainer
+                                                }
+                                            ).value,
+                                            shape = MaterialTheme.shapes.medium
+                                        )
+                                        .border(
+                                            settingsState.borderWidth,
+                                            MaterialTheme.colorScheme.outlineVariant(),
+                                            shape = MaterialTheme.shapes.medium
+                                        )
+                                        .scale(1.4f)
                                 )
-                                .border(
-                                    settingsState.borderWidth,
-                                    MaterialTheme.colorScheme.outlineVariant(),
-                                    shape = MaterialTheme.shapes.medium
+                            },
+                            onClick = {
+                                viewModel.tryGetUpdate(
+                                    newRequest = true,
+                                    onNoUpdates = {
+                                        scope.launch {
+                                            toastHostState.showToast(
+                                                icon = Icons.Rounded.FileDownloadOff,
+                                                message = context.getString(R.string.no_updates)
+                                            )
+                                        }
+                                    }
                                 )
-                                .scale(1.4f)
-                        )
-                    },
-                    onClick = {
-                        viewModel.tryGetUpdate(
-                            newRequest = true,
-                            onNoUpdates = {
-                                scope.launch {
-                                    toastHostState.showToast(
-                                        icon = Icons.Rounded.FileDownloadOff,
-                                        message = context.getString(R.string.no_updates)
-                                    )
-                                }
                             }
                         )
-                    }
-                )
-                PreferenceRowSwitch(
-                    title = stringResource(R.string.check_updates),
-                    subtitle = stringResource(R.string.check_updates_sub),
-                    checked = viewModel.showDialogOnStartUp,
-                    onClick = viewModel::updateShowDialog
-                )
-                PreferenceRow(
-                    title = stringResource(R.string.help_translate),
-                    subtitle = stringResource(R.string.help_translate_sub),
-                    endContent = {
-                        Icon(Icons.Rounded.Translate, null)
-                    },
-                    onClick = {
-                        context.startActivity(
-                            Intent(
-                                Intent.ACTION_VIEW,
-                                Uri.parse(WEBLATE_LINK)
-                            )
+                        PreferenceRowSwitch(
+                            title = stringResource(R.string.check_updates),
+                            subtitle = stringResource(R.string.check_updates_sub),
+                            checked = viewModel.showDialogOnStartUp,
+                            onClick = viewModel::updateShowDialog
                         )
-                    }
-                )
-                PreferenceRow(
-                    title = stringResource(R.string.issue_tracker),
-                    subtitle = stringResource(R.string.issue_tracker_sub),
-                    endContent = {
-                        Icon(Icons.Rounded.BugReport, null)
-                    },
-                    onClick = {
-                        context.startActivity(
-                            Intent(
-                                Intent.ACTION_VIEW,
-                                Uri.parse(ISSUE_TRACKER)
-                            )
+                        PreferenceRow(
+                            title = stringResource(R.string.help_translate),
+                            subtitle = stringResource(R.string.help_translate_sub),
+                            endContent = {
+                                Icon(Icons.Rounded.Translate, null)
+                            },
+                            onClick = {
+                                context.startActivity(
+                                    Intent(
+                                        Intent.ACTION_VIEW,
+                                        Uri.parse(WEBLATE_LINK)
+                                    )
+                                )
+                            }
                         )
-                    }
-                )
-                PreferenceRow(
-                    title = stringResource(R.string.buy_me_a_coffee),
-                    subtitle = stringResource(R.string.buy_me_a_coffee_sub),
-                    endContent = {
-                        Icon(Icons.Rounded.Coffee, null)
-                    },
-                    onClick = {
-                        context.startActivity(
-                            Intent(
-                                Intent.ACTION_VIEW,
-                                Uri.parse(DONATE)
-                            )
+                        PreferenceRow(
+                            title = stringResource(R.string.issue_tracker),
+                            subtitle = stringResource(R.string.issue_tracker_sub),
+                            endContent = {
+                                Icon(Icons.Rounded.BugReport, null)
+                            },
+                            onClick = {
+                                context.startActivity(
+                                    Intent(
+                                        Intent.ACTION_VIEW,
+                                        Uri.parse(ISSUE_TRACKER)
+                                    )
+                                )
+                            }
                         )
-                    }
-                )
-                PreferenceRow(
-                    color = MaterialTheme.colorScheme.tertiaryContainer,
-                    title = stringResource(R.string.app_developer),
-                    subtitle = stringResource(R.string.app_developer_nick),
-                    startContent = {
-                        Picture(
-                            model = AUTHOR_AVATAR,
+                        PreferenceRow(
+                            title = stringResource(R.string.buy_me_a_coffee),
+                            subtitle = stringResource(R.string.buy_me_a_coffee_sub),
+                            endContent = {
+                                Icon(Icons.Rounded.Coffee, null)
+                            },
+                            onClick = {
+                                context.startActivity(
+                                    Intent(
+                                        Intent.ACTION_VIEW,
+                                        Uri.parse(DONATE)
+                                    )
+                                )
+                            }
+                        )
+                        PreferenceRow(
+                            color = MaterialTheme.colorScheme.tertiaryContainer,
+                            title = stringResource(R.string.app_developer),
+                            subtitle = stringResource(R.string.app_developer_nick),
+                            startContent = {
+                                Picture(
+                                    model = AUTHOR_AVATAR,
+                                    modifier = Modifier
+                                        .padding(horizontal = 8.dp)
+                                        .size(48.dp)
+                                        .border(
+                                            settingsState.borderWidth,
+                                            MaterialTheme.colorScheme.outlineVariant(),
+                                            MaterialTheme.shapes.medium
+                                        ),
+                                    shape = MaterialTheme.shapes.medium
+                                )
+                            },
+                            onClick = {
+                                onShowAuthor()
+                            }
+                        )
+                        SourceCodePreference(
                             modifier = Modifier
-                                .padding(horizontal = 8.dp)
-                                .size(48.dp)
-                                .border(
-                                    settingsState.borderWidth,
-                                    MaterialTheme.colorScheme.outlineVariant(),
-                                    MaterialTheme.shapes.medium
-                                ),
-                            shape = MaterialTheme.shapes.medium
+                                .fillMaxWidth()
+                                .padding(horizontal = 16.dp)
                         )
-                    },
-                    onClick = {
-                        onShowAuthor()
                     }
-                )
-                SourceCodePreference(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 16.dp)
-                )
+                    Spacer(Modifier.height(16.dp))
+                }
             }
-            Spacer(Modifier.height(16.dp))
         }
     }
 }
