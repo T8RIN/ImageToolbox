@@ -275,4 +275,11 @@
     <string name="encryption">Verschlüsselung</string>
     <string name="decryption">Entschlüsselung</string>
     <string name="key">Schlüssel</string>
+    <string name="file_size">Dateigröße</string>
+    <string name="group_options_by_type">Optionen nach Typ gruppieren</string>
+    <string name="invalid_password_or_not_encrypted">Ungültiges Passwort oder ausgewählte Datei ist nicht verschlüsselt</string>
+    <string name="found_s">%1$s gefunden</string>
+    <string name="tools">Werkzeuge</string>
+    <string name="group_options_by_type_sub">Optionen im Hauptbildschirm des jeweiligen Typs gruppieren, anstatt in einer benutzerdefinierten Liste anzuordnen</string>
+    <string name="create">Erstellen</string>
 </resources>
