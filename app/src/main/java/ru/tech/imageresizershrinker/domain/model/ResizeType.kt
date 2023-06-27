@@ -1,7 +1,18 @@
 package ru.tech.imageresizershrinker.domain.model
 
-sealed class ResizeType {
-    object Explicit: ResizeType()
-    object Flexible: ResizeType()
-    object Ratio: ResizeType()
+import ru.tech.imageresizershrinker.domain.Domain
+
+sealed class ResizeType : Domain {
+    object Explicit : ResizeType()
+    object Flexible : ResizeType()
+    object Ratio : ResizeType()
+
+    companion object {
+        val entries
+            get() = listOf(
+                Explicit,
+                Flexible,
+                Ratio
+            )
+    }
 }

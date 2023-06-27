@@ -522,7 +522,7 @@ fun SingleResizeScreen(
                                     Spacer(Modifier.height(8.dp))
                                     ExtensionGroup(
                                         enabled = viewModel.bitmap != null,
-                                        mimeTypeInt = bitmapInfo.mimeTypeInt,
+                                        mimeType = bitmapInfo.mimeTypeInt,
                                         onMimeChange = viewModel::setMime
                                     )
                                     Spacer(Modifier.height(8.dp))

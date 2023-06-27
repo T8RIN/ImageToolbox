@@ -34,6 +34,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.R
+import ru.tech.imageresizershrinker.domain.model.ResizeType
 import ru.tech.imageresizershrinker.presentation.theme.outlineVariant
 import ru.tech.imageresizershrinker.presentation.utils.modifier.alertDialog
 import ru.tech.imageresizershrinker.presentation.utils.modifier.block
@@ -45,19 +46,19 @@ import ru.tech.imageresizershrinker.presentation.widget.utils.LocalSettingsState
 @Composable
 fun ResizeGroup(
     enabled: Boolean,
-    resizeType: Int,
-    onResizeChange: (Int) -> Unit
+    resizeType: ResizeType,
+    onResizeChange: (ResizeType) -> Unit
 ) {
     val state = rememberRichTooltipState(true)
     val text = when (resizeType) {
-        0 -> stringResource(R.string.explicit_description)
-        1 -> stringResource(R.string.flexible_description)
-        else -> stringResource(R.string.ratio_description)
+        ResizeType.Explicit -> stringResource(R.string.explicit_description)
+        ResizeType.Flexible -> stringResource(R.string.flexible_description)
+        ResizeType.Ratio -> stringResource(R.string.ratio_description)
     }
     val title = when (resizeType) {
-        0 -> stringResource(R.string.explicit)
-        1 -> stringResource(R.string.flexible)
-        else -> stringResource(R.string.ratio)
+        ResizeType.Explicit -> stringResource(R.string.explicit)
+        ResizeType.Flexible -> stringResource(R.string.flexible)
+        ResizeType.Ratio -> stringResource(R.string.ratio)
     }
     val settingsState = LocalSettingsState.current
     RichTooltipBox(

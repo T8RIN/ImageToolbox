@@ -1,4 +1,4 @@
-package ru.tech.imageresizershrinker.core
+package ru.tech.imageresizershrinker.data
 
 import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.floatPreferencesKey

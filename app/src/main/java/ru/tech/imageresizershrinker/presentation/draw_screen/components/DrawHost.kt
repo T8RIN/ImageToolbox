@@ -263,7 +263,7 @@ fun DrawHost(
                                             .navigationBarsPadding(),
                                         orientation = Orientation.Horizontal,
                                         enabled = drawBehavior !is DrawBehavior.None,
-                                        mimeTypeInt = mimeType,
+                                        mimeType = mimeType,
                                         onMimeChange = onMimeTypeChange
                                     )
                                 }
@@ -426,7 +426,7 @@ fun DrawHost(
                                             .navigationBarsPadding(),
                                         orientation = Orientation.Horizontal,
                                         enabled = drawBehavior !is DrawBehavior.None,
-                                        mimeTypeInt = mimeType,
+                                        mimeType = mimeType,
                                         onMimeChange = onMimeTypeChange
                                     )
                                 }

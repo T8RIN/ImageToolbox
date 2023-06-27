@@ -89,7 +89,6 @@ import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.getBitmapByUri
 import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.restrict
 import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.shareBitmaps
 import ru.tech.imageresizershrinker.utils.helper.ContextUtils.failedToSaveImages
-import ru.tech.imageresizershrinker.utils.helper.extension
 import ru.tech.imageresizershrinker.presentation.utils.modifier.block
 import ru.tech.imageresizershrinker.presentation.utils.modifier.drawHorizontalStroke
 import ru.tech.imageresizershrinker.presentation.utils.modifier.navBarsLandscapePadding
@@ -505,7 +504,7 @@ fun BytesResizeScreen(
                                     Spacer(Modifier.size(8.dp))
                                     ExtensionGroup(
                                         enabled = viewModel.bitmap != null,
-                                        mimeTypeInt = viewModel.mime,
+                                        mimeType = viewModel.mime,
                                         onMimeChange = {
                                             showAlert = it.extension == "png"
                                             viewModel.setMime(it)

@@ -19,7 +19,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import ru.tech.imageresizershrinker.core.SAVE_FOLDER
+import ru.tech.imageresizershrinker.data.SAVE_FOLDER
 import ru.tech.imageresizershrinker.presentation.utils.coil.filters.FilterTransformation
 import ru.tech.imageresizershrinker.domain.model.BitmapInfo
 import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.calcSize

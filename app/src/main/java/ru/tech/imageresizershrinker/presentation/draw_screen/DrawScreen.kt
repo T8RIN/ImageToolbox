@@ -508,7 +508,7 @@ fun DrawScreen(
                                             .navigationBarsPadding(),
                                         orientation = Orientation.Horizontal,
                                         enabled = viewModel.drawBehavior !is DrawBehavior.None,
-                                        mimeTypeInt = viewModel.mimeType,
+                                        mimeType = viewModel.mimeType,
                                         onMimeChange = {
                                             viewModel.updateMimeType(it)
                                         }

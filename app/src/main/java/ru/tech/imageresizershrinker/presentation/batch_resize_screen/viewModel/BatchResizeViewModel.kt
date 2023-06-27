@@ -2,15 +2,10 @@ package ru.tech.imageresizershrinker.presentation.batch_resize_screen.viewModel
 
 import android.graphics.Bitmap
 import android.net.Uri
-import android.os.Build
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
-import androidx.datastore.core.DataStore
-import androidx.datastore.preferences.core.Preferences
-import androidx.datastore.preferences.core.edit
-import androidx.exifinterface.media.ExifInterface
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -19,28 +14,25 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import ru.tech.imageresizershrinker.core.SAVE_FOLDER
 import ru.tech.imageresizershrinker.domain.model.BitmapInfo
+import ru.tech.imageresizershrinker.domain.model.BitmapSaveTarget
 import ru.tech.imageresizershrinker.domain.model.MimeType
 import ru.tech.imageresizershrinker.domain.model.ResizeType
+import ru.tech.imageresizershrinker.domain.saving.FileController
 import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.applyPresetBy
 import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.canShow
-import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.copyTo
+import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.compress
 import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.flip
 import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.previewBitmap
 import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.resizeBitmap
 import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.rotate
 import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.scaleUntilCanShow
-import ru.tech.imageresizershrinker.utils.helper.compressFormat
-import ru.tech.imageresizershrinker.utils.helper.extension
-import ru.tech.imageresizershrinker.utils.storage.BitmapSaveTarget
-import ru.tech.imageresizershrinker.utils.storage.FileController
-import ru.tech.imageresizershrinker.utils.storage.SavingFolder
+import java.io.ByteArrayOutputStream
 import javax.inject.Inject
 
 @HiltViewModel
 class BatchResizeViewModel @Inject constructor(
-    private val dataStore: DataStore<Preferences>
+    private val fileController: FileController
 ) : ViewModel() {
 
     private val _uris = mutableStateOf<List<Uri>?>(null)
@@ -287,67 +279,42 @@ class BatchResizeViewModel @Inject constructor(
     }
 
     fun saveBitamps(
-        fileController: FileController,
-        getBitmap: suspend (Uri) -> Pair<Bitmap?, ExifInterface?>,
-        onComplete: (success: Boolean) -> Unit
+        getBitmap: suspend (Uri) -> Bitmap?,
+        onComplete: (success: Boolean, path: String) -> Unit
     ) = viewModelScope.launch {
         withContext(Dispatchers.IO) {
             if (!fileController.isExternalStorageWritable()) {
-                onComplete(false)
+                onComplete(false, "")
             } else {
                 _done.value = 0
                 uris?.forEach { uri ->
                     runCatching {
                         getBitmap(uri)
-                    }.getOrNull()?.takeIf { it.first != null }?.let { (bitmap, exif) ->
+                    }.getOrNull()?.let { bitmap ->
                         bitmapInfo.let {
                             presetSelected.applyPresetBy(
                                 bitmap = bitmap,
                                 currentInfo = it
                             )
                         }.apply {
-                            val localBitmap = bitmap!!.rotate(rotationDegrees)
+                            val out = ByteArrayOutputStream()
+                            bitmap.rotate(rotationDegrees)
                                 .resizeBitmap(width, height, resizeType)
                                 .flip(isFlipped)
-                            val writeTo: (SavingFolder) -> Unit = { savingFolder ->
-                                savingFolder.outputStream?.use {
-                                    localBitmap.compress(
-                                        mimeType,
-                                        quality.toInt().coerceIn(0, 100),
-                                        it
-                                    )
-                                }
-
-                                if (keepExif) {
-                                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                                        val fd =
-                                            fileController.getFileDescriptorFor(savingFolder.fileUri)
-                                        fd?.fileDescriptor?.let {
-                                            val ex = ExifInterface(it)
-                                            exif?.copyTo(ex)
-                                            ex.saveAttributes()
-                                        }
-                                        fd?.close()
-                                    } else {
-                                        val image = savingFolder.file!!
-                                        val ex = ExifInterface(image)
-                                        exif?.copyTo(ex)
-                                        ex.saveAttributes()
-                                    }
-                                }
-                            }
-                            fileController.getSavingFolder(
+                                .compress(mimeType = mimeType, quality = quality, out)
+                            fileController.save(
                                 BitmapSaveTarget(
                                     bitmapInfo = this,
-                                    uri = uri,
-                                    sequenceNumber = _done.value + 1
-                                )
-                            ).getOrNull()?.let(writeTo) ?: dataStore.edit { it[SAVE_FOLDER] = "" }
+                                    originalUri = uri.toString(),
+                                    sequenceNumber = _done.value + 1,
+                                    data = out.toByteArray()
+                                ), keepExif
+                            )
                         }
                     }
                     _done.value += 1
                 }
-                onComplete(true)
+                onComplete(true, fileController.savingPath)
             }
         }
     }

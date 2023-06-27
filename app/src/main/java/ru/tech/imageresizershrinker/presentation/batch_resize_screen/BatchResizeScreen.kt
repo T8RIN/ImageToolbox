@@ -74,6 +74,7 @@ import dev.olshevski.navigation.reimagined.hilt.hiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.R
+import ru.tech.imageresizershrinker.domain.model.MimeType
 import ru.tech.imageresizershrinker.presentation.batch_resize_screen.components.SaveExifWidget
 import ru.tech.imageresizershrinker.presentation.batch_resize_screen.viewModel.BatchResizeViewModel
 import ru.tech.imageresizershrinker.presentation.theme.outlineVariant
@@ -192,23 +193,21 @@ fun BatchResizeScreen(
         pickImageLauncher.pickImage()
     }
 
-    val fileController = LocalFileController.current
     var showSaveLoading by rememberSaveable { mutableStateOf(false) }
     val saveBitmaps: () -> Unit = {
         showSaveLoading = true
         viewModel.saveBitamps(
-            fileController = fileController,
             getBitmap = { uri ->
-                context.decodeBitmapByUri(uri)
+                context.getBitmapByUri(uri)
             }
-        ) { success ->
+        ) { success, savingPath ->
             if (!success) context.requestStoragePermission()
             else {
                 scope.launch {
                     toastHostState.showToast(
                         context.getString(
                             R.string.saved_to,
-                            fileController.savingPath
+                            savingPath
                         ),
                         Icons.Rounded.Save
                     )
@@ -539,13 +538,11 @@ fun BatchResizeScreen(
                                         onWidthChange = viewModel::updateWidth,
                                         showWarning = viewModel.showWarning
                                     )
-                                    if (bitmapInfo.mimeTypeInt.extension != "png") Spacer(
-                                        Modifier.height(
-                                            8.dp
-                                        )
-                                    )
+                                    if (bitmapInfo.mimeType !is MimeType.Png) {
+                                        Spacer(Modifier.height(8.dp))
+                                    }
                                     QualityWidget(
-                                        visible = bitmapInfo.mimeTypeInt.extension != "png",
+                                        visible = bitmapInfo.mimeType !is MimeType.Png,
                                         enabled = viewModel.bitmap != null,
                                         quality = bitmapInfo.quality.coerceIn(0f, 100f),
                                         onQualityChange = viewModel::setQuality
@@ -553,7 +550,7 @@ fun BatchResizeScreen(
                                     Spacer(Modifier.height(8.dp))
                                     ExtensionGroup(
                                         enabled = viewModel.bitmap != null,
-                                        mimeTypeInt = bitmapInfo.mimeTypeInt,
+                                        mimeType = bitmapInfo.mimeType,
                                         onMimeChange = viewModel::setMime
                                     )
                                     Spacer(Modifier.height(8.dp))

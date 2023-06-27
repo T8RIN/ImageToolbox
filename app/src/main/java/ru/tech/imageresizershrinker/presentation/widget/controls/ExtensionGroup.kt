@@ -11,7 +11,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.ripple.LocalRippleTheme
 import androidx.compose.material3.ButtonDefaults
@@ -33,6 +32,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.max
 import androidx.compose.ui.zIndex
 import ru.tech.imageresizershrinker.R
+import ru.tech.imageresizershrinker.domain.model.MimeType
 import ru.tech.imageresizershrinker.presentation.theme.mixedColor
 import ru.tech.imageresizershrinker.presentation.theme.onMixedColor
 import ru.tech.imageresizershrinker.presentation.utils.modifier.block
@@ -44,9 +44,9 @@ import ru.tech.imageresizershrinker.presentation.widget.utils.LocalSettingsState
 fun ExtensionGroup(
     modifier: Modifier = Modifier,
     enabled: Boolean,
-    mimeTypeInt: Int,
+    mimeType: MimeType,
     orientation: Orientation = Orientation.Horizontal,
-    onMimeChange: (Int) -> Unit
+    onMimeChange: (MimeType) -> Unit
 ) {
     val settingsState = LocalSettingsState.current
     val cornerRadius = 20.dp
@@ -81,128 +81,8 @@ fun ExtensionGroup(
                 )
                 Spacer(modifier = Modifier.height(8.dp))
 
-                CompositionLocalProvider(
-                    LocalRippleTheme provides GroupRipple
-                ) {
-                    Column {
-                        Row(modifier = Modifier.fillMaxWidth()) {
-                            listOf("JPG", "WEBP").forEachIndexed { index, item ->
-                                OutlinedButton(
-                                    enabled = enabled,
-                                    onClick = { onMimeChange(index) },
-                                    contentPadding = PaddingValues(horizontal = 8.dp),
-                                    modifier = Modifier
-                                        .widthIn(min = 48.dp)
-                                        .weight(1f)
-                                        .then(
-                                            when (index) {
-                                                0 ->
-                                                    Modifier
-                                                        .offset(0.dp, 0.dp)
-                                                        .zIndex(if (mimeTypeInt == 0) 1f else 0f)
-
-                                                else ->
-                                                    Modifier
-                                                        .offset((-1 * index).dp, 0.dp)
-                                                        .zIndex(if (mimeTypeInt == index) 1f else 0f)
-                                            }
-                                        ),
-                                    shape = when (index) {
-                                        0 -> RoundedCornerShape(
-                                            topStart = cornerRadius,
-                                            topEnd = 0.dp,
-                                            bottomStart = 0.dp,
-                                            bottomEnd = 0.dp
-                                        )
-
-                                        else -> RoundedCornerShape(
-                                            topStart = 0.dp,
-                                            topEnd = cornerRadius,
-                                            bottomStart = 0.dp,
-                                            bottomEnd = 0.dp
-                                        )
-                                    },
-                                    border = BorderStroke(
-                                        max(settingsState.borderWidth, 1.dp),
-                                        MaterialTheme.colorScheme.outlineVariant
-                                    ),
-                                    colors = ButtonDefaults.outlinedButtonColors(
-                                        containerColor = if (!enabled) disColor
-                                        else if (mimeTypeInt == index) MaterialTheme.colorScheme.mixedColor
-                                        else Color.Transparent
-                                    )
-                                ) {
-                                    AutoSizeText(
-                                        text = item,
-                                        color = if (!enabled) disColor
-                                        else if (mimeTypeInt == index) MaterialTheme.colorScheme.onMixedColor
-                                        else MaterialTheme.colorScheme.onSurface,
-                                        modifier = Modifier.padding(horizontal = 8.dp),
-                                        maxLines = 1
-                                    )
-                                }
-                            }
-                        }
-                        Row(modifier = Modifier.fillMaxWidth()) {
-                            listOf("JPEG", "PNG").forEachIndexed { i, item ->
-                                val index = i + 2
-                                OutlinedButton(
-                                    enabled = enabled,
-                                    onClick = { onMimeChange(index) },
-                                    contentPadding = PaddingValues(horizontal = 8.dp),
-                                    modifier = Modifier
-                                        .widthIn(min = 48.dp)
-                                        .weight(1f)
-                                        .then(
-                                            when (index) {
-                                                2 ->
-                                                    Modifier
-                                                        .offset(0.dp, (-9).dp)
-                                                        .zIndex(if (mimeTypeInt == 0) 2f else 1f)
-
-                                                else ->
-                                                    Modifier
-                                                        .offset((-1 * i).dp, (-9).dp)
-                                                        .zIndex(if (mimeTypeInt == index) 2f else 1f)
-                                            }
-                                        ),
-                                    shape = when (index) {
-                                        2 -> RoundedCornerShape(
-                                            topStart = 0.dp,
-                                            topEnd = 0.dp,
-                                            bottomStart = cornerRadius,
-                                            bottomEnd = 0.dp
-                                        )
-
-                                        else -> RoundedCornerShape(
-                                            topStart = 0.dp,
-                                            topEnd = 0.dp,
-                                            bottomStart = 0.dp,
-                                            bottomEnd = cornerRadius
-                                        )
-                                    },
-                                    border = BorderStroke(
-                                        max(settingsState.borderWidth, 1.dp),
-                                        MaterialTheme.colorScheme.outlineVariant
-                                    ),
-                                    colors = ButtonDefaults.outlinedButtonColors(
-                                        containerColor = if (!enabled) disColor
-                                        else if (mimeTypeInt == index) MaterialTheme.colorScheme.mixedColor
-                                        else Color.Transparent
-                                    )
-                                ) {
-                                    AutoSizeText(
-                                        text = item,
-                                        color = if (!enabled) disColor
-                                        else if (mimeTypeInt == index) MaterialTheme.colorScheme.onMixedColor
-                                        else MaterialTheme.colorScheme.onSurface,
-                                        modifier = Modifier.padding(horizontal = 8.dp),
-                                        maxLines = 1
-                                    )
-                                }
-                            }
-                        }
-                    }
+                Row {
+                    TODO()
                 }
             }
         } else {
@@ -225,119 +105,8 @@ fun ExtensionGroup(
                 )
                 Spacer(modifier = Modifier.height(8.dp))
 
-                CompositionLocalProvider(
-                    LocalRippleTheme provides GroupRipple
-                ) {
-                    Column {
-                        listOf("JPG", "WEBP").forEachIndexed { index, item ->
-                            OutlinedButton(
-                                enabled = enabled,
-                                onClick = { onMimeChange(index) },
-                                contentPadding = PaddingValues(horizontal = 8.dp),
-                                modifier = Modifier
-                                    .width(80.dp)
-                                    .then(
-                                        when (index) {
-                                            0 -> Modifier.zIndex(if (mimeTypeInt == 0) 1f else 0f)
-
-                                            else ->
-                                                Modifier
-                                                    .offset(y = (-9).dp)
-                                                    .zIndex(if (mimeTypeInt == index) 1f else 0f)
-                                        }
-                                    ),
-                                shape = when (index) {
-                                    0 -> RoundedCornerShape(
-                                        topStart = cornerRadius,
-                                        topEnd = cornerRadius,
-                                        bottomStart = 0.dp,
-                                        bottomEnd = 0.dp
-                                    )
-
-                                    else -> RoundedCornerShape(
-                                        topStart = 0.dp,
-                                        topEnd = 0.dp,
-                                        bottomStart = 0.dp,
-                                        bottomEnd = 0.dp
-                                    )
-                                },
-                                border = BorderStroke(
-                                    max(settingsState.borderWidth, 1.dp),
-                                    MaterialTheme.colorScheme.outlineVariant
-                                ),
-                                colors = ButtonDefaults.outlinedButtonColors(
-                                    containerColor = if (!enabled) disColor
-                                    else if (mimeTypeInt == index) MaterialTheme.colorScheme.mixedColor
-                                    else Color.Transparent
-                                )
-                            ) {
-                                AutoSizeText(
-                                    text = item,
-                                    color = if (!enabled) disColor
-                                    else if (mimeTypeInt == index) MaterialTheme.colorScheme.onMixedColor
-                                    else MaterialTheme.colorScheme.onSurface,
-                                    modifier = Modifier.padding(horizontal = 8.dp),
-                                    maxLines = 1
-                                )
-                            }
-                        }
-                        listOf("JPEG", "PNG").forEachIndexed { i, item ->
-                            val index = i + 2
-                            OutlinedButton(
-                                enabled = enabled,
-                                onClick = { onMimeChange(index) },
-                                contentPadding = PaddingValues(horizontal = 8.dp),
-                                modifier = Modifier
-                                    .width(80.dp)
-                                    .then(
-                                        when (index) {
-                                            2 ->
-                                                Modifier
-                                                    .offset(y = (-18).dp)
-                                                    .zIndex(if (mimeTypeInt == 0) 2f else 1f)
-
-                                            else ->
-                                                Modifier
-                                                    .offset(y = (-24).dp)
-                                                    .zIndex(if (mimeTypeInt == index) 2f else 1f)
-                                        }
-                                    ),
-                                shape = when (index) {
-                                    2 -> RoundedCornerShape(
-                                        topStart = 0.dp,
-                                        topEnd = 0.dp,
-                                        bottomStart = 0.dp,
-                                        bottomEnd = 0.dp
-                                    )
-
-                                    else -> RoundedCornerShape(
-                                        topStart = 0.dp,
-                                        topEnd = 0.dp,
-                                        bottomStart = cornerRadius,
-                                        bottomEnd = cornerRadius
-                                    )
-                                },
-                                border = BorderStroke(
-                                    max(settingsState.borderWidth, 1.dp),
-                                    MaterialTheme.colorScheme.outlineVariant
-                                ),
-                                colors = ButtonDefaults.outlinedButtonColors(
-                                    containerColor = if (!enabled) disColor
-                                    else if (mimeTypeInt == index) MaterialTheme.colorScheme.mixedColor
-                                    else Color.Transparent
-                                )
-                            ) {
-                                AutoSizeText(
-                                    text = item,
-                                    color = if (!enabled) disColor
-                                    else if (mimeTypeInt == index) MaterialTheme.colorScheme.onMixedColor
-                                    else MaterialTheme.colorScheme.onSurface,
-                                    modifier = Modifier.padding(horizontal = 8.dp),
-                                    maxLines = 1
-                                )
-                            }
-                        }
-                    }
+                Column {
+                    TODO()
                 }
             }
         }
