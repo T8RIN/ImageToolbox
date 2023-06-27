@@ -10,7 +10,7 @@ import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.remember
 import ru.tech.imageresizershrinker.R
-import ru.tech.imageresizershrinker.utils.helper.BitmapInfo
+import ru.tech.imageresizershrinker.domain.model.BitmapInfo
 import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.fileSize
 import ru.tech.imageresizershrinker.utils.helper.ContextUtils.isExternalStorageWritable
 import ru.tech.imageresizershrinker.utils.helper.ContextUtils.requestStoragePermission

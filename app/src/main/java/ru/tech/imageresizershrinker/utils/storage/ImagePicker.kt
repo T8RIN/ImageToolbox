@@ -14,7 +14,7 @@ import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.LocalContext
 import ru.tech.imageresizershrinker.R
-import ru.tech.imageresizershrinker.widget.utils.LocalSettingsState
+import ru.tech.imageresizershrinker.presentation.widget.utils.LocalSettingsState
 
 
 class ImagePicker(

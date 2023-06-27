@@ -29,10 +29,14 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import ru.tech.imageresizershrinker.R
+import ru.tech.imageresizershrinker.domain.model.BitmapInfo
+import ru.tech.imageresizershrinker.domain.model.MimeType
+import ru.tech.imageresizershrinker.domain.model.ResizeType
 import java.io.ByteArrayInputStream
 import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.FileOutputStream
+import java.io.OutputStream
 import java.util.Locale
 import kotlin.coroutines.CoroutineContext
 import kotlin.math.abs
@@ -58,12 +62,12 @@ object BitmapUtils {
     fun Bitmap.resizeBitmap(
         width_: Int,
         height_: Int,
-        resize: Int
+        resizeType: ResizeType
     ): Bitmap {
         val max = max(width_, height_)
 
-        return when (resize) {
-            0 -> {
+        return when (resizeType) {
+            ResizeType.Explicit -> {
                 Bitmap.createScaledBitmap(
                     this,
                     width_,
@@ -72,7 +76,7 @@ object BitmapUtils {
                 )
             }
 
-            1 -> {
+            ResizeType.Flexible -> {
                 kotlin.runCatching {
                     if (height >= width) {
                         val aspectRatio = width.toDouble() / height.toDouble()
@@ -86,7 +90,7 @@ object BitmapUtils {
                 }.getOrNull() ?: this
             }
 
-            else -> {
+            ResizeType.Ratio -> {
                 resizeWithAspectRatio(width_, height_) ?: this
             }
         }
@@ -97,16 +101,14 @@ object BitmapUtils {
         originalSize: Boolean = true,
         onGetBitmap: (Bitmap) -> Unit,
         onGetExif: (ExifInterface?) -> Unit,
-        onGetMimeType: (Int) -> Unit,
+        onGetMimeType: (MimeType) -> Unit,
         onError: (Throwable) -> Unit
     ) {
         val bmp = kotlin.runCatching {
             val fd = contentResolver.openFileDescriptor(uri, "r")
             val exif = fd?.fileDescriptor?.let { ExifInterface(it) }
             onGetExif(exif)
-            val mime = getMimeType(uri) ?: ""
-            val mimeInt = mime.mimeTypeInt
-            onGetMimeType(mimeInt)
+            onGetMimeType(MimeType.create(getMimeType(uri)))
             fd?.close()
             val loader = imageLoader.newBuilder().components {
                 if (Build.VERSION.SDK_INT >= 28) add(ImageDecoderDecoder.Factory())
@@ -203,12 +205,10 @@ object BitmapUtils {
 
     suspend fun Context.decodeBitmapFromUriWithMime(
         uri: Uri
-    ): Triple<Bitmap?, ExifInterface?, Int> {
+    ): Triple<Bitmap?, ExifInterface?, MimeType> {
         val fd = contentResolver.openFileDescriptor(uri, "r")
         val exif = fd?.fileDescriptor?.let { ExifInterface(it) }
         fd?.close()
-
-        val mime = getMimeType(uri) ?: ""
 
         return Triple(kotlin.runCatching {
             val loader = imageLoader.newBuilder().components {
@@ -223,7 +223,7 @@ object BitmapUtils {
                     .size(Size.ORIGINAL)
                     .build()
             ).drawable?.toBitmap()
-        }.getOrNull(), exif, mime.mimeTypeInt)
+        }.getOrNull(), exif, MimeType.create(getMimeType(uri)))
     }
 
     fun Context.getMimeType(uri: Uri): String? {
@@ -242,29 +242,23 @@ object BitmapUtils {
         MimeTypeMap.getSingleton().getExtensionFromMimeType(this)
 
     suspend fun Bitmap.previewBitmap(
-        quality: Float,
-        widthValue: Int?,
-        heightValue: Int?,
-        mimeTypeInt: Int,
-        resizeType: Int,
-        rotationDegrees: Float,
-        isFlipped: Boolean,
+        bitmapInfo: BitmapInfo,
         onByteCount: (Int) -> Unit
     ): Bitmap = withContext(Dispatchers.IO) {
-        if (heightValue == 0 || widthValue == 0) return@withContext this@previewBitmap
+        if (bitmapInfo.height == 0 || bitmapInfo.width == 0) return@withContext this@previewBitmap
         val out = ByteArrayOutputStream()
-        var tWidth = widthValue ?: width
-        var tHeight = heightValue ?: height
+        var width = bitmapInfo.width
+        var height = bitmapInfo.height
 
-        while (tHeight * tWidth * 4L >= 4096 * 4096 * 5L) {
-            tHeight = (tHeight * 0.9f).roundToInt()
-            tWidth = (tWidth * 0.9f).roundToInt()
+        while (height * width * 4L >= 4096 * 4096 * 5L) {
+            height = (height * 0.9f).roundToInt()
+            width = (width * 0.9f).roundToInt()
         }
 
-        rotate(rotationDegrees)
-            .resizeBitmap(tWidth, tHeight, resizeType)
-            .flip(isFlipped)
-            .compress(mimeTypeInt.extension.compressFormat, quality.toInt().coerceIn(0, 100), out)
+        rotate(bitmapInfo.rotationDegrees)
+            .resizeBitmap(width, height, bitmapInfo.resizeType)
+            .flip(bitmapInfo.isFlipped)
+            .compress(bitmapInfo.mimeType, bitmapInfo.quality, out = out)
         val b = out.toByteArray()
         onByteCount(b.size)
 
@@ -276,15 +270,18 @@ object BitmapUtils {
         return@withContext bitmap.scaleUntilCanShow() ?: this@previewBitmap
     }
 
+    fun Bitmap.compress(mimeType: MimeType, quality: Number, out: OutputStream) {
+        TODO()
+    }
+
     suspend fun Bitmap.calcSize(
-        mimeTypeInt: Int,
+        mimeType: MimeType,
         quality: Float = 100f
-    ): Long =
-        withContext(Dispatchers.IO) {
-            val out = ByteArrayOutputStream()
-            compress(mimeTypeInt.extension.compressFormat, quality.toInt().coerceIn(0, 100), out)
-            return@withContext out.toByteArray().size.toLong()
-        }
+    ): Long = withContext(Dispatchers.IO) {
+        val out = ByteArrayOutputStream()
+        compress(mimeType, quality, out)
+        return@withContext out.toByteArray().size.toLong()
+    }
 
     suspend fun Bitmap.scaleUntilCanShow(
         context: CoroutineContext = Dispatchers.IO
@@ -295,7 +292,7 @@ object BitmapUtils {
             bitmap.resizeBitmap(
                 height_ = (bitmap.height * 0.95f).toInt(),
                 width_ = (bitmap.width * 0.95f).toInt(),
-                resize = 1
+                resizeType = ResizeType.Flexible
             )
         } else bitmap
 
@@ -303,7 +300,7 @@ object BitmapUtils {
             bmp = bmp.resizeBitmap(
                 height_ = (bmp.height * 0.95f).toInt(),
                 width_ = (bmp.width * 0.95f).toInt(),
-                resize = 1
+                resizeType = ResizeType.Flexible
             )
         }
         return@withContext bmp
@@ -549,14 +546,13 @@ object BitmapUtils {
                 val imagesFolder = File(cacheDir, "images")
                 val uri = kotlin.runCatching {
                     imagesFolder.mkdirs()
-                    val mime = bitmapInfo.mimeTypeInt
-                    val ext = mime.extension
+                    val ext = bitmapInfo.mimeType.extension
                     val file = File(imagesFolder, "$name.$ext")
                     val stream = FileOutputStream(file)
                     image.compress(
-                        ext.compressFormat,
-                        bitmapInfo.quality.toInt().coerceIn(0, 100),
-                        stream
+                        mimeType = bitmapInfo.mimeType,
+                        quality = bitmapInfo.quality.toInt().coerceIn(0, 100),
+                        out = stream
                     )
                     stream.flush()
                     stream.close()
@@ -580,11 +576,14 @@ object BitmapUtils {
         val imagesFolder = File(cacheDir, "images")
         return kotlin.runCatching {
             imagesFolder.mkdirs()
-            val mime = bitmapInfo.mimeTypeInt
-            val ext = mime.extension
+            val ext = bitmapInfo.mimeType.extension
             val file = File(imagesFolder, "$name.$ext")
             val stream = FileOutputStream(file)
-            image.compress(ext.compressFormat, bitmapInfo.quality.toInt(), stream)
+            image.compress(
+                mimeType = bitmapInfo.mimeType,
+                quality = bitmapInfo.quality.toInt().coerceIn(0, 100),
+                out = stream
+            )
             stream.flush()
             stream.close()
             FileProvider.getUriForFile(this, getString(R.string.file_provider), file)
@@ -593,7 +592,7 @@ object BitmapUtils {
 
     private fun Context.shareImage(
         image: Bitmap,
-        compressFormat: CompressFormat,
+        mimeType: MimeType,
         onComplete: () -> Unit
     ) {
         CoroutineScope(Dispatchers.Main).launch {
@@ -601,10 +600,10 @@ object BitmapUtils {
                 val imagesFolder = File(cacheDir, "images")
                 val uri = kotlin.runCatching {
                     imagesFolder.mkdirs()
-                    val ext = compressFormat.extension
+                    val ext = mimeType.extension
                     val file = File(imagesFolder, "shared_image.$ext")
                     val stream = FileOutputStream(file)
-                    image.compress(compressFormat, 100, stream)
+                    image.compress(mimeType = mimeType, quality = 100, out = stream)
                     stream.flush()
                     stream.close()
                     FileProvider.getUriForFile(
@@ -678,10 +677,10 @@ object BitmapUtils {
 
     fun Context.shareBitmap(
         bitmap: Bitmap?,
-        compressFormat: CompressFormat,
+        mimeType: MimeType,
         onComplete: () -> Unit
     ) = bitmap?.let {
-        shareImage(it, compressFormat, onComplete)
+        shareImage(it, mimeType, onComplete)
     }
 
     fun Context.shareFile(
@@ -767,9 +766,9 @@ object BitmapUtils {
                             it.reset()
                         }
                         resizeBitmap(
-                            (newSize.first * 0.98).toInt(),
-                            (newSize.second * 0.98).toInt(),
-                            0
+                            width_ = (newSize.first * 0.98).toInt(),
+                            height_ = (newSize.second * 0.98).toInt(),
+                            resizeType = ResizeType.Explicit
                         ).compress(
                             compressFormat,
                             compressQuality,

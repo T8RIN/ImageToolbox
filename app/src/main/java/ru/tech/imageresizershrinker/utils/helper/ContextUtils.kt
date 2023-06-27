@@ -23,13 +23,13 @@ import kotlinx.coroutines.withContext
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.utils.helper.IntentUtils.parcelable
 import ru.tech.imageresizershrinker.utils.helper.IntentUtils.parcelableArrayList
-import ru.tech.imageresizershrinker.utils.navigation.Screen
-import ru.tech.imageresizershrinker.utils.permission.PermissionStatus
-import ru.tech.imageresizershrinker.utils.permission.PermissionUtils.askUserToRequestPermissionExplicitly
-import ru.tech.imageresizershrinker.utils.permission.PermissionUtils.checkPermissions
-import ru.tech.imageresizershrinker.utils.permission.PermissionUtils.setPermissionsAllowed
-import ru.tech.imageresizershrinker.widget.other.ToastDuration
-import ru.tech.imageresizershrinker.widget.other.ToastHostState
+import ru.tech.imageresizershrinker.presentation.utils.navigation.Screen
+import ru.tech.imageresizershrinker.presentation.utils.permission.PermissionStatus
+import ru.tech.imageresizershrinker.presentation.utils.permission.PermissionUtils.askUserToRequestPermissionExplicitly
+import ru.tech.imageresizershrinker.presentation.utils.permission.PermissionUtils.checkPermissions
+import ru.tech.imageresizershrinker.presentation.utils.permission.PermissionUtils.setPermissionsAllowed
+import ru.tech.imageresizershrinker.presentation.widget.other.ToastDuration
+import ru.tech.imageresizershrinker.presentation.widget.other.ToastHostState
 import kotlin.math.min
 
 
