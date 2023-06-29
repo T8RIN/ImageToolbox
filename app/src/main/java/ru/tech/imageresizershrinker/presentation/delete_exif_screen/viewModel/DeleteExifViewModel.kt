@@ -89,7 +89,7 @@ class DeleteExifViewModel @Inject constructor(
     }
 
     fun saveBitmaps(
-        getBitmap: suspend (Uri) -> Triple<Bitmap?, ExifInterface?, MimeType>,
+        getBitmap: suspend (Uri) -> Pair<Bitmap?, MimeType>,
         onResult: (Int, String) -> Unit
     ) = viewModelScope.launch {
         withContext(Dispatchers.IO) {
@@ -101,7 +101,7 @@ class DeleteExifViewModel @Inject constructor(
                 uris?.forEach { uri ->
                     runCatching {
                         getBitmap(uri)
-                    }.getOrNull()?.takeIf { it.first != null }?.let { (bitmap, _, mimeType) ->
+                    }.getOrNull()?.takeIf { it.first != null }?.let { (bitmap, mimeType) ->
                         bitmap?.let { result ->
                             val out = ByteArrayOutputStream()
                             result.compress(

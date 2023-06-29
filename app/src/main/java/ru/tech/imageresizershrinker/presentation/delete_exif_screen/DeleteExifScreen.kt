@@ -250,7 +250,7 @@ fun DeleteExifScreen(
                             context.decodeBitmapFromUriWithMime(uri)
                                 .takeIf { it.first != null }?.let {
                                     it.first!! to BitmapInfo(
-                                        mimeType = it.third,
+                                        mimeType = it.second,
                                         width = it.first!!.width,
                                         height = it.first!!.height
                                     )

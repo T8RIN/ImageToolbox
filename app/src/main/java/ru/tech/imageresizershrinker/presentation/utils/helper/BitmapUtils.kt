@@ -204,12 +204,9 @@ object BitmapUtils {
 
     suspend fun Context.decodeBitmapFromUriWithMime(
         uri: Uri
-    ): Triple<Bitmap?, ExifInterface?, MimeType> {
-        val fd = contentResolver.openFileDescriptor(uri, "r")
-        val exif = fd?.fileDescriptor?.let { ExifInterface(it) }
-        fd?.close()
+    ): Pair<Bitmap?, MimeType> {
 
-        return Triple(kotlin.runCatching {
+        return Pair(kotlin.runCatching {
             val loader = imageLoader.newBuilder().components {
                 if (Build.VERSION.SDK_INT >= 28) add(ImageDecoderDecoder.Factory())
                 else add(GifDecoder.Factory())
@@ -222,7 +219,7 @@ object BitmapUtils {
                     .size(Size.ORIGINAL)
                     .build()
             ).drawable?.toBitmap()
-        }.getOrNull(), exif, MimeType.create(getMimeType(uri)))
+        }.getOrNull(), MimeType.create(getMimeType(uri)))
     }
 
     fun Context.getMimeType(uri: Uri): String? {
