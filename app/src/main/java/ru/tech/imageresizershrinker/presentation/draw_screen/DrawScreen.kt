@@ -99,31 +99,27 @@ import ru.tech.imageresizershrinker.presentation.draw_screen.viewModel.DrawViewM
 import ru.tech.imageresizershrinker.presentation.theme.icons.Eraser
 import ru.tech.imageresizershrinker.presentation.theme.mixedColor
 import ru.tech.imageresizershrinker.presentation.theme.onMixedColor
-import ru.tech.imageresizershrinker.presentation.utils.confetti.LocalConfettiController
 import ru.tech.imageresizershrinker.presentation.utils.coil.UpscaleTransformation
 import ru.tech.imageresizershrinker.presentation.utils.coil.filters.SaturationFilter
-import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.getBitmapByUri
-import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.getBitmapFromUriWithTransformations
-import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.overlayWith
-import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.shareBitmap
-import ru.tech.imageresizershrinker.utils.helper.ContextUtils.requestStoragePermission
-import ru.tech.imageresizershrinker.utils.helper.compressFormat
-import ru.tech.imageresizershrinker.utils.helper.extension
+import ru.tech.imageresizershrinker.presentation.utils.confetti.LocalConfettiController
 import ru.tech.imageresizershrinker.presentation.utils.modifier.drawHorizontalStroke
 import ru.tech.imageresizershrinker.presentation.utils.modifier.fabBorder
-import ru.tech.imageresizershrinker.utils.storage.LocalFileController
-import ru.tech.imageresizershrinker.utils.storage.Picker
-import ru.tech.imageresizershrinker.utils.storage.localImagePickerMode
-import ru.tech.imageresizershrinker.utils.storage.rememberImagePicker
+import ru.tech.imageresizershrinker.presentation.widget.controls.ExtensionGroup
+import ru.tech.imageresizershrinker.presentation.widget.dialogs.ExitWithoutSavingDialog
 import ru.tech.imageresizershrinker.presentation.widget.other.LoadingDialog
 import ru.tech.imageresizershrinker.presentation.widget.other.LocalToastHost
 import ru.tech.imageresizershrinker.presentation.widget.other.LockScreenOrientation
 import ru.tech.imageresizershrinker.presentation.widget.other.TopAppBarEmoji
-import ru.tech.imageresizershrinker.presentation.widget.controls.ExtensionGroup
-import ru.tech.imageresizershrinker.presentation.widget.dialogs.ExitWithoutSavingDialog
 import ru.tech.imageresizershrinker.presentation.widget.text.Marquee
 import ru.tech.imageresizershrinker.presentation.widget.utils.LocalSettingsState
 import ru.tech.imageresizershrinker.presentation.widget.utils.LocalWindowSizeClass
+import ru.tech.imageresizershrinker.presentation.utils.helper.BitmapUtils.getBitmapByUri
+import ru.tech.imageresizershrinker.presentation.utils.helper.BitmapUtils.getBitmapFromUriWithTransformations
+import ru.tech.imageresizershrinker.presentation.utils.helper.BitmapUtils.overlayWith
+import ru.tech.imageresizershrinker.presentation.utils.helper.BitmapUtils.shareBitmap
+import ru.tech.imageresizershrinker.presentation.utils.helper.Picker
+import ru.tech.imageresizershrinker.presentation.utils.helper.localImagePickerMode
+import ru.tech.imageresizershrinker.presentation.utils.helper.rememberImagePicker
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -203,7 +199,6 @@ fun DrawScreen(
 
     var showSaveLoading by rememberSaveable { mutableStateOf(false) }
 
-    val fileController = LocalFileController.current
     val saveBitmap: () -> Unit = {
         showSaveLoading = true
         viewModel.saveBitmap(
@@ -213,16 +208,14 @@ fun DrawScreen(
                     originalSize = false,
                     transformations = listOf(UpscaleTransformation())
                 )
-            },
-            fileController = fileController,
-        ) { success ->
-            if (!success) context.requestStoragePermission()
-            else {
+            }
+        ) { savingPath ->
+            if (savingPath.isNotEmpty()) {
                 scope.launch {
                     toastHostState.showToast(
                         context.getString(
                             R.string.saved_to,
-                            fileController.savingPath
+                            savingPath
                         ),
                         Icons.Rounded.Save
                     )
@@ -359,7 +352,7 @@ fun DrawScreen(
                                         showSaveLoading = true
                                         context.shareBitmap(
                                             bitmap = bitmap,
-                                            compressFormat = viewModel.mimeType.extension.compressFormat
+                                            mimeType = viewModel.mimeType
                                         ) {
                                             showSaveLoading = false
                                             showConfetti()

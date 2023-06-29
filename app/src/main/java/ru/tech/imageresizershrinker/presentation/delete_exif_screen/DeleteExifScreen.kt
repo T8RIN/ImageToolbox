@@ -68,18 +68,17 @@ import ru.tech.imageresizershrinker.presentation.theme.outlineVariant
 import ru.tech.imageresizershrinker.presentation.utils.confetti.LocalConfettiController
 import ru.tech.imageresizershrinker.presentation.utils.coil.filters.SaturationFilter
 import ru.tech.imageresizershrinker.domain.model.BitmapInfo
-import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.decodeBitmapByUri
-import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.decodeBitmapFromUriWithMime
-import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.fileSize
-import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.getBitmapByUri
-import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.shareBitmaps
-import ru.tech.imageresizershrinker.utils.helper.ContextUtils.failedToSaveImages
+import ru.tech.imageresizershrinker.presentation.utils.helper.BitmapUtils.decodeBitmapByUri
+import ru.tech.imageresizershrinker.presentation.utils.helper.BitmapUtils.decodeBitmapFromUriWithMime
+import ru.tech.imageresizershrinker.presentation.utils.helper.BitmapUtils.fileSize
+import ru.tech.imageresizershrinker.presentation.utils.helper.BitmapUtils.getBitmapByUri
+import ru.tech.imageresizershrinker.presentation.utils.helper.BitmapUtils.shareBitmaps
+import ru.tech.imageresizershrinker.presentation.utils.helper.ContextUtils.failedToSaveImages
 import ru.tech.imageresizershrinker.presentation.utils.modifier.drawHorizontalStroke
 import ru.tech.imageresizershrinker.presentation.utils.modifier.navBarsLandscapePadding
-import ru.tech.imageresizershrinker.utils.storage.LocalFileController
-import ru.tech.imageresizershrinker.utils.storage.Picker
-import ru.tech.imageresizershrinker.utils.storage.localImagePickerMode
-import ru.tech.imageresizershrinker.utils.storage.rememberImagePicker
+import ru.tech.imageresizershrinker.presentation.utils.helper.Picker
+import ru.tech.imageresizershrinker.presentation.utils.helper.localImagePickerMode
+import ru.tech.imageresizershrinker.presentation.utils.helper.rememberImagePicker
 import ru.tech.imageresizershrinker.presentation.widget.other.LoadingDialog
 import ru.tech.imageresizershrinker.presentation.widget.other.LocalToastHost
 import ru.tech.imageresizershrinker.presentation.widget.other.TopAppBarEmoji
@@ -171,21 +170,19 @@ fun DeleteExifScreen(
     var showSaveLoading by rememberSaveable { mutableStateOf(false) }
     var showExitDialog by rememberSaveable { mutableStateOf(false) }
 
-    val fileController = LocalFileController.current
     val saveBitmaps: () -> Unit = {
         showSaveLoading = true
         viewModel.saveBitmaps(
-            fileController = fileController,
             getBitmap = { uri ->
                 context.decodeBitmapFromUriWithMime(uri)
             },
-        ) { failed ->
+        ) { failed, savingPath ->
             context.failedToSaveImages(
                 scope = scope,
                 failed = failed,
                 done = viewModel.done,
                 toastHostState = toastHostState,
-                savingPathString = fileController.savingPath,
+                savingPathString = savingPath,
                 showConfetti = showConfetti
             )
             showSaveLoading = false
@@ -253,7 +250,7 @@ fun DeleteExifScreen(
                             context.decodeBitmapFromUriWithMime(uri)
                                 .takeIf { it.first != null }?.let {
                                     it.first!! to BitmapInfo(
-                                        mimeTypeInt = it.third,
+                                        mimeType = it.third,
                                         width = it.first!!.width,
                                         height = it.first!!.height
                                     )

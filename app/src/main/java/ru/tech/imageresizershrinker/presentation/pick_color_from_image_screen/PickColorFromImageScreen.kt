@@ -87,7 +87,7 @@ import ru.tech.imageresizershrinker.presentation.pick_color_from_image_screen.vi
 import ru.tech.imageresizershrinker.presentation.theme.icons.PaletteSwatch
 import ru.tech.imageresizershrinker.presentation.theme.outlineVariant
 import ru.tech.imageresizershrinker.presentation.utils.coil.filters.SaturationFilter
-import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.decodeBitmapByUri
+import ru.tech.imageresizershrinker.presentation.utils.helper.BitmapUtils.decodeBitmapByUri
 import ru.tech.imageresizershrinker.presentation.utils.modifier.block
 import ru.tech.imageresizershrinker.presentation.utils.modifier.drawHorizontalStroke
 import ru.tech.imageresizershrinker.presentation.utils.modifier.fabBorder
@@ -95,9 +95,9 @@ import ru.tech.imageresizershrinker.presentation.utils.modifier.navBarsPaddingOn
 import ru.tech.imageresizershrinker.presentation.utils.modifier.navBarsPaddingOnlyIfTheyAtTheEnd
 import ru.tech.imageresizershrinker.presentation.utils.navigation.LocalNavController
 import ru.tech.imageresizershrinker.presentation.utils.navigation.Screen
-import ru.tech.imageresizershrinker.utils.storage.Picker
-import ru.tech.imageresizershrinker.utils.storage.localImagePickerMode
-import ru.tech.imageresizershrinker.utils.storage.rememberImagePicker
+import ru.tech.imageresizershrinker.presentation.utils.helper.Picker
+import ru.tech.imageresizershrinker.presentation.utils.helper.localImagePickerMode
+import ru.tech.imageresizershrinker.presentation.utils.helper.rememberImagePicker
 import ru.tech.imageresizershrinker.presentation.widget.other.LoadingDialog
 import ru.tech.imageresizershrinker.presentation.widget.other.LocalToastHost
 import ru.tech.imageresizershrinker.presentation.widget.other.TopAppBarEmoji

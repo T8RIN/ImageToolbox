@@ -142,7 +142,6 @@ import ru.tech.imageresizershrinker.presentation.theme.icons.GooglePlay
 import ru.tech.imageresizershrinker.presentation.theme.icons.Telegram
 import ru.tech.imageresizershrinker.presentation.theme.outlineVariant
 import ru.tech.imageresizershrinker.presentation.theme.suggestContainerColorBy
-import ru.tech.imageresizershrinker.utils.helper.ContextUtils.verifyInstallerId
 import ru.tech.imageresizershrinker.presentation.utils.modifier.alertDialog
 import ru.tech.imageresizershrinker.presentation.utils.modifier.drawHorizontalStroke
 import ru.tech.imageresizershrinker.presentation.utils.modifier.fabBorder
@@ -150,23 +149,22 @@ import ru.tech.imageresizershrinker.presentation.utils.modifier.pulsate
 import ru.tech.imageresizershrinker.presentation.utils.modifier.scaleOnTap
 import ru.tech.imageresizershrinker.presentation.utils.navigation.LocalNavController
 import ru.tech.imageresizershrinker.presentation.utils.navigation.Screen
-import ru.tech.imageresizershrinker.utils.storage.defaultPrefix
 import ru.tech.imageresizershrinker.presentation.widget.other.AnimationBox
 import ru.tech.imageresizershrinker.presentation.widget.other.LocalToastHost
-import ru.tech.imageresizershrinker.presentation.widget.preferences.PreferenceItem
-import ru.tech.imageresizershrinker.presentation.widget.preferences.PreferenceItemOverload
 import ru.tech.imageresizershrinker.presentation.widget.other.RevealDirection
 import ru.tech.imageresizershrinker.presentation.widget.other.RevealValue
-import ru.tech.imageresizershrinker.presentation.widget.text.TitleItem
 import ru.tech.imageresizershrinker.presentation.widget.other.TopAppBarEmoji
 import ru.tech.imageresizershrinker.presentation.widget.other.rememberRevealState
 import ru.tech.imageresizershrinker.presentation.widget.other.revealSwipeable
+import ru.tech.imageresizershrinker.presentation.widget.preferences.PreferenceItem
+import ru.tech.imageresizershrinker.presentation.widget.preferences.PreferenceItemOverload
 import ru.tech.imageresizershrinker.presentation.widget.sheets.SimpleSheet
 import ru.tech.imageresizershrinker.presentation.widget.text.Marquee
+import ru.tech.imageresizershrinker.presentation.widget.text.TitleItem
 import ru.tech.imageresizershrinker.presentation.widget.utils.LocalEditPresetsState
 import ru.tech.imageresizershrinker.presentation.widget.utils.LocalSettingsState
 import ru.tech.imageresizershrinker.presentation.widget.utils.LocalWindowSizeClass
-import ru.tech.imageresizershrinker.presentation.widget.utils.isNightMode
+import ru.tech.imageresizershrinker.presentation.utils.helper.ContextUtils.verifyInstallerId
 import kotlin.math.roundToInt
 
 @OptIn(
@@ -767,11 +765,11 @@ fun MainScreen(
     val showColorPicker = rememberSaveable { mutableStateOf(false) }
     AvailableColorTuplesDialog(
         visible = showPickColorDialog,
-        colorTupleList = viewModel.colorTupleList,
+        colorTupleList = settingsState.colorTupleList,
         currentColorTuple = getAppColorTuple(
-            defaultColorTuple = viewModel.appColorTuple,
-            dynamicColor = viewModel.dynamicColors,
-            darkTheme = viewModel.nightMode.isNightMode()
+            defaultColorTuple = settingsState.appColorTuple,
+            dynamicColor = settingsState.isDynamicColors,
+            darkTheme = settingsState.isNightMode
         ),
         openColorPicker = {
             showColorPicker.value = true
@@ -779,10 +777,10 @@ fun MainScreen(
         colorPicker = { onUpdateColorTuples ->
             ColorPickerDialog(
                 visible = showColorPicker,
-                colorTuple = viewModel.appColorTuple,
+                colorTuple = settingsState.appColorTuple,
                 onColorChange = {
                     viewModel.updateColorTuple(it)
-                    onUpdateColorTuples(viewModel.colorTupleList + it)
+                    onUpdateColorTuples(settingsState.colorTupleList + it)
                 }
             )
         },
@@ -794,7 +792,13 @@ fun MainScreen(
 
     if (showChangeFilenameDialog) {
         var value by remember {
-            mutableStateOf(viewModel.filenamePrefix.takeIf { it.isNotEmpty() } ?: defaultPrefix())
+            mutableStateOf(
+                settingsState
+                    .filenamePrefix
+                    .takeIf {
+                        it.isNotEmpty()
+                    } ?: context.getString(R.string.default_prefix)
+            )
         }
         AlertDialog(
             modifier = Modifier
@@ -818,7 +822,7 @@ fun MainScreen(
                     OutlinedTextField(
                         placeholder = {
                             Text(
-                                text = defaultPrefix(),
+                                text = stringResource(R.string.default_prefix),
                                 textAlign = TextAlign.Center,
                                 modifier = Modifier.fillMaxWidth()
                             )
@@ -861,7 +865,7 @@ fun MainScreen(
     }
 
     EmojiSheet(
-        selectedEmojiIndex = viewModel.selectedEmoji,
+        selectedEmojiIndex = viewModel.settingsState.selectedEmoji ?: 0,
         emojis = remember { Emoji.allIcons },
         onEmojiPicked = viewModel::updateEmoji,
         visible = showEmojiDialog

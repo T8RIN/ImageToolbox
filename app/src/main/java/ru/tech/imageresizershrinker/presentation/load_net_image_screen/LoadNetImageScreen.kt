@@ -89,7 +89,23 @@ import dev.olshevski.navigation.reimagined.navigate
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.R
+import ru.tech.imageresizershrinker.domain.model.BitmapInfo
 import ru.tech.imageresizershrinker.presentation.load_net_image_screen.viewModel.LoadNetImageViewModel
+import ru.tech.imageresizershrinker.presentation.theme.icons.CreateAlt
+import ru.tech.imageresizershrinker.presentation.theme.outlineVariant
+import ru.tech.imageresizershrinker.presentation.utils.coil.filters.SaturationFilter
+import ru.tech.imageresizershrinker.presentation.utils.confetti.LocalConfettiController
+import ru.tech.imageresizershrinker.presentation.utils.modifier.block
+import ru.tech.imageresizershrinker.presentation.utils.modifier.drawHorizontalStroke
+import ru.tech.imageresizershrinker.presentation.utils.modifier.fabBorder
+import ru.tech.imageresizershrinker.presentation.utils.modifier.navBarsLandscapePadding
+import ru.tech.imageresizershrinker.presentation.utils.navigation.LocalNavController
+import ru.tech.imageresizershrinker.presentation.utils.navigation.Screen
+import ru.tech.imageresizershrinker.presentation.widget.buttons.ToggleGroupButton
+import ru.tech.imageresizershrinker.presentation.widget.image.Picture
+import ru.tech.imageresizershrinker.presentation.widget.other.LoadingDialog
+import ru.tech.imageresizershrinker.presentation.widget.other.LocalToastHost
+import ru.tech.imageresizershrinker.presentation.widget.other.TopAppBarEmoji
 import ru.tech.imageresizershrinker.presentation.widget.preferences.screens.BytesResizePreference
 import ru.tech.imageresizershrinker.presentation.widget.preferences.screens.CipherPreference
 import ru.tech.imageresizershrinker.presentation.widget.preferences.screens.CropPreference
@@ -100,33 +116,16 @@ import ru.tech.imageresizershrinker.presentation.widget.preferences.screens.Gene
 import ru.tech.imageresizershrinker.presentation.widget.preferences.screens.LimitsPreference
 import ru.tech.imageresizershrinker.presentation.widget.preferences.screens.PickColorPreference
 import ru.tech.imageresizershrinker.presentation.widget.preferences.screens.SingleResizePreference
-import ru.tech.imageresizershrinker.presentation.theme.icons.CreateAlt
-import ru.tech.imageresizershrinker.presentation.theme.outlineVariant
-import ru.tech.imageresizershrinker.presentation.utils.confetti.LocalConfettiController
-import ru.tech.imageresizershrinker.presentation.utils.coil.filters.SaturationFilter
-import ru.tech.imageresizershrinker.domain.model.BitmapInfo
-import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.cacheImage
-import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.shareBitmap
-import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.toBitmap
-import ru.tech.imageresizershrinker.presentation.utils.modifier.block
-import ru.tech.imageresizershrinker.presentation.utils.modifier.drawHorizontalStroke
-import ru.tech.imageresizershrinker.presentation.utils.modifier.fabBorder
-import ru.tech.imageresizershrinker.presentation.utils.modifier.navBarsLandscapePadding
-import ru.tech.imageresizershrinker.presentation.utils.navigation.LocalNavController
-import ru.tech.imageresizershrinker.presentation.utils.navigation.Screen
-import ru.tech.imageresizershrinker.utils.storage.LocalFileController
-import ru.tech.imageresizershrinker.presentation.widget.other.LoadingDialog
-import ru.tech.imageresizershrinker.presentation.widget.other.LocalToastHost
-import ru.tech.imageresizershrinker.presentation.widget.text.TitleItem
-import ru.tech.imageresizershrinker.presentation.widget.other.TopAppBarEmoji
-import ru.tech.imageresizershrinker.presentation.widget.buttons.ToggleGroupButton
-import ru.tech.imageresizershrinker.presentation.widget.image.Picture
 import ru.tech.imageresizershrinker.presentation.widget.sheets.SimpleSheet
 import ru.tech.imageresizershrinker.presentation.widget.sheets.ZoomModalSheet
 import ru.tech.imageresizershrinker.presentation.widget.text.Marquee
 import ru.tech.imageresizershrinker.presentation.widget.text.RoundedTextField
+import ru.tech.imageresizershrinker.presentation.widget.text.TitleItem
 import ru.tech.imageresizershrinker.presentation.widget.utils.LocalSettingsState
 import ru.tech.imageresizershrinker.presentation.widget.utils.LocalWindowSizeClass
+import ru.tech.imageresizershrinker.presentation.utils.helper.BitmapUtils.cacheImage
+import ru.tech.imageresizershrinker.presentation.utils.helper.BitmapUtils.shareBitmap
+import ru.tech.imageresizershrinker.presentation.utils.helper.BitmapUtils.toBitmap
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -258,7 +257,6 @@ fun LoadNetImageScreen(
 
     val focus = LocalFocusManager.current
 
-    val fileController = LocalFileController.current
     val saveBitmap: () -> Unit = {
         showSaveLoading = true
         viewModel.saveBitmap(
@@ -275,15 +273,13 @@ fun LoadNetImageScreen(
                         .build()
                 ).drawable?.toBitmap()
             },
-            fileController = fileController
-        ) { success ->
-            if (!success) fileController.requestReadWritePermissions()
-            else {
+        ) { savingPath ->
+            if (savingPath.isNotEmpty()) {
                 scope.launch {
                     toastHostState.showToast(
                         context.getString(
                             R.string.saved_to,
-                            fileController.savingPath
+                            savingPath
                         ),
                         Icons.Rounded.Save
                     )

@@ -42,8 +42,8 @@ import ru.tech.imageresizershrinker.presentation.widget.other.rememberToastHostS
 import ru.tech.imageresizershrinker.presentation.widget.utils.LocalEditPresetsState
 import ru.tech.imageresizershrinker.presentation.widget.utils.LocalSettingsState
 import ru.tech.imageresizershrinker.presentation.widget.utils.setContentWithWindowSizeClass
-import ru.tech.imageresizershrinker.utils.helper.ContextUtils.clearCache
-import ru.tech.imageresizershrinker.utils.helper.ContextUtils.parseImageFromIntent
+import ru.tech.imageresizershrinker.presentation.utils.helper.ContextUtils.clearCache
+import ru.tech.imageresizershrinker.presentation.utils.helper.ContextUtils.parseImageFromIntent
 
 @AndroidEntryPoint
 class MainActivity : M3Activity() {

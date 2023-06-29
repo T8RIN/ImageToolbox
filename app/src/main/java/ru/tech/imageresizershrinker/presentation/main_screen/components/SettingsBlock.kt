@@ -117,9 +117,9 @@ import ru.tech.imageresizershrinker.presentation.widget.preferences.PreferenceRo
 import ru.tech.imageresizershrinker.presentation.widget.preferences.screens.SourceCodePreference
 import ru.tech.imageresizershrinker.presentation.widget.text.TitleItem
 import ru.tech.imageresizershrinker.presentation.widget.utils.LocalSettingsState
-import ru.tech.imageresizershrinker.utils.helper.ContextUtils.cacheSize
-import ru.tech.imageresizershrinker.utils.helper.ContextUtils.clearCache
-import ru.tech.imageresizershrinker.utils.storage.toUiPath
+import ru.tech.imageresizershrinker.presentation.utils.helper.ContextUtils.cacheSize
+import ru.tech.imageresizershrinker.presentation.utils.helper.ContextUtils.clearCache
+import ru.tech.imageresizershrinker.presentation.utils.helper.toUiPath
 import kotlin.math.roundToInt
 
 fun LazyListScope.settingsBlock(
@@ -959,7 +959,7 @@ fun LazyListScope.settingsBlock(
                     PreferenceItem(
                         onClick = { onEditFilename() },
                         title = stringResource(R.string.prefix),
-                        subtitle = settingsState.filenamePrefix + "...",
+                        subtitle = (settingsState.filenamePrefix.takeIf { it.isNotEmpty() } ?: stringResource(R.string.prefix)) + "...",
                         color = MaterialTheme
                             .colorScheme
                             .secondaryContainer

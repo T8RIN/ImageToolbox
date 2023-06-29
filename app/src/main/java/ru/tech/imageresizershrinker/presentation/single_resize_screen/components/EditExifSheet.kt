@@ -56,8 +56,8 @@ import androidx.exifinterface.media.ExifInterface
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.presentation.widget.preferences.PreferenceItemOverload
 import ru.tech.imageresizershrinker.presentation.theme.outlineVariant
-import ru.tech.imageresizershrinker.utils.helper.BitmapUtils
-import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.toMap
+import ru.tech.imageresizershrinker.presentation.utils.helper.BitmapUtils
+import ru.tech.imageresizershrinker.presentation.utils.helper.BitmapUtils.toMap
 import ru.tech.imageresizershrinker.presentation.utils.modifier.alertDialog
 import ru.tech.imageresizershrinker.presentation.widget.text.TitleItem
 import ru.tech.imageresizershrinker.presentation.widget.sheets.SimpleSheet

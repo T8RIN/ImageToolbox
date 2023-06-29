@@ -4,8 +4,8 @@ import android.graphics.Bitmap
 import coil.size.Size
 import coil.transform.Transformation
 import ru.tech.imageresizershrinker.domain.model.BitmapInfo
-import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.applyPresetBy
-import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.previewBitmap
+import ru.tech.imageresizershrinker.presentation.utils.helper.BitmapUtils.applyPresetBy
+import ru.tech.imageresizershrinker.presentation.utils.helper.BitmapUtils.previewBitmap
 
 class BitmapInfoTransformation(
     private val bitmapInfo: BitmapInfo,

@@ -212,7 +212,7 @@ class SettingsRepositoryImpl @Inject constructor(
         }
     }
 
-    private companion object {
+    companion object {
         val SAVE_FOLDER = stringPreferencesKey("saveFolder")
         val NIGHT_MODE = intPreferencesKey("nightMode")
         val DYNAMIC_COLORS = booleanPreferencesKey("dynamicColors")

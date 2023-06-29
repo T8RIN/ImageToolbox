@@ -7,11 +7,8 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.canShow
-import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.resizeBitmap
+import ru.tech.imageresizershrinker.presentation.utils.helper.BitmapUtils.scaleUntilCanShow
 
 class GeneratePaletteViewModel : ViewModel() {
 
@@ -31,25 +28,7 @@ class GeneratePaletteViewModel : ViewModel() {
     fun updateBitmap(bitmap: Bitmap?) {
         viewModelScope.launch {
             _isLoading.value = true
-            var bmp: Bitmap?
-            withContext(Dispatchers.IO) {
-                bmp = if (bitmap?.canShow() == false) {
-                    bitmap.resizeBitmap(
-                        height_ = (bitmap.height * 0.9f).toInt(),
-                        width_ = (bitmap.width * 0.9f).toInt(),
-                        resizeType = 1
-                    )
-                } else bitmap
-
-                while (bmp?.canShow() == false) {
-                    bmp = bmp?.resizeBitmap(
-                        height_ = (bmp!!.height * 0.9f).toInt(),
-                        width_ = (bmp!!.width * 0.9f).toInt(),
-                        resizeType = 1
-                    )
-                }
-            }
-            _bitmap.value = bmp
+            _bitmap.value = bitmap?.scaleUntilCanShow()
             _isLoading.value = false
         }
     }

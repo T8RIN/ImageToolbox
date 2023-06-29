@@ -3,14 +3,10 @@ package ru.tech.imageresizershrinker.presentation.single_resize_screen.viewModel
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
-import android.os.Build
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
-import androidx.datastore.core.DataStore
-import androidx.datastore.preferences.core.Preferences
-import androidx.datastore.preferences.core.edit
 import androidx.exifinterface.media.ExifInterface
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -20,28 +16,26 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import ru.tech.imageresizershrinker.data.SAVE_FOLDER
 import ru.tech.imageresizershrinker.domain.model.BitmapInfo
-import ru.tech.imageresizershrinker.utils.helper.BitmapUtils
-import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.canShow
-import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.copyTo
-import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.flip
-import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.previewBitmap
-import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.resizeBitmap
-import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.rotate
-import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.scaleUntilCanShow
-import ru.tech.imageresizershrinker.utils.helper.compressFormat
-import ru.tech.imageresizershrinker.utils.helper.extension
-import ru.tech.imageresizershrinker.utils.storage.BitmapSaveTarget
-import ru.tech.imageresizershrinker.utils.storage.FileController
-import ru.tech.imageresizershrinker.utils.storage.SavingFolder
+import ru.tech.imageresizershrinker.domain.model.BitmapSaveTarget
+import ru.tech.imageresizershrinker.domain.model.MimeType
+import ru.tech.imageresizershrinker.domain.model.ResizeType
+import ru.tech.imageresizershrinker.domain.saving.FileController
+import ru.tech.imageresizershrinker.presentation.utils.helper.BitmapUtils
+import ru.tech.imageresizershrinker.presentation.utils.helper.BitmapUtils.canShow
+import ru.tech.imageresizershrinker.presentation.utils.helper.BitmapUtils.compress
+import ru.tech.imageresizershrinker.presentation.utils.helper.BitmapUtils.flip
+import ru.tech.imageresizershrinker.presentation.utils.helper.BitmapUtils.previewBitmap
+import ru.tech.imageresizershrinker.presentation.utils.helper.BitmapUtils.resizeBitmap
+import ru.tech.imageresizershrinker.presentation.utils.helper.BitmapUtils.rotate
+import ru.tech.imageresizershrinker.presentation.utils.helper.BitmapUtils.scaleUntilCanShow
 import java.io.ByteArrayInputStream
 import java.io.ByteArrayOutputStream
 import javax.inject.Inject
 
 @HiltViewModel
 class SingleResizeViewModel @Inject constructor(
-    private val dataStore: DataStore<Preferences>
+    private val fileController: FileController
 ) : ViewModel() {
 
     private val _uri: MutableState<Uri> = mutableStateOf(Uri.EMPTY)
@@ -95,7 +89,7 @@ class SingleResizeViewModel @Inject constructor(
                 if (shouldShowPreview) _previewBitmap.value = preview
 
                 _bitmapInfo.value = _bitmapInfo.value.run {
-                    if (resizeType == 2) copy(
+                    if (resizeType !is ResizeType.Ratio) copy(
                         height = preview.height,
                         width = preview.width
                     ) else this
@@ -106,14 +100,14 @@ class SingleResizeViewModel @Inject constructor(
     }
 
     fun saveBitmap(
-        fileController: FileController,
-        onComplete: (success: Boolean) -> Unit
+        onComplete: (path: String) -> Unit
     ) = viewModelScope.launch {
         withContext(Dispatchers.IO) {
             bitmap?.let { bitmap ->
                 bitmapInfo.apply {
                     if (!fileController.isExternalStorageWritable()) {
-                        onComplete(false)
+                        onComplete("")
+                        fileController.requestReadWritePermissions()
                     } else {
                         val tWidth = width
                         val tHeight = height
@@ -124,46 +118,25 @@ class SingleResizeViewModel @Inject constructor(
                                 .resizeBitmap(tWidth, tHeight, resizeType)
                                 .flip(isFlipped)
 
-                        val writeTo: (SavingFolder) -> Unit = { savingFolder ->
-                            savingFolder.outputStream?.use { outputStream ->
-                                localBitmap.compress(
-                                    mimeTypeInt.extension.compressFormat,
-                                    quality.toInt().coerceIn(0, 100),
-                                    outputStream
-                                )
-                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                                    val fd =
-                                        fileController.getFileDescriptorFor(savingFolder.fileUri)
-                                    fd?.fileDescriptor?.let {
-                                        val ex = ExifInterface(it)
-                                        exif?.copyTo(ex)
-                                        ex.saveAttributes()
-                                    }
-                                    fd?.close()
-                                } else {
-                                    val image = savingFolder.file!!
-                                    val ex = ExifInterface(image)
-                                    exif?.copyTo(ex)
-                                    ex.saveAttributes()
-                                }
-                            }
-                        }
-                        fileController.getSavingFolder(
-                            BitmapSaveTarget(
-                                bitmapInfo = this,
-                                uri = uri,
-                                sequenceNumber = null
-                            )
-                        ).getOrNull()?.let(writeTo) ?: dataStore.edit { it[SAVE_FOLDER] = "" }
 
                         val out = ByteArrayOutputStream()
                         localBitmap.compress(
-                            mimeTypeInt.extension.compressFormat,
+                            mimeType,
                             quality.toInt().coerceIn(0, 100),
                             out
                         )
                         val decoded =
                             BitmapFactory.decodeStream(ByteArrayInputStream(out.toByteArray()))
+
+                        fileController.save(
+                            saveTarget = BitmapSaveTarget(
+                                bitmapInfo = this,
+                                originalUri = uri.toString(),
+                                sequenceNumber = null,
+                                data = out.toByteArray()
+                            ),
+                            keepMetadata = true
+                        )
 
                         out.flush()
                         out.close()
@@ -173,7 +146,7 @@ class SingleResizeViewModel @Inject constructor(
                             isFlipped = false,
                             rotationDegrees = 0f
                         )
-                        onComplete(true)
+                        onComplete(fileController.savingPath)
                     }
                 }
             }
@@ -186,13 +159,7 @@ class SingleResizeViewModel @Inject constructor(
         return@withContext bitmapInfo.run {
             _showWarning.value = width * height * 4L >= 10_000 * 10_000 * 3L
             bitmap.previewBitmap(
-                quality = quality,
-                widthValue = width,
-                heightValue = height,
-                mimeTypeInt = mimeTypeInt,
-                resizeType = resizeType,
-                rotationDegrees = rotationDegrees,
-                isFlipped = isFlipped,
+                bitmapInfo = this,
                 onByteCount = {
                     _bitmapInfo.value = _bitmapInfo.value.copy(sizeInBytes = it)
                 }
@@ -220,7 +187,7 @@ class SingleResizeViewModel @Inject constructor(
         _bitmapInfo.value = BitmapInfo(
             width = _bitmap.value?.width ?: 0,
             height = _bitmap.value?.height ?: 0,
-            mimeTypeInt = if (saveMime) bitmapInfo.mimeTypeInt else 0
+            mimeType = if (saveMime) bitmapInfo.mimeType else MimeType.Default()
         )
         checkBitmapAndUpdate(resetPreset = true, resetTelegram = true)
     }
@@ -285,10 +252,10 @@ class SingleResizeViewModel @Inject constructor(
         }
     }
 
-    fun setMime(mime: Int) {
-        if (_bitmapInfo.value.mimeTypeInt != mime) {
-            _bitmapInfo.value = _bitmapInfo.value.copy(mimeTypeInt = mime)
-            if (mime.extension != "png") checkBitmapAndUpdate(
+    fun setMime(mimeType: MimeType) {
+        if (_bitmapInfo.value.mimeType != mimeType) {
+            _bitmapInfo.value = _bitmapInfo.value.copy(mimeType = mimeType)
+            if (mimeType.extension != "png") checkBitmapAndUpdate(
                 resetPreset = false,
                 resetTelegram = true
             )
@@ -296,10 +263,13 @@ class SingleResizeViewModel @Inject constructor(
         }
     }
 
-    fun setResizeType(type: Int) {
+    fun setResizeType(type: ResizeType) {
         if (_bitmapInfo.value.resizeType != type) {
             _bitmapInfo.value = _bitmapInfo.value.copy(resizeType = type)
-            if (type != 2) checkBitmapAndUpdate(resetPreset = false, resetTelegram = false)
+            if (type != ResizeType.Ratio) checkBitmapAndUpdate(
+                resetPreset = false,
+                resetTelegram = false
+            )
             else checkBitmapAndUpdate(resetPreset = false, resetTelegram = true)
         }
     }
@@ -308,8 +278,8 @@ class SingleResizeViewModel @Inject constructor(
         val new = _bitmapInfo.value.copy(
             width = 512,
             height = 512,
-            mimeTypeInt = 3,
-            resizeType = 1,
+            mimeType = MimeType.Png,
+            resizeType = ResizeType.Flexible,
             quality = 100f
         )
         if (new != _bitmapInfo.value) {

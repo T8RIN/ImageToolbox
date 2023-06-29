@@ -118,10 +118,10 @@ import ru.tech.imageresizershrinker.presentation.widget.text.Marquee
 import ru.tech.imageresizershrinker.presentation.widget.text.RoundedTextField
 import ru.tech.imageresizershrinker.presentation.widget.utils.LocalSettingsState
 import ru.tech.imageresizershrinker.presentation.widget.utils.isScrollingUp
-import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.fileSize
-import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.shareFile
-import ru.tech.imageresizershrinker.utils.helper.ContextUtils.getFileName
-import ru.tech.imageresizershrinker.utils.helper.readableByteCount
+import ru.tech.imageresizershrinker.presentation.utils.helper.BitmapUtils.fileSize
+import ru.tech.imageresizershrinker.presentation.utils.helper.BitmapUtils.shareFile
+import ru.tech.imageresizershrinker.presentation.utils.helper.ContextUtils.getFileName
+import ru.tech.imageresizershrinker.presentation.utils.helper.readableByteCount
 import java.io.DataInputStream
 import java.io.InputStream
 import java.security.InvalidKeyException

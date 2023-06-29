@@ -76,29 +76,16 @@ import dev.olshevski.navigation.reimagined.hilt.hiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.R
+import ru.tech.imageresizershrinker.domain.model.BitmapInfo
 import ru.tech.imageresizershrinker.presentation.batch_resize_screen.components.SaveExifWidget
 import ru.tech.imageresizershrinker.presentation.bytes_resize_screen.components.PngTypeAlert
 import ru.tech.imageresizershrinker.presentation.bytes_resize_screen.viewModel.BytesResizeViewModel
 import ru.tech.imageresizershrinker.presentation.theme.outlineVariant
-import ru.tech.imageresizershrinker.presentation.utils.confetti.LocalConfettiController
 import ru.tech.imageresizershrinker.presentation.utils.coil.filters.SaturationFilter
-import ru.tech.imageresizershrinker.domain.model.BitmapInfo
-import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.decodeBitmapByUri
-import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.fileSize
-import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.getBitmapByUri
-import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.restrict
-import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.shareBitmaps
-import ru.tech.imageresizershrinker.utils.helper.ContextUtils.failedToSaveImages
+import ru.tech.imageresizershrinker.presentation.utils.confetti.LocalConfettiController
 import ru.tech.imageresizershrinker.presentation.utils.modifier.block
 import ru.tech.imageresizershrinker.presentation.utils.modifier.drawHorizontalStroke
 import ru.tech.imageresizershrinker.presentation.utils.modifier.navBarsLandscapePadding
-import ru.tech.imageresizershrinker.utils.storage.LocalFileController
-import ru.tech.imageresizershrinker.utils.storage.Picker
-import ru.tech.imageresizershrinker.utils.storage.localImagePickerMode
-import ru.tech.imageresizershrinker.utils.storage.rememberImagePicker
-import ru.tech.imageresizershrinker.presentation.widget.other.LoadingDialog
-import ru.tech.imageresizershrinker.presentation.widget.other.LocalToastHost
-import ru.tech.imageresizershrinker.presentation.widget.other.TopAppBarEmoji
 import ru.tech.imageresizershrinker.presentation.widget.buttons.BottomButtonsBlock
 import ru.tech.imageresizershrinker.presentation.widget.controls.ExtensionGroup
 import ru.tech.imageresizershrinker.presentation.widget.controls.PresetWidget
@@ -106,16 +93,28 @@ import ru.tech.imageresizershrinker.presentation.widget.dialogs.ExitWithoutSavin
 import ru.tech.imageresizershrinker.presentation.widget.image.ImageContainer
 import ru.tech.imageresizershrinker.presentation.widget.image.ImageCounter
 import ru.tech.imageresizershrinker.presentation.widget.image.ImageNotPickedWidget
+import ru.tech.imageresizershrinker.presentation.widget.other.LoadingDialog
+import ru.tech.imageresizershrinker.presentation.widget.other.LocalToastHost
+import ru.tech.imageresizershrinker.presentation.widget.other.TopAppBarEmoji
 import ru.tech.imageresizershrinker.presentation.widget.other.imageStickyHeader
+import ru.tech.imageresizershrinker.presentation.widget.other.showError
 import ru.tech.imageresizershrinker.presentation.widget.sheets.PickImageFromUrisSheet
 import ru.tech.imageresizershrinker.presentation.widget.sheets.ZoomModalSheet
-import ru.tech.imageresizershrinker.presentation.widget.other.showError
 import ru.tech.imageresizershrinker.presentation.widget.text.RoundedTextField
 import ru.tech.imageresizershrinker.presentation.widget.text.TopAppBarTitle
 import ru.tech.imageresizershrinker.presentation.widget.utils.LocalSettingsState
 import ru.tech.imageresizershrinker.presentation.widget.utils.LocalWindowSizeClass
 import ru.tech.imageresizershrinker.presentation.widget.utils.isExpanded
 import ru.tech.imageresizershrinker.presentation.widget.utils.middleImageState
+import ru.tech.imageresizershrinker.presentation.utils.helper.BitmapUtils.decodeBitmapByUri
+import ru.tech.imageresizershrinker.presentation.utils.helper.BitmapUtils.fileSize
+import ru.tech.imageresizershrinker.presentation.utils.helper.BitmapUtils.getBitmapByUri
+import ru.tech.imageresizershrinker.presentation.utils.helper.BitmapUtils.restrict
+import ru.tech.imageresizershrinker.presentation.utils.helper.BitmapUtils.shareBitmaps
+import ru.tech.imageresizershrinker.presentation.utils.helper.ContextUtils.failedToSaveImages
+import ru.tech.imageresizershrinker.presentation.utils.helper.Picker
+import ru.tech.imageresizershrinker.presentation.utils.helper.localImagePickerMode
+import ru.tech.imageresizershrinker.presentation.utils.helper.rememberImagePicker
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -207,21 +206,20 @@ fun BytesResizeScreen(
         else onGoBack()
     }
 
-    val fileController = LocalFileController.current
+
     val saveBitmaps: () -> Unit = {
         showSaveLoading = true
         viewModel.saveBitmaps(
-            fileController = fileController,
             getBitmap = { uri ->
-                context.decodeBitmapByUri(uri)
+                context.getBitmapByUri(uri)
             },
-        ) { failed ->
+        ) { failed, savingPath ->
             context.failedToSaveImages(
                 scope = scope,
                 failed = failed,
                 done = viewModel.done,
                 toastHostState = toastHostState,
-                savingPathString = fileController.savingPath,
+                savingPathString = savingPath,
                 showConfetti = showConfetti
             )
             showSaveLoading = false
@@ -504,9 +502,9 @@ fun BytesResizeScreen(
                                     Spacer(Modifier.size(8.dp))
                                     ExtensionGroup(
                                         enabled = viewModel.bitmap != null,
-                                        mimeType = viewModel.mime,
+                                        mimeType = viewModel.mimeType,
                                         onMimeChange = {
-                                            showAlert = it.extension == "png"
+                                            showAlert = !it.canChangeQuality
                                             viewModel.setMime(it)
                                         }
                                     )

@@ -7,7 +7,7 @@ import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.WindowCompat
 import ru.tech.imageresizershrinker.presentation.crash_screen.CrashActivity
 import ru.tech.imageresizershrinker.presentation.utils.exception.GlobalExceptionHandler
-import ru.tech.imageresizershrinker.utils.helper.ContextUtils.adjustFontSize
+import ru.tech.imageresizershrinker.presentation.utils.helper.ContextUtils.adjustFontSize
 
 open class M3Activity : AppCompatActivity() {
 

@@ -3,15 +3,10 @@ package ru.tech.imageresizershrinker.presentation.filters_screen.viewModel
 
 import android.graphics.Bitmap
 import android.net.Uri
-import android.os.Build
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
-import androidx.datastore.core.DataStore
-import androidx.datastore.preferences.core.Preferences
-import androidx.datastore.preferences.core.edit
-import androidx.exifinterface.media.ExifInterface
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -19,24 +14,22 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import ru.tech.imageresizershrinker.data.SAVE_FOLDER
-import ru.tech.imageresizershrinker.presentation.utils.coil.filters.FilterTransformation
 import ru.tech.imageresizershrinker.domain.model.BitmapInfo
-import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.calcSize
-import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.copyTo
-import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.resizeBitmap
-import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.scaleUntilCanShow
-import ru.tech.imageresizershrinker.utils.helper.compressFormat
-import ru.tech.imageresizershrinker.utils.helper.extension
-import ru.tech.imageresizershrinker.utils.helper.mimeTypeInt
-import ru.tech.imageresizershrinker.utils.storage.BitmapSaveTarget
-import ru.tech.imageresizershrinker.utils.storage.FileController
-import ru.tech.imageresizershrinker.utils.storage.SavingFolder
+import ru.tech.imageresizershrinker.domain.model.BitmapSaveTarget
+import ru.tech.imageresizershrinker.domain.model.MimeType
+import ru.tech.imageresizershrinker.domain.model.ResizeType
+import ru.tech.imageresizershrinker.domain.saving.FileController
+import ru.tech.imageresizershrinker.presentation.utils.coil.filters.FilterTransformation
+import ru.tech.imageresizershrinker.presentation.utils.helper.BitmapUtils.calcSize
+import ru.tech.imageresizershrinker.presentation.utils.helper.BitmapUtils.compress
+import ru.tech.imageresizershrinker.presentation.utils.helper.BitmapUtils.resizeBitmap
+import ru.tech.imageresizershrinker.presentation.utils.helper.BitmapUtils.scaleUntilCanShow
+import java.io.ByteArrayOutputStream
 import javax.inject.Inject
 
 @HiltViewModel
 class FilterViewModel @Inject constructor(
-    private val dataStore: DataStore<Preferences>
+    private val fileController: FileController
 ) : ViewModel() {
 
     private val _bitmapSize = mutableStateOf<Long?>(null)
@@ -66,8 +59,8 @@ class FilterViewModel @Inject constructor(
     private val _selectedUri: MutableState<Uri?> = mutableStateOf(null)
     val selectedUri by _selectedUri
 
-    private val _mimeTypeInt = mutableIntStateOf(0)
-    val mimeTypeInt by _mimeTypeInt
+    private val _mimeType = mutableStateOf(MimeType.Default())
+    val mimeType by _mimeType
 
     private val _filterList = mutableStateOf(listOf<FilterTransformation<*>>())
     val filterList by _filterList
@@ -75,8 +68,8 @@ class FilterViewModel @Inject constructor(
     private val _needToApplyFilters = mutableStateOf(true)
     val needToApplyFilters by _needToApplyFilters
 
-    fun setMime(mime: Int) {
-        _mimeTypeInt.intValue = mime
+    fun setMime(mimeType: MimeType) {
+        _mimeType.value = mimeType
 
         calcSize(
             delay = 5,
@@ -130,7 +123,7 @@ class FilterViewModel @Inject constructor(
                     _previewBitmap.value = _previewBitmap.value?.resizeBitmap(
                         width_ = it.width,
                         height_ = it.height,
-                        resizeType = 1
+                        resizeType = ResizeType.Flexible
                     ) ?: _previewBitmap.value
                 }
             }
@@ -145,7 +138,7 @@ class FilterViewModel @Inject constructor(
         sizeJob = viewModelScope.launch {
             kotlinx.coroutines.delay(delay)
             onStart()
-            _bitmapSize.value = _previewBitmap.value?.calcSize(mimeTypeInt)
+            _bitmapSize.value = _previewBitmap.value?.calcSize(mimeType)
             onFinish()
         }
     }
@@ -155,65 +148,48 @@ class FilterViewModel @Inject constructor(
     }
 
     fun saveBitmaps(
-        fileController: FileController,
-        getBitmap: suspend (Uri) -> Pair<Bitmap?, ExifInterface?>,
-        onResult: (Int) -> Unit
+        getBitmap: suspend (Uri) -> Bitmap?,
+        onResult: (Int, String) -> Unit
     ) = viewModelScope.launch {
         withContext(Dispatchers.IO) {
             var failed = 0
             if (!fileController.isExternalStorageWritable()) {
-                onResult(-1)
+                onResult(-1, "")
+                fileController.requestReadWritePermissions()
             } else {
                 _done.value = 0
                 uris?.forEach { uri ->
                     runCatching {
                         getBitmap(uri)
-                    }.getOrNull()?.takeIf { it.first != null }?.let { (bitmap, exif) ->
+                    }.getOrNull()?.let { bitmap ->
                         val localBitmap = bitmap
-                        if (localBitmap != null) {
-                            val writeTo: (SavingFolder) -> Unit = { savingFolder ->
-                                savingFolder.outputStream?.use { outputStream ->
-                                    localBitmap.compress(
-                                        mimeTypeInt.extension.compressFormat,
-                                        100,
-                                        outputStream
-                                    )
-                                    if (keepExif) {
-                                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                                            val fd =
-                                                fileController.getFileDescriptorFor(savingFolder.fileUri)
-                                            fd?.fileDescriptor?.let {
-                                                val ex = ExifInterface(it)
-                                                exif?.copyTo(ex)
-                                                ex.saveAttributes()
-                                            }
-                                            fd?.close()
-                                        } else {
-                                            val image = savingFolder.file!!
-                                            val ex = ExifInterface(image)
-                                            exif?.copyTo(ex)
-                                            ex.saveAttributes()
-                                        }
-                                    }
-                                }
-                            }
-                            fileController.getSavingFolder(
-                                BitmapSaveTarget(
-                                    bitmapInfo = BitmapInfo(
-                                        mimeTypeInt = mimeTypeInt.extension.mimeTypeInt,
-                                        width = localBitmap.width,
-                                        height = localBitmap.height
-                                    ),
-                                    uri = uri,
-                                    sequenceNumber = _done.value + 1
-                                )
-                            ).getOrNull()?.let(writeTo) ?: dataStore.edit { it[SAVE_FOLDER] = "" }
 
-                        } else failed += 1
+                        val out = ByteArrayOutputStream()
+
+                        localBitmap.compress(
+                            mimeType = mimeType,
+                            quality = 100,
+                            out = out
+                        )
+
+                        fileController.save(
+                            saveTarget = BitmapSaveTarget(
+                                bitmapInfo = BitmapInfo(
+                                    mimeType = mimeType,
+                                    width = localBitmap.width,
+                                    height = localBitmap.height
+                                ),
+                                originalUri = uri.toString(),
+                                sequenceNumber = _done.value + 1,
+                                data = out.toByteArray()
+                            ), keepMetadata = keepExif
+                        )
+                    } ?: {
+                        failed += 1
                     }
                     _done.value += 1
                 }
-                onResult(failed)
+                onResult(failed, fileController.savingPath)
             }
         }
     }
@@ -244,7 +220,7 @@ class FilterViewModel @Inject constructor(
             bitmap to BitmapInfo(
                 bitmap.width,
                 bitmap.height,
-                mimeTypeInt = mimeTypeInt
+                mimeType = mimeType
             )
         }
     }
@@ -302,7 +278,7 @@ class FilterViewModel @Inject constructor(
 
     private fun Bitmap.upscale(): Bitmap {
         return if (this.width * this.height < 2000 * 2000) {
-            this.resizeBitmap(2000, 2000, 1)
+            this.resizeBitmap(2000, 2000, ResizeType.Flexible)
         } else this
     }
 }

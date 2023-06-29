@@ -95,7 +95,7 @@ import ru.tech.imageresizershrinker.presentation.theme.icons.CreateAlt
 import ru.tech.imageresizershrinker.presentation.theme.icons.PaletteSwatch
 import ru.tech.imageresizershrinker.presentation.theme.inverse
 import ru.tech.imageresizershrinker.presentation.theme.outlineVariant
-import ru.tech.imageresizershrinker.utils.helper.ListUtils.nearestFor
+import ru.tech.imageresizershrinker.presentation.utils.helper.ListUtils.nearestFor
 import ru.tech.imageresizershrinker.presentation.utils.modifier.alertDialog
 import ru.tech.imageresizershrinker.presentation.widget.text.TitleItem
 import ru.tech.imageresizershrinker.presentation.widget.sheets.SimpleSheet
@@ -287,9 +287,7 @@ fun AvailableColorTuplesDialog(
             Row {
                 OutlinedButton(
                     onClick = {
-                        if ((colorTupleList - currentColorTuple).isEmpty()) onPickTheme(
-                            defaultColorTuple
-                        )
+                        if ((colorTupleList - currentColorTuple).isEmpty()) onPickTheme(defaultColorTuple)
                         colorTupleList.nearestFor(currentColorTuple)?.let { onPickTheme(it) }
                         onUpdateColorTuples(colorTupleList - currentColorTuple)
                     },

@@ -83,13 +83,14 @@ import com.t8rin.drawbox.presentation.compose.DrawBox
 import dev.olshevski.navigation.reimagined.AnimatedNavHost
 import dev.olshevski.navigation.reimagined.NavController
 import ru.tech.imageresizershrinker.R
+import ru.tech.imageresizershrinker.domain.model.MimeType
 import ru.tech.imageresizershrinker.presentation.widget.preferences.PreferenceItem
 import ru.tech.imageresizershrinker.presentation.theme.icons.Eraser
 import ru.tech.imageresizershrinker.presentation.theme.mixedColor
 import ru.tech.imageresizershrinker.presentation.theme.onMixedColor
 import ru.tech.imageresizershrinker.presentation.theme.outlineVariant
 import ru.tech.imageresizershrinker.presentation.utils.coil.UpscaleTransformation
-import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.restrict
+import ru.tech.imageresizershrinker.presentation.utils.helper.BitmapUtils.restrict
 import ru.tech.imageresizershrinker.presentation.utils.modifier.block
 import ru.tech.imageresizershrinker.presentation.utils.modifier.drawHorizontalStroke
 import ru.tech.imageresizershrinker.presentation.utils.modifier.fabBorder
@@ -111,8 +112,8 @@ fun DrawHost(
     zoomEnabled: Boolean,
     onGetDrawController: (DrawController) -> Unit,
     onSaveRequest: () -> Unit,
-    mimeType: Int,
-    onMimeTypeChange: (Int) -> Unit,
+    mimeType: MimeType,
+    onMimeTypeChange: (MimeType) -> Unit,
     uri: Uri,
     onPickImage: () -> Unit,
     switch: @Composable () -> Unit,

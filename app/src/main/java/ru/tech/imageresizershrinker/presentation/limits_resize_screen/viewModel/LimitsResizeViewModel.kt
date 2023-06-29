@@ -3,37 +3,31 @@ package ru.tech.imageresizershrinker.presentation.limits_resize_screen.viewModel
 
 import android.graphics.Bitmap
 import android.net.Uri
-import android.os.Build
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
-import androidx.datastore.core.DataStore
-import androidx.datastore.preferences.core.Preferences
-import androidx.datastore.preferences.core.edit
-import androidx.exifinterface.media.ExifInterface
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import ru.tech.imageresizershrinker.data.SAVE_FOLDER
 import ru.tech.imageresizershrinker.domain.model.BitmapInfo
-import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.aspectRatio
-import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.copyTo
-import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.resizeBitmap
-import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.scaleUntilCanShow
-import ru.tech.imageresizershrinker.utils.helper.compressFormat
-import ru.tech.imageresizershrinker.utils.helper.extension
-import ru.tech.imageresizershrinker.utils.storage.BitmapSaveTarget
-import ru.tech.imageresizershrinker.utils.storage.FileController
-import ru.tech.imageresizershrinker.utils.storage.SavingFolder
+import ru.tech.imageresizershrinker.domain.model.BitmapSaveTarget
+import ru.tech.imageresizershrinker.domain.model.MimeType
+import ru.tech.imageresizershrinker.domain.model.ResizeType
+import ru.tech.imageresizershrinker.domain.saving.FileController
+import ru.tech.imageresizershrinker.presentation.utils.helper.BitmapUtils.aspectRatio
+import ru.tech.imageresizershrinker.presentation.utils.helper.BitmapUtils.compress
+import ru.tech.imageresizershrinker.presentation.utils.helper.BitmapUtils.resizeBitmap
+import ru.tech.imageresizershrinker.presentation.utils.helper.BitmapUtils.scaleUntilCanShow
+import java.io.ByteArrayOutputStream
 import javax.inject.Inject
 
 @HiltViewModel
 class LimitsResizeViewModel @Inject constructor(
-    private val dataStore: DataStore<Preferences>
+    private val fileController: FileController
 ) : ViewModel() {
 
     private val _canSave = mutableStateOf(false)
@@ -63,8 +57,8 @@ class LimitsResizeViewModel @Inject constructor(
     private val _bitmapInfo = mutableStateOf(BitmapInfo())
     val bitmapInfo by _bitmapInfo
 
-    fun setMime(mime: Int) {
-        _bitmapInfo.value = _bitmapInfo.value.copy(mimeTypeInt = mime)
+    fun setMime(mimeType: MimeType) {
+        _bitmapInfo.value = _bitmapInfo.value.copy(mimeType = mimeType)
     }
 
     fun updateUris(uris: List<Uri>?) {
@@ -116,89 +110,65 @@ class LimitsResizeViewModel @Inject constructor(
     }
 
     fun saveBitmaps(
-        fileController: FileController,
-        getBitmap: suspend (Uri) -> Pair<Bitmap?, ExifInterface?>,
-        onResult: (Int) -> Unit
+        getBitmap: suspend (Uri) -> Bitmap?,
+        onResult: (Int, String) -> Unit
     ) = viewModelScope.launch {
         withContext(Dispatchers.IO) {
             var failed = 0
             if (!fileController.isExternalStorageWritable()) {
-                onResult(-1)
+                onResult(-1, "")
+                fileController.requestReadWritePermissions()
             } else {
                 _done.value = 0
                 uris?.forEach { uri ->
-                    /*
-                    the image aspect ratio >= WidthLimit/HeightLimit
-then resize by WidthLimit.
-the image aspect ratio <= WidthLimit/HeightLimit
-then resize by HeighthLimit.
-                     */
                     runCatching {
                         getBitmap(uri)
-                    }.getOrNull()?.takeIf { it.first != null }?.let { (bitmap, exif) ->
+                    }.getOrNull()?.let { bitmap ->
                         var localBitmap = bitmap
-                        if (localBitmap != null) {
-                            if (localBitmap.height > bitmapInfo.height || localBitmap.width > bitmapInfo.width) {
-                                if (localBitmap.aspectRatio > bitmapInfo.aspectRatio) {
-                                    localBitmap = localBitmap.resizeBitmap(
-                                        bitmapInfo.width,
-                                        bitmapInfo.width,
-                                        1
-                                    )
-                                } else if (localBitmap.aspectRatio < bitmapInfo.aspectRatio) {
-                                    localBitmap = localBitmap.resizeBitmap(
-                                        bitmapInfo.height,
-                                        bitmapInfo.height,
-                                        1
-                                    )
-                                } else {
-                                    localBitmap = localBitmap.resizeBitmap(
-                                        bitmapInfo.width,
-                                        bitmapInfo.height,
-                                        1
-                                    )
-                                }
-                            }
-
-                            val writeTo: (SavingFolder) -> Unit = { savingFolder ->
-                                savingFolder.outputStream?.use { outputStream ->
-                                    localBitmap.compress(
-                                        _bitmapInfo.value.mimeTypeInt.extension.compressFormat,
-                                        100,
-                                        outputStream
-                                    )
-                                    if (keepExif) {
-                                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                                            val fd =
-                                                fileController.getFileDescriptorFor(savingFolder.fileUri)
-                                            fd?.fileDescriptor?.let {
-                                                val ex = ExifInterface(it)
-                                                exif?.copyTo(ex)
-                                                ex.saveAttributes()
-                                            }
-                                            fd?.close()
-                                        } else {
-                                            val image = savingFolder.file!!
-                                            val ex = ExifInterface(image)
-                                            exif?.copyTo(ex)
-                                            ex.saveAttributes()
-                                        }
-                                    }
-                                }
-                            }
-                            fileController.getSavingFolder(
-                                BitmapSaveTarget(
-                                    bitmapInfo = _bitmapInfo.value,
-                                    uri = uri,
-                                    sequenceNumber = _done.value + 1
+                        if (localBitmap.height > bitmapInfo.height || localBitmap.width > bitmapInfo.width) {
+                            if (localBitmap.aspectRatio > bitmapInfo.aspectRatio) {
+                                localBitmap = localBitmap.resizeBitmap(
+                                    bitmapInfo.width,
+                                    bitmapInfo.width,
+                                    ResizeType.Flexible
                                 )
-                            ).getOrNull()?.let(writeTo) ?: dataStore.edit { it[SAVE_FOLDER] = "" }
+                            } else if (localBitmap.aspectRatio < bitmapInfo.aspectRatio) {
+                                localBitmap = localBitmap.resizeBitmap(
+                                    bitmapInfo.height,
+                                    bitmapInfo.height,
+                                    ResizeType.Flexible
+                                )
+                            } else {
+                                localBitmap = localBitmap.resizeBitmap(
+                                    bitmapInfo.width,
+                                    bitmapInfo.height,
+                                    ResizeType.Flexible
+                                )
+                            }
+                        }
 
-                        } else failed += 1
+                        val out = ByteArrayOutputStream()
+                        localBitmap.compress(
+                            mimeType = bitmapInfo.mimeType,
+                            quality = 100,
+                            out = out
+                        )
+
+                        fileController.save(
+                            BitmapSaveTarget(
+                                bitmapInfo = _bitmapInfo.value,
+                                originalUri = uri.toString(),
+                                sequenceNumber = _done.value + 1,
+                                data = out.toByteArray()
+                            ), keepMetadata = keepExif
+                        )
+                    } ?: {
+                        failed += 1
                     }
+
                     _done.value += 1
                 }
-                onResult(failed)
+                onResult(failed, fileController.savingPath)
             }
         }
     }
@@ -231,21 +201,21 @@ then resize by HeighthLimit.
             if (localBitmap.height > bitmapInfo.height || localBitmap.width > bitmapInfo.width) {
                 if (localBitmap.aspectRatio > bitmapInfo.aspectRatio) {
                     localBitmap = localBitmap.resizeBitmap(
-                        bitmapInfo.width,
-                        bitmapInfo.width,
-                        1
+                        width_ = bitmapInfo.width,
+                        height_ = bitmapInfo.width,
+                        resizeType = ResizeType.Flexible
                     )
                 } else if (localBitmap.aspectRatio < bitmapInfo.aspectRatio) {
                     localBitmap = localBitmap.resizeBitmap(
-                        bitmapInfo.height,
-                        bitmapInfo.height,
-                        1
+                        width_ = bitmapInfo.height,
+                        height_ = bitmapInfo.height,
+                        resizeType = ResizeType.Flexible
                     )
                 } else {
                     localBitmap = localBitmap.resizeBitmap(
-                        bitmapInfo.width,
-                        bitmapInfo.height,
-                        1
+                        width_ = bitmapInfo.width,
+                        height_ = bitmapInfo.height,
+                        resizeType = ResizeType.Flexible
                     )
                 }
             }

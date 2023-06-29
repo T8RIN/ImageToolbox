@@ -1,10 +1,9 @@
-package ru.tech.imageresizershrinker.utils.helper
+package ru.tech.imageresizershrinker.presentation.utils.helper
 
 import android.content.ContentResolver
 import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
-import android.graphics.Bitmap.CompressFormat
 import android.graphics.BitmapFactory
 import android.graphics.Canvas
 import android.graphics.Matrix
@@ -37,6 +36,7 @@ import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.FileOutputStream
 import java.io.OutputStream
+import java.nio.ByteBuffer
 import java.util.Locale
 import kotlin.coroutines.CoroutineContext
 import kotlin.math.abs
@@ -91,7 +91,7 @@ object BitmapUtils {
             }
 
             ResizeType.Ratio -> {
-                resizeWithAspectRatio(width_, height_) ?: this
+                resizeWithAspectRatio(width_, height_)
             }
         }
     }
@@ -137,7 +137,7 @@ object BitmapUtils {
                 return drawable.bitmap
             }
         }
-        val bitmap: Bitmap? = if (drawable.intrinsicWidth <= 0 || drawable.intrinsicHeight <= 0) {
+        val bitmap: Bitmap = if (drawable.intrinsicWidth <= 0 || drawable.intrinsicHeight <= 0) {
             Bitmap.createBitmap(
                 1,
                 1,
@@ -150,7 +150,6 @@ object BitmapUtils {
                 Bitmap.Config.ARGB_8888
             )
         }
-        if (bitmap == null) return null
         val canvas = Canvas(bitmap)
         drawable.setBounds(0, 0, canvas.width, canvas.height)
         drawable.draw(canvas)
@@ -270,8 +269,36 @@ object BitmapUtils {
         return@withContext bitmap.scaleUntilCanShow() ?: this@previewBitmap
     }
 
+    @Suppress("DEPRECATION")
     fun Bitmap.compress(mimeType: MimeType, quality: Number, out: OutputStream) {
-        TODO()
+        when (mimeType) {
+            MimeType.Bmp -> compressToBMP(out)
+            MimeType.Jpeg -> compress(
+                Bitmap.CompressFormat.JPEG,
+                quality.toInt().coerceIn(0, 100),
+                out
+            )
+
+            MimeType.Jpg -> compress(
+                Bitmap.CompressFormat.JPEG,
+                quality.toInt().coerceIn(0, 100),
+                out
+            )
+
+            MimeType.Png -> compress(
+                Bitmap.CompressFormat.PNG,
+                quality.toInt().coerceIn(0, 100),
+                out
+            )
+
+            MimeType.Webp.Lossless -> if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                compress(Bitmap.CompressFormat.WEBP_LOSSLESS, quality.toInt().coerceIn(0, 100), out)
+            } else compress(Bitmap.CompressFormat.WEBP, quality.toInt().coerceIn(0, 100), out)
+
+            MimeType.Webp.Lossy -> if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                compress(Bitmap.CompressFormat.WEBP_LOSSY, quality.toInt().coerceIn(0, 100), out)
+            } else compress(Bitmap.CompressFormat.WEBP, quality.toInt().coerceIn(0, 100), out)
+        }
     }
 
     suspend fun Bitmap.calcSize(
@@ -495,7 +522,7 @@ object BitmapUtils {
 
     private var lastModification: Pair<Int, Int> = 0 to 0
 
-    private fun Bitmap.resizeWithAspectRatio(w: Int, h: Int): Bitmap? {
+    private fun Bitmap.resizeWithAspectRatio(w: Int, h: Int): Bitmap {
         return if (w > 0 && h > 0) {
             val (originalWidth, originalHeight) = width to height
             var (newWidth, newHeight) = w to h
@@ -727,7 +754,7 @@ object BitmapUtils {
     }
 
     fun Bitmap.scaleByMaxBytes(
-        compressFormat: CompressFormat,
+        mimeType: MimeType,
         maxBytes: Long
     ): Pair<Bitmap, Int>? {
         val maxBytes1 =
@@ -754,7 +781,7 @@ object BitmapUtils {
                         it.flush()
                         it.reset()
                     }
-                    compress(compressFormat, compressQuality, bmpStream)
+                    compress(mimeType, compressQuality, bmpStream)
                     streamLength = (bmpStream.toByteArray().size).toLong()
                 }
                 if (compressQuality < 20) {
@@ -770,7 +797,7 @@ object BitmapUtils {
                             height_ = (newSize.second * 0.98).toInt(),
                             resizeType = ResizeType.Explicit
                         ).compress(
-                            compressFormat,
+                            mimeType,
                             compressQuality,
                             bmpStream
                         )
@@ -856,33 +883,6 @@ object BitmapUtils {
         return loader.execute(request).drawable?.toBitmap()
     }
 
-    suspend fun Context.getBitmapFromUriWithTransformationsAndExif(
-        uri: Uri,
-        transformations: List<Transformation>,
-        originalSize: Boolean = true,
-    ): Pair<Bitmap?, ExifInterface?> {
-        val fd = contentResolver.openFileDescriptor(uri, "r")
-        val exif = fd?.fileDescriptor?.let { ExifInterface(it) }
-        fd?.close()
-
-        val loader = imageLoader.newBuilder().components {
-            if (Build.VERSION.SDK_INT >= 28) add(ImageDecoderDecoder.Factory())
-            else add(GifDecoder.Factory())
-            add(SvgDecoder.Factory())
-        }.allowHardware(false).build()
-
-        val request = ImageRequest
-            .Builder(this)
-            .data(uri)
-            .transformations(transformations)
-            .apply {
-                if (originalSize) size(Size.ORIGINAL)
-            }
-            .build()
-
-        return loader.execute(request).drawable?.toBitmap() to exif
-    }
-
     val Bitmap.aspectRatio: Float get() = width / height.toFloat()
 
     val BitmapInfo.aspectRatio: Float get() = width / height.toFloat()
@@ -893,5 +893,132 @@ object BitmapUtils {
         canvas.drawBitmap(this, Matrix(), null)
         canvas.drawBitmap(overlay, 0f, 0f, null)
         return finalBitmap
+    }
+
+    private const val BMP_WIDTH_OF_TIMES = 4
+    private const val BYTE_PER_PIXEL = 3
+
+    private fun Bitmap.compressToBMP(out: OutputStream) {
+        val orgBitmap = this
+
+        //image size
+        val width = orgBitmap.width
+        val height = orgBitmap.height
+
+        //image dummy data size
+        //reason : the amount of bytes per image row must be a multiple of 4 (requirements of bmp format)
+        var dummyBytesPerRow: ByteArray? = null
+        var hasDummy = false
+        val rowWidthInBytes =
+            BYTE_PER_PIXEL * width //source image width * number of bytes to encode one pixel.
+        if (rowWidthInBytes % BMP_WIDTH_OF_TIMES > 0) {
+            hasDummy = true
+            //the number of dummy bytes we need to add on each row
+            dummyBytesPerRow =
+                ByteArray(BMP_WIDTH_OF_TIMES - rowWidthInBytes % BMP_WIDTH_OF_TIMES)
+            //just fill an array with the dummy bytes we need to append at the end of each row
+            for (i in dummyBytesPerRow.indices) {
+                dummyBytesPerRow[i] = 0xFF.toByte()
+            }
+        }
+
+        //an array to receive the pixels from the source image
+        val pixels = IntArray(width * height)
+
+        //the number of bytes used in the file to store raw image data (excluding file headers)
+        val imageSize = (rowWidthInBytes + if (hasDummy) dummyBytesPerRow!!.size else 0) * height
+        //file headers size
+        val imageDataOffset = 0x36
+
+        //final size of the file
+        val fileSize = imageSize + imageDataOffset
+
+        //Android Bitmap Image Data
+        orgBitmap.getPixels(pixels, 0, width, 0, 0, width, height)
+
+        //ByteArrayOutputStream baos = new ByteArrayOutputStream(fileSize);
+        val buffer = ByteBuffer.allocate(fileSize)
+        /**
+         * BITMAP FILE HEADER Write Start
+         */
+        buffer.put(0x42.toByte())
+        buffer.put(0x4D.toByte())
+
+        //size
+        buffer.put(writeInt(fileSize))
+
+        //reserved
+        buffer.put(writeShort(0.toShort()))
+        buffer.put(writeShort(0.toShort()))
+
+        //image data start offset
+        buffer.put(writeInt(imageDataOffset))
+        /** BITMAP FILE HEADER Write End  */
+
+        //*******************************************
+        /** BITMAP INFO HEADER Write Start  */
+        //size
+        buffer.put(writeInt(0x28))
+
+        //width, height
+        //if we add 3 dummy bytes per row : it means we add a pixel (and the image width is modified.
+        buffer.put(writeInt(width + if (hasDummy) (if (dummyBytesPerRow!!.size == 3) 1 else 0) else 0))
+        buffer.put(writeInt(height))
+
+        //planes
+        buffer.put(writeShort(1.toShort()))
+
+        //bit count
+        buffer.put(writeShort(24.toShort()))
+
+        //bit compression
+        buffer.put(writeInt(0))
+
+        //image data size
+        buffer.put(writeInt(imageSize))
+
+        //horizontal resolution in pixels per meter
+        buffer.put(writeInt(0))
+
+        //vertical resolution in pixels per meter (unreliable)
+        buffer.put(writeInt(0))
+        buffer.put(writeInt(0))
+        buffer.put(writeInt(0))
+        /** BITMAP INFO HEADER Write End  */
+        var row = height
+        var startPosition = (row - 1) * width
+        var endPosition = row * width
+        while (row > 0) {
+            for (i in startPosition until endPosition) {
+                buffer.put((pixels[i] and 0x000000FF).toByte())
+                buffer.put((pixels[i] and 0x0000FF00 shr 8).toByte())
+                buffer.put((pixels[i] and 0x00FF0000 shr 16).toByte())
+            }
+            if (hasDummy) {
+                if (dummyBytesPerRow != null) {
+                    buffer.put(dummyBytesPerRow)
+                }
+            }
+            row--
+            endPosition = startPosition
+            startPosition -= width
+        }
+        out.write(buffer.array())
+    }
+
+    private fun writeInt(value: Int): ByteArray {
+        val b = ByteArray(4)
+        b[0] = (value and 0x000000FF).toByte()
+        b[1] = (value and 0x0000FF00 shr 8).toByte()
+        b[2] = (value and 0x00FF0000 shr 16).toByte()
+        b[3] = (value and -0x1000000 shr 24).toByte()
+        return b
+    }
+
+    private fun writeShort(value: Short): ByteArray {
+        val b = ByteArray(2)
+        b[0] = (value.toInt() and 0x00FF).toByte()
+        b[1] = (value.toInt() and 0xFF00 shr 8).toByte()
+        return b
     }
 }

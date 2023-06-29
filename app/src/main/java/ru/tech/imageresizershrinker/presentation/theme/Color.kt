@@ -10,6 +10,7 @@ import androidx.compose.ui.graphics.compositeOver
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.unit.dp
 import androidx.core.graphics.ColorUtils
+import com.t8rin.dynamic.theme.ColorTuple
 import ru.tech.imageresizershrinker.presentation.widget.utils.LocalSettingsState
 
 
@@ -139,6 +140,8 @@ fun Color.harmonizeWithPrimary(
 
 
 fun Int.toColor() = Color(this)
+
+val defaultColorTuple = ColorTuple(md_theme_dark_primary)
 
 inline val Green: Color
     @Composable get() = Color(0xFFBADB94).blend(

@@ -6,26 +6,21 @@ import android.net.Uri
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.datastore.core.DataStore
-import androidx.datastore.preferences.core.Preferences
-import androidx.datastore.preferences.core.edit
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import ru.tech.imageresizershrinker.data.SAVE_FOLDER
 import ru.tech.imageresizershrinker.domain.model.BitmapInfo
-import ru.tech.imageresizershrinker.utils.helper.compressFormat
-import ru.tech.imageresizershrinker.utils.storage.BitmapSaveTarget
-import ru.tech.imageresizershrinker.utils.storage.FileController
-import ru.tech.imageresizershrinker.utils.storage.SavingFolder
+import ru.tech.imageresizershrinker.domain.model.BitmapSaveTarget
+import ru.tech.imageresizershrinker.domain.saving.FileController
+import java.io.ByteArrayOutputStream
 import javax.inject.Inject
 
 @HiltViewModel
 class LoadNetImageViewModel @Inject constructor(
-    private val dataStore: DataStore<Preferences>
+    private val fileController: FileController
 ) : ViewModel() {
 
     private val _bitmap = mutableStateOf<Bitmap?>(null)
@@ -44,43 +39,43 @@ class LoadNetImageViewModel @Inject constructor(
 
     fun saveBitmap(
         getBitmap: suspend () -> Bitmap?,
-        fileController: FileController,
-        onComplete: (success: Boolean) -> Unit
+        onComplete: (savingPath: String) -> Unit
     ) = viewModelScope.launch {
         withContext(Dispatchers.IO) {
 
             if (!fileController.isExternalStorageWritable()) {
-                onComplete(false)
+                onComplete("")
+                fileController.requestReadWritePermissions()
             } else {
                 val localBitmap = getBitmap()
 
                 if (localBitmap == null) {
-                    onComplete(false)
+                    onComplete("")
                     return@withContext
                 }
 
-                val writeTo: (SavingFolder) -> Unit = { savingFolder ->
-                    savingFolder.outputStream?.use {
-                        localBitmap.compress(
-                            "png".compressFormat,
-                            100,
-                            it
-                        )
-                    }
-                }
-                fileController.getSavingFolder(
-                    BitmapSaveTarget(
+                val out = ByteArrayOutputStream()
+                localBitmap.compress(
+                    Bitmap.CompressFormat.PNG,
+                    100,
+                    out
+                )
+                fileController.save(
+                    saveTarget = BitmapSaveTarget(
                         bitmapInfo = BitmapInfo(
                             width = localBitmap.width,
                             height = localBitmap.height
                         ),
-                        uri = Uri.parse("_"),
-                        sequenceNumber = null
-                    )
-                ).getOrNull()?.let(writeTo) ?: dataStore.edit { it[SAVE_FOLDER] = "" }
+                        originalUri = "_",
+                        sequenceNumber = null,
+                        data = out.toByteArray()
+                    ),
+                    keepMetadata = false
+                )
+                out.flush()
+                out.close()
 
-
-                onComplete(true)
+                onComplete(fileController.savingPath)
             }
         }
     }

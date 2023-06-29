@@ -77,22 +77,10 @@ import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.presentation.single_resize_screen.components.EditExifSheet
 import ru.tech.imageresizershrinker.presentation.single_resize_screen.viewModel.SingleResizeViewModel
 import ru.tech.imageresizershrinker.presentation.theme.outlineVariant
-import ru.tech.imageresizershrinker.presentation.utils.confetti.LocalConfettiController
 import ru.tech.imageresizershrinker.presentation.utils.coil.filters.SaturationFilter
-import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.applyPresetBy
-import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.canShow
-import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.decodeBitmapByUri
-import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.shareBitmap
-import ru.tech.imageresizershrinker.utils.helper.extension
+import ru.tech.imageresizershrinker.presentation.utils.confetti.LocalConfettiController
 import ru.tech.imageresizershrinker.presentation.utils.modifier.drawHorizontalStroke
 import ru.tech.imageresizershrinker.presentation.utils.modifier.navBarsLandscapePadding
-import ru.tech.imageresizershrinker.utils.storage.LocalFileController
-import ru.tech.imageresizershrinker.utils.storage.Picker
-import ru.tech.imageresizershrinker.utils.storage.localImagePickerMode
-import ru.tech.imageresizershrinker.utils.storage.rememberImagePicker
-import ru.tech.imageresizershrinker.presentation.widget.other.LoadingDialog
-import ru.tech.imageresizershrinker.presentation.widget.other.LocalToastHost
-import ru.tech.imageresizershrinker.presentation.widget.other.TopAppBarEmoji
 import ru.tech.imageresizershrinker.presentation.widget.buttons.BottomButtonsBlock
 import ru.tech.imageresizershrinker.presentation.widget.buttons.TelegramButton
 import ru.tech.imageresizershrinker.presentation.widget.controls.ExtensionGroup
@@ -105,15 +93,25 @@ import ru.tech.imageresizershrinker.presentation.widget.dialogs.ExitWithoutSavin
 import ru.tech.imageresizershrinker.presentation.widget.dialogs.ResetDialog
 import ru.tech.imageresizershrinker.presentation.widget.image.ImageContainer
 import ru.tech.imageresizershrinker.presentation.widget.image.ImageNotPickedWidget
+import ru.tech.imageresizershrinker.presentation.widget.other.LoadingDialog
+import ru.tech.imageresizershrinker.presentation.widget.other.LocalToastHost
+import ru.tech.imageresizershrinker.presentation.widget.other.TopAppBarEmoji
 import ru.tech.imageresizershrinker.presentation.widget.other.imageStickyHeader
+import ru.tech.imageresizershrinker.presentation.widget.other.showError
 import ru.tech.imageresizershrinker.presentation.widget.sheets.CompareSheet
 import ru.tech.imageresizershrinker.presentation.widget.sheets.ZoomModalSheet
-import ru.tech.imageresizershrinker.presentation.widget.other.showError
 import ru.tech.imageresizershrinker.presentation.widget.text.TopAppBarTitle
 import ru.tech.imageresizershrinker.presentation.widget.utils.LocalSettingsState
 import ru.tech.imageresizershrinker.presentation.widget.utils.LocalWindowSizeClass
 import ru.tech.imageresizershrinker.presentation.widget.utils.isExpanded
 import ru.tech.imageresizershrinker.presentation.widget.utils.middleImageState
+import ru.tech.imageresizershrinker.presentation.utils.helper.BitmapUtils.applyPresetBy
+import ru.tech.imageresizershrinker.presentation.utils.helper.BitmapUtils.canShow
+import ru.tech.imageresizershrinker.presentation.utils.helper.BitmapUtils.decodeBitmapByUri
+import ru.tech.imageresizershrinker.presentation.utils.helper.BitmapUtils.shareBitmap
+import ru.tech.imageresizershrinker.presentation.utils.helper.Picker
+import ru.tech.imageresizershrinker.presentation.utils.helper.localImagePickerMode
+import ru.tech.imageresizershrinker.presentation.utils.helper.rememberImagePicker
 
 @OptIn(
     ExperimentalMaterial3Api::class,
@@ -200,17 +198,15 @@ fun SingleResizeScreen(
         pickImageLauncher.pickImage()
     }
 
-    val fileController = LocalFileController.current
     val saveBitmap: () -> Unit = {
         showSaveLoading = true
-        viewModel.saveBitmap(fileController) { success ->
-            if (!success) fileController.requestReadWritePermissions()
-            else {
+        viewModel.saveBitmap { savingPath ->
+            if (savingPath.isNotEmpty()) {
                 scope.launch {
                     toastHostState.showToast(
                         context.getString(
                             R.string.saved_to,
-                            fileController.savingPath
+                            savingPath
                         ),
                         Icons.Rounded.Save
                     )
@@ -508,13 +504,11 @@ fun SingleResizeScreen(
                                         onWidthChange = viewModel::updateWidth,
                                         showWarning = viewModel.showWarning
                                     )
-                                    if (bitmapInfo.mimeTypeInt.extension != "png") Spacer(
-                                        Modifier.height(
-                                            8.dp
-                                        )
+                                    if (bitmapInfo.mimeType.canChangeQuality) Spacer(
+                                        Modifier.height(8.dp)
                                     )
                                     QualityWidget(
-                                        visible = bitmapInfo.mimeTypeInt.extension != "png",
+                                        visible = bitmapInfo.mimeType.canChangeQuality,
                                         enabled = viewModel.bitmap != null,
                                         quality = bitmapInfo.quality.coerceIn(0f, 100f),
                                         onQualityChange = viewModel::setQuality
@@ -522,7 +516,7 @@ fun SingleResizeScreen(
                                     Spacer(Modifier.height(8.dp))
                                     ExtensionGroup(
                                         enabled = viewModel.bitmap != null,
-                                        mimeType = bitmapInfo.mimeTypeInt,
+                                        mimeType = bitmapInfo.mimeType,
                                         onMimeChange = viewModel::setMime
                                     )
                                     Spacer(Modifier.height(8.dp))

@@ -19,14 +19,14 @@ import ru.tech.imageresizershrinker.domain.model.BitmapSaveTarget
 import ru.tech.imageresizershrinker.domain.model.MimeType
 import ru.tech.imageresizershrinker.domain.model.ResizeType
 import ru.tech.imageresizershrinker.domain.saving.FileController
-import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.applyPresetBy
-import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.canShow
-import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.compress
-import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.flip
-import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.previewBitmap
-import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.resizeBitmap
-import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.rotate
-import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.scaleUntilCanShow
+import ru.tech.imageresizershrinker.presentation.utils.helper.BitmapUtils.applyPresetBy
+import ru.tech.imageresizershrinker.presentation.utils.helper.BitmapUtils.canShow
+import ru.tech.imageresizershrinker.presentation.utils.helper.BitmapUtils.compress
+import ru.tech.imageresizershrinker.presentation.utils.helper.BitmapUtils.flip
+import ru.tech.imageresizershrinker.presentation.utils.helper.BitmapUtils.previewBitmap
+import ru.tech.imageresizershrinker.presentation.utils.helper.BitmapUtils.resizeBitmap
+import ru.tech.imageresizershrinker.presentation.utils.helper.BitmapUtils.rotate
+import ru.tech.imageresizershrinker.presentation.utils.helper.BitmapUtils.scaleUntilCanShow
 import java.io.ByteArrayOutputStream
 import javax.inject.Inject
 
@@ -280,11 +280,12 @@ class BatchResizeViewModel @Inject constructor(
 
     fun saveBitamps(
         getBitmap: suspend (Uri) -> Bitmap?,
-        onComplete: (success: Boolean, path: String) -> Unit
+        onComplete: (path: String) -> Unit
     ) = viewModelScope.launch {
         withContext(Dispatchers.IO) {
             if (!fileController.isExternalStorageWritable()) {
-                onComplete(false, "")
+                onComplete("")
+                fileController.requestReadWritePermissions()
             } else {
                 _done.value = 0
                 uris?.forEach { uri ->
@@ -314,7 +315,7 @@ class BatchResizeViewModel @Inject constructor(
                     }
                     _done.value += 1
                 }
-                onComplete(true, fileController.savingPath)
+                onComplete(fileController.savingPath)
             }
         }
     }

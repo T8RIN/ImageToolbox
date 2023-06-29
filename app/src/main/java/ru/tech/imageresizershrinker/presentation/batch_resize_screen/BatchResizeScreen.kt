@@ -74,7 +74,6 @@ import dev.olshevski.navigation.reimagined.hilt.hiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.R
-import ru.tech.imageresizershrinker.domain.model.MimeType
 import ru.tech.imageresizershrinker.presentation.batch_resize_screen.components.SaveExifWidget
 import ru.tech.imageresizershrinker.presentation.batch_resize_screen.viewModel.BatchResizeViewModel
 import ru.tech.imageresizershrinker.presentation.theme.outlineVariant
@@ -108,15 +107,14 @@ import ru.tech.imageresizershrinker.presentation.widget.utils.LocalSettingsState
 import ru.tech.imageresizershrinker.presentation.widget.utils.LocalWindowSizeClass
 import ru.tech.imageresizershrinker.presentation.widget.utils.isExpanded
 import ru.tech.imageresizershrinker.presentation.widget.utils.middleImageState
-import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.applyPresetBy
-import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.canShow
-import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.decodeBitmapByUri
-import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.getBitmapByUri
-import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.shareBitmaps
-import ru.tech.imageresizershrinker.utils.helper.ContextUtils.requestStoragePermission
-import ru.tech.imageresizershrinker.utils.storage.Picker
-import ru.tech.imageresizershrinker.utils.storage.localImagePickerMode
-import ru.tech.imageresizershrinker.utils.storage.rememberImagePicker
+import ru.tech.imageresizershrinker.presentation.utils.helper.BitmapUtils.applyPresetBy
+import ru.tech.imageresizershrinker.presentation.utils.helper.BitmapUtils.canShow
+import ru.tech.imageresizershrinker.presentation.utils.helper.BitmapUtils.decodeBitmapByUri
+import ru.tech.imageresizershrinker.presentation.utils.helper.BitmapUtils.getBitmapByUri
+import ru.tech.imageresizershrinker.presentation.utils.helper.BitmapUtils.shareBitmaps
+import ru.tech.imageresizershrinker.presentation.utils.helper.Picker
+import ru.tech.imageresizershrinker.presentation.utils.helper.localImagePickerMode
+import ru.tech.imageresizershrinker.presentation.utils.helper.rememberImagePicker
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -197,9 +195,8 @@ fun BatchResizeScreen(
             getBitmap = { uri ->
                 context.getBitmapByUri(uri)
             }
-        ) { success, savingPath ->
-            if (!success) context.requestStoragePermission()
-            else {
+        ) { savingPath ->
+            if(savingPath.isNotEmpty()) {
                 scope.launch {
                     toastHostState.showToast(
                         context.getString(
@@ -535,11 +532,11 @@ fun BatchResizeScreen(
                                         onWidthChange = viewModel::updateWidth,
                                         showWarning = viewModel.showWarning
                                     )
-                                    if (bitmapInfo.mimeType !is MimeType.Png) {
+                                    if ( bitmapInfo.mimeType.canChangeQuality) {
                                         Spacer(Modifier.height(8.dp))
                                     }
                                     QualityWidget(
-                                        visible = bitmapInfo.mimeType !is MimeType.Png,
+                                        visible = bitmapInfo.mimeType.canChangeQuality,
                                         enabled = viewModel.bitmap != null,
                                         quality = bitmapInfo.quality.coerceIn(0f, 100f),
                                         onQualityChange = viewModel::setQuality

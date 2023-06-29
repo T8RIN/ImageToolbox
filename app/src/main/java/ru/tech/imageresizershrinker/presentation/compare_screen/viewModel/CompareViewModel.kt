@@ -9,9 +9,10 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.canShow
-import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.resizeBitmap
-import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.rotate
+import ru.tech.imageresizershrinker.domain.model.ResizeType
+import ru.tech.imageresizershrinker.presentation.utils.helper.BitmapUtils.resizeBitmap
+import ru.tech.imageresizershrinker.presentation.utils.helper.BitmapUtils.rotate
+import ru.tech.imageresizershrinker.presentation.utils.helper.BitmapUtils.scaleUntilCanShow
 
 class CompareViewModel : ViewModel() {
 
@@ -30,37 +31,8 @@ class CompareViewModel : ViewModel() {
             var bmp1: Bitmap?
             var bmp2: Bitmap?
             withContext(Dispatchers.IO) {
-                bmp1 = if (newBeforeBitmap?.canShow() == false) {
-                    newBeforeBitmap.resizeBitmap(
-                        height_ = (newBeforeBitmap.height * 0.9f).toInt(),
-                        width_ = (newBeforeBitmap.width * 0.9f).toInt(),
-                        resizeType = 1
-                    )
-                } else newBeforeBitmap
-
-                while (bmp1?.canShow() == false) {
-                    bmp1 = bmp1?.resizeBitmap(
-                        height_ = (bmp1!!.height * 0.9f).toInt(),
-                        width_ = (bmp1!!.width * 0.9f).toInt(),
-                        resizeType = 1
-                    )
-                }
-                ///
-                bmp2 = if (newAfterBitmap?.canShow() == false) {
-                    newAfterBitmap.resizeBitmap(
-                        height_ = (newAfterBitmap.height * 0.9f).toInt(),
-                        width_ = (newAfterBitmap.width * 0.9f).toInt(),
-                        resizeType = 1
-                    )
-                } else newAfterBitmap
-
-                while (bmp2?.canShow() == false) {
-                    bmp2 = bmp2?.resizeBitmap(
-                        height_ = (bmp2!!.height * 0.9f).toInt(),
-                        width_ = (bmp2!!.width * 0.9f).toInt(),
-                        resizeType = 1
-                    )
-                }
+                bmp1 = newBeforeBitmap?.scaleUntilCanShow()
+                bmp2 = newAfterBitmap?.scaleUntilCanShow()
             }
             _rotation.value = 0f
             _bitmapData.value = (bmp1 to bmp2)
@@ -69,9 +41,9 @@ class CompareViewModel : ViewModel() {
                     val (aW, aH) = a?.run { width to height } ?: (0 to 0)
 
                     if (bW * bH > aH * aW) {
-                        b to a?.resizeBitmap(bW, bH, 1)
+                        b to a?.resizeBitmap(bW, bH, ResizeType.Flexible)
                     } else if (bW * bH < aH * aW) {
-                        b?.resizeBitmap(aW, aH, 1) to a
+                        b?.resizeBitmap(aW, aH, ResizeType.Flexible) to a
                     } else {
                         b to a
                     }

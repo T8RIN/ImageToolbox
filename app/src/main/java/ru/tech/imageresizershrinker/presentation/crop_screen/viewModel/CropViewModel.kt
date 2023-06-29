@@ -6,9 +6,6 @@ import android.net.Uri
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.datastore.core.DataStore
-import androidx.datastore.preferences.core.Preferences
-import androidx.datastore.preferences.core.edit
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.smarttoolfactory.cropper.model.AspectRatio
@@ -20,23 +17,19 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import ru.tech.imageresizershrinker.data.SAVE_FOLDER
 import ru.tech.imageresizershrinker.domain.model.BitmapInfo
-import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.canShow
-import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.resizeBitmap
-import ru.tech.imageresizershrinker.utils.helper.compressFormat
-import ru.tech.imageresizershrinker.utils.helper.extension
-import ru.tech.imageresizershrinker.utils.helper.mimeTypeInt
-import ru.tech.imageresizershrinker.utils.storage.BitmapSaveTarget
-import ru.tech.imageresizershrinker.utils.storage.FileController
-import ru.tech.imageresizershrinker.utils.storage.SavingFolder
+import ru.tech.imageresizershrinker.domain.model.BitmapSaveTarget
+import ru.tech.imageresizershrinker.domain.model.MimeType
+import ru.tech.imageresizershrinker.domain.saving.FileController
+import ru.tech.imageresizershrinker.presentation.utils.helper.BitmapUtils.compress
+import ru.tech.imageresizershrinker.presentation.utils.helper.BitmapUtils.scaleUntilCanShow
 import java.io.ByteArrayInputStream
 import java.io.ByteArrayOutputStream
 import javax.inject.Inject
 
 @HiltViewModel
 class CropViewModel @Inject constructor(
-    private val dataStore: DataStore<Preferences>
+    private val fileController: FileController
 ) : ViewModel() {
 
     private val _cropProperties = mutableStateOf(
@@ -59,7 +52,7 @@ class CropViewModel @Inject constructor(
 
     val isBitmapChanged get() = internalBitmap.value != _bitmap.value
 
-    private val _mimeType = mutableStateOf(0)
+    private val _mimeType = mutableStateOf(MimeType.Default())
     val mimeType by _mimeType
 
     private val _isLoading: MutableState<Boolean> = mutableStateOf(false)
@@ -68,24 +61,7 @@ class CropViewModel @Inject constructor(
     fun updateBitmap(bitmap: Bitmap?, newBitmap: Boolean = false) {
         viewModelScope.launch {
             _isLoading.value = true
-            var bmp: Bitmap?
-            withContext(Dispatchers.IO) {
-                bmp = if (bitmap?.canShow() == false) {
-                    bitmap.resizeBitmap(
-                        height_ = (bitmap.height * 0.9f).toInt(),
-                        width_ = (bitmap.width * 0.9f).toInt(),
-                        resizeType = 1
-                    )
-                } else bitmap
-
-                while (bmp?.canShow() == false) {
-                    bmp = bmp?.resizeBitmap(
-                        height_ = (bmp!!.height * 0.9f).toInt(),
-                        width_ = (bmp!!.width * 0.9f).toInt(),
-                        resizeType = 1
-                    )
-                }
-            }
+            val bmp = bitmap?.scaleUntilCanShow()
             if (newBitmap) {
                 internalBitmap.value = bmp
             }
@@ -94,52 +70,46 @@ class CropViewModel @Inject constructor(
         }
     }
 
-    fun updateMimeType(mime: Int) {
-        _mimeType.value = mime
+    fun updateMimeType(mimeType: MimeType) {
+        _mimeType.value = mimeType
     }
 
     fun saveBitmap(
         bitmap: Bitmap? = _bitmap.value,
-        fileController: FileController,
-        onComplete: (success: Boolean) -> Unit
+        onComplete: (savingPath: String) -> Unit
     ) = viewModelScope.launch {
         withContext(Dispatchers.IO) {
             bitmap?.let { bitmap ->
                 if (!fileController.isExternalStorageWritable()) {
-                    onComplete(false)
+                    onComplete("")
+                    fileController.requestReadWritePermissions()
                 } else {
                     val localBitmap = bitmap
 
-                    val writeTo: (SavingFolder) -> Unit = { savingFolder ->
-                        savingFolder.outputStream?.use {
-                            localBitmap.compress(
-                                mimeType.extension.compressFormat,
-                                100,
-                                it
-                            )
-                        }
+                    val out = ByteArrayOutputStream()
+                    localBitmap.compress(mimeType, 100, out)
 
-                        val out = ByteArrayOutputStream()
-                        localBitmap.compress(mimeType.extension.compressFormat, 100, out)
-                        val decoded =
-                            BitmapFactory.decodeStream(ByteArrayInputStream(out.toByteArray()))
+                    val decoded = BitmapFactory.decodeStream(
+                        ByteArrayInputStream(out.toByteArray())
+                    )
 
-                        _bitmap.value = decoded
-                    }
+                    _bitmap.value = decoded
 
-                    fileController.getSavingFolder(
-                        BitmapSaveTarget(
+                    fileController.save(
+                        saveTarget = BitmapSaveTarget(
                             bitmapInfo = BitmapInfo(
-                                mimeTypeInt = mimeType.extension.mimeTypeInt,
+                                mimeType = mimeType,
                                 width = localBitmap.width,
                                 height = localBitmap.height
                             ),
-                            uri = _uri.value,
-                            sequenceNumber = null
-                        )
-                    ).getOrNull()?.let(writeTo) ?: dataStore.edit { it[SAVE_FOLDER] = "" }
+                            originalUri = _uri.value.toString(),
+                            sequenceNumber = null,
+                            data = out.toByteArray()
+                        ),
+                        keepMetadata = false
+                    )
 
-                    onComplete(true)
+                    onComplete(fileController.savingPath)
                 }
             }
         }

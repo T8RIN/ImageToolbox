@@ -18,22 +18,22 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.R
-import ru.tech.imageresizershrinker.data.ADD_ORIGINAL_NAME
-import ru.tech.imageresizershrinker.data.ADD_SEQ_NUM
-import ru.tech.imageresizershrinker.data.ADD_SIZE
-import ru.tech.imageresizershrinker.data.FILENAME_PREFIX
-import ru.tech.imageresizershrinker.data.SAVE_FOLDER
+import ru.tech.imageresizershrinker.data.repository.SettingsRepositoryImpl.Companion.ADD_ORIGINAL_NAME
+import ru.tech.imageresizershrinker.data.repository.SettingsRepositoryImpl.Companion.ADD_SEQ_NUM
+import ru.tech.imageresizershrinker.data.repository.SettingsRepositoryImpl.Companion.ADD_SIZE
+import ru.tech.imageresizershrinker.data.repository.SettingsRepositoryImpl.Companion.FILENAME_PREFIX
+import ru.tech.imageresizershrinker.data.repository.SettingsRepositoryImpl.Companion.SAVE_FOLDER
 import ru.tech.imageresizershrinker.domain.model.BitmapSaveTarget
 import ru.tech.imageresizershrinker.domain.saving.FileController
 import ru.tech.imageresizershrinker.domain.saving.SaveTarget
 import ru.tech.imageresizershrinker.domain.saving.model.FileParams
-import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.copyTo
-import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.fileSize
-import ru.tech.imageresizershrinker.utils.helper.ContextUtils.getFileName
-import ru.tech.imageresizershrinker.utils.helper.ContextUtils.isExternalStorageWritable
-import ru.tech.imageresizershrinker.utils.helper.ContextUtils.requestStoragePermission
-import ru.tech.imageresizershrinker.utils.storage.toPath
-import ru.tech.imageresizershrinker.utils.storage.toUiPath
+import ru.tech.imageresizershrinker.presentation.utils.helper.BitmapUtils.copyTo
+import ru.tech.imageresizershrinker.presentation.utils.helper.BitmapUtils.fileSize
+import ru.tech.imageresizershrinker.presentation.utils.helper.ContextUtils.getFileName
+import ru.tech.imageresizershrinker.presentation.utils.helper.ContextUtils.isExternalStorageWritable
+import ru.tech.imageresizershrinker.presentation.utils.helper.ContextUtils.requestStoragePermission
+import ru.tech.imageresizershrinker.presentation.utils.helper.toPath
+import ru.tech.imageresizershrinker.presentation.utils.helper.toUiPath
 import java.io.File
 import java.io.FileOutputStream
 import java.io.OutputStream
@@ -49,7 +49,7 @@ class FileControllerImpl @Inject constructor(
 ) : FileController {
 
     private var fileParams: FileParams = FileParams(
-        treeUri = "",
+        treeUri = null,
         filenamePrefix = "",
         addSizeInFilename = false,
         addOriginalFilename = false,
@@ -60,7 +60,7 @@ class FileControllerImpl @Inject constructor(
         CoroutineScope(Dispatchers.IO).launch {
             dataStore.data.collect {
                 fileParams = fileParams.copy(
-                    treeUri = it[SAVE_FOLDER] ?: "",
+                    treeUri = it[SAVE_FOLDER],
                     filenamePrefix = it[FILENAME_PREFIX] ?: "",
                     addSizeInFilename = it[ADD_SIZE] ?: false,
                     addOriginalFilename = it[ADD_ORIGINAL_NAME] ?: false,
@@ -79,7 +79,7 @@ class FileControllerImpl @Inject constructor(
     override fun getSize(uri: String): Long? = uri.toUri().fileSize(context)
 
     override val savingPath: String
-        get() = fileParams.treeUri.toUri().toUiPath(
+        get() = fileParams.treeUri?.takeIf { it.isNotEmpty() }?.toUri().toUiPath(
             context = context,
             default = context.getString(R.string.default_folder)
         )
@@ -90,7 +90,7 @@ class FileControllerImpl @Inject constructor(
     ) {
         kotlin.runCatching {
             val savingFolder = context.getSavingFolder(
-                treeUri = fileParams.treeUri.toUri(),
+                treeUri = fileParams.treeUri?.takeIf { it.isNotEmpty() }?.toUri(),
                 saveTarget = if (saveTarget is BitmapSaveTarget) {
                     saveTarget.copy(
                         filename = constructFilename(
@@ -176,7 +176,7 @@ class FileControllerImpl @Inject constructor(
     private fun getFileDescriptorFor(uri: Uri?) =
         uri?.let { context.contentResolver.openFileDescriptor(uri, "rw") }
 
-    private fun defaultPrefix() = "ResizedImage"
+    private fun defaultPrefix() = context.getString(R.string.default_prefix)
 
     private fun Context.getSavingFolder(
         treeUri: Uri?,

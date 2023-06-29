@@ -9,9 +9,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
-import androidx.datastore.core.DataStore
-import androidx.datastore.preferences.core.Preferences
-import androidx.datastore.preferences.core.edit
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.t8rin.drawbox.domain.DrawController
@@ -21,22 +18,21 @@ import dev.olshevski.navigation.reimagined.navigate
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import ru.tech.imageresizershrinker.data.SAVE_FOLDER
-import ru.tech.imageresizershrinker.presentation.draw_screen.components.DrawBehavior
 import ru.tech.imageresizershrinker.domain.model.BitmapInfo
-import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.overlayWith
-import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.resizeBitmap
-import ru.tech.imageresizershrinker.utils.helper.compressFormat
-import ru.tech.imageresizershrinker.utils.helper.extension
-import ru.tech.imageresizershrinker.utils.helper.mimeTypeInt
-import ru.tech.imageresizershrinker.utils.storage.BitmapSaveTarget
-import ru.tech.imageresizershrinker.utils.storage.FileController
-import ru.tech.imageresizershrinker.utils.storage.SavingFolder
+import ru.tech.imageresizershrinker.domain.model.BitmapSaveTarget
+import ru.tech.imageresizershrinker.domain.model.MimeType
+import ru.tech.imageresizershrinker.domain.model.ResizeType
+import ru.tech.imageresizershrinker.domain.saving.FileController
+import ru.tech.imageresizershrinker.presentation.draw_screen.components.DrawBehavior
+import ru.tech.imageresizershrinker.presentation.utils.helper.BitmapUtils.compress
+import ru.tech.imageresizershrinker.presentation.utils.helper.BitmapUtils.overlayWith
+import ru.tech.imageresizershrinker.presentation.utils.helper.BitmapUtils.resizeBitmap
+import java.io.ByteArrayOutputStream
 import javax.inject.Inject
 
 @HiltViewModel
 class DrawViewModel @Inject constructor(
-    private val dataStore: DataStore<Preferences>
+    private val fileController: FileController
 ) : ViewModel() {
 
     var drawController: DrawController? by mutableStateOf(null)
@@ -51,83 +47,82 @@ class DrawViewModel @Inject constructor(
 
     val isBitmapChanged: Boolean get() = !drawController?.paths.isNullOrEmpty()
 
-    private val _mimeType = mutableStateOf(0)
+    private val _mimeType = mutableStateOf(MimeType.Default())
     val mimeType by _mimeType
 
     private val _isLoading: MutableState<Boolean> = mutableStateOf(false)
     val isLoading: Boolean by _isLoading
 
-    fun updateMimeType(mime: Int) {
-        _mimeType.value = mime
+    fun updateMimeType(mimeType: MimeType) {
+        _mimeType.value = mimeType
     }
 
     fun saveBitmap(
         getBitmap: suspend (Uri) -> Bitmap?,
-        fileController: FileController,
-        onComplete: (success: Boolean) -> Unit
+        onComplete: (savePath: String) -> Unit
     ) = viewModelScope.launch {
         withContext(Dispatchers.IO) {
             if (drawBehavior is DrawBehavior.Image) {
                 getBitmap(_uri.value)?.let { bitmap ->
                     if (!fileController.isExternalStorageWritable()) {
-                        onComplete(false)
+                        onComplete("")
+                        fileController.requestReadWritePermissions()
                     } else {
                         drawController?.getBitmap()?.let {
                             bitmap.overlayWith(
                                 it.resizeBitmap(
                                     width_ = bitmap.width,
                                     height_ = bitmap.height,
-                                    resizeType = 0
+                                    resizeType = ResizeType.Explicit
                                 )
                             )
                         }?.let { localBitmap ->
-                            val writeTo: (SavingFolder) -> Unit = { savingFolder ->
-                                savingFolder.outputStream?.use {
-                                    localBitmap.compress(mimeType.extension.compressFormat, 100, it)
-                                }
-                            }
-                            fileController.getSavingFolder(
+                            val out = ByteArrayOutputStream()
+                            localBitmap.compress(mimeType = mimeType, quality = 100, out = out)
+
+                            fileController.save(
                                 BitmapSaveTarget(
                                     bitmapInfo = BitmapInfo(
-                                        mimeTypeInt = mimeType.extension.mimeTypeInt,
+                                        mimeType = mimeType,
                                         width = localBitmap.width,
                                         height = localBitmap.height
                                     ),
-                                    uri = _uri.value,
-                                    sequenceNumber = null
-                                )
-                            ).getOrNull()?.let(writeTo) ?: dataStore.edit { it[SAVE_FOLDER] = "" }
+                                    originalUri = _uri.value.toString(),
+                                    sequenceNumber = null,
+                                    data = out.toByteArray()
+                                ), keepMetadata = true
+                            )
                         }
-                        onComplete(true)
+                        onComplete(fileController.savingPath)
                     }
                 }
             } else if (drawBehavior is DrawBehavior.Background) {
                 if (!fileController.isExternalStorageWritable()) {
-                    onComplete(false)
+                    onComplete("")
+                    fileController.requestReadWritePermissions()
                 } else {
                     drawController?.getBitmap()?.resizeBitmap(
                         width_ = (drawBehavior as DrawBehavior.Background).width,
                         height_ = (drawBehavior as DrawBehavior.Background).height,
-                        resizeType = 0
+                        resizeType = ResizeType.Explicit
                     )?.let { localBitmap ->
-                        val writeTo: (SavingFolder) -> Unit = { savingFolder ->
-                            savingFolder.outputStream?.use {
-                                localBitmap.compress(mimeType.extension.compressFormat, 100, it)
-                            }
-                        }
-                        fileController.getSavingFolder(
-                            BitmapSaveTarget(
+                        val out = ByteArrayOutputStream()
+                        localBitmap.compress(mimeType = mimeType, quality = 100, out = out)
+
+                        fileController.save(
+                            saveTarget = BitmapSaveTarget(
                                 bitmapInfo = BitmapInfo(
-                                    mimeTypeInt = mimeType.extension.mimeTypeInt,
+                                    mimeType = mimeType,
                                     width = localBitmap.width,
                                     height = localBitmap.height
                                 ),
-                                uri = Uri.parse("drawing"),
-                                sequenceNumber = null
-                            )
-                        ).getOrNull()?.let(writeTo) ?: dataStore.edit { it[SAVE_FOLDER] = "" }
+                                originalUri = "drawing",
+                                sequenceNumber = null,
+                                data = out.toByteArray(),
+                            ), keepMetadata = true
+                        )
                     }
-                    onComplete(true)
+                    onComplete(fileController.savingPath)
                 }
             }
         }
@@ -160,7 +155,7 @@ class DrawViewModel @Inject constructor(
                                 it.resizeBitmap(
                                     width_ = bitmap.width,
                                     height_ = bitmap.height,
-                                    resizeType = 0
+                                    resizeType = ResizeType.Explicit
                                 )
                             )
                         }
@@ -171,7 +166,7 @@ class DrawViewModel @Inject constructor(
                     drawController?.getBitmap()?.resizeBitmap(
                         width_ = (drawBehavior as DrawBehavior.Background).width,
                         height_ = (drawBehavior as DrawBehavior.Background).height,
-                        resizeType = 0
+                        resizeType = ResizeType.Explicit
                     )
                 )
             }

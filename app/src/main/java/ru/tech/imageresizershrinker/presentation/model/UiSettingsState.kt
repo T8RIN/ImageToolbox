@@ -14,8 +14,8 @@ import com.t8rin.dynamic.theme.ColorTuple
 import ru.tech.imageresizershrinker.domain.model.SettingsState
 import ru.tech.imageresizershrinker.presentation.theme.Emoji
 import ru.tech.imageresizershrinker.presentation.theme.allIcons
+import ru.tech.imageresizershrinker.presentation.theme.defaultColorTuple
 import ru.tech.imageresizershrinker.presentation.theme.emoji.Sparkles
-import ru.tech.imageresizershrinker.presentation.theme.md_theme_dark_primary
 import ru.tech.imageresizershrinker.presentation.theme.toColor
 import ru.tech.imageresizershrinker.presentation.utils.navigation.Screen
 
@@ -88,8 +88,6 @@ private fun String?.toColorTupleList(): List<ColorTuple> {
     }
     return list.toHashSet().toList()
 }
-
-private val defaultColorTuple = ColorTuple(md_theme_dark_primary)
 
 private fun String.asColorTuple(): ColorTuple {
     val colorTuple = split("*")

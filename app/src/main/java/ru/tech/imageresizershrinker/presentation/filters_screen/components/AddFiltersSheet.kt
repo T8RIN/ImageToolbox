@@ -122,7 +122,7 @@ import ru.tech.imageresizershrinker.presentation.utils.coil.filters.VignetteFilt
 import ru.tech.imageresizershrinker.presentation.utils.coil.filters.WeakPixelFilter
 import ru.tech.imageresizershrinker.presentation.utils.coil.filters.WhiteBalanceFilter
 import ru.tech.imageresizershrinker.presentation.utils.coil.filters.ZoomBlurFilter
-import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.applyTransformations
+import ru.tech.imageresizershrinker.presentation.utils.helper.BitmapUtils.applyTransformations
 import ru.tech.imageresizershrinker.presentation.utils.modifier.drawHorizontalStroke
 import ru.tech.imageresizershrinker.presentation.widget.text.TitleItem
 import ru.tech.imageresizershrinker.presentation.widget.image.SimplePicture

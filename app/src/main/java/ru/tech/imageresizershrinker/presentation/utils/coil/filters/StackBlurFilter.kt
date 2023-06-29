@@ -7,7 +7,8 @@ import jp.co.cyberagent.android.gpuimage.filter.GPUImageFilter
 import kotlinx.parcelize.Parcelize
 import kotlinx.parcelize.RawValue
 import ru.tech.imageresizershrinker.R
-import ru.tech.imageresizershrinker.utils.helper.BitmapUtils.resizeBitmap
+import ru.tech.imageresizershrinker.domain.model.ResizeType
+import ru.tech.imageresizershrinker.presentation.utils.helper.BitmapUtils.resizeBitmap
 import kotlin.math.abs
 import kotlin.math.roundToInt
 
@@ -256,5 +257,9 @@ private fun Bitmap.stackBlur(scale: Float, radius: Int): Bitmap {
     }
 
     bitmap.setPixels(pix, 0, w, 0, 0, w, h)
-    return bitmap.resizeBitmap((bitmap.width / scale).toInt(), (bitmap.height / scale).toInt(), 0)
+    return bitmap.resizeBitmap(
+        width_ = (bitmap.width / scale).toInt(),
+        height_ = (bitmap.height / scale).toInt(),
+        resizeType = ResizeType.Explicit
+    )
 }
