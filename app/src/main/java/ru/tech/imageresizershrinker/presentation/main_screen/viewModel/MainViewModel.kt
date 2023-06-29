@@ -2,23 +2,15 @@ package ru.tech.imageresizershrinker.presentation.main_screen.viewModel
 
 import android.net.Uri
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableFloatStateOf
-import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.datastore.core.DataStore
-import androidx.datastore.preferences.core.Preferences
-import androidx.datastore.preferences.core.edit
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.t8rin.dynamic.theme.ColorTuple
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.olshevski.navigation.reimagined.navController
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
@@ -26,31 +18,31 @@ import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 import org.w3c.dom.Element
 import ru.tech.imageresizershrinker.BuildConfig
-import ru.tech.imageresizershrinker.data.ADD_ORIGINAL_NAME
-import ru.tech.imageresizershrinker.data.ADD_SEQ_NUM
-import ru.tech.imageresizershrinker.data.ADD_SIZE
-import ru.tech.imageresizershrinker.data.ALIGNMENT
-import ru.tech.imageresizershrinker.data.AMOLED_MODE
-import ru.tech.imageresizershrinker.data.APP_COLOR
 import ru.tech.imageresizershrinker.core.APP_RELEASES
-import ru.tech.imageresizershrinker.data.AUTO_CACHE_CLEAR
-import ru.tech.imageresizershrinker.data.BORDER_WIDTH
-import ru.tech.imageresizershrinker.data.COLOR_TUPLES
-import ru.tech.imageresizershrinker.data.DYNAMIC_COLORS
-import ru.tech.imageresizershrinker.data.EMOJI
-import ru.tech.imageresizershrinker.data.EMOJI_COUNT
-import ru.tech.imageresizershrinker.data.FILENAME_PREFIX
-import ru.tech.imageresizershrinker.data.GROUP_OPTIONS
-import ru.tech.imageresizershrinker.data.IMAGE_MONET
-import ru.tech.imageresizershrinker.data.NIGHT_MODE
-import ru.tech.imageresizershrinker.data.ORDER
-import ru.tech.imageresizershrinker.data.PICKER_MODE
-import ru.tech.imageresizershrinker.data.PRESETS
-import ru.tech.imageresizershrinker.data.SAVE_FOLDER
-import ru.tech.imageresizershrinker.data.SHOW_DIALOG
-import ru.tech.imageresizershrinker.presentation.theme.asString
-import ru.tech.imageresizershrinker.presentation.theme.defaultColorTuple
-import ru.tech.imageresizershrinker.presentation.theme.toColorTupleList
+import ru.tech.imageresizershrinker.domain.model.SettingsState
+import ru.tech.imageresizershrinker.domain.use_case.edit_settings.SetAlignmentUseCase
+import ru.tech.imageresizershrinker.domain.use_case.edit_settings.SetBorderWidthUseCase
+import ru.tech.imageresizershrinker.domain.use_case.edit_settings.SetNightModeUseCase
+import ru.tech.imageresizershrinker.domain.use_case.edit_settings.ToggleAddFileSizeUseCase
+import ru.tech.imageresizershrinker.domain.use_case.edit_settings.ToggleAddOriginalFilenameUseCase
+import ru.tech.imageresizershrinker.domain.use_case.edit_settings.ToggleAddSequenceNumberUseCase
+import ru.tech.imageresizershrinker.domain.use_case.edit_settings.ToggleAllowImageMonetUseCase
+import ru.tech.imageresizershrinker.domain.use_case.edit_settings.ToggleAmoledModeUseCase
+import ru.tech.imageresizershrinker.domain.use_case.edit_settings.ToggleClearCacheOnLaunchUseCase
+import ru.tech.imageresizershrinker.domain.use_case.edit_settings.ToggleDynamicColorsUseCase
+import ru.tech.imageresizershrinker.domain.use_case.edit_settings.ToggleGroupOptionsByTypesUseCase
+import ru.tech.imageresizershrinker.domain.use_case.edit_settings.ToggleShowDialogUseCase
+import ru.tech.imageresizershrinker.domain.use_case.edit_settings.UpdateColorTupleUseCase
+import ru.tech.imageresizershrinker.domain.use_case.edit_settings.UpdateColorTuplesUseCase
+import ru.tech.imageresizershrinker.domain.use_case.edit_settings.UpdateEmojiUseCase
+import ru.tech.imageresizershrinker.domain.use_case.edit_settings.UpdateEmojisCountUseCase
+import ru.tech.imageresizershrinker.domain.use_case.edit_settings.UpdateFilenameUseCase
+import ru.tech.imageresizershrinker.domain.use_case.edit_settings.UpdateImagePickerModeUseCase
+import ru.tech.imageresizershrinker.domain.use_case.edit_settings.UpdateOrderUseCase
+import ru.tech.imageresizershrinker.domain.use_case.edit_settings.UpdatePresetsUseCase
+import ru.tech.imageresizershrinker.domain.use_case.edit_settings.UpdateSaveFolderUriUseCase
+import ru.tech.imageresizershrinker.domain.use_case.get_settings_state.GetSettingsStateFlowUseCase
+import ru.tech.imageresizershrinker.domain.use_case.get_settings_state.GetSettingsStateUseCase
 import ru.tech.imageresizershrinker.presentation.utils.navigation.Screen
 import ru.tech.imageresizershrinker.presentation.widget.other.ToastHostState
 import java.net.URL
@@ -59,59 +51,33 @@ import javax.xml.parsers.DocumentBuilderFactory
 
 @HiltViewModel
 class MainViewModel @Inject constructor(
-    private val dataStore: DataStore<Preferences>
+    private val getSettingsStateUseCase: GetSettingsStateUseCase,
+    getSettingsStateFlowUseCase: GetSettingsStateFlowUseCase,
+    private val toggleAddSequenceNumberUseCase: ToggleAddSequenceNumberUseCase,
+    private val toggleAddOriginalFilenameUseCase: ToggleAddOriginalFilenameUseCase,
+    private val updateEmojisCountUseCase: UpdateEmojisCountUseCase,
+    private val updateImagePickerModeUseCase: UpdateImagePickerModeUseCase,
+    private val toggleAddFileSizeUseCase: ToggleAddFileSizeUseCase,
+    private val updateEmojiUseCase: UpdateEmojiUseCase,
+    private val updateFilenameUseCase: UpdateFilenameUseCase,
+    private val toggleShowDialogUseCase: ToggleShowDialogUseCase,
+    private val updateColorTupleUseCase: UpdateColorTupleUseCase,
+    private val updatePresetsUseCase: UpdatePresetsUseCase,
+    private val toggleDynamicColorsUseCase: ToggleDynamicColorsUseCase,
+    private val setBorderWidthUseCase: SetBorderWidthUseCase,
+    private val toggleAllowImageMonetUseCase: ToggleAllowImageMonetUseCase,
+    private val toggleAmoledModeUseCase: ToggleAmoledModeUseCase,
+    private val setNightModeUseCase: SetNightModeUseCase,
+    private val updateSaveFolderUriUseCase: UpdateSaveFolderUriUseCase,
+    private val updateColorTuplesUseCase: UpdateColorTuplesUseCase,
+    private val setAlignmentUseCase: SetAlignmentUseCase,
+    private val updateOrderUseCase: UpdateOrderUseCase,
+    private val toggleClearCacheOnLaunchUseCase: ToggleClearCacheOnLaunchUseCase,
+    private val toggleGroupOptionsByTypesUseCase: ToggleGroupOptionsByTypesUseCase
 ) : ViewModel() {
 
-    private val _imagePickerModeInt = mutableIntStateOf(0)
-    val imagePickerModeInt by _imagePickerModeInt
-
-    private val _emojisCount = mutableIntStateOf(1)
-    val emojisCount by _emojisCount
-
-    private val _addSizeInFilename = mutableStateOf(false)
-    val addSizeInFilename by _addSizeInFilename
-
-    private val _addOriginalFilename = mutableStateOf(false)
-    val addOriginalFilename by _addOriginalFilename
-
-    private val _addSequenceNumber = mutableStateOf(true)
-    val addSequenceNumber by _addSequenceNumber
-
-    private val _selectedEmoji = mutableIntStateOf(0)
-    val selectedEmoji by _selectedEmoji
-
-    private val _alignment = mutableIntStateOf(1)
-    val alignment by _alignment
-
-    private val _saveFolderUri = mutableStateOf<Uri?>(null)
-    val saveFolderUri by _saveFolderUri
-
-    private val _nightMode = mutableIntStateOf(2)
-    val nightMode by _nightMode
-
-    private val _dynamicColors = mutableStateOf(true)
-    val dynamicColors by _dynamicColors
-
-    private val _allowImageMonet = mutableStateOf(true)
-    val allowImageMonet by _allowImageMonet
-
-    private val _amoledMode = mutableStateOf(false)
-    val amoledMode by _amoledMode
-
-    private val _appColorTuple = mutableStateOf(defaultColorTuple)
-    val appColorTuple by _appColorTuple
-
-    private val _colorTupleList = mutableStateOf(emptyList<ColorTuple>())
-    val colorTupleList by _colorTupleList
-
-    private val _borderWidth = mutableFloatStateOf(1f)
-    val borderWidth by _borderWidth
-
-    private val _localPresets = mutableStateOf(emptyList<Int>())
-    val localPresets by _localPresets
-
-    private val _filenamePrefix = mutableStateOf("")
-    val filenamePrefix by _filenamePrefix
+    private val _settingsState = mutableStateOf(SettingsState.Default())
+    val settingsState: SettingsState by _settingsState
 
     val navController = navController<Screen>(Screen.Main)
 
@@ -132,18 +98,6 @@ class MainViewModel @Inject constructor(
     private val _shouldShowDialog = mutableStateOf(true)
     val shouldShowDialog by _shouldShowDialog
 
-    private val _showDialogOnStartUp = mutableStateOf(true)
-    val showDialogOnStartUp by _showDialogOnStartUp
-
-    private val _clearCacheOnLaunch = mutableStateOf(false)
-    val clearCacheOnLaunch by _clearCacheOnLaunch
-
-    private val _groupOptionsByType = mutableStateOf(true)
-    val groupOptionsByType by _groupOptionsByType
-
-    private val _screenList = mutableStateOf(Screen.entries)
-    val screenList by _screenList
-
     private val _tag = mutableStateOf("")
     val tag by _tag
 
@@ -154,199 +108,107 @@ class MainViewModel @Inject constructor(
 
     init {
         runBlocking {
-            dataStore.edit { prefs ->
-                _nightMode.intValue = prefs[NIGHT_MODE] ?: 2
-                _dynamicColors.value = prefs[DYNAMIC_COLORS] ?: true
-                _amoledMode.value = prefs[AMOLED_MODE] ?: false
-                _appColorTuple.value = (prefs[APP_COLOR]?.let { tuple ->
-                    val colorTuple = tuple.split("*")
-                    ColorTuple(
-                        primary = colorTuple.getOrNull(0)?.toIntOrNull()?.let { Color(it) }
-                            ?: defaultColorTuple.primary,
-                        secondary = colorTuple.getOrNull(1)?.toIntOrNull()?.let { Color(it) },
-                        tertiary = colorTuple.getOrNull(2)?.toIntOrNull()?.let { Color(it) },
-                        surface = colorTuple.getOrNull(3)?.toIntOrNull()?.let { Color(it) },
-                    )
-                }) ?: defaultColorTuple
-                _borderWidth.floatValue = prefs[BORDER_WIDTH] ?: 1f
-                _showDialogOnStartUp.value = prefs[SHOW_DIALOG] ?: true
-                _selectedEmoji.intValue = prefs[EMOJI] ?: 0
-                _screenList.value = prefs[ORDER]?.split("/")?.map {
-                    val id = it.toInt()
-                    Screen.entries[id]
-                } ?: Screen.entries
-                _emojisCount.intValue = prefs[EMOJI_COUNT] ?: 1
-                _clearCacheOnLaunch.value = prefs[AUTO_CACHE_CLEAR] ?: false
-                _groupOptionsByType.value = prefs[GROUP_OPTIONS] ?: true
-            }
+            _settingsState.value = getSettingsStateUseCase()
         }
-        dataStore.data.onEach { prefs ->
-            _saveFolderUri.value = prefs[SAVE_FOLDER]?.let { uri ->
-                if (uri.isEmpty()) null
-                else Uri.parse(uri)
-            }
-            _nightMode.intValue = prefs[NIGHT_MODE] ?: 2
-            _dynamicColors.value = prefs[DYNAMIC_COLORS] ?: true
-            _allowImageMonet.value = prefs[IMAGE_MONET] ?: true
-            _amoledMode.value = prefs[AMOLED_MODE] ?: false
-            _appColorTuple.value = (prefs[APP_COLOR]?.let { tuple ->
-                val colorTuple = tuple.split("*")
-                ColorTuple(
-                    primary = colorTuple.getOrNull(0)?.toIntOrNull()?.let { Color(it) }
-                        ?: defaultColorTuple.primary,
-                    secondary = colorTuple.getOrNull(1)?.toIntOrNull()?.let { Color(it) },
-                    tertiary = colorTuple.getOrNull(2)?.toIntOrNull()?.let { Color(it) },
-                    surface = colorTuple.getOrNull(3)?.toIntOrNull()?.let { Color(it) },
-                )
-            }) ?: defaultColorTuple
-            _borderWidth.floatValue = prefs[BORDER_WIDTH] ?: 1f
-            _localPresets.value = ((prefs[PRESETS]?.split("*")?.map {
-                it.toInt()
-            } ?: emptyList()) + List(7) { 100 - it * 10 }).toSortedSet().reversed().toList()
-
-            _colorTupleList.value = prefs[COLOR_TUPLES].toColorTupleList()
-
-            _alignment.intValue = prefs[ALIGNMENT] ?: 1
-            _showDialogOnStartUp.value = prefs[SHOW_DIALOG] ?: true
-            _filenamePrefix.value = prefs[FILENAME_PREFIX] ?: ""
-            _selectedEmoji.intValue = prefs[EMOJI] ?: 0
-            _addSizeInFilename.value = prefs[ADD_SIZE] ?: false
-            _imagePickerModeInt.intValue = prefs[PICKER_MODE] ?: 0
-            _screenList.value = prefs[ORDER]?.split("/")?.map {
-                val id = it.toInt()
-                Screen.entries[id]
-            } ?: Screen.entries
-            _emojisCount.intValue = prefs[EMOJI_COUNT] ?: 1
-            _addOriginalFilename.value = prefs[ADD_ORIGINAL_NAME] ?: false
-            _addSequenceNumber.value = prefs[ADD_SEQ_NUM] ?: true
-            _clearCacheOnLaunch.value = prefs[AUTO_CACHE_CLEAR] ?: false
-            _groupOptionsByType.value = prefs[GROUP_OPTIONS] ?: true
+        getSettingsStateFlowUseCase().onEach {
+            _settingsState.value = it
         }.launchIn(viewModelScope)
-        tryGetUpdate(showDialog = showDialogOnStartUp)
+        tryGetUpdate(showDialog = settingsState.showDialogOnStartup)
     }
 
-    fun updateAddSequenceNumber() {
+    fun toggleAddSequenceNumber() {
         viewModelScope.launch {
-            dataStore.edit {
-                it[ADD_SEQ_NUM] = !_addSequenceNumber.value
-            }
+            toggleAddSequenceNumberUseCase()
         }
     }
 
-    fun updateAddOriginalFilename() {
+    fun toggleAddOriginalFilename() {
         viewModelScope.launch {
-            dataStore.edit {
-                it[ADD_ORIGINAL_NAME] = !_addOriginalFilename.value
-            }
+            toggleAddOriginalFilenameUseCase()
         }
     }
 
     fun updateEmojisCount(count: Int) {
         viewModelScope.launch {
-            dataStore.edit {
-                it[EMOJI_COUNT] = count
-            }
+            updateEmojisCountUseCase(count)
         }
     }
 
     fun updateImagePickerMode(mode: Int) {
         viewModelScope.launch {
-            dataStore.edit {
-                it[PICKER_MODE] = mode
-            }
+            updateImagePickerModeUseCase(mode)
         }
     }
 
-    fun updateAddFileSize() {
+    fun toggleAddFileSize() {
         viewModelScope.launch {
-            dataStore.edit {
-                it[ADD_SIZE] = !_addSizeInFilename.value
-            }
+            toggleAddFileSizeUseCase()
         }
     }
 
     fun updateEmoji(emoji: Int) {
         viewModelScope.launch {
-            dataStore.edit {
-                it[EMOJI] = emoji
-            }
+            updateEmojiUseCase(emoji)
         }
     }
 
     fun updateFilename(name: String) {
         viewModelScope.launch {
-            dataStore.edit {
-                it[FILENAME_PREFIX] = name
-            }
+            updateFilenameUseCase(name)
         }
     }
 
-    fun updateShowDialog(show: Boolean) {
+    fun toggleShowDialog() {
         viewModelScope.launch {
-            dataStore.edit {
-                it[SHOW_DIALOG] = show
-            }
+            toggleShowDialogUseCase()
         }
     }
 
     fun updateColorTuple(colorTuple: ColorTuple) {
         viewModelScope.launch {
-            dataStore.edit {
-                it[APP_COLOR] = colorTuple.run {
+            updateColorTupleUseCase(
+                colorTuple.run {
                     "${primary.toArgb()}*${secondary?.toArgb()}*${tertiary?.toArgb()}*${surface?.toArgb()}"
                 }
-            }
+            )
         }
     }
 
     fun updatePresets(newPresets: List<Int>) {
         viewModelScope.launch {
-            dataStore.edit {
-                it[PRESETS] = newPresets.toSortedSet().toList().reversed().joinToString("*")
-            }
+            updatePresetsUseCase(
+                newPresets.toSortedSet().toList().reversed().joinToString("*")
+            )
         }
     }
 
-    fun updateDynamicColors() {
+    fun toggleDynamicColors() {
         viewModelScope.launch {
-            dataStore.edit {
-                it[DYNAMIC_COLORS] = !dynamicColors
-            }
+            toggleDynamicColorsUseCase()
         }
     }
 
-    private var job: Job? = null
     fun setBorderWidth(width: Float) {
-        job?.cancel()
-        job = viewModelScope.launch {
-            delay(10)
-            dataStore.edit {
-                it[BORDER_WIDTH] = width
-            }
+        viewModelScope.launch {
+            setBorderWidthUseCase(width)
         }
     }
 
     fun updateAllowImageMonet() {
         viewModelScope.launch {
-            dataStore.edit {
-                it[IMAGE_MONET] = !allowImageMonet
-            }
+            toggleAllowImageMonetUseCase()
         }
     }
 
     fun updateAmoledMode() {
         viewModelScope.launch {
-            dataStore.edit {
-                it[AMOLED_MODE] = !amoledMode
-            }
+            toggleAmoledModeUseCase()
         }
     }
 
     fun setNightMode(mode: Int) {
         viewModelScope.launch {
-            dataStore.edit {
-                it[NIGHT_MODE] = mode
-            }
+            setNightModeUseCase(mode)
         }
     }
 
@@ -427,49 +289,40 @@ class MainViewModel @Inject constructor(
 
     fun updateSaveFolderUri(uri: Uri?) {
         viewModelScope.launch {
-            dataStore.edit {
-                it[SAVE_FOLDER] = uri?.toString() ?: ""
-            }
+            updateSaveFolderUriUseCase(uri?.toString())
         }
     }
 
     fun updateColorTuples(colorTuples: List<ColorTuple>) {
+        fun List<ColorTuple>.asString(): String = joinToString(separator = "*") {
+            "${it.primary.toArgb()}/${it.secondary?.toArgb()}/${it.tertiary?.toArgb()}/${it.surface?.toArgb()}"
+        }
         viewModelScope.launch {
-            dataStore.edit {
-                it[COLOR_TUPLES] = colorTuples.asString()
-            }
+            updateColorTuplesUseCase(colorTuples.asString())
         }
     }
 
     fun setAlignment(align: Float) {
         viewModelScope.launch {
-            dataStore.edit {
-                it[ALIGNMENT] = align.toInt()
-            }
+            setAlignmentUseCase(align.toInt())
         }
     }
 
     fun updateOrder(data: List<Screen>) {
         viewModelScope.launch {
-            dataStore.edit { prefs ->
-                prefs[ORDER] = data.joinToString("/") { it.id.toString() }
-            }
+            updateOrderUseCase(data.joinToString("/") { it.id.toString() })
         }
     }
 
-    fun setClearCacheOnLaunch(value: Boolean) {
+    fun updateClearCacheOnLaunch() {
         viewModelScope.launch {
-            dataStore.edit {
-                it[AUTO_CACHE_CLEAR] = value
-            }
+            toggleClearCacheOnLaunchUseCase()
         }
     }
 
-    fun updateGroupOptionsByTypes(value: Boolean) {
+    fun updateGroupOptionsByTypes() {
         viewModelScope.launch {
-            dataStore.edit {
-                it[GROUP_OPTIONS] = value
-            }
+            toggleGroupOptionsByTypesUseCase()
         }
     }
 

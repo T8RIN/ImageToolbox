@@ -63,7 +63,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Slider
 import androidx.compose.material3.SliderDefaults
 import androidx.compose.material3.Text
-import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableIntStateOf
@@ -98,21 +97,17 @@ import ru.tech.imageresizershrinker.core.DONATE
 import ru.tech.imageresizershrinker.core.ISSUE_TRACKER
 import ru.tech.imageresizershrinker.core.WEBLATE_LINK
 import ru.tech.imageresizershrinker.presentation.main_screen.viewModel.MainViewModel
-import ru.tech.imageresizershrinker.presentation.theme.*
+import ru.tech.imageresizershrinker.presentation.model.UiSettingsState
+import ru.tech.imageresizershrinker.presentation.theme.EmojiItem
+import ru.tech.imageresizershrinker.presentation.theme.blend
 import ru.tech.imageresizershrinker.presentation.theme.icons.CreateAlt
 import ru.tech.imageresizershrinker.presentation.theme.icons.FileSettings
 import ru.tech.imageresizershrinker.presentation.theme.icons.Lamp
 import ru.tech.imageresizershrinker.presentation.theme.inverse
-import ru.tech.imageresizershrinker.domain.model.BitmapInfo
-import ru.tech.imageresizershrinker.utils.helper.ContextUtils.cacheSize
-import ru.tech.imageresizershrinker.utils.helper.ContextUtils.clearCache
+import ru.tech.imageresizershrinker.presentation.theme.outlineVariant
 import ru.tech.imageresizershrinker.presentation.utils.modifier.block
 import ru.tech.imageresizershrinker.presentation.utils.modifier.pulsate
 import ru.tech.imageresizershrinker.presentation.utils.modifier.scaleOnTap
-import ru.tech.imageresizershrinker.utils.storage.BitmapSaveTarget
-import ru.tech.imageresizershrinker.utils.storage.LocalFileController
-import ru.tech.imageresizershrinker.utils.storage.constructFilename
-import ru.tech.imageresizershrinker.utils.storage.toUiPath
 import ru.tech.imageresizershrinker.presentation.widget.image.Picture
 import ru.tech.imageresizershrinker.presentation.widget.other.ToastDuration
 import ru.tech.imageresizershrinker.presentation.widget.other.ToastHostState
@@ -122,9 +117,9 @@ import ru.tech.imageresizershrinker.presentation.widget.preferences.PreferenceRo
 import ru.tech.imageresizershrinker.presentation.widget.preferences.screens.SourceCodePreference
 import ru.tech.imageresizershrinker.presentation.widget.text.TitleItem
 import ru.tech.imageresizershrinker.presentation.widget.utils.LocalSettingsState
-import ru.tech.imageresizershrinker.presentation.widget.utils.SettingsState
-import ru.tech.imageresizershrinker.presentation.widget.utils.isNightMode
-import ru.tech.imageresizershrinker.presentation.widget.utils.toAlignment
+import ru.tech.imageresizershrinker.utils.helper.ContextUtils.cacheSize
+import ru.tech.imageresizershrinker.utils.helper.ContextUtils.clearCache
+import ru.tech.imageresizershrinker.utils.storage.toUiPath
 import kotlin.math.roundToInt
 
 fun LazyListScope.settingsBlock(
@@ -134,7 +129,7 @@ fun LazyListScope.settingsBlock(
     onEditEmoji: () -> Unit,
     onEditColorScheme: () -> Unit,
     onShowAuthor: () -> Unit,
-    settingsState: SettingsState,
+    settingsState: UiSettingsState,
     toastHostState: ToastHostState,
     scope: CoroutineScope,
     context: Context,
@@ -172,7 +167,7 @@ fun LazyListScope.settingsBlock(
                             stringResource(R.string.light) to Icons.Rounded.WbSunny,
                             stringResource(R.string.system) to Icons.Rounded.SettingsSystemDaydream
                         ).forEachIndexed { index, (title, icon) ->
-                            val selected = index == viewModel.nightMode
+                            val selected = index == viewModel.settingsState.nightMode
                             PreferenceItem(
                                 onClick = { viewModel.setNightMode(index) },
                                 title = title,
@@ -285,10 +280,10 @@ fun LazyListScope.settingsBlock(
                         PreferenceRowSwitch(
                             title = stringResource(R.string.dynamic_colors),
                             subtitle = stringResource(R.string.dynamic_colors_sub),
-                            checked = viewModel.dynamicColors,
-                            onClick = { viewModel.updateDynamicColors() }
+                            checked = settingsState.isDynamicColors,
+                            onClick = { viewModel.toggleDynamicColors() }
                         )
-                        val enabled = !viewModel.dynamicColors
+                        val enabled = !settingsState.isDynamicColors
                         PreferenceRow(
                             modifier = Modifier.alpha(
                                 animateFloatAsState(
@@ -319,7 +314,7 @@ fun LazyListScope.settingsBlock(
                                             ),
                                             MaterialTheme.shapes.medium
                                         ),
-                                    colorTuple = viewModel.appColorTuple,
+                                    colorTuple = settingsState.appColorTuple,
                                     backgroundColor = MaterialTheme
                                         .colorScheme
                                         .surfaceVariant
@@ -330,12 +325,12 @@ fun LazyListScope.settingsBlock(
                                             .size(28.dp)
                                             .background(
                                                 animateColorAsState(
-                                                    viewModel.appColorTuple.primary.inverse(
+                                                    settingsState.appColorTuple.primary.inverse(
                                                         fraction = {
                                                             if (it) 0.8f
                                                             else 0.5f
                                                         },
-                                                        darkMode = viewModel.appColorTuple.primary.luminance() < 0.3f
+                                                        darkMode = settingsState.appColorTuple.primary.luminance() < 0.3f
                                                     )
                                                 ).value,
                                                 CircleShape
@@ -344,7 +339,7 @@ fun LazyListScope.settingsBlock(
                                     Icon(
                                         imageVector = Icons.Rounded.CreateAlt,
                                         contentDescription = null,
-                                        tint = viewModel.appColorTuple.primary,
+                                        tint = settingsState.appColorTuple.primary,
                                         modifier = Modifier.size(14.dp)
                                     )
                                 }
@@ -353,13 +348,13 @@ fun LazyListScope.settingsBlock(
                         PreferenceRowSwitch(
                             title = stringResource(R.string.allow_image_monet),
                             subtitle = stringResource(R.string.allow_image_monet_sub),
-                            checked = viewModel.allowImageMonet,
+                            checked = settingsState.allowChangeColorByImage,
                             onClick = { viewModel.updateAllowImageMonet() }
                         )
                         PreferenceRowSwitch(
                             title = stringResource(R.string.amoled_mode),
                             subtitle = stringResource(R.string.amoled_mode_sub),
-                            checked = viewModel.amoledMode,
+                            checked = settingsState.isAmoledMode,
                             onClick = { viewModel.updateAmoledMode() }
                         )
                         Column(
@@ -375,7 +370,7 @@ fun LazyListScope.settingsBlock(
                         ) {
                             var sliderValue by remember {
                                 mutableIntStateOf(
-                                    viewModel.emojisCount.coerceAtLeast(1)
+                                    settingsState.emojisCount.coerceAtLeast(1)
                                 )
                             }
                             Row(
@@ -457,7 +452,7 @@ fun LazyListScope.settingsBlock(
                         ) {
                             var sliderValue by remember {
                                 mutableFloatStateOf(
-                                    viewModel.borderWidth.coerceAtLeast(0f)
+                                    viewModel.settingsState.borderWidth.coerceAtLeast(0f)
                                 )
                             }
                             Row(
@@ -554,7 +549,7 @@ fun LazyListScope.settingsBlock(
                                 verticalAlignment = Alignment.CenterVertically
                             ) {
                                 var sliderValue by remember {
-                                    mutableFloatStateOf(viewModel.alignment.toFloat())
+                                    mutableFloatStateOf(viewModel.settingsState.fabAlignment.toFloat())
                                 }
                                 Column(
                                     Modifier
@@ -623,8 +618,6 @@ fun LazyListScope.settingsBlock(
                                         value = animateFloatAsState(sliderValue).value,
                                         onValueChange = {
                                             sliderValue = it
-                                        },
-                                        onValueChangeFinished = {
                                             viewModel.setAlignment(sliderValue)
                                         },
                                         valueRange = 0f..2f,
@@ -632,7 +625,7 @@ fun LazyListScope.settingsBlock(
                                     )
                                 }
                                 FabPreview(
-                                    alignment = sliderValue.roundToInt().toAlignment(),
+                                    alignment = settingsState.fabAlignment,
                                     modifier = Modifier.width(74.dp)
                                 )
                             }
@@ -706,7 +699,7 @@ fun LazyListScope.settingsBlock(
                         subtitle = stringResource(R.string.group_options_by_type_sub),
                         checked = settingsState.groupOptionsByTypes,
                         onClick = {
-                            viewModel.updateGroupOptionsByTypes(it)
+                            viewModel.updateGroupOptionsByTypes()
                         }
                     )
                     Spacer(Modifier.height(16.dp))
@@ -764,7 +757,7 @@ fun LazyListScope.settingsBlock(
     item {
         // Folder
         Column(Modifier.animateContentSize()) {
-            val currentFolderUri = viewModel.saveFolderUri
+            val currentFolderUri = settingsState.saveFolderUri
             val launcher = rememberLauncherForActivityResult(
                 contract = ActivityResultContracts.OpenDocumentTree(),
                 onResult = { uri ->
@@ -927,7 +920,7 @@ fun LazyListScope.settingsBlock(
                         subtitle = stringResource(R.string.auto_cache_clearing_sub),
                         checked = settingsState.clearCacheOnLaunch,
                         onClick = {
-                            viewModel.setClearCacheOnLaunch(it)
+                            viewModel.updateClearCacheOnLaunch()
                         }
                     )
                     Spacer(modifier = Modifier.height(16.dp))
@@ -963,31 +956,10 @@ fun LazyListScope.settingsBlock(
             )
             AnimatedVisibility(expanded) {
                 Column {
-                    val fileController = LocalFileController.current
                     PreferenceItem(
                         onClick = { onEditFilename() },
                         title = stringResource(R.string.prefix),
-                        subtitle = remember(
-                            viewModel.filenamePrefix,
-                            viewModel.addSizeInFilename,
-                            viewModel.addOriginalFilename,
-                            viewModel.addSequenceNumber
-                        ) {
-                            derivedStateOf {
-                                constructFilename(
-                                    context = context,
-                                    fileParams = fileController.fileParams,
-                                    saveTarget = BitmapSaveTarget(BitmapInfo(), Uri.EMPTY, null)
-                                ).split(".")[0].let {
-                                    if (viewModel.imagePickerModeInt == 0) {
-                                        it.replace(
-                                            "_" + context.getString(R.string.original_filename),
-                                            ""
-                                        )
-                                    } else it
-                                } + ".img"
-                            }
-                        }.value,
+                        subtitle = settingsState.filenamePrefix + "...",
                         color = MaterialTheme
                             .colorScheme
                             .secondaryContainer
@@ -999,13 +971,13 @@ fun LazyListScope.settingsBlock(
                     )
                     Spacer(Modifier.height(8.dp))
                     PreferenceRowSwitch(
-                        onClick = { viewModel.updateAddFileSize() },
+                        onClick = { viewModel.toggleAddFileSize() },
                         title = stringResource(R.string.add_file_size),
                         subtitle = stringResource(R.string.add_file_size_sub),
-                        checked = viewModel.addSizeInFilename
+                        checked = settingsState.addSizeInFilename
                     )
                     Spacer(Modifier.height(8.dp))
-                    val enabled = viewModel.imagePickerModeInt != 0
+                    val enabled = settingsState.imagePickerModeInt != 0
                     PreferenceRowSwitch(
                         modifier = Modifier.alpha(
                             animateFloatAsState(
@@ -1014,7 +986,7 @@ fun LazyListScope.settingsBlock(
                             ).value
                         ),
                         onClick = {
-                            if (enabled) viewModel.updateAddOriginalFilename()
+                            if (enabled) viewModel.toggleAddOriginalFilename()
                             else scope.launch {
                                 toastHostState.showToast(
                                     message = context.getString(R.string.filename_not_work_with_photopicker),
@@ -1024,14 +996,14 @@ fun LazyListScope.settingsBlock(
                         },
                         title = stringResource(R.string.add_original_filename),
                         subtitle = stringResource(R.string.add_original_filename_sub),
-                        checked = viewModel.addOriginalFilename && enabled
+                        checked = settingsState.addOriginalFilename && enabled
                     )
                     Spacer(Modifier.height(8.dp))
                     PreferenceRowSwitch(
-                        onClick = { viewModel.updateAddSequenceNumber() },
+                        onClick = { viewModel.toggleAddSequenceNumber() },
                         title = stringResource(R.string.replace_sequence_number),
                         subtitle = stringResource(R.string.replace_sequence_number_sub),
-                        checked = viewModel.addSequenceNumber
+                        checked = settingsState.addSequenceNumber
                     )
                     Spacer(Modifier.height(16.dp))
                 }
@@ -1073,18 +1045,18 @@ fun LazyListScope.settingsBlock(
                         subtitle = stringResource(R.string.photo_picker_sub),
                         color = MaterialTheme.colorScheme.secondaryContainer.copy(
                             alpha = animateFloatAsState(
-                                if (viewModel.imagePickerModeInt == 0) 0.7f
+                                if (settingsState.imagePickerModeInt == 0) 0.7f
                                 else 0.2f
                             ).value
                         ),
-                        endIcon = if (viewModel.imagePickerModeInt == 0) Icons.Rounded.RadioButtonChecked else Icons.Rounded.RadioButtonUnchecked,
+                        endIcon = if (settingsState.imagePickerModeInt == 0) Icons.Rounded.RadioButtonChecked else Icons.Rounded.RadioButtonUnchecked,
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(horizontal = 16.dp)
                             .border(
                                 width = settingsState.borderWidth,
                                 color = animateColorAsState(
-                                    if (viewModel.imagePickerModeInt == 0) MaterialTheme.colorScheme.onSecondaryContainer.copy(
+                                    if (settingsState.imagePickerModeInt == 0) MaterialTheme.colorScheme.onSecondaryContainer.copy(
                                         alpha = 0.5f
                                     )
                                     else Color.Transparent
@@ -1100,18 +1072,18 @@ fun LazyListScope.settingsBlock(
                         subtitle = stringResource(R.string.gallery_picker_sub),
                         color = MaterialTheme.colorScheme.secondaryContainer.copy(
                             alpha = animateFloatAsState(
-                                if (viewModel.imagePickerModeInt == 1) 0.7f
+                                if (settingsState.imagePickerModeInt == 1) 0.7f
                                 else 0.2f
                             ).value
                         ),
-                        endIcon = if (viewModel.imagePickerModeInt == 1) Icons.Rounded.RadioButtonChecked else Icons.Rounded.RadioButtonUnchecked,
+                        endIcon = if (settingsState.imagePickerModeInt == 1) Icons.Rounded.RadioButtonChecked else Icons.Rounded.RadioButtonUnchecked,
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(horizontal = 16.dp)
                             .border(
                                 width = settingsState.borderWidth,
                                 color = animateColorAsState(
-                                    if (viewModel.imagePickerModeInt == 1) MaterialTheme.colorScheme.onSecondaryContainer.copy(
+                                    if (settingsState.imagePickerModeInt == 1) MaterialTheme.colorScheme.onSecondaryContainer.copy(
                                         alpha = 0.5f
                                     )
                                     else Color.Transparent
@@ -1127,18 +1099,18 @@ fun LazyListScope.settingsBlock(
                         icon = Icons.Rounded.FolderOpen,
                         color = MaterialTheme.colorScheme.secondaryContainer.copy(
                             alpha = animateFloatAsState(
-                                if (viewModel.imagePickerModeInt == 2) 0.7f
+                                if (settingsState.imagePickerModeInt == 2) 0.7f
                                 else 0.2f
                             ).value
                         ),
-                        endIcon = if (viewModel.imagePickerModeInt == 2) Icons.Rounded.RadioButtonChecked else Icons.Rounded.RadioButtonUnchecked,
+                        endIcon = if (settingsState.imagePickerModeInt == 2) Icons.Rounded.RadioButtonChecked else Icons.Rounded.RadioButtonUnchecked,
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(horizontal = 16.dp)
                             .border(
                                 width = settingsState.borderWidth,
                                 color = animateColorAsState(
-                                    if (viewModel.imagePickerModeInt == 2) MaterialTheme.colorScheme.onSecondaryContainer.copy(
+                                    if (settingsState.imagePickerModeInt == 2) MaterialTheme.colorScheme.onSecondaryContainer.copy(
                                         alpha = 0.5f
                                     )
                                     else Color.Transparent
@@ -1192,7 +1164,7 @@ fun LazyListScope.settingsBlock(
                                     painterResource(R.drawable.ic_launcher_monochrome),
                                     null,
                                     tint = animateColorAsState(
-                                        if (viewModel.nightMode.isNightMode()) {
+                                        if (settingsState.isNightMode) {
                                             MaterialTheme.colorScheme.primary
                                         } else {
                                             MaterialTheme.colorScheme.onPrimaryContainer.blend(
@@ -1206,7 +1178,7 @@ fun LazyListScope.settingsBlock(
                                         .offset(7.dp)
                                         .background(
                                             animateColorAsState(
-                                                if (viewModel.nightMode.isNightMode()) {
+                                                if (settingsState.isNightMode) {
                                                     MaterialTheme.colorScheme.background.blend(
                                                         Color.White,
                                                         0.1f
@@ -1242,8 +1214,10 @@ fun LazyListScope.settingsBlock(
                         PreferenceRowSwitch(
                             title = stringResource(R.string.check_updates),
                             subtitle = stringResource(R.string.check_updates_sub),
-                            checked = viewModel.showDialogOnStartUp,
-                            onClick = viewModel::updateShowDialog
+                            checked = viewModel.settingsState.showDialogOnStartup,
+                            onClick = {
+                                viewModel.toggleShowDialog()
+                            }
                         )
                         PreferenceRow(
                             title = stringResource(R.string.help_translate),

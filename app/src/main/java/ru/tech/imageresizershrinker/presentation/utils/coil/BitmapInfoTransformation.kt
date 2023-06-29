@@ -32,13 +32,10 @@ class BitmapInfoTransformation(
         }
         previousInfo = info.copy()
         return input.previewBitmap(
-            quality = info.quality,
-            widthValue = if (info.width * info.height < 512 * 512) info.width * 3 else info.width,
-            heightValue = if (info.width * info.height < 512 * 512) info.height * 3 else info.height,
-            mimeTypeInt = info.mimeTypeInt,
-            resizeType = info.resizeType,
-            rotationDegrees = info.rotationDegrees,
-            isFlipped = info.isFlipped,
+            bitmapInfo = info.copy(
+                width = if (info.width * info.height < 512 * 512) info.width * 3 else info.width,
+                height = if (info.width * info.height < 512 * 512) info.height * 3 else info.height,
+            ),
             onByteCount = {}
         )
     }

@@ -21,18 +21,19 @@ import ru.tech.imageresizershrinker.presentation.main_screen.viewModel.MainViewM
 import ru.tech.imageresizershrinker.presentation.pick_color_from_image_screen.PickColorFromImageScreen
 import ru.tech.imageresizershrinker.presentation.single_resize_screen.SingleResizeScreen
 import ru.tech.imageresizershrinker.presentation.utils.navigation.Screen
-import ru.tech.imageresizershrinker.presentation.widget.utils.isNightMode
+import ru.tech.imageresizershrinker.presentation.widget.utils.LocalSettingsState
 
 @Composable
 fun ScreenSelector(
     viewModel: MainViewModel
 ) {
     val navController = viewModel.navController
+    val settingsState = LocalSettingsState.current
     val themeState = LocalDynamicThemeState.current
     val appColorTuple = getAppColorTuple(
-        defaultColorTuple = viewModel.appColorTuple,
-        dynamicColor = viewModel.dynamicColors,
-        darkTheme = viewModel.nightMode.isNightMode()
+        defaultColorTuple = settingsState.appColorTuple,
+        dynamicColor = settingsState.isDynamicColors,
+        darkTheme = settingsState.isNightMode
     )
     val onGoBack: () -> Unit = {
         viewModel.updateUris(null)
@@ -49,7 +50,7 @@ fun ScreenSelector(
             is Screen.Main -> {
                 MainScreen(
                     viewModel = viewModel,
-                    screenList = viewModel.screenList
+                    screenList = settingsState.screenList
                 )
             }
 

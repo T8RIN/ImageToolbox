@@ -144,8 +144,20 @@ fun ResizeGroup(
                 stringResource(R.string.flexible),
                 stringResource(R.string.ratio)
             ),
-            selectedIndex = resizeType,
-            indexChanged = onResizeChange
+            selectedIndex = when (resizeType) {
+                ResizeType.Explicit -> 0
+                ResizeType.Flexible -> 1
+                ResizeType.Ratio -> 2
+            },
+            indexChanged = {
+                onResizeChange(
+                    when (it) {
+                        0 -> ResizeType.Explicit
+                        1 -> ResizeType.Flexible
+                        else -> ResizeType.Ratio
+                    }
+                )
+            }
         )
     }
 }

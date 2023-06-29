@@ -5,7 +5,6 @@ import android.os.Build
 import android.os.Bundle
 import androidx.activity.compose.BackHandler
 import androidx.activity.viewModels
-import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.togetherWith
@@ -21,8 +20,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.unit.dp
 import dagger.hilt.android.AndroidEntryPoint
 import dev.olshevski.navigation.reimagined.navigate
 import nl.dionsegijn.konfetti.compose.KonfettiView
@@ -34,26 +31,19 @@ import ru.tech.imageresizershrinker.presentation.main_screen.components.ScreenSe
 import ru.tech.imageresizershrinker.presentation.main_screen.components.UpdateSheet
 import ru.tech.imageresizershrinker.presentation.main_screen.components.particles
 import ru.tech.imageresizershrinker.presentation.main_screen.viewModel.MainViewModel
-import ru.tech.imageresizershrinker.presentation.theme.Emoji
+import ru.tech.imageresizershrinker.presentation.model.toUiState
 import ru.tech.imageresizershrinker.presentation.theme.ImageResizerTheme
-import ru.tech.imageresizershrinker.presentation.theme.allIcons
 import ru.tech.imageresizershrinker.presentation.utils.confetti.LocalConfettiController
-import ru.tech.imageresizershrinker.utils.helper.ContextUtils.clearCache
-import ru.tech.imageresizershrinker.utils.helper.ContextUtils.parseImageFromIntent
 import ru.tech.imageresizershrinker.presentation.utils.navigation.LocalNavController
-import ru.tech.imageresizershrinker.utils.storage.FileParams
-import ru.tech.imageresizershrinker.utils.storage.LocalFileController
-import ru.tech.imageresizershrinker.utils.storage.rememberFileController
+import ru.tech.imageresizershrinker.presentation.widget.activity.M3Activity
 import ru.tech.imageresizershrinker.presentation.widget.other.LocalToastHost
 import ru.tech.imageresizershrinker.presentation.widget.other.ToastHost
-import ru.tech.imageresizershrinker.presentation.widget.activity.M3Activity
 import ru.tech.imageresizershrinker.presentation.widget.other.rememberToastHostState
 import ru.tech.imageresizershrinker.presentation.widget.utils.LocalEditPresetsState
 import ru.tech.imageresizershrinker.presentation.widget.utils.LocalSettingsState
-import ru.tech.imageresizershrinker.presentation.widget.utils.isNightMode
-import ru.tech.imageresizershrinker.presentation.widget.utils.rememberSettingsState
 import ru.tech.imageresizershrinker.presentation.widget.utils.setContentWithWindowSizeClass
-import ru.tech.imageresizershrinker.presentation.widget.utils.toAlignment
+import ru.tech.imageresizershrinker.utils.helper.ContextUtils.clearCache
+import ru.tech.imageresizershrinker.utils.helper.ContextUtils.parseImageFromIntent
 
 @AndroidEntryPoint
 class MainActivity : M3Activity() {
@@ -71,34 +61,10 @@ class MainActivity : M3Activity() {
 
             CompositionLocalProvider(
                 LocalToastHost provides viewModel.toastHostState,
-                LocalSettingsState provides rememberSettingsState(
-                    isNightMode = viewModel.nightMode.isNightMode(),
-                    isDynamicColors = viewModel.dynamicColors,
-                    allowChangeColorByImage = viewModel.allowImageMonet,
-                    isAmoledMode = viewModel.amoledMode,
-                    appColorTuple = viewModel.appColorTuple,
-                    borderWidth = animateDpAsState(viewModel.borderWidth.dp).value,
-                    presets = viewModel.localPresets,
-                    fabAlignment = viewModel.alignment.toAlignment(),
-                    selectedEmoji = Emoji.allIcons.getOrNull(viewModel.selectedEmoji),
-                    imagePickerModeInt = viewModel.imagePickerModeInt,
-                    emojisCount = viewModel.emojisCount,
-                    clearCacheOnLaunch = viewModel.clearCacheOnLaunch,
-                    groupOptionsByType = viewModel.groupOptionsByType
-                ),
+                LocalSettingsState provides viewModel.settingsState.toUiState(),
                 LocalNavController provides viewModel.navController,
                 LocalEditPresetsState provides editPresetsState,
-                LocalConfettiController provides rememberToastHostState(),
-                LocalFileController provides rememberFileController(
-                    LocalContext.current,
-                    FileParams(
-                        treeUri = viewModel.saveFolderUri,
-                        filenamePrefix = viewModel.filenamePrefix,
-                        addSizeInFilename = viewModel.addSizeInFilename,
-                        addOriginalFilename = viewModel.addOriginalFilename,
-                        addSequenceNumber = viewModel.addSequenceNumber,
-                    )
-                )
+                LocalConfettiController provides rememberToastHostState()
             ) {
                 val showSelectSheet = rememberSaveable(viewModel.showSelectDialog) {
                     mutableStateOf(viewModel.showSelectDialog)
@@ -120,7 +86,7 @@ class MainActivity : M3Activity() {
                     }
                 }
                 LaunchedEffect(Unit) {
-                    if (viewModel.clearCacheOnLaunch) {
+                    if (viewModel.settingsState.clearCacheOnLaunch) {
                         this@MainActivity.clearCache {}
                     }
                 }
@@ -174,7 +140,7 @@ class MainActivity : M3Activity() {
 
                     ToastHost(hostState = LocalToastHost.current)
 
-                    SideEffect { viewModel.tryGetUpdate(showDialog = viewModel.showDialogOnStartUp) }
+                    SideEffect { viewModel.tryGetUpdate(showDialog = viewModel.settingsState.showDialogOnStartup) }
 
                     PermissionDialog()
                 }

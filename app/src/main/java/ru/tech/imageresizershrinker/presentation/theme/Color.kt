@@ -10,7 +10,6 @@ import androidx.compose.ui.graphics.compositeOver
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.unit.dp
 import androidx.core.graphics.ColorUtils
-import com.t8rin.dynamic.theme.ColorTuple
 import ru.tech.imageresizershrinker.presentation.widget.utils.LocalSettingsState
 
 
@@ -138,36 +137,8 @@ fun Color.harmonizeWithPrimary(
     ) fraction: Float = 0.2f
 ): Color = blend(MaterialTheme.colorScheme.primary, fraction)
 
-fun String?.toColorTupleList(): List<ColorTuple> {
-    val list = mutableListOf<ColorTuple>()
-    this?.split("*")?.forEach { colorTuple ->
-        val temp = colorTuple.split("/")
-        temp.getOrNull(0)?.toIntOrNull()?.toColor()?.let {
-            list.add(
-                ColorTuple(
-                    primary = it,
-                    secondary = temp.getOrNull(1)?.toIntOrNull()?.toColor(),
-                    tertiary = temp.getOrNull(2)?.toIntOrNull()?.toColor(),
-                    surface = temp.getOrNull(3)?.toIntOrNull()?.toColor()
-                )
-            )
-        }
-    }
-    if (list.isEmpty()) {
-        list.add(defaultColorTuple)
-    }
-    return list.toHashSet().toList()
-}
-
-fun List<ColorTuple>.asString(): String =
-    joinToString(separator = "*") {
-        "${it.primary.toArgb()}/${it.secondary?.toArgb()}/${it.tertiary?.toArgb()}/${it.surface?.toArgb()}"
-    }
-
-val defaultColorTuple = ColorTuple(md_theme_dark_primary)
 
 fun Int.toColor() = Color(this)
-
 
 inline val Green: Color
     @Composable get() = Color(0xFFBADB94).blend(

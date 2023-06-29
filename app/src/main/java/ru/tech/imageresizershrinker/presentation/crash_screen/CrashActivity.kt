@@ -6,7 +6,6 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
-import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -54,16 +53,15 @@ import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.presentation.crash_screen.viewModel.CrashViewModel
 import ru.tech.imageresizershrinker.presentation.main_screen.MainActivity
+import ru.tech.imageresizershrinker.presentation.model.toUiState
 import ru.tech.imageresizershrinker.presentation.theme.ImageResizerTheme
 import ru.tech.imageresizershrinker.presentation.theme.outlineVariant
 import ru.tech.imageresizershrinker.presentation.utils.exception.GlobalExceptionHandler.Companion.getExceptionString
-import ru.tech.imageresizershrinker.presentation.widget.other.ToastHost
 import ru.tech.imageresizershrinker.presentation.widget.activity.M3Activity
+import ru.tech.imageresizershrinker.presentation.widget.other.ToastHost
 import ru.tech.imageresizershrinker.presentation.widget.other.rememberToastHostState
 import ru.tech.imageresizershrinker.presentation.widget.text.AutoSizeText
 import ru.tech.imageresizershrinker.presentation.widget.utils.LocalSettingsState
-import ru.tech.imageresizershrinker.presentation.widget.utils.isNightMode
-import ru.tech.imageresizershrinker.presentation.widget.utils.rememberSettingsState
 
 @AndroidEntryPoint
 class CrashActivity : M3Activity() {
@@ -80,13 +78,7 @@ class CrashActivity : M3Activity() {
             val scope = rememberCoroutineScope()
 
             CompositionLocalProvider(
-                LocalSettingsState provides rememberSettingsState(
-                    isNightMode = viewModel.nightMode.isNightMode(),
-                    isDynamicColors = viewModel.dynamicColors,
-                    isAmoledMode = viewModel.amoledMode,
-                    appColorTuple = viewModel.appColorTuple,
-                    borderWidth = animateFloatAsState(viewModel.borderWidth).value.dp
-                )
+                LocalSettingsState provides viewModel.settingsState.toUiState()
             ) {
                 val settingsState = LocalSettingsState.current
                 ImageResizerTheme {
