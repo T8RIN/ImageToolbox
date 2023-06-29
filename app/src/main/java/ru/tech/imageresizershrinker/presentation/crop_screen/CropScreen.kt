@@ -441,28 +441,26 @@ fun CropScreen(
                                     .background(MaterialTheme.colorScheme.outlineVariant())
                             )
                             val aspectRatios = aspectRatios()
-                            AspectRatioSelection(
-                                modifier = Modifier
-                                    .fillMaxHeight()
-                                    .padding(horizontal = 20.dp),
-                                horizontal = false,
-                                selectedIndex = aspectRatios.indexOfFirst { cr ->
-                                    cr.aspectRatio == viewModel.cropProperties.aspectRatio
+                            Column(Modifier.weight(0.5f).verticalScroll(rememberScrollState())) {
+                                AspectRatioSelection(
+                                    modifier = Modifier.fillMaxWidth().padding(top = 16.dp),
+                                    selectedIndex = aspectRatios.indexOfFirst { cr ->
+                                        cr.aspectRatio == viewModel.cropProperties.aspectRatio
+                                    }
+                                ) { aspect ->
+                                    viewModel.setCropAspectRatio(aspect.aspectRatio)
                                 }
-                            ) { aspect ->
-                                viewModel.setCropAspectRatio(aspect.aspectRatio)
+                                ExtensionGroup(
+                                    modifier = Modifier
+                                        .padding(16.dp)
+                                        .navBarsPaddingOnlyIfTheyAtTheBottom(),
+                                    enabled = viewModel.bitmap != null,
+                                    mimeType = viewModel.mimeType,
+                                    onMimeChange = {
+                                        viewModel.updateMimeType(it)
+                                    }
+                                )
                             }
-                            ExtensionGroup(
-                                modifier = Modifier
-                                    .padding(16.dp)
-                                    .navBarsPaddingOnlyIfTheyAtTheBottom(),
-                                orientation = Orientation.Vertical,
-                                enabled = viewModel.bitmap != null,
-                                mimeType = viewModel.mimeType,
-                                onMimeChange = {
-                                    viewModel.updateMimeType(it)
-                                }
-                            )
                             Box(
                                 Modifier
                                     .fillMaxHeight()
@@ -644,7 +642,6 @@ fun CropScreen(
                     modifier = Modifier
                         .padding(16.dp)
                         .navigationBarsPadding(),
-                    orientation = Orientation.Horizontal,
                     enabled = viewModel.bitmap != null,
                     mimeType = viewModel.mimeType,
                     onMimeChange = {

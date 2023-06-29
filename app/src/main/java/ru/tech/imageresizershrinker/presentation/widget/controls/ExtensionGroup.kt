@@ -38,7 +38,6 @@ fun ExtensionGroup(
     modifier: Modifier = Modifier,
     enabled: Boolean,
     mimeType: MimeType,
-    orientation: Orientation = Orientation.Horizontal,
     onMimeChange: (MimeType) -> Unit
 ) {
     val settingsState = LocalSettingsState.current
@@ -53,26 +52,34 @@ fun ExtensionGroup(
             else Color.Unspecified
         )
     ) {
-        if (orientation == Orientation.Horizontal) {
-            Column(
-                modifier = modifier
-                    .block(
-                        shape = RoundedCornerShape(24.dp),
-                        color = MaterialTheme.colorScheme.surfaceColorAtElevation(1.dp),
-                    )
-                    .padding(start = 4.dp, end = 2.dp),
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
+        Column(
+            modifier = modifier
+                .block(
+                    shape = RoundedCornerShape(24.dp),
+                    color = MaterialTheme.colorScheme.surfaceColorAtElevation(1.dp),
+                ),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
                 Text(
                     stringResource(R.string.extension),
-                    Modifier.fillMaxWidth(),
+                    Modifier
+                        .fillMaxWidth()
+                        .padding(top = 8.dp),
                     textAlign = TextAlign.Center
                 )
                 Spacer(modifier = Modifier.height(8.dp))
 
                 FlowRow(
                     verticalArrangement = Arrangement.Center,
-                    horizontalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterHorizontally)
+                    horizontalArrangement = Arrangement.spacedBy(
+                        12.dp,
+                        Alignment.CenterHorizontally
+                    ),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(8.dp)
+                        .block()
+                        .padding(horizontal = 12.dp, vertical = 6.dp)
                 ) {
                     MimeType.entries.forEach {
                         FilterChip(
@@ -87,37 +94,5 @@ fun ExtensionGroup(
                     }
                 }
             }
-        } else {
-            Column(
-                modifier = modifier
-                    .block(
-                        shape = RoundedCornerShape(24.dp),
-                        color = MaterialTheme.colorScheme.surfaceColorAtElevation(1.dp),
-                    )
-                    .padding(start = 4.dp, end = 2.dp),
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                Text(
-                    stringResource(R.string.extension),
-                    Modifier.padding(8.dp),
-                    textAlign = TextAlign.Center
-                )
-                Spacer(modifier = Modifier.height(8.dp))
-
-                Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                    MimeType.entries.forEach {
-                        FilterChip(
-                            onClick = { onMimeChange(it) },
-                            selected = it == mimeType,
-                            label = { Text(text = it.title) },
-                            border = FilterChipDefaults.filterChipBorder(
-                                borderWidth = settingsState.borderWidth,
-                                borderColor = MaterialTheme.colorScheme.outlineVariant()
-                            )
-                        )
-                    }
-                }
-            }
-        }
     }
 }

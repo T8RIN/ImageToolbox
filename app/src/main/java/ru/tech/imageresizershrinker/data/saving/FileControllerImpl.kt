@@ -8,6 +8,7 @@ import android.net.Uri
 import android.os.Build
 import android.os.Environment
 import android.provider.MediaStore
+import android.util.Log
 import androidx.core.net.toUri
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
@@ -222,7 +223,7 @@ class FileControllerImpl @Inject constructor(
                 if (!imagesDir.exists()) imagesDir.mkdir()
                 SavingFolder(
                     outputStream = FileOutputStream(File(imagesDir, saveTarget.filename!!)),
-                    file = File(imagesDir, saveTarget.filename!!)
+                    fileUri = File(imagesDir, saveTarget.filename!!).toUri()
                 )
             }
         } else {
@@ -252,7 +253,7 @@ class FileControllerImpl @Inject constructor(
                 if (!imagesDir.exists()) imagesDir.mkdir()
                 SavingFolder(
                     outputStream = FileOutputStream(File(imagesDir, saveTarget.filename!!)),
-                    file = File(imagesDir, saveTarget.filename!!)
+                    fileUri = File(imagesDir, saveTarget.filename!!).toUri()
                 )
             }
         }

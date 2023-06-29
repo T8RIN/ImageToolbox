@@ -50,9 +50,9 @@ sealed class MimeType(
                 Jpg,
                 Jpeg,
                 Png,
+                Bmp,
                 Webp.Lossy,
                 Webp.Lossless,
-                Bmp
             )
     }
 }

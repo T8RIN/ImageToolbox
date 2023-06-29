@@ -147,7 +147,7 @@ fun BytesResizeScreen(
                 uri = uris[0],
                 originalSize = false,
                 onGetMimeType = {
-                    showAlert = it.extension == "png"
+                    showAlert = !it.canChangeQuality
                     viewModel.setMime(it)
                 },
                 onGetExif = {},
@@ -180,7 +180,7 @@ fun BytesResizeScreen(
                     uri = uris[0],
                     originalSize = false,
                     onGetMimeType = {
-                        showAlert = it.extension == "png"
+                        showAlert = !it.canChangeQuality
                         viewModel.setMime(it)
                     },
                     onGetExif = {},

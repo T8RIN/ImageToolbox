@@ -255,7 +255,7 @@ class SingleResizeViewModel @Inject constructor(
     fun setMime(mimeType: MimeType) {
         if (_bitmapInfo.value.mimeType != mimeType) {
             _bitmapInfo.value = _bitmapInfo.value.copy(mimeType = mimeType)
-            if (mimeType.extension != "png") checkBitmapAndUpdate(
+            if (mimeType != MimeType.Png) checkBitmapAndUpdate(
                 resetPreset = false,
                 resetTelegram = true
             )
