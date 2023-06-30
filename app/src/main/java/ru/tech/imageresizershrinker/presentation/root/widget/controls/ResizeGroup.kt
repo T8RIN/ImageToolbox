@@ -2,7 +2,7 @@ package ru.tech.imageresizershrinker.presentation.root.widget.controls
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
-import androidx.compose.foundation.gestures.detectTapGestures
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -31,7 +31,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
@@ -82,19 +82,16 @@ fun ResizeGroup(
                             MaterialTheme.colorScheme.secondaryContainer,
                             CircleShape
                         )
+                        .clip(CircleShape)
+                        .clickable {
+                            state.value = true
+                        }
                         .padding(1.dp)
                         .size(
                             with(LocalDensity.current) {
                                 LocalTextStyle.current.fontSize.toDp()
                             }
                         )
-                        .pointerInput(Unit) {
-                            detectTapGestures(
-                                onPress = {
-                                    state.value = true
-                                }
-                            )
-                        }
                 )
             }
             Spacer(modifier = Modifier.height(8.dp))
