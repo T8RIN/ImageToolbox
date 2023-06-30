@@ -103,9 +103,9 @@ import ru.tech.imageresizershrinker.presentation.theme.icons.ShieldKey
 import ru.tech.imageresizershrinker.presentation.theme.icons.ShieldOpen
 import ru.tech.imageresizershrinker.presentation.theme.outlineVariant
 import ru.tech.imageresizershrinker.presentation.utils.confetti.LocalConfettiController
-import ru.tech.imageresizershrinker.presentation.utils.helper.BitmapUtils.fileSize
-import ru.tech.imageresizershrinker.presentation.utils.helper.BitmapUtils.shareFile
-import ru.tech.imageresizershrinker.presentation.utils.helper.ContextUtils.getFileName
+import ru.tech.imageresizershrinker.core.android.BitmapUtils.fileSize
+import ru.tech.imageresizershrinker.core.android.BitmapUtils.shareFile
+import ru.tech.imageresizershrinker.core.android.ContextUtils.getFileName
 import ru.tech.imageresizershrinker.presentation.utils.helper.readableByteCount
 import ru.tech.imageresizershrinker.presentation.utils.modifier.block
 import ru.tech.imageresizershrinker.presentation.utils.modifier.drawHorizontalStroke

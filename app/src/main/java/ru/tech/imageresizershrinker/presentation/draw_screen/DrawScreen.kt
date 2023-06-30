@@ -101,10 +101,10 @@ import ru.tech.imageresizershrinker.presentation.theme.onMixedColor
 import ru.tech.imageresizershrinker.presentation.utils.coil.UpscaleTransformation
 import ru.tech.imageresizershrinker.presentation.utils.coil.filters.SaturationFilter
 import ru.tech.imageresizershrinker.presentation.utils.confetti.LocalConfettiController
-import ru.tech.imageresizershrinker.presentation.utils.helper.BitmapUtils.getBitmapByUri
-import ru.tech.imageresizershrinker.presentation.utils.helper.BitmapUtils.getBitmapFromUriWithTransformations
-import ru.tech.imageresizershrinker.presentation.utils.helper.BitmapUtils.overlayWith
-import ru.tech.imageresizershrinker.presentation.utils.helper.BitmapUtils.shareBitmap
+import ru.tech.imageresizershrinker.core.android.BitmapUtils.getBitmapByUri
+import ru.tech.imageresizershrinker.core.android.BitmapUtils.getBitmapFromUriWithTransformations
+import ru.tech.imageresizershrinker.core.android.BitmapUtils.overlayWith
+import ru.tech.imageresizershrinker.core.android.BitmapUtils.shareBitmap
 import ru.tech.imageresizershrinker.presentation.utils.helper.Picker
 import ru.tech.imageresizershrinker.presentation.utils.helper.localImagePickerMode
 import ru.tech.imageresizershrinker.presentation.utils.helper.rememberImagePicker

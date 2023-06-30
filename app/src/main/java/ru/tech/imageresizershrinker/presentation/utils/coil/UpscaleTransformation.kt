@@ -4,7 +4,7 @@ import android.graphics.Bitmap
 import coil.size.Size
 import coil.transform.Transformation
 import ru.tech.imageresizershrinker.domain.model.ResizeType
-import ru.tech.imageresizershrinker.presentation.utils.helper.BitmapUtils.resizeBitmap
+import ru.tech.imageresizershrinker.core.android.BitmapUtils.resizeBitmap
 import java.lang.Integer.max
 
 class UpscaleTransformation(

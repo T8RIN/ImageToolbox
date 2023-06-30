@@ -8,7 +8,7 @@ import kotlinx.parcelize.Parcelize
 import kotlinx.parcelize.RawValue
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.domain.model.ResizeType
-import ru.tech.imageresizershrinker.presentation.utils.helper.BitmapUtils.resizeBitmap
+import ru.tech.imageresizershrinker.core.android.BitmapUtils.resizeBitmap
 import kotlin.math.abs
 import kotlin.math.roundToInt
 

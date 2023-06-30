@@ -1,4 +1,4 @@
-package ru.tech.imageresizershrinker.presentation.utils.helper
+package ru.tech.imageresizershrinker.core.android
 
 import android.Manifest
 import android.app.Activity
@@ -21,8 +21,9 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import ru.tech.imageresizershrinker.R
-import ru.tech.imageresizershrinker.presentation.utils.helper.IntentUtils.parcelable
-import ru.tech.imageresizershrinker.presentation.utils.helper.IntentUtils.parcelableArrayList
+import ru.tech.imageresizershrinker.core.android.IntentUtils.parcelable
+import ru.tech.imageresizershrinker.core.android.IntentUtils.parcelableArrayList
+import ru.tech.imageresizershrinker.presentation.utils.helper.readableByteCount
 import ru.tech.imageresizershrinker.presentation.utils.navigation.Screen
 import ru.tech.imageresizershrinker.presentation.utils.permission.PermissionStatus
 import ru.tech.imageresizershrinker.presentation.utils.permission.PermissionUtils.askUserToRequestPermissionExplicitly

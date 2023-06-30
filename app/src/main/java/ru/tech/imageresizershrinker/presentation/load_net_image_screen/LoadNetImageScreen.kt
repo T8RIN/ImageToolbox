@@ -95,9 +95,9 @@ import ru.tech.imageresizershrinker.presentation.theme.icons.CreateAlt
 import ru.tech.imageresizershrinker.presentation.theme.outlineVariant
 import ru.tech.imageresizershrinker.presentation.utils.coil.filters.SaturationFilter
 import ru.tech.imageresizershrinker.presentation.utils.confetti.LocalConfettiController
-import ru.tech.imageresizershrinker.presentation.utils.helper.BitmapUtils.cacheImage
-import ru.tech.imageresizershrinker.presentation.utils.helper.BitmapUtils.shareBitmap
-import ru.tech.imageresizershrinker.presentation.utils.helper.BitmapUtils.toBitmap
+import ru.tech.imageresizershrinker.core.android.BitmapUtils.cacheImage
+import ru.tech.imageresizershrinker.core.android.BitmapUtils.shareBitmap
+import ru.tech.imageresizershrinker.core.android.BitmapUtils.toBitmap
 import ru.tech.imageresizershrinker.presentation.utils.modifier.block
 import ru.tech.imageresizershrinker.presentation.utils.modifier.drawHorizontalStroke
 import ru.tech.imageresizershrinker.presentation.utils.modifier.fabBorder

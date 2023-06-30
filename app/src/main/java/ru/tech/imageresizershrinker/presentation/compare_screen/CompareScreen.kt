@@ -75,7 +75,7 @@ import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.presentation.compare_screen.viewModel.CompareViewModel
 import ru.tech.imageresizershrinker.presentation.theme.blend
 import ru.tech.imageresizershrinker.presentation.theme.outlineVariant
-import ru.tech.imageresizershrinker.presentation.utils.helper.BitmapUtils.getBitmapByUri
+import ru.tech.imageresizershrinker.core.android.BitmapUtils.getBitmapByUri
 import ru.tech.imageresizershrinker.presentation.utils.helper.Picker
 import ru.tech.imageresizershrinker.presentation.utils.helper.localImagePickerMode
 import ru.tech.imageresizershrinker.presentation.utils.helper.rememberImagePicker

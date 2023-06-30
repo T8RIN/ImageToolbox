@@ -79,10 +79,10 @@ import ru.tech.imageresizershrinker.presentation.single_resize_screen.viewModel.
 import ru.tech.imageresizershrinker.presentation.theme.outlineVariant
 import ru.tech.imageresizershrinker.presentation.utils.coil.filters.SaturationFilter
 import ru.tech.imageresizershrinker.presentation.utils.confetti.LocalConfettiController
-import ru.tech.imageresizershrinker.presentation.utils.helper.BitmapUtils.applyPresetBy
-import ru.tech.imageresizershrinker.presentation.utils.helper.BitmapUtils.canShow
-import ru.tech.imageresizershrinker.presentation.utils.helper.BitmapUtils.decodeBitmapByUri
-import ru.tech.imageresizershrinker.presentation.utils.helper.BitmapUtils.shareBitmap
+import ru.tech.imageresizershrinker.core.android.BitmapUtils.applyPresetBy
+import ru.tech.imageresizershrinker.core.android.BitmapUtils.canShow
+import ru.tech.imageresizershrinker.core.android.BitmapUtils.decodeBitmapByUri
+import ru.tech.imageresizershrinker.core.android.BitmapUtils.shareBitmap
 import ru.tech.imageresizershrinker.presentation.utils.helper.Picker
 import ru.tech.imageresizershrinker.presentation.utils.helper.localImagePickerMode
 import ru.tech.imageresizershrinker.presentation.utils.helper.rememberImagePicker

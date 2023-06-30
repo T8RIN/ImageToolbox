@@ -71,7 +71,7 @@ import com.google.accompanist.placeholder.material.shimmer
 import com.google.accompanist.placeholder.placeholder
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
-import ru.tech.imageresizershrinker.presentation.utils.helper.ContextUtils.findActivity
+import ru.tech.imageresizershrinker.core.android.ContextUtils.findActivity
 import ru.tech.imageresizershrinker.presentation.widget.image.StatusBarUtils.hideSystemBars
 import ru.tech.imageresizershrinker.presentation.widget.image.StatusBarUtils.isSystemBarsHidden
 import ru.tech.imageresizershrinker.presentation.widget.image.StatusBarUtils.showSystemBars

@@ -1,7 +1,7 @@
 package ru.tech.imageresizershrinker.domain.model
 
 import android.graphics.Bitmap
-import ru.tech.imageresizershrinker.domain.Domain
+import ru.tech.imageresizershrinker.domain.utils.Domain
 
 data class BitmapInfo(
     val width: Int = 0,

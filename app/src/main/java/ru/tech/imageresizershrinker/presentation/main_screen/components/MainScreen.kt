@@ -142,7 +142,7 @@ import ru.tech.imageresizershrinker.presentation.theme.icons.GooglePlay
 import ru.tech.imageresizershrinker.presentation.theme.icons.Telegram
 import ru.tech.imageresizershrinker.presentation.theme.outlineVariant
 import ru.tech.imageresizershrinker.presentation.theme.suggestContainerColorBy
-import ru.tech.imageresizershrinker.presentation.utils.helper.ContextUtils.verifyInstallerId
+import ru.tech.imageresizershrinker.core.android.ContextUtils.verifyInstallerId
 import ru.tech.imageresizershrinker.presentation.utils.modifier.alertDialog
 import ru.tech.imageresizershrinker.presentation.utils.modifier.drawHorizontalStroke
 import ru.tech.imageresizershrinker.presentation.utils.modifier.fabBorder

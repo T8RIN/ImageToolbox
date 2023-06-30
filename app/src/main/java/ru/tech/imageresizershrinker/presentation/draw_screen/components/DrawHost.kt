@@ -88,7 +88,7 @@ import ru.tech.imageresizershrinker.presentation.theme.mixedColor
 import ru.tech.imageresizershrinker.presentation.theme.onMixedColor
 import ru.tech.imageresizershrinker.presentation.theme.outlineVariant
 import ru.tech.imageresizershrinker.presentation.utils.coil.UpscaleTransformation
-import ru.tech.imageresizershrinker.presentation.utils.helper.BitmapUtils.restrict
+import ru.tech.imageresizershrinker.core.android.BitmapUtils.restrict
 import ru.tech.imageresizershrinker.presentation.utils.modifier.block
 import ru.tech.imageresizershrinker.presentation.utils.modifier.drawHorizontalStroke
 import ru.tech.imageresizershrinker.presentation.utils.modifier.fabBorder

@@ -2,14 +2,31 @@ package ru.tech.imageresizershrinker.data.repository
 
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
-import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
-import androidx.datastore.preferences.core.floatPreferencesKey
-import androidx.datastore.preferences.core.intPreferencesKey
-import androidx.datastore.preferences.core.stringPreferencesKey
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
+import ru.tech.imageresizershrinker.data.keys.Keys.ADD_ORIGINAL_NAME
+import ru.tech.imageresizershrinker.data.keys.Keys.ADD_SEQ_NUM
+import ru.tech.imageresizershrinker.data.keys.Keys.ADD_SIZE
+import ru.tech.imageresizershrinker.data.keys.Keys.ALIGNMENT
+import ru.tech.imageresizershrinker.data.keys.Keys.AMOLED_MODE
+import ru.tech.imageresizershrinker.data.keys.Keys.APP_COLOR
+import ru.tech.imageresizershrinker.data.keys.Keys.AUTO_CACHE_CLEAR
+import ru.tech.imageresizershrinker.data.keys.Keys.BORDER_WIDTH
+import ru.tech.imageresizershrinker.data.keys.Keys.COLOR_TUPLES
+import ru.tech.imageresizershrinker.data.keys.Keys.DYNAMIC_COLORS
+import ru.tech.imageresizershrinker.data.keys.Keys.EMOJI
+import ru.tech.imageresizershrinker.data.keys.Keys.EMOJI_COUNT
+import ru.tech.imageresizershrinker.data.keys.Keys.FILENAME_PREFIX
+import ru.tech.imageresizershrinker.data.keys.Keys.GROUP_OPTIONS
+import ru.tech.imageresizershrinker.data.keys.Keys.IMAGE_MONET
+import ru.tech.imageresizershrinker.data.keys.Keys.NIGHT_MODE
+import ru.tech.imageresizershrinker.data.keys.Keys.ORDER
+import ru.tech.imageresizershrinker.data.keys.Keys.PICKER_MODE
+import ru.tech.imageresizershrinker.data.keys.Keys.PRESETS
+import ru.tech.imageresizershrinker.data.keys.Keys.SAVE_FOLDER
+import ru.tech.imageresizershrinker.data.keys.Keys.SHOW_DIALOG
 import ru.tech.imageresizershrinker.domain.model.SettingsState
 import ru.tech.imageresizershrinker.domain.repository.SettingsRepository
 import javax.inject.Inject
@@ -212,27 +229,4 @@ class SettingsRepositoryImpl @Inject constructor(
         }
     }
 
-    companion object {
-        val SAVE_FOLDER = stringPreferencesKey("saveFolder")
-        val NIGHT_MODE = intPreferencesKey("nightMode")
-        val DYNAMIC_COLORS = booleanPreferencesKey("dynamicColors")
-        val IMAGE_MONET = booleanPreferencesKey("imageMonet")
-        val AMOLED_MODE = booleanPreferencesKey("amoledMode")
-        val APP_COLOR = stringPreferencesKey("appColorTuple")
-        val BORDER_WIDTH = floatPreferencesKey("borderWidth")
-        val PRESETS = stringPreferencesKey("presets")
-        val COLOR_TUPLES = stringPreferencesKey("color_tuples")
-        val ALIGNMENT = intPreferencesKey("alignment")
-        val SHOW_DIALOG = booleanPreferencesKey("showDialog")
-        val FILENAME_PREFIX = stringPreferencesKey("filename")
-        val EMOJI = intPreferencesKey("emoji")
-        val ADD_SIZE = booleanPreferencesKey("add_size")
-        val PICKER_MODE = intPreferencesKey("picker_mode")
-        val ORDER = stringPreferencesKey("order")
-        val EMOJI_COUNT = intPreferencesKey("em_count")
-        val ADD_ORIGINAL_NAME = booleanPreferencesKey("ADD_ORIGINAL_NAME")
-        val ADD_SEQ_NUM = booleanPreferencesKey("ADD_SEQ_NUM")
-        val AUTO_CACHE_CLEAR = booleanPreferencesKey("auto_clear")
-        val GROUP_OPTIONS = booleanPreferencesKey("group_options")
-    }
 }

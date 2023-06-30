@@ -24,7 +24,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.domain.model.BitmapInfo
-import ru.tech.imageresizershrinker.presentation.utils.helper.BitmapUtils.restrict
+import ru.tech.imageresizershrinker.core.android.BitmapUtils.restrict
 import ru.tech.imageresizershrinker.presentation.utils.modifier.block
 import ru.tech.imageresizershrinker.presentation.widget.text.RoundedTextField
 import ru.tech.imageresizershrinker.presentation.widget.utils.LocalSettingsState

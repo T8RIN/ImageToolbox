@@ -1,5 +1,6 @@
-package ru.tech.imageresizershrinker.domain.model
+package ru.tech.imageresizershrinker.domain.saving.model
 
+import ru.tech.imageresizershrinker.domain.model.MimeType
 import ru.tech.imageresizershrinker.domain.saving.SaveTarget
 
 data class FileSaveTarget(

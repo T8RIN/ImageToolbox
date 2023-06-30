@@ -70,11 +70,11 @@ import ru.tech.imageresizershrinker.presentation.limits_resize_screen.viewModel.
 import ru.tech.imageresizershrinker.presentation.theme.outlineVariant
 import ru.tech.imageresizershrinker.presentation.utils.coil.filters.SaturationFilter
 import ru.tech.imageresizershrinker.presentation.utils.confetti.LocalConfettiController
-import ru.tech.imageresizershrinker.presentation.utils.helper.BitmapUtils.decodeBitmapByUri
-import ru.tech.imageresizershrinker.presentation.utils.helper.BitmapUtils.fileSize
-import ru.tech.imageresizershrinker.presentation.utils.helper.BitmapUtils.getBitmapByUri
-import ru.tech.imageresizershrinker.presentation.utils.helper.BitmapUtils.shareBitmaps
-import ru.tech.imageresizershrinker.presentation.utils.helper.ContextUtils.failedToSaveImages
+import ru.tech.imageresizershrinker.core.android.BitmapUtils.decodeBitmapByUri
+import ru.tech.imageresizershrinker.core.android.BitmapUtils.fileSize
+import ru.tech.imageresizershrinker.core.android.BitmapUtils.getBitmapByUri
+import ru.tech.imageresizershrinker.core.android.BitmapUtils.shareBitmaps
+import ru.tech.imageresizershrinker.core.android.ContextUtils.failedToSaveImages
 import ru.tech.imageresizershrinker.presentation.utils.helper.Picker
 import ru.tech.imageresizershrinker.presentation.utils.helper.localImagePickerMode
 import ru.tech.imageresizershrinker.presentation.utils.helper.rememberImagePicker

@@ -62,7 +62,7 @@ import ru.tech.imageresizershrinker.presentation.image_preview_screen.components
 import ru.tech.imageresizershrinker.presentation.image_preview_screen.viewModel.ImagePreviewViewModel
 import ru.tech.imageresizershrinker.presentation.theme.outlineVariant
 import ru.tech.imageresizershrinker.presentation.utils.coil.filters.SaturationFilter
-import ru.tech.imageresizershrinker.presentation.utils.helper.BitmapUtils.decodeSampledBitmapFromUri
+import ru.tech.imageresizershrinker.core.android.BitmapUtils.decodeSampledBitmapFromUri
 import ru.tech.imageresizershrinker.presentation.utils.helper.Picker
 import ru.tech.imageresizershrinker.presentation.utils.helper.localImagePickerMode
 import ru.tech.imageresizershrinker.presentation.utils.helper.rememberImagePicker

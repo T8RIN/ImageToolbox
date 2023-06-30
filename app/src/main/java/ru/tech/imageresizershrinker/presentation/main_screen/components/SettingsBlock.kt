@@ -105,9 +105,9 @@ import ru.tech.imageresizershrinker.presentation.theme.icons.FileSettings
 import ru.tech.imageresizershrinker.presentation.theme.icons.Lamp
 import ru.tech.imageresizershrinker.presentation.theme.inverse
 import ru.tech.imageresizershrinker.presentation.theme.outlineVariant
-import ru.tech.imageresizershrinker.presentation.utils.helper.ContextUtils.cacheSize
-import ru.tech.imageresizershrinker.presentation.utils.helper.ContextUtils.clearCache
-import ru.tech.imageresizershrinker.presentation.utils.helper.toUiPath
+import ru.tech.imageresizershrinker.core.android.ContextUtils.cacheSize
+import ru.tech.imageresizershrinker.core.android.ContextUtils.clearCache
+import ru.tech.imageresizershrinker.core.android.toUiPath
 import ru.tech.imageresizershrinker.presentation.utils.modifier.block
 import ru.tech.imageresizershrinker.presentation.utils.modifier.pulsate
 import ru.tech.imageresizershrinker.presentation.utils.modifier.scaleOnTap

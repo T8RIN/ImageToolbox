@@ -3,7 +3,7 @@ package ru.tech.imageresizershrinker.presentation.widget.other
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.ui.platform.LocalContext
-import ru.tech.imageresizershrinker.presentation.utils.helper.ContextUtils.findActivity
+import ru.tech.imageresizershrinker.core.android.ContextUtils.findActivity
 
 @Composable
 fun LockScreenOrientation(orientation: Int) {

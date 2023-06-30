@@ -13,7 +13,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import ru.tech.imageresizershrinker.domain.model.BitmapInfo
-import ru.tech.imageresizershrinker.domain.model.BitmapSaveTarget
+import ru.tech.imageresizershrinker.domain.saving.model.BitmapSaveTarget
 import ru.tech.imageresizershrinker.domain.saving.FileController
 import java.io.ByteArrayOutputStream
 import javax.inject.Inject

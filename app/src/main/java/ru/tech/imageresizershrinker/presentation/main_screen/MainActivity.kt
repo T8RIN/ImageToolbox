@@ -34,8 +34,8 @@ import ru.tech.imageresizershrinker.presentation.main_screen.viewModel.MainViewM
 import ru.tech.imageresizershrinker.presentation.model.toUiState
 import ru.tech.imageresizershrinker.presentation.theme.ImageResizerTheme
 import ru.tech.imageresizershrinker.presentation.utils.confetti.LocalConfettiController
-import ru.tech.imageresizershrinker.presentation.utils.helper.ContextUtils.clearCache
-import ru.tech.imageresizershrinker.presentation.utils.helper.ContextUtils.parseImageFromIntent
+import ru.tech.imageresizershrinker.core.android.ContextUtils.clearCache
+import ru.tech.imageresizershrinker.core.android.ContextUtils.parseImageFromIntent
 import ru.tech.imageresizershrinker.presentation.utils.navigation.LocalNavController
 import ru.tech.imageresizershrinker.presentation.widget.activity.M3Activity
 import ru.tech.imageresizershrinker.presentation.widget.other.LocalToastHost

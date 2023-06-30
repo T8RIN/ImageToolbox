@@ -22,9 +22,9 @@ import androidx.compose.ui.res.stringResource
 import com.t8rin.dynamic.theme.observeAsState
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.presentation.theme.outlineVariant
-import ru.tech.imageresizershrinker.presentation.utils.helper.ContextUtils.findActivity
-import ru.tech.imageresizershrinker.presentation.utils.helper.ContextUtils.needToShowStoragePermissionRequest
-import ru.tech.imageresizershrinker.presentation.utils.helper.ContextUtils.requestStoragePermission
+import ru.tech.imageresizershrinker.core.android.ContextUtils.findActivity
+import ru.tech.imageresizershrinker.core.android.ContextUtils.needToShowStoragePermissionRequest
+import ru.tech.imageresizershrinker.core.android.ContextUtils.requestStoragePermission
 import ru.tech.imageresizershrinker.presentation.utils.modifier.alertDialog
 import ru.tech.imageresizershrinker.presentation.widget.utils.LocalSettingsState
 
