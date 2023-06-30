@@ -254,7 +254,10 @@ class BatchResizeViewModel @Inject constructor(
     fun setResizeType(type: ResizeType) {
         if (_bitmapInfo.value.resizeType != type) {
             _bitmapInfo.value = _bitmapInfo.value.copy(resizeType = type)
-            if (type !is ResizeType.Ratio) checkBitmapAndUpdate(resetPreset = false, resetTelegram = false)
+            if (type !is ResizeType.Ratio) checkBitmapAndUpdate(
+                resetPreset = false,
+                resetTelegram = false
+            )
             else checkBitmapAndUpdate(resetPreset = false, resetTelegram = true)
         }
     }

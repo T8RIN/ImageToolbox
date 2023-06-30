@@ -216,9 +216,8 @@ object ContextUtils {
                     intent.data?.let { onGetUris(listOf(it)) }
                 }
             }
-        }
-        else if (intent?.type != null) {
-            if(intent.type?.contains("text") == true) {
+        } else if (intent?.type != null) {
+            if (intent.type?.contains("text") == true) {
                 navigate(Screen.LoadNetImage(intent.getStringExtra(Intent.EXTRA_TEXT) ?: ""))
             } else {
                 intent.parcelable<Uri>(Intent.EXTRA_STREAM)?.let {

@@ -42,8 +42,8 @@ import org.xmlpull.v1.XmlPullParser
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.presentation.theme.outlineVariant
 import ru.tech.imageresizershrinker.presentation.widget.preferences.PreferenceRow
-import ru.tech.imageresizershrinker.presentation.widget.text.TitleItem
 import ru.tech.imageresizershrinker.presentation.widget.sheets.SimpleSheet
+import ru.tech.imageresizershrinker.presentation.widget.text.TitleItem
 import ru.tech.imageresizershrinker.presentation.widget.utils.LocalSettingsState
 import java.util.Locale
 

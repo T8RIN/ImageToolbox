@@ -8,7 +8,6 @@ import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.gestures.Orientation
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -84,7 +83,6 @@ import dev.olshevski.navigation.reimagined.AnimatedNavHost
 import dev.olshevski.navigation.reimagined.NavController
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.domain.model.MimeType
-import ru.tech.imageresizershrinker.presentation.widget.preferences.PreferenceItem
 import ru.tech.imageresizershrinker.presentation.theme.icons.Eraser
 import ru.tech.imageresizershrinker.presentation.theme.mixedColor
 import ru.tech.imageresizershrinker.presentation.theme.onMixedColor
@@ -96,11 +94,12 @@ import ru.tech.imageresizershrinker.presentation.utils.modifier.drawHorizontalSt
 import ru.tech.imageresizershrinker.presentation.utils.modifier.fabBorder
 import ru.tech.imageresizershrinker.presentation.utils.modifier.navBarsPaddingOnlyIfTheyAtTheBottom
 import ru.tech.imageresizershrinker.presentation.utils.modifier.navBarsPaddingOnlyIfTheyAtTheEnd
-import ru.tech.imageresizershrinker.presentation.widget.text.TitleItem
 import ru.tech.imageresizershrinker.presentation.widget.controls.ExtensionGroup
 import ru.tech.imageresizershrinker.presentation.widget.image.Picture
+import ru.tech.imageresizershrinker.presentation.widget.preferences.PreferenceItem
 import ru.tech.imageresizershrinker.presentation.widget.sheets.SimpleSheet
 import ru.tech.imageresizershrinker.presentation.widget.text.RoundedTextField
+import ru.tech.imageresizershrinker.presentation.widget.text.TitleItem
 import ru.tech.imageresizershrinker.presentation.widget.utils.LocalSettingsState
 
 @Composable

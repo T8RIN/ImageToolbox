@@ -37,6 +37,7 @@ import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.presentation.theme.outlineVariant
 import ru.tech.imageresizershrinker.presentation.utils.navigation.LocalNavController
 import ru.tech.imageresizershrinker.presentation.utils.navigation.Screen
+import ru.tech.imageresizershrinker.presentation.widget.image.Picture
 import ru.tech.imageresizershrinker.presentation.widget.preferences.screens.BatchResizePreference
 import ru.tech.imageresizershrinker.presentation.widget.preferences.screens.BytesResizePreference
 import ru.tech.imageresizershrinker.presentation.widget.preferences.screens.CipherPreference
@@ -50,9 +51,8 @@ import ru.tech.imageresizershrinker.presentation.widget.preferences.screens.Imag
 import ru.tech.imageresizershrinker.presentation.widget.preferences.screens.LimitsPreference
 import ru.tech.imageresizershrinker.presentation.widget.preferences.screens.PickColorPreference
 import ru.tech.imageresizershrinker.presentation.widget.preferences.screens.SingleResizePreference
-import ru.tech.imageresizershrinker.presentation.widget.text.TitleItem
-import ru.tech.imageresizershrinker.presentation.widget.image.Picture
 import ru.tech.imageresizershrinker.presentation.widget.sheets.SimpleSheet
+import ru.tech.imageresizershrinker.presentation.widget.text.TitleItem
 import ru.tech.imageresizershrinker.presentation.widget.utils.LocalSettingsState
 
 @Composable

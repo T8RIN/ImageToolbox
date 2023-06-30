@@ -95,6 +95,9 @@ import ru.tech.imageresizershrinker.presentation.theme.icons.CreateAlt
 import ru.tech.imageresizershrinker.presentation.theme.outlineVariant
 import ru.tech.imageresizershrinker.presentation.utils.coil.filters.SaturationFilter
 import ru.tech.imageresizershrinker.presentation.utils.confetti.LocalConfettiController
+import ru.tech.imageresizershrinker.presentation.utils.helper.BitmapUtils.cacheImage
+import ru.tech.imageresizershrinker.presentation.utils.helper.BitmapUtils.shareBitmap
+import ru.tech.imageresizershrinker.presentation.utils.helper.BitmapUtils.toBitmap
 import ru.tech.imageresizershrinker.presentation.utils.modifier.block
 import ru.tech.imageresizershrinker.presentation.utils.modifier.drawHorizontalStroke
 import ru.tech.imageresizershrinker.presentation.utils.modifier.fabBorder
@@ -123,9 +126,6 @@ import ru.tech.imageresizershrinker.presentation.widget.text.RoundedTextField
 import ru.tech.imageresizershrinker.presentation.widget.text.TitleItem
 import ru.tech.imageresizershrinker.presentation.widget.utils.LocalSettingsState
 import ru.tech.imageresizershrinker.presentation.widget.utils.LocalWindowSizeClass
-import ru.tech.imageresizershrinker.presentation.utils.helper.BitmapUtils.cacheImage
-import ru.tech.imageresizershrinker.presentation.utils.helper.BitmapUtils.shareBitmap
-import ru.tech.imageresizershrinker.presentation.utils.helper.BitmapUtils.toBitmap
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

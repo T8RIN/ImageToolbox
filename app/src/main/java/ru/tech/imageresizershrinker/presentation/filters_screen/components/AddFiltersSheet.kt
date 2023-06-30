@@ -69,7 +69,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.R
-import ru.tech.imageresizershrinker.presentation.widget.preferences.PreferenceItemOverload
 import ru.tech.imageresizershrinker.presentation.theme.outlineVariant
 import ru.tech.imageresizershrinker.presentation.utils.coil.filters.BilaterialBlurFilter
 import ru.tech.imageresizershrinker.presentation.utils.coil.filters.BlackAndWhiteFilter
@@ -124,11 +123,12 @@ import ru.tech.imageresizershrinker.presentation.utils.coil.filters.WhiteBalance
 import ru.tech.imageresizershrinker.presentation.utils.coil.filters.ZoomBlurFilter
 import ru.tech.imageresizershrinker.presentation.utils.helper.BitmapUtils.applyTransformations
 import ru.tech.imageresizershrinker.presentation.utils.modifier.drawHorizontalStroke
-import ru.tech.imageresizershrinker.presentation.widget.text.TitleItem
 import ru.tech.imageresizershrinker.presentation.widget.image.SimplePicture
 import ru.tech.imageresizershrinker.presentation.widget.other.imageStickyHeader
+import ru.tech.imageresizershrinker.presentation.widget.preferences.PreferenceItemOverload
 import ru.tech.imageresizershrinker.presentation.widget.sheets.SimpleSheet
 import ru.tech.imageresizershrinker.presentation.widget.text.Marquee
+import ru.tech.imageresizershrinker.presentation.widget.text.TitleItem
 import ru.tech.imageresizershrinker.presentation.widget.utils.LocalSettingsState
 import ru.tech.imageresizershrinker.presentation.widget.utils.middleImageState
 

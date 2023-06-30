@@ -14,7 +14,6 @@ import androidx.compose.animation.fadeOut
 import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
-import androidx.compose.foundation.gestures.Orientation
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -95,6 +94,11 @@ import ru.tech.imageresizershrinker.presentation.crop_screen.viewModel.CropViewM
 import ru.tech.imageresizershrinker.presentation.theme.outlineVariant
 import ru.tech.imageresizershrinker.presentation.utils.coil.filters.SaturationFilter
 import ru.tech.imageresizershrinker.presentation.utils.confetti.LocalConfettiController
+import ru.tech.imageresizershrinker.presentation.utils.helper.BitmapUtils.decodeBitmapByUri
+import ru.tech.imageresizershrinker.presentation.utils.helper.BitmapUtils.shareBitmap
+import ru.tech.imageresizershrinker.presentation.utils.helper.Picker
+import ru.tech.imageresizershrinker.presentation.utils.helper.localImagePickerMode
+import ru.tech.imageresizershrinker.presentation.utils.helper.rememberImagePicker
 import ru.tech.imageresizershrinker.presentation.utils.modifier.drawHorizontalStroke
 import ru.tech.imageresizershrinker.presentation.utils.modifier.fabBorder
 import ru.tech.imageresizershrinker.presentation.utils.modifier.navBarsPaddingOnlyIfTheyAtTheBottom
@@ -110,11 +114,6 @@ import ru.tech.imageresizershrinker.presentation.widget.text.Marquee
 import ru.tech.imageresizershrinker.presentation.widget.utils.LocalSettingsState
 import ru.tech.imageresizershrinker.presentation.widget.utils.LocalWindowSizeClass
 import ru.tech.imageresizershrinker.presentation.widget.utils.isScrollingUp
-import ru.tech.imageresizershrinker.presentation.utils.helper.BitmapUtils.decodeBitmapByUri
-import ru.tech.imageresizershrinker.presentation.utils.helper.BitmapUtils.shareBitmap
-import ru.tech.imageresizershrinker.presentation.utils.helper.Picker
-import ru.tech.imageresizershrinker.presentation.utils.helper.localImagePickerMode
-import ru.tech.imageresizershrinker.presentation.utils.helper.rememberImagePicker
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -441,9 +440,14 @@ fun CropScreen(
                                     .background(MaterialTheme.colorScheme.outlineVariant())
                             )
                             val aspectRatios = aspectRatios()
-                            Column(Modifier.weight(0.5f).verticalScroll(rememberScrollState())) {
+                            Column(
+                                Modifier
+                                    .weight(0.5f)
+                                    .verticalScroll(rememberScrollState())) {
                                 AspectRatioSelection(
-                                    modifier = Modifier.fillMaxWidth().padding(top = 16.dp),
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .padding(top = 16.dp),
                                     selectedIndex = aspectRatios.indexOfFirst { cr ->
                                         cr.aspectRatio == viewModel.cropProperties.aspectRatio
                                     }

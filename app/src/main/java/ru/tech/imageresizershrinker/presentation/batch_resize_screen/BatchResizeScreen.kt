@@ -79,6 +79,14 @@ import ru.tech.imageresizershrinker.presentation.batch_resize_screen.viewModel.B
 import ru.tech.imageresizershrinker.presentation.theme.outlineVariant
 import ru.tech.imageresizershrinker.presentation.utils.coil.filters.SaturationFilter
 import ru.tech.imageresizershrinker.presentation.utils.confetti.LocalConfettiController
+import ru.tech.imageresizershrinker.presentation.utils.helper.BitmapUtils.applyPresetBy
+import ru.tech.imageresizershrinker.presentation.utils.helper.BitmapUtils.canShow
+import ru.tech.imageresizershrinker.presentation.utils.helper.BitmapUtils.decodeBitmapByUri
+import ru.tech.imageresizershrinker.presentation.utils.helper.BitmapUtils.getBitmapByUri
+import ru.tech.imageresizershrinker.presentation.utils.helper.BitmapUtils.shareBitmaps
+import ru.tech.imageresizershrinker.presentation.utils.helper.Picker
+import ru.tech.imageresizershrinker.presentation.utils.helper.localImagePickerMode
+import ru.tech.imageresizershrinker.presentation.utils.helper.rememberImagePicker
 import ru.tech.imageresizershrinker.presentation.utils.modifier.drawHorizontalStroke
 import ru.tech.imageresizershrinker.presentation.utils.modifier.navBarsLandscapePadding
 import ru.tech.imageresizershrinker.presentation.widget.buttons.BottomButtonsBlock
@@ -107,14 +115,6 @@ import ru.tech.imageresizershrinker.presentation.widget.utils.LocalSettingsState
 import ru.tech.imageresizershrinker.presentation.widget.utils.LocalWindowSizeClass
 import ru.tech.imageresizershrinker.presentation.widget.utils.isExpanded
 import ru.tech.imageresizershrinker.presentation.widget.utils.middleImageState
-import ru.tech.imageresizershrinker.presentation.utils.helper.BitmapUtils.applyPresetBy
-import ru.tech.imageresizershrinker.presentation.utils.helper.BitmapUtils.canShow
-import ru.tech.imageresizershrinker.presentation.utils.helper.BitmapUtils.decodeBitmapByUri
-import ru.tech.imageresizershrinker.presentation.utils.helper.BitmapUtils.getBitmapByUri
-import ru.tech.imageresizershrinker.presentation.utils.helper.BitmapUtils.shareBitmaps
-import ru.tech.imageresizershrinker.presentation.utils.helper.Picker
-import ru.tech.imageresizershrinker.presentation.utils.helper.localImagePickerMode
-import ru.tech.imageresizershrinker.presentation.utils.helper.rememberImagePicker
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -196,7 +196,7 @@ fun BatchResizeScreen(
                 context.getBitmapByUri(uri)
             }
         ) { savingPath ->
-            if(savingPath.isNotEmpty()) {
+            if (savingPath.isNotEmpty()) {
                 scope.launch {
                     toastHostState.showToast(
                         context.getString(
@@ -532,7 +532,7 @@ fun BatchResizeScreen(
                                         onWidthChange = viewModel::updateWidth,
                                         showWarning = viewModel.showWarning
                                     )
-                                    if ( bitmapInfo.mimeType.canChangeQuality) {
+                                    if (bitmapInfo.mimeType.canChangeQuality) {
                                         Spacer(Modifier.height(8.dp))
                                     }
                                     QualityWidget(

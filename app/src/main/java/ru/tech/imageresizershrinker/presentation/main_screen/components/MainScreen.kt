@@ -142,6 +142,7 @@ import ru.tech.imageresizershrinker.presentation.theme.icons.GooglePlay
 import ru.tech.imageresizershrinker.presentation.theme.icons.Telegram
 import ru.tech.imageresizershrinker.presentation.theme.outlineVariant
 import ru.tech.imageresizershrinker.presentation.theme.suggestContainerColorBy
+import ru.tech.imageresizershrinker.presentation.utils.helper.ContextUtils.verifyInstallerId
 import ru.tech.imageresizershrinker.presentation.utils.modifier.alertDialog
 import ru.tech.imageresizershrinker.presentation.utils.modifier.drawHorizontalStroke
 import ru.tech.imageresizershrinker.presentation.utils.modifier.fabBorder
@@ -164,7 +165,6 @@ import ru.tech.imageresizershrinker.presentation.widget.text.TitleItem
 import ru.tech.imageresizershrinker.presentation.widget.utils.LocalEditPresetsState
 import ru.tech.imageresizershrinker.presentation.widget.utils.LocalSettingsState
 import ru.tech.imageresizershrinker.presentation.widget.utils.LocalWindowSizeClass
-import ru.tech.imageresizershrinker.presentation.utils.helper.ContextUtils.verifyInstallerId
 import kotlin.math.roundToInt
 
 @OptIn(

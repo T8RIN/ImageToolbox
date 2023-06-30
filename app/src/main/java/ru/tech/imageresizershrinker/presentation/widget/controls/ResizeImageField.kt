@@ -37,9 +37,11 @@ fun ResizeImageField(
     onHeightChange: (Int) -> Unit,
     showWarning: Boolean = false
 ) {
-    Column(modifier = Modifier
-        .block(shape = RoundedCornerShape(24.dp))
-        .animateContentSize()) {
+    Column(
+        modifier = Modifier
+            .block(shape = RoundedCornerShape(24.dp))
+            .animateContentSize()
+    ) {
         Row {
             RoundedTextField(
                 enabled = bitmap != null,

@@ -13,7 +13,6 @@ import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.gestures.Orientation
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -102,6 +101,13 @@ import ru.tech.imageresizershrinker.presentation.theme.onMixedColor
 import ru.tech.imageresizershrinker.presentation.utils.coil.UpscaleTransformation
 import ru.tech.imageresizershrinker.presentation.utils.coil.filters.SaturationFilter
 import ru.tech.imageresizershrinker.presentation.utils.confetti.LocalConfettiController
+import ru.tech.imageresizershrinker.presentation.utils.helper.BitmapUtils.getBitmapByUri
+import ru.tech.imageresizershrinker.presentation.utils.helper.BitmapUtils.getBitmapFromUriWithTransformations
+import ru.tech.imageresizershrinker.presentation.utils.helper.BitmapUtils.overlayWith
+import ru.tech.imageresizershrinker.presentation.utils.helper.BitmapUtils.shareBitmap
+import ru.tech.imageresizershrinker.presentation.utils.helper.Picker
+import ru.tech.imageresizershrinker.presentation.utils.helper.localImagePickerMode
+import ru.tech.imageresizershrinker.presentation.utils.helper.rememberImagePicker
 import ru.tech.imageresizershrinker.presentation.utils.modifier.drawHorizontalStroke
 import ru.tech.imageresizershrinker.presentation.utils.modifier.fabBorder
 import ru.tech.imageresizershrinker.presentation.widget.controls.ExtensionGroup
@@ -113,13 +119,6 @@ import ru.tech.imageresizershrinker.presentation.widget.other.TopAppBarEmoji
 import ru.tech.imageresizershrinker.presentation.widget.text.Marquee
 import ru.tech.imageresizershrinker.presentation.widget.utils.LocalSettingsState
 import ru.tech.imageresizershrinker.presentation.widget.utils.LocalWindowSizeClass
-import ru.tech.imageresizershrinker.presentation.utils.helper.BitmapUtils.getBitmapByUri
-import ru.tech.imageresizershrinker.presentation.utils.helper.BitmapUtils.getBitmapFromUriWithTransformations
-import ru.tech.imageresizershrinker.presentation.utils.helper.BitmapUtils.overlayWith
-import ru.tech.imageresizershrinker.presentation.utils.helper.BitmapUtils.shareBitmap
-import ru.tech.imageresizershrinker.presentation.utils.helper.Picker
-import ru.tech.imageresizershrinker.presentation.utils.helper.localImagePickerMode
-import ru.tech.imageresizershrinker.presentation.utils.helper.rememberImagePicker
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

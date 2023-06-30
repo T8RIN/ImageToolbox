@@ -47,9 +47,9 @@ import androidx.core.text.isDigitsOnly
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.presentation.theme.outlineVariant
 import ru.tech.imageresizershrinker.presentation.utils.modifier.alertDialog
-import ru.tech.imageresizershrinker.presentation.widget.text.TitleItem
 import ru.tech.imageresizershrinker.presentation.widget.sheets.SimpleSheet
 import ru.tech.imageresizershrinker.presentation.widget.text.AutoSizeText
+import ru.tech.imageresizershrinker.presentation.widget.text.TitleItem
 import ru.tech.imageresizershrinker.presentation.widget.utils.LocalSettingsState
 
 @OptIn(ExperimentalLayoutApi::class)

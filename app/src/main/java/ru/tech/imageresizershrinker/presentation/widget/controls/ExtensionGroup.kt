@@ -1,6 +1,5 @@
 package ru.tech.imageresizershrinker.presentation.widget.controls
 
-import androidx.compose.foundation.gestures.Orientation
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
@@ -60,39 +59,39 @@ fun ExtensionGroup(
                 ),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-                Text(
-                    stringResource(R.string.extension),
-                    Modifier
-                        .fillMaxWidth()
-                        .padding(top = 8.dp),
-                    textAlign = TextAlign.Center
-                )
-                Spacer(modifier = Modifier.height(8.dp))
+            Text(
+                stringResource(R.string.extension),
+                Modifier
+                    .fillMaxWidth()
+                    .padding(top = 8.dp),
+                textAlign = TextAlign.Center
+            )
+            Spacer(modifier = Modifier.height(8.dp))
 
-                FlowRow(
-                    verticalArrangement = Arrangement.Center,
-                    horizontalArrangement = Arrangement.spacedBy(
-                        12.dp,
-                        Alignment.CenterHorizontally
-                    ),
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(8.dp)
-                        .block()
-                        .padding(horizontal = 12.dp, vertical = 6.dp)
-                ) {
-                    MimeType.entries.forEach {
-                        FilterChip(
-                            onClick = { onMimeChange(it) },
-                            selected = it == mimeType,
-                            label = { Text(text = it.title) },
-                            border = FilterChipDefaults.filterChipBorder(
-                                borderWidth = settingsState.borderWidth,
-                                borderColor = MaterialTheme.colorScheme.outlineVariant()
-                            )
+            FlowRow(
+                verticalArrangement = Arrangement.Center,
+                horizontalArrangement = Arrangement.spacedBy(
+                    12.dp,
+                    Alignment.CenterHorizontally
+                ),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(8.dp)
+                    .block()
+                    .padding(horizontal = 12.dp, vertical = 6.dp)
+            ) {
+                MimeType.entries.forEach {
+                    FilterChip(
+                        onClick = { onMimeChange(it) },
+                        selected = it == mimeType,
+                        label = { Text(text = it.title) },
+                        border = FilterChipDefaults.filterChipBorder(
+                            borderWidth = settingsState.borderWidth,
+                            borderColor = MaterialTheme.colorScheme.outlineVariant()
                         )
-                    }
+                    )
                 }
             }
+        }
     }
 }

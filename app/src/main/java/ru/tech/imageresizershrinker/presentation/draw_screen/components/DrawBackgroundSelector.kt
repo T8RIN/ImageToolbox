@@ -51,8 +51,8 @@ import ru.tech.imageresizershrinker.presentation.main_screen.components.ColorCus
 import ru.tech.imageresizershrinker.presentation.theme.inverse
 import ru.tech.imageresizershrinker.presentation.theme.outlineVariant
 import ru.tech.imageresizershrinker.presentation.utils.modifier.block
-import ru.tech.imageresizershrinker.presentation.widget.text.TitleItem
 import ru.tech.imageresizershrinker.presentation.widget.sheets.SimpleSheet
+import ru.tech.imageresizershrinker.presentation.widget.text.TitleItem
 import ru.tech.imageresizershrinker.presentation.widget.utils.LocalSettingsState
 
 @Composable

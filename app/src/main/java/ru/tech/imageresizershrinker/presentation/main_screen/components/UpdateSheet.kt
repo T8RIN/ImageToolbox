@@ -33,9 +33,9 @@ import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.core.APP_RELEASES
 import ru.tech.imageresizershrinker.presentation.theme.outlineVariant
-import ru.tech.imageresizershrinker.presentation.widget.text.TitleItem
 import ru.tech.imageresizershrinker.presentation.widget.sheets.SimpleSheet
 import ru.tech.imageresizershrinker.presentation.widget.text.HtmlText
+import ru.tech.imageresizershrinker.presentation.widget.text.TitleItem
 import ru.tech.imageresizershrinker.presentation.widget.utils.LocalSettingsState
 
 @Composable

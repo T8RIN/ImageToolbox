@@ -105,6 +105,9 @@ import ru.tech.imageresizershrinker.presentation.theme.icons.FileSettings
 import ru.tech.imageresizershrinker.presentation.theme.icons.Lamp
 import ru.tech.imageresizershrinker.presentation.theme.inverse
 import ru.tech.imageresizershrinker.presentation.theme.outlineVariant
+import ru.tech.imageresizershrinker.presentation.utils.helper.ContextUtils.cacheSize
+import ru.tech.imageresizershrinker.presentation.utils.helper.ContextUtils.clearCache
+import ru.tech.imageresizershrinker.presentation.utils.helper.toUiPath
 import ru.tech.imageresizershrinker.presentation.utils.modifier.block
 import ru.tech.imageresizershrinker.presentation.utils.modifier.pulsate
 import ru.tech.imageresizershrinker.presentation.utils.modifier.scaleOnTap
@@ -117,9 +120,6 @@ import ru.tech.imageresizershrinker.presentation.widget.preferences.PreferenceRo
 import ru.tech.imageresizershrinker.presentation.widget.preferences.screens.SourceCodePreference
 import ru.tech.imageresizershrinker.presentation.widget.text.TitleItem
 import ru.tech.imageresizershrinker.presentation.widget.utils.LocalSettingsState
-import ru.tech.imageresizershrinker.presentation.utils.helper.ContextUtils.cacheSize
-import ru.tech.imageresizershrinker.presentation.utils.helper.ContextUtils.clearCache
-import ru.tech.imageresizershrinker.presentation.utils.helper.toUiPath
 import kotlin.math.roundToInt
 
 fun LazyListScope.settingsBlock(
@@ -139,7 +139,7 @@ fun LazyListScope.settingsBlock(
         // Night mode
         Column(Modifier.animateContentSize()) {
             var expanded by rememberSaveable { mutableStateOf(true) }
-            val rotation by animateFloatAsState(if(expanded) 180f else 0f)
+            val rotation by animateFloatAsState(if (expanded) 180f else 0f)
             TitleItem(
                 modifier = Modifier
                     .padding(8.dp)
@@ -155,7 +155,8 @@ fun LazyListScope.settingsBlock(
                         Icon(
                             imageVector = Icons.Rounded.KeyboardArrowDown,
                             contentDescription = null,
-                            modifier = Modifier.rotate(rotation))
+                            modifier = Modifier.rotate(rotation)
+                        )
                     }
                 }
             )
@@ -206,7 +207,7 @@ fun LazyListScope.settingsBlock(
         // Customization
         Column(Modifier.animateContentSize()) {
             var expanded by rememberSaveable { mutableStateOf(true) }
-            val rotation by animateFloatAsState(if(expanded) 180f else 0f)
+            val rotation by animateFloatAsState(if (expanded) 180f else 0f)
             TitleItem(
                 modifier = Modifier
                     .padding(8.dp)
@@ -641,7 +642,7 @@ fun LazyListScope.settingsBlock(
         // Arrangement
         Column(Modifier.animateContentSize()) {
             var expanded by rememberSaveable { mutableStateOf(false) }
-            val rotation by animateFloatAsState(if(expanded) 180f else 0f)
+            val rotation by animateFloatAsState(if (expanded) 180f else 0f)
             TitleItem(
                 modifier = Modifier
                     .padding(8.dp)
@@ -959,7 +960,8 @@ fun LazyListScope.settingsBlock(
                     PreferenceItem(
                         onClick = { onEditFilename() },
                         title = stringResource(R.string.prefix),
-                        subtitle = (settingsState.filenamePrefix.takeIf { it.isNotEmpty() } ?: stringResource(R.string.prefix)) + "...",
+                        subtitle = (settingsState.filenamePrefix.takeIf { it.isNotEmpty() }
+                            ?: stringResource(R.string.prefix)) + "...",
                         color = MaterialTheme
                             .colorScheme
                             .secondaryContainer

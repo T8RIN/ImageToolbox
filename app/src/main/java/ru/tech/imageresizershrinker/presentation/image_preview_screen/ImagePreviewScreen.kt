@@ -63,14 +63,14 @@ import ru.tech.imageresizershrinker.presentation.image_preview_screen.viewModel.
 import ru.tech.imageresizershrinker.presentation.theme.outlineVariant
 import ru.tech.imageresizershrinker.presentation.utils.coil.filters.SaturationFilter
 import ru.tech.imageresizershrinker.presentation.utils.helper.BitmapUtils.decodeSampledBitmapFromUri
-import ru.tech.imageresizershrinker.presentation.utils.modifier.drawHorizontalStroke
-import ru.tech.imageresizershrinker.presentation.utils.modifier.fabBorder
 import ru.tech.imageresizershrinker.presentation.utils.helper.Picker
 import ru.tech.imageresizershrinker.presentation.utils.helper.localImagePickerMode
 import ru.tech.imageresizershrinker.presentation.utils.helper.rememberImagePicker
-import ru.tech.imageresizershrinker.presentation.widget.other.TopAppBarEmoji
+import ru.tech.imageresizershrinker.presentation.utils.modifier.drawHorizontalStroke
+import ru.tech.imageresizershrinker.presentation.utils.modifier.fabBorder
 import ru.tech.imageresizershrinker.presentation.widget.image.ImageNotPickedWidget
 import ru.tech.imageresizershrinker.presentation.widget.image.Picture
+import ru.tech.imageresizershrinker.presentation.widget.other.TopAppBarEmoji
 import ru.tech.imageresizershrinker.presentation.widget.text.Marquee
 import ru.tech.imageresizershrinker.presentation.widget.utils.LocalSettingsState
 import ru.tech.imageresizershrinker.presentation.widget.utils.isScrollingUp

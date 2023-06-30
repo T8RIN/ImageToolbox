@@ -28,7 +28,7 @@ class ColorFilter(
         get() = (value to context).hashCode().toString()
 
     private val Bitmap.safeConfig: Bitmap.Config
-        get() = config ?: Bitmap.Config.ARGB_8888
+        get() = config
 
     override fun createFilter(): GPUImageFilter = error("No filter")
 

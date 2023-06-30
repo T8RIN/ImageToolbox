@@ -77,38 +77,38 @@ fun ResizeGroup(
                 Icon(
                     imageVector = Icons.Outlined.Info,
                     contentDescription = null,
-                        modifier = Modifier
-                            .background(
-                                MaterialTheme.colorScheme.secondaryContainer,
-                                CircleShape
-                            )
-                            .padding(1.dp)
-                            .size(
-                                with(LocalDensity.current) {
-                                    LocalTextStyle.current.fontSize.toDp()
+                    modifier = Modifier
+                        .background(
+                            MaterialTheme.colorScheme.secondaryContainer,
+                            CircleShape
+                        )
+                        .padding(1.dp)
+                        .size(
+                            with(LocalDensity.current) {
+                                LocalTextStyle.current.fontSize.toDp()
+                            }
+                        )
+                        .pointerInput(Unit) {
+                            detectTapGestures(
+                                onPress = {
+                                    state.value = true
                                 }
                             )
-                            .pointerInput(Unit) {
-                                detectTapGestures(
-                                    onPress = {
-                                        state.value = true
-                                    }
-                                )
-                            }
-                    )
-                }
-                Spacer(modifier = Modifier.height(8.dp))
-            },
-            items = listOf(
-                stringResource(R.string.explicit),
-                stringResource(R.string.flexible),
-                stringResource(R.string.ratio)
-            ),
-            selectedIndex = when (resizeType) {
-                ResizeType.Explicit -> 0
-                ResizeType.Flexible -> 1
-                ResizeType.Ratio -> 2
-            },
+                        }
+                )
+            }
+            Spacer(modifier = Modifier.height(8.dp))
+        },
+        items = listOf(
+            stringResource(R.string.explicit),
+            stringResource(R.string.flexible),
+            stringResource(R.string.ratio)
+        ),
+        selectedIndex = when (resizeType) {
+            ResizeType.Explicit -> 0
+            ResizeType.Flexible -> 1
+            ResizeType.Ratio -> 2
+        },
         indexChanged = {
             onResizeChange(
                 when (it) {

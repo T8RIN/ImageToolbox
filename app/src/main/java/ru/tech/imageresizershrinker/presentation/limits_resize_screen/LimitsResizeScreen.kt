@@ -70,6 +70,14 @@ import ru.tech.imageresizershrinker.presentation.limits_resize_screen.viewModel.
 import ru.tech.imageresizershrinker.presentation.theme.outlineVariant
 import ru.tech.imageresizershrinker.presentation.utils.coil.filters.SaturationFilter
 import ru.tech.imageresizershrinker.presentation.utils.confetti.LocalConfettiController
+import ru.tech.imageresizershrinker.presentation.utils.helper.BitmapUtils.decodeBitmapByUri
+import ru.tech.imageresizershrinker.presentation.utils.helper.BitmapUtils.fileSize
+import ru.tech.imageresizershrinker.presentation.utils.helper.BitmapUtils.getBitmapByUri
+import ru.tech.imageresizershrinker.presentation.utils.helper.BitmapUtils.shareBitmaps
+import ru.tech.imageresizershrinker.presentation.utils.helper.ContextUtils.failedToSaveImages
+import ru.tech.imageresizershrinker.presentation.utils.helper.Picker
+import ru.tech.imageresizershrinker.presentation.utils.helper.localImagePickerMode
+import ru.tech.imageresizershrinker.presentation.utils.helper.rememberImagePicker
 import ru.tech.imageresizershrinker.presentation.utils.modifier.drawHorizontalStroke
 import ru.tech.imageresizershrinker.presentation.utils.modifier.navBarsLandscapePadding
 import ru.tech.imageresizershrinker.presentation.widget.buttons.BottomButtonsBlock
@@ -91,14 +99,6 @@ import ru.tech.imageresizershrinker.presentation.widget.utils.LocalSettingsState
 import ru.tech.imageresizershrinker.presentation.widget.utils.LocalWindowSizeClass
 import ru.tech.imageresizershrinker.presentation.widget.utils.isExpanded
 import ru.tech.imageresizershrinker.presentation.widget.utils.middleImageState
-import ru.tech.imageresizershrinker.presentation.utils.helper.BitmapUtils.decodeBitmapByUri
-import ru.tech.imageresizershrinker.presentation.utils.helper.BitmapUtils.fileSize
-import ru.tech.imageresizershrinker.presentation.utils.helper.BitmapUtils.getBitmapByUri
-import ru.tech.imageresizershrinker.presentation.utils.helper.BitmapUtils.shareBitmaps
-import ru.tech.imageresizershrinker.presentation.utils.helper.ContextUtils.failedToSaveImages
-import ru.tech.imageresizershrinker.presentation.utils.helper.Picker
-import ru.tech.imageresizershrinker.presentation.utils.helper.localImagePickerMode
-import ru.tech.imageresizershrinker.presentation.utils.helper.rememberImagePicker
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
