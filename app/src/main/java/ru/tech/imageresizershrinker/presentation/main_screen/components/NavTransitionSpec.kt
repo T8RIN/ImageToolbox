@@ -10,7 +10,7 @@ import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.animation.togetherWith
 import dev.olshevski.navigation.reimagined.NavAction
 import dev.olshevski.navigation.reimagined.NavTransitionScope
-import ru.tech.imageresizershrinker.presentation.utils.navigation.Screen
+import ru.tech.imageresizershrinker.presentation.root.utils.navigation.Screen
 
 val NavTransitionSpec: NavTransitionScope.(NavAction, Screen, Screen) -> ContentTransform =
     { action, _, _ ->

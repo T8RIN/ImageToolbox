@@ -64,41 +64,41 @@ import dev.olshevski.navigation.reimagined.hilt.hiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.R
-import ru.tech.imageresizershrinker.domain.model.BitmapInfo
-import ru.tech.imageresizershrinker.presentation.batch_resize_screen.components.SaveExifWidget
-import ru.tech.imageresizershrinker.presentation.limits_resize_screen.viewModel.LimitsResizeViewModel
-import ru.tech.imageresizershrinker.presentation.theme.outlineVariant
-import ru.tech.imageresizershrinker.presentation.utils.coil.filters.SaturationFilter
-import ru.tech.imageresizershrinker.presentation.utils.confetti.LocalConfettiController
 import ru.tech.imageresizershrinker.core.android.BitmapUtils.decodeBitmapByUri
 import ru.tech.imageresizershrinker.core.android.BitmapUtils.fileSize
 import ru.tech.imageresizershrinker.core.android.BitmapUtils.getBitmapByUri
 import ru.tech.imageresizershrinker.core.android.BitmapUtils.shareBitmaps
-import ru.tech.imageresizershrinker.core.android.ContextUtils.failedToSaveImages
-import ru.tech.imageresizershrinker.presentation.utils.helper.Picker
-import ru.tech.imageresizershrinker.presentation.utils.helper.localImagePickerMode
-import ru.tech.imageresizershrinker.presentation.utils.helper.rememberImagePicker
-import ru.tech.imageresizershrinker.presentation.utils.modifier.drawHorizontalStroke
-import ru.tech.imageresizershrinker.presentation.utils.modifier.navBarsLandscapePadding
-import ru.tech.imageresizershrinker.presentation.widget.buttons.BottomButtonsBlock
-import ru.tech.imageresizershrinker.presentation.widget.controls.ExtensionGroup
-import ru.tech.imageresizershrinker.presentation.widget.controls.ResizeImageField
-import ru.tech.imageresizershrinker.presentation.widget.dialogs.ExitWithoutSavingDialog
-import ru.tech.imageresizershrinker.presentation.widget.image.ImageContainer
-import ru.tech.imageresizershrinker.presentation.widget.image.ImageCounter
-import ru.tech.imageresizershrinker.presentation.widget.image.ImageNotPickedWidget
-import ru.tech.imageresizershrinker.presentation.widget.other.LoadingDialog
-import ru.tech.imageresizershrinker.presentation.widget.other.LocalToastHost
-import ru.tech.imageresizershrinker.presentation.widget.other.TopAppBarEmoji
-import ru.tech.imageresizershrinker.presentation.widget.other.imageStickyHeader
-import ru.tech.imageresizershrinker.presentation.widget.other.showError
-import ru.tech.imageresizershrinker.presentation.widget.sheets.PickImageFromUrisSheet
-import ru.tech.imageresizershrinker.presentation.widget.sheets.ZoomModalSheet
-import ru.tech.imageresizershrinker.presentation.widget.text.TopAppBarTitle
-import ru.tech.imageresizershrinker.presentation.widget.utils.LocalSettingsState
-import ru.tech.imageresizershrinker.presentation.widget.utils.LocalWindowSizeClass
-import ru.tech.imageresizershrinker.presentation.widget.utils.isExpanded
-import ru.tech.imageresizershrinker.presentation.widget.utils.middleImageState
+import ru.tech.imageresizershrinker.domain.model.BitmapInfo
+import ru.tech.imageresizershrinker.presentation.batch_resize_screen.components.SaveExifWidget
+import ru.tech.imageresizershrinker.presentation.limits_resize_screen.viewModel.LimitsResizeViewModel
+import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
+import ru.tech.imageresizershrinker.presentation.root.utils.coil.filters.SaturationFilter
+import ru.tech.imageresizershrinker.presentation.root.utils.confetti.LocalConfettiController
+import ru.tech.imageresizershrinker.presentation.root.utils.helper.Picker
+import ru.tech.imageresizershrinker.presentation.root.utils.helper.failedToSaveImages
+import ru.tech.imageresizershrinker.presentation.root.utils.helper.localImagePickerMode
+import ru.tech.imageresizershrinker.presentation.root.utils.helper.rememberImagePicker
+import ru.tech.imageresizershrinker.presentation.root.utils.modifier.drawHorizontalStroke
+import ru.tech.imageresizershrinker.presentation.root.utils.modifier.navBarsLandscapePadding
+import ru.tech.imageresizershrinker.presentation.root.widget.buttons.BottomButtonsBlock
+import ru.tech.imageresizershrinker.presentation.root.widget.controls.ExtensionGroup
+import ru.tech.imageresizershrinker.presentation.root.widget.controls.ResizeImageField
+import ru.tech.imageresizershrinker.presentation.root.widget.dialogs.ExitWithoutSavingDialog
+import ru.tech.imageresizershrinker.presentation.root.widget.image.ImageContainer
+import ru.tech.imageresizershrinker.presentation.root.widget.image.ImageCounter
+import ru.tech.imageresizershrinker.presentation.root.widget.image.ImageNotPickedWidget
+import ru.tech.imageresizershrinker.presentation.root.widget.other.LoadingDialog
+import ru.tech.imageresizershrinker.presentation.root.widget.other.LocalToastHost
+import ru.tech.imageresizershrinker.presentation.root.widget.other.TopAppBarEmoji
+import ru.tech.imageresizershrinker.presentation.root.widget.other.imageStickyHeader
+import ru.tech.imageresizershrinker.presentation.root.widget.other.showError
+import ru.tech.imageresizershrinker.presentation.root.widget.sheets.PickImageFromUrisSheet
+import ru.tech.imageresizershrinker.presentation.root.widget.sheets.ZoomModalSheet
+import ru.tech.imageresizershrinker.presentation.root.widget.text.TopAppBarTitle
+import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalSettingsState
+import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalWindowSizeClass
+import ru.tech.imageresizershrinker.presentation.root.widget.utils.isExpanded
+import ru.tech.imageresizershrinker.presentation.root.widget.utils.middleImageState
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -462,7 +462,7 @@ fun LimitsResizeScreen(
 
             PickImageFromUrisSheet(
                 transformations = listOf(
-                    ru.tech.imageresizershrinker.presentation.utils.coil.BitmapInfoTransformation(
+                    ru.tech.imageresizershrinker.presentation.root.utils.coil.BitmapInfoTransformation(
                         bitmapInfo = BitmapInfo(),
                         preset = 100
                     )

@@ -90,16 +90,16 @@ import com.t8rin.dynamic.theme.getAppColorTuple
 import com.t8rin.dynamic.theme.rememberColorScheme
 import kotlinx.coroutines.delay
 import ru.tech.imageresizershrinker.R
-import ru.tech.imageresizershrinker.presentation.theme.defaultColorTuple
-import ru.tech.imageresizershrinker.presentation.theme.icons.CreateAlt
-import ru.tech.imageresizershrinker.presentation.theme.icons.PaletteSwatch
-import ru.tech.imageresizershrinker.presentation.theme.inverse
-import ru.tech.imageresizershrinker.presentation.theme.outlineVariant
-import ru.tech.imageresizershrinker.presentation.utils.helper.ListUtils.nearestFor
-import ru.tech.imageresizershrinker.presentation.utils.modifier.alertDialog
-import ru.tech.imageresizershrinker.presentation.widget.sheets.SimpleSheet
-import ru.tech.imageresizershrinker.presentation.widget.text.TitleItem
-import ru.tech.imageresizershrinker.presentation.widget.utils.LocalSettingsState
+import ru.tech.imageresizershrinker.presentation.root.theme.defaultColorTuple
+import ru.tech.imageresizershrinker.presentation.root.theme.icons.CreateAlt
+import ru.tech.imageresizershrinker.presentation.root.theme.icons.PaletteSwatch
+import ru.tech.imageresizershrinker.presentation.root.theme.inverse
+import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
+import ru.tech.imageresizershrinker.presentation.root.utils.helper.ListUtils.nearestFor
+import ru.tech.imageresizershrinker.presentation.root.utils.modifier.alertDialog
+import ru.tech.imageresizershrinker.presentation.root.widget.sheets.SimpleSheet
+import ru.tech.imageresizershrinker.presentation.root.widget.text.TitleItem
+import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalSettingsState
 
 @ExperimentalMaterial3Api
 @Composable

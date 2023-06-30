@@ -45,12 +45,12 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.max
 import androidx.core.text.isDigitsOnly
 import ru.tech.imageresizershrinker.R
-import ru.tech.imageresizershrinker.presentation.theme.outlineVariant
-import ru.tech.imageresizershrinker.presentation.utils.modifier.alertDialog
-import ru.tech.imageresizershrinker.presentation.widget.sheets.SimpleSheet
-import ru.tech.imageresizershrinker.presentation.widget.text.AutoSizeText
-import ru.tech.imageresizershrinker.presentation.widget.text.TitleItem
-import ru.tech.imageresizershrinker.presentation.widget.utils.LocalSettingsState
+import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
+import ru.tech.imageresizershrinker.presentation.root.utils.modifier.alertDialog
+import ru.tech.imageresizershrinker.presentation.root.widget.sheets.SimpleSheet
+import ru.tech.imageresizershrinker.presentation.root.widget.text.AutoSizeText
+import ru.tech.imageresizershrinker.presentation.root.widget.text.TitleItem
+import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalSettingsState
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable

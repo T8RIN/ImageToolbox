@@ -14,11 +14,6 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import ru.tech.imageresizershrinker.domain.model.BitmapInfo
-import ru.tech.imageresizershrinker.domain.saving.model.BitmapSaveTarget
-import ru.tech.imageresizershrinker.domain.model.MimeType
-import ru.tech.imageresizershrinker.domain.model.ResizeType
-import ru.tech.imageresizershrinker.domain.saving.FileController
 import ru.tech.imageresizershrinker.core.android.BitmapUtils.applyPresetBy
 import ru.tech.imageresizershrinker.core.android.BitmapUtils.canShow
 import ru.tech.imageresizershrinker.core.android.BitmapUtils.compress
@@ -27,6 +22,11 @@ import ru.tech.imageresizershrinker.core.android.BitmapUtils.previewBitmap
 import ru.tech.imageresizershrinker.core.android.BitmapUtils.resizeBitmap
 import ru.tech.imageresizershrinker.core.android.BitmapUtils.rotate
 import ru.tech.imageresizershrinker.core.android.BitmapUtils.scaleUntilCanShow
+import ru.tech.imageresizershrinker.domain.model.BitmapInfo
+import ru.tech.imageresizershrinker.domain.model.MimeType
+import ru.tech.imageresizershrinker.domain.model.ResizeType
+import ru.tech.imageresizershrinker.domain.saving.FileController
+import ru.tech.imageresizershrinker.domain.saving.model.BitmapSaveTarget
 import java.io.ByteArrayOutputStream
 import javax.inject.Inject
 
@@ -77,7 +77,6 @@ class BatchResizeViewModel @Inject constructor(
 //    fun updateCropRect(rect: Rect) {
 //        _cropRect.value = rect
 //    }
-
 
     private var job: Job? = null
 

@@ -133,43 +133,43 @@ import ru.tech.imageresizershrinker.BuildConfig
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.core.APP_LINK
 import ru.tech.imageresizershrinker.core.AUTHOR_LINK
-import ru.tech.imageresizershrinker.presentation.main_screen.viewModel.MainViewModel
-import ru.tech.imageresizershrinker.presentation.theme.Emoji
-import ru.tech.imageresizershrinker.presentation.theme.allIcons
-import ru.tech.imageresizershrinker.presentation.theme.icons.FileSettings
-import ru.tech.imageresizershrinker.presentation.theme.icons.Github
-import ru.tech.imageresizershrinker.presentation.theme.icons.GooglePlay
-import ru.tech.imageresizershrinker.presentation.theme.icons.Telegram
-import ru.tech.imageresizershrinker.presentation.theme.outlineVariant
-import ru.tech.imageresizershrinker.presentation.theme.suggestContainerColorBy
 import ru.tech.imageresizershrinker.core.android.ContextUtils.verifyInstallerId
-import ru.tech.imageresizershrinker.presentation.utils.modifier.alertDialog
-import ru.tech.imageresizershrinker.presentation.utils.modifier.drawHorizontalStroke
-import ru.tech.imageresizershrinker.presentation.utils.modifier.fabBorder
-import ru.tech.imageresizershrinker.presentation.utils.modifier.pulsate
-import ru.tech.imageresizershrinker.presentation.utils.modifier.scaleOnTap
-import ru.tech.imageresizershrinker.presentation.utils.navigation.LocalNavController
-import ru.tech.imageresizershrinker.presentation.utils.navigation.Screen
-import ru.tech.imageresizershrinker.presentation.widget.other.AnimationBox
-import ru.tech.imageresizershrinker.presentation.widget.other.LocalToastHost
-import ru.tech.imageresizershrinker.presentation.widget.other.RevealDirection
-import ru.tech.imageresizershrinker.presentation.widget.other.RevealValue
-import ru.tech.imageresizershrinker.presentation.widget.other.TopAppBarEmoji
-import ru.tech.imageresizershrinker.presentation.widget.other.rememberRevealState
-import ru.tech.imageresizershrinker.presentation.widget.other.revealSwipeable
-import ru.tech.imageresizershrinker.presentation.widget.preferences.PreferenceItem
-import ru.tech.imageresizershrinker.presentation.widget.preferences.PreferenceItemOverload
-import ru.tech.imageresizershrinker.presentation.widget.sheets.SimpleSheet
-import ru.tech.imageresizershrinker.presentation.widget.text.Marquee
-import ru.tech.imageresizershrinker.presentation.widget.text.TitleItem
-import ru.tech.imageresizershrinker.presentation.widget.utils.LocalEditPresetsState
-import ru.tech.imageresizershrinker.presentation.widget.utils.LocalSettingsState
-import ru.tech.imageresizershrinker.presentation.widget.utils.LocalWindowSizeClass
+import ru.tech.imageresizershrinker.presentation.main_screen.viewModel.MainViewModel
+import ru.tech.imageresizershrinker.presentation.root.theme.Emoji
+import ru.tech.imageresizershrinker.presentation.root.theme.allIcons
+import ru.tech.imageresizershrinker.presentation.root.theme.icons.FileSettings
+import ru.tech.imageresizershrinker.presentation.root.theme.icons.Github
+import ru.tech.imageresizershrinker.presentation.root.theme.icons.GooglePlay
+import ru.tech.imageresizershrinker.presentation.root.theme.icons.Telegram
+import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
+import ru.tech.imageresizershrinker.presentation.root.theme.suggestContainerColorBy
+import ru.tech.imageresizershrinker.presentation.root.utils.modifier.alertDialog
+import ru.tech.imageresizershrinker.presentation.root.utils.modifier.drawHorizontalStroke
+import ru.tech.imageresizershrinker.presentation.root.utils.modifier.fabBorder
+import ru.tech.imageresizershrinker.presentation.root.utils.modifier.pulsate
+import ru.tech.imageresizershrinker.presentation.root.utils.modifier.scaleOnTap
+import ru.tech.imageresizershrinker.presentation.root.utils.navigation.LocalNavController
+import ru.tech.imageresizershrinker.presentation.root.utils.navigation.Screen
+import ru.tech.imageresizershrinker.presentation.root.widget.other.AnimationBox
+import ru.tech.imageresizershrinker.presentation.root.widget.other.LocalToastHost
+import ru.tech.imageresizershrinker.presentation.root.widget.other.RevealDirection
+import ru.tech.imageresizershrinker.presentation.root.widget.other.RevealValue
+import ru.tech.imageresizershrinker.presentation.root.widget.other.TopAppBarEmoji
+import ru.tech.imageresizershrinker.presentation.root.widget.other.rememberRevealState
+import ru.tech.imageresizershrinker.presentation.root.widget.other.revealSwipeable
+import ru.tech.imageresizershrinker.presentation.root.widget.preferences.PreferenceItem
+import ru.tech.imageresizershrinker.presentation.root.widget.preferences.PreferenceItemOverload
+import ru.tech.imageresizershrinker.presentation.root.widget.sheets.SimpleSheet
+import ru.tech.imageresizershrinker.presentation.root.widget.text.Marquee
+import ru.tech.imageresizershrinker.presentation.root.widget.text.TitleItem
+import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalEditPresetsState
+import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalSettingsState
+import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalWindowSizeClass
 import kotlin.math.roundToInt
 
 @OptIn(
     ExperimentalMaterial3Api::class,
-    ExperimentalMaterialApi::class, ExperimentalFoundationApi::class
+    ExperimentalFoundationApi::class, ExperimentalMaterialApi::class
 )
 @Composable
 fun MainScreen(

@@ -43,8 +43,8 @@ import ru.tech.imageresizershrinker.domain.use_case.edit_settings.UpdatePresetsU
 import ru.tech.imageresizershrinker.domain.use_case.edit_settings.UpdateSaveFolderUriUseCase
 import ru.tech.imageresizershrinker.domain.use_case.get_settings_state.GetSettingsStateFlowUseCase
 import ru.tech.imageresizershrinker.domain.use_case.get_settings_state.GetSettingsStateUseCase
-import ru.tech.imageresizershrinker.presentation.utils.navigation.Screen
-import ru.tech.imageresizershrinker.presentation.widget.other.ToastHostState
+import ru.tech.imageresizershrinker.presentation.root.utils.navigation.Screen
+import ru.tech.imageresizershrinker.presentation.root.widget.other.ToastHostState
 import java.net.URL
 import javax.inject.Inject
 import javax.xml.parsers.DocumentBuilderFactory

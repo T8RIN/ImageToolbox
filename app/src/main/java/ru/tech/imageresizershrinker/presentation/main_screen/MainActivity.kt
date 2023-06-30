@@ -23,6 +23,8 @@ import androidx.compose.ui.Modifier
 import dagger.hilt.android.AndroidEntryPoint
 import dev.olshevski.navigation.reimagined.navigate
 import nl.dionsegijn.konfetti.compose.KonfettiView
+import ru.tech.imageresizershrinker.core.android.ContextUtils.clearCache
+import ru.tech.imageresizershrinker.core.android.ContextUtils.parseImageFromIntent
 import ru.tech.imageresizershrinker.presentation.main_screen.components.AppExitDialog
 import ru.tech.imageresizershrinker.presentation.main_screen.components.EditPresetsSheet
 import ru.tech.imageresizershrinker.presentation.main_screen.components.PermissionDialog
@@ -31,19 +33,17 @@ import ru.tech.imageresizershrinker.presentation.main_screen.components.ScreenSe
 import ru.tech.imageresizershrinker.presentation.main_screen.components.UpdateSheet
 import ru.tech.imageresizershrinker.presentation.main_screen.components.particles
 import ru.tech.imageresizershrinker.presentation.main_screen.viewModel.MainViewModel
-import ru.tech.imageresizershrinker.presentation.model.toUiState
-import ru.tech.imageresizershrinker.presentation.theme.ImageResizerTheme
-import ru.tech.imageresizershrinker.presentation.utils.confetti.LocalConfettiController
-import ru.tech.imageresizershrinker.core.android.ContextUtils.clearCache
-import ru.tech.imageresizershrinker.core.android.ContextUtils.parseImageFromIntent
-import ru.tech.imageresizershrinker.presentation.utils.navigation.LocalNavController
-import ru.tech.imageresizershrinker.presentation.widget.activity.M3Activity
-import ru.tech.imageresizershrinker.presentation.widget.other.LocalToastHost
-import ru.tech.imageresizershrinker.presentation.widget.other.ToastHost
-import ru.tech.imageresizershrinker.presentation.widget.other.rememberToastHostState
-import ru.tech.imageresizershrinker.presentation.widget.utils.LocalEditPresetsState
-import ru.tech.imageresizershrinker.presentation.widget.utils.LocalSettingsState
-import ru.tech.imageresizershrinker.presentation.widget.utils.setContentWithWindowSizeClass
+import ru.tech.imageresizershrinker.presentation.root.model.toUiState
+import ru.tech.imageresizershrinker.presentation.root.theme.ImageResizerTheme
+import ru.tech.imageresizershrinker.presentation.root.utils.confetti.LocalConfettiController
+import ru.tech.imageresizershrinker.presentation.root.utils.navigation.LocalNavController
+import ru.tech.imageresizershrinker.presentation.root.widget.activity.M3Activity
+import ru.tech.imageresizershrinker.presentation.root.widget.other.LocalToastHost
+import ru.tech.imageresizershrinker.presentation.root.widget.other.ToastHost
+import ru.tech.imageresizershrinker.presentation.root.widget.other.rememberToastHostState
+import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalEditPresetsState
+import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalSettingsState
+import ru.tech.imageresizershrinker.presentation.root.widget.utils.setContentWithWindowSizeClass
 
 @AndroidEntryPoint
 class MainActivity : M3Activity() {

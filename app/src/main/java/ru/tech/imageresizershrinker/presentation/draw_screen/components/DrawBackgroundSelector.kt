@@ -48,12 +48,12 @@ import androidx.compose.ui.unit.sp
 import com.t8rin.drawbox.domain.DrawController
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.presentation.main_screen.components.ColorCustomComponent
-import ru.tech.imageresizershrinker.presentation.theme.inverse
-import ru.tech.imageresizershrinker.presentation.theme.outlineVariant
-import ru.tech.imageresizershrinker.presentation.utils.modifier.block
-import ru.tech.imageresizershrinker.presentation.widget.sheets.SimpleSheet
-import ru.tech.imageresizershrinker.presentation.widget.text.TitleItem
-import ru.tech.imageresizershrinker.presentation.widget.utils.LocalSettingsState
+import ru.tech.imageresizershrinker.presentation.root.theme.inverse
+import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
+import ru.tech.imageresizershrinker.presentation.root.utils.modifier.block
+import ru.tech.imageresizershrinker.presentation.root.widget.sheets.SimpleSheet
+import ru.tech.imageresizershrinker.presentation.root.widget.text.TitleItem
+import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalSettingsState
 
 @Composable
 fun DrawBackgroundSelector(drawController: DrawController) {

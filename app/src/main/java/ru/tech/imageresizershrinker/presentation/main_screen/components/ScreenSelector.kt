@@ -19,9 +19,9 @@ import ru.tech.imageresizershrinker.presentation.limits_resize_screen.LimitsResi
 import ru.tech.imageresizershrinker.presentation.load_net_image_screen.LoadNetImageScreen
 import ru.tech.imageresizershrinker.presentation.main_screen.viewModel.MainViewModel
 import ru.tech.imageresizershrinker.presentation.pick_color_from_image_screen.PickColorFromImageScreen
+import ru.tech.imageresizershrinker.presentation.root.utils.navigation.Screen
+import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalSettingsState
 import ru.tech.imageresizershrinker.presentation.single_resize_screen.SingleResizeScreen
-import ru.tech.imageresizershrinker.presentation.utils.navigation.Screen
-import ru.tech.imageresizershrinker.presentation.widget.utils.LocalSettingsState
 
 @Composable
 fun ScreenSelector(

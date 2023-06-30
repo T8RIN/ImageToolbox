@@ -58,22 +58,22 @@ import coil.size.Size
 import com.t8rin.dynamic.theme.LocalDynamicThemeState
 import com.t8rin.dynamic.theme.getAppColorTuple
 import ru.tech.imageresizershrinker.R
+import ru.tech.imageresizershrinker.core.android.BitmapUtils.decodeSampledBitmapFromUri
 import ru.tech.imageresizershrinker.presentation.image_preview_screen.components.ImagePager
 import ru.tech.imageresizershrinker.presentation.image_preview_screen.viewModel.ImagePreviewViewModel
-import ru.tech.imageresizershrinker.presentation.theme.outlineVariant
-import ru.tech.imageresizershrinker.presentation.utils.coil.filters.SaturationFilter
-import ru.tech.imageresizershrinker.core.android.BitmapUtils.decodeSampledBitmapFromUri
-import ru.tech.imageresizershrinker.presentation.utils.helper.Picker
-import ru.tech.imageresizershrinker.presentation.utils.helper.localImagePickerMode
-import ru.tech.imageresizershrinker.presentation.utils.helper.rememberImagePicker
-import ru.tech.imageresizershrinker.presentation.utils.modifier.drawHorizontalStroke
-import ru.tech.imageresizershrinker.presentation.utils.modifier.fabBorder
-import ru.tech.imageresizershrinker.presentation.widget.image.ImageNotPickedWidget
-import ru.tech.imageresizershrinker.presentation.widget.image.Picture
-import ru.tech.imageresizershrinker.presentation.widget.other.TopAppBarEmoji
-import ru.tech.imageresizershrinker.presentation.widget.text.Marquee
-import ru.tech.imageresizershrinker.presentation.widget.utils.LocalSettingsState
-import ru.tech.imageresizershrinker.presentation.widget.utils.isScrollingUp
+import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
+import ru.tech.imageresizershrinker.presentation.root.utils.coil.filters.SaturationFilter
+import ru.tech.imageresizershrinker.presentation.root.utils.helper.Picker
+import ru.tech.imageresizershrinker.presentation.root.utils.helper.localImagePickerMode
+import ru.tech.imageresizershrinker.presentation.root.utils.helper.rememberImagePicker
+import ru.tech.imageresizershrinker.presentation.root.utils.modifier.drawHorizontalStroke
+import ru.tech.imageresizershrinker.presentation.root.utils.modifier.fabBorder
+import ru.tech.imageresizershrinker.presentation.root.widget.image.ImageNotPickedWidget
+import ru.tech.imageresizershrinker.presentation.root.widget.image.Picture
+import ru.tech.imageresizershrinker.presentation.root.widget.other.TopAppBarEmoji
+import ru.tech.imageresizershrinker.presentation.root.widget.text.Marquee
+import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalSettingsState
+import ru.tech.imageresizershrinker.presentation.root.widget.utils.isScrollingUp
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

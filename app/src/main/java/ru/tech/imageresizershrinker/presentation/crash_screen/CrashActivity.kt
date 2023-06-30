@@ -53,15 +53,15 @@ import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.presentation.crash_screen.viewModel.CrashViewModel
 import ru.tech.imageresizershrinker.presentation.main_screen.MainActivity
-import ru.tech.imageresizershrinker.presentation.model.toUiState
-import ru.tech.imageresizershrinker.presentation.theme.ImageResizerTheme
-import ru.tech.imageresizershrinker.presentation.theme.outlineVariant
-import ru.tech.imageresizershrinker.presentation.utils.exception.GlobalExceptionHandler.Companion.getExceptionString
-import ru.tech.imageresizershrinker.presentation.widget.activity.M3Activity
-import ru.tech.imageresizershrinker.presentation.widget.other.ToastHost
-import ru.tech.imageresizershrinker.presentation.widget.other.rememberToastHostState
-import ru.tech.imageresizershrinker.presentation.widget.text.AutoSizeText
-import ru.tech.imageresizershrinker.presentation.widget.utils.LocalSettingsState
+import ru.tech.imageresizershrinker.presentation.root.model.toUiState
+import ru.tech.imageresizershrinker.presentation.root.theme.ImageResizerTheme
+import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
+import ru.tech.imageresizershrinker.presentation.root.utils.exception.GlobalExceptionHandler.Companion.getExceptionString
+import ru.tech.imageresizershrinker.presentation.root.widget.activity.M3Activity
+import ru.tech.imageresizershrinker.presentation.root.widget.other.ToastHost
+import ru.tech.imageresizershrinker.presentation.root.widget.other.rememberToastHostState
+import ru.tech.imageresizershrinker.presentation.root.widget.text.AutoSizeText
+import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalSettingsState
 
 @AndroidEntryPoint
 class CrashActivity : M3Activity() {
