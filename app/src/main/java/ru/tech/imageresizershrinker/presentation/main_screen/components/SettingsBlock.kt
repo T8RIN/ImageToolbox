@@ -961,7 +961,7 @@ fun LazyListScope.settingsBlock(
                         onClick = { onEditFilename() },
                         title = stringResource(R.string.prefix),
                         subtitle = (settingsState.filenamePrefix.takeIf { it.isNotEmpty() }
-                            ?: stringResource(R.string.prefix)) + "...",
+                            ?: stringResource(R.string.default_prefix)),
                         color = MaterialTheme
                             .colorScheme
                             .secondaryContainer
