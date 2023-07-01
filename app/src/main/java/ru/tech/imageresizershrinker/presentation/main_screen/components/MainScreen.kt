@@ -81,8 +81,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalDrawerSheet
 import androidx.compose.material3.ModalNavigationDrawer
 import androidx.compose.material3.NavigationBar
-import androidx.compose.material3.NavigationBarItem
-import androidx.compose.material3.NavigationRailItem
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedIconButton
 import androidx.compose.material3.OutlinedTextField
@@ -482,7 +480,10 @@ fun MainScreen(
                                         Spacer(Modifier.height(8.dp))
                                         Screen.typedEntries.forEachIndexed { index, (_, data) ->
                                             val selected = index == currentPage
-                                            NavigationRailItem(
+                                            NavigationItem(
+                                                modifier = Modifier
+                                                    .height(height = 56.dp)
+                                                    .width(100.dp),
                                                 selected = selected,
                                                 onClick = { currentPage = index },
                                                 icon = {
@@ -563,10 +564,7 @@ fun MainScreen(
                                             subtitle = stringResource(screen.subtitle),
                                             icon = {
                                                 Icon(screen.icon!!, null)
-                                            },
-                                            color = MaterialTheme.colorScheme.surfaceColorAtElevation(
-                                                1.dp
-                                            )
+                                            }
                                         )
                                     }
                                 }
@@ -585,7 +583,8 @@ fun MainScreen(
                                 ) {
                                     Screen.typedEntries.forEachIndexed { index, (_, data) ->
                                         val selected = index == currentPage
-                                        NavigationBarItem(
+                                        NavigationItem(
+                                            modifier = Modifier.weight(1f),
                                             selected = selected,
                                             onClick = { currentPage = index },
                                             icon = {
