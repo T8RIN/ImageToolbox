@@ -106,7 +106,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.draw.shadow
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
@@ -290,7 +289,7 @@ fun MainScreen(
         ) {
             CompositionLocalProvider(LocalLayoutDirection provides layoutDirection) {
                 TopAppBar(
-                    colors = TopAppBarDefaults.topAppBarColors(Color.Transparent),
+                    colors = TopAppBarDefaults.topAppBarColors(MaterialTheme.colorScheme.surfaceColorAtElevation(6.dp)),
                     title = {
                         Marquee(
                             edgeColor = MaterialTheme.colorScheme.surfaceColorAtElevation(

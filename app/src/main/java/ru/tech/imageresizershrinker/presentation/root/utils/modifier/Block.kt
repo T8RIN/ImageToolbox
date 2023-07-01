@@ -40,6 +40,7 @@ import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalSettings
 fun Modifier.block(
     shape: Shape = RoundedCornerShape(16.dp),
     color: Color = Color.Unspecified,
+    applyEndPadding: Boolean = true
 ) = composed {
     val color1 = if (color.isUnspecified) {
         MaterialTheme.colorScheme.surfaceColorAtElevation(1.dp)
@@ -56,7 +57,7 @@ fun Modifier.block(
             shape = shape
         )
         .clip(shape)
-        .padding(4.dp)
+        .then(if(applyEndPadding) Modifier.padding(4.dp) else Modifier)
 }
 
 fun Modifier.navBarsLandscapePadding(enabled: Boolean = true) = composed {
