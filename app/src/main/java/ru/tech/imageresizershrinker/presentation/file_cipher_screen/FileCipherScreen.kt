@@ -93,7 +93,7 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
+import dev.olshevski.navigation.reimagined.hilt.hiltViewModel
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.core.android.BitmapUtils.fileSize
@@ -133,7 +133,7 @@ import kotlin.random.Random
 fun FileCipherScreen(
     uriState: Uri?,
     onGoBack: () -> Unit,
-    viewModel: FileCipherViewModel = viewModel()
+    viewModel: FileCipherViewModel = hiltViewModel()
 ) {
     LaunchedEffect(uriState) {
         uriState?.let { viewModel.setUri(it) }
