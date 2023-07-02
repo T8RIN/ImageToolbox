@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -87,7 +88,13 @@ fun PresetWidget(
                 )
                 Spacer(Modifier.height(8.dp))
 
-                Box {
+                Box(
+                    modifier = Modifier
+                        .padding(8.dp)
+                        .block()
+                        .padding(vertical = 6.dp),
+                    contentAlignment = Alignment.Center
+                ) {
                     LazyRow(
                         horizontalArrangement = Arrangement.spacedBy(
                             8.dp, Alignment.CenterHorizontally
