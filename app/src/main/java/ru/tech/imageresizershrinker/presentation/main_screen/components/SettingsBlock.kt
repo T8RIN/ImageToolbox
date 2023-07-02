@@ -3,6 +3,7 @@ package ru.tech.imageresizershrinker.presentation.main_screen.components
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import android.util.Log
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.AnimatedContent
@@ -668,6 +669,7 @@ fun LazyListScope.settingsBlock(
             text = stringResource(R.string.folder),
         ) {
             val currentFolderUri = settingsState.saveFolderUri
+            Log.d("COCK", currentFolderUri.toString())
             val launcher = rememberLauncherForActivityResult(
                 contract = ActivityResultContracts.OpenDocumentTree(),
                 onResult = { uri ->
