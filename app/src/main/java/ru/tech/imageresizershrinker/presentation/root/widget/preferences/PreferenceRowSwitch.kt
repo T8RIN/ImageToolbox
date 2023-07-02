@@ -17,6 +17,7 @@ fun PreferenceRowSwitch(
     modifier: Modifier = Modifier,
     title: String,
     subtitle: String? = null,
+    applyHorPadding: Boolean = true,
     checked: Boolean,
     color: Color = MaterialTheme.colorScheme.secondaryContainer.copy(
         alpha = 0.2f
@@ -25,6 +26,7 @@ fun PreferenceRowSwitch(
 ) {
     PreferenceRow(
         modifier = modifier,
+        applyHorPadding = applyHorPadding,
         title = title,
         color = color,
         subtitle = subtitle,
