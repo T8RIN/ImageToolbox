@@ -524,7 +524,7 @@ fun FiltersScreen(
                     if (!imageInside && !viewModel.uris.isNullOrEmpty()) {
                         Box(
                             Modifier
-                                .weight(0.8f)
+                                .weight(1.2f)
                                 .padding(20.dp)
                         ) {
                             Box(Modifier.align(Alignment.Center)) {

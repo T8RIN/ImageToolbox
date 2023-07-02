@@ -126,9 +126,7 @@ fun Modifier.fabBorder(
             h,
             MaterialTheme.colorScheme.outlineVariant(
                 luminance = 0.3f,
-                onTopOf = MaterialTheme.colorScheme.suggestContainerColorBy(
-                    LocalContentColor.current
-                )
+                onTopOf = MaterialTheme.colorScheme.suggestContainerColorBy(LocalContentColor.current)
             ),
             szape
         )
