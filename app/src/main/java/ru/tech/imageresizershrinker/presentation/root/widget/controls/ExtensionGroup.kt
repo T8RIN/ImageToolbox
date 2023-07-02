@@ -108,7 +108,7 @@ private fun Chip(
     label: @Composable () -> Unit
 ) {
     val settingsState = LocalSettingsState.current
-    val color = if (selected) MaterialTheme.colorScheme.secondaryContainer
+    val color = if (selected) MaterialTheme.colorScheme.tertiaryContainer
     else Color.Transparent
 
     CompositionLocalProvider(
@@ -122,7 +122,7 @@ private fun Chip(
                     border = BorderStroke(
                         width = settingsState.borderWidth,
                         color = if (!selected) MaterialTheme.colorScheme.outlineVariant()
-                        else MaterialTheme.colorScheme.secondaryContainer.copy(alpha = 0.9f).compositeOver(Color.Black)
+                        else MaterialTheme.colorScheme.tertiaryContainer.copy(alpha = 0.9f).compositeOver(Color.Black)
                     ),
                     shape = MaterialTheme.shapes.small
                 )
@@ -131,6 +131,7 @@ private fun Chip(
         ) {
             Box(
                 modifier = Modifier.padding(horizontal = 16.dp, vertical = 6.dp),
+                contentAlignment = Alignment.Center
             ) {
                 label()
             }
