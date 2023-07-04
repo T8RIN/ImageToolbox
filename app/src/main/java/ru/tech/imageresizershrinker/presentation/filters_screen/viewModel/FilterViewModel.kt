@@ -23,7 +23,7 @@ import ru.tech.imageresizershrinker.domain.model.MimeType
 import ru.tech.imageresizershrinker.domain.model.ResizeType
 import ru.tech.imageresizershrinker.domain.saving.FileController
 import ru.tech.imageresizershrinker.domain.saving.model.BitmapSaveTarget
-import ru.tech.imageresizershrinker.presentation.root.utils.coil.filters.FilterTransformation
+import ru.tech.imageresizershrinker.presentation.root.model.transformation.filter.FilterTransformation
 import java.io.ByteArrayOutputStream
 import javax.inject.Inject
 

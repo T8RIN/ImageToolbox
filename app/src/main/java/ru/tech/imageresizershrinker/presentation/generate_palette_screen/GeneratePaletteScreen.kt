@@ -77,7 +77,7 @@ import ru.tech.imageresizershrinker.presentation.generate_palette_screen.viewMod
 import ru.tech.imageresizershrinker.presentation.pick_color_from_image_screen.copyColorIntoClipboard
 import ru.tech.imageresizershrinker.presentation.pick_color_from_image_screen.format
 import ru.tech.imageresizershrinker.presentation.root.theme.icons.PaletteSwatch
-import ru.tech.imageresizershrinker.presentation.root.utils.coil.filters.SaturationFilter
+import ru.tech.imageresizershrinker.presentation.root.model.transformation.filter.SaturationFilter
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.Picker
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.localImagePickerMode
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.rememberImagePicker

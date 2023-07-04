@@ -85,8 +85,9 @@ import ru.tech.imageresizershrinker.domain.model.BitmapInfo
 import ru.tech.imageresizershrinker.presentation.batch_resize_screen.components.SaveExifWidget
 import ru.tech.imageresizershrinker.presentation.bytes_resize_screen.components.PngTypeAlert
 import ru.tech.imageresizershrinker.presentation.bytes_resize_screen.viewModel.BytesResizeViewModel
+import ru.tech.imageresizershrinker.presentation.root.model.transformation.BitmapInfoTransformation
 import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
-import ru.tech.imageresizershrinker.presentation.root.utils.coil.filters.SaturationFilter
+import ru.tech.imageresizershrinker.presentation.root.model.transformation.filter.SaturationFilter
 import ru.tech.imageresizershrinker.presentation.root.utils.confetti.LocalConfettiController
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.Picker
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.failedToSaveImages
@@ -545,7 +546,7 @@ fun BytesResizeScreen(
 
             PickImageFromUrisSheet(
                 transformations = listOf(
-                    ru.tech.imageresizershrinker.presentation.root.utils.coil.BitmapInfoTransformation(
+                    BitmapInfoTransformation(
                         bitmapInfo = BitmapInfo(),
                         preset = 100
                     )
