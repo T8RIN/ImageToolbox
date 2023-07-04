@@ -39,8 +39,8 @@ sealed class MimeType(
         fun create(typeString: String?): MimeType = when {
             typeString == null -> Default()
             typeString.contains("bmp") -> Bmp
-            typeString.contains("jpg") -> Jpg
             typeString.contains("jpeg") -> Jpeg
+            typeString.contains("jpg") -> Jpg
             typeString.contains("webp") -> Webp.Lossless
             else -> Default()
         }
