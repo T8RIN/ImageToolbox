@@ -124,7 +124,7 @@ import ru.tech.imageresizershrinker.presentation.root.utils.coil.filters.WhiteBa
 import ru.tech.imageresizershrinker.presentation.root.utils.coil.filters.ZoomBlurFilter
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.drawHorizontalStroke
 import ru.tech.imageresizershrinker.presentation.root.widget.image.SimplePicture
-import ru.tech.imageresizershrinker.presentation.root.widget.other.imageStickyHeader
+import ru.tech.imageresizershrinker.presentation.root.widget.image.imageStickyHeader
 import ru.tech.imageresizershrinker.presentation.root.widget.preferences.PreferenceItemOverload
 import ru.tech.imageresizershrinker.presentation.root.widget.sheets.SimpleSheet
 import ru.tech.imageresizershrinker.presentation.root.widget.text.Marquee

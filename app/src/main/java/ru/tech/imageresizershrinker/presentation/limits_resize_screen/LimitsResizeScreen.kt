@@ -90,7 +90,7 @@ import ru.tech.imageresizershrinker.presentation.root.widget.image.ImageNotPicke
 import ru.tech.imageresizershrinker.presentation.root.widget.other.LoadingDialog
 import ru.tech.imageresizershrinker.presentation.root.widget.other.LocalToastHost
 import ru.tech.imageresizershrinker.presentation.root.widget.other.TopAppBarEmoji
-import ru.tech.imageresizershrinker.presentation.root.widget.other.imageStickyHeader
+import ru.tech.imageresizershrinker.presentation.root.widget.image.imageStickyHeader
 import ru.tech.imageresizershrinker.presentation.root.widget.other.showError
 import ru.tech.imageresizershrinker.presentation.root.widget.sheets.PickImageFromUrisSheet
 import ru.tech.imageresizershrinker.presentation.root.widget.sheets.ZoomModalSheet
