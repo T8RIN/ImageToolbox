@@ -2,7 +2,7 @@ package ru.tech.imageresizershrinker.domain.image
 
 import ru.tech.imageresizershrinker.domain.model.MimeType
 import ru.tech.imageresizershrinker.domain.model.ResizeType
-import java.io.OutputStream
+import ru.tech.imageresizershrinker.domain.stream.OutStream
 
 interface ImageManager<T, M> {
 
@@ -29,6 +29,6 @@ interface ImageManager<T, M> {
 
     fun getImageWithMime(uri: String): Pair<T?, MimeType>
 
-    fun compress(image: T, mimeType: MimeType, quality: Number, out: OutputStream)
+    fun compress(image: T, mimeType: MimeType, quality: Number, out: OutStream)
 
 }
