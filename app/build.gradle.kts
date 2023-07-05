@@ -96,7 +96,7 @@ dependencies {
 
     //Navigation
     implementation("dev.olshevski.navigation:reimagined:1.5.0-alpha01")
-    implementation("dev.olshevski.navigation:reimagined-hilt:1.5.0-alpha01")
+    implementation("dev.olshevski.navigation:reimagined-hilt:1.5.0-beta01")
 
     //Konfetti
     implementation("nl.dionsegijn:konfetti-compose:2.0.2")
