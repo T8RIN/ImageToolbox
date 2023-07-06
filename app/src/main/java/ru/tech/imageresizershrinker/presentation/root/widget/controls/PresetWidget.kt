@@ -15,7 +15,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.icons.Icons
@@ -31,6 +30,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.compositeOver
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
@@ -86,24 +86,32 @@ fun PresetWidget(
                 )
                 Spacer(Modifier.height(8.dp))
 
-                Box {
+                Box(
+                    modifier = Modifier
+                        .padding(8.dp)
+                        .block()
+                        .padding(vertical = 6.dp),
+                    contentAlignment = Alignment.Center
+                ) {
                     LazyRow(
-                        horizontalArrangement = Arrangement.Center,
-                        contentPadding = PaddingValues(horizontal = 2.dp)
+                        horizontalArrangement = Arrangement.spacedBy(
+                            8.dp, Alignment.CenterHorizontally
+                        ),
+                        contentPadding = PaddingValues(horizontal = 8.dp)
                     ) {
                         data.forEach {
                             item {
                                 val selected = selectedPreset == it
                                 OutlinedIconButton(
-                                    shape = CircleShape,
+                                    shape = MaterialTheme.shapes.medium,
                                     onClick = {
                                         onPresetSelected(it)
                                     },
                                     border = BorderStroke(
                                         max(settingsState.borderWidth, 1.dp),
                                         animateColorAsState(
-                                            if (selected) MaterialTheme.colorScheme.outlineVariant()
-                                            else Color.Transparent
+                                            if (!selected) MaterialTheme.colorScheme.outlineVariant()
+                                            else MaterialTheme.colorScheme.tertiaryContainer.copy(alpha = 0.9f).compositeOver(Color.Black)
                                         ).value
                                     ),
                                     colors = IconButtonDefaults.outlinedIconButtonColors(
@@ -115,7 +123,8 @@ fun PresetWidget(
                                             if (selected) MaterialTheme.colorScheme.onTertiaryContainer
                                             else MaterialTheme.colorScheme.onSurface
                                         ).value,
-                                    )
+                                    ),
+                                    modifier = Modifier.size(36.dp)
                                 ) {
                                     AutoSizeText(it.toString())
                                 }
@@ -126,7 +135,7 @@ fun PresetWidget(
                         modifier = Modifier
                             .align(Alignment.CenterStart)
                             .width(6.dp)
-                            .height(52.dp)
+                            .height(44.dp)
                             .background(
                                 brush = Brush.horizontalGradient(
                                     0f to MaterialTheme.colorScheme.surfaceColorAtElevation(1.dp),
@@ -138,7 +147,7 @@ fun PresetWidget(
                         modifier = Modifier
                             .align(Alignment.CenterEnd)
                             .width(6.dp)
-                            .height(52.dp)
+                            .height(44.dp)
                             .background(
                                 brush = Brush.horizontalGradient(
                                     0f to Color.Transparent,

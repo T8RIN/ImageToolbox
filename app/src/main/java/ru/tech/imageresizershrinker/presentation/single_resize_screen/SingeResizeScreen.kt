@@ -101,7 +101,7 @@ import ru.tech.imageresizershrinker.presentation.root.widget.image.ImageNotPicke
 import ru.tech.imageresizershrinker.presentation.root.widget.other.LoadingDialog
 import ru.tech.imageresizershrinker.presentation.root.widget.other.LocalToastHost
 import ru.tech.imageresizershrinker.presentation.root.widget.other.TopAppBarEmoji
-import ru.tech.imageresizershrinker.presentation.root.widget.other.imageStickyHeader
+import ru.tech.imageresizershrinker.presentation.root.widget.image.imageStickyHeader
 import ru.tech.imageresizershrinker.presentation.root.widget.other.showError
 import ru.tech.imageresizershrinker.presentation.root.widget.sheets.CompareSheet
 import ru.tech.imageresizershrinker.presentation.root.widget.sheets.ZoomModalSheet
@@ -431,7 +431,7 @@ fun SingleResizeScreen(
                     if (!imageInside && viewModel.bitmap != null) {
                         Box(
                             Modifier
-                                .weight(0.8f)
+                                .weight(1.2f)
                                 .padding(20.dp)
                         ) {
                             Box(Modifier.align(Alignment.Center)) {

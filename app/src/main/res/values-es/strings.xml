@@ -253,4 +253,29 @@
     <string name="filename_not_work_with_photopicker">Agregar el nombre de archivo original no funciona si se seleccionó la fuente de imagen del selector de fotos</string>
     <string name="file_explorer_picker_sub">Use la intención de GetContent para elegir una imagen, funciona en todas partes, pero también puede tener problemas para recibir imágenes seleccionadas en algunos dispositivos, eso no es mi culpa.</string>
     <string name="replace_sequence_number">Reemplazar número de secuencia</string>
+    <string name="paint_color">Color de pintura</string>
+    <string name="background_color">Color de fondo</string>
+    <string name="cipher_sub">Encriptar y Desencriptar cualquier archivo (no únicamente imágenes) basado en el algoritmo de encriptación AES</string>
+    <string name="pick_file">Escoger archivo</string>
+    <string name="encrypt">Encriptar</string>
+    <string name="pick_file_to_start">Escoge el archivo para empezar</string>
+    <string name="decryption">Descripción</string>
+    <string name="encryption">Cifrado</string>
+    <string name="key">Clave</string>
+    <string name="compatibility">Compatibilidad</string>
+    <string name="file_size">Tamaño del archivo</string>
+    <string name="draw_on_image">Dibujar en imagen</string>
+    <string name="decrypt">Desencriptar</string>
+    <string name="invalid_password_or_not_encrypted">Contraseña incorrecta o el archivo escogido no está encriptado</string>
+    <string name="image_size_warning">Intentar guardar la imagen con la altura y anchura dadas podría provocar un error OOM, hazlo bajo tu propio riego, ¡Y no digas que no te advertimos!</string>
+    <string name="cache">Caché</string>
+    <string name="cache_size">Tamaño del caché</string>
+    <string name="auto_cache_clearing">Limpieza del caché automática</string>
+    <string name="tools">Herramientas</string>
+    <string name="implementation">Implementación</string>
+    <string name="draw_on_image_sub">Escoge una imagen y dibuja algo en ella</string>
+    <string name="store_file_desc">Guarda este archivo en tu dispositivo o usa la acción de compartir para colocarlo donde desees</string>
+    <string name="features">Características</string>
+    <string name="file_size_sub">El tamaño máximo del archivo está restringido por el SO Android y la memoria disponible, lo cual obviamente dependerá de tu dispositivo.
+\nImportante: memoria no es almacenamiento.</string>
 </resources>

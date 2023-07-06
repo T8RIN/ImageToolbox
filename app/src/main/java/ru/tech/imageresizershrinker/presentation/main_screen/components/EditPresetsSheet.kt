@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
@@ -81,11 +82,13 @@ fun EditPresetsSheet(
                         Modifier
                             .align(Alignment.Center)
                             .fillMaxWidth()
-                            .padding(top = 8.dp, bottom = 8.dp),
-                        horizontalArrangement = Arrangement.Center
+                            .padding(16.dp),
+                        horizontalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterHorizontally),
+                        verticalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterVertically)
                     ) {
                         list.forEach {
                             OutlinedIconButton(
+                                shape = MaterialTheme.shapes.medium,
                                 onClick = {
                                     if (list.size > 7) {
                                         updatePresets(list - it)
@@ -96,17 +99,19 @@ fun EditPresetsSheet(
                                     MaterialTheme.colorScheme.outlineVariant
                                 ),
                                 colors = IconButtonDefaults.outlinedIconButtonColors(
-                                    containerColor = MaterialTheme.colorScheme.secondaryContainer.copy(
+                                    containerColor = MaterialTheme.colorScheme.tertiaryContainer.copy(
                                         alpha = 0.3f
                                     ),
                                     contentColor = MaterialTheme.colorScheme.onSurface
-                                )
+                                ),
+                                modifier = Modifier.size(36.dp)
                             ) {
                                 AutoSizeText(it.toString())
                             }
                         }
                         var expanded by remember { mutableStateOf(false) }
                         OutlinedIconButton(
+                            shape = MaterialTheme.shapes.medium,
                             onClick = {
                                 expanded = true
                             },
@@ -118,11 +123,12 @@ fun EditPresetsSheet(
                                 MaterialTheme.colorScheme.outlineVariant
                             ),
                             colors = IconButtonDefaults.outlinedIconButtonColors(
-                                containerColor = MaterialTheme.colorScheme.secondaryContainer.copy(
+                                containerColor = MaterialTheme.colorScheme.tertiaryContainer.copy(
                                     alpha = 0.3f
                                 ),
                                 contentColor = MaterialTheme.colorScheme.onSurface
-                            )
+                            ),
+                            modifier = Modifier.size(36.dp)
                         ) {
                             Icon(Icons.Rounded.AddCircle, null)
                         }

@@ -20,7 +20,8 @@ fun TitleItem(
     icon: ImageVector? = null,
     text: String,
     endContent: (@Composable RowScope.() -> Unit)? = null,
-    @SuppressLint("ModifierParameter") modifier: Modifier = Modifier.padding(16.dp),
+    @SuppressLint("ModifierParameter")
+    modifier: Modifier = Modifier.padding(16.dp),
 ) {
     Row(
         modifier = modifier,
@@ -30,8 +31,9 @@ fun TitleItem(
             Icon(it, null)
             Spacer(Modifier.width(8.dp))
         }
-        Text(text = text, fontWeight = FontWeight.Bold, modifier = Modifier.weight(1f))
+        Text(text = text, fontWeight = FontWeight.Bold)
         endContent?.let {
+            Spacer(modifier = Modifier.weight(1f))
             Spacer(Modifier.width(8.dp))
             it()
         }

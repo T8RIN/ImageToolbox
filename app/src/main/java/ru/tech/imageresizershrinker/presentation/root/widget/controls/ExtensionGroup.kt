@@ -1,6 +1,11 @@
 package ru.tech.imageresizershrinker.presentation.root.widget.controls
 
+import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
@@ -9,20 +14,21 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.FilterChip
-import androidx.compose.material3.FilterChipDefaults
+import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ProvideTextStyle
 import androidx.compose.material3.Text
 import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.compositeOver
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.R
@@ -31,7 +37,7 @@ import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.block
 import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalSettingsState
 
-@OptIn(ExperimentalLayoutApi::class, ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun ExtensionGroup(
     modifier: Modifier = Modifier,
@@ -39,8 +45,6 @@ fun ExtensionGroup(
     mimeType: MimeType,
     onMimeChange: (MimeType) -> Unit
 ) {
-    val settingsState = LocalSettingsState.current
-
     val disColor = MaterialTheme.colorScheme.onSurface
         .copy(alpha = 0.38f)
         .compositeOver(MaterialTheme.colorScheme.surface)
@@ -69,28 +73,67 @@ fun ExtensionGroup(
             Spacer(modifier = Modifier.height(8.dp))
 
             FlowRow(
-                verticalArrangement = Arrangement.Center,
+                verticalArrangement = Arrangement.spacedBy(
+                    8.dp,
+                    Alignment.CenterVertically
+                ),
                 horizontalArrangement = Arrangement.spacedBy(
-                    12.dp,
+                    8.dp,
                     Alignment.CenterHorizontally
                 ),
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(8.dp)
                     .block()
-                    .padding(horizontal = 12.dp, vertical = 6.dp)
+                    .padding(horizontal = 8.dp, vertical = 12.dp)
             ) {
                 MimeType.entries.forEach {
-                    FilterChip(
+                    Chip(
                         onClick = { onMimeChange(it) },
                         selected = it == mimeType,
-                        label = { Text(text = it.title) },
-                        border = FilterChipDefaults.filterChipBorder(
-                            borderWidth = settingsState.borderWidth,
-                            borderColor = MaterialTheme.colorScheme.outlineVariant()
-                        )
+                        label = { Text(text = it.title) }
                     )
                 }
+            }
+        }
+    }
+}
+
+@Composable
+private fun Chip(
+    selected: Boolean,
+    onClick: () -> Unit,
+    label: @Composable () -> Unit
+) {
+    val settingsState = LocalSettingsState.current
+    val color = if (selected) MaterialTheme.colorScheme.tertiaryContainer
+    else Color.Transparent
+
+    CompositionLocalProvider(
+        LocalTextStyle provides MaterialTheme.typography.labelLarge.copy(fontWeight = FontWeight.SemiBold)
+    ) {
+        Box(
+            modifier = Modifier
+                .clip(MaterialTheme.shapes.small)
+                .background(color)
+                .border(
+                    border = BorderStroke(
+                        width = settingsState.borderWidth,
+                        color = if (!selected) MaterialTheme.colorScheme.outlineVariant()
+                        else MaterialTheme.colorScheme.tertiaryContainer
+                            .copy(alpha = 0.9f)
+                            .compositeOver(Color.Black)
+                    ),
+                    shape = MaterialTheme.shapes.small
+                )
+                .clickable(onClick = onClick),
+            contentAlignment = Alignment.Center
+        ) {
+            Box(
+                modifier = Modifier.padding(horizontal = 16.dp, vertical = 6.dp),
+                contentAlignment = Alignment.Center
+            ) {
+                label()
             }
         }
     }

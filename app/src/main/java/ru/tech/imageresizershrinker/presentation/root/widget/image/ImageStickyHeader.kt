@@ -1,4 +1,4 @@
-package ru.tech.imageresizershrinker.presentation.root.widget.other
+package ru.tech.imageresizershrinker.presentation.root.widget.image
 
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.core.animateFloatAsState
@@ -34,7 +34,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.isSpecified
 import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
-import ru.tech.imageresizershrinker.presentation.root.widget.image.ImageHeaderState
+import ru.tech.imageresizershrinker.presentation.root.widget.other.GradientEdge
 import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalSettingsState
 import ru.tech.imageresizershrinker.presentation.root.widget.utils.rememberAvailableHeight
 import ru.tech.imageresizershrinker.presentation.root.widget.utils.rememberFullHeight

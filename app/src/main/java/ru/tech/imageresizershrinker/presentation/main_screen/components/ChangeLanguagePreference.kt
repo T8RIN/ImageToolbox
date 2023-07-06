@@ -53,6 +53,8 @@ fun ChangeLanguagePreference() {
     val showDialog = rememberSaveable { mutableStateOf(false) }
     Column(Modifier.animateContentSize()) {
         PreferenceRow(
+            modifier = Modifier.padding(horizontal = 8.dp),
+            applyHorPadding = false,
             title = stringResource(R.string.language),
             subtitle = context.getCurrentLocaleString(),
             endContent = {

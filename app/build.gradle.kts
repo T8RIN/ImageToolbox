@@ -1,3 +1,5 @@
+@file:Suppress("UnstableApiUsage")
+
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
@@ -14,8 +16,8 @@ android {
         applicationId = "ru.tech.imageresizershrinker"
         minSdk = 21
         targetSdk = 34
-        versionCode = 69
-        versionName = "2.2.0-beta3"
+        versionCode = 71
+        versionName = "2.2.0-beta5"
         resourceConfigurations += setOf(
             "en",
             "ar",
@@ -71,7 +73,7 @@ android {
         compose = true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.4.7"
+        kotlinCompilerExtensionVersion = "1.4.8"
     }
 
     packaging {
@@ -110,7 +112,7 @@ dependencies {
     kapt("com.google.dagger:hilt-compiler:2.46.1")
 
     //Accompanist
-    implementation("com.google.accompanist:accompanist-placeholder-material:0.31.4-beta")
+    implementation("com.google.accompanist:accompanist-placeholder-material:0.31.5-beta")
 
     //Coil
     implementation("io.coil-kt:coil:2.4.0")
@@ -130,6 +132,6 @@ dependencies {
 
     implementation("org.burnoutcrew.composereorderable:reorderable:0.9.6")
 
-    implementation("com.google.accompanist:accompanist-systemuicontroller:0.31.3-beta")
+    implementation("com.google.accompanist:accompanist-systemuicontroller:0.31.4-beta")
 
 }

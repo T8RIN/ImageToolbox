@@ -62,7 +62,7 @@ fun SettingsState.toUiState() = UiSettingsState(
     screenList = screenList.map { Screen.entries[it] }.takeIf { it.isNotEmpty() } ?: Screen.entries,
     colorTupleList = colorTupleList.toColorTupleList(),
     addSequenceNumber = addSequenceNumber,
-    saveFolderUri = saveFolderUri?.toUri(),
+    saveFolderUri = saveFolderUri?.toUri()?.takeIf { it != Uri.EMPTY },
     filenamePrefix = filenamePrefix,
     addSizeInFilename = addSizeInFilename,
     addOriginalFilename = addOriginalFilename,

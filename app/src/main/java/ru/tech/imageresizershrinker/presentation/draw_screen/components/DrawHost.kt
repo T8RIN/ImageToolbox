@@ -158,7 +158,7 @@ fun DrawHost(
                     ) {
                         Box(
                             Modifier
-                                .weight(0.8f)
+                                .weight(1.2f)
                                 .clipToBounds()
                         ) {
                             DrawBox(
@@ -323,7 +323,7 @@ fun DrawHost(
                     ) {
                         Box(
                             Modifier
-                                .weight(0.8f)
+                                .weight(1.2f)
                                 .clipToBounds()
                         ) {
                             DrawBox(
