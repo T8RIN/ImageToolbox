@@ -21,6 +21,8 @@ import coil.decode.SvgDecoder
 import coil.imageLoader
 import coil.request.ImageRequest
 import coil.size.Size
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.domain.image.ImageManager
 import ru.tech.imageresizershrinker.domain.image.Transformation
@@ -48,7 +50,7 @@ class AndroidImageManager @Inject constructor(
         image: Bitmap,
         transformations: List<Transformation<Bitmap>>,
         originalSize: Boolean
-    ): Bitmap? {
+    ): Bitmap? = withContext(Dispatchers.IO) {
         val loader = context.imageLoader.newBuilder().components {
             if (Build.VERSION.SDK_INT >= 28) add(ImageDecoderDecoder.Factory())
             else add(GifDecoder.Factory())
@@ -76,14 +78,17 @@ class AndroidImageManager @Inject constructor(
             }
             .build()
 
-        return loader.execute(request).drawable?.toBitmap()
+        return@withContext loader.execute(request).drawable?.toBitmap()
     }
 
-    override suspend fun getImage(uri: String, originalSize: Boolean): Bitmap? {
+    override suspend fun getImage(
+        uri: String,
+        originalSize: Boolean
+    ): Bitmap? = withContext(Dispatchers.IO) {
         val fd = context.contentResolver.openFileDescriptor(uri.toUri(), "r")
         fd?.close()
 
-        return kotlin.runCatching {
+        return@withContext kotlin.runCatching {
             val loader = context.imageLoader.newBuilder().components {
                 if (Build.VERSION.SDK_INT >= 28) add(ImageDecoderDecoder.Factory())
                 else add(GifDecoder.Factory())
@@ -140,10 +145,10 @@ class AndroidImageManager @Inject constructor(
         width: Int,
         height: Int,
         resizeType: ResizeType
-    ): Bitmap {
+    ): Bitmap = withContext(Dispatchers.IO) {
         val max = max(width, height)
 
-        return when (resizeType) {
+        return@withContext when (resizeType) {
             ResizeType.Explicit -> {
                 Bitmap.createScaledBitmap(
                     image,
@@ -173,12 +178,14 @@ class AndroidImageManager @Inject constructor(
         }
     }
 
-    override suspend fun getImageWithMetadata(uri: String): Pair<Bitmap?, ExifInterface?> {
+    override suspend fun getImageWithMetadata(
+        uri: String
+    ): Pair<Bitmap?, ExifInterface?> = withContext(Dispatchers.IO) {
         val fd = context.contentResolver.openFileDescriptor(uri.toUri(), "r")
         val exif = fd?.fileDescriptor?.let { ExifInterface(it) }
         fd?.close()
 
-        return kotlin.runCatching {
+        return@withContext kotlin.runCatching {
             val loader = context.imageLoader.newBuilder().components {
                 if (Build.VERSION.SDK_INT >= 28) add(ImageDecoderDecoder.Factory())
                 else add(GifDecoder.Factory())
@@ -194,8 +201,10 @@ class AndroidImageManager @Inject constructor(
         }.getOrNull() to exif
     }
 
-    override suspend fun getImageWithMime(uri: String): Pair<Bitmap?, MimeType> {
-        return kotlin.runCatching {
+    override suspend fun getImageWithMime(
+        uri: String
+    ): Pair<Bitmap?, MimeType> = withContext(Dispatchers.IO) {
+        return@withContext kotlin.runCatching {
             val loader = context.imageLoader.newBuilder().components {
                 if (Build.VERSION.SDK_INT >= 28) add(ImageDecoderDecoder.Factory())
                 else add(GifDecoder.Factory())
@@ -241,13 +250,17 @@ class AndroidImageManager @Inject constructor(
         }
     }
 
-    override suspend fun getSampledImage(uri: String, reqWidth: Int, reqHeight: Int): Bitmap? {
+    override suspend fun getSampledImage(
+        uri: String,
+        reqWidth: Int,
+        reqHeight: Int
+    ): Bitmap? = withContext(Dispatchers.IO) {
         val loader = context.imageLoader.newBuilder().components {
             if (Build.VERSION.SDK_INT >= 28) add(ImageDecoderDecoder.Factory())
             else add(GifDecoder.Factory())
             add(SvgDecoder.Factory())
         }.allowHardware(false).build()
-        return loader.execute(
+        return@withContext loader.execute(
             ImageRequest
                 .Builder(context)
                 .size(reqWidth, reqHeight)
@@ -256,7 +269,11 @@ class AndroidImageManager @Inject constructor(
         ).drawable?.toBitmap()
     }
 
-    override suspend fun shareFile(byteArray: ByteArray, filename: String, onComplete: () -> Unit) {
+    override suspend fun shareFile(
+        byteArray: ByteArray,
+        filename: String,
+        onComplete: () -> Unit
+    ) = withContext(Dispatchers.IO) {
         val imagesFolder = File(context.cacheDir, "images")
         val uri = kotlin.runCatching {
             imagesFolder.mkdirs()
@@ -278,7 +295,7 @@ class AndroidImageManager @Inject constructor(
         uris: List<String>,
         imageLoader: suspend (String) -> Pair<Bitmap, ImageInfo>?,
         onProgressChange: (Int) -> Unit
-    ) {
+    ) = withContext(Dispatchers.IO) {
         var cnt = 0
         val uriList: MutableList<Uri> = mutableListOf()
         uris.forEachIndexed { index, uri ->
@@ -298,9 +315,13 @@ class AndroidImageManager @Inject constructor(
         shareImageUris(uriList)
     }
 
-    override suspend fun cacheImage(image: Bitmap, imageInfo: ImageInfo, name: String): String? {
+    override suspend fun cacheImage(
+        image: Bitmap,
+        imageInfo: ImageInfo,
+        name: String
+    ): String? = withContext(Dispatchers.IO) {
         val imagesFolder = File(context.cacheDir, "images")
-        return kotlin.runCatching {
+        return@withContext kotlin.runCatching {
             imagesFolder.mkdirs()
             val ext = imageInfo.mimeType.extension
             val file = File(imagesFolder, "$name.$ext")
@@ -316,7 +337,7 @@ class AndroidImageManager @Inject constructor(
         imageInfo: ImageInfo,
         onComplete: () -> Unit,
         name: String
-    ) {
+    ) = withContext(Dispatchers.IO) {
         val imagesFolder = File(context.cacheDir, "images")
         val uri = kotlin.runCatching {
             imagesFolder.mkdirs()
@@ -347,7 +368,7 @@ class AndroidImageManager @Inject constructor(
         uri: String,
         transformations: List<Transformation<Bitmap>>,
         originalSize: Boolean
-    ): Bitmap? {
+    ): Bitmap? = withContext(Dispatchers.IO) {
         val loader = context.imageLoader.newBuilder().components {
             if (Build.VERSION.SDK_INT >= 28) add(ImageDecoderDecoder.Factory())
             else add(GifDecoder.Factory())
@@ -375,14 +396,14 @@ class AndroidImageManager @Inject constructor(
             }
             .build()
 
-        return loader.execute(request).drawable?.toBitmap()
+        return@withContext loader.execute(request).drawable?.toBitmap()
     }
 
     override suspend fun scaleByMaxBytes(
         image: Bitmap,
         mimeType: MimeType,
         maxBytes: Long
-    ): Pair<Bitmap, Int>? {
+    ): Pair<Bitmap, Int>? = withContext(Dispatchers.IO) {
         val maxBytes1 =
             maxBytes - maxBytes
                 .times(0.04f)
@@ -391,7 +412,7 @@ class AndroidImageManager @Inject constructor(
                     minimumValue = 512,
                     maximumValue = 4096
                 )
-        return kotlin.runCatching {
+        return@withContext kotlin.runCatching {
             if (image.size() > maxBytes1) {
                 var streamLength = maxBytes1
                 var compressQuality = 100
@@ -448,8 +469,8 @@ class AndroidImageManager @Inject constructor(
         return image.size() < 4096 * 4096 * 5
     }
 
-    override suspend fun scaleUntilCanShow(image: Bitmap?): Bitmap? {
-        if(image == null) return null
+    override suspend fun scaleUntilCanShow(image: Bitmap?): Bitmap? = withContext(Dispatchers.IO) {
+        if (image == null) return@withContext null
 
         var bmp = if (!canShow(image)) {
             resize(
@@ -460,15 +481,15 @@ class AndroidImageManager @Inject constructor(
             )
         } else image
 
-        while (canShow(bmp)) {
+        while (!canShow(bmp)) {
             bmp = resize(
-                image = image,
+                image = bmp,
                 height = (bmp.height * 0.95f).toInt(),
                 width = (bmp.width * 0.95f).toInt(),
                 resizeType = ResizeType.Flexible
             )
         }
-        return bmp
+        return@withContext bmp
     }
 
     override suspend fun calculateImageSize(image: Bitmap, imageInfo: ImageInfo): Long {
@@ -476,7 +497,10 @@ class AndroidImageManager @Inject constructor(
     }
 
     @Suppress("DEPRECATION")
-    override suspend fun compress(image: Bitmap, imageInfo: ImageInfo): ByteArray {
+    override suspend fun compress(
+        image: Bitmap,
+        imageInfo: ImageInfo
+    ): ByteArray = withContext(Dispatchers.IO) {
         val out = ByteArrayOutputStream()
         when (imageInfo.mimeType) {
             MimeType.Bmp -> compressToBMP(image, out)
@@ -523,7 +547,7 @@ class AndroidImageManager @Inject constructor(
             )
         }
 
-        return out.toByteArray()
+        return@withContext out.toByteArray()
     }
 
     override fun flip(image: Bitmap, isFlipped: Boolean): Bitmap {
@@ -538,13 +562,12 @@ class AndroidImageManager @Inject constructor(
         return Bitmap.createBitmap(image, 0, 0, image.width, image.height, matrix, true)
     }
 
-    @Suppress("BlockingMethodInNonBlockingContext")
     override suspend fun createPreview(
         image: Bitmap,
         imageInfo: ImageInfo,
         onGetByteCount: (Int) -> Unit
-    ): Bitmap {
-        if (imageInfo.height == 0 || imageInfo.width == 0) return image
+    ): Bitmap = withContext(Dispatchers.IO) {
+        if (imageInfo.height == 0 || imageInfo.width == 0) return@withContext image
         val out = ByteArrayOutputStream()
         var width = imageInfo.width
         var height = imageInfo.height
@@ -563,7 +586,7 @@ class AndroidImageManager @Inject constructor(
         out.flush()
         out.close()
 
-        return scaleUntilCanShow(bitmap) ?: image
+        return@withContext scaleUntilCanShow(bitmap) ?: image
     }
 
 
@@ -771,6 +794,7 @@ class AndroidImageManager @Inject constructor(
         val sendIntent = Intent(Intent.ACTION_SEND).apply {
             putExtra(Intent.EXTRA_STREAM, uri)
             addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+            addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             this.type = type
         }
         val shareIntent = Intent.createChooser(sendIntent, context.getString(R.string.share))
@@ -781,6 +805,7 @@ class AndroidImageManager @Inject constructor(
         val sendIntent = Intent(Intent.ACTION_SEND_MULTIPLE).apply {
             putParcelableArrayListExtra(Intent.EXTRA_STREAM, ArrayList(uris))
             addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+            addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             type = "image/*"
         }
         val shareIntent = Intent.createChooser(sendIntent, context.getString(R.string.share))

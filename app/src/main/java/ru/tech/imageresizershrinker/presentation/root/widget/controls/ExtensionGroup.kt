@@ -1,5 +1,6 @@
 package ru.tech.imageresizershrinker.presentation.root.widget.controls
 
+import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -91,7 +92,15 @@ fun ExtensionGroup(
                     Chip(
                         onClick = { onMimeChange(it) },
                         selected = it == mimeType,
-                        label = { Text(text = it.title) }
+                        label = {
+                            Text(
+                                text = it.title,
+                                color = animateColorAsState(
+                                    if (it == mimeType) MaterialTheme.colorScheme.onTertiaryContainer
+                                    else MaterialTheme.colorScheme.onSurface
+                                ).value
+                            )
+                        }
                     )
                 }
             }
@@ -107,7 +116,7 @@ private fun Chip(
 ) {
     val settingsState = LocalSettingsState.current
     val color = if (selected) MaterialTheme.colorScheme.tertiaryContainer
-    else Color.Transparent
+    else MaterialTheme.colorScheme.surfaceVariant
 
     CompositionLocalProvider(
         LocalTextStyle provides MaterialTheme.typography.labelLarge.copy(fontWeight = FontWeight.SemiBold)

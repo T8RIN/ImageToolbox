@@ -111,7 +111,6 @@ import ru.tech.imageresizershrinker.presentation.root.utils.modifier.drawHorizon
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.fabBorder
 import ru.tech.imageresizershrinker.presentation.root.widget.buttons.ToggleGroupButton
 import ru.tech.imageresizershrinker.presentation.root.widget.dialogs.ExitWithoutSavingDialog
-import ru.tech.imageresizershrinker.presentation.root.widget.image.Picture
 import ru.tech.imageresizershrinker.presentation.root.widget.other.LoadingDialog
 import ru.tech.imageresizershrinker.presentation.root.widget.other.LocalToastHost
 import ru.tech.imageresizershrinker.presentation.root.widget.other.TopAppBarEmoji
@@ -323,22 +322,6 @@ fun FileCipherScreen(
                                             )
                                         }
                                     } else {
-
-                                        viewModel.uri?.let { uri ->
-                                            if (viewModel.getMimeType(uri)
-                                                    ?.contains("image") == true
-                                            ) {
-                                                Picture(
-                                                    model = uri,
-                                                    shape = MaterialTheme.shapes.large,
-                                                    modifier = Modifier
-                                                        .padding(bottom = 16.dp)
-                                                        .block()
-                                                        .padding(4.dp)
-                                                )
-                                            }
-                                        }
-
                                         Row(
                                             Modifier
                                                 .block(MaterialTheme.shapes.extraLarge)
