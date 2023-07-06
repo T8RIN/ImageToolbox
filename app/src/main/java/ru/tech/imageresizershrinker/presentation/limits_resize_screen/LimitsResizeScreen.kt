@@ -68,6 +68,7 @@ import ru.tech.imageresizershrinker.domain.model.ImageInfo
 import ru.tech.imageresizershrinker.presentation.batch_resize_screen.components.SaveExifWidget
 import ru.tech.imageresizershrinker.presentation.limits_resize_screen.viewModel.LimitsResizeViewModel
 import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
+import ru.tech.imageresizershrinker.presentation.root.transformation.BitmapInfoTransformation
 import ru.tech.imageresizershrinker.presentation.root.transformation.filter.SaturationFilter
 import ru.tech.imageresizershrinker.presentation.root.utils.confetti.LocalConfettiController
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.Picker
@@ -430,9 +431,10 @@ fun LimitsResizeScreen(
 
             PickImageFromUrisSheet(
                 transformations = listOf(
-                    ru.tech.imageresizershrinker.presentation.root.transformation.BitmapInfoTransformation(
+                    BitmapInfoTransformation(
                         imageInfo = ImageInfo(),
-                        preset = 100
+                        preset = 100,
+                        imageManager = viewModel.getImageManager()
                     )
                 ),
                 visible = showPickImageFromUrisDialog,

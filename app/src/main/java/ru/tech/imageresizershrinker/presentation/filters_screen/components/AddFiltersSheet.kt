@@ -67,9 +67,10 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.exifinterface.media.ExifInterface
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.R
-import ru.tech.imageresizershrinker.core.android.ImageUtils.applyTransformations
+import ru.tech.imageresizershrinker.domain.image.ImageManager
 import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
 import ru.tech.imageresizershrinker.presentation.root.transformation.filter.BilaterialBlurFilter
 import ru.tech.imageresizershrinker.presentation.root.transformation.filter.BlackAndWhiteFilter
@@ -88,6 +89,7 @@ import ru.tech.imageresizershrinker.presentation.root.transformation.filter.Embo
 import ru.tech.imageresizershrinker.presentation.root.transformation.filter.ExposureFilter
 import ru.tech.imageresizershrinker.presentation.root.transformation.filter.FalseColorFilter
 import ru.tech.imageresizershrinker.presentation.root.transformation.filter.FastBlurFilter
+import ru.tech.imageresizershrinker.presentation.root.transformation.filter.FilterTransformation
 import ru.tech.imageresizershrinker.presentation.root.transformation.filter.GammaFilter
 import ru.tech.imageresizershrinker.presentation.root.transformation.filter.GaussianBlurFilter
 import ru.tech.imageresizershrinker.presentation.root.transformation.filter.GlassSphereRefractionFilter
@@ -121,7 +123,6 @@ import ru.tech.imageresizershrinker.presentation.root.transformation.filter.Vign
 import ru.tech.imageresizershrinker.presentation.root.transformation.filter.WeakPixelFilter
 import ru.tech.imageresizershrinker.presentation.root.transformation.filter.WhiteBalanceFilter
 import ru.tech.imageresizershrinker.presentation.root.transformation.filter.ZoomBlurFilter
-import ru.tech.imageresizershrinker.presentation.root.transformation.filter.FilterTransformation
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.drawHorizontalStroke
 import ru.tech.imageresizershrinker.presentation.root.widget.image.SimplePicture
 import ru.tech.imageresizershrinker.presentation.root.widget.image.imageStickyHeader
@@ -137,6 +138,7 @@ import ru.tech.imageresizershrinker.presentation.root.widget.utils.middleImageSt
 fun AddFiltersSheet(
     visible: MutableState<Boolean>,
     previewBitmap: Bitmap?,
+    imageManager: ImageManager<Bitmap, ExifInterface>,
     onFilterPicked: (FilterTransformation<*>) -> Unit,
     onFilterPickedWithParams: (FilterTransformation<*>) -> Unit
 ) {
@@ -360,8 +362,7 @@ fun AddFiltersSheet(
                 imageState = imageState.copy(position = 2)
             }
             loading = true
-            transformedBitmap =
-                context.applyTransformations(previewBitmap, listOf(previewSheetData!!))
+            transformedBitmap = imageManager.transform(previewBitmap, listOf(previewSheetData!!))
             loading = false
         }
     }

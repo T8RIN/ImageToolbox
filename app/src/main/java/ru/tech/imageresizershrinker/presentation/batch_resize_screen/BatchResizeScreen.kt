@@ -76,6 +76,7 @@ import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.presentation.batch_resize_screen.components.SaveExifWidget
 import ru.tech.imageresizershrinker.presentation.batch_resize_screen.viewModel.BatchResizeViewModel
 import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
+import ru.tech.imageresizershrinker.presentation.root.transformation.BitmapInfoTransformation
 import ru.tech.imageresizershrinker.presentation.root.transformation.filter.SaturationFilter
 import ru.tech.imageresizershrinker.presentation.root.utils.confetti.LocalConfettiController
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.Picker
@@ -549,9 +550,10 @@ fun BatchResizeScreen(
 
             PickImageFromUrisSheet(
                 transformations = listOf(
-                    ru.tech.imageresizershrinker.presentation.root.transformation.BitmapInfoTransformation(
+                    BitmapInfoTransformation(
                         imageInfo = viewModel.imageInfo,
-                        preset = viewModel.presetSelected
+                        preset = viewModel.presetSelected,
+                        imageManager = viewModel.getImageManager()
                     )
                 ),
                 visible = showPickImageFromUrisDialog,

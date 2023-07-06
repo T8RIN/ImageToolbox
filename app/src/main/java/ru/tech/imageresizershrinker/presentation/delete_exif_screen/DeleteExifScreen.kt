@@ -66,6 +66,7 @@ import ru.tech.imageresizershrinker.core.android.ImageUtils.fileSize
 import ru.tech.imageresizershrinker.domain.model.ImageInfo
 import ru.tech.imageresizershrinker.presentation.delete_exif_screen.viewModel.DeleteExifViewModel
 import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
+import ru.tech.imageresizershrinker.presentation.root.transformation.BitmapInfoTransformation
 import ru.tech.imageresizershrinker.presentation.root.transformation.filter.SaturationFilter
 import ru.tech.imageresizershrinker.presentation.root.utils.confetti.LocalConfettiController
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.Picker
@@ -390,9 +391,10 @@ fun DeleteExifScreen(
 
             PickImageFromUrisSheet(
                 transformations = listOf(
-                    ru.tech.imageresizershrinker.presentation.root.transformation.BitmapInfoTransformation(
+                    BitmapInfoTransformation(
                         imageInfo = ImageInfo(),
-                        preset = 100
+                        preset = 100,
+                        imageManager = viewModel.getImageManager()
                     )
                 ),
                 visible = showPickImageFromUrisDialog,

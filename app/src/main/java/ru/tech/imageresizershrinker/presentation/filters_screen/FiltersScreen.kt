@@ -652,7 +652,8 @@ fun FiltersScreen(
                 visible = showFilterSheet,
                 previewBitmap = viewModel.previewBitmap,
                 onFilterPicked = { viewModel.addFilter(it.newInstance()) },
-                onFilterPickedWithParams = { viewModel.addFilter(it) }
+                onFilterPickedWithParams = { viewModel.addFilter(it) },
+                imageManager = viewModel.getImageManager()
             )
 
             ExitWithoutSavingDialog(

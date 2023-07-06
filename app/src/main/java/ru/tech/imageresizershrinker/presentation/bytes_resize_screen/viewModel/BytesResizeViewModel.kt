@@ -269,4 +269,6 @@ class BytesResizeViewModel @Inject constructor(
         )
     }
 
+    fun getImageManager(): ImageManager<Bitmap, ExifInterface> = imageManager
+
 }

@@ -180,4 +180,6 @@ class DeleteExifViewModel @Inject constructor(
         }
     }
 
+    fun getImageManager(): ImageManager<Bitmap, ExifInterface> = imageManager
+
 }

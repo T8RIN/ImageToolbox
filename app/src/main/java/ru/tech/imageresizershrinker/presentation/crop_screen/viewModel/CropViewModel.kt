@@ -159,11 +159,13 @@ class CropViewModel @Inject constructor(
     }
 
     fun shareBitmap(bitmap: Bitmap, onComplete: () -> Unit) {
-        imageManager.shareImage(
-            image = bitmap,
-            imageInfo = ImageInfo(mimeType = mimeType),
-            onComplete = onComplete
-        )
+        viewModelScope.launch {
+            imageManager.shareImage(
+                image = bitmap,
+                imageInfo = ImageInfo(mimeType = mimeType),
+                onComplete = onComplete
+            )
+        }
     }
 
 }

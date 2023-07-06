@@ -7,8 +7,6 @@ import jp.co.cyberagent.android.gpuimage.filter.GPUImageFilter
 import kotlinx.parcelize.Parcelize
 import kotlinx.parcelize.RawValue
 import ru.tech.imageresizershrinker.R
-import ru.tech.imageresizershrinker.core.android.ImageUtils.resizeBitmap
-import ru.tech.imageresizershrinker.domain.model.ResizeType
 import kotlin.math.roundToInt
 
 
@@ -146,9 +144,10 @@ private fun Bitmap.fastBlur(scale: Float, radius: Int): Bitmap {
         x++
     }
     bitmap.setPixels(pix, 0, w, 0, 0, w, h)
-    return bitmap.resizeBitmap(
+    return Bitmap.createScaledBitmap(
+        bitmap,
         (bitmap.width / scale).toInt(),
         (bitmap.height / scale).toInt(),
-        ResizeType.Explicit
+        false
     )
 }

@@ -320,4 +320,7 @@ class FilterViewModel @Inject constructor(
             )
         }
     }
+
+    fun getImageManager(): ImageManager<Bitmap, ExifInterface> = imageManager
+
 }

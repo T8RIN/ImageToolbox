@@ -45,4 +45,8 @@ target_link_libraries( # Specifies the target library.
         GLESv2
         jnigraphics)
 
-set_target_properties(your_library_name PROPERTIES LINK_FLAGS "-Wl,--build-id=none")
+set_target_properties(
+        yuv-decoder
+        PROPERTIES LINK_FLAGS
+        "-Wl,--build-id=none"
+)

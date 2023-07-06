@@ -520,7 +520,8 @@ fun BytesResizeScreen(
                 transformations = listOf(
                     BitmapInfoTransformation(
                         imageInfo = ImageInfo(),
-                        preset = 100
+                        preset = 100,
+                        imageManager = viewModel.getImageManager()
                     )
                 ),
                 visible = showPickImageFromUrisDialog,
