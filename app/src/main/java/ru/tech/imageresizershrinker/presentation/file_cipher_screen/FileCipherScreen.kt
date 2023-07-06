@@ -96,10 +96,8 @@ import androidx.compose.ui.unit.sp
 import dev.olshevski.navigation.reimagined.hilt.hiltViewModel
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.R
-import ru.tech.imageresizershrinker.core.android.BitmapUtils.fileSize
-import ru.tech.imageresizershrinker.core.android.BitmapUtils.getMimeType
-import ru.tech.imageresizershrinker.core.android.BitmapUtils.shareFile
 import ru.tech.imageresizershrinker.core.android.ContextUtils.getFileName
+import ru.tech.imageresizershrinker.core.android.ImageUtils.fileSize
 import ru.tech.imageresizershrinker.presentation.file_cipher_screen.components.TipSheet
 import ru.tech.imageresizershrinker.presentation.file_cipher_screen.viewModel.FileCipherViewModel
 import ru.tech.imageresizershrinker.presentation.root.theme.Green
@@ -113,7 +111,6 @@ import ru.tech.imageresizershrinker.presentation.root.utils.modifier.drawHorizon
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.fabBorder
 import ru.tech.imageresizershrinker.presentation.root.widget.buttons.ToggleGroupButton
 import ru.tech.imageresizershrinker.presentation.root.widget.dialogs.ExitWithoutSavingDialog
-import ru.tech.imageresizershrinker.presentation.root.widget.image.Picture
 import ru.tech.imageresizershrinker.presentation.root.widget.other.LoadingDialog
 import ru.tech.imageresizershrinker.presentation.root.widget.other.LocalToastHost
 import ru.tech.imageresizershrinker.presentation.root.widget.other.TopAppBarEmoji
@@ -325,22 +322,6 @@ fun FileCipherScreen(
                                             )
                                         }
                                     } else {
-
-                                        viewModel.uri?.let { uri ->
-                                            if (context.getMimeType(uri)
-                                                    ?.contains("image") == true
-                                            ) {
-                                                Picture(
-                                                    model = uri,
-                                                    shape = MaterialTheme.shapes.large,
-                                                    modifier = Modifier
-                                                        .padding(bottom = 16.dp)
-                                                        .block()
-                                                        .padding(4.dp)
-                                                )
-                                            }
-                                        }
-
                                         Row(
                                             Modifier
                                                 .block(MaterialTheme.shapes.extraLarge)
@@ -672,8 +653,8 @@ fun FileCipherScreen(
                                                             onClick = {
                                                                 viewModel.byteArray?.let {
                                                                     showSaveLoading = true
-                                                                    context.shareFile(
-                                                                        byteArray = it,
+                                                                    viewModel.shareFile(
+                                                                        it = it,
                                                                         filename = name
                                                                     ) {
                                                                         scope.launch {

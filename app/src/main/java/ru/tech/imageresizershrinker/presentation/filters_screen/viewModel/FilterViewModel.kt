@@ -7,6 +7,7 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
+import androidx.exifinterface.media.ExifInterface
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -14,22 +15,19 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import ru.tech.imageresizershrinker.core.android.BitmapUtils.calcSize
-import ru.tech.imageresizershrinker.core.android.BitmapUtils.compress
-import ru.tech.imageresizershrinker.core.android.BitmapUtils.resizeBitmap
-import ru.tech.imageresizershrinker.core.android.BitmapUtils.scaleUntilCanShow
-import ru.tech.imageresizershrinker.domain.model.BitmapInfo
+import ru.tech.imageresizershrinker.domain.image.ImageManager
+import ru.tech.imageresizershrinker.domain.model.ImageInfo
 import ru.tech.imageresizershrinker.domain.model.MimeType
 import ru.tech.imageresizershrinker.domain.model.ResizeType
 import ru.tech.imageresizershrinker.domain.saving.FileController
-import ru.tech.imageresizershrinker.domain.saving.model.BitmapSaveTarget
-import ru.tech.imageresizershrinker.presentation.root.utils.coil.filters.FilterTransformation
-import java.io.ByteArrayOutputStream
+import ru.tech.imageresizershrinker.domain.saving.model.ImageSaveTarget
+import ru.tech.imageresizershrinker.presentation.root.transformation.filter.FilterTransformation
 import javax.inject.Inject
 
 @HiltViewModel
 class FilterViewModel @Inject constructor(
-    private val fileController: FileController
+    private val fileController: FileController,
+    private val imageManager: ImageManager<Bitmap, ExifInterface>
 ) : ViewModel() {
 
     private val _bitmapSize = mutableStateOf<Long?>(null)
@@ -84,10 +82,7 @@ class FilterViewModel @Inject constructor(
         _selectedUri.value = uris?.firstOrNull()
     }
 
-    fun updateUrisSilently(
-        removedUri: Uri,
-        loader: suspend (Uri) -> Bitmap?
-    ) {
+    fun updateUrisSilently(removedUri: Uri) {
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
                 _uris.value = uris
@@ -96,12 +91,20 @@ class FilterViewModel @Inject constructor(
                     if (index == 0) {
                         uris?.getOrNull(1)?.let {
                             _selectedUri.value = it
-                            _bitmap.value = loader(it)
+                            _bitmap.value = imageManager.getImageWithTransformations(
+                                uri = it.toString(),
+                                transformations = filterList,
+                                originalSize = false
+                            )
                         }
                     } else {
                         uris?.getOrNull(index - 1)?.let {
                             _selectedUri.value = it
-                            _bitmap.value = loader(it)
+                            _bitmap.value = imageManager.getImageWithTransformations(
+                                uri = it.toString(),
+                                transformations = filterList,
+                                originalSize = false
+                            )
                         }
                     }
                 }
@@ -116,15 +119,18 @@ class FilterViewModel @Inject constructor(
     fun updateBitmap(bitmap: Bitmap?, preview: Bitmap? = null) {
         viewModelScope.launch {
             _isLoading.value = true
-            _bitmap.value = bitmap?.scaleUntilCanShow()?.upscale()
+            _bitmap.value = imageManager.scaleUntilCanShow(bitmap)?.upscale()
             _previewBitmap.value = preview ?: _bitmap.value
             _bitmap.value?.let {
                 if (_previewBitmap.value?.width != it.width) {
-                    _previewBitmap.value = _previewBitmap.value?.resizeBitmap(
-                        width_ = it.width,
-                        height_ = it.height,
-                        resizeType = ResizeType.Flexible
-                    ) ?: _previewBitmap.value
+                    _previewBitmap.value = _previewBitmap.value?.let { it1 ->
+                        imageManager.resize(
+                            image = it1,
+                            width = it.width,
+                            height = it.height,
+                            resizeType = ResizeType.Flexible
+                        )
+                    } ?: _previewBitmap.value
                 }
             }
             calcSize()
@@ -138,7 +144,13 @@ class FilterViewModel @Inject constructor(
         sizeJob = viewModelScope.launch {
             kotlinx.coroutines.delay(delay)
             onStart()
-            _bitmapSize.value = _previewBitmap.value?.calcSize(mimeType)
+            _bitmapSize.value =
+                _previewBitmap.value?.let {
+                    imageManager.calculateImageSize(
+                        image = it,
+                        ImageInfo(mimeType = mimeType)
+                    )
+                }
             onFinish()
         }
     }
@@ -148,7 +160,6 @@ class FilterViewModel @Inject constructor(
     }
 
     fun saveBitmaps(
-        getBitmap: suspend (Uri) -> Bitmap?,
         onResult: (Int, String) -> Unit
     ) = viewModelScope.launch {
         withContext(Dispatchers.IO) {
@@ -160,28 +171,23 @@ class FilterViewModel @Inject constructor(
                 _done.value = 0
                 uris?.forEach { uri ->
                     runCatching {
-                        getBitmap(uri)
+                        imageManager.getImageWithTransformations(uri.toString(), filterList)
                     }.getOrNull()?.let { bitmap ->
                         val localBitmap = bitmap
 
-                        val out = ByteArrayOutputStream()
-
-                        localBitmap.compress(
-                            mimeType = mimeType,
-                            quality = 100,
-                            out = out
-                        )
-
                         fileController.save(
-                            saveTarget = BitmapSaveTarget(
-                                bitmapInfo = BitmapInfo(
+                            saveTarget = ImageSaveTarget(
+                                imageInfo = ImageInfo(
                                     mimeType = mimeType,
                                     width = localBitmap.width,
                                     height = localBitmap.height
                                 ),
                                 originalUri = uri.toString(),
                                 sequenceNumber = _done.value + 1,
-                                data = out.toByteArray()
+                                data = imageManager.compress(
+                                    image = localBitmap,
+                                    imageInfo = ImageInfo(mimeType = mimeType)
+                                )
                             ), keepMetadata = keepExif
                         )
                     } ?: {
@@ -194,15 +200,18 @@ class FilterViewModel @Inject constructor(
         }
     }
 
-    fun setBitmap(
-        loader: suspend () -> Bitmap?,
-        getPreview: suspend () -> Bitmap?,
-        uri: Uri
-    ) {
+    fun setBitmap(uri: Uri) {
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
                 _isLoading.value = true
-                updateBitmap(loader(), getPreview())
+                updateBitmap(
+                    imageManager.getImage(uri = uri.toString(), originalSize = false),
+                    imageManager.getImageWithTransformations(
+                        uri = uri.toString(),
+                        transformations = filterList,
+                        originalSize = false
+                    )
+                )
                 _selectedUri.value = uri
                 _isLoading.value = false
             }
@@ -211,22 +220,6 @@ class FilterViewModel @Inject constructor(
 
     private fun updateCanSave() {
         _canSave.value = _bitmap.value != null && _filterList.value.isNotEmpty()
-    }
-
-    fun proceedBitmap(
-        bitmapResult: Result<Bitmap?>,
-    ): Pair<Bitmap, BitmapInfo>? {
-        return bitmapResult.getOrNull()?.let { bitmap ->
-            bitmap to BitmapInfo(
-                bitmap.width,
-                bitmap.height,
-                mimeType = mimeType
-            )
-        }
-    }
-
-    fun setProgress(progress: Int) {
-        _done.value = progress
     }
 
     fun addFilter(filter: FilterTransformation<*>) {
@@ -244,11 +237,18 @@ class FilterViewModel @Inject constructor(
     }
 
     private var filterJob: Job? = null
-    fun setFilteredPreview(getBitmap: suspend () -> Bitmap?) {
+    fun setFilteredPreview(bitmap: Bitmap) {
         filterJob?.cancel()
         filterJob = viewModelScope.launch {
             _isLoading.value = true
-            updateBitmap(_bitmap.value, getBitmap() ?: _previewBitmap.value)
+            updateBitmap(
+                _bitmap.value,
+                imageManager.transform(
+                    image = bitmap,
+                    transformations = filterList,
+                    originalSize = false
+                ) ?: _previewBitmap.value
+            )
             _isLoading.value = false
             _needToApplyFilters.value = false
         }
@@ -276,9 +276,51 @@ class FilterViewModel @Inject constructor(
         _needToApplyFilters.value = true
     }
 
-    private fun Bitmap.upscale(): Bitmap {
+    private suspend fun Bitmap.upscale(): Bitmap {
         return if (this.width * this.height < 2000 * 2000) {
-            this.resizeBitmap(2000, 2000, ResizeType.Flexible)
+            imageManager.resize(this, 2000, 2000, ResizeType.Flexible)
         } else this
     }
+
+    fun decodeBitmapFromUri(uri: Uri, onError: (Throwable) -> Unit) {
+        viewModelScope.launch {
+            imageManager.getImageAsync(
+                uri = uri.toString(),
+                originalSize = true,
+                onGetMimeType = ::setMime,
+                onGetMetadata = {},
+                onGetImage = {
+                    uris?.firstOrNull()?.let { uri ->
+                        setBitmap(uri)
+                    }
+                },
+                onError = onError
+            )
+        }
+    }
+
+    fun canShow(): Boolean = bitmap?.let { imageManager.canShow(it) } ?: false
+
+    fun shareBitmaps(onComplete: () -> Unit) {
+        viewModelScope.launch {
+            imageManager.shareImages(
+                uris = uris?.map { it.toString() } ?: emptyList(),
+                imageLoader = { uri ->
+                    imageManager.getImageWithTransformations(uri, filterList)
+                        ?.let { it to ImageInfo(mimeType = mimeType) }
+                },
+                onProgressChange = {
+                    if (it == -1) {
+                        onComplete()
+                        _done.value = 0
+                    } else {
+                        _done.value = it
+                    }
+                }
+            )
+        }
+    }
+
+    fun getImageManager(): ImageManager<Bitmap, ExifInterface> = imageManager
+
 }

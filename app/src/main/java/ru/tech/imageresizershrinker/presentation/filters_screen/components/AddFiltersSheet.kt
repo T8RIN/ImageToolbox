@@ -67,61 +67,62 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.exifinterface.media.ExifInterface
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.R
-import ru.tech.imageresizershrinker.core.android.BitmapUtils.applyTransformations
+import ru.tech.imageresizershrinker.domain.image.ImageManager
 import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
-import ru.tech.imageresizershrinker.presentation.root.utils.coil.filters.BilaterialBlurFilter
-import ru.tech.imageresizershrinker.presentation.root.utils.coil.filters.BlackAndWhiteFilter
-import ru.tech.imageresizershrinker.presentation.root.utils.coil.filters.BoxBlurFilter
-import ru.tech.imageresizershrinker.presentation.root.utils.coil.filters.BrightnessFilter
-import ru.tech.imageresizershrinker.presentation.root.utils.coil.filters.BulgeDistortionEffect
-import ru.tech.imageresizershrinker.presentation.root.utils.coil.filters.CGAColorSpaceFilter
-import ru.tech.imageresizershrinker.presentation.root.utils.coil.filters.ColorBalanceFilter
-import ru.tech.imageresizershrinker.presentation.root.utils.coil.filters.ColorFilter
-import ru.tech.imageresizershrinker.presentation.root.utils.coil.filters.ColorMatrixFilter
-import ru.tech.imageresizershrinker.presentation.root.utils.coil.filters.ContrastFilter
-import ru.tech.imageresizershrinker.presentation.root.utils.coil.filters.Convolution3x3Filter
-import ru.tech.imageresizershrinker.presentation.root.utils.coil.filters.CrosshatchFilter
-import ru.tech.imageresizershrinker.presentation.root.utils.coil.filters.DilationFilter
-import ru.tech.imageresizershrinker.presentation.root.utils.coil.filters.EmbossFilter
-import ru.tech.imageresizershrinker.presentation.root.utils.coil.filters.ExposureFilter
-import ru.tech.imageresizershrinker.presentation.root.utils.coil.filters.FalseColorFilter
-import ru.tech.imageresizershrinker.presentation.root.utils.coil.filters.FastBlurFilter
-import ru.tech.imageresizershrinker.presentation.root.utils.coil.filters.FilterTransformation
-import ru.tech.imageresizershrinker.presentation.root.utils.coil.filters.GammaFilter
-import ru.tech.imageresizershrinker.presentation.root.utils.coil.filters.GaussianBlurFilter
-import ru.tech.imageresizershrinker.presentation.root.utils.coil.filters.GlassSphereRefractionFilter
-import ru.tech.imageresizershrinker.presentation.root.utils.coil.filters.HalftoneFilter
-import ru.tech.imageresizershrinker.presentation.root.utils.coil.filters.HazeFilter
-import ru.tech.imageresizershrinker.presentation.root.utils.coil.filters.HighlightsAndShadowsFilter
-import ru.tech.imageresizershrinker.presentation.root.utils.coil.filters.HueFilter
-import ru.tech.imageresizershrinker.presentation.root.utils.coil.filters.KuwaharaFilter
-import ru.tech.imageresizershrinker.presentation.root.utils.coil.filters.LaplacianFilter
-import ru.tech.imageresizershrinker.presentation.root.utils.coil.filters.LookupFilter
-import ru.tech.imageresizershrinker.presentation.root.utils.coil.filters.LuminanceThresholdFilter
-import ru.tech.imageresizershrinker.presentation.root.utils.coil.filters.MonochromeFilter
-import ru.tech.imageresizershrinker.presentation.root.utils.coil.filters.NegativeFilter
-import ru.tech.imageresizershrinker.presentation.root.utils.coil.filters.NonMaximumSuppressionFilter
-import ru.tech.imageresizershrinker.presentation.root.utils.coil.filters.OpacityFilter
-import ru.tech.imageresizershrinker.presentation.root.utils.coil.filters.PosterizeFilter
-import ru.tech.imageresizershrinker.presentation.root.utils.coil.filters.RGBFilter
-import ru.tech.imageresizershrinker.presentation.root.utils.coil.filters.SaturationFilter
-import ru.tech.imageresizershrinker.presentation.root.utils.coil.filters.SepiaFilter
-import ru.tech.imageresizershrinker.presentation.root.utils.coil.filters.SharpenFilter
-import ru.tech.imageresizershrinker.presentation.root.utils.coil.filters.SketchFilter
-import ru.tech.imageresizershrinker.presentation.root.utils.coil.filters.SmoothToonFilter
-import ru.tech.imageresizershrinker.presentation.root.utils.coil.filters.SobelEdgeDetectionFilter
-import ru.tech.imageresizershrinker.presentation.root.utils.coil.filters.SolarizeFilter
-import ru.tech.imageresizershrinker.presentation.root.utils.coil.filters.SphereRefractionFilter
-import ru.tech.imageresizershrinker.presentation.root.utils.coil.filters.StackBlurFilter
-import ru.tech.imageresizershrinker.presentation.root.utils.coil.filters.SwirlDistortionEffect
-import ru.tech.imageresizershrinker.presentation.root.utils.coil.filters.ToonFilter
-import ru.tech.imageresizershrinker.presentation.root.utils.coil.filters.VibranceFilter
-import ru.tech.imageresizershrinker.presentation.root.utils.coil.filters.VignetteFilter
-import ru.tech.imageresizershrinker.presentation.root.utils.coil.filters.WeakPixelFilter
-import ru.tech.imageresizershrinker.presentation.root.utils.coil.filters.WhiteBalanceFilter
-import ru.tech.imageresizershrinker.presentation.root.utils.coil.filters.ZoomBlurFilter
+import ru.tech.imageresizershrinker.presentation.root.transformation.filter.BilaterialBlurFilter
+import ru.tech.imageresizershrinker.presentation.root.transformation.filter.BlackAndWhiteFilter
+import ru.tech.imageresizershrinker.presentation.root.transformation.filter.BoxBlurFilter
+import ru.tech.imageresizershrinker.presentation.root.transformation.filter.BrightnessFilter
+import ru.tech.imageresizershrinker.presentation.root.transformation.filter.BulgeDistortionEffect
+import ru.tech.imageresizershrinker.presentation.root.transformation.filter.CGAColorSpaceFilter
+import ru.tech.imageresizershrinker.presentation.root.transformation.filter.ColorBalanceFilter
+import ru.tech.imageresizershrinker.presentation.root.transformation.filter.ColorFilter
+import ru.tech.imageresizershrinker.presentation.root.transformation.filter.ColorMatrixFilter
+import ru.tech.imageresizershrinker.presentation.root.transformation.filter.ContrastFilter
+import ru.tech.imageresizershrinker.presentation.root.transformation.filter.Convolution3x3Filter
+import ru.tech.imageresizershrinker.presentation.root.transformation.filter.CrosshatchFilter
+import ru.tech.imageresizershrinker.presentation.root.transformation.filter.DilationFilter
+import ru.tech.imageresizershrinker.presentation.root.transformation.filter.EmbossFilter
+import ru.tech.imageresizershrinker.presentation.root.transformation.filter.ExposureFilter
+import ru.tech.imageresizershrinker.presentation.root.transformation.filter.FalseColorFilter
+import ru.tech.imageresizershrinker.presentation.root.transformation.filter.FastBlurFilter
+import ru.tech.imageresizershrinker.presentation.root.transformation.filter.FilterTransformation
+import ru.tech.imageresizershrinker.presentation.root.transformation.filter.GammaFilter
+import ru.tech.imageresizershrinker.presentation.root.transformation.filter.GaussianBlurFilter
+import ru.tech.imageresizershrinker.presentation.root.transformation.filter.GlassSphereRefractionFilter
+import ru.tech.imageresizershrinker.presentation.root.transformation.filter.HalftoneFilter
+import ru.tech.imageresizershrinker.presentation.root.transformation.filter.HazeFilter
+import ru.tech.imageresizershrinker.presentation.root.transformation.filter.HighlightsAndShadowsFilter
+import ru.tech.imageresizershrinker.presentation.root.transformation.filter.HueFilter
+import ru.tech.imageresizershrinker.presentation.root.transformation.filter.KuwaharaFilter
+import ru.tech.imageresizershrinker.presentation.root.transformation.filter.LaplacianFilter
+import ru.tech.imageresizershrinker.presentation.root.transformation.filter.LookupFilter
+import ru.tech.imageresizershrinker.presentation.root.transformation.filter.LuminanceThresholdFilter
+import ru.tech.imageresizershrinker.presentation.root.transformation.filter.MonochromeFilter
+import ru.tech.imageresizershrinker.presentation.root.transformation.filter.NegativeFilter
+import ru.tech.imageresizershrinker.presentation.root.transformation.filter.NonMaximumSuppressionFilter
+import ru.tech.imageresizershrinker.presentation.root.transformation.filter.OpacityFilter
+import ru.tech.imageresizershrinker.presentation.root.transformation.filter.PosterizeFilter
+import ru.tech.imageresizershrinker.presentation.root.transformation.filter.RGBFilter
+import ru.tech.imageresizershrinker.presentation.root.transformation.filter.SaturationFilter
+import ru.tech.imageresizershrinker.presentation.root.transformation.filter.SepiaFilter
+import ru.tech.imageresizershrinker.presentation.root.transformation.filter.SharpenFilter
+import ru.tech.imageresizershrinker.presentation.root.transformation.filter.SketchFilter
+import ru.tech.imageresizershrinker.presentation.root.transformation.filter.SmoothToonFilter
+import ru.tech.imageresizershrinker.presentation.root.transformation.filter.SobelEdgeDetectionFilter
+import ru.tech.imageresizershrinker.presentation.root.transformation.filter.SolarizeFilter
+import ru.tech.imageresizershrinker.presentation.root.transformation.filter.SphereRefractionFilter
+import ru.tech.imageresizershrinker.presentation.root.transformation.filter.StackBlurFilter
+import ru.tech.imageresizershrinker.presentation.root.transformation.filter.SwirlDistortionEffect
+import ru.tech.imageresizershrinker.presentation.root.transformation.filter.ToonFilter
+import ru.tech.imageresizershrinker.presentation.root.transformation.filter.VibranceFilter
+import ru.tech.imageresizershrinker.presentation.root.transformation.filter.VignetteFilter
+import ru.tech.imageresizershrinker.presentation.root.transformation.filter.WeakPixelFilter
+import ru.tech.imageresizershrinker.presentation.root.transformation.filter.WhiteBalanceFilter
+import ru.tech.imageresizershrinker.presentation.root.transformation.filter.ZoomBlurFilter
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.drawHorizontalStroke
 import ru.tech.imageresizershrinker.presentation.root.widget.image.SimplePicture
 import ru.tech.imageresizershrinker.presentation.root.widget.image.imageStickyHeader
@@ -137,6 +138,7 @@ import ru.tech.imageresizershrinker.presentation.root.widget.utils.middleImageSt
 fun AddFiltersSheet(
     visible: MutableState<Boolean>,
     previewBitmap: Bitmap?,
+    imageManager: ImageManager<Bitmap, ExifInterface>,
     onFilterPicked: (FilterTransformation<*>) -> Unit,
     onFilterPickedWithParams: (FilterTransformation<*>) -> Unit
 ) {
@@ -360,8 +362,7 @@ fun AddFiltersSheet(
                 imageState = imageState.copy(position = 2)
             }
             loading = true
-            transformedBitmap =
-                context.applyTransformations(previewBitmap, listOf(previewSheetData!!))
+            transformedBitmap = imageManager.transform(previewBitmap, listOf(previewSheetData!!))
             loading = false
         }
     }

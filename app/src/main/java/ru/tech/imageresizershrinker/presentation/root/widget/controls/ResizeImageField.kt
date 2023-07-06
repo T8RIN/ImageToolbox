@@ -23,15 +23,15 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import ru.tech.imageresizershrinker.R
-import ru.tech.imageresizershrinker.core.android.BitmapUtils.restrict
-import ru.tech.imageresizershrinker.domain.model.BitmapInfo
+import ru.tech.imageresizershrinker.core.android.ImageUtils.restrict
+import ru.tech.imageresizershrinker.domain.model.ImageInfo
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.block
 import ru.tech.imageresizershrinker.presentation.root.widget.text.RoundedTextField
 import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalSettingsState
 
 @Composable
 fun ResizeImageField(
-    bitmapInfo: BitmapInfo,
+    imageInfo: ImageInfo,
     bitmap: Bitmap?,
     onWidthChange: (Int) -> Unit,
     onHeightChange: (Int) -> Unit,
@@ -45,7 +45,7 @@ fun ResizeImageField(
         Row {
             RoundedTextField(
                 enabled = bitmap != null,
-                value = bitmapInfo.width.takeIf { it != 0 }.let { it ?: "" }.toString(),
+                value = imageInfo.width.takeIf { it != 0 }.let { it ?: "" }.toString(),
                 onValueChange = { value ->
                     onWidthChange(
                         value.restrict().toIntOrNull() ?: 0
@@ -74,7 +74,7 @@ fun ResizeImageField(
             )
             RoundedTextField(
                 enabled = bitmap != null,
-                value = bitmapInfo.height.takeIf { it != 0 }.let { it ?: "" }.toString(),
+                value = imageInfo.height.takeIf { it != 0 }.let { it ?: "" }.toString(),
                 onValueChange = { value ->
                     onHeightChange(
                         value.restrict().toIntOrNull() ?: 0

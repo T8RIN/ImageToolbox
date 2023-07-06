@@ -4,25 +4,26 @@ import android.graphics.Bitmap
 import android.net.Uri
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
+import androidx.exifinterface.media.ExifInterface
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import ru.tech.imageresizershrinker.domain.model.BitmapInfo
-import ru.tech.imageresizershrinker.domain.saving.model.BitmapSaveTarget
+import ru.tech.imageresizershrinker.domain.image.ImageManager
+import ru.tech.imageresizershrinker.domain.model.ImageInfo
 import ru.tech.imageresizershrinker.domain.model.MimeType
 import ru.tech.imageresizershrinker.domain.saving.FileController
-import ru.tech.imageresizershrinker.core.android.BitmapUtils.compress
-import ru.tech.imageresizershrinker.core.android.BitmapUtils.scaleUntilCanShow
-import java.io.ByteArrayOutputStream
+import ru.tech.imageresizershrinker.domain.saving.model.ImageSaveTarget
 import javax.inject.Inject
 
 @HiltViewModel
 class DeleteExifViewModel @Inject constructor(
-    private val fileController: FileController
+    private val fileController: FileController,
+    private val imageManager: ImageManager<Bitmap, ExifInterface>
 ) : ViewModel() {
 
     private val _uris = mutableStateOf<List<Uri>?>(null)
@@ -37,7 +38,7 @@ class DeleteExifViewModel @Inject constructor(
     private val _previewBitmap: MutableState<Bitmap?> = mutableStateOf(null)
     val previewBitmap: Bitmap? by _previewBitmap
 
-    private val _done: MutableState<Int> = mutableStateOf(0)
+    private val _done: MutableState<Int> = mutableIntStateOf(0)
     val done by _done
 
     private val _selectedUri: MutableState<Uri?> = mutableStateOf(null)
@@ -49,10 +50,7 @@ class DeleteExifViewModel @Inject constructor(
         _selectedUri.value = uris?.firstOrNull()
     }
 
-    fun updateUrisSilently(
-        removedUri: Uri,
-        loader: suspend (Uri) -> Bitmap?
-    ) {
+    fun updateUrisSilently(removedUri: Uri) {
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
                 _uris.value = uris
@@ -61,12 +59,12 @@ class DeleteExifViewModel @Inject constructor(
                     if (index == 0) {
                         uris?.getOrNull(1)?.let {
                             _selectedUri.value = it
-                            _bitmap.value = loader(it)
+                            _bitmap.value = imageManager.getImage(it.toString(), originalSize = false)
                         }
                     } else {
                         uris?.getOrNull(index - 1)?.let {
                             _selectedUri.value = it
-                            _bitmap.value = loader(it)
+                            _bitmap.value = imageManager.getImage(it.toString(), originalSize = false)
                         }
                     }
                 }
@@ -82,13 +80,12 @@ class DeleteExifViewModel @Inject constructor(
         viewModelScope.launch {
             _isLoading.value = true
             _bitmap.value = bitmap
-            _previewBitmap.value = bitmap?.scaleUntilCanShow()
+            _previewBitmap.value = imageManager.scaleUntilCanShow(bitmap)
             _isLoading.value = false
         }
     }
 
     fun saveBitmaps(
-        getBitmap: suspend (Uri) -> Pair<Bitmap?, MimeType>,
         onResult: (Int, String) -> Unit
     ) = viewModelScope.launch {
         withContext(Dispatchers.IO) {
@@ -99,25 +96,22 @@ class DeleteExifViewModel @Inject constructor(
                 _done.value = 0
                 uris?.forEach { uri ->
                     runCatching {
-                        getBitmap(uri)
+                        imageManager.getImageWithMime(uri.toString())
                     }.getOrNull()?.takeIf { it.first != null }?.let { (bitmap, mimeType) ->
                         bitmap?.let { result ->
-                            val out = ByteArrayOutputStream()
-                            result.compress(
-                                mimeType = mimeType,
-                                quality = 100,
-                                out = out
-                            )
                             fileController.save(
-                                BitmapSaveTarget(
-                                    bitmapInfo = BitmapInfo(
+                                ImageSaveTarget(
+                                    imageInfo = ImageInfo(
                                         mimeType = mimeType,
                                         width = result.width,
                                         height = result.height
                                     ),
                                     originalUri = uri.toString(),
                                     sequenceNumber = _done.value,
-                                    data = out.toByteArray()
+                                    data = imageManager.compress(
+                                        result,
+                                        ImageInfo(mimeType = mimeType)
+                                    )
                                 ),
                                 keepMetadata = false
                             )
@@ -133,17 +127,59 @@ class DeleteExifViewModel @Inject constructor(
         }
     }
 
-    fun setBitmap(loader: suspend () -> Bitmap?, uri: Uri) {
+    fun setBitmap(uri: Uri) {
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
-                updateBitmap(loader())
+                updateBitmap(imageManager.getImage(uri.toString(), originalSize = false))
                 _selectedUri.value = uri
             }
         }
     }
 
-    fun setProgress(progress: Int) {
-        _done.value = progress
+    fun decodeBitmapByUri(
+        uri: Uri,
+        originalSize: Boolean = true,
+        onGetMimeType: (MimeType) -> Unit,
+        onGetExif: (ExifInterface?) -> Unit,
+        onGetBitmap: (Bitmap) -> Unit,
+        onError: (Throwable) -> Unit
+    ) {
+        imageManager.getImageAsync(
+            uri = uri.toString(),
+            originalSize = originalSize,
+            onGetImage = onGetBitmap,
+            onGetMetadata = onGetExif,
+            onGetMimeType = onGetMimeType,
+            onError = onError
+        )
     }
+
+    fun shareBitmaps(onComplete: () -> Unit) {
+        viewModelScope.launch {
+            imageManager.shareImages(
+                uris = uris?.map { it.toString() } ?: emptyList(),
+                imageLoader = { uri ->
+                    imageManager.getImageWithMime(uri)
+                        .takeIf { it.first != null }?.let {
+                            it.first!! to ImageInfo(
+                                mimeType = it.second,
+                                width = it.first!!.width,
+                                height = it.first!!.height
+                            )
+                        }
+                },
+                onProgressChange = {
+                    if (it == -1) {
+                        onComplete()
+                        _done.value = 0
+                    } else {
+                        _done.value = it
+                    }
+                }
+            )
+        }
+    }
+
+    fun getImageManager(): ImageManager<Bitmap, ExifInterface> = imageManager
 
 }

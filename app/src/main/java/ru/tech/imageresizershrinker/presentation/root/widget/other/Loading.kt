@@ -10,7 +10,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.size
@@ -24,7 +23,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.window.Dialog
 import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalSettingsState
 
 @Composable
@@ -115,24 +113,6 @@ fun BoxScope.Loading(done: Int, left: Int) {
         }
         Spacer(Modifier.height(8.dp))
         Text("$done / $left")
-    }
-    KeepScreenOn()
-}
-
-@Composable
-fun LoadingDialog() {
-    Dialog(onDismissRequest = { }) {
-        Box(Modifier.fillMaxSize()) { Loading() }
-    }
-    KeepScreenOn()
-}
-
-@Composable
-fun LoadingDialog(done: Int, left: Int) {
-    Dialog(onDismissRequest = { }) {
-        Box(Modifier.fillMaxSize()) {
-            Loading(done, left)
-        }
     }
     KeepScreenOn()
 }

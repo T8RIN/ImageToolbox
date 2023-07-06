@@ -53,16 +53,15 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.size.Size
 import com.t8rin.dynamic.theme.LocalDynamicThemeState
 import com.t8rin.dynamic.theme.getAppColorTuple
+import dev.olshevski.navigation.reimagined.hilt.hiltViewModel
 import ru.tech.imageresizershrinker.R
-import ru.tech.imageresizershrinker.core.android.BitmapUtils.decodeSampledBitmapFromUri
 import ru.tech.imageresizershrinker.presentation.image_preview_screen.components.ImagePager
 import ru.tech.imageresizershrinker.presentation.image_preview_screen.viewModel.ImagePreviewViewModel
 import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
-import ru.tech.imageresizershrinker.presentation.root.utils.coil.filters.SaturationFilter
+import ru.tech.imageresizershrinker.presentation.root.transformation.filter.SaturationFilter
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.Picker
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.localImagePickerMode
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.rememberImagePicker
@@ -80,7 +79,7 @@ import ru.tech.imageresizershrinker.presentation.root.widget.utils.isScrollingUp
 fun ImagePreviewScreen(
     uriState: List<Uri>?,
     onGoBack: () -> Unit,
-    viewModel: ImagePreviewViewModel = viewModel()
+    viewModel: ImagePreviewViewModel = hiltViewModel()
 ) {
     val context = LocalContext.current as ComponentActivity
     val themeState = LocalDynamicThemeState.current
@@ -102,7 +101,7 @@ fun ImagePreviewScreen(
     LaunchedEffect(viewModel.selectedUri) {
         viewModel.selectedUri?.let {
             if (allowChangeColor) {
-                val image = context.decodeSampledBitmapFromUri(
+                val image = viewModel.decodeSampledBitmapFromUri(
                     uri = it,
                     reqWidth = 1200,
                     reqHeight = 1200

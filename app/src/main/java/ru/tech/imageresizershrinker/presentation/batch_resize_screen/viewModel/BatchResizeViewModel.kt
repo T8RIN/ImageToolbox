@@ -6,6 +6,7 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
+import androidx.exifinterface.media.ExifInterface
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -14,25 +15,18 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import ru.tech.imageresizershrinker.core.android.BitmapUtils.applyPresetBy
-import ru.tech.imageresizershrinker.core.android.BitmapUtils.canShow
-import ru.tech.imageresizershrinker.core.android.BitmapUtils.compress
-import ru.tech.imageresizershrinker.core.android.BitmapUtils.flip
-import ru.tech.imageresizershrinker.core.android.BitmapUtils.previewBitmap
-import ru.tech.imageresizershrinker.core.android.BitmapUtils.resizeBitmap
-import ru.tech.imageresizershrinker.core.android.BitmapUtils.rotate
-import ru.tech.imageresizershrinker.core.android.BitmapUtils.scaleUntilCanShow
-import ru.tech.imageresizershrinker.domain.model.BitmapInfo
+import ru.tech.imageresizershrinker.domain.image.ImageManager
+import ru.tech.imageresizershrinker.domain.model.ImageInfo
 import ru.tech.imageresizershrinker.domain.model.MimeType
 import ru.tech.imageresizershrinker.domain.model.ResizeType
 import ru.tech.imageresizershrinker.domain.saving.FileController
-import ru.tech.imageresizershrinker.domain.saving.model.BitmapSaveTarget
-import java.io.ByteArrayOutputStream
+import ru.tech.imageresizershrinker.domain.saving.model.ImageSaveTarget
 import javax.inject.Inject
 
 @HiltViewModel
 class BatchResizeViewModel @Inject constructor(
-    private val fileController: FileController
+    private val fileController: FileController,
+    private val imageManager: ImageManager<Bitmap, ExifInterface>
 ) : ViewModel() {
 
     private val _uris = mutableStateOf<List<Uri>?>(null)
@@ -44,8 +38,8 @@ class BatchResizeViewModel @Inject constructor(
     private val _keepExif = mutableStateOf(false)
     val keepExif by _keepExif
 
-    private val _bitmapInfo: MutableState<BitmapInfo> = mutableStateOf(BitmapInfo())
-    val bitmapInfo: BitmapInfo by _bitmapInfo
+    private val _imageInfo: MutableState<ImageInfo> = mutableStateOf(ImageInfo())
+    val imageInfo: ImageInfo by _imageInfo
 
     private val _isLoading: MutableState<Boolean> = mutableStateOf(false)
     val isLoading: Boolean by _isLoading
@@ -86,10 +80,7 @@ class BatchResizeViewModel @Inject constructor(
         _selectedUri.value = uris?.firstOrNull()
     }
 
-    fun updateUrisSilently(
-        removedUri: Uri,
-        loader: suspend (Uri) -> Bitmap?
-    ) {
+    fun updateUrisSilently(removedUri: Uri) {
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
                 _uris.value = uris
@@ -98,12 +89,12 @@ class BatchResizeViewModel @Inject constructor(
                     if (index == 0) {
                         uris?.getOrNull(1)?.let {
                             _selectedUri.value = it
-                            _bitmap.value = loader(it)
+                            _bitmap.value = imageManager.getImage(it.toString())
                         }
                     } else {
                         uris?.getOrNull(index - 1)?.let {
                             _selectedUri.value = it
-                            _bitmap.value = loader(it)
+                            _bitmap.value = imageManager.getImage(it.toString())
                         }
                     }
                     resetValues(true)
@@ -134,10 +125,10 @@ class BatchResizeViewModel @Inject constructor(
             _bitmap.value?.let { bmp ->
                 val preview = updatePreview(bmp)
                 _previewBitmap.value = null
-                _shouldShowPreview.value = preview.canShow()
+                _shouldShowPreview.value = imageManager.canShow(preview)
                 if (shouldShowPreview) _previewBitmap.value = preview
 
-                _bitmapInfo.value = _bitmapInfo.value.run {
+                _imageInfo.value = _imageInfo.value.run {
                     if (resizeType is ResizeType.Ratio) copy(
                         height = preview.height,
                         width = preview.width
@@ -151,30 +142,31 @@ class BatchResizeViewModel @Inject constructor(
     private suspend fun updatePreview(
         bitmap: Bitmap
     ): Bitmap = withContext(Dispatchers.IO) {
-        return@withContext bitmapInfo.run {
+        return@withContext imageInfo.run {
             _showWarning.value = width * height * 4L >= 10_000 * 10_000 * 3L
-            bitmap.previewBitmap(
-                bitmapInfo = this,
-                onByteCount = {
-                    _bitmapInfo.value = _bitmapInfo.value.copy(sizeInBytes = it)
+            imageManager.createPreview(
+                image = bitmap,
+                imageInfo = this,
+                onGetByteCount = {
+                    _imageInfo.value = _imageInfo.value.copy(sizeInBytes = it)
                 }
             )
         }
     }
 
-    fun setBitmapInfo(newInfo: BitmapInfo) {
-        if (_bitmapInfo.value != newInfo || _bitmapInfo.value.quality == 100f) {
-            _bitmapInfo.value = newInfo
+    private fun setBitmapInfo(newInfo: ImageInfo) {
+        if (_imageInfo.value != newInfo || _imageInfo.value.quality == 100f) {
+            _imageInfo.value = newInfo
             checkBitmapAndUpdate(resetPreset = false, resetTelegram = true)
             _presetSelected.value = newInfo.quality.toInt()
         }
     }
 
     fun resetValues(saveMime: Boolean = false) {
-        _bitmapInfo.value = BitmapInfo(
+        _imageInfo.value = ImageInfo(
             width = _bitmap.value?.width ?: 0,
             height = _bitmap.value?.height ?: 0,
-            mimeType = if (saveMime) bitmapInfo.mimeType else MimeType.Default()
+            mimeType = if (saveMime) imageInfo.mimeType else MimeType.Default()
         )
         checkBitmapAndUpdate(resetPreset = true, resetTelegram = true)
     }
@@ -182,9 +174,9 @@ class BatchResizeViewModel @Inject constructor(
     fun updateBitmap(bitmap: Bitmap?) {
         viewModelScope.launch {
             val size = bitmap?.let { bitmap.width to bitmap.height }
-            _bitmap.value = bitmap?.scaleUntilCanShow()
+            _bitmap.value = imageManager.scaleUntilCanShow(bitmap)
             resetValues(true)
-            _bitmapInfo.value = _bitmapInfo.value.copy(
+            _imageInfo.value = _imageInfo.value.copy(
                 width = size?.first ?: 0,
                 height = size?.second ?: 0
             )
@@ -192,9 +184,9 @@ class BatchResizeViewModel @Inject constructor(
     }
 
     fun rotateLeft() {
-        _bitmapInfo.value = _bitmapInfo.value.run {
+        _imageInfo.value = _imageInfo.value.run {
             copy(
-                rotationDegrees = _bitmapInfo.value.rotationDegrees - 90f,
+                rotationDegrees = _imageInfo.value.rotationDegrees - 90f,
                 height = width,
                 width = height
             )
@@ -203,9 +195,9 @@ class BatchResizeViewModel @Inject constructor(
     }
 
     fun rotateRight() {
-        _bitmapInfo.value = _bitmapInfo.value.run {
+        _imageInfo.value = _imageInfo.value.run {
             copy(
-                rotationDegrees = _bitmapInfo.value.rotationDegrees + 90f,
+                rotationDegrees = _imageInfo.value.rotationDegrees + 90f,
                 height = width,
                 width = height
             )
@@ -214,34 +206,34 @@ class BatchResizeViewModel @Inject constructor(
     }
 
     fun flip() {
-        _bitmapInfo.value = _bitmapInfo.value.copy(isFlipped = !_bitmapInfo.value.isFlipped)
+        _imageInfo.value = _imageInfo.value.copy(isFlipped = !_imageInfo.value.isFlipped)
         checkBitmapAndUpdate(resetPreset = false, resetTelegram = false)
     }
 
     fun updateWidth(width: Int) {
-        if (_bitmapInfo.value.width != width) {
-            _bitmapInfo.value = _bitmapInfo.value.copy(width = width)
+        if (_imageInfo.value.width != width) {
+            _imageInfo.value = _imageInfo.value.copy(width = width)
             checkBitmapAndUpdate(resetPreset = true, resetTelegram = true)
         }
     }
 
     fun updateHeight(height: Int) {
-        if (_bitmapInfo.value.height != height) {
-            _bitmapInfo.value = _bitmapInfo.value.copy(height = height)
+        if (_imageInfo.value.height != height) {
+            _imageInfo.value = _imageInfo.value.copy(height = height)
             checkBitmapAndUpdate(resetPreset = true, resetTelegram = true)
         }
     }
 
     fun setQuality(quality: Float) {
-        if (_bitmapInfo.value.quality != quality) {
-            _bitmapInfo.value = _bitmapInfo.value.copy(quality = quality.coerceIn(0f, 100f))
+        if (_imageInfo.value.quality != quality) {
+            _imageInfo.value = _imageInfo.value.copy(quality = quality.coerceIn(0f, 100f))
             checkBitmapAndUpdate(resetPreset = false, resetTelegram = false)
         }
     }
 
     fun setMime(mimeType: MimeType) {
-        if (_bitmapInfo.value.mimeType != mimeType) {
-            _bitmapInfo.value = _bitmapInfo.value.copy(mimeType = mimeType)
+        if (_imageInfo.value.mimeType != mimeType) {
+            _imageInfo.value = _imageInfo.value.copy(mimeType = mimeType)
             if (mimeType !is MimeType.Png) checkBitmapAndUpdate(
                 resetPreset = false,
                 resetTelegram = true
@@ -251,8 +243,8 @@ class BatchResizeViewModel @Inject constructor(
     }
 
     fun setResizeType(type: ResizeType) {
-        if (_bitmapInfo.value.resizeType != type) {
-            _bitmapInfo.value = _bitmapInfo.value.copy(resizeType = type)
+        if (_imageInfo.value.resizeType != type) {
+            _imageInfo.value = _imageInfo.value.copy(resizeType = type)
             if (type !is ResizeType.Ratio) checkBitmapAndUpdate(
                 resetPreset = false,
                 resetTelegram = false
@@ -262,15 +254,15 @@ class BatchResizeViewModel @Inject constructor(
     }
 
     fun setTelegramSpecs() {
-        val new = _bitmapInfo.value.copy(
+        val new = _imageInfo.value.copy(
             width = 512,
             height = 512,
             mimeType = MimeType.Png,
             resizeType = ResizeType.Flexible,
             quality = 100f
         )
-        if (new != _bitmapInfo.value) {
-            _bitmapInfo.value = new
+        if (new != _imageInfo.value) {
+            _imageInfo.value = new
             checkBitmapAndUpdate(resetPreset = true, resetTelegram = false)
         }
         _isTelegramSpecs.value = true
@@ -281,7 +273,6 @@ class BatchResizeViewModel @Inject constructor(
     }
 
     fun saveBitamps(
-        getBitmap: suspend (Uri) -> Bitmap?,
         onComplete: (path: String) -> Unit
     ) = viewModelScope.launch {
         withContext(Dispatchers.IO) {
@@ -292,25 +283,21 @@ class BatchResizeViewModel @Inject constructor(
                 _done.value = 0
                 uris?.forEach { uri ->
                     runCatching {
-                        getBitmap(uri)
+                        imageManager.getImage(uri.toString())
                     }.getOrNull()?.let { bitmap ->
-                        bitmapInfo.let {
-                            presetSelected.applyPresetBy(
+                        imageInfo.let {
+                            imageManager.applyPresetBy(
                                 bitmap = bitmap,
+                                preset = _presetSelected.value,
                                 currentInfo = it
                             )
                         }.apply {
-                            val out = ByteArrayOutputStream()
-                            bitmap.rotate(rotationDegrees)
-                                .resizeBitmap(width, height, resizeType)
-                                .flip(isFlipped)
-                                .compress(mimeType = mimeType, quality = quality, out)
                             fileController.save(
-                                BitmapSaveTarget(
-                                    bitmapInfo = this,
+                                ImageSaveTarget(
+                                    imageInfo = this,
                                     originalUri = uri.toString(),
                                     sequenceNumber = _done.value + 1,
-                                    data = out.toByteArray()
+                                    data = imageManager.compress(bitmap, imageInfo)
                                 ), keepExif
                             )
                         }
@@ -322,15 +309,16 @@ class BatchResizeViewModel @Inject constructor(
         }
     }
 
-    fun setBitmap(loader: suspend () -> Bitmap?, uri: Uri) {
+    fun setBitmap(uri: Uri) {
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
-                _bitmap.value = loader()
+                updateBitmap(imageManager.getImage(uri = uri.toString(), originalSize = false))
                 if (_presetSelected.value != -1) {
                     setBitmapInfo(
-                        _presetSelected.value.applyPresetBy(
-                            _bitmap.value,
-                            _bitmapInfo.value
+                        imageManager.applyPresetBy(
+                            bitmap = _bitmap.value,
+                            preset = _presetSelected.value,
+                            currentInfo = _imageInfo.value
                         )
                     )
                 }
@@ -340,24 +328,50 @@ class BatchResizeViewModel @Inject constructor(
         }
     }
 
-    fun proceedBitmap(
-        bitmapResult: Result<Bitmap?>
-    ): Pair<Bitmap, BitmapInfo>? {
-        return bitmapResult.getOrNull()?.let { bitmap ->
-            _bitmapInfo.value.run {
-                val tWidth = width
-                val tHeight = height
+    fun updatePreset(preset: Int) {
+        setBitmapInfo(
+            imageManager.applyPresetBy(
+                bitmap = _bitmap.value,
+                preset = preset,
+                currentInfo = _imageInfo.value
+            )
+        )
+    }
 
-                bitmap
-                    .rotate(rotationDegrees)
-                    .resizeBitmap(tWidth, tHeight, resizeType)
-                    .flip(isFlipped) to _bitmapInfo.value
-            }
+    fun shareBitmaps(onComplete: () -> Unit) {
+        viewModelScope.launch {
+            imageManager.shareImages(
+                uris = uris?.map { it.toString() } ?: emptyList(),
+                imageLoader = { uri ->
+                    imageManager.getImage(uri)?.let { it to imageInfo }
+                },
+                onProgressChange = {
+                    if (it == -1) {
+                        onComplete()
+                        _done.value = 0
+                    } else {
+                        _done.value = it
+                    }
+                }
+            )
         }
     }
 
-    fun setProgress(progress: Int) {
-        _done.value = progress
+    fun canShow(): Boolean = bitmap?.let { imageManager.canShow(it) } ?: false
+
+    fun decodeBitmapFromUri(uri: Uri, onError: (Throwable) -> Unit) {
+        viewModelScope.launch {
+            imageManager.getImageAsync(
+                uri = uri.toString(),
+                originalSize = true,
+                onGetMimeType = ::setMime,
+                onGetMetadata = {},
+                onGetImage = ::updateBitmap,
+                onError = onError
+            )
+        }
     }
+
+    fun getImageManager(): ImageManager<Bitmap, ExifInterface> = imageManager
 
 }

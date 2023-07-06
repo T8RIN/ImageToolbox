@@ -1,8 +1,6 @@
 package ru.tech.imageresizershrinker.presentation.draw_screen
 
 
-import android.content.Context
-import android.content.pm.ActivityInfo
 import android.content.res.Configuration
 import android.net.Uri
 import androidx.activity.ComponentActivity
@@ -88,10 +86,6 @@ import com.t8rin.dynamic.theme.observeAsState
 import dev.olshevski.navigation.reimagined.hilt.hiltViewModel
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.R
-import ru.tech.imageresizershrinker.core.android.BitmapUtils.getBitmapByUri
-import ru.tech.imageresizershrinker.core.android.BitmapUtils.getBitmapFromUriWithTransformations
-import ru.tech.imageresizershrinker.core.android.BitmapUtils.overlayWith
-import ru.tech.imageresizershrinker.core.android.BitmapUtils.shareBitmap
 import ru.tech.imageresizershrinker.presentation.draw_screen.components.DrawAlphaSelector
 import ru.tech.imageresizershrinker.presentation.draw_screen.components.DrawBackgroundSelector
 import ru.tech.imageresizershrinker.presentation.draw_screen.components.DrawBehavior
@@ -102,8 +96,7 @@ import ru.tech.imageresizershrinker.presentation.draw_screen.viewModel.DrawViewM
 import ru.tech.imageresizershrinker.presentation.root.theme.icons.Eraser
 import ru.tech.imageresizershrinker.presentation.root.theme.mixedColor
 import ru.tech.imageresizershrinker.presentation.root.theme.onMixedColor
-import ru.tech.imageresizershrinker.presentation.root.utils.coil.UpscaleTransformation
-import ru.tech.imageresizershrinker.presentation.root.utils.coil.filters.SaturationFilter
+import ru.tech.imageresizershrinker.presentation.root.transformation.filter.SaturationFilter
 import ru.tech.imageresizershrinker.presentation.root.utils.confetti.LocalConfettiController
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.Picker
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.localImagePickerMode
@@ -160,20 +153,18 @@ fun DrawScreen(
 
     LaunchedEffect(uriState) {
         uriState?.let {
-            viewModel.setUri(it) { uri ->
-                context.calculateScreenOrientationBasedOnUri(uri)
-            }
+            viewModel.setUri(it)
         }
     }
     LaunchedEffect(viewModel.uri, viewModel.drawController?.paths) {
-        context.getBitmapFromUriWithTransformations(
+        viewModel.getBitmapFromUriWithTransformations(
             uri = viewModel.uri,
             transformations = listOf(SaturationFilter(context, 2f))
         )?.let {
             val overlay = viewModel.drawController?.getBitmap()
             if (allowChangeColor) {
                 if (overlay != null) {
-                    themeState.updateColorByImage(it.overlayWith(overlay))
+                    themeState.updateColorByImage(viewModel.overlayImage(it, overlay))
                 } else {
                     themeState.updateColorByImage(it)
                 }
@@ -186,9 +177,7 @@ fun DrawScreen(
             mode = localImagePickerMode(Picker.Single)
         ) { uris ->
             uris.takeIf { it.isNotEmpty() }?.firstOrNull()?.let {
-                viewModel.setUri(it) { uri ->
-                    context.calculateScreenOrientationBasedOnUri(uri)
-                }
+                viewModel.setUri(it)
             }
         }
 
@@ -200,15 +189,7 @@ fun DrawScreen(
 
     val saveBitmap: () -> Unit = {
         showSaveLoading = true
-        viewModel.saveBitmap(
-            getBitmap = { uri ->
-                context.getBitmapFromUriWithTransformations(
-                    uri = uri,
-                    originalSize = false,
-                    transformations = listOf(UpscaleTransformation())
-                )
-            }
-        ) { savingPath ->
+        viewModel.saveBitmap { savingPath ->
             if (savingPath.isNotEmpty()) {
                 scope.launch {
                     toastHostState.showToast(
@@ -339,23 +320,9 @@ fun DrawScreen(
                             }
                             IconButton(
                                 onClick = {
-                                    viewModel.processBitmapForSharing(
-                                        getBitmap = { uri ->
-                                            context.getBitmapFromUriWithTransformations(
-                                                uri = uri,
-                                                originalSize = false,
-                                                transformations = listOf(UpscaleTransformation())
-                                            )
-                                        }
-                                    ) { bitmap ->
-                                        showSaveLoading = true
-                                        context.shareBitmap(
-                                            bitmap = bitmap,
-                                            mimeType = viewModel.mimeType
-                                        ) {
-                                            showSaveLoading = false
-                                            showConfetti()
-                                        }
+                                    viewModel.shareBitmap {
+                                        showSaveLoading = false
+                                        showConfetti()
                                     }
                                 },
                                 enabled = viewModel.drawBehavior !is DrawBehavior.None
@@ -534,14 +501,4 @@ fun DrawScreen(
     BackHandler(onBack = onBack)
 
     LockScreenOrientation(orientation = viewModel.drawBehavior.orientation)
-}
-
-private suspend fun Context.calculateScreenOrientationBasedOnUri(uri: Uri): Int {
-    val bmp = getBitmapByUri(uri = uri, originalSize = false)
-    val imageRatio = (bmp?.width ?: 0) / (bmp?.height?.toFloat() ?: 1f)
-    return if (imageRatio <= 1f) {
-        ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
-    } else {
-        ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
-    }
 }

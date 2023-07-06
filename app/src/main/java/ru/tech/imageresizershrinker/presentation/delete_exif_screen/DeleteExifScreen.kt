@@ -57,21 +57,17 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewModelScope
 import coil.size.Size
 import com.t8rin.dynamic.theme.LocalDynamicThemeState
 import dev.olshevski.navigation.reimagined.hilt.hiltViewModel
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.R
-import ru.tech.imageresizershrinker.core.android.BitmapUtils.decodeBitmapByUri
-import ru.tech.imageresizershrinker.core.android.BitmapUtils.decodeBitmapFromUriWithMime
-import ru.tech.imageresizershrinker.core.android.BitmapUtils.fileSize
-import ru.tech.imageresizershrinker.core.android.BitmapUtils.getBitmapByUri
-import ru.tech.imageresizershrinker.core.android.BitmapUtils.shareBitmaps
-import ru.tech.imageresizershrinker.domain.model.BitmapInfo
+import ru.tech.imageresizershrinker.core.android.ImageUtils.fileSize
+import ru.tech.imageresizershrinker.domain.model.ImageInfo
 import ru.tech.imageresizershrinker.presentation.delete_exif_screen.viewModel.DeleteExifViewModel
 import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
-import ru.tech.imageresizershrinker.presentation.root.utils.coil.filters.SaturationFilter
+import ru.tech.imageresizershrinker.presentation.root.transformation.BitmapInfoTransformation
+import ru.tech.imageresizershrinker.presentation.root.transformation.filter.SaturationFilter
 import ru.tech.imageresizershrinker.presentation.root.utils.confetti.LocalConfettiController
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.Picker
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.failedToSaveImages
@@ -118,7 +114,7 @@ fun DeleteExifScreen(
     LaunchedEffect(uriState) {
         uriState?.takeIf { it.isNotEmpty() }?.let { uris ->
             viewModel.updateUris(uris)
-            context.decodeBitmapByUri(
+            viewModel.decodeBitmapByUri(
                 originalSize = false,
                 uri = uris[0],
                 onGetMimeType = {},
@@ -148,7 +144,7 @@ fun DeleteExifScreen(
         ) { list ->
             list.takeIf { it.isNotEmpty() }?.let { uris ->
                 viewModel.updateUris(list)
-                context.decodeBitmapByUri(
+                viewModel.decodeBitmapByUri(
                     uri = uris[0],
                     originalSize = false,
                     onGetMimeType = {},
@@ -172,11 +168,7 @@ fun DeleteExifScreen(
 
     val saveBitmaps: () -> Unit = {
         showSaveLoading = true
-        viewModel.saveBitmaps(
-            getBitmap = { uri ->
-                context.decodeBitmapFromUriWithMime(uri)
-            },
-        ) { failed, savingPath ->
+        viewModel.saveBitmaps { failed, savingPath ->
             context.failedToSaveImages(
                 scope = scope,
                 failed = failed,
@@ -243,29 +235,10 @@ fun DeleteExifScreen(
             IconButton(
                 onClick = {
                     showSaveLoading = true
-                    context.shareBitmaps(
-                        uris = viewModel.uris ?: emptyList(),
-                        scope = viewModel.viewModelScope,
-                        bitmapLoader = { uri ->
-                            context.decodeBitmapFromUriWithMime(uri)
-                                .takeIf { it.first != null }?.let {
-                                    it.first!! to BitmapInfo(
-                                        mimeType = it.second,
-                                        width = it.first!!.width,
-                                        height = it.first!!.height
-                                    )
-                                }
-                        },
-                        onProgressChange = {
-                            if (it == -1) {
-                                showSaveLoading = false
-                                viewModel.setProgress(0)
-                                showConfetti()
-                            } else {
-                                viewModel.setProgress(it)
-                            }
-                        }
-                    )
+                    viewModel.shareBitmaps {
+                        showConfetti()
+                        showSaveLoading = false
+                    }
                 }
             ) {
                 Icon(Icons.Outlined.Share, null)
@@ -418,9 +391,10 @@ fun DeleteExifScreen(
 
             PickImageFromUrisSheet(
                 transformations = listOf(
-                    ru.tech.imageresizershrinker.presentation.root.utils.coil.BitmapInfoTransformation(
-                        bitmapInfo = BitmapInfo(),
-                        preset = 100
+                    BitmapInfoTransformation(
+                        imageInfo = ImageInfo(),
+                        preset = 100,
+                        imageManager = viewModel.getImageManager()
                     )
                 ),
                 visible = showPickImageFromUrisDialog,
@@ -431,12 +405,7 @@ fun DeleteExifScreen(
                 },
                 onUriPicked = { uri ->
                     try {
-                        viewModel.setBitmap(
-                            loader = {
-                                context.getBitmapByUri(uri, originalSize = false)
-                            },
-                            uri = uri
-                        )
+                        viewModel.setBitmap(uri = uri)
                     } catch (e: Exception) {
                         scope.launch {
                             toastHostState.showError(context, e)
@@ -444,12 +413,7 @@ fun DeleteExifScreen(
                     }
                 },
                 onUriRemoved = { uri ->
-                    viewModel.updateUrisSilently(
-                        removedUri = uri,
-                        loader = {
-                            context.getBitmapByUri(it, originalSize = false)
-                        }
-                    )
+                    viewModel.updateUrisSilently(removedUri = uri)
                 },
                 columns = if (imageInside) 2 else 4,
             )

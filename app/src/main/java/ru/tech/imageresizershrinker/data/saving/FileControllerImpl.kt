@@ -23,12 +23,12 @@ import ru.tech.imageresizershrinker.data.keys.Keys.ADD_SEQ_NUM
 import ru.tech.imageresizershrinker.data.keys.Keys.ADD_SIZE
 import ru.tech.imageresizershrinker.data.keys.Keys.FILENAME_PREFIX
 import ru.tech.imageresizershrinker.data.keys.Keys.SAVE_FOLDER
-import ru.tech.imageresizershrinker.domain.saving.model.BitmapSaveTarget
+import ru.tech.imageresizershrinker.domain.saving.model.ImageSaveTarget
 import ru.tech.imageresizershrinker.domain.saving.FileController
 import ru.tech.imageresizershrinker.domain.saving.SaveTarget
 import ru.tech.imageresizershrinker.domain.saving.model.FileParams
-import ru.tech.imageresizershrinker.core.android.BitmapUtils.copyTo
-import ru.tech.imageresizershrinker.core.android.BitmapUtils.fileSize
+import ru.tech.imageresizershrinker.core.android.ImageUtils.copyTo
+import ru.tech.imageresizershrinker.core.android.ImageUtils.fileSize
 import ru.tech.imageresizershrinker.core.android.ContextUtils.getFileName
 import ru.tech.imageresizershrinker.core.android.ContextUtils.isExternalStorageWritable
 import ru.tech.imageresizershrinker.core.android.ContextUtils.requestStoragePermission
@@ -91,7 +91,7 @@ class FileControllerImpl @Inject constructor(
         kotlin.runCatching {
             val savingFolder = context.getSavingFolder(
                 treeUri = fileParams.treeUri?.takeIf { it.isNotEmpty() }?.toUri(),
-                saveTarget = if (saveTarget is BitmapSaveTarget) {
+                saveTarget = if (saveTarget is ImageSaveTarget) {
                     saveTarget.copy(
                         filename = constructFilename(
                             context = context,
@@ -130,16 +130,16 @@ class FileControllerImpl @Inject constructor(
     private fun constructFilename(
         context: Context,
         fileParams: FileParams,
-        saveTarget: BitmapSaveTarget
+        saveTarget: ImageSaveTarget
     ): String {
         val wh =
             "(" + (if (saveTarget.originalUri.toUri() == Uri.EMPTY) context.getString(R.string.width)
-                .split(" ")[0] else saveTarget.bitmapInfo.width) + ")x(" + (if (saveTarget.originalUri.toUri() == Uri.EMPTY) context.getString(
+                .split(" ")[0] else saveTarget.imageInfo.width) + ")x(" + (if (saveTarget.originalUri.toUri() == Uri.EMPTY) context.getString(
                 R.string.height
-            ).split(" ")[0] else saveTarget.bitmapInfo.height) + ")"
+            ).split(" ")[0] else saveTarget.imageInfo.height) + ")"
 
         var prefix = fileParams.filenamePrefix
-        val extension = saveTarget.bitmapInfo.mimeType.extension
+        val extension = saveTarget.imageInfo.mimeType.extension
 
         if (prefix.isEmpty()) prefix = defaultPrefix()
 

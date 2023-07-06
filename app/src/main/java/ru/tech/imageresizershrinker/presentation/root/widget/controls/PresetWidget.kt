@@ -87,11 +87,8 @@ fun PresetWidget(
                 Spacer(Modifier.height(8.dp))
 
                 Box(
-                    modifier = Modifier
-                        .padding(8.dp)
-                        .block()
-                        .padding(vertical = 6.dp),
-                    contentAlignment = Alignment.Center
+                    contentAlignment = Alignment.Center,
+                    modifier = Modifier.padding(bottom = 8.dp)
                 ) {
                     LazyRow(
                         horizontalArrangement = Arrangement.spacedBy(
