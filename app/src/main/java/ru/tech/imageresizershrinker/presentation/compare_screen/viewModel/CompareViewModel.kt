@@ -1,20 +1,26 @@
 package ru.tech.imageresizershrinker.presentation.compare_screen.viewModel
 
 import android.graphics.Bitmap
+import android.net.Uri
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
+import androidx.exifinterface.media.ExifInterface
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import ru.tech.imageresizershrinker.domain.image.ImageManager
 import ru.tech.imageresizershrinker.domain.model.ResizeType
-import ru.tech.imageresizershrinker.core.android.ImageUtils.resizeBitmap
-import ru.tech.imageresizershrinker.core.android.ImageUtils.rotate
-import ru.tech.imageresizershrinker.core.android.ImageUtils.scaleUntilCanShow
+import javax.inject.Inject
 
-class CompareViewModel : ViewModel() {
+@HiltViewModel
+class CompareViewModel @Inject constructor(
+    private val imageManager: ImageManager<Bitmap, ExifInterface>
+) : ViewModel() {
 
     private val _bitmapData: MutableState<Pair<Bitmap?, Bitmap?>?> = mutableStateOf(null)
     val bitmapData by _bitmapData
@@ -22,7 +28,7 @@ class CompareViewModel : ViewModel() {
     private val _isLoading: MutableState<Boolean> = mutableStateOf(false)
     val isLoading: Boolean by _isLoading
 
-    private val _rotation: MutableState<Float> = mutableStateOf(0f)
+    private val _rotation: MutableState<Float> = mutableFloatStateOf(0f)
     val rotation by _rotation
 
     fun updateBitmapData(newBeforeBitmap: Bitmap?, newAfterBitmap: Bitmap?) {
@@ -31,8 +37,8 @@ class CompareViewModel : ViewModel() {
             var bmp1: Bitmap?
             var bmp2: Bitmap?
             withContext(Dispatchers.IO) {
-                bmp1 = newBeforeBitmap?.scaleUntilCanShow()
-                bmp2 = newAfterBitmap?.scaleUntilCanShow()
+                bmp1 = imageManager.scaleUntilCanShow(newBeforeBitmap)
+                bmp2 = imageManager.scaleUntilCanShow(newAfterBitmap)
             }
             _rotation.value = 0f
             _bitmapData.value = (bmp1 to bmp2)
@@ -41,9 +47,9 @@ class CompareViewModel : ViewModel() {
                     val (aW, aH) = a?.run { width to height } ?: (0 to 0)
 
                     if (bW * bH > aH * aW) {
-                        b to a?.resizeBitmap(bW, bH, ResizeType.Flexible)
+                        b to a?.let { imageManager.resize(it, bW, bH, ResizeType.Flexible) }
                     } else if (bW * bH < aH * aW) {
-                        b?.resizeBitmap(aW, aH, ResizeType.Flexible) to a
+                        b?.let { imageManager.resize(it, aW, aH, ResizeType.Flexible) } to a
                     } else {
                         b to a
                     }
@@ -63,9 +69,21 @@ class CompareViewModel : ViewModel() {
                 _bitmapData.value?.let { (f, s) ->
                     if (f != null && s != null) {
                         _isLoading.value = true
-                        _bitmapData.value =
-                            f.rotate(180f - old).rotate(rotation) to s.rotate(180f - old)
-                                .rotate(rotation)
+                        _bitmapData.value = with(imageManager) {
+                            rotate(
+                                image = rotate(
+                                    image = f,
+                                    degrees = 180f - old
+                                ),
+                                degrees = rotation
+                            ) to rotate(
+                                image = rotate(
+                                    image = s,
+                                    degrees = 180f - old
+                                ),
+                                degrees = rotation
+                            )
+                        }
                         _isLoading.value = false
                     }
                 }
@@ -100,5 +118,9 @@ class CompareViewModel : ViewModel() {
         }
     }
 
+    suspend fun getBitmapByUri(
+        uri: Uri,
+        originalSize: Boolean
+    ): Bitmap? = imageManager.getImage(uri.toString(), originalSize)
 
 }

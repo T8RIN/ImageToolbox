@@ -80,9 +80,7 @@ class BatchResizeViewModel @Inject constructor(
         _selectedUri.value = uris?.firstOrNull()
     }
 
-    fun updateUrisSilently(
-        removedUri: Uri
-    ) {
+    fun updateUrisSilently(removedUri: Uri) {
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
                 _uris.value = uris
@@ -314,7 +312,7 @@ class BatchResizeViewModel @Inject constructor(
     fun setBitmap(uri: Uri) {
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
-                _bitmap.value = imageManager.getImage(uri.toString())
+                updateBitmap(imageManager.getImage(uri = uri.toString(), originalSize = false))
                 if (_presetSelected.value != -1) {
                     setBitmapInfo(
                         imageManager.applyPresetBy(

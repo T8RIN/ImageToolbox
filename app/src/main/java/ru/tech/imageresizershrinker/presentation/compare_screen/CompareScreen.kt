@@ -48,7 +48,7 @@ import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -66,13 +66,12 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.Constraints
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.smarttoolfactory.beforeafter.BeforeAfterImage
 import com.t8rin.dynamic.theme.LocalDynamicThemeState
 import com.t8rin.dynamic.theme.extractPrimaryColor
+import dev.olshevski.navigation.reimagined.hilt.hiltViewModel
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.R
-import ru.tech.imageresizershrinker.core.android.ImageUtils.getBitmapByUri
 import ru.tech.imageresizershrinker.presentation.compare_screen.viewModel.CompareViewModel
 import ru.tech.imageresizershrinker.presentation.root.theme.blend
 import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
@@ -96,7 +95,7 @@ import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalWindowSi
 fun CompareScreen(
     comparableUris: Pair<Uri, Uri>?,
     onGoBack: () -> Unit,
-    viewModel: CompareViewModel = viewModel()
+    viewModel: CompareViewModel = hiltViewModel()
 ) {
     val settingsState = LocalSettingsState.current
 
@@ -107,7 +106,7 @@ fun CompareScreen(
 
     val scope = rememberCoroutineScope()
 
-    var progress by rememberSaveable { mutableStateOf(50f) }
+    var progress by rememberSaveable { mutableFloatStateOf(50f) }
 
     LaunchedEffect(viewModel.bitmapData) {
         viewModel.bitmapData?.let { (b, a) ->
@@ -119,8 +118,8 @@ fun CompareScreen(
 
     LaunchedEffect(comparableUris) {
         comparableUris?.let { (before, after) ->
-            val newBeforeBitmap = context.getBitmapByUri(before, originalSize = false)
-            val newAfterBitmap = context.getBitmapByUri(after, originalSize = false)
+            val newBeforeBitmap = viewModel.getBitmapByUri(before, originalSize = false)
+            val newAfterBitmap = viewModel.getBitmapByUri(after, originalSize = false)
             if (newAfterBitmap != null && newBeforeBitmap != null) {
                 viewModel.updateBitmapData(
                     newBeforeBitmap = newBeforeBitmap,
@@ -155,10 +154,10 @@ fun CompareScreen(
                         onSuccess = {
                             progress = 50f
                         }, loader = {
-                            context.getBitmapByUri(
+                            viewModel.getBitmapByUri(
                                 uris[0],
                                 originalSize = false,
-                            ) to context.getBitmapByUri(uris[1], originalSize = false)
+                            ) to viewModel.getBitmapByUri(uris[1], originalSize = false)
                         }, onError = {
                             scope.launch {
                                 toastHostState.showToast(

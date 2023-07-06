@@ -64,15 +64,14 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.size.Size
 import com.smarttoolfactory.colordetector.ImageColorPalette
 import com.t8rin.dynamic.theme.LocalDynamicThemeState
+import dev.olshevski.navigation.reimagined.hilt.hiltViewModel
 import dev.olshevski.navigation.reimagined.navigate
 import dev.olshevski.navigation.reimagined.pop
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.R
-import ru.tech.imageresizershrinker.core.android.ImageUtils.decodeBitmapByUri
 import ru.tech.imageresizershrinker.presentation.generate_palette_screen.viewModel.GeneratePaletteViewModel
 import ru.tech.imageresizershrinker.presentation.pick_color_from_image_screen.copyColorIntoClipboard
 import ru.tech.imageresizershrinker.presentation.pick_color_from_image_screen.format
@@ -103,7 +102,7 @@ import ru.tech.imageresizershrinker.presentation.root.widget.utils.isScrollingUp
 fun GeneratePaletteScreen(
     uriState: Uri?,
     onGoBack: () -> Unit,
-    viewModel: GeneratePaletteViewModel = viewModel()
+    viewModel: GeneratePaletteViewModel = hiltViewModel()
 ) {
     val settingsState = LocalSettingsState.current
     val context = LocalContext.current
@@ -125,7 +124,7 @@ fun GeneratePaletteScreen(
         uriState?.let {
             color = Color.Unspecified
             viewModel.setUri(it)
-            context.decodeBitmapByUri(
+            viewModel.decodeBitmapByUri(
                 uri = it,
                 originalSize = false,
                 onGetMimeType = {},
@@ -161,7 +160,7 @@ fun GeneratePaletteScreen(
             uris.takeIf { it.isNotEmpty() }?.firstOrNull()?.let {
                 color = Color.Unspecified
                 viewModel.setUri(it)
-                context.decodeBitmapByUri(
+                viewModel.decodeBitmapByUri(
                     uri = it,
                     originalSize = false,
                     onGetMimeType = {},

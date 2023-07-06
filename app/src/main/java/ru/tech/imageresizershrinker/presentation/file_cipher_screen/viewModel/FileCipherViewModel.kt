@@ -1,14 +1,17 @@
 package ru.tech.imageresizershrinker.presentation.file_cipher_screen.viewModel
 
+import android.graphics.Bitmap
 import android.net.Uri
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.exifinterface.media.ExifInterface
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import ru.tech.imageresizershrinker.domain.image.ImageManager
 import ru.tech.imageresizershrinker.domain.use_case.decrypt_file.DecryptFileUseCase
 import ru.tech.imageresizershrinker.domain.use_case.encrypt_file.EncryptFileUseCase
 import ru.tech.imageresizershrinker.domain.use_case.generate_random_password.GenerateRandomPasswordUseCase
@@ -20,7 +23,8 @@ import javax.inject.Inject
 class FileCipherViewModel @Inject constructor(
     private val encryptFileUseCase: EncryptFileUseCase,
     private val decryptFileUseCase: DecryptFileUseCase,
-    private val generateRandomPasswordUseCase: GenerateRandomPasswordUseCase
+    private val generateRandomPasswordUseCase: GenerateRandomPasswordUseCase,
+    private val imageManager: ImageManager<Bitmap, ExifInterface>
 ) : ViewModel() {
 
     private val _uri = mutableStateOf<Uri?>(null)
@@ -84,5 +88,13 @@ class FileCipherViewModel @Inject constructor(
     }
 
     fun generateRandomPassword(): String = generateRandomPasswordUseCase(18)
+
+    fun getMimeType(uri: Uri): String? = imageManager.getMimeTypeString(uri.toString())
+
+    fun shareFile(it: ByteArray, filename: String, onComplete: () -> Unit) {
+        viewModelScope.launch {
+            imageManager.shareFile(it, filename, onComplete)
+        }
+    }
 
 }

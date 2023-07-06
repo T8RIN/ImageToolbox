@@ -88,8 +88,6 @@ import dev.olshevski.navigation.reimagined.hilt.hiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.R
-import ru.tech.imageresizershrinker.core.android.ImageUtils.decodeBitmapByUri
-import ru.tech.imageresizershrinker.core.android.ImageUtils.shareBitmap
 import ru.tech.imageresizershrinker.presentation.crop_screen.components.AspectRatioSelection
 import ru.tech.imageresizershrinker.presentation.crop_screen.components.aspectRatios
 import ru.tech.imageresizershrinker.presentation.crop_screen.viewModel.CropViewModel
@@ -146,7 +144,7 @@ fun CropScreen(
     LaunchedEffect(uriState) {
         uriState?.let {
             viewModel.setUri(it)
-            context.decodeBitmapByUri(
+            viewModel.decodeBitmapByUri(
                 uri = it,
                 onGetMimeType = viewModel::updateMimeType,
                 onGetExif = {},
@@ -179,9 +177,9 @@ fun CropScreen(
         ) { uris ->
             uris.takeIf { it.isNotEmpty() }?.firstOrNull()?.let {
                 viewModel.setUri(it)
-                context.decodeBitmapByUri(
+                viewModel.decodeBitmapByUri(
                     uri = it,
-                    onGetMimeType = {},
+                    onGetMimeType = viewModel::updateMimeType,
                     onGetExif = {},
                     onGetBitmap = { bmp ->
                         viewModel.updateBitmap(
@@ -364,9 +362,8 @@ fun CropScreen(
                                         viewModel.imageCropFinished()
                                         if (share) {
                                             showSaveLoading = true
-                                            context.shareBitmap(
+                                            viewModel.shareBitmap(
                                                 bitmap = image.asAndroidBitmap(),
-                                                mimeType = viewModel.mimeType,
                                                 onComplete = {
                                                     showConfetti()
                                                     showSaveLoading = false
@@ -415,9 +412,8 @@ fun CropScreen(
                                             viewModel.imageCropFinished()
                                             if (share) {
                                                 showSaveLoading = true
-                                                context.shareBitmap(
+                                                viewModel.shareBitmap(
                                                     bitmap = image.asAndroidBitmap(),
-                                                    mimeType = viewModel.mimeType,
                                                     onComplete = {
                                                         showConfetti()
                                                         showSaveLoading = false

@@ -96,10 +96,8 @@ import androidx.compose.ui.unit.sp
 import dev.olshevski.navigation.reimagined.hilt.hiltViewModel
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.R
-import ru.tech.imageresizershrinker.core.android.ImageUtils.fileSize
-import ru.tech.imageresizershrinker.core.android.ImageUtils.getMimeType
-import ru.tech.imageresizershrinker.core.android.ImageUtils.shareFile
 import ru.tech.imageresizershrinker.core.android.ContextUtils.getFileName
+import ru.tech.imageresizershrinker.core.android.ImageUtils.fileSize
 import ru.tech.imageresizershrinker.presentation.file_cipher_screen.components.TipSheet
 import ru.tech.imageresizershrinker.presentation.file_cipher_screen.viewModel.FileCipherViewModel
 import ru.tech.imageresizershrinker.presentation.root.theme.Green
@@ -327,7 +325,7 @@ fun FileCipherScreen(
                                     } else {
 
                                         viewModel.uri?.let { uri ->
-                                            if (context.getMimeType(uri)
+                                            if (viewModel.getMimeType(uri)
                                                     ?.contains("image") == true
                                             ) {
                                                 Picture(
@@ -672,8 +670,8 @@ fun FileCipherScreen(
                                                             onClick = {
                                                                 viewModel.byteArray?.let {
                                                                     showSaveLoading = true
-                                                                    context.shareFile(
-                                                                        byteArray = it,
+                                                                    viewModel.shareFile(
+                                                                        it = it,
                                                                         filename = name
                                                                     ) {
                                                                         scope.launch {

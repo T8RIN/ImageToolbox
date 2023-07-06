@@ -6,21 +6,25 @@ import android.net.Uri
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.core.net.toUri
+import androidx.exifinterface.media.ExifInterface
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import ru.tech.imageresizershrinker.domain.image.ImageManager
 import ru.tech.imageresizershrinker.domain.model.ImageInfo
-import ru.tech.imageresizershrinker.domain.saving.model.ImageSaveTarget
 import ru.tech.imageresizershrinker.domain.saving.FileController
+import ru.tech.imageresizershrinker.domain.saving.model.ImageSaveTarget
 import java.io.ByteArrayOutputStream
 import javax.inject.Inject
 
 @HiltViewModel
 class LoadNetImageViewModel @Inject constructor(
-    private val fileController: FileController
+    private val fileController: FileController,
+    private val imageManager: ImageManager<Bitmap, ExifInterface>
 ) : ViewModel() {
 
     private val _bitmap = mutableStateOf<Bitmap?>(null)
@@ -31,10 +35,6 @@ class LoadNetImageViewModel @Inject constructor(
 
     fun updateBitmap(bitmap: Bitmap?) {
         _bitmap.value = bitmap
-    }
-
-    fun setTempUri(uri: Uri?) {
-        _tempUri.value = uri
     }
 
     fun saveBitmap(
@@ -77,6 +77,18 @@ class LoadNetImageViewModel @Inject constructor(
 
                 onComplete(fileController.savingPath)
             }
+        }
+    }
+
+    fun cacheImage(image: Bitmap, imageInfo: ImageInfo) {
+        viewModelScope.launch {
+            _tempUri.value = imageManager.cacheImage(image, imageInfo)?.toUri()
+        }
+    }
+
+    fun shareBitmap(bitmap: Bitmap, imageInfo: ImageInfo, onComplete: () -> Unit) {
+        viewModelScope.launch {
+            imageManager.shareImage(bitmap, imageInfo, onComplete)
         }
     }
 

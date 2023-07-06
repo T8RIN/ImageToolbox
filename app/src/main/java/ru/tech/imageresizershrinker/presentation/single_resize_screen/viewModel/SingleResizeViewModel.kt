@@ -16,26 +16,20 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import ru.tech.imageresizershrinker.core.android.ImageUtils
+import ru.tech.imageresizershrinker.domain.image.ImageManager
 import ru.tech.imageresizershrinker.domain.model.ImageInfo
-import ru.tech.imageresizershrinker.domain.saving.model.ImageSaveTarget
 import ru.tech.imageresizershrinker.domain.model.MimeType
 import ru.tech.imageresizershrinker.domain.model.ResizeType
 import ru.tech.imageresizershrinker.domain.saving.FileController
-import ru.tech.imageresizershrinker.core.android.ImageUtils
-import ru.tech.imageresizershrinker.core.android.ImageUtils.canShow
-import ru.tech.imageresizershrinker.core.android.ImageUtils.compress
-import ru.tech.imageresizershrinker.core.android.ImageUtils.flip
-import ru.tech.imageresizershrinker.core.android.ImageUtils.previewBitmap
-import ru.tech.imageresizershrinker.core.android.ImageUtils.resizeBitmap
-import ru.tech.imageresizershrinker.core.android.ImageUtils.rotate
-import ru.tech.imageresizershrinker.core.android.ImageUtils.scaleUntilCanShow
+import ru.tech.imageresizershrinker.domain.saving.model.ImageSaveTarget
 import java.io.ByteArrayInputStream
-import java.io.ByteArrayOutputStream
 import javax.inject.Inject
 
 @HiltViewModel
 class SingleResizeViewModel @Inject constructor(
-    private val fileController: FileController
+    private val fileController: FileController,
+    private val imageManager: ImageManager<Bitmap, ExifInterface>
 ) : ViewModel() {
 
     private val _uri: MutableState<Uri> = mutableStateOf(Uri.EMPTY)
@@ -85,7 +79,7 @@ class SingleResizeViewModel @Inject constructor(
             _bitmap.value?.let { bmp ->
                 val preview = updatePreview(bmp)
                 _previewBitmap.value = null
-                _shouldShowPreview.value = preview.canShow()
+                _shouldShowPreview.value = imageManager.canShow(preview)
                 if (shouldShowPreview) _previewBitmap.value = preview
 
                 _imageInfo.value = _imageInfo.value.run {
@@ -109,37 +103,21 @@ class SingleResizeViewModel @Inject constructor(
                         onComplete("")
                         fileController.requestReadWritePermissions()
                     } else {
-                        val tWidth = width
-                        val tHeight = height
-
-                        val localBitmap =
-                            bitmap
-                                .rotate(rotationDegrees)
-                                .resizeBitmap(tWidth, tHeight, resizeType)
-                                .flip(isFlipped)
-
-
-                        val out = ByteArrayOutputStream()
-                        localBitmap.compress(
-                            mimeType,
-                            quality.toInt().coerceIn(0, 100),
-                            out
+                        val out = imageManager.compress(
+                            image = bitmap, imageInfo = imageInfo
                         )
                         val decoded =
-                            BitmapFactory.decodeStream(ByteArrayInputStream(out.toByteArray()))
+                            BitmapFactory.decodeStream(ByteArrayInputStream(out))
 
                         fileController.save(
                             saveTarget = ImageSaveTarget(
                                 imageInfo = this,
                                 originalUri = uri.toString(),
                                 sequenceNumber = null,
-                                data = out.toByteArray()
+                                data = out
                             ),
                             keepMetadata = true
                         )
-
-                        out.flush()
-                        out.close()
 
                         _bitmap.value = decoded
                         _imageInfo.value = _imageInfo.value.copy(
@@ -158,9 +136,10 @@ class SingleResizeViewModel @Inject constructor(
     ): Bitmap = withContext(Dispatchers.IO) {
         return@withContext imageInfo.run {
             _showWarning.value = width * height * 4L >= 10_000 * 10_000 * 3L
-            bitmap.previewBitmap(
+            imageManager.createPreview(
+                image = bitmap,
                 imageInfo = this,
-                onByteCount = {
+                onGetByteCount = {
                     _imageInfo.value = _imageInfo.value.copy(sizeInBytes = it)
                 }
             )
@@ -195,7 +174,7 @@ class SingleResizeViewModel @Inject constructor(
     fun updateBitmap(bitmap: Bitmap?) {
         viewModelScope.launch {
             val size = bitmap?.let { bitmap.width to bitmap.height }
-            _bitmap.value = bitmap?.scaleUntilCanShow()
+            _bitmap.value = imageManager.scaleUntilCanShow(bitmap)
             resetValues(saveMime = true)
             _imageInfo.value = _imageInfo.value.copy(
                 width = size?.first ?: 0,
@@ -308,4 +287,41 @@ class SingleResizeViewModel @Inject constructor(
     fun setUri(uri: Uri) {
         _uri.value = uri
     }
+
+    fun decodeBitmapByUri(
+        uri: Uri,
+        originalSize: Boolean = true,
+        onGetMimeType: (MimeType) -> Unit,
+        onGetExif: (ExifInterface?) -> Unit,
+        onGetBitmap: (Bitmap) -> Unit,
+        onError: (Throwable) -> Unit
+    ) {
+        imageManager.getImageAsync(
+            uri = uri.toString(),
+            originalSize = originalSize,
+            onGetImage = onGetBitmap,
+            onGetMetadata = onGetExif,
+            onGetMimeType = onGetMimeType,
+            onError = onError
+        )
+    }
+
+    fun shareBitmap(bitmap: Bitmap?, imageInfo: ImageInfo, onComplete: () -> Unit) {
+        viewModelScope.launch {
+            bitmap?.let { imageManager.shareImage(it, imageInfo, onComplete) }
+        }
+    }
+
+    fun canShow(): Boolean = bitmap?.let { imageManager.canShow(it) } ?: false
+
+    fun setPreset(preset: Int) {
+        setBitmapInfo(
+            imageManager.applyPresetBy(
+                bitmap = bitmap,
+                preset = preset,
+                currentInfo = imageInfo
+            )
+        )
+    }
+
 }

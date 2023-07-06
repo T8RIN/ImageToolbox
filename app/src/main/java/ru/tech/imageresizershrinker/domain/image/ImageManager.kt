@@ -15,6 +15,8 @@ interface ImageManager<T, M> {
 
     suspend fun getImage(uri: String, originalSize: Boolean = true): T?
 
+    fun getMimeTypeString(uri: String): String?
+
     fun rotate(image: T, degrees: Float): T
 
     fun flip(image: T, isFlipped: Boolean): T
@@ -40,7 +42,7 @@ interface ImageManager<T, M> {
 
     suspend fun getImageWithMime(uri: String): Pair<T?, MimeType>
 
-    fun compress(image: T, imageInfo: ImageInfo): ByteArray
+    suspend fun compress(image: T, imageInfo: ImageInfo): ByteArray
 
     suspend fun calculateImageSize(image: T, imageInfo: ImageInfo): Long
 
@@ -61,14 +63,14 @@ interface ImageManager<T, M> {
 
     fun overlayImage(image: T, overlay: T): T
 
-    fun shareImage(
+    suspend fun shareImage(
         image: T,
         imageInfo: ImageInfo,
         onComplete: () -> Unit,
         name: String = "shared_image",
     )
 
-    fun cacheImage(
+    suspend fun cacheImage(
         image: T,
         imageInfo: ImageInfo,
         name: String = "shared_image"

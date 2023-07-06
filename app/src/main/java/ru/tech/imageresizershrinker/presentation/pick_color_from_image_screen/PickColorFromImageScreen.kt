@@ -75,15 +75,14 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.size.Size
 import com.smarttoolfactory.colordetector.ImageColorDetector
 import com.t8rin.dynamic.theme.LocalDynamicThemeState
+import dev.olshevski.navigation.reimagined.hilt.hiltViewModel
 import dev.olshevski.navigation.reimagined.navigate
 import dev.olshevski.navigation.reimagined.pop
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.R
-import ru.tech.imageresizershrinker.core.android.ImageUtils.decodeBitmapByUri
 import ru.tech.imageresizershrinker.presentation.pick_color_from_image_screen.viewModel.PickColorViewModel
 import ru.tech.imageresizershrinker.presentation.root.theme.icons.PaletteSwatch
 import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
@@ -112,7 +111,7 @@ import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalWindowSi
 fun PickColorFromImageScreen(
     uriState: Uri?,
     onGoBack: () -> Unit,
-    viewModel: PickColorViewModel = viewModel()
+    viewModel: PickColorViewModel = hiltViewModel()
 ) {
     val settingsState = LocalSettingsState.current
     val navController = LocalNavController.current
@@ -128,7 +127,7 @@ fun PickColorFromImageScreen(
     LaunchedEffect(uriState) {
         uriState?.let {
             viewModel.setUri(it)
-            context.decodeBitmapByUri(
+            viewModel.decodeBitmapByUri(
                 uri = it,
                 originalSize = false,
                 onGetMimeType = {},
@@ -165,7 +164,7 @@ fun PickColorFromImageScreen(
         ) { uris ->
             uris.takeIf { it.isNotEmpty() }?.firstOrNull()?.let {
                 viewModel.setUri(it)
-                context.decodeBitmapByUri(
+                viewModel.decodeBitmapByUri(
                     uri = it,
                     originalSize = false,
                     onGetMimeType = {},

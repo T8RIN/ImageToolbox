@@ -7,25 +7,25 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
+import androidx.exifinterface.media.ExifInterface
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import ru.tech.imageresizershrinker.domain.image.ImageManager
 import ru.tech.imageresizershrinker.domain.model.ImageInfo
-import ru.tech.imageresizershrinker.domain.saving.model.ImageSaveTarget
 import ru.tech.imageresizershrinker.domain.model.MimeType
 import ru.tech.imageresizershrinker.domain.model.ResizeType
 import ru.tech.imageresizershrinker.domain.saving.FileController
-import ru.tech.imageresizershrinker.core.android.ImageUtils.resizeBitmap
-import ru.tech.imageresizershrinker.core.android.ImageUtils.scaleUntilCanShow
-import java.io.ByteArrayOutputStream
+import ru.tech.imageresizershrinker.domain.saving.model.ImageSaveTarget
 import javax.inject.Inject
 
 @HiltViewModel
 class LimitsResizeViewModel @Inject constructor(
-    private val fileController: FileController
+    private val fileController: FileController,
+    private val imageManager: ImageManager<Bitmap, ExifInterface>
 ) : ViewModel() {
 
     private val _canSave = mutableStateOf(false)
@@ -53,7 +53,7 @@ class LimitsResizeViewModel @Inject constructor(
     val selectedUri by _selectedUri
 
     private val _imageInfo = mutableStateOf(ImageInfo())
-    val bitmapInfo by _imageInfo
+    val imageInfo by _imageInfo
 
     fun setMime(mimeType: MimeType) {
         _imageInfo.value = _imageInfo.value.copy(mimeType = mimeType)
@@ -65,10 +65,7 @@ class LimitsResizeViewModel @Inject constructor(
         _selectedUri.value = uris?.firstOrNull()
     }
 
-    fun updateUrisSilently(
-        removedUri: Uri,
-        loader: suspend (Uri) -> Bitmap?
-    ) {
+    fun updateUrisSilently(removedUri: Uri) {
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
                 _uris.value = uris
@@ -77,12 +74,12 @@ class LimitsResizeViewModel @Inject constructor(
                     if (index == 0) {
                         uris?.getOrNull(1)?.let {
                             _selectedUri.value = it
-                            _bitmap.value = loader(it)
+                            _bitmap.value = imageManager.getImage(it.toString())
                         }
                     } else {
                         uris?.getOrNull(index - 1)?.let {
                             _selectedUri.value = it
-                            _bitmap.value = loader(it)
+                            _bitmap.value = imageManager.getImage(it.toString())
                         }
                     }
                 }
@@ -97,7 +94,7 @@ class LimitsResizeViewModel @Inject constructor(
     fun updateBitmap(bitmap: Bitmap?, preview: Bitmap? = null) {
         viewModelScope.launch {
             _isLoading.value = true
-            _bitmap.value = bitmap?.scaleUntilCanShow()
+            _bitmap.value = imageManager.scaleUntilCanShow(bitmap)
             _previewBitmap.value = preview ?: _bitmap.value
             _isLoading.value = false
         }
@@ -108,7 +105,6 @@ class LimitsResizeViewModel @Inject constructor(
     }
 
     fun saveBitmaps(
-        getBitmap: suspend (Uri) -> Bitmap?,
         onResult: (Int, String) -> Unit
     ) = viewModelScope.launch {
         withContext(Dispatchers.IO) {
@@ -120,44 +116,43 @@ class LimitsResizeViewModel @Inject constructor(
                 _done.value = 0
                 uris?.forEach { uri ->
                     runCatching {
-                        getBitmap(uri)
+                        imageManager.getImage(uri.toString())
                     }.getOrNull()?.let { bitmap ->
                         var localBitmap = bitmap
-                        if (localBitmap.height > bitmapInfo.height || localBitmap.width > bitmapInfo.width) {
-                            if (localBitmap.aspectRatio > bitmapInfo.aspectRatio) {
-                                localBitmap = localBitmap.resizeBitmap(
-                                    bitmapInfo.width,
-                                    bitmapInfo.width,
-                                    ResizeType.Flexible
+                        if (localBitmap.height > imageInfo.height || localBitmap.width > imageInfo.width) {
+                            if (localBitmap.aspectRatio > imageInfo.aspectRatio) {
+                                localBitmap = imageManager.resize(
+                                    image = localBitmap,
+                                    width = imageInfo.width,
+                                    height = imageInfo.width,
+                                    resizeType = ResizeType.Flexible
                                 )
-                            } else if (localBitmap.aspectRatio < bitmapInfo.aspectRatio) {
-                                localBitmap = localBitmap.resizeBitmap(
-                                    bitmapInfo.height,
-                                    bitmapInfo.height,
-                                    ResizeType.Flexible
+                            } else if (localBitmap.aspectRatio < imageInfo.aspectRatio) {
+                                localBitmap = imageManager.resize(
+                                    image = localBitmap,
+                                    width = imageInfo.height,
+                                    height = imageInfo.height,
+                                    resizeType = ResizeType.Flexible
                                 )
                             } else {
-                                localBitmap = localBitmap.resizeBitmap(
-                                    bitmapInfo.width,
-                                    bitmapInfo.height,
-                                    ResizeType.Flexible
+                                localBitmap = imageManager.resize(
+                                    image = localBitmap,
+                                    width = imageInfo.width,
+                                    height = imageInfo.height,
+                                    resizeType = ResizeType.Flexible
                                 )
                             }
                         }
-
-                        val out = ByteArrayOutputStream()
-                        localBitmap.compress(
-                            mimeType = bitmapInfo.mimeType,
-                            quality = 100,
-                            out = out
-                        )
 
                         fileController.save(
                             ImageSaveTarget(
                                 imageInfo = _imageInfo.value,
                                 originalUri = uri.toString(),
                                 sequenceNumber = _done.value + 1,
-                                data = out.toByteArray()
+                                data = imageManager.compress(
+                                    image = localBitmap,
+                                    imageInfo = imageInfo
+                                )
                             ), keepMetadata = keepExif
                         )
                     } ?: {
@@ -171,14 +166,11 @@ class LimitsResizeViewModel @Inject constructor(
         }
     }
 
-    fun setBitmap(
-        loader: suspend () -> Bitmap?,
-        uri: Uri
-    ) {
+    fun setBitmap(uri: Uri) {
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
                 _isLoading.value = true
-                updateBitmap(loader())
+                updateBitmap(imageManager.getImage(uri.toString()))
                 _selectedUri.value = uri
                 _isLoading.value = false
             }
@@ -189,40 +181,6 @@ class LimitsResizeViewModel @Inject constructor(
     private fun updateCanSave() {
         _canSave.value =
             _bitmap.value != null && (_imageInfo.value.height != 0 || _imageInfo.value.width != 0)
-    }
-
-    fun proceedBitmap(
-        bitmapResult: Result<Bitmap?>,
-    ): Pair<Bitmap, ImageInfo>? {
-        return bitmapResult.getOrNull()?.let { bitmap ->
-            var localBitmap = bitmap
-            if (localBitmap.height > bitmapInfo.height || localBitmap.width > bitmapInfo.width) {
-                if (localBitmap.aspectRatio > bitmapInfo.aspectRatio) {
-                    localBitmap = localBitmap.resizeBitmap(
-                        width_ = bitmapInfo.width,
-                        height_ = bitmapInfo.width,
-                        resizeType = ResizeType.Flexible
-                    )
-                } else if (localBitmap.aspectRatio < bitmapInfo.aspectRatio) {
-                    localBitmap = localBitmap.resizeBitmap(
-                        width_ = bitmapInfo.height,
-                        height_ = bitmapInfo.height,
-                        resizeType = ResizeType.Flexible
-                    )
-                } else {
-                    localBitmap = localBitmap.resizeBitmap(
-                        width_ = bitmapInfo.width,
-                        height_ = bitmapInfo.height,
-                        resizeType = ResizeType.Flexible
-                    )
-                }
-            }
-            localBitmap to _imageInfo.value
-        }
-    }
-
-    fun setProgress(progress: Int) {
-        _done.value = progress
     }
 
     fun updateWidth(i: Int) {
@@ -238,5 +196,64 @@ class LimitsResizeViewModel @Inject constructor(
     private val Bitmap.aspectRatio: Float get() = width / height.toFloat()
 
     private val ImageInfo.aspectRatio: Float get() = width / height.toFloat()
+
+    fun shareBitmaps(onComplete: () -> Unit) {
+        viewModelScope.launch {
+            imageManager.shareImages(
+                uris = uris?.map { it.toString() } ?: emptyList(),
+                imageLoader = { uri ->
+                    imageManager.getImage(uri)?.let { bitmap: Bitmap ->
+                        var localBitmap = bitmap
+                        if (localBitmap.height > imageInfo.height || localBitmap.width > imageInfo.width) {
+                            if (localBitmap.aspectRatio > imageInfo.aspectRatio) {
+                                localBitmap = imageManager.resize(
+                                    image = localBitmap,
+                                    width = imageInfo.width,
+                                    height = imageInfo.width,
+                                    resizeType = ResizeType.Flexible
+                                )
+                            } else if (localBitmap.aspectRatio < imageInfo.aspectRatio) {
+                                localBitmap = imageManager.resize(
+                                    image = localBitmap,
+                                    width = imageInfo.height,
+                                    height = imageInfo.height,
+                                    resizeType = ResizeType.Flexible
+                                )
+                            } else {
+                                localBitmap = imageManager.resize(
+                                    image = localBitmap,
+                                    width = imageInfo.width,
+                                    height = imageInfo.height,
+                                    resizeType = ResizeType.Flexible
+                                )
+                            }
+                        }
+                        localBitmap
+                    }?.let { it to imageInfo }
+                },
+                onProgressChange = {
+                    if (it == -1) {
+                        onComplete()
+                        _done.value = 0
+                    } else {
+                        _done.value = it
+                    }
+                }
+            )
+        }
+    }
+
+    fun decodeBitmapFromUri(uri: Uri, onError: (Throwable) -> Unit) {
+        viewModelScope.launch {
+            imageManager.getImageAsync(
+                uri = uri.toString(),
+                originalSize = true,
+                onGetMimeType = ::setMime,
+                onGetMetadata = {},
+                onGetImage = ::updateBitmap,
+                onError = onError
+            )
+        }
+    }
 
 }

@@ -6,6 +6,7 @@ import android.net.Uri
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.exifinterface.media.ExifInterface
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.smarttoolfactory.cropper.model.AspectRatio
@@ -17,18 +18,18 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import ru.tech.imageresizershrinker.domain.image.ImageManager
 import ru.tech.imageresizershrinker.domain.model.ImageInfo
-import ru.tech.imageresizershrinker.domain.saving.model.ImageSaveTarget
 import ru.tech.imageresizershrinker.domain.model.MimeType
 import ru.tech.imageresizershrinker.domain.saving.FileController
-import ru.tech.imageresizershrinker.core.android.ImageUtils.scaleUntilCanShow
+import ru.tech.imageresizershrinker.domain.saving.model.ImageSaveTarget
 import java.io.ByteArrayInputStream
-import java.io.ByteArrayOutputStream
 import javax.inject.Inject
 
 @HiltViewModel
 class CropViewModel @Inject constructor(
-    private val fileController: FileController
+    private val fileController: FileController,
+    private val imageManager: ImageManager<Bitmap, ExifInterface>
 ) : ViewModel() {
 
     private val _cropProperties = mutableStateOf(
@@ -60,7 +61,7 @@ class CropViewModel @Inject constructor(
     fun updateBitmap(bitmap: Bitmap?, newBitmap: Boolean = false) {
         viewModelScope.launch {
             _isLoading.value = true
-            val bmp = bitmap?.scaleUntilCanShow()
+            val bmp = imageManager.scaleUntilCanShow(bitmap)
             if (newBitmap) {
                 internalBitmap.value = bmp
             }
@@ -85,11 +86,13 @@ class CropViewModel @Inject constructor(
                 } else {
                     val localBitmap = bitmap
 
-                    val out = ByteArrayOutputStream()
-                    localBitmap.compress(mimeType, 100, out)
+                    val byteArray = imageManager.compress(
+                        image = localBitmap,
+                        imageInfo = ImageInfo(mimeType = mimeType)
+                    )
 
                     val decoded = BitmapFactory.decodeStream(
-                        ByteArrayInputStream(out.toByteArray())
+                        ByteArrayInputStream(byteArray)
                     )
 
                     _bitmap.value = decoded
@@ -103,7 +106,7 @@ class CropViewModel @Inject constructor(
                             ),
                             originalUri = _uri.value.toString(),
                             sequenceNumber = null,
-                            data = out.toByteArray()
+                            data = byteArray
                         ),
                         keepMetadata = false
                     )
@@ -135,6 +138,32 @@ class CropViewModel @Inject constructor(
 
     fun setUri(uri: Uri) {
         _uri.value = uri
+    }
+
+    fun decodeBitmapByUri(
+        uri: Uri,
+        originalSize: Boolean = true,
+        onGetMimeType: (MimeType) -> Unit,
+        onGetExif: (ExifInterface?) -> Unit,
+        onGetBitmap: (Bitmap) -> Unit,
+        onError: (Throwable) -> Unit
+    ) {
+        imageManager.getImageAsync(
+            uri = uri.toString(),
+            originalSize = originalSize,
+            onGetImage = onGetBitmap,
+            onGetMetadata = onGetExif,
+            onGetMimeType = onGetMimeType,
+            onError = onError
+        )
+    }
+
+    fun shareBitmap(bitmap: Bitmap, onComplete: () -> Unit) {
+        imageManager.shareImage(
+            image = bitmap,
+            imageInfo = ImageInfo(mimeType = mimeType),
+            onComplete = onComplete
+        )
     }
 
 }

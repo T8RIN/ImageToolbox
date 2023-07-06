@@ -5,7 +5,6 @@ import android.net.Uri
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.LocalIndication
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.detectTapGestures
@@ -74,10 +73,6 @@ import dev.olshevski.navigation.reimagined.hilt.hiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.R
-import ru.tech.imageresizershrinker.core.android.ImageUtils.applyPresetBy
-import ru.tech.imageresizershrinker.core.android.ImageUtils.canShow
-import ru.tech.imageresizershrinker.core.android.ImageUtils.decodeBitmapByUri
-import ru.tech.imageresizershrinker.core.android.ImageUtils.shareBitmap
 import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
 import ru.tech.imageresizershrinker.presentation.root.transformation.filter.SaturationFilter
 import ru.tech.imageresizershrinker.presentation.root.utils.confetti.LocalConfettiController
@@ -98,10 +93,10 @@ import ru.tech.imageresizershrinker.presentation.root.widget.dialogs.ExitWithout
 import ru.tech.imageresizershrinker.presentation.root.widget.dialogs.ResetDialog
 import ru.tech.imageresizershrinker.presentation.root.widget.image.ImageContainer
 import ru.tech.imageresizershrinker.presentation.root.widget.image.ImageNotPickedWidget
+import ru.tech.imageresizershrinker.presentation.root.widget.image.imageStickyHeader
 import ru.tech.imageresizershrinker.presentation.root.widget.other.LoadingDialog
 import ru.tech.imageresizershrinker.presentation.root.widget.other.LocalToastHost
 import ru.tech.imageresizershrinker.presentation.root.widget.other.TopAppBarEmoji
-import ru.tech.imageresizershrinker.presentation.root.widget.image.imageStickyHeader
 import ru.tech.imageresizershrinker.presentation.root.widget.other.showError
 import ru.tech.imageresizershrinker.presentation.root.widget.sheets.CompareSheet
 import ru.tech.imageresizershrinker.presentation.root.widget.sheets.ZoomModalSheet
@@ -113,10 +108,7 @@ import ru.tech.imageresizershrinker.presentation.root.widget.utils.middleImageSt
 import ru.tech.imageresizershrinker.presentation.single_resize_screen.components.EditExifSheet
 import ru.tech.imageresizershrinker.presentation.single_resize_screen.viewModel.SingleResizeViewModel
 
-@OptIn(
-    ExperimentalMaterial3Api::class,
-    ExperimentalFoundationApi::class
-)
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SingleResizeScreen(
     uriState: Uri?,
@@ -140,9 +132,8 @@ fun SingleResizeScreen(
     LaunchedEffect(uriState) {
         uriState?.let {
             viewModel.setUri(it)
-            context.decodeBitmapByUri(
+            viewModel.decodeBitmapByUri(
                 uri = it,
-
                 onGetMimeType = viewModel::setMime,
                 onGetExif = viewModel::updateExif,
                 onGetBitmap = viewModel::updateBitmap,
@@ -180,7 +171,7 @@ fun SingleResizeScreen(
         ) { uris ->
             uris.takeIf { it.isNotEmpty() }?.firstOrNull()?.let {
                 viewModel.setUri(it)
-                context.decodeBitmapByUri(
+                viewModel.decodeBitmapByUri(
                     uri = it,
                     onGetMimeType = viewModel::setMime,
                     onGetExif = viewModel::updateExif,
@@ -242,7 +233,7 @@ fun SingleResizeScreen(
         IconButton(
             onClick = {
                 showSaveLoading = true
-                context.shareBitmap(
+                viewModel.shareBitmap(
                     bitmap = viewModel.previewBitmap,
                     imageInfo = viewModel.imageInfo,
                     onComplete = {
@@ -266,7 +257,7 @@ fun SingleResizeScreen(
                 contentDescription = null
             )
         }
-        if (viewModel.bitmap != null && viewModel.bitmap?.canShow() == true) {
+        if (viewModel.bitmap != null && viewModel.canShow()) {
             Box(
                 modifier = Modifier
                     .clip(CircleShape)
@@ -279,7 +270,7 @@ fun SingleResizeScreen(
                             onPress = {
                                 val press = PressInteraction.Press(it)
                                 interactionSource.emit(press)
-                                if (viewModel.bitmap?.canShow() == true) {
+                                if (viewModel.canShow()) {
                                     showOriginal = true
                                 }
                                 tryAwaitRelease()
@@ -488,12 +479,7 @@ fun SingleResizeScreen(
                                     PresetWidget(
                                         selectedPreset = viewModel.presetSelected,
                                         onPresetSelected = {
-                                            viewModel.setBitmapInfo(
-                                                it.applyPresetBy(
-                                                    viewModel.bitmap,
-                                                    viewModel.imageInfo
-                                                )
-                                            )
+                                            viewModel.setPreset(it)
                                         }
                                     )
                                     Spacer(Modifier.size(8.dp))

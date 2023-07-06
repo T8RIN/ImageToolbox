@@ -254,9 +254,10 @@ fun BatchResizeScreen(
         IconButton(
             onClick = {
                 showSaveLoading = true
-                viewModel.shareBitmaps(
-                    onComplete = showConfetti
-                )
+                viewModel.shareBitmaps {
+                    showConfetti()
+                    showSaveLoading = false
+                }
             },
             enabled = viewModel.previewBitmap != null
         ) {

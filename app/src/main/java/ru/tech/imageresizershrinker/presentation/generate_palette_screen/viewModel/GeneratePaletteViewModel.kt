@@ -5,12 +5,19 @@ import android.net.Uri
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.exifinterface.media.ExifInterface
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
-import ru.tech.imageresizershrinker.core.android.ImageUtils.scaleUntilCanShow
+import ru.tech.imageresizershrinker.domain.image.ImageManager
+import ru.tech.imageresizershrinker.domain.model.MimeType
+import javax.inject.Inject
 
-class GeneratePaletteViewModel : ViewModel() {
+@HiltViewModel
+class GeneratePaletteViewModel @Inject constructor(
+    private val imageManager: ImageManager<Bitmap, ExifInterface>
+) : ViewModel() {
 
     private val _bitmap: MutableState<Bitmap?> = mutableStateOf(null)
     val bitmap: Bitmap? by _bitmap
@@ -28,9 +35,27 @@ class GeneratePaletteViewModel : ViewModel() {
     fun updateBitmap(bitmap: Bitmap?) {
         viewModelScope.launch {
             _isLoading.value = true
-            _bitmap.value = bitmap?.scaleUntilCanShow()
+            _bitmap.value = imageManager.scaleUntilCanShow(bitmap)
             _isLoading.value = false
         }
+    }
+
+    fun decodeBitmapByUri(
+        uri: Uri,
+        originalSize: Boolean = true,
+        onGetMimeType: (MimeType) -> Unit,
+        onGetExif: (ExifInterface?) -> Unit,
+        onGetBitmap: (Bitmap) -> Unit,
+        onError: (Throwable) -> Unit
+    ) {
+        imageManager.getImageAsync(
+            uri = uri.toString(),
+            originalSize = originalSize,
+            onGetImage = onGetBitmap,
+            onGetMetadata = onGetExif,
+            onGetMimeType = onGetMimeType,
+            onError = onError
+        )
     }
 
 }

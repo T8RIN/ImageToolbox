@@ -113,7 +113,7 @@ class AndroidImageManager @Inject constructor(
             val fd = context.contentResolver.openFileDescriptor(uri.toUri(), "r")
             val exif = fd?.fileDescriptor?.let { ExifInterface(it) }
             onGetMetadata(exif)
-            onGetMimeType(MimeType.create(getMimeType(uri.toUri())))
+            onGetMimeType(MimeType.create(getMimeTypeString(uri)))
             fd?.close()
             val loader = context.imageLoader.newBuilder().components {
                 if (Build.VERSION.SDK_INT >= 28) add(ImageDecoderDecoder.Factory())
@@ -208,7 +208,7 @@ class AndroidImageManager @Inject constructor(
                     .size(Size.ORIGINAL)
                     .build()
             ).drawable?.toBitmap()
-        }.getOrNull() to MimeType.create(getMimeType(uri.toUri()))
+        }.getOrNull() to MimeType.create(getMimeTypeString(uri))
     }
 
     override fun applyPresetBy(bitmap: Bitmap?, preset: Int, currentInfo: ImageInfo): ImageInfo {
@@ -270,7 +270,7 @@ class AndroidImageManager @Inject constructor(
                 file
             )
         }.getOrNull()
-        uri?.let { shareUri(uri = it, type = getMimeType(uri) ?: "*/*") }
+        uri?.let { shareUri(uri = it, type = getMimeTypeString(uri.toString()) ?: "*/*") }
         onComplete()
     }
 
@@ -298,7 +298,7 @@ class AndroidImageManager @Inject constructor(
         shareImageUris(uriList)
     }
 
-    override fun cacheImage(image: Bitmap, imageInfo: ImageInfo, name: String): String? {
+    override suspend fun cacheImage(image: Bitmap, imageInfo: ImageInfo, name: String): String? {
         val imagesFolder = File(context.cacheDir, "images")
         return kotlin.runCatching {
             imagesFolder.mkdirs()
@@ -311,7 +311,7 @@ class AndroidImageManager @Inject constructor(
         }.getOrNull()?.toString()
     }
 
-    override fun shareImage(
+    override suspend fun shareImage(
         image: Bitmap,
         imageInfo: ImageInfo,
         onComplete: () -> Unit,
@@ -476,7 +476,7 @@ class AndroidImageManager @Inject constructor(
     }
 
     @Suppress("DEPRECATION")
-    override fun compress(image: Bitmap, imageInfo: ImageInfo): ByteArray {
+    override suspend fun compress(image: Bitmap, imageInfo: ImageInfo): ByteArray {
         val out = ByteArrayOutputStream()
         when (imageInfo.mimeType) {
             MimeType.Bmp -> compressToBMP(image, out)
@@ -719,14 +719,12 @@ class AndroidImageManager @Inject constructor(
         return bitmap
     }
 
-    private fun getMimeType(uri: Uri): String? {
-        return if (ContentResolver.SCHEME_CONTENT == uri.scheme) context.contentResolver.getType(uri)
+    override fun getMimeTypeString(uri: String): String? {
+        return if (ContentResolver.SCHEME_CONTENT == uri.toUri().scheme) context.contentResolver.getType(uri.toUri())
         else {
             MimeTypeMap.getSingleton()
                 .getMimeTypeFromExtension(
-                    MimeTypeMap.getFileExtensionFromUrl(
-                        uri.toString()
-                    ).lowercase(Locale.getDefault())
+                    MimeTypeMap.getFileExtensionFromUrl(uri).lowercase(Locale.getDefault())
                 )
         }
     }

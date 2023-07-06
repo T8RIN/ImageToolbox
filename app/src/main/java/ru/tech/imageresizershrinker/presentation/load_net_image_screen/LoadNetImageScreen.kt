@@ -89,8 +89,6 @@ import dev.olshevski.navigation.reimagined.navigate
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.R
-import ru.tech.imageresizershrinker.core.android.ImageUtils.cacheImage
-import ru.tech.imageresizershrinker.core.android.ImageUtils.shareBitmap
 import ru.tech.imageresizershrinker.core.android.ImageUtils.toBitmap
 import ru.tech.imageresizershrinker.domain.model.ImageInfo
 import ru.tech.imageresizershrinker.presentation.load_net_image_screen.viewModel.LoadNetImageViewModel
@@ -298,7 +296,7 @@ fun LoadNetImageScreen(
                 onClick = {
                     viewModel.bitmap?.let { bitmap ->
                         showSaveLoading = true
-                        val uri = context.cacheImage(
+                        viewModel.cacheImage(
                             image = bitmap,
                             imageInfo = ImageInfo(
                                 width = bitmap.width,
@@ -309,7 +307,6 @@ fun LoadNetImageScreen(
                             confettiController.showEmpty()
                         }
                         showSaveLoading = false
-                        viewModel.setTempUri(uri)
                         wantToEdit.value = true
                     }
                 },
@@ -395,7 +392,7 @@ fun LoadNetImageScreen(
                                 onClick = {
                                     viewModel.bitmap?.let { bitmap ->
                                         showSaveLoading = true
-                                        context.shareBitmap(
+                                        viewModel.shareBitmap(
                                             bitmap = bitmap,
                                             imageInfo = ImageInfo(
                                                 width = bitmap.width,
