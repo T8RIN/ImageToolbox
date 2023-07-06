@@ -39,7 +39,7 @@
   </a>
 </p>
 
-<h4 align="center">Powerful image toolbox with width/height selection, filters applying, SVG to image convertion, cropping, EXIF editing, quality and output image type picking and batch processing feature.</h4>
+<h4 align="center">Image toolbox is the app which based on modern tech stack using Clean Architecture. It has features like filters applying, cropping, EXIF editing, quality and output image type picking and tons of another options</h4>
 
 
 ![Frame 7 (1)](https://github.com/T8RIN/ImageToolbox/assets/52178347/0e7514fb-574b-483a-8ca7-1a9e62e2d408)
