@@ -88,7 +88,7 @@ import ru.tech.imageresizershrinker.presentation.root.theme.icons.Eraser
 import ru.tech.imageresizershrinker.presentation.root.theme.mixedColor
 import ru.tech.imageresizershrinker.presentation.root.theme.onMixedColor
 import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
-import ru.tech.imageresizershrinker.presentation.root.model.transformation.UpscaleTransformation
+import ru.tech.imageresizershrinker.presentation.root.transformation.UpscaleTransformation
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.block
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.drawHorizontalStroke
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.fabBorder

@@ -87,7 +87,7 @@ import ru.tech.imageresizershrinker.core.android.BitmapUtils.decodeBitmapByUri
 import ru.tech.imageresizershrinker.presentation.pick_color_from_image_screen.viewModel.PickColorViewModel
 import ru.tech.imageresizershrinker.presentation.root.theme.icons.PaletteSwatch
 import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
-import ru.tech.imageresizershrinker.presentation.root.model.transformation.filter.SaturationFilter
+import ru.tech.imageresizershrinker.presentation.root.transformation.filter.SaturationFilter
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.Picker
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.localImagePickerMode
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.rememberImagePicker

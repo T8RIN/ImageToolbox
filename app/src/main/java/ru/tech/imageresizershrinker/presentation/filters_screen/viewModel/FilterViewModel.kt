@@ -18,12 +18,12 @@ import ru.tech.imageresizershrinker.core.android.BitmapUtils.calcSize
 import ru.tech.imageresizershrinker.core.android.BitmapUtils.compress
 import ru.tech.imageresizershrinker.core.android.BitmapUtils.resizeBitmap
 import ru.tech.imageresizershrinker.core.android.BitmapUtils.scaleUntilCanShow
-import ru.tech.imageresizershrinker.domain.model.BitmapInfo
+import ru.tech.imageresizershrinker.domain.model.ImageInfo
 import ru.tech.imageresizershrinker.domain.model.MimeType
 import ru.tech.imageresizershrinker.domain.model.ResizeType
 import ru.tech.imageresizershrinker.domain.saving.FileController
-import ru.tech.imageresizershrinker.domain.saving.model.BitmapSaveTarget
-import ru.tech.imageresizershrinker.presentation.root.model.transformation.filter.FilterTransformation
+import ru.tech.imageresizershrinker.domain.saving.model.ImageSaveTarget
+import ru.tech.imageresizershrinker.presentation.root.transformation.filter.FilterTransformation
 import java.io.ByteArrayOutputStream
 import javax.inject.Inject
 
@@ -173,8 +173,8 @@ class FilterViewModel @Inject constructor(
                         )
 
                         fileController.save(
-                            saveTarget = BitmapSaveTarget(
-                                bitmapInfo = BitmapInfo(
+                            saveTarget = ImageSaveTarget(
+                                imageInfo = ImageInfo(
                                     mimeType = mimeType,
                                     width = localBitmap.width,
                                     height = localBitmap.height
@@ -215,9 +215,9 @@ class FilterViewModel @Inject constructor(
 
     fun proceedBitmap(
         bitmapResult: Result<Bitmap?>,
-    ): Pair<Bitmap, BitmapInfo>? {
+    ): Pair<Bitmap, ImageInfo>? {
         return bitmapResult.getOrNull()?.let { bitmap ->
-            bitmap to BitmapInfo(
+            bitmap to ImageInfo(
                 bitmap.width,
                 bitmap.height,
                 mimeType = mimeType

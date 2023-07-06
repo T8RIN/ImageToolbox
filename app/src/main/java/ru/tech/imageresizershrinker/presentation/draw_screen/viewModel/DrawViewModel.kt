@@ -18,8 +18,8 @@ import dev.olshevski.navigation.reimagined.navigate
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import ru.tech.imageresizershrinker.domain.model.BitmapInfo
-import ru.tech.imageresizershrinker.domain.saving.model.BitmapSaveTarget
+import ru.tech.imageresizershrinker.domain.model.ImageInfo
+import ru.tech.imageresizershrinker.domain.saving.model.ImageSaveTarget
 import ru.tech.imageresizershrinker.domain.model.MimeType
 import ru.tech.imageresizershrinker.domain.model.ResizeType
 import ru.tech.imageresizershrinker.domain.saving.FileController
@@ -81,8 +81,8 @@ class DrawViewModel @Inject constructor(
                             localBitmap.compress(mimeType = mimeType, quality = 100, out = out)
 
                             fileController.save(
-                                BitmapSaveTarget(
-                                    bitmapInfo = BitmapInfo(
+                                ImageSaveTarget(
+                                    imageInfo = ImageInfo(
                                         mimeType = mimeType,
                                         width = localBitmap.width,
                                         height = localBitmap.height
@@ -110,8 +110,8 @@ class DrawViewModel @Inject constructor(
                         localBitmap.compress(mimeType = mimeType, quality = 100, out = out)
 
                         fileController.save(
-                            saveTarget = BitmapSaveTarget(
-                                bitmapInfo = BitmapInfo(
+                            saveTarget = ImageSaveTarget(
+                                imageInfo = ImageInfo(
                                     mimeType = mimeType,
                                     width = localBitmap.width,
                                     height = localBitmap.height

@@ -16,8 +16,8 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import ru.tech.imageresizershrinker.domain.model.BitmapInfo
-import ru.tech.imageresizershrinker.domain.saving.model.BitmapSaveTarget
+import ru.tech.imageresizershrinker.domain.model.ImageInfo
+import ru.tech.imageresizershrinker.domain.saving.model.ImageSaveTarget
 import ru.tech.imageresizershrinker.domain.model.MimeType
 import ru.tech.imageresizershrinker.domain.model.ResizeType
 import ru.tech.imageresizershrinker.domain.saving.FileController
@@ -50,8 +50,8 @@ class SingleResizeViewModel @Inject constructor(
     private val _previewBitmap: MutableState<Bitmap?> = mutableStateOf(null)
     val previewBitmap: Bitmap? by _previewBitmap
 
-    private val _bitmapInfo: MutableState<BitmapInfo> = mutableStateOf(BitmapInfo())
-    val bitmapInfo: BitmapInfo by _bitmapInfo
+    private val _imageInfo: MutableState<ImageInfo> = mutableStateOf(ImageInfo())
+    val imageInfo: ImageInfo by _imageInfo
 
     private val _isLoading: MutableState<Boolean> = mutableStateOf(false)
     val isLoading: Boolean by _isLoading
@@ -88,7 +88,7 @@ class SingleResizeViewModel @Inject constructor(
                 _shouldShowPreview.value = preview.canShow()
                 if (shouldShowPreview) _previewBitmap.value = preview
 
-                _bitmapInfo.value = _bitmapInfo.value.run {
+                _imageInfo.value = _imageInfo.value.run {
                     if (resizeType !is ResizeType.Ratio) copy(
                         height = preview.height,
                         width = preview.width
@@ -104,7 +104,7 @@ class SingleResizeViewModel @Inject constructor(
     ) = viewModelScope.launch {
         withContext(Dispatchers.IO) {
             bitmap?.let { bitmap ->
-                bitmapInfo.apply {
+                imageInfo.apply {
                     if (!fileController.isExternalStorageWritable()) {
                         onComplete("")
                         fileController.requestReadWritePermissions()
@@ -129,8 +129,8 @@ class SingleResizeViewModel @Inject constructor(
                             BitmapFactory.decodeStream(ByteArrayInputStream(out.toByteArray()))
 
                         fileController.save(
-                            saveTarget = BitmapSaveTarget(
-                                bitmapInfo = this,
+                            saveTarget = ImageSaveTarget(
+                                imageInfo = this,
                                 originalUri = uri.toString(),
                                 sequenceNumber = null,
                                 data = out.toByteArray()
@@ -142,7 +142,7 @@ class SingleResizeViewModel @Inject constructor(
                         out.close()
 
                         _bitmap.value = decoded
-                        _bitmapInfo.value = _bitmapInfo.value.copy(
+                        _imageInfo.value = _imageInfo.value.copy(
                             isFlipped = false,
                             rotationDegrees = 0f
                         )
@@ -156,12 +156,12 @@ class SingleResizeViewModel @Inject constructor(
     private suspend fun updatePreview(
         bitmap: Bitmap
     ): Bitmap = withContext(Dispatchers.IO) {
-        return@withContext bitmapInfo.run {
+        return@withContext imageInfo.run {
             _showWarning.value = width * height * 4L >= 10_000 * 10_000 * 3L
             bitmap.previewBitmap(
-                bitmapInfo = this,
+                imageInfo = this,
                 onByteCount = {
-                    _bitmapInfo.value = _bitmapInfo.value.copy(sizeInBytes = it)
+                    _imageInfo.value = _imageInfo.value.copy(sizeInBytes = it)
                 }
             )
         }
@@ -175,19 +175,19 @@ class SingleResizeViewModel @Inject constructor(
         _exif.value = t
     }
 
-    fun setBitmapInfo(newInfo: BitmapInfo) {
-        if (_bitmapInfo.value != newInfo || _bitmapInfo.value.quality == 100f) {
-            _bitmapInfo.value = newInfo
+    fun setBitmapInfo(newInfo: ImageInfo) {
+        if (_imageInfo.value != newInfo || _imageInfo.value.quality == 100f) {
+            _imageInfo.value = newInfo
             checkBitmapAndUpdate(resetPreset = false, resetTelegram = true)
             _presetSelected.value = newInfo.quality.toInt()
         }
     }
 
     fun resetValues(saveMime: Boolean = false) {
-        _bitmapInfo.value = BitmapInfo(
+        _imageInfo.value = ImageInfo(
             width = _bitmap.value?.width ?: 0,
             height = _bitmap.value?.height ?: 0,
-            mimeType = if (saveMime) bitmapInfo.mimeType else MimeType.Default()
+            mimeType = if (saveMime) imageInfo.mimeType else MimeType.Default()
         )
         checkBitmapAndUpdate(resetPreset = true, resetTelegram = true)
     }
@@ -197,7 +197,7 @@ class SingleResizeViewModel @Inject constructor(
             val size = bitmap?.let { bitmap.width to bitmap.height }
             _bitmap.value = bitmap?.scaleUntilCanShow()
             resetValues(saveMime = true)
-            _bitmapInfo.value = _bitmapInfo.value.copy(
+            _imageInfo.value = _imageInfo.value.copy(
                 width = size?.first ?: 0,
                 height = size?.second ?: 0
             )
@@ -205,9 +205,9 @@ class SingleResizeViewModel @Inject constructor(
     }
 
     fun rotateLeft() {
-        _bitmapInfo.value = _bitmapInfo.value.run {
+        _imageInfo.value = _imageInfo.value.run {
             copy(
-                rotationDegrees = _bitmapInfo.value.rotationDegrees - 90f,
+                rotationDegrees = _imageInfo.value.rotationDegrees - 90f,
                 height = width,
                 width = height
             )
@@ -216,9 +216,9 @@ class SingleResizeViewModel @Inject constructor(
     }
 
     fun rotateRight() {
-        _bitmapInfo.value = _bitmapInfo.value.run {
+        _imageInfo.value = _imageInfo.value.run {
             copy(
-                rotationDegrees = _bitmapInfo.value.rotationDegrees + 90f,
+                rotationDegrees = _imageInfo.value.rotationDegrees + 90f,
                 height = width,
                 width = height
             )
@@ -227,34 +227,34 @@ class SingleResizeViewModel @Inject constructor(
     }
 
     fun flip() {
-        _bitmapInfo.value = _bitmapInfo.value.copy(isFlipped = !_bitmapInfo.value.isFlipped)
+        _imageInfo.value = _imageInfo.value.copy(isFlipped = !_imageInfo.value.isFlipped)
         checkBitmapAndUpdate(resetPreset = false, resetTelegram = false)
     }
 
     fun updateWidth(width: Int) {
-        if (_bitmapInfo.value.width != width) {
-            _bitmapInfo.value = _bitmapInfo.value.copy(width = width)
+        if (_imageInfo.value.width != width) {
+            _imageInfo.value = _imageInfo.value.copy(width = width)
             checkBitmapAndUpdate(resetPreset = true, resetTelegram = true)
         }
     }
 
     fun updateHeight(height: Int) {
-        if (_bitmapInfo.value.height != height) {
-            _bitmapInfo.value = _bitmapInfo.value.copy(height = height)
+        if (_imageInfo.value.height != height) {
+            _imageInfo.value = _imageInfo.value.copy(height = height)
             checkBitmapAndUpdate(resetPreset = true, resetTelegram = true)
         }
     }
 
     fun setQuality(quality: Float) {
-        if (_bitmapInfo.value.quality != quality) {
-            _bitmapInfo.value = _bitmapInfo.value.copy(quality = quality.coerceIn(0f, 100f))
+        if (_imageInfo.value.quality != quality) {
+            _imageInfo.value = _imageInfo.value.copy(quality = quality.coerceIn(0f, 100f))
             checkBitmapAndUpdate(resetPreset = false, resetTelegram = false)
         }
     }
 
     fun setMime(mimeType: MimeType) {
-        if (_bitmapInfo.value.mimeType != mimeType) {
-            _bitmapInfo.value = _bitmapInfo.value.copy(mimeType = mimeType)
+        if (_imageInfo.value.mimeType != mimeType) {
+            _imageInfo.value = _imageInfo.value.copy(mimeType = mimeType)
             if (mimeType != MimeType.Png) checkBitmapAndUpdate(
                 resetPreset = false,
                 resetTelegram = true
@@ -264,8 +264,8 @@ class SingleResizeViewModel @Inject constructor(
     }
 
     fun setResizeType(type: ResizeType) {
-        if (_bitmapInfo.value.resizeType != type) {
-            _bitmapInfo.value = _bitmapInfo.value.copy(resizeType = type)
+        if (_imageInfo.value.resizeType != type) {
+            _imageInfo.value = _imageInfo.value.copy(resizeType = type)
             if (type != ResizeType.Ratio) checkBitmapAndUpdate(
                 resetPreset = false,
                 resetTelegram = false
@@ -275,15 +275,15 @@ class SingleResizeViewModel @Inject constructor(
     }
 
     fun setTelegramSpecs() {
-        val new = _bitmapInfo.value.copy(
+        val new = _imageInfo.value.copy(
             width = 512,
             height = 512,
             mimeType = MimeType.Png,
             resizeType = ResizeType.Flexible,
             quality = 100f
         )
-        if (new != _bitmapInfo.value) {
-            _bitmapInfo.value = new
+        if (new != _imageInfo.value) {
+            _imageInfo.value = new
             checkBitmapAndUpdate(resetPreset = true, resetTelegram = false)
         }
         _isTelegramSpecs.value = true

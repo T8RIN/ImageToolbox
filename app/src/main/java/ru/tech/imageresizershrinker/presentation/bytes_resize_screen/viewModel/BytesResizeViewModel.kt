@@ -13,8 +13,8 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import ru.tech.imageresizershrinker.domain.model.BitmapInfo
-import ru.tech.imageresizershrinker.domain.saving.model.BitmapSaveTarget
+import ru.tech.imageresizershrinker.domain.model.ImageInfo
+import ru.tech.imageresizershrinker.domain.saving.model.ImageSaveTarget
 import ru.tech.imageresizershrinker.domain.model.MimeType
 import ru.tech.imageresizershrinker.domain.saving.FileController
 import ru.tech.imageresizershrinker.core.android.BitmapUtils.compress
@@ -161,8 +161,8 @@ class BytesResizeViewModel @Inject constructor(
                                 )
 
                                 fileController.save(
-                                    BitmapSaveTarget(
-                                        bitmapInfo = BitmapInfo(
+                                    ImageSaveTarget(
+                                        imageInfo = ImageInfo(
                                             mimeType = mimeType,
                                             width = localBitmap.width,
                                             height = localBitmap.height
@@ -217,7 +217,7 @@ class BytesResizeViewModel @Inject constructor(
         uri: Uri,
         bitmapResult: Result<Bitmap?>,
         getImageSize: (Uri) -> Long?
-    ): Pair<Bitmap, BitmapInfo>? {
+    ): Pair<Bitmap, ImageInfo>? {
         return bitmapResult.getOrNull()?.let { bitmap ->
             kotlin.runCatching {
                 if (handMode) {
@@ -237,7 +237,7 @@ class BytesResizeViewModel @Inject constructor(
         }?.let { result ->
             if (result.isSuccess && result.getOrNull() != null) {
                 val scaled = result.getOrNull()!!
-                scaled.first to BitmapInfo(
+                scaled.first to ImageInfo(
                     mimeType = mimeType,
                     quality = scaled.second.toFloat(),
                     width = scaled.first.width,

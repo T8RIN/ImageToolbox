@@ -44,3 +44,5 @@ target_link_libraries( # Specifies the target library.
         ${log-lib}
         GLESv2
         jnigraphics)
+
+set_target_properties(your_library_name PROPERTIES LINK_FLAGS "-Wl,--build-id=none")

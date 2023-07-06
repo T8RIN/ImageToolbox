@@ -79,7 +79,7 @@ import ru.tech.imageresizershrinker.core.android.BitmapUtils.canShow
 import ru.tech.imageresizershrinker.core.android.BitmapUtils.decodeBitmapByUri
 import ru.tech.imageresizershrinker.core.android.BitmapUtils.shareBitmap
 import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
-import ru.tech.imageresizershrinker.presentation.root.model.transformation.filter.SaturationFilter
+import ru.tech.imageresizershrinker.presentation.root.transformation.filter.SaturationFilter
 import ru.tech.imageresizershrinker.presentation.root.utils.confetti.LocalConfettiController
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.Picker
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.localImagePickerMode
@@ -172,7 +172,7 @@ fun SingleResizeScreen(
     val showEditExifDialog = rememberSaveable { mutableStateOf(false) }
     var showExitDialog by rememberSaveable { mutableStateOf(false) }
 
-    val bitmapInfo = viewModel.bitmapInfo
+    val bitmapInfo = viewModel.imageInfo
 
     val pickImageLauncher =
         rememberImagePicker(
@@ -244,7 +244,7 @@ fun SingleResizeScreen(
                 showSaveLoading = true
                 context.shareBitmap(
                     bitmap = viewModel.previewBitmap,
-                    bitmapInfo = viewModel.bitmapInfo,
+                    imageInfo = viewModel.imageInfo,
                     onComplete = {
                         showSaveLoading = false
                         showConfetti()
@@ -400,7 +400,7 @@ fun SingleResizeScreen(
                             title = stringResource(R.string.single_resize),
                             bitmap = viewModel.bitmap,
                             isLoading = viewModel.isLoading,
-                            size = viewModel.bitmapInfo.sizeInBytes.toLong()
+                            size = viewModel.imageInfo.sizeInBytes.toLong()
                         )
                     },
                     colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
@@ -491,14 +491,14 @@ fun SingleResizeScreen(
                                             viewModel.setBitmapInfo(
                                                 it.applyPresetBy(
                                                     viewModel.bitmap,
-                                                    viewModel.bitmapInfo
+                                                    viewModel.imageInfo
                                                 )
                                             )
                                         }
                                     )
                                     Spacer(Modifier.size(8.dp))
                                     ResizeImageField(
-                                        bitmapInfo = bitmapInfo,
+                                        imageInfo = bitmapInfo,
                                         bitmap = viewModel.bitmap,
                                         onHeightChange = viewModel::updateHeight,
                                         onWidthChange = viewModel::updateWidth,

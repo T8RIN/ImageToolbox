@@ -13,8 +13,8 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import ru.tech.imageresizershrinker.domain.model.BitmapInfo
-import ru.tech.imageresizershrinker.domain.saving.model.BitmapSaveTarget
+import ru.tech.imageresizershrinker.domain.model.ImageInfo
+import ru.tech.imageresizershrinker.domain.saving.model.ImageSaveTarget
 import ru.tech.imageresizershrinker.domain.model.MimeType
 import ru.tech.imageresizershrinker.domain.model.ResizeType
 import ru.tech.imageresizershrinker.domain.saving.FileController
@@ -54,11 +54,11 @@ class LimitsResizeViewModel @Inject constructor(
     private val _selectedUri: MutableState<Uri?> = mutableStateOf(null)
     val selectedUri by _selectedUri
 
-    private val _bitmapInfo = mutableStateOf(BitmapInfo())
-    val bitmapInfo by _bitmapInfo
+    private val _imageInfo = mutableStateOf(ImageInfo())
+    val bitmapInfo by _imageInfo
 
     fun setMime(mimeType: MimeType) {
-        _bitmapInfo.value = _bitmapInfo.value.copy(mimeType = mimeType)
+        _imageInfo.value = _imageInfo.value.copy(mimeType = mimeType)
     }
 
     fun updateUris(uris: List<Uri>?) {
@@ -155,8 +155,8 @@ class LimitsResizeViewModel @Inject constructor(
                         )
 
                         fileController.save(
-                            BitmapSaveTarget(
-                                bitmapInfo = _bitmapInfo.value,
+                            ImageSaveTarget(
+                                imageInfo = _imageInfo.value,
                                 originalUri = uri.toString(),
                                 sequenceNumber = _done.value + 1,
                                 data = out.toByteArray()
@@ -190,12 +190,12 @@ class LimitsResizeViewModel @Inject constructor(
 
     private fun updateCanSave() {
         _canSave.value =
-            _bitmap.value != null && (_bitmapInfo.value.height != 0 || _bitmapInfo.value.width != 0)
+            _bitmap.value != null && (_imageInfo.value.height != 0 || _imageInfo.value.width != 0)
     }
 
     fun proceedBitmap(
         bitmapResult: Result<Bitmap?>,
-    ): Pair<Bitmap, BitmapInfo>? {
+    ): Pair<Bitmap, ImageInfo>? {
         return bitmapResult.getOrNull()?.let { bitmap ->
             var localBitmap = bitmap
             if (localBitmap.height > bitmapInfo.height || localBitmap.width > bitmapInfo.width) {
@@ -219,7 +219,7 @@ class LimitsResizeViewModel @Inject constructor(
                     )
                 }
             }
-            localBitmap to _bitmapInfo.value
+            localBitmap to _imageInfo.value
         }
     }
 
@@ -228,13 +228,17 @@ class LimitsResizeViewModel @Inject constructor(
     }
 
     fun updateWidth(i: Int) {
-        _bitmapInfo.value = _bitmapInfo.value.copy(width = i)
+        _imageInfo.value = _imageInfo.value.copy(width = i)
         updateCanSave()
     }
 
     fun updateHeight(i: Int) {
-        _bitmapInfo.value = _bitmapInfo.value.copy(height = i)
+        _imageInfo.value = _imageInfo.value.copy(height = i)
         updateCanSave()
     }
+
+    private val Bitmap.aspectRatio: Float get() = width / height.toFloat()
+
+    private val ImageInfo.aspectRatio: Float get() = width / height.toFloat()
 
 }

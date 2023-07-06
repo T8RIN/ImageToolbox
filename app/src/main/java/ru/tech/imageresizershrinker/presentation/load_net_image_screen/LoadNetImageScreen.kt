@@ -92,11 +92,11 @@ import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.core.android.BitmapUtils.cacheImage
 import ru.tech.imageresizershrinker.core.android.BitmapUtils.shareBitmap
 import ru.tech.imageresizershrinker.core.android.BitmapUtils.toBitmap
-import ru.tech.imageresizershrinker.domain.model.BitmapInfo
+import ru.tech.imageresizershrinker.domain.model.ImageInfo
 import ru.tech.imageresizershrinker.presentation.load_net_image_screen.viewModel.LoadNetImageViewModel
 import ru.tech.imageresizershrinker.presentation.root.theme.icons.CreateAlt
 import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
-import ru.tech.imageresizershrinker.presentation.root.model.transformation.filter.SaturationFilter
+import ru.tech.imageresizershrinker.presentation.root.transformation.filter.SaturationFilter
 import ru.tech.imageresizershrinker.presentation.root.utils.confetti.LocalConfettiController
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.block
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.drawHorizontalStroke
@@ -300,7 +300,7 @@ fun LoadNetImageScreen(
                         showSaveLoading = true
                         val uri = context.cacheImage(
                             image = bitmap,
-                            bitmapInfo = BitmapInfo(
+                            imageInfo = ImageInfo(
                                 width = bitmap.width,
                                 height = bitmap.height,
                             )
@@ -397,7 +397,7 @@ fun LoadNetImageScreen(
                                         showSaveLoading = true
                                         context.shareBitmap(
                                             bitmap = bitmap,
-                                            bitmapInfo = BitmapInfo(
+                                            imageInfo = ImageInfo(
                                                 width = bitmap.width,
                                                 height = bitmap.height,
                                             ),

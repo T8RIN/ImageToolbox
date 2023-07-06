@@ -68,11 +68,11 @@ import ru.tech.imageresizershrinker.core.android.BitmapUtils.decodeBitmapFromUri
 import ru.tech.imageresizershrinker.core.android.BitmapUtils.fileSize
 import ru.tech.imageresizershrinker.core.android.BitmapUtils.getBitmapByUri
 import ru.tech.imageresizershrinker.core.android.BitmapUtils.shareBitmaps
-import ru.tech.imageresizershrinker.domain.model.BitmapInfo
+import ru.tech.imageresizershrinker.domain.model.ImageInfo
 import ru.tech.imageresizershrinker.presentation.delete_exif_screen.viewModel.DeleteExifViewModel
-import ru.tech.imageresizershrinker.presentation.root.model.transformation.BitmapInfoTransformation
+import ru.tech.imageresizershrinker.presentation.root.transformation.BitmapInfoTransformation
 import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
-import ru.tech.imageresizershrinker.presentation.root.model.transformation.filter.SaturationFilter
+import ru.tech.imageresizershrinker.presentation.root.transformation.filter.SaturationFilter
 import ru.tech.imageresizershrinker.presentation.root.utils.confetti.LocalConfettiController
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.Picker
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.failedToSaveImages
@@ -250,7 +250,7 @@ fun DeleteExifScreen(
                         bitmapLoader = { uri ->
                             context.decodeBitmapFromUriWithMime(uri)
                                 .takeIf { it.first != null }?.let {
-                                    it.first!! to BitmapInfo(
+                                    it.first!! to ImageInfo(
                                         mimeType = it.second,
                                         width = it.first!!.width,
                                         height = it.first!!.height
@@ -419,8 +419,8 @@ fun DeleteExifScreen(
 
             PickImageFromUrisSheet(
                 transformations = listOf(
-                    BitmapInfoTransformation(
-                        bitmapInfo = BitmapInfo(),
+                    ru.tech.imageresizershrinker.presentation.root.transformation.BitmapInfoTransformation(
+                        imageInfo = ImageInfo(),
                         preset = 100
                     )
                 ),

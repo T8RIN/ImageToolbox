@@ -82,8 +82,8 @@ import ru.tech.imageresizershrinker.core.android.BitmapUtils.shareBitmaps
 import ru.tech.imageresizershrinker.presentation.batch_resize_screen.components.SaveExifWidget
 import ru.tech.imageresizershrinker.presentation.batch_resize_screen.viewModel.BatchResizeViewModel
 import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
-import ru.tech.imageresizershrinker.presentation.root.model.transformation.BitmapInfoTransformation
-import ru.tech.imageresizershrinker.presentation.root.model.transformation.filter.SaturationFilter
+import ru.tech.imageresizershrinker.presentation.root.transformation.BitmapInfoTransformation
+import ru.tech.imageresizershrinker.presentation.root.transformation.filter.SaturationFilter
 import ru.tech.imageresizershrinker.presentation.root.utils.confetti.LocalConfettiController
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.Picker
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.localImagePickerMode
@@ -218,7 +218,7 @@ fun BatchResizeScreen(
     var showOriginal by rememberSaveable { mutableStateOf(false) }
     var showPickImageFromUrisDialog by rememberSaveable { mutableStateOf(false) }
 
-    val bitmapInfo = viewModel.bitmapInfo
+    val bitmapInfo = viewModel.imageInfo
 
     val imageInside =
         LocalConfiguration.current.orientation != Configuration.ORIENTATION_LANDSCAPE || LocalWindowSizeClass.current.widthSizeClass == WindowWidthSizeClass.Compact
@@ -241,7 +241,7 @@ fun BatchResizeScreen(
     var showExitDialog by rememberSaveable { mutableStateOf(false) }
 
     val onBack = {
-        if (viewModel.bitmapInfo.haveChanges(viewModel.bitmap)) showExitDialog = true
+        if (viewModel.imageInfo.haveChanges(viewModel.bitmap)) showExitDialog = true
         else onGoBack()
     }
 
@@ -423,7 +423,7 @@ fun BatchResizeScreen(
                             title = stringResource(R.string.batch_resize),
                             bitmap = viewModel.bitmap,
                             isLoading = viewModel.isLoading,
-                            size = viewModel.bitmapInfo.sizeInBytes.toLong()
+                            size = viewModel.imageInfo.sizeInBytes.toLong()
                         )
                     },
                     colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
@@ -515,7 +515,7 @@ fun BatchResizeScreen(
                                             viewModel.setBitmapInfo(
                                                 it.applyPresetBy(
                                                     viewModel.bitmap,
-                                                    viewModel.bitmapInfo
+                                                    viewModel.imageInfo
                                                 )
                                             )
                                         }
@@ -527,7 +527,7 @@ fun BatchResizeScreen(
                                     )
                                     Spacer(Modifier.size(8.dp))
                                     ResizeImageField(
-                                        bitmapInfo = bitmapInfo,
+                                        imageInfo = bitmapInfo,
                                         bitmap = viewModel.bitmap,
                                         onHeightChange = viewModel::updateHeight,
                                         onWidthChange = viewModel::updateWidth,
@@ -589,8 +589,8 @@ fun BatchResizeScreen(
 
             PickImageFromUrisSheet(
                 transformations = listOf(
-                    BitmapInfoTransformation(
-                        bitmapInfo = viewModel.bitmapInfo,
+                    ru.tech.imageresizershrinker.presentation.root.transformation.BitmapInfoTransformation(
+                        imageInfo = viewModel.imageInfo,
                         preset = viewModel.presetSelected
                     )
                 ),

@@ -104,7 +104,7 @@ import ru.tech.imageresizershrinker.presentation.filters_screen.viewModel.Filter
 import ru.tech.imageresizershrinker.presentation.root.theme.mixedColor
 import ru.tech.imageresizershrinker.presentation.root.theme.onMixedColor
 import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
-import ru.tech.imageresizershrinker.presentation.root.model.transformation.filter.SaturationFilter
+import ru.tech.imageresizershrinker.presentation.root.transformation.filter.SaturationFilter
 import ru.tech.imageresizershrinker.presentation.root.utils.confetti.LocalConfettiController
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.Picker
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.failedToSaveImages

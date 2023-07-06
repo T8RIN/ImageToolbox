@@ -17,8 +17,8 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import ru.tech.imageresizershrinker.domain.model.BitmapInfo
-import ru.tech.imageresizershrinker.domain.saving.model.BitmapSaveTarget
+import ru.tech.imageresizershrinker.domain.model.ImageInfo
+import ru.tech.imageresizershrinker.domain.saving.model.ImageSaveTarget
 import ru.tech.imageresizershrinker.domain.model.MimeType
 import ru.tech.imageresizershrinker.domain.saving.FileController
 import ru.tech.imageresizershrinker.core.android.BitmapUtils.compress
@@ -96,8 +96,8 @@ class CropViewModel @Inject constructor(
                     _bitmap.value = decoded
 
                     fileController.save(
-                        saveTarget = BitmapSaveTarget(
-                            bitmapInfo = BitmapInfo(
+                        saveTarget = ImageSaveTarget(
+                            imageInfo = ImageInfo(
                                 mimeType = mimeType,
                                 width = localBitmap.width,
                                 height = localBitmap.height

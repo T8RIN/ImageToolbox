@@ -81,13 +81,13 @@ import ru.tech.imageresizershrinker.core.android.BitmapUtils.fileSize
 import ru.tech.imageresizershrinker.core.android.BitmapUtils.getBitmapByUri
 import ru.tech.imageresizershrinker.core.android.BitmapUtils.restrict
 import ru.tech.imageresizershrinker.core.android.BitmapUtils.shareBitmaps
-import ru.tech.imageresizershrinker.domain.model.BitmapInfo
+import ru.tech.imageresizershrinker.domain.model.ImageInfo
 import ru.tech.imageresizershrinker.presentation.batch_resize_screen.components.SaveExifWidget
 import ru.tech.imageresizershrinker.presentation.bytes_resize_screen.components.PngTypeAlert
 import ru.tech.imageresizershrinker.presentation.bytes_resize_screen.viewModel.BytesResizeViewModel
-import ru.tech.imageresizershrinker.presentation.root.model.transformation.BitmapInfoTransformation
+import ru.tech.imageresizershrinker.presentation.root.transformation.BitmapInfoTransformation
 import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
-import ru.tech.imageresizershrinker.presentation.root.model.transformation.filter.SaturationFilter
+import ru.tech.imageresizershrinker.presentation.root.transformation.filter.SaturationFilter
 import ru.tech.imageresizershrinker.presentation.root.utils.confetti.LocalConfettiController
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.Picker
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.failedToSaveImages
@@ -547,7 +547,7 @@ fun BytesResizeScreen(
             PickImageFromUrisSheet(
                 transformations = listOf(
                     BitmapInfoTransformation(
-                        bitmapInfo = BitmapInfo(),
+                        imageInfo = ImageInfo(),
                         preset = 100
                     )
                 ),
