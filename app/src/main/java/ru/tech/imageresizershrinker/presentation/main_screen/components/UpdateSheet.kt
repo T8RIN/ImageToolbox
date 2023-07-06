@@ -30,6 +30,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.core.net.toUri
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.core.APP_RELEASES
 import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
@@ -74,10 +75,11 @@ fun UpdateSheet(changelog: String, tag: String, visible: MutableState<Boolean>) 
                         Divider()
                         Column(Modifier.verticalScroll(rememberScrollState())) {
                             HtmlText(
-                                nightMode = settingsState.isNightMode,
                                 html = changelog,
-                                modifier = Modifier.padding(16.dp)
-                            )
+                                modifier = Modifier.padding(start = 24.dp, end = 24.dp, top = 24.dp)
+                            ) { uri ->
+                                context.startActivity(Intent(Intent.ACTION_VIEW, uri.toUri()))
+                            }
                         }
                     }
                     Divider(Modifier.align(Alignment.BottomCenter))

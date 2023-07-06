@@ -1,21 +1,60 @@
 package ru.tech.imageresizershrinker.presentation.root.theme
 
 import androidx.compose.material3.Typography
+import androidx.compose.ui.text.ExperimentalTextApi
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontStyle
+import androidx.compose.ui.text.font.FontVariation
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.sp
 import ru.tech.imageresizershrinker.R
 
 
+@OptIn(ExperimentalTextApi::class)
 private val Montserrat = FontFamily(
-    Font(R.font.montserrat_light, weight = FontWeight.Light),
-    Font(R.font.montserrat_regular, weight = FontWeight.Normal),
-    Font(R.font.montserrat_medium, weight = FontWeight.Medium),
-    Font(R.font.montserrat_semibold, weight = FontWeight.SemiBold),
-    Font(R.font.montserrat_bold, weight = FontWeight.Bold),
+    Font(
+        resId = R.font.montserrat_variable,
+        weight = FontWeight.Light,
+        variationSettings = FontVariation.Settings(
+            weight = FontWeight.Light,
+            style = FontStyle.Normal
+        )
+    ),
+    Font(
+        resId = R.font.montserrat_variable,
+        weight = FontWeight.Normal,
+        variationSettings = FontVariation.Settings(
+            weight = FontWeight.Normal,
+            style = FontStyle.Normal
+        )
+    ),
+    Font(
+        resId = R.font.montserrat_variable,
+        weight = FontWeight.Medium,
+        variationSettings = FontVariation.Settings(
+            weight = FontWeight.Medium,
+            style = FontStyle.Normal
+        )
+    ),
+    Font(
+        resId = R.font.montserrat_variable,
+        weight = FontWeight.SemiBold,
+        variationSettings = FontVariation.Settings(
+            weight = FontWeight.SemiBold,
+            style = FontStyle.Normal
+        )
+    ),
+    Font(
+        resId = R.font.montserrat_variable,
+        weight = FontWeight.Bold,
+        variationSettings = FontVariation.Settings(
+            weight = FontWeight.Bold,
+            style = FontStyle.Normal
+        )
+    )
 )
 
 val Typography: Typography
