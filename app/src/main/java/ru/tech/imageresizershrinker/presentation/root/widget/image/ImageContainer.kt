@@ -62,8 +62,7 @@ fun ImageContainer(
                 if (loading) Loading()
             }
         }
-    }
-    else {
+    } else {
         AnimatedContent(
             modifier = modifier,
             targetState = isLoading to showOriginal,

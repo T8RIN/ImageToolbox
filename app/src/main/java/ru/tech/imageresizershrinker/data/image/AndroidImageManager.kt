@@ -743,7 +743,9 @@ class AndroidImageManager @Inject constructor(
     }
 
     override fun getMimeTypeString(uri: String): String? {
-        return if (ContentResolver.SCHEME_CONTENT == uri.toUri().scheme) context.contentResolver.getType(uri.toUri())
+        return if (ContentResolver.SCHEME_CONTENT == uri.toUri().scheme) context.contentResolver.getType(
+            uri.toUri()
+        )
         else {
             MimeTypeMap.getSingleton()
                 .getMimeTypeFromExtension(

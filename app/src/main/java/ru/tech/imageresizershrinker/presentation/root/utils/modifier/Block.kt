@@ -57,7 +57,7 @@ fun Modifier.block(
             shape = shape
         )
         .clip(shape)
-        .then(if(applyEndPadding) Modifier.padding(4.dp) else Modifier)
+        .then(if (applyEndPadding) Modifier.padding(4.dp) else Modifier)
 }
 
 fun Modifier.navBarsLandscapePadding(enabled: Boolean = true) = composed {

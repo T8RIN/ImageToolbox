@@ -59,12 +59,14 @@ class DeleteExifViewModel @Inject constructor(
                     if (index == 0) {
                         uris?.getOrNull(1)?.let {
                             _selectedUri.value = it
-                            _bitmap.value = imageManager.getImage(it.toString(), originalSize = false)
+                            _bitmap.value =
+                                imageManager.getImage(it.toString(), originalSize = false)
                         }
                     } else {
                         uris?.getOrNull(index - 1)?.let {
                             _selectedUri.value = it
-                            _bitmap.value = imageManager.getImage(it.toString(), originalSize = false)
+                            _bitmap.value =
+                                imageManager.getImage(it.toString(), originalSize = false)
                         }
                     }
                 }

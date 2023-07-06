@@ -439,7 +439,8 @@ fun CropScreen(
                             Column(
                                 Modifier
                                     .weight(0.5f)
-                                    .verticalScroll(rememberScrollState())) {
+                                    .verticalScroll(rememberScrollState())
+                            ) {
                                 AspectRatioSelection(
                                     modifier = Modifier
                                         .fillMaxWidth()

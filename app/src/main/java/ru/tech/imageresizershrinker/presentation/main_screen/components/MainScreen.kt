@@ -289,7 +289,11 @@ fun MainScreen(
         ) {
             CompositionLocalProvider(LocalLayoutDirection provides layoutDirection) {
                 TopAppBar(
-                    colors = TopAppBarDefaults.topAppBarColors(MaterialTheme.colorScheme.surfaceColorAtElevation(6.dp)),
+                    colors = TopAppBarDefaults.topAppBarColors(
+                        MaterialTheme.colorScheme.surfaceColorAtElevation(
+                            6.dp
+                        )
+                    ),
                     title = {
                         Marquee(
                             edgeColor = MaterialTheme.colorScheme.surfaceColorAtElevation(

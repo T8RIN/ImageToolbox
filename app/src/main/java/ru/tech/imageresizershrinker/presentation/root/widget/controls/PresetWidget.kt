@@ -108,7 +108,9 @@ fun PresetWidget(
                                         max(settingsState.borderWidth, 1.dp),
                                         animateColorAsState(
                                             if (!selected) MaterialTheme.colorScheme.outlineVariant()
-                                            else MaterialTheme.colorScheme.tertiaryContainer.copy(alpha = 0.9f).compositeOver(Color.Black)
+                                            else MaterialTheme.colorScheme.tertiaryContainer.copy(
+                                                alpha = 0.9f
+                                            ).compositeOver(Color.Black)
                                         ).value
                                     ),
                                     colors = IconButtonDefaults.outlinedIconButtonColors(
