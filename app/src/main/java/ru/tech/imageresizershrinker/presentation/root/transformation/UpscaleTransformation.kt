@@ -2,7 +2,7 @@ package ru.tech.imageresizershrinker.presentation.root.transformation
 
 import android.graphics.Bitmap
 import coil.size.Size
-import ru.tech.imageresizershrinker.core.android.BitmapUtils.resizeBitmap
+import ru.tech.imageresizershrinker.core.android.ImageUtils.resizeBitmap
 import ru.tech.imageresizershrinker.domain.model.ResizeType
 import ru.tech.imageresizershrinker.domain.image.Transformation
 import java.lang.Integer.max

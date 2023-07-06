@@ -82,7 +82,7 @@ import com.t8rin.drawbox.presentation.compose.DrawBox
 import dev.olshevski.navigation.reimagined.AnimatedNavHost
 import dev.olshevski.navigation.reimagined.NavController
 import ru.tech.imageresizershrinker.R
-import ru.tech.imageresizershrinker.core.android.BitmapUtils.restrict
+import ru.tech.imageresizershrinker.core.android.ImageUtils.restrict
 import ru.tech.imageresizershrinker.domain.model.MimeType
 import ru.tech.imageresizershrinker.presentation.root.theme.icons.Eraser
 import ru.tech.imageresizershrinker.presentation.root.theme.mixedColor

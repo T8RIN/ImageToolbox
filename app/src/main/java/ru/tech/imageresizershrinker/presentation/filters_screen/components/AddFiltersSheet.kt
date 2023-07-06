@@ -69,7 +69,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.R
-import ru.tech.imageresizershrinker.core.android.BitmapUtils.applyTransformations
+import ru.tech.imageresizershrinker.core.android.ImageUtils.applyTransformations
 import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
 import ru.tech.imageresizershrinker.presentation.root.transformation.filter.BilaterialBlurFilter
 import ru.tech.imageresizershrinker.presentation.root.transformation.filter.BlackAndWhiteFilter

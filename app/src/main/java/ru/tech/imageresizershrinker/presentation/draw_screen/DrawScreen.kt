@@ -88,10 +88,10 @@ import com.t8rin.dynamic.theme.observeAsState
 import dev.olshevski.navigation.reimagined.hilt.hiltViewModel
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.R
-import ru.tech.imageresizershrinker.core.android.BitmapUtils.getBitmapByUri
-import ru.tech.imageresizershrinker.core.android.BitmapUtils.getBitmapFromUriWithTransformations
-import ru.tech.imageresizershrinker.core.android.BitmapUtils.overlayWith
-import ru.tech.imageresizershrinker.core.android.BitmapUtils.shareBitmap
+import ru.tech.imageresizershrinker.core.android.ImageUtils.getBitmapByUri
+import ru.tech.imageresizershrinker.core.android.ImageUtils.getBitmapFromUriWithTransformations
+import ru.tech.imageresizershrinker.core.android.ImageUtils.overlayWith
+import ru.tech.imageresizershrinker.core.android.ImageUtils.shareBitmap
 import ru.tech.imageresizershrinker.presentation.draw_screen.components.DrawAlphaSelector
 import ru.tech.imageresizershrinker.presentation.draw_screen.components.DrawBackgroundSelector
 import ru.tech.imageresizershrinker.presentation.draw_screen.components.DrawBehavior

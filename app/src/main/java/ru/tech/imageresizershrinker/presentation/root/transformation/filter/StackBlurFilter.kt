@@ -7,7 +7,7 @@ import jp.co.cyberagent.android.gpuimage.filter.GPUImageFilter
 import kotlinx.parcelize.Parcelize
 import kotlinx.parcelize.RawValue
 import ru.tech.imageresizershrinker.R
-import ru.tech.imageresizershrinker.core.android.BitmapUtils.resizeBitmap
+import ru.tech.imageresizershrinker.core.android.ImageUtils.resizeBitmap
 import ru.tech.imageresizershrinker.domain.model.ResizeType
 import kotlin.math.abs
 import kotlin.math.roundToInt

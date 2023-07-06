@@ -2,8 +2,8 @@ package ru.tech.imageresizershrinker.presentation.root.transformation
 
 import android.graphics.Bitmap
 import coil.size.Size
-import ru.tech.imageresizershrinker.core.android.BitmapUtils.applyPresetBy
-import ru.tech.imageresizershrinker.core.android.BitmapUtils.previewBitmap
+import ru.tech.imageresizershrinker.core.android.ImageUtils.applyPresetBy
+import ru.tech.imageresizershrinker.core.android.ImageUtils.previewBitmap
 import ru.tech.imageresizershrinker.domain.model.ImageInfo
 import ru.tech.imageresizershrinker.domain.image.Transformation
 import coil.transform.Transformation as CoilTransformation

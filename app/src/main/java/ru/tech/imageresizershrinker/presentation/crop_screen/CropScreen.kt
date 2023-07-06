@@ -88,8 +88,8 @@ import dev.olshevski.navigation.reimagined.hilt.hiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.R
-import ru.tech.imageresizershrinker.core.android.BitmapUtils.decodeBitmapByUri
-import ru.tech.imageresizershrinker.core.android.BitmapUtils.shareBitmap
+import ru.tech.imageresizershrinker.core.android.ImageUtils.decodeBitmapByUri
+import ru.tech.imageresizershrinker.core.android.ImageUtils.shareBitmap
 import ru.tech.imageresizershrinker.presentation.crop_screen.components.AspectRatioSelection
 import ru.tech.imageresizershrinker.presentation.crop_screen.components.aspectRatios
 import ru.tech.imageresizershrinker.presentation.crop_screen.viewModel.CropViewModel

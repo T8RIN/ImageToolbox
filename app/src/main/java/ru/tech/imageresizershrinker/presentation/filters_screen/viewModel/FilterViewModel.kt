@@ -14,10 +14,9 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import ru.tech.imageresizershrinker.core.android.BitmapUtils.calcSize
-import ru.tech.imageresizershrinker.core.android.BitmapUtils.compress
-import ru.tech.imageresizershrinker.core.android.BitmapUtils.resizeBitmap
-import ru.tech.imageresizershrinker.core.android.BitmapUtils.scaleUntilCanShow
+import ru.tech.imageresizershrinker.core.android.ImageUtils.calcSize
+import ru.tech.imageresizershrinker.core.android.ImageUtils.resizeBitmap
+import ru.tech.imageresizershrinker.core.android.ImageUtils.scaleUntilCanShow
 import ru.tech.imageresizershrinker.domain.model.ImageInfo
 import ru.tech.imageresizershrinker.domain.model.MimeType
 import ru.tech.imageresizershrinker.domain.model.ResizeType

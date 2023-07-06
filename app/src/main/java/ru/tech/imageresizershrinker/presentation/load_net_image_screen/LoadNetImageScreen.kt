@@ -89,9 +89,9 @@ import dev.olshevski.navigation.reimagined.navigate
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.R
-import ru.tech.imageresizershrinker.core.android.BitmapUtils.cacheImage
-import ru.tech.imageresizershrinker.core.android.BitmapUtils.shareBitmap
-import ru.tech.imageresizershrinker.core.android.BitmapUtils.toBitmap
+import ru.tech.imageresizershrinker.core.android.ImageUtils.cacheImage
+import ru.tech.imageresizershrinker.core.android.ImageUtils.shareBitmap
+import ru.tech.imageresizershrinker.core.android.ImageUtils.toBitmap
 import ru.tech.imageresizershrinker.domain.model.ImageInfo
 import ru.tech.imageresizershrinker.presentation.load_net_image_screen.viewModel.LoadNetImageViewModel
 import ru.tech.imageresizershrinker.presentation.root.theme.icons.CreateAlt

@@ -72,7 +72,7 @@ import dev.olshevski.navigation.reimagined.navigate
 import dev.olshevski.navigation.reimagined.pop
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.R
-import ru.tech.imageresizershrinker.core.android.BitmapUtils.decodeBitmapByUri
+import ru.tech.imageresizershrinker.core.android.ImageUtils.decodeBitmapByUri
 import ru.tech.imageresizershrinker.presentation.generate_palette_screen.viewModel.GeneratePaletteViewModel
 import ru.tech.imageresizershrinker.presentation.pick_color_from_image_screen.copyColorIntoClipboard
 import ru.tech.imageresizershrinker.presentation.pick_color_from_image_screen.format

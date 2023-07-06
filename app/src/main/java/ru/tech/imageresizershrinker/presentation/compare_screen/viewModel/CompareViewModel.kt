@@ -10,9 +10,9 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import ru.tech.imageresizershrinker.domain.model.ResizeType
-import ru.tech.imageresizershrinker.core.android.BitmapUtils.resizeBitmap
-import ru.tech.imageresizershrinker.core.android.BitmapUtils.rotate
-import ru.tech.imageresizershrinker.core.android.BitmapUtils.scaleUntilCanShow
+import ru.tech.imageresizershrinker.core.android.ImageUtils.resizeBitmap
+import ru.tech.imageresizershrinker.core.android.ImageUtils.rotate
+import ru.tech.imageresizershrinker.core.android.ImageUtils.scaleUntilCanShow
 
 class CompareViewModel : ViewModel() {
 

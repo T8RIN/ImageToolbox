@@ -72,7 +72,7 @@ import com.t8rin.dynamic.theme.LocalDynamicThemeState
 import com.t8rin.dynamic.theme.extractPrimaryColor
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.R
-import ru.tech.imageresizershrinker.core.android.BitmapUtils.getBitmapByUri
+import ru.tech.imageresizershrinker.core.android.ImageUtils.getBitmapByUri
 import ru.tech.imageresizershrinker.presentation.compare_screen.viewModel.CompareViewModel
 import ru.tech.imageresizershrinker.presentation.root.theme.blend
 import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant

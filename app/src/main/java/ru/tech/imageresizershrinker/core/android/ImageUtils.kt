@@ -12,7 +12,7 @@ import androidx.exifinterface.media.ExifInterface
 import kotlin.math.roundToInt
 
 
-object BitmapUtils {
+object ImageUtils {
 
     fun Drawable.toBitmap(): Bitmap? {
         val drawable = this

@@ -58,7 +58,7 @@ import coil.size.Size
 import com.t8rin.dynamic.theme.LocalDynamicThemeState
 import com.t8rin.dynamic.theme.getAppColorTuple
 import ru.tech.imageresizershrinker.R
-import ru.tech.imageresizershrinker.core.android.BitmapUtils.decodeSampledBitmapFromUri
+import ru.tech.imageresizershrinker.core.android.ImageUtils.decodeSampledBitmapFromUri
 import ru.tech.imageresizershrinker.presentation.image_preview_screen.components.ImagePager
 import ru.tech.imageresizershrinker.presentation.image_preview_screen.viewModel.ImagePreviewViewModel
 import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant

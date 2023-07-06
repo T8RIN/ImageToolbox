@@ -8,7 +8,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
-import ru.tech.imageresizershrinker.core.android.BitmapUtils.scaleUntilCanShow
+import ru.tech.imageresizershrinker.core.android.ImageUtils.scaleUntilCanShow
 
 class GeneratePaletteViewModel : ViewModel() {
 

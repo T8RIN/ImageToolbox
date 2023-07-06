@@ -24,9 +24,9 @@ import ru.tech.imageresizershrinker.domain.model.MimeType
 import ru.tech.imageresizershrinker.domain.model.ResizeType
 import ru.tech.imageresizershrinker.domain.saving.FileController
 import ru.tech.imageresizershrinker.presentation.draw_screen.components.DrawBehavior
-import ru.tech.imageresizershrinker.core.android.BitmapUtils.compress
-import ru.tech.imageresizershrinker.core.android.BitmapUtils.overlayWith
-import ru.tech.imageresizershrinker.core.android.BitmapUtils.resizeBitmap
+import ru.tech.imageresizershrinker.core.android.ImageUtils.compress
+import ru.tech.imageresizershrinker.core.android.ImageUtils.overlayWith
+import ru.tech.imageresizershrinker.core.android.ImageUtils.resizeBitmap
 import java.io.ByteArrayOutputStream
 import javax.inject.Inject
 

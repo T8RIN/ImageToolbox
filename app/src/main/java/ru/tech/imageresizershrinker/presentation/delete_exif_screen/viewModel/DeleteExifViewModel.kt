@@ -15,8 +15,7 @@ import ru.tech.imageresizershrinker.domain.model.ImageInfo
 import ru.tech.imageresizershrinker.domain.saving.model.ImageSaveTarget
 import ru.tech.imageresizershrinker.domain.model.MimeType
 import ru.tech.imageresizershrinker.domain.saving.FileController
-import ru.tech.imageresizershrinker.core.android.BitmapUtils.compress
-import ru.tech.imageresizershrinker.core.android.BitmapUtils.scaleUntilCanShow
+import ru.tech.imageresizershrinker.core.android.ImageUtils.scaleUntilCanShow
 import java.io.ByteArrayOutputStream
 import javax.inject.Inject
 

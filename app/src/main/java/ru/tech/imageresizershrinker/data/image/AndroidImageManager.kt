@@ -101,10 +101,10 @@ class AndroidImageManager @Inject constructor(
         }.getOrNull()
     }
 
-    override fun getImage(
+    override fun getImageAsync(
         uri: String,
         originalSize: Boolean,
-        onGetBitmap: (Bitmap) -> Unit,
+        onGetImage: (Bitmap) -> Unit,
         onGetMetadata: (ExifInterface?) -> Unit,
         onGetMimeType: (MimeType) -> Unit,
         onError: (Throwable) -> Unit
@@ -128,7 +128,7 @@ class AndroidImageManager @Inject constructor(
                         if (originalSize) size(Size.ORIGINAL)
                     }
                     .target { drawable ->
-                        drawable.toBitmap()?.let { onGetBitmap(it) }
+                        drawable.toBitmap()?.let { onGetImage(it) }
                     }.build()
             )
         }
@@ -448,7 +448,9 @@ class AndroidImageManager @Inject constructor(
         return image.size() < 4096 * 4096 * 5
     }
 
-    override suspend fun scaleUntilCanShow(image: Bitmap): Bitmap {
+    override suspend fun scaleUntilCanShow(image: Bitmap?): Bitmap? {
+        if(image == null) return null
+
         var bmp = if (!canShow(image)) {
             resize(
                 image = image,
@@ -561,7 +563,7 @@ class AndroidImageManager @Inject constructor(
         out.flush()
         out.close()
 
-        return scaleUntilCanShow(bitmap)
+        return scaleUntilCanShow(bitmap) ?: image
     }
 
 

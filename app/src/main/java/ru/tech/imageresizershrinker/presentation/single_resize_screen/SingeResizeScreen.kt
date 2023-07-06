@@ -74,10 +74,10 @@ import dev.olshevski.navigation.reimagined.hilt.hiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.R
-import ru.tech.imageresizershrinker.core.android.BitmapUtils.applyPresetBy
-import ru.tech.imageresizershrinker.core.android.BitmapUtils.canShow
-import ru.tech.imageresizershrinker.core.android.BitmapUtils.decodeBitmapByUri
-import ru.tech.imageresizershrinker.core.android.BitmapUtils.shareBitmap
+import ru.tech.imageresizershrinker.core.android.ImageUtils.applyPresetBy
+import ru.tech.imageresizershrinker.core.android.ImageUtils.canShow
+import ru.tech.imageresizershrinker.core.android.ImageUtils.decodeBitmapByUri
+import ru.tech.imageresizershrinker.core.android.ImageUtils.shareBitmap
 import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
 import ru.tech.imageresizershrinker.presentation.root.transformation.filter.SaturationFilter
 import ru.tech.imageresizershrinker.presentation.root.utils.confetti.LocalConfettiController

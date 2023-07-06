@@ -27,8 +27,8 @@ import ru.tech.imageresizershrinker.domain.saving.model.ImageSaveTarget
 import ru.tech.imageresizershrinker.domain.saving.FileController
 import ru.tech.imageresizershrinker.domain.saving.SaveTarget
 import ru.tech.imageresizershrinker.domain.saving.model.FileParams
-import ru.tech.imageresizershrinker.core.android.BitmapUtils.copyTo
-import ru.tech.imageresizershrinker.core.android.BitmapUtils.fileSize
+import ru.tech.imageresizershrinker.core.android.ImageUtils.copyTo
+import ru.tech.imageresizershrinker.core.android.ImageUtils.fileSize
 import ru.tech.imageresizershrinker.core.android.ContextUtils.getFileName
 import ru.tech.imageresizershrinker.core.android.ContextUtils.isExternalStorageWritable
 import ru.tech.imageresizershrinker.core.android.ContextUtils.requestStoragePermission

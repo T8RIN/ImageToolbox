@@ -21,14 +21,14 @@ import ru.tech.imageresizershrinker.domain.saving.model.ImageSaveTarget
 import ru.tech.imageresizershrinker.domain.model.MimeType
 import ru.tech.imageresizershrinker.domain.model.ResizeType
 import ru.tech.imageresizershrinker.domain.saving.FileController
-import ru.tech.imageresizershrinker.core.android.BitmapUtils
-import ru.tech.imageresizershrinker.core.android.BitmapUtils.canShow
-import ru.tech.imageresizershrinker.core.android.BitmapUtils.compress
-import ru.tech.imageresizershrinker.core.android.BitmapUtils.flip
-import ru.tech.imageresizershrinker.core.android.BitmapUtils.previewBitmap
-import ru.tech.imageresizershrinker.core.android.BitmapUtils.resizeBitmap
-import ru.tech.imageresizershrinker.core.android.BitmapUtils.rotate
-import ru.tech.imageresizershrinker.core.android.BitmapUtils.scaleUntilCanShow
+import ru.tech.imageresizershrinker.core.android.ImageUtils
+import ru.tech.imageresizershrinker.core.android.ImageUtils.canShow
+import ru.tech.imageresizershrinker.core.android.ImageUtils.compress
+import ru.tech.imageresizershrinker.core.android.ImageUtils.flip
+import ru.tech.imageresizershrinker.core.android.ImageUtils.previewBitmap
+import ru.tech.imageresizershrinker.core.android.ImageUtils.resizeBitmap
+import ru.tech.imageresizershrinker.core.android.ImageUtils.rotate
+import ru.tech.imageresizershrinker.core.android.ImageUtils.scaleUntilCanShow
 import java.io.ByteArrayInputStream
 import java.io.ByteArrayOutputStream
 import javax.inject.Inject
@@ -169,7 +169,7 @@ class SingleResizeViewModel @Inject constructor(
 
     fun clearExif() {
         val t = _exif.value
-        BitmapUtils.tags.forEach {
+        ImageUtils.tags.forEach {
             t?.setAttribute(it, null)
         }
         _exif.value = t

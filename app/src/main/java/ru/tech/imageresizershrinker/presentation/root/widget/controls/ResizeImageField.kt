@@ -23,7 +23,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import ru.tech.imageresizershrinker.R
-import ru.tech.imageresizershrinker.core.android.BitmapUtils.restrict
+import ru.tech.imageresizershrinker.core.android.ImageUtils.restrict
 import ru.tech.imageresizershrinker.domain.model.ImageInfo
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.block
 import ru.tech.imageresizershrinker.presentation.root.widget.text.RoundedTextField

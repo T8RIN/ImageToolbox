@@ -27,10 +27,10 @@ interface ImageManager<T, M> {
         onGetByteCount: (Int) -> Unit
     ): T
 
-    fun getImage(
+    fun getImageAsync(
         uri: String,
         originalSize: Boolean = true,
-        onGetBitmap: (T) -> Unit,
+        onGetImage: (T) -> Unit,
         onGetMetadata: (M?) -> Unit,
         onGetMimeType: (MimeType) -> Unit,
         onError: (Throwable) -> Unit
@@ -44,7 +44,7 @@ interface ImageManager<T, M> {
 
     suspend fun calculateImageSize(image: T, imageInfo: ImageInfo): Long
 
-    suspend fun scaleUntilCanShow(image: T): T?
+    suspend fun scaleUntilCanShow(image: T?): T?
 
     fun applyPresetBy(bitmap: Bitmap?, preset: Int, currentInfo: ImageInfo): ImageInfo
 
