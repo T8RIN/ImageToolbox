@@ -37,7 +37,14 @@ android {
     }
     packaging {
         resources {
-            excludes += "/META-INF/{AL2.0,LGPL2.1}"
+            excludes += setOf(
+                "META-INF/*.kotlin_module",
+                "kotlin/*.kotlin_builtins",
+                "kotlin/**/*.kotlin_builtins",
+                "META-INF/*",
+                "CERT.SF",
+                "publicsuffixes.gz"
+            )
         }
     }
 }
