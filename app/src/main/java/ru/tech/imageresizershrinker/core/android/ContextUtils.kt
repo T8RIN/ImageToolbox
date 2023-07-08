@@ -153,7 +153,11 @@ object ContextUtils {
 
                 Intent.ACTION_SEND -> {
                     intent.parcelable<Uri>(Intent.EXTRA_STREAM)?.let {
-                        onGetUris(listOf(it))
+                        if (intent.getStringExtra("screen") == Screen.PickColorFromImage::class.simpleName) {
+                            navigate(Screen.PickColorFromImage(it))
+                        } else {
+                            onGetUris(listOf(it))
+                        }
                     }
                 }
 

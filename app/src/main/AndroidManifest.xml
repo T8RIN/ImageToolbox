@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     <uses-permission
         android:name="android.permission.READ_EXTERNAL_STORAGE"
         android:maxSdkVersion="32" />
@@ -111,6 +112,28 @@
                 android:name="photopicker_activity:0:required"
                 android:value="" />
         </service>
+
+        <service
+            android:name=".presentation.pick_color_from_image_screen.components.ColorPickerTile"
+            android:exported="true"
+            android:permission="android.permission.BIND_QUICK_SETTINGS_TILE">
+            <intent-filter>
+                <action android:name="android.service.quicksettings.action.QS_TILE" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.service.quicksettings.ACTIVE_TILE"
+                android:resource="@xml/color_picker_tile" />
+        </service>
+
+        <activity
+            android:name=".presentation.pick_color_from_image_screen.components.TransparentActivity"
+            android:theme="@style/TransparentActivity" />
+
+        <service
+            android:name=".presentation.pick_color_from_image_screen.components.ScreenshotService"
+            android:foregroundServiceType="mediaProjection" />
+
 
     </application>
 

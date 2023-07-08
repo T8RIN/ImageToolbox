@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<tile xmlns:android="http://schemas.android.com/apk/res/android"
+    android:icon="@drawable/outline_colorize_24"
+    android:label="@string/pick_color" />
