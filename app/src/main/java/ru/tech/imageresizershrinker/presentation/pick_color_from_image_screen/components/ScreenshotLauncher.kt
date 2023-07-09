@@ -17,7 +17,7 @@ import ru.tech.imageresizershrinker.domain.image.ImageManager
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class TransparentActivity : AppCompatActivity() {
+class ScreenshotLauncher : AppCompatActivity() {
 
     @Inject
     lateinit var imageManager: ImageManager<Bitmap, ExifInterface>

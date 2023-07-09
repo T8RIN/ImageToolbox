@@ -135,8 +135,19 @@
             </intent-filter>
         </service>
 
+        <service
+            android:name=".presentation.pick_color_from_image_screen.components.CaptureTile"
+            android:exported="true"
+            android:icon="@drawable/outline_app_registration_24"
+            android:label="@string/edit_screenshot"
+            android:permission="android.permission.BIND_QUICK_SETTINGS_TILE">
+            <intent-filter>
+                <action android:name="android.service.quicksettings.action.QS_TILE" />
+            </intent-filter>
+        </service>
+
         <activity
-            android:name=".presentation.pick_color_from_image_screen.components.TransparentActivity"
+            android:name=".presentation.pick_color_from_image_screen.components.ScreenshotLauncher"
             android:theme="@style/TransparentActivity" />
 
         <service
