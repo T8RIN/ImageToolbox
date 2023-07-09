@@ -1,6 +1,6 @@
 package ru.tech.imageresizershrinker.presentation.pick_color_from_image_screen.components
 
-import android.app.Activity.RESULT_OK
+import android.app.Activity.RESULT_CANCELED
 import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
@@ -18,7 +18,9 @@ import android.media.projection.MediaProjectionManager
 import android.net.Uri
 import android.os.Binder
 import android.os.Build
+import android.os.Handler
 import android.os.IBinder
+import android.os.Looper
 import androidx.core.net.toUri
 import androidx.exifinterface.media.ExifInterface
 import dagger.hilt.android.AndroidEntryPoint
@@ -42,7 +44,7 @@ class ScreenshotService : Service() {
         val mediaProjectionManager =
             getSystemService(Context.MEDIA_PROJECTION_SERVICE) as MediaProjectionManager
 
-        val resultCode = RESULT_OK
+        val resultCode = intent?.getIntExtra("resultCode", RESULT_CANCELED) ?: RESULT_CANCELED
         val data = intent?.parcelable<Intent>("data")
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
             val notificationManager =
@@ -51,7 +53,7 @@ class ScreenshotService : Service() {
                 NotificationChannel(
                     "1",
                     "screenshot",
-                    NotificationManager.IMPORTANCE_NONE
+                    NotificationManager.IMPORTANCE_DEFAULT
                 )
             )
             startForeground(
@@ -86,46 +88,54 @@ class ScreenshotService : Service() {
         )
 
 
-        val image: Image? = imageReader.acquireLatestImage()
+        Handler(
+            Looper.getMainLooper()
+        ).postDelayed(
+            {
+                val image: Image? = imageReader.acquireLatestImage()
 
-        image?.planes?.let { planes ->
-            val buffer = planes[0].buffer
-            val pixelStride = planes[0].pixelStride
-            val rowStride = planes[0].rowStride
-            val rowPadding = rowStride - pixelStride * displayMetrics.widthPixels
+                image?.planes?.let { planes ->
+                    val buffer = planes[0].buffer
+                    val pixelStride = planes[0].pixelStride
+                    val rowStride = planes[0].rowStride
+                    val rowPadding = rowStride - pixelStride * displayMetrics.widthPixels
 
-            val bitmap = Bitmap.createBitmap(
-                displayMetrics.widthPixels + rowPadding / pixelStride,
-                displayMetrics.heightPixels, Bitmap.Config.ARGB_8888
-            )
-            bitmap.copyPixelsFromBuffer(buffer)
-
-
-            val uri: Uri? = runBlocking {
-                imageManager.cacheImage(
-                    image = bitmap,
-                    imageInfo = ImageInfo(
-                        width = bitmap.width,
-                        height = bitmap.height,
-                        mimeType = MimeType.Png
+                    val bitmap = Bitmap.createBitmap(
+                        displayMetrics.widthPixels + rowPadding / pixelStride,
+                        displayMetrics.heightPixels, Bitmap.Config.ARGB_8888
                     )
-                )?.toUri()
-            }
+                    bitmap.copyPixelsFromBuffer(buffer)
 
-            applicationContext.startActivity(
-                Intent(applicationContext, MainActivity::class.java).apply {
-                    putExtra("screen", Screen.PickColorFromImage::class.simpleName)
-                    type = "image/*"
-                    putExtra(Intent.EXTRA_STREAM, uri)
-                    action = Intent.ACTION_SEND
-                    addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+
+                    val uri: Uri? = runBlocking {
+                        imageManager.cacheImage(
+                            image = bitmap,
+                            imageInfo = ImageInfo(
+                                width = bitmap.width,
+                                height = bitmap.height,
+                                mimeType = MimeType.Png
+                            ),
+                            name = "screenshot"
+                        )?.toUri()
+                    }
+
+                    applicationContext.startActivity(
+                        Intent(applicationContext, MainActivity::class.java).apply {
+                            putExtra("screen", Screen.PickColorFromImage::class.simpleName)
+                            type = "image/*"
+                            putExtra(Intent.EXTRA_STREAM, uri)
+                            action = Intent.ACTION_SEND
+                            addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                        }
+                    )
+
+                    image.close()
+                    imageReader.close()
+                    virtualDisplay?.release()
+                    mediaProjection.stop()
                 }
-            )
-
-            image.close()
-            virtualDisplay?.release()
-        }
-
+            }, 1000
+        )
     }
 
     override fun onBind(intent: Intent): IBinder = Binder()

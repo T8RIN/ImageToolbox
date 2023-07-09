@@ -35,6 +35,7 @@ class TransparentActivity : AppCompatActivity() {
             if (resultCode == RESULT_OK) {
                 val serviceIntent = Intent(this, ScreenshotService::class.java).apply {
                     putExtra("data", data)
+                    putExtra("resultCode", resultCode)
                 }
 
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {

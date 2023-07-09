@@ -114,16 +114,14 @@
         </service>
 
         <service
+            android:icon="@drawable/outline_colorize_24"
+            android:label="@string/color"
             android:name=".presentation.pick_color_from_image_screen.components.ColorPickerTile"
             android:exported="true"
             android:permission="android.permission.BIND_QUICK_SETTINGS_TILE">
             <intent-filter>
                 <action android:name="android.service.quicksettings.action.QS_TILE" />
             </intent-filter>
-
-            <meta-data
-                android:name="android.service.quicksettings.ACTIVE_TILE"
-                android:resource="@xml/color_picker_tile" />
         </service>
 
         <activity
