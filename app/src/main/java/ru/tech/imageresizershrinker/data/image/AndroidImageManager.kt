@@ -800,6 +800,7 @@ class AndroidImageManager @Inject constructor(
             this.type = type
         }
         val shareIntent = Intent.createChooser(sendIntent, context.getString(R.string.share))
+        shareIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         context.startActivity(shareIntent)
     }
 
@@ -811,6 +812,7 @@ class AndroidImageManager @Inject constructor(
             type = "image/*"
         }
         val shareIntent = Intent.createChooser(sendIntent, context.getString(R.string.share))
+        shareIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         context.startActivity(shareIntent)
     }
 

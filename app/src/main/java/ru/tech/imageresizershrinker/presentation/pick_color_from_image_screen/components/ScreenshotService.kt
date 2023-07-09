@@ -21,6 +21,7 @@ import android.os.Build
 import android.os.Handler
 import android.os.IBinder
 import android.os.Looper
+import android.util.Log
 import androidx.core.net.toUri
 import androidx.exifinterface.media.ExifInterface
 import dagger.hilt.android.AndroidEntryPoint
@@ -31,7 +32,6 @@ import ru.tech.imageresizershrinker.domain.image.ImageManager
 import ru.tech.imageresizershrinker.domain.model.ImageInfo
 import ru.tech.imageresizershrinker.domain.model.MimeType
 import ru.tech.imageresizershrinker.presentation.main_screen.MainActivity
-import ru.tech.imageresizershrinker.presentation.root.utils.navigation.Screen
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -64,12 +64,12 @@ class ScreenshotService : Service() {
                 ServiceInfo.FOREGROUND_SERVICE_TYPE_MEDIA_PROJECTION
             )
         }
-        startCapture(mediaProjectionManager.getMediaProjection(resultCode, data!!))
+        startCapture(mediaProjectionManager.getMediaProjection(resultCode, data!!), intent)
 
         return START_STICKY
     }
 
-    private fun startCapture(mediaProjection: MediaProjection) {
+    private fun startCapture(mediaProjection: MediaProjection, intent: Intent?) {
         val displayMetrics = applicationContext.resources.displayMetrics
         val imageReader = ImageReader.newInstance(
             displayMetrics.widthPixels,
@@ -119,10 +119,11 @@ class ScreenshotService : Service() {
                         )?.toUri()
                     }
 
+                    Log.d("COCK",  intent?.getStringExtra("screen") ?: "")
                     applicationContext.startActivity(
                         Intent(applicationContext, MainActivity::class.java).apply {
-                            putExtra("screen", Screen.PickColorFromImage::class.simpleName)
-                            type = "image/*"
+                            putExtra("screen", intent?.getStringExtra("screen"))
+                            type = "image/png"
                             putExtra(Intent.EXTRA_STREAM, uri)
                             action = Intent.ACTION_SEND
                             addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
