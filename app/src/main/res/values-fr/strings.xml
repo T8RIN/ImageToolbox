@@ -295,4 +295,5 @@
     <string name="group_options_by_type">Grouper les options par type</string>
     <string name="group_options_by_type_sub">Groupes d\'options sur l\'écran principal de leur type au lieu d\'une disposition de liste personnalisée</string>
     <string name="cannot_change_arrangement_while_options_grouping_enabled">Impossible de modifier la disposition lorsque le groupement d\'options est activé</string>
+    <string name="edit_screenshot">Éditer capture d\'écran</string>
 </resources>
