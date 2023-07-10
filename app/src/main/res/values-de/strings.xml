@@ -282,4 +282,18 @@
     <string name="tools">Werkzeuge</string>
     <string name="group_options_by_type_sub">Optionen im Hauptbildschirm des jeweiligen Typs gruppieren, anstatt in einer benutzerdefinierten Liste anzuordnen</string>
     <string name="create">Erstellen</string>
+    <string name="store_file_desc">Speichere die Datei auf deinem Gerät oder verwende Sharing, um sie an eine beliebige Stelle weiterzugeben</string>
+    <string name="implementation_sub">AES-256, GCM-Modus, kein Padding, 12 Bytes zufällige IVs. Die Schlüssel werden als SHA-3-Hashes (256 Bit) verwendet.</string>
+    <string name="file_size_sub">Die maximale Dateigröße wird durch das Android-Betriebssystem und den verfügbaren Speicher begrenzt, was natürlich von Ihrem Gerät abhängt.
+\nBitte beachten Sie: Speicher ist nicht gleich Speicherplatz.</string>
+    <string name="compatibility_sub">Bitte beachten Sie, dass die Kompatibilität zu anderen Dateiverschlüsselungsprogrammen oder -diensten nicht gewährleistet ist. Eine leicht abweichende Behandlung des Schlüssels oder eine andere Chiffrierkonfiguration können Gründe für eine Inkompatibilität sein.</string>
+    <string name="file_proceed">Datei bearbeitet</string>
+    <string name="features_sub">Passwortbasierte Verschlüsselung von Dateien. Die verschlüsselten Dateien können im ausgewählten Verzeichnis gespeichert oder freigegeben werden. Entschlüsselte Dateien können auch unmittelbar geöffnet werden.</string>
+    <string name="image_size_warning">Der Versuch, ein Bild mit der angegebenen Breite und Höhe zu speichern, kann zu einem OOM-Fehler führen. Du machst dies auf eigene Gefahr, und sag nicht, ich hätte Dich nicht gewarnt!</string>
+    <string name="cache">Cache</string>
+    <string name="cache_size">Cache-Größe</string>
+    <string name="auto_cache_clearing_sub">Wenn aktiviert, wird der App-Cache beim Start der App geleert</string>
+    <string name="auto_cache_clearing">Autom. Cache-Leerung</string>
+    <string name="cannot_change_arrangement_while_options_grouping_enabled">Die Anordnung kann nicht geändert werden, wenn die Optionen gruppiert sind</string>
+    <string name="edit_screenshot">Screenshot bearbeiten</string>
 </resources>
