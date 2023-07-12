@@ -312,6 +312,7 @@
     <string name="default_prefix" translatable="false">ResizedImage</string>
     <string name="edit_screenshot">Edit screenshot</string>
     <string name="secondary_customization">Secondary customization</string>
+    <string name="screenshot">Screenshot</string>
     <string-array name="fab_alignment_sub">
         <item>Start</item>
         <item>Center</item>

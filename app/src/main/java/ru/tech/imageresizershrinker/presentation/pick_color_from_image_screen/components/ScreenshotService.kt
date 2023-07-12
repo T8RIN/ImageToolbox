@@ -22,7 +22,7 @@ import android.os.Handler
 import android.os.IBinder
 import android.os.Looper
 import android.os.Parcelable
-import android.util.Log
+import android.widget.Toast
 import androidx.core.net.toUri
 import androidx.exifinterface.media.ExifInterface
 import dagger.hilt.android.AndroidEntryPoint
@@ -31,7 +31,12 @@ import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.domain.image.ImageManager
 import ru.tech.imageresizershrinker.domain.model.ImageInfo
 import ru.tech.imageresizershrinker.domain.model.MimeType
+import ru.tech.imageresizershrinker.domain.saving.FileController
+import ru.tech.imageresizershrinker.domain.saving.model.FileSaveTarget
 import ru.tech.imageresizershrinker.presentation.main_screen.MainActivity
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -39,6 +44,9 @@ class ScreenshotService : Service() {
 
     @Inject
     lateinit var imageManager: ImageManager<Bitmap, ExifInterface>
+
+    @Inject
+    lateinit var fileController: FileController
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         val mediaProjectionManager =
@@ -113,22 +121,54 @@ class ScreenshotService : Service() {
                             imageInfo = ImageInfo(
                                 width = bitmap.width,
                                 height = bitmap.height,
-                                mimeType = MimeType.Png
+                                mimeType = MimeType.Jpg
                             ),
                             name = "screenshot"
                         )?.toUri()
                     }
 
-                    Log.d("COCK",  intent?.getStringExtra("screen") ?: "")
-                    applicationContext.startActivity(
-                        Intent(applicationContext, MainActivity::class.java).apply {
-                            putExtra("screen", intent?.getStringExtra("screen"))
-                            type = "image/png"
-                            putExtra(Intent.EXTRA_STREAM, uri)
-                            action = Intent.ACTION_SEND
-                            addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                    if (intent?.getStringExtra("screen") != "shot") {
+                        applicationContext.startActivity(
+                            Intent(applicationContext, MainActivity::class.java).apply {
+                                putExtra("screen", intent?.getStringExtra("screen"))
+                                type = "image/jpg"
+                                putExtra(Intent.EXTRA_STREAM, uri)
+                                action = Intent.ACTION_SEND
+                                addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                            }
+                        )
+                    } else {
+                        runBlocking {
+                            val timeStamp = SimpleDateFormat(
+                                "yyyy-MM-dd_HH-mm-ss",
+                                Locale.getDefault()
+                            ).format(Date())
+                            fileController.save(
+                                FileSaveTarget(
+                                    filename = "screenshot-$timeStamp.jpg",
+                                    originalUri = "screenshot",
+                                    mimeType = MimeType.create("jpg"),
+                                    data = imageManager.compress(
+                                        bitmap, ImageInfo(
+                                            width = bitmap.width,
+                                            height = bitmap.height,
+                                            mimeType = MimeType.Jpg
+                                        )
+                                    )
+                                ),
+                                true
+                            )
+                            Toast.makeText(
+                                this@ScreenshotService,
+                                this@ScreenshotService.getString(
+                                    R.string.saved_to,
+                                    fileController.savingPath
+                                ),
+                                Toast.LENGTH_SHORT
+                            ).show()
                         }
-                    )
+                    }
+
 
                     image.close()
                     imageReader.close()
