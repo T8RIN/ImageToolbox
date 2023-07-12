@@ -130,7 +130,6 @@ import ru.tech.imageresizershrinker.BuildConfig
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.core.APP_LINK
 import ru.tech.imageresizershrinker.core.AUTHOR_LINK
-import ru.tech.imageresizershrinker.core.android.ContextUtils.verifyInstallerId
 import ru.tech.imageresizershrinker.presentation.main_screen.viewModel.MainViewModel
 import ru.tech.imageresizershrinker.presentation.root.theme.Emoji
 import ru.tech.imageresizershrinker.presentation.root.theme.allIcons
@@ -140,6 +139,7 @@ import ru.tech.imageresizershrinker.presentation.root.theme.icons.GooglePlay
 import ru.tech.imageresizershrinker.presentation.root.theme.icons.Telegram
 import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
 import ru.tech.imageresizershrinker.presentation.root.theme.suggestContainerColorBy
+import ru.tech.imageresizershrinker.presentation.root.utils.helper.ContextUtils.verifyInstallerId
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.alertDialog
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.drawHorizontalStroke
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.fabBorder

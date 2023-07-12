@@ -16,8 +16,8 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import ru.tech.imageresizershrinker.core.android.ImageUtils
 import ru.tech.imageresizershrinker.domain.image.ImageManager
+import ru.tech.imageresizershrinker.domain.image.Metadata
 import ru.tech.imageresizershrinker.domain.model.ImageInfo
 import ru.tech.imageresizershrinker.domain.model.MimeType
 import ru.tech.imageresizershrinker.domain.model.ResizeType
@@ -148,7 +148,7 @@ class SingleResizeViewModel @Inject constructor(
 
     fun clearExif() {
         val t = _exif.value
-        ImageUtils.tags.forEach {
+        Metadata.metaTags.forEach {
             t?.setAttribute(it, null)
         }
         _exif.value = t

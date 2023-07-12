@@ -71,9 +71,8 @@ import com.google.accompanist.placeholder.material.shimmer
 import com.google.accompanist.placeholder.placeholder
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
-import ru.tech.imageresizershrinker.core.android.ContextUtils.findActivity
+import ru.tech.imageresizershrinker.presentation.root.utils.helper.ContextUtils.findActivity
 import ru.tech.imageresizershrinker.presentation.root.widget.image.StatusBarUtils.hideSystemBars
-import ru.tech.imageresizershrinker.presentation.root.widget.image.StatusBarUtils.isSystemBarsHidden
 import ru.tech.imageresizershrinker.presentation.root.widget.image.StatusBarUtils.showSystemBars
 
 @Composable
@@ -168,7 +167,7 @@ fun Picture(
             ),
             onTap = {
                 if (zoomParams.hideBarsOnTap) {
-                    activity?.apply { if (isSystemBarsHidden) showSystemBars() else hideSystemBars() }
+                    activity?.apply { if (StatusBarUtils.isSystemBarsHidden) showSystemBars() else hideSystemBars() }
                 }
                 zoomParams.onTap(it)
             },
@@ -187,9 +186,9 @@ fun Picture(
 
 }
 
-object StatusBarUtils {
+private object StatusBarUtils {
 
-    val Activity.isSystemBarsHidden: Boolean
+    val isSystemBarsHidden: Boolean
         get() {
             return _isSystemBarsHidden
         }

@@ -1,4 +1,4 @@
-package ru.tech.imageresizershrinker.core.android
+package ru.tech.imageresizershrinker.presentation.root.utils.helper
 
 import android.Manifest
 import android.app.Activity
@@ -20,9 +20,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import ru.tech.imageresizershrinker.R
-import ru.tech.imageresizershrinker.core.android.IntentUtils.parcelable
-import ru.tech.imageresizershrinker.core.android.IntentUtils.parcelableArrayList
-import ru.tech.imageresizershrinker.presentation.root.utils.helper.readableByteCount
+import ru.tech.imageresizershrinker.presentation.root.utils.helper.IntentUtils.parcelable
+import ru.tech.imageresizershrinker.presentation.root.utils.helper.IntentUtils.parcelableArrayList
 import ru.tech.imageresizershrinker.presentation.root.utils.navigation.Screen
 import ru.tech.imageresizershrinker.presentation.root.utils.permission.PermissionStatus
 import ru.tech.imageresizershrinker.presentation.root.utils.permission.PermissionUtils.askUserToRequestPermissionExplicitly
@@ -191,7 +190,7 @@ object ContextUtils {
         else -> null
     }
 
-    fun Context.clearCache(onComplete: () -> Unit) {
+    fun Context.clearCache(onComplete: (cache: String) -> Unit = {}) {
         CoroutineScope(Dispatchers.Main).launch {
             withContext(Dispatchers.IO) {
                 cacheDir.deleteRecursively()
@@ -201,7 +200,7 @@ object ContextUtils {
                     it.deleteRecursively()
                 }
             }
-            onComplete()
+            onComplete(cacheSize())
         }
     }
 

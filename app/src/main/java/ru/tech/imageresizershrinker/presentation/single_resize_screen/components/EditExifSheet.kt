@@ -54,9 +54,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.exifinterface.media.ExifInterface
 import ru.tech.imageresizershrinker.R
-import ru.tech.imageresizershrinker.core.android.ImageUtils
-import ru.tech.imageresizershrinker.core.android.ImageUtils.toMap
+import ru.tech.imageresizershrinker.domain.image.Metadata
 import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
+import ru.tech.imageresizershrinker.presentation.root.utils.helper.ImageUtils.toMap
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.alertDialog
 import ru.tech.imageresizershrinker.presentation.root.widget.preferences.PreferenceItemOverload
 import ru.tech.imageresizershrinker.presentation.root.widget.sheets.SimpleSheet
@@ -102,7 +102,7 @@ fun EditExifSheet(
         title = {
             val count =
                 remember(exifMap) {
-                    ImageUtils.tags.count {
+                    Metadata.metaTags.count {
                         it !in (exifMap?.keys ?: emptyList())
                     }
                 }
@@ -239,7 +239,7 @@ fun EditExifSheet(
                     Column {
                         val tags =
                             remember(exifMap) {
-                                ImageUtils.tags.filter {
+                                Metadata.metaTags.filter {
                                     it !in (exifMap?.keys ?: emptyList())
                                 }.sorted()
                             }

@@ -63,7 +63,6 @@ import dev.olshevski.navigation.reimagined.hilt.hiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.R
-import ru.tech.imageresizershrinker.core.android.ImageUtils.fileSize
 import ru.tech.imageresizershrinker.domain.model.ImageInfo
 import ru.tech.imageresizershrinker.presentation.batch_resize_screen.components.SaveExifWidget
 import ru.tech.imageresizershrinker.presentation.limits_resize_screen.viewModel.LimitsResizeViewModel
@@ -71,6 +70,7 @@ import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
 import ru.tech.imageresizershrinker.presentation.root.transformation.BitmapInfoTransformation
 import ru.tech.imageresizershrinker.presentation.root.transformation.filter.SaturationFilter
 import ru.tech.imageresizershrinker.presentation.root.utils.confetti.LocalConfettiController
+import ru.tech.imageresizershrinker.presentation.root.utils.helper.ImageUtils.fileSize
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.Picker
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.failedToSaveImages
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.localImagePickerMode

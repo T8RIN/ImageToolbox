@@ -21,13 +21,13 @@ import android.os.Build
 import android.os.Handler
 import android.os.IBinder
 import android.os.Looper
+import android.os.Parcelable
 import android.util.Log
 import androidx.core.net.toUri
 import androidx.exifinterface.media.ExifInterface
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.runBlocking
 import ru.tech.imageresizershrinker.R
-import ru.tech.imageresizershrinker.core.android.IntentUtils.parcelable
 import ru.tech.imageresizershrinker.domain.image.ImageManager
 import ru.tech.imageresizershrinker.domain.model.ImageInfo
 import ru.tech.imageresizershrinker.domain.model.MimeType
@@ -140,5 +140,10 @@ class ScreenshotService : Service() {
     }
 
     override fun onBind(intent: Intent): IBinder = Binder()
+
+    private inline fun <reified T : Parcelable> Intent.parcelable(key: String): T? = when {
+        Build.VERSION.SDK_INT >= 33 -> getParcelableExtra(key, T::class.java)
+        else -> @Suppress("DEPRECATION") getParcelableExtra(key) as? T
+    }
 
 }

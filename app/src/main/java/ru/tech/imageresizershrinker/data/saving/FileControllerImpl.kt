@@ -1,13 +1,19 @@
 package ru.tech.imageresizershrinker.data.saving
 
+import android.Manifest
 import android.app.Activity
 import android.content.ContentValues
 import android.content.Context
 import android.content.ContextWrapper
+import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Build
 import android.os.Environment
 import android.provider.MediaStore
+import android.provider.OpenableColumns
+import android.widget.Toast
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
@@ -18,22 +24,19 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.R
-import ru.tech.imageresizershrinker.core.android.ContextUtils.getFileName
-import ru.tech.imageresizershrinker.core.android.ContextUtils.isExternalStorageWritable
-import ru.tech.imageresizershrinker.core.android.ContextUtils.requestStoragePermission
-import ru.tech.imageresizershrinker.core.android.ImageUtils.copyTo
-import ru.tech.imageresizershrinker.core.android.ImageUtils.fileSize
-import ru.tech.imageresizershrinker.core.android.toPath
-import ru.tech.imageresizershrinker.core.android.toUiPath
 import ru.tech.imageresizershrinker.data.keys.Keys.ADD_ORIGINAL_NAME
 import ru.tech.imageresizershrinker.data.keys.Keys.ADD_SEQ_NUM
 import ru.tech.imageresizershrinker.data.keys.Keys.ADD_SIZE
 import ru.tech.imageresizershrinker.data.keys.Keys.FILENAME_PREFIX
 import ru.tech.imageresizershrinker.data.keys.Keys.SAVE_FOLDER
+import ru.tech.imageresizershrinker.domain.image.Metadata
 import ru.tech.imageresizershrinker.domain.saving.FileController
 import ru.tech.imageresizershrinker.domain.saving.SaveTarget
 import ru.tech.imageresizershrinker.domain.saving.model.FileParams
 import ru.tech.imageresizershrinker.domain.saving.model.ImageSaveTarget
+import ru.tech.imageresizershrinker.presentation.root.utils.permission.PermissionStatus
+import ru.tech.imageresizershrinker.presentation.root.utils.permission.PermissionUtils.askUserToRequestPermissionExplicitly
+import ru.tech.imageresizershrinker.presentation.root.utils.permission.PermissionUtils.checkPermissions
 import java.io.File
 import java.io.FileOutputStream
 import java.io.OutputStream
@@ -72,17 +75,86 @@ class FileControllerImpl @Inject constructor(
 
     override fun isExternalStorageWritable(): Boolean = context.isExternalStorageWritable()
 
+    private fun Context.isExternalStorageWritable(): Boolean {
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) true
+        else ContextCompat.checkSelfPermission(
+            this,
+            Manifest.permission.WRITE_EXTERNAL_STORAGE
+        ) == PackageManager.PERMISSION_GRANTED
+    }
+
     override fun requestReadWritePermissions() {
         context.findActivity()?.requestStoragePermission()
     }
 
+    private fun Activity.requestStoragePermission() {
+        val state = checkPermissions(
+            listOf(
+                Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                Manifest.permission.READ_EXTERNAL_STORAGE
+            )
+        )
+        when (state.permissionStatus.values.first()) {
+            PermissionStatus.NOT_GIVEN -> {
+                ActivityCompat.requestPermissions(
+                    this,
+                    arrayOf(
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                        Manifest.permission.READ_EXTERNAL_STORAGE
+                    ),
+                    0
+                )
+            }
+
+            PermissionStatus.DENIED_PERMANENTLY -> {
+                askUserToRequestPermissionExplicitly()
+                Toast.makeText(this, R.string.grant_permission_manual, Toast.LENGTH_LONG).show()
+            }
+
+            PermissionStatus.ALLOWED -> Unit
+        }
+    }
+
     override fun getSize(uri: String): Long? = uri.toUri().fileSize(context)
+
+    private fun Uri.fileSize(context: Context): Long? {
+        context.contentResolver
+            .query(this, null, null, null, null, null)
+            .use { cursor ->
+                if (cursor != null && cursor.moveToFirst()) {
+                    val sizeIndex: Int = cursor.getColumnIndex(OpenableColumns.SIZE)
+                    if (!cursor.isNull(sizeIndex)) {
+                        return cursor.getLong(sizeIndex)
+                    }
+                }
+            }
+        return null
+    }
 
     override val savingPath: String
         get() = fileParams.treeUri?.takeIf { it.isNotEmpty() }?.toUri().toUiPath(
             context = context,
             default = context.getString(R.string.default_folder)
         )
+
+    private fun Uri?.toUiPath(context: Context, default: String): String = this?.let { uri ->
+        DocumentFile
+            .fromTreeUri(context, uri)
+            ?.uri?.path?.split(":")
+            ?.lastOrNull()?.let { p ->
+                val endPath = p.takeIf {
+                    it.isNotEmpty()
+                }?.let { "/$it" } ?: ""
+                val startPath = if (
+                    uri.toString()
+                        .split("%")[0]
+                        .contains("primary")
+                ) context.getString(R.string.device_storage)
+                else context.getString(R.string.external_storage)
+
+                startPath + endPath
+            }
+    } ?: default
 
     override suspend fun save(
         saveTarget: SaveTarget,
@@ -119,6 +191,13 @@ class FileControllerImpl @Inject constructor(
                 }
             }
         }.getOrNull() ?: dataStore.edit { it[SAVE_FOLDER] = "" }
+    }
+
+    private infix fun ExifInterface.copyTo(newExif: ExifInterface) {
+        Metadata.metaTags.forEach { attr ->
+            getAttribute(attr)?.let { newExif.setAttribute(attr, it) }
+        }
+        newExif.saveAttributes()
     }
 
     private data class SavingFolder(
@@ -263,5 +342,18 @@ class FileControllerImpl @Inject constructor(
         is ContextWrapper -> baseContext.findActivity()
         else -> null
     }
+
+    private fun Uri.toPath(
+        context: Context,
+        isTreeUri: Boolean = true
+    ): String? {
+        return if (isTreeUri) {
+            DocumentFile.fromTreeUri(context, this)
+        } else {
+            DocumentFile.fromSingleUri(context, this)
+        }?.uri?.path?.split(":")?.lastOrNull()
+    }
+
+    private fun Context.getFileName(uri: Uri): String? = DocumentFile.fromSingleUri(this, uri)?.name
 
 }

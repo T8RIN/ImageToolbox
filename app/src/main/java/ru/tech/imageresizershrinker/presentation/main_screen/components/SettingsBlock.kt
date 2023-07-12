@@ -89,9 +89,6 @@ import ru.tech.imageresizershrinker.core.AUTHOR_AVATAR
 import ru.tech.imageresizershrinker.core.DONATE
 import ru.tech.imageresizershrinker.core.ISSUE_TRACKER
 import ru.tech.imageresizershrinker.core.WEBLATE_LINK
-import ru.tech.imageresizershrinker.core.android.ContextUtils.cacheSize
-import ru.tech.imageresizershrinker.core.android.ContextUtils.clearCache
-import ru.tech.imageresizershrinker.core.android.toUiPath
 import ru.tech.imageresizershrinker.presentation.main_screen.viewModel.MainViewModel
 import ru.tech.imageresizershrinker.presentation.root.model.UiSettingsState
 import ru.tech.imageresizershrinker.presentation.root.theme.EmojiItem
@@ -101,6 +98,9 @@ import ru.tech.imageresizershrinker.presentation.root.theme.icons.FileSettings
 import ru.tech.imageresizershrinker.presentation.root.theme.icons.Lamp
 import ru.tech.imageresizershrinker.presentation.root.theme.inverse
 import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
+import ru.tech.imageresizershrinker.presentation.root.utils.helper.ContextUtils.cacheSize
+import ru.tech.imageresizershrinker.presentation.root.utils.helper.ContextUtils.clearCache
+import ru.tech.imageresizershrinker.presentation.root.utils.helper.toUiPath
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.block
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.pulsate
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.scaleOnTap
@@ -761,9 +761,7 @@ fun LazyListScope.settingsBlock(
 
             PreferenceItem(
                 onClick = {
-                    context.clearCache {
-                        cache = context.cacheSize()
-                    }
+                    context.clearCache { cache = it }
                 },
                 modifier = Modifier
                     .fillMaxWidth()

@@ -23,8 +23,6 @@ import androidx.compose.ui.Modifier
 import dagger.hilt.android.AndroidEntryPoint
 import dev.olshevski.navigation.reimagined.navigate
 import nl.dionsegijn.konfetti.compose.KonfettiView
-import ru.tech.imageresizershrinker.core.android.ContextUtils.clearCache
-import ru.tech.imageresizershrinker.core.android.ContextUtils.parseImageFromIntent
 import ru.tech.imageresizershrinker.presentation.main_screen.components.AppExitDialog
 import ru.tech.imageresizershrinker.presentation.main_screen.components.EditPresetsSheet
 import ru.tech.imageresizershrinker.presentation.main_screen.components.PermissionDialog
@@ -36,6 +34,8 @@ import ru.tech.imageresizershrinker.presentation.main_screen.viewModel.MainViewM
 import ru.tech.imageresizershrinker.presentation.root.model.toUiState
 import ru.tech.imageresizershrinker.presentation.root.theme.ImageResizerTheme
 import ru.tech.imageresizershrinker.presentation.root.utils.confetti.LocalConfettiController
+import ru.tech.imageresizershrinker.presentation.root.utils.helper.ContextUtils.clearCache
+import ru.tech.imageresizershrinker.presentation.root.utils.helper.ContextUtils.parseImageFromIntent
 import ru.tech.imageresizershrinker.presentation.root.utils.navigation.LocalNavController
 import ru.tech.imageresizershrinker.presentation.root.widget.activity.M3Activity
 import ru.tech.imageresizershrinker.presentation.root.widget.other.LocalToastHost

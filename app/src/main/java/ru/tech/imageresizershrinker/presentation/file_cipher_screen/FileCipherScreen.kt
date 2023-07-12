@@ -96,8 +96,6 @@ import androidx.compose.ui.unit.sp
 import dev.olshevski.navigation.reimagined.hilt.hiltViewModel
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.R
-import ru.tech.imageresizershrinker.core.android.ContextUtils.getFileName
-import ru.tech.imageresizershrinker.core.android.ImageUtils.fileSize
 import ru.tech.imageresizershrinker.presentation.file_cipher_screen.components.TipSheet
 import ru.tech.imageresizershrinker.presentation.file_cipher_screen.viewModel.FileCipherViewModel
 import ru.tech.imageresizershrinker.presentation.root.theme.Green
@@ -105,6 +103,8 @@ import ru.tech.imageresizershrinker.presentation.root.theme.icons.ShieldKey
 import ru.tech.imageresizershrinker.presentation.root.theme.icons.ShieldOpen
 import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
 import ru.tech.imageresizershrinker.presentation.root.utils.confetti.LocalConfettiController
+import ru.tech.imageresizershrinker.presentation.root.utils.helper.ContextUtils.getFileName
+import ru.tech.imageresizershrinker.presentation.root.utils.helper.ImageUtils.fileSize
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.readableByteCount
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.block
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.drawHorizontalStroke
