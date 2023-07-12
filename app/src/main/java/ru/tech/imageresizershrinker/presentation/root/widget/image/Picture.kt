@@ -1,3 +1,5 @@
+@file:Suppress("ObjectPropertyName")
+
 package ru.tech.imageresizershrinker.presentation.root.widget.image
 
 import android.app.Activity
@@ -19,11 +21,11 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -35,7 +37,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.DefaultAlpha
 import androidx.compose.ui.graphics.FilterQuality
@@ -66,12 +67,10 @@ import coil.decode.SvgDecoder
 import coil.imageLoader
 import coil.request.ImageRequest
 import coil.transform.Transformation
-import com.google.accompanist.placeholder.PlaceholderHighlight
-import com.google.accompanist.placeholder.material.shimmer
-import com.google.accompanist.placeholder.placeholder
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.ContextUtils.findActivity
+import ru.tech.imageresizershrinker.presentation.root.utils.modifier.shimmer
 import ru.tech.imageresizershrinker.presentation.root.widget.image.StatusBarUtils.hideSystemBars
 import ru.tech.imageresizershrinker.presentation.root.widget.image.StatusBarUtils.showSystemBars
 
@@ -236,8 +235,8 @@ fun Zoomable(
     BoxWithConstraints(
         modifier = modifier,
     ) {
-        var childWidth by remember { mutableStateOf(0) }
-        var childHeight by remember { mutableStateOf(0) }
+        var childWidth by remember { mutableIntStateOf(0) }
+        var childHeight by remember { mutableIntStateOf(0) }
         LaunchedEffect(
             childHeight,
             childWidth,
@@ -368,6 +367,7 @@ fun rememberZoomableState(
  * @param initialTranslateY the initial translateY value for [ZoomableState.translateY]
  * @param initialScale the initial scale value for [ZoomableState.scale]
  */
+@Suppress("MemberVisibilityCanBePrivate")
 @Stable
 class ZoomableState(
     @FloatRange(from = 0.0) val minScale: Float = 1f,
@@ -539,16 +539,3 @@ class ZoomableState(
 private fun Dp.toPx(density: Density): Float {
     return with(density) { toPx() }
 }
-
-@Composable
-fun Modifier.shimmer(
-    visible: Boolean,
-    color: Color = MaterialTheme.colorScheme.surfaceVariant
-) = then(
-    Modifier.placeholder(
-        visible = visible,
-        color = color,
-        highlight = PlaceholderHighlight.shimmer()
-    )
-)
-

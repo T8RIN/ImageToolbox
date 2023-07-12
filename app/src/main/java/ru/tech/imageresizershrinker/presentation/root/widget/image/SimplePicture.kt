@@ -14,12 +14,13 @@ import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.block
+import ru.tech.imageresizershrinker.presentation.root.utils.modifier.shimmer
 
 @Composable
 fun SimplePicture(
     bitmap: Bitmap?,
-    scale: ContentScale = ContentScale.Inside,
     modifier: Modifier = Modifier,
+    scale: ContentScale = ContentScale.Inside,
     boxModifier: Modifier = Modifier,
     loading: Boolean = false,
     visible: Boolean = true
