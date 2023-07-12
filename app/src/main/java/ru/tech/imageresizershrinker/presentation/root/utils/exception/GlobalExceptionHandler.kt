@@ -4,10 +4,15 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.util.Log
+import ru.tech.imageresizershrinker.presentation.root.widget.activity.M3Activity
+import java.io.ByteArrayInputStream
+import java.io.ByteArrayOutputStream
+import java.io.ObjectInputStream
+import java.io.ObjectOutputStream
 import kotlin.system.exitProcess
 
 
-class GlobalExceptionHandler<T : Activity> private constructor(
+class GlobalExceptionHandler<T : CrashHandler> private constructor(
     private val applicationContext: Context,
     private val defaultHandler: Thread.UncaughtExceptionHandler,
     private val activityToBeLaunched: Class<T>
@@ -28,19 +33,19 @@ class GlobalExceptionHandler<T : Activity> private constructor(
         exception: Throwable
     ) {
         val crashedIntent = Intent(applicationContext, activity).apply {
-            putExtra(INTENT_DATA_NAME, "$exception\n${Log.getStackTraceString(exception)}")
+            val bos = ByteArrayOutputStream()
+            val out = ObjectOutputStream(bos)
+            out.writeObject(exception)
+            out.flush()
+            val throwableBytes = bos.toByteArray()
+            putExtra(INTENT_DATA_NAME, throwableBytes)
             addFlags(defFlags)
         }
         applicationContext.startActivity(crashedIntent)
     }
 
     companion object {
-        private const val INTENT_DATA_NAME = "GlobalExceptionHandler"
-        private const val defFlags = Intent.FLAG_ACTIVITY_CLEAR_TOP or
-                Intent.FLAG_ACTIVITY_NEW_TASK or
-                Intent.FLAG_ACTIVITY_CLEAR_TASK
-
-        fun <T : Activity> initialize(
+        fun <T : CrashHandler> initialize(
             applicationContext: Context,
             activityToBeLaunched: Class<T>
         ) = Thread.setDefaultUncaughtExceptionHandler(
@@ -50,7 +55,19 @@ class GlobalExceptionHandler<T : Activity> private constructor(
                 activityToBeLaunched
             )
         )
+    }
+}
 
-        fun Activity.getExceptionString(): String = intent.getStringExtra(INTENT_DATA_NAME) ?: ""
+private const val INTENT_DATA_NAME = "GlobalExceptionHandler"
+private const val defFlags = Intent.FLAG_ACTIVITY_CLEAR_TOP or
+        Intent.FLAG_ACTIVITY_NEW_TASK or
+        Intent.FLAG_ACTIVITY_CLEAR_TASK
+
+abstract class CrashHandler : M3Activity() {
+    fun getThrowable(): Throwable {
+        val throwableBytes = intent.getByteArrayExtra(INTENT_DATA_NAME)
+        val bis = ByteArrayInputStream(throwableBytes)
+        val inStream = ObjectInputStream(bis)
+        return inStream.readObject() as Throwable
     }
 }

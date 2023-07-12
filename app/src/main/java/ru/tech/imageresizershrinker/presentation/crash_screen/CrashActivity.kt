@@ -4,6 +4,7 @@ import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.compose.foundation.BorderStroke
@@ -56,22 +57,21 @@ import ru.tech.imageresizershrinker.presentation.main_screen.MainActivity
 import ru.tech.imageresizershrinker.presentation.root.model.toUiState
 import ru.tech.imageresizershrinker.presentation.root.theme.ImageResizerTheme
 import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
-import ru.tech.imageresizershrinker.presentation.root.utils.exception.GlobalExceptionHandler.Companion.getExceptionString
-import ru.tech.imageresizershrinker.presentation.root.widget.activity.M3Activity
+import ru.tech.imageresizershrinker.presentation.root.utils.exception.CrashHandler
 import ru.tech.imageresizershrinker.presentation.root.widget.other.ToastHost
 import ru.tech.imageresizershrinker.presentation.root.widget.other.rememberToastHostState
 import ru.tech.imageresizershrinker.presentation.root.widget.text.AutoSizeText
 import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalSettingsState
 
 @AndroidEntryPoint
-class CrashActivity : M3Activity() {
+class CrashActivity : CrashHandler() {
 
     val viewModel by viewModels<CrashViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val crashReason = getExceptionString()
+        val crashReason = Log.getStackTraceString(getThrowable())
 
         setContent {
             val toastHostState = rememberToastHostState()
