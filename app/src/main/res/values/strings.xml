@@ -311,6 +311,7 @@
     <string name="cannot_change_arrangement_while_options_grouping_enabled">Cannot change arrangement while option grouping is enabled</string>
     <string name="default_prefix" translatable="false">ResizedImage</string>
     <string name="edit_screenshot">Edit screenshot</string>
+    <string name="secondary_customization">Secondary customization</string>
     <string-array name="fab_alignment_sub">
         <item>Start</item>
         <item>Center</item>

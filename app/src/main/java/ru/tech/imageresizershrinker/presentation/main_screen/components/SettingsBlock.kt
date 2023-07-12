@@ -34,6 +34,7 @@ import androidx.compose.material.icons.outlined.BurstMode
 import androidx.compose.material.icons.outlined.ErrorOutline
 import androidx.compose.material.icons.outlined.FolderOff
 import androidx.compose.material.icons.outlined.Image
+import androidx.compose.material.icons.outlined.Palette
 import androidx.compose.material.icons.rounded.AddCircleOutline
 import androidx.compose.material.icons.rounded.Block
 import androidx.compose.material.icons.rounded.BugReport
@@ -172,7 +173,7 @@ fun LazyListScope.settingsBlock(
         }
     }
     item {
-        // Customization
+        // Primary Customization
         SettingItem(
             icon = Icons.Rounded.Palette,
             text = stringResource(R.string.customization),
@@ -304,18 +305,29 @@ fun LazyListScope.settingsBlock(
                 PreferenceRowSwitch(
                     modifier = Modifier.padding(horizontal = 8.dp),
                     applyHorPadding = false,
-                    title = stringResource(R.string.allow_image_monet),
-                    subtitle = stringResource(R.string.allow_image_monet_sub),
-                    checked = settingsState.allowChangeColorByImage,
-                    onClick = { viewModel.updateAllowImageMonet() }
-                )
-                PreferenceRowSwitch(
-                    modifier = Modifier.padding(horizontal = 8.dp),
-                    applyHorPadding = false,
                     title = stringResource(R.string.amoled_mode),
                     subtitle = stringResource(R.string.amoled_mode_sub),
                     checked = settingsState.isAmoledMode,
                     onClick = { viewModel.updateAmoledMode() }
+                )
+            }
+        }
+    }
+    item {
+        // Secondary Customization
+        SettingItem(
+            icon = Icons.Outlined.Palette,
+            text = stringResource(R.string.secondary_customization),
+            initialState = false
+        ) {
+            Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                PreferenceRowSwitch(
+                    modifier = Modifier.padding(horizontal = 8.dp),
+                    applyHorPadding = false,
+                    title = stringResource(R.string.allow_image_monet),
+                    subtitle = stringResource(R.string.allow_image_monet_sub),
+                    checked = settingsState.allowChangeColorByImage,
+                    onClick = { viewModel.updateAllowImageMonet() }
                 )
                 Column(
                     Modifier

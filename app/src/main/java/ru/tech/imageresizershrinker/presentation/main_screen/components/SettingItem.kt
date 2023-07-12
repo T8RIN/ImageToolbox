@@ -43,14 +43,14 @@ fun SettingItem(
             .block(
                 color = MaterialTheme.colorScheme.surfaceColorAtElevation(2.dp),
                 applyEndPadding = false,
-                shape = RoundedCornerShape(18.dp)
+                shape = RoundedCornerShape(20.dp)
             )
     ) {
         var expanded by rememberSaveable(initialState) { mutableStateOf(initialState) }
         val rotation by animateFloatAsState(if (expanded) 180f else 0f)
         TitleItem(
             modifier = Modifier
-                .clip(RoundedCornerShape(18.dp))
+                .clip(RoundedCornerShape(20.dp))
                 .clickable { expanded = !expanded }
                 .padding(8.dp)
                 .padding(start = 8.dp),

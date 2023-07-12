@@ -19,7 +19,31 @@ import androidx.compose.ui.unit.dp
 fun TitleItem(
     icon: ImageVector? = null,
     text: String,
-    endContent: (@Composable RowScope.() -> Unit)? = null,
+    endContent: @Composable RowScope.() -> Unit,
+    @SuppressLint("ModifierParameter")
+    modifier: Modifier = Modifier.padding(16.dp),
+) {
+    Row(
+        modifier = modifier,
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        icon?.let {
+            Icon(it, null)
+            Spacer(Modifier.width(8.dp))
+        }
+        Text(text = text, fontWeight = FontWeight.Bold, modifier = Modifier.weight(1f))
+        endContent.let {
+            Spacer(Modifier.width(8.dp))
+            it()
+        }
+    }
+}
+
+
+@Composable
+fun TitleItem(
+    icon: ImageVector? = null,
+    text: String,
     @SuppressLint("ModifierParameter")
     modifier: Modifier = Modifier.padding(16.dp),
 ) {
@@ -32,10 +56,5 @@ fun TitleItem(
             Spacer(Modifier.width(8.dp))
         }
         Text(text = text, fontWeight = FontWeight.Bold)
-        endContent?.let {
-            Spacer(modifier = Modifier.weight(1f))
-            Spacer(Modifier.width(8.dp))
-            it()
-        }
     }
 }
