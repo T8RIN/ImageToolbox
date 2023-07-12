@@ -50,8 +50,8 @@
     <string name="image_not_saved_sub">Jeśli teraz opuścisz, wszystkie niezapisane zmiany zostaną utracone</string>
     <string name="check_source_code">Kod źródłowy</string>
     <string name="check_source_code_sub">Otrzymuj najnowsze aktualizacje, omawiaj problemy i nie tylko</string>
-    <string name="single_resize">Zmień rozmiar</string>
-    <string name="resize_single_image">Zmień parametry pojedynczego zdjęcia</string>
+    <string name="single_edit">Zmień rozmiar</string>
+    <string name="single_edit_sub">Zmień parametry pojedynczego zdjęcia</string>
     <string name="pick_color">Wybierz kolor</string>
     <string name="pick_color_sub">Wybierz kolor z obrazu, skopiuj lub udostępnij</string>
     <string name="image">Zdjęcie</string>

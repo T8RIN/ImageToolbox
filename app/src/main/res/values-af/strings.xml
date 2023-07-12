@@ -43,8 +43,8 @@
     <string name="image_not_saved_sub">Alle ongestoorde veranderinge sal verlore gaan as jy nou weggaan</string>
     <string name="check_source_code">Bronkode</string>
     <string name="check_source_code_sub">Kry die jongste opdaterings, bespreek kwessies en meer</string>
-    <string name="single_resize">Enkele grootte verander</string>
-    <string name="resize_single_image">Verander spesifikasies van enkele gegewe beeld</string>
+    <string name="single_edit">Enkele grootte verander</string>
+    <string name="single_edit_sub">Verander spesifikasies van enkele gegewe beeld</string>
     <string name="pick_color">Kies kleur</string>
     <string name="pick_color_sub">Kies kleur uit prent, kopieer of deel</string>
     <string name="image">Beeld</string>

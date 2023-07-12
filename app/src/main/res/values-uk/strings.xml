@@ -53,14 +53,14 @@
     <string name="restart_app">Перезапустити застосунок</string>
     <string name="ok">Ок</string>
     <string name="presets">Предустановки</string>
-    <string name="resize_single_image">Змінити специфікації окремого зображення</string>
+    <string name="single_edit_sub">Змінити специфікації окремого зображення</string>
     <string name="clear">Очистити</string>
     <string name="save">Зберегти</string>
     <string name="clear_exif_sub">Всі EXIF-дані зображення будуть очищені, цю дію неможливо скасувати!</string>
     <string name="ratio">Співвідношення</string>
     <string name="image_not_saved">Збереження</string>
     <string name="check_source_code_sub">Отримуйте останні оновлення, обговорюйте проблеми та багато іншого</string>
-    <string name="single_resize">Одиночний розмір</string>
+    <string name="single_edit">Одиночний розмір</string>
     <string name="pick_color_sub">Виберіть колір із зображення, скопіюйте або поділіться ним</string>
     <string name="pick_color">Виберіть колір</string>
     <string name="image">Зображення</string>

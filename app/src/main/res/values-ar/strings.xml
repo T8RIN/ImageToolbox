@@ -54,8 +54,8 @@
     <string name="image_not_saved_sub">ستفقد جميع التغييرات غير المحفوظة ، إذا غادرت الآن</string>
     <string name="check_source_code">مصدر الرمز</string>
     <string name="check_source_code_sub">احصل على آخر التحديثات وناقش القضايا والمزيد</string>
-    <string name="single_resize">تغيير حجم واحد</string>
-    <string name="resize_single_image">تغيير مواصفات صورة واحدة معينة</string>
+    <string name="single_edit">تغيير حجم واحد</string>
+    <string name="single_edit_sub">تغيير مواصفات صورة واحدة معينة</string>
     <string name="pick_color">اختر اللون</string>
     <string name="pick_color_sub">اختر لونًا من الصورة أو انسخها أو شاركها</string>
     <string name="image">صورة</string>

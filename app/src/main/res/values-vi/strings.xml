@@ -62,8 +62,8 @@
     <string name="image_not_saved_sub">Tất cả các thay đổi chưa được lưu sẽ bị mất nếu bạn thoát ngay bây giờ</string>
     <string name="check_source_code">Mã nguồn</string>
     <string name="check_source_code_sub">Nhận các bản cập nhật mới nhất, thảo luận các vấn đề và hơn thế nữa</string>
-    <string name="single_resize">thay đổi kích thước duy nhất</string>
-    <string name="resize_single_image">Thay đổi thông số kỹ thuật của một hình ảnh nhất định</string>
+    <string name="single_edit">thay đổi kích thước duy nhất</string>
+    <string name="single_edit_sub">Thay đổi thông số kỹ thuật của một hình ảnh nhất định</string>
     <string name="pick_color">Chọn màu sắc</string>
     <string name="pick_color_sub">Chọn màu từ hình ảnh, sao chép hoặc chia sẻ</string>
     <string name="image">Hình ảnh</string>

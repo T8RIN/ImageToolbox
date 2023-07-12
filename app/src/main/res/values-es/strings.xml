@@ -40,8 +40,8 @@
     <string name="image_not_saved_sub">Todos los cambios no guardados se perderán, si te vas ahora</string>
     <string name="check_source_code">Código fuente</string>
     <string name="check_source_code_sub">Reciba las últimas actualizaciones, debata los problemas y mucho más</string>
-    <string name="single_resize">Redimensionamiento individual</string>
-    <string name="resize_single_image">Cambiar las especificaciones de una imagen</string>
+    <string name="single_edit">Redimensionamiento individual</string>
+    <string name="single_edit_sub">Cambiar las especificaciones de una imagen</string>
     <string name="pick_color">Elige el color</string>
     <string name="pick_color_sub">Elige el color de la imagen, cópiala o compártela</string>
     <string name="image">Imagen</string>
@@ -153,7 +153,7 @@
     <string name="kuwahara">Suavizado Kuwahara</string>
     <string name="image_preview_sub">Vista previa de cualquier tipo de imagen: GIF, SVG, etc.</string>
     <string name="order">Orden</string>
-    <string name="no_image">Sin imágen</string>
+    <string name="no_image">Sin imagen</string>
     <string name="alpha">Alfa</string>
     <string name="tint">Tinte</string>
     <string name="black_and_white">En blanco y negro</string>
@@ -190,7 +190,7 @@
     <string name="order_sub">Determina el orden de las opciones en la pantalla principal</string>
     <string name="replace_sequence_number_sub">Si está habilitado, reemplaza la marca de tiempo estándar por el número de secuencia de imágenes si usa el procesamiento por lotes</string>
     <string name="load_image_from_net_sub">Cargue cualquier imagen de Internet, obtenga una vista previa, haga zoom y también guárdela o edítela si lo desea.</string>
-    <string name="image_link">Enlace de imágen</string>
+    <string name="image_link">Enlace de imagen</string>
     <string name="fill">Llenar</string>
     <string name="fit">Adaptar</string>
     <string name="flexible_description">Cambia el tamaño de las imágenes a imágenes con un lado largo dado por el parámetro Ancho o Alto, todos los cálculos de tamaño se realizarán después de guardar - mantiene la relación de aspecto</string>

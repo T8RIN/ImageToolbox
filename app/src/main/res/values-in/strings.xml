@@ -59,8 +59,8 @@
     <string name="image_not_saved_sub">Semua perubahan yang belum disimpan akan hilang, jika Anda keluar sekarang</string>
     <string name="check_source_code">Kode sumber</string>
     <string name="check_source_code_sub">Dapatkan informasi terbaru, diskusikan berbagai isu, dan lainnya</string>
-    <string name="single_resize">Ubah ukuran tunggal</string>
-    <string name="resize_single_image">Mengubah spesifikasi gambar tunggal yang diberikan</string>
+    <string name="single_edit">Ubah ukuran tunggal</string>
+    <string name="single_edit_sub">Mengubah spesifikasi gambar tunggal yang diberikan</string>
     <string name="image">Gambar</string>
     <string name="color">Warna</string>
     <string name="color_copied">Warna disalin</string>

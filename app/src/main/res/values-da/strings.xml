@@ -43,8 +43,8 @@
     <string name="image_not_saved">Gemmer</string>
     <string name="image_not_saved_sub">Alle ikke gemte ændringer vil gå tabt, hvis du forlader stedet nu</string>
     <string name="check_source_code_sub">Få de seneste opdateringer, diskutere spørgsmål og meget mere</string>
-    <string name="single_resize">Enkelt ændring af størrelse</string>
-    <string name="resize_single_image">Ændre specifikationerne for et enkelt givet billede</string>
+    <string name="single_edit">Enkelt ændring af størrelse</string>
+    <string name="single_edit_sub">Ændre specifikationerne for et enkelt givet billede</string>
     <string name="pick_color">Vælg farve</string>
     <string name="pick_color_sub">Vælg farve fra billede, kopier eller del den</string>
     <string name="image">Billede</string>

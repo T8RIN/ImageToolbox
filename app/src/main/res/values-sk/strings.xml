@@ -44,8 +44,8 @@
     <string name="image_not_saved_sub">Ak teraz odídete, všetky neuložené zmeny sa stratia.</string>
     <string name="check_source_code">Zdrojový kód</string>
     <string name="check_source_code_sub">Získajte najnovšie aktualizácie, diskutujte o problémoch a ďalšie informácie</string>
-    <string name="single_resize">Jediná zmena veľkosti</string>
-    <string name="resize_single_image">Zmena špecifikácií jedného daného obrázka</string>
+    <string name="single_edit">Jediná zmena veľkosti</string>
+    <string name="single_edit_sub">Zmena špecifikácií jedného daného obrázka</string>
     <string name="pick_color">Vyberte si farbu</string>
     <string name="pick_color_sub">Výber farby z obrázka, kopírovanie alebo zdieľanie</string>
     <string name="image">Obrázok</string>

@@ -32,8 +32,8 @@
     <string name="image_not_saved">Se salvează</string>
     <string name="image_not_saved_sub">Toate modificările nesalvate vor fi pierdute, dacă ieși acum</string>
     <string name="check_source_code_sub">Obține cele mai recente actualizări, discută probleme și multe altele</string>
-    <string name="single_resize">Redimensionare unică</string>
-    <string name="resize_single_image">Schimbă specificațiile unei singure imagini date</string>
+    <string name="single_edit">Redimensionare unică</string>
+    <string name="single_edit_sub">Schimbă specificațiile unei singure imagini date</string>
     <string name="pick_color">Alege culoarea</string>
     <string name="image">Imagine</string>
     <string name="color_copied">Culoare copiată</string>

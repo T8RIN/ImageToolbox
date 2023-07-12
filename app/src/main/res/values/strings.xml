@@ -47,8 +47,8 @@
     <string name="image_not_saved_sub">All unsaved changes will be lost, if you leave now</string>
     <string name="check_source_code">Source code</string>
     <string name="check_source_code_sub">Get the latest updates, discuss issues and more</string>
-    <string name="single_resize">Single resize</string>
-    <string name="resize_single_image">Change specs of single given image</string>
+    <string name="single_edit">Single edit</string>
+    <string name="single_edit_sub">Change specs of single given image</string>
     <string name="pick_color">Pick color</string>
     <string name="pick_color_sub">Pick color from image, copy or share</string>
     <string name="image">Image</string>

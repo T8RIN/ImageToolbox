@@ -43,8 +43,8 @@
     <string name="image_not_saved_sub">Mawawala ang lahat ng mga pagbabagong hindi pa nase-save kung aalis ka</string>
     <string name="check_source_code">Source code</string>
     <string name="check_source_code_sub">Kunin ang pinakabagong update, pag-usapan ang mga isyu, atbp.</string>
-    <string name="single_resize">Isahang pag-resize</string>
-    <string name="resize_single_image">Baguhin ang laki ng isang larawan</string>
+    <string name="single_edit">Isahang pag-resize</string>
+    <string name="single_edit_sub">Baguhin ang laki ng isang larawan</string>
     <string name="pick_color">Pumili ng kulay</string>
     <string name="pick_color_sub">Pumili ng kulay mula sa larawan, kopyahin o ibahagi</string>
     <string name="image">Larawan</string>

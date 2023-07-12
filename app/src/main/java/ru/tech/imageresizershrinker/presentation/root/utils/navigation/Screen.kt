@@ -39,8 +39,8 @@ sealed class Screen(
     class SingleResize(val uri: Uri? = null) : Screen(
         id = 0,
         icon = Icons.Filled.Resize,
-        title = R.string.single_resize,
-        subtitle = R.string.resize_single_image
+        title = R.string.single_edit,
+        subtitle = R.string.single_edit_sub
     )
 
     class BatchResize(val uris: List<Uri>? = null) : Screen(

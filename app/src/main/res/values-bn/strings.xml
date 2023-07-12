@@ -60,8 +60,8 @@
     <string name="image_not_saved_sub">আপনি এখন ছেড়ে গেলে সমস্ত অসংরক্ষিত পরিবর্তনগুলি হারিয়ে যাবে৷</string>
     <string name="check_source_code">সোর্স কোড</string>
     <string name="check_source_code_sub">সর্বশেষ আপডেট পান, সমস্যা এবং আরও অনেক কিছু নিয়ে আলোচনা করুন</string>
-    <string name="single_resize">একক আকার পরিবর্তন করুন</string>
-    <string name="resize_single_image">একক প্রদত্ত ছবির চশমা পরিবর্তন করুন</string>
+    <string name="single_edit">একক আকার পরিবর্তন করুন</string>
+    <string name="single_edit_sub">একক প্রদত্ত ছবির চশমা পরিবর্তন করুন</string>
     <string name="pick_color">রং বাছাই</string>
     <string name="pick_color_sub">ছবি, অনুলিপি বা শেয়ার থেকে রঙ চয়ন করুন</string>
     <string name="image">ছবি</string>

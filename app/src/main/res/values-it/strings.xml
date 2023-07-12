@@ -43,8 +43,8 @@
     <string name="image_not_saved_sub">Immagine non salvata, tutte le modifiche andranno perse se abbandoni adesso.</string>
     <string name="check_source_code">Consulta il codice sorgente</string>
     <string name="check_source_code_sub">Ricevi gli ultimi aggiornamenti, discuti dei problemi e altro.</string>
-    <string name="single_resize">Ridimensionamento singolo</string>
-    <string name="resize_single_image">Cambia le dimensioni di una singola immagine.</string>
+    <string name="single_edit">Ridimensionamento singolo</string>
+    <string name="single_edit_sub">Cambia le dimensioni di una singola immagine.</string>
     <string name="pick_color">Estrai colore</string>
     <string name="pick_color_sub">Estrai, copia o condividi un colore da un\'immagine.</string>
     <string name="image">Immagine</string>

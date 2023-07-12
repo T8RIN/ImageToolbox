@@ -388,7 +388,7 @@ fun SingleResizeScreen(
                     modifier = Modifier.drawHorizontalStroke(),
                     title = {
                         TopAppBarTitle(
-                            title = stringResource(R.string.single_resize),
+                            title = stringResource(R.string.single_edit),
                             bitmap = viewModel.bitmap,
                             isLoading = viewModel.isLoading,
                             size = viewModel.imageInfo.sizeInBytes.toLong()

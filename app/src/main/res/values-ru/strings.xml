@@ -43,8 +43,8 @@
     <string name="image_not_saved_sub">Все несохраненные изменения будут отменены, если вы выйдете сейчас</string>
     <string name="check_source_code">Иcходный код</string>
     <string name="check_source_code_sub">Получайте последние обновления и следите за проектом</string>
-    <string name="single_resize">Одиночное изменение</string>
-    <string name="resize_single_image">Изменение характеристик одного изображения</string>
+    <string name="single_edit">Одиночное изменение</string>
+    <string name="single_edit_sub">Изменение характеристик одного изображения</string>
     <string name="pick_color">Выбрать цвет</string>
     <string name="pick_color_sub">Воспользуйтесь пипеткой и получите цветовой код необходимого фрагмента изображения</string>
     <string name="image">Изображение</string>

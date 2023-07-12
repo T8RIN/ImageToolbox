@@ -49,8 +49,8 @@
     <string name="image_not_saved_sub">כל השינויים שלא נשמרו יאבדו אם תעזוב עכשיו</string>
     <string name="check_source_code">קוד מקור</string>
     <string name="check_source_code_sub">קבל את העדכונים האחרונים, דון בבעיות ועוד</string>
-    <string name="single_resize">שינוי גודל בודד</string>
-    <string name="resize_single_image">שנה מפרט של תמונה נתונה יחידה</string>
+    <string name="single_edit">שינוי גודל בודד</string>
+    <string name="single_edit_sub">שנה מפרט של תמונה נתונה יחידה</string>
     <string name="pick_color">בחר צבע</string>
     <string name="color">צֶבַע</string>
     <string name="color_copied">צבע הועתק</string>

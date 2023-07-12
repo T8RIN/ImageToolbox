@@ -26,8 +26,8 @@ fun SingleResizePreference(
     PreferenceItem(
         onClick = onClick,
         icon = Icons.Filled.Resize,
-        title = stringResource(R.string.single_resize),
-        subtitle = stringResource(R.string.resize_single_image),
+        title = stringResource(R.string.single_edit),
+        subtitle = stringResource(R.string.single_edit_sub),
         color = color,
         modifier = modifier
     )

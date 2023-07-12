@@ -102,10 +102,10 @@
     <string name="restart_app">重新啟動應用程式</string>
     <string name="might_be_error_with_exif">如果不選擇 JPEG 壓縮格式，則 EXIF 詮釋資料在其他應用程式可能被不正確地顯示</string>
     <string name="stay">取消</string>
-    <string name="resize_single_image">更改單一選取圖片的規格</string>
+    <string name="single_edit_sub">更改單一選取圖片的規格</string>
     <string name="values_reset">變更已重置</string>
     <string name="exception">例外</string>
-    <string name="single_resize">調整單一圖片尺寸</string>
+    <string name="single_edit">調整單一圖片尺寸</string>
     <string name="palette_sub">從選取的圖片產生調色盤樣本</string>
     <string name="failed_to_save">無法儲存 %d 影像</string>
     <string name="png_warning_bytes">以 PNG 模式儲存可能不穩定，因為它是無損格式</string>

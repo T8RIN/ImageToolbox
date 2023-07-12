@@ -51,7 +51,7 @@
     <string name="values_reset">Werte erfolgreich zurückgesetzt</string>
     <string name="ok">OK</string>
     <string name="crop">Zuschneiden</string>
-    <string name="resize_single_image">Ändere die Eigenschaften eines einzelnen Bildes</string>
+    <string name="single_edit_sub">Ändere die Eigenschaften eines einzelnen Bildes</string>
     <string name="ratio">Seitenverhältnis</string>
     <string name="exception">Ausnahme</string>
     <string name="edit_exif">EXIF bearbeiten</string>
@@ -64,7 +64,7 @@
     <string name="clear_exif_sub">Alle EXIF-Daten des Bildes werden gelöscht. Dies kann nicht rückgängig gemacht werden!</string>
     <string name="save">Speichern</string>
     <string name="clear_exif">EXIF löschen</string>
-    <string name="single_resize">Einzelnes Bild</string>
+    <string name="single_edit">Einzelnes Bild</string>
     <string name="image_not_saved_sub">Alle ungespeicherten Änderungen gehen verloren, wenn Du den Dialog jetzt schließt</string>
     <string name="pick_color">Farbe auswählen</string>
     <string name="update">Aktualisierung</string>

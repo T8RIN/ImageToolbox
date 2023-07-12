@@ -70,8 +70,8 @@
     <string name="presets">Ön Ayarlar</string>
     <string name="batch_resize">Toplu yeniden boyutlandırma</string>
     <string name="image_not_saved_sub">Şimdi ayrılırsanız, kaydedilmemiş tüm değişiklikler kaybolacaktır</string>
-    <string name="single_resize">Tekli yeniden boyutlandırma</string>
-    <string name="resize_single_image">Verilen tek bir görüntünün özelliklerini değiştirme</string>
+    <string name="single_edit">Tekli yeniden boyutlandırma</string>
+    <string name="single_edit_sub">Verilen tek bir görüntünün özelliklerini değiştirme</string>
     <string name="version">Versiyon</string>
     <string name="keep_exif">EXIF\'i sakla</string>
     <string name="pick_two_images">Başlamak için iki resim seçin</string>

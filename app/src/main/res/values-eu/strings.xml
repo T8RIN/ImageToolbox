@@ -39,12 +39,12 @@
     <string name="image_not_saved">Gordetzen</string>
     <string name="image_not_saved_sub">Gorde ez diren aldaketa guztiak galduko dira orain irteten bazara</string>
     <string name="check_source_code_sub">Jaso azken eguneraketak, eztabaidatu arazoak eta gehiago</string>
-    <string name="single_resize">Tamaina-aldaketa bakarra</string>
+    <string name="single_edit">Tamaina-aldaketa bakarra</string>
     <string name="presets">Aurredoikuntzak</string>
     <string name="ratio">Ratioa</string>
     <string name="check_source_code">Iturburu-kodea</string>
     <string name="crop">Moztu</string>
-    <string name="resize_single_image">Aldatu emandako irudi bakarraren zehaztapenak</string>
+    <string name="single_edit_sub">Aldatu emandako irudi bakarraren zehaztapenak</string>
     <string name="pick_color">Aukeratu kolorea</string>
     <string name="pick_color_sub">Aukeratu kolorea iruditik, kopiatu edo partekatu</string>
     <string name="image">Irudia</string>

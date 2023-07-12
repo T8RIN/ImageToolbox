@@ -57,8 +57,8 @@
     <string name="image_not_saved_sub">การเปลี่ยนแปลงที่ไม่ได้บันทึกทั้งหมดจะหายไป หากคุณออกตอนนี้</string>
     <string name="check_source_code">รหัสแหล่งที่มา</string>
     <string name="check_source_code_sub">รับข้อมูลอัปเดตล่าสุด หารือเกี่ยวกับปัญหา และอื่นๆ</string>
-    <string name="single_resize">ปรับขนาดเดียว</string>
-    <string name="resize_single_image">เปลี่ยนข้อกำหนดของภาพเดียวที่กำหนด</string>
+    <string name="single_edit">ปรับขนาดเดียว</string>
+    <string name="single_edit_sub">เปลี่ยนข้อกำหนดของภาพเดียวที่กำหนด</string>
     <string name="pick_color">เลือกสี</string>
     <string name="pick_color_sub">เลือกสีจากภาพ คัดลอกหรือแชร์</string>
     <string name="image">ภาพ</string>

@@ -38,8 +38,8 @@
     <string name="image_not_saved_sub">如果现在退出，所有未保存的更改都将丢失</string>
     <string name="check_source_code">源代码</string>
     <string name="check_source_code_sub">获得最新更新、讨论问题等</string>
-    <string name="single_resize">缩放单张图片</string>
-    <string name="resize_single_image">修改单张图片的规格</string>
+    <string name="single_edit">缩放单张图片</string>
+    <string name="single_edit_sub">修改单张图片的规格</string>
     <string name="pick_color">取色器</string>
     <string name="pick_color_sub">从图片中选取颜色，并复制或分享</string>
     <string name="image">图片</string>

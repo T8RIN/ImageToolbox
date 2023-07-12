@@ -33,7 +33,7 @@
     <string name="color">Cor</string>
     <string name="color_copied">Cor copiada</string>
     <string name="check_source_code">Código fonte</string>
-    <string name="resize_single_image">Alterar especificações de uma determinada imagem</string>
+    <string name="single_edit_sub">Alterar especificações de uma determinada imagem</string>
     <string name="pick_color_sub">Escolha a cor da imagem, copie ou compartilhe</string>
     <string name="version">Versão</string>
     <string name="resize_batch_image">Alterar especificações de várias imagens ao mesmo tempo</string>
@@ -67,7 +67,7 @@
     <string name="clear">Limpar</string>
     <string name="pick_color">Escolher cor</string>
     <string name="crop_sub">Corte a imagem em qualquer limite</string>
-    <string name="single_resize">Redimensionar</string>
+    <string name="single_edit">Redimensionar</string>
     <string name="batch_resize">Redimensionar várias</string>
     <string name="change_preview">Alterar visualização</string>
     <string name="update">Atualização</string>

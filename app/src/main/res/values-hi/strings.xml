@@ -48,8 +48,8 @@
     <string name="image_not_saved_sub">यदि आप अभी छोड़ते हैं, तो सहेजे न गए सभी परिवर्तन खो जाएंगे</string>
     <string name="check_source_code">सोर्स कोड</string>
     <string name="check_source_code_sub">नवीनतम अपडेट प्राप्त करें, मुद्दों पर चर्चा करें और बहुत कुछ</string>
-    <string name="single_resize">एकल आकार</string>
-    <string name="resize_single_image">दी गई एक छवि के विनिर्देशों को बदलें</string>
+    <string name="single_edit">एकल आकार</string>
+    <string name="single_edit_sub">दी गई एक छवि के विनिर्देशों को बदलें</string>
     <string name="pick_color">रंग उठाओ</string>
     <string name="pick_color_sub">छवि से रंग चुनें, कॉपी करें या साझा करें</string>
     <string name="image">छवि</string>

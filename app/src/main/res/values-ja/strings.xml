@@ -46,8 +46,8 @@
     <string name="image_not_saved">セービング</string>
     <string name="image_not_saved_sub">保存していない変更はすべて失われます。</string>
     <string name="check_source_code">ソースコード</string>
-    <string name="single_resize">1枚リサイズ</string>
-    <string name="resize_single_image">与えられた画像1枚の仕様を変更する</string>
+    <string name="single_edit">1枚リサイズ</string>
+    <string name="single_edit_sub">与えられた画像1枚の仕様を変更する</string>
     <string name="pick_color">ピックカラー</string>
     <string name="pick_color_sub">画像から色を選び、コピー、共有する</string>
     <string name="image">イメージ</string>
