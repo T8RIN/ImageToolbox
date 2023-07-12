@@ -83,7 +83,7 @@ class SingleResizeViewModel @Inject constructor(
                 if (shouldShowPreview) _previewBitmap.value = preview
 
                 _imageInfo.value = _imageInfo.value.run {
-                    if (resizeType !is ResizeType.Ratio) copy(
+                    if (resizeType is ResizeType.Ratio) copy(
                         height = preview.height,
                         width = preview.width
                     ) else this

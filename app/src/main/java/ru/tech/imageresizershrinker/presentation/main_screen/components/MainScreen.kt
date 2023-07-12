@@ -166,7 +166,8 @@ import kotlin.math.roundToInt
 
 @OptIn(
     ExperimentalMaterial3Api::class,
-    ExperimentalFoundationApi::class, ExperimentalMaterialApi::class
+    ExperimentalFoundationApi::class,
+    ExperimentalMaterialApi::class
 )
 @Composable
 fun MainScreen(

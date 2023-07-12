@@ -5,10 +5,6 @@ import android.content.Context
 import android.content.Intent
 import android.util.Log
 import ru.tech.imageresizershrinker.presentation.root.widget.activity.M3Activity
-import java.io.ByteArrayInputStream
-import java.io.ByteArrayOutputStream
-import java.io.ObjectInputStream
-import java.io.ObjectOutputStream
 import kotlin.system.exitProcess
 
 
@@ -33,12 +29,10 @@ class GlobalExceptionHandler<T : CrashHandler> private constructor(
         exception: Throwable
     ) {
         val crashedIntent = Intent(applicationContext, activity).apply {
-            val bos = ByteArrayOutputStream()
-            val out = ObjectOutputStream(bos)
-            out.writeObject(exception)
-            out.flush()
-            val throwableBytes = bos.toByteArray()
-            putExtra(INTENT_DATA_NAME, throwableBytes)
+            putExtra(
+                INTENT_DATA_NAME,
+                "${exception::class.java.simpleName}\n\n${Log.getStackTraceString(exception)}"
+            )
             addFlags(defFlags)
         }
         applicationContext.startActivity(crashedIntent)
@@ -64,10 +58,5 @@ private const val defFlags = Intent.FLAG_ACTIVITY_CLEAR_TOP or
         Intent.FLAG_ACTIVITY_CLEAR_TASK
 
 abstract class CrashHandler : M3Activity() {
-    fun getThrowable(): Throwable {
-        val throwableBytes = intent.getByteArrayExtra(INTENT_DATA_NAME)
-        val bis = ByteArrayInputStream(throwableBytes)
-        val inStream = ObjectInputStream(bis)
-        return inStream.readObject() as Throwable
-    }
+    fun getCrashReason(): String = intent.getStringExtra(INTENT_DATA_NAME) ?: ""
 }

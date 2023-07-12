@@ -502,45 +502,57 @@ class AndroidImageManager @Inject constructor(
         imageInfo: ImageInfo
     ): ByteArray = withContext(Dispatchers.IO) {
         val out = ByteArrayOutputStream()
+        val currentImage = flip(
+            image = resize(
+                image = rotate(
+                    image = image,
+                    degrees = imageInfo.rotationDegrees
+                ),
+                width = imageInfo.width,
+                height = imageInfo.height,
+                resizeType = imageInfo.resizeType
+            ),
+            isFlipped = imageInfo.isFlipped
+        )
         when (imageInfo.mimeType) {
-            MimeType.Bmp -> compressToBMP(image, out)
-            MimeType.Jpeg -> image.compress(
+            MimeType.Bmp -> compressToBMP(currentImage, out)
+            MimeType.Jpeg -> currentImage.compress(
                 Bitmap.CompressFormat.JPEG,
                 imageInfo.quality.toInt().coerceIn(0, 100),
                 out
             )
 
-            MimeType.Jpg -> image.compress(
+            MimeType.Jpg -> currentImage.compress(
                 Bitmap.CompressFormat.JPEG,
                 imageInfo.quality.toInt().coerceIn(0, 100),
                 out
             )
 
-            MimeType.Png -> image.compress(
+            MimeType.Png -> currentImage.compress(
                 Bitmap.CompressFormat.PNG,
                 imageInfo.quality.toInt().coerceIn(0, 100),
                 out
             )
 
             MimeType.Webp.Lossless -> if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-                image.compress(
+                currentImage.compress(
                     Bitmap.CompressFormat.WEBP_LOSSLESS,
                     imageInfo.quality.toInt().coerceIn(0, 100),
                     out
                 )
-            } else image.compress(
+            } else currentImage.compress(
                 Bitmap.CompressFormat.WEBP,
                 imageInfo.quality.toInt().coerceIn(0, 100),
                 out
             )
 
             MimeType.Webp.Lossy -> if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-                image.compress(
+                currentImage.compress(
                     Bitmap.CompressFormat.WEBP_LOSSY,
                     imageInfo.quality.toInt().coerceIn(0, 100),
                     out
                 )
-            } else image.compress(
+            } else currentImage.compress(
                 Bitmap.CompressFormat.WEBP,
                 imageInfo.quality.toInt().coerceIn(0, 100),
                 out

@@ -163,6 +163,7 @@ sealed class Screen(
                 Icons.Outlined.PhotoSizeSelectSmall
             ),
             listOf(
+                Cipher(),
                 Crop(),
                 Filter(),
                 Draw(),
@@ -173,7 +174,6 @@ sealed class Screen(
                 Icons.Outlined.AutoAwesome
             ),
             listOf(
-                Cipher(),
                 PickColorFromImage(),
                 Compare(),
                 ImagePreview(),

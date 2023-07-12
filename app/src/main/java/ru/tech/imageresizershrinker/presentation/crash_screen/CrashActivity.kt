@@ -4,7 +4,6 @@ import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.compose.foundation.BorderStroke
@@ -23,19 +22,19 @@ import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.ContentCopy
 import androidx.compose.material.icons.rounded.RestartAlt
 import androidx.compose.material.icons.twotone.ErrorOutline
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.ExtendedFloatingActionButton
+import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.FloatingActionButtonDefaults
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedCard
-import androidx.compose.material3.OutlinedIconButton
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.CompositionLocalProvider
@@ -58,6 +57,7 @@ import ru.tech.imageresizershrinker.presentation.root.model.toUiState
 import ru.tech.imageresizershrinker.presentation.root.theme.ImageResizerTheme
 import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
 import ru.tech.imageresizershrinker.presentation.root.utils.exception.CrashHandler
+import ru.tech.imageresizershrinker.presentation.root.utils.modifier.fabBorder
 import ru.tech.imageresizershrinker.presentation.root.widget.other.ToastHost
 import ru.tech.imageresizershrinker.presentation.root.widget.other.rememberToastHostState
 import ru.tech.imageresizershrinker.presentation.root.widget.text.AutoSizeText
@@ -71,7 +71,7 @@ class CrashActivity : CrashHandler() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val crashReason = Log.getStackTraceString(getThrowable())
+        val crashReason = getCrashReason()
 
         setContent {
             val toastHostState = rememberToastHostState()
@@ -120,11 +120,13 @@ class CrashActivity : CrashHandler() {
                                     ),
                                     shape = RoundedCornerShape(24.dp)
                                 ) {
-                                    Text(
-                                        text = crashReason,
-                                        textAlign = TextAlign.Center,
-                                        modifier = Modifier.padding(16.dp)
-                                    )
+                                    SelectionContainer {
+                                        Text(
+                                            text = crashReason,
+                                            textAlign = TextAlign.Center,
+                                            modifier = Modifier.padding(16.dp)
+                                        )
+                                    }
                                 }
                                 Spacer(modifier = Modifier.height(80.dp))
                             }
@@ -134,12 +136,9 @@ class CrashActivity : CrashHandler() {
                                     .navigationBarsPadding()
                                     .align(Alignment.BottomCenter)
                             ) {
-                                Button(
-                                    colors = ButtonDefaults.buttonColors(),
-                                    border = BorderStroke(
-                                        settingsState.borderWidth,
-                                        MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.primary)
-                                    ),
+                                ExtendedFloatingActionButton(
+                                    elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
+                                    modifier = Modifier.fabBorder(),
                                     onClick = {
                                         startActivity(
                                             Intent(
@@ -147,25 +146,25 @@ class CrashActivity : CrashHandler() {
                                                 MainActivity::class.java
                                             )
                                         )
+                                    },
+                                    text = {
+                                        AutoSizeText(
+                                            text = stringResource(R.string.restart_app),
+                                            maxLines = 1
+                                        )
+                                    },
+                                    icon = {
+                                        Icon(
+                                            imageVector = Icons.Rounded.RestartAlt,
+                                            contentDescription = null
+                                        )
                                     }
-                                ) {
-                                    Icon(
-                                        imageVector = Icons.Rounded.RestartAlt,
-                                        contentDescription = null
-                                    )
-                                    Spacer(modifier = Modifier.width(8.dp))
-                                    AutoSizeText(
-                                        text = stringResource(R.string.restart_app),
-                                        maxLines = 1
-                                    )
-                                }
+                                )
                                 Spacer(Modifier.width(8.dp))
-                                OutlinedIconButton(
-                                    colors = IconButtonDefaults.filledIconButtonColors(),
-                                    border = BorderStroke(
-                                        settingsState.borderWidth,
-                                        MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.primary)
-                                    ),
+                                FloatingActionButton(
+                                    containerColor = MaterialTheme.colorScheme.tertiaryContainer,
+                                    elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
+                                    modifier = Modifier.fabBorder(),
                                     onClick = {
                                         (getSystemService(CLIPBOARD_SERVICE) as ClipboardManager).apply {
                                             setPrimaryClip(
