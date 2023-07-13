@@ -146,12 +146,18 @@ class LimitsResizeViewModel @Inject constructor(
 
                         fileController.save(
                             ImageSaveTarget(
-                                imageInfo = _imageInfo.value,
+                                imageInfo = imageInfo.copy(
+                                    width = localBitmap.width,
+                                    height = localBitmap.height
+                                ),
                                 originalUri = uri.toString(),
                                 sequenceNumber = _done.value + 1,
                                 data = imageManager.compress(
                                     image = localBitmap,
-                                    imageInfo = imageInfo
+                                    imageInfo = imageInfo.copy(
+                                        width = localBitmap.width,
+                                        height = localBitmap.height
+                                    )
                                 )
                             ), keepMetadata = keepExif
                         )
@@ -180,7 +186,7 @@ class LimitsResizeViewModel @Inject constructor(
 
     private fun updateCanSave() {
         _canSave.value =
-            _bitmap.value != null && (_imageInfo.value.height != 0 || _imageInfo.value.width != 0)
+            _bitmap.value != null && (_imageInfo.value.height != 0 && _imageInfo.value.width != 0)
     }
 
     fun updateWidth(i: Int) {
@@ -229,7 +235,12 @@ class LimitsResizeViewModel @Inject constructor(
                             }
                         }
                         localBitmap
-                    }?.let { it to imageInfo }
+                    }?.let {
+                        it to imageInfo.copy(
+                            width = it.width,
+                            height = it.height
+                        )
+                    }
                 },
                 onProgressChange = {
                     if (it == -1) {

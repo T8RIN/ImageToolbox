@@ -284,6 +284,7 @@ fun BytesResizeScreen(
             targetState = (viewModel.uris.isNullOrEmpty()) to imageInside,
             onPickImage = pickImage,
             onSaveBitmap = saveBitmaps,
+            canSave = viewModel.canSave,
             actions = {
                 switch()
             }

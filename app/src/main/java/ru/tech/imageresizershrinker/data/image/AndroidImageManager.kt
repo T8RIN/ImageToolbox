@@ -146,14 +146,18 @@ class AndroidImageManager @Inject constructor(
         height: Int,
         resizeType: ResizeType
     ): Bitmap = withContext(Dispatchers.IO) {
-        val max = max(width, height)
+
+        val widthInternal = width.takeIf { it > 0 } ?: image.width
+        val heightInternal = height.takeIf { it > 0 } ?: image.height
+
+        val max = max(widthInternal, heightInternal)
 
         return@withContext when (resizeType) {
             ResizeType.Explicit -> {
                 Bitmap.createScaledBitmap(
                     image,
-                    width,
-                    height,
+                    widthInternal,
+                    heightInternal,
                     false
                 )
             }
@@ -173,7 +177,7 @@ class AndroidImageManager @Inject constructor(
             }
 
             ResizeType.Ratio -> {
-                resizeWithAspectRatio(image, width, height)
+                resizeWithAspectRatio(image, widthInternal, heightInternal)
             }
         }
     }

@@ -256,6 +256,7 @@ fun LimitsResizeScreen(
 
     val buttons = @Composable {
         BottomButtonsBlock(
+            canSave = viewModel.canSave,
             targetState = (viewModel.uris.isNullOrEmpty()) to imageInside,
             onPickImage = pickImage,
             onSaveBitmap = saveBitmaps,
