@@ -166,7 +166,11 @@ class CropViewModel @Inject constructor(
         viewModelScope.launch {
             imageManager.shareImage(
                 image = bitmap,
-                imageInfo = ImageInfo(mimeType = mimeType),
+                imageInfo = ImageInfo(
+                    mimeType = mimeType,
+                    width = bitmap.width,
+                    height = bitmap.height
+                ),
                 onComplete = onComplete
             )
         }
