@@ -1,5 +1,6 @@
 package ru.tech.imageresizershrinker.presentation.root.widget.text
 
+import android.annotation.SuppressLint
 import androidx.compose.animation.Animatable
 import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.border
@@ -158,7 +159,7 @@ fun RoundedTextField(
 
     val focusedColor = if (isError) colorScheme.error else colorScheme.primary
 
-    val borderColor by remember(colorScheme, enabled) {
+    val borderColor by remember(focusedColor, enabled, focused) {
         derivedStateOf {
             Animatable(
                 initialValue = if (!focused) unfocusedColor
@@ -245,6 +246,7 @@ fun RoundedTextField(
     }
 }
 
+@SuppressLint("ComposableNaming")
 @Composable
 fun RoundedTextFieldColors(isError: Boolean): TextFieldColors =
     MaterialTheme.colorScheme.run {
