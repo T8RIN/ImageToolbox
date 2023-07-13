@@ -1,6 +1,7 @@
 package com.t8rin.dynamic.theme
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.app.WallpaperManager
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
@@ -239,6 +240,7 @@ fun Color.calculateSurfaceColor(): Int {
 }
 
 
+@SuppressLint("MissingPermission")
 @Composable
 fun getAppColorTuple(
     defaultColorTuple: ColorTuple,
