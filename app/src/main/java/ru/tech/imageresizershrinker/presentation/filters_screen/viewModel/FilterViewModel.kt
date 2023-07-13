@@ -121,7 +121,7 @@ class FilterViewModel @Inject constructor(
             _isLoading.value = true
             _bitmap.value = imageManager.scaleUntilCanShow(bitmap)?.upscale()
             _previewBitmap.value = preview ?: _bitmap.value
-            _bitmap.value?.let {
+            _bitmap.value?.takeIf { it.height > 0 && it.width > 0 }?.let {
                 if (_previewBitmap.value?.width != it.width) {
                     _previewBitmap.value = _previewBitmap.value?.let { it1 ->
                         imageManager.resize(
@@ -148,7 +148,7 @@ class FilterViewModel @Inject constructor(
                 _previewBitmap.value?.let {
                     imageManager.calculateImageSize(
                         image = it,
-                        ImageInfo(mimeType = mimeType)
+                        ImageInfo(mimeType = mimeType, width = it.width, height = it.height)
                     )
                 }
             onFinish()
@@ -311,7 +311,13 @@ class FilterViewModel @Inject constructor(
                 uris = uris?.map { it.toString() } ?: emptyList(),
                 imageLoader = { uri ->
                     imageManager.getImageWithTransformations(uri, filterList)
-                        ?.let { it to ImageInfo(mimeType = mimeType) }
+                        ?.let {
+                            it to ImageInfo(
+                                mimeType = mimeType,
+                                width = it.width,
+                                height = it.height
+                            )
+                        }
                 },
                 onProgressChange = {
                     if (it == -1) {
