@@ -186,7 +186,11 @@ class FilterViewModel @Inject constructor(
                                 sequenceNumber = _done.value + 1,
                                 data = imageManager.compress(
                                     image = localBitmap,
-                                    imageInfo = ImageInfo(mimeType = mimeType)
+                                    imageInfo = ImageInfo(
+                                        mimeType = mimeType,
+                                        width = localBitmap.width,
+                                        height = localBitmap.height
+                                    )
                                 )
                             ), keepMetadata = keepExif
                         )

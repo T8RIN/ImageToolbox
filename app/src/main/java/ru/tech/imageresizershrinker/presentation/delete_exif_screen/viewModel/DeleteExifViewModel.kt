@@ -111,8 +111,12 @@ class DeleteExifViewModel @Inject constructor(
                                     originalUri = uri.toString(),
                                     sequenceNumber = _done.value,
                                     data = imageManager.compress(
-                                        result,
-                                        ImageInfo(mimeType = mimeType)
+                                        image = result,
+                                        imageInfo = ImageInfo(
+                                            mimeType = mimeType,
+                                            width = result.width,
+                                            height = result.height
+                                        )
                                     )
                                 ),
                                 keepMetadata = false

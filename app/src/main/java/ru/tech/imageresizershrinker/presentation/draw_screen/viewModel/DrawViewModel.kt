@@ -93,8 +93,12 @@ class DrawViewModel @Inject constructor(
                                     originalUri = _uri.value.toString(),
                                     sequenceNumber = null,
                                     data = imageManager.compress(
-                                        localBitmap,
-                                        ImageInfo(mimeType = mimeType)
+                                        image = localBitmap,
+                                        imageInfo = ImageInfo(
+                                            mimeType = mimeType,
+                                            width = localBitmap.width,
+                                            height = localBitmap.height
+                                        )
                                     )
                                 ), keepMetadata = true
                             )
@@ -125,8 +129,12 @@ class DrawViewModel @Inject constructor(
                                 originalUri = "drawing",
                                 sequenceNumber = null,
                                 data = imageManager.compress(
-                                    localBitmap,
-                                    ImageInfo(mimeType = mimeType)
+                                    image = localBitmap,
+                                    imageInfo = ImageInfo(
+                                        mimeType = mimeType,
+                                        width = localBitmap.width,
+                                        height = localBitmap.height
+                                    )
                                 )
                             ), keepMetadata = true
                         )

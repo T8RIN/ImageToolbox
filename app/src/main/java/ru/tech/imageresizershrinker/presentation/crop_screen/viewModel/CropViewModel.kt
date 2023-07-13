@@ -88,7 +88,11 @@ class CropViewModel @Inject constructor(
 
                     val byteArray = imageManager.compress(
                         image = localBitmap,
-                        imageInfo = ImageInfo(mimeType = mimeType)
+                        imageInfo = ImageInfo(
+                            mimeType = mimeType,
+                            width = localBitmap.width,
+                            height = localBitmap.height
+                        )
                     )
 
                     val decoded = BitmapFactory.decodeStream(
