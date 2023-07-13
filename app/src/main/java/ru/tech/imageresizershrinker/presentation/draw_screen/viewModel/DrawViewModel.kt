@@ -242,7 +242,11 @@ class DrawViewModel @Inject constructor(
             getBitmapForSharing()?.let {
                 imageManager.shareImage(
                     image = it,
-                    imageInfo = ImageInfo(mimeType = mimeType),
+                    imageInfo = ImageInfo(
+                        mimeType = mimeType,
+                        width = it.width,
+                        height = it.height
+                    ),
                     onComplete = onComplete
                 )
             } ?: onComplete()

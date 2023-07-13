@@ -116,7 +116,7 @@ private fun Chip(
 ) {
     val settingsState = LocalSettingsState.current
     val color = if (selected) MaterialTheme.colorScheme.tertiaryContainer
-    else MaterialTheme.colorScheme.surfaceVariant
+    else MaterialTheme.colorScheme.secondaryContainer.copy(alpha = 0.6f)
 
     CompositionLocalProvider(
         LocalTextStyle provides MaterialTheme.typography.labelLarge.copy(fontWeight = FontWeight.SemiBold)
