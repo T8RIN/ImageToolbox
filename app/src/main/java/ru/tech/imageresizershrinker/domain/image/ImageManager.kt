@@ -1,8 +1,8 @@
 package ru.tech.imageresizershrinker.domain.image
 
 import android.graphics.Bitmap
+import ru.tech.imageresizershrinker.domain.model.ImageFormat
 import ru.tech.imageresizershrinker.domain.model.ImageInfo
-import ru.tech.imageresizershrinker.domain.model.MimeType
 import ru.tech.imageresizershrinker.domain.model.ResizeType
 
 interface ImageManager<T, M> {
@@ -34,13 +34,13 @@ interface ImageManager<T, M> {
         originalSize: Boolean = true,
         onGetImage: (T) -> Unit,
         onGetMetadata: (M?) -> Unit,
-        onGetMimeType: (MimeType) -> Unit,
+        onGetMimeType: (ImageFormat) -> Unit,
         onError: (Throwable) -> Unit
     )
 
     suspend fun getImageWithMetadata(uri: String): Pair<T?, M?>
 
-    suspend fun getImageWithMime(uri: String): Pair<T?, MimeType>
+    suspend fun getImageWithMime(uri: String): Pair<T?, ImageFormat>
 
     suspend fun compress(image: T, imageInfo: ImageInfo): ByteArray
 
@@ -54,7 +54,7 @@ interface ImageManager<T, M> {
 
     suspend fun getSampledImage(uri: String, reqWidth: Int, reqHeight: Int): T?
 
-    suspend fun scaleByMaxBytes(image: T, mimeType: MimeType, maxBytes: Long): Pair<T, Int>?
+    suspend fun scaleByMaxBytes(image: T, imageFormat: ImageFormat, maxBytes: Long): Pair<T, Int>?
 
     suspend fun getImageWithTransformations(
         uri: String, transformations: List<Transformation<T>>,

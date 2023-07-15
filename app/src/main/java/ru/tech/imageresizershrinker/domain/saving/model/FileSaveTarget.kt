@@ -1,12 +1,12 @@
 package ru.tech.imageresizershrinker.domain.saving.model
 
-import ru.tech.imageresizershrinker.domain.model.MimeType
+import ru.tech.imageresizershrinker.domain.model.ImageFormat
 import ru.tech.imageresizershrinker.domain.saving.SaveTarget
 
 data class FileSaveTarget(
     override val originalUri: String,
     override val filename: String,
-    override val mimeType: MimeType,
+    override val imageFormat: ImageFormat,
     override val data: ByteArray,
 ) : SaveTarget {
     override fun equals(other: Any?): Boolean {
@@ -17,7 +17,7 @@ data class FileSaveTarget(
 
         if (originalUri != other.originalUri) return false
         if (filename != other.filename) return false
-        if (mimeType != other.mimeType) return false
+        if (imageFormat != other.imageFormat) return false
         if (!data.contentEquals(other.data)) return false
 
         return true
@@ -26,7 +26,7 @@ data class FileSaveTarget(
     override fun hashCode(): Int {
         var result = originalUri.hashCode()
         result = 31 * result + filename.hashCode()
-        result = 31 * result + mimeType.hashCode()
+        result = 31 * result + imageFormat.hashCode()
         result = 31 * result + data.contentHashCode()
         return result
     }

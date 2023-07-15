@@ -474,7 +474,7 @@ fun BytesResizeScreen(
                                     Spacer(Modifier.size(8.dp))
                                     ExtensionGroup(
                                         enabled = viewModel.bitmap != null,
-                                        mimeType = viewModel.mimeType,
+                                        imageFormat = viewModel.imageFormat,
                                         onMimeChange = {
                                             showAlert = !it.canChangeQuality
                                             viewModel.setMime(it)

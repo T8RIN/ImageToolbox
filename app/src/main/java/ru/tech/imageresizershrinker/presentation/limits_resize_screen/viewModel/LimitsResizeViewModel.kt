@@ -15,8 +15,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import ru.tech.imageresizershrinker.domain.image.ImageManager
+import ru.tech.imageresizershrinker.domain.model.ImageFormat
 import ru.tech.imageresizershrinker.domain.model.ImageInfo
-import ru.tech.imageresizershrinker.domain.model.MimeType
 import ru.tech.imageresizershrinker.domain.model.ResizeType
 import ru.tech.imageresizershrinker.domain.saving.FileController
 import ru.tech.imageresizershrinker.domain.saving.model.ImageSaveTarget
@@ -55,8 +55,8 @@ class LimitsResizeViewModel @Inject constructor(
     private val _imageInfo = mutableStateOf(ImageInfo())
     val imageInfo by _imageInfo
 
-    fun setMime(mimeType: MimeType) {
-        _imageInfo.value = _imageInfo.value.copy(mimeType = mimeType)
+    fun setMime(imageFormat: ImageFormat) {
+        _imageInfo.value = _imageInfo.value.copy(imageFormat = imageFormat)
     }
 
     fun updateUris(uris: List<Uri>?) {

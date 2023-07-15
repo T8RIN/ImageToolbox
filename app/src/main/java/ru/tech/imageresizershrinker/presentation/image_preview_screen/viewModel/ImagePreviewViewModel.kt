@@ -9,7 +9,7 @@ import androidx.exifinterface.media.ExifInterface
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import ru.tech.imageresizershrinker.domain.image.ImageManager
-import ru.tech.imageresizershrinker.domain.model.MimeType
+import ru.tech.imageresizershrinker.domain.model.ImageFormat
 import javax.inject.Inject
 
 @HiltViewModel
@@ -35,7 +35,7 @@ class ImagePreviewViewModel @Inject constructor(
     fun decodeBitmapByUri(
         uri: Uri,
         originalSize: Boolean = true,
-        onGetMimeType: (MimeType) -> Unit,
+        onGetMimeType: (ImageFormat) -> Unit,
         onGetExif: (ExifInterface?) -> Unit,
         onGetBitmap: (Bitmap) -> Unit,
         onError: (Throwable) -> Unit

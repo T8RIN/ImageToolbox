@@ -16,8 +16,8 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import ru.tech.imageresizershrinker.domain.image.ImageManager
+import ru.tech.imageresizershrinker.domain.model.ImageFormat
 import ru.tech.imageresizershrinker.domain.model.ImageInfo
-import ru.tech.imageresizershrinker.domain.model.MimeType
 import ru.tech.imageresizershrinker.domain.model.ResizeType
 import ru.tech.imageresizershrinker.domain.saving.FileController
 import ru.tech.imageresizershrinker.domain.saving.model.ImageSaveTarget
@@ -57,8 +57,8 @@ class FilterViewModel @Inject constructor(
     private val _selectedUri: MutableState<Uri?> = mutableStateOf(null)
     val selectedUri by _selectedUri
 
-    private val _mimeType = mutableStateOf(MimeType.Default())
-    val mimeType by _mimeType
+    private val _imageFormat = mutableStateOf(ImageFormat.Default())
+    val imageFormat by _imageFormat
 
     private val _filterList = mutableStateOf(listOf<FilterTransformation<*>>())
     val filterList by _filterList
@@ -66,8 +66,8 @@ class FilterViewModel @Inject constructor(
     private val _needToApplyFilters = mutableStateOf(true)
     val needToApplyFilters by _needToApplyFilters
 
-    fun setMime(mimeType: MimeType) {
-        _mimeType.value = mimeType
+    fun setMime(imageFormat: ImageFormat) {
+        _imageFormat.value = imageFormat
 
         calcSize(
             delay = 5,
@@ -148,7 +148,7 @@ class FilterViewModel @Inject constructor(
                 _previewBitmap.value?.let {
                     imageManager.calculateImageSize(
                         image = it,
-                        ImageInfo(mimeType = mimeType, width = it.width, height = it.height)
+                        ImageInfo(imageFormat = imageFormat, width = it.width, height = it.height)
                     )
                 }
             onFinish()
@@ -178,7 +178,7 @@ class FilterViewModel @Inject constructor(
                         fileController.save(
                             saveTarget = ImageSaveTarget(
                                 imageInfo = ImageInfo(
-                                    mimeType = mimeType,
+                                    imageFormat = imageFormat,
                                     width = localBitmap.width,
                                     height = localBitmap.height
                                 ),
@@ -187,7 +187,7 @@ class FilterViewModel @Inject constructor(
                                 data = imageManager.compress(
                                     image = localBitmap,
                                     imageInfo = ImageInfo(
-                                        mimeType = mimeType,
+                                        imageFormat = imageFormat,
                                         width = localBitmap.width,
                                         height = localBitmap.height
                                     )
@@ -313,7 +313,7 @@ class FilterViewModel @Inject constructor(
                     imageManager.getImageWithTransformations(uri, filterList)
                         ?.let {
                             it to ImageInfo(
-                                mimeType = mimeType,
+                                imageFormat = imageFormat,
                                 width = it.width,
                                 height = it.height
                             )

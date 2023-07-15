@@ -82,7 +82,7 @@ import com.t8rin.drawbox.presentation.compose.DrawBox
 import dev.olshevski.navigation.reimagined.AnimatedNavHost
 import dev.olshevski.navigation.reimagined.NavController
 import ru.tech.imageresizershrinker.R
-import ru.tech.imageresizershrinker.domain.model.MimeType
+import ru.tech.imageresizershrinker.domain.model.ImageFormat
 import ru.tech.imageresizershrinker.presentation.root.theme.icons.Eraser
 import ru.tech.imageresizershrinker.presentation.root.theme.mixedColor
 import ru.tech.imageresizershrinker.presentation.root.theme.onMixedColor
@@ -111,8 +111,8 @@ fun DrawHost(
     zoomEnabled: Boolean,
     onGetDrawController: (DrawController) -> Unit,
     onSaveRequest: () -> Unit,
-    mimeType: MimeType,
-    onMimeTypeChange: (MimeType) -> Unit,
+    imageFormat: ImageFormat,
+    onMimeTypeChange: (ImageFormat) -> Unit,
     uri: Uri,
     onPickImage: () -> Unit,
     switch: @Composable () -> Unit,
@@ -262,7 +262,7 @@ fun DrawHost(
                                             .padding(16.dp)
                                             .navigationBarsPadding(),
                                         enabled = drawBehavior !is DrawBehavior.None,
-                                        mimeType = mimeType,
+                                        imageFormat = imageFormat,
                                         onMimeChange = onMimeTypeChange
                                     )
                                 }
@@ -424,7 +424,7 @@ fun DrawHost(
                                             .padding(16.dp)
                                             .navigationBarsPadding(),
                                         enabled = drawBehavior !is DrawBehavior.None,
-                                        mimeType = mimeType,
+                                        imageFormat = imageFormat,
                                         onMimeChange = onMimeTypeChange
                                     )
                                 }

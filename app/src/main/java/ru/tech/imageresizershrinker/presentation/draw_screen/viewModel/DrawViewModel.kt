@@ -21,8 +21,8 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import ru.tech.imageresizershrinker.domain.image.ImageManager
 import ru.tech.imageresizershrinker.domain.image.Transformation
+import ru.tech.imageresizershrinker.domain.model.ImageFormat
 import ru.tech.imageresizershrinker.domain.model.ImageInfo
-import ru.tech.imageresizershrinker.domain.model.MimeType
 import ru.tech.imageresizershrinker.domain.model.ResizeType
 import ru.tech.imageresizershrinker.domain.saving.FileController
 import ru.tech.imageresizershrinker.domain.saving.model.ImageSaveTarget
@@ -48,14 +48,14 @@ class DrawViewModel @Inject constructor(
 
     val isBitmapChanged: Boolean get() = !drawController?.paths.isNullOrEmpty()
 
-    private val _mimeType = mutableStateOf(MimeType.Default())
-    val mimeType by _mimeType
+    private val _imageFormat = mutableStateOf(ImageFormat.Default())
+    val imageFormat by _imageFormat
 
     private val _isLoading: MutableState<Boolean> = mutableStateOf(false)
     val isLoading: Boolean by _isLoading
 
-    fun updateMimeType(mimeType: MimeType) {
-        _mimeType.value = mimeType
+    fun updateMimeType(imageFormat: ImageFormat) {
+        _imageFormat.value = imageFormat
     }
 
     fun saveBitmap(
@@ -86,7 +86,7 @@ class DrawViewModel @Inject constructor(
                             fileController.save(
                                 ImageSaveTarget(
                                     imageInfo = ImageInfo(
-                                        mimeType = mimeType,
+                                        imageFormat = imageFormat,
                                         width = localBitmap.width,
                                         height = localBitmap.height
                                     ),
@@ -95,7 +95,7 @@ class DrawViewModel @Inject constructor(
                                     data = imageManager.compress(
                                         image = localBitmap,
                                         imageInfo = ImageInfo(
-                                            mimeType = mimeType,
+                                            imageFormat = imageFormat,
                                             width = localBitmap.width,
                                             height = localBitmap.height
                                         )
@@ -122,7 +122,7 @@ class DrawViewModel @Inject constructor(
                         fileController.save(
                             saveTarget = ImageSaveTarget(
                                 imageInfo = ImageInfo(
-                                    mimeType = mimeType,
+                                    imageFormat = imageFormat,
                                     width = localBitmap.width,
                                     height = localBitmap.height
                                 ),
@@ -131,7 +131,7 @@ class DrawViewModel @Inject constructor(
                                 data = imageManager.compress(
                                     image = localBitmap,
                                     imageInfo = ImageInfo(
-                                        mimeType = mimeType,
+                                        imageFormat = imageFormat,
                                         width = localBitmap.width,
                                         height = localBitmap.height
                                     )
@@ -243,7 +243,7 @@ class DrawViewModel @Inject constructor(
                 imageManager.shareImage(
                     image = it,
                     imageInfo = ImageInfo(
-                        mimeType = mimeType,
+                        imageFormat = imageFormat,
                         width = it.width,
                         height = it.height
                     ),

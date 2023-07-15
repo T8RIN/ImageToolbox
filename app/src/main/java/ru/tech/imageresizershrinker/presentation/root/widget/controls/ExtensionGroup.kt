@@ -33,7 +33,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.R
-import ru.tech.imageresizershrinker.domain.model.MimeType
+import ru.tech.imageresizershrinker.domain.model.ImageFormat
 import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.block
 import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalSettingsState
@@ -43,8 +43,8 @@ import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalSettings
 fun ExtensionGroup(
     modifier: Modifier = Modifier,
     enabled: Boolean,
-    mimeType: MimeType,
-    onMimeChange: (MimeType) -> Unit
+    imageFormat: ImageFormat,
+    onMimeChange: (ImageFormat) -> Unit
 ) {
     val disColor = MaterialTheme.colorScheme.onSurface
         .copy(alpha = 0.38f)
@@ -88,15 +88,15 @@ fun ExtensionGroup(
                     .block()
                     .padding(horizontal = 8.dp, vertical = 12.dp)
             ) {
-                MimeType.entries.forEach {
+                ImageFormat.entries.forEach {
                     Chip(
                         onClick = { onMimeChange(it) },
-                        selected = it == mimeType,
+                        selected = it == imageFormat,
                         label = {
                             Text(
                                 text = it.title,
                                 color = animateColorAsState(
-                                    if (it == mimeType) MaterialTheme.colorScheme.onTertiaryContainer
+                                    if (it == imageFormat) MaterialTheme.colorScheme.onTertiaryContainer
                                     else MaterialTheme.colorScheme.onSurface
                                 ).value
                             )

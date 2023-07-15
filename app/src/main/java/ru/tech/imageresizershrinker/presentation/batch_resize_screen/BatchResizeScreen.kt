@@ -494,11 +494,11 @@ fun BatchResizeScreen(
                                         onWidthChange = viewModel::updateWidth,
                                         showWarning = viewModel.showWarning
                                     )
-                                    if (bitmapInfo.mimeType.canChangeQuality) {
+                                    if (bitmapInfo.imageFormat.canChangeQuality) {
                                         Spacer(Modifier.height(8.dp))
                                     }
                                     QualityWidget(
-                                        visible = bitmapInfo.mimeType.canChangeQuality,
+                                        visible = bitmapInfo.imageFormat.canChangeQuality,
                                         enabled = viewModel.bitmap != null,
                                         quality = bitmapInfo.quality.coerceIn(0f, 100f),
                                         onQualityChange = viewModel::setQuality
@@ -506,7 +506,7 @@ fun BatchResizeScreen(
                                     Spacer(Modifier.height(8.dp))
                                     ExtensionGroup(
                                         enabled = viewModel.bitmap != null,
-                                        mimeType = bitmapInfo.mimeType,
+                                        imageFormat = bitmapInfo.imageFormat,
                                         onMimeChange = viewModel::setMime
                                     )
                                     Spacer(Modifier.height(8.dp))

@@ -15,8 +15,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import ru.tech.imageresizershrinker.domain.image.ImageManager
+import ru.tech.imageresizershrinker.domain.model.ImageFormat
 import ru.tech.imageresizershrinker.domain.model.ImageInfo
-import ru.tech.imageresizershrinker.domain.model.MimeType
 import ru.tech.imageresizershrinker.domain.saving.FileController
 import ru.tech.imageresizershrinker.domain.saving.model.ImageSaveTarget
 import javax.inject.Inject
@@ -60,12 +60,12 @@ class BytesResizeViewModel @Inject constructor(
     private val _maxBytes: MutableState<Long> = mutableLongStateOf(0L)
     val maxBytes by _maxBytes
 
-    private val _mimeType = mutableStateOf(MimeType.Default())
-    val mimeType by _mimeType
+    private val _imageFormat = mutableStateOf(ImageFormat.Default())
+    val imageFormat by _imageFormat
 
-    fun setMime(mimeType: MimeType) {
-        if (_mimeType.value != mimeType) {
-            _mimeType.value = mimeType
+    fun setMime(imageFormat: ImageFormat) {
+        if (_imageFormat.value != imageFormat) {
+            _imageFormat.value = imageFormat
         }
     }
 
@@ -133,7 +133,7 @@ class BytesResizeViewModel @Inject constructor(
                                 imageManager.scaleByMaxBytes(
                                     image = bitmap,
                                     maxBytes = maxBytes,
-                                    mimeType = mimeType
+                                    imageFormat = imageFormat
                                 )
                             } else {
                                 imageManager.scaleByMaxBytes(
@@ -141,7 +141,7 @@ class BytesResizeViewModel @Inject constructor(
                                     maxBytes = (fileController.getSize(uri.toString()) ?: 0)
                                         .times(_presetSelected.value / 100f)
                                         .toLong(),
-                                    mimeType = mimeType
+                                    imageFormat = imageFormat
                                 )
                             }
                         }.let { result ->
@@ -153,7 +153,7 @@ class BytesResizeViewModel @Inject constructor(
                                 fileController.save(
                                     ImageSaveTarget(
                                         imageInfo = ImageInfo(
-                                            mimeType = mimeType,
+                                            imageFormat = imageFormat,
                                             width = localBitmap.width,
                                             height = localBitmap.height
                                         ),
@@ -162,7 +162,7 @@ class BytesResizeViewModel @Inject constructor(
                                         data = imageManager.compress(
                                             image = localBitmap,
                                             imageInfo = ImageInfo(
-                                                mimeType = mimeType,
+                                                imageFormat = imageFormat,
                                                 quality = scaled.second.toFloat()
                                             )
                                         )
@@ -219,7 +219,7 @@ class BytesResizeViewModel @Inject constructor(
                             imageManager.scaleByMaxBytes(
                                 image = bitmap,
                                 maxBytes = maxBytes,
-                                mimeType = mimeType
+                                imageFormat = imageFormat
                             )
                         } else {
                             imageManager.scaleByMaxBytes(
@@ -227,12 +227,12 @@ class BytesResizeViewModel @Inject constructor(
                                 maxBytes = (fileController.getSize(uri) ?: 0)
                                     .times(_presetSelected.value / 100f)
                                     .toLong(),
-                                mimeType = mimeType
+                                imageFormat = imageFormat
                             )
                         }
                     }?.let { scaled ->
                         scaled.first to ImageInfo(
-                            mimeType = mimeType,
+                            imageFormat = imageFormat,
                             quality = scaled.second.toFloat(),
                             width = scaled.first.width,
                             height = scaled.first.height
@@ -254,7 +254,7 @@ class BytesResizeViewModel @Inject constructor(
     fun decodeBitmapByUri(
         uri: Uri,
         originalSize: Boolean,
-        onGetMimeType: (MimeType) -> Unit,
+        onGetMimeType: (ImageFormat) -> Unit,
         onGetMetadata: (ExifInterface?) -> Unit,
         onGetImage: (Bitmap?) -> Unit,
         onError: (Throwable) -> Unit

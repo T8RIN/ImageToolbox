@@ -15,6 +15,7 @@ import android.webkit.MimeTypeMap
 import androidx.core.content.FileProvider
 import androidx.core.net.toUri
 import androidx.exifinterface.media.ExifInterface
+import coil.ImageLoader
 import coil.decode.GifDecoder
 import coil.decode.ImageDecoderDecoder
 import coil.decode.SvgDecoder
@@ -26,8 +27,8 @@ import kotlinx.coroutines.withContext
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.domain.image.ImageManager
 import ru.tech.imageresizershrinker.domain.image.Transformation
+import ru.tech.imageresizershrinker.domain.model.ImageFormat
 import ru.tech.imageresizershrinker.domain.model.ImageInfo
-import ru.tech.imageresizershrinker.domain.model.MimeType
 import ru.tech.imageresizershrinker.domain.model.ResizeType
 import java.io.ByteArrayInputStream
 import java.io.ByteArrayOutputStream
@@ -46,17 +47,20 @@ class AndroidImageManager @Inject constructor(
     private val context: Context
 ) : ImageManager<Bitmap, ExifInterface> {
 
+    private val loader: ImageLoader
+        get() {
+            return context.imageLoader.newBuilder().components {
+                if (Build.VERSION.SDK_INT >= 28) add(ImageDecoderDecoder.Factory())
+                else add(GifDecoder.Factory())
+                add(SvgDecoder.Factory())
+            }.allowHardware(false).build()
+        }
+
     override suspend fun transform(
         image: Bitmap,
         transformations: List<Transformation<Bitmap>>,
         originalSize: Boolean
     ): Bitmap? = withContext(Dispatchers.IO) {
-        val loader = context.imageLoader.newBuilder().components {
-            if (Build.VERSION.SDK_INT >= 28) add(ImageDecoderDecoder.Factory())
-            else add(GifDecoder.Factory())
-            add(SvgDecoder.Factory())
-        }.allowHardware(false).build()
-
         val request = ImageRequest
             .Builder(context)
             .data(image)
@@ -89,11 +93,6 @@ class AndroidImageManager @Inject constructor(
         fd?.close()
 
         return@withContext kotlin.runCatching {
-            val loader = context.imageLoader.newBuilder().components {
-                if (Build.VERSION.SDK_INT >= 28) add(ImageDecoderDecoder.Factory())
-                else add(GifDecoder.Factory())
-                add(SvgDecoder.Factory())
-            }.allowHardware(false).build()
             loader.execute(
                 ImageRequest
                     .Builder(context)
@@ -111,20 +110,15 @@ class AndroidImageManager @Inject constructor(
         originalSize: Boolean,
         onGetImage: (Bitmap) -> Unit,
         onGetMetadata: (ExifInterface?) -> Unit,
-        onGetMimeType: (MimeType) -> Unit,
+        onGetMimeType: (ImageFormat) -> Unit,
         onError: (Throwable) -> Unit
     ) {
         val bmp = kotlin.runCatching {
             val fd = context.contentResolver.openFileDescriptor(uri.toUri(), "r")
             val exif = fd?.fileDescriptor?.let { ExifInterface(it) }
             onGetMetadata(exif)
-            onGetMimeType(MimeType.create(getMimeTypeString(uri)))
+            onGetMimeType(ImageFormat[getMimeTypeString(uri)])
             fd?.close()
-            val loader = context.imageLoader.newBuilder().components {
-                if (Build.VERSION.SDK_INT >= 28) add(ImageDecoderDecoder.Factory())
-                else add(GifDecoder.Factory())
-                add(SvgDecoder.Factory())
-            }.allowHardware(false).build()
             loader.enqueue(
                 ImageRequest
                     .Builder(context)
@@ -190,11 +184,6 @@ class AndroidImageManager @Inject constructor(
         fd?.close()
 
         return@withContext kotlin.runCatching {
-            val loader = context.imageLoader.newBuilder().components {
-                if (Build.VERSION.SDK_INT >= 28) add(ImageDecoderDecoder.Factory())
-                else add(GifDecoder.Factory())
-                add(SvgDecoder.Factory())
-            }.allowHardware(false).build()
             loader.execute(
                 ImageRequest
                     .Builder(context)
@@ -207,13 +196,8 @@ class AndroidImageManager @Inject constructor(
 
     override suspend fun getImageWithMime(
         uri: String
-    ): Pair<Bitmap?, MimeType> = withContext(Dispatchers.IO) {
+    ): Pair<Bitmap?, ImageFormat> = withContext(Dispatchers.IO) {
         return@withContext kotlin.runCatching {
-            val loader = context.imageLoader.newBuilder().components {
-                if (Build.VERSION.SDK_INT >= 28) add(ImageDecoderDecoder.Factory())
-                else add(GifDecoder.Factory())
-                add(SvgDecoder.Factory())
-            }.allowHardware(false).build()
             loader.execute(
                 ImageRequest
                     .Builder(context)
@@ -221,7 +205,7 @@ class AndroidImageManager @Inject constructor(
                     .size(Size.ORIGINAL)
                     .build()
             ).drawable?.toBitmap()
-        }.getOrNull() to MimeType.create(getMimeTypeString(uri))
+        }.getOrNull() to ImageFormat[getMimeTypeString(uri)]
     }
 
     override fun applyPresetBy(bitmap: Bitmap?, preset: Int, currentInfo: ImageInfo): ImageInfo {
@@ -327,7 +311,7 @@ class AndroidImageManager @Inject constructor(
         val imagesFolder = File(context.cacheDir, "images")
         return@withContext kotlin.runCatching {
             imagesFolder.mkdirs()
-            val ext = imageInfo.mimeType.extension
+            val ext = imageInfo.imageFormat.extension
             val file = File(imagesFolder, "$name.$ext")
             FileOutputStream(file).use {
                 it.write(compress(image, imageInfo))
@@ -345,7 +329,7 @@ class AndroidImageManager @Inject constructor(
         val imagesFolder = File(context.cacheDir, "images")
         val uri = kotlin.runCatching {
             imagesFolder.mkdirs()
-            val ext = imageInfo.mimeType.extension
+            val ext = imageInfo.imageFormat.extension
             val file = File(imagesFolder, "$name.$ext")
             FileOutputStream(file).use {
                 it.write(compress(image, imageInfo))
@@ -405,7 +389,7 @@ class AndroidImageManager @Inject constructor(
 
     override suspend fun scaleByMaxBytes(
         image: Bitmap,
-        mimeType: MimeType,
+        imageFormat: ImageFormat,
         maxBytes: Long
     ): Pair<Bitmap, Int>? = withContext(Dispatchers.IO) {
         val maxBytes1 =
@@ -435,7 +419,10 @@ class AndroidImageManager @Inject constructor(
                     bmpStream.write(
                         compress(
                             image,
-                            ImageInfo(quality = compressQuality.toFloat(), mimeType = mimeType)
+                            ImageInfo(
+                                quality = compressQuality.toFloat(),
+                                imageFormat = imageFormat
+                            )
                         )
                     )
                     streamLength = (bmpStream.toByteArray().size).toLong()
@@ -456,8 +443,11 @@ class AndroidImageManager @Inject constructor(
                         )
                         bmpStream.write(
                             compress(
-                                temp,
-                                ImageInfo(quality = compressQuality.toFloat(), mimeType = mimeType)
+                                image = temp,
+                                imageInfo = ImageInfo(
+                                    quality = compressQuality.toFloat(),
+                                    imageFormat = imageFormat
+                                )
                             )
                         )
                         newSize = (newSize.first * 0.98).toInt() to (newSize.second * 0.98).toInt()
@@ -518,27 +508,27 @@ class AndroidImageManager @Inject constructor(
             ),
             isFlipped = imageInfo.isFlipped
         )
-        when (imageInfo.mimeType) {
-            MimeType.Bmp -> compressToBMP(currentImage, out)
-            MimeType.Jpeg -> currentImage.compress(
+        when (imageInfo.imageFormat) {
+            ImageFormat.Bmp -> compressToBMP(currentImage, out)
+            ImageFormat.Jpeg -> currentImage.compress(
                 Bitmap.CompressFormat.JPEG,
                 imageInfo.quality.toInt().coerceIn(0, 100),
                 out
             )
 
-            MimeType.Jpg -> currentImage.compress(
+            ImageFormat.Jpg -> currentImage.compress(
                 Bitmap.CompressFormat.JPEG,
                 imageInfo.quality.toInt().coerceIn(0, 100),
                 out
             )
 
-            MimeType.Png -> currentImage.compress(
+            ImageFormat.Png -> currentImage.compress(
                 Bitmap.CompressFormat.PNG,
                 imageInfo.quality.toInt().coerceIn(0, 100),
                 out
             )
 
-            MimeType.Webp.Lossless -> if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            ImageFormat.Webp.Lossless -> if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
                 currentImage.compress(
                     Bitmap.CompressFormat.WEBP_LOSSLESS,
                     imageInfo.quality.toInt().coerceIn(0, 100),
@@ -550,7 +540,7 @@ class AndroidImageManager @Inject constructor(
                 out
             )
 
-            MimeType.Webp.Lossy -> if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            ImageFormat.Webp.Lossy -> if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
                 currentImage.compress(
                     Bitmap.CompressFormat.WEBP_LOSSY,
                     imageInfo.quality.toInt().coerceIn(0, 100),

@@ -360,7 +360,7 @@ fun DrawScreen(
                     zoomEnabled = zoomEnabled,
                     onGetDrawController = viewModel::updateDrawController,
                     onSaveRequest = saveBitmap,
-                    mimeType = viewModel.mimeType,
+                    imageFormat = viewModel.imageFormat,
                     onMimeTypeChange = viewModel::updateMimeType,
                     uri = viewModel.uri,
                     onPickImage = pickImage,
@@ -466,7 +466,7 @@ fun DrawScreen(
                                             .padding(16.dp)
                                             .navigationBarsPadding(),
                                         enabled = viewModel.drawBehavior !is DrawBehavior.None,
-                                        mimeType = viewModel.mimeType,
+                                        imageFormat = viewModel.imageFormat,
                                         onMimeChange = {
                                             viewModel.updateMimeType(it)
                                         }

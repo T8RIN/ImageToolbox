@@ -391,7 +391,7 @@ fun LimitsResizeScreen(
                                     Spacer(Modifier.size(8.dp))
                                     ExtensionGroup(
                                         enabled = viewModel.bitmap != null,
-                                        mimeType = viewModel.imageInfo.mimeType,
+                                        imageFormat = viewModel.imageInfo.imageFormat,
                                         onMimeChange = {
                                             viewModel.setMime(it)
                                         }

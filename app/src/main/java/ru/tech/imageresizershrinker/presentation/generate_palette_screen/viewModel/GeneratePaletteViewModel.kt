@@ -11,7 +11,7 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.domain.image.ImageManager
-import ru.tech.imageresizershrinker.domain.model.MimeType
+import ru.tech.imageresizershrinker.domain.model.ImageFormat
 import javax.inject.Inject
 
 @HiltViewModel
@@ -43,7 +43,7 @@ class GeneratePaletteViewModel @Inject constructor(
     fun decodeBitmapByUri(
         uri: Uri,
         originalSize: Boolean = true,
-        onGetMimeType: (MimeType) -> Unit,
+        onGetMimeType: (ImageFormat) -> Unit,
         onGetExif: (ExifInterface?) -> Unit,
         onGetBitmap: (Bitmap) -> Unit,
         onError: (Throwable) -> Unit

@@ -19,8 +19,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import ru.tech.imageresizershrinker.domain.image.ImageManager
+import ru.tech.imageresizershrinker.domain.model.ImageFormat
 import ru.tech.imageresizershrinker.domain.model.ImageInfo
-import ru.tech.imageresizershrinker.domain.model.MimeType
 import ru.tech.imageresizershrinker.domain.saving.FileController
 import ru.tech.imageresizershrinker.domain.saving.model.ImageSaveTarget
 import java.io.ByteArrayInputStream
@@ -52,8 +52,8 @@ class CropViewModel @Inject constructor(
 
     val isBitmapChanged get() = internalBitmap.value != _bitmap.value
 
-    private val _mimeType = mutableStateOf(MimeType.Default())
-    val mimeType by _mimeType
+    private val _imageFormat = mutableStateOf(ImageFormat.Default())
+    val imageFormat by _imageFormat
 
     private val _isLoading: MutableState<Boolean> = mutableStateOf(false)
     val isLoading: Boolean by _isLoading
@@ -70,8 +70,8 @@ class CropViewModel @Inject constructor(
         }
     }
 
-    fun updateMimeType(mimeType: MimeType) {
-        _mimeType.value = mimeType
+    fun updateMimeType(imageFormat: ImageFormat) {
+        _imageFormat.value = imageFormat
     }
 
     fun saveBitmap(
@@ -89,7 +89,7 @@ class CropViewModel @Inject constructor(
                     val byteArray = imageManager.compress(
                         image = localBitmap,
                         imageInfo = ImageInfo(
-                            mimeType = mimeType,
+                            imageFormat = imageFormat,
                             width = localBitmap.width,
                             height = localBitmap.height
                         )
@@ -104,7 +104,7 @@ class CropViewModel @Inject constructor(
                     fileController.save(
                         saveTarget = ImageSaveTarget(
                             imageInfo = ImageInfo(
-                                mimeType = mimeType,
+                                imageFormat = imageFormat,
                                 width = localBitmap.width,
                                 height = localBitmap.height
                             ),
@@ -147,7 +147,7 @@ class CropViewModel @Inject constructor(
     fun decodeBitmapByUri(
         uri: Uri,
         originalSize: Boolean = true,
-        onGetMimeType: (MimeType) -> Unit,
+        onGetMimeType: (ImageFormat) -> Unit,
         onGetExif: (ExifInterface?) -> Unit,
         onGetBitmap: (Bitmap) -> Unit,
         onError: (Throwable) -> Unit
@@ -167,7 +167,7 @@ class CropViewModel @Inject constructor(
             imageManager.shareImage(
                 image = bitmap,
                 imageInfo = ImageInfo(
-                    mimeType = mimeType,
+                    imageFormat = imageFormat,
                     width = bitmap.width,
                     height = bitmap.height
                 ),

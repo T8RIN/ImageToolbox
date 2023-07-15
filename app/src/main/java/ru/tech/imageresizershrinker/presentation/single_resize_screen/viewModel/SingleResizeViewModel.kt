@@ -18,8 +18,8 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import ru.tech.imageresizershrinker.domain.image.ImageManager
 import ru.tech.imageresizershrinker.domain.image.Metadata
+import ru.tech.imageresizershrinker.domain.model.ImageFormat
 import ru.tech.imageresizershrinker.domain.model.ImageInfo
-import ru.tech.imageresizershrinker.domain.model.MimeType
 import ru.tech.imageresizershrinker.domain.model.ResizeType
 import ru.tech.imageresizershrinker.domain.saving.FileController
 import ru.tech.imageresizershrinker.domain.saving.model.ImageSaveTarget
@@ -166,7 +166,7 @@ class SingleResizeViewModel @Inject constructor(
         _imageInfo.value = ImageInfo(
             width = _bitmap.value?.width ?: 0,
             height = _bitmap.value?.height ?: 0,
-            mimeType = if (saveMime) imageInfo.mimeType else MimeType.Default()
+            imageFormat = if (saveMime) imageInfo.imageFormat else ImageFormat.Default()
         )
         checkBitmapAndUpdate(resetPreset = true, resetTelegram = true)
     }
@@ -231,10 +231,10 @@ class SingleResizeViewModel @Inject constructor(
         }
     }
 
-    fun setMime(mimeType: MimeType) {
-        if (_imageInfo.value.mimeType != mimeType) {
-            _imageInfo.value = _imageInfo.value.copy(mimeType = mimeType)
-            if (mimeType != MimeType.Png) checkBitmapAndUpdate(
+    fun setMime(imageFormat: ImageFormat) {
+        if (_imageInfo.value.imageFormat != imageFormat) {
+            _imageInfo.value = _imageInfo.value.copy(imageFormat = imageFormat)
+            if (imageFormat != ImageFormat.Png) checkBitmapAndUpdate(
                 resetPreset = false,
                 resetTelegram = true
             )
@@ -257,7 +257,7 @@ class SingleResizeViewModel @Inject constructor(
         val new = _imageInfo.value.copy(
             width = 512,
             height = 512,
-            mimeType = MimeType.Png,
+            imageFormat = ImageFormat.Png,
             resizeType = ResizeType.Flexible,
             quality = 100f
         )
@@ -291,7 +291,7 @@ class SingleResizeViewModel @Inject constructor(
     fun decodeBitmapByUri(
         uri: Uri,
         originalSize: Boolean = true,
-        onGetMimeType: (MimeType) -> Unit,
+        onGetMimeType: (ImageFormat) -> Unit,
         onGetExif: (ExifInterface?) -> Unit,
         onGetBitmap: (Bitmap) -> Unit,
         onError: (Throwable) -> Unit

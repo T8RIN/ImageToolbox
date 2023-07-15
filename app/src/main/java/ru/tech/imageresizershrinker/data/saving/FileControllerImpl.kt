@@ -218,7 +218,7 @@ class FileControllerImpl @Inject constructor(
             ).split(" ")[0] else saveTarget.imageInfo.height) + ")"
 
         var prefix = fileParams.filenamePrefix
-        val extension = saveTarget.imageInfo.mimeType.extension
+        val extension = saveTarget.imageInfo.imageFormat.extension
 
         if (prefix.isEmpty()) prefix = defaultPrefix()
 
@@ -263,7 +263,7 @@ class FileControllerImpl @Inject constructor(
     ): SavingFolder {
         return if (treeUri == null) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                val type = saveTarget.mimeType.type
+                val type = saveTarget.imageFormat.type
                 val contentValues = ContentValues().apply {
                     put(MediaStore.MediaColumns.DISPLAY_NAME, saveTarget.filename)
                     put(
@@ -312,7 +312,8 @@ class FileControllerImpl @Inject constructor(
                     throw NoSuchFileException(File(treeUri.toString()))
                 }
 
-                val file = documentFile.createFile(saveTarget.mimeType.type, saveTarget.filename!!)
+                val file =
+                    documentFile.createFile(saveTarget.imageFormat.type, saveTarget.filename!!)
 
                 val imageUri = file!!.uri
                 SavingFolder(
