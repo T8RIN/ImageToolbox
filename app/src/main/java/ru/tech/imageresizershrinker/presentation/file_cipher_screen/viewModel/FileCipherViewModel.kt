@@ -89,8 +89,6 @@ class FileCipherViewModel @Inject constructor(
 
     fun generateRandomPassword(): String = generateRandomPasswordUseCase(18)
 
-    fun getMimeType(uri: Uri): String? = imageManager.getMimeTypeString(uri.toString())
-
     fun shareFile(it: ByteArray, filename: String, onComplete: () -> Unit) {
         viewModelScope.launch {
             imageManager.shareFile(it, filename, onComplete)

@@ -1,3 +1,5 @@
+@file:Suppress("UnstableApiUsage")
+
 pluginManagement {
     repositories {
         gradlePluginPortal()
@@ -14,7 +16,7 @@ dependencyResolutionManagement {
         maven { setUrl("https://jitpack.io") }
     }
 }
-rootProject.name = "Image Resizer"
+rootProject.name = "Image Toolbox"
 include(":app")
 include(":cropper")
 include(":dynamic_theme")
@@ -26,3 +28,5 @@ include(":screenshot")
 include(":modalsheet")
 include(":gpuimage")
 include(":drawbox")
+include(":avif-coder-coil")
+include(":avif-coder")

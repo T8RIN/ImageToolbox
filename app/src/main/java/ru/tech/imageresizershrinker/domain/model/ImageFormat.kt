@@ -47,6 +47,27 @@ sealed class ImageFormat(
         canChangeQuality = false
     )
 
+    object Avif : ImageFormat(
+        title = "AVIF",
+        extension = "avif",
+        type = "image/avif",
+        canChangeQuality = true
+    )
+
+    object Heif : ImageFormat(
+        title = "HEIF",
+        extension = "heif",
+        type = "image/heif",
+        canChangeQuality = true
+    )
+
+    object Heic : ImageFormat(
+        title = "HEIC",
+        extension = "heic",
+        type = "image/heic",
+        canChangeQuality = true
+    )
+
     companion object {
         fun Default(): ImageFormat = Jpg
 
@@ -56,8 +77,18 @@ sealed class ImageFormat(
             typeString.contains("jpeg") -> Jpeg
             typeString.contains("jpg") -> Jpg
             typeString.contains("webp") -> Webp.Lossless
+            typeString.contains("avif") -> Avif
+            typeString.contains("heif") -> Heif
+            typeString.contains("heic") -> Heic
             else -> Default()
         }
+
+        val highLevelFormats
+            get() = listOf(
+                Avif,
+                Heic,
+                Heif
+            )
 
         val entries
             get() = listOf(
@@ -67,6 +98,9 @@ sealed class ImageFormat(
                 Bmp,
                 Webp.Lossy,
                 Webp.Lossless,
+                Avif,
+                Heic,
+                Heif
             )
     }
 }

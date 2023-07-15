@@ -1,5 +1,6 @@
 package ru.tech.imageresizershrinker.presentation.root.widget.controls
 
+import android.os.Build
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
@@ -22,6 +23,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -88,7 +90,7 @@ fun ExtensionGroup(
                     .block()
                     .padding(horizontal = 8.dp, vertical = 12.dp)
             ) {
-                ImageFormat.entries.forEach {
+                ImageFormat.entries.filtered().forEach {
                     Chip(
                         onClick = { onMimeChange(it) },
                         selected = it == imageFormat,
@@ -106,6 +108,17 @@ fun ExtensionGroup(
             }
         }
     }
+}
+
+@Composable
+private fun List<ImageFormat>.filtered(): List<ImageFormat> = remember(this) {
+    if (Build.VERSION.SDK_INT <= 24) this.toMutableList()
+        .apply {
+            removeAll(
+                ImageFormat.highLevelFormats
+            )
+        }
+    else this
 }
 
 @Composable

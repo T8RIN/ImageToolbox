@@ -303,7 +303,7 @@ fun SingleResizeScreen(
 
     val buttons = @Composable {
         BottomButtonsBlock(
-            targetState = (viewModel.uri == Uri.EMPTY) to imageInside,
+            targetState = (viewModel.bitmap == null) to imageInside,
             onPickImage = pickImage,
             onSaveBitmap = saveBitmap,
             actions = actions

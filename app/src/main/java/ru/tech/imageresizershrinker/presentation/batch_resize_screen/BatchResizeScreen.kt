@@ -461,7 +461,6 @@ fun BatchResizeScreen(
                                 verticalArrangement = Arrangement.Center,
                                 horizontalAlignment = Alignment.CenterHorizontally
                             ) {
-                                if (imageInside && viewModel.bitmap == null) imageBlock()
                                 if (viewModel.bitmap != null) {
                                     ImageCounter(
                                         imageCount = viewModel.uris?.size?.takeIf { it > 1 && !viewModel.isLoading },

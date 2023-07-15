@@ -136,6 +136,8 @@ dependencies {
     implementation(project(":modalsheet"))
     implementation(project(":gpuimage"))
     implementation(project(":drawbox"))
+    implementation(project(":avif-coder-coil"))
+    implementation(project(":avif-coder"))
 
     implementation("org.burnoutcrew.composereorderable:reorderable:0.9.6")
 

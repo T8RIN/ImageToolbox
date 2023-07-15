@@ -15,8 +15,6 @@ interface ImageManager<T, M> {
 
     suspend fun getImage(uri: String, originalSize: Boolean = true): T?
 
-    fun getMimeTypeString(uri: String): String?
-
     fun rotate(image: T, degrees: Float): T
 
     fun flip(image: T, isFlipped: Boolean): T

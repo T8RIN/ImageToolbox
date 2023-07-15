@@ -22,6 +22,8 @@ import coil.decode.SvgDecoder
 import coil.imageLoader
 import coil.request.ImageRequest
 import coil.size.Size
+import com.github.awxkee.avifcoil.HeifDecoder
+import com.radzivon.bartoshyk.avif.coder.HeifCoder
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import ru.tech.imageresizershrinker.R
@@ -47,14 +49,17 @@ class AndroidImageManager @Inject constructor(
     private val context: Context
 ) : ImageManager<Bitmap, ExifInterface> {
 
-    private val loader: ImageLoader
-        get() {
-            return context.imageLoader.newBuilder().components {
+    private fun loader(format: ImageFormat = ImageFormat.Default()): ImageLoader {
+        return context.imageLoader.newBuilder().components {
+            if (format in ImageFormat.highLevelFormats) {
+                if (Build.VERSION.SDK_INT >= 24) add(HeifDecoder.Factory())
+            } else {
                 if (Build.VERSION.SDK_INT >= 28) add(ImageDecoderDecoder.Factory())
                 else add(GifDecoder.Factory())
                 add(SvgDecoder.Factory())
-            }.allowHardware(false).build()
-        }
+            }
+        }.allowHardware(false).build()
+    }
 
     override suspend fun transform(
         image: Bitmap,
@@ -82,7 +87,7 @@ class AndroidImageManager @Inject constructor(
             }
             .build()
 
-        return@withContext loader.execute(request).drawable?.toBitmap()
+        return@withContext loader().execute(request).drawable?.toBitmap()
     }
 
     override suspend fun getImage(
@@ -93,7 +98,7 @@ class AndroidImageManager @Inject constructor(
         fd?.close()
 
         return@withContext kotlin.runCatching {
-            loader.execute(
+            loader(ImageFormat[getExtension(uri)]).execute(
                 ImageRequest
                     .Builder(context)
                     .data(uri)
@@ -117,9 +122,9 @@ class AndroidImageManager @Inject constructor(
             val fd = context.contentResolver.openFileDescriptor(uri.toUri(), "r")
             val exif = fd?.fileDescriptor?.let { ExifInterface(it) }
             onGetMetadata(exif)
-            onGetMimeType(ImageFormat[getMimeTypeString(uri)])
+            onGetMimeType(ImageFormat[getExtension(uri)])
             fd?.close()
-            loader.enqueue(
+            loader(ImageFormat[getExtension(uri)]).enqueue(
                 ImageRequest
                     .Builder(context)
                     .data(uri)
@@ -184,7 +189,7 @@ class AndroidImageManager @Inject constructor(
         fd?.close()
 
         return@withContext kotlin.runCatching {
-            loader.execute(
+            loader(ImageFormat[getExtension(uri)]).execute(
                 ImageRequest
                     .Builder(context)
                     .data(uri)
@@ -198,14 +203,14 @@ class AndroidImageManager @Inject constructor(
         uri: String
     ): Pair<Bitmap?, ImageFormat> = withContext(Dispatchers.IO) {
         return@withContext kotlin.runCatching {
-            loader.execute(
+            loader(ImageFormat[getExtension(uri)]).execute(
                 ImageRequest
                     .Builder(context)
                     .data(uri)
                     .size(Size.ORIGINAL)
                     .build()
             ).drawable?.toBitmap()
-        }.getOrNull() to ImageFormat[getMimeTypeString(uri)]
+        }.getOrNull() to ImageFormat[getExtension(uri)]
     }
 
     override fun applyPresetBy(bitmap: Bitmap?, preset: Int, currentInfo: ImageInfo): ImageInfo {
@@ -275,7 +280,15 @@ class AndroidImageManager @Inject constructor(
                 file
             )
         }.getOrNull()
-        uri?.let { shareUri(uri = it, type = getMimeTypeString(uri.toString()) ?: "*/*") }
+        uri?.let {
+            shareUri(
+                uri = it,
+                type = MimeTypeMap.getSingleton()
+                    .getMimeTypeFromExtension(
+                        getExtension(uri.toString())
+                    ) ?: "*/*"
+            )
+        }
         onComplete()
     }
 
@@ -551,6 +564,27 @@ class AndroidImageManager @Inject constructor(
                 imageInfo.quality.toInt().coerceIn(0, 100),
                 out
             )
+
+            ImageFormat.Avif -> out.write(
+                HeifCoder().encodeAvif(
+                    currentImage,
+                    imageInfo.quality.toInt().coerceIn(0, 100)
+                )
+            )
+
+            ImageFormat.Heic -> out.write(
+                HeifCoder().encodeHeic(
+                    currentImage,
+                    imageInfo.quality.toInt().coerceIn(0, 100)
+                )
+            )
+
+            ImageFormat.Heif -> out.write(
+                HeifCoder().encodeHeic(
+                    currentImage,
+                    imageInfo.quality.toInt().coerceIn(0, 100)
+                )
+            )
         }
 
         return@withContext out.toByteArray()
@@ -748,15 +782,14 @@ class AndroidImageManager @Inject constructor(
         return bitmap
     }
 
-    override fun getMimeTypeString(uri: String): String? {
-        return if (ContentResolver.SCHEME_CONTENT == uri.toUri().scheme) context.contentResolver.getType(
-            uri.toUri()
-        )
-        else {
+    private fun getExtension(uri: String): String? {
+        return if (ContentResolver.SCHEME_CONTENT == uri.toUri().scheme) {
             MimeTypeMap.getSingleton()
-                .getMimeTypeFromExtension(
-                    MimeTypeMap.getFileExtensionFromUrl(uri).lowercase(Locale.getDefault())
+                .getExtensionFromMimeType(
+                    context.contentResolver.getType(uri.toUri())
                 )
+        } else {
+            MimeTypeMap.getFileExtensionFromUrl(uri).lowercase(Locale.getDefault())
         }
     }
 
