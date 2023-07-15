@@ -106,7 +106,7 @@ dependencies {
     implementation("dev.olshevski.navigation:reimagined-hilt:1.5.0-beta01")
 
     //Konfetti
-    implementation("nl.dionsegijn:konfetti-compose:2.0.2")
+    implementation("nl.dionsegijn:konfetti-compose:2.0.3")
 
     //Compose
     implementation("androidx.compose.material3:material3:1.2.0-alpha03")
@@ -115,8 +115,8 @@ dependencies {
     implementation("androidx.compose.material:material:1.6.0-alpha01")
 
     //Di
-    implementation("com.google.dagger:hilt-android:2.46.1")
-    kapt("com.google.dagger:hilt-compiler:2.46.1")
+    implementation("com.google.dagger:hilt-android:2.47")
+    kapt("com.google.dagger:hilt-compiler:2.47")
 
     //Accompanist
     implementation("com.google.accompanist:accompanist-placeholder-material:0.31.5-beta")
