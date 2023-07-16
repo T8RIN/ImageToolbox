@@ -64,6 +64,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.domain.model.ImageInfo
+import ru.tech.imageresizershrinker.presentation.limits_resize_screen.components.LimitsResizeGroup
 import ru.tech.imageresizershrinker.presentation.limits_resize_screen.viewModel.LimitsResizeViewModel
 import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
 import ru.tech.imageresizershrinker.presentation.root.transformation.BitmapInfoTransformation
@@ -78,6 +79,7 @@ import ru.tech.imageresizershrinker.presentation.root.utils.modifier.drawHorizon
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.navBarsLandscapePadding
 import ru.tech.imageresizershrinker.presentation.root.widget.buttons.BottomButtonsBlock
 import ru.tech.imageresizershrinker.presentation.root.widget.controls.ExtensionGroup
+import ru.tech.imageresizershrinker.presentation.root.widget.controls.QualityWidget
 import ru.tech.imageresizershrinker.presentation.root.widget.controls.ResizeImageField
 import ru.tech.imageresizershrinker.presentation.root.widget.controls.SaveExifWidget
 import ru.tech.imageresizershrinker.presentation.root.widget.dialogs.ExitWithoutSavingDialog
@@ -389,12 +391,23 @@ fun LimitsResizeScreen(
                                         onCheckedChange = { viewModel.setKeepExif(!viewModel.keepExif) }
                                     )
                                     Spacer(Modifier.size(8.dp))
+                                    QualityWidget(
+                                        visible = viewModel.imageInfo.imageFormat.canChangeQuality,
+                                        enabled = viewModel.bitmap != null,
+                                        quality = viewModel.imageInfo.quality,
+                                        onQualityChange = viewModel::setQuality
+                                    )
+                                    Spacer(Modifier.size(8.dp))
                                     ExtensionGroup(
                                         enabled = viewModel.bitmap != null,
                                         imageFormat = viewModel.imageInfo.imageFormat,
-                                        onMimeChange = {
-                                            viewModel.setMime(it)
-                                        }
+                                        onMimeChange = viewModel::setMime
+                                    )
+                                    Spacer(Modifier.size(8.dp))
+                                    LimitsResizeGroup(
+                                        enabled = viewModel.bitmap != null,
+                                        resizeType = viewModel.imageInfo.resizeType,
+                                        onResizeChange = viewModel::setResizeType
                                     )
                                 } else if (!viewModel.isLoading) {
                                     ImageNotPickedWidget(onPickImage = pickImage)

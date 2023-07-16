@@ -142,7 +142,7 @@ class AndroidImageManager @Inject constructor(
         width: Int,
         height: Int,
         resizeType: ResizeType
-    ): Bitmap = withContext(Dispatchers.IO) {
+    ): Bitmap? = withContext(Dispatchers.IO) {
 
         val widthInternal = width.takeIf { it > 0 } ?: image.width
         val heightInternal = height.takeIf { it > 0 } ?: image.height
@@ -176,8 +176,58 @@ class AndroidImageManager @Inject constructor(
             ResizeType.Ratio -> {
                 resizeWithAspectRatio(image, widthInternal, heightInternal)
             }
+
+            is ResizeType.Limits -> {
+                resizeType.resizeWithLimits(image, widthInternal, heightInternal)
+            }
         }
     }
+
+    private suspend fun ResizeType.Limits.resizeWithLimits(
+        image: Bitmap,
+        width: Int,
+        height: Int
+    ): Bitmap? {
+        if (image.height > height || image.width > width) {
+            if (image.aspectRatio > width / height.toFloat()) {
+                return resize(
+                    image = image,
+                    width = width,
+                    height = width,
+                    resizeType = ResizeType.Flexible
+                )
+            } else if (image.aspectRatio < width / height.toFloat()) {
+                return resize(
+                    image = image,
+                    width = height,
+                    height = height,
+                    resizeType = ResizeType.Flexible
+                )
+            } else {
+                return resize(
+                    image = image,
+                    width = width,
+                    height = height,
+                    resizeType = ResizeType.Flexible
+                )
+            }
+        } else {
+            return when (this) {
+                ResizeType.Limits.Copy -> image
+
+                ResizeType.Limits.Force -> resize(
+                    image = image,
+                    width = width,
+                    height = height,
+                    resizeType = ResizeType.Flexible
+                )
+
+                ResizeType.Limits.Skip -> null
+            }
+        }
+    }
+
+    private val Bitmap.aspectRatio: Float get() = width / height.toFloat()
 
     override suspend fun getImageWithMetadata(
         uri: String
@@ -442,13 +492,15 @@ class AndroidImageManager @Inject constructor(
                             resizeType = ResizeType.Explicit
                         )
                         bmpStream.write(
-                            compress(
-                                image = temp,
-                                imageInfo = ImageInfo(
-                                    quality = compressQuality.toFloat(),
-                                    imageFormat = imageFormat
+                            temp?.let {
+                                compress(
+                                    image = it,
+                                    imageInfo = ImageInfo(
+                                        quality = compressQuality.toFloat(),
+                                        imageFormat = imageFormat
+                                    )
                                 )
-                            )
+                            }
                         )
                         newSize = (newSize.first * 0.98).toInt() to (newSize.second * 0.98).toInt()
                         streamLength = (bmpStream.toByteArray().size).toLong()
@@ -475,7 +527,9 @@ class AndroidImageManager @Inject constructor(
             )
         } else image
 
-        while (!canShow(bmp)) {
+        if (bmp == null) return@withContext null
+
+        while (!canShow(bmp!!)) {
             bmp = resize(
                 image = bmp,
                 height = (bmp.height * 0.95f).toInt(),
@@ -495,18 +549,21 @@ class AndroidImageManager @Inject constructor(
         image: Bitmap,
         imageInfo: ImageInfo
     ): ByteArray = withContext(Dispatchers.IO) {
-        val currentImage = flip(
-            image = resize(
-                image = rotate(
-                    image = image,
-                    degrees = imageInfo.rotationDegrees
-                ),
-                width = imageInfo.width,
-                height = imageInfo.height,
-                resizeType = imageInfo.resizeType
+        val currentImage = resize(
+            image = rotate(
+                image = image,
+                degrees = imageInfo.rotationDegrees
             ),
-            isFlipped = imageInfo.isFlipped
-        )
+            width = imageInfo.width,
+            height = imageInfo.height,
+            resizeType = imageInfo.resizeType
+        )?.let {
+            flip(
+                image = it,
+                isFlipped = imageInfo.isFlipped
+            )
+        } ?: return@withContext ByteArray(0)
+
         return@withContext when (imageInfo.imageFormat) {
             ImageFormat.Bmp -> compressToBMP(currentImage)
             ImageFormat.Jpeg -> {

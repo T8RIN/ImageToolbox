@@ -80,7 +80,7 @@ class DrawViewModel @Inject constructor(
                                     width = bitmap.width,
                                     height = bitmap.height,
                                     resizeType = ResizeType.Explicit
-                                )
+                                )!!
                             )
                         }?.let { localBitmap ->
                             fileController.save(
@@ -184,7 +184,7 @@ class DrawViewModel @Inject constructor(
                             width = bitmap.width,
                             height = bitmap.height,
                             resizeType = ResizeType.Explicit
-                        )
+                        )!!
                     )
                 }
             }

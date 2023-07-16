@@ -52,7 +52,7 @@ class LimitsResizeViewModel @Inject constructor(
     private val _selectedUri: MutableState<Uri?> = mutableStateOf(null)
     val selectedUri by _selectedUri
 
-    private val _imageInfo = mutableStateOf(ImageInfo())
+    private val _imageInfo = mutableStateOf(ImageInfo(resizeType = ResizeType.Limits.Copy))
     val imageInfo by _imageInfo
 
     fun setMime(imageFormat: ImageFormat) {
@@ -118,32 +118,13 @@ class LimitsResizeViewModel @Inject constructor(
                     runCatching {
                         imageManager.getImage(uri.toString())
                     }.getOrNull()?.let { bitmap ->
-                        var localBitmap = bitmap
-                        if (localBitmap.height > imageInfo.height || localBitmap.width > imageInfo.width) {
-                            if (localBitmap.aspectRatio > imageInfo.aspectRatio) {
-                                localBitmap = imageManager.resize(
-                                    image = localBitmap,
-                                    width = imageInfo.width,
-                                    height = imageInfo.width,
-                                    resizeType = ResizeType.Flexible
-                                )
-                            } else if (localBitmap.aspectRatio < imageInfo.aspectRatio) {
-                                localBitmap = imageManager.resize(
-                                    image = localBitmap,
-                                    width = imageInfo.height,
-                                    height = imageInfo.height,
-                                    resizeType = ResizeType.Flexible
-                                )
-                            } else {
-                                localBitmap = imageManager.resize(
-                                    image = localBitmap,
-                                    width = imageInfo.width,
-                                    height = imageInfo.height,
-                                    resizeType = ResizeType.Flexible
-                                )
-                            }
-                        }
-
+                        imageManager.resize(
+                            image = bitmap,
+                            width = imageInfo.width,
+                            height = imageInfo.height,
+                            resizeType = imageInfo.resizeType
+                        )
+                    }?.let { localBitmap ->
                         fileController.save(
                             ImageSaveTarget(
                                 imageInfo = imageInfo.copy(
@@ -199,42 +180,18 @@ class LimitsResizeViewModel @Inject constructor(
         updateCanSave()
     }
 
-    private val Bitmap.aspectRatio: Float get() = width / height.toFloat()
-
-    private val ImageInfo.aspectRatio: Float get() = width / height.toFloat()
-
     fun shareBitmaps(onComplete: () -> Unit) {
         viewModelScope.launch {
             imageManager.shareImages(
                 uris = uris?.map { it.toString() } ?: emptyList(),
                 imageLoader = { uri ->
                     imageManager.getImage(uri)?.let { bitmap: Bitmap ->
-                        var localBitmap = bitmap
-                        if (localBitmap.height > imageInfo.height || localBitmap.width > imageInfo.width) {
-                            if (localBitmap.aspectRatio > imageInfo.aspectRatio) {
-                                localBitmap = imageManager.resize(
-                                    image = localBitmap,
-                                    width = imageInfo.width,
-                                    height = imageInfo.width,
-                                    resizeType = ResizeType.Flexible
-                                )
-                            } else if (localBitmap.aspectRatio < imageInfo.aspectRatio) {
-                                localBitmap = imageManager.resize(
-                                    image = localBitmap,
-                                    width = imageInfo.height,
-                                    height = imageInfo.height,
-                                    resizeType = ResizeType.Flexible
-                                )
-                            } else {
-                                localBitmap = imageManager.resize(
-                                    image = localBitmap,
-                                    width = imageInfo.width,
-                                    height = imageInfo.height,
-                                    resizeType = ResizeType.Flexible
-                                )
-                            }
-                        }
-                        localBitmap
+                        imageManager.resize(
+                            bitmap,
+                            imageInfo.width,
+                            imageInfo.height,
+                            imageInfo.resizeType
+                        )
                     }?.let {
                         it to imageInfo.copy(
                             width = it.width,
@@ -268,5 +225,13 @@ class LimitsResizeViewModel @Inject constructor(
     }
 
     fun getImageManager(): ImageManager<Bitmap, ExifInterface> = imageManager
+
+    fun setQuality(fl: Float) {
+        _imageInfo.value = _imageInfo.value.copy(quality = fl.coerceIn(0f, 100f))
+    }
+
+    fun setResizeType(resizeType: ResizeType) {
+        _imageInfo.value = _imageInfo.value.copy(resizeType = resizeType)
+    }
 
 }

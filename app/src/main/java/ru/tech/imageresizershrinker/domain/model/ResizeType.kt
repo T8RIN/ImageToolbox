@@ -7,12 +7,24 @@ sealed class ResizeType : Domain {
     object Flexible : ResizeType()
     object Ratio : ResizeType()
 
+    sealed class Limits : ResizeType() {
+        object Skip : Limits()
+        object Copy : Limits()
+        object Force : Limits()
+    }
+
     companion object {
         val entries
             get() = listOf(
                 Explicit,
                 Flexible,
                 Ratio
+            )
+        val limitsEntries
+            get() = listOf(
+                Limits.Skip,
+                Limits.Copy,
+                Limits.Force
             )
     }
 }

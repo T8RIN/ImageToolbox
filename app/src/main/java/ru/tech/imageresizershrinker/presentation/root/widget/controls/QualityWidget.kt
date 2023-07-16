@@ -6,11 +6,13 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ProvideTextStyle
 import androidx.compose.material3.Slider
@@ -29,6 +31,7 @@ import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.block
 import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalSettingsState
+import kotlin.math.roundToInt
 
 @Composable
 fun QualityWidget(
@@ -68,10 +71,22 @@ fun QualityWidget(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Spacer(Modifier.height(8.dp))
-            Text(
-                text = stringResource(R.string.quality),
-                modifier = Modifier.alpha(alpha)
-            )
+            Row(
+                modifier = Modifier.padding(horizontal = 16.dp),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.Center
+            ) {
+                Text(
+                    text = stringResource(R.string.quality),
+                    modifier = Modifier
+                        .weight(1f)
+                        .alpha(alpha)
+                )
+                Text(
+                    text = "${quality.roundToInt()}%",
+                    color = LocalContentColor.current.copy(alpha = 0.7f)
+                )
+            }
             Spacer(Modifier.weight(1f))
             Slider(
                 modifier = Modifier

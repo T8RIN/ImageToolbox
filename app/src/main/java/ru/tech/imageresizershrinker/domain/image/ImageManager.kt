@@ -19,7 +19,7 @@ interface ImageManager<T, M> {
 
     fun flip(image: T, isFlipped: Boolean): T
 
-    suspend fun resize(image: T, width: Int, height: Int, resizeType: ResizeType): T
+    suspend fun resize(image: T, width: Int, height: Int, resizeType: ResizeType): T?
 
     suspend fun createPreview(
         image: T,

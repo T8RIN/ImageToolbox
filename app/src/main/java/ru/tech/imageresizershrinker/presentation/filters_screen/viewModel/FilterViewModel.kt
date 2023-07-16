@@ -282,7 +282,7 @@ class FilterViewModel @Inject constructor(
 
     private suspend fun Bitmap.upscale(): Bitmap {
         return if (this.width * this.height < 2000 * 2000) {
-            imageManager.resize(this, 2000, 2000, ResizeType.Flexible)
+            imageManager.resize(this, 2000, 2000, ResizeType.Flexible)!!
         } else this
     }
 

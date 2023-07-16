@@ -104,7 +104,7 @@ fun ResizeGroup(
         selectedIndex = when (resizeType) {
             ResizeType.Explicit -> 0
             ResizeType.Flexible -> 1
-            ResizeType.Ratio -> 2
+            else -> 2
         },
         indexChanged = {
             onResizeChange(
