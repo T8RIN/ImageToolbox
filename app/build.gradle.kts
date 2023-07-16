@@ -138,6 +138,8 @@ dependencies {
     implementation(project(":drawbox"))
     implementation(project(":avif-coder-coil"))
     implementation(project(":avif-coder"))
+    implementation(project(":jp2-coder"))
+    implementation(project(":jp2-coder-coil"))
 
     implementation("org.burnoutcrew.composereorderable:reorderable:0.9.6")
 

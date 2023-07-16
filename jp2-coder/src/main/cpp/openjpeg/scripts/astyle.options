@@ -1,0 +1,11 @@
+--convert-tabs
+--lineend=linux
+--indent=spaces=4
+--style=kr
+--add-braces
+--max-code-length=80
+--break-after-logical
+--pad-header
+--pad-oper
+--unpad-paren
+--suffix=none

@@ -1,7 +1,6 @@
 package ru.tech.imageresizershrinker.presentation.single_resize_screen.viewModel
 
 import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.net.Uri
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
@@ -23,7 +22,6 @@ import ru.tech.imageresizershrinker.domain.model.ImageInfo
 import ru.tech.imageresizershrinker.domain.model.ResizeType
 import ru.tech.imageresizershrinker.domain.saving.FileController
 import ru.tech.imageresizershrinker.domain.saving.model.ImageSaveTarget
-import java.io.ByteArrayInputStream
 import javax.inject.Inject
 
 @HiltViewModel
@@ -103,23 +101,18 @@ class SingleResizeViewModel @Inject constructor(
                         onComplete("")
                         fileController.requestReadWritePermissions()
                     } else {
-                        val out = imageManager.compress(
-                            image = bitmap, imageInfo = imageInfo
-                        )
-                        val decoded =
-                            BitmapFactory.decodeStream(ByteArrayInputStream(out))
-
                         fileController.save(
                             saveTarget = ImageSaveTarget(
                                 imageInfo = this,
                                 originalUri = uri.toString(),
                                 sequenceNumber = null,
-                                data = out
+                                data = imageManager.compress(
+                                    image = bitmap, imageInfo = imageInfo
+                                )
                             ),
                             keepMetadata = true
                         )
 
-                        _bitmap.value = decoded
                         _imageInfo.value = _imageInfo.value.copy(
                             isFlipped = false,
                             rotationDegrees = 0f

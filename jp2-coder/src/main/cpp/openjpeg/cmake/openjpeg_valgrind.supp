@@ -1,0 +1,39 @@
+
+
+{
+   <Appears with libpng uses with Ubuntu10.04 (hulk)>
+   Memcheck:Cond
+   fun:deflate
+   obj:/lib/libpng12.so.0.42.0
+   obj:/lib/libpng12.so.0.42.0
+   obj:/lib/libpng12.so.0.42.0
+   fun:png_write_row
+   fun:imagetopng
+   fun:main
+}
+{
+   <Appears with libpng uses with Ubuntu10.04 (hulk)>
+   Memcheck:Value8
+   fun:crc32
+   obj:/lib/libpng12.so.0.42.0
+   fun:png_write_chunk
+   obj:/lib/libpng12.so.0.42.0
+   obj:/lib/libpng12.so.0.42.0
+   obj:/lib/libpng12.so.0.42.0
+   obj:/lib/libpng12.so.0.42.0
+   fun:png_write_row
+   fun:imagetopng
+   fun:main
+}
+{
+   <Appears with libpng uses with Ubuntu10.04 (hulk)>
+   Memcheck:Param
+   write(buf)
+   fun:__write_nocancel
+   fun:_IO_file_write@@GLIBC_2.2.5
+   fun:_IO_do_write@@GLIBC_2.2.5
+   fun:_IO_file_close_it@@GLIBC_2.2.5
+   fun:fclose@@GLIBC_2.2.5
+   fun:imagetopng
+   fun:main
+}

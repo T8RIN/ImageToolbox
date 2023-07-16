@@ -1,0 +1,7 @@
+filename,iterations,threads,command,comment
+../../data/input/nonregression/kodak_2layers_lrcp.j2c,3,1,DECOMPRESS,
+../../data/input/nonregression/kodak_2layers_lrcp.j2c,5,2,DECOMPRESS,
+../../data/input/nonregression/kodak_2layers_lrcp.j2c,10,4,DECOMPRESS,
+../../data/input/conformance/p0_07.j2k,3,1,DECOMPRESS,128x128 tiles RLCP 3decomp 8layers no MCT reversible
+../../data/input/conformance/p0_04.j2k,10,1,DECOMPRESS,precincts 128x128 irreversible
+../../data/input/nonregression/X_4_2K_24_185_CBR_WB_000.tif,3,1,COMPRESS,

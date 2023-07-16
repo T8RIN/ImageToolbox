@@ -8,7 +8,9 @@ import android.graphics.drawable.BitmapDrawable
 import android.util.Size
 import coil.ImageLoader
 import coil.decode.DecodeResult
+import coil.decode.DecodeUtils
 import coil.decode.Decoder
+import coil.decode.isHeif
 import coil.fetch.SourceResult
 import coil.request.Options
 import coil.size.Scale
@@ -24,9 +26,6 @@ class HeifDecoder(
 
     override suspend fun decode(): DecodeResult? = runInterruptible {
         val byteArray = source.source.source().readByteArray()
-        if (!HeifCoder().isSupportedImage(byteArray)) {
-            return@runInterruptible null
-        }
         val originalSize = HeifCoder().getSize(byteArray) ?: return@runInterruptible null
         val dstWidth = options.size.width.pxOrElse { 0 }
         val dstHeight = options.size.height.pxOrElse { 0 }
@@ -99,9 +98,9 @@ class HeifDecoder(
             result: SourceResult,
             options: Options,
             imageLoader: ImageLoader
-        ): HeifDecoder {
-            return HeifDecoder(result, options, imageLoader)
-        }
+        ) = if (DecodeUtils.isHeif(result.source.source())) {
+            HeifDecoder(result, options, imageLoader)
+        } else null
     }
 
 }

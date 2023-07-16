@@ -91,7 +91,7 @@ fun QualityWidget(
                         ),
                         CircleShape
                     )
-                    .padding(horizontal = 16.dp),
+                    .padding(horizontal = 12.dp),
                 colors = SliderDefaults.colors(
                     inactiveTrackColor =
                     MaterialTheme.colorScheme.outlineVariant(

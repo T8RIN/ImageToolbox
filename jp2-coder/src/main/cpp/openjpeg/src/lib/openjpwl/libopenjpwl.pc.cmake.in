@@ -1,0 +1,15 @@
+prefix=@CMAKE_INSTALL_PREFIX@
+bindir=${prefix}/@OPENJPEG_INSTALL_BIN_DIR@
+mandir=${prefix}/@OPENJPEG_INSTALL_MAN_DIR@
+docdir=${prefix}/@OPENJPEG_INSTALL_DOC_DIR@
+libdir=${prefix}/@OPENJPEG_INSTALL_LIB_DIR@
+includedir=${prefix}/@OPENJPEG_INSTALL_INCLUDE_DIR@
+
+Name: openjpwl
+Description: JPEG2000 Wireless library (Part 11)
+URL: http://www.openjpeg.org/
+Version: @OPENJPEG_VERSION@
+Requires: libopenjp2
+Libs: -L${libdir} -lopenjpwl
+Libs.private: -lm
+Cflags: -I${includedir}

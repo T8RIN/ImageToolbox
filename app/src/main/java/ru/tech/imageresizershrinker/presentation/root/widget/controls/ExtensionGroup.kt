@@ -112,12 +112,9 @@ fun ExtensionGroup(
 
 @Composable
 private fun List<ImageFormat>.filtered(): List<ImageFormat> = remember(this) {
-    if (Build.VERSION.SDK_INT <= 24) this.toMutableList()
-        .apply {
-            removeAll(
-                ImageFormat.highLevelFormats
-            )
-        }
+    if (Build.VERSION.SDK_INT <= 24) toMutableList().apply {
+        removeAll(ImageFormat.highLevelFormats)
+    }
     else this
 }
 

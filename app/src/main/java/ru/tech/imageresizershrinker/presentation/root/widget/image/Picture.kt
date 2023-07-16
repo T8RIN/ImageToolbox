@@ -4,7 +4,7 @@ package ru.tech.imageresizershrinker.presentation.root.widget.image
 
 import android.app.Activity
 import android.content.res.Configuration
-import android.os.Build.VERSION.SDK_INT
+import android.os.Build
 import androidx.annotation.FloatRange
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.AnimationSpec
@@ -67,6 +67,8 @@ import coil.decode.SvgDecoder
 import coil.imageLoader
 import coil.request.ImageRequest
 import coil.transform.Transformation
+import com.github.awxkee.avifcoil.HeifDecoder
+import com.github.t8rin.jp2coil.Jp2Decoder
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.ContextUtils.findActivity
@@ -109,9 +111,11 @@ fun Picture(
 
     val imageLoader =
         manualImageLoader ?: context.imageLoader.newBuilder().components {
-            if (SDK_INT >= 28) add(ImageDecoderDecoder.Factory())
+            if (Build.VERSION.SDK_INT >= 28) add(ImageDecoderDecoder.Factory())
             else add(GifDecoder.Factory())
             add(SvgDecoder.Factory())
+            if (Build.VERSION.SDK_INT >= 24) add(HeifDecoder.Factory())
+            add(Jp2Decoder.Factory())
         }.build()
 
     val request = manualImageRequest ?: ImageRequest.Builder(context)
@@ -278,8 +282,7 @@ fun Zoomable(
                                 scope.launch {
                                     state.drag(dragAmount)
                                     state.addPosition(
-                                        change.uptimeMillis,
-                                        change.position
+                                        change.uptimeMillis, change.position
                                     )
                                 }
                             }
@@ -297,13 +300,11 @@ fun Zoomable(
                 .then(doubleTapModifier)
                 .transformable(state = transformableState)
                 .layout { measurable, constraints ->
-                    val placeable =
-                        measurable.measure(constraints = constraints)
+                    val placeable = measurable.measure(constraints = constraints)
                     childHeight = placeable.height
                     childWidth = placeable.width
                     layout(
-                        width = constraints.maxWidth,
-                        height = constraints.maxHeight
+                        width = constraints.maxWidth, height = constraints.maxHeight
                     ) {
                         placeable.placeRelativeWithLayer(
                             (constraints.maxWidth - placeable.width) / 2,

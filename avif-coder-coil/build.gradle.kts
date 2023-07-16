@@ -35,5 +35,8 @@ android {
 dependencies {
     api(project(":avif-coder"))
     api("io.coil-kt:coil:2.4.0")
+    implementation("io.coil-kt:coil-compose:2.4.0")
+    implementation("io.coil-kt:coil-gif:2.4.0")
+    implementation("io.coil-kt:coil-svg:2.4.0")
     coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.0.3")
 }
