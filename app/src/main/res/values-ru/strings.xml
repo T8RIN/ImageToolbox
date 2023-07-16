@@ -303,4 +303,9 @@
     <string name="edit_screenshot">Редактировать скриншот</string>
     <string name="secondary_customization">Вторичная настройка</string>
     <string name="screenshot">Скриншот</string>
+    <string name="copy">Копировать</string>
+    <string name="fallback_option">Запасной вариант</string>
+    <string name="skip">Пропуск</string>
+    <string name="warning_bytes">Сохранение в режиме %1$s может быть нестабильным, потому что это формат без потерь.</string>
+    <string name="force">Увеличение</string>
 </resources>
