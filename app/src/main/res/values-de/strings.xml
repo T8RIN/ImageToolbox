@@ -296,4 +296,6 @@
     <string name="auto_cache_clearing">Autom. Cache-Leerung</string>
     <string name="cannot_change_arrangement_while_options_grouping_enabled">Die Anordnung kann nicht geändert werden, wenn die Optionen gruppiert sind</string>
     <string name="edit_screenshot">Screenshot bearbeiten</string>
+    <string name="screenshot">Screenshot</string>
+    <string name="pick_color_from_drawing">Wähle eine Farbe aus einer Zeichnung</string>
 </resources>
