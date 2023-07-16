@@ -5,7 +5,6 @@
     <string name="close">ปิด</string>
     <string name="reset_image">รีเซ็ตภาพ</string>
     <string name="add_tag">เพิ่มแท็ก</string>
-    <string name="might_be_error_with_exif">หากไม่ได้เลือกรูปแบบการบีบอัด JPEG ข้อมูลเมตา EXIF อาจแสดงอย่างไม่ถูกต้องในแอปอื่นๆ</string>
     <string name="folder">โฟลเดอร์เอาต์พุต</string>
     <string name="def">ค่าเริ่มต้น</string>
     <string name="custom">กำหนดเอง</string>
