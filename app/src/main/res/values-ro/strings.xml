@@ -22,7 +22,6 @@
     <string name="ok">Ok</string>
     <string name="no_exif">Nu s-au găsit date EXIF</string>
     <string name="add_tag">Adaugă etichetă</string>
-    <string name="might_be_error_with_exif">Dacă formatul de compresie JPEG nu a fost ales, atunci metadatele EXIF pot fi incorecte in alte aplicații</string>
     <string name="clear">Curăță</string>
     <string name="clear_exif">Curăță EXIF</string>
     <string name="clear_exif_sub">Toate datele EXIF al imaginii vor fi șterse, această acțiune nu poate fi anulată!</string>
