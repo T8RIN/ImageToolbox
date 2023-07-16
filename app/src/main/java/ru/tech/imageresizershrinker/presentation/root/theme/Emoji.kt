@@ -44,6 +44,7 @@ import ru.tech.imageresizershrinker.presentation.root.theme.emoji.Broccoli
 import ru.tech.imageresizershrinker.presentation.root.theme.emoji.Bullseye
 import ru.tech.imageresizershrinker.presentation.root.theme.emoji.Buoy
 import ru.tech.imageresizershrinker.presentation.root.theme.emoji.Cactus
+import ru.tech.imageresizershrinker.presentation.root.theme.emoji.Calendar
 import ru.tech.imageresizershrinker.presentation.root.theme.emoji.Camera
 import ru.tech.imageresizershrinker.presentation.root.theme.emoji.Candle
 import ru.tech.imageresizershrinker.presentation.root.theme.emoji.Card
@@ -110,18 +111,23 @@ import ru.tech.imageresizershrinker.presentation.root.theme.emoji.Recycling
 import ru.tech.imageresizershrinker.presentation.root.theme.emoji.Rice
 import ru.tech.imageresizershrinker.presentation.root.theme.emoji.Ring
 import ru.tech.imageresizershrinker.presentation.root.theme.emoji.Rocket
+import ru.tech.imageresizershrinker.presentation.root.theme.emoji.Ruler
 import ru.tech.imageresizershrinker.presentation.root.theme.emoji.Sauropod
 import ru.tech.imageresizershrinker.presentation.root.theme.emoji.Siren
 import ru.tech.imageresizershrinker.presentation.root.theme.emoji.Skull
 import ru.tech.imageresizershrinker.presentation.root.theme.emoji.Slots
 import ru.tech.imageresizershrinker.presentation.root.theme.emoji.Snowflake
 import ru.tech.imageresizershrinker.presentation.root.theme.emoji.Sparkles
+import ru.tech.imageresizershrinker.presentation.root.theme.emoji.Sponge
 import ru.tech.imageresizershrinker.presentation.root.theme.emoji.Star
+import ru.tech.imageresizershrinker.presentation.root.theme.emoji.Sunglasses
 import ru.tech.imageresizershrinker.presentation.root.theme.emoji.Sunrise
 import ru.tech.imageresizershrinker.presentation.root.theme.emoji.Taxi
 import ru.tech.imageresizershrinker.presentation.root.theme.emoji.Tick
 import ru.tech.imageresizershrinker.presentation.root.theme.emoji.Tree
+import ru.tech.imageresizershrinker.presentation.root.theme.emoji.Tube
 import ru.tech.imageresizershrinker.presentation.root.theme.emoji.Ufo
+import ru.tech.imageresizershrinker.presentation.root.theme.emoji.Vest
 import ru.tech.imageresizershrinker.presentation.root.theme.emoji.Warning
 import ru.tech.imageresizershrinker.presentation.root.theme.emoji.Wine
 import ru.tech.imageresizershrinker.presentation.root.theme.emoji.Wood
@@ -241,7 +247,19 @@ val Emoji.allIcons: List<ImageVector>
             Clinking2,
             Paperclip,
             Tick,
-            Wine, Bathtub, Bone, Cocktail, Couch, Pole, Siren
+            Wine,
+            Bathtub,
+            Bone,
+            Cocktail,
+            Couch,
+            Pole,
+            Siren,
+            Calendar,
+            Ruler,
+            Sponge,
+            Sunglasses,
+            Tube,
+            Vest
         ).sortedBy { it.name }
         return EmojiList!!
     }
