@@ -62,7 +62,6 @@
     <string name="save">Kaydet</string>
     <string name="restart_app">Uygulamayı yeniden başlat</string>
     <string name="exception">İstisna</string>
-    <string name="might_be_error_with_exif">JPEG sıkıştırma formatı seçilmezse, EXIF meta verileri diğer uygulamalarda yanlış gösterilebilir</string>
     <string name="check_source_code_sub">En son güncellemeleri alın, sorunları tartışın ve daha fazlasını yapın</string>
     <string name="no_exif">EXIF verisi bulunamadı</string>
     <string name="clear_exif_sub">Görüntünün tüm EXIF verileri silinecektir, bu işlem geri alınamaz!</string>
