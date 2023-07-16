@@ -34,7 +34,7 @@ android {
 
     packaging {
         jniLibs {
-            excludes.add("lib/arm64-v8a/liblog.so")
+            excludes.add("lib/*/**.so")
         }
     }
 }
