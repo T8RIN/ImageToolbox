@@ -31,7 +31,6 @@
     <string name="ok">Ok</string>
     <string name="no_exif">Nenašli sa žiadne údaje EXIF</string>
     <string name="add_tag">Pridať značku</string>
-    <string name="might_be_error_with_exif">Ak nie je zvolený kompresný formát JPEG, potom sa metadáta EXIF môžu v iných aplikáciách zobrazovať nesprávne</string>
     <string name="save">Uložiť</string>
     <string name="clear">Jasné</string>
     <string name="clear_exif">Vymazať EXIF</string>
