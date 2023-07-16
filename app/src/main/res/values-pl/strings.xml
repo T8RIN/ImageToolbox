@@ -37,7 +37,6 @@
     <string name="explicit">Wyraźny</string>
     <string name="flexible">Elastyczny</string>
     <string name="add_tag">Dodaj tag</string>
-    <string name="might_be_error_with_exif">Jeśli nie wybrano formatu kompresji JPEG, metadane EXIF mogą być wyświetlane niepoprawnie w innych aplikacjach</string>
     <string name="save">Zapisz</string>
     <string name="clear">Wyczyść</string>
     <string name="clear_exif">Wyczyść EXIF</string>
