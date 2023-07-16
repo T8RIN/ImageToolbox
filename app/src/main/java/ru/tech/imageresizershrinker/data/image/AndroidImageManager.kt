@@ -23,7 +23,6 @@ import coil.imageLoader
 import coil.request.ImageRequest
 import coil.size.Size
 import com.github.awxkee.avifcoil.HeifDecoder
-import com.github.t8rin.jp2coil.Jp2Decoder
 import com.radzivon.bartoshyk.avif.coder.HeifCoder
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -57,7 +56,6 @@ class AndroidImageManager @Inject constructor(
             else add(GifDecoder.Factory())
             add(SvgDecoder.Factory())
             if (Build.VERSION.SDK_INT >= 24) add(HeifDecoder.Factory())
-            add(Jp2Decoder.Factory())
         }.allowHardware(false).build()
     }
 

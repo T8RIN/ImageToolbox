@@ -68,7 +68,6 @@ import coil.imageLoader
 import coil.request.ImageRequest
 import coil.transform.Transformation
 import com.github.awxkee.avifcoil.HeifDecoder
-import com.github.t8rin.jp2coil.Jp2Decoder
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.ContextUtils.findActivity
@@ -115,7 +114,6 @@ fun Picture(
             else add(GifDecoder.Factory())
             add(SvgDecoder.Factory())
             if (Build.VERSION.SDK_INT >= 24) add(HeifDecoder.Factory())
-            add(Jp2Decoder.Factory())
         }.build()
 
     val request = manualImageRequest ?: ImageRequest.Builder(context)
