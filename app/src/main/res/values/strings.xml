@@ -286,7 +286,7 @@
     <string name="decryption">Decryption</string>
     <string name="encryption">Encryption</string>
     <string name="key">Key</string>
-    <string name="file_proceed">File proceeded</string>
+    <string name="file_proceed">File processed</string>
     <string name="store_file_desc">Store this file on your device or use share action to put it wherever you want</string>
     <string name="features">Features</string>
     <string name="implementation">Implementation</string>
@@ -296,7 +296,7 @@
     <string name="file_size">File size</string>
     <string name="file_size_sub">The maximum file size is restricted by the Android OS and the memory available, which is obviously depending on your device.\nPlease note: memory is not storage.</string>
     <string name="compatibility_sub">Please note that compatibility to other file encryption software or services is not guaranteed. A slightly different key treatment or cipher configuration may be reasons for incompatibility.</string>
-    <string name="invalid_password_or_not_encrypted">Invalid password or choosen file is not encrypted</string>
+    <string name="invalid_password_or_not_encrypted">Invalid password or chosen file is not encrypted</string>
     <string name="image_size_warning">Trying to save image with given width and height might cause an OOM error, do this at your own risk, and don\'t say I didn\'t warn you!</string>
     <string name="cache">Cache</string>
     <string name="cache_size">Cache size</string>
