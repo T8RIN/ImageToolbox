@@ -296,4 +296,7 @@
     <string name="cannot_change_arrangement_while_options_grouping_enabled">Неможливо змінити розташування, якщо ввімкнено групування параметрів</string>
     <string name="create">Створити</string>
     <string name="edit_screenshot">Редагувати знімок екрана</string>
+    <string name="secondary_customization">Вторинне налаштування</string>
+    <string name="screenshot">Знімок екрана</string>
+    <string name="pick_color_from_drawing">Виберіть колір з малюнка</string>
 </resources>
