@@ -34,7 +34,6 @@
     <string name="ok">オッケー</string>
     <string name="no_exif">EXIFデータが見つかりません</string>
     <string name="add_tag">タグを追加する</string>
-    <string name="might_be_error_with_exif">JPEG圧縮形式を選択していない場合、EXIFメタデータが他のアプリで正しく表示されないことがあります。</string>
     <string name="save">セーブ</string>
     <string name="clear">クリア</string>
     <string name="clear_exif">EXIFクリア</string>

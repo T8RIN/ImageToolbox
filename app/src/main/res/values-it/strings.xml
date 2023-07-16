@@ -30,7 +30,6 @@
     <string name="ok">Ok</string>
     <string name="no_exif">Nessun EXIF trovato</string>
     <string name="add_tag">Aggiungi tag</string>
-    <string name="might_be_error_with_exif">Se non è scelto nessun formato di compressione JPEG, i dati EXIF potrebbero essere mostrati incorrettamente in altre app.</string>
     <string name="save">Salva</string>
     <string name="clear">Pulisci</string>
     <string name="clear_exif">Cancella EXIF</string>

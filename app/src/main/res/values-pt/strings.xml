@@ -30,7 +30,6 @@
     <string name="ok">OK</string>
     <string name="no_exif">Nenhum dado EXIF encontrado</string>
     <string name="add_tag">Adicionar etiqueta</string>
-    <string name="might_be_error_with_exif">Se o formato de compactação JPEG não for escolhido, os metadados EXIF poderão ser exibidos incorretamente em outros aplicativos</string>
     <string name="save">Salvar</string>
     <string name="clear">Claro</string>
     <string name="clear_exif">Limpar EXIF</string>

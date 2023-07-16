@@ -47,7 +47,6 @@
     <string name="ok">Baiklah.</string>
     <string name="no_exif">Tidak ditemukan data EXIF</string>
     <string name="add_tag">Tambahkan tag</string>
-    <string name="might_be_error_with_exif">Jika bukan format kompresi JPEG yang dipilih, maka metadata EXIF dapat ditampilkan secara tidak benar di aplikasi lain</string>
     <string name="save">Simpan</string>
     <string name="clear">Jelas</string>
     <string name="clear_exif">Hapus EXIF</string>

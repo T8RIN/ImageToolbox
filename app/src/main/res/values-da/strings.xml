@@ -32,7 +32,6 @@
     <string name="edit_exif">Rediger EXIF</string>
     <string name="no_exif">Ingen EXIF-data fundet</string>
     <string name="add_tag">Tilføj tag</string>
-    <string name="might_be_error_with_exif">Hvis der ikke er valgt JPEG-komprimeringsformat, kan EXIF-metadata vises forkert i andre apps</string>
     <string name="save">Gem</string>
     <string name="clear">Klar</string>
     <string name="clear_exif">Ryd EXIF</string>

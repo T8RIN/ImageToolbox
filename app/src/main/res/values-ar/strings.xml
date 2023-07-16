@@ -41,7 +41,6 @@
     <string name="ok">نعم</string>
     <string name="no_exif">لم يتم العثور على بيانات EXIF</string>
     <string name="add_tag">إضافة علامة</string>
-    <string name="might_be_error_with_exif">إذا لم يتم اختيار تنسيق ضغط JPEG ، فيمكن إظهار بيانات EXIF الوصفية بشكل غير صحيح في التطبيقات الأخرى</string>
     <string name="save">يحفظ</string>
     <string name="clear">واضح</string>
     <string name="clear_exif">مسح EXIF</string>

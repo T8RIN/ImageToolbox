@@ -37,7 +37,6 @@
     <string name="ok">בסדר</string>
     <string name="no_exif">לא נמצאו נתוני EXIF</string>
     <string name="add_tag">הוסף תגית</string>
-    <string name="might_be_error_with_exif">אם לא נבחר פורמט דחיסה של JPEG, ניתן להציג מטא נתונים של EXIF בצורה שגויה באפליקציות אחרות</string>
     <string name="clear">ברור</string>
     <string name="clear_exif">נקה EXIF</string>
     <string name="cancel">לְבַטֵל</string>

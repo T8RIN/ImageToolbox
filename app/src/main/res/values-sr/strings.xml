@@ -13,7 +13,6 @@
     <string name="ok">Ok</string>
     <string name="no_exif">No EXIF podatak pronađen</string>
     <string name="add_tag">Dodati tag</string>
-    <string name="might_be_error_with_exif">Li ne JPEG compress format odabran, tadašnji EXIF metadata limenka biti pokazati incorrectly in other apps</string>
     <string name="save">Spremati</string>
     <string name="clear">Čist</string>
     <string name="clear_exif">Čist EXIF.</string>

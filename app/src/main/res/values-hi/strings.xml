@@ -35,7 +35,6 @@
     <string name="ok">ठीक</string>
     <string name="no_exif">कोई EXIF डेटा नहीं मिला</string>
     <string name="add_tag">टैग जोड़ो</string>
-    <string name="might_be_error_with_exif">यदि जेपीईजी संपीड़न प्रारूप नहीं चुना गया है, तो अन्य ऐप्स में EXIF मेटाडेटा गलत तरीके से दिखाया जा सकता है</string>
     <string name="save">बचाना</string>
     <string name="clear">साफ़</string>
     <string name="clear_exif">EXIF साफ़ करें</string>

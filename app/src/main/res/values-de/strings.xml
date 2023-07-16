@@ -56,7 +56,6 @@
     <string name="exception">Ausnahme</string>
     <string name="edit_exif">EXIF bearbeiten</string>
     <string name="no_exif">Keine EXIF Daten gefunden</string>
-    <string name="might_be_error_with_exif">Wenn als Dateityp nicht JPEG gewählt ist, könnten EXIF-Daten in anderen Apps falsch angezeigt werden</string>
     <string name="cancel">Abbrechen</string>
     <string name="presets">Voreinstellungen</string>
     <string name="image_not_saved">Speichere</string>
@@ -297,5 +296,4 @@
     <string name="cannot_change_arrangement_while_options_grouping_enabled">Die Anordnung kann nicht geändert werden, wenn die Optionen gruppiert sind</string>
     <string name="edit_screenshot">Screenshot bearbeiten</string>
     <string name="screenshot">Screenshot</string>
-    <string name="pick_color_from_drawing">Wähle eine Farbe aus einer Zeichnung</string>
 </resources>

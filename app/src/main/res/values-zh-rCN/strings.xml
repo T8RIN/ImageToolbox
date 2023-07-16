@@ -25,7 +25,6 @@
     <string name="ok">确定</string>
     <string name="no_exif">未找到 EXIF 信息</string>
     <string name="add_tag">添加标签</string>
-    <string name="might_be_error_with_exif">如果不选择 JPEG 压缩格式，那么 EXIF 元数据可能在其他应用程序中显示不正确</string>
     <string name="save">保存</string>
     <string name="clear_exif">清空 EXIF 信息</string>
     <string name="values_reset">更改已重置</string>
