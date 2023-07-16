@@ -76,7 +76,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.domain.model.ImageInfo
-import ru.tech.imageresizershrinker.presentation.bytes_resize_screen.components.PngTypeAlert
+import ru.tech.imageresizershrinker.presentation.bytes_resize_screen.components.ImageFormatAlert
 import ru.tech.imageresizershrinker.presentation.bytes_resize_screen.viewModel.BytesResizeViewModel
 import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
 import ru.tech.imageresizershrinker.presentation.root.transformation.BitmapInfoTransformation
@@ -135,18 +135,13 @@ fun BytesResizeScreen(
         }
     }
 
-    var showAlert by rememberSaveable { mutableStateOf(false) }
-
     LaunchedEffect(uriState) {
         uriState?.takeIf { it.isNotEmpty() }?.let { uris ->
             viewModel.updateUris(uris)
             viewModel.decodeBitmapByUri(
                 uri = uris[0],
                 originalSize = false,
-                onGetMimeType = {
-                    showAlert = !it.canChangeQuality
-                    viewModel.setMime(it)
-                },
+                onGetMimeType = viewModel::setMime,
                 onGetMetadata = {},
                 onGetImage = viewModel::updateBitmap,
                 onError = {
@@ -176,10 +171,7 @@ fun BytesResizeScreen(
                 viewModel.decodeBitmapByUri(
                     uri = uris[0],
                     originalSize = false,
-                    onGetMimeType = {
-                        showAlert = !it.canChangeQuality
-                        viewModel.setMime(it)
-                    },
+                    onGetMimeType = viewModel::setMime,
                     onGetMetadata = {},
                     onGetImage = viewModel::updateBitmap,
                     onError = {
@@ -471,16 +463,15 @@ fun BytesResizeScreen(
                                         selected = viewModel.keepExif,
                                         onCheckedChange = { viewModel.setKeepExif(!viewModel.keepExif) }
                                     )
-                                    Spacer(Modifier.size(8.dp))
+                                    if (viewModel.imageFormat.canChangeQuality) Spacer(
+                                        Modifier.size(8.dp)
+                                    )
+                                    ImageFormatAlert(viewModel.imageFormat)
                                     ExtensionGroup(
                                         enabled = viewModel.bitmap != null,
                                         imageFormat = viewModel.imageFormat,
-                                        onMimeChange = {
-                                            showAlert = !it.canChangeQuality
-                                            viewModel.setMime(it)
-                                        }
+                                        onMimeChange = viewModel::setMime
                                     )
-                                    PngTypeAlert(visible = showAlert)
                                 } else if (!viewModel.isLoading) {
                                     ImageNotPickedWidget(onPickImage = pickImage)
                                     Spacer(Modifier.size(8.dp))

@@ -390,7 +390,9 @@ fun LimitsResizeScreen(
                                         selected = viewModel.keepExif,
                                         onCheckedChange = { viewModel.setKeepExif(!viewModel.keepExif) }
                                     )
-                                    Spacer(Modifier.size(8.dp))
+                                    if (viewModel.imageInfo.imageFormat.canChangeQuality) Spacer(
+                                        Modifier.size(8.dp)
+                                    )
                                     QualityWidget(
                                         visible = viewModel.imageInfo.imageFormat.canChangeQuality,
                                         enabled = viewModel.bitmap != null,

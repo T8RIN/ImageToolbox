@@ -22,13 +22,14 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import ru.tech.imageresizershrinker.R
+import ru.tech.imageresizershrinker.domain.model.ImageFormat
 import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalSettingsState
 
 @Composable
-fun PngTypeAlert(visible: Boolean) {
+fun ImageFormatAlert(format: ImageFormat) {
     val settingsState = LocalSettingsState.current
     AnimatedVisibility(
-        visible = visible,
+        visible = !format.canChangeQuality,
         enter = fadeIn() + expandIn(expandFrom = Alignment.TopCenter),
         exit = fadeOut() + shrinkOut(shrinkTowards = Alignment.TopCenter)
     ) {
@@ -51,7 +52,7 @@ fun PngTypeAlert(visible: Boolean) {
             shape = RoundedCornerShape(24.dp)
         ) {
             Text(
-                text = stringResource(R.string.png_warning_bytes),
+                text = stringResource(R.string.warning_bytes, format.title),
                 fontSize = 12.sp,
                 modifier = Modifier.padding(8.dp),
                 textAlign = TextAlign.Center,

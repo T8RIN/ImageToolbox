@@ -53,7 +53,8 @@ fun LimitsResizeGroup(
         selectedIndex = when (resizeType) {
             ResizeType.Limits.Skip -> 0
             ResizeType.Limits.Copy -> 1
-            else -> 2
+            ResizeType.Limits.Force -> 2
+            else -> -1
         },
         indexChanged = {
             onResizeChange(
