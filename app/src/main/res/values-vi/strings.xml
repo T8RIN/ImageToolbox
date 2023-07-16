@@ -49,7 +49,6 @@
     <string name="ok">Được rồi</string>
     <string name="no_exif">Không tìm thấy dữ liệu EXIF</string>
     <string name="add_tag">Thêm thẻ</string>
-    <string name="might_be_error_with_exif">Nếu không chọn định dạng nén JPEG, thì siêu dữ liệu EXIF có thể hiển thị không chính xác trong các ứng dụng khác</string>
     <string name="save">Cứu</string>
     <string name="clear">Thông thoáng</string>
     <string name="clear_exif">Xóa EXIF</string>
