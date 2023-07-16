@@ -62,7 +62,6 @@
     <string name="reset">Redefinir</string>
     <string name="values_reset">Valores devidamente redefinidos</string>
     <string name="reset_image_sub">As alterações na imagem serão revertidas para os valores iniciais</string>
-    <string name="might_be_error_with_exif">Se o formato de compressão JPEG não for escolhido, os metadados EXIF poderão ser exibidos incorretamente em outros aplicativos</string>
     <string name="save">Salvar</string>
     <string name="clear">Limpar</string>
     <string name="pick_color">Escolher cor</string>
