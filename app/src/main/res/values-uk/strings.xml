@@ -44,7 +44,6 @@
     <string name="flexible">Гнучкий</string>
     <string name="stay">Залишитися</string>
     <string name="add_tag">Додати теґ</string>
-    <string name="might_be_error_with_exif">Якщо не вибрано формат стиснення JPEG, метадані EXIF можуть некоректно відображатися в інших застосунках</string>
     <string name="cancel">Скасувати</string>
     <string name="check_source_code">Вихідний код</string>
     <string name="reset_image_sub">Зміни зображення будуть повернуті до початкових значень</string>
