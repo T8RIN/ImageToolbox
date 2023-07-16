@@ -56,7 +56,6 @@
     <string name="exception">Ausnahme</string>
     <string name="edit_exif">EXIF bearbeiten</string>
     <string name="no_exif">Keine EXIF Daten gefunden</string>
-    <string name="might_be_error_with_exif">Wenn als Dateityp nicht JPEG gewählt ist, könnten EXIF-Daten in anderen Apps falsch angezeigt werden</string>
     <string name="cancel">Abbrechen</string>
     <string name="presets">Voreinstellungen</string>
     <string name="image_not_saved">Speichere</string>
