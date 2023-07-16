@@ -137,6 +137,7 @@ Go to the [Releases](https://github.com/t8rin/imageresizer/releases/latest) and 
   - Height changing
   - Adaptive resize
   - Resize retaining aspect ratio
+  - Resize by given limits
 - Image Shrinking
   - Quality compressing
   - Preset shrinking
@@ -145,11 +146,14 @@ Go to the [Releases](https://github.com/t8rin/imageresizer/releases/latest) and 
   - Regular crop
   - Crop by aspect ratio
 - Format Convertion
+  - HEIF
+  - HEIC
+  - AVIF
   - WEBP
   - JPEG
   - JPG
   - PNG
-  - SVG, GIF to WEBP, PNG, JPEG, JPG
+  - SVG, GIF to WEBP, PNG, JPEG, JPG, HEIF, HEIC, AVIF
   - Telegram sticker PNG format
 - Color Utils
   - Palette generation
@@ -158,7 +162,7 @@ Go to the [Releases](https://github.com/t8rin/imageresizer/releases/latest) and 
   - Rotating
   - Flipping
   - Comparing images
-  - Previewing SVG, GIF and all types of images
+  - Previewing SVG, GIF and msotly all types of images
   - Saving to any specific folder
 
 #
