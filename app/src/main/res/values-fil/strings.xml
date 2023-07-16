@@ -30,7 +30,6 @@
     <string name="image_too_large_preview">Masyadong malaki ang larawan para maipasilip, pero susubukan pa rin itong i-save</string>
     <string name="app_closing_sub">Sigurado ka bang gusto mong umalis sa app\?</string>
     <string name="no_exif">Walang nakitang EXIF na datos</string>
-    <string name="might_be_error_with_exif">Kung hindi JPEG ang format na pipiliin, maaaring magkaproblema ang ibang mga app sa pagproseso sa EXIF na datos</string>
     <string name="save">I-save</string>
     <string name="cancel">Kanselahin</string>
     <string name="clear">Burahin</string>
