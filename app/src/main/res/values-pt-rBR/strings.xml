@@ -301,4 +301,7 @@
 \nAtenção: memória não é armazenamento.</string>
     <string name="group_options_by_type_sub">Opções de grupos na tela principal de seu tipo em vez de organização de lista personalizada</string>
     <string name="cannot_change_arrangement_while_options_grouping_enabled">Não é possível alterar o arranjo enquanto o agrupamento de opções está ativado</string>
+    <string name="secondary_customization">Personalização secundária</string>
+    <string name="pick_color_from_drawing">Escolher cor do desenho</string>
+    <string name="screenshot">Print</string>
 </resources>
