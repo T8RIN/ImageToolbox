@@ -10,12 +10,13 @@ import androidx.compose.ui.graphics.Color
 import kotlinx.parcelize.Parcelize
 import kotlinx.parcelize.RawValue
 import ru.tech.imageresizershrinker.domain.image.Transformation
+import ru.tech.imageresizershrinker.domain.image.filters.FilterParam
 
 @Parcelize
 sealed class FilterTransformation<T>(
     private val context: @RawValue Context,
     @StringRes val title: Int,
-    val paramsInfo: List<FilterParam> = listOf(),
+    val paramsInfo: @RawValue List<FilterParam> = listOf(),
     open val value: @RawValue T,
 ) : GPUFilterTransformation(context), Transformation<Bitmap>, Parcelable {
 
@@ -166,13 +167,6 @@ sealed class FilterTransformation<T>(
     }
 
 }
-
-@Parcelize
-data class FilterParam(
-    val title: Int? = null,
-    val valueRange: @RawValue ClosedFloatingPointRange<Float>,
-    val roundTo: Int = 2
-) : Parcelable
 
 infix fun Int.paramTo(valueRange: ClosedFloatingPointRange<Float>) = FilterParam(
     title = this,

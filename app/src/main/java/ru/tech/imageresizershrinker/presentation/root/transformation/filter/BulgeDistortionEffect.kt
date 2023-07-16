@@ -1,12 +1,14 @@
 package ru.tech.imageresizershrinker.presentation.root.transformation.filter
 
 import android.content.Context
+import android.graphics.Bitmap
 import android.graphics.PointF
 import jp.co.cyberagent.android.gpuimage.filter.GPUImageBulgeDistortionFilter
 import jp.co.cyberagent.android.gpuimage.filter.GPUImageFilter
 import kotlinx.parcelize.Parcelize
 import kotlinx.parcelize.RawValue
 import ru.tech.imageresizershrinker.R
+import ru.tech.imageresizershrinker.domain.image.filters.Filter
 
 
 @Parcelize
@@ -21,7 +23,7 @@ class BulgeDistortionEffect(
         R.string.radius paramTo 0f..1f,
         R.string.scale paramTo -1f..1f
     )
-) {
+), Filter.BulgeDistortion<Bitmap> {
     override val cacheKey: String
         get() = (value to context).hashCode().toString()
 

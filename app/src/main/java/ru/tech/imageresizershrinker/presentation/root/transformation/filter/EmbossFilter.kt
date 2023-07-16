@@ -1,11 +1,13 @@
 package ru.tech.imageresizershrinker.presentation.root.transformation.filter
 
 import android.content.Context
+import android.graphics.Bitmap
 import jp.co.cyberagent.android.gpuimage.filter.GPUImageEmbossFilter
 import jp.co.cyberagent.android.gpuimage.filter.GPUImageFilter
 import kotlinx.parcelize.Parcelize
 import kotlinx.parcelize.RawValue
 import ru.tech.imageresizershrinker.R
+import ru.tech.imageresizershrinker.domain.image.filters.Filter
 
 @Parcelize
 class EmbossFilter(
@@ -16,7 +18,7 @@ class EmbossFilter(
     title = R.string.emboss,
     value = value,
     valueRange = 0f..4f
-) {
+), Filter.Emboss<Bitmap> {
     override val cacheKey: String
         get() = (value to context).hashCode().toString()
 

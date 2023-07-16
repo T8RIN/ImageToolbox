@@ -7,6 +7,8 @@ import jp.co.cyberagent.android.gpuimage.filter.GPUImageFilter
 import kotlinx.parcelize.Parcelize
 import kotlinx.parcelize.RawValue
 import ru.tech.imageresizershrinker.R
+import ru.tech.imageresizershrinker.domain.image.filters.Filter
+import ru.tech.imageresizershrinker.domain.image.filters.FilterParam
 import kotlin.math.roundToInt
 
 
@@ -22,7 +24,7 @@ class FastBlurFilter(
         FilterParam(R.string.scale, 0.01f..1f, 2),
         FilterParam(R.string.radius, 0f..100f, 0)
     )
-) {
+), Filter.FastBlur<Bitmap> {
     override val cacheKey: String
         get() = (value to context).hashCode().toString()
 

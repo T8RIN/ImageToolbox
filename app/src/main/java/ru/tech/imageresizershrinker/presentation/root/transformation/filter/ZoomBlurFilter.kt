@@ -1,12 +1,15 @@
 package ru.tech.imageresizershrinker.presentation.root.transformation.filter
 
 import android.content.Context
+import android.graphics.Bitmap
 import android.graphics.PointF
 import jp.co.cyberagent.android.gpuimage.filter.GPUImageFilter
 import jp.co.cyberagent.android.gpuimage.filter.GPUImageZoomBlurFilter
 import kotlinx.parcelize.Parcelize
 import kotlinx.parcelize.RawValue
 import ru.tech.imageresizershrinker.R
+import ru.tech.imageresizershrinker.domain.image.filters.Filter
+import ru.tech.imageresizershrinker.domain.image.filters.FilterParam
 
 
 @Parcelize
@@ -22,7 +25,7 @@ class ZoomBlurFilter(
         FilterParam(R.string.blur_center_y, 0f..1f, 2),
         FilterParam(R.string.blur_size, 0f..10f, 2)
     )
-) {
+), Filter.ZoomBlur<Bitmap> {
     override val cacheKey: String
         get() = (value to context).hashCode().toString()
 

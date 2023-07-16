@@ -1,11 +1,13 @@
 package ru.tech.imageresizershrinker.presentation.root.transformation.filter
 
 import android.content.Context
+import android.graphics.Bitmap
 import jp.co.cyberagent.android.gpuimage.filter.GPUImageFilter
 import jp.co.cyberagent.android.gpuimage.filter.GPUImageSharpenFilter
 import kotlinx.parcelize.Parcelize
 import kotlinx.parcelize.RawValue
 import ru.tech.imageresizershrinker.R
+import ru.tech.imageresizershrinker.domain.image.filters.Filter
 
 @Parcelize
 class SharpenFilter(
@@ -16,7 +18,7 @@ class SharpenFilter(
     title = R.string.sharpen,
     value = value,
     valueRange = -4f..4f
-) {
+), Filter.Sharpen<Bitmap> {
     override val cacheKey: String
         get() = (value to context).hashCode().toString()
 

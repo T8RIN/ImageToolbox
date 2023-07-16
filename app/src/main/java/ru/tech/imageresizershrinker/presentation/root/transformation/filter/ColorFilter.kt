@@ -14,6 +14,7 @@ import jp.co.cyberagent.android.gpuimage.filter.GPUImageFilter
 import kotlinx.parcelize.Parcelize
 import kotlinx.parcelize.RawValue
 import ru.tech.imageresizershrinker.R
+import ru.tech.imageresizershrinker.domain.image.filters.Filter
 
 @Parcelize
 class ColorFilter(
@@ -23,7 +24,7 @@ class ColorFilter(
     context = context,
     title = R.string.color_filter,
     value = Color.Transparent
-) {
+), Filter.Color<Bitmap, Color> {
     override val cacheKey: String
         get() = (value to context).hashCode().toString()
 

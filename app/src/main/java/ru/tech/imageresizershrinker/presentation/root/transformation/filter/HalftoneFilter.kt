@@ -1,11 +1,14 @@
 package ru.tech.imageresizershrinker.presentation.root.transformation.filter
 
 import android.content.Context
+import android.graphics.Bitmap
 import jp.co.cyberagent.android.gpuimage.filter.GPUImageFilter
 import jp.co.cyberagent.android.gpuimage.filter.GPUImageHalftoneFilter
 import kotlinx.parcelize.Parcelize
 import kotlinx.parcelize.RawValue
 import ru.tech.imageresizershrinker.R
+import ru.tech.imageresizershrinker.domain.image.filters.Filter
+import ru.tech.imageresizershrinker.domain.image.filters.FilterParam
 
 @Parcelize
 class HalftoneFilter(
@@ -18,7 +21,7 @@ class HalftoneFilter(
     paramsInfo = listOf(
         FilterParam(valueRange = 0.001f..0.02f, roundTo = 4)
     )
-) {
+), Filter.Halftone<Bitmap> {
     override val cacheKey: String
         get() = (value to context).hashCode().toString()
 

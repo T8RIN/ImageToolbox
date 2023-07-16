@@ -1,11 +1,14 @@
 package ru.tech.imageresizershrinker.presentation.root.transformation.filter
 
 import android.content.Context
+import android.graphics.Bitmap
 import jp.co.cyberagent.android.gpuimage.filter.GPUImageFilter
 import jp.co.cyberagent.android.gpuimage.filter.GPUImageWhiteBalanceFilter
 import kotlinx.parcelize.Parcelize
 import kotlinx.parcelize.RawValue
 import ru.tech.imageresizershrinker.R
+import ru.tech.imageresizershrinker.domain.image.filters.Filter
+import ru.tech.imageresizershrinker.domain.image.filters.FilterParam
 
 @Parcelize
 class WhiteBalanceFilter(
@@ -19,7 +22,7 @@ class WhiteBalanceFilter(
         FilterParam(R.string.temperature, 1000f..10000f, 0),
         FilterParam(R.string.tint, -100f..100f, 2)
     )
-) {
+), Filter.WhiteBalance<Bitmap> {
     override val cacheKey: String
         get() = (value to context).hashCode().toString()
 
