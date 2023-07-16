@@ -21,7 +21,6 @@
     <string name="explicit">명시적</string>
     <string name="flexible">유연성</string>
     <string name="exception">예외</string>
-    <string name="might_be_error_with_exif">JPEG 압축 형식을 선택하지 않으면 EXIF 메타데이터가 다른 앱에서 잘못 표시될 수 있습니다</string>
     <string name="save">저장</string>
     <string name="clear">지우기</string>
     <string name="ok">OK</string>
