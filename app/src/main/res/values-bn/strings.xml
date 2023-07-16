@@ -47,7 +47,6 @@
     <string name="ok">ঠিক আছে</string>
     <string name="no_exif">কোনো EXIF ডেটা পাওয়া যায়নি</string>
     <string name="add_tag">ট্যাগ যোগ করুন</string>
-    <string name="might_be_error_with_exif">যদি JPEG কম্প্রেস ফরম্যাট বেছে নেওয়া না হয়, তাহলে EXIF মেটাডেটা অন্য অ্যাপে ভুলভাবে দেখানো হতে পারে</string>
     <string name="save">সংরক্ষণ</string>
     <string name="clear">পরিষ্কার</string>
     <string name="clear_exif">EXIF সাফ করুন</string>
