@@ -300,4 +300,7 @@
     <string name="cache_size">Размер кэша</string>
     <string name="auto_cache_clearing_sub">Если включено, кеш приложения будет очищаться при запуске приложения.</string>
     <string name="create">Создать</string>
+    <string name="edit_screenshot">Редактировать скриншот</string>
+    <string name="secondary_customization">Вторичная настройка</string>
+    <string name="screenshot">Скриншот</string>
 </resources>
