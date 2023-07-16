@@ -100,7 +100,6 @@
     <string name="allow_image_monet">允許圖片 Monet</string>
     <string name="app_closing_sub">您確定要關閉此應用程式嗎？</string>
     <string name="restart_app">重新啟動應用程式</string>
-    <string name="might_be_error_with_exif">如果不選擇 JPEG 壓縮格式，則 EXIF 詮釋資料在其他應用程式可能被不正確地顯示</string>
     <string name="stay">取消</string>
     <string name="single_edit_sub">更改單一選取圖片的規格</string>
     <string name="values_reset">變更已重置</string>
