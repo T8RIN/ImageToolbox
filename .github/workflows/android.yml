@@ -34,17 +34,15 @@ jobs:
           # override default build-tools version (29.0.3) -- optional
           BUILD_TOOLS_VERSION: "30.0.2"
       
-      - uses: jungwinter/split@v2
-        id: signed_files
+      - name: Example Release
+        uses: "marvinpinto/action-automatic-releases@latest"
         with:
-            msg: ${{ steps.sign_app.signedReleaseFiles }}
-            separator: ':'
-    
-      - uses: actions/upload-artifact@v3
-        with:
-          name: Signed apks
-          path: |
-            ${{ steps.signed_files._0 }}
-            ${{ steps.signed_files._1 }}
-            ${{ steps.signed_files._2 }}
-            ${{ steps.signed_files._3 }}
+            repo_token: "${{ secrets.GITHUB_TOKEN }}"
+            automatic_release_tag: "latest"
+            prerelease: true
+            title: "Release X"
+            files: |
+              ${{ steps.sign_app.signedReleaseFile0 }}
+              ${{ steps.sign_app.signedReleaseFile1 }}
+              ${{ steps.sign_app.signedReleaseFile2 }}
+              ${{ steps.sign_app.signedReleaseFile3 }}
