@@ -33,12 +33,18 @@ jobs:
         env:
           # override default build-tools version (29.0.3) -- optional
           BUILD_TOOLS_VERSION: "30.0.2"
+      
+      - uses: jungwinter/split@v1
+        id: signed_files
+        with:
+            msg: ${{ steps.sign_app.signedReleaseFiles }}
+            separator: ':'
     
       - uses: actions/upload-artifact@v3
         with:
           name: Signed apks
           path: |
-            ${{ steps.sign_app.signedReleaseFile0 }}
-            ${{ steps.sign_app.signedReleaseFile1 }}
-            ${{ steps.sign_app.signedReleaseFile2 }}
-            ${{ steps.sign_app.signedReleaseFile3 }}
+            ${{ steps.signed_files._0 }}
+            ${{ steps.signed_files._1 }}
+            ${{ steps.signed_files._2 }}
+            ${{ steps.signed_files._3 }}
