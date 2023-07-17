@@ -6,7 +6,6 @@
         android:minSdkVersion="21"
         tools:overrideLibrary="com.radzivon.bartoshyk.avif, com.github.awxkee.avifcoil, com.github.awxkee.avifcoder" />
 
-
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     <uses-permission
@@ -19,6 +18,7 @@
     <uses-permission android:name="android.permission.ACCESS_MEDIA_LOCATION" />
 
     <application
+        android:extractNativeLibs="true"
         android:name=".presentation.root.app.ImageApplication"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"

@@ -16,8 +16,21 @@ android {
 
         externalNativeBuild {
             cmake {
-                cppFlags("-Wl,--build-id=none")
-                abiFilters += setOf("x86_64", "armeabi-v7a", "arm64-v8a")
+                cppFlags(
+                    "-Wl,--build-id=none",
+                    "-Wl,--gc-sections",
+                    "-ffunction-sections",
+                    "-fdata-sections",
+                    "-fvisibility=hidden"
+                )
+                cFlags(
+                    "-ffunction-sections",
+                    "-fdata-sections",
+                    "-fvisibility=hidden",
+                    "-Wl,--build-id=none",
+                    "-Wl,--gc-sections",
+                )
+                abiFilters += setOf("armeabi-v7a", "arm64-v8a", "x86_64")
             }
         }
 
@@ -44,7 +57,9 @@ android {
 
     packaging {
         jniLibs {
-            excludes.add("lib/*/**.so")
+            excludes.add("lib/*/liblog.so")
+            useLegacyPackaging = true
+            keepDebugSymbols.clear()
         }
     }
 }

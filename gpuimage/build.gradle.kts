@@ -16,7 +16,10 @@ android {
 
         ndk.abiFilters.addAll(listOf("armeabi-v7a", "arm64-v8a", "x86", "x86_64"))
         externalNativeBuild {
-            cmake { cppFlags("-Wl,--build-id=none") }
+            cmake {
+                cppFlags("-Wl,--build-id=none")
+                cFlags("-Wl,--build-id=none")
+            }
         }
     }
     externalNativeBuild {
@@ -34,7 +37,9 @@ android {
 
     packaging {
         jniLibs {
-            excludes.add("lib/*/**.so")
+            excludes.add("lib/*/liblog.so")
+            useLegacyPackaging = true
+            keepDebugSymbols.clear()
         }
     }
 }
