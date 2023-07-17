@@ -36,5 +36,5 @@ jobs:
     
       - uses: actions/upload-artifact@v3
         with:
-          name: Signed apk
-          path: ${{steps.sign_app.outputs}}
+          name: Signed apks
+          path: ${{steps.sign_app.outputs.signedReleaseFiles }}
