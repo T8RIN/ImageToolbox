@@ -20,21 +20,21 @@ jobs:
 
       - run: bash ./gradlew assembleRelease
       
-      - uses: r0adkll/sign-android-release@v1
+      - uses: iota9star/sign-android-release@v1.0.5
         name: Sign app APK
         # ID used to access action output
         id: sign_app
         with:
           releaseDirectory: app/build/outputs/apk/release
+          fileRex: .*apk
           signingKeyBase64: ${{ secrets.SIGNING_KEY }}
           alias: ${{ secrets.ALIAS }}
           keyStorePassword: ${{ secrets.KEY_STORE_PASS }}
           keyPassword: ${{ secrets.KEY_STORE_PASS }}
         env:
-          # override default build-tools version (29.0.3) -- optional
           BUILD_TOOLS_VERSION: "30.0.2"
-    
+
       - uses: actions/upload-artifact@v3
         with:
-          name: Signed apk
-          path: ${{steps.sign_app.outputs.signedReleaseFile}}
+          name: Signed apks
+          path: app/build/outputs/apk/release/*-signed.apk
