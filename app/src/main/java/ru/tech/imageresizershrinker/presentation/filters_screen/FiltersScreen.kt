@@ -107,6 +107,7 @@ import ru.tech.imageresizershrinker.presentation.root.utils.modifier.drawHorizon
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.navBarsLandscapePadding
 import ru.tech.imageresizershrinker.presentation.root.widget.buttons.BottomButtonsBlock
 import ru.tech.imageresizershrinker.presentation.root.widget.controls.ExtensionGroup
+import ru.tech.imageresizershrinker.presentation.root.widget.controls.QualityWidget
 import ru.tech.imageresizershrinker.presentation.root.widget.controls.SaveExifWidget
 import ru.tech.imageresizershrinker.presentation.root.widget.dialogs.ExitWithoutSavingDialog
 import ru.tech.imageresizershrinker.presentation.root.widget.image.ImageContainer
@@ -584,10 +585,19 @@ fun FiltersScreen(
                                         selected = viewModel.keepExif,
                                         onCheckedChange = { viewModel.setKeepExif(!viewModel.keepExif) }
                                     )
+                                    if (viewModel.imageInfo.imageFormat.canChangeQuality) Spacer(
+                                        Modifier.size(8.dp)
+                                    )
+                                    QualityWidget(
+                                        visible = viewModel.imageInfo.imageFormat.canChangeQuality,
+                                        enabled = viewModel.bitmap != null,
+                                        quality = viewModel.imageInfo.quality,
+                                        onQualityChange = viewModel::setQuality
+                                    )
                                     Spacer(Modifier.size(8.dp))
                                     ExtensionGroup(
                                         enabled = viewModel.bitmap != null,
-                                        imageFormat = viewModel.imageFormat,
+                                        imageFormat = viewModel.imageInfo.imageFormat,
                                         onMimeChange = {
                                             viewModel.setMime(it)
                                         }

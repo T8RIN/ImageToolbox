@@ -57,8 +57,8 @@ class FilterViewModel @Inject constructor(
     private val _selectedUri: MutableState<Uri?> = mutableStateOf(null)
     val selectedUri by _selectedUri
 
-    private val _imageFormat = mutableStateOf(ImageFormat.Default())
-    val imageFormat by _imageFormat
+    private val _imageInfo = mutableStateOf(ImageInfo())
+    val imageInfo by _imageInfo
 
     private val _filterList = mutableStateOf(listOf<FilterTransformation<*>>())
     val filterList by _filterList
@@ -67,7 +67,7 @@ class FilterViewModel @Inject constructor(
     val needToApplyFilters by _needToApplyFilters
 
     fun setMime(imageFormat: ImageFormat) {
-        _imageFormat.value = imageFormat
+        _imageInfo.value = _imageInfo.value.copy(imageFormat = imageFormat)
 
         calcSize(
             delay = 5,
@@ -133,6 +133,12 @@ class FilterViewModel @Inject constructor(
                     } ?: _previewBitmap.value
                 }
             }
+            previewBitmap?.let {
+                _imageInfo.value = _imageInfo.value.copy(
+                    width = it.width,
+                    height = it.height
+                )
+            }
             calcSize()
             _isLoading.value = false
         }
@@ -148,7 +154,7 @@ class FilterViewModel @Inject constructor(
                 _previewBitmap.value?.let {
                     imageManager.calculateImageSize(
                         image = it,
-                        ImageInfo(imageFormat = imageFormat, width = it.width, height = it.height)
+                        imageInfo = imageInfo
                     )
                 }
             onFinish()
@@ -177,17 +183,12 @@ class FilterViewModel @Inject constructor(
 
                         fileController.save(
                             saveTarget = ImageSaveTarget(
-                                imageInfo = ImageInfo(
-                                    imageFormat = imageFormat,
-                                    width = localBitmap.width,
-                                    height = localBitmap.height
-                                ),
+                                imageInfo = imageInfo,
                                 originalUri = uri.toString(),
                                 sequenceNumber = _done.value + 1,
                                 data = imageManager.compress(
                                     image = localBitmap,
-                                    imageInfo = ImageInfo(
-                                        imageFormat = imageFormat,
+                                    imageInfo = imageInfo.copy(
                                         width = localBitmap.width,
                                         height = localBitmap.height
                                     )
@@ -312,8 +313,7 @@ class FilterViewModel @Inject constructor(
                 imageLoader = { uri ->
                     imageManager.getImageWithTransformations(uri, filterList)
                         ?.let {
-                            it to ImageInfo(
-                                imageFormat = imageFormat,
+                            it to imageInfo.copy(
                                 width = it.width,
                                 height = it.height
                             )
@@ -332,5 +332,9 @@ class FilterViewModel @Inject constructor(
     }
 
     fun getImageManager(): ImageManager<Bitmap, ExifInterface> = imageManager
+
+    fun setQuality(fl: Float) {
+        _imageInfo.value = _imageInfo.value.copy(quality = fl)
+    }
 
 }
