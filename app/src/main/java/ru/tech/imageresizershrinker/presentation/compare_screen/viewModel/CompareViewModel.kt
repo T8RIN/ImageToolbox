@@ -121,6 +121,6 @@ class CompareViewModel @Inject constructor(
     suspend fun getBitmapByUri(
         uri: Uri,
         originalSize: Boolean
-    ): Bitmap? = imageManager.getImage(uri.toString(), originalSize)
+    ): Bitmap? = imageManager.getImage(uri.toString(), originalSize)?.image
 
 }

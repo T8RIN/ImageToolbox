@@ -67,7 +67,7 @@ import ru.tech.imageresizershrinker.domain.model.ImageInfo
 import ru.tech.imageresizershrinker.presentation.limits_resize_screen.components.LimitsResizeGroup
 import ru.tech.imageresizershrinker.presentation.limits_resize_screen.viewModel.LimitsResizeViewModel
 import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
-import ru.tech.imageresizershrinker.presentation.root.transformation.BitmapInfoTransformation
+import ru.tech.imageresizershrinker.presentation.root.transformation.ImageInfoTransformation
 import ru.tech.imageresizershrinker.presentation.root.transformation.filter.SaturationFilter
 import ru.tech.imageresizershrinker.presentation.root.utils.confetti.LocalConfettiController
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.ImageUtils.fileSize
@@ -447,7 +447,7 @@ fun LimitsResizeScreen(
 
             PickImageFromUrisSheet(
                 transformations = listOf(
-                    BitmapInfoTransformation(
+                    ImageInfoTransformation(
                         imageInfo = ImageInfo(),
                         preset = 100,
                         imageManager = viewModel.getImageManager()

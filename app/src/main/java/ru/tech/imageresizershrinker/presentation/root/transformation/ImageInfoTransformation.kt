@@ -8,7 +8,7 @@ import ru.tech.imageresizershrinker.domain.image.Transformation
 import ru.tech.imageresizershrinker.domain.model.ImageInfo
 import coil.transform.Transformation as CoilTransformation
 
-class BitmapInfoTransformation(
+class ImageInfoTransformation(
     private val imageInfo: ImageInfo,
     private val preset: Int,
     private val imageManager: ImageManager<Bitmap, ExifInterface>
@@ -24,7 +24,7 @@ class BitmapInfoTransformation(
         if (preset != -1) {
             val currentInfo = info.copy()
             info = imageManager.applyPresetBy(
-                bitmap = input,
+                image = input,
                 preset = preset,
                 currentInfo = info
             ).let {

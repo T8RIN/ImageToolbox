@@ -22,6 +22,7 @@ import coil.decode.SvgDecoder
 import coil.imageLoader
 import coil.request.ImageRequest
 import coil.size.Size
+import coil.util.DebugLogger
 import com.github.awxkee.avifcoil.HeifDecoder
 import com.radzivon.bartoshyk.avif.coder.HeifCoder
 import kotlinx.coroutines.Dispatchers
@@ -29,6 +30,7 @@ import kotlinx.coroutines.withContext
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.domain.image.ImageManager
 import ru.tech.imageresizershrinker.domain.image.Transformation
+import ru.tech.imageresizershrinker.domain.model.ImageData
 import ru.tech.imageresizershrinker.domain.model.ImageFormat
 import ru.tech.imageresizershrinker.domain.model.ImageInfo
 import ru.tech.imageresizershrinker.domain.model.ResizeType
@@ -56,7 +58,7 @@ class AndroidImageManager @Inject constructor(
             else add(GifDecoder.Factory())
             add(SvgDecoder.Factory())
             if (Build.VERSION.SDK_INT >= 24) add(HeifDecoder.Factory())
-        }.allowHardware(false).build()
+        }.allowHardware(false).logger(DebugLogger()).build()
     }
 
     override suspend fun transform(
@@ -91,10 +93,7 @@ class AndroidImageManager @Inject constructor(
     override suspend fun getImage(
         uri: String,
         originalSize: Boolean
-    ): Bitmap? = withContext(Dispatchers.IO) {
-        val fd = context.contentResolver.openFileDescriptor(uri.toUri(), "r")
-        fd?.close()
-
+    ): ImageData<Bitmap, ExifInterface>? = withContext(Dispatchers.IO) {
         return@withContext kotlin.runCatching {
             loader().execute(
                 ImageRequest
@@ -105,23 +104,29 @@ class AndroidImageManager @Inject constructor(
                     }
                     .build()
             ).drawable?.toBitmap()
-        }.getOrNull()
+        }.getOrNull()?.let { bitmap ->
+            val fd = context.contentResolver.openFileDescriptor(uri.toUri(), "r")
+            val exif = fd?.fileDescriptor?.let { ExifInterface(it) }
+            fd?.close()
+            ImageData.create(
+                image = bitmap,
+                imageInfo = ImageInfo(
+                    width = bitmap.width,
+                    height = bitmap.height,
+                    imageFormat = ImageFormat[getExtension(uri)]
+                ),
+                metadata = exif
+            )
+        }
     }
 
     override fun getImageAsync(
         uri: String,
         originalSize: Boolean,
-        onGetImage: (Bitmap) -> Unit,
-        onGetMetadata: (ExifInterface?) -> Unit,
-        onGetMimeType: (ImageFormat) -> Unit,
+        onGetImage: (ImageData<Bitmap, ExifInterface>) -> Unit,
         onError: (Throwable) -> Unit
     ) {
         val bmp = kotlin.runCatching {
-            val fd = context.contentResolver.openFileDescriptor(uri.toUri(), "r")
-            val exif = fd?.fileDescriptor?.let { ExifInterface(it) }
-            onGetMetadata(exif)
-            onGetMimeType(ImageFormat[getExtension(uri)])
-            fd?.close()
             loader().enqueue(
                 ImageRequest
                     .Builder(context)
@@ -130,7 +135,20 @@ class AndroidImageManager @Inject constructor(
                         if (originalSize) size(Size.ORIGINAL)
                     }
                     .target { drawable ->
-                        drawable.toBitmap()?.let { onGetImage(it) }
+                        drawable.toBitmap()?.let { it ->
+                            val fd = context.contentResolver.openFileDescriptor(uri.toUri(), "r")
+                            val exif = fd?.fileDescriptor?.let { ExifInterface(it) }
+                            fd?.close()
+                            ImageData.create(
+                                image = it,
+                                imageInfo = ImageInfo(
+                                    width = it.width,
+                                    height = it.height,
+                                    imageFormat = ImageFormat[getExtension(uri)]
+                                ),
+                                metadata = exif
+                            )
+                        }?.let(onGetImage)
                     }.build()
             )
         }
@@ -229,40 +247,9 @@ class AndroidImageManager @Inject constructor(
 
     private val Bitmap.aspectRatio: Float get() = width / height.toFloat()
 
-    override suspend fun getImageWithMetadata(
-        uri: String
-    ): Pair<Bitmap?, ExifInterface?> = withContext(Dispatchers.IO) {
-        val fd = context.contentResolver.openFileDescriptor(uri.toUri(), "r")
-        val exif = fd?.fileDescriptor?.let { ExifInterface(it) }
-        fd?.close()
 
-        return@withContext kotlin.runCatching {
-            loader().execute(
-                ImageRequest
-                    .Builder(context)
-                    .data(uri)
-                    .size(Size.ORIGINAL)
-                    .build()
-            ).drawable?.toBitmap()
-        }.getOrNull() to exif
-    }
-
-    override suspend fun getImageWithMime(
-        uri: String
-    ): Pair<Bitmap?, ImageFormat> = withContext(Dispatchers.IO) {
-        return@withContext kotlin.runCatching {
-            loader().execute(
-                ImageRequest
-                    .Builder(context)
-                    .data(uri)
-                    .size(Size.ORIGINAL)
-                    .build()
-            ).drawable?.toBitmap()
-        }.getOrNull() to ImageFormat[getExtension(uri)]
-    }
-
-    override fun applyPresetBy(bitmap: Bitmap?, preset: Int, currentInfo: ImageInfo): ImageInfo {
-        if (bitmap == null) return currentInfo
+    override fun applyPresetBy(image: Bitmap?, preset: Int, currentInfo: ImageInfo): ImageInfo {
+        if (image == null) return currentInfo
 
 
         val rotated = abs(currentInfo.rotationDegrees) % 180 != 0f
@@ -274,15 +261,15 @@ class AndroidImageManager @Inject constructor(
             in 500 downTo 70 -> {
                 currentInfo.copy(
                     quality = preset.toFloat(),
-                    width = bitmap.width().calc(preset),
-                    height = bitmap.height().calc(preset),
+                    width = image.width().calc(preset),
+                    height = image.height().calc(preset),
                 )
             }
 
             in 69 downTo 10 -> currentInfo.run {
                 copy(
-                    width = bitmap.width().calc(preset + 15),
-                    height = bitmap.height().calc(preset + 15),
+                    width = image.width().calc(preset + 15),
+                    height = image.height().calc(preset + 15),
                     quality = preset.toFloat()
                 )
             }
@@ -295,14 +282,27 @@ class AndroidImageManager @Inject constructor(
         uri: String,
         reqWidth: Int,
         reqHeight: Int
-    ): Bitmap? = withContext(Dispatchers.IO) {
+    ): ImageData<Bitmap, ExifInterface>? = withContext(Dispatchers.IO) {
         return@withContext loader().execute(
             ImageRequest
                 .Builder(context)
                 .size(reqWidth, reqHeight)
                 .data(uri)
                 .build()
-        ).drawable?.toBitmap()
+        ).drawable?.toBitmap()?.let { bitmap ->
+            val fd = context.contentResolver.openFileDescriptor(uri.toUri(), "r")
+            val exif = fd?.fileDescriptor?.let { ExifInterface(it) }
+            fd?.close()
+            ImageData.create(
+                image = bitmap,
+                imageInfo = ImageInfo(
+                    width = bitmap.width,
+                    height = bitmap.height,
+                    imageFormat = ImageFormat[getExtension(uri)]
+                ),
+                metadata = exif
+            )
+        }
     }
 
     override suspend fun shareFile(
@@ -337,16 +337,16 @@ class AndroidImageManager @Inject constructor(
 
     override suspend fun shareImages(
         uris: List<String>,
-        imageLoader: suspend (String) -> Pair<Bitmap, ImageInfo>?,
+        imageLoader: suspend (String) -> ImageData<Bitmap, ExifInterface>?,
         onProgressChange: (Int) -> Unit
     ) = withContext(Dispatchers.IO) {
         var cnt = 0
         val uriList: MutableList<Uri> = mutableListOf()
         uris.forEachIndexed { index, uri ->
-            imageLoader(uri)?.let { (bitmap, bitmapInfo) ->
+            imageLoader(uri)?.let { (image, imageInfo) ->
                 cacheImage(
-                    image = bitmap,
-                    imageInfo = bitmapInfo,
+                    image = image,
+                    imageInfo = imageInfo,
                     name = index.toString()
                 )?.let { uri ->
                     cnt += 1
@@ -370,25 +370,24 @@ class AndroidImageManager @Inject constructor(
             val ext = imageInfo.imageFormat.extension
             val file = File(imagesFolder, "$name.$ext")
             FileOutputStream(file).use {
-                it.write(compress(image, imageInfo))
+                it.write(compress(ImageData.create(image, imageInfo)))
             }
             FileProvider.getUriForFile(context, context.getString(R.string.file_provider), file)
         }.getOrNull()?.toString()
     }
 
     override suspend fun shareImage(
-        image: Bitmap,
-        imageInfo: ImageInfo,
+        imageData: ImageData<Bitmap, ExifInterface>,
         onComplete: () -> Unit,
         name: String
     ) = withContext(Dispatchers.IO) {
         val imagesFolder = File(context.cacheDir, "images")
         val uri = kotlin.runCatching {
             imagesFolder.mkdirs()
-            val ext = imageInfo.imageFormat.extension
+            val ext = imageData.imageInfo.imageFormat.extension
             val file = File(imagesFolder, "$name.$ext")
             FileOutputStream(file).use {
-                it.write(compress(image, imageInfo))
+                it.write(compress(imageData))
             }
             FileProvider.getUriForFile(
                 context,
@@ -412,7 +411,7 @@ class AndroidImageManager @Inject constructor(
         uri: String,
         transformations: List<Transformation<Bitmap>>,
         originalSize: Boolean
-    ): Bitmap? = withContext(Dispatchers.IO) {
+    ): ImageData<Bitmap, ExifInterface>? = withContext(Dispatchers.IO) {
         val request = ImageRequest
             .Builder(context)
             .data(uri)
@@ -433,15 +432,27 @@ class AndroidImageManager @Inject constructor(
                 if (originalSize) size(Size.ORIGINAL)
             }
             .build()
-
-        return@withContext loader().execute(request).drawable?.toBitmap()
+        return@withContext loader().execute(request).drawable?.toBitmap()?.let { bitmap ->
+            val fd = context.contentResolver.openFileDescriptor(uri.toUri(), "r")
+            val exif = fd?.fileDescriptor?.let { ExifInterface(it) }
+            fd?.close()
+            ImageData.create(
+                image = bitmap,
+                imageInfo = ImageInfo(
+                    width = bitmap.width,
+                    height = bitmap.height,
+                    imageFormat = ImageFormat[getExtension(uri)]
+                ),
+                metadata = exif
+            )
+        }
     }
 
     override suspend fun scaleByMaxBytes(
         image: Bitmap,
         imageFormat: ImageFormat,
         maxBytes: Long
-    ): Pair<Bitmap, Int>? = withContext(Dispatchers.IO) {
+    ): ImageData<Bitmap, ExifInterface>? = withContext(Dispatchers.IO) {
         val maxBytes1 =
             maxBytes - maxBytes
                 .times(0.04f)
@@ -468,10 +479,12 @@ class AndroidImageManager @Inject constructor(
                     }
                     bmpStream.write(
                         compress(
-                            image,
-                            ImageInfo(
-                                quality = compressQuality.toFloat(),
-                                imageFormat = imageFormat
+                            ImageData.create(
+                                image = image,
+                                imageInfo = ImageInfo(
+                                    quality = compressQuality.toFloat(),
+                                    imageFormat = imageFormat
+                                )
                             )
                         )
                     )
@@ -494,10 +507,12 @@ class AndroidImageManager @Inject constructor(
                         bmpStream.write(
                             temp?.let {
                                 compress(
-                                    image = it,
-                                    imageInfo = ImageInfo(
-                                        quality = compressQuality.toFloat(),
-                                        imageFormat = imageFormat
+                                    ImageData.create(
+                                        image = image,
+                                        imageInfo = ImageInfo(
+                                            quality = compressQuality.toFloat(),
+                                            imageFormat = imageFormat
+                                        )
                                     )
                                 )
                             }
@@ -508,7 +523,16 @@ class AndroidImageManager @Inject constructor(
                 }
                 BitmapFactory.decodeStream(ByteArrayInputStream(bmpStream.toByteArray())) to compressQuality
             } else null
-        }.getOrNull()
+        }.getOrNull()?.let {
+            ImageData.create(
+                it.first,
+                imageInfo = ImageInfo(
+                    width = it.first.width,
+                    height = it.first.height,
+                    quality = it.second.toFloat()
+                )
+            )
+        }
     }
 
     override fun canShow(image: Bitmap): Boolean {
@@ -540,115 +564,113 @@ class AndroidImageManager @Inject constructor(
         return@withContext bmp
     }
 
-    override suspend fun calculateImageSize(image: Bitmap, imageInfo: ImageInfo): Long {
-        return compress(image, imageInfo).size.toLong()
+    override suspend fun calculateImageSize(imageData: ImageData<Bitmap, ExifInterface>): Long {
+        return compress(imageData).size.toLong()
     }
 
     @Suppress("DEPRECATION")
-    override suspend fun compress(
-        image: Bitmap,
-        imageInfo: ImageInfo
-    ): ByteArray = withContext(Dispatchers.IO) {
-        val currentImage = resize(
-            image = rotate(
-                image = image,
-                degrees = imageInfo.rotationDegrees
-            ),
-            width = imageInfo.width,
-            height = imageInfo.height,
-            resizeType = imageInfo.resizeType
-        )?.let {
-            flip(
-                image = it,
-                isFlipped = imageInfo.isFlipped
-            )
-        } ?: return@withContext ByteArray(0)
-
-        return@withContext when (imageInfo.imageFormat) {
-            ImageFormat.Bmp -> compressToBMP(currentImage)
-            ImageFormat.Jpeg -> {
-                val out = ByteArrayOutputStream()
-                currentImage.compress(
-                    Bitmap.CompressFormat.JPEG,
-                    imageInfo.quality.toInt().coerceIn(0, 100),
-                    out
+    override suspend fun compress(imageData: ImageData<Bitmap, ExifInterface>): ByteArray =
+        withContext(Dispatchers.IO) {
+            val currentImage = resize(
+                image = rotate(
+                    image = imageData.image,
+                    degrees = imageData.imageInfo.rotationDegrees
+                ),
+                width = imageData.imageInfo.width,
+                height = imageData.imageInfo.height,
+                resizeType = imageData.imageInfo.resizeType
+            )?.let {
+                flip(
+                    image = it,
+                    isFlipped = imageData.imageInfo.isFlipped
                 )
-                out.toByteArray()
-            }
+            } ?: return@withContext ByteArray(0)
 
-            ImageFormat.Jpg -> {
-                val out = ByteArrayOutputStream()
-                currentImage.compress(
-                    Bitmap.CompressFormat.JPEG,
-                    imageInfo.quality.toInt().coerceIn(0, 100),
-                    out
-                )
-                out.toByteArray()
-            }
-
-            ImageFormat.Png -> {
-                val out = ByteArrayOutputStream()
-                currentImage.compress(
-                    Bitmap.CompressFormat.PNG,
-                    imageInfo.quality.toInt().coerceIn(0, 100),
-                    out
-                )
-                out.toByteArray()
-            }
-
-            ImageFormat.Webp.Lossless -> {
-                val out = ByteArrayOutputStream()
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            return@withContext when (imageData.imageInfo.imageFormat) {
+                ImageFormat.Bmp -> compressToBMP(currentImage)
+                ImageFormat.Jpeg -> {
+                    val out = ByteArrayOutputStream()
                     currentImage.compress(
-                        Bitmap.CompressFormat.WEBP_LOSSLESS,
-                        imageInfo.quality.toInt().coerceIn(0, 100),
+                        Bitmap.CompressFormat.JPEG,
+                        imageData.imageInfo.quality.toInt().coerceIn(0, 100),
                         out
                     )
-                } else currentImage.compress(
-                    Bitmap.CompressFormat.WEBP,
-                    imageInfo.quality.toInt().coerceIn(0, 100),
-                    out
-                )
-                out.toByteArray()
-            }
+                    out.toByteArray()
+                }
 
-            ImageFormat.Webp.Lossy -> {
-                val out = ByteArrayOutputStream()
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                ImageFormat.Jpg -> {
+                    val out = ByteArrayOutputStream()
                     currentImage.compress(
-                        Bitmap.CompressFormat.WEBP_LOSSY,
-                        imageInfo.quality.toInt().coerceIn(0, 100),
+                        Bitmap.CompressFormat.JPEG,
+                        imageData.imageInfo.quality.toInt().coerceIn(0, 100),
                         out
                     )
-                } else currentImage.compress(
-                    Bitmap.CompressFormat.WEBP,
-                    imageInfo.quality.toInt().coerceIn(0, 100),
-                    out
-                )
-                out.toByteArray()
-            }
+                    out.toByteArray()
+                }
 
-            ImageFormat.Avif -> {
-                heifCoder.encodeAvif(
-                    currentImage,
-                    imageInfo.quality.toInt().coerceIn(0, 100)
-                )
-            }
+                ImageFormat.Png -> {
+                    val out = ByteArrayOutputStream()
+                    currentImage.compress(
+                        Bitmap.CompressFormat.PNG,
+                        imageData.imageInfo.quality.toInt().coerceIn(0, 100),
+                        out
+                    )
+                    out.toByteArray()
+                }
 
-            ImageFormat.Heic -> {
-                heifCoder.encodeHeic(
-                    currentImage,
-                    imageInfo.quality.toInt().coerceIn(0, 100)
-                )
-            }
+                ImageFormat.Webp.Lossless -> {
+                    val out = ByteArrayOutputStream()
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                        currentImage.compress(
+                            Bitmap.CompressFormat.WEBP_LOSSLESS,
+                            imageData.imageInfo.quality.toInt().coerceIn(0, 100),
+                            out
+                        )
+                    } else currentImage.compress(
+                        Bitmap.CompressFormat.WEBP,
+                        imageData.imageInfo.quality.toInt().coerceIn(0, 100),
+                        out
+                    )
+                    out.toByteArray()
+                }
 
-            ImageFormat.Heif -> {
-                heifCoder.encodeHeic(
-                    currentImage,
-                    imageInfo.quality.toInt().coerceIn(0, 100)
-                )
+                ImageFormat.Webp.Lossy -> {
+                    val out = ByteArrayOutputStream()
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                        currentImage.compress(
+                            Bitmap.CompressFormat.WEBP_LOSSY,
+                            imageData.imageInfo.quality.toInt().coerceIn(0, 100),
+                            out
+                        )
+                    } else currentImage.compress(
+                        Bitmap.CompressFormat.WEBP,
+                        imageData.imageInfo.quality.toInt().coerceIn(0, 100),
+                        out
+                    )
+                    out.toByteArray()
+                }
+
+                ImageFormat.Avif -> {
+                    heifCoder.encodeAvif(
+                        currentImage,
+                        imageData.imageInfo.quality.toInt().coerceIn(0, 100)
+                    )
+                }
+
+                ImageFormat.Heic -> {
+                    heifCoder.encodeHeic(
+                        currentImage,
+                        imageData.imageInfo.quality.toInt().coerceIn(0, 100)
+                    )
+                }
+
+                ImageFormat.Heif -> {
+                    heifCoder.encodeHeic(
+                        currentImage,
+                        imageData.imageInfo.quality.toInt().coerceIn(0, 100)
+                    )
+                }
             }
-        }
     }
 
     override fun flip(image: Bitmap, isFlipped: Boolean): Bitmap {
@@ -678,7 +700,7 @@ class AndroidImageManager @Inject constructor(
             width = (width * 0.9f).roundToInt()
         }
 
-        out.write(compress(image, imageInfo.copy(width = width, height = height)))
+        out.write(compress(ImageData.create(image, imageInfo.copy(width = width, height = height))))
         val b = out.toByteArray()
         onGetByteCount(b.size)
 

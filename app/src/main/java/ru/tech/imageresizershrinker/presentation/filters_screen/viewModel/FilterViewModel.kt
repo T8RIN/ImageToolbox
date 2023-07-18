@@ -16,6 +16,7 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import ru.tech.imageresizershrinker.domain.image.ImageManager
+import ru.tech.imageresizershrinker.domain.model.ImageData
 import ru.tech.imageresizershrinker.domain.model.ImageFormat
 import ru.tech.imageresizershrinker.domain.model.ImageInfo
 import ru.tech.imageresizershrinker.domain.model.ResizeType
@@ -95,7 +96,7 @@ class FilterViewModel @Inject constructor(
                                 uri = it.toString(),
                                 transformations = filterList,
                                 originalSize = false
-                            )
+                            )?.image
                         }
                     } else {
                         uris?.getOrNull(index - 1)?.let {
@@ -104,7 +105,7 @@ class FilterViewModel @Inject constructor(
                                 uri = it.toString(),
                                 transformations = filterList,
                                 originalSize = false
-                            )
+                            )?.image
                         }
                     }
                 }
@@ -153,8 +154,10 @@ class FilterViewModel @Inject constructor(
             _bitmapSize.value =
                 _previewBitmap.value?.let {
                     imageManager.calculateImageSize(
-                        image = it,
-                        imageInfo = imageInfo
+                        ImageData.create(
+                            image = it,
+                            imageInfo = imageInfo
+                        )
                     )
                 }
             onFinish()
@@ -177,20 +180,22 @@ class FilterViewModel @Inject constructor(
                 _done.value = 0
                 uris?.forEach { uri ->
                     runCatching {
-                        imageManager.getImageWithTransformations(uri.toString(), filterList)
+                        imageManager.getImageWithTransformations(uri.toString(), filterList)?.image
                     }.getOrNull()?.let { bitmap ->
                         val localBitmap = bitmap
 
                         fileController.save(
-                            saveTarget = ImageSaveTarget(
+                            saveTarget = ImageSaveTarget<ExifInterface>(
                                 imageInfo = imageInfo,
                                 originalUri = uri.toString(),
                                 sequenceNumber = _done.value + 1,
                                 data = imageManager.compress(
-                                    image = localBitmap,
-                                    imageInfo = imageInfo.copy(
-                                        width = localBitmap.width,
-                                        height = localBitmap.height
+                                    ImageData.create(
+                                        image = localBitmap,
+                                        imageInfo = imageInfo.copy(
+                                            width = localBitmap.width,
+                                            height = localBitmap.height
+                                        )
                                     )
                                 )
                             ), keepMetadata = keepExif
@@ -210,12 +215,12 @@ class FilterViewModel @Inject constructor(
             withContext(Dispatchers.IO) {
                 _isLoading.value = true
                 updateBitmap(
-                    imageManager.getImage(uri = uri.toString(), originalSize = false),
+                    imageManager.getImage(uri = uri.toString(), originalSize = false)?.image,
                     imageManager.getImageWithTransformations(
                         uri = uri.toString(),
                         transformations = filterList,
                         originalSize = false
-                    )
+                    )?.image
                 )
                 _selectedUri.value = uri
                 _isLoading.value = false
@@ -292,12 +297,11 @@ class FilterViewModel @Inject constructor(
             imageManager.getImageAsync(
                 uri = uri.toString(),
                 originalSize = true,
-                onGetMimeType = ::setMime,
-                onGetMetadata = {},
                 onGetImage = {
                     uris?.firstOrNull()?.let { uri ->
                         setBitmap(uri)
                     }
+                    setMime(it.imageInfo.imageFormat)
                 },
                 onError = onError
             )
@@ -312,12 +316,6 @@ class FilterViewModel @Inject constructor(
                 uris = uris?.map { it.toString() } ?: emptyList(),
                 imageLoader = { uri ->
                     imageManager.getImageWithTransformations(uri, filterList)
-                        ?.let {
-                            it to imageInfo.copy(
-                                width = it.width,
-                                height = it.height
-                            )
-                        }
                 },
                 onProgressChange = {
                     if (it == -1) {

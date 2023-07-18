@@ -43,9 +43,11 @@ class ImagePreviewViewModel @Inject constructor(
         imageManager.getImageAsync(
             uri = uri.toString(),
             originalSize = originalSize,
-            onGetImage = onGetBitmap,
-            onGetMetadata = onGetExif,
-            onGetMimeType = onGetMimeType,
+            onGetImage = {
+                onGetBitmap(it.image)
+                onGetExif(it.metadata)
+                onGetMimeType(it.imageInfo.imageFormat)
+            },
             onError = onError
         )
     }
@@ -54,6 +56,6 @@ class ImagePreviewViewModel @Inject constructor(
         uri: Uri,
         reqWidth: Int,
         reqHeight: Int
-    ): Bitmap? = imageManager.getSampledImage(uri.toString(), reqWidth, reqHeight)
+    ): Bitmap? = imageManager.getSampledImage(uri.toString(), reqWidth, reqHeight)?.image
 
 }

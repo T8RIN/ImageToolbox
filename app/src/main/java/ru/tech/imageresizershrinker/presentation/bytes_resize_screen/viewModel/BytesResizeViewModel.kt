@@ -15,6 +15,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import ru.tech.imageresizershrinker.domain.image.ImageManager
+import ru.tech.imageresizershrinker.domain.model.ImageData
 import ru.tech.imageresizershrinker.domain.model.ImageFormat
 import ru.tech.imageresizershrinker.domain.model.ImageInfo
 import ru.tech.imageresizershrinker.domain.saving.FileController
@@ -84,12 +85,12 @@ class BytesResizeViewModel @Inject constructor(
                     if (index == 0) {
                         uris?.getOrNull(1)?.let {
                             _selectedUri.value = it
-                            _bitmap.value = imageManager.getImage(it.toString())
+                            _bitmap.value = imageManager.getImage(it.toString())?.image
                         }
                     } else {
                         uris?.getOrNull(index - 1)?.let {
                             _selectedUri.value = it
-                            _bitmap.value = imageManager.getImage(it.toString())
+                            _bitmap.value = imageManager.getImage(it.toString())?.image
                         }
                     }
                 }
@@ -127,7 +128,7 @@ class BytesResizeViewModel @Inject constructor(
                 uris?.forEach { uri ->
                     runCatching {
                         imageManager.getImage(uri.toString())
-                    }.getOrNull()?.let { bitmap ->
+                    }.getOrNull()?.image?.let { bitmap ->
                         kotlin.runCatching {
                             if (handMode) {
                                 imageManager.scaleByMaxBytes(
@@ -147,11 +148,11 @@ class BytesResizeViewModel @Inject constructor(
                         }.let { result ->
                             if (result.isSuccess && result.getOrNull() != null) {
                                 val scaled = result.getOrNull()!!
-                                val localBitmap = scaled.first
+                                val localBitmap = scaled.image
 
 
                                 fileController.save(
-                                    ImageSaveTarget(
+                                    ImageSaveTarget<ExifInterface>(
                                         imageInfo = ImageInfo(
                                             imageFormat = imageFormat,
                                             width = localBitmap.width,
@@ -160,10 +161,12 @@ class BytesResizeViewModel @Inject constructor(
                                         originalUri = uri.toString(),
                                         sequenceNumber = _done.value + 1,
                                         data = imageManager.compress(
-                                            image = localBitmap,
-                                            imageInfo = ImageInfo(
-                                                imageFormat = imageFormat,
-                                                quality = scaled.second.toFloat()
+                                            ImageData.create(
+                                                image = localBitmap,
+                                                imageInfo = ImageInfo(
+                                                    imageFormat = imageFormat,
+                                                    quality = scaled.imageInfo.quality
+                                                )
                                             )
                                         )
                                     ),
@@ -182,7 +185,12 @@ class BytesResizeViewModel @Inject constructor(
     fun setBitmap(uri: Uri) {
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
-                updateBitmap(imageManager.getImage(uri = uri.toString(), originalSize = false))
+                updateBitmap(
+                    imageManager.getImage(
+                        uri = uri.toString(),
+                        originalSize = false
+                    )?.image
+                )
                 _selectedUri.value = uri
             }
         }
@@ -214,7 +222,7 @@ class BytesResizeViewModel @Inject constructor(
             imageManager.shareImages(
                 uris = uris?.map { it.toString() } ?: emptyList(),
                 imageLoader = { uri ->
-                    imageManager.getImage(uri)?.let { bitmap ->
+                    imageManager.getImage(uri)?.image?.let { bitmap ->
                         if (handMode) {
                             imageManager.scaleByMaxBytes(
                                 image = bitmap,
@@ -231,11 +239,8 @@ class BytesResizeViewModel @Inject constructor(
                             )
                         }
                     }?.let { scaled ->
-                        scaled.first to ImageInfo(
-                            imageFormat = imageFormat,
-                            quality = scaled.second.toFloat(),
-                            width = scaled.first.width,
-                            height = scaled.first.height
+                        scaled.copy(
+                            imageInfo = scaled.imageInfo.copy(imageFormat = imageFormat)
                         )
                     }
                 },
@@ -262,9 +267,11 @@ class BytesResizeViewModel @Inject constructor(
         imageManager.getImageAsync(
             uri = uri.toString(),
             originalSize = originalSize,
-            onGetImage = onGetImage,
-            onGetMetadata = onGetMetadata,
-            onGetMimeType = onGetMimeType,
+            onGetImage = {
+                onGetImage(it.image)
+                onGetMetadata(it.metadata)
+                onGetMimeType(it.imageInfo.imageFormat)
+            },
             onError = onError
         )
     }

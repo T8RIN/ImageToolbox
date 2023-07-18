@@ -2,6 +2,7 @@ package ru.tech.imageresizershrinker.presentation.single_resize_screen.viewModel
 
 import android.graphics.Bitmap
 import android.net.Uri
+import android.util.Log
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
@@ -17,6 +18,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import ru.tech.imageresizershrinker.domain.image.ImageManager
 import ru.tech.imageresizershrinker.domain.image.Metadata
+import ru.tech.imageresizershrinker.domain.model.ImageData
 import ru.tech.imageresizershrinker.domain.model.ImageFormat
 import ru.tech.imageresizershrinker.domain.model.ImageInfo
 import ru.tech.imageresizershrinker.domain.model.ResizeType
@@ -104,19 +106,20 @@ class SingleResizeViewModel @Inject constructor(
                         fileController.save(
                             saveTarget = ImageSaveTarget(
                                 imageInfo = this,
+                                metadata = exif,
                                 originalUri = uri.toString(),
                                 sequenceNumber = null,
                                 data = imageManager.compress(
-                                    image = bitmap, imageInfo = imageInfo
+                                    ImageData.create(
+                                        image = bitmap,
+                                        imageInfo = this,
+                                        metadata = exif
+                                    )
                                 )
                             ),
                             keepMetadata = true
                         )
 
-                        _imageInfo.value = _imageInfo.value.copy(
-                            isFlipped = false,
-                            rotationDegrees = 0f
-                        )
                         onComplete(fileController.savingPath)
                     }
                 }
@@ -218,6 +221,7 @@ class SingleResizeViewModel @Inject constructor(
     }
 
     fun setQuality(quality: Float) {
+        Log.d("COCK", "$quality $imageInfo")
         if (_imageInfo.value.quality != quality) {
             _imageInfo.value = _imageInfo.value.copy(quality = quality.coerceIn(0f, 100f))
             checkBitmapAndUpdate(resetPreset = false, resetTelegram = false)
@@ -292,16 +296,18 @@ class SingleResizeViewModel @Inject constructor(
         imageManager.getImageAsync(
             uri = uri.toString(),
             originalSize = originalSize,
-            onGetImage = onGetBitmap,
-            onGetMetadata = onGetExif,
-            onGetMimeType = onGetMimeType,
+            onGetImage = {
+                onGetBitmap(it.image)
+                onGetExif(it.metadata)
+                onGetMimeType(it.imageInfo.imageFormat)
+            },
             onError = onError
         )
     }
 
-    fun shareBitmap(bitmap: Bitmap?, imageInfo: ImageInfo, onComplete: () -> Unit) {
+    fun shareBitmap(bitmap: Bitmap?, onComplete: () -> Unit) {
         viewModelScope.launch {
-            bitmap?.let { imageManager.shareImage(it, imageInfo, onComplete) }
+            bitmap?.let { imageManager.shareImage(ImageData.create(it, imageInfo), onComplete) }
         }
     }
 
@@ -310,7 +316,7 @@ class SingleResizeViewModel @Inject constructor(
     fun setPreset(preset: Int) {
         setBitmapInfo(
             imageManager.applyPresetBy(
-                bitmap = bitmap,
+                image = bitmap,
                 preset = preset,
                 currentInfo = imageInfo
             )

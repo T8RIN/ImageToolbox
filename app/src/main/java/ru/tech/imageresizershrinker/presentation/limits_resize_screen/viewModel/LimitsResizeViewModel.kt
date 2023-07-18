@@ -15,6 +15,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import ru.tech.imageresizershrinker.domain.image.ImageManager
+import ru.tech.imageresizershrinker.domain.model.ImageData
 import ru.tech.imageresizershrinker.domain.model.ImageFormat
 import ru.tech.imageresizershrinker.domain.model.ImageInfo
 import ru.tech.imageresizershrinker.domain.model.ResizeType
@@ -74,12 +75,12 @@ class LimitsResizeViewModel @Inject constructor(
                     if (index == 0) {
                         uris?.getOrNull(1)?.let {
                             _selectedUri.value = it
-                            _bitmap.value = imageManager.getImage(it.toString())
+                            _bitmap.value = imageManager.getImage(it.toString())?.image
                         }
                     } else {
                         uris?.getOrNull(index - 1)?.let {
                             _selectedUri.value = it
-                            _bitmap.value = imageManager.getImage(it.toString())
+                            _bitmap.value = imageManager.getImage(it.toString())?.image
                         }
                     }
                 }
@@ -116,7 +117,7 @@ class LimitsResizeViewModel @Inject constructor(
                 _done.value = 0
                 uris?.forEach { uri ->
                     runCatching {
-                        imageManager.getImage(uri.toString())
+                        imageManager.getImage(uri.toString())?.image
                     }.getOrNull()?.let { bitmap ->
                         imageManager.resize(
                             image = bitmap,
@@ -126,7 +127,7 @@ class LimitsResizeViewModel @Inject constructor(
                         )
                     }?.let { localBitmap ->
                         fileController.save(
-                            ImageSaveTarget(
+                            ImageSaveTarget<ExifInterface>(
                                 imageInfo = imageInfo.copy(
                                     width = localBitmap.width,
                                     height = localBitmap.height
@@ -134,10 +135,12 @@ class LimitsResizeViewModel @Inject constructor(
                                 originalUri = uri.toString(),
                                 sequenceNumber = _done.value + 1,
                                 data = imageManager.compress(
-                                    image = localBitmap,
-                                    imageInfo = imageInfo.copy(
-                                        width = localBitmap.width,
-                                        height = localBitmap.height
+                                    ImageData.create(
+                                        image = localBitmap,
+                                        imageInfo = imageInfo.copy(
+                                            width = localBitmap.width,
+                                            height = localBitmap.height
+                                        )
                                     )
                                 )
                             ), keepMetadata = keepExif
@@ -157,7 +160,7 @@ class LimitsResizeViewModel @Inject constructor(
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
                 _isLoading.value = true
-                updateBitmap(imageManager.getImage(uri.toString()))
+                updateBitmap(imageManager.getImage(uri.toString())?.image)
                 _selectedUri.value = uri
                 _isLoading.value = false
             }
@@ -185,7 +188,7 @@ class LimitsResizeViewModel @Inject constructor(
             imageManager.shareImages(
                 uris = uris?.map { it.toString() } ?: emptyList(),
                 imageLoader = { uri ->
-                    imageManager.getImage(uri)?.let { bitmap: Bitmap ->
+                    imageManager.getImage(uri)?.image?.let { bitmap: Bitmap ->
                         imageManager.resize(
                             bitmap,
                             imageInfo.width,
@@ -193,9 +196,11 @@ class LimitsResizeViewModel @Inject constructor(
                             imageInfo.resizeType
                         )
                     }?.let {
-                        it to imageInfo.copy(
-                            width = it.width,
-                            height = it.height
+                        ImageData.create(
+                            it, imageInfo.copy(
+                                width = it.width,
+                                height = it.height
+                            )
                         )
                     }
                 },
@@ -216,9 +221,10 @@ class LimitsResizeViewModel @Inject constructor(
             imageManager.getImageAsync(
                 uri = uri.toString(),
                 originalSize = true,
-                onGetMimeType = ::setMime,
-                onGetMetadata = {},
-                onGetImage = ::updateBitmap,
+                onGetImage = {
+                    updateBitmap(it.image)
+                    setMime(it.imageInfo.imageFormat)
+                },
                 onError = onError
             )
         }

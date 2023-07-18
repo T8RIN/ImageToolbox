@@ -16,6 +16,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import ru.tech.imageresizershrinker.domain.image.ImageManager
+import ru.tech.imageresizershrinker.domain.model.ImageData
 import ru.tech.imageresizershrinker.domain.model.ImageFormat
 import ru.tech.imageresizershrinker.domain.model.ImageInfo
 import ru.tech.imageresizershrinker.domain.model.ResizeType
@@ -89,15 +90,15 @@ class BatchResizeViewModel @Inject constructor(
                     if (index == 0) {
                         uris?.getOrNull(1)?.let {
                             _selectedUri.value = it
-                            _bitmap.value = imageManager.getImage(it.toString())
+                            _bitmap.value = imageManager.getImage(it.toString())?.image
                         }
                     } else {
                         uris?.getOrNull(index - 1)?.let {
                             _selectedUri.value = it
-                            _bitmap.value = imageManager.getImage(it.toString())
+                            _bitmap.value = imageManager.getImage(it.toString())?.image
                         }
                     }
-                    resetValues(true)
+                    resetValues(saveMime = true, resetPreset = false)
                 }
                 val u = _uris.value?.toMutableList()?.apply {
                     remove(removedUri)
@@ -162,20 +163,21 @@ class BatchResizeViewModel @Inject constructor(
         }
     }
 
-    fun resetValues(saveMime: Boolean = false) {
+    fun resetValues(saveMime: Boolean = false, resetPreset: Boolean = true) {
+        //TODO: FIX WEIRD BEHAVIOR WHILE PICKING IMAGE FROM SHEET
         _imageInfo.value = ImageInfo(
             width = _bitmap.value?.width ?: 0,
             height = _bitmap.value?.height ?: 0,
             imageFormat = if (saveMime) imageInfo.imageFormat else ImageFormat.Default()
         )
-        checkBitmapAndUpdate(resetPreset = true, resetTelegram = true)
+        checkBitmapAndUpdate(resetPreset = resetPreset, resetTelegram = true)
     }
 
     fun updateBitmap(bitmap: Bitmap?) {
         viewModelScope.launch {
             val size = bitmap?.let { bitmap.width to bitmap.height }
             _bitmap.value = imageManager.scaleUntilCanShow(bitmap)
-            resetValues(true)
+            resetValues(saveMime = true, resetPreset = true)
             _imageInfo.value = _imageInfo.value.copy(
                 width = size?.first ?: 0,
                 height = size?.second ?: 0
@@ -283,21 +285,26 @@ class BatchResizeViewModel @Inject constructor(
                 _done.value = 0
                 uris?.forEach { uri ->
                     runCatching {
-                        imageManager.getImage(uri.toString())
+                        imageManager.getImage(uri.toString())?.image
                     }.getOrNull()?.let { bitmap ->
                         imageInfo.let {
                             imageManager.applyPresetBy(
-                                bitmap = bitmap,
+                                image = bitmap,
                                 preset = _presetSelected.value,
                                 currentInfo = it
                             )
                         }.apply {
                             fileController.save(
-                                ImageSaveTarget(
+                                ImageSaveTarget<ExifInterface>(
                                     imageInfo = this,
                                     originalUri = uri.toString(),
                                     sequenceNumber = _done.value + 1,
-                                    data = imageManager.compress(bitmap, imageInfo)
+                                    data = imageManager.compress(
+                                        ImageData.create(
+                                            bitmap,
+                                            imageInfo
+                                        )
+                                    )
                                 ), keepExif
                             )
                         }
@@ -312,11 +319,16 @@ class BatchResizeViewModel @Inject constructor(
     fun setBitmap(uri: Uri) {
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
-                updateBitmap(imageManager.getImage(uri = uri.toString(), originalSize = false))
+                updateBitmap(
+                    imageManager.getImage(
+                        uri = uri.toString(),
+                        originalSize = false
+                    )?.image
+                )
                 if (_presetSelected.value != -1) {
                     setBitmapInfo(
                         imageManager.applyPresetBy(
-                            bitmap = _bitmap.value,
+                            image = _bitmap.value,
                             preset = _presetSelected.value,
                             currentInfo = _imageInfo.value
                         )
@@ -331,7 +343,7 @@ class BatchResizeViewModel @Inject constructor(
     fun updatePreset(preset: Int) {
         setBitmapInfo(
             imageManager.applyPresetBy(
-                bitmap = _bitmap.value,
+                image = _bitmap.value,
                 preset = preset,
                 currentInfo = _imageInfo.value
             )
@@ -343,7 +355,7 @@ class BatchResizeViewModel @Inject constructor(
             imageManager.shareImages(
                 uris = uris?.map { it.toString() } ?: emptyList(),
                 imageLoader = { uri ->
-                    imageManager.getImage(uri)?.let { it to imageInfo }
+                    imageManager.getImage(uri)?.image?.let { ImageData.create(it, imageInfo) }
                 },
                 onProgressChange = {
                     if (it == -1) {
@@ -364,9 +376,10 @@ class BatchResizeViewModel @Inject constructor(
             imageManager.getImageAsync(
                 uri = uri.toString(),
                 originalSize = true,
-                onGetMimeType = ::setMime,
-                onGetMetadata = {},
-                onGetImage = ::updateBitmap,
+                onGetImage = {
+                    updateBitmap(it.image)
+                    setMime(it.imageInfo.imageFormat)
+                },
                 onError = onError
             )
         }

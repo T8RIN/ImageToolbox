@@ -1,82 +1,88 @@
 package ru.tech.imageresizershrinker.domain.image
 
-import android.graphics.Bitmap
+import ru.tech.imageresizershrinker.domain.model.ImageData
 import ru.tech.imageresizershrinker.domain.model.ImageFormat
 import ru.tech.imageresizershrinker.domain.model.ImageInfo
 import ru.tech.imageresizershrinker.domain.model.ResizeType
 
-interface ImageManager<T, M> {
+interface ImageManager<I, M> {
 
     suspend fun transform(
-        image: T,
-        transformations: List<Transformation<T>>,
+        image: I,
+        transformations: List<Transformation<I>>,
         originalSize: Boolean = true
-    ): T?
+    ): I?
 
-    suspend fun getImage(uri: String, originalSize: Boolean = true): T?
+    suspend fun getImage(
+        uri: String,
+        originalSize: Boolean = true
+    ): ImageData<I, M>?
 
-    fun rotate(image: T, degrees: Float): T
+    fun rotate(image: I, degrees: Float): I
 
-    fun flip(image: T, isFlipped: Boolean): T
+    fun flip(image: I, isFlipped: Boolean): I
 
-    suspend fun resize(image: T, width: Int, height: Int, resizeType: ResizeType): T?
+    suspend fun resize(
+        image: I,
+        width: Int,
+        height: Int,
+        resizeType: ResizeType
+    ): I?
 
     suspend fun createPreview(
-        image: T,
+        image: I,
         imageInfo: ImageInfo,
         onGetByteCount: (Int) -> Unit
-    ): T
+    ): I
 
     fun getImageAsync(
         uri: String,
         originalSize: Boolean = true,
-        onGetImage: (T) -> Unit,
-        onGetMetadata: (M?) -> Unit,
-        onGetMimeType: (ImageFormat) -> Unit,
+        onGetImage: (ImageData<I, M>) -> Unit,
         onError: (Throwable) -> Unit
     )
 
-    suspend fun getImageWithMetadata(uri: String): Pair<T?, M?>
+    suspend fun compress(imageData: ImageData<I, M>): ByteArray
 
-    suspend fun getImageWithMime(uri: String): Pair<T?, ImageFormat>
+    suspend fun calculateImageSize(imageData: ImageData<I, M>): Long
 
-    suspend fun compress(image: T, imageInfo: ImageInfo): ByteArray
+    suspend fun scaleUntilCanShow(image: I?): I?
 
-    suspend fun calculateImageSize(image: T, imageInfo: ImageInfo): Long
+    fun applyPresetBy(image: I?, preset: Int, currentInfo: ImageInfo): ImageInfo
 
-    suspend fun scaleUntilCanShow(image: T?): T?
+    fun canShow(image: I): Boolean
 
-    fun applyPresetBy(bitmap: Bitmap?, preset: Int, currentInfo: ImageInfo): ImageInfo
+    suspend fun getSampledImage(uri: String, reqWidth: Int, reqHeight: Int): ImageData<I, M>?
 
-    fun canShow(image: T): Boolean
-
-    suspend fun getSampledImage(uri: String, reqWidth: Int, reqHeight: Int): T?
-
-    suspend fun scaleByMaxBytes(image: T, imageFormat: ImageFormat, maxBytes: Long): Pair<T, Int>?
+    suspend fun scaleByMaxBytes(
+        image: I,
+        imageFormat: ImageFormat,
+        maxBytes: Long
+    ): ImageData<I, M>?
 
     suspend fun getImageWithTransformations(
-        uri: String, transformations: List<Transformation<T>>,
+        uri: String,
+        transformations: List<Transformation<I>>,
         originalSize: Boolean = true
-    ): T?
+    ): ImageData<I, M>?
 
-    fun overlayImage(image: T, overlay: T): T
+    fun overlayImage(image: I, overlay: I): I
 
     suspend fun shareImage(
-        image: T,
-        imageInfo: ImageInfo,
+        imageData: ImageData<I, M>,
         onComplete: () -> Unit,
         name: String = "shared_image",
     )
 
     suspend fun cacheImage(
-        image: T,
+        image: I,
         imageInfo: ImageInfo,
         name: String = "shared_image"
     ): String?
 
     suspend fun shareImages(
         uris: List<String>,
-        imageLoader: suspend (String) -> Pair<T, ImageInfo>?,
+        imageLoader: suspend (String) -> ImageData<I, M>?,
         onProgressChange: (Int) -> Unit
     )
 

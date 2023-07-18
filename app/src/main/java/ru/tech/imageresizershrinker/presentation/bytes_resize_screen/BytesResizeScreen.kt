@@ -79,7 +79,7 @@ import ru.tech.imageresizershrinker.domain.model.ImageInfo
 import ru.tech.imageresizershrinker.presentation.bytes_resize_screen.components.ImageFormatAlert
 import ru.tech.imageresizershrinker.presentation.bytes_resize_screen.viewModel.BytesResizeViewModel
 import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
-import ru.tech.imageresizershrinker.presentation.root.transformation.BitmapInfoTransformation
+import ru.tech.imageresizershrinker.presentation.root.transformation.ImageInfoTransformation
 import ru.tech.imageresizershrinker.presentation.root.transformation.filter.SaturationFilter
 import ru.tech.imageresizershrinker.presentation.root.utils.confetti.LocalConfettiController
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.ImageUtils.fileSize
@@ -508,7 +508,7 @@ fun BytesResizeScreen(
 
             PickImageFromUrisSheet(
                 transformations = listOf(
-                    BitmapInfoTransformation(
+                    ImageInfoTransformation(
                         imageInfo = ImageInfo(),
                         preset = 100,
                         imageManager = viewModel.getImageManager()

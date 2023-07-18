@@ -235,7 +235,6 @@ fun SingleResizeScreen(
                 showSaveLoading = true
                 viewModel.shareBitmap(
                     bitmap = viewModel.previewBitmap,
-                    imageInfo = viewModel.imageInfo,
                     onComplete = {
                         showSaveLoading = false
                         showConfetti()

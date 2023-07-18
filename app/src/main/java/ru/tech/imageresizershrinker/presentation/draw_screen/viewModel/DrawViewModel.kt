@@ -21,6 +21,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import ru.tech.imageresizershrinker.domain.image.ImageManager
 import ru.tech.imageresizershrinker.domain.image.Transformation
+import ru.tech.imageresizershrinker.domain.model.ImageData
 import ru.tech.imageresizershrinker.domain.model.ImageFormat
 import ru.tech.imageresizershrinker.domain.model.ImageInfo
 import ru.tech.imageresizershrinker.domain.model.ResizeType
@@ -84,7 +85,7 @@ class DrawViewModel @Inject constructor(
                             )
                         }?.let { localBitmap ->
                             fileController.save(
-                                ImageSaveTarget(
+                                ImageSaveTarget<ExifInterface>(
                                     imageInfo = ImageInfo(
                                         imageFormat = imageFormat,
                                         width = localBitmap.width,
@@ -93,11 +94,13 @@ class DrawViewModel @Inject constructor(
                                     originalUri = _uri.value.toString(),
                                     sequenceNumber = null,
                                     data = imageManager.compress(
-                                        image = localBitmap,
-                                        imageInfo = ImageInfo(
-                                            imageFormat = imageFormat,
-                                            width = localBitmap.width,
-                                            height = localBitmap.height
+                                        ImageData.create(
+                                            image = localBitmap,
+                                            imageInfo = ImageInfo(
+                                                imageFormat = imageFormat,
+                                                width = localBitmap.width,
+                                                height = localBitmap.height
+                                            )
                                         )
                                     )
                                 ), keepMetadata = true
@@ -120,7 +123,7 @@ class DrawViewModel @Inject constructor(
                         )
                     }?.let { localBitmap ->
                         fileController.save(
-                            saveTarget = ImageSaveTarget(
+                            saveTarget = ImageSaveTarget<ExifInterface>(
                                 imageInfo = ImageInfo(
                                     imageFormat = imageFormat,
                                     width = localBitmap.width,
@@ -129,11 +132,13 @@ class DrawViewModel @Inject constructor(
                                 originalUri = "drawing",
                                 sequenceNumber = null,
                                 data = imageManager.compress(
-                                    image = localBitmap,
-                                    imageInfo = ImageInfo(
-                                        imageFormat = imageFormat,
-                                        width = localBitmap.width,
-                                        height = localBitmap.height
+                                    ImageData.create(
+                                        image = localBitmap,
+                                        imageInfo = ImageInfo(
+                                            imageFormat = imageFormat,
+                                            width = localBitmap.width,
+                                            height = localBitmap.height
+                                        )
                                     )
                                 )
                             ), keepMetadata = true
@@ -146,7 +151,7 @@ class DrawViewModel @Inject constructor(
     }
 
     private suspend fun calculateScreenOrientationBasedOnUri(uri: Uri): Int {
-        val bmp = imageManager.getImage(uri = uri.toString(), originalSize = false)
+        val bmp = imageManager.getImage(uri = uri.toString(), originalSize = false)?.image
         val imageRatio = (bmp?.width ?: 0) / (bmp?.height?.toFloat() ?: 1f)
         return if (imageRatio <= 1f) {
             ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
@@ -175,7 +180,7 @@ class DrawViewModel @Inject constructor(
                 uri = uri.toString(),
                 originalSize = false,
                 transformations = listOf(UpscaleTransformation())
-            )?.let { bitmap ->
+            )?.image?.let { bitmap ->
                 return@withContext drawController?.getBitmap()?.let {
                     imageManager.overlayImage(
                         image = bitmap,
@@ -241,11 +246,13 @@ class DrawViewModel @Inject constructor(
         viewModelScope.launch {
             getBitmapForSharing()?.let {
                 imageManager.shareImage(
-                    image = it,
-                    imageInfo = ImageInfo(
-                        imageFormat = imageFormat,
-                        width = it.width,
-                        height = it.height
+                    ImageData.create(
+                        image = it,
+                        imageInfo = ImageInfo(
+                            imageFormat = imageFormat,
+                            width = it.width,
+                            height = it.height
+                        )
                     ),
                     onComplete = onComplete
                 )
@@ -257,8 +264,11 @@ class DrawViewModel @Inject constructor(
         uri: Uri,
         transformations: List<Transformation<Bitmap>>,
         originalSize: Boolean = false
-    ): Bitmap? =
-        imageManager.getImageWithTransformations(uri.toString(), transformations, originalSize)
+    ): Bitmap? = imageManager.getImageWithTransformations(
+        uri.toString(),
+        transformations,
+        originalSize
+    )?.image
 
     fun overlayImage(
         image: Bitmap,

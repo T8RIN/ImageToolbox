@@ -161,9 +161,13 @@ class FileControllerImpl @Inject constructor(
         keepMetadata: Boolean
     ) {
         kotlin.runCatching {
+            var initialExif: ExifInterface? = null
+
             val savingFolder = context.getSavingFolder(
                 treeUri = fileParams.treeUri?.takeIf { it.isNotEmpty() }?.toUri(),
-                saveTarget = if (saveTarget is ImageSaveTarget) {
+                saveTarget = if (saveTarget is ImageSaveTarget<*>) {
+                    initialExif = saveTarget.metadata as ExifInterface?
+
                     saveTarget.copy(
                         filename = constructFilename(
                             context = context,
@@ -178,7 +182,13 @@ class FileControllerImpl @Inject constructor(
                 it.write(saveTarget.data)
             }
 
-            if (keepMetadata) {
+            if (initialExif != null) {
+                getFileDescriptorFor(savingFolder.fileUri)?.use {
+                    val ex = ExifInterface(it.fileDescriptor)
+                    initialExif.copyTo(ex)
+                    ex.saveAttributes()
+                }
+            } else if (keepMetadata) {
                 val exif = context
                     .contentResolver
                     .openFileDescriptor(saveTarget.originalUri.toUri(), "r")
@@ -189,7 +199,7 @@ class FileControllerImpl @Inject constructor(
                     exif?.copyTo(ex)
                     ex.saveAttributes()
                 }
-            }
+            } else null
         }.getOrNull() ?: dataStore.edit { it[SAVE_FOLDER] = "" }
     }
 
@@ -209,7 +219,7 @@ class FileControllerImpl @Inject constructor(
     private fun constructFilename(
         context: Context,
         fileParams: FileParams,
-        saveTarget: ImageSaveTarget
+        saveTarget: ImageSaveTarget<*>
     ): String {
         val wh =
             "(" + (if (saveTarget.originalUri.toUri() == Uri.EMPTY) context.getString(R.string.width)

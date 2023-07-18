@@ -15,7 +15,6 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import ru.tech.imageresizershrinker.domain.image.ImageManager
 import ru.tech.imageresizershrinker.domain.model.ImageFormat
-import ru.tech.imageresizershrinker.domain.model.ImageInfo
 import ru.tech.imageresizershrinker.domain.saving.FileController
 import ru.tech.imageresizershrinker.domain.saving.model.ImageSaveTarget
 import javax.inject.Inject
@@ -60,13 +59,13 @@ class DeleteExifViewModel @Inject constructor(
                         uris?.getOrNull(1)?.let {
                             _selectedUri.value = it
                             _bitmap.value =
-                                imageManager.getImage(it.toString(), originalSize = false)
+                                imageManager.getImage(it.toString(), originalSize = false)?.image
                         }
                     } else {
                         uris?.getOrNull(index - 1)?.let {
                             _selectedUri.value = it
                             _bitmap.value =
-                                imageManager.getImage(it.toString(), originalSize = false)
+                                imageManager.getImage(it.toString(), originalSize = false)?.image
                         }
                     }
                 }
@@ -98,32 +97,19 @@ class DeleteExifViewModel @Inject constructor(
                 _done.value = 0
                 uris?.forEach { uri ->
                     runCatching {
-                        imageManager.getImageWithMime(uri.toString())
-                    }.getOrNull()?.takeIf { it.first != null }?.let { (bitmap, imageFormat) ->
-                        bitmap?.let { result ->
-                            fileController.save(
-                                ImageSaveTarget(
-                                    imageInfo = ImageInfo(
-                                        imageFormat = imageFormat,
-                                        width = result.width,
-                                        height = result.height
-                                    ),
-                                    originalUri = uri.toString(),
-                                    sequenceNumber = _done.value,
-                                    data = imageManager.compress(
-                                        image = result,
-                                        imageInfo = ImageInfo(
-                                            imageFormat = imageFormat,
-                                            width = result.width,
-                                            height = result.height
-                                        )
-                                    )
-                                ),
-                                keepMetadata = false
-                            )
-                        } ?: {
-                            failed += 1
-                        }
+                        imageManager.getImage(uri.toString())
+                    }.getOrNull()?.let {
+                        fileController.save(
+                            ImageSaveTarget<ExifInterface>(
+                                imageInfo = it.imageInfo,
+                                originalUri = uri.toString(),
+                                sequenceNumber = _done.value,
+                                data = imageManager.compress(it)
+                            ),
+                            keepMetadata = false
+                        )
+                    } ?: {
+                        failed += 1
                     }
 
                     _done.value += 1
@@ -136,7 +122,7 @@ class DeleteExifViewModel @Inject constructor(
     fun setBitmap(uri: Uri) {
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
-                updateBitmap(imageManager.getImage(uri.toString(), originalSize = false))
+                updateBitmap(imageManager.getImage(uri.toString(), originalSize = false)?.image)
                 _selectedUri.value = uri
             }
         }
@@ -153,9 +139,11 @@ class DeleteExifViewModel @Inject constructor(
         imageManager.getImageAsync(
             uri = uri.toString(),
             originalSize = originalSize,
-            onGetImage = onGetBitmap,
-            onGetMetadata = onGetExif,
-            onGetMimeType = onGetMimeType,
+            onGetImage = {
+                onGetBitmap(it.image)
+                onGetExif(it.metadata)
+                onGetMimeType(it.imageInfo.imageFormat)
+            },
             onError = onError
         )
     }
@@ -165,14 +153,7 @@ class DeleteExifViewModel @Inject constructor(
             imageManager.shareImages(
                 uris = uris?.map { it.toString() } ?: emptyList(),
                 imageLoader = { uri ->
-                    imageManager.getImageWithMime(uri)
-                        .takeIf { it.first != null }?.let {
-                            it.first!! to ImageInfo(
-                                imageFormat = it.second,
-                                width = it.first!!.width,
-                                height = it.first!!.height
-                            )
-                        }
+                    imageManager.getImage(uri)
                 },
                 onProgressChange = {
                     if (it == -1) {

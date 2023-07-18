@@ -59,9 +59,11 @@ class PickColorViewModel @Inject constructor(
         imageManager.getImageAsync(
             uri = uri.toString(),
             originalSize = originalSize,
-            onGetImage = onGetBitmap,
-            onGetMetadata = onGetExif,
-            onGetMimeType = onGetMimeType,
+            onGetImage = {
+                onGetBitmap(it.image)
+                onGetExif(it.metadata)
+                onGetMimeType(it.imageInfo.imageFormat)
+            },
             onError = onError
         )
     }

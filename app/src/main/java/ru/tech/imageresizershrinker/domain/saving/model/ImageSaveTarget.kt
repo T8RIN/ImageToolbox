@@ -4,10 +4,11 @@ import ru.tech.imageresizershrinker.domain.model.ImageFormat
 import ru.tech.imageresizershrinker.domain.model.ImageInfo
 import ru.tech.imageresizershrinker.domain.saving.SaveTarget
 
-data class ImageSaveTarget(
+data class ImageSaveTarget<M>(
     val imageInfo: ImageInfo,
     override val originalUri: String,
     val sequenceNumber: Int?,
+    val metadata: M? = null,
     override val filename: String? = null,
     override val imageFormat: ImageFormat = ImageFormat.Default(),
     override val data: ByteArray
@@ -16,7 +17,7 @@ data class ImageSaveTarget(
         if (this === other) return true
         if (javaClass != other?.javaClass) return false
 
-        other as ImageSaveTarget
+        other as ImageSaveTarget<*>
 
         if (imageInfo != other.imageInfo) return false
         if (originalUri != other.originalUri) return false

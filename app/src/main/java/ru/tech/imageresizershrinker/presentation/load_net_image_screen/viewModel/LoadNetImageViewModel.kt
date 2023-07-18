@@ -15,6 +15,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import ru.tech.imageresizershrinker.domain.image.ImageManager
+import ru.tech.imageresizershrinker.domain.model.ImageData
 import ru.tech.imageresizershrinker.domain.model.ImageInfo
 import ru.tech.imageresizershrinker.domain.saving.FileController
 import ru.tech.imageresizershrinker.domain.saving.model.ImageSaveTarget
@@ -61,7 +62,7 @@ class LoadNetImageViewModel @Inject constructor(
                     out
                 )
                 fileController.save(
-                    saveTarget = ImageSaveTarget(
+                    saveTarget = ImageSaveTarget<ExifInterface>(
                         imageInfo = ImageInfo(
                             width = localBitmap.width,
                             height = localBitmap.height
@@ -88,7 +89,7 @@ class LoadNetImageViewModel @Inject constructor(
 
     fun shareBitmap(bitmap: Bitmap, imageInfo: ImageInfo, onComplete: () -> Unit) {
         viewModelScope.launch {
-            imageManager.shareImage(bitmap, imageInfo, onComplete)
+            imageManager.shareImage(ImageData.create(bitmap, imageInfo), onComplete)
         }
     }
 

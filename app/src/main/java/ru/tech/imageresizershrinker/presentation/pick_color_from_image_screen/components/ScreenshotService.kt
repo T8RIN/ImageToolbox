@@ -29,6 +29,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.runBlocking
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.domain.image.ImageManager
+import ru.tech.imageresizershrinker.domain.model.ImageData
 import ru.tech.imageresizershrinker.domain.model.ImageFormat
 import ru.tech.imageresizershrinker.domain.model.ImageInfo
 import ru.tech.imageresizershrinker.domain.saving.FileController
@@ -149,10 +150,12 @@ class ScreenshotService : Service() {
                                     originalUri = "screenshot",
                                     imageFormat = ImageFormat["jpg"],
                                     data = imageManager.compress(
-                                        bitmap, ImageInfo(
-                                            width = bitmap.width,
-                                            height = bitmap.height,
-                                            imageFormat = ImageFormat.Jpg
+                                        ImageData.create(
+                                            bitmap, ImageInfo(
+                                                width = bitmap.width,
+                                                height = bitmap.height,
+                                                imageFormat = ImageFormat.Jpg
+                                            )
                                         )
                                     )
                                 ),
