@@ -96,6 +96,7 @@ import ru.tech.imageresizershrinker.presentation.filters_screen.viewModel.Filter
 import ru.tech.imageresizershrinker.presentation.root.theme.mixedColor
 import ru.tech.imageresizershrinker.presentation.root.theme.onMixedColor
 import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
+import ru.tech.imageresizershrinker.presentation.root.transformation.ImageInfoTransformation
 import ru.tech.imageresizershrinker.presentation.root.transformation.filter.SaturationFilter
 import ru.tech.imageresizershrinker.presentation.root.utils.confetti.LocalConfettiController
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.Picker
@@ -636,7 +637,11 @@ fun FiltersScreen(
             }
 
             PickImageFromUrisSheet(
-                transformations = filterList,
+                transformations = filterList + ImageInfoTransformation(
+                    viewModel.imageInfo,
+                    -1,
+                    viewModel.getImageManager()
+                ),
                 visible = showPickImageFromUrisDialog,
                 uris = viewModel.uris,
                 selectedUri = viewModel.selectedUri,
