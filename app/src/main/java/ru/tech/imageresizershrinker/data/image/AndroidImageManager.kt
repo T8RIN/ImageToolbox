@@ -675,8 +675,8 @@ class AndroidImageManager @Inject constructor(
 
     override fun flip(image: Bitmap, isFlipped: Boolean): Bitmap {
         return if (isFlipped) {
-            val matrix = Matrix().apply { postScale(-1f, 1f, image.width / 2f, image.width / 2f) }
-            Bitmap.createBitmap(image, 0, 0, image.width, image.width, matrix, true)
+            val matrix = Matrix().apply { postScale(-1f, 1f, image.width / 2f, image.height / 2f) }
+            return Bitmap.createBitmap(image, 0, 0, image.width, image.height, matrix, true)
         } else image
     }
 
