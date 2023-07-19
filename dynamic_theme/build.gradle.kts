@@ -38,12 +38,12 @@ android {
         compose = true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.4.8"
+        kotlinCompilerExtensionVersion = "1.5.0"
     }
 }
 
 dependencies {
-    implementation(platform("androidx.compose:compose-bom:2023.05.01"))
+    implementation(platform("androidx.compose:compose-bom:2023.06.01"))
     implementation("androidx.core:core-ktx:1.10.1")
     implementation("androidx.compose.material3:material3")
     implementation("androidx.palette:palette:1.0.0")

@@ -73,7 +73,7 @@ android {
         compose = true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.4.8"
+        kotlinCompilerExtensionVersion = "1.5.0"
     }
 
     packaging {
@@ -149,6 +149,6 @@ dependencies {
 
     implementation("org.burnoutcrew.composereorderable:reorderable:0.9.6")
 
-    implementation("com.google.accompanist:accompanist-systemuicontroller:0.31.4-beta")
+    implementation("com.google.accompanist:accompanist-systemuicontroller:0.31.5-beta")
 
 }
