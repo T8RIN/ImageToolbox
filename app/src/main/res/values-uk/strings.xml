@@ -297,4 +297,9 @@
     <string name="edit_screenshot">Редагувати знімок екрана</string>
     <string name="secondary_customization">Вторинне налаштування</string>
     <string name="screenshot">Знімок екрана</string>
+    <string name="fallback_option">Запасний варіант</string>
+    <string name="skip">Пропустити</string>
+    <string name="copy">Копіювати</string>
+    <string name="force">Збільшення</string>
+    <string name="warning_bytes">Збереження в режимі %1$s може бути нестабільним, оскільки це формат без втрат</string>
 </resources>
