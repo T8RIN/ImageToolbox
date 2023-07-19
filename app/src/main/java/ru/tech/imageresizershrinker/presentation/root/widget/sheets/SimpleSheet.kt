@@ -58,7 +58,7 @@ fun SimpleSheet(
         nestedScrollEnabled = nestedScrollEnabled,
         animationSpec = tween(
             durationMillis = 600,
-            easing = CubicBezierEasing(0.05f, 0.7f, 0.1f, 1f)
+            easing = CubicBezierEasing(0.48f, 0.19f, 0.05f, 1.03f)
         ),
         dragHandle = dragHandle,
         containerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(2.dp),
@@ -110,7 +110,7 @@ fun SimpleSheet(
         nestedScrollEnabled = nestedScrollEnabled,
         animationSpec = tween(
             durationMillis = 600,
-            easing = CubicBezierEasing(0.05f, 0.7f, 0.1f, 1f)
+            easing = CubicBezierEasing(0.48f, 0.19f, 0.05f, 1.03f)
         ),
         dragHandle = {
             Row(
@@ -186,7 +186,7 @@ fun SimpleSheet(
         nestedScrollEnabled = nestedScrollEnabled,
         animationSpec = tween(
             durationMillis = 600,
-            easing = CubicBezierEasing(0.05f, 0.7f, 0.1f, 1f)
+            easing = CubicBezierEasing(0.48f, 0.19f, 0.05f, 1.03f)
         ),
         dragHandle = {
             Row(

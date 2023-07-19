@@ -220,7 +220,15 @@ class FilterViewModel @Inject constructor(
                         uri = uri.toString(),
                         transformations = filterList,
                         originalSize = false
-                    )?.image
+                    )?.image?.let { image ->
+                        imageManager.createPreview(
+                            image = image,
+                            imageInfo = imageInfo,
+                            onGetByteCount = {
+                                _bitmapSize.value = it.toLong()
+                            }
+                        )
+                    }
                 )
                 _selectedUri.value = uri
                 _isLoading.value = false
@@ -247,6 +255,7 @@ class FilterViewModel @Inject constructor(
     }
 
     private var filterJob: Job? = null
+
     fun setFilteredPreview(bitmap: Bitmap) {
         filterJob?.cancel()
         filterJob = viewModelScope.launch {
@@ -257,7 +266,15 @@ class FilterViewModel @Inject constructor(
                     image = bitmap,
                     transformations = filterList,
                     originalSize = false
-                ) ?: _previewBitmap.value
+                )?.let { bitmap1 ->
+                    imageManager.createPreview(
+                        image = bitmap1,
+                        imageInfo = imageInfo,
+                        onGetByteCount = {
+                            _bitmapSize.value = it.toLong()
+                        }
+                    )
+                } ?: _previewBitmap.value
             )
             _isLoading.value = false
             _needToApplyFilters.value = false
