@@ -90,15 +90,14 @@ class BatchResizeViewModel @Inject constructor(
                     if (index == 0) {
                         uris?.getOrNull(1)?.let {
                             _selectedUri.value = it
-                            _bitmap.value = imageManager.getImage(it.toString())?.image
+                            setBitmap(it)
                         }
                     } else {
                         uris?.getOrNull(index - 1)?.let {
                             _selectedUri.value = it
-                            _bitmap.value = imageManager.getImage(it.toString())?.image
+                            setBitmap(it)
                         }
                     }
-                    resetValues(saveMime = true, resetPreset = false)
                 }
                 val u = _uris.value?.toMutableList()?.apply {
                     remove(removedUri)
@@ -157,14 +156,17 @@ class BatchResizeViewModel @Inject constructor(
 
     private fun setBitmapInfo(newInfo: ImageInfo) {
         if (_imageInfo.value != newInfo || _imageInfo.value.quality == 100f) {
-            _imageInfo.value = newInfo
+            _imageInfo.value = newInfo.let {
+                if (it.quality != imageInfo.quality) {
+                    it.copy(quality = imageInfo.quality)
+                } else it
+            }
             checkBitmapAndUpdate(resetPreset = false, resetTelegram = true)
             _presetSelected.value = newInfo.quality.toInt()
         }
     }
 
     fun resetValues(saveMime: Boolean = false, resetPreset: Boolean = true) {
-        //TODO: FIX WEIRD BEHAVIOR WHILE PICKING IMAGE FROM SHEET
         _imageInfo.value = ImageInfo(
             width = _bitmap.value?.width ?: 0,
             height = _bitmap.value?.height ?: 0,
@@ -319,11 +321,15 @@ class BatchResizeViewModel @Inject constructor(
     fun setBitmap(uri: Uri) {
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
-                updateBitmap(
-                    imageManager.getImage(
-                        uri = uri.toString(),
-                        originalSize = false
-                    )?.image
+                val bitmap = imageManager.getImage(
+                    uri = uri.toString(),
+                    originalSize = false
+                )?.image
+                val size = bitmap?.let { bitmap.width to bitmap.height }
+                _bitmap.value = imageManager.scaleUntilCanShow(bitmap)
+                _imageInfo.value = _imageInfo.value.copy(
+                    width = size?.first ?: 0,
+                    height = size?.second ?: 0
                 )
                 if (_presetSelected.value != -1) {
                     setBitmapInfo(

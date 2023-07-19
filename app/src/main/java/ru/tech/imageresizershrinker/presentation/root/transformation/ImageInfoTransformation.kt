@@ -14,10 +14,8 @@ class ImageInfoTransformation(
     private val imageManager: ImageManager<Bitmap, ExifInterface>
 ) : CoilTransformation, Transformation<Bitmap> {
 
-    private var previousInfo: ImageInfo = ImageInfo()
-
     override val cacheKey: String
-        get() = (Triple(imageInfo, preset, previousInfo) to imageManager).hashCode().toString()
+        get() = (Pair(imageInfo, preset) to imageManager).hashCode().toString()
 
     override suspend fun transform(input: Bitmap, size: Size): Bitmap {
         var info = imageInfo
@@ -28,12 +26,11 @@ class ImageInfoTransformation(
                 preset = preset,
                 currentInfo = info
             ).let {
-                if (previousInfo.quality != currentInfo.quality) {
+                if (it.quality != currentInfo.quality) {
                     it.copy(quality = currentInfo.quality)
                 } else it
             }
         }
-        previousInfo = info.copy()
         return imageManager.createPreview(
             image = input,
             imageInfo = info.copy(
