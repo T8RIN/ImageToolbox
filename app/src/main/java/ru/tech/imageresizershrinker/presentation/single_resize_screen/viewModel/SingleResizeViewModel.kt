@@ -110,7 +110,7 @@ class SingleResizeViewModel @Inject constructor(
                                 originalUri = uri.toString(),
                                 sequenceNumber = null,
                                 data = imageManager.compress(
-                                    ImageData.create(
+                                    ImageData(
                                         image = bitmap,
                                         imageInfo = this,
                                         metadata = exif
@@ -307,7 +307,7 @@ class SingleResizeViewModel @Inject constructor(
 
     fun shareBitmap(bitmap: Bitmap?, onComplete: () -> Unit) {
         viewModelScope.launch {
-            bitmap?.let { imageManager.shareImage(ImageData.create(it, imageInfo), onComplete) }
+            bitmap?.let { imageManager.shareImage(ImageData(it, imageInfo), onComplete) }
         }
     }
 

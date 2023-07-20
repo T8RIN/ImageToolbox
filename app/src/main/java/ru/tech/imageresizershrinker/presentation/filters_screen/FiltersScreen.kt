@@ -638,9 +638,9 @@ fun FiltersScreen(
 
             PickImageFromUrisSheet(
                 transformations = filterList + ImageInfoTransformation(
-                    viewModel.imageInfo,
-                    -1,
-                    viewModel.getImageManager()
+                    imageInfo = viewModel.imageInfo,
+                    preset = 100,
+                    imageManager = viewModel.getImageManager()
                 ),
                 visible = showPickImageFromUrisDialog,
                 uris = viewModel.uris,

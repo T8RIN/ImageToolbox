@@ -11,24 +11,23 @@ interface ImageData<I, M> : Domain {
         image: I = this.image,
         imageInfo: ImageInfo = this.imageInfo,
         metadata: M? = this.metadata,
-    ): ImageData<I, M> = create(image, imageInfo, metadata)
+    ): ImageData<I, M> = ImageData(image, imageInfo, metadata)
 
     operator fun component1() = image
     operator fun component2() = imageInfo
     operator fun component3() = metadata
 
     companion object {
-        fun <I, M> create(
+        operator fun <I, M> invoke(
             image: I,
             imageInfo: ImageInfo,
             metadata: M? = null,
-        ): ImageData<I, M> = object : ImageData<I, M> {
-            override val image: I
-                get() = image
-            override val imageInfo: ImageInfo
-                get() = imageInfo
-            override val metadata: M?
-                get() = metadata
-        }
+        ): ImageData<I, M> = ImageDataWrapper(image, imageInfo, metadata)
     }
 }
+
+private class ImageDataWrapper<I, M>(
+    override val image: I,
+    override val imageInfo: ImageInfo,
+    override val metadata: M? = null,
+) : ImageData<I, M>

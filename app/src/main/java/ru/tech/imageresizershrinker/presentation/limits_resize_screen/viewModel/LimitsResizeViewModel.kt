@@ -135,7 +135,7 @@ class LimitsResizeViewModel @Inject constructor(
                                 originalUri = uri.toString(),
                                 sequenceNumber = _done.value + 1,
                                 data = imageManager.compress(
-                                    ImageData.create(
+                                    ImageData(
                                         image = localBitmap,
                                         imageInfo = imageInfo.copy(
                                             width = localBitmap.width,
@@ -196,7 +196,7 @@ class LimitsResizeViewModel @Inject constructor(
                             imageInfo.resizeType
                         )
                     }?.let {
-                        ImageData.create(
+                        ImageData(
                             it, imageInfo.copy(
                                 width = it.width,
                                 height = it.height

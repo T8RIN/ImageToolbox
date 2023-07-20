@@ -88,7 +88,7 @@ class CropViewModel @Inject constructor(
                     val localBitmap = bitmap
 
                     val byteArray = imageManager.compress(
-                        ImageData.create(
+                        ImageData(
                             image = localBitmap,
                             imageInfo = ImageInfo(
                                 imageFormat = imageFormat,
@@ -170,7 +170,7 @@ class CropViewModel @Inject constructor(
     fun shareBitmap(bitmap: Bitmap, onComplete: () -> Unit) {
         viewModelScope.launch {
             imageManager.shareImage(
-                ImageData.create(
+                ImageData(
                     image = bitmap,
                     imageInfo = ImageInfo(
                         imageFormat = imageFormat,

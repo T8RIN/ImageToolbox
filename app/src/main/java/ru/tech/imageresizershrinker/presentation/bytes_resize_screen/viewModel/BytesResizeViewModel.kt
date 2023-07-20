@@ -161,7 +161,7 @@ class BytesResizeViewModel @Inject constructor(
                                         originalUri = uri.toString(),
                                         sequenceNumber = _done.value + 1,
                                         data = imageManager.compress(
-                                            ImageData.create(
+                                            ImageData(
                                                 image = localBitmap,
                                                 imageInfo = ImageInfo(
                                                     imageFormat = imageFormat,

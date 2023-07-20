@@ -89,7 +89,7 @@ class LoadNetImageViewModel @Inject constructor(
 
     fun shareBitmap(bitmap: Bitmap, imageInfo: ImageInfo, onComplete: () -> Unit) {
         viewModelScope.launch {
-            imageManager.shareImage(ImageData.create(bitmap, imageInfo), onComplete)
+            imageManager.shareImage(ImageData(bitmap, imageInfo), onComplete)
         }
     }
 

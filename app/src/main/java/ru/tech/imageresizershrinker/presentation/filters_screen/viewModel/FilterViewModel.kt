@@ -112,30 +112,28 @@ class FilterViewModel @Inject constructor(
         }
     }
 
-    fun updateBitmap(bitmap: Bitmap?, preview: Bitmap? = null) {
+    fun updateBitmap(bitmap: Bitmap?) {
         viewModelScope.launch {
             _isLoading.value = true
             _bitmap.value = imageManager.scaleUntilCanShow(bitmap)?.upscale()
-            _previewBitmap.value = preview ?: _bitmap.value
-            _bitmap.value?.takeIf { it.height > 0 && it.width > 0 }?.let {
-                if (_previewBitmap.value?.width != it.width) {
-                    _previewBitmap.value = _previewBitmap.value?.let { it1 ->
-                        imageManager.resize(
-                            image = it1,
-                            width = it.width,
-                            height = it.height,
-                            resizeType = ResizeType.Flexible
-                        )
-                    } ?: _previewBitmap.value
+            _previewBitmap.value = bitmap?.let {
+                imageManager.transform(
+                    image = it,
+                    transformations = filterList,
+                    originalSize = false
+                )?.let { image ->
+                    imageManager.createPreview(
+                        image = image,
+                        imageInfo = imageInfo.copy(
+                            width = image.width,
+                            height = image.height
+                        ),
+                        onGetByteCount = { size ->
+                            _bitmapSize.value = size.toLong()
+                        }
+                    )
                 }
-            }
-            previewBitmap?.let {
-                _imageInfo.value = _imageInfo.value.copy(
-                    width = it.width,
-                    height = it.height
-                )
-            }
-
+            } ?: _bitmap.value
             _isLoading.value = false
         }
     }
@@ -166,7 +164,7 @@ class FilterViewModel @Inject constructor(
                                 originalUri = uri.toString(),
                                 sequenceNumber = _done.value + 1,
                                 data = imageManager.compress(
-                                    ImageData.create(
+                                    ImageData(
                                         image = localBitmap,
                                         imageInfo = imageInfo.copy(
                                             width = localBitmap.width,
@@ -191,20 +189,7 @@ class FilterViewModel @Inject constructor(
             withContext(Dispatchers.IO) {
                 _isLoading.value = true
                 updateBitmap(
-                    imageManager.getImage(uri = uri.toString(), originalSize = false)?.image,
-                    imageManager.getImageWithTransformations(
-                        uri = uri.toString(),
-                        transformations = filterList,
-                        originalSize = false
-                    )?.image?.let { image ->
-                        imageManager.createPreview(
-                            image = image,
-                            imageInfo = imageInfo,
-                            onGetByteCount = {
-                                _bitmapSize.value = it.toLong()
-                            }
-                        )
-                    }
+                    imageManager.getImage(uri = uri.toString(), originalSize = false)?.image
                 )
                 _selectedUri.value = uri
                 _isLoading.value = false
@@ -237,22 +222,7 @@ class FilterViewModel @Inject constructor(
         filterJob = viewModelScope.launch {
             withContext(Dispatchers.IO) {
                 _isLoading.value = true
-                updateBitmap(
-                    _bitmap.value,
-                    imageManager.transform(
-                        image = bitmap,
-                        transformations = filterList,
-                        originalSize = false
-                    )?.let { bitmap1 ->
-                        imageManager.createPreview(
-                            image = bitmap1,
-                            imageInfo = imageInfo,
-                            onGetByteCount = {
-                                _bitmapSize.value = it.toLong()
-                            }
-                        )
-                    } ?: _previewBitmap.value
-                )
+                updateBitmap(bitmap)
                 _isLoading.value = false
                 _needToApplyFilters.value = false
             }
@@ -335,22 +305,7 @@ class FilterViewModel @Inject constructor(
             filterJob = viewModelScope.launch {
                 withContext(Dispatchers.IO) {
                     _isLoading.value = true
-                    updateBitmap(
-                        _bitmap.value,
-                        imageManager.transform(
-                            image = bitmap,
-                            transformations = filterList,
-                            originalSize = false
-                        )?.let { bitmap1 ->
-                            imageManager.createPreview(
-                                image = bitmap1,
-                                imageInfo = imageInfo,
-                                onGetByteCount = {
-                                    _bitmapSize.value = it.toLong()
-                                }
-                            )
-                        } ?: _previewBitmap.value
-                    )
+                    updateBitmap(bitmap)
                     _isLoading.value = false
                     _needToApplyFilters.value = false
                 }

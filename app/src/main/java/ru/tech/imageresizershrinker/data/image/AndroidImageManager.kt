@@ -108,7 +108,7 @@ class AndroidImageManager @Inject constructor(
             val fd = context.contentResolver.openFileDescriptor(uri.toUri(), "r")
             val exif = fd?.fileDescriptor?.let { ExifInterface(it) }
             fd?.close()
-            ImageData.create(
+            ImageData(
                 image = bitmap,
                 imageInfo = ImageInfo(
                     width = bitmap.width,
@@ -139,7 +139,7 @@ class AndroidImageManager @Inject constructor(
                             val fd = context.contentResolver.openFileDescriptor(uri.toUri(), "r")
                             val exif = fd?.fileDescriptor?.let { ExifInterface(it) }
                             fd?.close()
-                            ImageData.create(
+                            ImageData(
                                 image = it,
                                 imageInfo = ImageInfo(
                                     width = it.width,
@@ -293,7 +293,7 @@ class AndroidImageManager @Inject constructor(
             val fd = context.contentResolver.openFileDescriptor(uri.toUri(), "r")
             val exif = fd?.fileDescriptor?.let { ExifInterface(it) }
             fd?.close()
-            ImageData.create(
+            ImageData(
                 image = bitmap,
                 imageInfo = ImageInfo(
                     width = bitmap.width,
@@ -370,7 +370,7 @@ class AndroidImageManager @Inject constructor(
             val ext = imageInfo.imageFormat.extension
             val file = File(imagesFolder, "$name.$ext")
             FileOutputStream(file).use {
-                it.write(compress(ImageData.create(image, imageInfo)))
+                it.write(compress(ImageData(image, imageInfo)))
             }
             FileProvider.getUriForFile(context, context.getString(R.string.file_provider), file)
         }.getOrNull()?.toString()
@@ -436,7 +436,7 @@ class AndroidImageManager @Inject constructor(
             val fd = context.contentResolver.openFileDescriptor(uri.toUri(), "r")
             val exif = fd?.fileDescriptor?.let { ExifInterface(it) }
             fd?.close()
-            ImageData.create(
+            ImageData(
                 image = bitmap,
                 imageInfo = ImageInfo(
                     width = bitmap.width,
@@ -479,7 +479,7 @@ class AndroidImageManager @Inject constructor(
                     }
                     bmpStream.write(
                         compress(
-                            ImageData.create(
+                            ImageData(
                                 image = image,
                                 imageInfo = ImageInfo(
                                     quality = compressQuality.toFloat(),
@@ -507,7 +507,7 @@ class AndroidImageManager @Inject constructor(
                         bmpStream.write(
                             temp?.let {
                                 compress(
-                                    ImageData.create(
+                                    ImageData(
                                         image = image,
                                         imageInfo = ImageInfo(
                                             quality = compressQuality.toFloat(),
@@ -524,7 +524,7 @@ class AndroidImageManager @Inject constructor(
                 BitmapFactory.decodeStream(ByteArrayInputStream(bmpStream.toByteArray())) to compressQuality
             } else null
         }.getOrNull()?.let {
-            ImageData.create(
+            ImageData(
                 it.first,
                 imageInfo = ImageInfo(
                     width = it.first.width,
@@ -700,7 +700,7 @@ class AndroidImageManager @Inject constructor(
             width = (width * 0.9f).roundToInt()
         }
 
-        out.write(compress(ImageData.create(image, imageInfo.copy(width = width, height = height))))
+        out.write(compress(ImageData(image, imageInfo.copy(width = width, height = height))))
         val b = out.toByteArray()
         onGetByteCount(b.size)
 

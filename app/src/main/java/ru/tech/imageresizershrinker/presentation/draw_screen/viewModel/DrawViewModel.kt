@@ -94,7 +94,7 @@ class DrawViewModel @Inject constructor(
                                     originalUri = _uri.value.toString(),
                                     sequenceNumber = null,
                                     data = imageManager.compress(
-                                        ImageData.create(
+                                        ImageData(
                                             image = localBitmap,
                                             imageInfo = ImageInfo(
                                                 imageFormat = imageFormat,
@@ -132,7 +132,7 @@ class DrawViewModel @Inject constructor(
                                 originalUri = "drawing",
                                 sequenceNumber = null,
                                 data = imageManager.compress(
-                                    ImageData.create(
+                                    ImageData(
                                         image = localBitmap,
                                         imageInfo = ImageInfo(
                                             imageFormat = imageFormat,
@@ -246,7 +246,7 @@ class DrawViewModel @Inject constructor(
         viewModelScope.launch {
             getBitmapForSharing()?.let {
                 imageManager.shareImage(
-                    ImageData.create(
+                    ImageData(
                         image = it,
                         imageInfo = ImageInfo(
                             imageFormat = imageFormat,

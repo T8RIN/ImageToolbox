@@ -150,7 +150,7 @@ class ScreenshotService : Service() {
                                     originalUri = "screenshot",
                                     imageFormat = ImageFormat["jpg"],
                                     data = imageManager.compress(
-                                        ImageData.create(
+                                        ImageData(
                                             bitmap, ImageInfo(
                                                 width = bitmap.width,
                                                 height = bitmap.height,

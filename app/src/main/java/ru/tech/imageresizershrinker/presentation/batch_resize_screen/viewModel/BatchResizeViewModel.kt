@@ -302,7 +302,7 @@ class BatchResizeViewModel @Inject constructor(
                                     originalUri = uri.toString(),
                                     sequenceNumber = _done.value + 1,
                                     data = imageManager.compress(
-                                        ImageData.create(
+                                        ImageData(
                                             bitmap,
                                             imageInfo
                                         )
@@ -361,7 +361,7 @@ class BatchResizeViewModel @Inject constructor(
             imageManager.shareImages(
                 uris = uris?.map { it.toString() } ?: emptyList(),
                 imageLoader = { uri ->
-                    imageManager.getImage(uri)?.image?.let { ImageData.create(it, imageInfo) }
+                    imageManager.getImage(uri)?.image?.let { ImageData(it, imageInfo) }
                 },
                 onProgressChange = {
                     if (it == -1) {
