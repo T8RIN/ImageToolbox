@@ -294,4 +294,11 @@
     <string name="group_options_by_type">按類型對選項進行分組</string>
     <string name="group_options_by_type_sub">在主屏幕上按類型對選項進行分組，而不是自定義列表排列</string>
     <string name="cannot_change_arrangement_while_options_grouping_enabled">啟用選項分組時無法更改排列</string>
+    <string name="warning_bytes">以 %1$s 模式儲存可能不穩定，因為它是無損格式</string>
+    <string name="skip">略過</string>
+    <string name="screenshot">螢幕截圖</string>
+    <string name="force">強制</string>
+    <string name="copy">複製</string>
+    <string name="fallback_option">後備選項</string>
+    <string name="edit_screenshot">編輯螢幕截圖</string>
 </resources>
