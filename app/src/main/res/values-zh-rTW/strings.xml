@@ -301,4 +301,5 @@
     <string name="copy">複製</string>
     <string name="fallback_option">後備選項</string>
     <string name="edit_screenshot">編輯螢幕截圖</string>
+    <string name="secondary_customization">二次定制</string>
 </resources>
