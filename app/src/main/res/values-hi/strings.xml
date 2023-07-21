@@ -294,4 +294,12 @@
     <string name="invalid_password_or_not_encrypted">अमान्य पासवर्ड या चुनी गई फ़ाइल एन्क्रिप्टेड नहीं है</string>
     <string name="cache">कैश</string>
     <string name="create">बनाएं</string>
+    <string name="edit_screenshot">स्क्रीनशॉट संपादित करें</string>
+    <string name="screenshot">स्क्रीनशॉट</string>
+    <string name="fallback_option">फ़ॉलबैक विकल्प</string>
+    <string name="skip">छोडना</string>
+    <string name="copy">प्रतिलिपि</string>
+    <string name="force">ताकत</string>
+    <string name="secondary_customization">द्वितीयक अनुकूलन</string>
+    <string name="warning_bytes">%1$s मोड में सेव करना अस्थिर हो सकता है, क्योंकि यह दोषरहित प्रारूप है</string>
 </resources>

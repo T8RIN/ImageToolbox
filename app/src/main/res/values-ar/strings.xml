@@ -282,4 +282,24 @@
     <string name="file_size">حجم الملف</string>
     <string name="file_size_sub">الحد الأقصى لحجم الملف مقيد بنظام التشغيل Android والذاكرة المتاحة ، والتي تعتمد بشكل واضح على جهازك.
 \nيرجى ملاحظة: الذاكرة ليست تخزين.</string>
+    <string name="force">قوة</string>
+    <string name="group_options_by_type_sub">خيارات المجموعات على الشاشة الرئيسية من نوعها بدلاً من ترتيب القائمة المخصص</string>
+    <string name="create">يخلق</string>
+    <string name="image_size_warning">قد تتسبب محاولة حفظ الصورة بالعرض والارتفاع المحددين في حدوث خطأ OOM ، قم بذلك على مسؤوليتك الخاصة ، ولا تقل أنني لم أحذرك!</string>
+    <string name="auto_cache_clearing_sub">إذا تم تمكين ذاكرة التخزين المؤقت للتطبيق ، فسيتم مسحها عند بدء تشغيل التطبيق</string>
+    <string name="tools">أدوات</string>
+    <string name="screenshot">لقطة شاشة</string>
+    <string name="group_options_by_type">خيارات المجموعة حسب النوع</string>
+    <string name="cache_size">حجم ذاكرة التخزين المؤقت</string>
+    <string name="found_s">تم العثور على %1$s</string>
+    <string name="auto_cache_clearing">مسح ذاكرة التخزين المؤقت التلقائي</string>
+    <string name="cannot_change_arrangement_while_options_grouping_enabled">لا يمكن تغيير الترتيب أثناء تمكين تجميع الخيارات</string>
+    <string name="edit_screenshot">تحرير لقطة الشاشة</string>
+    <string name="secondary_customization">التخصيص الثانوي</string>
+    <string name="fallback_option">الخيار الاحتياطي</string>
+    <string name="skip">يتخطى</string>
+    <string name="copy">ينسخ</string>
+    <string name="warning_bytes">يمكن أن يكون الحفظ في وضع %1$s غير مستقر ، لأنه تنسيق غير ضياع</string>
+    <string name="invalid_password_or_not_encrypted">كلمة مرور غير صالحة أو الملف المختار غير مشفر</string>
+    <string name="cache">مخبأ</string>
 </resources>

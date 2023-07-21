@@ -302,4 +302,9 @@
     <string name="cannot_change_arrangement_while_options_grouping_enabled">Não é possível alterar o arranjo enquanto o agrupamento de opções está ativado</string>
     <string name="secondary_customization">Personalização secundária</string>
     <string name="screenshot">Print</string>
+    <string name="fallback_option">Opção alternativa</string>
+    <string name="skip">Pular</string>
+    <string name="force">Força</string>
+    <string name="copy">cópia de</string>
+    <string name="warning_bytes">Salvar no modo %1$s pode ser instável, porque é um formato sem perdas</string>
 </resources>
