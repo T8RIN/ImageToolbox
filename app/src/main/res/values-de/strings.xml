@@ -265,8 +265,8 @@
     <string name="pick_file">Datei auswählen</string>
     <string name="features">Eigenschaften</string>
     <string name="compatibility">Kompatibilität</string>
-    <string name="cipher">Chiffre</string>
-    <string name="cipher_sub">Ver- und Entschlüsselung beliebiger Dateien (nicht nur des Bildes) basierend auf dem AES-Verschlüsselungsalgorithmus</string>
+    <string name="cipher">Verschlüsseln</string>
+    <string name="cipher_sub">Ver- und entschlüssele beliebige Dateien (nicht nur Bilder) basierend auf dem AES-Verschlüsselungsalgorithmus</string>
     <string name="decrypt">Entschlüsseln</string>
     <string name="implementation">Implementierung</string>
     <string name="encrypt">Verschlüsseln</string>
@@ -279,7 +279,7 @@
     <string name="invalid_password_or_not_encrypted">Ungültiges Passwort oder ausgewählte Datei ist nicht verschlüsselt</string>
     <string name="found_s">%1$s gefunden</string>
     <string name="tools">Werkzeuge</string>
-    <string name="group_options_by_type_sub">Optionen im Hauptbildschirm des jeweiligen Typs gruppieren, anstatt in einer benutzerdefinierten Liste anzuordnen</string>
+    <string name="group_options_by_type_sub">Optionen und Werkzeuge nach Typ in Tabs gruppieren, anstatt sie in selbstdefinierbarer Abfolge in einem einzigen Fenster anzuordnen</string>
     <string name="create">Erstellen</string>
     <string name="store_file_desc">Speichere die Datei auf deinem Gerät oder verwende Sharing, um sie an eine beliebige Stelle weiterzugeben</string>
     <string name="implementation_sub">AES-256, GCM-Modus, kein Padding, 12 Bytes zufällige IVs. Die Schlüssel werden als SHA-3-Hashes (256 Bit) verwendet.</string>
