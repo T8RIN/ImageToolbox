@@ -258,22 +258,13 @@ class AndroidImageManager @Inject constructor(
         fun Int.calc(cnt: Int): Int = (this * (cnt / 100f)).toInt()
 
         return when (preset) {
-            in 500 downTo 70 -> {
+            in 500 downTo 10 -> {
                 currentInfo.copy(
                     quality = preset.toFloat(),
                     width = image.width().calc(preset),
                     height = image.height().calc(preset),
                 )
             }
-
-            in 69 downTo 10 -> currentInfo.run {
-                copy(
-                    width = image.width().calc(preset + 15),
-                    height = image.height().calc(preset + 15),
-                    quality = preset.toFloat()
-                )
-            }
-
             else -> currentInfo
         }
     }
