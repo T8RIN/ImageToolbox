@@ -38,7 +38,7 @@ android {
     packaging {
         jniLibs {
             excludes.add("lib/*/liblog.so")
-            useLegacyPackaging = true
+            useLegacyPackaging = false
             keepDebugSymbols.clear()
         }
     }

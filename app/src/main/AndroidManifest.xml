@@ -18,7 +18,6 @@
     <uses-permission android:name="android.permission.ACCESS_MEDIA_LOCATION" />
 
     <application
-        android:extractNativeLibs="true"
         android:name=".presentation.root.app.ImageApplication"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
