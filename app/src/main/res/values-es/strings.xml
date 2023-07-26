@@ -277,4 +277,29 @@
     <string name="features">Características</string>
     <string name="file_size_sub">El tamaño máximo del archivo está restringido por el SO Android y la memoria disponible, lo cual obviamente dependerá de tu dispositivo.
 \nImportante: memoria no es almacenamiento.</string>
+    <string name="edit_screenshot">Editar captura de pantalla</string>
+    <string name="draw">Dibujar</string>
+    <string name="group_options_by_type">Opciones de grupo por tipo</string>
+    <string name="group_options_by_type_sub">Opciones de grupos en la pantalla principal de su tipo en lugar de disposición de lista personalizada</string>
+    <string name="create">Crear</string>
+    <string name="secondary_customization">Personalización secundaria</string>
+    <string name="screenshot">Captura de pantalla</string>
+    <string name="fallback_option">Opción alternativa</string>
+    <string name="draw_on_background">dibujar en el fondo</string>
+    <string name="activate_files">Desactivó la aplicación Archivos, actívela para usar esta función</string>
+    <string name="draw_sub">Dibujar en la imagen como en un cuaderno de bocetos, o dibujar en el fondo mismo</string>
+    <string name="compatibility_sub">Tenga en cuenta que no se garantiza la compatibilidad con otros servicios o software de cifrado de archivos. Un tratamiento de claves o una configuración de cifrado ligeramente diferentes pueden ser motivos de incompatibilidad.</string>
+    <string name="auto_cache_clearing_sub">Si la caché de la aplicación está habilitada, se borrará al iniciar la aplicación</string>
+    <string name="copy">Copiar</string>
+    <string name="force">Fuerza</string>
+    <string name="warning_bytes">Guardar en modo %1$s puede ser inestable, porque es un formato sin pérdidas</string>
+    <string name="found_s">Encontrado %1$s</string>
+    <string name="draw_on_background_sub">Elija el color de fondo y dibuje encima</string>
+    <string name="features_sub">Cifrado de archivos basado en contraseña. Los archivos procedidos pueden almacenarse en el directorio seleccionado o compartirse. Los archivos descifrados también se pueden abrir directamente.</string>
+    <string name="implementation_sub">AES-256, modo GCM, sin relleno, IV aleatorios de 12 bytes. Las claves se utilizan como hash SHA-3 (256 bits).</string>
+    <string name="cannot_change_arrangement_while_options_grouping_enabled">No se puede cambiar el arreglo mientras la agrupación de opciones está habilitada</string>
+    <string name="skip">Saltar</string>
+    <string name="paint_alpha">pintura alfa</string>
+    <string name="cipher">Cifrar</string>
+    <string name="file_proceed">Archivo procesado</string>
 </resources>

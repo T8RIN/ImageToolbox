@@ -294,4 +294,12 @@
     <string name="auto_cache_clearing">Otomatik önbellek temizleme</string>
     <string name="auto_cache_clearing_sub">Etkinleştirilmişse, uygulama önbelleği uygulama başlangıcında temizlenir</string>
     <string name="cannot_change_arrangement_while_options_grouping_enabled">Seçenek gruplaması etkinken düzenleme değiştirilemez</string>
+    <string name="screenshot">Ekran görüntüsü</string>
+    <string name="skip">Atlamak</string>
+    <string name="copy">kopyala</string>
+    <string name="warning_bytes">%1$s modunda kaydetme, kayıpsız formatta olduğundan istikrarsız olabilir</string>
+    <string name="secondary_customization">İkincil özelleştirme</string>
+    <string name="force">Güç</string>
+    <string name="fallback_option">Yedek seçenek</string>
+    <string name="edit_screenshot">Ekran görüntüsünü düzenle</string>
 </resources>
