@@ -1,6 +1,7 @@
 package ru.tech.imageresizershrinker.presentation.main_screen
 
 import android.content.Intent
+import android.content.res.Configuration
 import android.os.Build
 import android.os.Bundle
 import androidx.activity.compose.BackHandler
@@ -20,6 +21,9 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalConfiguration
+import androidx.core.view.WindowInsetsControllerCompat
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import dagger.hilt.android.AndroidEntryPoint
 import dev.olshevski.navigation.reimagined.navigate
 import nl.dionsegijn.konfetti.compose.KonfettiView
@@ -88,6 +92,19 @@ class MainActivity : M3Activity() {
                 LaunchedEffect(Unit) {
                     if (viewModel.settingsState.clearCacheOnLaunch) {
                         this@MainActivity.clearCache {}
+                    }
+                }
+                val conf = LocalConfiguration.current
+                val systemUiController = rememberSystemUiController()
+                LaunchedEffect(conf.orientation) {
+                    if (conf.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+                        systemUiController.isNavigationBarVisible = false
+                        systemUiController.systemBarsBehavior =
+                            WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
+                    } else {
+                        systemUiController.isNavigationBarVisible = true
+                        systemUiController.systemBarsBehavior =
+                            WindowInsetsControllerCompat.BEHAVIOR_DEFAULT
                     }
                 }
                 ImageResizerTheme {

@@ -61,7 +61,7 @@ fun Modifier.block(
 }
 
 fun Modifier.navBarsLandscapePadding(enabled: Boolean = true) = composed {
-    if (LocalConfiguration.current.orientation == Configuration.ORIENTATION_LANDSCAPE && enabled) Modifier.navigationBarsPadding()
+    if (LocalConfiguration.current.orientation == Configuration.ORIENTATION_LANDSCAPE && enabled) Modifier.navigationBarsPadding().displayCutoutPadding()
     else Modifier
 }
 
