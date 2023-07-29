@@ -199,8 +199,8 @@ class FileControllerImpl @Inject constructor(
                     exif?.copyTo(ex)
                     ex.saveAttributes()
                 }
-            } else null
-        }.getOrNull() ?: dataStore.edit { it[SAVE_FOLDER] = "" }
+            } else {}
+        }.takeIf { it.isFailure } ?: dataStore.edit { it[SAVE_FOLDER] = "" }
     }
 
     private infix fun ExifInterface.copyTo(newExif: ExifInterface) {

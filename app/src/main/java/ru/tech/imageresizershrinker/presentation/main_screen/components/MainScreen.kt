@@ -140,6 +140,7 @@ import ru.tech.imageresizershrinker.presentation.root.theme.icons.Telegram
 import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
 import ru.tech.imageresizershrinker.presentation.root.theme.suggestContainerColorBy
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.ContextUtils.verifyInstallerId
+import ru.tech.imageresizershrinker.presentation.root.utils.helper.plus
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.alertDialog
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.drawHorizontalStroke
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.fabBorder
@@ -375,7 +376,7 @@ fun MainScreen(
                 )
                 Divider()
                 LazyColumn(
-                    contentPadding = WindowInsets.navigationBars.asPaddingValues(),
+                    contentPadding = WindowInsets.navigationBars.asPaddingValues() + WindowInsets.displayCutout.asPaddingValues(),
                     state = lazyListState
                 ) {
                     settingsBlock(

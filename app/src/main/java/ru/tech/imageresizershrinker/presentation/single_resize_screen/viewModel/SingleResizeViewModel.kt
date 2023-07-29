@@ -150,7 +150,7 @@ class SingleResizeViewModel @Inject constructor(
         _exif.value = t
     }
 
-    fun setBitmapInfo(newInfo: ImageInfo) {
+    private fun setBitmapInfo(newInfo: ImageInfo) {
         if (_imageInfo.value != newInfo || _imageInfo.value.quality == 100f) {
             _imageInfo.value = newInfo
             checkBitmapAndUpdate(resetPreset = false, resetTelegram = true)
@@ -221,7 +221,6 @@ class SingleResizeViewModel @Inject constructor(
     }
 
     fun setQuality(quality: Float) {
-        Log.d("COCK", "$quality $imageInfo")
         if (_imageInfo.value.quality != quality) {
             _imageInfo.value = _imageInfo.value.copy(quality = quality.coerceIn(0f, 100f))
             checkBitmapAndUpdate(resetPreset = false, resetTelegram = false)

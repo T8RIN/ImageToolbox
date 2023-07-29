@@ -1,3 +1,5 @@
+@file:Suppress("AnimateAsStateLabel")
+
 package ru.tech.imageresizershrinker.presentation.root.utils.modifier
 
 import android.content.res.Configuration
@@ -61,21 +63,27 @@ fun Modifier.block(
 }
 
 fun Modifier.navBarsLandscapePadding(enabled: Boolean = true) = composed {
-    if (LocalConfiguration.current.orientation == Configuration.ORIENTATION_LANDSCAPE && enabled) Modifier.navigationBarsPadding().displayCutoutPadding()
+    if (LocalConfiguration.current.orientation == Configuration.ORIENTATION_LANDSCAPE && enabled) Modifier
+        .navigationBarsPadding()
+        .displayCutoutPadding()
     else Modifier
 }
 
 fun Modifier.navBarsPaddingOnlyIfTheyAtTheEnd(enabled: Boolean = true) = composed {
     if (WindowInsets.navigationBars.asPaddingValues()
             .calculateBottomPadding() == 0.dp && enabled
-    ) Modifier.navigationBarsPadding()
+    ) Modifier
+        .navigationBarsPadding()
+        .displayCutoutPadding()
     else Modifier
 }
 
 fun Modifier.navBarsPaddingOnlyIfTheyAtTheBottom(enabled: Boolean = true) = composed {
     if (WindowInsets.navigationBars.asPaddingValues()
             .calculateBottomPadding() != 0.dp && enabled
-    ) Modifier.navigationBarsPadding()
+    ) Modifier
+        .navigationBarsPadding()
+        .displayCutoutPadding()
     else Modifier
 }
 

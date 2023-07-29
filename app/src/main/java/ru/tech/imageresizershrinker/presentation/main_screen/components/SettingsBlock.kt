@@ -681,7 +681,6 @@ fun LazyListScope.settingsBlock(
             text = stringResource(R.string.folder),
         ) {
             val currentFolderUri = settingsState.saveFolderUri
-            Log.d("COCK", currentFolderUri.toString())
             val launcher = rememberLauncherForActivityResult(
                 contract = ActivityResultContracts.OpenDocumentTree(),
                 onResult = { uri ->
