@@ -33,7 +33,6 @@
     <string name="clipboard_paste_invalid_color_code">Wklej prawidłowy kod aRGB.</string>
     <string name="clipboard_paste_invalid_empty">Nic do wklejenia</string>
     <string name="color_scheme">Schemat kolorów</string>
-    <string name="saved_to">Zapisano do folderu %1$s</string>
     <string name="explicit">Wyraźny</string>
     <string name="flexible">Elastyczny</string>
     <string name="add_tag">Dodaj tag</string>
