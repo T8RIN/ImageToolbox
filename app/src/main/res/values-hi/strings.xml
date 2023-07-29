@@ -25,7 +25,6 @@
     <string name="flexible">लचीला</string>
     <string name="pick_image_alt">छवि चुनें</string>
     <string name="app_closing_sub">क्या आप वाकई ऐप को बंद करना चाहते हैं\?</string>
-    <string name="saved_to">%1$s फ़ोल्डर में सहेजा गया</string>
     <string name="app_closing">ऐप बंद करना</string>
     <string name="something_went_wrong">कुछ गलत हो गया</string>
     <string name="restart_app">ऐप को रीस्टार्ट करें</string>
