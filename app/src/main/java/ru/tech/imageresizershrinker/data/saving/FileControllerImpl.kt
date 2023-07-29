@@ -1,3 +1,5 @@
+@file:Suppress("LocalVariableName")
+
 package ru.tech.imageresizershrinker.data.saving
 
 import android.Manifest
@@ -17,7 +19,6 @@ import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
-import androidx.datastore.preferences.core.edit
 import androidx.documentfile.provider.DocumentFile
 import androidx.exifinterface.media.ExifInterface
 import kotlinx.coroutines.CoroutineScope
@@ -33,6 +34,7 @@ import ru.tech.imageresizershrinker.data.keys.Keys.SAVE_FOLDER
 import ru.tech.imageresizershrinker.domain.image.Metadata
 import ru.tech.imageresizershrinker.domain.repository.CipherRepository
 import ru.tech.imageresizershrinker.domain.saving.FileController
+import ru.tech.imageresizershrinker.domain.saving.SaveResult
 import ru.tech.imageresizershrinker.domain.saving.SaveTarget
 import ru.tech.imageresizershrinker.domain.saving.model.FileParams
 import ru.tech.imageresizershrinker.domain.saving.model.ImageSaveTarget
@@ -77,8 +79,6 @@ class FileControllerImpl @Inject constructor(
             }
         }
     }
-
-    override fun isExternalStorageWritable(): Boolean = context.isExternalStorageWritable()
 
     private fun Context.isExternalStorageWritable(): Boolean {
         return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) true
@@ -164,23 +164,31 @@ class FileControllerImpl @Inject constructor(
     override suspend fun save(
         saveTarget: SaveTarget,
         keepMetadata: Boolean
-    ) {
+    ): SaveResult {
+        if (!context.isExternalStorageWritable()) return SaveResult.Error.MissingPermissions
+
+        var filename: String = ""
+
         kotlin.runCatching {
             var initialExif: ExifInterface? = null
 
+            val _saveTarget = if (saveTarget is ImageSaveTarget<*>) {
+                initialExif = saveTarget.metadata as ExifInterface?
+
+                saveTarget.copy(
+                    filename = constructFilename(
+                        context = context,
+                        fileParams = fileParams,
+                        saveTarget = saveTarget
+                    )
+                )
+            } else saveTarget
+
+            filename = _saveTarget.filename ?: ""
+
             val savingFolder = context.getSavingFolder(
                 treeUri = fileParams.treeUri?.takeIf { it.isNotEmpty() }?.toUri(),
-                saveTarget = if (saveTarget is ImageSaveTarget<*>) {
-                    initialExif = saveTarget.metadata as ExifInterface?
-
-                    saveTarget.copy(
-                        filename = constructFilename(
-                            context = context,
-                            fileParams = fileParams,
-                            saveTarget = saveTarget
-                        )
-                    )
-                } else saveTarget
+                saveTarget = _saveTarget
             )
 
             savingFolder.outputStream?.use {
@@ -204,8 +212,15 @@ class FileControllerImpl @Inject constructor(
                     exif?.copyTo(ex)
                     ex.saveAttributes()
                 }
-            } else {}
-        }.takeIf { it.isFailure } ?: dataStore.edit { it[SAVE_FOLDER] = "" }
+            } else {
+            }
+        }.let {
+            if (it.isFailure) {
+                return SaveResult.Error.Exception(it.exceptionOrNull() ?: Throwable())
+            } else {
+                return SaveResult.Success(savingPath, filename)
+            }
+        }
     }
 
     private infix fun ExifInterface.copyTo(newExif: ExifInterface) {
