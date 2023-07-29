@@ -10,7 +10,6 @@
     <string name="resize_type">Tipo de redimensión</string>
     <string name="explicit">Explícito</string>
     <string name="flexible">Flexible</string>
-    <string name="saved_to">Guardado en la carpeta %1$s</string>
     <string name="pick_image_alt">Elegir imagen</string>
     <string name="app_closing">Cierre de la aplicación</string>
     <string name="stay">Permanezca en</string>

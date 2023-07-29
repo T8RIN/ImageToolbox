@@ -15,7 +15,6 @@
     <string name="extension">Udvidelse</string>
     <string name="resize_type">Ændring af størrelse</string>
     <string name="explicit">Eksplicit</string>
-    <string name="saved_to">Gemt i mappen %1$s</string>
     <string name="pick_image_alt">Vælg billede</string>
     <string name="app_closing_sub">Ønsker du virkelig at lukke appen\?</string>
     <string name="app_closing">Lukning af app</string>

@@ -72,7 +72,6 @@
     <string name="update">Atualização</string>
     <string name="no_palette">Não foi possível gerar uma paleta para essa imagem</string>
     <string name="custom">Definir local</string>
-    <string name="saved_to">Salvo na pasta %1$s</string>
     <string name="compare">Comparar</string>
     <string name="compare_sub">Comparar duas imagens</string>
     <string name="pick_two_images">Escolha duas imagens para começar</string>

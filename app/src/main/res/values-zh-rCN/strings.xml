@@ -13,7 +13,6 @@
     <string name="resize_type">缩放类型</string>
     <string name="explicit">强制</string>
     <string name="flexible">自适应</string>
-    <string name="saved_to">已保存到目录 %1$s</string>
     <string name="app_closing">关闭应用</string>
     <string name="app_closing_sub">确定关闭本应用吗？</string>
     <string name="stay">取消</string>

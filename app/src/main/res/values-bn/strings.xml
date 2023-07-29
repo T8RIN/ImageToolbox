@@ -29,7 +29,6 @@
     <string name="resize_type">আকার পরিবর্তন করুন</string>
     <string name="explicit">স্পষ্ট</string>
     <string name="flexible">নমনীয়</string>
-    <string name="saved_to">%1$s ফোল্ডারে সংরক্ষিত</string>
     <string name="pick_image_alt">ছবি বাছুন</string>
     <string name="app_closing_sub">আপনি কি সত্যিই অ্যাপটি বন্ধ করতে চান\?</string>
     <string name="app_closing">অ্যাপ বন্ধ হচ্ছে</string>

@@ -12,7 +12,6 @@
     <string name="resize_type">Tipo di ridimensionamento</string>
     <string name="explicit">Specifico</string>
     <string name="flexible">Flessibile</string>
-    <string name="saved_to">Salvata nella cartella %1$s</string>
     <string name="pick_image_alt">Scegli un\'immagine</string>
     <string name="app_closing_sub">Vuoi veramente chiudere l\'applicazione?</string>
     <string name="app_closing">Chiusura dell\'applicazione</string>

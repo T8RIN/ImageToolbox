@@ -16,7 +16,6 @@
     <string name="resize_type">リサイズ方式</string>
     <string name="explicit">絶対指定</string>
     <string name="flexible">フレキシブル</string>
-    <string name="saved_to">%1$s フォルダに保存されます。</string>
     <string name="pick_image_alt">ピックイメージ</string>
     <string name="app_closing_sub">本当にアプリを終了したいのでしょうか？</string>
     <string name="app_closing">アプリの終了</string>

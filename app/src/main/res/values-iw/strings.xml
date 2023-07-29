@@ -24,7 +24,6 @@
     <string name="resize_type">שנה את סוג הגודל</string>
     <string name="explicit">מְפוֹרָשׁ</string>
     <string name="flexible">גָמִישׁ</string>
-    <string name="saved_to">נשמר בתיקייה %1$s</string>
     <string name="pick_image_alt">בחר תמונה</string>
     <string name="app_closing_sub">האם אתה באמת רוצה לסגור את האפליקציה\?</string>
     <string name="reset_image">אפס תמונה</string>

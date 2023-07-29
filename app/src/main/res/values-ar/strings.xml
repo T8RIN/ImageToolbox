@@ -23,7 +23,6 @@
     <string name="resize_type">نوع تغيير الحجم</string>
     <string name="explicit">صريح</string>
     <string name="flexible">مرن</string>
-    <string name="saved_to">تم الحفظ في مجلد %1$s</string>
     <string name="pick_image_alt">اختر صورة</string>
     <string name="app_closing_sub">هل تريد حقًا إغلاق التطبيق؟</string>
     <string name="app_closing">إغلاق التطبيق</string>

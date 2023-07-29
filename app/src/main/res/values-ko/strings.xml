@@ -6,7 +6,6 @@
     <string name="quality">품질</string>
     <string name="resize_type">크기 조정 유형</string>
     <string name="size">파일크기 %1$s</string>
-    <string name="saved_to">%1$s 폴더에 저장되었습니다</string>
     <string name="pick_image_alt">이미지 선택</string>
     <string name="app_closing">앱 종료</string>
     <string name="stay">머물기</string>

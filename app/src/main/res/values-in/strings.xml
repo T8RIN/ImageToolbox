@@ -30,7 +30,6 @@
     <string name="resize_type">Mengubah ukuran jenis</string>
     <string name="explicit">Eksplisit</string>
     <string name="flexible">Fleksibel</string>
-    <string name="saved_to">Disimpan ke folder %1$s</string>
     <string name="pick_image_alt">Pilih Gambar</string>
     <string name="app_closing_sub">Apakah Anda benar-benar ingin menutup aplikasi\?</string>
     <string name="app_closing">Penutupan aplikasi</string>

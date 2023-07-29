@@ -31,7 +31,6 @@
     <string name="resize_type">thay đổi kích thước loại</string>
     <string name="explicit">rõ ràng</string>
     <string name="flexible">Linh hoạt</string>
-    <string name="saved_to">Đã lưu vào thư mục %1$s</string>
     <string name="pick_image_alt">Chọn hình ảnh</string>
     <string name="app_closing_sub">Bạn có thực sự muốn đóng ứng dụng\?</string>
     <string name="app_closing">đóng ứng dụng</string>
