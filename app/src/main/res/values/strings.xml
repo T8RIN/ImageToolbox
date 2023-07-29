@@ -15,7 +15,7 @@
     <string name="resize_type">Resize type</string>
     <string name="explicit">Explicit</string>
     <string name="flexible">Flexible</string>
-    <string name="saved_to">Saved to %1$s folder</string>
+    <string name="saved_to">Saved to %1$s folder with name %2$s</string>
     <string name="pick_image_alt">Pick Image</string>
     <string name="app_closing_sub">Are you really want to close the app?</string>
     <string name="app_closing">App closing</string>

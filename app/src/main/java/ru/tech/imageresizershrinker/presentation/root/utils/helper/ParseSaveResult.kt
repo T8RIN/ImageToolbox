@@ -2,6 +2,7 @@ package ru.tech.imageresizershrinker.presentation.root.utils.helper
 
 import android.content.Context
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.ErrorOutline
 import androidx.compose.material.icons.rounded.Save
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
@@ -17,14 +18,26 @@ fun parseSaveResult(
     scope: CoroutineScope
 ) {
     when (saveResult) {
-        is SaveResult.Error.Exception -> TODO()
+        is SaveResult.Error.Exception -> {
+            scope.launch {
+                toastHostState.showToast(
+                    context.getString(
+                        R.string.smth_went_wrong,
+                        saveResult.throwable.localizedMessage
+                    ),
+                    Icons.Rounded.ErrorOutline
+                )
+            }
+        }
+
         is SaveResult.Success -> {
             if (saveResult.savingPath.isNotEmpty() && saveResult.filename.isNotEmpty()) {
                 scope.launch {
                     toastHostState.showToast(
                         context.getString(
                             R.string.saved_to,
-                            saveResult.savingPath
+                            saveResult.savingPath,
+                            saveResult.filename
                         ),
                         Icons.Rounded.Save
                     )
