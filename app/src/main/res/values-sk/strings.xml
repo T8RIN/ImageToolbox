@@ -13,7 +13,6 @@
     <string name="resize_type">Zmena veľkosti typu</string>
     <string name="explicit">Explicitné</string>
     <string name="flexible">Flexibilné</string>
-    <string name="saved_to">Uložené do priečinka %1$s</string>
     <string name="pick_image_alt">Vybrať obrázok</string>
     <string name="app_closing_sub">Naozaj chcete aplikáciu zavrieť\?</string>
     <string name="app_closing">Zatvorenie aplikácie</string>
