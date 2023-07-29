@@ -3,7 +3,6 @@
     <string name="image_too_large_preview">Зображення занадто велике для попереднього перегляду, але його все одно буде збережено</string>
     <string name="pick_image">Виберіть зображення для початку</string>
     <string name="resize_type">Тип масштабування</string>
-    <string name="saved_to">Збережено в папці %1$s</string>
     <string name="app_closing_sub">Ви дійсно хочете закрити застосунок\?</string>
     <string name="app_closing">Закриття застосунку</string>
     <string name="values_reset">Значення скинуто правильно</string>
