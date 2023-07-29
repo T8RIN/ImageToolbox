@@ -48,6 +48,22 @@
 
 <div align="center">
 
+# ✈️ Telegram Links
+
+</br>
+<a href="https://t.me/t8rin_imagetoolbox">
+    <img src="https://img.shields.io/endpoint?&style=for-the-badge&colorA=e4edf2&colorB=004a77&logo=telegram&logoColor=34849f&label=ImageToolbox ✨ Chat&url=https://mogyo.ro/quart-apis/tgmembercount?chat_id=t8rin_imagetoolbox" alt="Telegram">
+  </a>
+
+  <a href="https://t.me/t8rin_imagetoolbox_ci">
+    <img src="https://img.shields.io/endpoint?&style=for-the-badge&colorA=e4edf2&colorB=004a77&logo=telegram&logoColor=34849f&url=https://tg.sumanjay.workers.dev/t8rin_imagetoolbox_ci" alt="Telegram">
+  </a>
+
+  </br>
+  </br>
+  Join our chat where you can discuss anything you want and also look into CI channel where i will post betas and anouncemets
+  </br>
+
 # ⬇️ Download
 Go to the [Releases](https://github.com/t8rin/imageresizer/releases/latest) and download latest apk or click badges below.
 

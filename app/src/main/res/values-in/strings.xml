@@ -302,4 +302,6 @@
     <string name="features_sub">Enkripsi file berbasis kata sandi. File yang diproses dapat disimpan di direktori yang dipilih atau dibagikan. File yang didekripsi juga bisa langsung dibuka.</string>
     <string name="cache">Cache</string>
     <string name="create">Membuat</string>
+    <string name="presets_sub_bytes">Preset di sini menentukan % dari file output, misalnya jika Anda memilih preset 50 pada gambar 5mb maka Anda akan mendapatkan gambar 2,5mb setelah disimpan</string>
+    <string name="presets_sub">Jika Anda memilih preset 125, gambar akan disimpan 125% dari ukuran gambar asli dengan kualitas 100%, dan jika Anda memilih preset 50, maka ukuran gambar akan disimpan 50% dan kualitas 50%.</string>
 </resources>
