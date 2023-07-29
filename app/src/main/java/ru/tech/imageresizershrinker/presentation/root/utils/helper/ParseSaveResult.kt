@@ -2,13 +2,13 @@ package ru.tech.imageresizershrinker.presentation.root.utils.helper
 
 import android.content.Context
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.ErrorOutline
 import androidx.compose.material.icons.rounded.Save
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.domain.saving.SaveResult
 import ru.tech.imageresizershrinker.presentation.root.widget.other.ToastHostState
+import ru.tech.imageresizershrinker.presentation.root.widget.other.showError
 
 fun parseSaveResult(
     saveResult: SaveResult,
@@ -20,13 +20,7 @@ fun parseSaveResult(
     when (saveResult) {
         is SaveResult.Error.Exception -> {
             scope.launch {
-                toastHostState.showToast(
-                    context.getString(
-                        R.string.smth_went_wrong,
-                        saveResult.throwable.localizedMessage
-                    ),
-                    Icons.Rounded.ErrorOutline
-                )
+                toastHostState.showError(context, saveResult.throwable)
             }
         }
 

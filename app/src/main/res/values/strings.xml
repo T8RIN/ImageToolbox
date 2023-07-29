@@ -320,6 +320,7 @@
     <string name="presets_sub_bytes">Preset here determines % of output file, f.e. if you select preset 50 on 5mb image then you will get 2.5mb image after saving</string>
     <string name="randomize_filename">Randomize filename</string>
     <string name="randomize_filename_sub">If enabled output fileaname would be fully random</string>
+    <string name="saved_to">Saved to %1$s folder with name %2$s</string>
     <string-array name="fab_alignment_sub">
         <item>Start</item>
         <item>Center</item>
