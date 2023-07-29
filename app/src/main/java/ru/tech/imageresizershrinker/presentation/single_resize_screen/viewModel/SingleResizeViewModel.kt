@@ -2,7 +2,6 @@ package ru.tech.imageresizershrinker.presentation.single_resize_screen.viewModel
 
 import android.graphics.Bitmap
 import android.net.Uri
-import android.util.Log
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
@@ -23,6 +22,7 @@ import ru.tech.imageresizershrinker.domain.model.ImageFormat
 import ru.tech.imageresizershrinker.domain.model.ImageInfo
 import ru.tech.imageresizershrinker.domain.model.ResizeType
 import ru.tech.imageresizershrinker.domain.saving.FileController
+import ru.tech.imageresizershrinker.domain.saving.SaveResult
 import ru.tech.imageresizershrinker.domain.saving.model.ImageSaveTarget
 import javax.inject.Inject
 
@@ -47,8 +47,8 @@ class SingleResizeViewModel @Inject constructor(
     private val _imageInfo: MutableState<ImageInfo> = mutableStateOf(ImageInfo())
     val imageInfo: ImageInfo by _imageInfo
 
-    private val _isLoading: MutableState<Boolean> = mutableStateOf(false)
-    val isLoading: Boolean by _isLoading
+    private val _isImageLoading: MutableState<Boolean> = mutableStateOf(false)
+    val isImageLoading: Boolean by _isImageLoading
 
     private val _showWarning: MutableState<Boolean> = mutableStateOf(false)
     val showWarning: Boolean by _showWarning
@@ -62,6 +62,9 @@ class SingleResizeViewModel @Inject constructor(
     private val _isTelegramSpecs: MutableState<Boolean> = mutableStateOf(false)
     val isTelegramSpecs by _isTelegramSpecs
 
+    private val _showSaveLoading: MutableState<Boolean> = mutableStateOf(false)
+    val showSaveLoading by _showSaveLoading
+
     private var job: Job? = null
 
     private fun checkBitmapAndUpdate(resetPreset: Boolean, resetTelegram: Boolean) {
@@ -72,9 +75,9 @@ class SingleResizeViewModel @Inject constructor(
             _isTelegramSpecs.value = false
         }
         job?.cancel()
-        _isLoading.value = false
+        _isImageLoading.value = false
         job = viewModelScope.launch {
-            _isLoading.value = true
+            _isImageLoading.value = true
             delay(600)
             _bitmap.value?.let { bmp ->
                 val preview = updatePreview(bmp)
@@ -89,41 +92,36 @@ class SingleResizeViewModel @Inject constructor(
                     ) else this
                 }
             }
-            _isLoading.value = false
+            _isImageLoading.value = false
         }
     }
 
     fun saveBitmap(
-        onComplete: (path: String) -> Unit
+        onComplete: (result: SaveResult) -> Unit,
     ) = viewModelScope.launch {
         withContext(Dispatchers.IO) {
+            _showSaveLoading.value = true
             bitmap?.let { bitmap ->
-                imageInfo.apply {
-                    if (!fileController.isExternalStorageWritable()) {
-                        onComplete("")
-                        fileController.requestReadWritePermissions()
-                    } else {
-                        fileController.save(
-                            saveTarget = ImageSaveTarget(
-                                imageInfo = this,
-                                metadata = exif,
-                                originalUri = uri.toString(),
-                                sequenceNumber = null,
-                                data = imageManager.compress(
-                                    ImageData(
-                                        image = bitmap,
-                                        imageInfo = this,
-                                        metadata = exif
-                                    )
+                onComplete(
+                    fileController.save(
+                        saveTarget = ImageSaveTarget(
+                            imageInfo = imageInfo,
+                            metadata = exif,
+                            originalUri = uri.toString(),
+                            sequenceNumber = null,
+                            data = imageManager.compress(
+                                ImageData(
+                                    image = bitmap,
+                                    imageInfo = imageInfo,
+                                    metadata = exif
                                 )
-                            ),
-                            keepMetadata = true
-                        )
-
-                        onComplete(fileController.savingPath)
-                    }
-                }
+                            )
+                        ),
+                        keepMetadata = true
+                    )
+                )
             }
+            _showSaveLoading.value = false
         }
     }
 
@@ -306,7 +304,9 @@ class SingleResizeViewModel @Inject constructor(
 
     fun shareBitmap(bitmap: Bitmap?, onComplete: () -> Unit) {
         viewModelScope.launch {
+            _showSaveLoading.value = true
             bitmap?.let { imageManager.shareImage(ImageData(it, imageInfo), onComplete) }
+            _showSaveLoading.value = false
         }
     }
 

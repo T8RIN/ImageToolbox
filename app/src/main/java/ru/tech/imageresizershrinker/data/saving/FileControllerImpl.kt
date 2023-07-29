@@ -88,10 +88,6 @@ class FileControllerImpl @Inject constructor(
         ) == PackageManager.PERMISSION_GRANTED
     }
 
-    override fun requestReadWritePermissions() {
-        context.findActivity()?.requestStoragePermission()
-    }
-
     private fun Activity.requestStoragePermission() {
         val state = checkPermissions(
             listOf(
@@ -165,9 +161,12 @@ class FileControllerImpl @Inject constructor(
         saveTarget: SaveTarget,
         keepMetadata: Boolean
     ): SaveResult {
-        if (!context.isExternalStorageWritable()) return SaveResult.Error.MissingPermissions
+        if (!context.isExternalStorageWritable()) {
+            context.findActivity()?.requestStoragePermission()
+            return SaveResult.Error.MissingPermissions
+        }
 
-        var filename: String = ""
+        var filename = ""
 
         kotlin.runCatching {
             var initialExif: ExifInterface? = null

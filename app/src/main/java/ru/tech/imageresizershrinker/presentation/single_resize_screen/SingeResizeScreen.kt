@@ -36,7 +36,6 @@ import androidx.compose.material.icons.rounded.ArrowBack
 import androidx.compose.material.icons.rounded.Compare
 import androidx.compose.material.icons.rounded.History
 import androidx.compose.material.icons.rounded.RestartAlt
-import androidx.compose.material.icons.rounded.Save
 import androidx.compose.material.icons.rounded.ZoomIn
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -78,6 +77,7 @@ import ru.tech.imageresizershrinker.presentation.root.transformation.filter.Satu
 import ru.tech.imageresizershrinker.presentation.root.utils.confetti.LocalConfettiController
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.Picker
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.localImagePickerMode
+import ru.tech.imageresizershrinker.presentation.root.utils.helper.parseSaveResult
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.rememberImagePicker
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.drawHorizontalStroke
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.navBarsLandscapePadding
@@ -158,7 +158,6 @@ fun SingleResizeScreen(
 
     val focus = LocalFocusManager.current
     var showResetDialog by rememberSaveable { mutableStateOf(false) }
-    var showSaveLoading by rememberSaveable { mutableStateOf(false) }
     var showOriginal by rememberSaveable { mutableStateOf(false) }
     val showEditExifDialog = rememberSaveable { mutableStateOf(false) }
     var showExitDialog by rememberSaveable { mutableStateOf(false) }
@@ -185,26 +184,17 @@ fun SingleResizeScreen(
             }
         }
 
-    val pickImage = {
-        pickImageLauncher.pickImage()
-    }
+    val pickImage = pickImageLauncher::pickImage
 
     val saveBitmap: () -> Unit = {
-        showSaveLoading = true
-        viewModel.saveBitmap { savingPath ->
-            if (savingPath.isNotEmpty()) {
-                scope.launch {
-                    toastHostState.showToast(
-                        context.getString(
-                            R.string.saved_to,
-                            savingPath
-                        ),
-                        Icons.Rounded.Save
-                    )
-                }
-                showConfetti()
-            }
-            showSaveLoading = false
+        viewModel.saveBitmap { saveResult ->
+            parseSaveResult(
+                saveResult = saveResult,
+                onSuccess = showConfetti,
+                toastHostState = toastHostState,
+                scope = scope,
+                context = context
+            )
         }
     }
 
@@ -219,7 +209,7 @@ fun SingleResizeScreen(
             showOriginal = showOriginal,
             previewBitmap = viewModel.previewBitmap,
             originalBitmap = viewModel.bitmap,
-            isLoading = viewModel.isLoading,
+            isLoading = viewModel.isImageLoading,
             shouldShowPreview = viewModel.shouldShowPreview
         )
     }
@@ -232,13 +222,9 @@ fun SingleResizeScreen(
         )
         IconButton(
             onClick = {
-                showSaveLoading = true
                 viewModel.shareBitmap(
                     bitmap = viewModel.previewBitmap,
-                    onComplete = {
-                        showSaveLoading = false
-                        showConfetti()
-                    }
+                    onComplete = showConfetti
                 )
             },
             enabled = viewModel.previewBitmap != null
@@ -389,7 +375,7 @@ fun SingleResizeScreen(
                         TopAppBarTitle(
                             title = stringResource(R.string.single_edit),
                             bitmap = viewModel.bitmap,
-                            isLoading = viewModel.isLoading,
+                            isLoading = viewModel.isImageLoading,
                             size = viewModel.imageInfo.sizeInBytes.toLong()
                         )
                     },
@@ -510,7 +496,7 @@ fun SingleResizeScreen(
                                         resizeType = bitmapInfo.resizeType,
                                         onResizeChange = viewModel::setResizeType
                                     )
-                                } else if (!viewModel.isLoading) {
+                                } else if (!viewModel.isImageLoading) {
                                     ImageNotPickedWidget(onPickImage = pickImage)
                                 }
                             }
@@ -557,7 +543,7 @@ fun SingleResizeScreen(
                 visible = showExitDialog
             )
 
-            if (showSaveLoading) LoadingDialog()
+            if (viewModel.showSaveLoading) LoadingDialog()
 
             BackHandler(onBack = onBack)
 
