@@ -50,4 +50,6 @@ interface SettingsRepository {
     suspend fun toggleClearCacheOnLaunch()
 
     suspend fun toggleGroupOptionsByTypes()
+
+    suspend fun toggleRandomizeFilename()
 }

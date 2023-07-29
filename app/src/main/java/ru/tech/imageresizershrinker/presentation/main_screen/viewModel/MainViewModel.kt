@@ -31,6 +31,7 @@ import ru.tech.imageresizershrinker.domain.use_case.edit_settings.ToggleAmoledMo
 import ru.tech.imageresizershrinker.domain.use_case.edit_settings.ToggleClearCacheOnLaunchUseCase
 import ru.tech.imageresizershrinker.domain.use_case.edit_settings.ToggleDynamicColorsUseCase
 import ru.tech.imageresizershrinker.domain.use_case.edit_settings.ToggleGroupOptionsByTypesUseCase
+import ru.tech.imageresizershrinker.domain.use_case.edit_settings.ToggleRandomizeFilenameUseCase
 import ru.tech.imageresizershrinker.domain.use_case.edit_settings.ToggleShowDialogUseCase
 import ru.tech.imageresizershrinker.domain.use_case.edit_settings.UpdateColorTupleUseCase
 import ru.tech.imageresizershrinker.domain.use_case.edit_settings.UpdateColorTuplesUseCase
@@ -73,7 +74,8 @@ class MainViewModel @Inject constructor(
     private val setAlignmentUseCase: SetAlignmentUseCase,
     private val updateOrderUseCase: UpdateOrderUseCase,
     private val toggleClearCacheOnLaunchUseCase: ToggleClearCacheOnLaunchUseCase,
-    private val toggleGroupOptionsByTypesUseCase: ToggleGroupOptionsByTypesUseCase
+    private val toggleGroupOptionsByTypesUseCase: ToggleGroupOptionsByTypesUseCase,
+    private val toggleRandomizeFilenameUseCase: ToggleRandomizeFilenameUseCase
 ) : ViewModel() {
 
     private val _settingsState = mutableStateOf(SettingsState.Default())
@@ -323,6 +325,12 @@ class MainViewModel @Inject constructor(
     fun updateGroupOptionsByTypes() {
         viewModelScope.launch {
             toggleGroupOptionsByTypesUseCase()
+        }
+    }
+
+    fun toggleRandomizeFilename() {
+        viewModelScope.launch {
+            toggleRandomizeFilenameUseCase()
         }
     }
 

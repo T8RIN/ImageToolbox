@@ -40,7 +40,8 @@ data class UiSettingsState(
     val saveFolderUri: Uri? = null,
     val filenamePrefix: String = "",
     val addSizeInFilename: Boolean = false,
-    val addOriginalFilename: Boolean = false
+    val addOriginalFilename: Boolean = false,
+    val randomizeFilename: Boolean = false
 )
 
 @Composable
@@ -66,6 +67,7 @@ fun SettingsState.toUiState() = UiSettingsState(
     filenamePrefix = filenamePrefix,
     addSizeInFilename = addSizeInFilename,
     addOriginalFilename = addOriginalFilename,
+    randomizeFilename = randomizeFilename
 )
 
 private fun String?.toColorTupleList(): List<ColorTuple> {

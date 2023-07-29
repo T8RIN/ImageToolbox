@@ -3,10 +3,10 @@ package ru.tech.imageresizershrinker.presentation.main_screen.components
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
-import android.util.Log
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.animateFloatAsState
@@ -804,62 +804,75 @@ fun LazyListScope.settingsBlock(
             icon = Icons.Rounded.FileSettings,
             text = stringResource(R.string.filename),
         ) {
-            PreferenceItem(
-                onClick = { onEditFilename() },
-                title = stringResource(R.string.prefix),
-                subtitle = (settingsState.filenamePrefix.takeIf { it.isNotEmpty() }
-                    ?: stringResource(R.string.default_prefix)),
-                color = MaterialTheme
-                    .colorScheme
-                    .secondaryContainer
-                    .copy(alpha = 0.2f),
-                endIcon = Icons.Rounded.CreateAlt,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 8.dp)
-            )
-            Spacer(Modifier.height(8.dp))
-            PreferenceRowSwitch(
-                modifier = Modifier.padding(horizontal = 8.dp),
-                applyHorPadding = false,
-                onClick = { viewModel.toggleAddFileSize() },
-                title = stringResource(R.string.add_file_size),
-                subtitle = stringResource(R.string.add_file_size_sub),
-                checked = settingsState.addSizeInFilename
-            )
-            Spacer(Modifier.height(8.dp))
-            val enabled = settingsState.imagePickerModeInt != 0
-            PreferenceRowSwitch(
-                applyHorPadding = false,
-                modifier = Modifier
-                    .alpha(
-                        animateFloatAsState(
-                            if (enabled) 1f
-                            else 0.5f
-                        ).value
+            AnimatedVisibility(!settingsState.randomizeFilename) {
+                Column {
+                    PreferenceItem(
+                        onClick = { onEditFilename() },
+                        title = stringResource(R.string.prefix),
+                        subtitle = (settingsState.filenamePrefix.takeIf { it.isNotEmpty() }
+                            ?: stringResource(R.string.default_prefix)),
+                        color = MaterialTheme
+                            .colorScheme
+                            .secondaryContainer
+                            .copy(alpha = 0.2f),
+                        endIcon = Icons.Rounded.CreateAlt,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 8.dp)
                     )
-                    .padding(horizontal = 8.dp),
-                onClick = {
-                    if (enabled) viewModel.toggleAddOriginalFilename()
-                    else scope.launch {
-                        toastHostState.showToast(
-                            message = context.getString(R.string.filename_not_work_with_photopicker),
-                            icon = Icons.Outlined.ErrorOutline
-                        )
-                    }
-                },
-                title = stringResource(R.string.add_original_filename),
-                subtitle = stringResource(R.string.add_original_filename_sub),
-                checked = settingsState.addOriginalFilename && enabled
-            )
-            Spacer(Modifier.height(8.dp))
+                    Spacer(Modifier.height(8.dp))
+                    PreferenceRowSwitch(
+                        modifier = Modifier.padding(horizontal = 8.dp),
+                        applyHorPadding = false,
+                        onClick = { viewModel.toggleAddFileSize() },
+                        title = stringResource(R.string.add_file_size),
+                        subtitle = stringResource(R.string.add_file_size_sub),
+                        checked = settingsState.addSizeInFilename
+                    )
+                    Spacer(Modifier.height(8.dp))
+                    val enabled = settingsState.imagePickerModeInt != 0
+                    PreferenceRowSwitch(
+                        applyHorPadding = false,
+                        modifier = Modifier
+                            .alpha(
+                                animateFloatAsState(
+                                    if (enabled) 1f
+                                    else 0.5f
+                                ).value
+                            )
+                            .padding(horizontal = 8.dp),
+                        onClick = {
+                            if (enabled) viewModel.toggleAddOriginalFilename()
+                            else scope.launch {
+                                toastHostState.showToast(
+                                    message = context.getString(R.string.filename_not_work_with_photopicker),
+                                    icon = Icons.Outlined.ErrorOutline
+                                )
+                            }
+                        },
+                        title = stringResource(R.string.add_original_filename),
+                        subtitle = stringResource(R.string.add_original_filename_sub),
+                        checked = settingsState.addOriginalFilename && enabled
+                    )
+                    Spacer(Modifier.height(8.dp))
+                    PreferenceRowSwitch(
+                        modifier = Modifier.padding(horizontal = 8.dp),
+                        applyHorPadding = false,
+                        onClick = { viewModel.toggleAddSequenceNumber() },
+                        title = stringResource(R.string.replace_sequence_number),
+                        subtitle = stringResource(R.string.replace_sequence_number_sub),
+                        checked = settingsState.addSequenceNumber
+                    )
+                    Spacer(Modifier.height(8.dp))
+                }
+            }
             PreferenceRowSwitch(
                 modifier = Modifier.padding(horizontal = 8.dp),
                 applyHorPadding = false,
-                onClick = { viewModel.toggleAddSequenceNumber() },
-                title = stringResource(R.string.replace_sequence_number),
-                subtitle = stringResource(R.string.replace_sequence_number_sub),
-                checked = settingsState.addSequenceNumber
+                onClick = { viewModel.toggleRandomizeFilename() },
+                title = stringResource(R.string.randomize_filename),
+                subtitle = stringResource(R.string.randomize_filename_sub),
+                checked = settingsState.randomizeFilename
             )
         }
     }

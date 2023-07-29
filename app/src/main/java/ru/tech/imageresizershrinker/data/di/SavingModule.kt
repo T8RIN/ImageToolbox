@@ -9,6 +9,7 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import ru.tech.imageresizershrinker.data.saving.FileControllerImpl
+import ru.tech.imageresizershrinker.domain.repository.CipherRepository
 import ru.tech.imageresizershrinker.domain.saving.FileController
 import javax.inject.Singleton
 
@@ -20,7 +21,8 @@ object SavingModule {
     @Provides
     fun provideFileController(
         @ApplicationContext context: Context,
-        dataStore: DataStore<Preferences>
-    ): FileController = FileControllerImpl(context, dataStore)
+        dataStore: DataStore<Preferences>,
+        cipherRepository: CipherRepository
+    ): FileController = FileControllerImpl(context, dataStore, cipherRepository)
 
 }

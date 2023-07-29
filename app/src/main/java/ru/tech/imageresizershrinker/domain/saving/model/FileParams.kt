@@ -5,5 +5,6 @@ data class FileParams(
     val filenamePrefix: String,
     val addSizeInFilename: Boolean,
     val addOriginalFilename: Boolean,
-    val addSequenceNumber: Boolean
+    val addSequenceNumber: Boolean,
+    val randomizeFilename: Boolean
 )

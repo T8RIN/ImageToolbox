@@ -23,7 +23,8 @@ data class SettingsState(
     val saveFolderUri: String?,
     val filenamePrefix: String,
     val addSizeInFilename: Boolean,
-    val addOriginalFilename: Boolean
+    val addOriginalFilename: Boolean,
+    val randomizeFilename: Boolean
 ) : Domain {
     companion object {
         fun Default() = SettingsState(
@@ -47,7 +48,8 @@ data class SettingsState(
             saveFolderUri = null,
             filenamePrefix = "",
             addSizeInFilename = true,
-            addOriginalFilename = false
+            addOriginalFilename = false,
+            randomizeFilename = false
         )
     }
 }

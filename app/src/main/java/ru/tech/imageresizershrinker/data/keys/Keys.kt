@@ -27,4 +27,5 @@ object Keys {
     val ADD_SEQ_NUM = booleanPreferencesKey("ADD_SEQ_NUM")
     val AUTO_CACHE_CLEAR = booleanPreferencesKey("auto_clear")
     val GROUP_OPTIONS = booleanPreferencesKey("group_options")
+    val RANDOMIZE_FILENAME = booleanPreferencesKey("rand-filename")
 }

@@ -28,8 +28,10 @@ import ru.tech.imageresizershrinker.data.keys.Keys.ADD_ORIGINAL_NAME
 import ru.tech.imageresizershrinker.data.keys.Keys.ADD_SEQ_NUM
 import ru.tech.imageresizershrinker.data.keys.Keys.ADD_SIZE
 import ru.tech.imageresizershrinker.data.keys.Keys.FILENAME_PREFIX
+import ru.tech.imageresizershrinker.data.keys.Keys.RANDOMIZE_FILENAME
 import ru.tech.imageresizershrinker.data.keys.Keys.SAVE_FOLDER
 import ru.tech.imageresizershrinker.domain.image.Metadata
+import ru.tech.imageresizershrinker.domain.repository.CipherRepository
 import ru.tech.imageresizershrinker.domain.saving.FileController
 import ru.tech.imageresizershrinker.domain.saving.SaveTarget
 import ru.tech.imageresizershrinker.domain.saving.model.FileParams
@@ -48,7 +50,8 @@ import kotlin.random.Random
 
 class FileControllerImpl @Inject constructor(
     private val context: Context,
-    private val dataStore: DataStore<Preferences>
+    private val dataStore: DataStore<Preferences>,
+    private val cipherRepository: CipherRepository
 ) : FileController {
 
     private var fileParams: FileParams = FileParams(
@@ -56,7 +59,8 @@ class FileControllerImpl @Inject constructor(
         filenamePrefix = "",
         addSizeInFilename = false,
         addOriginalFilename = false,
-        addSequenceNumber = false
+        addSequenceNumber = false,
+        randomizeFilename = false
     )
 
     init {
@@ -67,7 +71,8 @@ class FileControllerImpl @Inject constructor(
                     filenamePrefix = it[FILENAME_PREFIX] ?: "",
                     addSizeInFilename = it[ADD_SIZE] ?: false,
                     addOriginalFilename = it[ADD_ORIGINAL_NAME] ?: false,
-                    addSequenceNumber = it[ADD_SEQ_NUM] ?: true
+                    addSequenceNumber = it[ADD_SEQ_NUM] ?: true,
+                    randomizeFilename = it[RANDOMIZE_FILENAME] ?: false
                 )
             }
         }
@@ -221,6 +226,10 @@ class FileControllerImpl @Inject constructor(
         fileParams: FileParams,
         saveTarget: ImageSaveTarget<*>
     ): String {
+        val extension = saveTarget.imageInfo.imageFormat.extension
+
+        if (fileParams.randomizeFilename) return "${cipherRepository.generateRandomPassword(32)}.$extension"
+
         val wh =
             "(" + (if (saveTarget.originalUri.toUri() == Uri.EMPTY) context.getString(R.string.width)
                 .split(" ")[0] else saveTarget.imageInfo.width) + ")x(" + (if (saveTarget.originalUri.toUri() == Uri.EMPTY) context.getString(
@@ -228,7 +237,6 @@ class FileControllerImpl @Inject constructor(
             ).split(" ")[0] else saveTarget.imageInfo.height) + ")"
 
         var prefix = fileParams.filenamePrefix
-        val extension = saveTarget.imageInfo.imageFormat.extension
 
         if (prefix.isEmpty()) prefix = defaultPrefix()
 

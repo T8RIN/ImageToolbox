@@ -25,6 +25,7 @@ import ru.tech.imageresizershrinker.data.keys.Keys.NIGHT_MODE
 import ru.tech.imageresizershrinker.data.keys.Keys.ORDER
 import ru.tech.imageresizershrinker.data.keys.Keys.PICKER_MODE
 import ru.tech.imageresizershrinker.data.keys.Keys.PRESETS
+import ru.tech.imageresizershrinker.data.keys.Keys.RANDOMIZE_FILENAME
 import ru.tech.imageresizershrinker.data.keys.Keys.SAVE_FOLDER
 import ru.tech.imageresizershrinker.data.keys.Keys.SHOW_DIALOG
 import ru.tech.imageresizershrinker.domain.model.SettingsState
@@ -60,7 +61,8 @@ class SettingsRepositoryImpl @Inject constructor(
             saveFolderUri = null,
             filenamePrefix = "",
             addSizeInFilename = false,
-            addOriginalFilename = false
+            addOriginalFilename = false,
+            randomizeFilename = prefs[RANDOMIZE_FILENAME] ?: false
         )
     }
 
@@ -90,7 +92,8 @@ class SettingsRepositoryImpl @Inject constructor(
             fabAlignment = prefs[ALIGNMENT] ?: 1,
             filenamePrefix = prefs[FILENAME_PREFIX] ?: "",
             addSizeInFilename = prefs[ADD_SIZE] ?: false,
-            addOriginalFilename = prefs[ADD_ORIGINAL_NAME] ?: false
+            addOriginalFilename = prefs[ADD_ORIGINAL_NAME] ?: false,
+            randomizeFilename = prefs[RANDOMIZE_FILENAME] ?: false
         )
     }
 
@@ -226,6 +229,13 @@ class SettingsRepositoryImpl @Inject constructor(
         dataStore.edit {
             val v = it[GROUP_OPTIONS] ?: true
             it[GROUP_OPTIONS] = !v
+        }
+    }
+
+    override suspend fun toggleRandomizeFilename() {
+        dataStore.edit {
+            val v = it[RANDOMIZE_FILENAME] ?: true
+            it[RANDOMIZE_FILENAME] = !v
         }
     }
 
