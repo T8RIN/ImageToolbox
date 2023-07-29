@@ -31,7 +31,6 @@
     <string name="resize_type">ประเภทการปรับขนาด</string>
     <string name="explicit">ชัดเจน</string>
     <string name="flexible">ยืดหยุ่นได้</string>
-    <string name="saved_to">บันทึกไปยังโฟลเดอร์ %1$s</string>
     <string name="pick_image_alt">เลือกรูปภาพ</string>
     <string name="reset_image_sub">การเปลี่ยนแปลงรูปภาพจะถูกย้อนกลับเป็นค่าเริ่มต้น</string>
     <string name="app_closing_sub">คุณต้องการปิดแอปจริงๆ หรือไม่\?</string>
