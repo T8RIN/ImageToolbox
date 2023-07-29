@@ -34,7 +34,6 @@
     <string name="loading">Lade…</string>
     <string name="pick_image">Wähle Bild zum Starten</string>
     <string name="width">Breite %1$s</string>
-    <string name="saved_to">Speichere in Ordner „%1$s“</string>
     <string name="reset_image">Bild zurücksetzen</string>
     <string name="something_went_wrong">Irgendwas ging schief</string>
     <string name="restart_app">App neustarten</string>
