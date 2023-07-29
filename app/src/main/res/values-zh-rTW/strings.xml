@@ -10,7 +10,6 @@
     <string name="height">高度 %1$s</string>
     <string name="something_went_wrong">發生了一些錯誤</string>
     <string name="edit_exif">編輯 EXIF</string>
-    <string name="saved_to">儲存至 %1$s 資料夾</string>
     <string name="clear">清除</string>
     <string name="check_source_code">原始碼</string>
     <string name="color_blue">藍色</string>
