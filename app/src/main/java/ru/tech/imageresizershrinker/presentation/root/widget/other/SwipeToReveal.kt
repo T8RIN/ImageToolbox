@@ -1,3 +1,5 @@
+@file:Suppress("TYPEALIAS_EXPANSION_DEPRECATION", "DEPRECATION")
+
 package ru.tech.imageresizershrinker.presentation.root.widget.other
 
 import androidx.compose.animation.core.CubicBezierEasing
@@ -5,6 +7,7 @@ import androidx.compose.animation.core.Easing
 import androidx.compose.animation.core.SnapSpec
 import androidx.compose.foundation.gestures.Orientation
 import androidx.compose.foundation.layout.*
+//noinspection UsingMaterialAndMaterial3Libraries
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -61,7 +64,7 @@ fun SwipeToReveal(
             ) {
                 Box(
                     modifier = Modifier
-                        .fillMaxWidth(0.5f)
+                        .fillMaxWidth(0.8f)
                         .fillMaxHeight(),
                     contentAlignment = Alignment.CenterStart,
                     content = revealedContentStart
