@@ -54,6 +54,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.graphics.toArgb
@@ -300,8 +301,9 @@ fun GeneratePaletteScreen(
                                     .fillMaxHeight()
                                     .padding(16.dp)
                                     .navBarsPaddingOnlyIfTheyAtTheBottom()
-                                    .block(RoundedCornerShape(4.dp))
-                                    .padding(4.dp),
+                                    .block()
+                                    .padding(4.dp)
+                                    .clip(RoundedCornerShape(8.dp)),
                                 contentDescription = null,
                                 contentScale = ContentScale.FillHeight
                             )
@@ -348,8 +350,9 @@ fun GeneratePaletteScreen(
                                 modifier = Modifier
                                     .fillMaxWidth()
                                     .padding(16.dp)
-                                    .block(RoundedCornerShape(4.dp))
-                                    .padding(4.dp),
+                                    .block()
+                                    .padding(4.dp)
+                                    .clip(RoundedCornerShape(8.dp)),
                                 contentDescription = null,
                                 contentScale = ContentScale.FillWidth
                             )

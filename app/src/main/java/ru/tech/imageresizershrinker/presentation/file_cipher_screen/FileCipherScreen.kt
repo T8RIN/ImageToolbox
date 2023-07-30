@@ -68,6 +68,10 @@ import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedCard
 import androidx.compose.material3.OutlinedIconButton
+import androidx.compose.material3.SegmentedButton
+import androidx.compose.material3.SegmentedButtonBorder
+import androidx.compose.material3.SegmentedButtonDefaults
+import androidx.compose.material3.SingleChoiceSegmentedButtonRow
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
@@ -92,6 +96,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.max
 import androidx.compose.ui.unit.sp
 import dev.olshevski.navigation.reimagined.hilt.hiltViewModel
 import kotlinx.coroutines.launch
@@ -109,7 +114,6 @@ import ru.tech.imageresizershrinker.presentation.root.utils.helper.readableByteC
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.block
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.drawHorizontalStroke
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.fabBorder
-import ru.tech.imageresizershrinker.presentation.root.widget.buttons.ToggleGroupButton
 import ru.tech.imageresizershrinker.presentation.root.widget.dialogs.ExitWithoutSavingDialog
 import ru.tech.imageresizershrinker.presentation.root.widget.other.LoadingDialog
 import ru.tech.imageresizershrinker.presentation.root.widget.other.LocalToastHost
@@ -320,25 +324,46 @@ fun FileCipherScreen(
                                         }
                                     } else {
                                         Row(
-                                            Modifier
+                                            modifier = Modifier
                                                 .block(MaterialTheme.shapes.extraLarge)
-                                                .padding(horizontal = 8.dp, vertical = 4.dp)
+                                                .padding(horizontal = 8.dp, vertical = 4.dp),
+                                            verticalAlignment = Alignment.CenterVertically
                                         ) {
-                                            ToggleGroupButton(
-                                                enabled = true,
-                                                items = listOf(
-                                                    stringResource(R.string.encryption),
-                                                    stringResource(R.string.decryption)
-                                                ),
-                                                title = null,
-                                                selectedIndex = if (viewModel.isEncrypt) 0 else 1,
-                                                indexChanged = {
-                                                    viewModel.setIsEncrypt(it == 0)
-                                                },
+                                            val items = listOf(
+                                                stringResource(R.string.encryption),
+                                                stringResource(R.string.decryption)
+                                            )
+                                            SingleChoiceSegmentedButtonRow(
+                                                space = max(settingsState.borderWidth, 1.dp),
                                                 modifier = Modifier
                                                     .weight(1f)
                                                     .padding(end = 8.dp, start = 2.dp)
-                                            )
+                                            ) {
+                                                items.forEachIndexed { index, item ->
+                                                    SegmentedButton(
+                                                        onClick = { viewModel.setIsEncrypt(index == 0) },
+                                                        border = SegmentedButtonBorder(
+                                                            max(
+                                                                settingsState.borderWidth,
+                                                                1.dp
+                                                            )
+                                                        ),
+                                                        selected = index == if (viewModel.isEncrypt) 0 else 1,
+                                                        colors = SegmentedButtonDefaults.colors(
+                                                            activeBorderColor = MaterialTheme.colorScheme.outlineVariant(),
+                                                            inactiveContainerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(
+                                                                6.dp
+                                                            )
+                                                        ),
+                                                        shape = SegmentedButtonDefaults.shape(
+                                                            index,
+                                                            items.size
+                                                        )
+                                                    ) {
+                                                        Text(text = item, fontSize = 12.sp)
+                                                    }
+                                                }
+                                            }
                                             OutlinedIconButton(
                                                 onClick = {
                                                     showTip.value = true

@@ -39,10 +39,10 @@ import androidx.compose.material.icons.rounded.BrokenImage
 import androidx.compose.material.icons.rounded.Image
 import androidx.compose.material.icons.rounded.Save
 import androidx.compose.material.icons.rounded.ZoomIn
-import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.FloatingActionButtonDefaults
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.LargeTopAppBar
@@ -431,8 +431,7 @@ fun LoadNetImageScreen(
                                 if (!landscape) imageBlock()
                                 ToggleGroupButton(
                                     modifier = Modifier
-                                        .block(shape = RoundedCornerShape(24.dp))
-                                        .padding(start = 3.dp, end = 2.dp),
+                                        .block(shape = RoundedCornerShape(24.dp)),
                                     title = stringResource(id = R.string.content_scale),
                                     enabled = viewModel.bitmap != null,
                                     items = listOf(
@@ -617,8 +616,8 @@ fun LoadNetImageScreen(
                         )
                     }
                 }
-                Divider(Modifier.align(Alignment.TopCenter))
-                Divider(Modifier.align(Alignment.BottomCenter))
+                HorizontalDivider(Modifier.align(Alignment.TopCenter))
+                HorizontalDivider(Modifier.align(Alignment.BottomCenter))
             }
         }
     )

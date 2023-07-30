@@ -1,11 +1,15 @@
 package ru.tech.imageresizershrinker.presentation.root.widget.buttons
 
 import android.annotation.SuppressLint
+import androidx.compose.foundation.background
+import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.compositeOver
 import androidx.compose.ui.text.TextStyle
@@ -33,7 +37,7 @@ fun ToggleGroupButton(
         title = {
             title?.let {
                 Spacer(modifier = Modifier.height(8.dp))
-                Text(it, Modifier.fillMaxWidth(), textAlign = TextAlign.Center)
+                Text(it, textAlign = TextAlign.Center)
                 Spacer(modifier = Modifier.height(8.dp))
             }
         }
@@ -67,27 +71,55 @@ fun ToggleGroupButton(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             title()
-            SingleChoiceSegmentedButtonRow(
-                space = max(settingsState.borderWidth, 1.dp),
-                modifier = Modifier.padding(bottom = 6.dp)
-            ) {
-                items.forEachIndexed { index, item ->
-                    SegmentedButton(
-                        enabled = enabled,
-                        onClick = { indexChanged(index) },
-                        border = SegmentedButtonBorder(max(settingsState.borderWidth, 1.dp)),
-                        selected = index == selectedIndex,
-                        colors = SegmentedButtonDefaults.colors(
-                            activeBorderColor = MaterialTheme.colorScheme.outlineVariant(),
-                            inactiveContainerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(
-                                6.dp
-                            )
-                        ),
-                        shape = SegmentedButtonDefaults.shape(index, items.size)
-                    ) {
-                        Text(text = item)
+            Box {
+                SingleChoiceSegmentedButtonRow(
+                    space = max(settingsState.borderWidth, 1.dp),
+                    modifier = Modifier
+                        .horizontalScroll(rememberScrollState())
+                        .padding(start = 6.dp, end = 6.dp, bottom = 8.dp, top = 8.dp)
+                ) {
+                    items.forEachIndexed { index, item ->
+                        SegmentedButton(
+                            enabled = enabled,
+                            onClick = { indexChanged(index) },
+                            border = SegmentedButtonBorder(max(settingsState.borderWidth, 1.dp)),
+                            selected = index == selectedIndex,
+                            colors = SegmentedButtonDefaults.colors(
+                                activeBorderColor = MaterialTheme.colorScheme.outlineVariant(),
+                                inactiveContainerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(
+                                    6.dp
+                                )
+                            ),
+                            shape = SegmentedButtonDefaults.shape(index, items.size)
+                        ) {
+                            Text(text = item)
+                        }
                     }
                 }
+                Box(
+                    modifier = Modifier
+                        .align(Alignment.CenterStart)
+                        .width(8.dp)
+                        .height(50.dp)
+                        .background(
+                            brush = Brush.horizontalGradient(
+                                0f to MaterialTheme.colorScheme.surfaceColorAtElevation(1.dp),
+                                1f to Color.Transparent
+                            )
+                        )
+                )
+                Box(
+                    modifier = Modifier
+                        .align(Alignment.CenterEnd)
+                        .width(8.dp)
+                        .height(50.dp)
+                        .background(
+                            brush = Brush.horizontalGradient(
+                                0f to Color.Transparent,
+                                1f to MaterialTheme.colorScheme.surfaceColorAtElevation(1.dp)
+                            )
+                        )
+                )
             }
         }
     }
