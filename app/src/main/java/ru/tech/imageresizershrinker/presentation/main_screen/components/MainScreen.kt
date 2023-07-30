@@ -38,6 +38,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.requiredSize
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBars
+import androidx.compose.foundation.layout.systemBars
 import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.widthIn
@@ -66,12 +67,12 @@ import androidx.compose.material3.Badge
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.Divider
 import androidx.compose.material3.DrawerDefaults
 import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.FloatingActionButtonDefaults
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.IconButtonDefaults
@@ -374,7 +375,7 @@ fun MainScreen(
                         }
                     }
                 )
-                Divider()
+                HorizontalDivider()
                 LazyColumn(
                     contentPadding = WindowInsets.navigationBars.asPaddingValues() + WindowInsets.displayCutout.asPaddingValues(),
                     state = lazyListState
@@ -584,7 +585,13 @@ fun MainScreen(
                         ) { groupOptionsByTypes ->
                             if (groupOptionsByTypes) {
                                 NavigationBar(
-                                    modifier = Modifier.drawHorizontalStroke(top = true),
+                                    modifier = Modifier
+                                        .drawHorizontalStroke(top = true)
+                                        .height(
+                                            80.dp + WindowInsets.systemBars
+                                                .asPaddingValues()
+                                                .calculateBottomPadding()
+                                        ),
                                 ) {
                                     Screen.typedEntries.forEachIndexed { index, (_, data) ->
                                         val selected = index == currentPage
@@ -942,8 +949,8 @@ fun MainScreen(
                     )
                     Spacer(Modifier.height(16.dp))
                 }
-                Divider(Modifier.align(Alignment.TopCenter))
-                Divider(Modifier.align(Alignment.BottomCenter))
+                HorizontalDivider(Modifier.align(Alignment.TopCenter))
+                HorizontalDivider(Modifier.align(Alignment.BottomCenter))
             }
         }
     )
@@ -1006,8 +1013,8 @@ fun MainScreen(
                         }
                     }
                 }
-                Divider(Modifier.align(Alignment.TopCenter))
-                Divider(Modifier.align(Alignment.BottomCenter))
+                HorizontalDivider(Modifier.align(Alignment.TopCenter))
+                HorizontalDivider(Modifier.align(Alignment.BottomCenter))
             }
         }
     )

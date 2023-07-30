@@ -16,8 +16,8 @@ android {
         applicationId = "ru.tech.imageresizershrinker"
         minSdk = 21
         targetSdk = 34
-        versionCode = 76
-        versionName = "2.2.1"
+        versionCode = 77
+        versionName = "2.2.2"
         resourceConfigurations += setOf(
             "en",
             "ar",
@@ -104,7 +104,7 @@ dependencies {
     implementation("androidx.activity:activity-compose:1.8.0-alpha06")
     implementation("androidx.core:core-splashscreen:1.0.1")
     implementation("androidx.exifinterface:exifinterface:1.3.6")
-    implementation("androidx.appcompat:appcompat:1.7.0-alpha02")
+    implementation("androidx.appcompat:appcompat:1.7.0-alpha03")
     implementation("androidx.documentfile:documentfile:1.0.1")
     implementation("androidx.datastore:datastore-preferences:1.1.0-alpha04")
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.6.1")
@@ -117,10 +117,10 @@ dependencies {
     implementation("nl.dionsegijn:konfetti-compose:2.0.3")
 
     //Compose
-    implementation("androidx.compose.material3:material3:1.2.0-alpha03")
-    implementation("androidx.compose.material3:material3-window-size-class:1.2.0-alpha03")
-    implementation("androidx.compose.material:material-icons-extended:1.6.0-alpha01")
-    implementation("androidx.compose.material:material:1.6.0-alpha01")
+    implementation("androidx.compose.material3:material3:1.2.0-alpha04")
+    implementation("androidx.compose.material3:material3-window-size-class:1.2.0-alpha04")
+    implementation("androidx.compose.material:material-icons-extended:1.6.0-alpha02")
+    implementation("androidx.compose.material:material:1.6.0-alpha02")
 
     //Di
     implementation("com.google.dagger:hilt-android:2.47")
@@ -149,6 +149,6 @@ dependencies {
 
     implementation("org.burnoutcrew.composereorderable:reorderable:0.9.6")
 
-    implementation("com.google.accompanist:accompanist-systemuicontroller:0.31.5-beta")
+    implementation("com.google.accompanist:accompanist-systemuicontroller:0.31.6-rc")
 
 }

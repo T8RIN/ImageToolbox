@@ -1,16 +1,9 @@
 package ru.tech.imageresizershrinker.presentation.root.widget.buttons
 
 import android.annotation.SuppressLint
-import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.ripple.LocalRippleTheme
-import androidx.compose.material.ripple.RippleAlpha
-import androidx.compose.material.ripple.RippleTheme
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -19,10 +12,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.max
-import androidx.compose.ui.zIndex
-import ru.tech.imageresizershrinker.presentation.root.theme.mixedColor
-import ru.tech.imageresizershrinker.presentation.root.theme.onMixedColor
-import ru.tech.imageresizershrinker.presentation.root.widget.text.AutoSizeText
+import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
 import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalSettingsState
 
 @Composable
@@ -50,6 +40,7 @@ fun ToggleGroupButton(
     )
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ToggleGroupButton(
     @SuppressLint("ModifierParameter") modifier: Modifier = defaultModifier,
@@ -60,7 +51,6 @@ fun ToggleGroupButton(
     indexChanged: (Int) -> Unit
 ) {
     val settingsState = LocalSettingsState.current
-    val cornerRadius = 1000.dp
 
     val disColor = MaterialTheme.colorScheme.onSurface
         .copy(alpha = 0.38f)
@@ -77,67 +67,25 @@ fun ToggleGroupButton(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             title()
-            CompositionLocalProvider(
-                LocalRippleTheme provides GroupRipple
+            SingleChoiceSegmentedButtonRow(
+                space = max(settingsState.borderWidth, 1.dp),
+                modifier = Modifier.padding(bottom = 6.dp)
             ) {
-                Row(modifier = Modifier.fillMaxWidth()) {
-                    items.forEachIndexed { index, item ->
-                        OutlinedButton(
-                            enabled = enabled,
-                            onClick = { indexChanged(index) },
-                            contentPadding = PaddingValues(horizontal = 8.dp),
-                            modifier = Modifier
-                                .widthIn(min = 48.dp)
-                                .weight(1f)
-                                .then(
-                                    when (index) {
-                                        0 ->
-                                            Modifier
-                                                .offset(0.dp, 0.dp)
-                                                .zIndex(if (selectedIndex == 0) 1f else 0f)
-
-                                        else ->
-                                            Modifier
-                                                .offset((-1 * index).dp, 0.dp)
-                                                .zIndex(if (selectedIndex == index) 1f else 0f)
-                                    }
-                                ),
-                            shape = when (index) {
-                                0 -> RoundedCornerShape(
-                                    topStart = cornerRadius,
-                                    topEnd = 0.dp,
-                                    bottomStart = cornerRadius,
-                                    bottomEnd = 0.dp
-                                )
-
-                                items.size - 1 -> RoundedCornerShape(
-                                    topStart = 0.dp,
-                                    topEnd = cornerRadius,
-                                    bottomStart = 0.dp,
-                                    bottomEnd = cornerRadius
-                                )
-
-                                else -> RoundedCornerShape(0.dp)
-                            },
-                            border = BorderStroke(
-                                max(settingsState.borderWidth, 1.dp),
-                                MaterialTheme.colorScheme.outlineVariant
-                            ),
-                            colors = ButtonDefaults.outlinedButtonColors(
-                                containerColor = if (!enabled) disColor
-                                else if (selectedIndex == index) MaterialTheme.colorScheme.mixedColor
-                                else Color.Transparent
+                items.forEachIndexed { index, item ->
+                    SegmentedButton(
+                        enabled = enabled,
+                        onClick = { indexChanged(index) },
+                        border = SegmentedButtonBorder(max(settingsState.borderWidth, 1.dp)),
+                        selected = index == selectedIndex,
+                        colors = SegmentedButtonDefaults.colors(
+                            activeBorderColor = MaterialTheme.colorScheme.outlineVariant(),
+                            inactiveContainerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(
+                                6.dp
                             )
-                        ) {
-                            AutoSizeText(
-                                text = item,
-                                color = if (!enabled) disColor
-                                else if (selectedIndex == index) MaterialTheme.colorScheme.onMixedColor
-                                else MaterialTheme.colorScheme.onSurface,
-                                modifier = Modifier.padding(horizontal = 8.dp),
-                                maxLines = 1
-                            )
-                        }
+                        ),
+                        shape = SegmentedButtonDefaults.shape(index, items.size)
+                    ) {
+                        Text(text = item)
                     }
                 }
             }
@@ -148,15 +96,3 @@ fun ToggleGroupButton(
 private var defaultModifier = Modifier
     .fillMaxWidth()
     .padding(8.dp)
-
-
-object GroupRipple : RippleTheme {
-    private const val alpha = 0.1f
-
-    @Composable
-    override fun defaultColor(): Color = if (isSystemInDarkTheme()) Color.White
-    else Color.Black
-
-    @Composable
-    override fun rippleAlpha(): RippleAlpha = RippleAlpha(alpha, alpha, alpha, alpha)
-}

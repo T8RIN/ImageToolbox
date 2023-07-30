@@ -85,7 +85,7 @@ class SettingsRepositoryImpl @Inject constructor(
             saveFolderUri = prefs[SAVE_FOLDER],
             presets = ((prefs[PRESETS]?.split("*")?.map {
                 it.toInt()
-            } ?: emptyList()) + List(7) { 100 - it * 10 }).toSortedSet().reversed().toList(),
+            } ?: emptyList())).toSortedSet().reversed().toList(),
             colorTupleList = prefs[COLOR_TUPLES],
             allowChangeColorByImage = prefs[IMAGE_MONET] ?: true,
             imagePickerModeInt = prefs[PICKER_MODE] ?: 0,
@@ -156,8 +156,13 @@ class SettingsRepositoryImpl @Inject constructor(
     }
 
     override suspend fun updatePresets(newPresets: String) {
-        dataStore.edit {
-            it[PRESETS] = newPresets
+        dataStore.edit { preferences ->
+            if (newPresets.split("*").size > 3) preferences[PRESETS] =
+                newPresets.split("*")
+                    .map { it.toIntOrNull()?.coerceIn(10..500) ?: 0 }
+                    .toSortedSet()
+                    .toList().reversed()
+                    .joinToString("*")
         }
     }
 

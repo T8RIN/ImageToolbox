@@ -179,7 +179,7 @@ class MainViewModel @Inject constructor(
     fun updatePresets(newPresets: List<Int>) {
         viewModelScope.launch {
             updatePresetsUseCase(
-                newPresets.toSortedSet().toList().reversed().joinToString("*")
+                newPresets.joinToString("*")
             )
         }
     }

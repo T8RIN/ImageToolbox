@@ -23,7 +23,7 @@ import androidx.compose.material.icons.rounded.AddCircle
 import androidx.compose.material.icons.rounded.PhotoSizeSelectSmall
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.Divider
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.MaterialTheme
@@ -93,9 +93,7 @@ fun EditPresetsSheet(
                             OutlinedIconButton(
                                 shape = MaterialTheme.shapes.medium,
                                 onClick = {
-                                    if (list.size > 7) {
-                                        updatePresets(list - it)
-                                    }
+                                    updatePresets(list - it)
                                 },
                                 border = BorderStroke(
                                     settingsState.borderWidth.coerceAtLeast(1.dp),
@@ -183,8 +181,7 @@ fun EditPresetsSheet(
                                     OutlinedButton(
                                         onClick = {
                                             updatePresets(
-                                                list + (value.toIntOrNull()
-                                                    ?: 0).coerceIn(10..500)
+                                                list + (value.toIntOrNull() ?: 0)
                                             )
                                             expanded = false
                                         },
@@ -209,8 +206,8 @@ fun EditPresetsSheet(
                         }
                     }
                 }
-                Divider(Modifier.align(Alignment.TopCenter))
-                Divider(Modifier.align(Alignment.BottomCenter))
+                HorizontalDivider(Modifier.align(Alignment.TopCenter))
+                HorizontalDivider(Modifier.align(Alignment.BottomCenter))
             }
         },
         confirmButton = {
