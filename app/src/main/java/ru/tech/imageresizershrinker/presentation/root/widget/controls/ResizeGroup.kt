@@ -20,7 +20,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Info
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.Divider
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
@@ -128,7 +128,7 @@ fun ResizeGroup(
                         fontSize = 14.sp,
                         lineHeight = 18.sp
                     )
-                    Divider()
+                    HorizontalDivider()
 
                     TitleItem(text = stringResource(R.string.flexible))
                     Text(
@@ -137,7 +137,7 @@ fun ResizeGroup(
                         fontSize = 14.sp,
                         lineHeight = 18.sp
                     )
-                    Divider()
+                    HorizontalDivider()
 
                     TitleItem(text = stringResource(R.string.ratio))
                     Text(
@@ -147,8 +147,8 @@ fun ResizeGroup(
                         lineHeight = 18.sp
                     )
                 }
-                Divider()
-                Divider(Modifier.align(Alignment.BottomCenter))
+                HorizontalDivider()
+                HorizontalDivider(Modifier.align(Alignment.BottomCenter))
             }
         },
         visible = state,

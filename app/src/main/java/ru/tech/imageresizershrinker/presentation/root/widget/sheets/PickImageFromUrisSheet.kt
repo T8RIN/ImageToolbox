@@ -19,7 +19,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.PhotoLibrary
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.Divider
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
@@ -124,8 +124,8 @@ fun PickImageFromUrisSheet(
                         }
                     }
                 }
-                Divider(Modifier.align(Alignment.TopCenter))
-                Divider(Modifier.align(Alignment.BottomCenter))
+                HorizontalDivider(Modifier.align(Alignment.TopCenter))
+                HorizontalDivider(Modifier.align(Alignment.BottomCenter))
             }
         },
         confirmButton = {

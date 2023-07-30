@@ -28,7 +28,7 @@ import androidx.compose.material.icons.rounded.DragHandle
 import androidx.compose.material.icons.rounded.RemoveCircleOutline
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.Divider
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -412,7 +412,7 @@ fun <T> FilterItem(
                                 var color2 by remember(value) { mutableStateOf(value.second as Color) }
 
                                 Column {
-                                    Divider()
+                                    HorizontalDivider()
                                     Text(
                                         text = stringResource(R.string.first_color),
                                         modifier = Modifier
@@ -430,7 +430,7 @@ fun <T> FilterItem(
                                         }
                                     )
                                     Spacer(Modifier.height(8.dp))
-                                    Divider()
+                                    HorizontalDivider()
                                     Text(
                                         text = stringResource(R.string.second_color),
                                         modifier = Modifier

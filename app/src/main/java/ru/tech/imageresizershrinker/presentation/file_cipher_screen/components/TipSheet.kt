@@ -9,7 +9,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Security
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.Divider
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
@@ -42,7 +42,7 @@ fun TipSheet(
                         fontSize = 14.sp,
                         lineHeight = 18.sp
                     )
-                    Divider()
+                    HorizontalDivider()
 
                     TitleItem(text = stringResource(R.string.implementation))
                     Text(
@@ -51,7 +51,7 @@ fun TipSheet(
                         fontSize = 14.sp,
                         lineHeight = 18.sp
                     )
-                    Divider()
+                    HorizontalDivider()
 
                     TitleItem(text = stringResource(R.string.file_size))
                     Text(
@@ -60,7 +60,7 @@ fun TipSheet(
                         fontSize = 14.sp,
                         lineHeight = 18.sp
                     )
-                    Divider()
+                    HorizontalDivider()
 
                     TitleItem(text = stringResource(R.string.compatibility))
                     Text(
@@ -70,8 +70,8 @@ fun TipSheet(
                         lineHeight = 18.sp
                     )
                 }
-                Divider()
-                Divider(Modifier.align(Alignment.BottomCenter))
+                HorizontalDivider()
+                HorizontalDivider(Modifier.align(Alignment.BottomCenter))
             }
         },
         visible = visible,

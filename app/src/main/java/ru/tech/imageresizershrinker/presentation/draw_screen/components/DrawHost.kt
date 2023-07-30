@@ -46,10 +46,10 @@ import androidx.compose.material.icons.rounded.Redo
 import androidx.compose.material.icons.rounded.Save
 import androidx.compose.material.icons.rounded.Undo
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.Divider
 import androidx.compose.material3.ExtendedFloatingActionButton
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.FloatingActionButtonDefaults
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.MaterialTheme
@@ -631,8 +631,8 @@ fun DrawHost(
                         )
                     )
                 }
-                Divider()
-                Divider(Modifier.align(Alignment.BottomCenter))
+                HorizontalDivider()
+                HorizontalDivider(Modifier.align(Alignment.BottomCenter))
             }
         },
         visible = showBackgroundDrawingSetup

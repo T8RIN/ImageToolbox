@@ -26,7 +26,7 @@ import androidx.compose.material.icons.outlined.EmojiSymbols
 import androidx.compose.material.icons.rounded.Block
 import androidx.compose.material.icons.rounded.Shuffle
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.Divider
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.MaterialTheme
@@ -67,7 +67,7 @@ fun EmojiSheet(
         Column(
             Modifier.fillMaxSize()
         ) {
-            Divider()
+            HorizontalDivider()
             FlowRow(
                 Modifier
                     .weight(1f)
@@ -163,7 +163,7 @@ fun EmojiSheet(
                     }
                 }
             }
-            Divider()
+            HorizontalDivider()
             Row(
                 modifier = Modifier
                     .fillMaxWidth()

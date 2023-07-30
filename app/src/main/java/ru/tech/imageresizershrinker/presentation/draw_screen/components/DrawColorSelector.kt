@@ -24,7 +24,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Colorize
 import androidx.compose.material.icons.rounded.Draw
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.Divider
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
@@ -205,8 +205,8 @@ fun DrawColorSelector(drawController: DrawController) {
                         }
                     )
                 }
-                Divider()
-                Divider(Modifier.align(Alignment.BottomCenter))
+                HorizontalDivider()
+                HorizontalDivider(Modifier.align(Alignment.BottomCenter))
             }
         },
         visible = showColorPicker,

@@ -43,11 +43,11 @@ import androidx.compose.material.icons.rounded.Save
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.BottomSheetScaffold
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExtendedFloatingActionButton
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.FloatingActionButtonDefaults
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.LargeTopAppBar
@@ -608,7 +608,7 @@ fun CropScreen(
                         }
                     }
                 )
-                Divider()
+                HorizontalDivider()
                 val aspectRatios = aspectRatios()
                 AspectRatioSelection(
                     modifier = Modifier
@@ -620,7 +620,7 @@ fun CropScreen(
                 ) { aspect ->
                     viewModel.setCropAspectRatio(aspect.aspectRatio)
                 }
-                Divider()
+                HorizontalDivider()
                 ExtensionGroup(
                     modifier = Modifier
                         .padding(16.dp)

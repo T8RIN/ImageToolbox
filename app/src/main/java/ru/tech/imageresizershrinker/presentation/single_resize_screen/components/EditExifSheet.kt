@@ -26,7 +26,7 @@ import androidx.compose.material.icons.rounded.RemoveCircleOutline
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.Divider
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.LocalTextStyle
@@ -216,8 +216,8 @@ fun EditExifSheet(
                             }
                         }
                     }
-                    Divider(Modifier.align(Alignment.TopCenter))
-                    Divider(Modifier.align(Alignment.BottomCenter))
+                    HorizontalDivider(Modifier.align(Alignment.TopCenter))
+                    HorizontalDivider(Modifier.align(Alignment.BottomCenter))
                 }
             } else {
                 Box {
@@ -228,8 +228,8 @@ fun EditExifSheet(
                             .padding(12.dp),
                         textAlign = TextAlign.Center
                     )
-                    Divider(Modifier.align(Alignment.TopCenter))
-                    Divider(Modifier.align(Alignment.BottomCenter))
+                    HorizontalDivider(Modifier.align(Alignment.TopCenter))
+                    HorizontalDivider(Modifier.align(Alignment.BottomCenter))
                 }
             }
             SimpleSheet(
@@ -280,7 +280,7 @@ fun EditExifSheet(
                                         value = query
                                     )
                                     Spacer(Modifier.height(8.dp))
-                                    Divider()
+                                    HorizontalDivider()
                                 }
                             }
                             item {
@@ -329,7 +329,7 @@ fun EditExifSheet(
                                 }
                             }
                         }
-                        Divider()
+                        HorizontalDivider()
                         Row(
                             modifier = Modifier
                                 .background(

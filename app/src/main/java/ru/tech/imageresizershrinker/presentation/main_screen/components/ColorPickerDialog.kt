@@ -43,8 +43,8 @@ import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -146,7 +146,7 @@ fun ColorPickerDialog(
         endConfirmButtonPadding = 0.dp,
         sheetContent = {
             Box {
-                Divider(
+                HorizontalDivider(
                     Modifier
                         .align(Alignment.TopCenter)
                         .zIndex(100f)
@@ -189,7 +189,7 @@ fun ColorPickerDialog(
                         }
                     }
                     Spacer(Modifier.height(8.dp))
-                    Divider()
+                    HorizontalDivider()
                     TitleItem(text = stringResource(R.string.primary))
                     ColorCustomComponent(
                         color = primary,
@@ -200,7 +200,7 @@ fun ColorPickerDialog(
                             surface = Color(it).calculateSurfaceColor()
                         }
                     )
-                    Divider()
+                    HorizontalDivider()
                     TitleItem(text = stringResource(R.string.secondary))
                     ColorCustomComponent(
                         color = secondary,
@@ -208,7 +208,7 @@ fun ColorPickerDialog(
                             secondary = it
                         }
                     )
-                    Divider()
+                    HorizontalDivider()
                     TitleItem(text = stringResource(R.string.tertiary))
                     ColorCustomComponent(
                         color = tertiary,
@@ -216,7 +216,7 @@ fun ColorPickerDialog(
                             tertiary = it
                         }
                     )
-                    Divider()
+                    HorizontalDivider()
                     TitleItem(text = stringResource(R.string.surface))
                     ColorCustomComponent(
                         color = surface,
@@ -227,7 +227,7 @@ fun ColorPickerDialog(
                     Spacer(Modifier.height(8.dp))
                 }
 
-                Divider(
+                HorizontalDivider(
                     Modifier
                         .align(Alignment.BottomCenter)
                         .zIndex(100f)
@@ -340,7 +340,7 @@ fun AvailableColorTuplesDialog(
                 )
             }
             Box(Modifier.fillMaxWidth(), contentAlignment = Alignment.Center) {
-                Divider(
+                HorizontalDivider(
                     Modifier
                         .align(Alignment.TopCenter)
                         .zIndex(100f)
@@ -440,7 +440,7 @@ fun AvailableColorTuplesDialog(
                         )
                     }
                 }
-                Divider(
+                HorizontalDivider(
                     Modifier
                         .align(Alignment.BottomCenter)
                         .zIndex(100f)

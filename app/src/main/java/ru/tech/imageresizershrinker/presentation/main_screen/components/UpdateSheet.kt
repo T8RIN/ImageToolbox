@@ -14,7 +14,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Download
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.Divider
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
@@ -72,7 +72,7 @@ fun UpdateSheet(changelog: String, tag: String, visible: MutableState<Boolean>) 
                                 )
                             }
                         }
-                        Divider()
+                        HorizontalDivider()
                         Column(Modifier.verticalScroll(rememberScrollState())) {
                             HtmlText(
                                 html = changelog,
@@ -82,7 +82,7 @@ fun UpdateSheet(changelog: String, tag: String, visible: MutableState<Boolean>) 
                             }
                         }
                     }
-                    Divider(Modifier.align(Alignment.BottomCenter))
+                    HorizontalDivider(Modifier.align(Alignment.BottomCenter))
                 }
             }
         },

@@ -45,8 +45,8 @@ import androidx.compose.material.icons.rounded.PhotoFilter
 import androidx.compose.material.icons.rounded.Reorder
 import androidx.compose.material.icons.rounded.ZoomIn
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.IconButtonDefaults
@@ -715,8 +715,8 @@ fun FiltersScreen(
                                 }
                             }
                         }
-                        Divider(Modifier.align(Alignment.TopCenter))
-                        Divider(Modifier.align(Alignment.BottomCenter))
+                        HorizontalDivider(Modifier.align(Alignment.TopCenter))
+                        HorizontalDivider(Modifier.align(Alignment.BottomCenter))
                     }
                 },
                 visible = showReorderSheet,

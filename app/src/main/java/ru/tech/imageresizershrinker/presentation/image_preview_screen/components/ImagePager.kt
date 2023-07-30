@@ -32,8 +32,8 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.ArrowBack
 import androidx.compose.material.icons.rounded.Image
 import androidx.compose.material3.CenterAlignedTopAppBar
-import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
@@ -348,8 +348,8 @@ fun ImagePager(
                             )
                         }
                     }
-                    Divider(Modifier.align(Alignment.TopCenter))
-                    Divider(Modifier.align(Alignment.BottomCenter))
+                    HorizontalDivider(Modifier.align(Alignment.TopCenter))
+                    HorizontalDivider(Modifier.align(Alignment.BottomCenter))
                 }
             }
         )
