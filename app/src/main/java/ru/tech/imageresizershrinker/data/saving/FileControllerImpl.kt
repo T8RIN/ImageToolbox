@@ -217,7 +217,7 @@ class FileControllerImpl @Inject constructor(
             if (it.isFailure) {
                 return SaveResult.Error.Exception(it.exceptionOrNull() ?: Throwable())
             } else {
-                return SaveResult.Success(savingPath, filename)
+                return SaveResult.Success(filename = filename, savingPath = savingPath)
             }
         }
     }

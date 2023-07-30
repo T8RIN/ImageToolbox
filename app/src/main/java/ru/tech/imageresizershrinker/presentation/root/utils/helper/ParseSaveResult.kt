@@ -7,12 +7,13 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.domain.saving.SaveResult
+import ru.tech.imageresizershrinker.presentation.root.widget.other.ToastDuration
 import ru.tech.imageresizershrinker.presentation.root.widget.other.ToastHostState
 import ru.tech.imageresizershrinker.presentation.root.widget.other.showError
 
 fun parseSaveResult(
     saveResult: SaveResult,
-    onSuccess: () -> Unit,
+    onSuccess: suspend () -> Unit,
     toastHostState: ToastHostState,
     context: Context,
     scope: CoroutineScope
@@ -28,15 +29,16 @@ fun parseSaveResult(
             if (saveResult.savingPath.isNotEmpty() && saveResult.filename.isNotEmpty()) {
                 scope.launch {
                     toastHostState.showToast(
-                        context.getString(
+                        message = context.getString(
                             R.string.saved_to,
                             saveResult.savingPath,
                             saveResult.filename
                         ),
-                        Icons.Rounded.Save
+                        icon = Icons.Rounded.Save,
+                        duration = ToastDuration.Long
                     )
                 }
-                onSuccess()
+                scope.launch { onSuccess() }
             }
         }
 

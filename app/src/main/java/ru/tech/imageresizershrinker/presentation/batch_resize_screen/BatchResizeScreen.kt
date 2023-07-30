@@ -177,15 +177,13 @@ fun BatchResizeScreen(
         pickImageLauncher.pickImage()
     }
 
-    var showSaveLoading by rememberSaveable { mutableStateOf(false) }
     val saveBitmaps: () -> Unit = {
-        showSaveLoading = true
         viewModel.saveBitamps { savingPath ->
             if (savingPath.isNotEmpty()) {
                 scope.launch {
                     toastHostState.showToast(
                         context.getString(
-                            R.string.saved_to,
+                            R.string.saved_to_without_filename,
                             savingPath
                         ),
                         Icons.Rounded.Save
@@ -193,7 +191,6 @@ fun BatchResizeScreen(
                 }
                 showConfetti()
             }
-            showSaveLoading = false
         }
     }
 
@@ -240,7 +237,7 @@ fun BatchResizeScreen(
             showOriginal = showOriginal,
             previewBitmap = viewModel.previewBitmap,
             originalBitmap = viewModel.bitmap,
-            isLoading = viewModel.isLoading,
+            isLoading = viewModel.isImageLoading,
             shouldShowPreview = viewModel.shouldShowPreview
         )
     }
@@ -254,11 +251,7 @@ fun BatchResizeScreen(
 
         IconButton(
             onClick = {
-                showSaveLoading = true
-                viewModel.shareBitmaps {
-                    showConfetti()
-                    showSaveLoading = false
-                }
+                viewModel.shareBitmaps { showConfetti() }
             },
             enabled = viewModel.previewBitmap != null
         ) {
@@ -388,7 +381,7 @@ fun BatchResizeScreen(
                         TopAppBarTitle(
                             title = stringResource(R.string.batch_resize),
                             bitmap = viewModel.bitmap,
-                            isLoading = viewModel.isLoading,
+                            isLoading = viewModel.isImageLoading,
                             size = viewModel.imageInfo.sizeInBytes.toLong()
                         )
                     },
@@ -463,7 +456,7 @@ fun BatchResizeScreen(
                             ) {
                                 if (viewModel.bitmap != null) {
                                     ImageCounter(
-                                        imageCount = viewModel.uris?.size?.takeIf { it > 1 && !viewModel.isLoading },
+                                        imageCount = viewModel.uris?.size?.takeIf { it > 1 && !viewModel.isImageLoading },
                                         onRepick = {
                                             showPickImageFromUrisDialog = true
                                         }
@@ -514,7 +507,7 @@ fun BatchResizeScreen(
                                         resizeType = bitmapInfo.resizeType,
                                         onResizeChange = viewModel::setResizeType
                                     )
-                                } else if (!viewModel.isLoading) {
+                                } else if (!viewModel.isImageLoading) {
                                     ImageNotPickedWidget(onPickImage = pickImage)
                                 }
                             }
@@ -582,7 +575,7 @@ fun BatchResizeScreen(
                 visible = showExitDialog
             )
 
-            if (showSaveLoading) {
+            if (viewModel.isSaving) {
                 LoadingDialog(viewModel.done, viewModel.uris?.size ?: 1)
             }
 

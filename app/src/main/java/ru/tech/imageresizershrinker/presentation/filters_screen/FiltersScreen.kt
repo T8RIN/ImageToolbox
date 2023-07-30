@@ -206,7 +206,6 @@ fun FiltersScreen(
         pickImageLauncher.pickImage()
     }
 
-    var showSaveLoading by rememberSaveable { mutableStateOf(false) }
     var showExitDialog by rememberSaveable { mutableStateOf(false) }
     val showFilterSheet = rememberSaveable { mutableStateOf(false) }
 
@@ -216,7 +215,6 @@ fun FiltersScreen(
     }
 
     val saveBitmaps: () -> Unit = {
-        showSaveLoading = true
         viewModel.saveBitmaps { failed, savingPath ->
             context.failedToSaveImages(
                 scope = scope,
@@ -226,7 +224,6 @@ fun FiltersScreen(
                 savingPathString = savingPath,
                 showConfetti = showConfetti
             )
-            showSaveLoading = false
         }
     }
 
@@ -412,11 +409,7 @@ fun FiltersScreen(
                         if (viewModel.previewBitmap != null) {
                             IconButton(
                                 onClick = {
-                                    showSaveLoading = true
-                                    viewModel.shareBitmaps {
-                                        showConfetti()
-                                        showSaveLoading = false
-                                    }
+                                    viewModel.shareBitmaps { showConfetti() }
                                 },
                                 enabled = viewModel.canSave
                             ) {
@@ -632,7 +625,7 @@ fun FiltersScreen(
                 }
             }
 
-            if (showSaveLoading) {
+            if (viewModel.isSaving) {
                 LoadingDialog(viewModel.done, viewModel.uris?.size ?: 1)
             }
 

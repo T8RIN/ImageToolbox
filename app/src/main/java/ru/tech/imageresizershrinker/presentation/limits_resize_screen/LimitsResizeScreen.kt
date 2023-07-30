@@ -165,7 +165,6 @@ fun LimitsResizeScreen(
         pickImageLauncher.pickImage()
     }
 
-    var showSaveLoading by rememberSaveable { mutableStateOf(false) }
     var showExitDialog by rememberSaveable { mutableStateOf(false) }
 
     val onBack = {
@@ -174,7 +173,6 @@ fun LimitsResizeScreen(
     }
 
     val saveBitmaps: () -> Unit = {
-        showSaveLoading = true
         viewModel.saveBitmaps { failed, savingPath ->
             context.failedToSaveImages(
                 scope = scope,
@@ -184,7 +182,6 @@ fun LimitsResizeScreen(
                 savingPathString = savingPath,
                 showConfetti = showConfetti
             )
-            showSaveLoading = false
         }
     }
 
@@ -220,7 +217,7 @@ fun LimitsResizeScreen(
             showOriginal = false,
             previewBitmap = viewModel.previewBitmap,
             originalBitmap = viewModel.bitmap,
-            isLoading = viewModel.isLoading,
+            isLoading = viewModel.isImageLoading,
             shouldShowPreview = true
         )
     }
@@ -242,11 +239,7 @@ fun LimitsResizeScreen(
         if (viewModel.previewBitmap != null) {
             IconButton(
                 onClick = {
-                    showSaveLoading = true
-                    viewModel.shareBitmaps {
-                        showConfetti()
-                        showSaveLoading = false
-                    }
+                    viewModel.shareBitmaps { showConfetti() }
                 },
                 enabled = viewModel.canSave
             ) {
@@ -296,7 +289,7 @@ fun LimitsResizeScreen(
                         TopAppBarTitle(
                             title = stringResource(R.string.limits_resize),
                             bitmap = viewModel.bitmap,
-                            isLoading = viewModel.isLoading,
+                            isLoading = viewModel.isImageLoading,
                             size = viewModel.selectedUri?.fileSize(LocalContext.current) ?: 0L
                         )
                     },
@@ -374,7 +367,7 @@ fun LimitsResizeScreen(
                                 if (imageInside && viewModel.bitmap == null) imageBlock()
                                 if (viewModel.bitmap != null) {
                                     ImageCounter(
-                                        imageCount = viewModel.uris?.size?.takeIf { it > 1 && !viewModel.isLoading },
+                                        imageCount = viewModel.uris?.size?.takeIf { it > 1 && !viewModel.isImageLoading },
                                         onRepick = {
                                             showPickImageFromUrisDialog = true
                                         }
@@ -411,7 +404,7 @@ fun LimitsResizeScreen(
                                         resizeType = viewModel.imageInfo.resizeType,
                                         onResizeChange = viewModel::setResizeType
                                     )
-                                } else if (!viewModel.isLoading) {
+                                } else if (!viewModel.isImageLoading) {
                                     ImageNotPickedWidget(onPickImage = pickImage)
                                     Spacer(Modifier.size(8.dp))
                                 }
@@ -441,7 +434,7 @@ fun LimitsResizeScreen(
                 }
             }
 
-            if (showSaveLoading) {
+            if (viewModel.isSaving) {
                 LoadingDialog(viewModel.done, viewModel.uris?.size ?: 1)
             }
 

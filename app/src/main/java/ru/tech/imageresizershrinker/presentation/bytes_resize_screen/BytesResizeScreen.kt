@@ -187,7 +187,6 @@ fun BytesResizeScreen(
         pickImageLauncher.pickImage()
     }
 
-    var showSaveLoading by rememberSaveable { mutableStateOf(false) }
     var showExitDialog by rememberSaveable { mutableStateOf(false) }
 
     val onBack = {
@@ -197,7 +196,6 @@ fun BytesResizeScreen(
 
 
     val saveBitmaps: () -> Unit = {
-        showSaveLoading = true
         viewModel.saveBitmaps { failed, savingPath ->
             context.failedToSaveImages(
                 scope = scope,
@@ -207,7 +205,6 @@ fun BytesResizeScreen(
                 savingPathString = savingPath,
                 showConfetti = showConfetti
             )
-            showSaveLoading = false
         }
     }
 
@@ -266,7 +263,7 @@ fun BytesResizeScreen(
             showOriginal = false,
             previewBitmap = viewModel.previewBitmap,
             originalBitmap = viewModel.bitmap,
-            isLoading = viewModel.isLoading,
+            isLoading = viewModel.isImageLoading,
             shouldShowPreview = true
         )
     }
@@ -326,7 +323,7 @@ fun BytesResizeScreen(
                         TopAppBarTitle(
                             title = stringResource(R.string.by_bytes_resize),
                             bitmap = viewModel.bitmap,
-                            isLoading = viewModel.isLoading,
+                            isLoading = viewModel.isImageLoading,
                             size = viewModel.selectedUri?.fileSize(LocalContext.current) ?: 0L
                         )
                     },
@@ -350,11 +347,7 @@ fun BytesResizeScreen(
                         if (viewModel.previewBitmap != null) {
                             IconButton(
                                 onClick = {
-                                    showSaveLoading = true
-                                    viewModel.shareBitmaps {
-                                        showConfetti()
-                                        showSaveLoading = false
-                                    }
+                                    viewModel.shareBitmaps { showConfetti() }
                                 },
                                 enabled = viewModel.canSave
                             ) {
@@ -418,7 +411,7 @@ fun BytesResizeScreen(
                                 if (imageInside && viewModel.bitmap == null) imageBlock()
                                 if (viewModel.bitmap != null) {
                                     ImageCounter(
-                                        imageCount = viewModel.uris?.size?.takeIf { it > 1 && !viewModel.isLoading },
+                                        imageCount = viewModel.uris?.size?.takeIf { it > 1 && !viewModel.isImageLoading },
                                         onRepick = {
                                             showPickImageFromUrisDialog = true
                                         }
@@ -472,7 +465,7 @@ fun BytesResizeScreen(
                                         imageFormat = viewModel.imageFormat,
                                         onMimeChange = viewModel::setMime
                                     )
-                                } else if (!viewModel.isLoading) {
+                                } else if (!viewModel.isImageLoading) {
                                     ImageNotPickedWidget(onPickImage = pickImage)
                                     Spacer(Modifier.size(8.dp))
                                 }
@@ -502,7 +495,7 @@ fun BytesResizeScreen(
                 }
             }
 
-            if (showSaveLoading) {
+            if (viewModel.isSaving) {
                 LoadingDialog(viewModel.done, viewModel.uris?.size ?: 1)
             }
 

@@ -21,6 +21,7 @@ import ru.tech.imageresizershrinker.domain.model.ImageFormat
 import ru.tech.imageresizershrinker.domain.model.ImageInfo
 import ru.tech.imageresizershrinker.domain.model.ResizeType
 import ru.tech.imageresizershrinker.domain.saving.FileController
+import ru.tech.imageresizershrinker.domain.saving.SaveResult
 import ru.tech.imageresizershrinker.domain.saving.model.ImageSaveTarget
 import javax.inject.Inject
 
@@ -42,8 +43,11 @@ class BatchResizeViewModel @Inject constructor(
     private val _imageInfo: MutableState<ImageInfo> = mutableStateOf(ImageInfo())
     val imageInfo: ImageInfo by _imageInfo
 
-    private val _isLoading: MutableState<Boolean> = mutableStateOf(false)
-    val isLoading: Boolean by _isLoading
+    private val _isImageLoading: MutableState<Boolean> = mutableStateOf(false)
+    val isImageLoading: Boolean by _isImageLoading
+
+    private val _isSaving: MutableState<Boolean> = mutableStateOf(false)
+    val isSaving: Boolean by _isSaving
 
     private val _shouldShowPreview: MutableState<Boolean> = mutableStateOf(true)
     val shouldShowPreview by _shouldShowPreview
@@ -118,9 +122,9 @@ class BatchResizeViewModel @Inject constructor(
             _isTelegramSpecs.value = false
         }
         job?.cancel()
-        _isLoading.value = false
+        _isImageLoading.value = false
         job = viewModelScope.launch {
-            _isLoading.value = true
+            _isImageLoading.value = true
             delay(600)
             _bitmap.value?.let { bmp ->
                 val preview = updatePreview(bmp)
@@ -135,7 +139,7 @@ class BatchResizeViewModel @Inject constructor(
                     ) else this
                 }
             }
-            _isLoading.value = false
+            _isImageLoading.value = false
         }
     }
 
@@ -279,43 +283,43 @@ class BatchResizeViewModel @Inject constructor(
     fun saveBitamps(
         onComplete: (path: String) -> Unit
     ) = viewModelScope.launch {
+        _isSaving.value = true
         withContext(Dispatchers.IO) {
-            if (!fileController.isExternalStorageWritable()) {
-                onComplete("")
-                fileController.requestReadWritePermissions()
-            } else {
-                _done.value = 0
-                uris?.forEach { uri ->
-                    runCatching {
-                        imageManager.getImage(uri.toString())?.image
-                    }.getOrNull()?.let { bitmap ->
-                        imageInfo.let {
-                            imageManager.applyPresetBy(
-                                image = bitmap,
-                                preset = _presetSelected.value,
-                                currentInfo = it
-                            )
-                        }.apply {
-                            fileController.save(
-                                ImageSaveTarget<ExifInterface>(
-                                    imageInfo = this,
-                                    originalUri = uri.toString(),
-                                    sequenceNumber = _done.value + 1,
-                                    data = imageManager.compress(
-                                        ImageData(
-                                            bitmap,
-                                            imageInfo
-                                        )
+            _done.value = 0
+            uris?.forEach { uri ->
+                runCatching {
+                    imageManager.getImage(uri.toString())?.image
+                }.getOrNull()?.let { bitmap ->
+                    imageInfo.let {
+                        imageManager.applyPresetBy(
+                            image = bitmap,
+                            preset = _presetSelected.value,
+                            currentInfo = it
+                        )
+                    }.apply {
+                        val result = fileController.save(
+                            ImageSaveTarget<ExifInterface>(
+                                imageInfo = this,
+                                originalUri = uri.toString(),
+                                sequenceNumber = _done.value + 1,
+                                data = imageManager.compress(
+                                    ImageData(
+                                        bitmap,
+                                        imageInfo
                                     )
-                                ), keepExif
-                            )
+                                )
+                            ), keepExif
+                        )
+                        if (result is SaveResult.Error.MissingPermissions) {
+                            return@withContext onComplete("")
                         }
                     }
-                    _done.value += 1
                 }
-                onComplete(fileController.savingPath)
+                _done.value += 1
             }
+            onComplete(fileController.savingPath)
         }
+        _isSaving.value = false
     }
 
     fun setBitmap(uri: Uri) {
@@ -358,6 +362,7 @@ class BatchResizeViewModel @Inject constructor(
 
     fun shareBitmaps(onComplete: () -> Unit) {
         viewModelScope.launch {
+            _isSaving.value = true
             imageManager.shareImages(
                 uris = uris?.map { it.toString() } ?: emptyList(),
                 imageLoader = { uri ->
@@ -366,6 +371,7 @@ class BatchResizeViewModel @Inject constructor(
                 onProgressChange = {
                     if (it == -1) {
                         onComplete()
+                        _isSaving.value = false
                         _done.value = 0
                     } else {
                         _done.value = it

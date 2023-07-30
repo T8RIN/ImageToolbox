@@ -2,6 +2,7 @@ package ru.tech.imageresizershrinker.presentation.file_cipher_screen.viewModel
 
 import android.graphics.Bitmap
 import android.net.Uri
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.exifinterface.media.ExifInterface
@@ -36,6 +37,9 @@ class FileCipherViewModel @Inject constructor(
     private val _byteArray = mutableStateOf<ByteArray?>(null)
     val byteArray by _byteArray
 
+    private val _isSaving: MutableState<Boolean> = mutableStateOf(false)
+    val isSaving by _isSaving
+
     fun setUri(newUri: Uri) {
         _uri.value = newUri
         resetCalculatedData()
@@ -45,29 +49,29 @@ class FileCipherViewModel @Inject constructor(
         key: String,
         onFileRequest: suspend (Uri) -> ByteArray?,
         onComplete: (Throwable?) -> Unit
-    ) {
-        viewModelScope.launch {
-            withContext(Dispatchers.IO) {
-                if (_uri.value == null) {
-                    onComplete(null)
-                    return@withContext
+    ) = viewModelScope.launch {
+        _isSaving.value = true
+        withContext(Dispatchers.IO) {
+            if (_uri.value == null) {
+                onComplete(null)
+                return@withContext
+            }
+            val file = onFileRequest(_uri.value!!)
+            runCatching {
+                if (isEncrypt) {
+                    _byteArray.value = file?.let { encryptFileUseCase(it, key) }
+                } else {
+                    _byteArray.value = file?.let { decryptFileUseCase(it, key) }
                 }
-                val file = onFileRequest(_uri.value!!)
-                runCatching {
-                    if (isEncrypt) {
-                        _byteArray.value = file?.let { encryptFileUseCase(it, key) }
-                    } else {
-                        _byteArray.value = file?.let { decryptFileUseCase(it, key) }
-                    }
-                }.exceptionOrNull().let {
-                    onComplete(
-                        if (it?.message?.contains("mac") == true && it.message?.contains("failed") == true) {
-                            InvalidKeyException()
-                        } else it
-                    )
-                }
+            }.exceptionOrNull().let {
+                onComplete(
+                    if (it?.message?.contains("mac") == true && it.message?.contains("failed") == true) {
+                        InvalidKeyException()
+                    } else it
+                )
             }
         }
+        _isSaving.value = false
     }
 
     fun setIsEncrypt(isEncrypt: Boolean) {
@@ -80,18 +84,28 @@ class FileCipherViewModel @Inject constructor(
     }
 
     fun saveCryptographyTo(outputStream: OutputStream?, onComplete: (Throwable?) -> Unit) {
+        _isSaving.value = true
         kotlin.runCatching {
             outputStream?.use {
                 it.write(_byteArray.value)
             }
         }.exceptionOrNull().let(onComplete)
+        _isSaving.value = false
     }
 
     fun generateRandomPassword(): String = generateRandomPasswordUseCase(18)
 
     fun shareFile(it: ByteArray, filename: String, onComplete: () -> Unit) {
         viewModelScope.launch {
-            imageManager.shareFile(it, filename, onComplete)
+            _isSaving.value = true
+            imageManager.shareFile(
+                byteArray = it,
+                filename = filename,
+                onComplete = {
+                    _isSaving.value = false
+                    onComplete()
+                }
+            )
         }
     }
 

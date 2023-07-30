@@ -20,6 +20,7 @@ import ru.tech.imageresizershrinker.domain.model.ImageFormat
 import ru.tech.imageresizershrinker.domain.model.ImageInfo
 import ru.tech.imageresizershrinker.domain.model.ResizeType
 import ru.tech.imageresizershrinker.domain.saving.FileController
+import ru.tech.imageresizershrinker.domain.saving.SaveResult
 import ru.tech.imageresizershrinker.domain.saving.model.ImageSaveTarget
 import javax.inject.Inject
 
@@ -41,8 +42,11 @@ class LimitsResizeViewModel @Inject constructor(
     private val _keepExif = mutableStateOf(false)
     val keepExif by _keepExif
 
-    private val _isLoading: MutableState<Boolean> = mutableStateOf(false)
-    val isLoading: Boolean by _isLoading
+    private val _isImageLoading: MutableState<Boolean> = mutableStateOf(false)
+    val isImageLoading: Boolean by _isImageLoading
+
+    private val _isSaving: MutableState<Boolean> = mutableStateOf(false)
+    val isSaving: Boolean by _isSaving
 
     private val _previewBitmap: MutableState<Bitmap?> = mutableStateOf(null)
     val previewBitmap: Bitmap? by _previewBitmap
@@ -94,10 +98,10 @@ class LimitsResizeViewModel @Inject constructor(
 
     fun updateBitmap(bitmap: Bitmap?, preview: Bitmap? = null) {
         viewModelScope.launch {
-            _isLoading.value = true
+            _isImageLoading.value = true
             _bitmap.value = imageManager.scaleUntilCanShow(bitmap)
             _previewBitmap.value = preview ?: _bitmap.value
-            _isLoading.value = false
+            _isImageLoading.value = false
         }
     }
 
@@ -108,61 +112,62 @@ class LimitsResizeViewModel @Inject constructor(
     fun saveBitmaps(
         onResult: (Int, String) -> Unit
     ) = viewModelScope.launch {
+        _isSaving.value = true
         withContext(Dispatchers.IO) {
             var failed = 0
-            if (!fileController.isExternalStorageWritable()) {
-                onResult(-1, "")
-                fileController.requestReadWritePermissions()
-            } else {
-                _done.value = 0
-                uris?.forEach { uri ->
-                    runCatching {
-                        imageManager.getImage(uri.toString())?.image
-                    }.getOrNull()?.let { bitmap ->
-                        imageManager.resize(
-                            image = bitmap,
-                            width = imageInfo.width,
-                            height = imageInfo.height,
-                            resizeType = imageInfo.resizeType
-                        )
-                    }?.let { localBitmap ->
-                        fileController.save(
-                            ImageSaveTarget<ExifInterface>(
-                                imageInfo = imageInfo.copy(
-                                    width = localBitmap.width,
-                                    height = localBitmap.height
-                                ),
-                                originalUri = uri.toString(),
-                                sequenceNumber = _done.value + 1,
-                                data = imageManager.compress(
-                                    ImageData(
-                                        image = localBitmap,
-                                        imageInfo = imageInfo.copy(
-                                            width = localBitmap.width,
-                                            height = localBitmap.height
-                                        )
+            _done.value = 0
+            uris?.forEach { uri ->
+                runCatching {
+                    imageManager.getImage(uri.toString())?.image
+                }.getOrNull()?.let { bitmap ->
+                    imageManager.resize(
+                        image = bitmap,
+                        width = imageInfo.width,
+                        height = imageInfo.height,
+                        resizeType = imageInfo.resizeType
+                    )
+                }?.let { localBitmap ->
+                    val result = fileController.save(
+                        ImageSaveTarget<ExifInterface>(
+                            imageInfo = imageInfo.copy(
+                                width = localBitmap.width,
+                                height = localBitmap.height
+                            ),
+                            originalUri = uri.toString(),
+                            sequenceNumber = _done.value + 1,
+                            data = imageManager.compress(
+                                ImageData(
+                                    image = localBitmap,
+                                    imageInfo = imageInfo.copy(
+                                        width = localBitmap.width,
+                                        height = localBitmap.height
                                     )
                                 )
-                            ), keepMetadata = keepExif
-                        )
-                    } ?: {
-                        failed += 1
+                            )
+                        ), keepMetadata = keepExif
+                    )
+                    if (result is SaveResult.Error.MissingPermissions) {
+                        return@withContext onResult(-1, "")
                     }
-
-                    _done.value += 1
+                } ?: {
+                    failed += 1
                 }
-                onResult(failed, fileController.savingPath)
+
+
+                _done.value += 1
             }
+            onResult(failed, fileController.savingPath)
         }
+        _isSaving.value = false
     }
 
     fun setBitmap(uri: Uri) {
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
-                _isLoading.value = true
+                _isImageLoading.value = true
                 updateBitmap(imageManager.getImage(uri.toString())?.image)
                 _selectedUri.value = uri
-                _isLoading.value = false
+                _isImageLoading.value = false
             }
         }
     }
@@ -185,6 +190,7 @@ class LimitsResizeViewModel @Inject constructor(
 
     fun shareBitmaps(onComplete: () -> Unit) {
         viewModelScope.launch {
+            _isSaving.value = true
             imageManager.shareImages(
                 uris = uris?.map { it.toString() } ?: emptyList(),
                 imageLoader = { uri ->
@@ -208,6 +214,7 @@ class LimitsResizeViewModel @Inject constructor(
                     if (it == -1) {
                         onComplete()
                         _done.value = 0
+                        _isSaving.value = false
                     } else {
                         _done.value = it
                     }

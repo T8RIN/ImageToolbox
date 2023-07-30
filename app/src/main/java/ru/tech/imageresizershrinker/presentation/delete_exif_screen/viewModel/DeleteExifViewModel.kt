@@ -16,6 +16,7 @@ import kotlinx.coroutines.withContext
 import ru.tech.imageresizershrinker.domain.image.ImageManager
 import ru.tech.imageresizershrinker.domain.model.ImageFormat
 import ru.tech.imageresizershrinker.domain.saving.FileController
+import ru.tech.imageresizershrinker.domain.saving.SaveResult
 import ru.tech.imageresizershrinker.domain.saving.model.ImageSaveTarget
 import javax.inject.Inject
 
@@ -31,8 +32,11 @@ class DeleteExifViewModel @Inject constructor(
     private val _bitmap: MutableState<Bitmap?> = mutableStateOf(null)
     val bitmap: Bitmap? by _bitmap
 
-    private val _isLoading: MutableState<Boolean> = mutableStateOf(false)
-    val isLoading: Boolean by _isLoading
+    private val _isImageLoading: MutableState<Boolean> = mutableStateOf(false)
+    val isImageLoading: Boolean by _isImageLoading
+
+    private val _isSaving: MutableState<Boolean> = mutableStateOf(false)
+    val isSaving: Boolean by _isSaving
 
     private val _previewBitmap: MutableState<Bitmap?> = mutableStateOf(null)
     val previewBitmap: Bitmap? by _previewBitmap
@@ -79,44 +83,45 @@ class DeleteExifViewModel @Inject constructor(
 
     fun updateBitmap(bitmap: Bitmap?) {
         viewModelScope.launch {
-            _isLoading.value = true
+            _isImageLoading.value = true
             _bitmap.value = bitmap
             _previewBitmap.value = imageManager.scaleUntilCanShow(bitmap)
-            _isLoading.value = false
+            _isImageLoading.value = false
         }
     }
 
     fun saveBitmaps(
         onResult: (Int, String) -> Unit
     ) = viewModelScope.launch {
+        _isSaving.value = true
         withContext(Dispatchers.IO) {
             var failed = 0
-            if (!fileController.isExternalStorageWritable()) {
-                onResult(-1, "")
-            } else {
-                _done.value = 0
-                uris?.forEach { uri ->
-                    runCatching {
-                        imageManager.getImage(uri.toString())
-                    }.getOrNull()?.let {
-                        fileController.save(
-                            ImageSaveTarget<ExifInterface>(
-                                imageInfo = it.imageInfo,
-                                originalUri = uri.toString(),
-                                sequenceNumber = _done.value,
-                                data = imageManager.compress(it)
-                            ),
-                            keepMetadata = false
-                        )
-                    } ?: {
-                        failed += 1
+            _done.value = 0
+            uris?.forEach { uri ->
+                runCatching {
+                    imageManager.getImage(uri.toString())
+                }.getOrNull()?.let {
+                    val result = fileController.save(
+                        ImageSaveTarget<ExifInterface>(
+                            imageInfo = it.imageInfo,
+                            originalUri = uri.toString(),
+                            sequenceNumber = _done.value,
+                            data = imageManager.compress(it)
+                        ),
+                        keepMetadata = false
+                    )
+                    if (result is SaveResult.Error.MissingPermissions) {
+                        return@withContext onResult(-1, "")
                     }
-
-                    _done.value += 1
+                } ?: {
+                    failed += 1
                 }
-                onResult(failed, fileController.savingPath)
+
+                _done.value += 1
             }
+            onResult(failed, fileController.savingPath)
         }
+        _isSaving.value = false
     }
 
     fun setBitmap(uri: Uri) {
@@ -150,6 +155,7 @@ class DeleteExifViewModel @Inject constructor(
 
     fun shareBitmaps(onComplete: () -> Unit) {
         viewModelScope.launch {
+            _isSaving.value = true
             imageManager.shareImages(
                 uris = uris?.map { it.toString() } ?: emptyList(),
                 imageLoader = { uri ->
@@ -158,6 +164,7 @@ class DeleteExifViewModel @Inject constructor(
                 onProgressChange = {
                     if (it == -1) {
                         onComplete()
+                        _isSaving.value = false
                         _done.value = 0
                     } else {
                         _done.value = it

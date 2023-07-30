@@ -26,6 +26,7 @@ import ru.tech.imageresizershrinker.domain.model.ImageFormat
 import ru.tech.imageresizershrinker.domain.model.ImageInfo
 import ru.tech.imageresizershrinker.domain.model.ResizeType
 import ru.tech.imageresizershrinker.domain.saving.FileController
+import ru.tech.imageresizershrinker.domain.saving.SaveResult
 import ru.tech.imageresizershrinker.domain.saving.model.ImageSaveTarget
 import ru.tech.imageresizershrinker.presentation.draw_screen.components.DrawBehavior
 import ru.tech.imageresizershrinker.presentation.root.transformation.UpscaleTransformation
@@ -52,27 +53,28 @@ class DrawViewModel @Inject constructor(
     private val _imageFormat = mutableStateOf(ImageFormat.Default())
     val imageFormat by _imageFormat
 
-    private val _isLoading: MutableState<Boolean> = mutableStateOf(false)
-    val isLoading: Boolean by _isLoading
+    private val _isImageLoading: MutableState<Boolean> = mutableStateOf(false)
+    val isImageLoading: Boolean by _isImageLoading
+
+    private val _isSaving: MutableState<Boolean> = mutableStateOf(false)
+    val isSaving: Boolean by _isSaving
 
     fun updateMimeType(imageFormat: ImageFormat) {
         _imageFormat.value = imageFormat
     }
 
     fun saveBitmap(
-        onComplete: (savePath: String) -> Unit
+        onComplete: (saveResult: SaveResult) -> Unit
     ) = viewModelScope.launch {
+        _isSaving.value = true
         withContext(Dispatchers.IO) {
-            if (drawBehavior is DrawBehavior.Image) {
-                getBitmapFromUriWithTransformations(
-                    uri = uri,
-                    originalSize = false,
-                    transformations = listOf(UpscaleTransformation())
-                )?.let { bitmap ->
-                    if (!fileController.isExternalStorageWritable()) {
-                        onComplete("")
-                        fileController.requestReadWritePermissions()
-                    } else {
+            when (drawBehavior) {
+                is DrawBehavior.Image -> {
+                    getBitmapFromUriWithTransformations(
+                        uri = uri,
+                        originalSize = false,
+                        transformations = listOf(UpscaleTransformation())
+                    )?.let { bitmap ->
                         drawController?.getBitmap()?.let {
                             imageManager.overlayImage(
                                 image = bitmap,
@@ -84,14 +86,52 @@ class DrawViewModel @Inject constructor(
                                 )!!
                             )
                         }?.let { localBitmap ->
+                            onComplete(
+                                fileController.save(
+                                    ImageSaveTarget<ExifInterface>(
+                                        imageInfo = ImageInfo(
+                                            imageFormat = imageFormat,
+                                            width = localBitmap.width,
+                                            height = localBitmap.height
+                                        ),
+                                        originalUri = _uri.value.toString(),
+                                        sequenceNumber = null,
+                                        data = imageManager.compress(
+                                            ImageData(
+                                                image = localBitmap,
+                                                imageInfo = ImageInfo(
+                                                    imageFormat = imageFormat,
+                                                    width = localBitmap.width,
+                                                    height = localBitmap.height
+                                                )
+                                            )
+                                        )
+                                    ), keepMetadata = true
+                                )
+                            )
+                        }
+                    }
+                }
+
+                is DrawBehavior.Background -> {
+
+                    drawController?.getBitmap()?.let {
+                        imageManager.resize(
+                            image = it,
+                            width = (drawBehavior as DrawBehavior.Background).width,
+                            height = (drawBehavior as DrawBehavior.Background).height,
+                            resizeType = ResizeType.Explicit
+                        )
+                    }?.let { localBitmap ->
+                        onComplete(
                             fileController.save(
-                                ImageSaveTarget<ExifInterface>(
+                                saveTarget = ImageSaveTarget<ExifInterface>(
                                     imageInfo = ImageInfo(
                                         imageFormat = imageFormat,
                                         width = localBitmap.width,
                                         height = localBitmap.height
                                     ),
-                                    originalUri = _uri.value.toString(),
+                                    originalUri = "drawing",
                                     sequenceNumber = null,
                                     data = imageManager.compress(
                                         ImageData(
@@ -105,49 +145,14 @@ class DrawViewModel @Inject constructor(
                                     )
                                 ), keepMetadata = true
                             )
-                        }
-                        onComplete(fileController.savingPath)
-                    }
-                }
-            } else if (drawBehavior is DrawBehavior.Background) {
-                if (!fileController.isExternalStorageWritable()) {
-                    onComplete("")
-                    fileController.requestReadWritePermissions()
-                } else {
-                    drawController?.getBitmap()?.let {
-                        imageManager.resize(
-                            image = it,
-                            width = (drawBehavior as DrawBehavior.Background).width,
-                            height = (drawBehavior as DrawBehavior.Background).height,
-                            resizeType = ResizeType.Explicit
-                        )
-                    }?.let { localBitmap ->
-                        fileController.save(
-                            saveTarget = ImageSaveTarget<ExifInterface>(
-                                imageInfo = ImageInfo(
-                                    imageFormat = imageFormat,
-                                    width = localBitmap.width,
-                                    height = localBitmap.height
-                                ),
-                                originalUri = "drawing",
-                                sequenceNumber = null,
-                                data = imageManager.compress(
-                                    ImageData(
-                                        image = localBitmap,
-                                        imageInfo = ImageInfo(
-                                            imageFormat = imageFormat,
-                                            width = localBitmap.width,
-                                            height = localBitmap.height
-                                        )
-                                    )
-                                )
-                            ), keepMetadata = true
                         )
                     }
-                    onComplete(fileController.savingPath)
                 }
+
+                else -> null
             }
         }
+        _isSaving.value = false
     }
 
     private suspend fun calculateScreenOrientationBasedOnUri(uri: Uri): Int {
@@ -243,6 +248,7 @@ class DrawViewModel @Inject constructor(
     }
 
     fun shareBitmap(onComplete: () -> Unit) {
+        _isSaving.value = true
         viewModelScope.launch {
             getBitmapForSharing()?.let {
                 imageManager.shareImage(
@@ -257,6 +263,7 @@ class DrawViewModel @Inject constructor(
                     onComplete = onComplete
                 )
             } ?: onComplete()
+            _isSaving.value = false
         }
     }
 

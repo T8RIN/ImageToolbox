@@ -96,6 +96,7 @@ import ru.tech.imageresizershrinker.presentation.root.transformation.filter.Satu
 import ru.tech.imageresizershrinker.presentation.root.utils.confetti.LocalConfettiController
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.Picker
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.localImagePickerMode
+import ru.tech.imageresizershrinker.presentation.root.utils.helper.parseSaveResult
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.rememberImagePicker
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.drawHorizontalStroke
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.fabBorder
@@ -199,26 +200,15 @@ fun CropScreen(
         pickImageLauncher.pickImage()
     }
 
-    var showSaveLoading by rememberSaveable { mutableStateOf(false) }
-
     val saveBitmap: (Bitmap) -> Unit = {
-        showSaveLoading = true
-        viewModel.saveBitmap(
-            bitmap = it,
-        ) { savingPath ->
-            if (savingPath.isNotEmpty()) {
-                scope.launch {
-                    toastHostState.showToast(
-                        context.getString(
-                            R.string.saved_to,
-                            savingPath
-                        ),
-                        Icons.Rounded.Save
-                    )
-                }
-                showConfetti()
-            }
-            showSaveLoading = false
+        viewModel.saveBitmap(bitmap = it) { saveResult ->
+            parseSaveResult(
+                saveResult = saveResult,
+                onSuccess = showConfetti,
+                toastHostState = toastHostState,
+                scope = scope,
+                context = context
+            )
         }
     }
 
@@ -361,13 +351,9 @@ fun CropScreen(
                                     onCropSuccess = { image ->
                                         viewModel.imageCropFinished()
                                         if (share) {
-                                            showSaveLoading = true
                                             viewModel.shareBitmap(
                                                 bitmap = image.asAndroidBitmap(),
-                                                onComplete = {
-                                                    showConfetti()
-                                                    showSaveLoading = false
-                                                }
+                                                onComplete = showConfetti
                                             )
                                         } else {
                                             viewModel.updateBitmap(image.asAndroidBitmap())
@@ -411,13 +397,9 @@ fun CropScreen(
                                         onCropSuccess = { image ->
                                             viewModel.imageCropFinished()
                                             if (share) {
-                                                showSaveLoading = true
                                                 viewModel.shareBitmap(
                                                     bitmap = image.asAndroidBitmap(),
-                                                    onComplete = {
-                                                        showConfetti()
-                                                        showSaveLoading = false
-                                                    }
+                                                    onComplete = showConfetti
                                                 )
                                             } else {
                                                 viewModel.updateBitmap(image.asAndroidBitmap())
@@ -656,7 +638,7 @@ fun CropScreen(
         content(PaddingValues())
     }
 
-    if (showSaveLoading || viewModel.isLoading) {
+    if (viewModel.isSaving || viewModel.isImageLoading) {
         LoadingDialog()
     }
 

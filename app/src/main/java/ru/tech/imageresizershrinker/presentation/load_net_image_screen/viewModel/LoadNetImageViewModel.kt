@@ -18,6 +18,7 @@ import ru.tech.imageresizershrinker.domain.image.ImageManager
 import ru.tech.imageresizershrinker.domain.model.ImageData
 import ru.tech.imageresizershrinker.domain.model.ImageInfo
 import ru.tech.imageresizershrinker.domain.saving.FileController
+import ru.tech.imageresizershrinker.domain.saving.SaveResult
 import ru.tech.imageresizershrinker.domain.saving.model.ImageSaveTarget
 import java.io.ByteArrayOutputStream
 import javax.inject.Inject
@@ -34,62 +35,64 @@ class LoadNetImageViewModel @Inject constructor(
     private val _tempUri: MutableState<Uri?> = mutableStateOf(null)
     val tempUri by _tempUri
 
+    private val _isSaving: MutableState<Boolean> = mutableStateOf(false)
+    val isSaving by _isSaving
+
     fun updateBitmap(bitmap: Bitmap?) {
         _bitmap.value = bitmap
     }
 
     fun saveBitmap(
-        getBitmap: suspend () -> Bitmap?,
-        onComplete: (savingPath: String) -> Unit
+        link: String,
+        onComplete: (saveResult: SaveResult) -> Unit
     ) = viewModelScope.launch {
+        _isSaving.value = true
         withContext(Dispatchers.IO) {
-
-            if (!fileController.isExternalStorageWritable()) {
-                onComplete("")
-                fileController.requestReadWritePermissions()
-            } else {
-                val localBitmap = getBitmap()
-
-                if (localBitmap == null) {
-                    onComplete("")
-                    return@withContext
+            imageManager.getImage(data = link)?.let { bitmap ->
+                ByteArrayOutputStream().use { out ->
+                    bitmap.compress(
+                        Bitmap.CompressFormat.PNG,
+                        100,
+                        out
+                    )
+                    onComplete(
+                        fileController.save(
+                            saveTarget = ImageSaveTarget<ExifInterface>(
+                                imageInfo = ImageInfo(
+                                    width = bitmap.width,
+                                    height = bitmap.height
+                                ),
+                                originalUri = "_",
+                                sequenceNumber = null,
+                                data = out.toByteArray()
+                            ),
+                            keepMetadata = false
+                        )
+                    )
                 }
-
-                val out = ByteArrayOutputStream()
-                localBitmap.compress(
-                    Bitmap.CompressFormat.PNG,
-                    100,
-                    out
-                )
-                fileController.save(
-                    saveTarget = ImageSaveTarget<ExifInterface>(
-                        imageInfo = ImageInfo(
-                            width = localBitmap.width,
-                            height = localBitmap.height
-                        ),
-                        originalUri = "_",
-                        sequenceNumber = null,
-                        data = out.toByteArray()
-                    ),
-                    keepMetadata = false
-                )
-                out.flush()
-                out.close()
-
-                onComplete(fileController.savingPath)
             }
         }
+        _isSaving.value = false
     }
 
     fun cacheImage(image: Bitmap, imageInfo: ImageInfo) {
         viewModelScope.launch {
+            _isSaving.value = true
             _tempUri.value = imageManager.cacheImage(image, imageInfo)?.toUri()
+            _isSaving.value = false
         }
     }
 
     fun shareBitmap(bitmap: Bitmap, imageInfo: ImageInfo, onComplete: () -> Unit) {
         viewModelScope.launch {
-            imageManager.shareImage(ImageData(bitmap, imageInfo), onComplete)
+            _isSaving.value = true
+            imageManager.shareImage(
+                imageData = ImageData(bitmap, imageInfo),
+                onComplete = {
+                    _isSaving.value = false
+                    onComplete()
+                }
+            )
         }
     }
 

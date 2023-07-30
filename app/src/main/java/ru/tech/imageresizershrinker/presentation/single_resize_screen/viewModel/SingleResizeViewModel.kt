@@ -62,8 +62,8 @@ class SingleResizeViewModel @Inject constructor(
     private val _isTelegramSpecs: MutableState<Boolean> = mutableStateOf(false)
     val isTelegramSpecs by _isTelegramSpecs
 
-    private val _showSaveLoading: MutableState<Boolean> = mutableStateOf(false)
-    val showSaveLoading by _showSaveLoading
+    private val _isSaving: MutableState<Boolean> = mutableStateOf(false)
+    val isSaving by _isSaving
 
     private var job: Job? = null
 
@@ -100,7 +100,7 @@ class SingleResizeViewModel @Inject constructor(
         onComplete: (result: SaveResult) -> Unit,
     ) = viewModelScope.launch {
         withContext(Dispatchers.IO) {
-            _showSaveLoading.value = true
+            _isSaving.value = true
             bitmap?.let { bitmap ->
                 onComplete(
                     fileController.save(
@@ -121,7 +121,7 @@ class SingleResizeViewModel @Inject constructor(
                     )
                 )
             }
-            _showSaveLoading.value = false
+            _isSaving.value = false
         }
     }
 
@@ -304,9 +304,9 @@ class SingleResizeViewModel @Inject constructor(
 
     fun shareBitmap(bitmap: Bitmap?, onComplete: () -> Unit) {
         viewModelScope.launch {
-            _showSaveLoading.value = true
+            _isSaving.value = true
             bitmap?.let { imageManager.shareImage(ImageData(it, imageInfo), onComplete) }
-            _showSaveLoading.value = false
+            _isSaving.value = false
         }
     }
 

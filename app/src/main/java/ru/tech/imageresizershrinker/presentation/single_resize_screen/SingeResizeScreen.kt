@@ -543,7 +543,7 @@ fun SingleResizeScreen(
                 visible = showExitDialog
             )
 
-            if (viewModel.showSaveLoading) LoadingDialog()
+            if (viewModel.isSaving) LoadingDialog()
 
             BackHandler(onBack = onBack)
 

@@ -19,6 +19,7 @@ import ru.tech.imageresizershrinker.domain.model.ImageData
 import ru.tech.imageresizershrinker.domain.model.ImageFormat
 import ru.tech.imageresizershrinker.domain.model.ImageInfo
 import ru.tech.imageresizershrinker.domain.saving.FileController
+import ru.tech.imageresizershrinker.domain.saving.SaveResult
 import ru.tech.imageresizershrinker.domain.saving.model.ImageSaveTarget
 import javax.inject.Inject
 
@@ -46,8 +47,11 @@ class BytesResizeViewModel @Inject constructor(
     private val _keepExif = mutableStateOf(false)
     val keepExif by _keepExif
 
-    private val _isLoading: MutableState<Boolean> = mutableStateOf(false)
-    val isLoading: Boolean by _isLoading
+    private val _isImageLoading: MutableState<Boolean> = mutableStateOf(false)
+    val isImageLoading: Boolean by _isImageLoading
+
+    private val _isSaving: MutableState<Boolean> = mutableStateOf(false)
+    val isSaving: Boolean by _isSaving
 
     private val _previewBitmap: MutableState<Bitmap?> = mutableStateOf(null)
     val previewBitmap: Bitmap? by _previewBitmap
@@ -105,10 +109,10 @@ class BytesResizeViewModel @Inject constructor(
 
     fun updateBitmap(bitmap: Bitmap?) {
         viewModelScope.launch {
-            _isLoading.value = true
+            _isImageLoading.value = true
             _bitmap.value = bitmap
             _previewBitmap.value = imageManager.scaleUntilCanShow(bitmap)
-            _isLoading.value = false
+            _isImageLoading.value = false
         }
     }
 
@@ -119,67 +123,67 @@ class BytesResizeViewModel @Inject constructor(
     fun saveBitmaps(
         onResult: (Int, String) -> Unit
     ) = viewModelScope.launch {
+        _isSaving.value = true
         withContext(Dispatchers.IO) {
             var failed = 0
-            if (!fileController.isExternalStorageWritable()) {
-                onResult(-1, "")
-            } else {
-                _done.value = 0
-                uris?.forEach { uri ->
-                    runCatching {
-                        imageManager.getImage(uri.toString())
-                    }.getOrNull()?.image?.let { bitmap ->
-                        kotlin.runCatching {
-                            if (handMode) {
-                                imageManager.scaleByMaxBytes(
-                                    image = bitmap,
-                                    maxBytes = maxBytes,
-                                    imageFormat = imageFormat
-                                )
-                            } else {
-                                imageManager.scaleByMaxBytes(
-                                    image = bitmap,
-                                    maxBytes = (fileController.getSize(uri.toString()) ?: 0)
-                                        .times(_presetSelected.value / 100f)
-                                        .toLong(),
-                                    imageFormat = imageFormat
-                                )
-                            }
-                        }.let { result ->
-                            if (result.isSuccess && result.getOrNull() != null) {
-                                val scaled = result.getOrNull()!!
-                                val localBitmap = scaled.image
+            _done.value = 0
+            uris?.forEach { uri ->
+                runCatching {
+                    imageManager.getImage(uri.toString())
+                }.getOrNull()?.image?.let { bitmap ->
+                    kotlin.runCatching {
+                        if (handMode) {
+                            imageManager.scaleByMaxBytes(
+                                image = bitmap,
+                                maxBytes = maxBytes,
+                                imageFormat = imageFormat
+                            )
+                        } else {
+                            imageManager.scaleByMaxBytes(
+                                image = bitmap,
+                                maxBytes = (fileController.getSize(uri.toString()) ?: 0)
+                                    .times(_presetSelected.value / 100f)
+                                    .toLong(),
+                                imageFormat = imageFormat
+                            )
+                        }
+                    }.let { result ->
+                        if (result.isSuccess && result.getOrNull() != null) {
+                            val scaled = result.getOrNull()!!
+                            val localBitmap = scaled.image
 
-
-                                fileController.save(
-                                    ImageSaveTarget<ExifInterface>(
-                                        imageInfo = ImageInfo(
-                                            imageFormat = imageFormat,
-                                            width = localBitmap.width,
-                                            height = localBitmap.height
-                                        ),
-                                        originalUri = uri.toString(),
-                                        sequenceNumber = _done.value + 1,
-                                        data = imageManager.compress(
-                                            ImageData(
-                                                image = localBitmap,
-                                                imageInfo = ImageInfo(
-                                                    imageFormat = imageFormat,
-                                                    quality = scaled.imageInfo.quality
-                                                )
+                            val saveResult = fileController.save(
+                                ImageSaveTarget<ExifInterface>(
+                                    imageInfo = ImageInfo(
+                                        imageFormat = imageFormat,
+                                        width = localBitmap.width,
+                                        height = localBitmap.height
+                                    ),
+                                    originalUri = uri.toString(),
+                                    sequenceNumber = _done.value + 1,
+                                    data = imageManager.compress(
+                                        ImageData(
+                                            image = localBitmap,
+                                            imageInfo = ImageInfo(
+                                                imageFormat = imageFormat,
+                                                quality = scaled.imageInfo.quality
                                             )
                                         )
-                                    ),
-                                    keepMetadata = keepExif
-                                )
-                            } else failed += 1
-                        }
+                                    )
+                                ),
+                                keepMetadata = keepExif
+                            )
+                            if (saveResult is SaveResult.Error.MissingPermissions) {
+                                return@withContext onResult(-1, "")
+                            }
+                        } else failed += 1
                     }
-                    _done.value += 1
                 }
-                onResult(failed, fileController.savingPath)
+                _done.value += 1
             }
+            onResult(failed, fileController.savingPath)
         }
+        _isSaving.value = false
     }
 
     fun setBitmap(uri: Uri) {
@@ -219,6 +223,7 @@ class BytesResizeViewModel @Inject constructor(
 
     fun shareBitmaps(onComplete: () -> Unit) {
         viewModelScope.launch {
+            _isSaving.value = true
             imageManager.shareImages(
                 uris = uris?.map { it.toString() } ?: emptyList(),
                 imageLoader = { uri ->
@@ -247,6 +252,7 @@ class BytesResizeViewModel @Inject constructor(
                 onProgressChange = {
                     if (it == -1) {
                         onComplete()
+                        _isSaving.value = false
                         _done.value = 0
                     } else {
                         _done.value = it

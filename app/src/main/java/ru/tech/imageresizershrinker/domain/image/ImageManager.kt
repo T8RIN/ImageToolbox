@@ -92,4 +92,6 @@ interface ImageManager<I, M> {
         onComplete: () -> Unit
     )
 
+    suspend fun getImage(data: Any, originalSize: Boolean = true): I?
+
 }

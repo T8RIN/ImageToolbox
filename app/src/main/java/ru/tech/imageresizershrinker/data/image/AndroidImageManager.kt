@@ -120,6 +120,18 @@ class AndroidImageManager @Inject constructor(
         }
     }
 
+    override suspend fun getImage(data: Any, originalSize: Boolean): Bitmap? {
+        return loader().execute(
+            ImageRequest
+                .Builder(context)
+                .data(data)
+                .apply {
+                    if (originalSize) size(Size.ORIGINAL)
+                }
+                .build()
+        ).drawable?.toBitmap()
+    }
+
     override fun getImageAsync(
         uri: String,
         originalSize: Boolean,

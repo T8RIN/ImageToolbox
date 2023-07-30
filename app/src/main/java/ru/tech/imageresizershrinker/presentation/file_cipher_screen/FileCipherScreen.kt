@@ -154,13 +154,11 @@ fun FileCipherScreen(
             true
         else onGoBack()
     }
-    var showSaveLoading by rememberSaveable { mutableStateOf(false) }
 
     val saveLauncher = rememberLauncherForActivityResult(
         contract = CreateDocument(),
         onResult = {
             it?.let { uri ->
-                showSaveLoading = true
                 viewModel.saveCryptographyTo(
                     outputStream = context.contentResolver.openOutputStream(uri, "rw")
                 ) { t ->
@@ -175,14 +173,13 @@ fun FileCipherScreen(
                         scope.launch {
                             toastHostState.showToast(
                                 context.getString(
-                                    R.string.saved_to,
+                                    R.string.saved_to_without_filename,
                                     ""
                                 ),
                                 Icons.Rounded.Save
                             )
                         }
                     }
-                    showSaveLoading = false
                 }
             }
         }
@@ -458,7 +455,6 @@ fun FileCipherScreen(
                                         Button(
                                             enabled = key.isNotEmpty(),
                                             onClick = {
-                                                showSaveLoading = true
                                                 viewModel.startCryptography(
                                                     key = key,
                                                     onFileRequest = { uri ->
@@ -480,7 +476,6 @@ fun FileCipherScreen(
                                                             toastHostState.showError(context, it)
                                                         }
                                                     }
-                                                    showSaveLoading = false
                                                 }
                                             },
                                             modifier = Modifier
@@ -652,7 +647,6 @@ fun FileCipherScreen(
                                                         FilledTonalButton(
                                                             onClick = {
                                                                 viewModel.byteArray?.let {
-                                                                    showSaveLoading = true
                                                                     viewModel.shareFile(
                                                                         it = it,
                                                                         filename = name
@@ -660,7 +654,6 @@ fun FileCipherScreen(
                                                                         scope.launch {
                                                                             confettiController.showEmpty()
                                                                         }
-                                                                        showSaveLoading = false
                                                                     }
                                                                 }
                                                             },
@@ -698,7 +691,7 @@ fun FileCipherScreen(
                     }
                 }
 
-                if (showSaveLoading) LoadingDialog()
+                if (viewModel.isSaving) LoadingDialog()
             }
         }
 

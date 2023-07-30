@@ -100,6 +100,7 @@ import ru.tech.imageresizershrinker.presentation.root.transformation.filter.Satu
 import ru.tech.imageresizershrinker.presentation.root.utils.confetti.LocalConfettiController
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.Picker
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.localImagePickerMode
+import ru.tech.imageresizershrinker.presentation.root.utils.helper.parseSaveResult
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.rememberImagePicker
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.drawHorizontalStroke
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.fabBorder
@@ -185,24 +186,15 @@ fun DrawScreen(
         pickImageLauncher.pickImage()
     }
 
-    var showSaveLoading by rememberSaveable { mutableStateOf(false) }
-
     val saveBitmap: () -> Unit = {
-        showSaveLoading = true
-        viewModel.saveBitmap { savingPath ->
-            if (savingPath.isNotEmpty()) {
-                scope.launch {
-                    toastHostState.showToast(
-                        context.getString(
-                            R.string.saved_to,
-                            savingPath
-                        ),
-                        Icons.Rounded.Save
-                    )
-                }
-                showConfetti()
-            }
-            showSaveLoading = false
+        viewModel.saveBitmap { saveResult ->
+            parseSaveResult(
+                saveResult = saveResult,
+                onSuccess = showConfetti,
+                toastHostState = toastHostState,
+                scope = scope,
+                context = context
+            )
         }
     }
 
@@ -320,10 +312,7 @@ fun DrawScreen(
                             }
                             IconButton(
                                 onClick = {
-                                    viewModel.shareBitmap {
-                                        showSaveLoading = false
-                                        showConfetti()
-                                    }
+                                    viewModel.shareBitmap { showConfetti() }
                                 },
                                 enabled = viewModel.drawBehavior !is DrawBehavior.None
                             ) {
@@ -483,7 +472,7 @@ fun DrawScreen(
         }
     }
 
-    if (showSaveLoading || viewModel.isLoading) {
+    if (viewModel.isSaving || viewModel.isImageLoading) {
         LoadingDialog()
     }
 

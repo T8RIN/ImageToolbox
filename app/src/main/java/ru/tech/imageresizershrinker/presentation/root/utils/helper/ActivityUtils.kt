@@ -24,7 +24,7 @@ fun Activity.failedToSaveImages(
         scope.launch {
             toastHostState.showToast(
                 getString(
-                    R.string.saved_to,
+                    R.string.saved_to_without_filename,
                     savingPathString
                 ),
                 Icons.Rounded.Save
@@ -36,7 +36,7 @@ fun Activity.failedToSaveImages(
             showConfetti()
             toastHostState.showToast(
                 getString(
-                    R.string.saved_to,
+                    R.string.saved_to_without_filename,
                     savingPathString
                 ),
                 Icons.Rounded.Save

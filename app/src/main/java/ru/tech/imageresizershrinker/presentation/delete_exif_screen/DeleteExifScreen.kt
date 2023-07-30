@@ -163,11 +163,9 @@ fun DeleteExifScreen(
         pickImageLauncher.pickImage()
     }
 
-    var showSaveLoading by rememberSaveable { mutableStateOf(false) }
     var showExitDialog by rememberSaveable { mutableStateOf(false) }
 
     val saveBitmaps: () -> Unit = {
-        showSaveLoading = true
         viewModel.saveBitmaps { failed, savingPath ->
             context.failedToSaveImages(
                 scope = scope,
@@ -177,7 +175,6 @@ fun DeleteExifScreen(
                 savingPathString = savingPath,
                 showConfetti = showConfetti
             )
-            showSaveLoading = false
         }
     }
 
@@ -205,11 +202,11 @@ fun DeleteExifScreen(
                 showOriginal = false,
                 previewBitmap = viewModel.previewBitmap,
                 originalBitmap = viewModel.bitmap,
-                isLoading = viewModel.isLoading,
+                isLoading = viewModel.isImageLoading,
                 shouldShowPreview = true
             )
             ImageCounter(
-                imageCount = viewModel.uris?.size?.takeIf { it > 1 && !viewModel.isLoading },
+                imageCount = viewModel.uris?.size?.takeIf { it > 1 && !viewModel.isImageLoading },
                 onRepick = {
                     showPickImageFromUrisDialog = true
                 }
@@ -234,11 +231,7 @@ fun DeleteExifScreen(
         if (viewModel.previewBitmap != null) {
             IconButton(
                 onClick = {
-                    showSaveLoading = true
-                    viewModel.shareBitmaps {
-                        showConfetti()
-                        showSaveLoading = false
-                    }
+                    viewModel.shareBitmaps { showConfetti() }
                 }
             ) {
                 Icon(Icons.Outlined.Share, null)
@@ -287,7 +280,7 @@ fun DeleteExifScreen(
                         TopAppBarTitle(
                             title = stringResource(R.string.delete_exif),
                             bitmap = viewModel.bitmap,
-                            isLoading = viewModel.isLoading,
+                            isLoading = viewModel.isImageLoading,
                             size = viewModel.selectedUri?.fileSize(LocalContext.current) ?: 0L
                         )
                     },
@@ -356,7 +349,7 @@ fun DeleteExifScreen(
                                 if (imageInside) imageBlock()
                                 if (viewModel.bitmap != null) {
                                     if (imageInside) Spacer(Modifier.size(20.dp))
-                                } else if (!viewModel.isLoading) {
+                                } else if (!viewModel.isImageLoading) {
                                     ImageNotPickedWidget(onPickImage = pickImage)
                                     Spacer(Modifier.height(8.dp))
                                 }
@@ -385,7 +378,7 @@ fun DeleteExifScreen(
                 }
             }
 
-            if (showSaveLoading) {
+            if (viewModel.isSaving) {
                 LoadingDialog(viewModel.done, viewModel.uris?.size ?: 1)
             }
 

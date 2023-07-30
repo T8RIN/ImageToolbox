@@ -23,6 +23,7 @@ import ru.tech.imageresizershrinker.domain.model.ImageData
 import ru.tech.imageresizershrinker.domain.model.ImageFormat
 import ru.tech.imageresizershrinker.domain.model.ImageInfo
 import ru.tech.imageresizershrinker.domain.saving.FileController
+import ru.tech.imageresizershrinker.domain.saving.SaveResult
 import ru.tech.imageresizershrinker.domain.saving.model.ImageSaveTarget
 import java.io.ByteArrayInputStream
 import javax.inject.Inject
@@ -56,18 +57,21 @@ class CropViewModel @Inject constructor(
     private val _imageFormat = mutableStateOf(ImageFormat.Default())
     val imageFormat by _imageFormat
 
-    private val _isLoading: MutableState<Boolean> = mutableStateOf(false)
-    val isLoading: Boolean by _isLoading
+    private val _isImageLoading: MutableState<Boolean> = mutableStateOf(false)
+    val isImageLoading: Boolean by _isImageLoading
+
+    private val _isSaving: MutableState<Boolean> = mutableStateOf(false)
+    val isSaving: Boolean by _isSaving
 
     fun updateBitmap(bitmap: Bitmap?, newBitmap: Boolean = false) {
         viewModelScope.launch {
-            _isLoading.value = true
+            _isImageLoading.value = true
             val bmp = imageManager.scaleUntilCanShow(bitmap)
             if (newBitmap) {
                 internalBitmap.value = bmp
             }
             _bitmap.value = bmp
-            _isLoading.value = false
+            _isImageLoading.value = false
         }
     }
 
@@ -77,33 +81,31 @@ class CropViewModel @Inject constructor(
 
     fun saveBitmap(
         bitmap: Bitmap? = _bitmap.value,
-        onComplete: (savingPath: String) -> Unit
+        onComplete: (saveResult: SaveResult) -> Unit
     ) = viewModelScope.launch {
+        _isSaving.value = true
         withContext(Dispatchers.IO) {
             bitmap?.let { bitmap ->
-                if (!fileController.isExternalStorageWritable()) {
-                    onComplete("")
-                    fileController.requestReadWritePermissions()
-                } else {
-                    val localBitmap = bitmap
+                val localBitmap = bitmap
 
-                    val byteArray = imageManager.compress(
-                        ImageData(
-                            image = localBitmap,
-                            imageInfo = ImageInfo(
-                                imageFormat = imageFormat,
-                                width = localBitmap.width,
-                                height = localBitmap.height
-                            )
+                val byteArray = imageManager.compress(
+                    ImageData(
+                        image = localBitmap,
+                        imageInfo = ImageInfo(
+                            imageFormat = imageFormat,
+                            width = localBitmap.width,
+                            height = localBitmap.height
                         )
                     )
+                )
 
-                    val decoded = BitmapFactory.decodeStream(
-                        ByteArrayInputStream(byteArray)
-                    )
+                val decoded = BitmapFactory.decodeStream(
+                    ByteArrayInputStream(byteArray)
+                )
 
-                    _bitmap.value = decoded
+                _bitmap.value = decoded
 
+                onComplete(
                     fileController.save(
                         saveTarget = ImageSaveTarget<ExifInterface>(
                             imageInfo = ImageInfo(
@@ -117,11 +119,10 @@ class CropViewModel @Inject constructor(
                         ),
                         keepMetadata = false
                     )
-
-                    onComplete(fileController.savingPath)
-                }
+                )
             }
         }
+        _isSaving.value = false
     }
 
     fun setCropAspectRatio(aspectRatio: AspectRatio) {
@@ -136,11 +137,11 @@ class CropViewModel @Inject constructor(
     }
 
     fun imageCropStarted() {
-        _isLoading.value = true
+        _isImageLoading.value = true
     }
 
     fun imageCropFinished() {
-        _isLoading.value = false
+        _isImageLoading.value = false
     }
 
     fun setUri(uri: Uri) {
@@ -169,6 +170,7 @@ class CropViewModel @Inject constructor(
 
     fun shareBitmap(bitmap: Bitmap, onComplete: () -> Unit) {
         viewModelScope.launch {
+            _isSaving.value = true
             imageManager.shareImage(
                 ImageData(
                     image = bitmap,
@@ -178,7 +180,10 @@ class CropViewModel @Inject constructor(
                         height = bitmap.height
                     ),
                 ),
-                onComplete = onComplete
+                onComplete = {
+                    _isSaving.value = false
+                    onComplete()
+                }
             )
         }
     }

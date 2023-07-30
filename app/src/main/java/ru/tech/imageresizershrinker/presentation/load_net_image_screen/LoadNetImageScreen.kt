@@ -1,7 +1,6 @@
 package ru.tech.imageresizershrinker.presentation.load_net_image_screen
 
 import android.content.res.Configuration
-import android.os.Build
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedContent
@@ -76,11 +75,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImagePainter
-import coil.decode.GifDecoder
-import coil.decode.ImageDecoderDecoder
-import coil.decode.SvgDecoder
-import coil.imageLoader
-import coil.request.ImageRequest
 import coil.size.Size
 import com.t8rin.dynamic.theme.LocalDynamicThemeState
 import com.t8rin.dynamic.theme.getAppColorTuple
@@ -96,6 +90,7 @@ import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
 import ru.tech.imageresizershrinker.presentation.root.transformation.filter.SaturationFilter
 import ru.tech.imageresizershrinker.presentation.root.utils.confetti.LocalConfettiController
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.ImageUtils.toBitmap
+import ru.tech.imageresizershrinker.presentation.root.utils.helper.parseSaveResult
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.block
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.drawHorizontalStroke
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.fabBorder
@@ -249,44 +244,21 @@ fun LoadNetImageScreen(
         visible = showSheet
     )
 
-    var showSaveLoading by rememberSaveable { mutableStateOf(false) }
-
     val wantToEdit = rememberSaveable { mutableStateOf(false) }
 
     val focus = LocalFocusManager.current
 
     val saveBitmap: () -> Unit = {
-        showSaveLoading = true
-        viewModel.saveBitmap(
-            getBitmap = {
-                val loader = context.imageLoader.newBuilder().components {
-                    if (Build.VERSION.SDK_INT >= 28) add(ImageDecoderDecoder.Factory())
-                    else add(GifDecoder.Factory())
-                    add(SvgDecoder.Factory())
-                }.allowHardware(false).build()
-                loader.execute(
-                    ImageRequest
-                        .Builder(context)
-                        .data(link)
-                        .build()
-                ).drawable?.toBitmap()
-            },
-        ) { savingPath ->
-            if (savingPath.isNotEmpty()) {
-                scope.launch {
-                    toastHostState.showToast(
-                        context.getString(
-                            R.string.saved_to,
-                            savingPath
-                        ),
-                        Icons.Rounded.Save
-                    )
-                }
-                scope.launch {
+        viewModel.saveBitmap(link) { saveResult ->
+            parseSaveResult(
+                saveResult = saveResult,
+                onSuccess = {
                     confettiController.showEmpty()
-                }
-            }
-            showSaveLoading = false
+                },
+                toastHostState = toastHostState,
+                scope = scope,
+                context = context
+            )
         }
     }
 
@@ -295,7 +267,6 @@ fun LoadNetImageScreen(
             FloatingActionButton(
                 onClick = {
                     viewModel.bitmap?.let { bitmap ->
-                        showSaveLoading = true
                         viewModel.cacheImage(
                             image = bitmap,
                             imageInfo = ImageInfo(
@@ -306,7 +277,6 @@ fun LoadNetImageScreen(
                         scope.launch {
                             confettiController.showEmpty()
                         }
-                        showSaveLoading = false
                         wantToEdit.value = true
                     }
                 },
@@ -391,7 +361,6 @@ fun LoadNetImageScreen(
                             IconButton(
                                 onClick = {
                                     viewModel.bitmap?.let { bitmap ->
-                                        showSaveLoading = true
                                         viewModel.shareBitmap(
                                             bitmap = bitmap,
                                             imageInfo = ImageInfo(
@@ -399,7 +368,6 @@ fun LoadNetImageScreen(
                                                 height = bitmap.height,
                                             ),
                                             onComplete = {
-                                                showSaveLoading = false
                                                 scope.launch {
                                                     confettiController.showEmpty()
                                                 }
@@ -535,7 +503,7 @@ fun LoadNetImageScreen(
             }
 
 
-            if (showSaveLoading) LoadingDialog()
+            if (viewModel.isSaving) LoadingDialog()
 
             BackHandler { onGoBack() }
         }
