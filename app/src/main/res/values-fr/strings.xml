@@ -307,6 +307,6 @@
     <string name="randomize_filename">Nom de fichier aléatoire</string>
     <string name="randomize_filename_sub">Si activé, le nom du fichier de sortie serait entièrement aléatoire</string>
     <string name="saved_to_without_filename">Enregistré dans le dossier %1$s</string>
-    <string name="tg_chat">Message par Telegram</string>
+    <string name="tg_chat">Discussion Telegram</string>
     <string name="tg_chat_sub">Discutez de l\'application et obtenez des commentaires d\'autres utilisateurs. Ici également, vous pouvez obtenir des mises à jour et des informations sur la version bêta</string>
 </resources>
