@@ -264,7 +264,7 @@
     <string name="pick_file">Datei auswählen</string>
     <string name="features">Eigenschaften</string>
     <string name="compatibility">Kompatibilität</string>
-    <string name="cipher">Verschlüsseln</string>
+    <string name="cipher">Chiffrieren</string>
     <string name="cipher_sub">Ver- und entschlüssele beliebige Dateien (nicht nur Bilder) basierend auf dem AES-Verschlüsselungsalgorithmus</string>
     <string name="decrypt">Entschlüsseln</string>
     <string name="implementation">Implementierung</string>
@@ -306,4 +306,7 @@
     <string name="randomize_filename">Zufälligen Dateinamen erzeugen</string>
     <string name="randomize_filename_sub">Wenn aktiviert, wird der Dateiname völlig zufällig gewählt.</string>
     <string name="saved_to">Gespeichert im Ordner „%1$s“ als „%2$s“</string>
+    <string name="tg_chat">Telegram-Chat</string>
+    <string name="saved_to_without_filename">Gespeichert im Ordner „%1$s“</string>
+    <string name="tg_chat_sub">Diskutiere über die App und erhalte Feedback von anderen Nutzern. Außerdem kannst du hier Beta-Updates und Einblicke erhalten.</string>
 </resources>
