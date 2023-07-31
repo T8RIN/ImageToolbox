@@ -131,6 +131,7 @@ import ru.tech.imageresizershrinker.BuildConfig
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.core.APP_LINK
 import ru.tech.imageresizershrinker.core.AUTHOR_LINK
+import ru.tech.imageresizershrinker.core.AUTHOR_TG
 import ru.tech.imageresizershrinker.presentation.main_screen.viewModel.MainViewModel
 import ru.tech.imageresizershrinker.presentation.root.theme.Emoji
 import ru.tech.imageresizershrinker.presentation.root.theme.allIcons
@@ -910,7 +911,7 @@ fun MainScreen(
                             context.startActivity(
                                 Intent(
                                     Intent.ACTION_VIEW,
-                                    Uri.parse("http://t.me/${context.getString(R.string.app_developer_nick)}")
+                                    Uri.parse(AUTHOR_TG)
                                 )
                             )
                         },

@@ -322,6 +322,8 @@
     <string name="randomize_filename_sub">If enabled output fileaname would be fully random</string>
     <string name="saved_to">Saved to %1$s folder with name %2$s</string>
     <string name="saved_to_without_filename">Saved to %1$s folder</string>
+    <string name="tg_chat">Telegram chat</string>
+    <string name="tg_chat_sub">Discuss the app and get feedbak from other users, also here you can get beta updates and insights</string>
     <string-array name="fab_alignment_sub">
         <item>Start</item>
         <item>Center</item>

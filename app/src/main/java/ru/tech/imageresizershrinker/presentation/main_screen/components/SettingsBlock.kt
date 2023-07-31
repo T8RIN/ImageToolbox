@@ -6,7 +6,6 @@ import android.net.Uri
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.AnimatedContent
-import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.animateFloatAsState
@@ -59,6 +58,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Slider
 import androidx.compose.material3.SliderDefaults
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
@@ -87,6 +87,7 @@ import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.BuildConfig
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.core.AUTHOR_AVATAR
+import ru.tech.imageresizershrinker.core.CHAT_LINK
 import ru.tech.imageresizershrinker.core.DONATE
 import ru.tech.imageresizershrinker.core.ISSUE_TRACKER
 import ru.tech.imageresizershrinker.core.WEBLATE_LINK
@@ -97,7 +98,10 @@ import ru.tech.imageresizershrinker.presentation.root.theme.blend
 import ru.tech.imageresizershrinker.presentation.root.theme.icons.CreateAlt
 import ru.tech.imageresizershrinker.presentation.root.theme.icons.FileSettings
 import ru.tech.imageresizershrinker.presentation.root.theme.icons.Lamp
+import ru.tech.imageresizershrinker.presentation.root.theme.icons.Telegram
 import ru.tech.imageresizershrinker.presentation.root.theme.inverse
+import ru.tech.imageresizershrinker.presentation.root.theme.mixedColor
+import ru.tech.imageresizershrinker.presentation.root.theme.onMixedColor
 import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.ContextUtils.cacheSize
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.ContextUtils.clearCache
@@ -804,8 +808,8 @@ fun LazyListScope.settingsBlock(
             icon = Icons.Rounded.FileSettings,
             text = stringResource(R.string.filename),
         ) {
-            AnimatedVisibility(!settingsState.randomizeFilename) {
-                Column {
+            Box {
+                Column(Modifier.alpha(animateFloatAsState(if (!settingsState.randomizeFilename) 1f else 0.5f).value)) {
                     PreferenceItem(
                         onClick = { onEditFilename() },
                         title = stringResource(R.string.prefix),
@@ -864,6 +868,9 @@ fun LazyListScope.settingsBlock(
                         checked = settingsState.addSequenceNumber
                     )
                     Spacer(Modifier.height(8.dp))
+                }
+                if (settingsState.randomizeFilename) {
+                    Surface(modifier = Modifier.matchParentSize(), color = Color.Transparent) {}
                 }
             }
             PreferenceRowSwitch(
@@ -1118,6 +1125,31 @@ fun LazyListScope.settingsBlock(
                     onClick = {
                         onShowAuthor()
                     }
+                )
+                PreferenceRow(
+                    applyHorPadding = false,
+                    onClick = {
+                        context.startActivity(
+                            Intent(
+                                Intent.ACTION_VIEW,
+                                Uri.parse(CHAT_LINK)
+                            )
+                        )
+                    },
+                    startContent = {
+                        Icon(
+                            Icons.Rounded.Telegram,
+                            null,
+                            modifier = Modifier.padding(horizontal = 14.dp)
+                        )
+                    },
+                    title = stringResource(R.string.tg_chat),
+                    subtitle = stringResource(R.string.tg_chat_sub),
+                    color = MaterialTheme.colorScheme.mixedColor,
+                    contentColor = MaterialTheme.colorScheme.onMixedColor,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 8.dp),
                 )
                 SourceCodePreference(
                     modifier = Modifier

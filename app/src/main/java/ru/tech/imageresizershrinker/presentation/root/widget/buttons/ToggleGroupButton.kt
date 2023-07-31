@@ -16,6 +16,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.max
+import androidx.compose.ui.unit.sp
 import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
 import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalSettingsState
 
@@ -92,7 +93,7 @@ fun ToggleGroupButton(
                             ),
                             shape = SegmentedButtonDefaults.shape(index, items.size)
                         ) {
-                            Text(text = item)
+                            Text(text = item, fontSize = 13.sp)
                         }
                     }
                 }

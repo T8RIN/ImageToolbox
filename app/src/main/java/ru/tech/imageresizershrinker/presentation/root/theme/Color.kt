@@ -100,7 +100,7 @@ inline val ColorScheme.mixedColor: Color
     @Composable get() = run {
         tertiaryContainer.blend(
             primaryContainer,
-            0.15f
+            0.4f
         )
     }
 
@@ -108,7 +108,7 @@ inline val ColorScheme.onMixedColor: Color
     @Composable get() = run {
         onTertiaryContainer.blend(
             onPrimaryContainer,
-            0.15f
+            0.4f
         )
     }
 
@@ -121,8 +121,8 @@ fun Color.blend(
 fun Color.inverse(
     fraction: (Boolean) -> Float = { 0.5f },
     darkMode: Boolean = LocalSettingsState.current.isNightMode,
-): Color = if (darkMode) blend(Color.White, fraction(darkMode))
-else blend(Color.Black, fraction(darkMode))
+): Color = if (darkMode) blend(Color.White, fraction(true))
+else blend(Color.Black, fraction(false))
 
 
 fun Int.blend(

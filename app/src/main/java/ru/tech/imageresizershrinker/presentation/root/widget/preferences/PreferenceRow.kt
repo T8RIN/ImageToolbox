@@ -34,6 +34,7 @@ fun PreferenceRow(
     color: Color = MaterialTheme.colorScheme.secondaryContainer.copy(
         alpha = 0.2f
     ),
+    contentColor: Color? = null,
     applyHorPadding: Boolean = true,
     maxLines: Int = Int.MAX_VALUE,
     startContent: (@Composable () -> Unit)? = null,
@@ -41,8 +42,8 @@ fun PreferenceRow(
     titleFontStyle: TextStyle = LocalTextStyle.current.copy(lineHeight = 18.sp),
     onClick: (() -> Unit)?
 ) {
-    val contentColor =
-        if (color == MaterialTheme.colorScheme.surfaceColorAtElevation(1.dp)) contentColorFor(
+    val contentColor = contentColor
+        ?: if (color == MaterialTheme.colorScheme.surfaceColorAtElevation(1.dp)) contentColorFor(
             backgroundColor = MaterialTheme.colorScheme.surfaceVariant
         ) else contentColorFor(backgroundColor = color)
     CompositionLocalProvider(LocalContentColor provides contentColor) {
