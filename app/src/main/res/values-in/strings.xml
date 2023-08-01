@@ -306,4 +306,7 @@
     <string name="randomize_filename_sub">Jika diaktifkan, nama file keluaran akan sepenuhnya acak</string>
     <string name="randomize_filename">Acak nama file</string>
     <string name="saved_to">Simpan ke folder %1$s dengan nama %2$s</string>
+    <string name="saved_to_without_filename">Disimpan ke folder %1$s</string>
+    <string name="tg_chat">Obrolan Telegram</string>
+    <string name="tg_chat_sub">Diskusikan aplikasi dan dapatkan tanggapan dari pengguna lain, di sini Anda bisa mendapatkan pembaruan dan wawasan beta</string>
 </resources>
