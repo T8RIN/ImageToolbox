@@ -1,5 +1,6 @@
 package ru.tech.imageresizershrinker.presentation.crop_screen.components
 
+import android.graphics.Matrix
 import android.net.Uri
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateColorAsState
@@ -37,14 +38,22 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.ImageBitmap
+import androidx.compose.ui.graphics.Outline
+import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.graphics.asAndroidPath
+import androidx.compose.ui.graphics.asComposePath
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.Density
+import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.smarttoolfactory.cropper.model.CornerRadiusProperties
+import com.smarttoolfactory.cropper.model.CropShape
 import com.smarttoolfactory.cropper.model.CustomPathOutline
 import com.smarttoolfactory.cropper.model.CutCornerCropShape
 import com.smarttoolfactory.cropper.model.ImageMaskOutline
@@ -242,7 +251,7 @@ fun CropMaskSelection(
                 )
             }
         }
-        AnimatedVisibility(selectedItem.cropOutline.id == 9) {
+        AnimatedVisibility(selectedItem.cropOutline.title == OutlineType.ImageMask.name) {
             Column(
                 modifier = Modifier
                     .padding(start = 16.dp, end = 16.dp, bottom = 16.dp)
@@ -325,8 +334,20 @@ fun outlineProperties(): List<CropOutlineProperty> = remember {
         ),
         CropOutlineProperty(
             OutlineType.Custom,
+            object : CropShape {
+                override val shape: Shape
+                    get() = CloverShape
+                override val id: Int
+                    get() = 7
+                override val title: String
+                    get() = "Clover"
+
+            }
+        ),
+        CropOutlineProperty(
+            OutlineType.Custom,
             CustomPathOutline(
-                id = 7,
+                id = 8,
                 title = "Heart",
                 path = Paths.Favorite
             )
@@ -334,7 +355,7 @@ fun outlineProperties(): List<CropOutlineProperty> = remember {
         CropOutlineProperty(
             OutlineType.Custom,
             CustomPathOutline(
-                id = 8,
+                id = 9,
                 title = "Star",
                 path = Paths.Star
             )
@@ -342,10 +363,34 @@ fun outlineProperties(): List<CropOutlineProperty> = remember {
         CropOutlineProperty(
             OutlineType.ImageMask,
             ImageMaskOutline(
-                id = 9,
+                id = 10,
                 title = OutlineType.ImageMask.name,
                 image = ImageBitmap(1, 1)
             )
         )
     )
+}
+
+val CloverShape: Shape = object : Shape {
+    override fun createOutline(
+        size: Size,
+        layoutDirection: LayoutDirection,
+        density: Density
+    ): Outline {
+        val baseWidth = 200f
+        val baseHeight = 200f
+
+        val path = Paths.Clover
+
+        return Outline.Generic(
+            path
+                .asAndroidPath()
+                .apply {
+                    transform(Matrix().apply {
+                        setScale(size.width / baseWidth, size.height / baseHeight)
+                    })
+                }
+                .asComposePath()
+        )
+    }
 }
