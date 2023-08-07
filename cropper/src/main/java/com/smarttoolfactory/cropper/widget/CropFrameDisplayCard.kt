@@ -22,6 +22,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawWithCache
+import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawOutline
 import androidx.compose.ui.graphics.drawscope.Stroke
@@ -182,14 +183,18 @@ private fun CropFrameDisplay(
             ) {
                 if (cropOutline.path == Paths.Star) {
                     Icon(
-                        modifier = Modifier.matchParentSize(),
+                        modifier = Modifier
+                            .matchParentSize()
+                            .scale(1.3f),
                         imageVector = Icons.Outlined.StarBorder,
                         tint = color,
                         contentDescription = "Crop with Path"
                     )
                 } else {
                     Icon(
-                        modifier = Modifier.matchParentSize(),
+                        modifier = Modifier
+                            .matchParentSize()
+                            .scale(1.3f),
                         imageVector = Icons.Outlined.FavoriteBorder,
                         tint = color,
                         contentDescription = "Crop with Path"
@@ -205,7 +210,9 @@ private fun CropFrameDisplay(
                 contentAlignment = Alignment.TopEnd
             ) {
                 Icon(
-                    modifier = Modifier.matchParentSize(),
+                    modifier = Modifier
+                        .matchParentSize()
+                        .scale(1.3f),
                     imageVector = Icons.Outlined.Image,
                     tint = color,
                     contentDescription = "Crop with Image Mask"
