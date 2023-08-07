@@ -67,11 +67,12 @@ fun ExtensionGroup(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(
-                stringResource(R.string.extension),
-                Modifier
+                text = stringResource(R.string.extension),
+                modifier = Modifier
                     .fillMaxWidth()
                     .padding(top = 8.dp),
-                textAlign = TextAlign.Center
+                textAlign = TextAlign.Center,
+                fontWeight = FontWeight.Medium
             )
             Spacer(modifier = Modifier.height(8.dp))
 

@@ -129,6 +129,11 @@ fun aspectRatios(
             aspectRatio = AspectRatio.Original
         ),
         CropAspectRatio(
+            title = "1:1",
+            shape = createRectShape(AspectRatio(1 / 1f)),
+            aspectRatio = AspectRatio(1 / 1f)
+        ),
+        CropAspectRatio(
             title = "10:16",
             shape = createRectShape(AspectRatio(10 / 16f)),
             aspectRatio = AspectRatio(10 / 16f)
@@ -157,11 +162,6 @@ fun aspectRatios(
             title = "2:3",
             shape = createRectShape(AspectRatio(2 / 3f)),
             aspectRatio = AspectRatio(2 / 3f)
-        ),
-        CropAspectRatio(
-            title = "1:1",
-            shape = createRectShape(AspectRatio(1 / 1f)),
-            aspectRatio = AspectRatio(1 / 1f)
         ),
         CropAspectRatio(
             title = "1:2",

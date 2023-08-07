@@ -17,6 +17,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.block
@@ -38,7 +39,8 @@ fun SaveExifWidget(
         Spacer(Modifier.width(16.dp))
         Text(
             text = stringResource(R.string.keep_exif),
-            modifier = Modifier.weight(1f)
+            modifier = Modifier.weight(1f),
+            fontWeight = FontWeight.Medium
         )
         Switch(
             checked = selected,

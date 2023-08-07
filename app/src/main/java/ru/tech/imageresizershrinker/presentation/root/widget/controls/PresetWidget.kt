@@ -49,6 +49,7 @@ import androidx.compose.ui.graphics.compositeOver
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.max
@@ -108,8 +109,9 @@ fun PresetWidget(
                     horizontalArrangement = Arrangement.Center
                 ) {
                     Text(
-                        stringResource(R.string.presets),
-                        textAlign = TextAlign.Center
+                        text = stringResource(R.string.presets),
+                        textAlign = TextAlign.Center,
+                        fontWeight = FontWeight.Medium
                     )
                     Spacer(modifier = Modifier.width(8.dp))
                     Icon(
