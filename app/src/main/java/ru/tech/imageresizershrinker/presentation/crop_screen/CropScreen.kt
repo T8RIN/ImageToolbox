@@ -89,6 +89,7 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.presentation.crop_screen.components.AspectRatioSelection
+import ru.tech.imageresizershrinker.presentation.crop_screen.components.CropMaskSelection
 import ru.tech.imageresizershrinker.presentation.crop_screen.components.aspectRatios
 import ru.tech.imageresizershrinker.presentation.crop_screen.viewModel.CropViewModel
 import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
@@ -100,7 +101,6 @@ import ru.tech.imageresizershrinker.presentation.root.utils.helper.parseSaveResu
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.rememberImagePicker
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.drawHorizontalStroke
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.fabBorder
-import ru.tech.imageresizershrinker.presentation.root.utils.modifier.navBarsPaddingOnlyIfTheyAtTheBottom
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.navBarsPaddingOnlyIfTheyAtTheEnd
 import ru.tech.imageresizershrinker.presentation.root.widget.controls.ExtensionGroup
 import ru.tech.imageresizershrinker.presentation.root.widget.dialogs.ExitWithoutSavingDialog
@@ -229,6 +229,39 @@ fun CropScreen(
             }
         )
     )
+
+    val aspectRatios = aspectRatios()
+    val controls: @Composable () -> Unit = {
+        AspectRatioSelection(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(vertical = 16.dp),
+            selectedIndex = aspectRatios.indexOfFirst { cr ->
+                cr.aspectRatio == viewModel.cropProperties.aspectRatio
+            }
+        ) { aspect ->
+            viewModel.setCropAspectRatio(aspect.aspectRatio)
+        }
+        HorizontalDivider()
+        CropMaskSelection(
+            onCropMaskChange = { viewModel.setCropMask(it) },
+            selectedItem = viewModel.cropProperties.cropOutlineProperty,
+            loadImage = {
+                viewModel.loadImage(it)?.asImageBitmap()
+            }
+        )
+        HorizontalDivider()
+        ExtensionGroup(
+            modifier = Modifier
+                .padding(16.dp)
+                .navigationBarsPadding(),
+            enabled = viewModel.bitmap != null,
+            imageFormat = viewModel.imageFormat,
+            onMimeChange = {
+                viewModel.updateMimeType(it)
+            }
+        )
+    }
 
     var crop by remember { mutableStateOf(false) }
     var share by remember { mutableStateOf(false) }
@@ -417,32 +450,13 @@ fun CropScreen(
                                     .width(settingsState.borderWidth.coerceAtLeast(0.25.dp))
                                     .background(MaterialTheme.colorScheme.outlineVariant())
                             )
-                            val aspectRatios = aspectRatios()
+
                             Column(
                                 Modifier
                                     .weight(0.5f)
                                     .verticalScroll(rememberScrollState())
                             ) {
-                                AspectRatioSelection(
-                                    modifier = Modifier
-                                        .fillMaxWidth()
-                                        .padding(top = 16.dp),
-                                    selectedIndex = aspectRatios.indexOfFirst { cr ->
-                                        cr.aspectRatio == viewModel.cropProperties.aspectRatio
-                                    }
-                                ) { aspect ->
-                                    viewModel.setCropAspectRatio(aspect.aspectRatio)
-                                }
-                                ExtensionGroup(
-                                    modifier = Modifier
-                                        .padding(16.dp)
-                                        .navBarsPaddingOnlyIfTheyAtTheBottom(),
-                                    enabled = viewModel.bitmap != null,
-                                    imageFormat = viewModel.imageFormat,
-                                    onMimeChange = {
-                                        viewModel.updateMimeType(it)
-                                    }
-                                )
+                                controls()
                             }
                             Box(
                                 Modifier
@@ -609,28 +623,7 @@ fun CropScreen(
                     }
                 )
                 HorizontalDivider()
-                val aspectRatios = aspectRatios()
-                AspectRatioSelection(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(vertical = 16.dp),
-                    selectedIndex = aspectRatios.indexOfFirst { cr ->
-                        cr.aspectRatio == viewModel.cropProperties.aspectRatio
-                    }
-                ) { aspect ->
-                    viewModel.setCropAspectRatio(aspect.aspectRatio)
-                }
-                HorizontalDivider()
-                ExtensionGroup(
-                    modifier = Modifier
-                        .padding(16.dp)
-                        .navigationBarsPadding(),
-                    enabled = viewModel.bitmap != null,
-                    imageFormat = viewModel.imageFormat,
-                    onMimeChange = {
-                        viewModel.updateMimeType(it)
-                    }
-                )
+                controls()
             },
             content = content
         )

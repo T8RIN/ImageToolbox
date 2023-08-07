@@ -324,6 +324,9 @@
     <string name="saved_to_without_filename">Saved to %1$s folder</string>
     <string name="tg_chat">Telegram chat</string>
     <string name="tg_chat_sub">Discuss the app and get feedbak from other users, also here you can get beta updates and insights</string>
+    <string name="crop_mask">Crop mask</string>
+    <string name="aspect_ratio">Aspect ratio</string>
+    <string name="image_crop_mask_sub">Use this mask type to create mask from given image, notice that it SHOULD have alpha channel</string>
     <string-array name="fab_alignment_sub">
         <item>Start</item>
         <item>Center</item>

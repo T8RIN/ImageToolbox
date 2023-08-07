@@ -1,7 +1,6 @@
 package ru.tech.imageresizershrinker.presentation.crop_screen.viewModel
 
 import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.net.Uri
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
@@ -25,7 +24,6 @@ import ru.tech.imageresizershrinker.domain.model.ImageInfo
 import ru.tech.imageresizershrinker.domain.saving.FileController
 import ru.tech.imageresizershrinker.domain.saving.SaveResult
 import ru.tech.imageresizershrinker.domain.saving.model.ImageSaveTarget
-import java.io.ByteArrayInputStream
 import javax.inject.Inject
 
 @HiltViewModel
@@ -38,7 +36,10 @@ class CropViewModel @Inject constructor(
         CropDefaults.properties(
             cropOutlineProperty = CropOutlineProperty(
                 OutlineType.Rect,
-                RectCropShape(0, "")
+                RectCropShape(
+                    id = 0,
+                    title = OutlineType.Rect.name
+                )
             ),
             fling = true
         )
@@ -85,9 +86,7 @@ class CropViewModel @Inject constructor(
     ) = viewModelScope.launch {
         _isSaving.value = true
         withContext(Dispatchers.IO) {
-            bitmap?.let { bitmap ->
-                val localBitmap = bitmap
-
+            bitmap?.let { localBitmap ->
                 val byteArray = imageManager.compress(
                     ImageData(
                         image = localBitmap,
@@ -99,9 +98,7 @@ class CropViewModel @Inject constructor(
                     )
                 )
 
-                val decoded = BitmapFactory.decodeStream(
-                    ByteArrayInputStream(byteArray)
-                )
+                val decoded = imageManager.getImage(data = byteArray)
 
                 _bitmap.value = decoded
 
@@ -130,6 +127,11 @@ class CropViewModel @Inject constructor(
             aspectRatio = aspectRatio,
             fixedAspectRatio = aspectRatio != AspectRatio.Original
         )
+    }
+
+    fun setCropMask(cropOutlineProperty: CropOutlineProperty) {
+        _cropProperties.value =
+            _cropProperties.value.copy(cropOutlineProperty = cropOutlineProperty)
     }
 
     fun resetBitmap() {
@@ -187,5 +189,7 @@ class CropViewModel @Inject constructor(
             )
         }
     }
+
+    suspend fun loadImage(uri: Uri): Bitmap? = imageManager.getImage(data = uri)
 
 }

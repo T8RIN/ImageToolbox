@@ -8,21 +8,21 @@ sealed class ImageFormat(
     val type: String,
     val canChangeQuality: Boolean
 ) : Domain {
-    object Png : ImageFormat(
+    data object Png : ImageFormat(
         title = "PNG",
         extension = "png",
         type = "image/png",
         canChangeQuality = false
     )
 
-    object Jpg : ImageFormat(
+    data object Jpg : ImageFormat(
         title = "JPG",
         extension = "jpg",
         type = "image/jpg",
         canChangeQuality = true
     )
 
-    object Jpeg : ImageFormat(
+    data object Jpeg : ImageFormat(
         title = "JPEG",
         extension = "jpeg",
         type = "image/jpeg",
@@ -35,33 +35,33 @@ sealed class ImageFormat(
         canChangeQuality = true,
         title = title
     ) {
-        object Lossless : Webp(title = "WEBP Lossless")
+        data object Lossless : Webp(title = "WEBP Lossless")
 
-        object Lossy : Webp(title = "WEBP Lossy")
+        data object Lossy : Webp(title = "WEBP Lossy")
     }
 
-    object Bmp : ImageFormat(
+    data object Bmp : ImageFormat(
         title = "BMP",
         extension = "bmp",
         type = "image/bmp",
         canChangeQuality = false
     )
 
-    object Avif : ImageFormat(
+    data object Avif : ImageFormat(
         title = "AVIF",
         extension = "avif",
         type = "image/avif",
         canChangeQuality = true
     )
 
-    object Heif : ImageFormat(
+    data object Heif : ImageFormat(
         title = "HEIF",
         extension = "heif",
         type = "image/heif",
         canChangeQuality = true
     )
 
-    object Heic : ImageFormat(
+    data object Heic : ImageFormat(
         title = "HEIC",
         extension = "heic",
         type = "image/heic",
@@ -73,6 +73,7 @@ sealed class ImageFormat(
 
         operator fun get(typeString: String?): ImageFormat = when {
             typeString == null -> Default()
+            typeString.contains("png") -> Png
             typeString.contains("bmp") -> Bmp
             typeString.contains("jpeg") -> Jpeg
             typeString.contains("jpg") -> Jpg

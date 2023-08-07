@@ -1,9 +1,6 @@
 package ru.tech.imageresizershrinker.presentation.crop_screen.components
 
-import androidx.compose.animation.core.animateDpAsState
-import androidx.compose.animation.core.animateFloatAsState
-import androidx.compose.foundation.background
-import androidx.compose.foundation.border
+import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -15,23 +12,22 @@ import androidx.compose.foundation.layout.calculateEndPadding
 import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.itemsIndexed
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Image
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.smarttoolfactory.cropper.model.AspectRatio
@@ -39,21 +35,23 @@ import com.smarttoolfactory.cropper.model.CropAspectRatio
 import com.smarttoolfactory.cropper.util.createRectShape
 import com.smarttoolfactory.cropper.widget.AspectRatioSelectionCard
 import ru.tech.imageresizershrinker.R
-import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
-import ru.tech.imageresizershrinker.presentation.root.widget.text.AutoSizeText
-import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalSettingsState
+import ru.tech.imageresizershrinker.presentation.root.utils.modifier.block
 
 @Composable
 fun AspectRatioSelection(
     modifier: Modifier = Modifier,
     selectedIndex: Int = 2,
-    horizontal: Boolean = true,
     onAspectRatioChange: (CropAspectRatio) -> Unit
 ) {
-    val settingsState = LocalSettingsState.current
     val aspectRatios = aspectRatios()
 
-    if (horizontal) {
+    Column(horizontalAlignment = Alignment.CenterHorizontally) {
+        Text(
+            text = stringResource(id = R.string.aspect_ratio),
+            modifier = Modifier
+                .padding(start = 8.dp, end = 8.dp, top = 16.dp),
+            fontWeight = FontWeight.Medium
+        )
         LazyRow(
             modifier = modifier,
             horizontalArrangement = Arrangement.spacedBy(4.dp, Alignment.CenterHorizontally),
@@ -74,28 +72,16 @@ fun AspectRatioSelection(
                     AspectRatioSelectionCard(
                         modifier = Modifier
                             .width(80.dp)
-                            .clip(RoundedCornerShape(16.dp))
-                            .clickable { onAspectRatioChange(aspectRatios[index]) }
-                            .background(
-                                MaterialTheme
-                                    .colorScheme
-                                    .surfaceVariant
-                                    .copy(alpha = animateFloatAsState(if (selected) 1f else 0.5f).value),
-                                RoundedCornerShape(16.dp)
+                            .block(
+                                applyEndPadding = false,
+                                color = animateColorAsState(
+                                    targetValue = if (selected) {
+                                        MaterialTheme.colorScheme.surfaceColorAtElevation(16.dp)
+                                    } else MaterialTheme.colorScheme.surfaceColorAtElevation(1.dp)
+                                ).value
                             )
-                            .border(
-                                animateDpAsState(
-                                    if (!selected) {
-                                        settingsState.borderWidth
-                                    } else {
-                                        settingsState.borderWidth.coerceAtLeast(1.dp) * 2
-                                    }
-                                ).value,
-                                MaterialTheme.colorScheme.outlineVariant(
-                                    animateFloatAsState(if (selected) 0.5f else 0.2f).value
-                                ),
-                                RoundedCornerShape(16.dp)
-                            ),
+                            .clickable { onAspectRatioChange(aspectRatios[index]) }
+                            .padding(6.dp),
                         contentColor = Color.Transparent,
                         color = MaterialTheme.colorScheme.onSurface,
                         cropAspectRatio = item
@@ -104,29 +90,16 @@ fun AspectRatioSelection(
                     val selected = selectedIndex == index
                     Box(
                         modifier = Modifier
-                            .clip(RoundedCornerShape(16.dp))
+                            .block(
+                                applyEndPadding = false,
+                                color = animateColorAsState(
+                                    targetValue = if (selected) {
+                                        MaterialTheme.colorScheme.surfaceColorAtElevation(20.dp)
+                                    } else MaterialTheme.colorScheme.surfaceColorAtElevation(1.dp)
+                                ).value
+                            )
                             .clickable { onAspectRatioChange(aspectRatios[index]) }
-                            .background(
-                                MaterialTheme
-                                    .colorScheme
-                                    .surfaceVariant
-                                    .copy(alpha = animateFloatAsState(if (selected) 1f else 0.5f).value),
-                                RoundedCornerShape(16.dp)
-                            )
-                            .border(
-                                animateDpAsState(
-                                    if (!selected) {
-                                        settingsState.borderWidth
-                                    } else {
-                                        settingsState.borderWidth.coerceAtLeast(1.dp) * 2
-                                    }
-                                ).value,
-                                MaterialTheme.colorScheme.outlineVariant(
-                                    animateFloatAsState(if (selected) 0.5f else 0.2f).value
-                                ),
-                                RoundedCornerShape(16.dp)
-                            )
-                            .padding(4.dp)
+                            .padding(6.dp)
                     ) {
                         Column(
                             horizontalAlignment = Alignment.CenterHorizontally,
@@ -137,91 +110,6 @@ fun AspectRatioSelection(
                                 text = item.title,
                                 fontSize = 14.sp
                             )
-                        }
-                    }
-                }
-            }
-        }
-    } else {
-        LazyColumn(
-            modifier = modifier,
-            verticalArrangement = Arrangement.spacedBy(20.dp, Alignment.CenterVertically),
-            contentPadding = PaddingValues(
-                top = 20.dp,
-                bottom = 20.dp + WindowInsets
-                    .navigationBars
-                    .asPaddingValues()
-                    .calculateBottomPadding()
-            ),
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            itemsIndexed(aspectRatios) { index, item ->
-                if (item.aspectRatio != AspectRatio.Original) {
-                    val selected = selectedIndex == index
-                    AspectRatioSelectionCard(
-                        modifier = Modifier
-                            .width(90.dp)
-                            .clip(RoundedCornerShape(16.dp))
-                            .clickable { onAspectRatioChange(aspectRatios[index]) }
-                            .background(
-                                MaterialTheme
-                                    .colorScheme
-                                    .surfaceVariant
-                                    .copy(alpha = animateFloatAsState(if (selected) 1f else 0.5f).value),
-                                RoundedCornerShape(16.dp)
-                            )
-                            .border(
-                                animateDpAsState(
-                                    if (!selected) {
-                                        settingsState.borderWidth
-                                    } else {
-                                        settingsState.borderWidth.coerceAtLeast(1.dp) * 2
-                                    }
-                                ).value,
-                                MaterialTheme.colorScheme.outlineVariant(
-                                    animateFloatAsState(if (selected) 0.5f else 0.2f).value
-                                ),
-                                RoundedCornerShape(16.dp)
-                            ),
-                        contentColor = Color.Transparent,
-                        color = MaterialTheme.colorScheme.onSurface,
-                        cropAspectRatio = item
-                    )
-                } else {
-                    val selected = selectedIndex == index
-                    Box(
-                        modifier = Modifier
-                            .width(90.dp)
-                            .clip(RoundedCornerShape(16.dp))
-                            .clickable { onAspectRatioChange(aspectRatios[index]) }
-                            .background(
-                                MaterialTheme
-                                    .colorScheme
-                                    .surfaceVariant
-                                    .copy(alpha = animateFloatAsState(if (selected) 1f else 0.5f).value),
-                                RoundedCornerShape(16.dp)
-                            )
-                            .border(
-                                animateDpAsState(
-                                    if (!selected) {
-                                        settingsState.borderWidth
-                                    } else {
-                                        settingsState.borderWidth.coerceAtLeast(1.dp) * 2
-                                    }
-                                ).value,
-                                MaterialTheme.colorScheme.outlineVariant(
-                                    animateFloatAsState(if (selected) 0.5f else 0.2f).value
-                                ),
-                                RoundedCornerShape(16.dp)
-                            )
-                            .padding(4.dp)
-                    ) {
-                        Column(
-                            horizontalAlignment = Alignment.CenterHorizontally,
-                            modifier = Modifier.padding(vertical = 12.dp)
-                        ) {
-                            Icon(Icons.Outlined.Image, null)
-                            AutoSizeText(text = item.title, maxLines = 1)
                         }
                     }
                 }

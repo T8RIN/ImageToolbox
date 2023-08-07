@@ -2,12 +2,18 @@ package com.smarttoolfactory.cropper.widget
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.outlined.FavoriteBorder
 import androidx.compose.material.icons.outlined.Image
+import androidx.compose.material.icons.outlined.StarBorder
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -30,6 +36,7 @@ import androidx.compose.ui.unit.sp
 import com.smarttoolfactory.cropper.model.CropOutline
 import com.smarttoolfactory.cropper.model.CropPath
 import com.smarttoolfactory.cropper.model.CropShape
+import com.smarttoolfactory.cropper.settings.Paths
 import com.smarttoolfactory.cropper.util.scale
 
 @Composable
@@ -37,23 +44,19 @@ fun CropFrameDisplayCard(
     modifier: Modifier = Modifier,
     editable: Boolean,
     scale: Float,
-    contentColor: Color = MaterialTheme.colorScheme.surface,
     outlineColor: Color,
     editButtonBackgroundColor: Color = MaterialTheme.colorScheme.tertiary,
     editButtonContentColor: Color = MaterialTheme.colorScheme.onTertiary,
     fontSize: TextUnit = 12.sp,
     title: String,
     cropOutline: CropOutline,
-    onClick: () -> Unit
+    onEditClick: () -> Unit = {},
 ) {
 
     Box(
-        modifier = modifier
-            .background(contentColor)
-            .padding(4.dp),
+        modifier = modifier,
         contentAlignment = Alignment.Center
     ) {
-
         Column(
             Modifier
                 .graphicsLayer {
@@ -96,7 +99,7 @@ fun CropFrameDisplayCard(
                                 this.density
                             }
                             .clickable {
-                                onClick()
+                                onEditClick()
                             }
                             .padding(8.dp)
                             .background(editButtonBackgroundColor, CircleShape)
@@ -161,7 +164,7 @@ private fun CropFrameDisplay(
                             drawOutline(
                                 outline = outline,
                                 color = color,
-                                style = Stroke(4.dp.toPx())
+                                style = Stroke(6.dp.toPx())
                             )
                         }
                         drawContent()
@@ -177,12 +180,21 @@ private fun CropFrameDisplay(
                 modifier = modifier,
                 contentAlignment = Alignment.TopEnd
             ) {
-                Icon(
-                    modifier = Modifier.matchParentSize(),
-                    imageVector = Icons.Outlined.FavoriteBorder,
-                    tint = color,
-                    contentDescription = "Crop with Path"
-                )
+                if (cropOutline.path == Paths.Star) {
+                    Icon(
+                        modifier = Modifier.matchParentSize(),
+                        imageVector = Icons.Outlined.StarBorder,
+                        tint = color,
+                        contentDescription = "Crop with Path"
+                    )
+                } else {
+                    Icon(
+                        modifier = Modifier.matchParentSize(),
+                        imageVector = Icons.Outlined.FavoriteBorder,
+                        tint = color,
+                        contentDescription = "Crop with Path"
+                    )
+                }
 
                 content()
             }

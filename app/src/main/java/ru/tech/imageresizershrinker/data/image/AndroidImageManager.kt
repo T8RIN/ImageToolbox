@@ -576,7 +576,7 @@ class AndroidImageManager @Inject constructor(
         withContext(Dispatchers.IO) {
             val currentImage = resize(
                 image = rotate(
-                    image = imageData.image,
+                    image = imageData.image.apply { setHasAlpha(true) },
                     degrees = imageData.imageInfo.rotationDegrees
                 ),
                 width = imageData.imageInfo.width,
