@@ -1,10 +1,8 @@
 package ru.tech.imageresizershrinker.presentation.main_screen.components
 
-import androidx.compose.animation.core.animateDpAsState
-import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -40,13 +38,13 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.presentation.root.theme.EmojiItem
 import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
+import ru.tech.imageresizershrinker.presentation.root.utils.modifier.block
 import ru.tech.imageresizershrinker.presentation.root.widget.sheets.SimpleSheet
 import ru.tech.imageresizershrinker.presentation.root.widget.text.TitleItem
 import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalSettingsState
@@ -87,27 +85,15 @@ fun EmojiSheet(
                 Box(
                     modifier = Modifier
                         .size(58.dp)
-                        .background(
-                            MaterialTheme
-                                .colorScheme
-                                .surfaceVariant
-                                .copy(alpha = animateFloatAsState(if (selected) 1f else 0.5f).value),
-                            MaterialTheme.shapes.medium
-                        )
-                        .border(
-                            animateDpAsState(
-                                if (!selected) {
-                                    settingsState.borderWidth
-                                } else {
-                                    settingsState.borderWidth.coerceAtLeast(1.dp) * 2
-                                }
+                        .block(
+                            shape = MaterialTheme.shapes.medium,
+                            color = animateColorAsState(
+                                targetValue = if (selected) MaterialTheme.colorScheme.surfaceColorAtElevation(
+                                    20.dp
+                                ) else MaterialTheme.colorScheme.surfaceColorAtElevation(2.dp)
                             ).value,
-                            MaterialTheme.colorScheme.outlineVariant(
-                                animateFloatAsState(if (selected) 0.5f else 0.2f).value
-                            ),
-                            MaterialTheme.shapes.medium
+                            applyEndPadding = false
                         )
-                        .clip(MaterialTheme.shapes.medium)
                         .clickable {
                             onEmojiPicked(-1)
                         },
@@ -130,27 +116,15 @@ fun EmojiSheet(
                     Box(
                         modifier = Modifier
                             .size(58.dp)
-                            .background(
-                                MaterialTheme
-                                    .colorScheme
-                                    .surfaceVariant
-                                    .copy(alpha = animateFloatAsState(if (emojiSelected) 1f else 0.5f).value),
-                                MaterialTheme.shapes.medium
-                            )
-                            .border(
-                                animateDpAsState(
-                                    if (!emojiSelected) {
-                                        settingsState.borderWidth
-                                    } else {
-                                        settingsState.borderWidth.coerceAtLeast(1.dp) * 2
-                                    }
+                            .block(
+                                shape = MaterialTheme.shapes.medium,
+                                color = animateColorAsState(
+                                    targetValue = if (emojiSelected) MaterialTheme.colorScheme.surfaceColorAtElevation(
+                                        20.dp
+                                    ) else MaterialTheme.colorScheme.surfaceColorAtElevation(2.dp)
                                 ).value,
-                                MaterialTheme.colorScheme.outlineVariant(
-                                    animateFloatAsState(if (emojiSelected) 0.5f else 0.2f).value
-                                ),
-                                MaterialTheme.shapes.medium
+                                applyEndPadding = false
                             )
-                            .clip(MaterialTheme.shapes.medium)
                             .clickable {
                                 onEmojiPicked(index)
                             },
