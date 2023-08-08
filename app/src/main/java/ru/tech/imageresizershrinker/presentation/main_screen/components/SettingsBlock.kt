@@ -50,9 +50,11 @@ import androidx.compose.material.icons.rounded.Palette
 import androidx.compose.material.icons.rounded.PhotoSizeSelectSmall
 import androidx.compose.material.icons.rounded.RadioButtonChecked
 import androidx.compose.material.icons.rounded.RadioButtonUnchecked
+import androidx.compose.material.icons.rounded.SettingsBackupRestore
 import androidx.compose.material.icons.rounded.SettingsSystemDaydream
 import androidx.compose.material.icons.rounded.TableRows
 import androidx.compose.material.icons.rounded.Translate
+import androidx.compose.material.icons.rounded.UploadFile
 import androidx.compose.material.icons.rounded.WbSunny
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -96,6 +98,7 @@ import ru.tech.imageresizershrinker.presentation.root.model.UiSettingsState
 import ru.tech.imageresizershrinker.presentation.root.theme.EmojiItem
 import ru.tech.imageresizershrinker.presentation.root.theme.blend
 import ru.tech.imageresizershrinker.presentation.root.theme.icons.CreateAlt
+import ru.tech.imageresizershrinker.presentation.root.theme.icons.DownloadFile
 import ru.tech.imageresizershrinker.presentation.root.theme.icons.FileSettings
 import ru.tech.imageresizershrinker.presentation.root.theme.icons.Lamp
 import ru.tech.imageresizershrinker.presentation.root.theme.icons.Telegram
@@ -968,6 +971,46 @@ fun LazyListScope.settingsBlock(
                         ).value,
                         shape = RoundedCornerShape(16.dp)
                     )
+            )
+        }
+    }
+    item {
+        // Backup and restore
+        SettingItem(
+            icon = Icons.Rounded.SettingsBackupRestore,
+            text = stringResource(R.string.backup_and_restore),
+            initialState = false
+        ) {
+            PreferenceItem(
+                onClick = {
+
+                },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 8.dp),
+                color = MaterialTheme
+                    .colorScheme
+                    .secondaryContainer
+                    .copy(alpha = 0.2f),
+                title = stringResource(R.string.backup),
+                subtitle = stringResource(R.string.backup_sub),
+                endIcon = Icons.Rounded.UploadFile
+            )
+            Spacer(modifier = Modifier.height(8.dp))
+            PreferenceItem(
+                onClick = {
+
+                },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 8.dp),
+                color = MaterialTheme
+                    .colorScheme
+                    .secondaryContainer
+                    .copy(alpha = 0.2f),
+                title = stringResource(R.string.restore),
+                subtitle = stringResource(R.string.restore_sub),
+                endIcon = Icons.Rounded.DownloadFile
             )
         }
     }
