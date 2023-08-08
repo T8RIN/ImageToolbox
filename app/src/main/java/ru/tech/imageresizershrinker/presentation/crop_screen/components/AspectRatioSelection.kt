@@ -71,7 +71,7 @@ fun AspectRatioSelection(
                     val selected = selectedIndex == index
                     AspectRatioSelectionCard(
                         modifier = Modifier
-                            .width(80.dp)
+                            .width(90.dp)
                             .block(
                                 applyEndPadding = false,
                                 color = animateColorAsState(
@@ -81,7 +81,7 @@ fun AspectRatioSelection(
                                 ).value
                             )
                             .clickable { onAspectRatioChange(aspectRatios[index]) }
-                            .padding(6.dp),
+                            .padding(start = 12.dp, top = 12.dp, end = 12.dp, bottom = 2.dp),
                         contentColor = Color.Transparent,
                         color = MaterialTheme.colorScheme.onSurface,
                         cropAspectRatio = item
@@ -99,7 +99,7 @@ fun AspectRatioSelection(
                                 ).value
                             )
                             .clickable { onAspectRatioChange(aspectRatios[index]) }
-                            .padding(6.dp)
+                            .padding(start = 16.dp, end = 16.dp, top = 8.dp, bottom = 8.dp)
                     ) {
                         Column(
                             horizontalAlignment = Alignment.CenterHorizontally,

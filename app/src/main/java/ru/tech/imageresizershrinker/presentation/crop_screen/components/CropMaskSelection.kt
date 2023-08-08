@@ -59,9 +59,6 @@ import com.smarttoolfactory.cropper.model.CustomPathOutline
 import com.smarttoolfactory.cropper.model.CutCornerCropShape
 import com.smarttoolfactory.cropper.model.ImageMaskOutline
 import com.smarttoolfactory.cropper.model.OutlineType
-import com.smarttoolfactory.cropper.model.OvalCropShape
-import com.smarttoolfactory.cropper.model.PolygonCropShape
-import com.smarttoolfactory.cropper.model.PolygonProperties
 import com.smarttoolfactory.cropper.model.RectCropShape
 import com.smarttoolfactory.cropper.model.RoundedCornerCropShape
 import com.smarttoolfactory.cropper.settings.CropOutlineProperty
@@ -300,26 +297,40 @@ fun outlineProperties(): List<CropOutlineProperty> = remember {
             )
         ),
         CropOutlineProperty(
-            OutlineType.Oval,
-            OvalCropShape(
-                id = 5,
-                title = OutlineType.Oval.name
-            )
+            OutlineType.Custom,
+            object : CropShape {
+                override val shape: Shape
+                    get() = OvalShape
+                override val id: Int
+                    get() = 5
+                override val title: String
+                    get() = "Oval"
+
+            }
         ),
         CropOutlineProperty(
-            OutlineType.Polygon,
-            PolygonCropShape(
-                id = 3,
-                title = "Polygon"
-            )
+            OutlineType.Custom,
+            object : CropShape {
+                override val shape: Shape
+                    get() = SquircleShape
+                override val id: Int
+                    get() = 3
+                override val title: String
+                    get() = "Squircle"
+
+            }
         ),
         CropOutlineProperty(
-            OutlineType.Polygon,
-            PolygonCropShape(
-                id = 6,
-                title = "Octagon",
-                polygonProperties = PolygonProperties(sides = 8, 0f)
-            )
+            OutlineType.Custom,
+            object : CropShape {
+                override val shape: Shape
+                    get() = OctagonShape
+                override val id: Int
+                    get() = 6
+                override val title: String
+                    get() = "Octagon"
+
+            },
         ),
         CropOutlineProperty(
             OutlineType.Custom,
@@ -513,14 +524,114 @@ val PentagonShape: Shape = object : Shape {
             moveTo(521.133f, 28.588f)
             cubicTo(575.7829f, -9.5293f, 648.4028f, -9.5293f, 703.0528f, 28.588f)
             lineTo(1156.1332f, 344.6029f)
-            cubicTo(1214.148f, 385.0671f, 1238.4571f, 458.9902f, 1215.7808f, 525.9892f)
+            cubicTo(1214.148f, 385.0671f, 1238.4572f, 458.9902f, 1215.7808f, 525.9892f)
             lineTo(1045.41f, 1029.3625f)
-            cubicTo(1023.5555f, 1093.9334f, 962.9716f, 1137.3882f, 894.8026f, 1137.3882f)
+            cubicTo(1023.5555f, 1093.9333f, 962.9716f, 1137.3882f, 894.8026f, 1137.3882f)
             lineTo(329.3832f, 1137.3882f)
-            cubicTo(261.2142f, 1137.3882f, 200.6302f, 1093.9334f, 178.7757f, 1029.3625f)
+            cubicTo(261.2142f, 1137.3882f, 200.6302f, 1093.9333f, 178.7757f, 1029.3625f)
             lineTo(8.405f, 525.9893f)
             cubicTo(-14.2714f, 458.9903f, 10.0377f, 385.0671f, 68.0526f, 344.6029f)
             lineTo(521.133f, 28.588f)
+            close()
+        }
+
+        return Outline.Generic(
+            path
+                .asAndroidPath()
+                .apply {
+                    transform(Matrix().apply {
+                        setScale(size.width / baseWidth, size.height / baseHeight)
+                    })
+                }
+                .asComposePath()
+        )
+    }
+}
+
+
+val OvalShape: Shape = object : Shape {
+    override fun createOutline(
+        size: Size,
+        layoutDirection: LayoutDirection,
+        density: Density
+    ): Outline {
+        val baseWidth = 1000f
+        val baseHeight = 1000f
+
+        val path = Path().apply {
+            moveTo(1000f, 500f)
+            cubicTo(1000f, 776.1424f, 776.1424f, 1000f, 500f, 1000f)
+            cubicTo(223.8576f, 1000f, 0f, 776.1424f, 0f, 500f)
+            cubicTo(0f, 223.8576f, 223.8576f, 0f, 500f, 0f)
+            cubicTo(776.1424f, 0f, 1000f, 223.8576f, 1000f, 500f)
+            close()
+        }
+
+        return Outline.Generic(
+            path
+                .asAndroidPath()
+                .apply {
+                    transform(Matrix().apply {
+                        setScale(size.width / baseWidth, size.height / baseHeight)
+                    })
+                }
+                .asComposePath()
+        )
+    }
+}
+
+
+val SquircleShape: Shape = object : Shape {
+    override fun createOutline(
+        size: Size,
+        layoutDirection: LayoutDirection,
+        density: Density
+    ): Outline {
+        val baseWidth = 1000f
+        val baseHeight = 1000f
+
+        val path = Path().apply {
+            moveTo(0f, 500f)
+            cubicTo(0f, 88.25f, 88.25f, 0f, 500f, 0f)
+            cubicTo(911.75f, 0f, 1000f, 88.25f, 1000f, 500f)
+            cubicTo(1000f, 911.75f, 911.75f, 1000f, 500f, 1000f)
+            cubicTo(88.25f, 1000f, 0f, 911.75f, 0f, 500f)
+            close()
+        }
+
+        return Outline.Generic(
+            path
+                .asAndroidPath()
+                .apply {
+                    transform(Matrix().apply {
+                        setScale(size.width / baseWidth, size.height / baseHeight)
+                    })
+                }
+                .asComposePath()
+        )
+    }
+}
+
+
+val OctagonShape: Shape = object : Shape {
+    override fun createOutline(
+        size: Size,
+        layoutDirection: LayoutDirection,
+        density: Density
+    ): Outline {
+        val baseWidth = 1000f
+        val baseHeight = 1000f
+
+        val path = Path().apply {
+            moveTo(500f, 0f)
+            lineTo(853.5534f, 146.4466f)
+            lineTo(1000f, 500f)
+            lineTo(853.5534f, 853.5534f)
+            lineTo(500f, 1000f)
+            lineTo(146.4466f, 853.5534f)
+            lineTo(0f, 500f)
+            lineTo(146.4466f, 146.4466f)
+            lineTo(500f, 0f)
             close()
         }
 
