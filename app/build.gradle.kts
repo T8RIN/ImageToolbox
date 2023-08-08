@@ -149,6 +149,6 @@ dependencies {
 
     implementation("org.burnoutcrew.composereorderable:reorderable:0.9.6")
 
-    implementation("com.google.accompanist:accompanist-systemuicontroller:0.31.6-rc")
+    implementation("com.google.accompanist:accompanist-systemuicontroller:0.33.0-alpha")
 
 }
