@@ -59,6 +59,7 @@ import com.smarttoolfactory.cropper.model.CustomPathOutline
 import com.smarttoolfactory.cropper.model.CutCornerCropShape
 import com.smarttoolfactory.cropper.model.ImageMaskOutline
 import com.smarttoolfactory.cropper.model.OutlineType
+import com.smarttoolfactory.cropper.model.OvalCropShape
 import com.smarttoolfactory.cropper.model.PolygonCropShape
 import com.smarttoolfactory.cropper.model.PolygonProperties
 import com.smarttoolfactory.cropper.model.RectCropShape
@@ -296,6 +297,13 @@ fun outlineProperties(): List<CropOutlineProperty> = remember {
                 id = 2,
                 title = OutlineType.CutCorner.name,
                 cornerRadius = CornerRadiusProperties()
+            )
+        ),
+        CropOutlineProperty(
+            OutlineType.Oval,
+            OvalCropShape(
+                id = 5,
+                title = OutlineType.Oval.name
             )
         ),
         CropOutlineProperty(
