@@ -20,6 +20,8 @@ import org.w3c.dom.Element
 import ru.tech.imageresizershrinker.BuildConfig
 import ru.tech.imageresizershrinker.core.APP_RELEASES
 import ru.tech.imageresizershrinker.domain.model.SettingsState
+import ru.tech.imageresizershrinker.domain.use_case.backup_and_restore.CreateBackupFileUseCase
+import ru.tech.imageresizershrinker.domain.use_case.backup_and_restore.RestoreFromBackupFileUseCase
 import ru.tech.imageresizershrinker.domain.use_case.edit_settings.SetAlignmentUseCase
 import ru.tech.imageresizershrinker.domain.use_case.edit_settings.SetBorderWidthUseCase
 import ru.tech.imageresizershrinker.domain.use_case.edit_settings.SetNightModeUseCase
@@ -46,6 +48,7 @@ import ru.tech.imageresizershrinker.domain.use_case.get_settings_state.GetSettin
 import ru.tech.imageresizershrinker.domain.use_case.get_settings_state.GetSettingsStateUseCase
 import ru.tech.imageresizershrinker.presentation.root.utils.navigation.Screen
 import ru.tech.imageresizershrinker.presentation.root.widget.other.ToastHostState
+import java.io.OutputStream
 import java.net.URL
 import javax.inject.Inject
 import javax.xml.parsers.DocumentBuilderFactory
@@ -75,7 +78,9 @@ class MainViewModel @Inject constructor(
     private val updateOrderUseCase: UpdateOrderUseCase,
     private val toggleClearCacheOnLaunchUseCase: ToggleClearCacheOnLaunchUseCase,
     private val toggleGroupOptionsByTypesUseCase: ToggleGroupOptionsByTypesUseCase,
-    private val toggleRandomizeFilenameUseCase: ToggleRandomizeFilenameUseCase
+    private val toggleRandomizeFilenameUseCase: ToggleRandomizeFilenameUseCase,
+    private val createBackupFileUseCase: CreateBackupFileUseCase,
+    private val restoreFromBackupFileUseCase: RestoreFromBackupFileUseCase
 ) : ViewModel() {
 
     private val _settingsState = mutableStateOf(SettingsState.Default())
@@ -331,6 +336,27 @@ class MainViewModel @Inject constructor(
     fun toggleRandomizeFilename() {
         viewModelScope.launch {
             toggleRandomizeFilenameUseCase()
+        }
+    }
+
+    fun createBackup(outputStream: OutputStream?, onSuccess: () -> Unit) {
+        viewModelScope.launch {
+            outputStream?.use {
+                it.write(createBackupFileUseCase())
+            }
+            onSuccess()
+        }
+    }
+
+    fun restoreBackupFrom(
+        uri: Uri,
+        onSuccess: () -> Unit,
+        onFailure: (Throwable) -> Unit
+    ) {
+        viewModelScope.launch {
+            withContext(Dispatchers.IO) {
+                restoreFromBackupFileUseCase(uri.toString(), onSuccess, onFailure)
+            }
         }
     }
 

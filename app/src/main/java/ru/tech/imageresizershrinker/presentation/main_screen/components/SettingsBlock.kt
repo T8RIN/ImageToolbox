@@ -50,6 +50,7 @@ import androidx.compose.material.icons.rounded.Palette
 import androidx.compose.material.icons.rounded.PhotoSizeSelectSmall
 import androidx.compose.material.icons.rounded.RadioButtonChecked
 import androidx.compose.material.icons.rounded.RadioButtonUnchecked
+import androidx.compose.material.icons.rounded.Save
 import androidx.compose.material.icons.rounded.SettingsBackupRestore
 import androidx.compose.material.icons.rounded.SettingsSystemDaydream
 import androidx.compose.material.icons.rounded.TableRows
@@ -106,6 +107,7 @@ import ru.tech.imageresizershrinker.presentation.root.theme.inverse
 import ru.tech.imageresizershrinker.presentation.root.theme.mixedColor
 import ru.tech.imageresizershrinker.presentation.root.theme.onMixedColor
 import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
+import ru.tech.imageresizershrinker.presentation.root.utils.confetti.LocalConfettiController
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.ContextUtils.cacheSize
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.ContextUtils.clearCache
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.toUiPath
@@ -115,6 +117,7 @@ import ru.tech.imageresizershrinker.presentation.root.utils.modifier.scaleOnTap
 import ru.tech.imageresizershrinker.presentation.root.widget.image.Picture
 import ru.tech.imageresizershrinker.presentation.root.widget.other.ToastDuration
 import ru.tech.imageresizershrinker.presentation.root.widget.other.ToastHostState
+import ru.tech.imageresizershrinker.presentation.root.widget.other.showError
 import ru.tech.imageresizershrinker.presentation.root.widget.preferences.PreferenceItem
 import ru.tech.imageresizershrinker.presentation.root.widget.preferences.PreferenceRow
 import ru.tech.imageresizershrinker.presentation.root.widget.preferences.PreferenceRowSwitch
@@ -981,9 +984,69 @@ fun LazyListScope.settingsBlock(
             text = stringResource(R.string.backup_and_restore),
             initialState = false
         ) {
+            val confettiController = LocalConfettiController.current
+            val backupSavingLauncher = rememberLauncherForActivityResult(
+                contract = object : ActivityResultContracts.CreateDocument("*/*") {
+                    override fun createIntent(context: Context, input: String): Intent {
+                        return super.createIntent(
+                            context = context,
+                            input = input.split("#")[0]
+                        ).putExtra(Intent.EXTRA_TITLE, input.split("#")[1])
+                    }
+                },
+                onResult = {
+                    it?.let { uri ->
+                        viewModel.createBackup(
+                            context.contentResolver.openOutputStream(
+                                uri,
+                                "rw"
+                            )
+                        ) {
+                            scope.launch {
+                                confettiController.showEmpty()
+                            }
+                            scope.launch {
+                                toastHostState.showToast(
+                                    context.getString(
+                                        R.string.saved_to_without_filename,
+                                        ""
+                                    ),
+                                    Icons.Rounded.Save
+                                )
+                            }
+                        }
+                    }
+                }
+            )
+            val filePicker = rememberLauncherForActivityResult(
+                contract = ActivityResultContracts.GetContent(),
+                onResult = { uri ->
+                    uri?.let {
+                        viewModel.restoreBackupFrom(
+                            uri = it,
+                            onSuccess = {
+                                scope.launch {
+                                    confettiController.showEmpty()
+                                }
+                                scope.launch {
+                                    toastHostState.showToast(
+                                        context.getString(R.string.settings_restored),
+                                        Icons.Rounded.Save
+                                    )
+                                }
+                            },
+                            onFailure = {
+                                scope.launch {
+                                    toastHostState.showError(context, it)
+                                }
+                            }
+                        )
+                    }
+                }
+            )
             PreferenceItem(
                 onClick = {
-
+                    backupSavingLauncher.launch("*/*#image_toolbox_settings_backup.imtbx_backup")
                 },
                 modifier = Modifier
                     .fillMaxWidth()
@@ -999,7 +1062,7 @@ fun LazyListScope.settingsBlock(
             Spacer(modifier = Modifier.height(8.dp))
             PreferenceItem(
                 onClick = {
-
+                    filePicker.launch("*/*")
                 },
                 modifier = Modifier
                     .fillMaxWidth()

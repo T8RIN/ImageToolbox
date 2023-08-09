@@ -52,4 +52,12 @@ interface SettingsRepository {
     suspend fun toggleGroupOptionsByTypes()
 
     suspend fun toggleRandomizeFilename()
+
+    suspend fun createBackupFile(): ByteArray
+
+    suspend fun restoreFromBackupFile(
+        backupFileUri: String,
+        onSuccess: () -> Unit,
+        onFailure: (Throwable) -> Unit
+    )
 }

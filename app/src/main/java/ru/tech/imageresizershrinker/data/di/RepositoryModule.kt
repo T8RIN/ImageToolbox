@@ -1,10 +1,12 @@
 package ru.tech.imageresizershrinker.data.di
 
+import android.content.Context
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import ru.tech.imageresizershrinker.data.repository.CipherRepositoryImpl
 import ru.tech.imageresizershrinker.data.repository.SettingsRepositoryImpl
@@ -23,7 +25,8 @@ object RepositoryModule {
     @Singleton
     @Provides
     fun provideSettingsRepository(
+        @ApplicationContext context: Context,
         dataStore: DataStore<Preferences>
-    ): SettingsRepository = SettingsRepositoryImpl(dataStore)
+    ): SettingsRepository = SettingsRepositoryImpl(context, dataStore)
 
 }

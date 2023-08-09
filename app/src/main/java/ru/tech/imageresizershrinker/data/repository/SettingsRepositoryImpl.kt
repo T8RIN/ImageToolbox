@@ -1,11 +1,18 @@
 package ru.tech.imageresizershrinker.data.repository
 
+import android.content.Context
+import androidx.core.net.toUri
 import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.PreferencesMapCompat
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
+import dagger.hilt.android.qualifiers.ApplicationContext
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.withContext
+import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.data.keys.Keys.ADD_ORIGINAL_NAME
 import ru.tech.imageresizershrinker.data.keys.Keys.ADD_SEQ_NUM
 import ru.tech.imageresizershrinker.data.keys.Keys.ADD_SIZE
@@ -30,9 +37,16 @@ import ru.tech.imageresizershrinker.data.keys.Keys.SAVE_FOLDER
 import ru.tech.imageresizershrinker.data.keys.Keys.SHOW_DIALOG
 import ru.tech.imageresizershrinker.domain.model.SettingsState
 import ru.tech.imageresizershrinker.domain.repository.SettingsRepository
+import java.io.ByteArrayInputStream
+import java.io.ByteArrayOutputStream
+import java.io.DataInputStream
+import java.io.File
+import java.io.InputStream
 import javax.inject.Inject
 
+
 class SettingsRepositoryImpl @Inject constructor(
+    @ApplicationContext private val context: Context,
     private val dataStore: DataStore<Preferences>
 ) : SettingsRepository {
 
@@ -244,4 +258,43 @@ class SettingsRepositoryImpl @Inject constructor(
         }
     }
 
+    override suspend fun createBackupFile(): ByteArray {
+        return File(context.filesDir, "datastore/image_resizer.preferences_pb").readBytes()
+    }
+
+    override suspend fun restoreFromBackupFile(
+        backupFileUri: String,
+        onSuccess: () -> Unit,
+        onFailure: (Throwable) -> Unit
+    ) {
+        val uri = backupFileUri.toUri()
+        withContext(Dispatchers.IO) {
+            kotlin.runCatching {
+                context.contentResolver.openInputStream(uri)?.use { input ->
+                    val byteArrayOutputStream = ByteArrayOutputStream()
+                    byteArrayOutputStream.write(input.toByteArray())
+                    try {
+                        PreferencesMapCompat.readFrom(ByteArrayInputStream(byteArrayOutputStream.toByteArray()))
+                    } catch (t: Throwable) {
+                        throw Throwable(context.getString(R.string.corrupted_file_or_not_a_backup))
+                    }
+                    File(
+                        context.filesDir,
+                        "datastore/image_resizer.preferences_pb"
+                    ).outputStream().use {
+                        ByteArrayInputStream(byteArrayOutputStream.toByteArray()).copyTo(it)
+                    }
+                }
+            }.exceptionOrNull()?.let(onFailure) ?: onSuccess()
+        }
+        toggleClearCacheOnLaunch()
+        toggleClearCacheOnLaunch()
+    }
+
+    private fun InputStream.toByteArray(): ByteArray {
+        val bytes = ByteArray(this.available())
+        val dis = DataInputStream(this)
+        dis.readFully(bytes)
+        return bytes
+    }
 }
