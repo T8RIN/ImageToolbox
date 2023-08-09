@@ -314,4 +314,15 @@
     <string name="saved_to">Сохранено в папку %1$s под именем %2$s</string>
     <string name="saved_to_without_filename">Сохранено в папку %1$s</string>
     <string name="tg_chat">Чат в телеграме</string>
+    <string name="aspect_ratio">Соотношение сторон</string>
+    <string name="backup_and_restore">Бэкап и восстановление</string>
+    <string name="backup">Бэкап</string>
+    <string name="backup_sub">Сохраните ваши настройки в файл</string>
+    <string name="restore_sub">Восстановите настройки приложения из ранее сохраненного файла бэкапа</string>
+    <string name="settings_restored">Настройки успешно восстановлены</string>
+    <string name="crop_mask">Маска обрезки</string>
+    <string name="image_crop_mask_sub">Используйте эту опцию, для создания маски из выбранного изображения, обратите внимание, что оно ДОЛЖНО иметь канал прозрачности</string>
+    <string name="restore">Восстановление</string>
+    <string name="corrupted_file_or_not_a_backup">Повреждённый файл или не является файлом восстановления</string>
+    <string name="contact_me">Связаться со мной</string>
 </resources>
