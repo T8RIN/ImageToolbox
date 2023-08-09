@@ -47,6 +47,7 @@ import androidx.compose.material.icons.rounded.ImageSearch
 import androidx.compose.material.icons.rounded.Info
 import androidx.compose.material.icons.rounded.ModeNight
 import androidx.compose.material.icons.rounded.Palette
+import androidx.compose.material.icons.rounded.PersonSearch
 import androidx.compose.material.icons.rounded.PhotoSizeSelectSmall
 import androidx.compose.material.icons.rounded.RadioButtonChecked
 import androidx.compose.material.icons.rounded.RadioButtonUnchecked
@@ -1192,6 +1193,47 @@ fun LazyListScope.settingsBlock(
                     }
                 )
                 PreferenceRow(
+                    applyHorPadding = false,
+                    onClick = {
+                        context.startActivity(
+                            Intent(
+                                Intent.ACTION_VIEW,
+                                Uri.parse(CHAT_LINK)
+                            )
+                        )
+                    },
+                    startContent = {
+                        Icon(
+                            Icons.Rounded.Telegram,
+                            null,
+                            modifier = Modifier.padding(horizontal = 14.dp)
+                        )
+                    },
+                    title = stringResource(R.string.tg_chat),
+                    subtitle = stringResource(R.string.tg_chat_sub),
+                    color = MaterialTheme.colorScheme.mixedColor,
+                    contentColor = MaterialTheme.colorScheme.onMixedColor,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 8.dp),
+                )
+                SourceCodePreference(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 8.dp)
+                )
+            }
+        }
+    }
+    item {
+        // Contact me
+        SettingItem(
+            icon = Icons.Rounded.PersonSearch,
+            text = stringResource(R.string.contact_me),
+            initialState = true
+        ) {
+            Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                PreferenceRow(
                     modifier = Modifier.padding(horizontal = 8.dp),
                     applyHorPadding = false,
                     title = stringResource(R.string.buy_me_a_coffee),
@@ -1231,36 +1273,6 @@ fun LazyListScope.settingsBlock(
                     onClick = {
                         onShowAuthor()
                     }
-                )
-                PreferenceRow(
-                    applyHorPadding = false,
-                    onClick = {
-                        context.startActivity(
-                            Intent(
-                                Intent.ACTION_VIEW,
-                                Uri.parse(CHAT_LINK)
-                            )
-                        )
-                    },
-                    startContent = {
-                        Icon(
-                            Icons.Rounded.Telegram,
-                            null,
-                            modifier = Modifier.padding(horizontal = 14.dp)
-                        )
-                    },
-                    title = stringResource(R.string.tg_chat),
-                    subtitle = stringResource(R.string.tg_chat_sub),
-                    color = MaterialTheme.colorScheme.mixedColor,
-                    contentColor = MaterialTheme.colorScheme.onMixedColor,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 8.dp),
-                )
-                SourceCodePreference(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 8.dp)
                 )
             }
         }

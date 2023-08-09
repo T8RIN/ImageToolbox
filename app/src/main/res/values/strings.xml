@@ -334,6 +334,7 @@
     <string name="restore_sub">Restore app settings from previously generated file</string>
     <string name="corrupted_file_or_not_a_backup">Corrupted file or not a backup</string>
     <string name="settings_restored">Settings restored sucessfully</string>
+    <string name="contact_me">Contact me</string>
     <string-array name="fab_alignment_sub">
         <item>Start</item>
         <item>Center</item>
