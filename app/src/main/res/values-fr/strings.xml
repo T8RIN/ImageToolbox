@@ -309,4 +309,15 @@
     <string name="saved_to_without_filename">Enregistré dans le dossier %1$s</string>
     <string name="tg_chat">Discussion Telegram</string>
     <string name="tg_chat_sub">Discutez de l\'application et obtenez des commentaires d\'autres utilisateurs. Ici également, vous pouvez obtenir des mises à jour et des informations sur la version bêta</string>
+    <string name="aspect_ratio">Ratio d\'aspect</string>
+    <string name="backup_and_restore">Sauvegarde et restauration</string>
+    <string name="backup">Sauvegarde</string>
+    <string name="restore_sub">Restaurer les paramètres de l\'application à partir du fichier généré précédemment</string>
+    <string name="corrupted_file_or_not_a_backup">Fichier corrompu ou pas de sauvegarde</string>
+    <string name="settings_restored">Paramètres restaurés avec succès</string>
+    <string name="contact_me">Contactez moi</string>
+    <string name="crop_mask">Masque de recadrage</string>
+    <string name="image_crop_mask_sub">Utilisez ce type de masque pour créer un masque à partir d’une image donnée, notez qu’il DEVRAIT avoir un canal alpha</string>
+    <string name="restore">Restaurer</string>
+    <string name="backup_sub">Sauvegardez les paramètres de votre application dans le fichier</string>
 </resources>
