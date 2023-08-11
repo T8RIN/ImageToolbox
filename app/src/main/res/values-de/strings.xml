@@ -320,4 +320,5 @@
     <string name="aspect_ratio">Seitenverhältnis</string>
     <string name="restore_sub">Wiederherstellen von App-Einstellungen aus zuvor erstellter Datei</string>
     <string name="settings_restored">Einstellungen wiederhergestellt</string>
+    <string name="reset_settings_sub">Dadurch werden Ihre Einstellungen auf die Standardwerte zurückgesetzt. Bitte beachten Sie, dass dies nicht ohne die Sicherungsdatei der obigen Option rückgängig gemacht werden kann.</string>
 </resources>
