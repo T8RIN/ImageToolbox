@@ -46,6 +46,7 @@ import ru.tech.imageresizershrinker.domain.use_case.edit_settings.UpdatePresetsU
 import ru.tech.imageresizershrinker.domain.use_case.edit_settings.UpdateSaveFolderUriUseCase
 import ru.tech.imageresizershrinker.domain.use_case.get_settings_state.GetSettingsStateFlowUseCase
 import ru.tech.imageresizershrinker.domain.use_case.get_settings_state.GetSettingsStateUseCase
+import ru.tech.imageresizershrinker.domain.use_case.reset_settings.ResetSettingsUseCase
 import ru.tech.imageresizershrinker.presentation.root.utils.navigation.Screen
 import ru.tech.imageresizershrinker.presentation.root.widget.other.ToastHostState
 import java.io.OutputStream
@@ -80,7 +81,8 @@ class MainViewModel @Inject constructor(
     private val toggleGroupOptionsByTypesUseCase: ToggleGroupOptionsByTypesUseCase,
     private val toggleRandomizeFilenameUseCase: ToggleRandomizeFilenameUseCase,
     private val createBackupFileUseCase: CreateBackupFileUseCase,
-    private val restoreFromBackupFileUseCase: RestoreFromBackupFileUseCase
+    private val restoreFromBackupFileUseCase: RestoreFromBackupFileUseCase,
+    private val resetSettingsUseCase: ResetSettingsUseCase
 ) : ViewModel() {
 
     private val _settingsState = mutableStateOf(SettingsState.Default())
@@ -357,6 +359,12 @@ class MainViewModel @Inject constructor(
             withContext(Dispatchers.IO) {
                 restoreFromBackupFileUseCase(uri.toString(), onSuccess, onFailure)
             }
+        }
+    }
+
+    fun resetSettings() {
+        viewModelScope.launch {
+            resetSettingsUseCase()
         }
     }
 

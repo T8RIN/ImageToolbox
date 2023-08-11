@@ -26,7 +26,9 @@ import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalSettings
 fun ResetDialog(
     visible: Boolean,
     onDismiss: () -> Unit,
-    onReset: () -> Unit
+    onReset: () -> Unit,
+    title: String = stringResource(R.string.reset_image),
+    text: String = stringResource(R.string.reset_image_sub)
 ) {
     val settingsState = LocalSettingsState.current
     val scope = rememberCoroutineScope()
@@ -37,8 +39,8 @@ fun ResetDialog(
         AlertDialog(
             modifier = Modifier.alertDialog(),
             icon = { Icon(Icons.Rounded.RestartAlt, null) },
-            title = { Text(stringResource(R.string.reset_image)) },
-            text = { Text(stringResource(R.string.reset_image_sub)) },
+            title = { Text(title) },
+            text = { Text(text) },
             onDismissRequest = onDismiss,
             confirmButton = {
                 OutlinedButton(

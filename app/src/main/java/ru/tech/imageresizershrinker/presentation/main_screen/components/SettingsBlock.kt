@@ -51,6 +51,7 @@ import androidx.compose.material.icons.rounded.PersonSearch
 import androidx.compose.material.icons.rounded.PhotoSizeSelectSmall
 import androidx.compose.material.icons.rounded.RadioButtonChecked
 import androidx.compose.material.icons.rounded.RadioButtonUnchecked
+import androidx.compose.material.icons.rounded.RestartAlt
 import androidx.compose.material.icons.rounded.Save
 import androidx.compose.material.icons.rounded.SettingsBackupRestore
 import androidx.compose.material.icons.rounded.SettingsSystemDaydream
@@ -115,6 +116,7 @@ import ru.tech.imageresizershrinker.presentation.root.utils.helper.toUiPath
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.block
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.pulsate
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.scaleOnTap
+import ru.tech.imageresizershrinker.presentation.root.widget.dialogs.ResetDialog
 import ru.tech.imageresizershrinker.presentation.root.widget.image.Picture
 import ru.tech.imageresizershrinker.presentation.root.widget.other.ToastDuration
 import ru.tech.imageresizershrinker.presentation.root.widget.other.ToastHostState
@@ -144,7 +146,7 @@ fun LazyListScope.settingsBlock(
         SettingItem(
             icon = Icons.Rounded.Lamp,
             text = stringResource(R.string.night_mode),
-            initialState = true
+            initialState = false
         ) {
             Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
                 listOf(
@@ -980,6 +982,8 @@ fun LazyListScope.settingsBlock(
     }
     item {
         // Backup and restore
+
+        var showResetDialog by remember { mutableStateOf(false) }
         SettingItem(
             icon = Icons.Rounded.SettingsBackupRestore,
             text = stringResource(R.string.backup_and_restore),
@@ -1076,6 +1080,88 @@ fun LazyListScope.settingsBlock(
                 subtitle = stringResource(R.string.restore_sub),
                 endIcon = Icons.Rounded.DownloadFile
             )
+            Spacer(modifier = Modifier.height(8.dp))
+            PreferenceItem(
+                onClick = {
+                    showResetDialog = true
+                },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 8.dp),
+                color = MaterialTheme
+                    .colorScheme
+                    .errorContainer
+                    .copy(alpha = 0.8f),
+                title = stringResource(R.string.reset),
+                subtitle = stringResource(R.string.reset_settings_sub),
+                endIcon = Icons.Rounded.RestartAlt
+            )
+        }
+
+        ResetDialog(
+            visible = showResetDialog,
+            onDismiss = {
+                showResetDialog = false
+            },
+            onReset = {
+                showResetDialog = false
+                viewModel.resetSettings()
+            },
+            title = stringResource(R.string.reset),
+            text = stringResource(R.string.reset_settings_sub)
+        )
+    }
+    item {
+        // Contact me
+        SettingItem(
+            icon = Icons.Rounded.PersonSearch,
+            text = stringResource(R.string.contact_me),
+            initialState = false
+        ) {
+            Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                PreferenceRow(
+                    modifier = Modifier.padding(horizontal = 8.dp),
+                    applyHorPadding = false,
+                    title = stringResource(R.string.buy_me_a_coffee),
+                    subtitle = stringResource(R.string.buy_me_a_coffee_sub),
+                    endContent = {
+                        Icon(Icons.Rounded.Coffee, null)
+                    },
+                    onClick = {
+                        context.startActivity(
+                            Intent(
+                                Intent.ACTION_VIEW,
+                                Uri.parse(DONATE)
+                            )
+                        )
+                    }
+                )
+                PreferenceRow(
+                    modifier = Modifier.padding(horizontal = 8.dp),
+                    applyHorPadding = false,
+                    color = MaterialTheme.colorScheme.tertiaryContainer.copy(alpha = 0.7f),
+                    contentColor = MaterialTheme.colorScheme.onTertiaryContainer.copy(alpha = 0.9f),
+                    title = stringResource(R.string.app_developer),
+                    subtitle = stringResource(R.string.app_developer_nick),
+                    startContent = {
+                        Picture(
+                            model = AUTHOR_AVATAR,
+                            modifier = Modifier
+                                .padding(horizontal = 8.dp)
+                                .size(48.dp)
+                                .border(
+                                    settingsState.borderWidth,
+                                    MaterialTheme.colorScheme.outlineVariant(),
+                                    MaterialTheme.shapes.medium
+                                ),
+                            shape = MaterialTheme.shapes.medium
+                        )
+                    },
+                    onClick = {
+                        onShowAuthor()
+                    }
+                )
+            }
         }
     }
     item {
@@ -1211,8 +1297,8 @@ fun LazyListScope.settingsBlock(
                     },
                     title = stringResource(R.string.tg_chat),
                     subtitle = stringResource(R.string.tg_chat_sub),
-                    color = MaterialTheme.colorScheme.mixedColor,
-                    contentColor = MaterialTheme.colorScheme.onMixedColor,
+                    color = MaterialTheme.colorScheme.mixedColor.copy(alpha = 0.7f),
+                    contentColor = MaterialTheme.colorScheme.onMixedColor.copy(alpha = 0.9f),
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(horizontal = 8.dp),
@@ -1224,58 +1310,5 @@ fun LazyListScope.settingsBlock(
                 )
             }
         }
-    }
-    item {
-        // Contact me
-        SettingItem(
-            icon = Icons.Rounded.PersonSearch,
-            text = stringResource(R.string.contact_me),
-            initialState = true
-        ) {
-            Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                PreferenceRow(
-                    modifier = Modifier.padding(horizontal = 8.dp),
-                    applyHorPadding = false,
-                    title = stringResource(R.string.buy_me_a_coffee),
-                    subtitle = stringResource(R.string.buy_me_a_coffee_sub),
-                    endContent = {
-                        Icon(Icons.Rounded.Coffee, null)
-                    },
-                    onClick = {
-                        context.startActivity(
-                            Intent(
-                                Intent.ACTION_VIEW,
-                                Uri.parse(DONATE)
-                            )
-                        )
-                    }
-                )
-                PreferenceRow(
-                    modifier = Modifier.padding(horizontal = 8.dp),
-                    applyHorPadding = false,
-                    color = MaterialTheme.colorScheme.tertiaryContainer,
-                    title = stringResource(R.string.app_developer),
-                    subtitle = stringResource(R.string.app_developer_nick),
-                    startContent = {
-                        Picture(
-                            model = AUTHOR_AVATAR,
-                            modifier = Modifier
-                                .padding(horizontal = 8.dp)
-                                .size(48.dp)
-                                .border(
-                                    settingsState.borderWidth,
-                                    MaterialTheme.colorScheme.outlineVariant(),
-                                    MaterialTheme.shapes.medium
-                                ),
-                            shape = MaterialTheme.shapes.medium
-                        )
-                    },
-                    onClick = {
-                        onShowAuthor()
-                    }
-                )
-            }
-        }
-        Spacer(Modifier.height(8.dp))
     }
 }

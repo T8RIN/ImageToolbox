@@ -60,4 +60,6 @@ interface SettingsRepository {
         onSuccess: () -> Unit,
         onFailure: (Throwable) -> Unit
     )
+
+    suspend fun resetSettings()
 }

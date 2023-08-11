@@ -52,14 +52,13 @@ fun PreferenceItemOverload(
     endIcon: (@Composable () -> Unit)? = null,
     shape: Shape = RoundedCornerShape(16.dp),
     color: Color = MaterialTheme.colorScheme.surfaceColorAtElevation(1.dp),
+    contentColor: Color = if (color == MaterialTheme.colorScheme.surfaceColorAtElevation(1.dp)) contentColorFor(
+        backgroundColor = MaterialTheme.colorScheme.surfaceVariant
+    ) else contentColorFor(backgroundColor = color),
     @SuppressLint("ModifierParameter") modifier: Modifier = Modifier
         .fillMaxWidth()
         .padding(horizontal = 12.dp)
 ) {
-    val contentColor =
-        if (color == MaterialTheme.colorScheme.surfaceColorAtElevation(1.dp)) contentColorFor(
-            backgroundColor = MaterialTheme.colorScheme.surfaceVariant
-        ) else contentColorFor(backgroundColor = color)
 
     val settingsState = LocalSettingsState.current
 

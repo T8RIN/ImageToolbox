@@ -25,10 +25,12 @@ fun SourceCodePreference(
     @SuppressLint("ModifierParameter") modifier: Modifier = Modifier
         .fillMaxWidth()
         .padding(horizontal = 12.dp),
-    color: Color = MaterialTheme.colorScheme.primaryContainer
+    color: Color = MaterialTheme.colorScheme.primaryContainer.copy(0.7f),
+    contentColor: Color = MaterialTheme.colorScheme.onPrimaryContainer.copy(0.9f)
 ) {
     val context = LocalContext.current
     PreferenceItem(
+        contentColor = contentColor,
         onClick = {
             context.startActivity(
                 Intent(

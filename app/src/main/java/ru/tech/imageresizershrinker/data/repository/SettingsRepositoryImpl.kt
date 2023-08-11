@@ -291,10 +291,23 @@ class SettingsRepositoryImpl @Inject constructor(
         toggleClearCacheOnLaunch()
     }
 
+    override suspend fun resetSettings() {
+        File(
+            context.filesDir,
+            "datastore/image_resizer.preferences_pb"
+        ).apply {
+            delete()
+            createNewFile()
+        }
+        toggleClearCacheOnLaunch()
+        toggleClearCacheOnLaunch()
+    }
+
     private fun InputStream.toByteArray(): ByteArray {
         val bytes = ByteArray(this.available())
         val dis = DataInputStream(this)
         dis.readFully(bytes)
         return bytes
     }
+
 }

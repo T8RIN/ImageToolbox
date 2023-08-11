@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.contentColorFor
 import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -23,6 +24,9 @@ fun PreferenceItem(
     endIcon: ImageVector? = null,
     shape: Shape = RoundedCornerShape(16.dp),
     color: Color = MaterialTheme.colorScheme.surfaceColorAtElevation(1.dp),
+    contentColor: Color = if (color == MaterialTheme.colorScheme.surfaceColorAtElevation(1.dp)) contentColorFor(
+        backgroundColor = MaterialTheme.colorScheme.surfaceVariant
+    ) else contentColorFor(backgroundColor = color),
     @SuppressLint("ModifierParameter") modifier: Modifier = Modifier
         .fillMaxWidth()
         .padding(horizontal = 12.dp)
@@ -34,6 +38,7 @@ fun PreferenceItem(
         { Icon(endIcon, null) }
     }
     PreferenceItemOverload(
+        contentColor = contentColor,
         onClick = onClick,
         title = title,
         subtitle = subtitle,
