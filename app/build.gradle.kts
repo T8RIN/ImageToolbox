@@ -1,5 +1,7 @@
 @file:Suppress("UnstableApiUsage")
 
+import org.jetbrains.kotlin.gradle.plugin.mpp.pm20.util.archivesName
+
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
@@ -50,6 +52,7 @@ android {
             "pt",
             "sk"
         )
+        archivesName.set("image-toolbox-$versionName")
     }
 
     buildTypes {
@@ -73,7 +76,7 @@ android {
         compose = true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.5.0"
+        kotlinCompilerExtensionVersion = "1.5.1"
     }
 
     packaging {
@@ -127,7 +130,7 @@ dependencies {
     kapt("com.google.dagger:hilt-compiler:2.47")
 
     //Accompanist
-    implementation("com.google.accompanist:accompanist-placeholder-material:0.31.6-rc")
+    implementation("com.google.accompanist:accompanist-placeholder-material:0.33.0-alpha")
 
     //Coil
     implementation("io.coil-kt:coil:2.4.0")
@@ -149,6 +152,6 @@ dependencies {
 
     implementation("org.burnoutcrew.composereorderable:reorderable:0.9.6")
 
-    implementation("com.google.accompanist:accompanist-systemuicontroller:0.31.6-rc")
+    implementation("com.google.accompanist:accompanist-systemuicontroller:0.33.0-alpha")
 
 }
