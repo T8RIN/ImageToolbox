@@ -1051,7 +1051,7 @@ fun LazyListScope.settingsBlock(
             )
             PreferenceItem(
                 onClick = {
-                    backupSavingLauncher.launch("*/*#image_toolbox_settings_backup.imtbx_backup")
+                    backupSavingLauncher.launch("*/*#${viewModel.createBackupFilename()}")
                 },
                 modifier = Modifier
                     .fillMaxWidth()
@@ -1310,5 +1310,6 @@ fun LazyListScope.settingsBlock(
                 )
             }
         }
+        Spacer(modifier = Modifier.height(8.dp))
     }
 }

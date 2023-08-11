@@ -42,6 +42,9 @@ import java.io.ByteArrayOutputStream
 import java.io.DataInputStream
 import java.io.File
 import java.io.InputStream
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 import javax.inject.Inject
 
 
@@ -301,6 +304,14 @@ class SettingsRepositoryImpl @Inject constructor(
         }
         toggleClearCacheOnLaunch()
         toggleClearCacheOnLaunch()
+    }
+
+    override fun createBackupFilename(): String {
+        val timeStamp = SimpleDateFormat(
+            "yyyy-MM-dd_HH-mm-ss",
+            Locale.getDefault()
+        ).format(Date())
+        return "image_toolbox_$timeStamp.imtbx_backup"
     }
 
     private fun InputStream.toByteArray(): ByteArray {

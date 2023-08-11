@@ -21,6 +21,7 @@ import ru.tech.imageresizershrinker.BuildConfig
 import ru.tech.imageresizershrinker.core.APP_RELEASES
 import ru.tech.imageresizershrinker.domain.model.SettingsState
 import ru.tech.imageresizershrinker.domain.use_case.backup_and_restore.CreateBackupFileUseCase
+import ru.tech.imageresizershrinker.domain.use_case.backup_and_restore.CreateBackupFilenameUseCase
 import ru.tech.imageresizershrinker.domain.use_case.backup_and_restore.RestoreFromBackupFileUseCase
 import ru.tech.imageresizershrinker.domain.use_case.edit_settings.SetAlignmentUseCase
 import ru.tech.imageresizershrinker.domain.use_case.edit_settings.SetBorderWidthUseCase
@@ -82,7 +83,8 @@ class MainViewModel @Inject constructor(
     private val toggleRandomizeFilenameUseCase: ToggleRandomizeFilenameUseCase,
     private val createBackupFileUseCase: CreateBackupFileUseCase,
     private val restoreFromBackupFileUseCase: RestoreFromBackupFileUseCase,
-    private val resetSettingsUseCase: ResetSettingsUseCase
+    private val resetSettingsUseCase: ResetSettingsUseCase,
+    private val createBackupFilenameUseCase: CreateBackupFilenameUseCase
 ) : ViewModel() {
 
     private val _settingsState = mutableStateOf(SettingsState.Default())
@@ -367,5 +369,7 @@ class MainViewModel @Inject constructor(
             resetSettingsUseCase()
         }
     }
+
+    fun createBackupFilename(): String = createBackupFilenameUseCase()
 
 }

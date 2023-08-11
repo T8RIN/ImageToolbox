@@ -62,4 +62,6 @@ interface SettingsRepository {
     )
 
     suspend fun resetSettings()
+
+    fun createBackupFilename(): String
 }
