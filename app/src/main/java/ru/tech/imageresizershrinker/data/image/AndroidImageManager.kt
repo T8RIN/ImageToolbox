@@ -461,8 +461,8 @@ class AndroidImageManager @Inject constructor(
                 .times(0.04f)
                 .roundToInt()
                 .coerceIn(
-                    minimumValue = 512,
-                    maximumValue = 4096
+                    minimumValue = 256,
+                    maximumValue = 512
                 )
         return@withContext kotlin.runCatching {
             if (image.size() > maxBytes1) {
