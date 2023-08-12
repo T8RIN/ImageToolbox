@@ -35,6 +35,7 @@ import com.smarttoolfactory.cropper.model.CropAspectRatio
 import com.smarttoolfactory.cropper.util.createRectShape
 import com.smarttoolfactory.cropper.widget.AspectRatioSelectionCard
 import ru.tech.imageresizershrinker.R
+import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.block
 
 @Composable
@@ -76,9 +77,13 @@ fun AspectRatioSelection(
                                 applyEndPadding = false,
                                 color = animateColorAsState(
                                     targetValue = if (selected) {
-                                        MaterialTheme.colorScheme.surfaceColorAtElevation(16.dp)
-                                    } else MaterialTheme.colorScheme.surfaceColorAtElevation(1.dp)
-                                ).value
+                                        MaterialTheme.colorScheme.primaryContainer
+                                    } else MaterialTheme.colorScheme.surfaceColorAtElevation(1.dp),
+                                ).value,
+                                borderColor = if (selected) MaterialTheme.colorScheme.onPrimaryContainer.copy(
+                                    0.7f
+                                )
+                                else MaterialTheme.colorScheme.outlineVariant()
                             )
                             .clickable { onAspectRatioChange(aspectRatios[index]) }
                             .padding(start = 12.dp, top = 12.dp, end = 12.dp, bottom = 2.dp),
@@ -94,9 +99,13 @@ fun AspectRatioSelection(
                                 applyEndPadding = false,
                                 color = animateColorAsState(
                                     targetValue = if (selected) {
-                                        MaterialTheme.colorScheme.surfaceColorAtElevation(20.dp)
-                                    } else MaterialTheme.colorScheme.surfaceColorAtElevation(1.dp)
-                                ).value
+                                        MaterialTheme.colorScheme.primaryContainer
+                                    } else MaterialTheme.colorScheme.surfaceColorAtElevation(1.dp),
+                                ).value,
+                                borderColor = if (selected) MaterialTheme.colorScheme.onPrimaryContainer.copy(
+                                    0.7f
+                                )
+                                else MaterialTheme.colorScheme.outlineVariant()
                             )
                             .clickable { onAspectRatioChange(aspectRatios[index]) }
                             .padding(start = 16.dp, end = 16.dp, top = 8.dp, bottom = 8.dp)

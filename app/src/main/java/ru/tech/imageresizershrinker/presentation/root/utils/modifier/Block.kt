@@ -42,7 +42,8 @@ import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalSettings
 fun Modifier.block(
     shape: Shape = RoundedCornerShape(16.dp),
     color: Color = Color.Unspecified,
-    applyEndPadding: Boolean = true
+    applyEndPadding: Boolean = true,
+    borderColor: Color? = null
 ) = composed {
     val color1 = if (color.isUnspecified) {
         MaterialTheme.colorScheme.surfaceColorAtElevation(1.dp)
@@ -55,7 +56,7 @@ fun Modifier.block(
         )
         .border(
             width = LocalSettingsState.current.borderWidth,
-            color = MaterialTheme.colorScheme.outlineVariant(0.1f, color1),
+            color = borderColor ?: MaterialTheme.colorScheme.outlineVariant(0.1f, color1),
             shape = shape
         )
         .clip(shape)

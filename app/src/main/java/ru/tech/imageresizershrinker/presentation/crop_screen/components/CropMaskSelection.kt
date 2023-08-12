@@ -131,6 +131,7 @@ fun CropMaskSelection(
             verticalAlignment = Alignment.CenterVertically
         ) {
             itemsIndexed(outlineProperties) { _, item ->
+                val selected = selectedItem.cropOutline.id == item.cropOutline.id
                 CropFrameDisplayCard(
                     modifier = Modifier
                         .padding(vertical = 8.dp)
@@ -138,10 +139,14 @@ fun CropMaskSelection(
                         .block(
                             applyEndPadding = false,
                             color = animateColorAsState(
-                                targetValue = if (selectedItem.cropOutline.id == item.cropOutline.id) {
-                                    MaterialTheme.colorScheme.surfaceColorAtElevation(20.dp)
-                                } else MaterialTheme.colorScheme.surfaceColorAtElevation(1.dp)
-                            ).value
+                                targetValue = if (selected) {
+                                    MaterialTheme.colorScheme.primaryContainer
+                                } else MaterialTheme.colorScheme.surfaceColorAtElevation(1.dp),
+                            ).value,
+                            borderColor = if (selected) MaterialTheme.colorScheme.onPrimaryContainer.copy(
+                                0.7f
+                            )
+                            else MaterialTheme.colorScheme.outlineVariant()
                         )
                         .clickable {
                             if (item.cropOutline is ImageMaskOutline) {
@@ -365,6 +370,18 @@ fun outlineProperties(): List<CropOutlineProperty> = remember {
                     get() = 12
                 override val title: String
                     get() = "DavidStar"
+
+            }
+        ),
+        CropOutlineProperty(
+            OutlineType.Custom,
+            object : CropShape {
+                override val shape: Shape
+                    get() = KotlinShape
+                override val id: Int
+                    get() = 13
+                override val title: String
+                    get() = "Kotlin"
 
             }
         ),
@@ -632,6 +649,39 @@ val OctagonShape: Shape = object : Shape {
             lineTo(0f, 500f)
             lineTo(146.4466f, 146.4466f)
             lineTo(500f, 0f)
+            close()
+        }
+
+        return Outline.Generic(
+            path
+                .asAndroidPath()
+                .apply {
+                    transform(Matrix().apply {
+                        setScale(size.width / baseWidth, size.height / baseHeight)
+                    })
+                }
+                .asComposePath()
+        )
+    }
+}
+
+
+val KotlinShape: Shape = object : Shape {
+    override fun createOutline(
+        size: Size,
+        layoutDirection: LayoutDirection,
+        density: Density
+    ): Outline {
+        val baseWidth = 1000f
+        val baseHeight = 1000f
+
+        val path = Path().apply {
+            moveTo(0f, 0f)
+            lineTo(1000f, 0f)
+            lineTo(473.5f, 500f)
+            lineTo(1000f, 1000f)
+            lineTo(0f, 1000f)
+            lineTo(0f, 0f)
             close()
         }
 
