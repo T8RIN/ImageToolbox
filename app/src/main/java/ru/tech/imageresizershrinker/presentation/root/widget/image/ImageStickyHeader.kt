@@ -133,10 +133,10 @@ fun LazyListScope.imageStickyHeader(
                                 .copy(alpha = 0.3f)
                         ),
                         colors = IconButtonDefaults.filledTonalIconToggleButtonColors(
-                            checkedContainerColor = MaterialTheme.colorScheme.secondaryContainer.copy(
-                                0.5f
+                            checkedContainerColor = MaterialTheme.colorScheme.tertiary.copy(
+                                0.8f
                             ),
-                            checkedContentColor = MaterialTheme.colorScheme.onSecondaryContainer,
+                            checkedContentColor = MaterialTheme.colorScheme.onTertiary,
                             containerColor = MaterialTheme.colorScheme.surfaceVariant.copy(0.5f),
                             contentColor = MaterialTheme.colorScheme.onSurfaceVariant
                         )

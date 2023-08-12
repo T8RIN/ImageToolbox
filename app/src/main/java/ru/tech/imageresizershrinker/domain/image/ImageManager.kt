@@ -3,6 +3,7 @@ package ru.tech.imageresizershrinker.domain.image
 import ru.tech.imageresizershrinker.domain.model.ImageData
 import ru.tech.imageresizershrinker.domain.model.ImageFormat
 import ru.tech.imageresizershrinker.domain.model.ImageInfo
+import ru.tech.imageresizershrinker.domain.model.Preset
 import ru.tech.imageresizershrinker.domain.model.ResizeType
 
 interface ImageManager<I, M> {
@@ -48,7 +49,7 @@ interface ImageManager<I, M> {
 
     suspend fun scaleUntilCanShow(image: I?): I?
 
-    fun applyPresetBy(image: I?, preset: Int, currentInfo: ImageInfo): ImageInfo
+    fun applyPresetBy(image: I?, preset: Preset, currentInfo: ImageInfo): ImageInfo
 
     fun canShow(image: I): Boolean
 

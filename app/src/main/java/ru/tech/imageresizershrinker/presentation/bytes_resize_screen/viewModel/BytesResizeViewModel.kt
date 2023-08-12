@@ -18,6 +18,7 @@ import ru.tech.imageresizershrinker.domain.image.ImageManager
 import ru.tech.imageresizershrinker.domain.model.ImageData
 import ru.tech.imageresizershrinker.domain.model.ImageFormat
 import ru.tech.imageresizershrinker.domain.model.ImageInfo
+import ru.tech.imageresizershrinker.domain.model.Preset
 import ru.tech.imageresizershrinker.domain.saving.FileController
 import ru.tech.imageresizershrinker.domain.saving.SaveResult
 import ru.tech.imageresizershrinker.domain.saving.model.ImageSaveTarget
@@ -211,8 +212,8 @@ class BytesResizeViewModel @Inject constructor(
         updateCanSave()
     }
 
-    fun selectPreset(preset: Int) {
-        _presetSelected.value = preset
+    fun selectPreset(preset: Preset) {
+        preset.value()?.let { _presetSelected.value = it }
         updateCanSave()
     }
 

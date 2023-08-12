@@ -1,7 +1,6 @@
 package ru.tech.imageresizershrinker.presentation.root.widget.controls
 
 import android.os.Build
-import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -96,13 +95,7 @@ fun ExtensionGroup(
                         onClick = { onMimeChange(it) },
                         selected = it == imageFormat,
                         label = {
-                            Text(
-                                text = it.title,
-                                color = animateColorAsState(
-                                    if (it == imageFormat) MaterialTheme.colorScheme.onTertiaryContainer
-                                    else MaterialTheme.colorScheme.onSurface
-                                ).value
-                            )
+                            Text(text = it.title)
                         }
                     )
                 }
@@ -126,11 +119,15 @@ private fun Chip(
     label: @Composable () -> Unit
 ) {
     val settingsState = LocalSettingsState.current
-    val color = if (selected) MaterialTheme.colorScheme.tertiaryContainer
+    val color = if (selected) MaterialTheme.colorScheme.tertiary
     else MaterialTheme.colorScheme.secondaryContainer.copy(alpha = 0.6f)
 
     CompositionLocalProvider(
-        LocalTextStyle provides MaterialTheme.typography.labelLarge.copy(fontWeight = FontWeight.SemiBold)
+        LocalTextStyle provides MaterialTheme.typography.labelLarge.copy(
+            fontWeight = FontWeight.SemiBold,
+            color = if (selected) MaterialTheme.colorScheme.onTertiary
+            else MaterialTheme.colorScheme.onSurface
+        ),
     ) {
         Box(
             modifier = Modifier
@@ -140,7 +137,7 @@ private fun Chip(
                     border = BorderStroke(
                         width = settingsState.borderWidth,
                         color = if (!selected) MaterialTheme.colorScheme.outlineVariant()
-                        else MaterialTheme.colorScheme.tertiaryContainer
+                        else MaterialTheme.colorScheme.tertiary
                             .copy(alpha = 0.9f)
                             .compositeOver(Color.Black)
                     ),

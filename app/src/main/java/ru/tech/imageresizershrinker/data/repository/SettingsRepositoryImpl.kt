@@ -35,6 +35,7 @@ import ru.tech.imageresizershrinker.data.keys.Keys.PRESETS
 import ru.tech.imageresizershrinker.data.keys.Keys.RANDOMIZE_FILENAME
 import ru.tech.imageresizershrinker.data.keys.Keys.SAVE_FOLDER
 import ru.tech.imageresizershrinker.data.keys.Keys.SHOW_DIALOG
+import ru.tech.imageresizershrinker.domain.model.Preset
 import ru.tech.imageresizershrinker.domain.model.SettingsState
 import ru.tech.imageresizershrinker.domain.repository.SettingsRepository
 import java.io.ByteArrayInputStream
@@ -102,7 +103,7 @@ class SettingsRepositoryImpl @Inject constructor(
             saveFolderUri = prefs[SAVE_FOLDER],
             presets = ((prefs[PRESETS]?.split("*")?.map {
                 it.toInt()
-            } ?: emptyList())).toSortedSet().reversed().toList(),
+            } ?: emptyList())).toSortedSet().reversed().toList().map { Preset.Numeric(it) },
             colorTupleList = prefs[COLOR_TUPLES],
             allowChangeColorByImage = prefs[IMAGE_MONET] ?: true,
             imagePickerModeInt = prefs[PICKER_MODE] ?: 0,

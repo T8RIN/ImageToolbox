@@ -53,7 +53,7 @@ fun SettingsState.toUiState() = UiSettingsState(
     isAmoledMode = isAmoledMode,
     appColorTuple = appColorTuple.asColorTuple(),
     borderWidth = animateDpAsState(borderWidth.dp).value,
-    presets = presets,
+    presets = presets.mapNotNull { it.value() },
     fabAlignment = fabAlignment.toAlignment(),
     showDialogOnStartup = showDialogOnStartup,
     selectedEmoji = selectedEmoji?.takeIf { it != -1 }?.let { Emoji.allIcons[it] },

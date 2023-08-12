@@ -6,11 +6,12 @@ import coil.size.Size
 import ru.tech.imageresizershrinker.domain.image.ImageManager
 import ru.tech.imageresizershrinker.domain.image.Transformation
 import ru.tech.imageresizershrinker.domain.model.ImageInfo
+import ru.tech.imageresizershrinker.domain.model.Preset
 import coil.transform.Transformation as CoilTransformation
 
 class ImageInfoTransformation(
     private val imageInfo: ImageInfo,
-    private val preset: Int,
+    private val preset: Preset = Preset.Numeric(100),
     private val imageManager: ImageManager<Bitmap, ExifInterface>
 ) : CoilTransformation, Transformation<Bitmap> {
 
@@ -19,7 +20,7 @@ class ImageInfoTransformation(
 
     override suspend fun transform(input: Bitmap, size: Size): Bitmap {
         var info = imageInfo
-        if (preset != -1) {
+        if (!preset.isEmpty()) {
             val currentInfo = info.copy()
             info = imageManager.applyPresetBy(
                 image = input,

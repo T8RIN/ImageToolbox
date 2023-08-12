@@ -19,6 +19,7 @@ import ru.tech.imageresizershrinker.domain.image.ImageManager
 import ru.tech.imageresizershrinker.domain.model.ImageData
 import ru.tech.imageresizershrinker.domain.model.ImageFormat
 import ru.tech.imageresizershrinker.domain.model.ImageInfo
+import ru.tech.imageresizershrinker.domain.model.Preset
 import ru.tech.imageresizershrinker.domain.model.ResizeType
 import ru.tech.imageresizershrinker.domain.saving.FileController
 import ru.tech.imageresizershrinker.domain.saving.SaveResult
@@ -55,11 +56,8 @@ class BatchResizeViewModel @Inject constructor(
     private val _showWarning: MutableState<Boolean> = mutableStateOf(false)
     val showWarning: Boolean by _showWarning
 
-    private val _presetSelected: MutableState<Int> = mutableIntStateOf(-1)
+    private val _presetSelected: MutableState<Preset> = mutableStateOf(Preset.None)
     val presetSelected by _presetSelected
-
-    private val _isTelegramSpecs: MutableState<Boolean> = mutableStateOf(false)
-    val isTelegramSpecs by _isTelegramSpecs
 
     private val _previewBitmap: MutableState<Bitmap?> = mutableStateOf(null)
     val previewBitmap: Bitmap? by _previewBitmap
@@ -115,11 +113,8 @@ class BatchResizeViewModel @Inject constructor(
         resetPreset: Boolean,
         resetTelegram: Boolean
     ) {
-        if (resetPreset) {
-            _presetSelected.value = -1
-        }
-        if (resetTelegram) {
-            _isTelegramSpecs.value = false
+        if (resetPreset || resetTelegram) {
+            _presetSelected.value = Preset.None
         }
         job?.cancel()
         _isImageLoading.value = false
@@ -166,7 +161,6 @@ class BatchResizeViewModel @Inject constructor(
                 } else it
             }
             checkBitmapAndUpdate(resetPreset = false, resetTelegram = true)
-            _presetSelected.value = newInfo.quality.toInt()
         }
     }
 
@@ -261,21 +255,6 @@ class BatchResizeViewModel @Inject constructor(
         }
     }
 
-    fun setTelegramSpecs() {
-        val new = _imageInfo.value.copy(
-            width = 512,
-            height = 512,
-            imageFormat = ImageFormat.Png,
-            resizeType = ResizeType.Flexible,
-            quality = 100f
-        )
-        if (new != _imageInfo.value) {
-            _imageInfo.value = new
-            checkBitmapAndUpdate(resetPreset = true, resetTelegram = false)
-        }
-        _isTelegramSpecs.value = true
-    }
-
     fun setKeepExif(boolean: Boolean) {
         _keepExif.value = boolean
     }
@@ -335,22 +314,20 @@ class BatchResizeViewModel @Inject constructor(
                     width = size?.first ?: 0,
                     height = size?.second ?: 0
                 )
-                if (_presetSelected.value != -1) {
-                    setBitmapInfo(
-                        imageManager.applyPresetBy(
-                            image = _bitmap.value,
-                            preset = _presetSelected.value,
-                            currentInfo = _imageInfo.value
-                        )
+                setBitmapInfo(
+                    imageManager.applyPresetBy(
+                        image = _bitmap.value,
+                        preset = _presetSelected.value,
+                        currentInfo = _imageInfo.value
                     )
-                }
+                )
                 checkBitmapAndUpdate(resetPreset = false, resetTelegram = false)
                 _selectedUri.value = uri
             }
         }
     }
 
-    fun updatePreset(preset: Int) {
+    fun updatePreset(preset: Preset) {
         setBitmapInfo(
             imageManager.applyPresetBy(
                 image = _bitmap.value,
@@ -358,6 +335,7 @@ class BatchResizeViewModel @Inject constructor(
                 currentInfo = _imageInfo.value
             )
         )
+        _presetSelected.value = preset
     }
 
     fun shareBitmaps(onComplete: () -> Unit) {

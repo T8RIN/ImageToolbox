@@ -4,7 +4,6 @@ import android.graphics.Bitmap
 import android.net.Uri
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.exifinterface.media.ExifInterface
 import androidx.lifecycle.ViewModel
@@ -20,6 +19,7 @@ import ru.tech.imageresizershrinker.domain.image.Metadata
 import ru.tech.imageresizershrinker.domain.model.ImageData
 import ru.tech.imageresizershrinker.domain.model.ImageFormat
 import ru.tech.imageresizershrinker.domain.model.ImageInfo
+import ru.tech.imageresizershrinker.domain.model.Preset
 import ru.tech.imageresizershrinker.domain.model.ResizeType
 import ru.tech.imageresizershrinker.domain.saving.FileController
 import ru.tech.imageresizershrinker.domain.saving.SaveResult
@@ -56,11 +56,8 @@ class SingleResizeViewModel @Inject constructor(
     private val _shouldShowPreview: MutableState<Boolean> = mutableStateOf(true)
     val shouldShowPreview by _shouldShowPreview
 
-    private val _presetSelected: MutableState<Int> = mutableIntStateOf(-1)
+    private val _presetSelected: MutableState<Preset> = mutableStateOf(Preset.None)
     val presetSelected by _presetSelected
-
-    private val _isTelegramSpecs: MutableState<Boolean> = mutableStateOf(false)
-    val isTelegramSpecs by _isTelegramSpecs
 
     private val _isSaving: MutableState<Boolean> = mutableStateOf(false)
     val isSaving by _isSaving
@@ -68,11 +65,8 @@ class SingleResizeViewModel @Inject constructor(
     private var job: Job? = null
 
     private fun checkBitmapAndUpdate(resetPreset: Boolean, resetTelegram: Boolean) {
-        if (resetPreset) {
-            _presetSelected.value = -1
-        }
-        if (resetTelegram) {
-            _isTelegramSpecs.value = false
+        if (resetPreset || resetTelegram) {
+            _presetSelected.value = Preset.None
         }
         job?.cancel()
         _isImageLoading.value = false
@@ -152,7 +146,6 @@ class SingleResizeViewModel @Inject constructor(
         if (_imageInfo.value != newInfo || _imageInfo.value.quality == 100f) {
             _imageInfo.value = newInfo
             checkBitmapAndUpdate(resetPreset = false, resetTelegram = true)
-            _presetSelected.value = newInfo.quality.toInt()
         }
     }
 
@@ -247,21 +240,6 @@ class SingleResizeViewModel @Inject constructor(
         }
     }
 
-    fun setTelegramSpecs() {
-        val new = _imageInfo.value.copy(
-            width = 512,
-            height = 512,
-            imageFormat = ImageFormat.Png,
-            resizeType = ResizeType.Flexible,
-            quality = 100f
-        )
-        if (new != _imageInfo.value) {
-            _imageInfo.value = new
-            checkBitmapAndUpdate(resetPreset = true, resetTelegram = false)
-        }
-        _isTelegramSpecs.value = true
-    }
-
     fun updateExif(exifInterface: ExifInterface?) {
         _exif.value = exifInterface
     }
@@ -312,7 +290,7 @@ class SingleResizeViewModel @Inject constructor(
 
     fun canShow(): Boolean = bitmap?.let { imageManager.canShow(it) } ?: false
 
-    fun setPreset(preset: Int) {
+    fun setPreset(preset: Preset) {
         setBitmapInfo(
             imageManager.applyPresetBy(
                 image = bitmap,
@@ -320,6 +298,7 @@ class SingleResizeViewModel @Inject constructor(
                 currentInfo = imageInfo
             )
         )
+        _presetSelected.value = preset
     }
 
 }

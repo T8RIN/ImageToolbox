@@ -33,6 +33,7 @@ import ru.tech.imageresizershrinker.domain.image.Transformation
 import ru.tech.imageresizershrinker.domain.model.ImageData
 import ru.tech.imageresizershrinker.domain.model.ImageFormat
 import ru.tech.imageresizershrinker.domain.model.ImageInfo
+import ru.tech.imageresizershrinker.domain.model.Preset
 import ru.tech.imageresizershrinker.domain.model.ResizeType
 import java.io.ByteArrayInputStream
 import java.io.ByteArrayOutputStream
@@ -260,7 +261,7 @@ class AndroidImageManager @Inject constructor(
     private val Bitmap.aspectRatio: Float get() = width / height.toFloat()
 
 
-    override fun applyPresetBy(image: Bitmap?, preset: Int, currentInfo: ImageInfo): ImageInfo {
+    override fun applyPresetBy(image: Bitmap?, preset: Preset, currentInfo: ImageInfo): ImageInfo {
         if (image == null) return currentInfo
 
 
@@ -270,13 +271,22 @@ class AndroidImageManager @Inject constructor(
         fun Int.calc(cnt: Int): Int = (this * (cnt / 100f)).toInt()
 
         return when (preset) {
-            in 500 downTo 10 -> {
+            is Preset.Telegram -> {
                 currentInfo.copy(
-                    quality = preset.toFloat(),
-                    width = image.width().calc(preset),
-                    height = image.height().calc(preset),
+                    width = 512,
+                    height = 512,
+                    imageFormat = ImageFormat.Png,
+                    resizeType = ResizeType.Flexible,
+                    quality = 100f
                 )
             }
+
+            is Preset.Numeric -> currentInfo.copy(
+                quality = preset.value.toFloat(),
+                width = image.width().calc(preset.value),
+                height = image.height().calc(preset.value),
+            )
+
             else -> currentInfo
         }
     }

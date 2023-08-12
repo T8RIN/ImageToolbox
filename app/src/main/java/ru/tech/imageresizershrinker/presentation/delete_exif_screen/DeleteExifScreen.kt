@@ -386,7 +386,6 @@ fun DeleteExifScreen(
                 transformations = listOf(
                     ImageInfoTransformation(
                         imageInfo = ImageInfo(),
-                        preset = 100,
                         imageManager = viewModel.getImageManager()
                     )
                 ),

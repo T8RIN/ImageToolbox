@@ -10,7 +10,7 @@ data class SettingsState(
     val isAmoledMode: Boolean,
     val appColorTuple: String,
     val borderWidth: Float,
-    val presets: List<Int>,
+    val presets: List<Preset>,
     val fabAlignment: Int,
     val selectedEmoji: Int?,
     val imagePickerModeInt: Int,

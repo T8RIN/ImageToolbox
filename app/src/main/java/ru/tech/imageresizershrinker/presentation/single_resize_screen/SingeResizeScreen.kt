@@ -82,7 +82,6 @@ import ru.tech.imageresizershrinker.presentation.root.utils.helper.rememberImage
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.drawHorizontalStroke
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.navBarsLandscapePadding
 import ru.tech.imageresizershrinker.presentation.root.widget.buttons.BottomButtonsBlock
-import ru.tech.imageresizershrinker.presentation.root.widget.buttons.TelegramButton
 import ru.tech.imageresizershrinker.presentation.root.widget.controls.ExtensionGroup
 import ru.tech.imageresizershrinker.presentation.root.widget.controls.ImageTransformBar
 import ru.tech.imageresizershrinker.presentation.root.widget.controls.PresetWidget
@@ -215,11 +214,6 @@ fun SingleResizeScreen(
     }
 
     val actions: @Composable RowScope.() -> Unit = {
-        TelegramButton(
-            enabled = viewModel.bitmap != null,
-            isTelegramSpecs = viewModel.isTelegramSpecs,
-            onClick = { viewModel.setTelegramSpecs() },
-        )
         IconButton(
             onClick = {
                 viewModel.shareBitmap(
@@ -463,6 +457,7 @@ fun SingleResizeScreen(
                                     Spacer(Modifier.size(8.dp))
                                     PresetWidget(
                                         selectedPreset = viewModel.presetSelected,
+                                        includeTelegramOption = true,
                                         onPresetSelected = {
                                             viewModel.setPreset(it)
                                         }

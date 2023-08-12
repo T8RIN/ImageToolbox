@@ -2,6 +2,7 @@
 
 package ru.tech.imageresizershrinker.presentation.root.widget.controls
 
+//noinspection UsingMaterialAndMaterial3Libraries
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
@@ -55,7 +56,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.max
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.R
+import ru.tech.imageresizershrinker.domain.model.Preset
 import ru.tech.imageresizershrinker.presentation.root.theme.icons.CreateAlt
+import ru.tech.imageresizershrinker.presentation.root.theme.icons.Telegram
 import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.alertDialog
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.block
@@ -71,8 +74,9 @@ import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalSettings
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun PresetWidget(
-    selectedPreset: Int,
-    onPresetSelected: (Int) -> Unit
+    selectedPreset: Preset,
+    includeTelegramOption: Boolean,
+    onPresetSelected: (Preset) -> Unit
 ) {
     val settingsState = LocalSettingsState.current
     val editPresetsState = LocalEditPresetsState.current
@@ -146,32 +150,67 @@ fun PresetWidget(
                         ),
                         contentPadding = PaddingValues(horizontal = 8.dp)
                     ) {
-                        data.forEach {
+                        if (includeTelegramOption) {
                             item {
-                                val selected = selectedPreset == it
+                                val selected = selectedPreset.isTelegram()
                                 OutlinedIconButton(
                                     shape = MaterialTheme.shapes.medium,
                                     onClick = {
-                                        onPresetSelected(it)
+                                        onPresetSelected(Preset.Telegram)
                                     },
                                     border = BorderStroke(
                                         max(settingsState.borderWidth, 1.dp),
                                         animateColorAsState(
                                             if (!selected) MaterialTheme.colorScheme.outlineVariant()
-                                            else MaterialTheme.colorScheme.tertiaryContainer.copy(
+                                            else MaterialTheme.colorScheme.primary.copy(
                                                 alpha = 0.9f
                                             ).compositeOver(Color.Black)
                                         ).value
                                     ),
                                     colors = IconButtonDefaults.outlinedIconButtonColors(
                                         containerColor = animateColorAsState(
-                                            if (selected) MaterialTheme.colorScheme.tertiaryContainer
+                                            if (selected) MaterialTheme.colorScheme.primary
                                             else MaterialTheme.colorScheme.secondaryContainer.copy(
                                                 alpha = 0.6f
                                             )
                                         ).value,
                                         contentColor = animateColorAsState(
-                                            if (selected) MaterialTheme.colorScheme.onTertiaryContainer
+                                            if (selected) MaterialTheme.colorScheme.onPrimary
+                                            else MaterialTheme.colorScheme.onSurface
+                                        ).value,
+                                    ),
+                                    modifier = Modifier.size(36.dp)
+                                ) {
+                                    Icon(Icons.Rounded.Telegram, null)
+                                }
+                            }
+                        }
+                        data.forEach {
+                            item {
+                                val selected = selectedPreset.value() == it
+                                OutlinedIconButton(
+                                    shape = MaterialTheme.shapes.medium,
+                                    onClick = {
+                                        onPresetSelected(Preset.Numeric(it))
+                                    },
+                                    border = BorderStroke(
+                                        max(settingsState.borderWidth, 1.dp),
+                                        animateColorAsState(
+                                            if (!selected) MaterialTheme.colorScheme.outlineVariant()
+                                            else MaterialTheme.colorScheme.primary.copy(
+                                                alpha = 0.9f
+                                            ).compositeOver(Color.Black)
+                                        ).value
+                                    ),
+                                    colors = IconButtonDefaults.outlinedIconButtonColors(
+                                        containerColor = animateColorAsState(
+                                            if (selected) MaterialTheme.colorScheme.primary
+                                            else MaterialTheme.colorScheme.secondaryContainer.copy(
+                                                alpha = 0.6f
+                                            )
+                                        ).value,
+                                        contentColor = animateColorAsState(
+                                            if (selected) MaterialTheme.colorScheme.onPrimary
                                             else MaterialTheme.colorScheme.onSurface
                                         ).value,
                                     ),

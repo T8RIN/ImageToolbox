@@ -76,6 +76,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.domain.model.ImageInfo
+import ru.tech.imageresizershrinker.domain.model.Preset
 import ru.tech.imageresizershrinker.presentation.bytes_resize_screen.components.ImageFormatAlert
 import ru.tech.imageresizershrinker.presentation.bytes_resize_screen.viewModel.BytesResizeViewModel
 import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
@@ -446,7 +447,12 @@ fun BytesResizeScreen(
                                             )
                                         } else {
                                             PresetWidget(
-                                                selectedPreset = viewModel.presetSelected,
+                                                selectedPreset = viewModel.presetSelected.let {
+                                                    Preset.Numeric(
+                                                        it
+                                                    )
+                                                },
+                                                includeTelegramOption = false,
                                                 onPresetSelected = viewModel::selectPreset
                                             )
                                         }
@@ -503,7 +509,6 @@ fun BytesResizeScreen(
                 transformations = listOf(
                     ImageInfoTransformation(
                         imageInfo = ImageInfo(),
-                        preset = 100,
                         imageManager = viewModel.getImageManager()
                     )
                 ),

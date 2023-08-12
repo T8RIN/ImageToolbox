@@ -89,7 +89,13 @@ fun ToggleGroupButton(
                                 activeBorderColor = MaterialTheme.colorScheme.outlineVariant(),
                                 inactiveContainerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(
                                     6.dp
-                                )
+                                ),
+                                activeContainerColor = if (enabled) {
+                                    MaterialTheme.colorScheme.secondary
+                                } else {
+                                    MaterialTheme.colorScheme.surfaceColorAtElevation(6.dp)
+                                },
+                                activeContentColor = MaterialTheme.colorScheme.onSecondary
                             ),
                             shape = SegmentedButtonDefaults.shape(index, items.size)
                         ) {
