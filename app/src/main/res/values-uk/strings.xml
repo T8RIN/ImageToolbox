@@ -309,4 +309,16 @@
     <string name="randomize_filename_sub">Якщо ввімкнено, назва файлу буде повністю випадковою</string>
     <string name="saved_to">Збережено в теки %1$s з назвою %2$s</string>
     <string name="tg_chat">Чат Telegram</string>
+    <string name="crop_mask">Маска для обрізання</string>
+    <string name="aspect_ratio">Співвідношення сторін</string>
+    <string name="image_crop_mask_sub">Використовуйте цей тип маски для створення маски з даного зображення, зверніть увагу, що вона ПОВИННА мати альфа-канал</string>
+    <string name="backup_and_restore">Резервне копіювання та відновлення</string>
+    <string name="backup">Резервна копія</string>
+    <string name="backup_sub">Резервне копіювання налаштувань застосунку до файлу</string>
+    <string name="corrupted_file_or_not_a_backup">Пошкоджений файл або відсутня резервна копія</string>
+    <string name="settings_restored">Налаштування успішно відновлено</string>
+    <string name="contact_me">Зв’язатися зі мною</string>
+    <string name="restore">Відновлення</string>
+    <string name="restore_sub">Відновлення налаштувань застосунку з раніше створеного файлу</string>
+    <string name="reset_settings_sub">Це поверне ваші налаштування до значень за замовчуванням, зверніть увагу, що це неможливо скасувати без резервного копіювання файлу з параметра вище</string>
 </resources>
