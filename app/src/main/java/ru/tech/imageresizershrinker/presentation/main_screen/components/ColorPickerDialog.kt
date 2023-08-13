@@ -18,6 +18,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -28,6 +29,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentWidth
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -97,6 +100,7 @@ import ru.tech.imageresizershrinker.presentation.root.theme.inverse
 import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.ListUtils.nearestFor
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.alertDialog
+import ru.tech.imageresizershrinker.presentation.root.utils.modifier.block
 import ru.tech.imageresizershrinker.presentation.root.widget.sheets.SimpleSheet
 import ru.tech.imageresizershrinker.presentation.root.widget.text.TitleItem
 import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalSettingsState
@@ -110,19 +114,22 @@ fun ColorPickerDialog(
     title: String = stringResource(R.string.color_scheme),
     onColorChange: (ColorTuple) -> Unit
 ) {
-    var primary by rememberSaveable(colorTuple) { mutableIntStateOf(colorTuple.primary.toArgb()) }
-    var secondary by rememberSaveable(colorTuple) {
+    var primary by rememberSaveable(
+        colorTuple,
+        visible.value
+    ) { mutableIntStateOf(colorTuple.primary.toArgb()) }
+    var secondary by rememberSaveable(colorTuple, visible.value) {
         mutableIntStateOf(
             colorTuple.secondary?.toArgb() ?: colorTuple.primary.calculateSecondaryColor()
         )
     }
-    var tertiary by rememberSaveable(colorTuple) {
+    var tertiary by rememberSaveable(colorTuple, visible.value) {
         mutableIntStateOf(
             colorTuple.tertiary?.toArgb() ?: colorTuple.primary.calculateTertiaryColor()
         )
     }
 
-    var surface by rememberSaveable(colorTuple) {
+    var surface by rememberSaveable(colorTuple, visible.value) {
         mutableIntStateOf(
             colorTuple.surface?.toArgb() ?: colorTuple.primary.calculateSurfaceColor()
         )
@@ -145,86 +152,117 @@ fun ColorPickerDialog(
         title = { TitleItem(text = title, icon = Icons.Outlined.Palette, modifier = Modifier) },
         endConfirmButtonPadding = 0.dp,
         sheetContent = {
-            Box {
-                HorizontalDivider(
-                    Modifier
-                        .align(Alignment.TopCenter)
-                        .zIndex(100f)
-                )
-                Column(
-                    modifier = Modifier
-                        .verticalScroll(rememberScrollState())
-                        .padding(16.dp),
-                    horizontalAlignment = Alignment.CenterHorizontally
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.Center,
+                modifier = Modifier
+                    .background(MaterialTheme.colorScheme.surfaceColorAtElevation(10.dp))
+                    .padding(16.dp)
+            ) {
+                Icon(Icons.Rounded.PaletteSwatch, null)
+                Spacer(Modifier.width(8.dp))
+                Text(stringResource(R.string.monet_colors))
+                Spacer(Modifier.width(8.dp))
+                Spacer(Modifier.weight(1f))
+                OutlinedButton(
+                    onClick = {
+                        scheme.apply {
+                            primary = this.primary.toArgb()
+                            secondary = this.secondary.toArgb()
+                            tertiary = this.tertiary.toArgb()
+                            surface = this.surface.toArgb()
+                        }
+                    },
+                    colors = ButtonDefaults.outlinedButtonColors(
+                        containerColor = MaterialTheme.colorScheme.surfaceVariant,
+                        contentColor = MaterialTheme.colorScheme.onSurfaceVariant
+                    ),
+                    border = BorderStroke(
+                        borderWidth,
+                        MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.surfaceVariant)
+                    )
                 ) {
-                    Spacer(Modifier.height(8.dp))
-                    Row(
-                        verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.Center
-                    ) {
-                        Icon(Icons.Rounded.PaletteSwatch, null)
-                        Spacer(Modifier.width(8.dp))
-                        Text(stringResource(R.string.monet_colors))
-                        Spacer(Modifier.width(8.dp))
-                        Spacer(Modifier.weight(1f))
-                        OutlinedButton(
-                            onClick = {
-                                scheme.apply {
-                                    primary = this.primary.toArgb()
-                                    secondary = this.secondary.toArgb()
-                                    tertiary = this.tertiary.toArgb()
-                                    surface = this.surface.toArgb()
-                                }
-                            },
-                            colors = ButtonDefaults.outlinedButtonColors(
-                                containerColor = MaterialTheme.colorScheme.surfaceVariant,
-                                contentColor = MaterialTheme.colorScheme.onSurfaceVariant
-                            ),
-                            border = BorderStroke(
-                                borderWidth,
-                                MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.surfaceVariant)
-                            )
+                    Icon(Icons.Rounded.ContentPaste, null)
+                }
+            }
+            HorizontalDivider()
+            Box {
+                LazyVerticalGrid(
+                    columns = GridCells.Adaptive(260.dp),
+                    horizontalArrangement = Arrangement.spacedBy(
+                        16.dp,
+                        Alignment.CenterHorizontally
+                    ),
+                    verticalArrangement = Arrangement.spacedBy(16.dp, Alignment.CenterVertically),
+                    contentPadding = PaddingValues(16.dp)
+                ) {
+                    item {
+                        Column(
+                            horizontalAlignment = Alignment.CenterHorizontally,
+                            modifier = Modifier
+                                .block()
+                                .padding(horizontal = 16.dp)
                         ) {
-                            Icon(Icons.Rounded.ContentPaste, null)
+                            TitleItem(text = stringResource(R.string.primary))
+                            ColorCustomComponent(
+                                color = primary,
+                                onColorChange = {
+                                    primary = it
+                                    secondary = Color(it).calculateSecondaryColor()
+                                    tertiary = Color(it).calculateTertiaryColor()
+                                    surface = Color(it).calculateSurfaceColor()
+                                }
+                            )
                         }
                     }
-                    Spacer(Modifier.height(8.dp))
-                    HorizontalDivider()
-                    TitleItem(text = stringResource(R.string.primary))
-                    ColorCustomComponent(
-                        color = primary,
-                        onColorChange = {
-                            primary = it
-                            secondary = Color(it).calculateSecondaryColor()
-                            tertiary = Color(it).calculateTertiaryColor()
-                            surface = Color(it).calculateSurfaceColor()
+                    item {
+                        Column(
+                            horizontalAlignment = Alignment.CenterHorizontally,
+                            modifier = Modifier
+                                .block()
+                                .padding(horizontal = 16.dp)
+                        ) {
+                            TitleItem(text = stringResource(R.string.secondary))
+                            ColorCustomComponent(
+                                color = secondary,
+                                onColorChange = {
+                                    secondary = it
+                                }
+                            )
                         }
-                    )
-                    HorizontalDivider()
-                    TitleItem(text = stringResource(R.string.secondary))
-                    ColorCustomComponent(
-                        color = secondary,
-                        onColorChange = {
-                            secondary = it
+                    }
+                    item {
+                        Column(
+                            horizontalAlignment = Alignment.CenterHorizontally,
+                            modifier = Modifier
+                                .block()
+                                .padding(horizontal = 16.dp)
+                        ) {
+                            TitleItem(text = stringResource(R.string.tertiary))
+                            ColorCustomComponent(
+                                color = tertiary,
+                                onColorChange = {
+                                    tertiary = it
+                                }
+                            )
                         }
-                    )
-                    HorizontalDivider()
-                    TitleItem(text = stringResource(R.string.tertiary))
-                    ColorCustomComponent(
-                        color = tertiary,
-                        onColorChange = {
-                            tertiary = it
+                    }
+                    item {
+                        Column(
+                            horizontalAlignment = Alignment.CenterHorizontally,
+                            modifier = Modifier
+                                .block()
+                                .padding(horizontal = 16.dp)
+                        ) {
+                            TitleItem(text = stringResource(R.string.surface))
+                            ColorCustomComponent(
+                                color = surface,
+                                onColorChange = {
+                                    surface = it
+                                }
+                            )
                         }
-                    )
-                    HorizontalDivider()
-                    TitleItem(text = stringResource(R.string.surface))
-                    ColorCustomComponent(
-                        color = surface,
-                        onColorChange = {
-                            surface = it
-                        }
-                    )
-                    Spacer(Modifier.height(8.dp))
+                    }
                 }
 
                 HorizontalDivider(

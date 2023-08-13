@@ -12,9 +12,6 @@ android {
     defaultConfig {
         minSdk = 21
         targetSdk = 34
-
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        consumerProguardFiles("consumer-rules.pro")
     }
 
     buildTypes {
@@ -43,10 +40,9 @@ android {
 }
 
 dependencies {
-    implementation(platform("androidx.compose:compose-bom:2023.06.01"))
     implementation("androidx.core:core-ktx:1.12.0-beta01")
-    implementation("androidx.compose.material3:material3")
-    implementation("androidx.palette:palette:1.0.0")
+    implementation("androidx.compose.material3:material3:1.2.0-alpha04")
+    implementation("androidx.palette:palette-ktx:1.0.0")
     implementation("com.google.accompanist:accompanist-systemuicontroller:0.33.0-alpha")
     coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.0.3")
 }

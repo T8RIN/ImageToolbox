@@ -548,6 +548,14 @@ private fun Scheme.toDarkThemeColorScheme(
         errorContainer = Color(errorContainer),
         onErrorContainer = Color(onErrorContainer),
         scrim = Color(scrim),
+        surfaceBright = Color(n1.tone(24)),
+        surfaceContainer = Color(n1.tone(12)),
+        surfaceContainerHigh = Color(n1.tone(17)),
+        surfaceContainerHighest = Color(n1.tone(22)),
+        surfaceContainerLow = Color(n1.tone(10)),
+        surfaceContainerLowest = Color(n1.tone(4)),
+        surfaceDim = Color(n1.tone(6)),
+        surfaceTint = Color(primary)
     )
 }
 
@@ -607,12 +615,19 @@ private fun Scheme.toLightThemeColorScheme(
         outlineVariant = Color(n2.tone(80)),
         inverseSurface = Color(n1.tone(20)),
         inverseOnSurface = Color(n1.tone(95)),
-        surfaceTint = Color(primary),
         error = Color(error),
         onError = Color(onError),
         errorContainer = Color(errorContainer),
         onErrorContainer = Color(onErrorContainer),
         scrim = Color(scrim),
+        surfaceBright = Color(n1.tone(98)),
+        surfaceContainer = Color(n1.tone(94)),
+        surfaceContainerHigh = Color(n1.tone(92)),
+        surfaceContainerHighest = Color(n1.tone(90)),
+        surfaceContainerLow = Color(n1.tone(96)),
+        surfaceContainerLowest = Color(n1.tone(100)),
+        surfaceDim = Color(n1.tone(87)),
+        surfaceTint = Color(primary)
     )
 }
 

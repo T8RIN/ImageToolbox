@@ -514,12 +514,12 @@ fun DrawHost(
                     Row(
                         modifier = Modifier
                             .fillMaxWidth()
+                            .drawHorizontalStroke(true)
                             .background(
                                 MaterialTheme.colorScheme.surfaceColorAtElevation(
                                     3.dp
                                 )
-                            )
-                            .drawHorizontalStroke(true),
+                            ),
                         horizontalArrangement = Arrangement.Center
                     ) {
                         ExtendedFloatingActionButton(

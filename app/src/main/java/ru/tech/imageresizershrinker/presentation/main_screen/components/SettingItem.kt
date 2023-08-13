@@ -46,7 +46,7 @@ fun SettingItem(
                 shape = RoundedCornerShape(20.dp)
             )
     ) {
-        var expanded by rememberSaveable(initialState) { mutableStateOf(initialState) }
+        var expanded by rememberSaveable { mutableStateOf(initialState) }
         val rotation by animateFloatAsState(if (expanded) 180f else 0f)
         TitleItem(
             modifier = Modifier
