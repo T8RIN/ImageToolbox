@@ -137,7 +137,7 @@ fun CropMaskSelection(
                         .padding(vertical = 8.dp)
                         .height(100.dp)
                         .block(
-                            applyEndPadding = false,
+                            applyResultPadding = false,
                             color = animateColorAsState(
                                 targetValue = if (selected) {
                                     MaterialTheme.colorScheme.primaryContainer

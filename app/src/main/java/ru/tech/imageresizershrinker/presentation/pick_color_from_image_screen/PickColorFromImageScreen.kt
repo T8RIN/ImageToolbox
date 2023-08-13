@@ -507,9 +507,8 @@ fun PickColorFromImageScreen(
                                     .fillMaxSize()
                                     .padding(16.dp)
                                     .navBarsPaddingOnlyIfTheyAtTheEnd()
-                                    .block(RoundedCornerShape(4.dp))
-                                    .padding(4.dp)
-                                    .clip(RoundedCornerShape(4.dp)),
+                                    .block(resultPadding = 8.dp)
+                                    .clip(RoundedCornerShape(12.dp)),
                                 onColorChange = viewModel::updateColor
                             )
                         }
@@ -531,9 +530,8 @@ fun PickColorFromImageScreen(
                                             modifier = Modifier
                                                 .fillMaxSize()
                                                 .navBarsPaddingOnlyIfTheyAtTheBottom()
-                                                .block(RoundedCornerShape(4.dp))
-                                                .padding(4.dp)
-                                                .clip(RoundedCornerShape(4.dp)),
+                                                .block(resultPadding = 8.dp)
+                                                .clip(RoundedCornerShape(12.dp)),
                                             onColorChange = viewModel::updateColor
                                         )
                                     }

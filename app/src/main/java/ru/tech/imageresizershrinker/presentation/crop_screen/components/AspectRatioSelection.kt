@@ -74,7 +74,7 @@ fun AspectRatioSelection(
                         modifier = Modifier
                             .width(90.dp)
                             .block(
-                                applyEndPadding = false,
+                                applyResultPadding = false,
                                 color = animateColorAsState(
                                     targetValue = if (selected) {
                                         MaterialTheme.colorScheme.primaryContainer
@@ -96,7 +96,7 @@ fun AspectRatioSelection(
                     Box(
                         modifier = Modifier
                             .block(
-                                applyEndPadding = false,
+                                applyResultPadding = false,
                                 color = animateColorAsState(
                                     targetValue = if (selected) {
                                         MaterialTheme.colorScheme.primaryContainer
