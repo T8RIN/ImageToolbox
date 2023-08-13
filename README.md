@@ -162,6 +162,19 @@ Go to the [Releases](https://github.com/t8rin/imageresizer/releases/latest) and 
 - Cropping
   - Regular crop
   - Crop by aspect ratio
+  - Crop with shape mask
+    - Rounded Corners
+    - Cut Corners
+    - Oval
+    - Squircle
+    - Octagon
+    - Rounded Pentagon
+    - Clover
+    - David Star
+    - Kotlin Logo
+    - Heart
+    - Star
+    - Image Mask
 - Format Convertion
   - HEIF
   - HEIC
