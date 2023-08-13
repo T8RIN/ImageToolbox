@@ -320,4 +320,5 @@
     <string name="image_crop_mask_sub">Utilisez ce type de masque pour créer un masque à partir d’une image donnée, notez qu’il DEVRAIT avoir un canal alpha</string>
     <string name="restore">Restaurer</string>
     <string name="backup_sub">Sauvegardez les paramètres de votre application dans le fichier</string>
+    <string name="reset_settings_sub">Cela ramènera vos paramètres aux valeurs par défaut, notez que cela ne peut pas être annulé sans le fichier de sauvegarde de l\'option ci-dessus</string>
 </resources>
