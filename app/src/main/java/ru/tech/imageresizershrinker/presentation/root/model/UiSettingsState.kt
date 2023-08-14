@@ -13,7 +13,7 @@ import androidx.core.net.toUri
 import com.t8rin.dynamic.theme.ColorTuple
 import ru.tech.imageresizershrinker.domain.model.SettingsState
 import ru.tech.imageresizershrinker.presentation.root.theme.Emoji
-import ru.tech.imageresizershrinker.presentation.root.theme.FontRes
+import ru.tech.imageresizershrinker.presentation.root.theme.FontFam
 import ru.tech.imageresizershrinker.presentation.root.theme.allIcons
 import ru.tech.imageresizershrinker.presentation.root.theme.defaultColorTuple
 import ru.tech.imageresizershrinker.presentation.root.theme.emoji.Sparkles
@@ -43,7 +43,7 @@ data class UiSettingsState(
     val addSizeInFilename: Boolean = false,
     val addOriginalFilename: Boolean = false,
     val randomizeFilename: Boolean = false,
-    val font: FontRes,
+    val font: FontFam,
     val fontScale: Float?
 )
 
@@ -71,7 +71,7 @@ fun SettingsState.toUiState() = UiSettingsState(
     addSizeInFilename = addSizeInFilename,
     addOriginalFilename = addOriginalFilename,
     randomizeFilename = randomizeFilename,
-    font = FontRes.createFromInt(font),
+    font = FontFam.createFromInt(font),
     fontScale = fontScale?.takeIf { it > 0 }
 )
 

@@ -13,6 +13,7 @@ import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.togetherWith
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
@@ -27,8 +28,10 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyListScope
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.BurstMode
 import androidx.compose.material.icons.outlined.ErrorOutline
@@ -57,22 +60,26 @@ import androidx.compose.material.icons.rounded.Save
 import androidx.compose.material.icons.rounded.SettingsBackupRestore
 import androidx.compose.material.icons.rounded.SettingsSystemDaydream
 import androidx.compose.material.icons.rounded.TableRows
+import androidx.compose.material.icons.rounded.TextFormat
 import androidx.compose.material.icons.rounded.Translate
 import androidx.compose.material.icons.rounded.UploadFile
 import androidx.compose.material.icons.rounded.WbSunny
 import androidx.compose.material.icons.twotone.Palette
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Slider
 import androidx.compose.material3.SliderDefaults
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.material3.Typography
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -86,8 +93,10 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringArrayResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.datasource.LoremIpsum
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.zIndex
 import com.t8rin.dynamic.theme.ColorTupleItem
 import com.t8rin.dynamic.theme.observeAsState
 import kotlinx.coroutines.CoroutineScope
@@ -102,7 +111,7 @@ import ru.tech.imageresizershrinker.core.WEBLATE_LINK
 import ru.tech.imageresizershrinker.presentation.main_screen.viewModel.MainViewModel
 import ru.tech.imageresizershrinker.presentation.root.model.UiSettingsState
 import ru.tech.imageresizershrinker.presentation.root.theme.EmojiItem
-import ru.tech.imageresizershrinker.presentation.root.theme.FontRes
+import ru.tech.imageresizershrinker.presentation.root.theme.FontFam
 import ru.tech.imageresizershrinker.presentation.root.theme.Typography
 import ru.tech.imageresizershrinker.presentation.root.theme.blend
 import ru.tech.imageresizershrinker.presentation.root.theme.icons.CreateAlt
@@ -130,6 +139,8 @@ import ru.tech.imageresizershrinker.presentation.root.widget.preferences.Prefere
 import ru.tech.imageresizershrinker.presentation.root.widget.preferences.PreferenceRow
 import ru.tech.imageresizershrinker.presentation.root.widget.preferences.PreferenceRowSwitch
 import ru.tech.imageresizershrinker.presentation.root.widget.preferences.screens.SourceCodePreference
+import ru.tech.imageresizershrinker.presentation.root.widget.sheets.SimpleSheet
+import ru.tech.imageresizershrinker.presentation.root.widget.text.TitleItem
 import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalSettingsState
 import kotlin.math.roundToInt
 
@@ -625,46 +636,103 @@ fun LazyListScope.settingsBlock(
         }
     }
     item {
+        val showFontSheet = rememberSaveable { mutableStateOf(false) }
         SettingItem(
-            icon = Icons.Rounded.FontDownload,
-            text = stringResource(R.string.font),
+            icon = Icons.Rounded.TextFormat,
+            text = stringResource(R.string.text),
         ) {
-            Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                FontRes.entries.forEachIndexed { index, font ->
-                    val (family, name) = font
-                    val selected = font == settingsState.font
-                    MaterialTheme(
-                        typography = Typography(font)
-                    ) {
-                        PreferenceItem(
-                            onClick = { viewModel.setFont(index) },
-                            title = name ?: stringResource(id = R.string.defaultt),
-                            color = MaterialTheme.colorScheme.secondaryContainer.copy(
-                                alpha = animateFloatAsState(
-                                    if (selected) 0.7f
-                                    else 0.2f
-                                ).value
-                            ),
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(horizontal = 8.dp)
-                                .border(
-                                    width = settingsState.borderWidth,
-                                    color = animateColorAsState(
-                                        if (selected) MaterialTheme
-                                            .colorScheme
-                                            .onSecondaryContainer
-                                            .copy(alpha = 0.5f)
-                                        else Color.Transparent
-                                    ).value,
-                                    shape = RoundedCornerShape(16.dp)
-                                ),
-                            endIcon = if (selected) Icons.Rounded.RadioButtonChecked else Icons.Rounded.RadioButtonUnchecked
-                        )
-                    }
-                }
-            }
+            PreferenceItem(
+                onClick = { showFontSheet.value = true },
+                title = stringResource(R.string.font),
+                subtitle = settingsState.font.name ?: stringResource(R.string.defaultt),
+                color = MaterialTheme
+                    .colorScheme
+                    .secondaryContainer
+                    .copy(alpha = 0.2f),
+                endIcon = Icons.Rounded.CreateAlt,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 8.dp)
+            )
         }
+        SimpleSheet(
+            visible = showFontSheet,
+            sheetContent = {
+                Box{
+                    HorizontalDivider(
+                        Modifier.zIndex(100f)
+                    )
+                    Column(
+                        verticalArrangement = Arrangement.spacedBy(8.dp),
+                        modifier = Modifier
+                            .verticalScroll(
+                                rememberScrollState()
+                            )
+                            .padding(vertical = 16.dp, horizontal = 8.dp)
+                    ) {
+                        FontFam.entries.forEachIndexed { index, font ->
+                            val (family, name) = font
+                            val selected = font == settingsState.font
+                            MaterialTheme(
+                                typography = Typography(font)
+                            ) {
+                                PreferenceItem(
+                                    onClick = {
+                                        viewModel.setFont(index)
+                                    },
+                                    title = name ?: stringResource(id = R.string.defaultt),
+                                    subtitle = LoremIpsum(15).values.joinToString(" "),
+                                    color = MaterialTheme.colorScheme.secondaryContainer.copy(
+                                        alpha = animateFloatAsState(
+                                            if (selected) 0.7f
+                                            else 0.2f
+                                        ).value
+                                    ),
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .padding(horizontal = 8.dp)
+                                        .border(
+                                            width = settingsState.borderWidth,
+                                            color = animateColorAsState(
+                                                if (selected) MaterialTheme
+                                                    .colorScheme
+                                                    .onSecondaryContainer
+                                                    .copy(alpha = 0.5f)
+                                                else Color.Transparent
+                                            ).value,
+                                            shape = RoundedCornerShape(16.dp)
+                                        ),
+                                    endIcon = if (selected) Icons.Rounded.RadioButtonChecked else Icons.Rounded.RadioButtonUnchecked
+                                )
+                            }
+                        }
+                    }
+                    HorizontalDivider(
+                        Modifier
+                            .align(Alignment.BottomCenter)
+                            .zIndex(100f)
+                    )
+                }
+            },
+            confirmButton = {
+                OutlinedButton(
+                    onClick = { showFontSheet.value = false },
+                    colors = ButtonDefaults.buttonColors(),
+                    border = BorderStroke(
+                        settingsState.borderWidth,
+                        MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.primary)
+                    )
+                ) {
+                    Text(stringResource(R.string.close))
+                }
+            },
+            title = {
+                TitleItem(
+                    icon = Icons.Rounded.FontDownload,
+                    text = stringResource(R.string.font),
+                )
+            }
+        )
     }
     item {
         // Arrangement

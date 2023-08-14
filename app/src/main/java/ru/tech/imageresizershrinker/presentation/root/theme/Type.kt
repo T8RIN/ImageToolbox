@@ -14,9 +14,9 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.sp
 import ru.tech.imageresizershrinker.R
 
-val Comfortaa = FontFamily(
+fun fontFamilyResource(resId: Int) = FontFamily(
     Font(
-        resId = R.font.comfortaa_varibale,
+        resId = resId,
         weight = FontWeight.Light,
         variationSettings = FontVariation.Settings(
             weight = FontWeight.Light,
@@ -24,7 +24,7 @@ val Comfortaa = FontFamily(
         )
     ),
     Font(
-        resId = R.font.comfortaa_varibale,
+        resId = resId,
         weight = FontWeight.Normal,
         variationSettings = FontVariation.Settings(
             weight = FontWeight.Normal,
@@ -32,7 +32,7 @@ val Comfortaa = FontFamily(
         )
     ),
     Font(
-        resId = R.font.comfortaa_varibale,
+        resId = resId,
         weight = FontWeight.Medium,
         variationSettings = FontVariation.Settings(
             weight = FontWeight.Medium,
@@ -40,7 +40,7 @@ val Comfortaa = FontFamily(
         )
     ),
     Font(
-        resId = R.font.comfortaa_varibale,
+        resId = resId,
         weight = FontWeight.SemiBold,
         variationSettings = FontVariation.Settings(
             weight = FontWeight.SemiBold,
@@ -48,7 +48,7 @@ val Comfortaa = FontFamily(
         )
     ),
     Font(
-        resId = R.font.comfortaa_varibale,
+        resId = resId,
         weight = FontWeight.Bold,
         variationSettings = FontVariation.Settings(
             weight = FontWeight.Bold,
@@ -57,136 +57,9 @@ val Comfortaa = FontFamily(
     )
 )
 
-val Handjet = FontFamily(
-    Font(
-        resId = R.font.handjet_varibale,
-        weight = FontWeight.Light,
-        variationSettings = FontVariation.Settings(
-            weight = FontWeight.Light,
-            style = FontStyle.Normal
-        )
-    ),
-    Font(
-        resId = R.font.handjet_varibale,
-        weight = FontWeight.Normal,
-        variationSettings = FontVariation.Settings(
-            weight = FontWeight.Normal,
-            style = FontStyle.Normal
-        )
-    ),
-    Font(
-        resId = R.font.handjet_varibale,
-        weight = FontWeight.Medium,
-        variationSettings = FontVariation.Settings(
-            weight = FontWeight.Medium,
-            style = FontStyle.Normal
-        )
-    ),
-    Font(
-        resId = R.font.handjet_varibale,
-        weight = FontWeight.SemiBold,
-        variationSettings = FontVariation.Settings(
-            weight = FontWeight.SemiBold,
-            style = FontStyle.Normal
-        )
-    ),
-    Font(
-        resId = R.font.handjet_varibale,
-        weight = FontWeight.Bold,
-        variationSettings = FontVariation.Settings(
-            weight = FontWeight.Bold,
-            style = FontStyle.Normal
-        )
-    )
-)
-
-val Montserrat = FontFamily(
-    Font(
-        resId = R.font.montserrat_variable,
-        weight = FontWeight.Light,
-        variationSettings = FontVariation.Settings(
-            weight = FontWeight.Light,
-            style = FontStyle.Normal
-        )
-    ),
-    Font(
-        resId = R.font.montserrat_variable,
-        weight = FontWeight.Normal,
-        variationSettings = FontVariation.Settings(
-            weight = FontWeight.Normal,
-            style = FontStyle.Normal
-        )
-    ),
-    Font(
-        resId = R.font.montserrat_variable,
-        weight = FontWeight.Medium,
-        variationSettings = FontVariation.Settings(
-            weight = FontWeight.Medium,
-            style = FontStyle.Normal
-        )
-    ),
-    Font(
-        resId = R.font.montserrat_variable,
-        weight = FontWeight.SemiBold,
-        variationSettings = FontVariation.Settings(
-            weight = FontWeight.SemiBold,
-            style = FontStyle.Normal
-        )
-    ),
-    Font(
-        resId = R.font.montserrat_variable,
-        weight = FontWeight.Bold,
-        variationSettings = FontVariation.Settings(
-            weight = FontWeight.Bold,
-            style = FontStyle.Normal
-        )
-    )
-)
-
-val Caveat = FontFamily(
-    Font(
-        resId = R.font.caveat_variable,
-        weight = FontWeight.Light,
-        variationSettings = FontVariation.Settings(
-            weight = FontWeight.Light,
-            style = FontStyle.Normal
-        )
-    ),
-    Font(
-        resId = R.font.caveat_variable,
-        weight = FontWeight.Normal,
-        variationSettings = FontVariation.Settings(
-            weight = FontWeight.Normal,
-            style = FontStyle.Normal
-        )
-    ),
-    Font(
-        resId = R.font.caveat_variable,
-        weight = FontWeight.Medium,
-        variationSettings = FontVariation.Settings(
-            weight = FontWeight.Medium,
-            style = FontStyle.Normal
-        )
-    ),
-    Font(
-        resId = R.font.caveat_variable,
-        weight = FontWeight.SemiBold,
-        variationSettings = FontVariation.Settings(
-            weight = FontWeight.SemiBold,
-            style = FontStyle.Normal
-        )
-    ),
-    Font(
-        resId = R.font.caveat_variable,
-        weight = FontWeight.Bold,
-        variationSettings = FontVariation.Settings(
-            weight = FontWeight.Bold,
-            style = FontStyle.Normal
-        )
-    )
-)
-
-fun Typography(fontRes: FontRes = FontRes.Montserrat): Typography = Typography(
+fun Typography(
+    fontRes: FontFam = FontFam.Montserrat
+): Typography = Typography(
     displayLarge = TextStyle(
         fontFamily = fontRes.fontFamily,
         fontWeight = FontWeight.Normal,
@@ -296,34 +169,66 @@ fun Typography(fontRes: FontRes = FontRes.Montserrat): Typography = Typography(
     ),
 )
 
-sealed class FontRes(
-    val fontFamily: FontFamily?,
+sealed class FontFam(
+    val fontFamily: FontFamily,
     val name: String?
 ) {
     operator fun component1() = fontFamily
     operator fun component2() = name
 
-    data object Montserrat :
-        FontRes(ru.tech.imageresizershrinker.presentation.root.theme.Montserrat, "Montserrat")
+    data object Montserrat : FontFam(
+        fontFamily = fontFamilyResource(R.font.montserrat_variable),
+        name = "Montserrat"
+    )
 
-    data object Caveat :
-        FontRes(ru.tech.imageresizershrinker.presentation.root.theme.Caveat, "Caveat")
+    data object Caveat : FontFam(
+        fontFamily = fontFamilyResource(R.font.caveat_variable),
+        name = "Caveat"
+    )
 
-    data object Default : FontRes(null, null)
+    data object Default : FontFam(FontFamily.Default, null)
 
-    data object Comfortaa :
-        FontRes(ru.tech.imageresizershrinker.presentation.root.theme.Comfortaa, "Comfortaa")
+    data object Comfortaa : FontFam(
+        fontFamily = fontFamilyResource(R.font.comfortaa_varibale),
+        "Comfortaa"
+    )
 
-    data object Handjet :
-        FontRes(ru.tech.imageresizershrinker.presentation.root.theme.Handjet, "Handjet")
+    data object Handjet : FontFam(
+        fontFamily = fontFamilyResource(R.font.handjet_varibale),
+        "Handjet"
+    )
+
+    data object YsabeauSC : FontFam(
+        fontFamily = fontFamilyResource(R.font.ysabeau_sc_variable),
+        "YsabeauSC"
+    )
+
+    data object Jura : FontFam(
+        fontFamily = fontFamilyResource(R.font.jura_variable),
+        "Jura"
+    )
+
+    data object Tektur : FontFam(
+        fontFamily = fontFamilyResource(R.font.tektur_variable),
+        "Tektur"
+    )
+
+    data object Podkova : FontFam(
+        fontFamily = fontFamilyResource(R.font.podkova_variable),
+        "Podkova"
+    )
 
     companion object {
-        fun createFromInt(value: Int): FontRes {
+        fun createFromInt(value: Int): FontFam {
             return when (value) {
                 0 -> Montserrat
                 1 -> Caveat
                 2 -> Comfortaa
                 3 -> Handjet
+                4 -> Jura
+                5 -> Podkova
+                6 -> Tektur
+                7 -> YsabeauSC
                 else -> Default
             }
         }
@@ -333,6 +238,10 @@ sealed class FontRes(
             Caveat,
             Comfortaa,
             Handjet,
+            Jura,
+            Podkova,
+            Tektur,
+            YsabeauSC,
             Default
         )
     }

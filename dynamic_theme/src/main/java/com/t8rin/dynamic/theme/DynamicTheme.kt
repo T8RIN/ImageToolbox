@@ -327,7 +327,7 @@ fun Lifecycle.observeAsState(): State<Lifecycle.Event> {
  * @return [ColorScheme] with animated colors.
  */
 @Composable
-private fun ColorScheme.animateAllColors(animationSpec: AnimationSpec<Color>): ColorScheme {
+fun ColorScheme.animateAllColors(animationSpec: AnimationSpec<Color>): ColorScheme {
 
     /**
      * Wraps color into [animateColorAsState].
@@ -367,7 +367,6 @@ private fun ColorScheme.animateAllColors(animationSpec: AnimationSpec<Color>): C
         outline = outline.animateColor(),
     )
 }
-
 
 fun Bitmap.extractPrimaryColor(default: Int = 0, blendWithVibrant: Boolean = true): Color {
     fun Int.blend(
