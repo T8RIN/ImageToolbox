@@ -57,50 +57,6 @@ val Comfortaa = FontFamily(
     )
 )
 
-
-val Alkatara = FontFamily(
-    Font(
-        resId = R.font.alkatara_varibale,
-        weight = FontWeight.Light,
-        variationSettings = FontVariation.Settings(
-            weight = FontWeight.Light,
-            style = FontStyle.Normal
-        )
-    ),
-    Font(
-        resId = R.font.alkatara_varibale,
-        weight = FontWeight.Normal,
-        variationSettings = FontVariation.Settings(
-            weight = FontWeight.Normal,
-            style = FontStyle.Normal
-        )
-    ),
-    Font(
-        resId = R.font.alkatara_varibale,
-        weight = FontWeight.Medium,
-        variationSettings = FontVariation.Settings(
-            weight = FontWeight.Medium,
-            style = FontStyle.Normal
-        )
-    ),
-    Font(
-        resId = R.font.alkatara_varibale,
-        weight = FontWeight.SemiBold,
-        variationSettings = FontVariation.Settings(
-            weight = FontWeight.SemiBold,
-            style = FontStyle.Normal
-        )
-    ),
-    Font(
-        resId = R.font.alkatara_varibale,
-        weight = FontWeight.Bold,
-        variationSettings = FontVariation.Settings(
-            weight = FontWeight.Bold,
-            style = FontStyle.Normal
-        )
-    )
-)
-
 val Handjet = FontFamily(
     Font(
         resId = R.font.handjet_varibale,
@@ -358,9 +314,6 @@ sealed class FontRes(
     data object Comfortaa :
         FontRes(ru.tech.imageresizershrinker.presentation.root.theme.Comfortaa, "Comfortaa")
 
-    data object Alkatara :
-        FontRes(ru.tech.imageresizershrinker.presentation.root.theme.Alkatara, "Alkatara")
-
     data object Handjet :
         FontRes(ru.tech.imageresizershrinker.presentation.root.theme.Handjet, "Handjet")
 
@@ -370,8 +323,7 @@ sealed class FontRes(
                 0 -> Montserrat
                 1 -> Caveat
                 2 -> Comfortaa
-                3 -> Alkatara
-                4 -> Handjet
+                3 -> Handjet
                 else -> Default
             }
         }
@@ -380,7 +332,6 @@ sealed class FontRes(
             Montserrat,
             Caveat,
             Comfortaa,
-            Alkatara,
             Handjet,
             Default
         )
