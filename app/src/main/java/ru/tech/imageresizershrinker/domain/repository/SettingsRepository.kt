@@ -64,4 +64,6 @@ interface SettingsRepository {
     suspend fun resetSettings()
 
     fun createBackupFilename(): String
+
+    suspend fun setFont(font: Int)
 }

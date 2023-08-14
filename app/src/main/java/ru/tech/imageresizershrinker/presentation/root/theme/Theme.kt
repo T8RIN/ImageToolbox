@@ -1,13 +1,10 @@
 package ru.tech.imageresizershrinker.presentation.root.theme
 
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.platform.LocalDensity
-import androidx.compose.ui.unit.Density
 import com.t8rin.dynamic.theme.DynamicTheme
 import com.t8rin.dynamic.theme.getAppColorTuple
 import com.t8rin.dynamic.theme.rememberDynamicThemeState
 import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalSettingsState
-import kotlin.math.min
 
 @Composable
 fun ImageResizerTheme(
@@ -17,7 +14,7 @@ fun ImageResizerTheme(
 ) {
     val settingsState = LocalSettingsState.current
     DynamicTheme(
-        typography = Typography,
+        typography = Typography(settingsState.font),
         state = rememberDynamicThemeState(
             getAppColorTuple(
                 defaultColorTuple = settingsState.appColorTuple,
@@ -25,9 +22,6 @@ fun ImageResizerTheme(
                 darkTheme = settingsState.isNightMode
             )
         ),
-        density = LocalDensity.current.run {
-            Density(this.density, min(fontScale, 1f))
-        },
         defaultColorTuple = settingsState.appColorTuple,
         dynamicColor = dynamicColor,
         amoledMode = amoledMode,

@@ -1,5 +1,6 @@
 package ru.tech.imageresizershrinker.presentation.main_screen.components
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
@@ -33,7 +34,6 @@ import androidx.compose.material.icons.outlined.BurstMode
 import androidx.compose.material.icons.outlined.ErrorOutline
 import androidx.compose.material.icons.outlined.FolderOff
 import androidx.compose.material.icons.outlined.Image
-import androidx.compose.material.icons.outlined.Palette
 import androidx.compose.material.icons.rounded.AddCircleOutline
 import androidx.compose.material.icons.rounded.Block
 import androidx.compose.material.icons.rounded.BugReport
@@ -43,6 +43,7 @@ import androidx.compose.material.icons.rounded.DeleteOutline
 import androidx.compose.material.icons.rounded.FileDownloadOff
 import androidx.compose.material.icons.rounded.Folder
 import androidx.compose.material.icons.rounded.FolderOpen
+import androidx.compose.material.icons.rounded.FontDownload
 import androidx.compose.material.icons.rounded.ImageSearch
 import androidx.compose.material.icons.rounded.Info
 import androidx.compose.material.icons.rounded.ModeNight
@@ -59,12 +60,14 @@ import androidx.compose.material.icons.rounded.TableRows
 import androidx.compose.material.icons.rounded.Translate
 import androidx.compose.material.icons.rounded.UploadFile
 import androidx.compose.material.icons.rounded.WbSunny
+import androidx.compose.material.icons.twotone.Palette
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Slider
 import androidx.compose.material3.SliderDefaults
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.Typography
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableIntStateOf
@@ -99,6 +102,8 @@ import ru.tech.imageresizershrinker.core.WEBLATE_LINK
 import ru.tech.imageresizershrinker.presentation.main_screen.viewModel.MainViewModel
 import ru.tech.imageresizershrinker.presentation.root.model.UiSettingsState
 import ru.tech.imageresizershrinker.presentation.root.theme.EmojiItem
+import ru.tech.imageresizershrinker.presentation.root.theme.FontRes
+import ru.tech.imageresizershrinker.presentation.root.theme.Typography
 import ru.tech.imageresizershrinker.presentation.root.theme.blend
 import ru.tech.imageresizershrinker.presentation.root.theme.icons.CreateAlt
 import ru.tech.imageresizershrinker.presentation.root.theme.icons.DownloadFile
@@ -128,6 +133,7 @@ import ru.tech.imageresizershrinker.presentation.root.widget.preferences.screens
 import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalSettingsState
 import kotlin.math.roundToInt
 
+@SuppressLint("SourceLockedOrientationActivity")
 fun LazyListScope.settingsBlock(
     onEditPresets: () -> Unit,
     onEditArrangement: () -> Unit,
@@ -193,63 +199,6 @@ fun LazyListScope.settingsBlock(
             initialState = true
         ) {
             Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                ChangeLanguagePreference()
-                PreferenceRow(
-                    modifier = Modifier.padding(horizontal = 8.dp),
-                    applyHorPadding = false,
-                    title = stringResource(R.string.emoji),
-                    subtitle = stringResource(R.string.emoji_sub),
-                    onClick = {
-                        onEditEmoji()
-                    },
-                    endContent = {
-                        val emoji = LocalSettingsState.current.selectedEmoji
-                        Box(
-                            modifier = Modifier
-                                .size(64.dp)
-                                .offset(x = 7.dp)
-                                .background(
-                                    MaterialTheme
-                                        .colorScheme
-                                        .surfaceVariant
-                                        .copy(alpha = 0.5f),
-                                    MaterialTheme.shapes.medium
-                                )
-                                .border(
-                                    settingsState.borderWidth,
-                                    MaterialTheme.colorScheme.outlineVariant(
-                                        0.2f
-                                    ),
-                                    MaterialTheme.shapes.medium
-                                ),
-                            contentAlignment = Alignment.Center
-                        ) {
-                            EmojiItem(
-                                emoji = emoji,
-                                modifier = Modifier.then(
-                                    if (emoji != null) Modifier.scaleOnTap(onRelease = {})
-                                    else Modifier
-                                ),
-                                fontSize = MaterialTheme.typography.headlineLarge.fontSize,
-                                onNoEmoji = { size ->
-                                    Icon(
-                                        imageVector = Icons.Rounded.Block,
-                                        contentDescription = null,
-                                        modifier = Modifier.size(size)
-                                    )
-                                }
-                            )
-                        }
-                    }
-                )
-                PreferenceRowSwitch(
-                    modifier = Modifier.padding(horizontal = 8.dp),
-                    applyHorPadding = false,
-                    title = stringResource(R.string.dynamic_colors),
-                    subtitle = stringResource(R.string.dynamic_colors_sub),
-                    checked = settingsState.isDynamicColors,
-                    onClick = { viewModel.toggleDynamicColors() }
-                )
                 val enabled = !settingsState.isDynamicColors
                 PreferenceRow(
                     applyHorPadding = false,
@@ -318,18 +267,75 @@ fun LazyListScope.settingsBlock(
                 PreferenceRowSwitch(
                     modifier = Modifier.padding(horizontal = 8.dp),
                     applyHorPadding = false,
+                    title = stringResource(R.string.dynamic_colors),
+                    subtitle = stringResource(R.string.dynamic_colors_sub),
+                    checked = settingsState.isDynamicColors,
+                    onClick = { viewModel.toggleDynamicColors() }
+                )
+                PreferenceRowSwitch(
+                    modifier = Modifier.padding(horizontal = 8.dp),
+                    applyHorPadding = false,
                     title = stringResource(R.string.amoled_mode),
                     subtitle = stringResource(R.string.amoled_mode_sub),
                     checked = settingsState.isAmoledMode,
                     onClick = { viewModel.updateAmoledMode() }
                 )
+                PreferenceRow(
+                    modifier = Modifier.padding(horizontal = 8.dp),
+                    applyHorPadding = false,
+                    title = stringResource(R.string.emoji),
+                    subtitle = stringResource(R.string.emoji_sub),
+                    onClick = {
+                        onEditEmoji()
+                    },
+                    endContent = {
+                        val emoji = LocalSettingsState.current.selectedEmoji
+                        Box(
+                            modifier = Modifier
+                                .size(64.dp)
+                                .offset(x = 7.dp)
+                                .background(
+                                    MaterialTheme
+                                        .colorScheme
+                                        .surfaceVariant
+                                        .copy(alpha = 0.5f),
+                                    MaterialTheme.shapes.medium
+                                )
+                                .border(
+                                    settingsState.borderWidth,
+                                    MaterialTheme.colorScheme.outlineVariant(
+                                        0.2f
+                                    ),
+                                    MaterialTheme.shapes.medium
+                                ),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            EmojiItem(
+                                emoji = emoji,
+                                modifier = Modifier.then(
+                                    if (emoji != null) Modifier.scaleOnTap(onRelease = {})
+                                    else Modifier
+                                ),
+                                fontSize = MaterialTheme.typography.headlineLarge.fontSize,
+                                onNoEmoji = { size ->
+                                    Icon(
+                                        imageVector = Icons.Rounded.Block,
+                                        contentDescription = null,
+                                        modifier = Modifier.size(size)
+                                    )
+                                }
+                            )
+                        }
+                    }
+                )
+                ChangeLanguagePreference()
             }
         }
     }
     item {
         // Secondary Customization
         SettingItem(
-            icon = Icons.Outlined.Palette,
+            icon = Icons.TwoTone.Palette,
             text = stringResource(R.string.secondary_customization),
             initialState = false
         ) {
@@ -505,7 +511,7 @@ fun LazyListScope.settingsBlock(
                             sliderValue = it
                         },
                         onValueChangeFinished = {
-                            viewModel.setBorderWidth(if (sliderValue > 0) sliderValue else -1f)
+                            viewModel.setBorderWidth(sliderValue)
                         },
                         valueRange = 0f..4f,
                         steps = 15
@@ -612,6 +618,48 @@ fun LazyListScope.settingsBlock(
                         FabPreview(
                             alignment = settingsState.fabAlignment,
                             modifier = Modifier.width(74.dp)
+                        )
+                    }
+                }
+            }
+        }
+    }
+    item {
+        SettingItem(
+            icon = Icons.Rounded.FontDownload,
+            text = stringResource(R.string.font),
+        ) {
+            Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                FontRes.entries.forEachIndexed { index, font ->
+                    val (family, name) = font
+                    val selected = font == settingsState.font
+                    MaterialTheme(
+                        typography = Typography(font)
+                    ) {
+                        PreferenceItem(
+                            onClick = { viewModel.setFont(index) },
+                            title = name ?: stringResource(id = R.string.defaultt),
+                            color = MaterialTheme.colorScheme.secondaryContainer.copy(
+                                alpha = animateFloatAsState(
+                                    if (selected) 0.7f
+                                    else 0.2f
+                                ).value
+                            ),
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(horizontal = 8.dp)
+                                .border(
+                                    width = settingsState.borderWidth,
+                                    color = animateColorAsState(
+                                        if (selected) MaterialTheme
+                                            .colorScheme
+                                            .onSecondaryContainer
+                                            .copy(alpha = 0.5f)
+                                        else Color.Transparent
+                                    ).value,
+                                    shape = RoundedCornerShape(16.dp)
+                                ),
+                            endIcon = if (selected) Icons.Rounded.RadioButtonChecked else Icons.Rounded.RadioButtonUnchecked
                         )
                     }
                 }

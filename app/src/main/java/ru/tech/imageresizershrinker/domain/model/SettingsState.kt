@@ -24,7 +24,9 @@ data class SettingsState(
     val filenamePrefix: String,
     val addSizeInFilename: Boolean,
     val addOriginalFilename: Boolean,
-    val randomizeFilename: Boolean
+    val randomizeFilename: Boolean,
+    val font: Int,
+    val fontScale: Float?
 ) : Domain {
     companion object {
         fun Default() = SettingsState(
@@ -49,7 +51,9 @@ data class SettingsState(
             filenamePrefix = "",
             addSizeInFilename = true,
             addOriginalFilename = false,
-            randomizeFilename = false
+            randomizeFilename = false,
+            font = 0,
+            fontScale = 1f
         )
     }
 }

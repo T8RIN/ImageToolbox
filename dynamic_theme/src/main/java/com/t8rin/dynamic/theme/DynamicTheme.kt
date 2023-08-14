@@ -110,15 +110,15 @@ fun DynamicTheme(
         colorTuple = state.colorTuple.value
     ).animateAllColors(tween(150))
 
-    MaterialTheme(
-        typography = typography,
-        colorScheme = scheme,
+    CompositionLocalProvider(
+        values = arrayOf(
+            LocalDynamicThemeState provides state,
+            LocalDensity provides density
+        ),
         content = {
-            CompositionLocalProvider(
-                values = arrayOf(
-                    LocalDynamicThemeState provides state,
-                    LocalDensity provides density
-                ),
+            MaterialTheme(
+                typography = typography,
+                colorScheme = scheme,
                 content = content
             )
         }

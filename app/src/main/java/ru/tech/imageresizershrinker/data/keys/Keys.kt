@@ -28,4 +28,6 @@ object Keys {
     val AUTO_CACHE_CLEAR = booleanPreferencesKey("auto_clear")
     val GROUP_OPTIONS = booleanPreferencesKey("group_options")
     val RANDOMIZE_FILENAME = booleanPreferencesKey("rand-filename")
+    val FONT = intPreferencesKey("font")
+    val FONT_SCALE = floatPreferencesKey("font_scale")
 }

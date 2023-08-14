@@ -66,7 +66,7 @@ import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalSettings
 @AndroidEntryPoint
 class CrashActivity : CrashHandler() {
 
-    val viewModel by viewModels<CrashViewModel>()
+    private val viewModel by viewModels<CrashViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

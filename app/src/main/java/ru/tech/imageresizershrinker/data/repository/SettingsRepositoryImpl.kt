@@ -26,6 +26,8 @@ import ru.tech.imageresizershrinker.data.keys.Keys.DYNAMIC_COLORS
 import ru.tech.imageresizershrinker.data.keys.Keys.EMOJI
 import ru.tech.imageresizershrinker.data.keys.Keys.EMOJI_COUNT
 import ru.tech.imageresizershrinker.data.keys.Keys.FILENAME_PREFIX
+import ru.tech.imageresizershrinker.data.keys.Keys.FONT
+import ru.tech.imageresizershrinker.data.keys.Keys.FONT_SCALE
 import ru.tech.imageresizershrinker.data.keys.Keys.GROUP_OPTIONS
 import ru.tech.imageresizershrinker.data.keys.Keys.IMAGE_MONET
 import ru.tech.imageresizershrinker.data.keys.Keys.NIGHT_MODE
@@ -80,7 +82,9 @@ class SettingsRepositoryImpl @Inject constructor(
             filenamePrefix = "",
             addSizeInFilename = false,
             addOriginalFilename = false,
-            randomizeFilename = prefs[RANDOMIZE_FILENAME] ?: false
+            randomizeFilename = prefs[RANDOMIZE_FILENAME] ?: false,
+            font = prefs[FONT] ?: 0,
+            fontScale = (prefs[FONT_SCALE] ?: 1f).takeIf { it > 0f }
         )
     }
 
@@ -111,7 +115,9 @@ class SettingsRepositoryImpl @Inject constructor(
             filenamePrefix = prefs[FILENAME_PREFIX] ?: "",
             addSizeInFilename = prefs[ADD_SIZE] ?: false,
             addOriginalFilename = prefs[ADD_ORIGINAL_NAME] ?: false,
-            randomizeFilename = prefs[RANDOMIZE_FILENAME] ?: false
+            randomizeFilename = prefs[RANDOMIZE_FILENAME] ?: false,
+            font = prefs[FONT] ?: 0,
+            fontScale = (prefs[FONT_SCALE] ?: 1f).takeIf { it > 0f }
         )
     }
 
@@ -193,7 +199,7 @@ class SettingsRepositoryImpl @Inject constructor(
 
     override suspend fun setBorderWidth(width: Float) {
         dataStore.edit {
-            it[BORDER_WIDTH] = width
+            it[BORDER_WIDTH] = if (width > 0) width else -1f
         }
     }
 
@@ -313,6 +319,12 @@ class SettingsRepositoryImpl @Inject constructor(
             Locale.getDefault()
         ).format(Date())
         return "image_toolbox_$timeStamp.imtbx_backup"
+    }
+
+    override suspend fun setFont(font: Int) {
+        dataStore.edit {
+            it[FONT] = font
+        }
     }
 
     private fun InputStream.toByteArray(): ByteArray {

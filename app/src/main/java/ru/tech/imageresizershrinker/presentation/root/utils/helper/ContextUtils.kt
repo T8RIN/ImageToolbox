@@ -27,7 +27,6 @@ import ru.tech.imageresizershrinker.presentation.root.utils.permission.Permissio
 import ru.tech.imageresizershrinker.presentation.root.utils.permission.PermissionUtils.askUserToRequestPermissionExplicitly
 import ru.tech.imageresizershrinker.presentation.root.utils.permission.PermissionUtils.checkPermissions
 import ru.tech.imageresizershrinker.presentation.root.utils.permission.PermissionUtils.setPermissionsAllowed
-import kotlin.math.min
 
 
 object ContextUtils {
@@ -92,10 +91,11 @@ object ContextUtils {
     }
 
     fun Context.adjustFontSize(
-        scale: Float = min(resources.configuration.fontScale, 1f)
+        scale: Float?
     ): Context {
+        return this
         val configuration = resources.configuration
-        configuration.fontScale = scale
+        configuration.fontScale = scale ?: resources.configuration.fontScale
         return createConfigurationContext(configuration)
     }
 

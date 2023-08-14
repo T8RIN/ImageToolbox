@@ -30,12 +30,14 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.Delete
 import androidx.compose.material.icons.outlined.Palette
 import androidx.compose.material.icons.rounded.AddCircleOutline
 import androidx.compose.material.icons.rounded.ContentCopy
@@ -58,6 +60,7 @@ import androidx.compose.material3.SliderDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
@@ -102,6 +105,7 @@ import ru.tech.imageresizershrinker.presentation.root.utils.helper.ListUtils.nea
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.alertDialog
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.block
 import ru.tech.imageresizershrinker.presentation.root.widget.sheets.SimpleSheet
+import ru.tech.imageresizershrinker.presentation.root.widget.text.AutoSizeText
 import ru.tech.imageresizershrinker.presentation.root.widget.text.TitleItem
 import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalSettingsState
 
@@ -114,22 +118,19 @@ fun ColorPickerDialog(
     title: String = stringResource(R.string.color_scheme),
     onColorChange: (ColorTuple) -> Unit
 ) {
-    var primary by rememberSaveable(
-        colorTuple,
-        visible.value
-    ) { mutableIntStateOf(colorTuple.primary.toArgb()) }
-    var secondary by rememberSaveable(colorTuple, visible.value) {
+    var primary by rememberSaveable(colorTuple) { mutableIntStateOf(colorTuple.primary.toArgb()) }
+    var secondary by rememberSaveable(colorTuple) {
         mutableIntStateOf(
             colorTuple.secondary?.toArgb() ?: colorTuple.primary.calculateSecondaryColor()
         )
     }
-    var tertiary by rememberSaveable(colorTuple, visible.value) {
+    var tertiary by rememberSaveable(colorTuple) {
         mutableIntStateOf(
             colorTuple.tertiary?.toArgb() ?: colorTuple.primary.calculateTertiaryColor()
         )
     }
 
-    var surface by rememberSaveable(colorTuple, visible.value) {
+    var surface by rememberSaveable(colorTuple) {
         mutableIntStateOf(
             colorTuple.surface?.toArgb() ?: colorTuple.primary.calculateSurfaceColor()
         )
@@ -152,37 +153,15 @@ fun ColorPickerDialog(
         title = { TitleItem(text = title, icon = Icons.Outlined.Palette, modifier = Modifier) },
         endConfirmButtonPadding = 0.dp,
         sheetContent = {
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.Center,
-                modifier = Modifier
-                    .background(MaterialTheme.colorScheme.surfaceColorAtElevation(10.dp))
-                    .padding(16.dp)
-            ) {
-                Icon(Icons.Rounded.PaletteSwatch, null)
-                Spacer(Modifier.width(8.dp))
-                Text(stringResource(R.string.monet_colors))
-                Spacer(Modifier.width(8.dp))
-                Spacer(Modifier.weight(1f))
-                OutlinedButton(
-                    onClick = {
-                        scheme.apply {
-                            primary = this.primary.toArgb()
-                            secondary = this.secondary.toArgb()
-                            tertiary = this.tertiary.toArgb()
-                            surface = this.surface.toArgb()
-                        }
-                    },
-                    colors = ButtonDefaults.outlinedButtonColors(
-                        containerColor = MaterialTheme.colorScheme.surfaceVariant,
-                        contentColor = MaterialTheme.colorScheme.onSurfaceVariant
-                    ),
-                    border = BorderStroke(
-                        borderWidth,
-                        MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.surfaceVariant)
-                    )
-                ) {
-                    Icon(Icons.Rounded.ContentPaste, null)
+            DisposableEffect(Unit) {
+                onDispose {
+                    primary = colorTuple.primary.toArgb()
+                    secondary = colorTuple.secondary?.toArgb()
+                        ?: colorTuple.primary.calculateSecondaryColor()
+                    tertiary =
+                        colorTuple.tertiary?.toArgb() ?: colorTuple.primary.calculateTertiaryColor()
+                    surface =
+                        colorTuple.surface?.toArgb() ?: colorTuple.primary.calculateSurfaceColor()
                 }
             }
             HorizontalDivider()
@@ -196,12 +175,51 @@ fun ColorPickerDialog(
                     verticalArrangement = Arrangement.spacedBy(16.dp, Alignment.CenterVertically),
                     contentPadding = PaddingValues(16.dp)
                 ) {
+                    item(
+                        span = {
+                            GridItemSpan(maxCurrentLineSpan)
+                        }
+                    ) {
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically,
+                            horizontalArrangement = Arrangement.Center,
+                            modifier = Modifier
+                                .block()
+                                .padding(16.dp)
+                        ) {
+                            Icon(Icons.Rounded.PaletteSwatch, null)
+                            Spacer(Modifier.width(8.dp))
+                            Text(stringResource(R.string.monet_colors))
+                            Spacer(Modifier.width(8.dp))
+                            Spacer(Modifier.weight(1f))
+                            OutlinedButton(
+                                onClick = {
+                                    scheme.apply {
+                                        primary = this.primary.toArgb()
+                                        secondary = this.secondary.toArgb()
+                                        tertiary = this.tertiary.toArgb()
+                                        surface = this.surface.toArgb()
+                                    }
+                                },
+                                colors = ButtonDefaults.outlinedButtonColors(
+                                    containerColor = MaterialTheme.colorScheme.secondaryContainer,
+                                    contentColor = MaterialTheme.colorScheme.onSecondaryContainer
+                                ),
+                                border = BorderStroke(
+                                    borderWidth,
+                                    MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.secondaryContainer)
+                                )
+                            ) {
+                                Icon(Icons.Rounded.ContentPaste, null)
+                            }
+                        }
+                    }
                     item {
                         Column(
                             horizontalAlignment = Alignment.CenterHorizontally,
                             modifier = Modifier
                                 .block()
-                                .padding(horizontal = 16.dp)
+                                .padding(horizontal = 20.dp)
                         ) {
                             TitleItem(text = stringResource(R.string.primary))
                             ColorCustomComponent(
@@ -213,6 +231,7 @@ fun ColorPickerDialog(
                                     surface = Color(it).calculateSurfaceColor()
                                 }
                             )
+                            Spacer(modifier = Modifier.height(16.dp))
                         }
                     }
                     item {
@@ -220,7 +239,7 @@ fun ColorPickerDialog(
                             horizontalAlignment = Alignment.CenterHorizontally,
                             modifier = Modifier
                                 .block()
-                                .padding(horizontal = 16.dp)
+                                .padding(horizontal = 20.dp)
                         ) {
                             TitleItem(text = stringResource(R.string.secondary))
                             ColorCustomComponent(
@@ -229,6 +248,7 @@ fun ColorPickerDialog(
                                     secondary = it
                                 }
                             )
+                            Spacer(modifier = Modifier.height(16.dp))
                         }
                     }
                     item {
@@ -236,7 +256,7 @@ fun ColorPickerDialog(
                             horizontalAlignment = Alignment.CenterHorizontally,
                             modifier = Modifier
                                 .block()
-                                .padding(horizontal = 16.dp)
+                                .padding(horizontal = 20.dp)
                         ) {
                             TitleItem(text = stringResource(R.string.tertiary))
                             ColorCustomComponent(
@@ -245,6 +265,7 @@ fun ColorPickerDialog(
                                     tertiary = it
                                 }
                             )
+                            Spacer(modifier = Modifier.height(16.dp))
                         }
                     }
                     item {
@@ -252,7 +273,7 @@ fun ColorPickerDialog(
                             horizontalAlignment = Alignment.CenterHorizontally,
                             modifier = Modifier
                                 .block()
-                                .padding(horizontal = 16.dp)
+                                .padding(horizontal = 20.dp)
                         ) {
                             TitleItem(text = stringResource(R.string.surface))
                             ColorCustomComponent(
@@ -261,6 +282,7 @@ fun ColorPickerDialog(
                                     surface = it
                                 }
                             )
+                            Spacer(modifier = Modifier.height(16.dp))
                         }
                     }
                 }
@@ -322,14 +344,89 @@ fun AvailableColorTuplesDialog(
         visible = visible,
         endConfirmButtonPadding = 0.dp,
         title = {
+            var showConfirmDeleteDialog by remember { mutableStateOf(false) }
+            val settingsState = LocalSettingsState.current
+
+            if (showConfirmDeleteDialog) {
+                AlertDialog(
+                    modifier = Modifier.alertDialog(),
+                    onDismissRequest = { showConfirmDeleteDialog = false },
+                    confirmButton = {
+                        OutlinedButton(
+                            colors = ButtonDefaults.buttonColors(),
+                            border = BorderStroke(
+                                settingsState.borderWidth,
+                                MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.primary)
+                            ),
+                            onClick = { showConfirmDeleteDialog = false }
+                        ) {
+                            Text(stringResource(R.string.cancel))
+                        }
+                    },
+                    dismissButton = {
+                        OutlinedButton(
+                            colors = ButtonDefaults.filledTonalButtonColors(),
+                            border = BorderStroke(
+                                settingsState.borderWidth,
+                                MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.secondaryContainer)
+                            ),
+                            onClick = {
+                                showConfirmDeleteDialog = false
+                                if ((colorTupleList - currentColorTuple).isEmpty()) {
+                                    onPickTheme(defaultColorTuple)
+                                } else {
+                                    colorTupleList.nearestFor(currentColorTuple)
+                                        ?.let { onPickTheme(it) }
+                                }
+                                onUpdateColorTuples(colorTupleList - currentColorTuple)
+                            }
+                        ) {
+                            Text(stringResource(R.string.delete))
+                        }
+                    },
+                    title = {
+                        Text(stringResource(R.string.delete_color_scheme_title))
+                    },
+                    icon = {
+                        Icon(
+                            imageVector = Icons.Outlined.Delete,
+                            contentDescription = null
+                        )
+                    },
+                    text = {
+                        Column(
+                            horizontalAlignment = Alignment.CenterHorizontally,
+                            verticalArrangement = Arrangement.Center
+                        ) {
+                            ColorTupleItem(
+                                colorTuple = currentColorTuple,
+                                modifier = Modifier
+                                    .padding(2.dp)
+                                    .size(64.dp)
+                                    .border(
+                                        borderWidth,
+                                        MaterialTheme.colorScheme.outlineVariant(
+                                            0.2f
+                                        ),
+                                        MaterialTheme.shapes.medium
+                                    )
+                                    .clip(MaterialTheme.shapes.medium),
+                                backgroundColor = rememberColorScheme(
+                                    LocalSettingsState.current.isNightMode,
+                                    LocalSettingsState.current.isDynamicColors,
+                                    currentColorTuple
+                                ).surfaceVariant.copy(alpha = 0.8f)
+                            )
+                            Spacer(modifier = Modifier.height(8.dp))
+                            Text(stringResource(R.string.delete_color_scheme_warn))
+                        }
+                    }
+                )
+            }
             Row {
                 OutlinedButton(
                     onClick = {
-                        if ((colorTupleList - currentColorTuple).isEmpty()) onPickTheme(
-                            defaultColorTuple
-                        )
-                        colorTupleList.nearestFor(currentColorTuple)?.let { onPickTheme(it) }
-                        onUpdateColorTuples(colorTupleList - currentColorTuple)
+                        showConfirmDeleteDialog = true
                     },
                     colors = ButtonDefaults.outlinedButtonColors(
                         containerColor = MaterialTheme.colorScheme.errorContainer,
@@ -705,7 +802,7 @@ private fun ColorCustomInfoComponent(
                         )
                     } else {
                         Row(modifier = Modifier.weight(1f)) {
-                            Text(
+                            AutoSizeText(
                                 text = getFormattedColor(color),
                                 style = MaterialTheme.typography.titleMedium,
                                 maxLines = 1,

@@ -301,7 +301,7 @@ fun MainScreen(
                     title = {
                         Marquee(
                             edgeColor = MaterialTheme.colorScheme.surfaceColorAtElevation(
-                                1.dp
+                                6.dp
                             )
                         ) {
                             Text(stringResource(R.string.settings))

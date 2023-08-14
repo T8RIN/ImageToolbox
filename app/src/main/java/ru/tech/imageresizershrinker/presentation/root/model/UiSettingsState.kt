@@ -13,6 +13,7 @@ import androidx.core.net.toUri
 import com.t8rin.dynamic.theme.ColorTuple
 import ru.tech.imageresizershrinker.domain.model.SettingsState
 import ru.tech.imageresizershrinker.presentation.root.theme.Emoji
+import ru.tech.imageresizershrinker.presentation.root.theme.FontRes
 import ru.tech.imageresizershrinker.presentation.root.theme.allIcons
 import ru.tech.imageresizershrinker.presentation.root.theme.defaultColorTuple
 import ru.tech.imageresizershrinker.presentation.root.theme.emoji.Sparkles
@@ -41,7 +42,9 @@ data class UiSettingsState(
     val filenamePrefix: String = "",
     val addSizeInFilename: Boolean = false,
     val addOriginalFilename: Boolean = false,
-    val randomizeFilename: Boolean = false
+    val randomizeFilename: Boolean = false,
+    val font: FontRes,
+    val fontScale: Float?
 )
 
 @Composable
@@ -67,7 +70,9 @@ fun SettingsState.toUiState() = UiSettingsState(
     filenamePrefix = filenamePrefix,
     addSizeInFilename = addSizeInFilename,
     addOriginalFilename = addOriginalFilename,
-    randomizeFilename = randomizeFilename
+    randomizeFilename = randomizeFilename,
+    font = FontRes.createFromInt(font),
+    fontScale = fontScale?.takeIf { it > 0 }
 )
 
 private fun String?.toColorTupleList(): List<ColorTuple> {

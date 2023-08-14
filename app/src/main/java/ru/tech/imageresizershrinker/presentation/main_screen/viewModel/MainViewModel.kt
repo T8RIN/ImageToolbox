@@ -25,6 +25,7 @@ import ru.tech.imageresizershrinker.domain.use_case.backup_and_restore.CreateBac
 import ru.tech.imageresizershrinker.domain.use_case.backup_and_restore.RestoreFromBackupFileUseCase
 import ru.tech.imageresizershrinker.domain.use_case.edit_settings.SetAlignmentUseCase
 import ru.tech.imageresizershrinker.domain.use_case.edit_settings.SetBorderWidthUseCase
+import ru.tech.imageresizershrinker.domain.use_case.edit_settings.SetFontUseCase
 import ru.tech.imageresizershrinker.domain.use_case.edit_settings.SetNightModeUseCase
 import ru.tech.imageresizershrinker.domain.use_case.edit_settings.ToggleAddFileSizeUseCase
 import ru.tech.imageresizershrinker.domain.use_case.edit_settings.ToggleAddOriginalFilenameUseCase
@@ -84,7 +85,8 @@ class MainViewModel @Inject constructor(
     private val createBackupFileUseCase: CreateBackupFileUseCase,
     private val restoreFromBackupFileUseCase: RestoreFromBackupFileUseCase,
     private val resetSettingsUseCase: ResetSettingsUseCase,
-    private val createBackupFilenameUseCase: CreateBackupFilenameUseCase
+    private val createBackupFilenameUseCase: CreateBackupFilenameUseCase,
+    private val setFontUseCase: SetFontUseCase
 ) : ViewModel() {
 
     private val _settingsState = mutableStateOf(SettingsState.Default())
@@ -371,5 +373,11 @@ class MainViewModel @Inject constructor(
     }
 
     fun createBackupFilename(): String = createBackupFilenameUseCase()
+
+    fun setFont(font: Int) {
+        viewModelScope.launch {
+            setFontUseCase(font)
+        }
+    }
 
 }
