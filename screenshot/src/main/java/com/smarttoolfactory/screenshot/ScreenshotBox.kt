@@ -29,6 +29,18 @@ fun ScreenshotBox(
         mutableStateOf<Rect?>(null)
     }
 
+    Box(modifier = modifier
+        .onGloballyPositioned {
+            composableBounds = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                it.boundsInWindow()
+            } else {
+                it.boundsInRoot()
+            }
+        }
+    ) {
+        content()
+    }
+
     DisposableEffect(Unit) {
 
         screenshotState.callback = {
@@ -55,17 +67,5 @@ fun ScreenshotBox(
             screenshotState.bitmapState.value = null
             screenshotState.callback = null
         }
-    }
-
-    Box(modifier = modifier
-        .onGloballyPositioned {
-            composableBounds = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                it.boundsInWindow()
-            } else {
-                it.boundsInRoot()
-            }
-        }
-    ) {
-        content()
     }
 }

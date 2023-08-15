@@ -38,6 +38,12 @@ class DrawViewModel @Inject constructor(
     private val imageManager: ImageManager<Bitmap, ExifInterface>
 ) : ViewModel() {
 
+    private val _color: MutableState<Color> = mutableStateOf(Color.Black)
+    val color by _color
+
+    private val _colorPickerBitmap: MutableState<Bitmap?> = mutableStateOf(null)
+    val colorPickerBitmap by _colorPickerBitmap
+
     var drawController: DrawController? by mutableStateOf(null)
         private set
 
@@ -211,6 +217,12 @@ class DrawViewModel @Inject constructor(
         return@withContext null
     }
 
+    fun openColorPicker() {
+        viewModelScope.launch {
+            _colorPickerBitmap.value = getBitmapForSharing()
+        }
+    }
+
     fun resetDrawBehavior() {
         drawController?.apply {
             setDrawBackground(Color.Transparent)
@@ -281,4 +293,8 @@ class DrawViewModel @Inject constructor(
         image: Bitmap,
         overlay: Bitmap
     ): Bitmap = imageManager.overlayImage(image, overlay)
+
+    fun updateColor(color: Color) {
+        _color.value = color
+    }
 }
