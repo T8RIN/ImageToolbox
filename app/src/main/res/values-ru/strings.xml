@@ -325,4 +325,13 @@
     <string name="restore">Восстановление</string>
     <string name="corrupted_file_or_not_a_backup">Повреждённый файл или не является файлом восстановления</string>
     <string name="contact_me">Связаться со мной</string>
+    <string name="reset_settings_sub">Это откатит ваши настройки в дефолтным значениям, данное действие не может быть отменено без файла восстановления, созданного выше</string>
+    <string name="delete">Удалить</string>
+    <string name="delete_color_scheme_warn">Вы хотите удалить выбранную цветовую схему, это действие невозможно отменить</string>
+    <string name="delete_color_scheme_title">Удалить схему</string>
+    <string name="font">Шрифт</string>
+    <string name="defaultt">По умолчанию</string>
+    <string name="text">Текст</string>
+    <string name="font_scale">Размер шрифта</string>
+    <string name="using_large_fonts_warn">Использование больших размеров может сломать интерфейс, используйте на свой страх и риск</string>
 </resources>
