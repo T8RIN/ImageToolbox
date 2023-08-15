@@ -1088,45 +1088,6 @@ fun LazyListScope.settingsBlock(
         }
     }
     item {
-        // Cache
-        SettingItem(
-            icon = Icons.Rounded.Cached,
-            text = stringResource(R.string.cache),
-        ) {
-            var cache by remember(
-                context,
-                LocalLifecycleOwner.current.lifecycle.observeAsState().value
-            ) { mutableStateOf(context.cacheSize()) }
-
-            PreferenceItem(
-                onClick = {
-                    context.clearCache { cache = it }
-                },
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 8.dp),
-                color = MaterialTheme
-                    .colorScheme
-                    .secondaryContainer
-                    .copy(alpha = 0.2f),
-                title = stringResource(R.string.cache_size),
-                subtitle = stringResource(R.string.found_s, cache),
-                endIcon = Icons.Rounded.DeleteOutline
-            )
-            Spacer(modifier = Modifier.height(8.dp))
-            PreferenceRowSwitch(
-                modifier = Modifier.padding(horizontal = 8.dp),
-                applyHorPadding = false,
-                title = stringResource(R.string.auto_cache_clearing),
-                subtitle = stringResource(R.string.auto_cache_clearing_sub),
-                checked = settingsState.clearCacheOnLaunch,
-                onClick = {
-                    viewModel.updateClearCacheOnLaunch()
-                }
-            )
-        }
-    }
-    item {
         // File
         SettingItem(
             icon = Icons.Rounded.FileSettings,
@@ -1204,6 +1165,45 @@ fun LazyListScope.settingsBlock(
                 title = stringResource(R.string.randomize_filename),
                 subtitle = stringResource(R.string.randomize_filename_sub),
                 checked = settingsState.randomizeFilename
+            )
+        }
+    }
+    item {
+        // Cache
+        SettingItem(
+            icon = Icons.Rounded.Cached,
+            text = stringResource(R.string.cache),
+        ) {
+            var cache by remember(
+                context,
+                LocalLifecycleOwner.current.lifecycle.observeAsState().value
+            ) { mutableStateOf(context.cacheSize()) }
+
+            PreferenceItem(
+                onClick = {
+                    context.clearCache { cache = it }
+                },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 8.dp),
+                color = MaterialTheme
+                    .colorScheme
+                    .secondaryContainer
+                    .copy(alpha = 0.2f),
+                title = stringResource(R.string.cache_size),
+                subtitle = stringResource(R.string.found_s, cache),
+                endIcon = Icons.Rounded.DeleteOutline
+            )
+            Spacer(modifier = Modifier.height(8.dp))
+            PreferenceRowSwitch(
+                modifier = Modifier.padding(horizontal = 8.dp),
+                applyHorPadding = false,
+                title = stringResource(R.string.auto_cache_clearing),
+                subtitle = stringResource(R.string.auto_cache_clearing_sub),
+                checked = settingsState.clearCacheOnLaunch,
+                onClick = {
+                    viewModel.updateClearCacheOnLaunch()
+                }
             )
         }
     }
