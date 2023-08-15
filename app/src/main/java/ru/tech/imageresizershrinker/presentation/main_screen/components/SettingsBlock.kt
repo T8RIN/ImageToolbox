@@ -358,7 +358,6 @@ fun LazyListScope.settingsBlock(
                         }
                     }
                 )
-                ChangeLanguagePreference()
             }
         }
     }
@@ -661,6 +660,7 @@ fun LazyListScope.settingsBlock(
             icon = Icons.Rounded.TextFormat,
             text = stringResource(R.string.text),
         ) {
+            ChangeLanguagePreference()
             PreferenceItem(
                 onClick = { showFontSheet.value = true },
                 title = stringResource(R.string.font),
