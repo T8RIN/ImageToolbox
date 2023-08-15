@@ -300,7 +300,7 @@ fun PresetWidget(
                 )
             },
             text = {
-                if(screen !is Screen.ResizeByBytes) Text(stringResource(R.string.presets_sub))
+                if (screen !is Screen.ResizeByBytes) Text(stringResource(R.string.presets_sub))
                 else Text(stringResource(R.string.presets_sub_bytes))
             }
         )

@@ -8,7 +8,6 @@ import android.net.Uri
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.AnimatedContent
-import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.animateFloatAsState
@@ -88,7 +87,6 @@ import androidx.compose.material3.Slider
 import androidx.compose.material3.SliderDefaults
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableIntStateOf
@@ -112,7 +110,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.datasource.LoremIpsum
-import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.zIndex
@@ -128,7 +125,6 @@ import ru.tech.imageresizershrinker.core.CHAT_LINK
 import ru.tech.imageresizershrinker.core.DONATE
 import ru.tech.imageresizershrinker.core.ISSUE_TRACKER
 import ru.tech.imageresizershrinker.core.WEBLATE_LINK
-import ru.tech.imageresizershrinker.presentation.bytes_resize_screen.components.ImageFormatAlert
 import ru.tech.imageresizershrinker.presentation.main_screen.viewModel.MainViewModel
 import ru.tech.imageresizershrinker.presentation.root.model.UiSettingsState
 import ru.tech.imageresizershrinker.presentation.root.theme.EmojiItem
@@ -698,7 +694,7 @@ fun LazyListScope.settingsBlock(
         SimpleSheet(
             visible = showFontSheet,
             sheetContent = {
-                Box{
+                Box {
                     HorizontalDivider(
                         Modifier.zIndex(100f)
                     )
@@ -778,7 +774,7 @@ fun LazyListScope.settingsBlock(
             visible = showFontScaleSheet,
             sheetContent = {
                 val list = remember {
-                    List(19) { (0.6f + it/20f).roundToTwoDigits() }
+                    List(19) { (0.6f + it / 20f).roundToTwoDigits() }
                 }
                 Box {
                     HorizontalDivider(
@@ -794,7 +790,12 @@ fun LazyListScope.settingsBlock(
                             8.dp,
                             Alignment.CenterHorizontally
                         ),
-                        contentPadding = PaddingValues(start = 16.dp, end = 16.dp, top = 16.dp, bottom = 8.dp)
+                        contentPadding = PaddingValues(
+                            start = 16.dp,
+                            end = 16.dp,
+                            top = 16.dp,
+                            bottom = 8.dp
+                        )
                     ) {
                         item {
                             val selected = settingsState.fontScale == null
@@ -859,7 +860,7 @@ fun LazyListScope.settingsBlock(
                                     Text(
                                         text = scale.toString(),
                                         fontSize = with(LocalDensity.current) {
-                                            val textSize =  16 / fontScale * scale
+                                            val textSize = 16 / fontScale * scale
                                             textSize.sp
                                         }
                                     )
