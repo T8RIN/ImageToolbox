@@ -8,11 +8,14 @@ import android.net.Uri
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.expandIn
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
+import androidx.compose.animation.shrinkOut
 import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
@@ -33,6 +36,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
@@ -73,8 +77,11 @@ import androidx.compose.material.icons.rounded.UploadFile
 import androidx.compose.material.icons.rounded.WbSunny
 import androidx.compose.material.icons.twotone.Palette
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
+import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Slider
@@ -103,6 +110,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringArrayResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.datasource.LoremIpsum
 import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.dp
@@ -120,6 +128,7 @@ import ru.tech.imageresizershrinker.core.CHAT_LINK
 import ru.tech.imageresizershrinker.core.DONATE
 import ru.tech.imageresizershrinker.core.ISSUE_TRACKER
 import ru.tech.imageresizershrinker.core.WEBLATE_LINK
+import ru.tech.imageresizershrinker.presentation.bytes_resize_screen.components.ImageFormatAlert
 import ru.tech.imageresizershrinker.presentation.main_screen.viewModel.MainViewModel
 import ru.tech.imageresizershrinker.presentation.root.model.UiSettingsState
 import ru.tech.imageresizershrinker.presentation.root.theme.EmojiItem
@@ -702,7 +711,7 @@ fun LazyListScope.settingsBlock(
                             .padding(vertical = 16.dp, horizontal = 8.dp)
                     ) {
                         FontFam.entries.forEachIndexed { index, font ->
-                            val (family, name) = font
+                            val (_, name) = font
                             val selected = font == settingsState.font
                             MaterialTheme(
                                 typography = Typography(font)
@@ -785,7 +794,7 @@ fun LazyListScope.settingsBlock(
                             8.dp,
                             Alignment.CenterHorizontally
                         ),
-                        contentPadding = PaddingValues(8.dp)
+                        contentPadding = PaddingValues(start = 16.dp, end = 16.dp, top = 16.dp, bottom = 8.dp)
                     ) {
                         item {
                             val selected = settingsState.fontScale == null
@@ -853,6 +862,46 @@ fun LazyListScope.settingsBlock(
                                             val textSize =  16 / fontScale * scale
                                             textSize.sp
                                         }
+                                    )
+                                }
+                            }
+                        }
+                        item(
+                            span = {
+                                GridItemSpan(maxCurrentLineSpan)
+                            }
+                        ) {
+                            androidx.compose.animation.AnimatedVisibility(
+                                visible = context.resources.configuration.fontScale > 1.2f,
+                                enter = fadeIn() + expandIn(expandFrom = Alignment.TopCenter),
+                                exit = fadeOut() + shrinkOut(shrinkTowards = Alignment.TopCenter)
+                            ) {
+                                Card(
+                                    colors = CardDefaults.cardColors(
+                                        containerColor = MaterialTheme.colorScheme.errorContainer.copy(
+                                            alpha = 0.7f
+                                        ),
+                                        contentColor = MaterialTheme.colorScheme.onErrorContainer
+                                    ),
+                                    modifier = Modifier
+                                        .padding(16.dp)
+                                        .border(
+                                            settingsState.borderWidth,
+                                            MaterialTheme.colorScheme.onErrorContainer.copy(
+                                                0.4f
+                                            ),
+                                            RoundedCornerShape(24.dp)
+                                        ),
+                                    shape = RoundedCornerShape(24.dp)
+                                ) {
+                                    Text(
+                                        text = stringResource(R.string.using_large_fonts_warn),
+                                        fontSize = 12.sp,
+                                        modifier = Modifier.padding(8.dp),
+                                        textAlign = TextAlign.Center,
+                                        fontWeight = FontWeight.SemiBold,
+                                        lineHeight = 14.sp,
+                                        color = LocalContentColor.current.copy(alpha = 0.5f)
                                     )
                                 }
                             }
