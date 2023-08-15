@@ -39,7 +39,7 @@ fun FontSelectionItem(
                 onFontSelected(index)
             },
             title = name ?: stringResource(id = R.string.defaultt),
-            subtitle = LoremIpsum(15).values.joinToString(" "),
+            subtitle = stringResource(R.string.alphabet_and_numbers),
             color = MaterialTheme.colorScheme.secondaryContainer.copy(
                 alpha = animateFloatAsState(
                     if (selected) 0.7f

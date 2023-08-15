@@ -42,10 +42,14 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.BorderStyle
 import androidx.compose.material.icons.outlined.BurstMode
+import androidx.compose.material.icons.outlined.EmojiEmotions
 import androidx.compose.material.icons.outlined.ErrorOutline
 import androidx.compose.material.icons.outlined.FolderOff
+import androidx.compose.material.icons.outlined.FolderSpecial
 import androidx.compose.material.icons.outlined.Image
+import androidx.compose.material.icons.outlined.SmartButton
 import androidx.compose.material.icons.rounded.AddCircleOutline
 import androidx.compose.material.icons.rounded.Block
 import androidx.compose.material.icons.rounded.BugReport
@@ -55,6 +59,7 @@ import androidx.compose.material.icons.rounded.DeleteOutline
 import androidx.compose.material.icons.rounded.FileDownloadOff
 import androidx.compose.material.icons.rounded.Folder
 import androidx.compose.material.icons.rounded.FolderOpen
+import androidx.compose.material.icons.rounded.FolderSpecial
 import androidx.compose.material.icons.rounded.FontDownload
 import androidx.compose.material.icons.rounded.ImageSearch
 import androidx.compose.material.icons.rounded.Info
@@ -396,6 +401,14 @@ fun LazyListScope.settingsBlock(
                     Row(
                         verticalAlignment = Alignment.CenterVertically
                     ) {
+                        Icon(
+                            imageVector = Icons.Outlined.EmojiEmotions,
+                            contentDescription = null,
+                            modifier = Modifier.padding(
+                                top = 16.dp,
+                                start = 12.dp
+                            )
+                        )
                         Text(
                             text = stringResource(R.string.emojis_count),
                             modifier = Modifier
@@ -478,6 +491,14 @@ fun LazyListScope.settingsBlock(
                     Row(
                         verticalAlignment = Alignment.CenterVertically
                     ) {
+                        Icon(
+                            imageVector = Icons.Outlined.BorderStyle,
+                            contentDescription = null,
+                            modifier = Modifier.padding(
+                                top = 16.dp,
+                                start = 12.dp
+                            )
+                        )
                         Text(
                             text = stringResource(R.string.border_thickness),
                             modifier = Modifier
@@ -1010,6 +1031,7 @@ fun LazyListScope.settingsBlock(
                         else 0.2f
                     ).value
                 ),
+                endIcon = if(currentFolderUri != null) Icons.Outlined.FolderSpecial else Icons.Rounded.FolderSpecial,
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 8.dp)

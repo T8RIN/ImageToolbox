@@ -344,6 +344,7 @@
     <string name="font_scale">Font scale</string>
     <string name="defaultt">Default</string>
     <string name="using_large_fonts_warn">Using large font scales may cause ui brokes which will not be fixed, use it if you want only</string>
+    <string name="alphabet_and_numbers">AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz0123456789!?</string>
     <string-array name="fab_alignment_sub">
         <item>Start</item>
         <item>Center</item>
