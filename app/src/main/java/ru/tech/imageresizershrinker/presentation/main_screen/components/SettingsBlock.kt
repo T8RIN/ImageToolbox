@@ -1,6 +1,7 @@
 package ru.tech.imageresizershrinker.presentation.main_screen.components
 
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
@@ -16,9 +17,12 @@ import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -28,6 +32,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyListScope
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -60,6 +66,7 @@ import androidx.compose.material.icons.rounded.Save
 import androidx.compose.material.icons.rounded.SettingsBackupRestore
 import androidx.compose.material.icons.rounded.SettingsSystemDaydream
 import androidx.compose.material.icons.rounded.TableRows
+import androidx.compose.material.icons.rounded.TextFields
 import androidx.compose.material.icons.rounded.TextFormat
 import androidx.compose.material.icons.rounded.Translate
 import androidx.compose.material.icons.rounded.UploadFile
@@ -74,6 +81,7 @@ import androidx.compose.material3.Slider
 import androidx.compose.material3.SliderDefaults
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableIntStateOf
@@ -84,19 +92,23 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.luminance
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringArrayResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.datasource.LoremIpsum
+import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.zIndex
+import com.smarttoolfactory.colordetector.util.ColorUtil.roundToTwoDigits
 import com.t8rin.dynamic.theme.ColorTupleItem
 import com.t8rin.dynamic.theme.observeAsState
 import kotlinx.coroutines.CoroutineScope
@@ -140,10 +152,12 @@ import ru.tech.imageresizershrinker.presentation.root.widget.preferences.Prefere
 import ru.tech.imageresizershrinker.presentation.root.widget.preferences.PreferenceRowSwitch
 import ru.tech.imageresizershrinker.presentation.root.widget.preferences.screens.SourceCodePreference
 import ru.tech.imageresizershrinker.presentation.root.widget.sheets.SimpleSheet
+import ru.tech.imageresizershrinker.presentation.root.widget.text.AutoSizeText
 import ru.tech.imageresizershrinker.presentation.root.widget.text.TitleItem
 import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalSettingsState
 import kotlin.math.roundToInt
 
+@OptIn(ExperimentalLayoutApi::class)
 @SuppressLint("SourceLockedOrientationActivity")
 fun LazyListScope.settingsBlock(
     onEditPresets: () -> Unit,
@@ -637,6 +651,7 @@ fun LazyListScope.settingsBlock(
     }
     item {
         val showFontSheet = rememberSaveable { mutableStateOf(false) }
+        val showFontScaleSheet = rememberSaveable { mutableStateOf(false) }
         SettingItem(
             icon = Icons.Rounded.TextFormat,
             text = stringResource(R.string.text),
@@ -649,7 +664,23 @@ fun LazyListScope.settingsBlock(
                     .colorScheme
                     .secondaryContainer
                     .copy(alpha = 0.2f),
-                endIcon = Icons.Rounded.CreateAlt,
+                endIcon = Icons.Rounded.FontDownload,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 8.dp)
+            )
+            Spacer(Modifier.height(8.dp))
+            PreferenceItem(
+                onClick = { showFontScaleSheet.value = true },
+                title = stringResource(R.string.font_scale),
+                subtitle = settingsState.fontScale?.takeIf { it > 0 }?.toString() ?: stringResource(
+                    R.string.defaultt
+                ),
+                color = MaterialTheme
+                    .colorScheme
+                    .secondaryContainer
+                    .copy(alpha = 0.2f),
+                endIcon = Icons.Rounded.TextFields,
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 8.dp)
@@ -730,6 +761,126 @@ fun LazyListScope.settingsBlock(
                 TitleItem(
                     icon = Icons.Rounded.FontDownload,
                     text = stringResource(R.string.font),
+                )
+            }
+        )
+
+        SimpleSheet(
+            visible = showFontScaleSheet,
+            sheetContent = {
+                val list = remember {
+                    List(19) { (0.6f + it/20f).roundToTwoDigits() }
+                }
+                Box {
+                    HorizontalDivider(
+                        Modifier.zIndex(100f)
+                    )
+                    LazyVerticalGrid(
+                        columns = GridCells.Adaptive(64.dp),
+                        verticalArrangement = Arrangement.spacedBy(
+                            8.dp,
+                            Alignment.CenterVertically
+                        ),
+                        horizontalArrangement = Arrangement.spacedBy(
+                            8.dp,
+                            Alignment.CenterHorizontally
+                        ),
+                        contentPadding = PaddingValues(8.dp)
+                    ) {
+                        item {
+                            val selected = settingsState.fontScale == null
+                            Box(
+                                modifier = Modifier
+                                    .height(58.dp)
+                                    .background(
+                                        color = if (selected) MaterialTheme.colorScheme.primaryContainer
+                                        else MaterialTheme.colorScheme.secondaryContainer.copy(alpha = 0.2f),
+                                        shape = MaterialTheme.shapes.medium
+                                    )
+                                    .border(
+                                        width = LocalSettingsState.current.borderWidth,
+                                        color = if (selected) MaterialTheme.colorScheme.onPrimaryContainer.copy(
+                                            0.7f
+                                        )
+                                        else MaterialTheme.colorScheme.onSecondaryContainer.copy(
+                                            alpha = 0.1f
+                                        ),
+                                        shape = MaterialTheme.shapes.medium
+                                    )
+                                    .clip(MaterialTheme.shapes.medium)
+                                    .clickable {
+                                        viewModel.onUpdateFontScale(0f)
+                                        (context as Activity).recreate()
+                                    },
+                                contentAlignment = Alignment.Center
+                            ) {
+                                AutoSizeText(stringResource(id = R.string.defaultt), maxLines = 1)
+                            }
+                        }
+                        list.forEach { scale ->
+                            item {
+                                val selected = scale == settingsState.fontScale
+                                Box(
+                                    modifier = Modifier
+                                        .size(58.dp)
+                                        .background(
+                                            color = if (selected) MaterialTheme.colorScheme.primaryContainer
+                                            else MaterialTheme.colorScheme.secondaryContainer.copy(
+                                                alpha = 0.2f
+                                            ),
+                                            shape = MaterialTheme.shapes.medium
+                                        )
+                                        .border(
+                                            width = LocalSettingsState.current.borderWidth,
+                                            color = if (selected) MaterialTheme.colorScheme.onPrimaryContainer.copy(
+                                                0.7f
+                                            )
+                                            else MaterialTheme.colorScheme.onSecondaryContainer.copy(
+                                                alpha = 0.1f
+                                            ),
+                                            shape = MaterialTheme.shapes.medium
+                                        )
+                                        .clip(MaterialTheme.shapes.medium)
+                                        .clickable {
+                                            viewModel.onUpdateFontScale(scale)
+                                            (context as Activity).recreate()
+                                        },
+                                    contentAlignment = Alignment.Center
+                                ) {
+                                    Text(
+                                        text = scale.toString(),
+                                        fontSize = with(LocalDensity.current) {
+                                            val textSize =  16 / fontScale * scale
+                                            textSize.sp
+                                        }
+                                    )
+                                }
+                            }
+                        }
+                    }
+                    HorizontalDivider(
+                        Modifier
+                            .align(Alignment.BottomCenter)
+                            .zIndex(100f)
+                    )
+                }
+            },
+            confirmButton = {
+                OutlinedButton(
+                    onClick = { showFontScaleSheet.value = false },
+                    colors = ButtonDefaults.buttonColors(),
+                    border = BorderStroke(
+                        settingsState.borderWidth,
+                        MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.primary)
+                    )
+                ) {
+                    Text(stringResource(R.string.close))
+                }
+            },
+            title = {
+                TitleItem(
+                    icon = Icons.Rounded.TextFields,
+                    text = stringResource(R.string.font_scale),
                 )
             }
         )

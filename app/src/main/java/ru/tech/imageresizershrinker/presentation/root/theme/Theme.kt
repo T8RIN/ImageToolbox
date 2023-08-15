@@ -1,13 +1,15 @@
 package ru.tech.imageresizershrinker.presentation.root.theme
 
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.unit.Density
 import com.t8rin.dynamic.theme.DynamicTheme
 import com.t8rin.dynamic.theme.getAppColorTuple
 import com.t8rin.dynamic.theme.rememberDynamicThemeState
 import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalSettingsState
 
 @Composable
-fun ImageResizerTheme(
+fun ImageToolboxTheme(
     dynamicColor: Boolean = LocalSettingsState.current.isDynamicColors,
     amoledMode: Boolean = LocalSettingsState.current.isAmoledMode,
     content: @Composable () -> Unit

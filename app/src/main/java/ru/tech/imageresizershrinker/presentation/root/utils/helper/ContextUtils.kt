@@ -93,7 +93,6 @@ object ContextUtils {
     fun Context.adjustFontSize(
         scale: Float?
     ): Context {
-        return this
         val configuration = resources.configuration
         configuration.fontScale = scale ?: resources.configuration.fontScale
         return createConfigurationContext(configuration)

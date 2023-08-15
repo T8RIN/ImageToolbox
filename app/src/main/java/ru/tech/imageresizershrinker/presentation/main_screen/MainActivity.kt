@@ -36,7 +36,7 @@ import ru.tech.imageresizershrinker.presentation.main_screen.components.UpdateSh
 import ru.tech.imageresizershrinker.presentation.main_screen.components.particles
 import ru.tech.imageresizershrinker.presentation.main_screen.viewModel.MainViewModel
 import ru.tech.imageresizershrinker.presentation.root.model.toUiState
-import ru.tech.imageresizershrinker.presentation.root.theme.ImageResizerTheme
+import ru.tech.imageresizershrinker.presentation.root.theme.ImageToolboxTheme
 import ru.tech.imageresizershrinker.presentation.root.utils.confetti.LocalConfettiController
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.ContextUtils.clearCache
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.ContextUtils.parseImageFromIntent
@@ -107,7 +107,7 @@ class MainActivity : M3Activity() {
                             WindowInsetsControllerCompat.BEHAVIOR_DEFAULT
                     }
                 }
-                ImageResizerTheme {
+                ImageToolboxTheme {
                     val tiramisu = Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU
 
                     if (!tiramisu) {

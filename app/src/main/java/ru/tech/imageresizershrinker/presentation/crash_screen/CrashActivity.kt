@@ -54,7 +54,7 @@ import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.presentation.crash_screen.viewModel.CrashViewModel
 import ru.tech.imageresizershrinker.presentation.main_screen.MainActivity
 import ru.tech.imageresizershrinker.presentation.root.model.toUiState
-import ru.tech.imageresizershrinker.presentation.root.theme.ImageResizerTheme
+import ru.tech.imageresizershrinker.presentation.root.theme.ImageToolboxTheme
 import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
 import ru.tech.imageresizershrinker.presentation.root.utils.exception.CrashHandler
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.fabBorder
@@ -81,7 +81,7 @@ class CrashActivity : CrashHandler() {
                 LocalSettingsState provides viewModel.settingsState.toUiState()
             ) {
                 val settingsState = LocalSettingsState.current
-                ImageResizerTheme {
+                ImageToolboxTheme {
                     val conf = LocalConfiguration.current
                     val size = min(conf.screenWidthDp.dp, conf.screenHeightDp.dp)
                     Surface(modifier = Modifier.fillMaxSize()) {

@@ -327,6 +327,12 @@ class SettingsRepositoryImpl @Inject constructor(
         }
     }
 
+    override suspend fun setFontScale(scale: Float) {
+        dataStore.edit {
+            it[FONT_SCALE] = scale
+        }
+    }
+
     private fun InputStream.toByteArray(): ByteArray {
         val bytes = ByteArray(this.available())
         val dis = DataInputStream(this)
