@@ -321,4 +321,12 @@
     <string name="restore">Restaurer</string>
     <string name="backup_sub">Sauvegardez les paramètres de votre application dans le fichier</string>
     <string name="reset_settings_sub">Cela ramènera vos paramètres aux valeurs par défaut, notez que cela ne peut pas être annulé sans le fichier de sauvegarde de l\'option ci-dessus</string>
+    <string name="delete">Supprimer</string>
+    <string name="delete_color_scheme_warn">Vous êtes sur le point de supprimer le jeu de couleurs sélectionné, cette opération ne peut pas être annulée</string>
+    <string name="delete_color_scheme_title">Supprimer le schéma</string>
+    <string name="font">Police</string>
+    <string name="text">Texte</string>
+    <string name="font_scale">Taille de la Police</string>
+    <string name="defaultt">Défaut</string>
+    <string name="using_large_fonts_warn">L’utilisation de grandes échelles de police peut provoquer des erreurs d’interface utilisateur qui ne seront pas corrigées, utilisez-la si vous voulez seulement</string>
 </resources>
