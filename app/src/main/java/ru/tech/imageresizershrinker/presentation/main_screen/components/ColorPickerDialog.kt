@@ -39,6 +39,8 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Delete
 import androidx.compose.material.icons.outlined.Palette
+import androidx.compose.material.icons.outlined.Shuffle
+import androidx.compose.material.icons.outlined.ShuffleOn
 import androidx.compose.material.icons.rounded.AddCircleOutline
 import androidx.compose.material.icons.rounded.ContentCopy
 import androidx.compose.material.icons.rounded.ContentPaste
@@ -108,6 +110,7 @@ import ru.tech.imageresizershrinker.presentation.root.widget.sheets.SimpleSheet
 import ru.tech.imageresizershrinker.presentation.root.widget.text.AutoSizeText
 import ru.tech.imageresizershrinker.presentation.root.widget.text.TitleItem
 import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalSettingsState
+import kotlin.random.Random
 
 @ExperimentalMaterial3Api
 @Composable
@@ -767,7 +770,30 @@ private fun ColorCustomInfoComponent(
                 ),
             shape = MaterialTheme.shapes.medium,
             colors = CardDefaults.elevatedCardColors(containerColor = Color(color)),
-        ) {}
+        ) {
+            Box(
+                modifier = Modifier.fillMaxSize(),
+                contentAlignment = Alignment.Center
+            ) {
+                IconButton(
+                    onClick = { onColorChange(Random.nextInt()) }
+                ) {
+                    Icon(
+                        imageVector = Icons.Outlined.ShuffleOn,
+                        contentDescription = null,
+                        tint = animateColorAsState(
+                            Color(color).inverse(
+                                fraction = { cond ->
+                                    if (cond) 0.8f
+                                    else 0.5f
+                                },
+                                darkMode = Color(color).luminance() < 0.3f
+                            )
+                        ).value
+                    )
+                }
+            }
+        }
 
         Card(
             modifier = Modifier

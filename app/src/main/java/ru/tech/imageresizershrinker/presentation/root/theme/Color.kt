@@ -144,7 +144,4 @@ fun Int.toColor() = Color(this)
 val defaultColorTuple = ColorTuple(md_theme_dark_primary)
 
 inline val Green: Color
-    @Composable get() = Color(0xFFBADB94).blend(
-        MaterialTheme.colorScheme.primary,
-        0.1f
-    )
+    @Composable get() = Color(0xFFBADB94).harmonizeWithPrimary(0.2f)

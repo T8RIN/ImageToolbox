@@ -825,7 +825,11 @@ fun LazyListScope.settingsBlock(
                                     },
                                 contentAlignment = Alignment.Center
                             ) {
-                                AutoSizeText(stringResource(id = R.string.defaultt), maxLines = 1)
+                                AutoSizeText(
+                                    text = stringResource(id = R.string.defaultt),
+                                    maxLines = 1,
+                                    modifier = Modifier.padding(horizontal = 8.dp)
+                                )
                             }
                         }
                         list.forEach { scale ->
