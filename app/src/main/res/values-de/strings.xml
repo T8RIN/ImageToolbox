@@ -320,5 +320,13 @@
     <string name="aspect_ratio">Seitenverhältnis</string>
     <string name="restore_sub">Wiederherstellen von App-Einstellungen aus zuvor erstellter Datei</string>
     <string name="settings_restored">Einstellungen wiederhergestellt</string>
-    <string name="reset_settings_sub">Dadurch werden Ihre Einstellungen auf die Standardwerte zurückgesetzt. Bitte beachten Sie, dass dies nicht ohne die Sicherungsdatei der obigen Option rückgängig gemacht werden kann.</string>
+    <string name="reset_settings_sub">Dadurch werden Deine Einstellungen auf die Standardwerte zurückgesetzt. Bitte beachte, dass dies nicht ohne die Sicherungsdatei der obigen Option rückgängig gemacht werden kann.</string>
+    <string name="delete">Löschen</string>
+    <string name="delete_color_scheme_warn">Du bist dabei, das ausgewählte Farbschema zu löschen. Dieser Vorgang kann nicht rückgängig gemacht werden.</string>
+    <string name="delete_color_scheme_title">Schema löschen</string>
+    <string name="font_scale">Schriftgröße</string>
+    <string name="font">Schriftart</string>
+    <string name="text">Text</string>
+    <string name="defaultt">Standardeinstellung</string>
+    <string name="using_large_fonts_warn">Die Verwendung großer Schriftgrößen führt möglicherweise zu unschönen Nebeneffekten.</string>
 </resources>
