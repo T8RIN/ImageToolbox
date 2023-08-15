@@ -661,6 +661,7 @@ fun LazyListScope.settingsBlock(
             text = stringResource(R.string.text),
         ) {
             ChangeLanguagePreference()
+            Spacer(Modifier.height(8.dp))
             PreferenceItem(
                 onClick = { showFontSheet.value = true },
                 title = stringResource(R.string.font),
