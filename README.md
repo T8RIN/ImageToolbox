@@ -206,6 +206,16 @@ Go to the [Releases](https://github.com/t8rin/imageresizer/releases/latest) and 
 - Monet implementation (Dynamic colors) for android 12 and above by [Dynamic Theme](https://github.com/T8RIN/DynamicTheme)
 - Dynamic colors theming even for Android versions less than 12
 - Image based color scheme
+- Custom fonts
+  - Montserrat
+  - Comfortaa
+  - Caveat
+  - Handjet
+  - Jura
+  - Podkova
+  - Tektur
+  - YsabeauSC
+- In app font scale changing
 
 (Yes, app supports dynamic coloring based on wallpapers for every android version)
 
