@@ -708,40 +708,11 @@ fun LazyListScope.settingsBlock(
                             .padding(vertical = 16.dp, horizontal = 8.dp)
                     ) {
                         FontFam.entries.forEachIndexed { index, font ->
-                            val (_, name) = font
-                            val selected = font == settingsState.font
-                            MaterialTheme(
-                                typography = Typography(font)
-                            ) {
-                                PreferenceItem(
-                                    onClick = {
-                                        viewModel.setFont(index)
-                                    },
-                                    title = name ?: stringResource(id = R.string.defaultt),
-                                    subtitle = LoremIpsum(15).values.joinToString(" "),
-                                    color = MaterialTheme.colorScheme.secondaryContainer.copy(
-                                        alpha = animateFloatAsState(
-                                            if (selected) 0.7f
-                                            else 0.2f
-                                        ).value
-                                    ),
-                                    modifier = Modifier
-                                        .fillMaxWidth()
-                                        .padding(horizontal = 8.dp)
-                                        .border(
-                                            width = settingsState.borderWidth,
-                                            color = animateColorAsState(
-                                                if (selected) MaterialTheme
-                                                    .colorScheme
-                                                    .onSecondaryContainer
-                                                    .copy(alpha = 0.5f)
-                                                else Color.Transparent
-                                            ).value,
-                                            shape = RoundedCornerShape(16.dp)
-                                        ),
-                                    endIcon = if (selected) Icons.Rounded.RadioButtonChecked else Icons.Rounded.RadioButtonUnchecked
-                                )
-                            }
+                            FontSelectionItem(
+                                index = index,
+                                font = font,
+                                onFontSelected = viewModel::setFont
+                            )
                         }
                     }
                     HorizontalDivider(

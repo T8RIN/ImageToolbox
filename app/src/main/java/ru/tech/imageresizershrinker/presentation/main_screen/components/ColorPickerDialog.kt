@@ -46,6 +46,7 @@ import androidx.compose.material.icons.rounded.ContentCopy
 import androidx.compose.material.icons.rounded.ContentPaste
 import androidx.compose.material.icons.rounded.Delete
 import androidx.compose.material.icons.rounded.Done
+import androidx.compose.material.icons.rounded.Shuffle
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
@@ -124,18 +125,18 @@ fun ColorPickerDialog(
     var primary by rememberSaveable(colorTuple) { mutableIntStateOf(colorTuple.primary.toArgb()) }
     var secondary by rememberSaveable(colorTuple) {
         mutableIntStateOf(
-            colorTuple.secondary?.toArgb() ?: colorTuple.primary.calculateSecondaryColor()
+            colorTuple.secondary?.toArgb()!!
         )
     }
     var tertiary by rememberSaveable(colorTuple) {
         mutableIntStateOf(
-            colorTuple.tertiary?.toArgb() ?: colorTuple.primary.calculateTertiaryColor()
+            colorTuple.tertiary?.toArgb()!!
         )
     }
 
     var surface by rememberSaveable(colorTuple) {
         mutableIntStateOf(
-            colorTuple.surface?.toArgb() ?: colorTuple.primary.calculateSurfaceColor()
+            colorTuple.surface?.toArgb()!!
         )
     }
 
@@ -228,10 +229,12 @@ fun ColorPickerDialog(
                             ColorCustomComponent(
                                 color = primary,
                                 onColorChange = {
+                                    if(primary != it) {
+                                        secondary = Color(it).calculateSecondaryColor()
+                                        tertiary = Color(it).calculateTertiaryColor()
+                                        surface = Color(it).calculateSurfaceColor()
+                                    }
                                     primary = it
-                                    secondary = Color(it).calculateSecondaryColor()
-                                    tertiary = Color(it).calculateTertiaryColor()
-                                    surface = Color(it).calculateSurfaceColor()
                                 }
                             )
                             Spacer(modifier = Modifier.height(16.dp))
@@ -779,7 +782,7 @@ private fun ColorCustomInfoComponent(
                     onClick = { onColorChange(Random.nextInt()) }
                 ) {
                     Icon(
-                        imageVector = Icons.Outlined.ShuffleOn,
+                        imageVector = Icons.Rounded.Shuffle,
                         contentDescription = null,
                         tint = animateColorAsState(
                             Color(color).inverse(
