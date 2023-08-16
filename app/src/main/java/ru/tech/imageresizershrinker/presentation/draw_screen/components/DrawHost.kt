@@ -2,8 +2,12 @@ package ru.tech.imageresizershrinker.presentation.draw_screen.components
 
 import android.net.Uri
 import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.core.CubicBezierEasing
+import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
+import androidx.compose.animation.slideInHorizontally
+import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
@@ -38,30 +42,42 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.Delete
+import androidx.compose.material.icons.outlined.Share
 import androidx.compose.material.icons.rounded.AddPhotoAlternate
+import androidx.compose.material.icons.rounded.ArrowBack
+import androidx.compose.material.icons.rounded.Build
 import androidx.compose.material.icons.rounded.Draw
 import androidx.compose.material.icons.rounded.FormatPaint
 import androidx.compose.material.icons.rounded.Image
 import androidx.compose.material.icons.rounded.Redo
 import androidx.compose.material.icons.rounded.Save
 import androidx.compose.material.icons.rounded.Undo
+import androidx.compose.material3.BottomSheetScaffoldState
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExtendedFloatingActionButton
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.FloatingActionButtonDefaults
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.IconButtonDefaults
+import androidx.compose.material3.LargeTopAppBar
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedIconButton
+import androidx.compose.material3.SheetValue
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -69,6 +85,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalDensity
@@ -80,7 +97,9 @@ import com.t8rin.drawbox.domain.AbstractDrawController
 import com.t8rin.drawbox.domain.DrawController
 import com.t8rin.drawbox.presentation.compose.DrawBox
 import dev.olshevski.navigation.reimagined.AnimatedNavHost
+import dev.olshevski.navigation.reimagined.NavAction
 import dev.olshevski.navigation.reimagined.NavController
+import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.domain.model.ImageFormat
 import ru.tech.imageresizershrinker.presentation.root.theme.icons.Eraser
@@ -96,13 +115,16 @@ import ru.tech.imageresizershrinker.presentation.root.utils.modifier.navBarsPadd
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.navBarsPaddingOnlyIfTheyAtTheEnd
 import ru.tech.imageresizershrinker.presentation.root.widget.controls.ExtensionGroup
 import ru.tech.imageresizershrinker.presentation.root.widget.image.Picture
+import ru.tech.imageresizershrinker.presentation.root.widget.other.TopAppBarEmoji
 import ru.tech.imageresizershrinker.presentation.root.widget.preferences.PreferenceItem
 import ru.tech.imageresizershrinker.presentation.root.widget.sheets.SimpleSheet
 import ru.tech.imageresizershrinker.presentation.root.widget.text.AutoSizeText
+import ru.tech.imageresizershrinker.presentation.root.widget.text.Marquee
 import ru.tech.imageresizershrinker.presentation.root.widget.text.RoundedTextField
 import ru.tech.imageresizershrinker.presentation.root.widget.text.TitleItem
 import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalSettingsState
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DrawHost(
     modifier: Modifier,
@@ -118,362 +140,477 @@ fun DrawHost(
     onPickImage: () -> Unit,
     switch: @Composable () -> Unit,
     startDrawOnBackground: (Int, Int, Color) -> Unit,
-    onOpenColorPicker: () -> Unit
+    onOpenColorPicker: () -> Unit,
+    scaffoldState: BottomSheetScaffoldState,
+    isBitmapChanged: Boolean,
+    onBack: () -> Unit,
+    onShare: () -> Unit
 ) {
     val showBackgroundDrawingSetup = rememberSaveable { mutableStateOf(false) }
     val settingsState = LocalSettingsState.current
+
+    val scope = rememberCoroutineScope()
+    val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
+
+    val screenWidth = LocalConfiguration.current.screenWidthDp
+    val easing = CubicBezierEasing(0.48f, 0.19f, 0.05f, 1.03f)
     AnimatedNavHost(
-        modifier = modifier,
+        modifier = modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
         controller = navController,
-        transitionSpec = { _, _, _ ->
-            fadeIn() togetherWith fadeOut()
+        transitionSpec = { action, _, _ ->
+            if (action != NavAction.Pop) {
+                slideInHorizontally(
+                    animationSpec = tween(600, easing = easing),
+                    initialOffsetX = { screenWidth }) + fadeIn(
+                    tween(300, 100)
+                ) togetherWith slideOutHorizontally(
+                    animationSpec = tween(600, easing = easing),
+                    targetOffsetX = { -screenWidth }) + fadeOut(
+                    tween(300, 100)
+                )
+            } else {
+                slideInHorizontally(
+                    animationSpec = tween(600, easing = easing),
+                    initialOffsetX = { -screenWidth }) + fadeIn(
+                    tween(300, 100)
+                ) togetherWith slideOutHorizontally(
+                    animationSpec = tween(600, easing = easing),
+                    targetOffsetX = { screenWidth }) + fadeOut(
+                    tween(300, 100)
+                )
+            }
         }
     ) { drawBehavior ->
-        when (drawBehavior) {
-            is DrawBehavior.Background -> {
-                if (portrait) {
-                    DrawBox(
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .padding(8.dp),
-                        zoomEnabled = zoomEnabled,
-                        drawController = drawController,
-                        drawingModifier = Modifier.border(
-                            width = 1.dp,
-                            color = MaterialTheme.colorScheme.outlineVariant()
-                        ),
-                        onGetDrawController = onGetDrawController
+        val topAppBar: @Composable () -> Unit = {
+            TopAppBar(
+                modifier = Modifier.drawHorizontalStroke(),
+                title = {
+                    Marquee(
+                        edgeColor = MaterialTheme.colorScheme.surfaceColorAtElevation(3.dp)
                     ) {
-                        Box(
+                        Text(stringResource(R.string.draw))
+                    }
+                },
+                actions = {
+                    if (portrait) {
+                        IconButton(
+                            onClick = {
+                                scope.launch {
+                                    if (scaffoldState.bottomSheetState.currentValue == SheetValue.Expanded) {
+                                        scaffoldState.bottomSheetState.partialExpand()
+                                    } else {
+                                        scaffoldState.bottomSheetState.expand()
+                                    }
+                                }
+                            },
+                        ) {
+                            Icon(Icons.Rounded.Build, null)
+                        }
+                    }
+                    IconButton(
+                        onClick = onShare,
+                        enabled = drawBehavior !is DrawBehavior.None
+                    ) {
+                        Icon(Icons.Outlined.Share, null)
+                    }
+                    IconButton(
+                        onClick = {
+                            drawController?.clearDrawing()
+                        },
+                        enabled = drawBehavior !is DrawBehavior.None && isBitmapChanged
+                    ) {
+                        Icon(Icons.Outlined.Delete, null)
+                    }
+                },
+                colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
+                    containerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(
+                        3.dp
+                    )
+                ),
+                navigationIcon = {
+                    IconButton(
+                        onClick = onBack
+                    ) {
+                        Icon(Icons.Rounded.ArrowBack, null)
+                    }
+                },
+            )
+        }
+
+        Column {
+            when (drawBehavior) {
+                is DrawBehavior.Background -> {
+                    topAppBar()
+                    if (portrait) {
+                        DrawBox(
                             modifier = Modifier
-                                .aspectRatio(drawBehavior.run { width / height.toFloat() })
                                 .fillMaxSize()
-                                .background(
-                                    drawController?.backgroundColor ?: Color.Transparent
-                                )
-                        )
-                    }
-                } else {
-                    Row(
-                        modifier = Modifier.navBarsPaddingOnlyIfTheyAtTheEnd(),
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        Box(
-                            Modifier
-                                .weight(1.2f)
-                                .clipToBounds()
+                                .padding(8.dp),
+                            zoomEnabled = zoomEnabled,
+                            drawController = drawController,
+                            drawingModifier = Modifier.border(
+                                width = 1.dp,
+                                color = MaterialTheme.colorScheme.outlineVariant()
+                            ),
+                            onGetDrawController = onGetDrawController
                         ) {
-                            DrawBox(
+                            Box(
                                 modifier = Modifier
+                                    .aspectRatio(drawBehavior.run { width / height.toFloat() })
                                     .fillMaxSize()
-                                    .padding(8.dp)
-                                    .navBarsPaddingOnlyIfTheyAtTheBottom(),
-                                drawController = drawController,
-                                drawingModifier = Modifier.border(
-                                    width = 1.dp,
-                                    color = MaterialTheme.colorScheme.outlineVariant()
-                                ),
-                                zoomEnabled = zoomEnabled,
-                                onGetDrawController = onGetDrawController
-                            ) {
-                                Box(
-                                    modifier = Modifier
-                                        .aspectRatio(drawBehavior.run { width / height.toFloat() })
-                                        .fillMaxSize()
-                                        .background(
-                                            drawController?.backgroundColor
-                                                ?: Color.Transparent
-                                        )
-                                )
-                            }
-                        }
-                        Box(
-                            Modifier
-                                .fillMaxHeight()
-                                .width(settingsState.borderWidth.coerceAtLeast(0.25.dp))
-                                .background(MaterialTheme.colorScheme.outlineVariant())
-                        )
-                        drawController?.let { drawController ->
-                            LazyColumn(
-                                horizontalAlignment = Alignment.CenterHorizontally,
-                                contentPadding = PaddingValues(
-                                    bottom = WindowInsets
-                                        .navigationBars
-                                        .asPaddingValues()
-                                        .calculateBottomPadding() + WindowInsets.ime
-                                        .asPaddingValues()
-                                        .calculateBottomPadding(),
-                                    top = if (drawBehavior is DrawBehavior.None) 20.dp else 0.dp,
-                                ),
-                                modifier = Modifier
-                                    .weight(0.7f)
-                                    .clipToBounds()
-                            ) {
-                                item {
-                                    val border = BorderStroke(
-                                        settingsState.borderWidth,
-                                        MaterialTheme.colorScheme.outlineVariant(
-                                            luminance = 0.1f
-                                        )
+                                    .background(
+                                        drawController?.backgroundColor ?: Color.Transparent
                                     )
-                                    Row(
-                                        Modifier
-                                            .padding(16.dp)
-                                            .block(shape = CircleShape)
-                                    ) {
-                                        switch()
-                                        OutlinedIconButton(
-                                            border = border,
-                                            onClick = { drawController.undo() },
-                                            enabled = drawController.lastPaths.isNotEmpty() || drawController.paths.isNotEmpty()
-                                        ) {
-                                            Icon(Icons.Rounded.Undo, null)
-                                        }
-                                        OutlinedIconButton(
-                                            border = border,
-                                            onClick = { drawController.redo() },
-                                            enabled = drawController.undonePaths.isNotEmpty()
-                                        ) {
-                                            Icon(Icons.Rounded.Redo, null)
-                                        }
-                                        val isEraserOn = drawController.isEraserOn
-                                        OutlinedIconButton(
-                                            colors = IconButtonDefaults.filledIconButtonColors(
-                                                containerColor = animateColorAsState(
-                                                    if (isEraserOn) MaterialTheme.colorScheme.mixedColor
-                                                    else Color.Transparent
-                                                ).value,
-                                                contentColor = animateColorAsState(
-                                                    if (isEraserOn) MaterialTheme.colorScheme.onMixedColor
-                                                    else MaterialTheme.colorScheme.onSurface
-                                                ).value,
-                                                disabledContainerColor = Color.Transparent
-                                            ),
-                                            border = border,
-                                            onClick = { drawController.toggleEraser() }
-                                        ) {
-                                            Icon(Icons.Rounded.Eraser, null)
-                                        }
-                                    }
-                                    OpenColorPickerCard(onOpen = onOpenColorPicker)
-                                    Spacer(Modifier.height(16.dp))
-                                    DrawBackgroundSelector(drawController)
-                                    DrawColorSelector(drawController)
-                                    DrawAlphaSelector(drawController)
-                                    LineWidthSelector(drawController)
-                                    ExtensionGroup(
-                                        modifier = Modifier
-                                            .padding(16.dp)
-                                            .navigationBarsPadding(),
-                                        enabled = drawBehavior !is DrawBehavior.None,
-                                        imageFormat = imageFormat,
-                                        onMimeChange = onMimeTypeChange
-                                    )
-                                }
-                            }
-                        }
-                        Box(
-                            Modifier
-                                .fillMaxHeight()
-                                .width(settingsState.borderWidth.coerceAtLeast(0.25.dp))
-                                .background(MaterialTheme.colorScheme.outlineVariant())
-                                .padding(start = 20.dp)
-                        )
-                        Column(
-                            Modifier
-                                .padding(horizontal = 20.dp)
-                                .fillMaxHeight()
-                                .navigationBarsPadding(),
-                            horizontalAlignment = Alignment.CenterHorizontally,
-                            verticalArrangement = Arrangement.Center
-                        ) {
-                            FloatingActionButton(
-                                onClick = onSaveRequest,
-                                modifier = Modifier.fabBorder(),
-                                elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
-                            ) {
-                                Icon(Icons.Rounded.Save, null)
-                            }
-                        }
-                    }
-                }
-            }
-
-            is DrawBehavior.Image -> {
-                if (portrait) {
-                    DrawBox(
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .padding(8.dp),
-                        drawController = drawController,
-                        drawingModifier = Modifier.border(
-                            width = 1.dp,
-                            color = MaterialTheme.colorScheme.outlineVariant()
-                        ),
-                        zoomEnabled = zoomEnabled,
-                        onGetDrawController = onGetDrawController
-                    ) {
-                        Picture(
-                            model = uri,
-                            contentScale = ContentScale.Fit,
-                            shape = RectangleShape,
-                            transformations = listOf(UpscaleTransformation())
-                        )
-                    }
-                } else {
-                    Row(
-                        modifier = Modifier.navBarsPaddingOnlyIfTheyAtTheEnd(),
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        Box(
-                            Modifier
-                                .weight(1.2f)
-                                .clipToBounds()
-                        ) {
-                            DrawBox(
-                                modifier = Modifier
-                                    .fillMaxSize()
-                                    .padding(8.dp)
-                                    .navBarsPaddingOnlyIfTheyAtTheBottom(),
-                                drawController = drawController,
-                                drawingModifier = Modifier.border(
-                                    width = 1.dp,
-                                    color = MaterialTheme.colorScheme.outlineVariant()
-                                ),
-                                zoomEnabled = zoomEnabled,
-                                onGetDrawController = onGetDrawController
-                            ) {
-                                Picture(
-                                    model = uri,
-                                    contentScale = ContentScale.Fit,
-                                    shape = RectangleShape,
-                                    transformations = listOf(UpscaleTransformation())
-                                )
-                            }
-                        }
-                        Box(
-                            Modifier
-                                .fillMaxHeight()
-                                .width(settingsState.borderWidth.coerceAtLeast(0.25.dp))
-                                .background(MaterialTheme.colorScheme.outlineVariant())
-                        )
-                        drawController?.let { drawController ->
-                            LazyColumn(
-                                horizontalAlignment = Alignment.CenterHorizontally,
-                                contentPadding = PaddingValues(
-                                    bottom = WindowInsets
-                                        .navigationBars
-                                        .asPaddingValues()
-                                        .calculateBottomPadding() + WindowInsets.ime
-                                        .asPaddingValues()
-                                        .calculateBottomPadding(),
-                                    top = if (drawBehavior is DrawBehavior.None) 20.dp else 0.dp,
-                                ),
-                                modifier = Modifier
-                                    .weight(0.7f)
-                                    .clipToBounds()
-                            ) {
-                                item {
-                                    val border = BorderStroke(
-                                        settingsState.borderWidth,
-                                        MaterialTheme.colorScheme.outlineVariant(
-                                            luminance = 0.1f
-                                        )
-                                    )
-                                    Row(
-                                        Modifier
-                                            .padding(16.dp)
-                                            .block(shape = CircleShape)
-                                    ) {
-                                        switch()
-                                        OutlinedIconButton(
-                                            border = border,
-                                            onClick = { drawController.undo() },
-                                            enabled = drawController.lastPaths.isNotEmpty() || drawController.paths.isNotEmpty()
-                                        ) {
-                                            Icon(Icons.Rounded.Undo, null)
-                                        }
-                                        OutlinedIconButton(
-                                            border = border,
-                                            onClick = { drawController.redo() },
-                                            enabled = drawController.undonePaths.isNotEmpty()
-                                        ) {
-                                            Icon(Icons.Rounded.Redo, null)
-                                        }
-                                        val isEraserOn = drawController.isEraserOn
-                                        OutlinedIconButton(
-                                            colors = IconButtonDefaults.filledIconButtonColors(
-                                                containerColor = animateColorAsState(
-                                                    if (isEraserOn) MaterialTheme.colorScheme.mixedColor
-                                                    else Color.Transparent
-                                                ).value,
-                                                contentColor = animateColorAsState(
-                                                    if (isEraserOn) MaterialTheme.colorScheme.onMixedColor
-                                                    else MaterialTheme.colorScheme.onSurface
-                                                ).value,
-                                                disabledContainerColor = Color.Transparent
-                                            ),
-                                            border = border,
-                                            onClick = { drawController.toggleEraser() }
-                                        ) {
-                                            Icon(Icons.Rounded.Eraser, null)
-                                        }
-                                    }
-                                    OpenColorPickerCard(onOpen = onOpenColorPicker)
-                                    Spacer(Modifier.height(16.dp))
-                                    DrawColorSelector(drawController)
-                                    DrawAlphaSelector(drawController)
-                                    LineWidthSelector(drawController)
-                                    ExtensionGroup(
-                                        modifier = Modifier
-                                            .padding(16.dp)
-                                            .navigationBarsPadding(),
-                                        enabled = drawBehavior !is DrawBehavior.None,
-                                        imageFormat = imageFormat,
-                                        onMimeChange = onMimeTypeChange
-                                    )
-                                }
-                            }
-                        }
-                        Box(
-                            Modifier
-                                .fillMaxHeight()
-                                .width(settingsState.borderWidth.coerceAtLeast(0.25.dp))
-                                .background(MaterialTheme.colorScheme.outlineVariant())
-                                .padding(start = 20.dp)
-                        )
-                        Column(
-                            Modifier
-                                .padding(horizontal = 20.dp)
-                                .fillMaxHeight()
-                                .navigationBarsPadding(),
-                            horizontalAlignment = Alignment.CenterHorizontally,
-                            verticalArrangement = Arrangement.Center
-                        ) {
-                            FloatingActionButton(
-                                onClick = onPickImage,
-                                modifier = Modifier.fabBorder(),
-                                containerColor = MaterialTheme.colorScheme.tertiaryContainer,
-                                elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
-                                content = {
-                                    Icon(Icons.Rounded.AddPhotoAlternate, null)
-                                }
                             )
-                            Spacer(modifier = Modifier.height(16.dp))
-                            FloatingActionButton(
-                                onClick = onSaveRequest,
-                                modifier = Modifier.fabBorder(),
-                                elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
+                        }
+                    } else {
+                        Row(
+                            modifier = Modifier.navBarsPaddingOnlyIfTheyAtTheEnd(),
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Box(
+                                Modifier
+                                    .weight(1.2f)
+                                    .clipToBounds()
                             ) {
-                                Icon(Icons.Rounded.Save, null)
+                                DrawBox(
+                                    modifier = Modifier
+                                        .fillMaxSize()
+                                        .padding(8.dp)
+                                        .navBarsPaddingOnlyIfTheyAtTheBottom(),
+                                    drawController = drawController,
+                                    drawingModifier = Modifier.border(
+                                        width = 1.dp,
+                                        color = MaterialTheme.colorScheme.outlineVariant()
+                                    ),
+                                    zoomEnabled = zoomEnabled,
+                                    onGetDrawController = onGetDrawController
+                                ) {
+                                    Box(
+                                        modifier = Modifier
+                                            .aspectRatio(drawBehavior.run { width / height.toFloat() })
+                                            .fillMaxSize()
+                                            .background(
+                                                drawController?.backgroundColor
+                                                    ?: Color.Transparent
+                                            )
+                                    )
+                                }
+                            }
+                            Box(
+                                Modifier
+                                    .fillMaxHeight()
+                                    .width(settingsState.borderWidth.coerceAtLeast(0.25.dp))
+                                    .background(MaterialTheme.colorScheme.outlineVariant())
+                            )
+                            drawController?.let { drawController ->
+                                LazyColumn(
+                                    horizontalAlignment = Alignment.CenterHorizontally,
+                                    contentPadding = PaddingValues(
+                                        bottom = WindowInsets
+                                            .navigationBars
+                                            .asPaddingValues()
+                                            .calculateBottomPadding() + WindowInsets.ime
+                                            .asPaddingValues()
+                                            .calculateBottomPadding(),
+                                        top = if (drawBehavior is DrawBehavior.None) 20.dp else 0.dp,
+                                    ),
+                                    modifier = Modifier
+                                        .weight(0.7f)
+                                        .clipToBounds()
+                                ) {
+                                    item {
+                                        val border = BorderStroke(
+                                            settingsState.borderWidth,
+                                            MaterialTheme.colorScheme.outlineVariant(
+                                                luminance = 0.1f
+                                            )
+                                        )
+                                        Row(
+                                            Modifier
+                                                .padding(16.dp)
+                                                .block(shape = CircleShape)
+                                        ) {
+                                            switch()
+                                            OutlinedIconButton(
+                                                border = border,
+                                                onClick = { drawController.undo() },
+                                                enabled = drawController.lastPaths.isNotEmpty() || drawController.paths.isNotEmpty()
+                                            ) {
+                                                Icon(Icons.Rounded.Undo, null)
+                                            }
+                                            OutlinedIconButton(
+                                                border = border,
+                                                onClick = { drawController.redo() },
+                                                enabled = drawController.undonePaths.isNotEmpty()
+                                            ) {
+                                                Icon(Icons.Rounded.Redo, null)
+                                            }
+                                            val isEraserOn = drawController.isEraserOn
+                                            OutlinedIconButton(
+                                                colors = IconButtonDefaults.filledIconButtonColors(
+                                                    containerColor = animateColorAsState(
+                                                        if (isEraserOn) MaterialTheme.colorScheme.mixedColor
+                                                        else Color.Transparent
+                                                    ).value,
+                                                    contentColor = animateColorAsState(
+                                                        if (isEraserOn) MaterialTheme.colorScheme.onMixedColor
+                                                        else MaterialTheme.colorScheme.onSurface
+                                                    ).value,
+                                                    disabledContainerColor = Color.Transparent
+                                                ),
+                                                border = border,
+                                                onClick = { drawController.toggleEraser() }
+                                            ) {
+                                                Icon(Icons.Rounded.Eraser, null)
+                                            }
+                                        }
+                                        OpenColorPickerCard(onOpen = onOpenColorPicker)
+                                        Spacer(Modifier.height(16.dp))
+                                        DrawBackgroundSelector(drawController)
+                                        DrawColorSelector(drawController)
+                                        DrawAlphaSelector(drawController)
+                                        LineWidthSelector(drawController)
+                                        ExtensionGroup(
+                                            modifier = Modifier
+                                                .padding(16.dp)
+                                                .navigationBarsPadding(),
+                                            enabled = drawBehavior !is DrawBehavior.None,
+                                            imageFormat = imageFormat,
+                                            onMimeChange = onMimeTypeChange
+                                        )
+                                    }
+                                }
+                            }
+                            Box(
+                                Modifier
+                                    .fillMaxHeight()
+                                    .width(settingsState.borderWidth.coerceAtLeast(0.25.dp))
+                                    .background(MaterialTheme.colorScheme.outlineVariant())
+                                    .padding(start = 20.dp)
+                            )
+                            Column(
+                                Modifier
+                                    .padding(horizontal = 20.dp)
+                                    .fillMaxHeight()
+                                    .navigationBarsPadding(),
+                                horizontalAlignment = Alignment.CenterHorizontally,
+                                verticalArrangement = Arrangement.Center
+                            ) {
+                                FloatingActionButton(
+                                    onClick = onSaveRequest,
+                                    modifier = Modifier.fabBorder(),
+                                    elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
+                                ) {
+                                    Icon(Icons.Rounded.Save, null)
+                                }
                             }
                         }
                     }
                 }
-            }
 
-            is DrawBehavior.None -> {
-                Column {
+                is DrawBehavior.Image -> {
+                    topAppBar()
+                    if (portrait) {
+                        DrawBox(
+                            modifier = Modifier
+                                .fillMaxSize()
+                                .padding(8.dp),
+                            drawController = drawController,
+                            drawingModifier = Modifier.border(
+                                width = 1.dp,
+                                color = MaterialTheme.colorScheme.outlineVariant()
+                            ),
+                            zoomEnabled = zoomEnabled,
+                            onGetDrawController = onGetDrawController
+                        ) {
+                            Picture(
+                                model = uri,
+                                contentScale = ContentScale.Fit,
+                                shape = RectangleShape,
+                                transformations = listOf(UpscaleTransformation())
+                            )
+                        }
+                    } else {
+                        Row(
+                            modifier = Modifier.navBarsPaddingOnlyIfTheyAtTheEnd(),
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Box(
+                                Modifier
+                                    .weight(1.2f)
+                                    .clipToBounds()
+                            ) {
+                                DrawBox(
+                                    modifier = Modifier
+                                        .fillMaxSize()
+                                        .padding(8.dp)
+                                        .navBarsPaddingOnlyIfTheyAtTheBottom(),
+                                    drawController = drawController,
+                                    drawingModifier = Modifier.border(
+                                        width = 1.dp,
+                                        color = MaterialTheme.colorScheme.outlineVariant()
+                                    ),
+                                    zoomEnabled = zoomEnabled,
+                                    onGetDrawController = onGetDrawController
+                                ) {
+                                    Picture(
+                                        model = uri,
+                                        contentScale = ContentScale.Fit,
+                                        shape = RectangleShape,
+                                        transformations = listOf(UpscaleTransformation())
+                                    )
+                                }
+                            }
+                            Box(
+                                Modifier
+                                    .fillMaxHeight()
+                                    .width(settingsState.borderWidth.coerceAtLeast(0.25.dp))
+                                    .background(MaterialTheme.colorScheme.outlineVariant())
+                            )
+                            drawController?.let { drawController ->
+                                LazyColumn(
+                                    horizontalAlignment = Alignment.CenterHorizontally,
+                                    contentPadding = PaddingValues(
+                                        bottom = WindowInsets
+                                            .navigationBars
+                                            .asPaddingValues()
+                                            .calculateBottomPadding() + WindowInsets.ime
+                                            .asPaddingValues()
+                                            .calculateBottomPadding(),
+                                        top = if (drawBehavior is DrawBehavior.None) 20.dp else 0.dp,
+                                    ),
+                                    modifier = Modifier
+                                        .weight(0.7f)
+                                        .clipToBounds()
+                                ) {
+                                    item {
+                                        val border = BorderStroke(
+                                            settingsState.borderWidth,
+                                            MaterialTheme.colorScheme.outlineVariant(
+                                                luminance = 0.1f
+                                            )
+                                        )
+                                        Row(
+                                            Modifier
+                                                .padding(16.dp)
+                                                .block(shape = CircleShape)
+                                        ) {
+                                            switch()
+                                            OutlinedIconButton(
+                                                border = border,
+                                                onClick = { drawController.undo() },
+                                                enabled = drawController.lastPaths.isNotEmpty() || drawController.paths.isNotEmpty()
+                                            ) {
+                                                Icon(Icons.Rounded.Undo, null)
+                                            }
+                                            OutlinedIconButton(
+                                                border = border,
+                                                onClick = { drawController.redo() },
+                                                enabled = drawController.undonePaths.isNotEmpty()
+                                            ) {
+                                                Icon(Icons.Rounded.Redo, null)
+                                            }
+                                            val isEraserOn = drawController.isEraserOn
+                                            OutlinedIconButton(
+                                                colors = IconButtonDefaults.filledIconButtonColors(
+                                                    containerColor = animateColorAsState(
+                                                        if (isEraserOn) MaterialTheme.colorScheme.mixedColor
+                                                        else Color.Transparent
+                                                    ).value,
+                                                    contentColor = animateColorAsState(
+                                                        if (isEraserOn) MaterialTheme.colorScheme.onMixedColor
+                                                        else MaterialTheme.colorScheme.onSurface
+                                                    ).value,
+                                                    disabledContainerColor = Color.Transparent
+                                                ),
+                                                border = border,
+                                                onClick = { drawController.toggleEraser() }
+                                            ) {
+                                                Icon(Icons.Rounded.Eraser, null)
+                                            }
+                                        }
+                                        OpenColorPickerCard(onOpen = onOpenColorPicker)
+                                        Spacer(Modifier.height(16.dp))
+                                        DrawColorSelector(drawController)
+                                        DrawAlphaSelector(drawController)
+                                        LineWidthSelector(drawController)
+                                        ExtensionGroup(
+                                            modifier = Modifier
+                                                .padding(16.dp)
+                                                .navigationBarsPadding(),
+                                            enabled = drawBehavior !is DrawBehavior.None,
+                                            imageFormat = imageFormat,
+                                            onMimeChange = onMimeTypeChange
+                                        )
+                                    }
+                                }
+                            }
+                            Box(
+                                Modifier
+                                    .fillMaxHeight()
+                                    .width(settingsState.borderWidth.coerceAtLeast(0.25.dp))
+                                    .background(MaterialTheme.colorScheme.outlineVariant())
+                                    .padding(start = 20.dp)
+                            )
+                            Column(
+                                Modifier
+                                    .padding(horizontal = 20.dp)
+                                    .fillMaxHeight()
+                                    .navigationBarsPadding(),
+                                horizontalAlignment = Alignment.CenterHorizontally,
+                                verticalArrangement = Arrangement.Center
+                            ) {
+                                FloatingActionButton(
+                                    onClick = onPickImage,
+                                    modifier = Modifier.fabBorder(),
+                                    containerColor = MaterialTheme.colorScheme.tertiaryContainer,
+                                    elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
+                                    content = {
+                                        Icon(Icons.Rounded.AddPhotoAlternate, null)
+                                    }
+                                )
+                                Spacer(modifier = Modifier.height(16.dp))
+                                FloatingActionButton(
+                                    onClick = onSaveRequest,
+                                    modifier = Modifier.fabBorder(),
+                                    elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
+                                ) {
+                                    Icon(Icons.Rounded.Save, null)
+                                }
+                            }
+                        }
+                    }
+                }
+
+                is DrawBehavior.None -> {
+
+                    LargeTopAppBar(
+                        scrollBehavior = scrollBehavior,
+                        modifier = Modifier.drawHorizontalStroke(),
+                        title = {
+                            Marquee(
+                                edgeColor = MaterialTheme.colorScheme.surfaceColorAtElevation(3.dp)
+                            ) {
+                                Text(stringResource(R.string.draw))
+                            }
+                        },
+                        colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
+                            containerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(
+                                3.dp
+                            )
+                        ),
+                        navigationIcon = {
+                            IconButton(
+                                onClick = onBack
+                            ) {
+                                Icon(Icons.Rounded.ArrowBack, null)
+                            }
+                        },
+                        actions = {
+                            TopAppBarEmoji()
+                        }
+                    )
                     val cutout = WindowInsets.displayCutout.asPaddingValues()
                     LazyVerticalStaggeredGrid(
                         modifier = Modifier.weight(1f),

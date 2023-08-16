@@ -165,7 +165,6 @@ import ru.tech.imageresizershrinker.presentation.root.widget.text.TitleItem
 import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalSettingsState
 import kotlin.math.roundToInt
 
-@OptIn(ExperimentalLayoutApi::class)
 @SuppressLint("SourceLockedOrientationActivity")
 fun LazyListScope.settingsBlock(
     onEditPresets: () -> Unit,
@@ -189,8 +188,16 @@ fun LazyListScope.settingsBlock(
         ) {
             Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
                 listOf(
-                    Triple(stringResource(R.string.dark), Icons.Rounded.ModeNight, NightMode.Dark),
-                    Triple(stringResource(R.string.light), Icons.Rounded.WbSunny, NightMode.Light),
+                    Triple(
+                        stringResource(R.string.dark),
+                        Icons.Rounded.ModeNight,
+                        NightMode.Dark
+                    ),
+                    Triple(
+                        stringResource(R.string.light),
+                        Icons.Rounded.WbSunny,
+                        NightMode.Light
+                    ),
                     Triple(
                         stringResource(R.string.system),
                         Icons.Rounded.SettingsSystemDaydream,

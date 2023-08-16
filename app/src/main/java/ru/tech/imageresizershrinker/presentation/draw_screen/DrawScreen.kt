@@ -7,11 +7,14 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.core.CubicBezierEasing
+import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
+import androidx.compose.animation.slideInHorizontally
+import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -28,11 +31,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.Delete
-import androidx.compose.material.icons.outlined.Share
 import androidx.compose.material.icons.rounded.AddPhotoAlternate
-import androidx.compose.material.icons.rounded.ArrowBack
-import androidx.compose.material.icons.rounded.Build
 import androidx.compose.material.icons.rounded.Draw
 import androidx.compose.material.icons.rounded.Redo
 import androidx.compose.material.icons.rounded.Save
@@ -47,18 +46,13 @@ import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.IconButtonDefaults
-import androidx.compose.material3.LargeTopAppBar
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedIconButton
 import androidx.compose.material3.SheetValue
 import androidx.compose.material3.Switch
 import androidx.compose.material3.SwitchDefaults
-import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberBottomSheetScaffoldState
 import androidx.compose.material3.rememberStandardBottomSheetState
-import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -69,24 +63,20 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
-import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.max
 import com.t8rin.dynamic.theme.LocalDynamicThemeState
 import com.t8rin.dynamic.theme.getAppColorTuple
 import com.t8rin.dynamic.theme.observeAsState
+import dev.olshevski.navigation.reimagined.NavAction
 import dev.olshevski.navigation.reimagined.hilt.hiltViewModel
 import kotlinx.coroutines.launch
-import ru.tech.imageresizershrinker.R
-import ru.tech.imageresizershrinker.presentation.draw_screen.components.PickColorFromImageSheet
 import ru.tech.imageresizershrinker.presentation.draw_screen.components.DrawAlphaSelector
 import ru.tech.imageresizershrinker.presentation.draw_screen.components.DrawBackgroundSelector
 import ru.tech.imageresizershrinker.presentation.draw_screen.components.DrawBehavior
@@ -94,6 +84,7 @@ import ru.tech.imageresizershrinker.presentation.draw_screen.components.DrawColo
 import ru.tech.imageresizershrinker.presentation.draw_screen.components.DrawHost
 import ru.tech.imageresizershrinker.presentation.draw_screen.components.LineWidthSelector
 import ru.tech.imageresizershrinker.presentation.draw_screen.components.OpenColorPickerCard
+import ru.tech.imageresizershrinker.presentation.draw_screen.components.PickColorFromImageSheet
 import ru.tech.imageresizershrinker.presentation.draw_screen.viewModel.DrawViewModel
 import ru.tech.imageresizershrinker.presentation.root.theme.icons.Eraser
 import ru.tech.imageresizershrinker.presentation.root.theme.mixedColor
@@ -111,8 +102,6 @@ import ru.tech.imageresizershrinker.presentation.root.widget.dialogs.ExitWithout
 import ru.tech.imageresizershrinker.presentation.root.widget.other.LoadingDialog
 import ru.tech.imageresizershrinker.presentation.root.widget.other.LocalToastHost
 import ru.tech.imageresizershrinker.presentation.root.widget.other.LockScreenOrientation
-import ru.tech.imageresizershrinker.presentation.root.widget.other.TopAppBarEmoji
-import ru.tech.imageresizershrinker.presentation.root.widget.text.Marquee
 import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalSettingsState
 import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalWindowSizeClass
 
@@ -200,8 +189,6 @@ fun DrawScreen(
         }
     }
 
-    val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
-
     val configuration = LocalConfiguration.current
     val sizeClass = LocalWindowSizeClass.current.widthSizeClass
     val portrait =
@@ -254,125 +241,60 @@ fun DrawScreen(
     }
 
     val content: @Composable (PaddingValues) -> Unit = { paddingValues ->
-        Box(
-            Modifier
+        DrawHost(
+            modifier = Modifier
                 .fillMaxSize()
-                .padding(paddingValues)
-                .nestedScroll(scrollBehavior.nestedScrollConnection)
-        ) {
-            Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                if (viewModel.drawBehavior is DrawBehavior.None) {
-                    LargeTopAppBar(
-                        scrollBehavior = scrollBehavior,
-                        modifier = Modifier.drawHorizontalStroke(),
-                        title = {
-                            Marquee(
-                                edgeColor = MaterialTheme.colorScheme.surfaceColorAtElevation(3.dp)
-                            ) {
-                                Text(stringResource(R.string.draw))
-                            }
-                        },
-                        colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
-                            containerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(
-                                3.dp
-                            )
-                        ),
-                        navigationIcon = {
-                            IconButton(
-                                onClick = onBack
-                            ) {
-                                Icon(Icons.Rounded.ArrowBack, null)
-                            }
-                        },
-                        actions = {
-                            TopAppBarEmoji()
-                        }
-                    )
-                } else {
-                    TopAppBar(
-                        modifier = Modifier.drawHorizontalStroke(),
-                        title = {
-                            Marquee(
-                                edgeColor = MaterialTheme.colorScheme.surfaceColorAtElevation(3.dp)
-                            ) {
-                                Text(stringResource(R.string.draw))
-                            }
-                        },
-                        actions = {
-                            if (portrait) {
-                                IconButton(
-                                    onClick = {
-                                        scope.launch {
-                                            if (scaffoldState.bottomSheetState.currentValue == SheetValue.Expanded) {
-                                                scaffoldState.bottomSheetState.partialExpand()
-                                            } else {
-                                                scaffoldState.bottomSheetState.expand()
-                                            }
-                                        }
-                                    },
-                                ) {
-                                    Icon(Icons.Rounded.Build, null)
-                                }
-                            }
-                            IconButton(
-                                onClick = {
-                                    viewModel.shareBitmap { showConfetti() }
-                                },
-                                enabled = viewModel.drawBehavior !is DrawBehavior.None
-                            ) {
-                                Icon(Icons.Outlined.Share, null)
-                            }
-                            IconButton(
-                                onClick = {
-                                    viewModel.drawController?.clearDrawing()
-                                },
-                                enabled = viewModel.drawBehavior !is DrawBehavior.None && viewModel.isBitmapChanged
-                            ) {
-                                Icon(Icons.Outlined.Delete, null)
-                            }
-                        },
-                        colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
-                            containerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(
-                                3.dp
-                            )
-                        ),
-                        navigationIcon = {
-                            IconButton(
-                                onClick = onBack
-                            ) {
-                                Icon(Icons.Rounded.ArrowBack, null)
-                            }
-                        },
-                    )
-                }
-                DrawHost(
-                    modifier = Modifier.weight(1f),
-                    navController = viewModel.navController,
-                    drawController = viewModel.drawController,
-                    portrait = portrait,
-                    zoomEnabled = zoomEnabled,
-                    onGetDrawController = viewModel::updateDrawController,
-                    onSaveRequest = saveBitmap,
-                    imageFormat = viewModel.imageFormat,
-                    onMimeTypeChange = viewModel::updateMimeType,
-                    uri = viewModel.uri,
-                    onPickImage = pickImage,
-                    switch = switch,
-                    startDrawOnBackground = viewModel::startDrawOnBackground,
-                    onOpenColorPicker = {
-                        viewModel.openColorPicker()
-                        showPickColorSheet.value = true
-                    }
-                )
-            }
-        }
+                .padding(paddingValues),
+            navController = viewModel.navController,
+            drawController = viewModel.drawController,
+            portrait = portrait,
+            zoomEnabled = zoomEnabled,
+            onGetDrawController = viewModel::updateDrawController,
+            onSaveRequest = saveBitmap,
+            imageFormat = viewModel.imageFormat,
+            onMimeTypeChange = viewModel::updateMimeType,
+            uri = viewModel.uri,
+            onPickImage = pickImage,
+            switch = switch,
+            startDrawOnBackground = viewModel::startDrawOnBackground,
+            onOpenColorPicker = {
+                viewModel.openColorPicker()
+                showPickColorSheet.value = true
+            },
+            scaffoldState = scaffoldState,
+            isBitmapChanged = viewModel.isBitmapChanged,
+            onBack = onBack,
+            onShare = { viewModel.shareBitmap { showConfetti() } }
+        )
     }
 
 
+    val screenWidth = LocalConfiguration.current.screenWidthDp
+    val easing = CubicBezierEasing(0.48f, 0.19f, 0.05f, 1.03f)
     AnimatedContent(
         targetState = portrait && viewModel.drawBehavior !is DrawBehavior.None,
         transitionSpec = {
-            fadeIn() togetherWith fadeOut()
+            if (this.targetState) {
+                slideInHorizontally(
+                    animationSpec = tween(600, easing = easing),
+                    initialOffsetX = { screenWidth }) + fadeIn(
+                    tween(300, 100)
+                ) togetherWith slideOutHorizontally(
+                    animationSpec = tween(600, easing = easing),
+                    targetOffsetX = { -screenWidth }) + fadeOut(
+                    tween(300, 100)
+                )
+            } else {
+                slideInHorizontally(
+                    animationSpec = tween(600, easing = easing),
+                    initialOffsetX = { -screenWidth }) + fadeIn(
+                    tween(300, 100)
+                ) togetherWith slideOutHorizontally(
+                    animationSpec = tween(600, easing = easing),
+                    targetOffsetX = { screenWidth }) + fadeOut(
+                    tween(300, 100)
+                )
+            }
         }
     ) { showScaffold ->
         if (showScaffold) {
@@ -482,7 +404,8 @@ fun DrawScreen(
                 },
                 content = content
             )
-        } else {
+        }
+        else {
             content(PaddingValues())
         }
     }
