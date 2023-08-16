@@ -11,9 +11,6 @@ import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.background
-import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -28,18 +25,14 @@ import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Delete
 import androidx.compose.material.icons.outlined.Share
 import androidx.compose.material.icons.rounded.AddPhotoAlternate
 import androidx.compose.material.icons.rounded.ArrowBack
 import androidx.compose.material.icons.rounded.Build
-import androidx.compose.material.icons.rounded.Colorize
-import androidx.compose.material.icons.rounded.ContentPaste
 import androidx.compose.material.icons.rounded.Draw
 import androidx.compose.material.icons.rounded.Redo
 import androidx.compose.material.icons.rounded.Save
@@ -47,7 +40,6 @@ import androidx.compose.material.icons.rounded.Undo
 import androidx.compose.material.icons.rounded.ZoomIn
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.BottomSheetScaffold
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.FloatingActionButtonDefaults
@@ -56,9 +48,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.LargeTopAppBar
-import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedIconButton
 import androidx.compose.material3.SheetValue
 import androidx.compose.material3.Switch
@@ -81,61 +71,48 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
-import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.max
-import androidx.compose.ui.zIndex
-import com.smarttoolfactory.colordetector.ImageColorDetector
 import com.t8rin.dynamic.theme.LocalDynamicThemeState
 import com.t8rin.dynamic.theme.getAppColorTuple
 import com.t8rin.dynamic.theme.observeAsState
 import dev.olshevski.navigation.reimagined.hilt.hiltViewModel
-import dev.olshevski.navigation.reimagined.navigate
-import dev.olshevski.navigation.reimagined.pop
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.R
+import ru.tech.imageresizershrinker.presentation.draw_screen.components.ColorPickerSheet
 import ru.tech.imageresizershrinker.presentation.draw_screen.components.DrawAlphaSelector
 import ru.tech.imageresizershrinker.presentation.draw_screen.components.DrawBackgroundSelector
 import ru.tech.imageresizershrinker.presentation.draw_screen.components.DrawBehavior
 import ru.tech.imageresizershrinker.presentation.draw_screen.components.DrawColorSelector
 import ru.tech.imageresizershrinker.presentation.draw_screen.components.DrawHost
 import ru.tech.imageresizershrinker.presentation.draw_screen.components.LineWidthSelector
+import ru.tech.imageresizershrinker.presentation.draw_screen.components.OpenColorPickerCard
 import ru.tech.imageresizershrinker.presentation.draw_screen.viewModel.DrawViewModel
-import ru.tech.imageresizershrinker.presentation.pick_color_from_image_screen.copyColorIntoClipboard
-import ru.tech.imageresizershrinker.presentation.pick_color_from_image_screen.format
 import ru.tech.imageresizershrinker.presentation.root.theme.icons.Eraser
-import ru.tech.imageresizershrinker.presentation.root.theme.icons.PaletteSwatch
 import ru.tech.imageresizershrinker.presentation.root.theme.mixedColor
 import ru.tech.imageresizershrinker.presentation.root.theme.onMixedColor
-import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
 import ru.tech.imageresizershrinker.presentation.root.transformation.filter.SaturationFilter
 import ru.tech.imageresizershrinker.presentation.root.utils.confetti.LocalConfettiController
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.Picker
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.localImagePickerMode
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.parseSaveResult
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.rememberImagePicker
-import ru.tech.imageresizershrinker.presentation.root.utils.modifier.block
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.drawHorizontalStroke
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.fabBorder
-import ru.tech.imageresizershrinker.presentation.root.utils.navigation.Screen
 import ru.tech.imageresizershrinker.presentation.root.widget.controls.ExtensionGroup
 import ru.tech.imageresizershrinker.presentation.root.widget.dialogs.ExitWithoutSavingDialog
 import ru.tech.imageresizershrinker.presentation.root.widget.other.LoadingDialog
 import ru.tech.imageresizershrinker.presentation.root.widget.other.LocalToastHost
 import ru.tech.imageresizershrinker.presentation.root.widget.other.LockScreenOrientation
 import ru.tech.imageresizershrinker.presentation.root.widget.other.TopAppBarEmoji
-import ru.tech.imageresizershrinker.presentation.root.widget.sheets.SimpleSheet
 import ru.tech.imageresizershrinker.presentation.root.widget.text.Marquee
-import ru.tech.imageresizershrinker.presentation.root.widget.text.TitleItem
 import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalSettingsState
 import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalWindowSizeClass
 
@@ -237,6 +214,8 @@ fun DrawScreen(
                 configuration.orientation != Configuration.ORIENTATION_LANDSCAPE || sizeClass == WindowWidthSizeClass.Compact
             }
         }.value
+
+    val showPickColorSheet = rememberSaveable { mutableStateOf(false) }
 
     val scaffoldState = rememberBottomSheetScaffoldState(
         bottomSheetState = rememberStandardBottomSheetState(
@@ -379,13 +358,16 @@ fun DrawScreen(
                     uri = viewModel.uri,
                     onPickImage = pickImage,
                     switch = switch,
-                    startDrawOnBackground = viewModel::startDrawOnBackground
+                    startDrawOnBackground = viewModel::startDrawOnBackground,
+                    onOpenColorPicker = {
+                        viewModel.openColorPicker()
+                        showPickColorSheet.value = true
+                    }
                 )
             }
         }
     }
 
-    val showPickColorSheet = rememberSaveable { mutableStateOf(false) }
 
     AnimatedContent(
         targetState = portrait && viewModel.drawBehavior !is DrawBehavior.None,
@@ -469,11 +451,12 @@ fun DrawScreen(
                         viewModel.drawController?.let { drawController ->
                             LazyColumn {
                                 item {
-                                    IconButton(
-                                        onClick = { viewModel.openColorPicker() }
-                                    ) {
-                                        Icon(Icons.Rounded.Colorize, null)
-                                    }
+                                    OpenColorPickerCard(
+                                        onOpen = {
+                                            viewModel.openColorPicker()
+                                            showPickColorSheet.value = true
+                                        }
+                                    )
                                     if (viewModel.drawBehavior is DrawBehavior.Background) {
                                         DrawBackgroundSelector(drawController)
                                     } else {
@@ -508,126 +491,11 @@ fun DrawScreen(
         LoadingDialog()
     }
 
-    LaunchedEffect(viewModel.colorPickerBitmap) {
-        showPickColorSheet.value = viewModel.colorPickerBitmap != null
-    }
-
-    SimpleSheet(
-        sheetContent = {
-            Box {
-                remember(viewModel.colorPickerBitmap) { viewModel.colorPickerBitmap?.asImageBitmap() }?.let {
-                    ImageColorDetector(
-                        color = viewModel.color,
-                        imageBitmap = it,
-                        onColorChange = viewModel::updateColor,
-                        modifier = Modifier
-                            .padding(16.dp)
-                            .align(Alignment.Center)
-                            .block(resultPadding = 8.dp)
-                            .clip(RoundedCornerShape(12.dp))
-                    )
-                }
-                HorizontalDivider(
-                    Modifier
-                        .zIndex(100f)
-                        .align(Alignment.BottomCenter)
-                )
-                HorizontalDivider()
-            }
-        },
-        confirmButton = {
-            OutlinedButton(
-                onClick = {
-                    showPickColorSheet.value = false
-                },
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = MaterialTheme.colorScheme.primary,
-                    contentColor = MaterialTheme.colorScheme.onPrimary
-                ),
-                border = BorderStroke(
-                    settingsState.borderWidth,
-                    MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.primary)
-                )
-            ) {
-                Text(stringResource(R.string.close))
-            }
-        },
-        title = {
-            val color = viewModel.color
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier
-                    .padding(
-                        start = 16.dp,
-                        end = 16.dp
-                    )
-            ) {
-                Box(
-                    Modifier
-                        .padding(end = 16.dp)
-                        .background(
-                            color = animateColorAsState(color).value,
-                            shape = RoundedCornerShape(12.dp)
-                        )
-                        .size(40.dp)
-                        .border(
-                            width = settingsState.borderWidth,
-                            color = MaterialTheme.colorScheme.outlineVariant(
-                                onTopOf = animateColorAsState(color).value
-                            ),
-                            shape = RoundedCornerShape(11.dp)
-                        )
-                        .clip(RoundedCornerShape(12.dp))
-                        .clickable {
-                            context.copyColorIntoClipboard(
-                                context.getString(R.string.color),
-                                color.format()
-                            )
-                            scope.launch {
-                                toastHostState.showToast(
-                                    icon = Icons.Rounded.ContentPaste,
-                                    message = context.getString(R.string.color_copied)
-                                )
-                            }
-                        }
-                )
-
-                Text(stringResource(R.string.color))
-
-                Text(
-                    modifier = Modifier
-                        .padding(horizontal = 8.dp)
-                        .clip(RoundedCornerShape(8.dp))
-                        .clickable {
-                            context.copyColorIntoClipboard(
-                                context.getString(R.string.color),
-                                color.format()
-                            )
-                            scope.launch {
-                                toastHostState.showToast(
-                                    icon = Icons.Rounded.ContentPaste,
-                                    message = context.getString(R.string.color_copied)
-                                )
-                            }
-                        }
-                        .background(MaterialTheme.colorScheme.secondaryContainer)
-                        .border(
-                            settingsState.borderWidth,
-                            MaterialTheme.colorScheme.outlineVariant(
-                                onTopOf = MaterialTheme.colorScheme.secondaryContainer
-                            ),
-                            RoundedCornerShape(8.dp)
-                        )
-                        .padding(horizontal = 6.dp),
-                    text = color.format(),
-                    style = LocalTextStyle.current.copy(
-                        fontWeight = FontWeight.Bold,
-                        color = MaterialTheme.colorScheme.onSecondaryContainer
-                    )
-                )
-            }
-        },
-        visible = showPickColorSheet
+    ColorPickerSheet(
+        visible = showPickColorSheet,
+        bitmap = viewModel.colorPickerBitmap,
+        onColorChange = viewModel::updateColor,
+        color = viewModel.color
     )
 
     ExitWithoutSavingDialog(

@@ -116,7 +116,8 @@ fun DrawHost(
     uri: Uri,
     onPickImage: () -> Unit,
     switch: @Composable () -> Unit,
-    startDrawOnBackground: (Int, Int, Color) -> Unit
+    startDrawOnBackground: (Int, Int, Color) -> Unit,
+    onOpenColorPicker: () -> Unit
 ) {
     val showBackgroundDrawingSetup = rememberSaveable { mutableStateOf(false) }
     val settingsState = LocalSettingsState.current
@@ -204,7 +205,7 @@ fun DrawHost(
                                     top = if (drawBehavior is DrawBehavior.None) 20.dp else 0.dp,
                                 ),
                                 modifier = Modifier
-                                    .weight(0.5f)
+                                    .weight(0.7f)
                                     .clipToBounds()
                             ) {
                                 item {
@@ -253,6 +254,8 @@ fun DrawHost(
                                             Icon(Icons.Rounded.Eraser, null)
                                         }
                                     }
+                                    OpenColorPickerCard(onOpen = onOpenColorPicker)
+                                    Spacer(Modifier.height(16.dp))
                                     DrawBackgroundSelector(drawController)
                                     DrawColorSelector(drawController)
                                     DrawAlphaSelector(drawController)
@@ -366,7 +369,7 @@ fun DrawHost(
                                     top = if (drawBehavior is DrawBehavior.None) 20.dp else 0.dp,
                                 ),
                                 modifier = Modifier
-                                    .weight(0.5f)
+                                    .weight(0.7f)
                                     .clipToBounds()
                             ) {
                                 item {
@@ -415,6 +418,7 @@ fun DrawHost(
                                             Icon(Icons.Rounded.Eraser, null)
                                         }
                                     }
+                                    OpenColorPickerCard(onOpen = onOpenColorPicker)
                                     Spacer(Modifier.height(16.dp))
                                     DrawColorSelector(drawController)
                                     DrawAlphaSelector(drawController)

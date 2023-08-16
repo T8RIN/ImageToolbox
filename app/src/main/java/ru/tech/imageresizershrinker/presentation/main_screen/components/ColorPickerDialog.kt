@@ -39,8 +39,6 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Delete
 import androidx.compose.material.icons.outlined.Palette
-import androidx.compose.material.icons.outlined.Shuffle
-import androidx.compose.material.icons.outlined.ShuffleOn
 import androidx.compose.material.icons.rounded.AddCircleOutline
 import androidx.compose.material.icons.rounded.ContentCopy
 import androidx.compose.material.icons.rounded.ContentPaste
@@ -125,18 +123,18 @@ fun ColorPickerDialog(
     var primary by rememberSaveable(colorTuple) { mutableIntStateOf(colorTuple.primary.toArgb()) }
     var secondary by rememberSaveable(colorTuple) {
         mutableIntStateOf(
-            colorTuple.secondary?.toArgb()!!
+            colorTuple.secondary?.toArgb() ?: colorTuple.primary.calculateSecondaryColor()
         )
     }
     var tertiary by rememberSaveable(colorTuple) {
         mutableIntStateOf(
-            colorTuple.tertiary?.toArgb()!!
+            colorTuple.tertiary?.toArgb() ?: colorTuple.primary.calculateTertiaryColor()
         )
     }
 
     var surface by rememberSaveable(colorTuple) {
         mutableIntStateOf(
-            colorTuple.surface?.toArgb()!!
+            colorTuple.surface?.toArgb() ?: colorTuple.primary.calculateSurfaceColor()
         )
     }
 
