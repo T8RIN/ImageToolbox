@@ -11,6 +11,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.core.net.toUri
 import com.t8rin.dynamic.theme.ColorTuple
+import ru.tech.imageresizershrinker.domain.model.NightMode
 import ru.tech.imageresizershrinker.domain.model.SettingsState
 import ru.tech.imageresizershrinker.presentation.root.theme.Emoji
 import ru.tech.imageresizershrinker.presentation.root.theme.FontFam
@@ -114,8 +115,7 @@ private fun Int.toAlignment() = when (this) {
 }
 
 @Composable
-private fun Int.isNightMode(): Boolean = when (this) {
-    0 -> true
-    1 -> false
-    else -> isSystemInDarkTheme()
+private fun NightMode.isNightMode(): Boolean = when (this) {
+    NightMode.System -> isSystemInDarkTheme()
+    else -> this is NightMode.Dark
 }

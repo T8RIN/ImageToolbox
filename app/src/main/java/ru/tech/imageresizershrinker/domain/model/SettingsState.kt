@@ -3,7 +3,7 @@ package ru.tech.imageresizershrinker.domain.model
 import ru.tech.imageresizershrinker.domain.Domain
 
 data class SettingsState(
-    val nightMode: Int,
+    val nightMode: NightMode,
     val isDynamicColors: Boolean,
     val allowChangeColorByImage: Boolean,
     val emojisCount: Int,
@@ -30,7 +30,7 @@ data class SettingsState(
 ) : Domain {
     companion object {
         fun Default() = SettingsState(
-            nightMode = 0,
+            nightMode = NightMode.System,
             isDynamicColors = true,
             allowChangeColorByImage = true,
             emojisCount = 1,

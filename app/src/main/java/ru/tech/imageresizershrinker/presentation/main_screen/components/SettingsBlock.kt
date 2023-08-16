@@ -128,6 +128,7 @@ import ru.tech.imageresizershrinker.core.CHAT_LINK
 import ru.tech.imageresizershrinker.core.DONATE
 import ru.tech.imageresizershrinker.core.ISSUE_TRACKER
 import ru.tech.imageresizershrinker.core.WEBLATE_LINK
+import ru.tech.imageresizershrinker.domain.model.NightMode
 import ru.tech.imageresizershrinker.presentation.main_screen.viewModel.MainViewModel
 import ru.tech.imageresizershrinker.presentation.root.model.UiSettingsState
 import ru.tech.imageresizershrinker.presentation.root.theme.EmojiItem
@@ -188,13 +189,17 @@ fun LazyListScope.settingsBlock(
         ) {
             Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
                 listOf(
-                    stringResource(R.string.dark) to Icons.Rounded.ModeNight,
-                    stringResource(R.string.light) to Icons.Rounded.WbSunny,
-                    stringResource(R.string.system) to Icons.Rounded.SettingsSystemDaydream
-                ).forEachIndexed { index, (title, icon) ->
-                    val selected = index == viewModel.settingsState.nightMode
+                    Triple(stringResource(R.string.dark), Icons.Rounded.ModeNight, NightMode.Dark),
+                    Triple(stringResource(R.string.light), Icons.Rounded.WbSunny, NightMode.Light),
+                    Triple(
+                        stringResource(R.string.system),
+                        Icons.Rounded.SettingsSystemDaydream,
+                        NightMode.System
+                    ),
+                ).forEach { (title, icon, nightMode) ->
+                    val selected = nightMode == viewModel.settingsState.nightMode
                     PreferenceItem(
-                        onClick = { viewModel.setNightMode(index) },
+                        onClick = { viewModel.setNightMode(nightMode) },
                         title = title,
                         color = MaterialTheme.colorScheme.secondaryContainer.copy(
                             alpha = animateFloatAsState(

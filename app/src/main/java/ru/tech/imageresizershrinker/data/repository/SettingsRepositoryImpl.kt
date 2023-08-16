@@ -37,6 +37,7 @@ import ru.tech.imageresizershrinker.data.keys.Keys.PRESETS
 import ru.tech.imageresizershrinker.data.keys.Keys.RANDOMIZE_FILENAME
 import ru.tech.imageresizershrinker.data.keys.Keys.SAVE_FOLDER
 import ru.tech.imageresizershrinker.data.keys.Keys.SHOW_DIALOG
+import ru.tech.imageresizershrinker.domain.model.NightMode
 import ru.tech.imageresizershrinker.domain.model.Preset
 import ru.tech.imageresizershrinker.domain.model.SettingsState
 import ru.tech.imageresizershrinker.domain.repository.SettingsRepository
@@ -59,7 +60,7 @@ class SettingsRepositoryImpl @Inject constructor(
     override suspend fun getSettingsState(): SettingsState {
         val prefs = dataStore.data.first()
         return SettingsState(
-            nightMode = prefs[NIGHT_MODE] ?: 2,
+            nightMode = NightMode.fromOrdinal(prefs[NIGHT_MODE]),
             isDynamicColors = prefs[DYNAMIC_COLORS] ?: true,
             isAmoledMode = prefs[AMOLED_MODE] ?: false,
             appColorTuple = prefs[APP_COLOR] ?: "",
@@ -90,7 +91,7 @@ class SettingsRepositoryImpl @Inject constructor(
 
     override fun getSettingsStateFlow(): Flow<SettingsState> = dataStore.data.map { prefs ->
         SettingsState(
-            nightMode = prefs[NIGHT_MODE] ?: 2,
+            nightMode = NightMode.fromOrdinal(prefs[NIGHT_MODE]),
             isDynamicColors = prefs[DYNAMIC_COLORS] ?: true,
             isAmoledMode = prefs[AMOLED_MODE] ?: false,
             appColorTuple = prefs[APP_COLOR] ?: "",
@@ -217,9 +218,9 @@ class SettingsRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun setNightMode(mode: Int) {
+    override suspend fun setNightMode(nightMode: NightMode) {
         dataStore.edit {
-            it[NIGHT_MODE] = mode
+            it[NIGHT_MODE] = nightMode.ordinal
         }
     }
 

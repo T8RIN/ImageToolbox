@@ -1,6 +1,7 @@
 package ru.tech.imageresizershrinker.domain.repository
 
 import kotlinx.coroutines.flow.Flow
+import ru.tech.imageresizershrinker.domain.model.NightMode
 import ru.tech.imageresizershrinker.domain.model.SettingsState
 
 interface SettingsRepository {
@@ -37,7 +38,7 @@ interface SettingsRepository {
 
     suspend fun toggleAmoledMode()
 
-    suspend fun setNightMode(mode: Int)
+    suspend fun setNightMode(nightMode: NightMode)
 
     suspend fun updateSaveFolderUri(uri: String?)
 
