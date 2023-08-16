@@ -60,7 +60,6 @@ import androidx.compose.material.icons.rounded.Folder
 import androidx.compose.material.icons.rounded.FolderOpen
 import androidx.compose.material.icons.rounded.FolderSpecial
 import androidx.compose.material.icons.rounded.FontDownload
-import androidx.compose.material.icons.rounded.FormatColorFill
 import androidx.compose.material.icons.rounded.ImageSearch
 import androidx.compose.material.icons.rounded.Info
 import androidx.compose.material.icons.rounded.ModeNight
@@ -133,7 +132,7 @@ import ru.tech.imageresizershrinker.domain.model.NightMode
 import ru.tech.imageresizershrinker.presentation.main_screen.viewModel.MainViewModel
 import ru.tech.imageresizershrinker.presentation.root.model.UiSettingsState
 import ru.tech.imageresizershrinker.presentation.root.theme.EmojiItem
-import ru.tech.imageresizershrinker.presentation.root.theme.UiFontFam
+import ru.tech.imageresizershrinker.presentation.root.theme.FontFam
 import ru.tech.imageresizershrinker.presentation.root.theme.blend
 import ru.tech.imageresizershrinker.presentation.root.theme.icons.CreateAlt
 import ru.tech.imageresizershrinker.presentation.root.theme.icons.DownloadFile
@@ -181,15 +180,6 @@ fun LazyListScope.settingsBlock(
     context: Context,
     viewModel: MainViewModel
 ) {
-    item {
-        SettingItem(
-            icon = Icons.Rounded.FormatColorFill,
-            text = stringResource(R.string.styles),
-            initialState = false
-        ) {
-
-        }
-    }
     item {
         // Night mode
         SettingItem(
@@ -740,8 +730,9 @@ fun LazyListScope.settingsBlock(
                             )
                             .padding(vertical = 16.dp, horizontal = 8.dp)
                     ) {
-                        UiFontFam.entries.forEach { font ->
+                        FontFam.entries.forEachIndexed { index, font ->
                             FontSelectionItem(
+                                index = index,
                                 font = font,
                                 onFontSelected = viewModel::setFont
                             )

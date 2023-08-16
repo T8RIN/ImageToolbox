@@ -19,7 +19,7 @@ class CrashViewModel @Inject constructor(
     getSettingsStateFlowUseCase: GetSettingsStateFlowUseCase,
 ) : ViewModel() {
 
-    private val _settingsState = mutableStateOf(SettingsState.default())
+    private val _settingsState = mutableStateOf(SettingsState.Default())
     val settingsState: SettingsState by _settingsState
 
     init {
