@@ -135,7 +135,7 @@ fun Modifier.revealSwipeable(
         anchors = anchors,
         thresholds = thresholds,
         orientation = Orientation.Horizontal,
-        enabled = enabled, // state.value == RevealValue.Default,
+        enabled = enabled, // state.value == RevealValue.System,
         reverseDirection = isRtl,
         resistance = ResistanceConfig(
             basis = maxAmountOfOverflowPx,

@@ -25,7 +25,7 @@ data class SettingsState(
     val addSizeInFilename: Boolean,
     val addOriginalFilename: Boolean,
     val randomizeFilename: Boolean,
-    val font: Int,
+    val font: FontFam,
     val fontScale: Float?
 ) : Domain {
     companion object {
@@ -52,7 +52,7 @@ data class SettingsState(
             addSizeInFilename = true,
             addOriginalFilename = false,
             randomizeFilename = false,
-            font = 0,
+            font = FontFam.Montserrat,
             fontScale = 1f
         )
     }

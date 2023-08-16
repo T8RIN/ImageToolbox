@@ -14,19 +14,17 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.datasource.LoremIpsum
 import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.R
-import ru.tech.imageresizershrinker.presentation.root.theme.FontFam
+import ru.tech.imageresizershrinker.presentation.root.model.UiFontFam
 import ru.tech.imageresizershrinker.presentation.root.theme.Typography
 import ru.tech.imageresizershrinker.presentation.root.widget.preferences.PreferenceItem
 import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalSettingsState
 
 @Composable
 fun FontSelectionItem(
-    index: Int,
-    font: FontFam,
-    onFontSelected: (Int) -> Unit
+    font: UiFontFam,
+    onClick: () -> Unit
 ) {
     val settingsState = LocalSettingsState.current
     val (_, name) = font
@@ -35,10 +33,8 @@ fun FontSelectionItem(
         typography = Typography(font)
     ) {
         PreferenceItem(
-            onClick = {
-                onFontSelected(index)
-            },
-            title = name ?: stringResource(id = R.string.defaultt),
+            onClick = onClick,
+            title = name ?: stringResource(id = R.string.system),
             subtitle = stringResource(R.string.alphabet_and_numbers),
             color = MaterialTheme.colorScheme.secondaryContainer.copy(
                 alpha = animateFloatAsState(

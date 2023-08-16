@@ -12,7 +12,7 @@ import androidx.compose.ui.text.font.FontVariation
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.sp
-import ru.tech.imageresizershrinker.R
+import ru.tech.imageresizershrinker.presentation.root.model.UiFontFam
 
 fun fontFamilyResource(resId: Int) = FontFamily(
     Font(
@@ -58,7 +58,7 @@ fun fontFamilyResource(resId: Int) = FontFamily(
 )
 
 fun Typography(
-    fontRes: FontFam = FontFam.Montserrat
+    fontRes: UiFontFam = UiFontFam.Montserrat
 ): Typography = Typography(
     displayLarge = TextStyle(
         fontFamily = fontRes.fontFamily,
@@ -168,81 +168,3 @@ fun Typography(
         letterSpacing = 0.sp,
     ),
 )
-
-sealed class FontFam(
-    val fontFamily: FontFamily,
-    val name: String?
-) {
-    operator fun component1() = fontFamily
-    operator fun component2() = name
-
-    data object Montserrat : FontFam(
-        fontFamily = fontFamilyResource(R.font.montserrat_variable),
-        name = "Montserrat"
-    )
-
-    data object Caveat : FontFam(
-        fontFamily = fontFamilyResource(R.font.caveat_variable),
-        name = "Caveat"
-    )
-
-    data object Default : FontFam(FontFamily.Default, null)
-
-    data object Comfortaa : FontFam(
-        fontFamily = fontFamilyResource(R.font.comfortaa_varibale),
-        "Comfortaa"
-    )
-
-    data object Handjet : FontFam(
-        fontFamily = fontFamilyResource(R.font.handjet_varibale),
-        "Handjet"
-    )
-
-    data object YsabeauSC : FontFam(
-        fontFamily = fontFamilyResource(R.font.ysabeau_sc_variable),
-        "YsabeauSC"
-    )
-
-    data object Jura : FontFam(
-        fontFamily = fontFamilyResource(R.font.jura_variable),
-        "Jura"
-    )
-
-    data object Tektur : FontFam(
-        fontFamily = fontFamilyResource(R.font.tektur_variable),
-        "Tektur"
-    )
-
-    data object Podkova : FontFam(
-        fontFamily = fontFamilyResource(R.font.podkova_variable),
-        "Podkova"
-    )
-
-    companion object {
-        fun createFromInt(value: Int): FontFam {
-            return when (value) {
-                0 -> Montserrat
-                1 -> Caveat
-                2 -> Comfortaa
-                3 -> Handjet
-                4 -> Jura
-                5 -> Podkova
-                6 -> Tektur
-                7 -> YsabeauSC
-                else -> Default
-            }
-        }
-
-        val entries = listOf(
-            Montserrat,
-            Caveat,
-            Comfortaa,
-            Handjet,
-            Jura,
-            Podkova,
-            Tektur,
-            YsabeauSC,
-            Default
-        )
-    }
-}

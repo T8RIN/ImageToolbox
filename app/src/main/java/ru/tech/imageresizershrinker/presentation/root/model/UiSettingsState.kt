@@ -11,10 +11,10 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.core.net.toUri
 import com.t8rin.dynamic.theme.ColorTuple
+import ru.tech.imageresizershrinker.domain.model.FontFam
 import ru.tech.imageresizershrinker.domain.model.NightMode
 import ru.tech.imageresizershrinker.domain.model.SettingsState
 import ru.tech.imageresizershrinker.presentation.root.theme.Emoji
-import ru.tech.imageresizershrinker.presentation.root.theme.FontFam
 import ru.tech.imageresizershrinker.presentation.root.theme.allIcons
 import ru.tech.imageresizershrinker.presentation.root.theme.defaultColorTuple
 import ru.tech.imageresizershrinker.presentation.root.theme.emoji.Sparkles
@@ -44,7 +44,7 @@ data class UiSettingsState(
     val addSizeInFilename: Boolean = false,
     val addOriginalFilename: Boolean = false,
     val randomizeFilename: Boolean = false,
-    val font: FontFam,
+    val font: UiFontFam,
     val fontScale: Float?
 )
 
@@ -72,9 +72,23 @@ fun SettingsState.toUiState() = UiSettingsState(
     addSizeInFilename = addSizeInFilename,
     addOriginalFilename = addOriginalFilename,
     randomizeFilename = randomizeFilename,
-    font = FontFam.createFromInt(font),
+    font = font.toUiFont(),
     fontScale = fontScale?.takeIf { it > 0 }
 )
+
+private fun FontFam.toUiFont(): UiFontFam {
+    return when (this) {
+        FontFam.Caveat -> UiFontFam.Caveat
+        FontFam.Comfortaa -> UiFontFam.Comfortaa
+        FontFam.System -> UiFontFam.System
+        FontFam.Handjet -> UiFontFam.Handjet
+        FontFam.Jura -> UiFontFam.Jura
+        FontFam.Montserrat -> UiFontFam.Montserrat
+        FontFam.Podkova -> UiFontFam.Podkova
+        FontFam.Tektur -> UiFontFam.Tektur
+        FontFam.YsabeauSC -> UiFontFam.YsabeauSC
+    }
+}
 
 private fun String?.toColorTupleList(): List<ColorTuple> {
     val list = mutableListOf<ColorTuple>()

@@ -37,6 +37,7 @@ import ru.tech.imageresizershrinker.data.keys.Keys.PRESETS
 import ru.tech.imageresizershrinker.data.keys.Keys.RANDOMIZE_FILENAME
 import ru.tech.imageresizershrinker.data.keys.Keys.SAVE_FOLDER
 import ru.tech.imageresizershrinker.data.keys.Keys.SHOW_DIALOG
+import ru.tech.imageresizershrinker.domain.model.FontFam
 import ru.tech.imageresizershrinker.domain.model.NightMode
 import ru.tech.imageresizershrinker.domain.model.Preset
 import ru.tech.imageresizershrinker.domain.model.SettingsState
@@ -84,7 +85,7 @@ class SettingsRepositoryImpl @Inject constructor(
             addSizeInFilename = false,
             addOriginalFilename = false,
             randomizeFilename = prefs[RANDOMIZE_FILENAME] ?: false,
-            font = prefs[FONT] ?: 0,
+            font = FontFam.fromOrdinal(prefs[FONT]),
             fontScale = (prefs[FONT_SCALE] ?: 1f).takeIf { it > 0f }
         )
     }
@@ -117,7 +118,7 @@ class SettingsRepositoryImpl @Inject constructor(
             addSizeInFilename = prefs[ADD_SIZE] ?: false,
             addOriginalFilename = prefs[ADD_ORIGINAL_NAME] ?: false,
             randomizeFilename = prefs[RANDOMIZE_FILENAME] ?: false,
-            font = prefs[FONT] ?: 0,
+            font = FontFam.fromOrdinal(prefs[FONT]),
             fontScale = (prefs[FONT_SCALE] ?: 1f).takeIf { it > 0f }
         )
     }
@@ -322,9 +323,9 @@ class SettingsRepositoryImpl @Inject constructor(
         return "image_toolbox_$timeStamp.imtbx_backup"
     }
 
-    override suspend fun setFont(font: Int) {
+    override suspend fun setFont(font: FontFam) {
         dataStore.edit {
-            it[FONT] = font
+            it[FONT] = font.ordinal
         }
     }
 

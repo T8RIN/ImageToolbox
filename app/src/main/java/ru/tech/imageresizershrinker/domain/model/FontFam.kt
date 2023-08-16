@@ -9,7 +9,7 @@ sealed class FontFam(val ordinal: Int) {
     data object Jura : FontFam(6)
     data object Podkova : FontFam(7)
     data object Tektur : FontFam(8)
-    data object Default : FontFam(0)
+    data object System : FontFam(0)
 
     companion object {
         fun fromOrdinal(int: Int?): FontFam = when (int) {
@@ -21,7 +21,7 @@ sealed class FontFam(val ordinal: Int) {
             6 -> Jura
             7 -> Podkova
             8 -> Tektur
-            else -> Default
+            else -> System
         }
     }
 }

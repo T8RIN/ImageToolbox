@@ -132,7 +132,7 @@ import ru.tech.imageresizershrinker.domain.model.NightMode
 import ru.tech.imageresizershrinker.presentation.main_screen.viewModel.MainViewModel
 import ru.tech.imageresizershrinker.presentation.root.model.UiSettingsState
 import ru.tech.imageresizershrinker.presentation.root.theme.EmojiItem
-import ru.tech.imageresizershrinker.presentation.root.theme.FontFam
+import ru.tech.imageresizershrinker.presentation.root.model.UiFontFam
 import ru.tech.imageresizershrinker.presentation.root.theme.blend
 import ru.tech.imageresizershrinker.presentation.root.theme.icons.CreateAlt
 import ru.tech.imageresizershrinker.presentation.root.theme.icons.DownloadFile
@@ -688,7 +688,7 @@ fun LazyListScope.settingsBlock(
             PreferenceItem(
                 onClick = { showFontSheet.value = true },
                 title = stringResource(R.string.font),
-                subtitle = settingsState.font.name ?: stringResource(R.string.defaultt),
+                subtitle = settingsState.font.name ?: stringResource(R.string.system),
                 color = MaterialTheme
                     .colorScheme
                     .secondaryContainer
@@ -730,11 +730,12 @@ fun LazyListScope.settingsBlock(
                             )
                             .padding(vertical = 16.dp, horizontal = 8.dp)
                     ) {
-                        FontFam.entries.forEachIndexed { index, font ->
+                        UiFontFam.entries.forEach { font ->
                             FontSelectionItem(
-                                index = index,
                                 font = font,
-                                onFontSelected = viewModel::setFont
+                                onClick = {
+                                    viewModel.setFont(font.asDomain())
+                                }
                             )
                         }
                     }
@@ -820,7 +821,7 @@ fun LazyListScope.settingsBlock(
                                 contentAlignment = Alignment.Center
                             ) {
                                 AutoSizeText(
-                                    text = stringResource(id = R.string.defaultt),
+                                    text = stringResource(id = R.string.system),
                                     maxLines = 1,
                                     modifier = Modifier.padding(horizontal = 8.dp)
                                 )

@@ -1,6 +1,7 @@
 package ru.tech.imageresizershrinker.domain.repository
 
 import kotlinx.coroutines.flow.Flow
+import ru.tech.imageresizershrinker.domain.model.FontFam
 import ru.tech.imageresizershrinker.domain.model.NightMode
 import ru.tech.imageresizershrinker.domain.model.SettingsState
 
@@ -66,7 +67,7 @@ interface SettingsRepository {
 
     fun createBackupFilename(): String
 
-    suspend fun setFont(font: Int)
+    suspend fun setFont(font: FontFam)
 
     suspend fun setFontScale(scale: Float)
 }
