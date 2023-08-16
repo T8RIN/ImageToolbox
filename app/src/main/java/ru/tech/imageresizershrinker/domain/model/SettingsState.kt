@@ -3,7 +3,7 @@ package ru.tech.imageresizershrinker.domain.model
 import ru.tech.imageresizershrinker.domain.Domain
 
 data class SettingsState(
-    val nightMode: Int,
+    val nightMode: NightMode,
     val isDynamicColors: Boolean,
     val allowChangeColorByImage: Boolean,
     val emojisCount: Int,
@@ -25,12 +25,12 @@ data class SettingsState(
     val addSizeInFilename: Boolean,
     val addOriginalFilename: Boolean,
     val randomizeFilename: Boolean,
-    val font: Int,
+    val font: FontFam,
     val fontScale: Float?
 ) : Domain {
     companion object {
-        fun Default() = SettingsState(
-            nightMode = 0,
+        fun default() = SettingsState(
+            nightMode = NightMode.System,
             isDynamicColors = true,
             allowChangeColorByImage = true,
             emojisCount = 1,
@@ -52,7 +52,7 @@ data class SettingsState(
             addSizeInFilename = true,
             addOriginalFilename = false,
             randomizeFilename = false,
-            font = 0,
+            font = FontFam.Montserrat,
             fontScale = 1f
         )
     }

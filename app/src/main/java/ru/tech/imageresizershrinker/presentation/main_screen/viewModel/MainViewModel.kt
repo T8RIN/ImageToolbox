@@ -19,6 +19,8 @@ import kotlinx.coroutines.withContext
 import org.w3c.dom.Element
 import ru.tech.imageresizershrinker.BuildConfig
 import ru.tech.imageresizershrinker.core.APP_RELEASES
+import ru.tech.imageresizershrinker.domain.model.FontFam
+import ru.tech.imageresizershrinker.domain.model.NightMode
 import ru.tech.imageresizershrinker.domain.model.SettingsState
 import ru.tech.imageresizershrinker.domain.use_case.backup_and_restore.CreateBackupFileUseCase
 import ru.tech.imageresizershrinker.domain.use_case.backup_and_restore.CreateBackupFilenameUseCase
@@ -91,7 +93,7 @@ class MainViewModel @Inject constructor(
     private val setFontScaleUseCase: SetFontScaleUseCase
 ) : ViewModel() {
 
-    private val _settingsState = mutableStateOf(SettingsState.Default())
+    private val _settingsState = mutableStateOf(SettingsState.default())
     val settingsState: SettingsState by _settingsState
 
     val navController = navController<Screen>(Screen.Main)
@@ -221,9 +223,9 @@ class MainViewModel @Inject constructor(
         }
     }
 
-    fun setNightMode(mode: Int) {
+    fun setNightMode(nightMode: NightMode) {
         viewModelScope.launch {
-            setNightModeUseCase(mode)
+            setNightModeUseCase(nightMode)
         }
     }
 
@@ -376,7 +378,7 @@ class MainViewModel @Inject constructor(
 
     fun createBackupFilename(): String = createBackupFilenameUseCase()
 
-    fun setFont(font: Int) {
+    fun setFont(font: FontFam) {
         viewModelScope.launch {
             setFontUseCase(font)
         }

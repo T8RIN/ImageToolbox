@@ -13,6 +13,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.sp
 import ru.tech.imageresizershrinker.R
+import ru.tech.imageresizershrinker.domain.model.FontFam
 
 fun fontFamilyResource(resId: Int) = FontFamily(
     Font(
@@ -58,7 +59,7 @@ fun fontFamilyResource(resId: Int) = FontFamily(
 )
 
 fun Typography(
-    fontRes: FontFam = FontFam.Montserrat
+    fontRes: UiFontFam = UiFontFam.Montserrat
 ): Typography = Typography(
     displayLarge = TextStyle(
         fontFamily = fontRes.fontFamily,
@@ -169,70 +170,56 @@ fun Typography(
     ),
 )
 
-sealed class FontFam(
+sealed class UiFontFam(
     val fontFamily: FontFamily,
     val name: String?
 ) {
     operator fun component1() = fontFamily
     operator fun component2() = name
 
-    data object Montserrat : FontFam(
+    data object Montserrat : UiFontFam(
         fontFamily = fontFamilyResource(R.font.montserrat_variable),
         name = "Montserrat"
     )
 
-    data object Caveat : FontFam(
+    data object Caveat : UiFontFam(
         fontFamily = fontFamilyResource(R.font.caveat_variable),
         name = "Caveat"
     )
 
-    data object Default : FontFam(FontFamily.Default, null)
+    data object Default : UiFontFam(FontFamily.Default, null)
 
-    data object Comfortaa : FontFam(
+    data object Comfortaa : UiFontFam(
         fontFamily = fontFamilyResource(R.font.comfortaa_varibale),
         "Comfortaa"
     )
 
-    data object Handjet : FontFam(
+    data object Handjet : UiFontFam(
         fontFamily = fontFamilyResource(R.font.handjet_varibale),
         "Handjet"
     )
 
-    data object YsabeauSC : FontFam(
+    data object YsabeauSC : UiFontFam(
         fontFamily = fontFamilyResource(R.font.ysabeau_sc_variable),
         "YsabeauSC"
     )
 
-    data object Jura : FontFam(
+    data object Jura : UiFontFam(
         fontFamily = fontFamilyResource(R.font.jura_variable),
         "Jura"
     )
 
-    data object Tektur : FontFam(
+    data object Tektur : UiFontFam(
         fontFamily = fontFamilyResource(R.font.tektur_variable),
         "Tektur"
     )
 
-    data object Podkova : FontFam(
+    data object Podkova : UiFontFam(
         fontFamily = fontFamilyResource(R.font.podkova_variable),
         "Podkova"
     )
 
     companion object {
-        fun createFromInt(value: Int): FontFam {
-            return when (value) {
-                0 -> Montserrat
-                1 -> Caveat
-                2 -> Comfortaa
-                3 -> Handjet
-                4 -> Jura
-                5 -> Podkova
-                6 -> Tektur
-                7 -> YsabeauSC
-                else -> Default
-            }
-        }
-
         val entries = listOf(
             Montserrat,
             Caveat,
@@ -244,5 +231,19 @@ sealed class FontFam(
             YsabeauSC,
             Default
         )
+    }
+
+    fun toDomain(): FontFam {
+        return when (this) {
+            Montserrat -> FontFam.Montserrat
+            Caveat -> FontFam.Caveat
+            Comfortaa -> FontFam.Comfortaa
+            Handjet -> FontFam.Handjet
+            Jura -> FontFam.Jura
+            Podkova -> FontFam.Podkova
+            Tektur -> FontFam.Tektur
+            YsabeauSC -> FontFam.YsabeauSC
+            Default -> FontFam.Default
+        }
     }
 }
