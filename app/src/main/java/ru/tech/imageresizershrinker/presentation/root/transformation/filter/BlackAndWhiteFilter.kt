@@ -4,15 +4,12 @@ import android.content.Context
 import android.graphics.Bitmap
 import jp.co.cyberagent.android.gpuimage.filter.GPUImageFilter
 import jp.co.cyberagent.android.gpuimage.filter.GPUImageLuminanceFilter
-import kotlinx.parcelize.Parcelize
-import kotlinx.parcelize.RawValue
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.domain.image.filters.Filter
 
 
-@Parcelize
 class BlackAndWhiteFilter(
-    private val context: @RawValue Context,
+    private val context: Context,
 ) : FilterTransformation<Unit>(
     context = context,
     title = R.string.black_and_white,

@@ -49,7 +49,6 @@ import androidx.compose.material.icons.outlined.ErrorOutline
 import androidx.compose.material.icons.outlined.FolderOff
 import androidx.compose.material.icons.outlined.FolderSpecial
 import androidx.compose.material.icons.outlined.Image
-import androidx.compose.material.icons.outlined.SmartButton
 import androidx.compose.material.icons.rounded.AddCircleOutline
 import androidx.compose.material.icons.rounded.Block
 import androidx.compose.material.icons.rounded.BugReport
@@ -114,7 +113,6 @@ import androidx.compose.ui.res.stringArrayResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.datasource.LoremIpsum
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.zIndex
@@ -134,7 +132,6 @@ import ru.tech.imageresizershrinker.presentation.main_screen.viewModel.MainViewM
 import ru.tech.imageresizershrinker.presentation.root.model.UiSettingsState
 import ru.tech.imageresizershrinker.presentation.root.theme.EmojiItem
 import ru.tech.imageresizershrinker.presentation.root.theme.FontFam
-import ru.tech.imageresizershrinker.presentation.root.theme.Typography
 import ru.tech.imageresizershrinker.presentation.root.theme.blend
 import ru.tech.imageresizershrinker.presentation.root.theme.icons.CreateAlt
 import ru.tech.imageresizershrinker.presentation.root.theme.icons.DownloadFile
@@ -752,7 +749,7 @@ fun LazyListScope.settingsBlock(
                         MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.primary)
                     )
                 ) {
-                    Text(stringResource(R.string.close))
+                    AutoSizeText(stringResource(R.string.close))
                 }
             },
             title = {
@@ -921,7 +918,7 @@ fun LazyListScope.settingsBlock(
                         MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.primary)
                     )
                 ) {
-                    Text(stringResource(R.string.close))
+                    AutoSizeText(stringResource(R.string.close))
                 }
             },
             title = {

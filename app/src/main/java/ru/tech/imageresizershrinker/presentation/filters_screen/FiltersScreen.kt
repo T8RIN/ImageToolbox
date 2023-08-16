@@ -123,6 +123,7 @@ import ru.tech.imageresizershrinker.presentation.root.widget.sheets.CompareSheet
 import ru.tech.imageresizershrinker.presentation.root.widget.sheets.PickImageFromUrisSheet
 import ru.tech.imageresizershrinker.presentation.root.widget.sheets.SimpleSheet
 import ru.tech.imageresizershrinker.presentation.root.widget.sheets.ZoomModalSheet
+import ru.tech.imageresizershrinker.presentation.root.widget.text.AutoSizeText
 import ru.tech.imageresizershrinker.presentation.root.widget.text.TitleItem
 import ru.tech.imageresizershrinker.presentation.root.widget.text.TopAppBarTitle
 import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalSettingsState
@@ -734,7 +735,7 @@ fun FiltersScreen(
                         ),
                         onClick = { showReorderSheet.value = false }
                     ) {
-                        Text(stringResource(R.string.close))
+                        AutoSizeText(stringResource(R.string.close))
                     }
                 },
             )

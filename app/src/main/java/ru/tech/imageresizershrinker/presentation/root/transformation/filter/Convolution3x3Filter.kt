@@ -5,14 +5,12 @@ import android.content.Context
 import android.graphics.Bitmap
 import jp.co.cyberagent.android.gpuimage.filter.GPUImage3x3ConvolutionFilter
 import jp.co.cyberagent.android.gpuimage.filter.GPUImageFilter
-import kotlinx.parcelize.Parcelize
-import kotlinx.parcelize.RawValue
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.domain.image.filters.Filter
 
-@Parcelize
+
 class Convolution3x3Filter(
-    private val context: @RawValue Context,
+    private val context: Context,
     override val value: FloatArray = floatArrayOf(
         0.0f, 0.0f, 0.0f,
         0.0f, 1.0f, 0.0f,

@@ -4,15 +4,13 @@ import android.content.Context
 import android.graphics.Bitmap
 import jp.co.cyberagent.android.gpuimage.filter.GPUImageFilter
 import jp.co.cyberagent.android.gpuimage.filter.GPUImageKuwaharaFilter
-import kotlinx.parcelize.Parcelize
-import kotlinx.parcelize.RawValue
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.domain.image.filters.Filter
 import ru.tech.imageresizershrinker.domain.image.filters.FilterParam
 
-@Parcelize
+
 class KuwaharaFilter(
-    private val context: @RawValue Context,
+    private val context: Context,
     override val value: Float = 3f,
 ) : FilterTransformation<Float>(
     context = context,

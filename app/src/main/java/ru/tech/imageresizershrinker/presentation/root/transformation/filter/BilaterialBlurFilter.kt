@@ -4,14 +4,12 @@ import android.content.Context
 import android.graphics.Bitmap
 import jp.co.cyberagent.android.gpuimage.filter.GPUImageBilateralBlurFilter
 import jp.co.cyberagent.android.gpuimage.filter.GPUImageFilter
-import kotlinx.parcelize.Parcelize
-import kotlinx.parcelize.RawValue
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.domain.image.filters.Filter
 
-@Parcelize
+
 class BilaterialBlurFilter(
-    private val context: @RawValue Context,
+    private val context: Context,
     override val value: Float = -8f,
 ) : FilterTransformation<Float>(
     context = context,

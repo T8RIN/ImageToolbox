@@ -114,6 +114,7 @@ import ru.tech.imageresizershrinker.presentation.root.widget.preferences.screens
 import ru.tech.imageresizershrinker.presentation.root.widget.preferences.screens.SingleResizePreference
 import ru.tech.imageresizershrinker.presentation.root.widget.sheets.SimpleSheet
 import ru.tech.imageresizershrinker.presentation.root.widget.sheets.ZoomModalSheet
+import ru.tech.imageresizershrinker.presentation.root.widget.text.AutoSizeText
 import ru.tech.imageresizershrinker.presentation.root.widget.text.Marquee
 import ru.tech.imageresizershrinker.presentation.root.widget.text.RoundedTextField
 import ru.tech.imageresizershrinker.presentation.root.widget.text.TitleItem
@@ -523,7 +524,7 @@ fun LoadNetImageScreen(
                     MaterialTheme.colorScheme.outlineVariant()
                 )
             ) {
-                Text(stringResource(id = R.string.cancel))
+                AutoSizeText(stringResource(id = R.string.cancel))
             }
         },
         sheetContent = {

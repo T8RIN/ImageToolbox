@@ -98,6 +98,7 @@ import ru.tech.imageresizershrinker.presentation.root.widget.controls.ExtensionG
 import ru.tech.imageresizershrinker.presentation.root.widget.image.Picture
 import ru.tech.imageresizershrinker.presentation.root.widget.preferences.PreferenceItem
 import ru.tech.imageresizershrinker.presentation.root.widget.sheets.SimpleSheet
+import ru.tech.imageresizershrinker.presentation.root.widget.text.AutoSizeText
 import ru.tech.imageresizershrinker.presentation.root.widget.text.RoundedTextField
 import ru.tech.imageresizershrinker.presentation.root.widget.text.TitleItem
 import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalSettingsState
@@ -574,7 +575,7 @@ fun DrawHost(
                     startDrawOnBackground(width, height, color)
                 }
             ) {
-                Text(stringResource(R.string.ok))
+                AutoSizeText(stringResource(R.string.ok))
             }
         },
         sheetContent = {

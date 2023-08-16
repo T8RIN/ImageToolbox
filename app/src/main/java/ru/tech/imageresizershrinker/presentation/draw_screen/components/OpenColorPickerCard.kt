@@ -8,6 +8,7 @@ import androidx.compose.material.icons.rounded.Colorize
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -19,11 +20,12 @@ fun OpenColorPickerCard(
     onOpen: () -> Unit
 ) {
     Row(
-        Modifier
+        modifier = Modifier
             .padding(start = 16.dp, end = 16.dp, top = 16.dp)
             .block(applyResultPadding = false)
             .clickable { onOpen() }
-            .padding(16.dp)
+            .padding(16.dp),
+        verticalAlignment = Alignment.CenterVertically
     ) {
         Text(stringResource(id = R.string.pick_color), modifier = Modifier.weight(1f))
         Icon(Icons.Rounded.Colorize, null)

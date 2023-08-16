@@ -320,7 +320,7 @@ fun ColorPickerDialog(
                     visible.value = false
                 }
             ) {
-                Text(stringResource(R.string.save))
+                AutoSizeText(stringResource(R.string.save))
             }
         },
     )
@@ -602,7 +602,7 @@ fun AvailableColorTuplesDialog(
                     )
                 ),
             ) {
-                Text(stringResource(R.string.close))
+                AutoSizeText(stringResource(R.string.close))
             }
         },
     )

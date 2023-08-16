@@ -86,7 +86,7 @@ import com.t8rin.dynamic.theme.observeAsState
 import dev.olshevski.navigation.reimagined.hilt.hiltViewModel
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.R
-import ru.tech.imageresizershrinker.presentation.draw_screen.components.ColorPickerSheet
+import ru.tech.imageresizershrinker.presentation.draw_screen.components.PickColorFromImageSheet
 import ru.tech.imageresizershrinker.presentation.draw_screen.components.DrawAlphaSelector
 import ru.tech.imageresizershrinker.presentation.draw_screen.components.DrawBackgroundSelector
 import ru.tech.imageresizershrinker.presentation.draw_screen.components.DrawBehavior
@@ -491,7 +491,7 @@ fun DrawScreen(
         LoadingDialog()
     }
 
-    ColorPickerSheet(
+    PickColorFromImageSheet(
         visible = showPickColorSheet,
         bitmap = viewModel.colorPickerBitmap,
         onColorChange = viewModel::updateColor,

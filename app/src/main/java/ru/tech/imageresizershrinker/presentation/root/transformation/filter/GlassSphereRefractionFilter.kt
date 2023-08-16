@@ -5,14 +5,12 @@ import android.graphics.Bitmap
 import android.graphics.PointF
 import jp.co.cyberagent.android.gpuimage.filter.GPUImageFilter
 import jp.co.cyberagent.android.gpuimage.filter.GPUImageGlassSphereFilter
-import kotlinx.parcelize.Parcelize
-import kotlinx.parcelize.RawValue
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.domain.image.filters.Filter
 
-@Parcelize
+
 class GlassSphereRefractionFilter(
-    private val context: @RawValue Context,
+    private val context: Context,
     override val value: Pair<Float, Float> = 0.25f to 0.71f,
 ) : FilterTransformation<Pair<Float, Float>>(
     context = context,

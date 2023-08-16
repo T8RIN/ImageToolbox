@@ -31,7 +31,7 @@ fun AutoSizeText(
     lineHeight: TextUnit = TextUnit.Unspecified,
     overflow: TextOverflow = TextOverflow.Clip,
     softWrap: Boolean = true,
-    maxLines: Int = Int.MAX_VALUE,
+    maxLines: Int = 1,
     minLines: Int = 1,
     style: TextStyle = LocalTextStyle.current,
 ) {

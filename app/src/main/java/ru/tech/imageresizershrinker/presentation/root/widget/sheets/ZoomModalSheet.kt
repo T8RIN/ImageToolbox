@@ -6,12 +6,10 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
@@ -23,7 +21,6 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
@@ -39,6 +36,7 @@ import com.smarttoolfactory.image.zoom.animatedZoom
 import com.smarttoolfactory.image.zoom.rememberAnimatedZoomState
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
+import ru.tech.imageresizershrinker.presentation.root.widget.text.AutoSizeText
 import ru.tech.imageresizershrinker.presentation.root.widget.text.TitleItem
 import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalSettingsState
 
@@ -52,19 +50,16 @@ fun ZoomModalSheet(
     var showSheet by visible
 
     val sheetContent: @Composable ColumnScope.() -> Unit = {
-        Box(
-            Modifier
-                .fillMaxSize()
-                .navigationBarsPadding()
+        Column(
+            Modifier.navigationBarsPadding()
         ) {
             Image(
                 bitmap = bitmap!!.asImageBitmap(),
                 contentDescription = null,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .fillMaxHeight()
+                    .weight(1f)
                     .padding(
-                        bottom = 80.dp,
                         start = 16.dp,
                         end = 16.dp,
                     )
@@ -96,9 +91,8 @@ fun ZoomModalSheet(
                     )
             )
             Row(
-                modifier = Modifier
-                    .align(Alignment.BottomEnd)
-                    .padding(16.dp)
+                modifier = Modifier.padding(16.dp),
+                verticalAlignment = Alignment.CenterVertically
             ) {
                 TitleItem(text = stringResource(R.string.zoom), icon = Icons.Rounded.ZoomIn)
                 Spacer(Modifier.weight(1f))
@@ -116,7 +110,7 @@ fun ZoomModalSheet(
                     },
                     modifier = Modifier.padding(horizontal = 16.dp)
                 ) {
-                    Text(stringResource(R.string.close))
+                    AutoSizeText(stringResource(R.string.close))
                 }
             }
         }

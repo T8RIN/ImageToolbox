@@ -20,7 +20,6 @@ import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.ProvideTextStyle
-import androidx.compose.material3.Text
 import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
@@ -35,6 +34,7 @@ import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.core.APP_RELEASES
 import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
 import ru.tech.imageresizershrinker.presentation.root.widget.sheets.SimpleSheet
+import ru.tech.imageresizershrinker.presentation.root.widget.text.AutoSizeText
 import ru.tech.imageresizershrinker.presentation.root.widget.text.HtmlText
 import ru.tech.imageresizershrinker.presentation.root.widget.text.TitleItem
 import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalSettingsState
@@ -105,7 +105,7 @@ fun UpdateSheet(changelog: String, tag: String, visible: MutableState<Boolean>) 
                     )
                 }
             ) {
-                Text(stringResource(id = R.string.update))
+                AutoSizeText(stringResource(id = R.string.update))
             }
         }
     )

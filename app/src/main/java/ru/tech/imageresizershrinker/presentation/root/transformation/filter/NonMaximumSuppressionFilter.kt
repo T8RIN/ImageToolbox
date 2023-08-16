@@ -4,14 +4,12 @@ import android.content.Context
 import android.graphics.Bitmap
 import jp.co.cyberagent.android.gpuimage.filter.GPUImageFilter
 import jp.co.cyberagent.android.gpuimage.filter.GPUImageNonMaximumSuppressionFilter
-import kotlinx.parcelize.Parcelize
-import kotlinx.parcelize.RawValue
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.domain.image.filters.Filter
 
-@Parcelize
+
 class NonMaximumSuppressionFilter(
-    private val context: @RawValue Context,
+    private val context: Context,
 ) : FilterTransformation<Unit>(
     context = context,
     title = R.string.non_maximum_suppression,

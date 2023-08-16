@@ -160,6 +160,7 @@ import ru.tech.imageresizershrinker.presentation.root.widget.other.revealSwipeab
 import ru.tech.imageresizershrinker.presentation.root.widget.preferences.PreferenceItem
 import ru.tech.imageresizershrinker.presentation.root.widget.preferences.PreferenceItemOverload
 import ru.tech.imageresizershrinker.presentation.root.widget.sheets.SimpleSheet
+import ru.tech.imageresizershrinker.presentation.root.widget.text.AutoSizeText
 import ru.tech.imageresizershrinker.presentation.root.widget.text.Marquee
 import ru.tech.imageresizershrinker.presentation.root.widget.text.TitleItem
 import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalEditPresetsState
@@ -898,7 +899,7 @@ fun MainScreen(
                     settingsState.borderWidth, MaterialTheme.colorScheme.outlineVariant()
                 )
             ) {
-                Text(stringResource(R.string.close))
+                AutoSizeText(stringResource(R.string.close))
             }
         },
         sheetContent = {
@@ -971,7 +972,7 @@ fun MainScreen(
                     settingsState.borderWidth, MaterialTheme.colorScheme.outlineVariant()
                 )
             ) {
-                Text(stringResource(R.string.close))
+                AutoSizeText(stringResource(R.string.close))
             }
         },
         sheetContent = {

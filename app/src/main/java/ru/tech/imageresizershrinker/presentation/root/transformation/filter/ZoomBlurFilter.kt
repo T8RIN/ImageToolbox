@@ -5,16 +5,13 @@ import android.graphics.Bitmap
 import android.graphics.PointF
 import jp.co.cyberagent.android.gpuimage.filter.GPUImageFilter
 import jp.co.cyberagent.android.gpuimage.filter.GPUImageZoomBlurFilter
-import kotlinx.parcelize.Parcelize
-import kotlinx.parcelize.RawValue
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.domain.image.filters.Filter
 import ru.tech.imageresizershrinker.domain.image.filters.FilterParam
 
 
-@Parcelize
 class ZoomBlurFilter(
-    private val context: @RawValue Context,
+    private val context: Context,
     override val value: Triple<Float, Float, Float> = Triple(0.5f, 0.5f, 5f),
 ) : FilterTransformation<Triple<Float, Float, Float>>(
     context = context,

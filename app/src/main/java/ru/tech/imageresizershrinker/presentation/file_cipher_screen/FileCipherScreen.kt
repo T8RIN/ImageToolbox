@@ -91,7 +91,6 @@ import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextAlign
@@ -384,7 +383,7 @@ fun FileCipherScreen(
                                                 title = context.getFileName(uri)
                                                     ?: stringResource(R.string.something_went_wrong),
                                                 onClick = null,
-                                                titleFontStyle = TextStyle(
+                                                titleFontStyle = androidx.compose.material3.LocalTextStyle.current.copy(
                                                     lineHeight = 16.sp,
                                                     fontSize = 15.sp
                                                 ),

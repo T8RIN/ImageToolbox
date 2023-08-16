@@ -60,6 +60,7 @@ import ru.tech.imageresizershrinker.presentation.root.utils.helper.ImageUtils.to
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.alertDialog
 import ru.tech.imageresizershrinker.presentation.root.widget.preferences.PreferenceItemOverload
 import ru.tech.imageresizershrinker.presentation.root.widget.sheets.SimpleSheet
+import ru.tech.imageresizershrinker.presentation.root.widget.text.AutoSizeText
 import ru.tech.imageresizershrinker.presentation.root.widget.text.RoundedTextField
 import ru.tech.imageresizershrinker.presentation.root.widget.text.TitleItem
 import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalSettingsState
@@ -96,7 +97,7 @@ fun EditExifSheet(
                 ),
                 onClick = { visible.value = false }
             ) {
-                Text(stringResource(R.string.ok))
+                AutoSizeText(stringResource(R.string.ok))
             }
         },
         title = {
@@ -357,7 +358,7 @@ fun EditExifSheet(
                                 ),
                                 onClick = { showAddExifDialog.value = false }
                             ) {
-                                Text(stringResource(R.string.ok))
+                                AutoSizeText(stringResource(R.string.ok))
                             }
                         }
                     }

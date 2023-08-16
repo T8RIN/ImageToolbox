@@ -5,15 +5,12 @@ import android.graphics.Bitmap
 import android.graphics.PointF
 import jp.co.cyberagent.android.gpuimage.filter.GPUImageBulgeDistortionFilter
 import jp.co.cyberagent.android.gpuimage.filter.GPUImageFilter
-import kotlinx.parcelize.Parcelize
-import kotlinx.parcelize.RawValue
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.domain.image.filters.Filter
 
 
-@Parcelize
 class BulgeDistortionEffect(
-    private val context: @RawValue Context,
+    private val context: Context,
     override val value: Pair<Float, Float> = 0.25f to 0.5f,
 ) : FilterTransformation<Pair<Float, Float>>(
     context = context,

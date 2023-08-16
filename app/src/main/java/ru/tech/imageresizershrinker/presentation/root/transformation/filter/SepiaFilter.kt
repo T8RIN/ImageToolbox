@@ -5,14 +5,12 @@ import android.content.Context
 import android.graphics.Bitmap
 import jp.co.cyberagent.android.gpuimage.filter.GPUImageFilter
 import jp.co.cyberagent.android.gpuimage.filter.GPUImageSepiaToneFilter
-import kotlinx.parcelize.Parcelize
-import kotlinx.parcelize.RawValue
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.domain.image.filters.Filter
 
-@Parcelize
+
 class SepiaFilter(
-    private val context: @RawValue Context,
+    private val context: Context,
     override val value: Float = 0f,
 ) : FilterTransformation<Float>(
     context = context,

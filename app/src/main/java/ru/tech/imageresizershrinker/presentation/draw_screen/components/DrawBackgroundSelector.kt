@@ -52,6 +52,7 @@ import ru.tech.imageresizershrinker.presentation.root.theme.inverse
 import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.block
 import ru.tech.imageresizershrinker.presentation.root.widget.sheets.SimpleSheet
+import ru.tech.imageresizershrinker.presentation.root.widget.text.AutoSizeText
 import ru.tech.imageresizershrinker.presentation.root.widget.text.TitleItem
 import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalSettingsState
 
@@ -226,7 +227,7 @@ fun DrawBackgroundSelector(drawController: DrawController) {
                     showColorPicker.value = false
                 }
             ) {
-                Text(stringResource(R.string.ok))
+                AutoSizeText(stringResource(R.string.ok))
             }
         }
     )

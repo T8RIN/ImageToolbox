@@ -4,27 +4,23 @@ package ru.tech.imageresizershrinker.presentation.root.transformation.filter
 
 import android.content.Context
 import android.graphics.Bitmap
-import android.os.Parcelable
 import androidx.annotation.StringRes
 import androidx.compose.ui.graphics.Color
-import kotlinx.parcelize.Parcelize
-import kotlinx.parcelize.RawValue
 import ru.tech.imageresizershrinker.domain.image.Transformation
 import ru.tech.imageresizershrinker.domain.image.filters.FilterParam
 
-@Parcelize
 sealed class FilterTransformation<T>(
-    private val context: @RawValue Context,
+    private val context: Context,
     @StringRes val title: Int,
-    val paramsInfo: @RawValue List<FilterParam> = listOf(),
-    open val value: @RawValue T,
-) : GPUFilterTransformation(context), Transformation<Bitmap>, Parcelable {
+    val paramsInfo: List<FilterParam> = listOf(),
+    open val value: T,
+) : GPUFilterTransformation(context), Transformation<Bitmap> {
 
     constructor(
-        context: @RawValue Context,
+        context: Context,
         @StringRes title: Int,
         valueRange: ClosedFloatingPointRange<Float>,
-        value: @RawValue T,
+        value: T,
     ) : this(
         context = context,
         title = title,

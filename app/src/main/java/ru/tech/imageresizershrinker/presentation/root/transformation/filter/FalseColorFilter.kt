@@ -5,15 +5,13 @@ import android.graphics.Bitmap
 import androidx.compose.ui.graphics.Color
 import jp.co.cyberagent.android.gpuimage.filter.GPUImageFalseColorFilter
 import jp.co.cyberagent.android.gpuimage.filter.GPUImageFilter
-import kotlinx.parcelize.Parcelize
-import kotlinx.parcelize.RawValue
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.domain.image.filters.Filter
 
-@Parcelize
+
 class FalseColorFilter(
-    private val context: @RawValue Context,
-    override val value: @RawValue Pair<Color, Color> = Color(0f, 0f, 0.5f) to Color(1f, 0f, 0f),
+    private val context: Context,
+    override val value: Pair<Color, Color> = Color(0f, 0f, 0.5f) to Color(1f, 0f, 0f),
 ) : FilterTransformation<Pair<Color, Color>>(
     context = context,
     title = R.string.false_color,

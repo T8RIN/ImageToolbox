@@ -52,6 +52,7 @@ import ru.tech.imageresizershrinker.presentation.root.widget.preferences.screens
 import ru.tech.imageresizershrinker.presentation.root.widget.preferences.screens.PickColorPreference
 import ru.tech.imageresizershrinker.presentation.root.widget.preferences.screens.SingleResizePreference
 import ru.tech.imageresizershrinker.presentation.root.widget.sheets.SimpleSheet
+import ru.tech.imageresizershrinker.presentation.root.widget.text.AutoSizeText
 import ru.tech.imageresizershrinker.presentation.root.widget.text.TitleItem
 import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalSettingsState
 
@@ -79,7 +80,7 @@ fun ProcessImagesPreferenceSheet(
                     MaterialTheme.colorScheme.outlineVariant()
                 )
             ) {
-                Text(stringResource(id = R.string.cancel))
+                AutoSizeText(stringResource(id = R.string.cancel))
             }
         },
         sheetContent = {

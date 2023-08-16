@@ -4,17 +4,14 @@ import android.content.Context
 import android.graphics.Bitmap
 import coil.size.Size
 import jp.co.cyberagent.android.gpuimage.filter.GPUImageFilter
-import kotlinx.parcelize.Parcelize
-import kotlinx.parcelize.RawValue
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.domain.image.filters.Filter
 import ru.tech.imageresizershrinker.domain.image.filters.FilterParam
 import kotlin.math.roundToInt
 
 
-@Parcelize
 class FastBlurFilter(
-    private val context: @RawValue Context,
+    private val context: Context,
     override val value: Pair<Float, Int> = 0.5f to 25,
 ) : FilterTransformation<Pair<Float, Int>>(
     context = context,

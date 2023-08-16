@@ -218,7 +218,7 @@ fun EditPresetsSheet(
                     MaterialTheme.colorScheme.outlineVariant()
                 )
             ) {
-                Text(stringResource(R.string.close))
+                AutoSizeText(stringResource(R.string.close))
             }
         }
     )

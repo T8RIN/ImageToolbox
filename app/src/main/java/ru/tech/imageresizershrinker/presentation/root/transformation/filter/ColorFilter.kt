@@ -11,15 +11,13 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.core.graphics.createBitmap
 import coil.size.Size
 import jp.co.cyberagent.android.gpuimage.filter.GPUImageFilter
-import kotlinx.parcelize.Parcelize
-import kotlinx.parcelize.RawValue
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.domain.image.filters.Filter
 
-@Parcelize
+
 class ColorFilter(
-    private val context: @RawValue Context,
-    override val value: @RawValue Color = Color.Transparent,
+    private val context: Context,
+    override val value: Color = Color.Transparent,
 ) : FilterTransformation<Color>(
     context = context,
     title = R.string.color_filter,

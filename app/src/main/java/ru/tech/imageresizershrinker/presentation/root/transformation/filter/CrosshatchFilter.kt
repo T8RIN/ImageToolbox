@@ -4,15 +4,13 @@ import android.content.Context
 import android.graphics.Bitmap
 import jp.co.cyberagent.android.gpuimage.filter.GPUImageCrosshatchFilter
 import jp.co.cyberagent.android.gpuimage.filter.GPUImageFilter
-import kotlinx.parcelize.Parcelize
-import kotlinx.parcelize.RawValue
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.domain.image.filters.Filter
 import ru.tech.imageresizershrinker.domain.image.filters.FilterParam
 
-@Parcelize
+
 class CrosshatchFilter(
-    private val context: @RawValue Context,
+    private val context: Context,
     override val value: Pair<Float, Float> = 0.01f to 0.003f,
 ) : FilterTransformation<Pair<Float, Float>>(
     context = context,

@@ -43,6 +43,7 @@ import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
 import ru.tech.imageresizershrinker.presentation.root.widget.preferences.PreferenceRow
 import ru.tech.imageresizershrinker.presentation.root.widget.sheets.SimpleSheet
+import ru.tech.imageresizershrinker.presentation.root.widget.text.AutoSizeText
 import ru.tech.imageresizershrinker.presentation.root.widget.text.TitleItem
 import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalSettingsState
 import java.util.Locale
@@ -156,7 +157,7 @@ private fun PickLanguageSheet(
                     visible.value = false
                 }
             ) {
-                Text(stringResource(R.string.cancel))
+                AutoSizeText(stringResource(R.string.cancel))
             }
         },
         visible = visible
