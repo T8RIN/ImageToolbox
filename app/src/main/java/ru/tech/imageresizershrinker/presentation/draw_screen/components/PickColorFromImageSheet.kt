@@ -136,7 +136,7 @@ fun PickColorFromImageSheet(
                 colors = ButtonDefaults.filledTonalButtonColors(),
                 border = BorderStroke(
                     settingsState.borderWidth,
-                    MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.primary)
+                    MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.secondaryContainer)
                 )
             ) {
                 AutoSizeText(stringResource(R.string.close))
