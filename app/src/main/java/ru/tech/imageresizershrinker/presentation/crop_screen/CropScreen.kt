@@ -232,6 +232,7 @@ fun CropScreen(
 
     val aspectRatios = aspectRatios()
     val controls: @Composable () -> Unit = {
+        Column(Modifier.verticalScroll(rememberScrollState())) {
         AspectRatioSelection(
             modifier = Modifier
                 .fillMaxWidth()
@@ -261,6 +262,7 @@ fun CropScreen(
                 viewModel.updateMimeType(it)
             }
         )
+        }
     }
 
     var crop by remember { mutableStateOf(false) }
