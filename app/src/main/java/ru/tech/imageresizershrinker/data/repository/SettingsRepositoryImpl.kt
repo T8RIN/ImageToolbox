@@ -107,9 +107,7 @@ class SettingsRepositoryImpl @Inject constructor(
             groupOptionsByTypes = prefs[GROUP_OPTIONS] ?: true,
             addSequenceNumber = prefs[ADD_SEQ_NUM] ?: true,
             saveFolderUri = prefs[SAVE_FOLDER],
-            presets = ((prefs[PRESETS]?.split("*")?.map {
-                it.toInt()
-            } ?: emptyList())).toSortedSet().reversed().toList().map { Preset.Numeric(it) },
+            presets = Preset.createListFromInts(prefs[PRESETS]),
             colorTupleList = prefs[COLOR_TUPLES],
             allowChangeColorByImage = prefs[IMAGE_MONET] ?: true,
             imagePickerModeInt = prefs[PICKER_MODE] ?: 0,

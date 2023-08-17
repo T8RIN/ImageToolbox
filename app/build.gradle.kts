@@ -124,7 +124,6 @@ dependencies {
     implementation("androidx.compose.material3:material3-window-size-class:1.2.0-alpha04")
     implementation("androidx.compose.material:material-icons-extended:1.6.0-alpha02")
     implementation("androidx.compose.material:material:1.6.0-alpha02")
-    implementation("androidx.compose.ui:ui-tooling-preview:1.6.0-alpha02")
 
     //Di
     implementation("com.google.dagger:hilt-android:2.47")
