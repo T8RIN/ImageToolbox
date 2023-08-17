@@ -24,6 +24,7 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.EmojiSymbols
+import androidx.compose.material.icons.rounded.Check
 import androidx.compose.material.icons.rounded.Shuffle
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.HorizontalDivider
@@ -33,6 +34,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedIconButton
 import androidx.compose.material3.Switch
+import androidx.compose.material3.SwitchDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.runtime.Composable
@@ -51,6 +53,7 @@ import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.presentation.root.theme.EmojiData
 import ru.tech.imageresizershrinker.presentation.root.theme.EmojiItem
+import ru.tech.imageresizershrinker.presentation.root.theme.blend
 import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.block
 import ru.tech.imageresizershrinker.presentation.root.widget.sheets.SimpleSheet
@@ -79,7 +82,15 @@ fun EmojiSheet(
     }
 
     val emojiEnabled = selectedEmojiIndex != -1
-
+    val thumbIcon: (@Composable () -> Unit)? = if (emojiEnabled) {
+        {
+            Icon(
+                imageVector = Icons.Rounded.Check,
+                contentDescription = null,
+                modifier = Modifier.size(SwitchDefaults.IconSize)
+            )
+        }
+    } else null
     val sheetContent: @Composable ColumnScope.() -> Unit = {
         Column(
             Modifier.fillMaxSize()
@@ -98,7 +109,17 @@ fun EmojiSheet(
             ) {
                 Text(stringResource(id = R.string.enable_emoji), modifier = Modifier.weight(1f))
                 Switch(
+                    thumbContent = thumbIcon,
                     checked = emojiEnabled,
+                    colors = SwitchDefaults.colors(
+                        uncheckedBorderColor = MaterialTheme.colorScheme.outline.blend(
+                            MaterialTheme.colorScheme.secondaryContainer, 0.3f
+                        ),
+                        uncheckedThumbColor = MaterialTheme.colorScheme.outline.blend(
+                            MaterialTheme.colorScheme.secondaryContainer, 0.2f
+                        ),
+                        uncheckedTrackColor = MaterialTheme.colorScheme.secondaryContainer
+                    ),
                     onCheckedChange = {
                         if (!emojiEnabled) onEmojiPicked(Random.nextInt(0, allEmojis.lastIndex))
                         else onEmojiPicked(-1)

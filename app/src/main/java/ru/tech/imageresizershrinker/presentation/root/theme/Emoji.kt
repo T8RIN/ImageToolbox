@@ -4,7 +4,6 @@ package ru.tech.imageresizershrinker.presentation.root.theme
 
 import android.content.Context
 import android.net.Uri
-import android.util.Log
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.offset
@@ -79,37 +78,22 @@ val Emoji.allIcons: List<Uri>
             .listAssetFiles("svg/emotions")
             .sortedWith(String.CASE_INSENSITIVE_ORDER)
             .map { context.getFileFromAssets("emotions", it) }
-            .also {
-                Log.d("COCK-emotions", it.toString())
-            }
         Food = context
             .listAssetFiles("svg/food")
             .sortedWith(String.CASE_INSENSITIVE_ORDER)
             .map { context.getFileFromAssets("food", it) }
-            .also {
-                Log.d("COCK-food", it.toString())
-            }
         Nature = context
             .listAssetFiles("svg/nature")
             .sortedWith(String.CASE_INSENSITIVE_ORDER)
             .map { context.getFileFromAssets("nature", it) }
-            .also {
-                Log.d("COCK-nature", it.toString())
-            }
         Objects = context
             .listAssetFiles("svg/objects")
             .sortedWith(String.CASE_INSENSITIVE_ORDER)
             .map { context.getFileFromAssets("objects", it) }
-            .also {
-                Log.d("COCK-objects", it.toString())
-            }
         Symbols = context
             .listAssetFiles("svg/symbols")
             .sortedWith(String.CASE_INSENSITIVE_ORDER)
             .map { context.getFileFromAssets("symbols", it) }
-            .also {
-                Log.d("COCK-symbols", it.toString())
-            }
         return remember { (Emotions!! + Food!! + Nature!! + Objects!! + Symbols!!) }
     }
 
@@ -145,37 +129,22 @@ val Emoji.allIconsCategorized: List<EmojiData>
             .listAssetFiles("svg/emotions")
             .sortedWith(String.CASE_INSENSITIVE_ORDER)
             .map { context.getFileFromAssets("emotions", it) }
-            .also {
-                Log.d("COCK-emotions", it.toString())
-            }
         Food = context
             .listAssetFiles("svg/food")
             .sortedWith(String.CASE_INSENSITIVE_ORDER)
             .map { context.getFileFromAssets("food", it) }
-            .also {
-                Log.d("COCK-food", it.toString())
-            }
         Nature = context
             .listAssetFiles("svg/nature")
             .sortedWith(String.CASE_INSENSITIVE_ORDER)
             .map { context.getFileFromAssets("nature", it) }
-            .also {
-                Log.d("COCK-nature", it.toString())
-            }
         Objects = context
             .listAssetFiles("svg/objects")
             .sortedWith(String.CASE_INSENSITIVE_ORDER)
             .map { context.getFileFromAssets("objects", it) }
-            .also {
-                Log.d("COCK-objects", it.toString())
-            }
         Symbols = context
             .listAssetFiles("svg/symbols")
             .sortedWith(String.CASE_INSENSITIVE_ORDER)
             .map { context.getFileFromAssets("symbols", it) }
-            .also {
-                Log.d("COCK-symbols", it.toString())
-            }
         return listOf(
             EmojiData(stringResource(R.string.emotions), Icons.Outlined.EmojiEmotions, Emotions!!),
             EmojiData(
