@@ -48,7 +48,7 @@ class FilterViewModel @Inject constructor(
     val keepExif by _keepExif
 
     private val _isImageLoading: MutableState<Boolean> = mutableStateOf(false)
-    val isLoading: Boolean by _isImageLoading
+    val isImageLoading: Boolean by _isImageLoading
 
     private val _isSaving: MutableState<Boolean> = mutableStateOf(false)
     val isSaving: Boolean by _isSaving

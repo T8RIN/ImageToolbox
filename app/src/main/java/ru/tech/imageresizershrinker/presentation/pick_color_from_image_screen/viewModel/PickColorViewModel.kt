@@ -26,8 +26,8 @@ class PickColorViewModel @Inject constructor(
     private val _color: MutableState<Color> = mutableStateOf(Color.Unspecified)
     val color: Color by _color
 
-    private val _isLoading: MutableState<Boolean> = mutableStateOf(false)
-    val isLoading: Boolean by _isLoading
+    private val _isImageLoading: MutableState<Boolean> = mutableStateOf(false)
+    val isImageLoading: Boolean by _isImageLoading
 
     private val _uri = mutableStateOf<Uri?>(null)
     val uri by _uri
@@ -38,9 +38,9 @@ class PickColorViewModel @Inject constructor(
 
     fun updateBitmap(bitmap: Bitmap?) {
         viewModelScope.launch {
-            _isLoading.value = true
+            _isImageLoading.value = true
             _bitmap.value = imageManager.scaleUntilCanShow(bitmap)
-            _isLoading.value = false
+            _isImageLoading.value = false
         }
     }
 

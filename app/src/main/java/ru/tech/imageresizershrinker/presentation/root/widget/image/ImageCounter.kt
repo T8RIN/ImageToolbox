@@ -11,18 +11,22 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.ChangeCircle
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedIconButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.R
@@ -43,41 +47,43 @@ fun ImageCounter(
     ) {
         Column {
             Row(
-                verticalAlignment = Alignment.CenterVertically
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier.block(shape = CircleShape).padding(start = 3.dp)
             ) {
-                Text(
-                    stringResource(R.string.images, imageCount ?: 0L),
-                    Modifier
-                        .block()
-                        .padding(
-                            vertical = 4.dp,
-                            horizontal = 8.dp
+                OutlinedButton(
+                    onClick = { if ((imageCount ?: 0) > 1) onRepick() },
+                    border = BorderStroke(
+                        settingsState.borderWidth,
+                        MaterialTheme.colorScheme.outlineVariant(
+                            0.1f,
+                            MaterialTheme.colorScheme.tertiaryContainer.copy(0.1f),
                         ),
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
-                )
+                    ),
+                    colors = ButtonDefaults.filledTonalButtonColors(
+                        containerColor = MaterialTheme.colorScheme.tertiaryContainer.copy(0.3f),
+                        contentColor = MaterialTheme.colorScheme.onTertiaryContainer.copy(0.9f)
+                    )
+                ) {
+                    Text(stringResource(R.string.images, imageCount ?: 0L))
+                }
                 OutlinedIconButton(
                     onClick = { if ((imageCount ?: 0) > 1) onRepick() },
                     border = BorderStroke(
                         settingsState.borderWidth,
                         MaterialTheme.colorScheme.outlineVariant(
                             0.1f,
-                            MaterialTheme.colorScheme.surfaceColorAtElevation(
-                                1.dp
-                            )
+                            MaterialTheme.colorScheme.tertiaryContainer.copy(0.1f),
                         ),
                     ),
-                    shape = RoundedCornerShape(16.dp),
                     colors = IconButtonDefaults.filledIconButtonColors(
-                        containerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(
-                            1.dp
-                        ),
-                        contentColor = MaterialTheme.colorScheme.onSurfaceVariant
+                        containerColor = MaterialTheme.colorScheme.tertiaryContainer.copy(0.3f),
+                        contentColor = MaterialTheme.colorScheme.onTertiaryContainer.copy(0.9f)
                     )
                 ) {
                     Icon(Icons.Rounded.ChangeCircle, null)
                 }
             }
-            Spacer(Modifier.height(8.dp))
+            Spacer(Modifier.height(16.dp))
         }
     }
 }

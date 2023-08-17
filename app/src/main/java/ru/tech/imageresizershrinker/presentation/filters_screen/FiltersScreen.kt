@@ -291,7 +291,7 @@ fun FiltersScreen(
             showOriginal = showOriginal,
             previewBitmap = viewModel.previewBitmap,
             originalBitmap = viewModel.bitmap,
-            isLoading = viewModel.isLoading,
+            isLoading = viewModel.isImageLoading,
             shouldShowPreview = true,
             animatePreviewChange = false
         )
@@ -390,7 +390,7 @@ fun FiltersScreen(
                         TopAppBarTitle(
                             title = stringResource(R.string.filter),
                             bitmap = viewModel.bitmap,
-                            isLoading = viewModel.isLoading,
+                            isLoading = viewModel.isImageLoading,
                             size = viewModel.bitmapSize ?: 0L
                         )
                     },
@@ -496,7 +496,7 @@ fun FiltersScreen(
                                 if (imageInside && viewModel.bitmap == null) imageBlock()
                                 if (viewModel.bitmap != null) {
                                     ImageCounter(
-                                        imageCount = viewModel.uris?.size?.takeIf { it > 1 && !viewModel.isLoading },
+                                        imageCount = viewModel.uris?.size?.takeIf { it > 1 },
                                         onRepick = {
                                             showPickImageFromUrisDialog = true
                                         }
@@ -597,7 +597,7 @@ fun FiltersScreen(
                                             viewModel.setMime(it)
                                         }
                                     )
-                                } else if (!viewModel.isLoading) {
+                                } else if (!viewModel.isImageLoading) {
                                     ImageNotPickedWidget(onPickImage = pickImage)
                                     Spacer(Modifier.size(8.dp))
                                 }

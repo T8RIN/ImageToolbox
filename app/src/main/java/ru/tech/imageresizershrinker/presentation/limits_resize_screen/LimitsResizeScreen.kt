@@ -367,7 +367,7 @@ fun LimitsResizeScreen(
                                 if (imageInside && viewModel.bitmap == null) imageBlock()
                                 if (viewModel.bitmap != null) {
                                     ImageCounter(
-                                        imageCount = viewModel.uris?.size?.takeIf { it > 1 && !viewModel.isImageLoading },
+                                        imageCount = viewModel.uris?.size?.takeIf { it > 1 },
                                         onRepick = {
                                             showPickImageFromUrisDialog = true
                                         }
