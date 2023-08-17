@@ -351,6 +351,8 @@
     <string name="objects">Objects</string>
     <string name="symbols">Symbols</string>
     <string name="enable_emoji">Enable emoji</string>
+    <string name="travels_and_places">Travels and Places</string>
+    <string name="activities">Activities</string>
     <string-array name="fab_alignment_sub">
         <item>Start</item>
         <item>Center</item>

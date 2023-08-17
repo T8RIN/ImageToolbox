@@ -23,7 +23,7 @@ import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.EmojiSymbols
+import androidx.compose.material.icons.outlined.Face5
 import androidx.compose.material.icons.rounded.Check
 import androidx.compose.material.icons.rounded.Shuffle
 import androidx.compose.material3.ButtonDefaults
@@ -154,12 +154,17 @@ fun EmojiSheet(
                         Row(
                             modifier = Modifier
                                 .padding(vertical = 16.dp)
-                                .block()
+                                .block(
+                                    color = MaterialTheme.colorScheme.secondaryContainer.copy(
+                                        0.4f
+                                    )
+                                )
                                 .padding(16.dp),
-                            verticalAlignment = Alignment.CenterVertically
+                            verticalAlignment = Alignment.CenterVertically,
+                            horizontalArrangement = Arrangement.Center
                         ) {
                             Icon(icon, null, modifier = Modifier.padding(end = 16.dp))
-                            Text(title, modifier = Modifier.weight(1f))
+                            Text(title)
                         }
                     }
                     emojis.forEach { emoji ->
@@ -206,8 +211,9 @@ fun EmojiSheet(
                     .background(MaterialTheme.colorScheme.surfaceColorAtElevation(10.dp))
                     .padding(16.dp)
                     .navigationBarsPadding(),
+                verticalAlignment = Alignment.CenterVertically
             ) {
-                TitleItem(text = stringResource(R.string.emoji), icon = Icons.Outlined.EmojiSymbols)
+                TitleItem(text = stringResource(R.string.emoji), icon = Icons.Outlined.Face5)
                 Spacer(Modifier.weight(1f))
                 OutlinedIconButton(
                     enabled = emojiEnabled,
