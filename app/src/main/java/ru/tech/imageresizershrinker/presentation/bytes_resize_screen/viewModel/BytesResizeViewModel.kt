@@ -30,6 +30,9 @@ class BytesResizeViewModel @Inject constructor(
     private val imageManager: ImageManager<Bitmap, ExifInterface>
 ) : ViewModel() {
 
+    private val _imageSize: MutableState<Long> = mutableLongStateOf(0L)
+    val imageSize by _imageSize
+
     private val _canSave = mutableStateOf(false)
     val canSave by _canSave
 
@@ -72,6 +75,18 @@ class BytesResizeViewModel @Inject constructor(
     fun setMime(imageFormat: ImageFormat) {
         if (_imageFormat.value != imageFormat) {
             _imageFormat.value = imageFormat
+            viewModelScope.launch {
+                _bitmap.value?.let {
+                    _isImageLoading.value = true
+                    _imageSize.value = imageManager.calculateImageSize(
+                        imageData = ImageData(
+                            image = it,
+                            imageInfo = ImageInfo(imageFormat = imageFormat)
+                        )
+                    )
+                    _isImageLoading.value = false
+                }
+            }
         }
     }
 
@@ -278,6 +293,17 @@ class BytesResizeViewModel @Inject constructor(
                 onGetImage(it.image)
                 onGetMetadata(it.metadata)
                 onGetMimeType(it.imageInfo.imageFormat)
+                viewModelScope.launch {
+                    _isImageLoading.value = true
+                    _imageSize.value = imageManager.calculateImageSize(
+                        imageData = ImageData(
+                            image = it.image,
+                            imageInfo = it.imageInfo,
+                            metadata = it.metadata
+                        )
+                    )
+                    _isImageLoading.value = false
+                }
             },
             onError = onError
         )

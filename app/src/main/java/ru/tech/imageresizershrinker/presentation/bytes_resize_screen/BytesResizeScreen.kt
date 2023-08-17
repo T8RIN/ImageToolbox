@@ -325,7 +325,7 @@ fun BytesResizeScreen(
                             title = stringResource(R.string.by_bytes_resize),
                             bitmap = viewModel.bitmap,
                             isLoading = viewModel.isImageLoading,
-                            size = viewModel.selectedUri?.fileSize(LocalContext.current) ?: 0L
+                            size = viewModel.imageSize
                         )
                     },
                     colors = TopAppBarDefaults.centerAlignedTopAppBarColors(

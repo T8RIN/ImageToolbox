@@ -474,8 +474,16 @@ class AndroidImageManager @Inject constructor(
                     minimumValue = 256,
                     maximumValue = 512
                 )
+
         return@withContext kotlin.runCatching {
-            if (image.size() > maxBytes1) {
+            if (
+                calculateImageSize(
+                    imageData = ImageData(
+                        image = image,
+                        imageInfo = ImageInfo(imageFormat = imageFormat)
+                    )
+                ) > maxBytes1
+            ) {
                 var streamLength = maxBytes1
                 var compressQuality = 100
                 val bmpStream = ByteArrayOutputStream()
@@ -503,10 +511,10 @@ class AndroidImageManager @Inject constructor(
                     )
                     streamLength = (bmpStream.toByteArray().size).toLong()
                 }
+
                 if (compressQuality < 20) {
                     compressQuality = 20
                     while (streamLength >= maxBytes1) {
-
                         bmpStream.use {
                             it.flush()
                             it.reset()
@@ -519,18 +527,20 @@ class AndroidImageManager @Inject constructor(
                         )
                         bmpStream.write(
                             temp?.let {
+                                newSize = it.width to it.height
                                 compress(
                                     ImageData(
                                         image = image,
                                         imageInfo = ImageInfo(
                                             quality = compressQuality.toFloat(),
-                                            imageFormat = imageFormat
+                                            imageFormat = imageFormat,
+                                            width = newSize.first,
+                                            height = newSize.second
                                         )
                                     )
                                 )
                             }
                         )
-                        newSize = (newSize.first * 0.98).toInt() to (newSize.second * 0.98).toInt()
                         streamLength = (bmpStream.toByteArray().size).toLong()
                     }
                 }
