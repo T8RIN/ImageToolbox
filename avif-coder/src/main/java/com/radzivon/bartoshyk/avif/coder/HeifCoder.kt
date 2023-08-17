@@ -2,7 +2,9 @@
 
 package com.radzivon.bartoshyk.avif.coder
 
+import android.annotation.SuppressLint
 import android.graphics.Bitmap
+import android.os.Build
 import android.util.Size
 import androidx.annotation.Keep
 
@@ -55,9 +57,12 @@ class HeifCoder {
     private external fun encodeAvifImpl(bitmap: Bitmap, quality: Int): ByteArray
     private external fun encodeHeicImpl(bitmap: Bitmap, quality: Int): ByteArray
 
+    @SuppressLint("ObsoleteSdkInt")
     companion object {
         init {
-            System.loadLibrary("coder")
+            if (Build.VERSION.SDK_INT >= 24) {
+                System.loadLibrary("coder")
+            }
         }
     }
 }

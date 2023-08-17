@@ -1,5 +1,6 @@
 package ru.tech.imageresizershrinker.presentation.root.model
 
+import android.os.Build
 import androidx.compose.ui.text.font.FontFamily
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.domain.model.FontFam
@@ -13,19 +14,25 @@ sealed class UiFontFam(
     operator fun component2() = name
 
     data object Montserrat : UiFontFam(
-        fontFamily = fontFamilyResource(R.font.montserrat_variable),
+        fontFamily = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            fontFamilyResource(R.font.montserrat_variable)
+        } else fontFamilyResource(R.font.montserrat_regular),
         name = "Montserrat"
     )
 
     data object Caveat : UiFontFam(
-        fontFamily = fontFamilyResource(R.font.caveat_variable),
+        fontFamily = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            fontFamilyResource(R.font.caveat_variable)
+        } else fontFamilyResource(R.font.caveat_regular),
         name = "Caveat"
     )
 
     data object System : UiFontFam(FontFamily.Default, null)
 
     data object Comfortaa : UiFontFam(
-        fontFamily = fontFamilyResource(R.font.comfortaa_varibale),
+        fontFamily = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            fontFamilyResource(R.font.comfortaa_varibale)
+        } else fontFamilyResource(R.font.comfortaa_regular),
         "Comfortaa"
     )
 

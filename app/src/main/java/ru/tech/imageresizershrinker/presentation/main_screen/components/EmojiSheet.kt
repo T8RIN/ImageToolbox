@@ -1,5 +1,6 @@
 package ru.tech.imageresizershrinker.presentation.main_screen.components
 
+import android.net.Uri
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -56,7 +57,7 @@ import kotlin.random.Random
 @Composable
 fun EmojiSheet(
     selectedEmojiIndex: Int,
-    emojis: List<ImageVector>,
+    emojis: List<Uri>,
     onEmojiPicked: (Int) -> Unit,
     visible: MutableState<Boolean>
 ) {

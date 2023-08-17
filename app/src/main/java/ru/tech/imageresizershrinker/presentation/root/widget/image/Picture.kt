@@ -76,6 +76,16 @@ import ru.tech.imageresizershrinker.presentation.root.widget.image.StatusBarUtil
 import ru.tech.imageresizershrinker.presentation.root.widget.image.StatusBarUtils.showSystemBars
 
 @Composable
+fun pictureImageLoader(): ImageLoader {
+    return LocalContext.current.imageLoader.newBuilder().components {
+        if (Build.VERSION.SDK_INT >= 28) add(ImageDecoderDecoder.Factory())
+        else add(GifDecoder.Factory())
+        add(SvgDecoder.Factory())
+        if (Build.VERSION.SDK_INT >= 24) add(HeifDecoder.Factory())
+    }.build()
+}
+
+@Composable
 fun Picture(
     modifier: Modifier = Modifier,
     model: Any?,
@@ -108,13 +118,7 @@ fun Picture(
 
     var shimmerVisible by rememberSaveable { mutableStateOf(true) }
 
-    val imageLoader =
-        manualImageLoader ?: context.imageLoader.newBuilder().components {
-            if (Build.VERSION.SDK_INT >= 28) add(ImageDecoderDecoder.Factory())
-            else add(GifDecoder.Factory())
-            add(SvgDecoder.Factory())
-            if (Build.VERSION.SDK_INT >= 24) add(HeifDecoder.Factory())
-        }.build()
+    val imageLoader = manualImageLoader ?: pictureImageLoader()
 
     val request = manualImageRequest ?: ImageRequest.Builder(context)
         .data(model)

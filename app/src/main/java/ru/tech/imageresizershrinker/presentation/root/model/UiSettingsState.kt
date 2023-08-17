@@ -6,7 +6,6 @@ import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.core.net.toUri
@@ -17,7 +16,6 @@ import ru.tech.imageresizershrinker.domain.model.SettingsState
 import ru.tech.imageresizershrinker.presentation.root.theme.Emoji
 import ru.tech.imageresizershrinker.presentation.root.theme.allIcons
 import ru.tech.imageresizershrinker.presentation.root.theme.defaultColorTuple
-import ru.tech.imageresizershrinker.presentation.root.theme.emoji.Sparkles
 import ru.tech.imageresizershrinker.presentation.root.theme.toColor
 import ru.tech.imageresizershrinker.presentation.root.utils.navigation.Screen
 
@@ -32,7 +30,7 @@ data class UiSettingsState(
     val presets: List<Int> = listOf(),
     val fabAlignment: Alignment = Alignment.BottomCenter,
     val showDialogOnStartup: Boolean = true,
-    val selectedEmoji: ImageVector? = Emoji.Sparkles,
+    val selectedEmoji: Uri?,
     val imagePickerModeInt: Int = 0,
     val clearCacheOnLaunch: Boolean = true,
     val groupOptionsByTypes: Boolean = true,

@@ -879,7 +879,7 @@ fun MainScreen(
 
     EmojiSheet(
         selectedEmojiIndex = viewModel.settingsState.selectedEmoji ?: 0,
-        emojis = remember { Emoji.allIcons },
+        emojis = Emoji.allIcons,
         onEmojiPicked = viewModel::updateEmoji,
         visible = showEmojiDialog
     )
