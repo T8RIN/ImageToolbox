@@ -25,12 +25,12 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.R
-import ru.tech.imageresizershrinker.data.keys.Keys.ADD_ORIGINAL_NAME
-import ru.tech.imageresizershrinker.data.keys.Keys.ADD_SEQ_NUM
-import ru.tech.imageresizershrinker.data.keys.Keys.ADD_SIZE
+import ru.tech.imageresizershrinker.data.keys.Keys.ADD_ORIGINAL_NAME_TO_FILENAME
+import ru.tech.imageresizershrinker.data.keys.Keys.ADD_SEQ_NUM_TO_FILENAME
+import ru.tech.imageresizershrinker.data.keys.Keys.ADD_SIZE_TO_FILENAME
 import ru.tech.imageresizershrinker.data.keys.Keys.FILENAME_PREFIX
 import ru.tech.imageresizershrinker.data.keys.Keys.RANDOMIZE_FILENAME
-import ru.tech.imageresizershrinker.data.keys.Keys.SAVE_FOLDER
+import ru.tech.imageresizershrinker.data.keys.Keys.SAVE_FOLDER_URI
 import ru.tech.imageresizershrinker.domain.image.Metadata
 import ru.tech.imageresizershrinker.domain.repository.CipherRepository
 import ru.tech.imageresizershrinker.domain.saving.FileController
@@ -69,11 +69,11 @@ class FileControllerImpl @Inject constructor(
         CoroutineScope(Dispatchers.IO).launch {
             dataStore.data.collect {
                 fileParams = fileParams.copy(
-                    treeUri = it[SAVE_FOLDER],
+                    treeUri = it[SAVE_FOLDER_URI],
                     filenamePrefix = it[FILENAME_PREFIX] ?: "",
-                    addSizeInFilename = it[ADD_SIZE] ?: false,
-                    addOriginalFilename = it[ADD_ORIGINAL_NAME] ?: false,
-                    addSequenceNumber = it[ADD_SEQ_NUM] ?: true,
+                    addSizeInFilename = it[ADD_SIZE_TO_FILENAME] ?: false,
+                    addOriginalFilename = it[ADD_ORIGINAL_NAME_TO_FILENAME] ?: false,
+                    addSequenceNumber = it[ADD_SEQ_NUM_TO_FILENAME] ?: true,
                     randomizeFilename = it[RANDOMIZE_FILENAME] ?: false
                 )
             }

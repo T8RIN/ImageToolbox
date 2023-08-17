@@ -13,30 +13,30 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
 import ru.tech.imageresizershrinker.R
-import ru.tech.imageresizershrinker.data.keys.Keys.ADD_ORIGINAL_NAME
-import ru.tech.imageresizershrinker.data.keys.Keys.ADD_SEQ_NUM
-import ru.tech.imageresizershrinker.data.keys.Keys.ADD_SIZE
-import ru.tech.imageresizershrinker.data.keys.Keys.ALIGNMENT
+import ru.tech.imageresizershrinker.data.keys.Keys.ADD_ORIGINAL_NAME_TO_FILENAME
+import ru.tech.imageresizershrinker.data.keys.Keys.ADD_SEQ_NUM_TO_FILENAME
+import ru.tech.imageresizershrinker.data.keys.Keys.ADD_SIZE_TO_FILENAME
+import ru.tech.imageresizershrinker.data.keys.Keys.FAB_ALIGNMENT
 import ru.tech.imageresizershrinker.data.keys.Keys.AMOLED_MODE
-import ru.tech.imageresizershrinker.data.keys.Keys.APP_COLOR
+import ru.tech.imageresizershrinker.data.keys.Keys.APP_COLOR_TUPLE
 import ru.tech.imageresizershrinker.data.keys.Keys.AUTO_CACHE_CLEAR
 import ru.tech.imageresizershrinker.data.keys.Keys.BORDER_WIDTH
 import ru.tech.imageresizershrinker.data.keys.Keys.COLOR_TUPLES
 import ru.tech.imageresizershrinker.data.keys.Keys.DYNAMIC_COLORS
-import ru.tech.imageresizershrinker.data.keys.Keys.EMOJI
+import ru.tech.imageresizershrinker.data.keys.Keys.SELECTED_EMOJI_INDEX
 import ru.tech.imageresizershrinker.data.keys.Keys.EMOJI_COUNT
 import ru.tech.imageresizershrinker.data.keys.Keys.FILENAME_PREFIX
-import ru.tech.imageresizershrinker.data.keys.Keys.FONT
+import ru.tech.imageresizershrinker.data.keys.Keys.SELECTED_FONT_INDEX
 import ru.tech.imageresizershrinker.data.keys.Keys.FONT_SCALE
-import ru.tech.imageresizershrinker.data.keys.Keys.GROUP_OPTIONS
-import ru.tech.imageresizershrinker.data.keys.Keys.IMAGE_MONET
+import ru.tech.imageresizershrinker.data.keys.Keys.GROUP_OPTIONS_BY_TYPE
+import ru.tech.imageresizershrinker.data.keys.Keys.ALLOW_IMAGE_MONET
 import ru.tech.imageresizershrinker.data.keys.Keys.NIGHT_MODE
-import ru.tech.imageresizershrinker.data.keys.Keys.ORDER
-import ru.tech.imageresizershrinker.data.keys.Keys.PICKER_MODE
+import ru.tech.imageresizershrinker.data.keys.Keys.SCREEN_ORDER
+import ru.tech.imageresizershrinker.data.keys.Keys.IMAGE_PICKER_MODE
 import ru.tech.imageresizershrinker.data.keys.Keys.PRESETS
 import ru.tech.imageresizershrinker.data.keys.Keys.RANDOMIZE_FILENAME
-import ru.tech.imageresizershrinker.data.keys.Keys.SAVE_FOLDER
-import ru.tech.imageresizershrinker.data.keys.Keys.SHOW_DIALOG
+import ru.tech.imageresizershrinker.data.keys.Keys.SAVE_FOLDER_URI
+import ru.tech.imageresizershrinker.data.keys.Keys.SHOW_UPDATE_DIALOG
 import ru.tech.imageresizershrinker.domain.model.FontFam
 import ru.tech.imageresizershrinker.domain.model.NightMode
 import ru.tech.imageresizershrinker.domain.model.Preset
@@ -64,16 +64,16 @@ class SettingsRepositoryImpl @Inject constructor(
             nightMode = NightMode.fromOrdinal(prefs[NIGHT_MODE]),
             isDynamicColors = prefs[DYNAMIC_COLORS] ?: true,
             isAmoledMode = prefs[AMOLED_MODE] ?: false,
-            appColorTuple = prefs[APP_COLOR] ?: "",
+            appColorTuple = prefs[APP_COLOR_TUPLE] ?: "",
             borderWidth = prefs[BORDER_WIDTH] ?: 1f,
-            showDialogOnStartup = prefs[SHOW_DIALOG] ?: true,
-            selectedEmoji = prefs[EMOJI] ?: 0,
-            screenList = prefs[ORDER]?.split("/")?.map {
+            showDialogOnStartup = prefs[SHOW_UPDATE_DIALOG] ?: true,
+            selectedEmoji = prefs[SELECTED_EMOJI_INDEX] ?: 0,
+            screenList = prefs[SCREEN_ORDER]?.split("/")?.map {
                 it.toInt()
             } ?: emptyList(),
             emojisCount = prefs[EMOJI_COUNT] ?: 1,
             clearCacheOnLaunch = prefs[AUTO_CACHE_CLEAR] ?: false,
-            groupOptionsByTypes = prefs[GROUP_OPTIONS] ?: true,
+            groupOptionsByTypes = prefs[GROUP_OPTIONS_BY_TYPE] ?: true,
             allowChangeColorByImage = true,
             presets = emptyList(),
             fabAlignment = 1,
@@ -85,7 +85,7 @@ class SettingsRepositoryImpl @Inject constructor(
             addSizeInFilename = false,
             addOriginalFilename = false,
             randomizeFilename = prefs[RANDOMIZE_FILENAME] ?: false,
-            font = FontFam.fromOrdinal(prefs[FONT]),
+            font = FontFam.fromOrdinal(prefs[SELECTED_FONT_INDEX]),
             fontScale = (prefs[FONT_SCALE] ?: 1f).takeIf { it > 0f }
         )
     }
@@ -95,43 +95,43 @@ class SettingsRepositoryImpl @Inject constructor(
             nightMode = NightMode.fromOrdinal(prefs[NIGHT_MODE]),
             isDynamicColors = prefs[DYNAMIC_COLORS] ?: true,
             isAmoledMode = prefs[AMOLED_MODE] ?: false,
-            appColorTuple = prefs[APP_COLOR] ?: "",
+            appColorTuple = prefs[APP_COLOR_TUPLE] ?: "",
             borderWidth = prefs[BORDER_WIDTH] ?: 1f,
-            showDialogOnStartup = prefs[SHOW_DIALOG] ?: true,
-            selectedEmoji = prefs[EMOJI] ?: 0,
-            screenList = prefs[ORDER]?.split("/")?.map {
+            showDialogOnStartup = prefs[SHOW_UPDATE_DIALOG] ?: true,
+            selectedEmoji = prefs[SELECTED_EMOJI_INDEX] ?: 0,
+            screenList = prefs[SCREEN_ORDER]?.split("/")?.map {
                 it.toInt()
             } ?: emptyList(),
             emojisCount = prefs[EMOJI_COUNT] ?: 1,
             clearCacheOnLaunch = prefs[AUTO_CACHE_CLEAR] ?: false,
-            groupOptionsByTypes = prefs[GROUP_OPTIONS] ?: true,
-            addSequenceNumber = prefs[ADD_SEQ_NUM] ?: true,
-            saveFolderUri = prefs[SAVE_FOLDER],
+            groupOptionsByTypes = prefs[GROUP_OPTIONS_BY_TYPE] ?: true,
+            addSequenceNumber = prefs[ADD_SEQ_NUM_TO_FILENAME] ?: true,
+            saveFolderUri = prefs[SAVE_FOLDER_URI],
             presets = Preset.createListFromInts(prefs[PRESETS]),
             colorTupleList = prefs[COLOR_TUPLES],
-            allowChangeColorByImage = prefs[IMAGE_MONET] ?: true,
-            imagePickerModeInt = prefs[PICKER_MODE] ?: 0,
-            fabAlignment = prefs[ALIGNMENT] ?: 1,
+            allowChangeColorByImage = prefs[ALLOW_IMAGE_MONET] ?: true,
+            imagePickerModeInt = prefs[IMAGE_PICKER_MODE] ?: 0,
+            fabAlignment = prefs[FAB_ALIGNMENT] ?: 1,
             filenamePrefix = prefs[FILENAME_PREFIX] ?: "",
-            addSizeInFilename = prefs[ADD_SIZE] ?: false,
-            addOriginalFilename = prefs[ADD_ORIGINAL_NAME] ?: false,
+            addSizeInFilename = prefs[ADD_SIZE_TO_FILENAME] ?: false,
+            addOriginalFilename = prefs[ADD_ORIGINAL_NAME_TO_FILENAME] ?: false,
             randomizeFilename = prefs[RANDOMIZE_FILENAME] ?: false,
-            font = FontFam.fromOrdinal(prefs[FONT]),
+            font = FontFam.fromOrdinal(prefs[SELECTED_FONT_INDEX]),
             fontScale = (prefs[FONT_SCALE] ?: 1f).takeIf { it > 0f }
         )
     }
 
     override suspend fun toggleAddSequenceNumber() {
         dataStore.edit {
-            val v = it[ADD_SEQ_NUM] ?: true
-            it[ADD_SEQ_NUM] = !v
+            val v = it[ADD_SEQ_NUM_TO_FILENAME] ?: true
+            it[ADD_SEQ_NUM_TO_FILENAME] = !v
         }
     }
 
     override suspend fun toggleAddOriginalFilename() {
         dataStore.edit {
-            val v = it[ADD_ORIGINAL_NAME] ?: false
-            it[ADD_ORIGINAL_NAME] = !v
+            val v = it[ADD_ORIGINAL_NAME_TO_FILENAME] ?: false
+            it[ADD_ORIGINAL_NAME_TO_FILENAME] = !v
         }
     }
 
@@ -143,20 +143,20 @@ class SettingsRepositoryImpl @Inject constructor(
 
     override suspend fun updateImagePickerMode(mode: Int) {
         dataStore.edit {
-            it[PICKER_MODE] = mode
+            it[IMAGE_PICKER_MODE] = mode
         }
     }
 
     override suspend fun toggleAddFileSize() {
         dataStore.edit {
-            val v = it[ADD_SIZE] ?: false
-            it[ADD_SIZE] = !v
+            val v = it[ADD_SIZE_TO_FILENAME] ?: false
+            it[ADD_SIZE_TO_FILENAME] = !v
         }
     }
 
     override suspend fun updateEmoji(emoji: Int) {
         dataStore.edit {
-            it[EMOJI] = emoji
+            it[SELECTED_EMOJI_INDEX] = emoji
         }
     }
 
@@ -168,14 +168,14 @@ class SettingsRepositoryImpl @Inject constructor(
 
     override suspend fun toggleShowDialog() {
         dataStore.edit {
-            val v = it[SHOW_DIALOG] ?: true
-            it[SHOW_DIALOG] = !v
+            val v = it[SHOW_UPDATE_DIALOG] ?: true
+            it[SHOW_UPDATE_DIALOG] = !v
         }
     }
 
     override suspend fun updateColorTuple(colorTuple: String) {
         dataStore.edit {
-            it[APP_COLOR] = colorTuple
+            it[APP_COLOR_TUPLE] = colorTuple
         }
     }
 
@@ -205,8 +205,8 @@ class SettingsRepositoryImpl @Inject constructor(
 
     override suspend fun toggleAllowImageMonet() {
         dataStore.edit {
-            val v = it[IMAGE_MONET] ?: true
-            it[IMAGE_MONET] = !v
+            val v = it[ALLOW_IMAGE_MONET] ?: true
+            it[ALLOW_IMAGE_MONET] = !v
         }
     }
 
@@ -225,7 +225,7 @@ class SettingsRepositoryImpl @Inject constructor(
 
     override suspend fun updateSaveFolderUri(uri: String?) {
         dataStore.edit {
-            it[SAVE_FOLDER] = uri ?: ""
+            it[SAVE_FOLDER_URI] = uri ?: ""
         }
     }
 
@@ -237,13 +237,13 @@ class SettingsRepositoryImpl @Inject constructor(
 
     override suspend fun setAlignment(align: Int) {
         dataStore.edit {
-            it[ALIGNMENT] = align
+            it[FAB_ALIGNMENT] = align
         }
     }
 
     override suspend fun updateOrder(data: String) {
         dataStore.edit {
-            it[ORDER] = data
+            it[SCREEN_ORDER] = data
         }
     }
 
@@ -256,8 +256,8 @@ class SettingsRepositoryImpl @Inject constructor(
 
     override suspend fun toggleGroupOptionsByTypes() {
         dataStore.edit {
-            val v = it[GROUP_OPTIONS] ?: true
-            it[GROUP_OPTIONS] = !v
+            val v = it[GROUP_OPTIONS_BY_TYPE] ?: true
+            it[GROUP_OPTIONS_BY_TYPE] = !v
         }
     }
 
@@ -323,7 +323,7 @@ class SettingsRepositoryImpl @Inject constructor(
 
     override suspend fun setFont(font: FontFam) {
         dataStore.edit {
-            it[FONT] = font.ordinal
+            it[SELECTED_FONT_INDEX] = font.ordinal
         }
     }
 
