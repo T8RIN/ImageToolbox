@@ -87,14 +87,13 @@ fun EmojiSheet(
             Row(
                 modifier = Modifier
                     .background(MaterialTheme.colorScheme.surfaceColorAtElevation(10.dp))
-                    .padding(8.dp)
+                    .padding(start = 8.dp, end = 8.dp, bottom = 8.dp)
                     .clip(MaterialTheme.shapes.large)
                     .clickable {
                         if (!emojiEnabled) onEmojiPicked(Random.nextInt(0, allEmojis.lastIndex))
                         else onEmojiPicked(-1)
                     }
-                    .padding(8.dp)
-                    .padding(horizontal = 8.dp),
+                    .padding(start = 8.dp, end = 8.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(stringResource(id = R.string.enable_emoji), modifier = Modifier.weight(1f))
@@ -127,7 +126,7 @@ fun EmojiSheet(
                 ),
                 contentPadding = PaddingValues(start = 16.dp, end = 16.dp, bottom = 16.dp)
             ) {
-                emojiWithCategories.forEachIndexed { emIndex, (title, icon, emojis) ->
+                emojiWithCategories.forEach { (title, icon, emojis) ->
                     item(
                         span = { GridItemSpan(maxLineSpan) }
                     ) {

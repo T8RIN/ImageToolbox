@@ -129,31 +129,16 @@ fun PickColorFromImageSheet(
             }
         },
         confirmButton = {
-            OutlinedButton(
-                onClick = {
-                    visible.value = false
-                },
-                colors = ButtonDefaults.filledTonalButtonColors(),
-                border = BorderStroke(
-                    settingsState.borderWidth,
-                    MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.secondaryContainer)
-                )
-            ) {
-                AutoSizeText(stringResource(R.string.close))
-            }
+            switch()
         },
         title = {
             Row(
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                switch()
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
                     modifier = Modifier
-                        .padding(
-                            start = 16.dp,
-                            end = 16.dp
-                        )
+                        .padding(end = 16.dp)
                         .block(color = MaterialTheme.colorScheme.surfaceColorAtElevation(14.dp))
                         .padding(4.dp)
                 ) {
