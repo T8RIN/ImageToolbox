@@ -345,6 +345,12 @@
     <string name="defaultt">Default</string>
     <string name="using_large_fonts_warn">Using large font scales may cause ui brokes which will not be fixed, use it if you want only</string>
     <string name="alphabet_and_numbers">Aa Bb Cc Dd Ee Ff Gg Hh Ii Jj Kk Ll Mm Nn Oo Pp Qq Rr Ss Tt Uu Vv Ww Xx Yy Zz 0123456789 !?</string>
+    <string name="emotions">Emotions</string>
+    <string name="food_and_drink">Food and Drink</string>
+    <string name="nature_and_animals">Nature and Animals</string>
+    <string name="objects">Objects</string>
+    <string name="symbols">Symbols</string>
+    <string name="enable_emoji">Enable emoji</string>
     <string-array name="fab_alignment_sub">
         <item>Start</item>
         <item>Center</item>

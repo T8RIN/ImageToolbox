@@ -135,6 +135,7 @@ import ru.tech.imageresizershrinker.core.AUTHOR_TG
 import ru.tech.imageresizershrinker.presentation.main_screen.viewModel.MainViewModel
 import ru.tech.imageresizershrinker.presentation.root.theme.Emoji
 import ru.tech.imageresizershrinker.presentation.root.theme.allIcons
+import ru.tech.imageresizershrinker.presentation.root.theme.allIconsCategorized
 import ru.tech.imageresizershrinker.presentation.root.theme.icons.FileSettings
 import ru.tech.imageresizershrinker.presentation.root.theme.icons.Github
 import ru.tech.imageresizershrinker.presentation.root.theme.icons.GooglePlay
@@ -879,7 +880,8 @@ fun MainScreen(
 
     EmojiSheet(
         selectedEmojiIndex = viewModel.settingsState.selectedEmoji ?: 0,
-        emojis = Emoji.allIcons,
+        emojiWithCategories = Emoji.allIconsCategorized,
+        allEmojis = Emoji.allIcons,
         onEmojiPicked = viewModel::updateEmoji,
         visible = showEmojiDialog
     )

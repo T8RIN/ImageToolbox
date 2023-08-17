@@ -1,6 +1,7 @@
 package ru.tech.imageresizershrinker.presentation.main_screen.components
 
 import android.net.Uri
+import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -18,11 +19,11 @@ import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.EmojiSymbols
-import androidx.compose.material.icons.rounded.Block
 import androidx.compose.material.icons.rounded.Shuffle
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.HorizontalDivider
@@ -31,6 +32,8 @@ import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedIconButton
+import androidx.compose.material3.Switch
+import androidx.compose.material3.Text
 import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -40,14 +43,16 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.R
+import ru.tech.imageresizershrinker.presentation.root.theme.EmojiData
 import ru.tech.imageresizershrinker.presentation.root.theme.EmojiItem
 import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
+import ru.tech.imageresizershrinker.presentation.root.utils.modifier.block
 import ru.tech.imageresizershrinker.presentation.root.widget.sheets.SimpleSheet
 import ru.tech.imageresizershrinker.presentation.root.widget.text.AutoSizeText
 import ru.tech.imageresizershrinker.presentation.root.widget.text.TitleItem
@@ -57,7 +62,8 @@ import kotlin.random.Random
 @Composable
 fun EmojiSheet(
     selectedEmojiIndex: Int,
-    emojis: List<Uri>,
+    emojiWithCategories: List<EmojiData>,
+    allEmojis: List<Uri>,
     onEmojiPicked: (Int) -> Unit,
     visible: MutableState<Boolean>
 ) {
@@ -72,17 +78,45 @@ fun EmojiSheet(
         }
     }
 
+    val emojiEnabled = selectedEmojiIndex != -1
+
     val sheetContent: @Composable ColumnScope.() -> Unit = {
         Column(
             Modifier.fillMaxSize()
         ) {
+            Row(
+                modifier = Modifier
+                    .background(MaterialTheme.colorScheme.surfaceColorAtElevation(10.dp))
+                    .padding(8.dp)
+                    .clip(MaterialTheme.shapes.large)
+                    .clickable {
+                        if (!emojiEnabled) onEmojiPicked(Random.nextInt(0, allEmojis.lastIndex))
+                        else onEmojiPicked(-1)
+                    }
+                    .padding(8.dp)
+                    .padding(horizontal = 8.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(stringResource(id = R.string.enable_emoji), modifier = Modifier.weight(1f))
+                Switch(
+                    checked = emojiEnabled,
+                    onCheckedChange = {
+                        if (!emojiEnabled) onEmojiPicked(Random.nextInt(0, allEmojis.lastIndex))
+                        else onEmojiPicked(-1)
+                    }
+                )
+            }
             HorizontalDivider()
             LazyVerticalGrid(
                 state = state,
                 columns = GridCells.Adaptive(50.dp),
                 modifier = Modifier
                     .weight(1f)
-                    .fillMaxWidth(),
+                    .fillMaxWidth()
+                    .alpha(
+                        animateFloatAsState(targetValue = if (emojiEnabled) 1f else 0.4f).value
+                    ),
+                userScrollEnabled = emojiEnabled,
                 verticalArrangement = Arrangement.spacedBy(
                     4.dp,
                     Alignment.CenterVertically
@@ -91,74 +125,56 @@ fun EmojiSheet(
                     4.dp,
                     Alignment.CenterHorizontally
                 ),
-                contentPadding = PaddingValues(16.dp)
+                contentPadding = PaddingValues(start = 16.dp, end = 16.dp, bottom = 16.dp)
             ) {
-                item {
-                    val selected = selectedEmojiIndex == -1
-                    Box(
-                        modifier = Modifier
-                            .size(58.dp)
-                            .background(
-                                color = if (selected) MaterialTheme.colorScheme.primaryContainer
-                                else MaterialTheme.colorScheme.secondaryContainer.copy(alpha = 0.2f),
-                                shape = MaterialTheme.shapes.medium
-                            )
-                            .border(
-                                width = LocalSettingsState.current.borderWidth,
-                                color = if (selected) MaterialTheme.colorScheme.onPrimaryContainer.copy(
-                                    0.7f
-                                )
-                                else MaterialTheme.colorScheme.onSecondaryContainer.copy(alpha = 0.1f),
-                                shape = MaterialTheme.shapes.medium
-                            )
-                            .clip(MaterialTheme.shapes.medium)
-                            .clickable {
-                                onEmojiPicked(-1)
-                            },
-                        contentAlignment = Alignment.Center
+                emojiWithCategories.forEachIndexed { emIndex, (title, icon, emojis) ->
+                    item(
+                        span = { GridItemSpan(maxLineSpan) }
                     ) {
-                        EmojiItem(
-                            emoji = null,
-                            fontSize = MaterialTheme.typography.headlineLarge.fontSize,
-                            onNoEmoji = { size ->
-                                Icon(
-                                    imageVector = Icons.Rounded.Block,
-                                    contentDescription = null,
-                                    modifier = Modifier.size(size)
+                        Row(
+                            modifier = Modifier
+                                .padding(vertical = 16.dp)
+                                .block()
+                                .padding(16.dp),
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Icon(icon, null, modifier = Modifier.padding(end = 16.dp))
+                            Text(title, modifier = Modifier.weight(1f))
+                        }
+                    }
+                    emojis.forEach { emoji ->
+                        val index = allEmojis.indexOf(emoji)
+                        item {
+                            val selected = index == selectedEmojiIndex
+                            Box(
+                                modifier = Modifier
+                                    .size(58.dp)
+                                    .background(
+                                        color = if (selected) MaterialTheme.colorScheme.primaryContainer
+                                        else MaterialTheme.colorScheme.secondaryContainer.copy(alpha = 0.2f),
+                                        shape = MaterialTheme.shapes.medium
+                                    )
+                                    .border(
+                                        width = LocalSettingsState.current.borderWidth,
+                                        color = if (selected) MaterialTheme.colorScheme.onPrimaryContainer.copy(
+                                            0.7f
+                                        )
+                                        else MaterialTheme.colorScheme.onSecondaryContainer.copy(
+                                            alpha = 0.1f
+                                        ),
+                                        shape = MaterialTheme.shapes.medium
+                                    )
+                                    .clip(MaterialTheme.shapes.medium)
+                                    .clickable {
+                                        onEmojiPicked(index)
+                                    },
+                                contentAlignment = Alignment.Center
+                            ) {
+                                EmojiItem(
+                                    emoji = emoji,
+                                    fontSize = MaterialTheme.typography.headlineLarge.fontSize
                                 )
                             }
-                        )
-                    }
-                }
-                emojis.forEachIndexed { index, emoji ->
-                    item {
-                        val selected = index == selectedEmojiIndex
-                        Box(
-                            modifier = Modifier
-                                .size(58.dp)
-                                .background(
-                                    color = if (selected) MaterialTheme.colorScheme.primaryContainer
-                                    else MaterialTheme.colorScheme.secondaryContainer.copy(alpha = 0.2f),
-                                    shape = MaterialTheme.shapes.medium
-                                )
-                                .border(
-                                    width = LocalSettingsState.current.borderWidth,
-                                    color = if (selected) MaterialTheme.colorScheme.onPrimaryContainer.copy(
-                                        0.7f
-                                    )
-                                    else MaterialTheme.colorScheme.onSecondaryContainer.copy(alpha = 0.1f),
-                                    shape = MaterialTheme.shapes.medium
-                                )
-                                .clip(MaterialTheme.shapes.medium)
-                                .clickable {
-                                    onEmojiPicked(index)
-                                },
-                            contentAlignment = Alignment.Center
-                        ) {
-                            EmojiItem(
-                                emoji = emoji,
-                                fontSize = MaterialTheme.typography.headlineLarge.fontSize
-                            )
                         }
                     }
                 }
@@ -174,8 +190,9 @@ fun EmojiSheet(
                 TitleItem(text = stringResource(R.string.emoji), icon = Icons.Outlined.EmojiSymbols)
                 Spacer(Modifier.weight(1f))
                 OutlinedIconButton(
+                    enabled = emojiEnabled,
                     onClick = {
-                        onEmojiPicked(Random.nextInt(0, emojis.lastIndex))
+                        onEmojiPicked(Random.nextInt(0, allEmojis.lastIndex))
                         scope.launch {
                             state.animateScrollToItem(selectedEmojiIndex)
                         }
