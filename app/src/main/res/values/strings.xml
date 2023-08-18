@@ -353,6 +353,8 @@
     <string name="enable_emoji">Enable emoji</string>
     <string name="travels_and_places">Travels and Places</string>
     <string name="activities">Activities</string>
+    <string name="background_remover">Background remover</string>
+    <string name="background_remover_sub">Remove background from image by drawing or use Auto option</string>
     <string-array name="fab_alignment_sub">
         <item>Start</item>
         <item>Center</item>

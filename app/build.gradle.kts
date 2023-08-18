@@ -146,6 +146,7 @@ dependencies {
     implementation(project(":image"))
     implementation(project(":modalsheet"))
     implementation(project(":gpuimage"))
+    implementation(project(":gesture"))
     implementation(project(":drawbox"))
     implementation(project(":avif-coder-coil"))
     implementation(project(":avif-coder"))

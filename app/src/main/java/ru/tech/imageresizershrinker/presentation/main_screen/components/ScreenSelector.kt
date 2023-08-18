@@ -22,6 +22,7 @@ import ru.tech.imageresizershrinker.presentation.compare_screen.CompareScreen
 import ru.tech.imageresizershrinker.presentation.crop_screen.CropScreen
 import ru.tech.imageresizershrinker.presentation.delete_exif_screen.DeleteExifScreen
 import ru.tech.imageresizershrinker.presentation.draw_screen.DrawScreen
+import ru.tech.imageresizershrinker.presentation.erase_background_screen.EraseBackgroundScreen
 import ru.tech.imageresizershrinker.presentation.file_cipher_screen.FileCipherScreen
 import ru.tech.imageresizershrinker.presentation.filters_screen.FiltersScreen
 import ru.tech.imageresizershrinker.presentation.generate_palette_screen.GeneratePaletteScreen
@@ -189,6 +190,13 @@ fun ScreenSelector(
 
             is Screen.Cipher -> {
                 FileCipherScreen(
+                    uriState = screen.uri,
+                    onGoBack = onGoBack
+                )
+            }
+
+            is Screen.EraseBackground -> {
+                EraseBackgroundScreen(
                     uriState = screen.uri,
                     onGoBack = onGoBack
                 )
