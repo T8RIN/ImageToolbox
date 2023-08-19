@@ -258,6 +258,8 @@ Go to the [Releases](https://github.com/t8rin/imageresizer/releases/latest) and 
 
 - [GPU Image](https://github.com/cats-oss/android-gpuimage) for creating and applying filters to the images.
 
+- [SmartToolFactory](https://github.com/SmartToolFactory) provides a bunch of helpful libraries
+
 <div align="center">
 
 #
