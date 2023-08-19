@@ -2,21 +2,22 @@ package ru.tech.imageresizershrinker.presentation.erase_background_screen
 
 import android.content.res.Configuration
 import android.graphics.Bitmap
-import android.graphics.PorterDuff
 import android.net.Uri
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.BackHandler
+import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.animateContentSize
-import androidx.compose.foundation.Image
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.aspectRatio
@@ -26,29 +27,53 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.ime
 import androidx.compose.foundation.layout.navigationBars
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.Delete
+import androidx.compose.material.icons.outlined.Share
+import androidx.compose.material.icons.rounded.AddPhotoAlternate
 import androidx.compose.material.icons.rounded.ArrowBack
+import androidx.compose.material.icons.rounded.Build
+import androidx.compose.material.icons.rounded.Redo
+import androidx.compose.material.icons.rounded.Save
+import androidx.compose.material.icons.rounded.Undo
+import androidx.compose.material.icons.rounded.ZoomIn
+import androidx.compose.material3.BottomAppBar
+import androidx.compose.material3.BottomSheetScaffold
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.ExtendedFloatingActionButton
+import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.FloatingActionButtonDefaults
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.LargeTopAppBar
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.SheetValue
 import androidx.compose.material3.Slider
 import androidx.compose.material3.SliderDefaults
-import androidx.compose.material3.Surface
+import androidx.compose.material3.Switch
+import androidx.compose.material3.SwitchDefaults
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.rememberBottomSheetScaffoldState
 import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -56,61 +81,46 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.clipToBounds
-import androidx.compose.ui.draw.drawBehind
-import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.geometry.Size
-import androidx.compose.ui.graphics.BlendMode
-import androidx.compose.ui.graphics.Canvas
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.ImageBitmap
-import androidx.compose.ui.graphics.Paint
-import androidx.compose.ui.graphics.PaintingStyle
-import androidx.compose.ui.graphics.Path
-import androidx.compose.ui.graphics.StrokeCap
-import androidx.compose.ui.graphics.StrokeJoin
-import androidx.compose.ui.graphics.asAndroidBitmap
-import androidx.compose.ui.graphics.asAndroidPath
-import androidx.compose.ui.graphics.asComposePath
+import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.asImageBitmap
-import androidx.compose.ui.graphics.nativeCanvas
-import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.input.nestedscroll.nestedScroll
-import androidx.compose.ui.input.pointer.pointerInput
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.smarttoolfactory.gesture.MotionEvent
-import com.smarttoolfactory.gesture.pointerMotionEvents
-import com.t8rin.drawbox.presentation.model.DrawPath
+import com.smarttoolfactory.colordetector.util.ColorUtil.roundToTwoDigits
 import com.t8rin.dynamic.theme.LocalDynamicThemeState
+import com.t8rin.dynamic.theme.observeAsState
 import dev.olshevski.navigation.reimagined.hilt.hiltViewModel
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.R
-import ru.tech.imageresizershrinker.presentation.erase_background_screen.components.PathPaint
+import ru.tech.imageresizershrinker.presentation.erase_background_screen.components.BitmapEraser
 import ru.tech.imageresizershrinker.presentation.erase_background_screen.viewModel.EraseBackgroundViewModel
+import ru.tech.imageresizershrinker.presentation.root.theme.icons.Transparency
 import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
 import ru.tech.imageresizershrinker.presentation.root.transformation.filter.SaturationFilter
 import ru.tech.imageresizershrinker.presentation.root.utils.confetti.LocalConfettiController
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.Picker
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.localImagePickerMode
+import ru.tech.imageresizershrinker.presentation.root.utils.helper.parseSaveResult
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.rememberImagePicker
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.block
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.drawHorizontalStroke
-import ru.tech.imageresizershrinker.presentation.root.utils.modifier.navBarsLandscapePadding
+import ru.tech.imageresizershrinker.presentation.root.utils.modifier.fabBorder
+import ru.tech.imageresizershrinker.presentation.root.utils.modifier.navBarsPaddingOnlyIfTheyAtTheEnd
+import ru.tech.imageresizershrinker.presentation.root.widget.controls.ExtensionGroup
 import ru.tech.imageresizershrinker.presentation.root.widget.dialogs.ExitWithoutSavingDialog
 import ru.tech.imageresizershrinker.presentation.root.widget.image.ImageNotPickedWidget
 import ru.tech.imageresizershrinker.presentation.root.widget.other.LoadingDialog
 import ru.tech.imageresizershrinker.presentation.root.widget.other.LocalToastHost
+import ru.tech.imageresizershrinker.presentation.root.widget.other.LockScreenOrientation
 import ru.tech.imageresizershrinker.presentation.root.widget.other.TopAppBarEmoji
 import ru.tech.imageresizershrinker.presentation.root.widget.other.showError
-import ru.tech.imageresizershrinker.presentation.root.widget.text.TopAppBarTitle
+import ru.tech.imageresizershrinker.presentation.root.widget.text.Marquee
 import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalSettingsState
 import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalWindowSizeClass
 
@@ -188,9 +198,7 @@ fun EraseBackgroundScreen(
 
     val pickImage = pickImageLauncher::pickImage
 
-    val imageInside =
-        LocalConfiguration.current.orientation != Configuration.ORIENTATION_LANDSCAPE || LocalWindowSizeClass.current.widthSizeClass == WindowWidthSizeClass.Compact
-
+    val scaffoldState = rememberBottomSheetScaffoldState()
 
     val topAppBarState = rememberTopAppBarState()
     val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior(
@@ -198,29 +206,168 @@ fun EraseBackgroundScreen(
     )
 
     val onBack = {
-        if (/*TODO: bitmapInfo.haveChanges(viewModel.bitmap)*/ false) showExitDialog = true
+        if (viewModel.haveChanges) showExitDialog = true
         else onGoBack()
     }
 
-    val imageBlock = @Composable {
-        viewModel.bitmap?.let { bitmap ->
-            val imageBitmap = bitmap.copy(Bitmap.Config.ARGB_8888, true).asImageBitmap()
-
-            val aspectRatio = imageBitmap.width / imageBitmap.height.toFloat()
-
-            var strokeWidth by rememberSaveable { mutableStateOf(10f) }
-            BitmapEraser(
-                imageBitmap = imageBitmap,
-                erasePaths = viewModel.erasePaths,
-                strokeWidth = strokeWidth,
-                onAddErasePath = viewModel::addErasePath,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .aspectRatio(aspectRatio)
+    val saveBitmap: () -> Unit = {
+        viewModel.saveBitmap { saveResult ->
+            parseSaveResult(
+                saveResult = saveResult,
+                onSuccess = showConfetti,
+                toastHostState = toastHostState,
+                scope = scope,
+                context = context
             )
+        }
+    }
+
+    var strokeWidth by rememberSaveable { mutableFloatStateOf(10f) }
+
+    val configuration = LocalConfiguration.current
+    val sizeClass = LocalWindowSizeClass.current.widthSizeClass
+    val portrait =
+        remember(
+            LocalLifecycleOwner.current.lifecycle.observeAsState().value,
+            sizeClass,
+            configuration
+        ) {
+            derivedStateOf {
+                configuration.orientation != Configuration.ORIENTATION_LANDSCAPE || sizeClass == WindowWidthSizeClass.Compact
+            }
+        }.value
+
+    var zoomEnabled by rememberSaveable { mutableStateOf(false) }
+
+    val secondaryControls = @Composable {
+        Switch(
+            modifier = Modifier.padding(horizontal = if (!portrait) 8.dp else 16.dp),
+            colors = SwitchDefaults.colors(
+                uncheckedBorderColor = MaterialTheme.colorScheme.primary,
+                uncheckedThumbColor = MaterialTheme.colorScheme.onPrimary,
+                uncheckedTrackColor = MaterialTheme.colorScheme.primary,
+                uncheckedIconColor = MaterialTheme.colorScheme.onPrimaryContainer,
+            ),
+            checked = !zoomEnabled,
+            onCheckedChange = { zoomEnabled = !zoomEnabled },
+            thumbContent = {
+                AnimatedContent(zoomEnabled) { zoom ->
+                    Icon(
+                        if (!zoom) Icons.Filled.Transparency else Icons.Rounded.ZoomIn,
+                        null,
+                        Modifier.size(SwitchDefaults.IconSize)
+                    )
+                }
+            }
+        )
+        IconButton(
+            onClick = { viewModel.undo() },
+            enabled = viewModel.lastPaths.isNotEmpty() || viewModel.paths.isNotEmpty()
+        ) {
+            Icon(Icons.Rounded.Undo, null)
+        }
+        IconButton(
+            onClick = { viewModel.redo() },
+            enabled = viewModel.undonePaths.isNotEmpty()
+        ) {
+            Icon(Icons.Rounded.Redo, null)
+        }
+    }
+
+    val image: @Composable (Modifier) -> Unit = @Composable {
+        viewModel.bitmap?.let { bitmap ->
+            AnimatedContent(
+                targetState = remember(bitmap) {
+                    derivedStateOf {
+                        bitmap.copy(Bitmap.Config.ARGB_8888, true).asImageBitmap()
+                    }
+                }.value,
+                transitionSpec = { fadeIn() togetherWith fadeOut() }
+            ) { imageBitmap ->
+                val aspectRatio = imageBitmap.width / imageBitmap.height.toFloat()
+                BitmapEraser(
+                    imageBitmap = imageBitmap,
+                    paths = viewModel.paths,
+                    strokeWidth = strokeWidth,
+                    onAddPath = viewModel::addPath,
+                    modifier = it
+                        .aspectRatio(aspectRatio, true)
+                        .padding(16.dp),
+                    zoomEnabled = zoomEnabled,
+                    onErased = viewModel::updateErasedBitmap
+                )
+            }
+
+        } ?: ImageNotPickedWidget(onPickImage = pickImage, modifier = Modifier.padding(top = 20.dp))
+    }
+
+    val topAppBar = @Composable {
+        TopAppBar(
+            modifier = Modifier.drawHorizontalStroke(),
+            title = {
+                Marquee(
+                    edgeColor = MaterialTheme.colorScheme.surfaceColorAtElevation(3.dp)
+                ) {
+                    Text(stringResource(R.string.background_remover))
+                }
+            },
+            actions = {
+                if (portrait) {
+                    IconButton(
+                        onClick = {
+                            scope.launch {
+                                if (scaffoldState.bottomSheetState.currentValue == SheetValue.Expanded) {
+                                    scaffoldState.bottomSheetState.partialExpand()
+                                } else {
+                                    scaffoldState.bottomSheetState.expand()
+                                }
+                            }
+                        },
+                    ) {
+                        Icon(Icons.Rounded.Build, null)
+                    }
+                }
+                IconButton(
+                    onClick = { viewModel.shareBitmap { showConfetti() } }
+                ) {
+                    Icon(Icons.Outlined.Share, null)
+                }
+                IconButton(
+                    onClick = { viewModel.clearDrawing() },
+                    enabled = viewModel.paths.isNotEmpty()
+                ) {
+                    Icon(Icons.Outlined.Delete, null)
+                }
+            },
+            colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
+                containerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(
+                    3.dp
+                )
+            ),
+            navigationIcon = {
+                IconButton(
+                    onClick = onBack
+                ) {
+                    Icon(Icons.Rounded.ArrowBack, null)
+                }
+            },
+        )
+    }
+
+    val controls = @Composable {
+        Column(horizontalAlignment = Alignment.CenterHorizontally) {
+            if (!portrait) {
+                Row(
+                    Modifier
+                        .padding(top = 16.dp)
+                        .block(CircleShape)
+                ) {
+                    secondaryControls()
+                }
+            }
             Column(
                 modifier = Modifier
-                    .padding(start = 16.dp, end = 16.dp, bottom = 16.dp)
+                    .padding(top = 16.dp, end = 16.dp, start = 16.dp)
                     .block()
                     .animateContentSize()
             ) {
@@ -260,7 +407,12 @@ fun EraseBackgroundScreen(
                 }
                 Slider(
                     modifier = Modifier
-                        .padding(top = 16.dp, start = 12.dp, end = 12.dp, bottom = 8.dp)
+                        .padding(
+                            top = 16.dp,
+                            start = 12.dp,
+                            end = 12.dp,
+                            bottom = 8.dp
+                        )
                         .offset(y = (-2).dp)
                         .background(
                             color = MaterialTheme.colorScheme.secondaryContainer,
@@ -280,322 +432,219 @@ fun EraseBackgroundScreen(
                     value = strokeWidth,
                     valueRange = 1f..100f,
                     onValueChange = {
-                        strokeWidth = it
+                        strokeWidth = it.roundToTwoDigits()
                     }
                 )
             }
+            ExtensionGroup(
+                modifier = Modifier
+                    .padding(16.dp)
+                    .navigationBarsPadding(),
+                enabled = true,
+                imageFormat = viewModel.imageFormat,
+                onMimeChange = {
+                    viewModel.setMime(it)
+                }
+            )
         }
     }
 
-    val buttons = @Composable {
-        Text(text = "BUTTONS HERE")
-    }
-
-    Surface(
-        color = MaterialTheme.colorScheme.background,
-        modifier = Modifier
-            .fillMaxSize()
-            .pointerInput(Unit) {
-                detectTapGestures(
-                    onTap = {
-                        focus.clearFocus()
+    if (portrait && viewModel.bitmap != null) {
+        BottomSheetScaffold(
+            scaffoldState = scaffoldState,
+            sheetPeekHeight = 80.dp + WindowInsets.navigationBars.asPaddingValues()
+                .calculateBottomPadding(),
+            sheetDragHandle = null,
+            sheetShape = RectangleShape,
+            sheetContent = {
+                Column {
+                    BottomAppBar(
+                        modifier = Modifier.drawHorizontalStroke(true),
+                        actions = {
+                            secondaryControls()
+                        },
+                        floatingActionButton = {
+                            Row {
+                                FloatingActionButton(
+                                    onClick = pickImage,
+                                    modifier = Modifier.fabBorder(),
+                                    containerColor = MaterialTheme.colorScheme.tertiaryContainer,
+                                    elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
+                                ) {
+                                    Icon(Icons.Rounded.AddPhotoAlternate, null)
+                                }
+                                Spacer(modifier = Modifier.width(16.dp))
+                                FloatingActionButton(
+                                    onClick = saveBitmap,
+                                    modifier = Modifier.fabBorder(),
+                                    elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
+                                ) {
+                                    Icon(Icons.Rounded.Save, null)
+                                }
+                            }
+                        }
+                    )
+                    HorizontalDivider()
+                    Column(Modifier.verticalScroll(rememberScrollState())) {
+                        controls()
+                    }
+                }
+            },
+            content = {
+                Column(Modifier.padding(it), horizontalAlignment = Alignment.CenterHorizontally) {
+                    topAppBar()
+                    image(
+                        Modifier
+                            .weight(1f)
+                            .fillMaxWidth()
+                    )
+                }
+            }
+        )
+    } else {
+        if (viewModel.bitmap == null) {
+            Box(Modifier.fillMaxSize()) {
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection)
+                ) {
+                    LargeTopAppBar(
+                        scrollBehavior = scrollBehavior,
+                        modifier = Modifier.drawHorizontalStroke(),
+                        title = {
+                            Marquee(
+                                edgeColor = MaterialTheme.colorScheme.surfaceColorAtElevation(3.dp)
+                            ) {
+                                Text(stringResource(R.string.background_remover))
+                            }
+                        },
+                        colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
+                            containerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(
+                                3.dp
+                            )
+                        ),
+                        navigationIcon = {
+                            IconButton(
+                                onClick = onBack
+                            ) {
+                                Icon(Icons.Rounded.ArrowBack, null)
+                            }
+                        },
+                        actions = {
+                            TopAppBarEmoji()
+                        }
+                    )
+                    Column(
+                        Modifier.verticalScroll(rememberScrollState())
+                    ) {
+                        image(Modifier.fillMaxSize())
+                        Spacer(modifier = Modifier.height(80.dp))
+                    }
+                }
+                ExtendedFloatingActionButton(
+                    onClick = pickImage,
+                    modifier = Modifier
+                        .align(settingsState.fabAlignment)
+                        .navigationBarsPadding()
+                        .padding(16.dp)
+                        .fabBorder(),
+                    elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
+                    text = {
+                        Text(stringResource(R.string.pick_image_alt))
+                    },
+                    icon = {
+                        Icon(Icons.Rounded.AddPhotoAlternate, null)
                     }
                 )
             }
-    ) {
-        Box(
-            Modifier
-                .fillMaxSize()
-                .nestedScroll(scrollBehavior.nestedScrollConnection)
-        ) {
-            Column(Modifier.fillMaxSize()) {
-                LargeTopAppBar(
-                    scrollBehavior = scrollBehavior,
-                    modifier = Modifier.drawHorizontalStroke(),
-                    title = {
-                        TopAppBarTitle(
-                            title = stringResource(R.string.single_edit),
-                            bitmap = viewModel.bitmap,
-                            isLoading = viewModel.isImageLoading,
-                            size = viewModel.sizeInBytes
-                        )
-                    },
-                    colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
-                        containerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(
-                            3.dp
-                        )
-                    ),
-                    navigationIcon = {
-                        IconButton(
-                            onClick = onBack
-                        ) {
-                            Icon(Icons.Rounded.ArrowBack, null)
-                        }
-                    },
-                    actions = {
-                        if (viewModel.bitmap == null) {
-                            TopAppBarEmoji()
-                        }
-//                        compareButton()
-//                        zoomButton()
-//                        if (!imageInside && viewModel.bitmap != null) actions()
-                    }
-                )
+        } else {
+            Column {
+                topAppBar()
                 Row(
+                    modifier = Modifier.navBarsPaddingOnlyIfTheyAtTheEnd(),
                     verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.Center,
+                    horizontalArrangement = Arrangement.Center
                 ) {
-                    if (!imageInside && viewModel.bitmap != null) {
-                        Box(
-                            Modifier
-                                .weight(1.2f)
-                                .padding(20.dp)
-                        ) {
-                            Box(Modifier.align(Alignment.Center)) {
-                                imageBlock()
-                            }
-                        }
-                        Box(
-                            Modifier
-                                .fillMaxHeight()
-                                .width(settingsState.borderWidth.coerceAtLeast(0.25.dp))
-                                .background(MaterialTheme.colorScheme.outlineVariant())
-                        )
+                    Box(
+                        Modifier
+                            .weight(1.2f)
+                            .clipToBounds(),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        image(Modifier.fillMaxSize())
                     }
+                    Box(
+                        Modifier
+                            .fillMaxHeight()
+                            .width(settingsState.borderWidth.coerceAtLeast(0.25.dp))
+                            .background(MaterialTheme.colorScheme.outlineVariant())
+                    )
                     LazyColumn(
+                        horizontalAlignment = Alignment.CenterHorizontally,
                         contentPadding = PaddingValues(
                             bottom = WindowInsets
                                 .navigationBars
                                 .asPaddingValues()
                                 .calculateBottomPadding() + WindowInsets.ime
                                 .asPaddingValues()
-                                .calculateBottomPadding() + (if (!imageInside && viewModel.bitmap != null) 20.dp else 100.dp),
-                            top = if (viewModel.bitmap == null || !imageInside) 20.dp else 0.dp,
-                            start = 20.dp,
-                            end = 20.dp
+                                .calculateBottomPadding(),
                         ),
                         modifier = Modifier
-                            .weight(1f)
+                            .weight(0.7f)
                             .clipToBounds()
                     ) {
                         item {
-                            Column(
-                                modifier = Modifier
-                                    .fillMaxSize()
-                                    .navBarsLandscapePadding(viewModel.bitmap == null),
-                                verticalArrangement = Arrangement.Center,
-                                horizontalAlignment = Alignment.CenterHorizontally
-                            ) {
-                                if (viewModel.bitmap == null) ImageNotPickedWidget(onPickImage = pickImage)
-                                else imageBlock()
-                            }
+                            controls()
                         }
                     }
-                    if (!imageInside && viewModel.bitmap != null) {
-                        Box(
-                            Modifier
-                                .fillMaxHeight()
-                                .width(settingsState.borderWidth.coerceAtLeast(0.25.dp))
-                                .background(MaterialTheme.colorScheme.outlineVariant())
-                                .padding(start = 20.dp)
-                        )
-                        buttons()
-                    }
-                }
-            }
-
-            if (imageInside || viewModel.bitmap == null) {
-                Box(
-                    modifier = Modifier.align(settingsState.fabAlignment)
-                ) {
-                    buttons()
-                }
-            }
-
-
-            ExitWithoutSavingDialog(
-                onExit = onGoBack,
-                onDismiss = { showExitDialog = false },
-                visible = showExitDialog
-            )
-
-            if (viewModel.isSaving) LoadingDialog()
-
-            BackHandler(onBack = onBack)
-
-        }
-    }
-}
-
-
-@Composable
-fun BitmapEraser(
-    imageBitmap: ImageBitmap,
-    erasePaths: List<PathPaint>,
-    onAddErasePath: (PathPaint) -> Unit,
-    strokeWidth: Float,
-    modifier: Modifier,
-    onErased: (Bitmap) -> Unit = {}
-) {
-    val scope = rememberCoroutineScope()
-
-    BoxWithConstraints(modifier) {
-
-        var motionEvent by remember { mutableStateOf(MotionEvent.Idle) }
-        // This is our motion event we get from touch motion
-        var currentPosition by remember { mutableStateOf(Offset.Unspecified) }
-        // This is previous motion event before next touch is saved into this current position
-        var previousPosition by remember { mutableStateOf(Offset.Unspecified) }
-
-        val imageWidth = constraints.maxWidth
-        val imageHeight = constraints.maxHeight
-
-
-        val drawImageBitmap = remember {
-            Bitmap.createScaledBitmap(imageBitmap.asAndroidBitmap(), imageWidth, imageHeight, false)
-                .asImageBitmap()
-        }
-
-        val erasedBitmap: ImageBitmap = remember {
-            Bitmap.createBitmap(imageWidth, imageHeight, Bitmap.Config.ARGB_8888).asImageBitmap()
-        }
-
-        LaunchedEffect(currentPosition) {
-            onErased(erasedBitmap.asAndroidBitmap())
-        }
-
-        val canvas: Canvas = remember {
-            Canvas(erasedBitmap)
-        }
-
-
-        val paint = remember {
-            Paint().apply {
-                isAntiAlias = true
-            }
-        }
-
-        val erasePaint = remember(strokeWidth) {
-            Paint().apply {
-                blendMode = BlendMode.Clear
-                style = PaintingStyle.Stroke
-                strokeCap = StrokeCap.Round
-                this.strokeWidth = strokeWidth
-                strokeJoin = StrokeJoin.Round
-                isAntiAlias = true
-            }
-        }
-
-        var erasePath by remember { mutableStateOf(Path()) }
-
-        canvas.apply {
-            val nativeCanvas = this.nativeCanvas
-            val canvasWidth = nativeCanvas.width.toFloat()
-            val canvasHeight = nativeCanvas.height.toFloat()
-
-
-            when (motionEvent) {
-
-                MotionEvent.Down -> {
-                    previousPosition = currentPosition
-                    erasePath.moveTo(currentPosition.x, currentPosition.y)
-                }
-
-                MotionEvent.Move -> {
-                    previousPosition = currentPosition
-                    erasePath.quadraticBezierTo(
-                        previousPosition.x,
-                        previousPosition.y,
-                        (previousPosition.x + currentPosition.x) / 2,
-                        (previousPosition.y + currentPosition.y) / 2
+                    Box(
+                        Modifier
+                            .fillMaxHeight()
+                            .width(settingsState.borderWidth.coerceAtLeast(0.25.dp))
+                            .background(MaterialTheme.colorScheme.outlineVariant())
+                            .padding(start = 20.dp)
                     )
-                }
-
-                MotionEvent.Up -> {
-                    erasePath.lineTo(currentPosition.x, currentPosition.y)
-                    currentPosition = Offset.Unspecified
-                    previousPosition = currentPosition
-                    motionEvent = MotionEvent.Idle
-                    onAddErasePath(
-                        PathPaint(
-                            erasePath, erasePaint
-                        )
-                    )
-                    scope.launch {
-                        kotlinx.coroutines.delay(100L)
-                        erasePath = Path()
-                    }
-                }
-
-                else -> Unit
-            }
-
-            with(canvas.nativeCanvas) {
-                drawColor(Color.Transparent.toArgb(), PorterDuff.Mode.CLEAR)
-
-
-                drawImageRect(
-                    image = drawImageBitmap,
-                    dstSize = IntSize(canvasWidth.toInt(), canvasHeight.toInt()),
-                    paint = paint
-                )
-
-                erasePaths.forEach { (path, paint) ->
-                    this.drawPath(path.asAndroidPath(), paint.asFrameworkPaint())
-                }
-                this.drawPath(erasePath.asAndroidPath(), erasePaint.asFrameworkPaint())
-            }
-        }
-
-        val canvasModifier = Modifier.pointerMotionEvents(
-            onDown = { pointerInputChange ->
-                motionEvent = MotionEvent.Down
-                currentPosition = pointerInputChange.position
-                pointerInputChange.consume()
-            },
-            onMove = { pointerInputChange ->
-                motionEvent = MotionEvent.Move
-                currentPosition = pointerInputChange.position
-                pointerInputChange.consume()
-            },
-            onUp = { pointerInputChange ->
-                motionEvent = MotionEvent.Up
-                pointerInputChange.consume()
-            },
-            delayAfterDownInMillis = 20
-        )
-
-        Image(
-            modifier = canvasModifier
-                .clipToBounds()
-                .clip(MaterialTheme.shapes.small)
-                .drawBehind {
-                    val width = this.size.width
-                    val height = this.size.height
-
-                    val checkerWidth = 10.dp.toPx()
-                    val checkerHeight = 10.dp.toPx()
-
-                    val horizontalSteps = (width / checkerWidth).toInt()
-                    val verticalSteps = (height / checkerHeight).toInt()
-
-                    for (y in 0..verticalSteps) {
-                        for (x in 0..horizontalSteps) {
-                            val isGrayTile = ((x + y) % 2 == 1)
-                            drawRect(
-                                color = if (isGrayTile) Color.LightGray else Color.White,
-                                topLeft = Offset(x * checkerWidth, y * checkerHeight),
-                                size = Size(checkerWidth, checkerHeight)
-                            )
+                    Column(
+                        Modifier
+                            .padding(horizontal = 20.dp)
+                            .fillMaxHeight()
+                            .navigationBarsPadding(),
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        verticalArrangement = Arrangement.Center
+                    ) {
+                        FloatingActionButton(
+                            onClick = pickImage,
+                            modifier = Modifier.fabBorder(),
+                            containerColor = MaterialTheme.colorScheme.tertiaryContainer,
+                            elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
+                        ) {
+                            Icon(Icons.Rounded.AddPhotoAlternate, null)
+                        }
+                        Spacer(modifier = Modifier.height(16.dp))
+                        FloatingActionButton(
+                            onClick = saveBitmap,
+                            modifier = Modifier.fabBorder(),
+                            elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
+                        ) {
+                            Icon(Icons.Rounded.Save, null)
                         }
                     }
                 }
-                .matchParentSize()
-                .block(MaterialTheme.shapes.small, Color.Transparent, false),
-            bitmap = erasedBitmap,
-            contentDescription = null,
-            contentScale = ContentScale.FillBounds
-        )
+            }
+        }
     }
 
+    if (viewModel.isSaving || viewModel.isImageLoading) {
+        LoadingDialog()
+    }
+
+    ExitWithoutSavingDialog(
+        onExit = onGoBack,
+        onDismiss = { showExitDialog = false },
+        visible = showExitDialog
+    )
+
+    BackHandler(onBack = onBack)
+
+    LockScreenOrientation(orientation = viewModel.orientation)
 }

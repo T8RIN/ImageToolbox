@@ -1,31 +1,60 @@
 package ru.tech.imageresizershrinker.presentation.erase_background_screen.viewModel
 
+import android.content.pm.ActivityInfo
 import android.graphics.Bitmap
 import android.net.Uri
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.toArgb
 import androidx.exifinterface.media.ExifInterface
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import ru.tech.imageresizershrinker.domain.image.ImageManager
+import ru.tech.imageresizershrinker.domain.model.ImageData
 import ru.tech.imageresizershrinker.domain.model.ImageFormat
+import ru.tech.imageresizershrinker.domain.model.ImageInfo
+import ru.tech.imageresizershrinker.domain.saving.FileController
+import ru.tech.imageresizershrinker.domain.saving.SaveResult
+import ru.tech.imageresizershrinker.domain.saving.model.ImageSaveTarget
 import ru.tech.imageresizershrinker.presentation.erase_background_screen.components.PathPaint
 import javax.inject.Inject
 
 @HiltViewModel
 class EraseBackgroundViewModel @Inject constructor(
-    private val imageManager: ImageManager<Bitmap, ExifInterface>
+    private val imageManager: ImageManager<Bitmap, ExifInterface>,
+    private val fileController: FileController
 ) : ViewModel() {
 
-    private val _erasePaths = mutableStateOf(listOf<PathPaint>())
-    val erasePaths: List<PathPaint> by _erasePaths
+    private val _orientation: MutableState<Int> =
+        mutableIntStateOf(ActivityInfo.SCREEN_ORIENTATION_USER)
+    val orientation: Int by _orientation
 
-    val isSaving: Boolean = false
-    val sizeInBytes: Long = 0L
-    val isImageLoading: Boolean = false
+    private val _paths = mutableStateOf(listOf<PathPaint>())
+    val paths: List<PathPaint> by _paths
+
+    private val _lastPaths = mutableStateOf(listOf<PathPaint>())
+    val lastPaths: List<PathPaint> by _lastPaths
+
+    private val _undonePaths = mutableStateOf(listOf<PathPaint>())
+    val undonePaths: List<PathPaint> by _undonePaths
+
+    val haveChanges: Boolean
+        get() = paths.isNotEmpty() || lastPaths.isNotEmpty() || undonePaths.isNotEmpty()
+
+    private val _isSaving: MutableState<Boolean> = mutableStateOf(false)
+    val isSaving: Boolean by _isSaving
+
+    private val _isImageLoading: MutableState<Boolean> = mutableStateOf(false)
+    val isImageLoading: Boolean by _isImageLoading
 
     private val _imageFormat: MutableState<ImageFormat> = mutableStateOf(ImageFormat.Default())
     val imageFormat: ImageFormat by _imageFormat
@@ -36,14 +65,24 @@ class EraseBackgroundViewModel @Inject constructor(
     private val _bitmap: MutableState<Bitmap?> = mutableStateOf(null)
     val bitmap: Bitmap? by _bitmap
 
+    private val _erasedBitmap: MutableState<Bitmap?> = mutableStateOf(null)
+    val erasedBitmap: Bitmap? by _erasedBitmap
+
     fun updateBitmap(bitmap: Bitmap?) {
         viewModelScope.launch {
+            _isImageLoading.value = true
             _bitmap.value = imageManager.scaleUntilCanShow(bitmap)
+            _erasedBitmap.value = _bitmap.value
+            _isImageLoading.value = false
         }
     }
 
     fun setUri(uri: Uri) {
         _uri.value = uri
+        viewModelScope.launch {
+            _orientation.value = calculateScreenOrientationBasedOnUri(uri)
+            _paths.value = listOf()
+        }
     }
 
     fun decodeBitmapByUri(
@@ -54,6 +93,7 @@ class EraseBackgroundViewModel @Inject constructor(
         onGetBitmap: (Bitmap) -> Unit,
         onError: (Throwable) -> Unit
     ) {
+        _isImageLoading.value = true
         imageManager.getImageAsync(
             uri = uri.toString(),
             originalSize = originalSize,
@@ -70,9 +110,166 @@ class EraseBackgroundViewModel @Inject constructor(
         _imageFormat.value = imageFormat
     }
 
-    fun addErasePath(path: PathPaint) {
-        _erasePaths.value = _erasePaths.value.toMutableList().apply {
+    fun addPath(path: PathPaint) {
+        _paths.value = _paths.value.toMutableList().apply {
             add(path)
         }
+        _undonePaths.value = listOf()
     }
+
+    private suspend fun calculateScreenOrientationBasedOnUri(uri: Uri): Int {
+        val bmp = imageManager.getImage(uri = uri.toString(), originalSize = false)?.image
+        val imageRatio = (bmp?.width ?: 0) / (bmp?.height?.toFloat() ?: 1f)
+        return if (imageRatio <= 1f) {
+            ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
+        } else {
+            ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
+        }
+    }
+
+    fun saveBitmap(
+        onComplete: (saveResult: SaveResult) -> Unit
+    ) = viewModelScope.launch {
+        _isSaving.value = true
+        withContext(Dispatchers.IO) {
+            _erasedBitmap.value?.let { trim(it) }?.let { localBitmap ->
+                onComplete(
+                    fileController.save(
+                        saveTarget = ImageSaveTarget<ExifInterface>(
+                            imageInfo = ImageInfo(
+                                imageFormat = imageFormat,
+                                width = localBitmap.width,
+                                height = localBitmap.height
+                            ),
+                            originalUri = _uri.value.toString(),
+                            sequenceNumber = null,
+                            data = imageManager.compress(
+                                ImageData(
+                                    image = localBitmap,
+                                    imageInfo = ImageInfo(
+                                        imageFormat = imageFormat,
+                                        width = localBitmap.width,
+                                        height = localBitmap.height
+                                    )
+                                )
+                            )
+                        ), keepMetadata = true
+                    )
+                )
+            }
+        }
+        _isSaving.value = false
+    }
+
+    fun shareBitmap(onComplete: () -> Unit) {
+        _isSaving.value = true
+        viewModelScope.launch {
+            _erasedBitmap.value?.let { trim(it) }?.let {
+                imageManager.shareImage(
+                    ImageData(
+                        image = it,
+                        imageInfo = ImageInfo(
+                            imageFormat = imageFormat,
+                            width = it.width,
+                            height = it.height
+                        )
+                    ),
+                    onComplete = onComplete
+                )
+            } ?: onComplete()
+        }
+        _isSaving.value = false
+    }
+
+    fun updateErasedBitmap(bitmap: Bitmap) {
+        _erasedBitmap.value = bitmap
+    }
+
+    private suspend fun trim(
+        bitmap: Bitmap
+    ): Bitmap {
+        val result = CoroutineScope(Dispatchers.IO).async {
+            var firstX = 0
+            var firstY = 0
+            var lastX = bitmap.width
+            var lastY = bitmap.height
+            val pixels = IntArray(bitmap.width * bitmap.height)
+            bitmap.getPixels(pixels, 0, bitmap.width, 0, 0, bitmap.width, bitmap.height)
+            loop@ for (x in 0 until bitmap.width) {
+                for (y in 0 until bitmap.height) {
+                    if (pixels[x + y * bitmap.width] != Color.Transparent.toArgb()) {
+                        firstX = x
+                        break@loop
+                    }
+                }
+            }
+            loop@ for (y in 0 until bitmap.height) {
+                for (x in firstX until bitmap.width) {
+                    if (pixels[x + y * bitmap.width] != Color.Transparent.toArgb()) {
+                        firstY = y
+                        break@loop
+                    }
+                }
+            }
+            loop@ for (x in bitmap.width - 1 downTo firstX) {
+                for (y in bitmap.height - 1 downTo firstY) {
+                    if (pixels[x + y * bitmap.width] != Color.Transparent.toArgb()) {
+                        lastX = x
+                        break@loop
+                    }
+                }
+            }
+            loop@ for (y in bitmap.height - 1 downTo firstY) {
+                for (x in bitmap.width - 1 downTo firstX) {
+                    if (pixels[x + y * bitmap.width] != Color.Transparent.toArgb()) {
+                        lastY = y
+                        break@loop
+                    }
+                }
+            }
+            return@async Bitmap.createBitmap(bitmap, firstX, firstY, lastX - firstX, lastY - firstY)
+        }
+        return result.await()
+    }
+
+    fun undo() {
+        if (paths.isEmpty() && lastPaths.isNotEmpty()) {
+            _paths.value = lastPaths
+            _lastPaths.value = listOf()
+            return
+        }
+        if (paths.isEmpty()) {
+            return
+        }
+        val lastPath = paths.lastOrNull()
+
+        _paths.value = paths.toMutableList().apply {
+            remove(lastPath)
+        }
+        if (lastPath != null) {
+            _undonePaths.value = undonePaths.toMutableList().apply {
+                add(lastPath)
+            }
+        }
+    }
+
+    fun redo() {
+        if (undonePaths.isEmpty()) {
+            return
+        }
+        val lastPath = undonePaths.last()
+        addPath(lastPath)
+        _undonePaths.value = undonePaths.toMutableList().apply {
+            remove(lastPath)
+        }
+    }
+
+    fun clearDrawing() {
+        if (paths.isNotEmpty()) {
+            _lastPaths.value = paths
+            _paths.value = listOf()
+            _undonePaths.value = listOf()
+        }
+    }
+
 }

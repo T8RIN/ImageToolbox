@@ -5,5 +5,6 @@ import androidx.compose.ui.graphics.Path
 
 data class PathPaint(
     val path: Path,
-    val paint: Paint
+    val paint: Paint,
+    val isEraser: Boolean
 )
