@@ -21,7 +21,6 @@ import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
-import androidx.compose.ui.geometry.isSpecified
 import androidx.compose.ui.graphics.BlendMode
 import androidx.compose.ui.graphics.Canvas
 import androidx.compose.ui.graphics.Color
@@ -137,25 +136,26 @@ fun BitmapEraser(
                 val canvasWidth = nativeCanvas.width.toFloat()
                 val canvasHeight = nativeCanvas.height.toFloat()
 
+
                 when (motionEvent) {
 
                     MotionEvent.Down -> {
-                        drawPath.moveTo(currentPosition.x/zoomState.zoom, currentPosition.y/zoomState.zoom)
+                        drawPath.moveTo(currentPosition.x, currentPosition.y)
                         previousPosition = currentPosition
                     }
 
                     MotionEvent.Move -> {
                         drawPath.quadraticBezierTo(
-                            previousPosition.x/zoomState.zoom,
-                            previousPosition.y/zoomState.zoom,
-                            (previousPosition.x/zoomState.zoom + currentPosition.x/zoomState.zoom) / 2,
-                            (previousPosition.y/zoomState.zoom + currentPosition.y/zoomState.zoom) / 2
+                            previousPosition.x,
+                            previousPosition.y,
+                            (previousPosition.x + currentPosition.x) / 2,
+                            (previousPosition.y + currentPosition.y) / 2
                         )
                         previousPosition = currentPosition
                     }
 
                     MotionEvent.Up -> {
-                        drawPath.lineTo(currentPosition.x/zoomState.zoom, currentPosition.y/zoomState.zoom)
+                        drawPath.lineTo(currentPosition.x, currentPosition.y)
                         currentPosition = Offset.Unspecified
                         previousPosition = currentPosition
                         motionEvent = MotionEvent.Idle
