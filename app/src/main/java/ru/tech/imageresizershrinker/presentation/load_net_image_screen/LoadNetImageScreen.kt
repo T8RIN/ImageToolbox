@@ -102,6 +102,7 @@ import ru.tech.imageresizershrinker.presentation.root.widget.image.Picture
 import ru.tech.imageresizershrinker.presentation.root.widget.other.LoadingDialog
 import ru.tech.imageresizershrinker.presentation.root.widget.other.LocalToastHost
 import ru.tech.imageresizershrinker.presentation.root.widget.other.TopAppBarEmoji
+import ru.tech.imageresizershrinker.presentation.root.widget.preferences.screens.BackgroundRemoverPreference
 import ru.tech.imageresizershrinker.presentation.root.widget.preferences.screens.BytesResizePreference
 import ru.tech.imageresizershrinker.presentation.root.widget.preferences.screens.CipherPreference
 import ru.tech.imageresizershrinker.presentation.root.widget.preferences.screens.CropPreference
@@ -578,6 +579,13 @@ fun LoadNetImageScreen(
                         DrawPreference(
                             modifier = Modifier.fillMaxWidth(),
                             onClick = { navigate(Screen.Draw(viewModel.tempUri)) },
+                            color = color
+                        )
+                    }
+                    item {
+                        BackgroundRemoverPreference(
+                            modifier = Modifier.fillMaxWidth(),
+                            onClick = { navigate(Screen.EraseBackground(viewModel.tempUri)) },
                             color = color
                         )
                     }

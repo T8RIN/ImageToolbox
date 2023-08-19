@@ -164,7 +164,7 @@ class DrawViewModel @Inject constructor(
     private suspend fun calculateScreenOrientationBasedOnUri(uri: Uri): Int {
         val bmp = imageManager.getImage(uri = uri.toString(), originalSize = false)?.image
         val imageRatio = (bmp?.width ?: 0) / (bmp?.height?.toFloat() ?: 1f)
-        return if (imageRatio <= 1f) {
+        return if (imageRatio <= 1.05f) {
             ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
         } else {
             ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE

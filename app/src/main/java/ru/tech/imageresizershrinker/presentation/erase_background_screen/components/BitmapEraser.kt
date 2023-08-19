@@ -18,9 +18,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.clipToBounds
-import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.BlendMode
 import androidx.compose.ui.graphics.Canvas
 import androidx.compose.ui.graphics.Color
@@ -38,7 +36,6 @@ import androidx.compose.ui.graphics.nativeCanvas
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.IntSize
-import androidx.compose.ui.unit.dp
 import com.smarttoolfactory.gesture.MotionEvent
 import com.smarttoolfactory.gesture.pointerMotionEvents
 import com.smarttoolfactory.image.util.update
@@ -216,27 +213,7 @@ fun BitmapEraser(
                     )
                     .clipToBounds()
                     .clip(MaterialTheme.shapes.extraSmall)
-                    .drawBehind {
-                        val width = this.size.width
-                        val height = this.size.height
-
-                        val checkerWidth = 10.dp.toPx()
-                        val checkerHeight = 10.dp.toPx()
-
-                        val horizontalSteps = (width / checkerWidth).toInt()
-                        val verticalSteps = (height / checkerHeight).toInt()
-
-                        for (y in 0..verticalSteps) {
-                            for (x in 0..horizontalSteps) {
-                                val isGrayTile = ((x + y) % 2 == 1)
-                                drawRect(
-                                    color = if (isGrayTile) Color.LightGray else Color.White,
-                                    topLeft = Offset(x * checkerWidth, y * checkerHeight),
-                                    size = Size(checkerWidth, checkerHeight)
-                                )
-                            }
-                        }
-                    }
+                    .transparencyChecker()
                     .matchParentSize()
                     .block(MaterialTheme.shapes.extraSmall, Color.Transparent, false),
                 bitmap = erasedBitmap,

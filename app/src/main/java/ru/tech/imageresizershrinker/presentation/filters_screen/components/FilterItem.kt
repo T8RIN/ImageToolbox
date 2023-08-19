@@ -90,7 +90,7 @@ fun <T> FilterItem(
     val settingsState = LocalSettingsState.current
     Row(
         modifier = modifier
-            .block(color = backgroundColor, shape = MaterialTheme.shapes.large)
+            .block(color = backgroundColor, shape = MaterialTheme.shapes.extraLarge)
             .animateContentSize()
             .then(
                 onLongPress?.let {

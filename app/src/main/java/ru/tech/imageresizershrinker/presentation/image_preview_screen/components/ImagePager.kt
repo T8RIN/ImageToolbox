@@ -66,6 +66,7 @@ import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
 import ru.tech.imageresizershrinker.presentation.root.utils.navigation.LocalNavController
 import ru.tech.imageresizershrinker.presentation.root.utils.navigation.Screen
 import ru.tech.imageresizershrinker.presentation.root.widget.image.Picture
+import ru.tech.imageresizershrinker.presentation.root.widget.preferences.screens.BackgroundRemoverPreference
 import ru.tech.imageresizershrinker.presentation.root.widget.preferences.screens.BytesResizePreference
 import ru.tech.imageresizershrinker.presentation.root.widget.preferences.screens.CipherPreference
 import ru.tech.imageresizershrinker.presentation.root.widget.preferences.screens.CropPreference
@@ -310,6 +311,13 @@ fun ImagePager(
                             DrawPreference(
                                 modifier = Modifier.fillMaxWidth(),
                                 onClick = { navigate(Screen.Draw(selectedUri)) },
+                                color = color
+                            )
+                        }
+                        item {
+                            BackgroundRemoverPreference(
+                                modifier = Modifier.fillMaxWidth(),
+                                onClick = { navigate(Screen.EraseBackground(selectedUri)) },
                                 color = color
                             )
                         }

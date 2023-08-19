@@ -457,13 +457,13 @@ fun LazyListScope.settingsBlock(
                             .offset(y = (-2).dp)
                             .background(
                                 color = MaterialTheme.colorScheme.secondaryContainer,
-                                shape = CircleShape
+                                shape = RoundedCornerShape(12.dp)
                             )
                             .height(40.dp)
                             .border(
                                 width = settingsState.borderWidth,
                                 color = MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.secondaryContainer),
-                                shape = CircleShape
+                                shape = RoundedCornerShape(12.dp)
                             )
                             .padding(horizontal = 10.dp),
                         colors = SliderDefaults.colors(
@@ -552,13 +552,13 @@ fun LazyListScope.settingsBlock(
                             .offset(y = (-2).dp)
                             .background(
                                 color = MaterialTheme.colorScheme.secondaryContainer,
-                                shape = CircleShape
+                                shape = RoundedCornerShape(12.dp)
                             )
                             .height(40.dp)
                             .border(
                                 width = settingsState.borderWidth,
                                 color = MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.secondaryContainer),
-                                shape = CircleShape
+                                shape = RoundedCornerShape(12.dp)
                             )
                             .padding(horizontal = 10.dp),
                         colors = SliderDefaults.colors(
@@ -650,7 +650,7 @@ fun LazyListScope.settingsBlock(
                                     .offset(y = (-2).dp)
                                     .background(
                                         color = MaterialTheme.colorScheme.secondaryContainer,
-                                        shape = CircleShape
+                                        shape = RoundedCornerShape(12.dp)
                                     )
                                     .height(40.dp)
                                     .border(
@@ -658,7 +658,7 @@ fun LazyListScope.settingsBlock(
                                         color = MaterialTheme.colorScheme.outlineVariant(
                                             onTopOf = MaterialTheme.colorScheme.secondaryContainer
                                         ),
-                                        shape = CircleShape
+                                        shape = RoundedCornerShape(12.dp)
                                     )
                                     .padding(horizontal = 10.dp),
                                 colors = SliderDefaults.colors(

@@ -38,6 +38,7 @@ import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
 import ru.tech.imageresizershrinker.presentation.root.utils.navigation.LocalNavController
 import ru.tech.imageresizershrinker.presentation.root.utils.navigation.Screen
 import ru.tech.imageresizershrinker.presentation.root.widget.image.Picture
+import ru.tech.imageresizershrinker.presentation.root.widget.preferences.screens.BackgroundRemoverPreference
 import ru.tech.imageresizershrinker.presentation.root.widget.preferences.screens.BatchResizePreference
 import ru.tech.imageresizershrinker.presentation.root.widget.preferences.screens.BytesResizePreference
 import ru.tech.imageresizershrinker.presentation.root.widget.preferences.screens.CipherPreference
@@ -207,6 +208,13 @@ fun ProcessImagesPreferenceSheet(
                             DrawPreference(
                                 modifier = Modifier.fillMaxWidth(),
                                 onClick = { navigate(Screen.Draw(uris.firstOrNull())) },
+                                color = color
+                            )
+                        }
+                        item {
+                            BackgroundRemoverPreference(
+                                modifier = Modifier.fillMaxWidth(),
+                                onClick = { navigate(Screen.EraseBackground(uris.firstOrNull())) },
                                 color = color
                             )
                         }

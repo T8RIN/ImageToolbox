@@ -255,18 +255,27 @@ fun AddFiltersSheet(
                                 Icons.Rounded.LensBlur to stringResource(R.string.blur),
                                 Icons.Rounded.Animation to stringResource(R.string.distortion)
                             ).forEachIndexed { index, (icon, title) ->
+                                val selected = pagerState.currentPage == index
                                 Tab(
                                     unselectedContentColor = MaterialTheme.colorScheme.onSurface,
                                     modifier = Modifier
                                         .padding(8.dp)
                                         .clip(CircleShape),
-                                    selected = pagerState.currentPage == index,
+                                    selected = selected,
                                     onClick = {
                                         scope.launch {
                                             pagerState.animateScrollToPage(index)
                                         }
                                     },
-                                    icon = { Icon(icon, null) },
+                                    icon = {
+                                        Icon(
+                                            imageVector = icon,
+                                            contentDescription = null,
+                                            tint = if (selected) {
+                                                MaterialTheme.colorScheme.primary
+                                            } else MaterialTheme.colorScheme.onSurface
+                                        )
+                                    },
                                     text = { Text(title) }
                                 )
                             }

@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Slider
 import androidx.compose.material3.SliderDefaults
@@ -32,7 +33,7 @@ fun DrawAlphaSelector(drawController: DrawController) {
     Column(
         Modifier
             .padding(start = 16.dp, end = 16.dp, bottom = 16.dp)
-            .block()
+            .block(shape = RoundedCornerShape(24.dp))
             .animateContentSize()
     ) {
         Row(
