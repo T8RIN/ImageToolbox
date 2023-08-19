@@ -355,6 +355,9 @@
     <string name="activities">Activities</string>
     <string name="background_remover">Background remover</string>
     <string name="background_remover_sub">Remove background from image by drawing or use Auto option</string>
+    <string name="trim_image">Trim image</string>
+    <string name="keep_exif_sub">Image original metadata will be kept if enabled</string>
+    <string name="trim_image_sub">Trasparent spaces around image will be trimmed</string>
     <string-array name="fab_alignment_sub">
         <item>Start</item>
         <item>Center</item>

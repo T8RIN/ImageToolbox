@@ -84,6 +84,16 @@ sealed class ImageFormat(
             else -> Default()
         }
 
+        val alphaContainedEntries: List<ImageFormat>
+            get() = listOf(
+                Png,
+                Webp.Lossy,
+                Webp.Lossless,
+                Avif,
+                Heic,
+                Heif
+            )
+
         val highLevelFormats
             get() = listOf(
                 Avif,

@@ -22,6 +22,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -44,12 +45,17 @@ import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalSettings
 fun ExtensionGroup(
     modifier: Modifier = Modifier,
     enabled: Boolean,
+    entries: List<ImageFormat> = ImageFormat.entries,
     imageFormat: ImageFormat,
     onMimeChange: (ImageFormat) -> Unit
 ) {
     val disColor = MaterialTheme.colorScheme.onSurface
         .copy(alpha = 0.38f)
         .compositeOver(MaterialTheme.colorScheme.surface)
+
+    LaunchedEffect(imageFormat) {
+        if (imageFormat !in entries) onMimeChange(ImageFormat.Png)
+    }
 
     ProvideTextStyle(
         value = TextStyle(
@@ -90,7 +96,7 @@ fun ExtensionGroup(
                     .block()
                     .padding(horizontal = 8.dp, vertical = 12.dp)
             ) {
-                ImageFormat.entries.filtered().forEach {
+                entries.filtered().forEach {
                     Chip(
                         onClick = { onMimeChange(it) },
                         selected = it == imageFormat,

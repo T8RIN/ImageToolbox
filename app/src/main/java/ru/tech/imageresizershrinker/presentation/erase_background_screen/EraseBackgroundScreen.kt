@@ -23,7 +23,6 @@ import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.ime
 import androidx.compose.foundation.layout.navigationBars
@@ -98,7 +97,9 @@ import com.t8rin.dynamic.theme.observeAsState
 import dev.olshevski.navigation.reimagined.hilt.hiltViewModel
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.R
+import ru.tech.imageresizershrinker.domain.model.ImageFormat
 import ru.tech.imageresizershrinker.presentation.erase_background_screen.components.BitmapEraser
+import ru.tech.imageresizershrinker.presentation.erase_background_screen.components.TrimImageSelector
 import ru.tech.imageresizershrinker.presentation.erase_background_screen.viewModel.EraseBackgroundViewModel
 import ru.tech.imageresizershrinker.presentation.root.theme.icons.Transparency
 import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
@@ -113,6 +114,7 @@ import ru.tech.imageresizershrinker.presentation.root.utils.modifier.drawHorizon
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.fabBorder
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.navBarsPaddingOnlyIfTheyAtTheEnd
 import ru.tech.imageresizershrinker.presentation.root.widget.controls.ExtensionGroup
+import ru.tech.imageresizershrinker.presentation.root.widget.controls.SaveExifWidget
 import ru.tech.imageresizershrinker.presentation.root.widget.dialogs.ExitWithoutSavingDialog
 import ru.tech.imageresizershrinker.presentation.root.widget.image.ImageNotPickedWidget
 import ru.tech.imageresizershrinker.presentation.root.widget.other.LoadingDialog
@@ -274,7 +276,7 @@ fun EraseBackgroundScreen(
         }
     }
 
-    val image: @Composable (Modifier) -> Unit = @Composable {
+    val image: @Composable () -> Unit = @Composable {
         viewModel.bitmap?.let { bitmap ->
             AnimatedContent(
                 targetState = remember(bitmap) {
@@ -290,9 +292,10 @@ fun EraseBackgroundScreen(
                     paths = viewModel.paths,
                     strokeWidth = strokeWidth,
                     onAddPath = viewModel::addPath,
-                    modifier = it
-                        .aspectRatio(aspectRatio, true)
-                        .padding(16.dp),
+                    modifier = Modifier
+                        .padding(16.dp)
+                        .aspectRatio(aspectRatio, portrait)
+                        .fillMaxSize(),
                     zoomEnabled = zoomEnabled,
                     onErased = viewModel::updateErasedBitmap
                 )
@@ -436,10 +439,21 @@ fun EraseBackgroundScreen(
                     }
                 )
             }
+            SaveExifWidget(
+                selected = viewModel.saveExif,
+                onCheckedChange = { viewModel.setSaveExif(it) },
+                modifier = Modifier.padding(start = 16.dp, end = 16.dp, top = 16.dp)
+            )
+            TrimImageSelector(
+                selected = viewModel.trimImage,
+                onCheckedChange = { viewModel.setTrimImage(it) },
+                modifier = Modifier.padding(start = 16.dp, end = 16.dp, top = 16.dp)
+            )
             ExtensionGroup(
                 modifier = Modifier
                     .padding(16.dp)
                     .navigationBarsPadding(),
+                entries = ImageFormat.alphaContainedEntries,
                 enabled = true,
                 imageFormat = viewModel.imageFormat,
                 onMimeChange = {
@@ -493,11 +507,7 @@ fun EraseBackgroundScreen(
             content = {
                 Column(Modifier.padding(it), horizontalAlignment = Alignment.CenterHorizontally) {
                     topAppBar()
-                    image(
-                        Modifier
-                            .weight(1f)
-                            .fillMaxWidth()
-                    )
+                    image()
                 }
             }
         )
@@ -537,8 +547,8 @@ fun EraseBackgroundScreen(
                     Column(
                         Modifier.verticalScroll(rememberScrollState())
                     ) {
-                        image(Modifier.fillMaxSize())
-                        Spacer(modifier = Modifier.height(80.dp))
+                        image()
+                        Spacer(modifier = Modifier.height(108.dp))
                     }
                 }
                 ExtendedFloatingActionButton(
@@ -571,7 +581,7 @@ fun EraseBackgroundScreen(
                             .clipToBounds(),
                         contentAlignment = Alignment.Center
                     ) {
-                        image(Modifier.fillMaxSize())
+                        image()
                     }
                     Box(
                         Modifier

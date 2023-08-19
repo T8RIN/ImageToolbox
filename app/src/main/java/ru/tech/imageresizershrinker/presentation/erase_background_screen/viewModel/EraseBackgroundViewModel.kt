@@ -22,6 +22,7 @@ import ru.tech.imageresizershrinker.domain.image.ImageManager
 import ru.tech.imageresizershrinker.domain.model.ImageData
 import ru.tech.imageresizershrinker.domain.model.ImageFormat
 import ru.tech.imageresizershrinker.domain.model.ImageInfo
+import ru.tech.imageresizershrinker.domain.model.ResizeType
 import ru.tech.imageresizershrinker.domain.saving.FileController
 import ru.tech.imageresizershrinker.domain.saving.SaveResult
 import ru.tech.imageresizershrinker.domain.saving.model.ImageSaveTarget
@@ -33,6 +34,12 @@ class EraseBackgroundViewModel @Inject constructor(
     private val imageManager: ImageManager<Bitmap, ExifInterface>,
     private val fileController: FileController
 ) : ViewModel() {
+
+    private val _saveExif: MutableState<Boolean> = mutableStateOf(false)
+    val saveExif: Boolean by _saveExif
+
+    private val _trimImage: MutableState<Boolean> = mutableStateOf(true)
+    val trimImage: Boolean by _trimImage
 
     private val _orientation: MutableState<Int> =
         mutableIntStateOf(ActivityInfo.SCREEN_ORIENTATION_USER)
@@ -153,7 +160,7 @@ class EraseBackgroundViewModel @Inject constructor(
                                     )
                                 )
                             )
-                        ), keepMetadata = true
+                        ), keepMetadata = _saveExif.value
                     )
                 )
             }
@@ -182,12 +189,23 @@ class EraseBackgroundViewModel @Inject constructor(
     }
 
     fun updateErasedBitmap(bitmap: Bitmap) {
-        _erasedBitmap.value = bitmap
+        _bitmap.value?.let {
+            viewModelScope.launch {
+                _erasedBitmap.value = imageManager.resize(
+                    image = bitmap,
+                    width = it.width,
+                    height = it.height,
+                    resizeType = ResizeType.Explicit
+                )
+            }
+        }
     }
 
     private suspend fun trim(
         bitmap: Bitmap
     ): Bitmap {
+        if (!_trimImage.value) return bitmap
+
         val result = CoroutineScope(Dispatchers.IO).async {
             var firstX = 0
             var firstY = 0
@@ -270,6 +288,14 @@ class EraseBackgroundViewModel @Inject constructor(
             _paths.value = listOf()
             _undonePaths.value = listOf()
         }
+    }
+
+    fun setSaveExif(bool: Boolean) {
+        _saveExif.value = bool
+    }
+
+    fun setTrimImage(boolean: Boolean) {
+        _trimImage.value = boolean
     }
 
 }

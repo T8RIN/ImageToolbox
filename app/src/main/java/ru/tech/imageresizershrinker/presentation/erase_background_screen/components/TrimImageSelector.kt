@@ -1,4 +1,4 @@
-package ru.tech.imageresizershrinker.presentation.root.widget.controls
+package ru.tech.imageresizershrinker.presentation.erase_background_screen.components
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
@@ -9,7 +9,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.Fingerprint
+import androidx.compose.material.icons.rounded.ContentCut
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.Switch
@@ -26,7 +26,7 @@ import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.block
 
 @Composable
-fun SaveExifWidget(
+fun TrimImageSelector(
     selected: Boolean,
     onCheckedChange: (Boolean) -> Unit,
     modifier: Modifier = Modifier
@@ -39,14 +39,14 @@ fun SaveExifWidget(
             .padding(horizontal = 16.dp, vertical = 8.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        Icon(Icons.Rounded.Fingerprint, null, modifier = Modifier.defaultMinSize(24.dp, 24.dp))
+        Icon(Icons.Rounded.ContentCut, null, modifier = Modifier.defaultMinSize(24.dp, 24.dp))
         Column(Modifier.weight(1f).padding(start = 16.dp, end = 16.dp, top = 6.dp, bottom = 8.dp)) {
             Text(
-                text = stringResource(R.string.keep_exif),
+                text = stringResource(R.string.trim_image),
                 fontWeight = FontWeight.Medium
             )
             Text(
-                text = stringResource(R.string.keep_exif_sub),
+                text = stringResource(R.string.trim_image_sub),
                 fontWeight = FontWeight.Normal,
                 color = LocalContentColor.current.copy(0.5f),
                 lineHeight = 12.sp,
