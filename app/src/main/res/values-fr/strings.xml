@@ -329,4 +329,5 @@
     <string name="font_scale">Taille de la Police</string>
     <string name="defaultt">Défaut</string>
     <string name="using_large_fonts_warn">L’utilisation de grandes échelles de police peut provoquer des erreurs d’interface utilisateur qui ne seront pas corrigées, utilisez-la si vous voulez seulement</string>
+    <string name="alphabet_and_numbers">Aa Bb Cc Dd Ee Ff Gg Hh Ii Jj Kk Ll Mm Nn Oo Pp Qq Rr Ss Tt Uu Vv Ww Xx Yy Zz 0123456789 !\?</string>
 </resources>
