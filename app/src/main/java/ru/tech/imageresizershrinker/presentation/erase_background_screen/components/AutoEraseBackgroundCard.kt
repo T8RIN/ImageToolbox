@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -61,6 +62,7 @@ fun AutoEraseBackgroundCard(
                 tint = MaterialTheme.colorScheme.onMixedColor
             )
         }
+        Spacer(modifier = Modifier.height(4.dp))
         OutlinedButton(
             colors = ButtonDefaults.filledTonalButtonColors(
                 containerColor = MaterialTheme.colorScheme.mixedColor.copy(0.4f),
