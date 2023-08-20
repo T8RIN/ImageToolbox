@@ -334,4 +334,18 @@
     <string name="text">Текст</string>
     <string name="font_scale">Размер шрифта</string>
     <string name="using_large_fonts_warn">Использование больших размеров может сломать интерфейс, используйте на свой страх и риск</string>
+    <string name="alphabet_and_numbers">Аа Бб Вв Гг Дд Её Жж Зз Ии́ Кк Лл Мм Нн Оо Пп Рр Сс Тт Уу Фф Хх Цц Чч Шщ Ъь Ыы Ээ Юю Яя 0123456789 !\?</string>
+    <string name="emotions">Эмоции</string>
+    <string name="objects">Объекты</string>
+    <string name="symbols">Символы</string>
+    <string name="travels_and_places">Путешествия и места</string>
+    <string name="background_remover_sub">Удалите фон изображения, стерев лишние участки или используя опцию «Авто»</string>
+    <string name="keep_exif_sub">Исходные метаданные изображения будут сохранены, если включено</string>
+    <string name="trim_image_sub">Прозрачное пространство вокруг изображения будет обрезано</string>
+    <string name="food_and_drink">Еда и напитки</string>
+    <string name="nature_and_animals">Природа и животные</string>
+    <string name="enable_emoji">Включить эмодзи</string>
+    <string name="activities">Активности</string>
+    <string name="trim_image">Обрезать изображение</string>
+    <string name="background_remover">Удаление фона</string>
 </resources>
