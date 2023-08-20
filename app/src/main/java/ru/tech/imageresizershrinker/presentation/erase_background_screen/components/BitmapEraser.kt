@@ -6,9 +6,11 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -36,6 +38,7 @@ import androidx.compose.ui.graphics.nativeCanvas
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.IntSize
+import androidx.compose.ui.unit.dp
 import com.smarttoolfactory.gesture.MotionEvent
 import com.smarttoolfactory.gesture.pointerMotionEvents
 import com.smarttoolfactory.image.util.update
@@ -100,7 +103,7 @@ fun BitmapEraser(
                     .asImageBitmap()
             }
 
-            LaunchedEffect(currentPosition) {
+            SideEffect {
                 onErased(erasedBitmap.asAndroidBitmap())
             }
 
@@ -215,7 +218,7 @@ fun BitmapEraser(
                     .clip(MaterialTheme.shapes.extraSmall)
                     .transparencyChecker()
                     .matchParentSize()
-                    .block(MaterialTheme.shapes.extraSmall, Color.Transparent, false),
+                    .block(RoundedCornerShape(2.dp), Color.Transparent, false),
                 bitmap = erasedBitmap,
                 contentDescription = null,
                 contentScale = ContentScale.FillBounds

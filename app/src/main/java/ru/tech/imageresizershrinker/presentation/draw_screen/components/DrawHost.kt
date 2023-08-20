@@ -102,6 +102,7 @@ import dev.olshevski.navigation.reimagined.NavController
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.domain.model.ImageFormat
+import ru.tech.imageresizershrinker.presentation.erase_background_screen.components.transparencyChecker
 import ru.tech.imageresizershrinker.presentation.root.theme.icons.Eraser
 import ru.tech.imageresizershrinker.presentation.root.theme.mixedColor
 import ru.tech.imageresizershrinker.presentation.root.theme.onMixedColor
@@ -250,7 +251,8 @@ fun DrawHost(
                             drawController = drawController,
                             drawingModifier = Modifier.border(
                                 width = 1.dp,
-                                color = MaterialTheme.colorScheme.outlineVariant()
+                                color = MaterialTheme.colorScheme.outlineVariant(),
+                                RoundedCornerShape(2.dp)
                             ),
                             onGetDrawController = onGetDrawController
                         ) {
@@ -258,6 +260,7 @@ fun DrawHost(
                                 modifier = Modifier
                                     .aspectRatio(drawBehavior.run { width / height.toFloat() })
                                     .fillMaxSize()
+                                    .transparencyChecker()
                                     .background(
                                         drawController?.backgroundColor ?: Color.Transparent
                                     )
@@ -281,7 +284,8 @@ fun DrawHost(
                                     drawController = drawController,
                                     drawingModifier = Modifier.border(
                                         width = 1.dp,
-                                        color = MaterialTheme.colorScheme.outlineVariant()
+                                        color = MaterialTheme.colorScheme.outlineVariant(),
+                                        RoundedCornerShape(2.dp)
                                     ),
                                     zoomEnabled = zoomEnabled,
                                     onGetDrawController = onGetDrawController
@@ -290,6 +294,7 @@ fun DrawHost(
                                         modifier = Modifier
                                             .aspectRatio(drawBehavior.run { width / height.toFloat() })
                                             .fillMaxSize()
+                                            .transparencyChecker()
                                             .background(
                                                 drawController?.backgroundColor
                                                     ?: Color.Transparent
@@ -419,7 +424,8 @@ fun DrawHost(
                             drawController = drawController,
                             drawingModifier = Modifier.border(
                                 width = 1.dp,
-                                color = MaterialTheme.colorScheme.outlineVariant()
+                                color = MaterialTheme.colorScheme.outlineVariant(),
+                                RoundedCornerShape(2.dp)
                             ),
                             zoomEnabled = zoomEnabled,
                             onGetDrawController = onGetDrawController
@@ -427,8 +433,9 @@ fun DrawHost(
                             Picture(
                                 model = uri,
                                 contentScale = ContentScale.Fit,
-                                shape = RectangleShape,
-                                transformations = listOf(UpscaleTransformation())
+                                shape = RoundedCornerShape(2.dp),
+                                transformations = listOf(UpscaleTransformation()),
+                                modifier = Modifier.transparencyChecker()
                             )
                         }
                     } else {
@@ -449,7 +456,8 @@ fun DrawHost(
                                     drawController = drawController,
                                     drawingModifier = Modifier.border(
                                         width = 1.dp,
-                                        color = MaterialTheme.colorScheme.outlineVariant()
+                                        color = MaterialTheme.colorScheme.outlineVariant(),
+                                        RoundedCornerShape(2.dp)
                                     ),
                                     zoomEnabled = zoomEnabled,
                                     onGetDrawController = onGetDrawController
@@ -457,8 +465,9 @@ fun DrawHost(
                                     Picture(
                                         model = uri,
                                         contentScale = ContentScale.Fit,
-                                        shape = RectangleShape,
-                                        transformations = listOf(UpscaleTransformation())
+                                        shape = RoundedCornerShape(2.dp),
+                                        transformations = listOf(UpscaleTransformation()),
+                                        modifier = Modifier.transparencyChecker()
                                     )
                                 }
                             }

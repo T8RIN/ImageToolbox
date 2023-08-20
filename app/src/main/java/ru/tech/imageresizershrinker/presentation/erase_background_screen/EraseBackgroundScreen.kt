@@ -99,6 +99,7 @@ import dev.olshevski.navigation.reimagined.hilt.hiltViewModel
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.domain.model.ImageFormat
+import ru.tech.imageresizershrinker.presentation.erase_background_screen.components.AutoEraseBackgroundCard
 import ru.tech.imageresizershrinker.presentation.erase_background_screen.components.BitmapEraser
 import ru.tech.imageresizershrinker.presentation.erase_background_screen.components.TrimImageSelector
 import ru.tech.imageresizershrinker.presentation.erase_background_screen.viewModel.EraseBackgroundViewModel
@@ -369,6 +370,22 @@ fun EraseBackgroundScreen(
                     secondaryControls()
                 }
             }
+            AutoEraseBackgroundCard(
+                onClick =  {
+                    scope.launch {
+                        scaffoldState.bottomSheetState.partialExpand()
+                        viewModel.autoEraseBackground(
+                            onSuccess = showConfetti,
+                            onFailure = {
+                                scope.launch {
+                                    toastHostState.showError(context, it)
+                                }
+                            }
+                        )
+                    }
+                },
+                onReset = viewModel::resetImage
+            )
             Column(
                 modifier = Modifier
                     .padding(top = 16.dp, end = 16.dp, start = 16.dp)
@@ -472,7 +489,7 @@ fun EraseBackgroundScreen(
             sheetDragHandle = null,
             sheetShape = RectangleShape,
             sheetContent = {
-                Column {
+                Column(Modifier.fillMaxHeight(0.8f)) {
                     BottomAppBar(
                         modifier = Modifier.drawHorizontalStroke(true),
                         actions = {

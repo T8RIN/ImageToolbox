@@ -154,6 +154,9 @@ dependencies {
 
     implementation("org.burnoutcrew.composereorderable:reorderable:0.9.6")
 
+    //ml-kit selfie segmentation
+    implementation("com.google.mlkit:segmentation-selfie:16.0.0-beta4")
+
     implementation("com.google.accompanist:accompanist-systemuicontroller:0.33.0-alpha")
 
 }
