@@ -148,6 +148,7 @@ Go to the [Releases](https://github.com/t8rin/imageresizer/releases/latest) and 
 - AES-256 GCM No Padding files encryption and decryption
 - EXIF metadata editing/deleting
 - Loading images from internet
+- Background Erasing
 - Drawing on Image/Background
 - Image Resizing
   - Width changing
@@ -260,6 +261,7 @@ Go to the [Releases](https://github.com/t8rin/imageresizer/releases/latest) and 
 
 - [SmartToolFactory](https://github.com/SmartToolFactory) provides a bunch of helpful libraries
 
+- [AVIF Coder](https://github.com/awxkee/avif-coder) library that provides avif, heic, heif support
 <div align="center">
 
 #
