@@ -270,7 +270,7 @@ class EraseBackgroundViewModel @Inject constructor(
                 scope = CoroutineScope(Dispatchers.IO)
             ) { result ->
                 if (result.isSuccess) {
-                    _erasedBitmap.value = result.getOrNull()
+                    _bitmap.value = result.getOrNull()
                     _paths.value = listOf()
                     _lastPaths.value = listOf()
                     onSuccess()
