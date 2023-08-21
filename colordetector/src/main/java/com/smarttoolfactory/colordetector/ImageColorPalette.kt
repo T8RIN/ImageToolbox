@@ -20,6 +20,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.asAndroidBitmap
 import androidx.compose.ui.graphics.luminance
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.palette.graphics.Palette
@@ -38,6 +39,7 @@ import com.smarttoolfactory.colordetector.util.ColorUtil.fractionToIntPercent
 fun ImageColorPalette(
     modifier: Modifier = Modifier,
     imageBitmap: ImageBitmap,
+    style: TextStyle,
     maximumColorCount: Int = 32,
     borderWidth: Dp,
     onEmpty: @Composable ColumnScope.() -> Unit,
@@ -79,21 +81,22 @@ fun ImageColorPalette(
         paletteDataList = paletteData,
         onColorChange = onColorChange,
         onEmpty = onEmpty,
-        borderWidth = borderWidth
+        borderWidth = borderWidth,
+        style = style
     )
 }
 
 @Composable
 private fun ColorProfileList(
     modifier: Modifier,
+    style: TextStyle,
     borderWidth: Dp,
     paletteDataList: List<PaletteData>,
     onEmpty: @Composable ColumnScope.() -> Unit,
     onColorChange: (ColorData) -> Unit
 ) {
     Column(
-        modifier = modifier
-            .fillMaxSize(),
+        modifier = modifier.fillMaxSize(),
         verticalArrangement = Arrangement.spacedBy(4.dp)
     ) {
         paletteDataList.forEach { paletteData: PaletteData ->
@@ -101,6 +104,7 @@ private fun ColorProfileList(
             val colorData = paletteData.colorData
 
             ColorItemRow(
+                style = style,
                 modifier = Modifier
                     .border(
                         width = borderWidth,

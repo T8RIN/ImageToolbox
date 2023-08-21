@@ -19,6 +19,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
@@ -28,6 +29,7 @@ internal fun ColorItemRow(
     contentColor: Color = Color.Unspecified,
     containerColor: Color = Color.Unspecified,
     populationPercent: String,
+    style: TextStyle,
     colorData: ColorData,
     onClick: (ColorData) -> Unit,
 ) {
@@ -61,15 +63,17 @@ internal fun ColorItemRow(
             Text(
                 text = colorData.hexText.uppercase(),
                 fontSize = 16.sp,
-                color = contentColor
+                color = contentColor,
+                style = style
             )
         }
 
         Spacer(modifier = Modifier.weight(1f))
         Text(
             text = populationPercent,
+            style = style,
             fontSize = 16.sp,
-            color = contentColor
+            color = contentColor,
         )
     }
 }

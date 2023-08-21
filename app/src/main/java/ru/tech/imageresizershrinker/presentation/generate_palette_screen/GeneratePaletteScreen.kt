@@ -38,6 +38,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.LargeTopAppBar
+import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
@@ -73,6 +74,7 @@ import dev.olshevski.navigation.reimagined.navigate
 import dev.olshevski.navigation.reimagined.pop
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.R
+import ru.tech.imageresizershrinker.presentation.erase_background_screen.components.transparencyChecker
 import ru.tech.imageresizershrinker.presentation.generate_palette_screen.viewModel.GeneratePaletteViewModel
 import ru.tech.imageresizershrinker.presentation.pick_color_from_image_screen.copyColorIntoClipboard
 import ru.tech.imageresizershrinker.presentation.pick_color_from_image_screen.format
@@ -303,7 +305,8 @@ fun GeneratePaletteScreen(
                                     .navBarsPaddingOnlyIfTheyAtTheBottom()
                                     .block()
                                     .padding(4.dp)
-                                    .clip(RoundedCornerShape(8.dp)),
+                                    .clip(RoundedCornerShape(8.dp))
+                                    .transparencyChecker(),
                                 contentDescription = null,
                                 contentScale = ContentScale.FillHeight
                             )
@@ -322,6 +325,7 @@ fun GeneratePaletteScreen(
                                         .navigationBarsPadding()
                                         .block(RoundedCornerShape(24.dp))
                                         .padding(4.dp),
+                                    style = LocalTextStyle.current,
                                     onEmpty = { noPalette() },
                                     onColorChange = {
                                         context.copyColorIntoClipboard(
@@ -352,7 +356,8 @@ fun GeneratePaletteScreen(
                                     .padding(16.dp)
                                     .block()
                                     .padding(4.dp)
-                                    .clip(RoundedCornerShape(8.dp)),
+                                    .clip(RoundedCornerShape(8.dp))
+                                    .transparencyChecker(),
                                 contentDescription = null,
                                 contentScale = ContentScale.FillWidth
                             )
@@ -366,6 +371,7 @@ fun GeneratePaletteScreen(
                                     .block(RoundedCornerShape(24.dp))
                                     .padding(4.dp),
                                 onEmpty = { noPalette() },
+                                style = LocalTextStyle.current,
                                 onColorChange = {
                                     context.copyColorIntoClipboard(
                                         context.getString(R.string.color),
