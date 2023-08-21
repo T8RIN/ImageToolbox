@@ -149,6 +149,7 @@ fun ImagePager(
                     modifier = Modifier.fillMaxSize()
                 ) {
                     Picture(
+                        showTransparencyChecker = false,
                         model = uris?.getOrNull(page),
                         modifier = Modifier
                             .fillMaxSize()

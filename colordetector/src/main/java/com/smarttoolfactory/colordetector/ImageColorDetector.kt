@@ -50,15 +50,16 @@ fun ImageColorDetector(
     val zoomState = rememberAnimatedZoomState(limitPan = true)
 
     ImageWithConstraints(
-        modifier = modifier.then(
-            if (canZoom) {
-                Modifier.animatedZoom(animatedZoomState = zoomState)
-            } else {
-                Modifier.graphicsLayer {
-                    update(zoomState)
+        modifier = modifier
+            .then(
+                if (canZoom) {
+                    Modifier.animatedZoom(animatedZoomState = zoomState)
+                } else {
+                    Modifier.graphicsLayer {
+                        update(zoomState)
+                    }
                 }
-            }
-        ),
+            ),
         imageBitmap = imageBitmap
     ) {
 
@@ -114,7 +115,8 @@ fun ImageColorDetector(
         }
 
         ColorSelectionDrawing(
-            modifier = Modifier.size(imageWidth, imageHeight),
+            modifier = Modifier
+                .size(imageWidth, imageHeight),
             selectedColor = color,
             zoomState = zoomState,
             offset = offset
@@ -122,7 +124,6 @@ fun ImageColorDetector(
     }
 
 }
-
 
 @Composable
 internal fun ColorSelectionDrawing(

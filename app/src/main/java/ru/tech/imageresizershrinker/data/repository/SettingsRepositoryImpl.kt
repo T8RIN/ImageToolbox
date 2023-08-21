@@ -16,26 +16,26 @@ import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.data.keys.Keys.ADD_ORIGINAL_NAME_TO_FILENAME
 import ru.tech.imageresizershrinker.data.keys.Keys.ADD_SEQ_NUM_TO_FILENAME
 import ru.tech.imageresizershrinker.data.keys.Keys.ADD_SIZE_TO_FILENAME
-import ru.tech.imageresizershrinker.data.keys.Keys.FAB_ALIGNMENT
+import ru.tech.imageresizershrinker.data.keys.Keys.ALLOW_IMAGE_MONET
 import ru.tech.imageresizershrinker.data.keys.Keys.AMOLED_MODE
 import ru.tech.imageresizershrinker.data.keys.Keys.APP_COLOR_TUPLE
 import ru.tech.imageresizershrinker.data.keys.Keys.AUTO_CACHE_CLEAR
 import ru.tech.imageresizershrinker.data.keys.Keys.BORDER_WIDTH
 import ru.tech.imageresizershrinker.data.keys.Keys.COLOR_TUPLES
 import ru.tech.imageresizershrinker.data.keys.Keys.DYNAMIC_COLORS
-import ru.tech.imageresizershrinker.data.keys.Keys.SELECTED_EMOJI_INDEX
 import ru.tech.imageresizershrinker.data.keys.Keys.EMOJI_COUNT
+import ru.tech.imageresizershrinker.data.keys.Keys.FAB_ALIGNMENT
 import ru.tech.imageresizershrinker.data.keys.Keys.FILENAME_PREFIX
-import ru.tech.imageresizershrinker.data.keys.Keys.SELECTED_FONT_INDEX
 import ru.tech.imageresizershrinker.data.keys.Keys.FONT_SCALE
 import ru.tech.imageresizershrinker.data.keys.Keys.GROUP_OPTIONS_BY_TYPE
-import ru.tech.imageresizershrinker.data.keys.Keys.ALLOW_IMAGE_MONET
-import ru.tech.imageresizershrinker.data.keys.Keys.NIGHT_MODE
-import ru.tech.imageresizershrinker.data.keys.Keys.SCREEN_ORDER
 import ru.tech.imageresizershrinker.data.keys.Keys.IMAGE_PICKER_MODE
+import ru.tech.imageresizershrinker.data.keys.Keys.NIGHT_MODE
 import ru.tech.imageresizershrinker.data.keys.Keys.PRESETS
 import ru.tech.imageresizershrinker.data.keys.Keys.RANDOMIZE_FILENAME
 import ru.tech.imageresizershrinker.data.keys.Keys.SAVE_FOLDER_URI
+import ru.tech.imageresizershrinker.data.keys.Keys.SCREEN_ORDER
+import ru.tech.imageresizershrinker.data.keys.Keys.SELECTED_EMOJI_INDEX
+import ru.tech.imageresizershrinker.data.keys.Keys.SELECTED_FONT_INDEX
 import ru.tech.imageresizershrinker.data.keys.Keys.SHOW_UPDATE_DIALOG
 import ru.tech.imageresizershrinker.domain.model.FontFam
 import ru.tech.imageresizershrinker.domain.model.NightMode
@@ -295,7 +295,10 @@ class SettingsRepositoryImpl @Inject constructor(
                         ByteArrayInputStream(byteArrayOutputStream.toByteArray()).copyTo(it)
                     }
                 }
-            }.exceptionOrNull()?.let(onFailure) ?: onSuccess()
+            }.exceptionOrNull()?.let(onFailure) ?: suspend {
+                onSuccess()
+                updateSaveFolderUri(null)
+            }.invoke()
         }
         toggleClearCacheOnLaunch()
         toggleClearCacheOnLaunch()

@@ -13,6 +13,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
+import ru.tech.imageresizershrinker.presentation.erase_background_screen.components.transparencyChecker
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.block
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.shimmer
 
@@ -40,6 +41,7 @@ fun SimplePicture(
                     contentDescription = null,
                     modifier = modifier
                         .clip(MaterialTheme.shapes.medium)
+                        .transparencyChecker()
                         .shimmer(loading, MaterialTheme.colorScheme.surfaceColorAtElevation(12.dp))
                 )
             }

@@ -70,6 +70,7 @@ import coil.transform.Transformation
 import com.github.awxkee.avifcoil.HeifDecoder
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
+import ru.tech.imageresizershrinker.presentation.erase_background_screen.components.transparencyChecker
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.ContextUtils.findActivity
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.shimmer
 import ru.tech.imageresizershrinker.presentation.root.widget.image.StatusBarUtils.hideSystemBars
@@ -110,6 +111,7 @@ fun Picture(
     shimmerEnabled: Boolean = true,
     crossfadeEnabled: Boolean = true,
     allowHardware: Boolean = true,
+    showTransparencyChecker: Boolean = true
 ) {
     val activity = LocalContext.current.findActivity()
     val context = LocalContext.current
@@ -134,6 +136,7 @@ fun Picture(
             contentDescription = contentDescription,
             modifier = modifier
                 .clip(shape)
+                .then(if (showTransparencyChecker) Modifier.transparencyChecker() else Modifier)
                 .then(if (shimmerEnabled) Modifier.shimmer(shimmerVisible) else Modifier),
             contentScale = contentScale,
             loading = {

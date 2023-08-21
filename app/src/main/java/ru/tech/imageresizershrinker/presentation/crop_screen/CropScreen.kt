@@ -92,6 +92,7 @@ import ru.tech.imageresizershrinker.presentation.crop_screen.components.AspectRa
 import ru.tech.imageresizershrinker.presentation.crop_screen.components.CropMaskSelection
 import ru.tech.imageresizershrinker.presentation.crop_screen.components.aspectRatios
 import ru.tech.imageresizershrinker.presentation.crop_screen.viewModel.CropViewModel
+import ru.tech.imageresizershrinker.presentation.erase_background_screen.components.transparencyChecker
 import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
 import ru.tech.imageresizershrinker.presentation.root.transformation.filter.SaturationFilter
 import ru.tech.imageresizershrinker.presentation.root.utils.confetti.LocalConfettiController
@@ -372,7 +373,7 @@ fun CropScreen(
                             ) { (fixedAspectRatio, bitmap) ->
                                 val bmp = remember(bitmap) { it.asImageBitmap() }
                                 ImageCropper(
-                                    background = MaterialTheme.colorScheme.surface,
+                                    backgroundModifier = Modifier.transparencyChecker(),
                                     imageBitmap = bmp,
                                     contentDescription = null,
                                     cropProperties = viewModel.cropProperties.copy(fixedAspectRatio = fixedAspectRatio),
@@ -416,7 +417,7 @@ fun CropScreen(
                                 ) { (fixedAspectRatio, bitmap) ->
                                     val bmp = remember(bitmap) { it.asImageBitmap() }
                                     ImageCropper(
-                                        background = MaterialTheme.colorScheme.surface,
+                                        backgroundModifier = Modifier.transparencyChecker(),
                                         imageBitmap = bmp,
                                         contentDescription = null,
                                         cropStyle = CropDefaults.style(
@@ -558,74 +559,76 @@ fun CropScreen(
             sheetDragHandle = null,
             sheetShape = RectangleShape,
             sheetContent = {
-                BottomAppBar(
-                    modifier = Modifier.drawHorizontalStroke(true),
-                    actions = {
-                        var job by remember { mutableStateOf<Job?>(null) }
-                        OutlinedButton(
-                            colors = ButtonDefaults.outlinedButtonColors(
-                                containerColor = MaterialTheme.colorScheme.secondaryContainer,
-                                contentColor = MaterialTheme.colorScheme.onSecondaryContainer
-                            ),
-                            border = BorderStroke(
-                                settingsState.borderWidth,
-                                MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.secondaryContainer)
-                            ),
-                            modifier = Modifier.padding(horizontal = 16.dp),
-                            onClick = {
-                                job?.cancel()
-                                job = scope.launch {
-                                    kotlinx.coroutines.delay(500)
-                                    crop = true
+                Column(Modifier.fillMaxHeight(0.8f)) {
+                    BottomAppBar(
+                        modifier = Modifier.drawHorizontalStroke(true),
+                        actions = {
+                            var job by remember { mutableStateOf<Job?>(null) }
+                            OutlinedButton(
+                                colors = ButtonDefaults.outlinedButtonColors(
+                                    containerColor = MaterialTheme.colorScheme.secondaryContainer,
+                                    contentColor = MaterialTheme.colorScheme.onSecondaryContainer
+                                ),
+                                border = BorderStroke(
+                                    settingsState.borderWidth,
+                                    MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.secondaryContainer)
+                                ),
+                                modifier = Modifier.padding(horizontal = 16.dp),
+                                onClick = {
+                                    job?.cancel()
+                                    job = scope.launch {
+                                        kotlinx.coroutines.delay(500)
+                                        crop = true
+                                    }
                                 }
-                            }
-                        ) {
-                            Text(stringResource(R.string.crop))
-                        }
-                    },
-                    floatingActionButton = {
-                        Row {
-                            FloatingActionButton(
-                                onClick = pickImage,
-                                modifier = Modifier.fabBorder(),
-                                containerColor = MaterialTheme.colorScheme.tertiaryContainer,
-                                elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
                             ) {
-                                val expanded =
-                                    scrollState.isScrollingUp() && viewModel.bitmap == null
-                                val horizontalPadding by animateDpAsState(targetValue = if (expanded) 16.dp else 0.dp)
-                                Row(
-                                    modifier = Modifier.padding(horizontal = horizontalPadding),
-                                    verticalAlignment = Alignment.CenterVertically
+                                Text(stringResource(R.string.crop))
+                            }
+                        },
+                        floatingActionButton = {
+                            Row {
+                                FloatingActionButton(
+                                    onClick = pickImage,
+                                    modifier = Modifier.fabBorder(),
+                                    containerColor = MaterialTheme.colorScheme.tertiaryContainer,
+                                    elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
                                 ) {
-                                    Icon(Icons.Rounded.AddPhotoAlternate, null)
-                                    AnimatedVisibility(visible = expanded) {
-                                        Row {
-                                            Spacer(Modifier.width(8.dp))
-                                            Text(stringResource(R.string.pick_image_alt))
+                                    val expanded =
+                                        scrollState.isScrollingUp() && viewModel.bitmap == null
+                                    val horizontalPadding by animateDpAsState(targetValue = if (expanded) 16.dp else 0.dp)
+                                    Row(
+                                        modifier = Modifier.padding(horizontal = horizontalPadding),
+                                        verticalAlignment = Alignment.CenterVertically
+                                    ) {
+                                        Icon(Icons.Rounded.AddPhotoAlternate, null)
+                                        AnimatedVisibility(visible = expanded) {
+                                            Row {
+                                                Spacer(Modifier.width(8.dp))
+                                                Text(stringResource(R.string.pick_image_alt))
+                                            }
+                                        }
+                                    }
+                                }
+                                AnimatedVisibility(viewModel.isBitmapChanged) {
+                                    Row {
+                                        Spacer(modifier = Modifier.width(16.dp))
+                                        FloatingActionButton(
+                                            onClick = {
+                                                viewModel.bitmap?.let(saveBitmap)
+                                            },
+                                            modifier = Modifier.fabBorder(),
+                                            elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
+                                        ) {
+                                            Icon(Icons.Rounded.Save, null)
                                         }
                                     }
                                 }
                             }
-                            AnimatedVisibility(viewModel.isBitmapChanged) {
-                                Row {
-                                    Spacer(modifier = Modifier.width(16.dp))
-                                    FloatingActionButton(
-                                        onClick = {
-                                            viewModel.bitmap?.let(saveBitmap)
-                                        },
-                                        modifier = Modifier.fabBorder(),
-                                        elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
-                                    ) {
-                                        Icon(Icons.Rounded.Save, null)
-                                    }
-                                }
-                            }
                         }
-                    }
-                )
-                HorizontalDivider()
-                controls()
+                    )
+                    HorizontalDivider()
+                    controls()
+                }
             },
             content = content
         )

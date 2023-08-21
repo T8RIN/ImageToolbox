@@ -178,6 +178,11 @@ class DrawViewModel @Inject constructor(
             navController.navigate(
                 DrawBehavior.Image(calculateScreenOrientationBasedOnUri(uri))
             )
+            imageManager.getImage(uri = uri.toString())?.imageInfo?.imageFormat?.let {
+                updateMimeType(
+                    it
+                )
+            }
         }
     }
 

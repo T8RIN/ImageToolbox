@@ -35,6 +35,7 @@ import com.smarttoolfactory.image.zoom.ZoomLevel
 import com.smarttoolfactory.image.zoom.animatedZoom
 import com.smarttoolfactory.image.zoom.rememberAnimatedZoomState
 import ru.tech.imageresizershrinker.R
+import ru.tech.imageresizershrinker.presentation.erase_background_screen.components.transparencyChecker
 import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
 import ru.tech.imageresizershrinker.presentation.root.widget.text.AutoSizeText
 import ru.tech.imageresizershrinker.presentation.root.widget.text.TitleItem
@@ -75,6 +76,7 @@ fun ZoomModalSheet(
                             .copy(alpha = 0.1f),
                         RoundedCornerShape(4.dp)
                     )
+                    .transparencyChecker()
                     .animatedZoom(
                         animatedZoomState = rememberAnimatedZoomState(
                             moveToBounds = true,

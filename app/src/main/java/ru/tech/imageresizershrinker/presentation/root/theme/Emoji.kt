@@ -39,9 +39,7 @@ import ru.tech.imageresizershrinker.presentation.root.widget.image.pictureImageL
 import java.io.File
 
 
-object Emoji {
-
-}
+object Emoji
 
 private var Emotions: List<Uri>? = null
 private var Food: List<Uri>? = null
@@ -199,7 +197,8 @@ fun EmojiItem(
                     model = emoji,
                     shape = RoundedCornerShape(4.dp),
                     contentDescription = null,
-                    modifier = Modifier.size(size)
+                    modifier = Modifier.size(size),
+                    showTransparencyChecker = false,
                 )
             }
         } ?: onNoEmoji(size)

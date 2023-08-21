@@ -6,15 +6,12 @@ import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
@@ -69,7 +66,7 @@ fun ImageCropper(
     crop: Boolean = false,
     onCropStart: () -> Unit,
     onCropSuccess: (ImageBitmap) -> Unit,
-    background: Color = MaterialTheme.colorScheme.surfaceColorAtElevation(3.dp)
+    backgroundModifier: Modifier = Modifier
 ) {
 
     ImageWithConstraints(
@@ -199,7 +196,7 @@ fun ImageCropper(
             cropOutline = cropOutline,
             cropStyle = cropStyle,
             transparentColor = transparentColor,
-            background = background
+            backgroundModifier = backgroundModifier
         )
     }
 }
@@ -219,13 +216,13 @@ private fun ImageCropper(
     cropStyle: CropStyle,
     overlayRect: Rect,
     transparentColor: Color,
-    background: Color
+    backgroundModifier: Modifier
 ) {
     Box(
         modifier = Modifier
             .fillMaxSize()
             .clip(RoundedCornerShape(4.dp))
-            .background(background)
+            .then(backgroundModifier)
     ) {
 
         AnimatedVisibility(

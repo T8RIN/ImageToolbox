@@ -3,7 +3,6 @@ package ru.tech.imageresizershrinker.presentation.draw_screen.components
 import android.graphics.Bitmap
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.animateColorAsState
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -18,12 +17,10 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Colorize
 import androidx.compose.material.icons.rounded.ContentPaste
 import androidx.compose.material.icons.rounded.ZoomIn
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Switch
 import androidx.compose.material3.SwitchDefaults
 import androidx.compose.material3.Text
@@ -42,13 +39,13 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import com.smarttoolfactory.colordetector.ImageColorDetector
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.R
+import ru.tech.imageresizershrinker.presentation.erase_background_screen.components.transparencyChecker
 import ru.tech.imageresizershrinker.presentation.pick_color_from_image_screen.copyColorIntoClipboard
 import ru.tech.imageresizershrinker.presentation.pick_color_from_image_screen.format
 import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
@@ -56,7 +53,6 @@ import ru.tech.imageresizershrinker.presentation.root.utils.modifier.block
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.shimmer
 import ru.tech.imageresizershrinker.presentation.root.widget.other.LocalToastHost
 import ru.tech.imageresizershrinker.presentation.root.widget.sheets.SimpleSheet
-import ru.tech.imageresizershrinker.presentation.root.widget.text.AutoSizeText
 import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalSettingsState
 
 @Composable
@@ -109,6 +105,7 @@ fun PickColorFromImageSheet(
                             .align(Alignment.Center)
                             .block(resultPadding = 8.dp)
                             .clip(RoundedCornerShape(12.dp))
+                            .transparencyChecker()
                     )
                 } ?: Box(
                     Modifier

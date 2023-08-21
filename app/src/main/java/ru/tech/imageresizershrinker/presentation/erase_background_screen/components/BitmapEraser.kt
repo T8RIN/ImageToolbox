@@ -3,13 +3,13 @@ package ru.tech.imageresizershrinker.presentation.erase_background_screen.compon
 import android.graphics.Bitmap
 import android.graphics.PorterDuff
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -46,7 +46,7 @@ import com.smarttoolfactory.image.zoom.animatedZoom
 import com.smarttoolfactory.image.zoom.rememberAnimatedZoomState
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import ru.tech.imageresizershrinker.presentation.root.utils.modifier.block
+import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
 
 @Composable
 fun BitmapEraser(
@@ -215,10 +215,14 @@ fun BitmapEraser(
                         else Modifier
                     )
                     .clipToBounds()
-                    .clip(MaterialTheme.shapes.extraSmall)
+                    .clip(RoundedCornerShape(2.dp))
                     .transparencyChecker()
                     .matchParentSize()
-                    .block(RoundedCornerShape(2.dp), Color.Transparent, false),
+                    .border(
+                        width = 1.dp,
+                        color = MaterialTheme.colorScheme.outlineVariant(),
+                        RoundedCornerShape(2.dp)
+                    ),
                 bitmap = erasedBitmap,
                 contentDescription = null,
                 contentScale = ContentScale.FillBounds

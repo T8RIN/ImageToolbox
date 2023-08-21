@@ -23,7 +23,6 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -130,9 +129,9 @@ import ru.tech.imageresizershrinker.core.ISSUE_TRACKER
 import ru.tech.imageresizershrinker.core.WEBLATE_LINK
 import ru.tech.imageresizershrinker.domain.model.NightMode
 import ru.tech.imageresizershrinker.presentation.main_screen.viewModel.MainViewModel
+import ru.tech.imageresizershrinker.presentation.root.model.UiFontFam
 import ru.tech.imageresizershrinker.presentation.root.model.UiSettingsState
 import ru.tech.imageresizershrinker.presentation.root.theme.EmojiItem
-import ru.tech.imageresizershrinker.presentation.root.model.UiFontFam
 import ru.tech.imageresizershrinker.presentation.root.theme.blend
 import ru.tech.imageresizershrinker.presentation.root.theme.icons.CreateAlt
 import ru.tech.imageresizershrinker.presentation.root.theme.icons.DownloadFile
@@ -1509,8 +1508,8 @@ fun LazyListScope.settingsBlock(
                     subtitle = "${BuildConfig.VERSION_NAME} (${BuildConfig.VERSION_CODE})",
                     endContent = {
                         Icon(
-                            painterResource(R.drawable.ic_launcher_monochrome),
-                            null,
+                            painter = painterResource(R.drawable.ic_launcher_monochrome),
+                            contentDescription = null,
                             tint = animateColorAsState(
                                 if (settingsState.isNightMode) {
                                     MaterialTheme.colorScheme.primary

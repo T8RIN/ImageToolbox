@@ -2,12 +2,8 @@ package ru.tech.imageresizershrinker.presentation.draw_screen.components
 
 import android.net.Uri
 import androidx.compose.animation.animateColorAsState
-import androidx.compose.animation.core.CubicBezierEasing
-import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
-import androidx.compose.animation.slideInHorizontally
-import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
@@ -82,9 +78,9 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
@@ -97,7 +93,6 @@ import com.t8rin.drawbox.domain.AbstractDrawController
 import com.t8rin.drawbox.domain.DrawController
 import com.t8rin.drawbox.presentation.compose.DrawBox
 import dev.olshevski.navigation.reimagined.AnimatedNavHost
-import dev.olshevski.navigation.reimagined.NavAction
 import dev.olshevski.navigation.reimagined.NavController
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.R
@@ -153,33 +148,11 @@ fun DrawHost(
     val scope = rememberCoroutineScope()
     val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
 
-    val screenWidth = LocalConfiguration.current.screenWidthDp
-    val easing = CubicBezierEasing(0.48f, 0.19f, 0.05f, 1.03f)
     AnimatedNavHost(
         modifier = modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
         controller = navController,
-        transitionSpec = { action, _, _ ->
-            if (action != NavAction.Pop) {
-                slideInHorizontally(
-                    animationSpec = tween(600, easing = easing),
-                    initialOffsetX = { screenWidth }) + fadeIn(
-                    tween(300, 100)
-                ) togetherWith slideOutHorizontally(
-                    animationSpec = tween(600, easing = easing),
-                    targetOffsetX = { -screenWidth }) + fadeOut(
-                    tween(300, 100)
-                )
-            } else {
-                slideInHorizontally(
-                    animationSpec = tween(600, easing = easing),
-                    initialOffsetX = { -screenWidth }) + fadeIn(
-                    tween(300, 100)
-                ) togetherWith slideOutHorizontally(
-                    animationSpec = tween(600, easing = easing),
-                    targetOffsetX = { screenWidth }) + fadeOut(
-                    tween(300, 100)
-                )
-            }
+        transitionSpec = { _, _, _ ->
+            fadeIn() togetherWith fadeOut()
         }
     ) { drawBehavior ->
         val topAppBar: @Composable () -> Unit = {
@@ -246,7 +219,8 @@ fun DrawHost(
                         DrawBox(
                             modifier = Modifier
                                 .fillMaxSize()
-                                .padding(8.dp),
+                                .padding(8.dp)
+                                .transparencyChecker(),
                             zoomEnabled = zoomEnabled,
                             drawController = drawController,
                             drawingModifier = Modifier.border(
@@ -260,7 +234,6 @@ fun DrawHost(
                                 modifier = Modifier
                                     .aspectRatio(drawBehavior.run { width / height.toFloat() })
                                     .fillMaxSize()
-                                    .transparencyChecker()
                                     .background(
                                         drawController?.backgroundColor ?: Color.Transparent
                                     )
@@ -294,7 +267,6 @@ fun DrawHost(
                                         modifier = Modifier
                                             .aspectRatio(drawBehavior.run { width / height.toFloat() })
                                             .fillMaxSize()
-                                            .transparencyChecker()
                                             .background(
                                                 drawController?.backgroundColor
                                                     ?: Color.Transparent
@@ -422,11 +394,13 @@ fun DrawHost(
                                 .fillMaxSize()
                                 .padding(8.dp),
                             drawController = drawController,
-                            drawingModifier = Modifier.border(
-                                width = 1.dp,
-                                color = MaterialTheme.colorScheme.outlineVariant(),
-                                RoundedCornerShape(2.dp)
-                            ),
+                            drawingModifier = Modifier
+                                .border(
+                                    width = 1.dp,
+                                    color = MaterialTheme.colorScheme.outlineVariant(),
+                                    RoundedCornerShape(2.dp)
+                                )
+                                .clip(RoundedCornerShape(2.dp)),
                             zoomEnabled = zoomEnabled,
                             onGetDrawController = onGetDrawController
                         ) {
@@ -434,8 +408,7 @@ fun DrawHost(
                                 model = uri,
                                 contentScale = ContentScale.Fit,
                                 shape = RoundedCornerShape(2.dp),
-                                transformations = listOf(UpscaleTransformation()),
-                                modifier = Modifier.transparencyChecker()
+                                transformations = listOf(UpscaleTransformation())
                             )
                         }
                     } else {
@@ -466,8 +439,7 @@ fun DrawHost(
                                         model = uri,
                                         contentScale = ContentScale.Fit,
                                         shape = RoundedCornerShape(2.dp),
-                                        transformations = listOf(UpscaleTransformation()),
-                                        modifier = Modifier.transparencyChecker()
+                                        transformations = listOf(UpscaleTransformation())
                                     )
                                 }
                             }

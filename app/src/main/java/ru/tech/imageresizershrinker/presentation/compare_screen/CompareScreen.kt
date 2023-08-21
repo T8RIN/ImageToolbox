@@ -73,6 +73,7 @@ import dev.olshevski.navigation.reimagined.hilt.hiltViewModel
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.presentation.compare_screen.viewModel.CompareViewModel
+import ru.tech.imageresizershrinker.presentation.erase_background_screen.components.transparencyChecker
 import ru.tech.imageresizershrinker.presentation.root.theme.blend
 import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.Picker
@@ -277,7 +278,8 @@ fun CompareScreen(
                                             .navigationBarsPadding()
                                             .block(RoundedCornerShape(4.dp))
                                             .padding(4.dp)
-                                            .clip(RoundedCornerShape(4.dp)),
+                                            .clip(RoundedCornerShape(4.dp))
+                                            .transparencyChecker(),
                                         progress = animateFloatAsState(targetValue = progress).value,
                                         onProgressChange = {
                                             progress = it
@@ -309,7 +311,8 @@ fun CompareScreen(
                                                         .navBarsPaddingOnlyIfTheyAtTheBottom()
                                                         .block(RoundedCornerShape(4.dp))
                                                         .padding(4.dp)
-                                                        .clip(RoundedCornerShape(4.dp)),
+                                                        .clip(RoundedCornerShape(4.dp))
+                                                        .transparencyChecker(),
                                                     progress = animateFloatAsState(targetValue = progress).value,
                                                     onProgressChange = {
                                                         progress = it

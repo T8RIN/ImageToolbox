@@ -83,6 +83,7 @@ import dev.olshevski.navigation.reimagined.navigate
 import dev.olshevski.navigation.reimagined.pop
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.R
+import ru.tech.imageresizershrinker.presentation.erase_background_screen.components.transparencyChecker
 import ru.tech.imageresizershrinker.presentation.pick_color_from_image_screen.viewModel.PickColorViewModel
 import ru.tech.imageresizershrinker.presentation.root.theme.icons.PaletteSwatch
 import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
@@ -508,7 +509,8 @@ fun PickColorFromImageScreen(
                                     .padding(16.dp)
                                     .navBarsPaddingOnlyIfTheyAtTheEnd()
                                     .block(resultPadding = 8.dp)
-                                    .clip(RoundedCornerShape(12.dp)),
+                                    .clip(RoundedCornerShape(12.dp))
+                                    .transparencyChecker(),
                                 onColorChange = viewModel::updateColor
                             )
                         }
@@ -531,7 +533,8 @@ fun PickColorFromImageScreen(
                                                 .fillMaxSize()
                                                 .navBarsPaddingOnlyIfTheyAtTheBottom()
                                                 .block(resultPadding = 8.dp)
-                                                .clip(RoundedCornerShape(12.dp)),
+                                                .clip(RoundedCornerShape(12.dp))
+                                                .transparencyChecker(),
                                             onColorChange = viewModel::updateColor
                                         )
                                     }
