@@ -343,4 +343,6 @@
     <string name="trim_image">Couper l’image</string>
     <string name="keep_exif_sub">Les métadonnées d\'origine de l\'image seront conservées si elles sont activées</string>
     <string name="trim_image_sub">L\'espace transparent autour de l\'image sera coupé</string>
+    <string name="auto_erase_background">Effacement automatique de l\'arrière-plan</string>
+    <string name="restore_image">Restaurer l\'image</string>
 </resources>
