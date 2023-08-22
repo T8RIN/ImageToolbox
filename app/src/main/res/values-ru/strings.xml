@@ -354,4 +354,5 @@
     <string name="restore_background">Восстановление фона</string>
     <string name="blur_radius">Радиус размытия</string>
     <string name="auto_erase_background">Автоматическое удаление фона</string>
+    <string name="pipette">Пипетка</string>
 </resources>
