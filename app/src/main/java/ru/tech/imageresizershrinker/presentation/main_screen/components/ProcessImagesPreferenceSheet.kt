@@ -29,7 +29,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
@@ -126,8 +125,7 @@ fun ProcessImagesPreferenceSheet(
                                     Picture(
                                         model = uri,
                                         shape = MaterialTheme.shapes.extraLarge,
-                                        modifier = Modifier.fillMaxSize(),
-                                        contentScale = ContentScale.Fit
+                                        modifier = Modifier.fillMaxSize()
                                     )
                                     if (extra > 0) {
                                         Box(
