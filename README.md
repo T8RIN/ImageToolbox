@@ -148,8 +148,13 @@ Go to the [Releases](https://github.com/t8rin/imageresizer/releases/latest) and 
 - AES-256 GCM No Padding files encryption and decryption
 - EXIF metadata editing/deleting
 - Loading images from internet
-- Background Erasing
+- Background Removing
+  - By drawing
+  - Automatical
 - Drawing on Image/Background
+  - Pen
+  - Neon
+  - Highlighter
 - Image Resizing
   - Width changing
   - Height changing
