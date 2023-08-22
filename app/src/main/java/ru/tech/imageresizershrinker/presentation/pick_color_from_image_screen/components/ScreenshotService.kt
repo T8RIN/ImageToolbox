@@ -75,7 +75,7 @@ class ScreenshotService : Service() {
         }
         startCapture(mediaProjectionManager.getMediaProjection(resultCode, data!!), intent)
 
-        return START_STICKY
+        return START_REDELIVER_INTENT
     }
 
     private fun startCapture(mediaProjection: MediaProjection, intent: Intent?) {
@@ -164,7 +164,7 @@ class ScreenshotService : Service() {
                             Toast.makeText(
                                 this@ScreenshotService,
                                 this@ScreenshotService.getString(
-                                    R.string.saved_to,
+                                    R.string.saved_to_without_filename,
                                     fileController.savingPath
                                 ),
                                 Toast.LENGTH_SHORT

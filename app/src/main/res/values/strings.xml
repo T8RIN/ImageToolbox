@@ -366,6 +366,8 @@
     <string name="blur_radius">Blur radius</string>
     <string name="pipette">Pipette</string>
     <string name="draw_mode">Draw mode</string>
+    <string name="create_issue">Create Issue</string>
+    <string name="something_went_wrong_emphasis">Ooops... Something went wrong, write to me using options below and i\'ll try to find solution</string>
     <string-array name="fab_alignment_sub">
         <item>Start</item>
         <item>Center</item>
