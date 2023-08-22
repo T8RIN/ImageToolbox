@@ -347,7 +347,15 @@ fun DrawHost(
                                         DrawBackgroundSelector(drawController)
                                         DrawColorSelector(drawController)
                                         DrawAlphaSelector(drawController)
-                                        LineWidthSelector(drawController)
+                                        LineWidthSelector(
+                                            modifier = Modifier.padding(
+                                                start = 16.dp,
+                                                end = 16.dp,
+                                                bottom = 16.dp
+                                            ),
+                                            strokeWidth = drawController.paintOptions.strokeWidth,
+                                            onChangeStrokeWidth = { drawController.setStrokeWidth(it) }
+                                        )
                                         ExtensionGroup(
                                             modifier = Modifier
                                                 .padding(16.dp)
@@ -515,7 +523,15 @@ fun DrawHost(
                                         Spacer(Modifier.height(16.dp))
                                         DrawColorSelector(drawController)
                                         DrawAlphaSelector(drawController)
-                                        LineWidthSelector(drawController)
+                                        LineWidthSelector(
+                                            modifier = Modifier.padding(
+                                                start = 16.dp,
+                                                end = 16.dp,
+                                                bottom = 16.dp
+                                            ),
+                                            strokeWidth = drawController.paintOptions.strokeWidth,
+                                            onChangeStrokeWidth = { drawController.setStrokeWidth(it) }
+                                        )
                                         ExtensionGroup(
                                             modifier = Modifier
                                                 .padding(16.dp)

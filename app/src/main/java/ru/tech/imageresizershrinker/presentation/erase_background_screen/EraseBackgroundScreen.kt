@@ -42,6 +42,7 @@ import androidx.compose.material.icons.outlined.Delete
 import androidx.compose.material.icons.outlined.Share
 import androidx.compose.material.icons.rounded.AddPhotoAlternate
 import androidx.compose.material.icons.rounded.ArrowBack
+import androidx.compose.material.icons.rounded.BlurCircular
 import androidx.compose.material.icons.rounded.Build
 import androidx.compose.material.icons.rounded.Redo
 import androidx.compose.material.icons.rounded.Save
@@ -102,6 +103,7 @@ import dev.olshevski.navigation.reimagined.hilt.hiltViewModel
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.domain.model.ImageFormat
+import ru.tech.imageresizershrinker.presentation.draw_screen.components.LineWidthSelector
 import ru.tech.imageresizershrinker.presentation.erase_background_screen.components.AutoEraseBackgroundCard
 import ru.tech.imageresizershrinker.presentation.erase_background_screen.components.BitmapEraser
 import ru.tech.imageresizershrinker.presentation.erase_background_screen.components.EraseModeCard
@@ -229,7 +231,8 @@ fun EraseBackgroundScreen(
         }
     }
 
-    var strokeWidth by rememberSaveable { mutableFloatStateOf(10f) }
+    var strokeWidth by rememberSaveable { mutableFloatStateOf(20f) }
+    var blurRadius by rememberSaveable { mutableFloatStateOf(0f) }
 
     val configuration = LocalConfiguration.current
     val sizeClass = LocalWindowSizeClass.current.widthSizeClass
@@ -303,6 +306,7 @@ fun EraseBackgroundScreen(
                     imageBitmap = imageBitmap,
                     paths = viewModel.paths,
                     strokeWidth = strokeWidth,
+                    blurRadius = blurRadius,
                     onAddPath = viewModel::addPath,
                     isRecoveryOn = viewModel.isRecoveryOn,
                     modifier = Modifier
@@ -402,6 +406,11 @@ fun EraseBackgroundScreen(
                 },
                 onReset = viewModel::resetImage
             )
+            LineWidthSelector(
+                modifier = Modifier.padding(start = 16.dp, end = 16.dp, top = 8.dp),
+                strokeWidth = strokeWidth,
+                onChangeStrokeWidth = { strokeWidth = it }
+            )
             Column(
                 modifier = Modifier
                     .padding(top = 8.dp, end = 16.dp, start = 16.dp)
@@ -411,8 +420,17 @@ fun EraseBackgroundScreen(
                 Row(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
+                    Icon(
+                        imageVector = Icons.Rounded.BlurCircular,
+                        contentDescription = null,
+                        modifier = Modifier
+                            .padding(
+                                top = 16.dp,
+                                start = 16.dp
+                            )
+                    )
                     Text(
-                        text = stringResource(R.string.line_width),
+                        text = stringResource(R.string.blur_radius),
                         modifier = Modifier
                             .padding(
                                 top = 16.dp,
@@ -422,7 +440,7 @@ fun EraseBackgroundScreen(
                             .weight(1f)
                     )
                     Text(
-                        text = "$strokeWidth",
+                        text = "$blurRadius",
                         color = MaterialTheme.colorScheme.onSurface.copy(
                             alpha = 0.5f
                         ),
@@ -463,13 +481,12 @@ fun EraseBackgroundScreen(
                         )
                         .padding(horizontal = 10.dp),
                     colors = SliderDefaults.colors(
-                        inactiveTrackColor =
-                        MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.secondaryContainer)
+                        inactiveTrackColor = MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.secondaryContainer)
                     ),
-                    value = strokeWidth,
+                    value = blurRadius,
                     valueRange = 1f..100f,
                     onValueChange = {
-                        strokeWidth = it.roundToTwoDigits()
+                        blurRadius = it.roundToTwoDigits()
                     }
                 )
             }

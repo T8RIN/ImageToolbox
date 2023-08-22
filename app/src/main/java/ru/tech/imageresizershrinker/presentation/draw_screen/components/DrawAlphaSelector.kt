@@ -10,6 +10,9 @@ import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.Opacity
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Slider
 import androidx.compose.material3.SliderDefaults
@@ -39,6 +42,15 @@ fun DrawAlphaSelector(drawController: DrawController) {
         Row(
             verticalAlignment = Alignment.CenterVertically
         ) {
+            Icon(
+                imageVector = Icons.Rounded.Opacity,
+                contentDescription = null,
+                modifier = Modifier
+                    .padding(
+                        top = 16.dp,
+                        start = 16.dp
+                    )
+            )
             Text(
                 text = stringResource(R.string.paint_alpha),
                 modifier = Modifier

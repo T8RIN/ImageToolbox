@@ -36,7 +36,7 @@ fun OpenColorPickerCard(
         verticalAlignment = Alignment.CenterVertically
     ) {
         Text(
-            text = stringResource(id = R.string.pick_color),
+            text = stringResource(id = R.string.pipette),
             modifier = Modifier.weight(1f),
             color = MaterialTheme.colorScheme.onMixedColor
         )

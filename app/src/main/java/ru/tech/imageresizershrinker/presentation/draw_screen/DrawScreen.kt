@@ -74,7 +74,6 @@ import androidx.compose.ui.unit.max
 import com.t8rin.dynamic.theme.LocalDynamicThemeState
 import com.t8rin.dynamic.theme.getAppColorTuple
 import com.t8rin.dynamic.theme.observeAsState
-import dev.olshevski.navigation.reimagined.NavAction
 import dev.olshevski.navigation.reimagined.hilt.hiltViewModel
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.presentation.draw_screen.components.DrawAlphaSelector
@@ -386,7 +385,15 @@ fun DrawScreen(
                                     }
                                     DrawColorSelector(drawController)
                                     DrawAlphaSelector(drawController)
-                                    LineWidthSelector(drawController)
+                                    LineWidthSelector(
+                                        modifier = Modifier.padding(
+                                            start = 16.dp,
+                                            end = 16.dp,
+                                            bottom = 16.dp
+                                        ),
+                                        strokeWidth = drawController.paintOptions.strokeWidth,
+                                        onChangeStrokeWidth = { drawController.setStrokeWidth(it) }
+                                    )
                                     ExtensionGroup(
                                         modifier = Modifier
                                             .padding(16.dp)

@@ -1,8 +1,8 @@
 package ru.tech.imageresizershrinker.presentation.erase_background_screen.components
 
 import android.graphics.Bitmap
+import android.graphics.BlurMaskFilter
 import android.graphics.PorterDuff
-import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
@@ -46,7 +46,6 @@ import com.smarttoolfactory.gesture.pointerMotionEvents
 import com.smarttoolfactory.image.util.update
 import com.smarttoolfactory.image.zoom.animatedZoom
 import com.smarttoolfactory.image.zoom.rememberAnimatedZoomState
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
 
@@ -55,6 +54,7 @@ fun BitmapEraser(
     imageBitmap: ImageBitmap,
     imageBitmapForShader: ImageBitmap?,
     paths: List<PathPaint>,
+    blurRadius: Float,
     onAddPath: (PathPaint) -> Unit,
     strokeWidth: Float,
     isRecoveryOn: Boolean = false,
@@ -175,11 +175,13 @@ fun BitmapEraser(
                         motionEvent = MotionEvent.Idle
                         onAddPath(
                             PathPaint(
-                                drawPath, drawPaint, isRecoveryOn
+                                path = drawPath,
+                                strokeWidth = strokeWidth,
+                                blurRadius = blurRadius,
+                                isRecoveryOn = isRecoveryOn
                             )
                         )
                         scope.launch {
-                            delay(100L)
                             drawPath = Path()
                         }
                     }
@@ -197,14 +199,32 @@ fun BitmapEraser(
                         paint = paint
                     )
 
-                    paths.forEach { (path, paint) ->
+                    paths.forEach { (path, stroke, radius, isRecoveryOn) ->
                         this.drawPath(
                             path.asAndroidPath(),
-                            paint.asFrameworkPaint()
-                                .also { Log.d("COCK", it.shader?.toString() ?: "") })
+                            Paint().apply {
+                                blendMode = if (isRecoveryOn) blendMode else BlendMode.Clear
+                                style = PaintingStyle.Stroke
+                                strokeCap = StrokeCap.Round
+                                shader =
+                                    if (isRecoveryOn) shaderBitmap?.let { ImageShader(it) } else shader
+                                this.strokeWidth = stroke
+                                strokeJoin = StrokeJoin.Round
+                                isAntiAlias = true
+                            }.asFrameworkPaint().apply {
+                                if (radius > 0f) maskFilter =
+                                    BlurMaskFilter(radius, BlurMaskFilter.Blur.NORMAL)
+                            }
+                        )
                     }
 
-                    this.drawPath(drawPath.asAndroidPath(), drawPaint.asFrameworkPaint())
+                    this.drawPath(
+                        drawPath.asAndroidPath(),
+                        drawPaint.asFrameworkPaint().apply {
+                            if (blurRadius > 0f) maskFilter =
+                                BlurMaskFilter(blurRadius, BlurMaskFilter.Blur.NORMAL)
+                        }
+                    )
                 }
             }
 
