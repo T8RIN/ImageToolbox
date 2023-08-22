@@ -266,9 +266,7 @@ class FilterViewModel @Inject constructor(
             uri = uri.toString(),
             originalSize = true,
             onGetImage = {
-                uris?.firstOrNull()?.let { uri ->
-                    setBitmap(uri)
-                }
+                setBitmap(uri)
                 setMime(it.imageInfo.imageFormat)
             },
             onError = onError
