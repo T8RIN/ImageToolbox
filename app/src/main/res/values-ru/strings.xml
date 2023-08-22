@@ -348,4 +348,12 @@
     <string name="activities">Активности</string>
     <string name="trim_image">Обрезать изображение</string>
     <string name="background_remover">Удаление фона</string>
+    <string name="restore_image">Восстановить изображение</string>
+    <string name="erase_mode">Режим стирания</string>
+    <string name="erase_background">Стирание фона</string>
+    <string name="restore_background">Восстановление фона</string>
+    <string name="blur_radius">Радиус размытия</string>
+    <string name="auto_erase_background">Автоматическое удаление фона</string>
+    <string name="pipette">Пипетка</string>
+    <string name="draw_mode">Режим рисования</string>
 </resources>

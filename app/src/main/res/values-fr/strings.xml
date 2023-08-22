@@ -330,4 +330,24 @@
     <string name="defaultt">Défaut</string>
     <string name="using_large_fonts_warn">L’utilisation de grandes échelles de police peut provoquer des erreurs d’interface utilisateur qui ne seront pas corrigées, utilisez-la si vous voulez seulement</string>
     <string name="alphabet_and_numbers">Aa Bb Cc Dd Ee Ff Gg Hh Ii Jj Kk Ll Mm Nn Oo Pp Qq Rr Ss Tt Uu Vv Ww Xx Yy Zz 0123456789 !\?</string>
+    <string name="emotions">Emotions</string>
+    <string name="food_and_drink">Nourriture et Boisson</string>
+    <string name="nature_and_animals">Nature et Animaux</string>
+    <string name="objects">Objets</string>
+    <string name="symbols">Symboles</string>
+    <string name="enable_emoji">Activer les emoji</string>
+    <string name="travels_and_places">Voyages et lieux</string>
+    <string name="activities">Activités</string>
+    <string name="background_remover">Suppresseur d\'arrière-plan</string>
+    <string name="background_remover_sub">Supprimer l’arrière-plan de l’image par dessin ou utiliser l’option Auto</string>
+    <string name="trim_image">Couper l’image</string>
+    <string name="keep_exif_sub">Les métadonnées d\'origine de l\'image seront conservées si elles sont activées</string>
+    <string name="trim_image_sub">L\'espace transparent autour de l\'image sera coupé</string>
+    <string name="auto_erase_background">Effacement automatique de l\'arrière-plan</string>
+    <string name="restore_image">Restaurer l\'image</string>
+    <string name="erase_mode">Mode Effacer</string>
+    <string name="erase_background">Effacer l\'arrière-plan</string>
+    <string name="blur_radius">Rayon de flou</string>
+    <string name="pipette">Pipette</string>
+    <string name="restore_background">Restaurer l\'arrière-plan</string>
 </resources>
