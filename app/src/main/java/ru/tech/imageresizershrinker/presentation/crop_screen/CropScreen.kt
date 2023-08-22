@@ -616,7 +616,7 @@ fun CropScreen(
                                 }
                                 AnimatedVisibility(viewModel.isBitmapChanged) {
                                     Row {
-                                        Spacer(modifier = Modifier.width(16.dp))
+                                        Spacer(modifier = Modifier.width(8.dp))
                                         FloatingActionButton(
                                             onClick = {
                                                 viewModel.bitmap?.let(saveBitmap)

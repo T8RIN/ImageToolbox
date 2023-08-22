@@ -555,7 +555,7 @@ fun DrawScreen(
                                         ) {
                                             Icon(Icons.Rounded.AddPhotoAlternate, null)
                                         }
-                                        Spacer(modifier = Modifier.width(16.dp))
+                                        Spacer(modifier = Modifier.width(8.dp))
                                     }
                                     FloatingActionButton(
                                         onClick = saveBitmap,

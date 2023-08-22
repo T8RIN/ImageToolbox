@@ -70,7 +70,7 @@ fun BottomButtonsBlock(
                         }
                         AnimatedVisibility(visible = canSave) {
                             Row {
-                                Spacer(Modifier.width(16.dp))
+                                Spacer(Modifier.width(8.dp))
                                 FloatingActionButton(
                                     onClick = onSaveBitmap,
                                     elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),

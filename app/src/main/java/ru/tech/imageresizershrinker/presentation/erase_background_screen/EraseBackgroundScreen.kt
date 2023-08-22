@@ -98,6 +98,7 @@ import ru.tech.imageresizershrinker.presentation.draw_screen.components.BlurRadi
 import ru.tech.imageresizershrinker.presentation.draw_screen.components.LineWidthSelector
 import ru.tech.imageresizershrinker.presentation.erase_background_screen.components.AutoEraseBackgroundCard
 import ru.tech.imageresizershrinker.presentation.erase_background_screen.components.BitmapEraser
+import ru.tech.imageresizershrinker.presentation.erase_background_screen.components.EraseModeButton
 import ru.tech.imageresizershrinker.presentation.erase_background_screen.components.EraseModeCard
 import ru.tech.imageresizershrinker.presentation.erase_background_screen.components.TrimImageToggle
 import ru.tech.imageresizershrinker.presentation.erase_background_screen.viewModel.EraseBackgroundViewModel
@@ -446,6 +447,10 @@ fun EraseBackgroundScreen(
                         modifier = Modifier.drawHorizontalStroke(true),
                         actions = {
                             secondaryControls()
+                            EraseModeButton(
+                                isRecoveryOn = viewModel.isRecoveryOn,
+                                onClick = viewModel::toggleEraser
+                            )
                         },
                         floatingActionButton = {
                             Row {
@@ -457,7 +462,7 @@ fun EraseBackgroundScreen(
                                 ) {
                                     Icon(Icons.Rounded.AddPhotoAlternate, null)
                                 }
-                                Spacer(modifier = Modifier.width(16.dp))
+                                Spacer(modifier = Modifier.width(8.dp))
                                 FloatingActionButton(
                                     onClick = saveBitmap,
                                     modifier = Modifier.fabBorder(),
