@@ -200,7 +200,9 @@ fun LoadNetImageScreen(
                 shape = MaterialTheme.shapes.small,
                 error = {
                     Column(
-                        Modifier.fillMaxWidth(),
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .background(MaterialTheme.colorScheme.surfaceColorAtElevation(1.dp)),
                         horizontalAlignment = Alignment.CenterHorizontally,
                         verticalArrangement = Arrangement.Center
                     ) {

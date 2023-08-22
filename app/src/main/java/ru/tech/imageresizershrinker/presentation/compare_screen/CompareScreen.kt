@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.offset
@@ -67,6 +68,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.Constraints
 import androidx.compose.ui.unit.dp
 import com.smarttoolfactory.beforeafter.BeforeAfterImage
+import com.smarttoolfactory.image.zoom.animatedZoom
+import com.smarttoolfactory.image.zoom.rememberAnimatedZoomState
 import com.t8rin.dynamic.theme.LocalDynamicThemeState
 import com.t8rin.dynamic.theme.extractPrimaryColor
 import dev.olshevski.navigation.reimagined.hilt.hiltViewModel
@@ -266,40 +269,96 @@ fun CompareScreen(
             AnimatedContent(viewModel.bitmapData == null) { nil ->
                 viewModel.bitmapData.takeIf { !nil }?.let { bitmapPair ->
                     if (portrait) {
-                        AnimatedContent(targetState = bitmapPair) { data ->
-                            data.let { (b, a) ->
-                                val before = remember(data) { b?.asImageBitmap() }
-                                val after = remember(data) { a?.asImageBitmap() }
-                                if (before != null && after != null) {
-                                    BeforeAfterImage(
-                                        modifier = Modifier
-                                            .padding(bottom = 88.dp)
-                                            .padding(16.dp)
-                                            .navigationBarsPadding()
-                                            .block(RoundedCornerShape(4.dp))
-                                            .padding(4.dp)
-                                            .clip(RoundedCornerShape(4.dp))
-                                            .transparencyChecker(),
-                                        progress = animateFloatAsState(targetValue = progress).value,
-                                        onProgressChange = {
-                                            progress = it
-                                        },
-                                        beforeImage = before,
-                                        afterImage = after,
-                                        beforeLabel = { },
-                                        afterLabel = { }
-                                    )
+                        Column {
+                            Box(
+                                contentAlignment = Alignment.Center,
+                                modifier = Modifier
+                                    .weight(1f)
+                                    .fillMaxWidth()
+                                    .animatedZoom(animatedZoomState = rememberAnimatedZoomState())
+                            ) {
+                                AnimatedContent(targetState = bitmapPair) { data ->
+                                    data.let { (b, a) ->
+                                        val before = remember(data) { b?.asImageBitmap() }
+                                        val after = remember(data) { a?.asImageBitmap() }
+                                        if (before != null && after != null) {
+                                            BeforeAfterImage(
+                                                modifier = Modifier
+                                                    .padding(16.dp)
+                                                    .block(RoundedCornerShape(16.dp))
+                                                    .padding(4.dp)
+                                                    .clip(RoundedCornerShape(12.dp))
+                                                    .transparencyChecker(),
+                                                progress = animateFloatAsState(targetValue = progress).value,
+                                                onProgressChange = {
+                                                    progress = it
+                                                },
+                                                enableZoom = false,
+                                                beforeImage = before,
+                                                afterImage = after,
+                                                beforeLabel = { },
+                                                afterLabel = { }
+                                            )
+                                        }
+                                    }
                                 }
                             }
+                            BottomAppBar(
+                                modifier = Modifier.drawHorizontalStroke(true),
+                                floatingActionButton = {
+                                    FloatingActionButton(
+                                        onClick = pickImage,
+                                        modifier = Modifier.fabBorder(),
+                                        elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation()
+                                    ) {
+                                        Icon(Icons.Rounded.AddPhotoAlternate, null)
+                                    }
+                                },
+                                actions = {
+                                    Slider(
+                                        modifier = Modifier
+                                            .padding(horizontal = 16.dp)
+                                            .weight(100f, true)
+                                            .offset(y = (-2).dp)
+                                            .background(
+                                                color = MaterialTheme.colorScheme.secondaryContainer,
+                                                shape = CircleShape
+                                            )
+                                            .border(
+                                                width = settingsState.borderWidth,
+                                                color = MaterialTheme.colorScheme.outlineVariant(
+                                                    onTopOf = MaterialTheme.colorScheme.secondaryContainer
+                                                ),
+                                                shape = CircleShape
+                                            )
+                                            .padding(horizontal = 16.dp),
+                                        colors = SliderDefaults.colors(
+                                            inactiveTrackColor =
+                                            MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.secondaryContainer)
+                                        ),
+                                        value = animateFloatAsState(targetValue = progress).value,
+                                        onValueChange = {
+                                            progress = it
+                                        },
+                                        valueRange = 0f..100f
+                                    )
+                                }
+                            )
                         }
                     } else {
                         Row {
                             Box(
                                 Modifier
                                     .weight(0.8f)
+                                    .animatedZoom(animatedZoomState = rememberAnimatedZoomState())
                                     .padding(20.dp)
                             ) {
-                                Box(Modifier.align(Alignment.Center)) {
+                                Box(
+                                    Modifier
+                                        .align(Alignment.Center)
+                                        .fillMaxSize(),
+                                    contentAlignment = Alignment.Center
+                                ) {
                                     AnimatedContent(targetState = bitmapPair) { data ->
                                         data.let { (b, a) ->
                                             val before = remember(data) { b?.asImageBitmap() }
@@ -307,11 +366,12 @@ fun CompareScreen(
 
                                             if (before != null && after != null) {
                                                 BeforeAfterImage(
+                                                    enableZoom = false,
                                                     modifier = Modifier
                                                         .navBarsPaddingOnlyIfTheyAtTheBottom()
-                                                        .block(RoundedCornerShape(4.dp))
+                                                        .block(RoundedCornerShape(16.dp))
                                                         .padding(4.dp)
-                                                        .clip(RoundedCornerShape(4.dp))
+                                                        .clip(RoundedCornerShape(12.dp))
                                                         .transparencyChecker(),
                                                     progress = animateFloatAsState(targetValue = progress).value,
                                                     onProgressChange = {
@@ -394,8 +454,6 @@ fun CompareScreen(
                                     Icon(Icons.Rounded.AddPhotoAlternate, null)
                                 }
                             }
-
-
                         }
                     }
                 } ?: Column(Modifier.verticalScroll(scrollState)) {
@@ -424,48 +482,6 @@ fun CompareScreen(
                 },
                 text = {
                     Text(stringResource(R.string.pick_images))
-                }
-            )
-        } else if (portrait) {
-            BottomAppBar(
-                modifier = Modifier
-                    .drawHorizontalStroke(true)
-                    .align(Alignment.BottomCenter),
-                floatingActionButton = {
-                    FloatingActionButton(
-                        onClick = pickImage,
-                        modifier = Modifier.fabBorder(),
-                        elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation()
-                    ) {
-                        Icon(Icons.Rounded.AddPhotoAlternate, null)
-                    }
-                },
-                actions = {
-                    Slider(
-                        modifier = Modifier
-                            .padding(horizontal = 16.dp)
-                            .weight(100f, true)
-                            .offset(y = (-2).dp)
-                            .background(
-                                color = MaterialTheme.colorScheme.secondaryContainer,
-                                shape = CircleShape
-                            )
-                            .border(
-                                width = settingsState.borderWidth,
-                                color = MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.secondaryContainer),
-                                shape = CircleShape
-                            )
-                            .padding(horizontal = 16.dp),
-                        colors = SliderDefaults.colors(
-                            inactiveTrackColor =
-                            MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.secondaryContainer)
-                        ),
-                        value = animateFloatAsState(targetValue = progress).value,
-                        onValueChange = {
-                            progress = it
-                        },
-                        valueRange = 0f..100f
-                    )
                 }
             )
         }
