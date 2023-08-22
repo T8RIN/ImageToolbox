@@ -3,10 +3,8 @@ package ru.tech.imageresizershrinker.presentation.erase_background_screen.compon
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.ContentCut
@@ -26,7 +24,7 @@ import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.block
 
 @Composable
-fun TrimImageSelector(
+fun TrimImageToggle(
     selected: Boolean,
     onCheckedChange: (Boolean) -> Unit,
     modifier: Modifier = Modifier
@@ -40,7 +38,10 @@ fun TrimImageSelector(
         verticalAlignment = Alignment.CenterVertically
     ) {
         Icon(Icons.Rounded.ContentCut, null, modifier = Modifier.defaultMinSize(24.dp, 24.dp))
-        Column(Modifier.weight(1f).padding(start = 16.dp, end = 16.dp, top = 6.dp, bottom = 8.dp)) {
+        Column(
+            Modifier
+                .weight(1f)
+                .padding(start = 16.dp, end = 16.dp, top = 6.dp, bottom = 8.dp)) {
             Text(
                 text = stringResource(R.string.trim_image),
                 fontWeight = FontWeight.Medium

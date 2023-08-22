@@ -1,6 +1,7 @@
 package ru.tech.imageresizershrinker.presentation.draw_screen.components
 
 import androidx.compose.animation.animateContentSize
+import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Column
@@ -107,7 +108,7 @@ fun BlurRadiusSelector(
             colors = SliderDefaults.colors(
                 inactiveTrackColor = MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.secondaryContainer)
             ),
-            value = blurRadius,
+            value = animateFloatAsState(targetValue = blurRadius).value,
             valueRange = 0f..100f,
             onValueChange = {
                 onRadiusChange(it.roundToTwoDigits())

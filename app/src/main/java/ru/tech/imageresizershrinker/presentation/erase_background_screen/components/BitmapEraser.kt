@@ -195,7 +195,7 @@ fun BitmapEraser(
                         paint = paint
                     )
 
-                    paths.forEach { (path, stroke, radius, isRecoveryOn) ->
+                    paths.forEach { (path, stroke, radius, _, isRecoveryOn) ->
                         this.drawPath(
                             path.asAndroidPath(),
                             Paint().apply {

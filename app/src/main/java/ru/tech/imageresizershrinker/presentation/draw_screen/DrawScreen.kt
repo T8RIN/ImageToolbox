@@ -1,3 +1,5 @@
+@file:Suppress("PrivatePropertyName")
+
 package ru.tech.imageresizershrinker.presentation.draw_screen
 
 
@@ -7,6 +9,7 @@ import android.net.Uri
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.CubicBezierEasing
 import androidx.compose.animation.core.tween
@@ -67,6 +70,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.Saver
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
@@ -89,10 +93,12 @@ import ru.tech.imageresizershrinker.presentation.draw_screen.components.DrawBack
 import ru.tech.imageresizershrinker.presentation.draw_screen.components.DrawBehavior
 import ru.tech.imageresizershrinker.presentation.draw_screen.components.DrawColorSelector
 import ru.tech.imageresizershrinker.presentation.draw_screen.components.DrawHost
+import ru.tech.imageresizershrinker.presentation.draw_screen.components.DrawModeSelector
 import ru.tech.imageresizershrinker.presentation.draw_screen.components.LineWidthSelector
 import ru.tech.imageresizershrinker.presentation.draw_screen.components.OpenColorPickerCard
 import ru.tech.imageresizershrinker.presentation.draw_screen.components.PickColorFromImageSheet
 import ru.tech.imageresizershrinker.presentation.draw_screen.viewModel.DrawViewModel
+import ru.tech.imageresizershrinker.presentation.erase_background_screen.components.DrawMode
 import ru.tech.imageresizershrinker.presentation.root.theme.icons.Eraser
 import ru.tech.imageresizershrinker.presentation.root.theme.mixedColor
 import ru.tech.imageresizershrinker.presentation.root.theme.onMixedColor
@@ -120,6 +126,11 @@ import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalWindowSi
 private val ColorSaver: Saver<Color, Int> = Saver(
     save = { it.toArgb() },
     restore = { Color(it) }
+)
+
+private val DrawModeSaver: Saver<DrawMode, Int> = Saver(
+    save = { it.ordinal },
+    restore = { DrawMode(it) }
 )
 
 @SuppressLint("AutoboxingStateCreation")
@@ -274,7 +285,6 @@ fun DrawScreen(
     }
 
     var strokeWidth by rememberSaveable(viewModel.drawBehavior) { mutableFloatStateOf(20f) }
-    var blurRadius by rememberSaveable(viewModel.drawBehavior) { mutableFloatStateOf(0f) }
     var backgroundColor by rememberSaveable(
         stateSaver = ColorSaver,
         inputs = arrayOf(viewModel.drawBehavior)
@@ -289,7 +299,17 @@ fun DrawScreen(
         stateSaver = ColorSaver,
         inputs = arrayOf(viewModel.drawBehavior)
     ) { mutableStateOf(Color.Black) }
-    var alpha by rememberSaveable(viewModel.drawBehavior) { mutableStateOf(1f) }
+    var isEraserOn by rememberSaveable(viewModel.drawBehavior) { mutableStateOf(false) }
+    var drawMode by rememberSaveable(
+        stateSaver = DrawModeSaver,
+        inputs = arrayOf(viewModel.drawBehavior)
+    ) { mutableStateOf(DrawMode.Pen) }
+    var alpha by rememberSaveable(viewModel.drawBehavior, drawMode) {
+        mutableFloatStateOf(if (drawMode is DrawMode.Highlighter) 0.4f else 1f)
+    }
+    var blurRadius by rememberSaveable(viewModel.drawBehavior, drawMode) {
+        mutableFloatStateOf(if (drawMode is DrawMode.Neon) 35f else 0f)
+    }
 
     val controls = @Composable {
         OpenColorPickerCard(
@@ -307,12 +327,14 @@ fun DrawScreen(
             strokeWidth = strokeWidth,
             onChangeStrokeWidth = { strokeWidth = it }
         )
-        BlurRadiusSelector(
-            modifier = Modifier
-                .padding(top = 16.dp, end = 16.dp, start = 16.dp),
-            blurRadius = blurRadius,
-            onRadiusChange = { blurRadius = it }
-        )
+        AnimatedVisibility(visible = drawMode !is DrawMode.Highlighter) {
+            BlurRadiusSelector(
+                modifier = Modifier
+                    .padding(top = 16.dp, end = 16.dp, start = 16.dp),
+                blurRadius = blurRadius,
+                onRadiusChange = { blurRadius = it }
+            )
+        }
         if (viewModel.drawBehavior is DrawBehavior.Background) {
             DrawBackgroundSelector(
                 backgroundColor = backgroundColor,
@@ -325,9 +347,20 @@ fun DrawScreen(
             drawColor = drawColor,
             onColorChange = { drawColor = it }
         )
-        DrawAlphaSelector(
-            alpha = alpha,
-            onAlphaChange = { alpha = it }
+        AnimatedVisibility(visible = drawMode !is DrawMode.Neon) {
+            DrawAlphaSelector(
+                alpha = alpha,
+                onAlphaChange = { alpha = it }
+            )
+        }
+        DrawModeSelector(
+            modifier = Modifier.padding(
+                start = 16.dp,
+                end = 16.dp,
+                bottom = 16.dp
+            ),
+            drawMode = drawMode,
+            onDrawModeChange = { drawMode = it }
         )
         SaveExifWidget(
             modifier = Modifier.padding(horizontal = 16.dp),
@@ -373,7 +406,6 @@ fun DrawScreen(
             ) {
                 Icon(Icons.Rounded.Redo, null)
             }
-            val isEraserOn = viewModel.isEraserOn
             OutlinedIconButton(
                 colors = IconButtonDefaults.filledIconButtonColors(
                     containerColor = animateColorAsState(
@@ -387,7 +419,9 @@ fun DrawScreen(
                     disabledContainerColor = Color.Transparent
                 ),
                 border = border,
-                onClick = viewModel::toggleEraser
+                onClick = {
+                    isEraserOn = !isEraserOn
+                }
             ) {
                 Icon(Icons.Rounded.Eraser, null)
             }
@@ -411,7 +445,8 @@ fun DrawScreen(
             onBack = onBack,
             onShare = { viewModel.shareBitmap { showConfetti() } },
             paths = viewModel.paths,
-            isEraserOn = viewModel.isEraserOn,
+            isEraserOn = isEraserOn,
+            drawMode = drawMode,
             backgroundColor = backgroundColor,
             drawColor = drawColor.copy(alpha),
             drawAlpha = alpha,
@@ -486,7 +521,6 @@ fun DrawScreen(
                                 ) {
                                     Icon(Icons.Rounded.Redo, null)
                                 }
-                                val isEraserOn = viewModel.isEraserOn
                                 OutlinedIconButton(
                                     colors = IconButtonDefaults.filledIconButtonColors(
                                         containerColor = animateColorAsState(
@@ -505,7 +539,7 @@ fun DrawScreen(
                                             else Color.Transparent
                                         ).value
                                     ),
-                                    onClick = { viewModel.toggleEraser() }
+                                    onClick = { isEraserOn = !isEraserOn }
                                 ) {
                                     Icon(Icons.Rounded.Eraser, null)
                                 }
@@ -534,7 +568,7 @@ fun DrawScreen(
                             }
                         )
                         HorizontalDivider()
-                        LazyColumn {
+                        LazyColumn(horizontalAlignment = Alignment.CenterHorizontally) {
                             item {
                                 controls()
                             }

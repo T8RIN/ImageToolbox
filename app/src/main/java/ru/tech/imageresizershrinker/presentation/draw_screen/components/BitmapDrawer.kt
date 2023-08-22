@@ -46,9 +46,11 @@ import com.smarttoolfactory.image.util.update
 import com.smarttoolfactory.image.zoom.animatedZoom
 import com.smarttoolfactory.image.zoom.rememberAnimatedZoomState
 import kotlinx.coroutines.launch
+import ru.tech.imageresizershrinker.presentation.erase_background_screen.components.DrawMode
 import ru.tech.imageresizershrinker.presentation.erase_background_screen.components.PathPaint
 import ru.tech.imageresizershrinker.presentation.erase_background_screen.components.transparencyChecker
 import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
+
 
 @Composable
 fun BitmapDrawer(
@@ -58,6 +60,7 @@ fun BitmapDrawer(
     onAddPath: (PathPaint) -> Unit,
     strokeWidth: Float,
     isEraserOn: Boolean,
+    drawMode: DrawMode,
     modifier: Modifier,
     onDraw: (Bitmap) -> Unit,
     backgroundColor: Color,
@@ -99,7 +102,13 @@ fun BitmapDrawer(
                     imageWidth,
                     imageHeight,
                     false
-                ).asImageBitmap()
+                ).apply {
+                    val canvas = android.graphics.Canvas(this)
+                    val paint = android.graphics.Paint().apply {
+                        color = backgroundColor.toArgb()
+                    }
+                    canvas.drawRect(0f, 0f, width.toFloat(), height.toFloat(), paint)
+                }.asImageBitmap()
             }
 
             val drawBitmap: ImageBitmap = remember {
@@ -115,19 +124,31 @@ fun BitmapDrawer(
                 Canvas(drawBitmap)
             }
 
-            val drawPaint = remember(strokeWidth, isEraserOn, drawColor, blurRadius) {
+            val drawPaint = remember(strokeWidth, isEraserOn, drawColor, blurRadius, drawMode) {
                 Paint().apply {
                     blendMode = if (!isEraserOn) blendMode else BlendMode.Clear
                     style = PaintingStyle.Stroke
-                    strokeCap = StrokeCap.Round
+                    strokeCap =
+                        if (drawMode is DrawMode.Highlighter) StrokeCap.Square else StrokeCap.Round
                     color = drawColor
                     alpha = drawColor.alpha
                     this.strokeWidth = strokeWidth
                     strokeJoin = StrokeJoin.Round
                     isAntiAlias = true
                 }.asFrameworkPaint().apply {
-                    if (blurRadius > 0f) maskFilter =
-                        BlurMaskFilter(blurRadius, BlurMaskFilter.Blur.NORMAL)
+                    if (drawMode is DrawMode.Neon && !isEraserOn) {
+                        this.color = Color.White.toArgb()
+                        setShadowLayer(
+                            blurRadius,
+                            0f,
+                            0f,
+                            drawColor
+                                .copy(alpha = .8f)
+                                .toArgb()
+                        )
+                    } else if (blurRadius > 0f) {
+                        maskFilter = BlurMaskFilter(blurRadius, BlurMaskFilter.Blur.NORMAL)
+                    }
                 }
             }
 
@@ -161,8 +182,9 @@ fun BitmapDrawer(
                                 path = drawPath,
                                 strokeWidth = strokeWidth,
                                 blurRadius = blurRadius,
+                                drawColor = drawColor,
                                 isErasing = isEraserOn,
-                                drawColor = drawColor
+                                drawMode = drawMode
                             )
                         )
                         scope.launch {
@@ -178,21 +200,33 @@ fun BitmapDrawer(
                     drawColor(backgroundColor.toArgb())
 
 
-                    paths.forEach { (path, stroke, radius, isEraserOn, drawColor) ->
+                    paths.forEach { (path, stroke, radius, drawColor, isErasing, effect) ->
                         this.drawPath(
                             path.asAndroidPath(),
                             Paint().apply {
-                                blendMode = if (!isEraserOn) blendMode else BlendMode.Clear
+                                blendMode = if (!isErasing) blendMode else BlendMode.Clear
                                 style = PaintingStyle.Stroke
-                                strokeCap = StrokeCap.Round
+                                strokeCap =
+                                    if (effect is DrawMode.Highlighter) StrokeCap.Square else StrokeCap.Round
                                 this.strokeWidth = stroke
                                 strokeJoin = StrokeJoin.Round
                                 isAntiAlias = true
-                                color = drawColor!!
+                                color = drawColor
                                 alpha = drawColor.alpha
                             }.asFrameworkPaint().apply {
-                                if (radius > 0f) maskFilter =
-                                    BlurMaskFilter(radius, BlurMaskFilter.Blur.NORMAL)
+                                if (effect is DrawMode.Neon) {
+                                    this.color = Color.White.toArgb()
+                                    setShadowLayer(
+                                        radius,
+                                        0f,
+                                        0f,
+                                        drawColor
+                                            .copy(alpha = .8f)
+                                            .toArgb()
+                                    )
+                                } else if (radius > 0f) {
+                                    maskFilter = BlurMaskFilter(radius, BlurMaskFilter.Blur.NORMAL)
+                                }
                             }
                         )
                     }

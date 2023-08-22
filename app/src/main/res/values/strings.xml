@@ -365,6 +365,7 @@
     <string name="restore_background">Restore background</string>
     <string name="blur_radius">Blur radius</string>
     <string name="pipette">Pipette</string>
+    <string name="draw_mode">Draw mode</string>
     <string-array name="fab_alignment_sub">
         <item>Start</item>
         <item>Center</item>

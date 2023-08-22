@@ -1,6 +1,7 @@
 package ru.tech.imageresizershrinker.presentation.draw_screen.components
 
 import androidx.compose.animation.animateContentSize
+import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Column
@@ -108,7 +109,7 @@ fun LineWidthSelector(
                 inactiveTrackColor =
                 MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.secondaryContainer)
             ),
-            value = strokeWidth,
+            value = animateFloatAsState(targetValue = strokeWidth).value,
             valueRange = 1f..100f,
             onValueChange = {
                 onChangeStrokeWidth(it.roundToTwoDigits())

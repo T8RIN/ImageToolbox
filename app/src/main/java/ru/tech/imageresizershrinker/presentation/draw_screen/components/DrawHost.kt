@@ -87,6 +87,7 @@ import dev.olshevski.navigation.reimagined.AnimatedNavHost
 import dev.olshevski.navigation.reimagined.NavController
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.R
+import ru.tech.imageresizershrinker.presentation.erase_background_screen.components.DrawMode
 import ru.tech.imageresizershrinker.presentation.erase_background_screen.components.PathPaint
 import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.ImageUtils.restrict
@@ -115,6 +116,7 @@ fun DrawHost(
     secondaryControls: @Composable () -> Unit,
     paths: List<PathPaint>,
     isEraserOn: Boolean,
+    drawMode: DrawMode,
     clearDrawing: () -> Unit,
     onPickImage: () -> Unit,
     startDrawOnBackground: (Int, Int, Color) -> Unit,
@@ -155,6 +157,7 @@ fun DrawHost(
                 drawColor = drawColor.copy(drawAlpha),
                 onAddPath = addPath,
                 isEraserOn = isEraserOn,
+                drawMode = drawMode,
                 modifier = Modifier
                     .padding(16.dp)
                     .aspectRatio(aspectRatio, portrait)

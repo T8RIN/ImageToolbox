@@ -26,7 +26,6 @@ import ru.tech.imageresizershrinker.domain.saving.SaveResult
 import ru.tech.imageresizershrinker.domain.saving.model.ImageSaveTarget
 import ru.tech.imageresizershrinker.presentation.draw_screen.components.DrawBehavior
 import ru.tech.imageresizershrinker.presentation.erase_background_screen.components.PathPaint
-import ru.tech.imageresizershrinker.presentation.root.utils.state.update
 import javax.inject.Inject
 
 @HiltViewModel
@@ -37,9 +36,6 @@ class DrawViewModel @Inject constructor(
 
     private val _bitmap: MutableState<Bitmap?> = mutableStateOf(null)
     val bitmap: Bitmap? by _bitmap
-
-    private val _isEraserOn: MutableState<Boolean> = mutableStateOf(false)
-    val isEraserOn: Boolean by _isEraserOn
 
     private val _color: MutableState<Color> = mutableStateOf(Color.Black)
     val color by _color
@@ -167,13 +163,13 @@ class DrawViewModel @Inject constructor(
             _lastPaths.value = listOf()
             _undonePaths.value = listOf()
             _uri.value = uri
-            navController.navigate(
-                DrawBehavior.Image(calculateScreenOrientationBasedOnUri(uri))
-            )
-            imageManager.getImage(uri = uri.toString())?.imageInfo?.imageFormat?.let {
-                updateMimeType(
-                    it
+            if (drawBehavior !is DrawBehavior.Image) {
+                navController.navigate(
+                    DrawBehavior.Image(calculateScreenOrientationBasedOnUri(uri))
                 )
+            }
+            imageManager.getImage(uri = uri.toString())?.imageInfo?.imageFormat?.let {
+                updateMimeType(it)
             }
         }
     }
@@ -288,10 +284,6 @@ class DrawViewModel @Inject constructor(
         _undonePaths.value = undonePaths.toMutableList().apply {
             remove(lastPath)
         }
-    }
-
-    fun toggleEraser() {
-        _isEraserOn.update { !it }
     }
 
     fun addPath(pathPaint: PathPaint) {
