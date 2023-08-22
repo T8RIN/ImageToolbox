@@ -82,12 +82,14 @@ import androidx.compose.ui.unit.dp
 import coil.size.Size
 import com.smarttoolfactory.cropper.ImageCropper
 import com.smarttoolfactory.cropper.model.AspectRatio
+import com.smarttoolfactory.cropper.model.OutlineType
 import com.smarttoolfactory.cropper.settings.CropDefaults
 import com.t8rin.dynamic.theme.LocalDynamicThemeState
 import dev.olshevski.navigation.reimagined.hilt.hiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.R
+import ru.tech.imageresizershrinker.domain.model.ImageFormat
 import ru.tech.imageresizershrinker.presentation.crop_screen.components.AspectRatioSelection
 import ru.tech.imageresizershrinker.presentation.crop_screen.components.CropMaskSelection
 import ru.tech.imageresizershrinker.presentation.crop_screen.components.aspectRatios
@@ -257,6 +259,9 @@ fun CropScreen(
             modifier = Modifier
                 .padding(16.dp)
                 .navigationBarsPadding(),
+            entries = if (viewModel.cropProperties.cropOutlineProperty.outlineType == OutlineType.Rect) {
+                ImageFormat.entries
+            } else ImageFormat.alphaContainedEntries,
             enabled = viewModel.bitmap != null,
             imageFormat = viewModel.imageFormat,
             onMimeChange = {

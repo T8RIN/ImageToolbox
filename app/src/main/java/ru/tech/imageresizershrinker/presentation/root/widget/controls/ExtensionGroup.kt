@@ -1,6 +1,11 @@
 package ru.tech.imageresizershrinker.presentation.root.widget.controls
 
 import android.os.Build
+import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.SizeTransform
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -53,7 +58,7 @@ fun ExtensionGroup(
         .copy(alpha = 0.38f)
         .compositeOver(MaterialTheme.colorScheme.surface)
 
-    LaunchedEffect(imageFormat) {
+    LaunchedEffect(imageFormat, entries) {
         if (imageFormat !in entries) onMimeChange(ImageFormat.Png)
     }
 
@@ -81,29 +86,36 @@ fun ExtensionGroup(
             )
             Spacer(modifier = Modifier.height(8.dp))
 
-            FlowRow(
-                verticalArrangement = Arrangement.spacedBy(
-                    8.dp,
-                    Alignment.CenterVertically
-                ),
-                horizontalArrangement = Arrangement.spacedBy(
-                    8.dp,
-                    Alignment.CenterHorizontally
-                ),
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(8.dp)
-                    .block()
-                    .padding(horizontal = 8.dp, vertical = 12.dp)
-            ) {
-                entries.filtered().forEach {
-                    Chip(
-                        onClick = { onMimeChange(it) },
-                        selected = it == imageFormat,
-                        label = {
-                            Text(text = it.title)
-                        }
-                    )
+            AnimatedContent(
+                targetState = entries.filtered(),
+                transitionSpec = {
+                    fadeIn().togetherWith(fadeOut()).using(SizeTransform(false))
+                }
+            ) { items ->
+                FlowRow(
+                    verticalArrangement = Arrangement.spacedBy(
+                        8.dp,
+                        Alignment.CenterVertically
+                    ),
+                    horizontalArrangement = Arrangement.spacedBy(
+                        8.dp,
+                        Alignment.CenterHorizontally
+                    ),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(8.dp)
+                        .block()
+                        .padding(horizontal = 8.dp, vertical = 12.dp)
+                ) {
+                    items.forEach {
+                        Chip(
+                            onClick = { onMimeChange(it) },
+                            selected = it == imageFormat,
+                            label = {
+                                Text(text = it.title)
+                            }
+                        )
+                    }
                 }
             }
         }

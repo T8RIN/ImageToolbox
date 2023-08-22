@@ -8,5 +8,5 @@ class GenerateRandomPasswordUseCase @Inject constructor(
 ) {
     operator fun invoke(
         len: Int
-    ): String = repository.generateRandomPassword(len)
+    ): String = repository.generateRandomString(len)
 }

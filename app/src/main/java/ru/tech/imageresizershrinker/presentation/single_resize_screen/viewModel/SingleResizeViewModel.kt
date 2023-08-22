@@ -280,10 +280,21 @@ class SingleResizeViewModel @Inject constructor(
         )
     }
 
-    fun shareBitmap(bitmap: Bitmap?, onComplete: () -> Unit) {
+    fun shareBitmap(onComplete: () -> Unit) {
         viewModelScope.launch {
             _isSaving.value = true
-            bitmap?.let { imageManager.shareImage(ImageData(it, imageInfo), onComplete) }
+            imageManager.shareImages(
+                uris = listOf(_uri.value.toString()),
+                imageLoader = {
+                    imageManager.getImage(uri = uri.toString())?.image?.let {
+                        ImageData(
+                            it,
+                            imageInfo
+                        )
+                    }
+                },
+                onProgressChange = { onComplete() }
+            )
             _isSaving.value = false
         }
     }

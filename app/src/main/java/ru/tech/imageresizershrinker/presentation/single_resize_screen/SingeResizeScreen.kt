@@ -217,7 +217,6 @@ fun SingleResizeScreen(
         IconButton(
             onClick = {
                 viewModel.shareBitmap(
-                    bitmap = viewModel.previewBitmap,
                     onComplete = showConfetti
                 )
             },

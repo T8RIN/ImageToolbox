@@ -43,7 +43,10 @@ interface ImageManager<I, M> {
         onError: (Throwable) -> Unit
     )
 
-    suspend fun compress(imageData: ImageData<I, M>): ByteArray
+    suspend fun compress(
+        imageData: ImageData<I, M>,
+        applyImageTransformations: Boolean = true
+    ): ByteArray
 
     suspend fun calculateImageSize(imageData: ImageData<I, M>): Long
 

@@ -1,6 +1,7 @@
 package ru.tech.imageresizershrinker.presentation.main_screen.components
 
 import android.net.Uri
+import android.util.Log
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -14,7 +15,9 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
+import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
+import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridItemSpan
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Image
 import androidx.compose.material3.HorizontalDivider
@@ -62,6 +65,7 @@ fun ProcessImagesPreferenceSheet(
     uris: List<Uri>,
     visible: MutableState<Boolean>
 ) {
+    Log.d("COCK", uris.toString())
     val settingsState = LocalSettingsState.current
     val navController = LocalNavController.current
     SimpleSheet(
@@ -93,14 +97,15 @@ fun ProcessImagesPreferenceSheet(
             }
             val color = MaterialTheme.colorScheme.secondaryContainer
             Box(Modifier.fillMaxWidth()) {
-                LazyColumn(
+                LazyVerticalStaggeredGrid(
+                    columns = StaggeredGridCells.Adaptive(250.dp),
                     contentPadding = PaddingValues(16.dp),
-                    verticalArrangement = Arrangement.spacedBy(
-                        8.dp,
-                        Alignment.CenterVertically
-                    )
+                    verticalItemSpacing = 8.dp,
+                    horizontalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
-                    item {
+                    item(
+                        span = StaggeredGridItemSpan.FullLine
+                    ) {
                         val pic: @Composable (Uri?, Dp, Int) -> Unit =
                             { uri, height, extra ->
                                 Box(

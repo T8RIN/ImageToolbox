@@ -31,7 +31,7 @@ class CipherRepositoryImpl : CipherRepository {
         return SecretKeySpec(key, ENCRYPTION_STANDARD)
     }
 
-    override fun generateRandomPassword(len: Int): String {
+    override fun generateRandomString(len: Int): String {
         val sr = SecureRandom()
         val sb = StringBuilder(len)
         for (i in 0 until len) {

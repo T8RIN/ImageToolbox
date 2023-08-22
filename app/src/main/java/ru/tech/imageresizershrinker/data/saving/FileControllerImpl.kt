@@ -242,7 +242,7 @@ class FileControllerImpl @Inject constructor(
     ): String {
         val extension = saveTarget.imageInfo.imageFormat.extension
 
-        if (fileParams.randomizeFilename) return "${cipherRepository.generateRandomPassword(32)}.$extension"
+        if (fileParams.randomizeFilename) return "${cipherRepository.generateRandomString(32)}.$extension"
 
         val wh =
             "(" + (if (saveTarget.originalUri.toUri() == Uri.EMPTY) context.getString(R.string.width)

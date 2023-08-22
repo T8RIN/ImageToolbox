@@ -35,6 +35,7 @@ import ru.tech.imageresizershrinker.domain.model.ImageFormat
 import ru.tech.imageresizershrinker.domain.model.ImageInfo
 import ru.tech.imageresizershrinker.domain.model.Preset
 import ru.tech.imageresizershrinker.domain.model.ResizeType
+import ru.tech.imageresizershrinker.domain.repository.CipherRepository
 import java.io.ByteArrayInputStream
 import java.io.ByteArrayOutputStream
 import java.io.File
@@ -48,7 +49,8 @@ import kotlin.math.roundToInt
 
 @Suppress("PrivatePropertyName")
 class AndroidImageManager @Inject constructor(
-    private val context: Context
+    private val context: Context,
+    private val cipherRepository: CipherRepository
 ) : ImageManager<Bitmap, ExifInterface> {
 
     private val heifCoder = HeifCoder()
@@ -355,12 +357,11 @@ class AndroidImageManager @Inject constructor(
     ) = withContext(Dispatchers.IO) {
         var cnt = 0
         val uriList: MutableList<Uri> = mutableListOf()
-        uris.forEachIndexed { index, uri ->
+        uris.forEach { uri ->
             imageLoader(uri)?.let { (image, imageInfo) ->
                 cacheImage(
                     image = image,
-                    imageInfo = imageInfo,
-                    name = index.toString()
+                    imageInfo = imageInfo
                 )?.let { uri ->
                     cnt += 1
                     uriList.add(uri.toUri())
@@ -381,7 +382,8 @@ class AndroidImageManager @Inject constructor(
         return@withContext kotlin.runCatching {
             imagesFolder.mkdirs()
             val ext = imageInfo.imageFormat.extension
-            val file = File(imagesFolder, "$name.$ext")
+            val file =
+                File(imagesFolder, "$name(${cipherRepository.generateRandomString(15)}).$ext")
             FileOutputStream(file).use {
                 it.write(compress(ImageData(image, imageInfo)))
             }
@@ -394,21 +396,7 @@ class AndroidImageManager @Inject constructor(
         onComplete: () -> Unit,
         name: String
     ) = withContext(Dispatchers.IO) {
-        val imagesFolder = File(context.cacheDir, "images")
-        val uri = kotlin.runCatching {
-            imagesFolder.mkdirs()
-            val ext = imageData.imageInfo.imageFormat.extension
-            val file = File(imagesFolder, "$name.$ext")
-            FileOutputStream(file).use {
-                it.write(compress(imageData))
-            }
-            FileProvider.getUriForFile(
-                context,
-                context.getString(R.string.file_provider),
-                file
-            )
-        }
-        uri.getOrNull()?.let { shareUri(it) }
+        cacheImage(imageData.image, imageData.imageInfo)?.let { shareUri(it.toUri()) }
         onComplete()
     }
 
@@ -592,9 +580,13 @@ class AndroidImageManager @Inject constructor(
     }
 
     @Suppress("DEPRECATION")
-    override suspend fun compress(imageData: ImageData<Bitmap, ExifInterface>): ByteArray =
-        withContext(Dispatchers.IO) {
-            val currentImage = resize(
+    override suspend fun compress(
+        imageData: ImageData<Bitmap, ExifInterface>,
+        applyImageTransformations: Boolean
+    ): ByteArray = withContext(Dispatchers.IO) {
+        val currentImage: Bitmap
+        if (applyImageTransformations) {
+            currentImage = resize(
                 image = rotate(
                     image = imageData.image.apply { setHasAlpha(true) },
                     degrees = imageData.imageInfo.rotationDegrees
@@ -608,28 +600,29 @@ class AndroidImageManager @Inject constructor(
                     isFlipped = imageData.imageInfo.isFlipped
                 )
             } ?: return@withContext ByteArray(0)
+        } else currentImage = imageData.image
 
-            return@withContext when (imageData.imageInfo.imageFormat) {
-                ImageFormat.Bmp -> compressToBMP(currentImage)
-                ImageFormat.Jpeg -> {
-                    val out = ByteArrayOutputStream()
-                    currentImage.compress(
-                        Bitmap.CompressFormat.JPEG,
-                        imageData.imageInfo.quality.toInt().coerceIn(0, 100),
-                        out
-                    )
-                    out.toByteArray()
-                }
+        return@withContext when (imageData.imageInfo.imageFormat) {
+            ImageFormat.Bmp -> compressToBMP(currentImage)
+            ImageFormat.Jpeg -> {
+                val out = ByteArrayOutputStream()
+                currentImage.compress(
+                    Bitmap.CompressFormat.JPEG,
+                    imageData.imageInfo.quality.toInt().coerceIn(0, 100),
+                    out
+                )
+                out.toByteArray()
+            }
 
-                ImageFormat.Jpg -> {
-                    val out = ByteArrayOutputStream()
-                    currentImage.compress(
-                        Bitmap.CompressFormat.JPEG,
-                        imageData.imageInfo.quality.toInt().coerceIn(0, 100),
-                        out
-                    )
-                    out.toByteArray()
-                }
+            ImageFormat.Jpg -> {
+                val out = ByteArrayOutputStream()
+                currentImage.compress(
+                    Bitmap.CompressFormat.JPEG,
+                    imageData.imageInfo.quality.toInt().coerceIn(0, 100),
+                    out
+                )
+                out.toByteArray()
+            }
 
                 ImageFormat.Png -> {
                     val out = ByteArrayOutputStream()
