@@ -67,6 +67,7 @@ import androidx.compose.ui.unit.min
 import androidx.compose.ui.unit.sp
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import ru.tech.imageresizershrinker.BuildConfig
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.core.AUTHOR_TG
 import ru.tech.imageresizershrinker.core.ISSUE_TRACKER
@@ -102,7 +103,7 @@ class CrashActivity : CrashHandler() {
 
         val title = "[Bug] App Crash: $exName"
         val deviceInfo =
-            "Device: ${Build.MODEL} (${Build.BRAND} - ${Build.DEVICE}), SDK: ${Build.VERSION.SDK_INT} (${Build.VERSION.RELEASE})\n\n"
+            "Device: ${Build.MODEL} (${Build.BRAND} - ${Build.DEVICE}), SDK: ${Build.VERSION.SDK_INT} (${Build.VERSION.RELEASE}, App: ${BuildConfig.VERSION_NAME} (${BuildConfig.VERSION_CODE})\n\n"
         val body = "$deviceInfo: \n\n$ex"
 
 
