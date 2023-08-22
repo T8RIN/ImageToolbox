@@ -1,7 +1,8 @@
-package ru.tech.imageresizershrinker.presentation.erase_background_screen.components
+package ru.tech.imageresizershrinker.presentation.draw_screen.components
 
 import android.graphics.Bitmap
 import android.graphics.BlurMaskFilter
+import android.graphics.Matrix
 import android.graphics.PorterDuff
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
@@ -26,7 +27,6 @@ import androidx.compose.ui.graphics.BlendMode
 import androidx.compose.ui.graphics.Canvas
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
-import androidx.compose.ui.graphics.ImageShader
 import androidx.compose.ui.graphics.Paint
 import androidx.compose.ui.graphics.PaintingStyle
 import androidx.compose.ui.graphics.Path
@@ -39,7 +39,6 @@ import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.graphics.nativeCanvas
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import com.smarttoolfactory.gesture.MotionEvent
 import com.smarttoolfactory.gesture.pointerMotionEvents
@@ -47,20 +46,23 @@ import com.smarttoolfactory.image.util.update
 import com.smarttoolfactory.image.zoom.animatedZoom
 import com.smarttoolfactory.image.zoom.rememberAnimatedZoomState
 import kotlinx.coroutines.launch
+import ru.tech.imageresizershrinker.presentation.erase_background_screen.components.PathPaint
+import ru.tech.imageresizershrinker.presentation.erase_background_screen.components.transparencyChecker
 import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
 
 @Composable
-fun BitmapEraser(
+fun BitmapDrawer(
     imageBitmap: ImageBitmap,
-    imageBitmapForShader: ImageBitmap?,
     paths: List<PathPaint>,
     blurRadius: Float,
     onAddPath: (PathPaint) -> Unit,
     strokeWidth: Float,
-    isRecoveryOn: Boolean = false,
+    isEraserOn: Boolean,
     modifier: Modifier,
-    onErased: (Bitmap) -> Unit = {},
-    zoomEnabled: Boolean
+    onDraw: (Bitmap) -> Unit,
+    backgroundColor: Color,
+    zoomEnabled: Boolean,
+    drawColor: Color
 ) {
     val zoomState = rememberAnimatedZoomState(maxZoom = 30f)
     val scope = rememberCoroutineScope()
@@ -100,53 +102,38 @@ fun BitmapEraser(
                 ).asImageBitmap()
             }
 
-            val shaderBitmap = remember(imageBitmapForShader) {
-                imageBitmapForShader?.asAndroidBitmap()?.let {
-                    Bitmap.createScaledBitmap(
-                        it,
-                        imageWidth,
-                        imageHeight,
-                        false
-                    ).asImageBitmap()
-                }
-            }
-
-            val erasedBitmap: ImageBitmap = remember {
+            val drawBitmap: ImageBitmap = remember {
                 Bitmap.createBitmap(imageWidth, imageHeight, Bitmap.Config.ARGB_8888)
                     .asImageBitmap()
             }
 
             SideEffect {
-                onErased(erasedBitmap.asAndroidBitmap())
+                onDraw(drawImageBitmap.overlay(drawBitmap).asAndroidBitmap())
             }
 
             val canvas: Canvas = remember {
-                Canvas(erasedBitmap)
+                Canvas(drawBitmap)
             }
 
-
-            val paint = remember { Paint() }
-
-            val drawPaint = remember(strokeWidth, isRecoveryOn) {
+            val drawPaint = remember(strokeWidth, isEraserOn, drawColor, blurRadius) {
                 Paint().apply {
-                    blendMode = if (isRecoveryOn) blendMode else BlendMode.Clear
+                    blendMode = if (!isEraserOn) blendMode else BlendMode.Clear
                     style = PaintingStyle.Stroke
                     strokeCap = StrokeCap.Round
-                    shader = if (isRecoveryOn) shaderBitmap?.let { ImageShader(it) } else shader
+                    color = drawColor
+                    alpha = drawColor.alpha
                     this.strokeWidth = strokeWidth
                     strokeJoin = StrokeJoin.Round
                     isAntiAlias = true
+                }.asFrameworkPaint().apply {
+                    if (blurRadius > 0f) maskFilter =
+                        BlurMaskFilter(blurRadius, BlurMaskFilter.Blur.NORMAL)
                 }
             }
 
             var drawPath by remember { mutableStateOf(Path()) }
 
             canvas.apply {
-                val nativeCanvas = this.nativeCanvas
-                val canvasWidth = nativeCanvas.width.toFloat()
-                val canvasHeight = nativeCanvas.height.toFloat()
-
-
                 when (motionEvent) {
 
                     MotionEvent.Down -> {
@@ -174,7 +161,8 @@ fun BitmapEraser(
                                 path = drawPath,
                                 strokeWidth = strokeWidth,
                                 blurRadius = blurRadius,
-                                isErasing = isRecoveryOn
+                                isErasing = isEraserOn,
+                                drawColor = drawColor
                             )
                         )
                         scope.launch {
@@ -187,26 +175,21 @@ fun BitmapEraser(
 
                 with(canvas.nativeCanvas) {
                     drawColor(Color.Transparent.toArgb(), PorterDuff.Mode.CLEAR)
+                    drawColor(backgroundColor.toArgb())
 
 
-                    drawImageRect(
-                        image = drawImageBitmap,
-                        dstSize = IntSize(canvasWidth.toInt(), canvasHeight.toInt()),
-                        paint = paint
-                    )
-
-                    paths.forEach { (path, stroke, radius, isRecoveryOn) ->
+                    paths.forEach { (path, stroke, radius, isEraserOn, drawColor) ->
                         this.drawPath(
                             path.asAndroidPath(),
                             Paint().apply {
-                                blendMode = if (isRecoveryOn) blendMode else BlendMode.Clear
+                                blendMode = if (!isEraserOn) blendMode else BlendMode.Clear
                                 style = PaintingStyle.Stroke
                                 strokeCap = StrokeCap.Round
-                                shader =
-                                    if (isRecoveryOn) shaderBitmap?.let { ImageShader(it) } else shader
                                 this.strokeWidth = stroke
                                 strokeJoin = StrokeJoin.Round
                                 isAntiAlias = true
+                                color = drawColor!!
+                                alpha = drawColor.alpha
                             }.asFrameworkPaint().apply {
                                 if (radius > 0f) maskFilter =
                                     BlurMaskFilter(radius, BlurMaskFilter.Blur.NORMAL)
@@ -216,10 +199,7 @@ fun BitmapEraser(
 
                     this.drawPath(
                         drawPath.asAndroidPath(),
-                        drawPaint.asFrameworkPaint().apply {
-                            if (blurRadius > 0f) maskFilter =
-                                BlurMaskFilter(blurRadius, BlurMaskFilter.Blur.NORMAL)
-                        }
+                        drawPaint
                     )
                 }
             }
@@ -257,10 +237,19 @@ fun BitmapEraser(
                         color = MaterialTheme.colorScheme.outlineVariant(),
                         RoundedCornerShape(2.dp)
                     ),
-                bitmap = erasedBitmap,
+                bitmap = drawImageBitmap.overlay(drawBitmap),
                 contentDescription = null,
                 contentScale = ContentScale.FillBounds
             )
         }
     }
+}
+
+private fun ImageBitmap.overlay(overlay: ImageBitmap): ImageBitmap {
+    val image = this.asAndroidBitmap()
+    val finalBitmap = Bitmap.createBitmap(image.width, image.height, image.config)
+    val canvas = android.graphics.Canvas(finalBitmap)
+    canvas.drawBitmap(image, Matrix(), null)
+    canvas.drawBitmap(overlay.asAndroidBitmap(), 0f, 0f, null)
+    return finalBitmap.asImageBitmap()
 }

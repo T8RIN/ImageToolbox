@@ -102,6 +102,7 @@ class EraseBackgroundViewModel @Inject constructor(
             _orientation.value = calculateScreenOrientationBasedOnUri(uri)
             _paths.value = listOf()
             _lastPaths.value = listOf()
+            _undonePaths.value = listOf()
         }
     }
 

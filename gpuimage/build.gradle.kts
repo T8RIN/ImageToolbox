@@ -15,12 +15,12 @@ android {
         targetSdk = 34
 
         ndk.abiFilters.addAll(listOf("armeabi-v7a", "arm64-v8a", "x86", "x86_64"))
-        externalNativeBuild {
-            cmake {
-                cppFlags("-Wl,--build-id=none")
-                cFlags("-Wl,--build-id=none")
-            }
-        }
+//        externalNativeBuild {
+//            cmake {
+//                cppFlags("-Wl,--build-id=none")
+//                cFlags("-Wl,--build-id=none")
+//            }
+//        }
     }
     externalNativeBuild {
         cmake { path("src/main/cpp/CMakeLists.txt") }
@@ -39,7 +39,7 @@ android {
         jniLibs {
             excludes.add("lib/*/liblog.so")
             useLegacyPackaging = false
-            keepDebugSymbols.clear()
+            keepDebugSymbols += setOf("**/libyuv-decoder.so")
         }
     }
 }

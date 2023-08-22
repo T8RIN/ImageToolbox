@@ -46,8 +46,6 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.core.graphics.ColorUtils
-import com.t8rin.drawbox.domain.DrawController
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.presentation.main_screen.components.ColorCustomComponent
 import ru.tech.imageresizershrinker.presentation.root.theme.inverse
@@ -59,7 +57,10 @@ import ru.tech.imageresizershrinker.presentation.root.widget.text.TitleItem
 import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalSettingsState
 
 @Composable
-fun DrawColorSelector(drawController: DrawController) {
+fun DrawColorSelector(
+    drawColor: Color,
+    onColorChange: (Color) -> Unit
+) {
     val settingsState = LocalSettingsState.current
 
     var customColor by remember { mutableStateOf<Color?>(null) }
@@ -129,16 +130,12 @@ fun DrawColorSelector(drawController: DrawController) {
                     }
                 }
                 items(defaultColorList) { color ->
-                    val alphaColor = ColorUtils.setAlphaComponent(
-                        color.toArgb(),
-                        drawController.paintOptions.alpha
-                    )
                     Box(
                         Modifier
                             .size(
                                 animateDpAsState(
                                     40.dp.times(
-                                        if (drawController.paintOptions.color == alphaColor && customColor == null) {
+                                        if (drawColor == color && customColor == null) {
                                             1.3f
                                         } else 1f
                                     )
@@ -154,7 +151,7 @@ fun DrawColorSelector(drawController: DrawController) {
                             .clip(CircleShape)
                             .background(color)
                             .clickable {
-                                drawController.setColor(alphaColor)
+                                onColorChange(color)
                                 customColor = null
                             }
                     )
@@ -203,7 +200,7 @@ fun DrawColorSelector(drawController: DrawController) {
                         color = customColor?.toArgb() ?: 0,
                         onColorChange = {
                             customColor = Color(it)
-                            drawController.setColor(it)
+                            onColorChange(Color(it))
                         }
                     )
                 }

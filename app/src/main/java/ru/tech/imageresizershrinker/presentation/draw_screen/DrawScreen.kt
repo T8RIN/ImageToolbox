@@ -1,6 +1,7 @@
 package ru.tech.imageresizershrinker.presentation.draw_screen
 
 
+import android.annotation.SuppressLint
 import android.content.res.Configuration
 import android.net.Uri
 import androidx.activity.ComponentActivity
@@ -30,6 +31,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.AddPhotoAlternate
 import androidx.compose.material.icons.rounded.Draw
@@ -58,14 +60,19 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.saveable.Saver
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.graphics.asAndroidBitmap
+import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
@@ -76,6 +83,7 @@ import com.t8rin.dynamic.theme.getAppColorTuple
 import com.t8rin.dynamic.theme.observeAsState
 import dev.olshevski.navigation.reimagined.hilt.hiltViewModel
 import kotlinx.coroutines.launch
+import ru.tech.imageresizershrinker.presentation.draw_screen.components.BlurRadiusSelector
 import ru.tech.imageresizershrinker.presentation.draw_screen.components.DrawAlphaSelector
 import ru.tech.imageresizershrinker.presentation.draw_screen.components.DrawBackgroundSelector
 import ru.tech.imageresizershrinker.presentation.draw_screen.components.DrawBehavior
@@ -88,22 +96,33 @@ import ru.tech.imageresizershrinker.presentation.draw_screen.viewModel.DrawViewM
 import ru.tech.imageresizershrinker.presentation.root.theme.icons.Eraser
 import ru.tech.imageresizershrinker.presentation.root.theme.mixedColor
 import ru.tech.imageresizershrinker.presentation.root.theme.onMixedColor
+import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
 import ru.tech.imageresizershrinker.presentation.root.transformation.filter.SaturationFilter
 import ru.tech.imageresizershrinker.presentation.root.utils.confetti.LocalConfettiController
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.Picker
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.localImagePickerMode
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.parseSaveResult
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.rememberImagePicker
+import ru.tech.imageresizershrinker.presentation.root.utils.modifier.block
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.drawHorizontalStroke
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.fabBorder
 import ru.tech.imageresizershrinker.presentation.root.widget.controls.ExtensionGroup
+import ru.tech.imageresizershrinker.presentation.root.widget.controls.SaveExifWidget
 import ru.tech.imageresizershrinker.presentation.root.widget.dialogs.ExitWithoutSavingDialog
 import ru.tech.imageresizershrinker.presentation.root.widget.other.LoadingDialog
 import ru.tech.imageresizershrinker.presentation.root.widget.other.LocalToastHost
 import ru.tech.imageresizershrinker.presentation.root.widget.other.LockScreenOrientation
+import ru.tech.imageresizershrinker.presentation.root.widget.other.showError
 import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalSettingsState
 import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalWindowSizeClass
 
+
+private val ColorSaver: Saver<Color, Int> = Saver(
+    save = { it.toArgb() },
+    restore = { Color(it) }
+)
+
+@SuppressLint("AutoboxingStateCreation")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DrawScreen(
@@ -145,21 +164,25 @@ fun DrawScreen(
     LaunchedEffect(uriState) {
         uriState?.let {
             viewModel.setUri(it)
+            viewModel.decodeBitmapByUri(
+                uri = it,
+                onGetMimeType = viewModel::updateMimeType,
+                onGetExif = {},
+                onGetBitmap = viewModel::updateBitmap,
+                onError = {
+                    scope.launch {
+                        toastHostState.showError(context, it)
+                    }
+                }
+            )
         }
     }
-    LaunchedEffect(viewModel.uri, viewModel.drawController?.paths) {
+    LaunchedEffect(viewModel.uri, viewModel.paths) {
         viewModel.getBitmapFromUriWithTransformations(
             uri = viewModel.uri,
             transformations = listOf(SaturationFilter(context, 2f))
         )?.let {
-            val overlay = viewModel.drawController?.getBitmap()
-            if (allowChangeColor) {
-                if (overlay != null) {
-                    themeState.updateColorByImage(viewModel.overlayImage(it, overlay))
-                } else {
-                    themeState.updateColorByImage(it)
-                }
-            }
+            if (allowChangeColor) themeState.updateColorByImage(it)
         }
     }
 
@@ -169,6 +192,17 @@ fun DrawScreen(
         ) { uris ->
             uris.takeIf { it.isNotEmpty() }?.firstOrNull()?.let {
                 viewModel.setUri(it)
+                viewModel.decodeBitmapByUri(
+                    uri = it,
+                    onGetMimeType = viewModel::updateMimeType,
+                    onGetExif = {},
+                    onGetBitmap = viewModel::updateBitmap,
+                    onError = {
+                        scope.launch {
+                            toastHostState.showError(context, it)
+                        }
+                    }
+                )
             }
         }
 
@@ -239,31 +273,162 @@ fun DrawScreen(
         )
     }
 
+    var strokeWidth by rememberSaveable(viewModel.drawBehavior) { mutableFloatStateOf(20f) }
+    var blurRadius by rememberSaveable(viewModel.drawBehavior) { mutableFloatStateOf(0f) }
+    var backgroundColor by rememberSaveable(
+        stateSaver = ColorSaver,
+        inputs = arrayOf(viewModel.drawBehavior)
+    ) {
+        mutableStateOf(
+            if (viewModel.drawBehavior is DrawBehavior.Background) {
+                (viewModel.drawBehavior as DrawBehavior.Background).color
+            } else Color.Transparent
+        )
+    }
+    var drawColor by rememberSaveable(
+        stateSaver = ColorSaver,
+        inputs = arrayOf(viewModel.drawBehavior)
+    ) { mutableStateOf(Color.Black) }
+    var alpha by rememberSaveable(viewModel.drawBehavior) { mutableStateOf(1f) }
+
+    val controls = @Composable {
+        OpenColorPickerCard(
+            onOpen = {
+                viewModel.openColorPicker()
+                showPickColorSheet.value = true
+            }
+        )
+        LineWidthSelector(
+            modifier = Modifier.padding(
+                start = 16.dp,
+                end = 16.dp,
+                top = 16.dp
+            ),
+            strokeWidth = strokeWidth,
+            onChangeStrokeWidth = { strokeWidth = it }
+        )
+        BlurRadiusSelector(
+            modifier = Modifier
+                .padding(top = 16.dp, end = 16.dp, start = 16.dp),
+            blurRadius = blurRadius,
+            onRadiusChange = { blurRadius = it }
+        )
+        if (viewModel.drawBehavior is DrawBehavior.Background) {
+            DrawBackgroundSelector(
+                backgroundColor = backgroundColor,
+                onColorChange = { backgroundColor = it }
+            )
+        } else {
+            Spacer(Modifier.height(16.dp))
+        }
+        DrawColorSelector(
+            drawColor = drawColor,
+            onColorChange = { drawColor = it }
+        )
+        DrawAlphaSelector(
+            alpha = alpha,
+            onAlphaChange = { alpha = it }
+        )
+        SaveExifWidget(
+            modifier = Modifier.padding(horizontal = 16.dp),
+            selected = viewModel.saveExif,
+            onCheckedChange = viewModel::setSaveExif
+        )
+        ExtensionGroup(
+            modifier = Modifier
+                .padding(16.dp)
+                .navigationBarsPadding(),
+            enabled = viewModel.drawBehavior !is DrawBehavior.None,
+            imageFormat = viewModel.imageFormat,
+            onMimeChange = {
+                viewModel.updateMimeType(it)
+            }
+        )
+    }
+
+    val secondaryControls = @Composable {
+        val border = BorderStroke(
+            settingsState.borderWidth,
+            MaterialTheme.colorScheme.outlineVariant(
+                luminance = 0.1f
+            )
+        )
+        Row(
+            Modifier
+                .padding(16.dp)
+                .block(shape = CircleShape)
+        ) {
+            switch()
+            OutlinedIconButton(
+                border = border,
+                onClick = viewModel::undo,
+                enabled = viewModel.lastPaths.isNotEmpty() || viewModel.paths.isNotEmpty()
+            ) {
+                Icon(Icons.Rounded.Undo, null)
+            }
+            OutlinedIconButton(
+                border = border,
+                onClick = viewModel::redo,
+                enabled = viewModel.undonePaths.isNotEmpty()
+            ) {
+                Icon(Icons.Rounded.Redo, null)
+            }
+            val isEraserOn = viewModel.isEraserOn
+            OutlinedIconButton(
+                colors = IconButtonDefaults.filledIconButtonColors(
+                    containerColor = animateColorAsState(
+                        if (isEraserOn) MaterialTheme.colorScheme.mixedColor
+                        else Color.Transparent
+                    ).value,
+                    contentColor = animateColorAsState(
+                        if (isEraserOn) MaterialTheme.colorScheme.onMixedColor
+                        else MaterialTheme.colorScheme.onSurface
+                    ).value,
+                    disabledContainerColor = Color.Transparent
+                ),
+                border = border,
+                onClick = viewModel::toggleEraser
+            ) {
+                Icon(Icons.Rounded.Eraser, null)
+            }
+        }
+    }
+
     val content: @Composable (PaddingValues) -> Unit = { paddingValues ->
         DrawHost(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(paddingValues),
             navController = viewModel.navController,
-            drawController = viewModel.drawController,
             portrait = portrait,
             zoomEnabled = zoomEnabled,
-            onGetDrawController = viewModel::updateDrawController,
+            clearDrawing = viewModel::clearDrawing,
             onSaveRequest = saveBitmap,
-            imageFormat = viewModel.imageFormat,
-            onMimeTypeChange = viewModel::updateMimeType,
-            uri = viewModel.uri,
             onPickImage = pickImage,
-            switch = switch,
             startDrawOnBackground = viewModel::startDrawOnBackground,
-            onOpenColorPicker = {
-                viewModel.openColorPicker()
-                showPickColorSheet.value = true
-            },
             scaffoldState = scaffoldState,
             isBitmapChanged = viewModel.isBitmapChanged,
             onBack = onBack,
-            onShare = { viewModel.shareBitmap { showConfetti() } }
+            onShare = { viewModel.shareBitmap { showConfetti() } },
+            paths = viewModel.paths,
+            isEraserOn = viewModel.isEraserOn,
+            backgroundColor = backgroundColor,
+            drawColor = drawColor.copy(alpha),
+            drawAlpha = alpha,
+            strokeWidth = strokeWidth,
+            bitmap = viewModel.bitmap ?: (viewModel.drawBehavior as? DrawBehavior.Background)?.run {
+                remember { ImageBitmap(width, height).asAndroidBitmap() }
+            } ?: remember {
+                ImageBitmap(
+                    configuration.screenWidthDp,
+                    configuration.screenHeightDp
+                ).asAndroidBitmap()
+            },
+            blurRadius = blurRadius,
+            addPath = viewModel::addPath,
+            onDraw = viewModel::updateDrawing,
+            controls = controls,
+            secondaryControls = secondaryControls
         )
     }
 
@@ -310,18 +475,18 @@ fun DrawScreen(
                             actions = {
                                 switch()
                                 IconButton(
-                                    onClick = { viewModel.drawController?.undo() },
-                                    enabled = !viewModel.drawController?.lastPaths.isNullOrEmpty() || !viewModel.drawController?.paths.isNullOrEmpty()
+                                    onClick = { viewModel.undo() },
+                                    enabled = viewModel.lastPaths.isNotEmpty() || viewModel.paths.isNotEmpty()
                                 ) {
                                     Icon(Icons.Rounded.Undo, null)
                                 }
                                 IconButton(
-                                    onClick = { viewModel.drawController?.redo() },
-                                    enabled = !viewModel.drawController?.undonePaths.isNullOrEmpty()
+                                    onClick = { viewModel.redo() },
+                                    enabled = viewModel.undonePaths.isNotEmpty()
                                 ) {
                                     Icon(Icons.Rounded.Redo, null)
                                 }
-                                val isEraserOn = viewModel.drawController?.isEraserOn == true
+                                val isEraserOn = viewModel.isEraserOn
                                 OutlinedIconButton(
                                     colors = IconButtonDefaults.filledIconButtonColors(
                                         containerColor = animateColorAsState(
@@ -340,7 +505,7 @@ fun DrawScreen(
                                             else Color.Transparent
                                         ).value
                                     ),
-                                    onClick = { viewModel.drawController?.toggleEraser() }
+                                    onClick = { viewModel.toggleEraser() }
                                 ) {
                                     Icon(Icons.Rounded.Eraser, null)
                                 }
@@ -369,50 +534,16 @@ fun DrawScreen(
                             }
                         )
                         HorizontalDivider()
-                        viewModel.drawController?.let { drawController ->
-                            LazyColumn {
-                                item {
-                                    OpenColorPickerCard(
-                                        onOpen = {
-                                            viewModel.openColorPicker()
-                                            showPickColorSheet.value = true
-                                        }
-                                    )
-                                    if (viewModel.drawBehavior is DrawBehavior.Background) {
-                                        DrawBackgroundSelector(drawController)
-                                    } else {
-                                        Spacer(Modifier.height(16.dp))
-                                    }
-                                    DrawColorSelector(drawController)
-                                    DrawAlphaSelector(drawController)
-                                    LineWidthSelector(
-                                        modifier = Modifier.padding(
-                                            start = 16.dp,
-                                            end = 16.dp,
-                                            bottom = 16.dp
-                                        ),
-                                        strokeWidth = drawController.paintOptions.strokeWidth,
-                                        onChangeStrokeWidth = { drawController.setStrokeWidth(it) }
-                                    )
-                                    ExtensionGroup(
-                                        modifier = Modifier
-                                            .padding(16.dp)
-                                            .navigationBarsPadding(),
-                                        enabled = viewModel.drawBehavior !is DrawBehavior.None,
-                                        imageFormat = viewModel.imageFormat,
-                                        onMimeChange = {
-                                            viewModel.updateMimeType(it)
-                                        }
-                                    )
-                                }
+                        LazyColumn {
+                            item {
+                                controls()
                             }
                         }
                     }
                 },
                 content = content
             )
-        }
-        else {
+        } else {
             content(PaddingValues())
         }
     }

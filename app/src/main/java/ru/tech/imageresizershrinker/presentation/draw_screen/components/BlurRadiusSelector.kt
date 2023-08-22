@@ -11,7 +11,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.Opacity
+import androidx.compose.material.icons.rounded.BlurCircular
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Slider
@@ -30,14 +30,14 @@ import ru.tech.imageresizershrinker.presentation.root.utils.modifier.block
 import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalSettingsState
 
 @Composable
-fun DrawAlphaSelector(
-    alpha: Float,
-    onAlphaChange: (Float) -> Unit
+fun BlurRadiusSelector(
+    modifier: Modifier,
+    blurRadius: Float,
+    onRadiusChange: (Float) -> Unit
 ) {
     val settingsState = LocalSettingsState.current
     Column(
-        Modifier
-            .padding(start = 16.dp, end = 16.dp, bottom = 16.dp)
+        modifier = modifier
             .block(shape = RoundedCornerShape(24.dp))
             .animateContentSize()
     ) {
@@ -45,7 +45,7 @@ fun DrawAlphaSelector(
             verticalAlignment = Alignment.CenterVertically
         ) {
             Icon(
-                imageVector = Icons.Rounded.Opacity,
+                imageVector = Icons.Rounded.BlurCircular,
                 contentDescription = null,
                 modifier = Modifier
                     .padding(
@@ -54,7 +54,7 @@ fun DrawAlphaSelector(
                     )
             )
             Text(
-                text = stringResource(R.string.paint_alpha),
+                text = stringResource(R.string.blur_radius),
                 modifier = Modifier
                     .padding(
                         top = 16.dp,
@@ -64,17 +64,34 @@ fun DrawAlphaSelector(
                     .weight(1f)
             )
             Text(
-                text = "$alpha",
+                text = "$blurRadius",
                 color = MaterialTheme.colorScheme.onSurface.copy(
                     alpha = 0.5f
                 ),
-                modifier = Modifier.padding(top = 16.dp, end = 16.dp),
+                modifier = Modifier.padding(top = 16.dp),
                 lineHeight = 18.sp
+            )
+            Text(
+                maxLines = 1,
+                text = "Px",
+                color = MaterialTheme.colorScheme.onSurface.copy(
+                    alpha = 0.5f
+                ),
+                modifier = Modifier.padding(
+                    start = 4.dp,
+                    top = 16.dp,
+                    end = 16.dp
+                )
             )
         }
         Slider(
             modifier = Modifier
-                .padding(top = 16.dp, start = 12.dp, end = 12.dp, bottom = 8.dp)
+                .padding(
+                    top = 16.dp,
+                    start = 12.dp,
+                    end = 12.dp,
+                    bottom = 8.dp
+                )
                 .offset(y = (-2).dp)
                 .background(
                     color = MaterialTheme.colorScheme.secondaryContainer,
@@ -88,13 +105,12 @@ fun DrawAlphaSelector(
                 )
                 .padding(horizontal = 10.dp),
             colors = SliderDefaults.colors(
-                inactiveTrackColor =
-                MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.secondaryContainer)
+                inactiveTrackColor = MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.secondaryContainer)
             ),
-            value = alpha,
-            valueRange = 0.01f..1f,
+            value = blurRadius,
+            valueRange = 0f..100f,
             onValueChange = {
-                onAlphaChange(it.roundToTwoDigits())
+                onRadiusChange(it.roundToTwoDigits())
             }
         )
     }

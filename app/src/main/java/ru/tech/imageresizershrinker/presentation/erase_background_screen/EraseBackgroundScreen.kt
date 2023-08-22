@@ -6,13 +6,11 @@ import android.net.Uri
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedContent
-import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -28,21 +26,18 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.ime
 import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.navigationBarsPadding
-import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Delete
 import androidx.compose.material.icons.outlined.Share
 import androidx.compose.material.icons.rounded.AddPhotoAlternate
 import androidx.compose.material.icons.rounded.ArrowBack
-import androidx.compose.material.icons.rounded.BlurCircular
 import androidx.compose.material.icons.rounded.Build
 import androidx.compose.material.icons.rounded.Redo
 import androidx.compose.material.icons.rounded.Save
@@ -62,8 +57,6 @@ import androidx.compose.material3.LargeTopAppBar
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedIconButton
 import androidx.compose.material3.SheetValue
-import androidx.compose.material3.Slider
-import androidx.compose.material3.SliderDefaults
 import androidx.compose.material3.Switch
 import androidx.compose.material3.SwitchDefaults
 import androidx.compose.material3.Text
@@ -95,14 +88,13 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-import com.smarttoolfactory.colordetector.util.ColorUtil.roundToTwoDigits
 import com.t8rin.dynamic.theme.LocalDynamicThemeState
 import com.t8rin.dynamic.theme.observeAsState
 import dev.olshevski.navigation.reimagined.hilt.hiltViewModel
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.domain.model.ImageFormat
+import ru.tech.imageresizershrinker.presentation.draw_screen.components.BlurRadiusSelector
 import ru.tech.imageresizershrinker.presentation.draw_screen.components.LineWidthSelector
 import ru.tech.imageresizershrinker.presentation.erase_background_screen.components.AutoEraseBackgroundCard
 import ru.tech.imageresizershrinker.presentation.erase_background_screen.components.BitmapEraser
@@ -411,85 +403,12 @@ fun EraseBackgroundScreen(
                 strokeWidth = strokeWidth,
                 onChangeStrokeWidth = { strokeWidth = it }
             )
-            Column(
+            BlurRadiusSelector(
                 modifier = Modifier
-                    .padding(top = 8.dp, end = 16.dp, start = 16.dp)
-                    .block(shape = RoundedCornerShape(24.dp))
-                    .animateContentSize()
-            ) {
-                Row(
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Icon(
-                        imageVector = Icons.Rounded.BlurCircular,
-                        contentDescription = null,
-                        modifier = Modifier
-                            .padding(
-                                top = 16.dp,
-                                start = 16.dp
-                            )
-                    )
-                    Text(
-                        text = stringResource(R.string.blur_radius),
-                        modifier = Modifier
-                            .padding(
-                                top = 16.dp,
-                                end = 16.dp,
-                                start = 16.dp
-                            )
-                            .weight(1f)
-                    )
-                    Text(
-                        text = "$blurRadius",
-                        color = MaterialTheme.colorScheme.onSurface.copy(
-                            alpha = 0.5f
-                        ),
-                        modifier = Modifier.padding(top = 16.dp),
-                        lineHeight = 18.sp
-                    )
-                    Text(
-                        maxLines = 1,
-                        text = "Px",
-                        color = MaterialTheme.colorScheme.onSurface.copy(
-                            alpha = 0.5f
-                        ),
-                        modifier = Modifier.padding(
-                            start = 4.dp,
-                            top = 16.dp,
-                            end = 16.dp
-                        )
-                    )
-                }
-                Slider(
-                    modifier = Modifier
-                        .padding(
-                            top = 16.dp,
-                            start = 12.dp,
-                            end = 12.dp,
-                            bottom = 8.dp
-                        )
-                        .offset(y = (-2).dp)
-                        .background(
-                            color = MaterialTheme.colorScheme.secondaryContainer,
-                            shape = CircleShape
-                        )
-                        .height(40.dp)
-                        .border(
-                            width = settingsState.borderWidth,
-                            color = MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.secondaryContainer),
-                            shape = CircleShape
-                        )
-                        .padding(horizontal = 10.dp),
-                    colors = SliderDefaults.colors(
-                        inactiveTrackColor = MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.secondaryContainer)
-                    ),
-                    value = blurRadius,
-                    valueRange = 1f..100f,
-                    onValueChange = {
-                        blurRadius = it.roundToTwoDigits()
-                    }
-                )
-            }
+                    .padding(top = 8.dp, end = 16.dp, start = 16.dp),
+                blurRadius = blurRadius,
+                onRadiusChange = { blurRadius = it }
+            )
             SaveExifWidget(
                 selected = viewModel.saveExif,
                 onCheckedChange = { viewModel.setSaveExif(it) },

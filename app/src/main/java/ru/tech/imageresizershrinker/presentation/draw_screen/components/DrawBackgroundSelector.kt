@@ -46,7 +46,6 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.t8rin.drawbox.domain.DrawController
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.presentation.main_screen.components.ColorCustomComponent
 import ru.tech.imageresizershrinker.presentation.root.theme.inverse
@@ -58,14 +57,17 @@ import ru.tech.imageresizershrinker.presentation.root.widget.text.TitleItem
 import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalSettingsState
 
 @Composable
-fun DrawBackgroundSelector(drawController: DrawController) {
+fun DrawBackgroundSelector(
+    backgroundColor: Color,
+    onColorChange: (Color) -> Unit
+) {
     val settingsState = LocalSettingsState.current
 
     var customColor by remember { mutableStateOf<Color?>(null) }
     val showColorPicker = remember { mutableStateOf(false) }
 
-    if (drawController.backgroundColor !in defaultColorList) {
-        customColor = drawController.backgroundColor
+    if (backgroundColor !in defaultColorList) {
+        customColor = backgroundColor
     }
 
     Column(
@@ -137,7 +139,7 @@ fun DrawBackgroundSelector(drawController: DrawController) {
                             .size(
                                 animateDpAsState(
                                     40.dp.times(
-                                        if (drawController.backgroundColor == color && customColor == null) {
+                                        if (backgroundColor == color && customColor == null) {
                                             1.3f
                                         } else 1f
                                     )
@@ -153,7 +155,7 @@ fun DrawBackgroundSelector(drawController: DrawController) {
                             .clip(CircleShape)
                             .background(color)
                             .clickable {
-                                drawController.setDrawBackground(color)
+                                onColorChange(color)
                                 customColor = null
                             }
                     )
@@ -202,7 +204,7 @@ fun DrawBackgroundSelector(drawController: DrawController) {
                         color = customColor?.toArgb() ?: 0,
                         onColorChange = {
                             customColor = Color(it)
-                            drawController.setDrawBackground(Color(it))
+                            onColorChange(Color(it))
                         }
                     )
                 }
