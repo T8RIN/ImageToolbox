@@ -2,6 +2,7 @@ package ru.tech.imageresizershrinker.presentation.erase_background_screen.compon
 
 import android.graphics.Bitmap
 import android.graphics.PorterDuff
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
@@ -25,6 +26,7 @@ import androidx.compose.ui.graphics.BlendMode
 import androidx.compose.ui.graphics.Canvas
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
+import androidx.compose.ui.graphics.ImageShader
 import androidx.compose.ui.graphics.Paint
 import androidx.compose.ui.graphics.PaintingStyle
 import androidx.compose.ui.graphics.Path
@@ -51,10 +53,11 @@ import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
 @Composable
 fun BitmapEraser(
     imageBitmap: ImageBitmap,
+    imageBitmapForShader: ImageBitmap?,
     paths: List<PathPaint>,
     onAddPath: (PathPaint) -> Unit,
     strokeWidth: Float,
-    isErasingOn: Boolean = false,
+    isRecoveryOn: Boolean = false,
     modifier: Modifier,
     onErased: (Bitmap) -> Unit = {},
     zoomEnabled: Boolean
@@ -94,8 +97,18 @@ fun BitmapEraser(
                     imageWidth,
                     imageHeight,
                     false
-                )
-                    .asImageBitmap()
+                ).asImageBitmap()
+            }
+
+            val shaderBitmap = remember(imageBitmapForShader) {
+                imageBitmapForShader?.asAndroidBitmap()?.let {
+                    Bitmap.createScaledBitmap(
+                        it,
+                        imageWidth,
+                        imageHeight,
+                        false
+                    ).asImageBitmap()
+                }
             }
 
             val erasedBitmap: ImageBitmap = remember {
@@ -118,11 +131,12 @@ fun BitmapEraser(
                 }
             }
 
-            val drawPaint = remember(strokeWidth, isErasingOn) {
+            val drawPaint = remember(strokeWidth, isRecoveryOn) {
                 Paint().apply {
-                    blendMode = if (isErasingOn) BlendMode.DstIn else BlendMode.Clear
+                    blendMode = if (isRecoveryOn) blendMode else BlendMode.Clear
                     style = PaintingStyle.Stroke
                     strokeCap = StrokeCap.Round
+                    shader = if (isRecoveryOn) shaderBitmap?.let { ImageShader(it) } else shader
                     this.strokeWidth = strokeWidth
                     strokeJoin = StrokeJoin.Round
                     isAntiAlias = true
@@ -161,7 +175,7 @@ fun BitmapEraser(
                         motionEvent = MotionEvent.Idle
                         onAddPath(
                             PathPaint(
-                                drawPath, drawPaint, isErasingOn
+                                drawPath, drawPaint, isRecoveryOn
                             )
                         )
                         scope.launch {
@@ -184,8 +198,12 @@ fun BitmapEraser(
                     )
 
                     paths.forEach { (path, paint) ->
-                        this.drawPath(path.asAndroidPath(), paint.asFrameworkPaint())
+                        this.drawPath(
+                            path.asAndroidPath(),
+                            paint.asFrameworkPaint()
+                                .also { Log.d("COCK", it.shader?.toString() ?: "") })
                     }
+
                     this.drawPath(drawPath.asAndroidPath(), drawPaint.asFrameworkPaint())
                 }
             }

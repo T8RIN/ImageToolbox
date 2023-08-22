@@ -31,6 +31,7 @@ import ru.tech.imageresizershrinker.domain.saving.FileController
 import ru.tech.imageresizershrinker.domain.saving.SaveResult
 import ru.tech.imageresizershrinker.domain.saving.model.ImageSaveTarget
 import ru.tech.imageresizershrinker.presentation.erase_background_screen.components.PathPaint
+import ru.tech.imageresizershrinker.presentation.root.utils.state.update
 import java.nio.ByteBuffer
 import javax.inject.Inject
 
@@ -39,6 +40,12 @@ class EraseBackgroundViewModel @Inject constructor(
     private val imageManager: ImageManager<Bitmap, ExifInterface>,
     private val fileController: FileController
 ) : ViewModel() {
+
+    private val _internalBitmap: MutableState<Bitmap?> = mutableStateOf(null)
+    val internalBitmap: Bitmap? by _internalBitmap
+
+    private val _isRecoveryOn: MutableState<Boolean> = mutableStateOf(false)
+    val isRecoveryOn: Boolean by _isRecoveryOn
 
     private val _saveExif: MutableState<Boolean> = mutableStateOf(false)
     val saveExif: Boolean by _saveExif
@@ -78,12 +85,12 @@ class EraseBackgroundViewModel @Inject constructor(
     val bitmap: Bitmap? by _bitmap
 
     private val _erasedBitmap: MutableState<Bitmap?> = mutableStateOf(null)
-    val erasedBitmap: Bitmap? by _erasedBitmap
 
     fun updateBitmap(bitmap: Bitmap?) {
         viewModelScope.launch {
             _isImageLoading.value = true
             _bitmap.value = imageManager.scaleUntilCanShow(bitmap)
+            _internalBitmap.value = _bitmap.value
             _erasedBitmap.value = _bitmap.value
             _isImageLoading.value = false
         }
@@ -282,10 +289,14 @@ class EraseBackgroundViewModel @Inject constructor(
 
     fun resetImage() {
         viewModelScope.launch {
-            _bitmap.value = imageManager.getImage(data = uri)
+            _bitmap.value = _internalBitmap.value
             _paths.value = listOf()
             _lastPaths.value = listOf()
         }
+    }
+
+    fun toggleEraser() {
+        _isRecoveryOn.update { !it }
     }
 
 }

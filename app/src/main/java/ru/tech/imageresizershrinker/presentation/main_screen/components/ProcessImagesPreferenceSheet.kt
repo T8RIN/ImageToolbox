@@ -1,7 +1,6 @@
 package ru.tech.imageresizershrinker.presentation.main_screen.components
 
 import android.net.Uri
-import android.util.Log
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -65,7 +64,6 @@ fun ProcessImagesPreferenceSheet(
     uris: List<Uri>,
     visible: MutableState<Boolean>
 ) {
-    Log.d("COCK", uris.toString())
     val settingsState = LocalSettingsState.current
     val navController = LocalNavController.current
     SimpleSheet(

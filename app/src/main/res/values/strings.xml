@@ -360,6 +360,9 @@
     <string name="trim_image_sub">Trasparent spaces around image will be trimmed</string>
     <string name="auto_erase_background">Auto erase background</string>
     <string name="restore_image">Restore image</string>
+    <string name="erase_mode">Erase mode</string>
+    <string name="erase_background">Erase background</string>
+    <string name="restore_background">Restore background</string>
     <string-array name="fab_alignment_sub">
         <item>Start</item>
         <item>Center</item>

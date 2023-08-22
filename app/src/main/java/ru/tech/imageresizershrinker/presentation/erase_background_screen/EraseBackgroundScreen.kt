@@ -91,7 +91,6 @@ import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -105,6 +104,7 @@ import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.domain.model.ImageFormat
 import ru.tech.imageresizershrinker.presentation.erase_background_screen.components.AutoEraseBackgroundCard
 import ru.tech.imageresizershrinker.presentation.erase_background_screen.components.BitmapEraser
+import ru.tech.imageresizershrinker.presentation.erase_background_screen.components.EraseModeCard
 import ru.tech.imageresizershrinker.presentation.erase_background_screen.components.TrimImageSelector
 import ru.tech.imageresizershrinker.presentation.erase_background_screen.viewModel.EraseBackgroundViewModel
 import ru.tech.imageresizershrinker.presentation.root.theme.icons.Transparency
@@ -180,7 +180,6 @@ fun EraseBackgroundScreen(
         }
     }
 
-    val focus = LocalFocusManager.current
     var showExitDialog by rememberSaveable { mutableStateOf(false) }
 
 
@@ -300,16 +299,18 @@ fun EraseBackgroundScreen(
             ) { imageBitmap ->
                 val aspectRatio = imageBitmap.width / imageBitmap.height.toFloat()
                 BitmapEraser(
+                    imageBitmapForShader = viewModel.internalBitmap?.asImageBitmap(),
                     imageBitmap = imageBitmap,
                     paths = viewModel.paths,
                     strokeWidth = strokeWidth,
                     onAddPath = viewModel::addPath,
+                    isRecoveryOn = viewModel.isRecoveryOn,
                     modifier = Modifier
                         .padding(16.dp)
                         .aspectRatio(aspectRatio, portrait)
                         .fillMaxSize(),
                     zoomEnabled = zoomEnabled,
-                    onErased = viewModel::updateErasedBitmap
+                    onErased = viewModel::updateErasedBitmap,
                 )
             }
 
@@ -374,14 +375,19 @@ fun EraseBackgroundScreen(
             if (!portrait) {
                 Row(
                     Modifier
-                        .padding(top = 16.dp)
+                        .padding(top = 8.dp)
                         .block(CircleShape)
                 ) {
                     secondaryControls()
                 }
             }
+            Spacer(modifier = Modifier.height(8.dp))
+            EraseModeCard(
+                isRecoveryOn = viewModel.isRecoveryOn,
+                onClick = viewModel::toggleEraser
+            )
             AutoEraseBackgroundCard(
-                onClick =  {
+                onClick = {
                     scope.launch {
                         scaffoldState.bottomSheetState.partialExpand()
                         viewModel.autoEraseBackground(
@@ -398,7 +404,7 @@ fun EraseBackgroundScreen(
             )
             Column(
                 modifier = Modifier
-                    .padding(top = 16.dp, end = 16.dp, start = 16.dp)
+                    .padding(top = 8.dp, end = 16.dp, start = 16.dp)
                     .block(shape = RoundedCornerShape(24.dp))
                     .animateContentSize()
             ) {
@@ -470,16 +476,16 @@ fun EraseBackgroundScreen(
             SaveExifWidget(
                 selected = viewModel.saveExif,
                 onCheckedChange = { viewModel.setSaveExif(it) },
-                modifier = Modifier.padding(start = 16.dp, end = 16.dp, top = 16.dp)
+                modifier = Modifier.padding(start = 16.dp, end = 16.dp, top = 8.dp)
             )
             TrimImageSelector(
                 selected = viewModel.trimImage,
                 onCheckedChange = { viewModel.setTrimImage(it) },
-                modifier = Modifier.padding(start = 16.dp, end = 16.dp, top = 16.dp)
+                modifier = Modifier.padding(start = 16.dp, end = 16.dp, top = 8.dp)
             )
             ExtensionGroup(
                 modifier = Modifier
-                    .padding(16.dp)
+                    .padding(start = 16.dp, end = 16.dp, top = 8.dp, bottom = 8.dp)
                     .navigationBarsPadding(),
                 entries = ImageFormat.alphaContainedEntries,
                 enabled = true,

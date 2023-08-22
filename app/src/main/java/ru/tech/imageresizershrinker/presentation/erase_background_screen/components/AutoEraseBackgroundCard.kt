@@ -38,7 +38,7 @@ fun AutoEraseBackgroundCard(
     val settingsState = LocalSettingsState.current
     Column(
         Modifier
-            .padding(start = 16.dp, end = 16.dp, top = 16.dp)
+            .padding(start = 16.dp, end = 16.dp, top = 8.dp)
             .block(resultPadding = 8.dp, shape = RoundedCornerShape(24.dp))
     ) {
         Row(
