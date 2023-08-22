@@ -345,4 +345,9 @@
     <string name="trim_image_sub">L\'espace transparent autour de l\'image sera coupé</string>
     <string name="auto_erase_background">Effacement automatique de l\'arrière-plan</string>
     <string name="restore_image">Restaurer l\'image</string>
+    <string name="erase_mode">Mode Effacer</string>
+    <string name="erase_background">Effacer l\'arrière-plan</string>
+    <string name="blur_radius">Rayon de flou</string>
+    <string name="pipette">Pipette</string>
+    <string name="restore_background">Restaurer l\'arrière-plan</string>
 </resources>
