@@ -139,9 +139,7 @@ class CompareViewModel @Inject constructor(
     ) {
         _isImageLoading.value = true
         viewModelScope.launch {
-            _bitmapData.value?.let { (b, a) ->
-                a?.let { b?.overlay(it, percent) }
-            }?.let {
+            getOverlayedImage(percent)?.let {
                 imageManager.shareImage(
                     ImageData(
                         image = it,
@@ -165,9 +163,7 @@ class CompareViewModel @Inject constructor(
     ) = viewModelScope.launch {
         _isImageLoading.value = true
         withContext(Dispatchers.IO) {
-            _bitmapData.value?.let { (b, a) ->
-                a?.let { b?.overlay(it, percent) }
-            }?.let { localBitmap ->
+            getOverlayedImage(percent)?.let { localBitmap ->
                 onComplete(
                     fileController.save(
                         saveTarget = ImageSaveTarget<ExifInterface>(
@@ -211,6 +207,12 @@ class CompareViewModel @Inject constructor(
             ), 0f, 0f, null
         )
         return finalBitmap
+    }
+
+    fun getOverlayedImage(percent: Float): Bitmap? {
+        return _bitmapData.value?.let { (b, a) ->
+            a?.let { b?.overlay(it, percent) }
+        }
     }
 
 }

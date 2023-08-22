@@ -57,6 +57,7 @@ import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
@@ -101,6 +102,7 @@ import ru.tech.imageresizershrinker.presentation.root.utils.modifier.fabBorder
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.navBarsPaddingOnlyIfTheyAtTheBottom
 import ru.tech.imageresizershrinker.presentation.root.widget.controls.ExtensionGroup
 import ru.tech.imageresizershrinker.presentation.root.widget.image.ImageNotPickedWidget
+import ru.tech.imageresizershrinker.presentation.root.widget.image.Picture
 import ru.tech.imageresizershrinker.presentation.root.widget.other.LoadingDialog
 import ru.tech.imageresizershrinker.presentation.root.widget.other.LocalToastHost
 import ru.tech.imageresizershrinker.presentation.root.widget.other.TopAppBarEmoji
@@ -532,7 +534,37 @@ fun CompareScreen(
                 }
             }
             Box {
-                Column(Modifier.verticalScroll(rememberScrollState())) {
+                Column(
+                    modifier = Modifier.verticalScroll(rememberScrollState()),
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    Box(
+                        Modifier
+                            .padding(
+                                bottom = 8.dp,
+                                start = 4.dp,
+                                end = 4.dp,
+                                top = 16.dp
+                            )
+                            .height(100.dp)
+                            .width(120.dp)
+                            .border(
+                                width = settingsState.borderWidth,
+                                color = MaterialTheme.colorScheme.outlineVariant(),
+                                shape = MaterialTheme.shapes.extraLarge
+                            )
+                            .clip(shape = MaterialTheme.shapes.extraLarge)
+                    ) {
+                        Picture(
+                            model = remember(viewModel.bitmapData) {
+                                derivedStateOf {
+                                    viewModel.getOverlayedImage(progress)
+                                }
+                            }.value,
+                            shape = MaterialTheme.shapes.extraLarge,
+                            modifier = Modifier.fillMaxSize()
+                        )
+                    }
                     Spacer(Modifier.height(16.dp))
                     ExtensionGroup(
                         modifier = Modifier
