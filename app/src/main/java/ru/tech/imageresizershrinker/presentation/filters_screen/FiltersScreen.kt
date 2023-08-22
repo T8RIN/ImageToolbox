@@ -593,7 +593,7 @@ fun FiltersScreen(
                                     ExtensionGroup(
                                         enabled = viewModel.bitmap != null,
                                         imageFormat = viewModel.imageInfo.imageFormat,
-                                        onMimeChange = {
+                                        onFormatChange = {
                                             viewModel.setMime(it)
                                         }
                                     )

@@ -1,6 +1,7 @@
 package ru.tech.imageresizershrinker.presentation.compare_screen.viewModel
 
 import android.graphics.Bitmap
+import android.graphics.Matrix
 import android.net.Uri
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
@@ -14,26 +15,34 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import ru.tech.imageresizershrinker.domain.image.ImageManager
+import ru.tech.imageresizershrinker.domain.model.ImageData
+import ru.tech.imageresizershrinker.domain.model.ImageFormat
+import ru.tech.imageresizershrinker.domain.model.ImageInfo
 import ru.tech.imageresizershrinker.domain.model.ResizeType
+import ru.tech.imageresizershrinker.domain.saving.FileController
+import ru.tech.imageresizershrinker.domain.saving.SaveResult
+import ru.tech.imageresizershrinker.domain.saving.model.ImageSaveTarget
 import javax.inject.Inject
+import kotlin.math.roundToInt
 
 @HiltViewModel
 class CompareViewModel @Inject constructor(
-    private val imageManager: ImageManager<Bitmap, ExifInterface>
+    private val imageManager: ImageManager<Bitmap, ExifInterface>,
+    private val fileController: FileController
 ) : ViewModel() {
 
     private val _bitmapData: MutableState<Pair<Bitmap?, Bitmap?>?> = mutableStateOf(null)
     val bitmapData by _bitmapData
 
-    private val _isLoading: MutableState<Boolean> = mutableStateOf(false)
-    val isLoading: Boolean by _isLoading
+    private val _isImageLoading: MutableState<Boolean> = mutableStateOf(false)
+    val isImageLoading: Boolean by _isImageLoading
 
     private val _rotation: MutableState<Float> = mutableFloatStateOf(0f)
     val rotation by _rotation
 
     fun updateBitmapData(newBeforeBitmap: Bitmap?, newAfterBitmap: Bitmap?) {
         viewModelScope.launch {
-            _isLoading.value = true
+            _isImageLoading.value = true
             var bmp1: Bitmap?
             var bmp2: Bitmap?
             withContext(Dispatchers.IO) {
@@ -54,7 +63,7 @@ class CompareViewModel @Inject constructor(
                         b to a
                     }
                 }
-            _isLoading.value = false
+            _isImageLoading.value = false
         }
     }
 
@@ -68,7 +77,7 @@ class CompareViewModel @Inject constructor(
             withContext(Dispatchers.IO) {
                 _bitmapData.value?.let { (f, s) ->
                     if (f != null && s != null) {
-                        _isLoading.value = true
+                        _isImageLoading.value = true
                         _bitmapData.value = with(imageManager) {
                             rotate(
                                 image = rotate(
@@ -84,7 +93,7 @@ class CompareViewModel @Inject constructor(
                                 degrees = rotation
                             )
                         }
-                        _isLoading.value = false
+                        _isImageLoading.value = false
                     }
                 }
             }
@@ -94,9 +103,9 @@ class CompareViewModel @Inject constructor(
     fun swap() {
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
-                _isLoading.value = true
+                _isImageLoading.value = true
                 _bitmapData.value = _bitmapData.value?.run { second to first }
-                _isLoading.value = false
+                _isImageLoading.value = false
             }
         }
     }
@@ -122,5 +131,86 @@ class CompareViewModel @Inject constructor(
         uri: Uri,
         originalSize: Boolean
     ): Bitmap? = imageManager.getImage(uri.toString(), originalSize)?.image
+
+    fun shareBitmap(
+        percent: Float,
+        imageFormat: ImageFormat,
+        onComplete: () -> Unit
+    ) {
+        _isImageLoading.value = true
+        viewModelScope.launch {
+            _bitmapData.value?.let { (b, a) ->
+                a?.let { b?.overlay(it, percent) }
+            }?.let {
+                imageManager.shareImage(
+                    ImageData(
+                        image = it,
+                        imageInfo = ImageInfo(
+                            imageFormat = imageFormat,
+                            width = it.width,
+                            height = it.height
+                        )
+                    ),
+                    onComplete = onComplete
+                )
+            } ?: onComplete()
+        }
+        _isImageLoading.value = false
+    }
+
+    fun saveBitmap(
+        percent: Float,
+        imageFormat: ImageFormat,
+        onComplete: (saveResult: SaveResult) -> Unit
+    ) = viewModelScope.launch {
+        _isImageLoading.value = true
+        withContext(Dispatchers.IO) {
+            _bitmapData.value?.let { (b, a) ->
+                a?.let { b?.overlay(it, percent) }
+            }?.let { localBitmap ->
+                onComplete(
+                    fileController.save(
+                        saveTarget = ImageSaveTarget<ExifInterface>(
+                            imageInfo = ImageInfo(
+                                imageFormat = imageFormat,
+                                width = localBitmap.width,
+                                height = localBitmap.height
+                            ),
+                            originalUri = "",
+                            sequenceNumber = null,
+                            data = imageManager.compress(
+                                ImageData(
+                                    image = localBitmap,
+                                    imageInfo = ImageInfo(
+                                        imageFormat = imageFormat,
+                                        width = localBitmap.width,
+                                        height = localBitmap.height
+                                    )
+                                )
+                            )
+                        ), keepMetadata = false
+                    )
+                )
+            }
+        }
+        _isImageLoading.value = false
+    }
+
+    private fun Bitmap.overlay(overlay: Bitmap, percent: Float): Bitmap {
+        val image = this
+        val finalBitmap = Bitmap.createBitmap(image.width, image.height, image.config)
+        val canvas = android.graphics.Canvas(finalBitmap)
+        canvas.drawBitmap(image, Matrix(), null)
+        canvas.drawBitmap(
+            Bitmap.createBitmap(
+                overlay,
+                0,
+                0,
+                (width * percent / 100).roundToInt(),
+                height
+            ), 0f, 0f, null
+        )
+        return finalBitmap
+    }
 
 }

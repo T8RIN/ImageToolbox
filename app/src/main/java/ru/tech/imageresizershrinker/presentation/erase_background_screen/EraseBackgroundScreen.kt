@@ -427,7 +427,7 @@ fun EraseBackgroundScreen(
                 entries = ImageFormat.alphaContainedEntries,
                 enabled = true,
                 imageFormat = viewModel.imageFormat,
-                onMimeChange = {
+                onFormatChange = {
                     viewModel.setMime(it)
                 }
             )

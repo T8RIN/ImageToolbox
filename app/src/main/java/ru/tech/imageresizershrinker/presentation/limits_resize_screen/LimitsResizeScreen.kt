@@ -396,7 +396,7 @@ fun LimitsResizeScreen(
                                     ExtensionGroup(
                                         enabled = viewModel.bitmap != null,
                                         imageFormat = viewModel.imageInfo.imageFormat,
-                                        onMimeChange = viewModel::setMime
+                                        onFormatChange = viewModel::setMime
                                     )
                                     Spacer(Modifier.size(8.dp))
                                     LimitsResizeGroup(

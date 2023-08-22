@@ -264,7 +264,7 @@ fun CropScreen(
             } else ImageFormat.alphaContainedEntries,
             enabled = viewModel.bitmap != null,
             imageFormat = viewModel.imageFormat,
-            onMimeChange = {
+            onFormatChange = {
                 viewModel.updateMimeType(it)
             }
         )

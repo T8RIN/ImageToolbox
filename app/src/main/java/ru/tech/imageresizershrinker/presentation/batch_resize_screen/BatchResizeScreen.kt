@@ -493,7 +493,7 @@ fun BatchResizeScreen(
                                     ExtensionGroup(
                                         enabled = viewModel.bitmap != null,
                                         imageFormat = bitmapInfo.imageFormat,
-                                        onMimeChange = viewModel::setMime
+                                        onFormatChange = viewModel::setMime
                                     )
                                     Spacer(Modifier.height(8.dp))
                                     ResizeGroup(

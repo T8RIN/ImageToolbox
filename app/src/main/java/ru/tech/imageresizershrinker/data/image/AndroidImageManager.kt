@@ -400,14 +400,6 @@ class AndroidImageManager @Inject constructor(
         onComplete()
     }
 
-    override fun overlayImage(image: Bitmap, overlay: Bitmap): Bitmap {
-        val finalBitmap = Bitmap.createBitmap(image.width, image.height, image.config)
-        val canvas = Canvas(finalBitmap)
-        canvas.drawBitmap(image, Matrix(), null)
-        canvas.drawBitmap(overlay, 0f, 0f, null)
-        return finalBitmap
-    }
-
     override suspend fun getImageWithTransformations(
         uri: String,
         transformations: List<Transformation<Bitmap>>,

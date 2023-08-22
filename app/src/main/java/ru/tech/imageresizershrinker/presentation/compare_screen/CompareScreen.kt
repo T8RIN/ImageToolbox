@@ -5,12 +5,14 @@ import android.net.Uri
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -24,21 +26,28 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.Share
 import androidx.compose.material.icons.rounded.AddPhotoAlternate
 import androidx.compose.material.icons.rounded.ArrowBack
 import androidx.compose.material.icons.rounded.ErrorOutline
+import androidx.compose.material.icons.rounded.IosShare
 import androidx.compose.material.icons.rounded.RotateLeft
 import androidx.compose.material.icons.rounded.RotateRight
+import androidx.compose.material.icons.rounded.Save
+import androidx.compose.material.icons.rounded.Share
 import androidx.compose.material.icons.rounded.SwapHoriz
 import androidx.compose.material3.BottomAppBar
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExtendedFloatingActionButton
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.FloatingActionButtonDefaults
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.LargeTopAppBar
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Slider
 import androidx.compose.material3.SliderDefaults
 import androidx.compose.material3.Text
@@ -50,6 +59,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -75,22 +85,30 @@ import com.t8rin.dynamic.theme.extractPrimaryColor
 import dev.olshevski.navigation.reimagined.hilt.hiltViewModel
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.R
+import ru.tech.imageresizershrinker.domain.model.ImageFormat
 import ru.tech.imageresizershrinker.presentation.compare_screen.viewModel.CompareViewModel
 import ru.tech.imageresizershrinker.presentation.erase_background_screen.components.transparencyChecker
 import ru.tech.imageresizershrinker.presentation.root.theme.blend
 import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
+import ru.tech.imageresizershrinker.presentation.root.utils.confetti.LocalConfettiController
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.Picker
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.localImagePickerMode
+import ru.tech.imageresizershrinker.presentation.root.utils.helper.parseSaveResult
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.rememberImagePicker
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.block
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.drawHorizontalStroke
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.fabBorder
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.navBarsPaddingOnlyIfTheyAtTheBottom
+import ru.tech.imageresizershrinker.presentation.root.widget.controls.ExtensionGroup
 import ru.tech.imageresizershrinker.presentation.root.widget.image.ImageNotPickedWidget
 import ru.tech.imageresizershrinker.presentation.root.widget.other.LoadingDialog
 import ru.tech.imageresizershrinker.presentation.root.widget.other.LocalToastHost
 import ru.tech.imageresizershrinker.presentation.root.widget.other.TopAppBarEmoji
+import ru.tech.imageresizershrinker.presentation.root.widget.preferences.PreferenceItem
+import ru.tech.imageresizershrinker.presentation.root.widget.sheets.SimpleSheet
+import ru.tech.imageresizershrinker.presentation.root.widget.text.AutoSizeText
 import ru.tech.imageresizershrinker.presentation.root.widget.text.Marquee
+import ru.tech.imageresizershrinker.presentation.root.widget.text.TitleItem
 import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalSettingsState
 import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalWindowSizeClass
 
@@ -109,6 +127,12 @@ fun CompareScreen(
     val allowChangeColor = settingsState.allowChangeColorByImage
 
     val scope = rememberCoroutineScope()
+    val confettiController = LocalConfettiController.current
+    val showConfetti: () -> Unit = {
+        scope.launch {
+            confettiController.showEmpty()
+        }
+    }
 
     var progress by rememberSaveable { mutableFloatStateOf(50f) }
 
@@ -185,6 +209,7 @@ fun CompareScreen(
     val portrait =
         LocalConfiguration.current.orientation != Configuration.ORIENTATION_LANDSCAPE || LocalWindowSizeClass.current.widthSizeClass == WindowWidthSizeClass.Compact
 
+    val showShareSheet = rememberSaveable { mutableStateOf(false) }
     Box(
         Modifier
             .fillMaxSize()
@@ -230,6 +255,11 @@ fun CompareScreen(
                         }
                     },
                     actions = {
+                        IconButton(
+                            onClick = { showShareSheet.value = true }
+                        ) {
+                            Icon(Icons.Outlined.Share, null)
+                        }
                         IconButton(
                             onClick = {
                                 viewModel.swap()
@@ -487,7 +517,89 @@ fun CompareScreen(
         }
     }
 
-    if (viewModel.isLoading) LoadingDialog()
+    SimpleSheet(
+        sheetContent = {
+            var imageFormat by remember { mutableStateOf<ImageFormat>(ImageFormat.Png) }
+            val saveBitmap: () -> Unit = {
+                viewModel.saveBitmap(progress, imageFormat) { saveResult ->
+                    parseSaveResult(
+                        saveResult = saveResult,
+                        onSuccess = showConfetti,
+                        toastHostState = toastHostState,
+                        scope = scope,
+                        context = context
+                    )
+                }
+            }
+            Box {
+                Column(Modifier.verticalScroll(rememberScrollState())) {
+                    Spacer(Modifier.height(16.dp))
+                    ExtensionGroup(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 16.dp),
+                        enabled = true,
+                        imageFormat = imageFormat,
+                        onFormatChange = { imageFormat = it }
+                    )
+                    Spacer(Modifier.height(8.dp))
+                    PreferenceItem(
+                        title = stringResource(id = R.string.save),
+                        onClick = {
+                            saveBitmap()
+                            showShareSheet.value = false
+                        },
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 16.dp),
+                        color = MaterialTheme.colorScheme.primaryContainer,
+                        endIcon = Icons.Rounded.Save
+                    )
+                    Spacer(Modifier.height(8.dp))
+                    PreferenceItem(
+                        title = stringResource(id = R.string.share),
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 16.dp),
+                        onClick = {
+                            viewModel.shareBitmap(progress, imageFormat) {
+                                showConfetti()
+                            }
+                            showShareSheet.value = false
+                        },
+                        color = MaterialTheme.colorScheme.tertiaryContainer,
+                        endIcon = Icons.Rounded.Share
+                    )
+                    Spacer(Modifier.height(16.dp))
+                }
+                HorizontalDivider()
+                HorizontalDivider(Modifier.align(Alignment.BottomCenter))
+            }
+        },
+        confirmButton = {
+            OutlinedButton(
+                colors = ButtonDefaults.filledTonalButtonColors(),
+                border = BorderStroke(
+                    settingsState.borderWidth,
+                    MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.secondaryContainer)
+                ),
+                onClick = {
+                    showShareSheet.value = false
+                }
+            ) {
+                AutoSizeText(stringResource(R.string.close))
+            }
+        },
+        title = {
+            TitleItem(
+                text = stringResource(id = R.string.share),
+                icon = Icons.Rounded.IosShare
+            )
+        },
+        visible = showShareSheet
+    )
+
+    if (viewModel.isImageLoading) LoadingDialog()
 
     BackHandler {
         onGoBack()

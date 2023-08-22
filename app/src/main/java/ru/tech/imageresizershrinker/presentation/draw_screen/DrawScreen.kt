@@ -373,7 +373,7 @@ fun DrawScreen(
                 .navigationBarsPadding(),
             enabled = viewModel.drawBehavior !is DrawBehavior.None,
             imageFormat = viewModel.imageFormat,
-            onMimeChange = {
+            onFormatChange = {
                 viewModel.updateMimeType(it)
             }
         )

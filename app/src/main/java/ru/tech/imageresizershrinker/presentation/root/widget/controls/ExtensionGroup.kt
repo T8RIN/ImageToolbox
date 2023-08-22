@@ -52,14 +52,14 @@ fun ExtensionGroup(
     enabled: Boolean,
     entries: List<ImageFormat> = ImageFormat.entries,
     imageFormat: ImageFormat,
-    onMimeChange: (ImageFormat) -> Unit
+    onFormatChange: (ImageFormat) -> Unit
 ) {
     val disColor = MaterialTheme.colorScheme.onSurface
         .copy(alpha = 0.38f)
         .compositeOver(MaterialTheme.colorScheme.surface)
 
     LaunchedEffect(imageFormat, entries) {
-        if (imageFormat !in entries) onMimeChange(ImageFormat.Png)
+        if (imageFormat !in entries) onFormatChange(ImageFormat.Png)
     }
 
     ProvideTextStyle(
@@ -109,7 +109,7 @@ fun ExtensionGroup(
                 ) {
                     items.forEach {
                         Chip(
-                            onClick = { onMimeChange(it) },
+                            onClick = { onFormatChange(it) },
                             selected = it == imageFormat,
                             label = {
                                 Text(text = it.title)

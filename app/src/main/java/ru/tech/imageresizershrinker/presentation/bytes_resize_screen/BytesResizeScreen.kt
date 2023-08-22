@@ -83,7 +83,6 @@ import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
 import ru.tech.imageresizershrinker.presentation.root.transformation.ImageInfoTransformation
 import ru.tech.imageresizershrinker.presentation.root.transformation.filter.SaturationFilter
 import ru.tech.imageresizershrinker.presentation.root.utils.confetti.LocalConfettiController
-import ru.tech.imageresizershrinker.presentation.root.utils.helper.ImageUtils.fileSize
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.ImageUtils.restrict
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.Picker
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.failedToSaveImages
@@ -469,7 +468,7 @@ fun BytesResizeScreen(
                                     ExtensionGroup(
                                         enabled = viewModel.bitmap != null,
                                         imageFormat = viewModel.imageFormat,
-                                        onMimeChange = viewModel::setMime
+                                        onFormatChange = viewModel::setMime
                                     )
                                 } else if (!viewModel.isImageLoading) {
                                     ImageNotPickedWidget(onPickImage = pickImage)

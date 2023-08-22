@@ -70,8 +70,6 @@ interface ImageManager<I, M> {
         originalSize: Boolean = true
     ): ImageData<I, M>?
 
-    fun overlayImage(image: I, overlay: I): I
-
     suspend fun shareImage(
         imageData: ImageData<I, M>,
         onComplete: () -> Unit,
