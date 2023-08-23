@@ -187,14 +187,14 @@ class EraseBackgroundViewModel @Inject constructor(
     }
 
     private suspend fun getErasedBitmap(): Bitmap? {
-        return _erasedBitmap.value?.let { trim(it) }?.let {
+        return _erasedBitmap.value?.let {
             imageManager.resize(
                 image = it,
                 width = _bitmap.value?.width ?: 0,
                 height = _bitmap.value?.height ?: 0,
                 resizeType = ResizeType.Explicit
             )
-        }
+        }?.let { trim(it) }
     }
 
     fun shareBitmap(onComplete: () -> Unit) {
