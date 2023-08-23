@@ -112,7 +112,7 @@ import ru.tech.imageresizershrinker.presentation.root.widget.preferences.screens
 import ru.tech.imageresizershrinker.presentation.root.widget.preferences.screens.GeneratePalettePreference
 import ru.tech.imageresizershrinker.presentation.root.widget.preferences.screens.LimitsPreference
 import ru.tech.imageresizershrinker.presentation.root.widget.preferences.screens.PickColorPreference
-import ru.tech.imageresizershrinker.presentation.root.widget.preferences.screens.SingleResizePreference
+import ru.tech.imageresizershrinker.presentation.root.widget.preferences.screens.SingleEditPreference
 import ru.tech.imageresizershrinker.presentation.root.widget.sheets.SimpleSheet
 import ru.tech.imageresizershrinker.presentation.root.widget.sheets.ZoomModalSheet
 import ru.tech.imageresizershrinker.presentation.root.widget.text.AutoSizeText
@@ -550,9 +550,9 @@ fun LoadNetImageScreen(
                     )
                 ) {
                     item {
-                        SingleResizePreference(
+                        SingleEditPreference(
                             modifier = Modifier.fillMaxWidth(),
-                            onClick = { navigate(Screen.SingleResize(viewModel.tempUri!!)) },
+                            onClick = { navigate(Screen.SingleEdit(viewModel.tempUri!!)) },
                             color = color
                         )
                     }

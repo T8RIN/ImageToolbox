@@ -16,7 +16,7 @@ import ru.tech.imageresizershrinker.presentation.root.theme.icons.Resize
 import ru.tech.imageresizershrinker.presentation.root.widget.preferences.PreferenceItem
 
 @Composable
-fun SingleResizePreference(
+fun ResizeAndConvertPreference(
     onClick: () -> Unit,
     color: Color = MaterialTheme.colorScheme.surfaceColorAtElevation(1.dp),
     @SuppressLint("ModifierParameter") modifier: Modifier = Modifier
@@ -26,9 +26,9 @@ fun SingleResizePreference(
     PreferenceItem(
         onClick = onClick,
         icon = Icons.Filled.Resize,
-        title = stringResource(R.string.single_edit),
-        subtitle = stringResource(R.string.single_edit_sub),
-        color = color,
-        modifier = modifier
+        title = stringResource(R.string.resize_and_convert),
+        subtitle = stringResource(R.string.resize_and_convert_sub),
+        modifier = modifier,
+        color = color
     )
 }

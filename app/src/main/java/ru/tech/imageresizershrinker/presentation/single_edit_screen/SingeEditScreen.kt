@@ -1,4 +1,4 @@
-package ru.tech.imageresizershrinker.presentation.single_resize_screen
+package ru.tech.imageresizershrinker.presentation.single_edit_screen
 
 import android.content.res.Configuration
 import android.net.Uri
@@ -17,16 +17,13 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.ime
 import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
@@ -82,12 +79,6 @@ import ru.tech.imageresizershrinker.presentation.root.utils.helper.rememberImage
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.drawHorizontalStroke
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.navBarsLandscapePadding
 import ru.tech.imageresizershrinker.presentation.root.widget.buttons.BottomButtonsBlock
-import ru.tech.imageresizershrinker.presentation.root.widget.controls.ExtensionGroup
-import ru.tech.imageresizershrinker.presentation.root.widget.controls.ImageTransformBar
-import ru.tech.imageresizershrinker.presentation.root.widget.controls.PresetWidget
-import ru.tech.imageresizershrinker.presentation.root.widget.controls.QualityWidget
-import ru.tech.imageresizershrinker.presentation.root.widget.controls.ResizeGroup
-import ru.tech.imageresizershrinker.presentation.root.widget.controls.ResizeImageField
 import ru.tech.imageresizershrinker.presentation.root.widget.dialogs.ExitWithoutSavingDialog
 import ru.tech.imageresizershrinker.presentation.root.widget.dialogs.ResetDialog
 import ru.tech.imageresizershrinker.presentation.root.widget.image.ImageContainer
@@ -104,15 +95,14 @@ import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalSettings
 import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalWindowSizeClass
 import ru.tech.imageresizershrinker.presentation.root.widget.utils.isExpanded
 import ru.tech.imageresizershrinker.presentation.root.widget.utils.middleImageState
-import ru.tech.imageresizershrinker.presentation.single_resize_screen.components.EditExifSheet
-import ru.tech.imageresizershrinker.presentation.single_resize_screen.viewModel.SingleResizeViewModel
+import ru.tech.imageresizershrinker.presentation.single_edit_screen.viewModel.SingleEditViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun SingleResizeScreen(
+fun SingleEditScreen(
     uriState: Uri?,
     onGoBack: () -> Unit,
-    viewModel: SingleResizeViewModel = hiltViewModel(),
+    viewModel: SingleEditViewModel = hiltViewModel(),
 ) {
     val settingsState = LocalSettingsState.current
     val toastHostState = LocalToastHost.current
@@ -134,7 +124,7 @@ fun SingleResizeScreen(
             viewModel.decodeBitmapByUri(
                 uri = it,
                 onGetMimeType = viewModel::setMime,
-                onGetExif = viewModel::updateExif,
+                onGetExif = {},
                 onGetBitmap = viewModel::updateBitmap,
                 onError = {
                     scope.launch {
@@ -158,7 +148,6 @@ fun SingleResizeScreen(
     val focus = LocalFocusManager.current
     var showResetDialog by rememberSaveable { mutableStateOf(false) }
     var showOriginal by rememberSaveable { mutableStateOf(false) }
-    val showEditExifDialog = rememberSaveable { mutableStateOf(false) }
     var showExitDialog by rememberSaveable { mutableStateOf(false) }
 
     val bitmapInfo = viewModel.imageInfo
@@ -172,7 +161,7 @@ fun SingleResizeScreen(
                 viewModel.decodeBitmapByUri(
                     uri = it,
                     onGetMimeType = viewModel::setMime,
-                    onGetExif = viewModel::updateExif,
+                    onGetExif = {},
                     onGetBitmap = viewModel::updateBitmap,
                     onError = {
                         scope.launch {
@@ -343,6 +332,10 @@ fun SingleResizeScreen(
         else onGoBack()
     }
 
+    val controls: @Composable () -> Unit = {
+
+    }
+
     Surface(
         color = MaterialTheme.colorScheme.background,
         modifier = Modifier
@@ -447,49 +440,7 @@ fun SingleResizeScreen(
                             ) {
                                 if (imageInside && viewModel.bitmap == null) imageBlock()
                                 if (viewModel.bitmap != null) {
-                                    ImageTransformBar(
-                                        onEditExif = { showEditExifDialog.value = true },
-                                        onRotateLeft = viewModel::rotateLeft,
-                                        onFlip = viewModel::flip,
-                                        onRotateRight = viewModel::rotateRight
-                                    )
-                                    Spacer(Modifier.size(8.dp))
-                                    PresetWidget(
-                                        selectedPreset = viewModel.presetSelected,
-                                        includeTelegramOption = true,
-                                        onPresetSelected = {
-                                            viewModel.setPreset(it)
-                                        }
-                                    )
-                                    Spacer(Modifier.size(8.dp))
-                                    ResizeImageField(
-                                        imageInfo = bitmapInfo,
-                                        bitmap = viewModel.bitmap,
-                                        onHeightChange = viewModel::updateHeight,
-                                        onWidthChange = viewModel::updateWidth,
-                                        showWarning = viewModel.showWarning
-                                    )
-                                    if (bitmapInfo.imageFormat.canChangeQuality) Spacer(
-                                        Modifier.height(8.dp)
-                                    )
-                                    QualityWidget(
-                                        visible = bitmapInfo.imageFormat.canChangeQuality,
-                                        enabled = viewModel.bitmap != null,
-                                        quality = bitmapInfo.quality.coerceIn(0f, 100f),
-                                        onQualityChange = viewModel::setQuality
-                                    )
-                                    Spacer(Modifier.height(8.dp))
-                                    ExtensionGroup(
-                                        enabled = viewModel.bitmap != null,
-                                        imageFormat = bitmapInfo.imageFormat,
-                                        onFormatChange = viewModel::setMime
-                                    )
-                                    Spacer(Modifier.height(8.dp))
-                                    ResizeGroup(
-                                        enabled = viewModel.bitmap != null,
-                                        resizeType = bitmapInfo.resizeType,
-                                        onResizeChange = viewModel::setResizeType
-                                    )
+                                    controls()
                                 } else if (!viewModel.isImageLoading) {
                                     ImageNotPickedWidget(onPickImage = pickImage)
                                 }
@@ -521,14 +472,6 @@ fun SingleResizeScreen(
                 visible = showResetDialog,
                 onDismiss = { showResetDialog = false },
                 onReset = viewModel::resetValues
-            )
-
-            EditExifSheet(
-                visible = showEditExifDialog,
-                exif = viewModel.exif,
-                onClearExif = viewModel::clearExif,
-                onUpdateTag = viewModel::updateExifByTag,
-                onRemoveTag = viewModel::removeExifTag
             )
 
             ExitWithoutSavingDialog(

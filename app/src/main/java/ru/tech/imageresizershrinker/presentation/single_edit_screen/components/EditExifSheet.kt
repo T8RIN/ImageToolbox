@@ -1,4 +1,4 @@
-package ru.tech.imageresizershrinker.presentation.single_resize_screen.components
+package ru.tech.imageresizershrinker.presentation.single_edit_screen.components
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.ExperimentalFoundationApi

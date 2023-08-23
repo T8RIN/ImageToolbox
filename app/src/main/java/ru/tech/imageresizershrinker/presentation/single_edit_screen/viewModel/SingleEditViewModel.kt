@@ -1,4 +1,4 @@
-package ru.tech.imageresizershrinker.presentation.single_resize_screen.viewModel
+package ru.tech.imageresizershrinker.presentation.single_edit_screen.viewModel
 
 import android.graphics.Bitmap
 import android.net.Uri
@@ -15,7 +15,6 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import ru.tech.imageresizershrinker.domain.image.ImageManager
-import ru.tech.imageresizershrinker.domain.image.Metadata
 import ru.tech.imageresizershrinker.domain.model.ImageData
 import ru.tech.imageresizershrinker.domain.model.ImageFormat
 import ru.tech.imageresizershrinker.domain.model.ImageInfo
@@ -27,7 +26,7 @@ import ru.tech.imageresizershrinker.domain.saving.model.ImageSaveTarget
 import javax.inject.Inject
 
 @HiltViewModel
-class SingleResizeViewModel @Inject constructor(
+class SingleEditViewModel @Inject constructor(
     private val fileController: FileController,
     private val imageManager: ImageManager<Bitmap, ExifInterface>
 ) : ViewModel() {
@@ -37,9 +36,6 @@ class SingleResizeViewModel @Inject constructor(
 
     private val _bitmap: MutableState<Bitmap?> = mutableStateOf(null)
     val bitmap: Bitmap? by _bitmap
-
-    private val _exif: MutableState<ExifInterface?> = mutableStateOf(null)
-    val exif by _exif
 
     private val _previewBitmap: MutableState<Bitmap?> = mutableStateOf(null)
     val previewBitmap: Bitmap? by _previewBitmap
@@ -98,16 +94,14 @@ class SingleResizeViewModel @Inject constructor(
             bitmap?.let { bitmap ->
                 onComplete(
                     fileController.save(
-                        saveTarget = ImageSaveTarget(
+                        saveTarget = ImageSaveTarget<ExifInterface>(
                             imageInfo = imageInfo,
-                            metadata = exif,
                             originalUri = uri.toString(),
                             sequenceNumber = null,
                             data = imageManager.compress(
                                 ImageData(
                                     image = bitmap,
-                                    imageInfo = imageInfo,
-                                    metadata = exif
+                                    imageInfo = imageInfo
                                 )
                             )
                         ),
@@ -132,14 +126,6 @@ class SingleResizeViewModel @Inject constructor(
                 }
             )
         }
-    }
-
-    fun clearExif() {
-        val t = _exif.value
-        Metadata.metaTags.forEach {
-            t?.setAttribute(it, null)
-        }
-        _exif.value = t
     }
 
     private fun setBitmapInfo(newInfo: ImageInfo) {
@@ -238,22 +224,6 @@ class SingleResizeViewModel @Inject constructor(
             )
             else checkBitmapAndUpdate(resetPreset = false, resetTelegram = true)
         }
-    }
-
-    fun updateExif(exifInterface: ExifInterface?) {
-        _exif.value = exifInterface
-    }
-
-    fun removeExifTag(tag: String) {
-        val exifInterface = _exif.value
-        exifInterface?.setAttribute(tag, null)
-        updateExif(exifInterface)
-    }
-
-    fun updateExifByTag(tag: String, value: String) {
-        val exifInterface = _exif.value
-        exifInterface?.setAttribute(tag, value)
-        updateExif(exifInterface)
     }
 
     fun setUri(uri: Uri) {

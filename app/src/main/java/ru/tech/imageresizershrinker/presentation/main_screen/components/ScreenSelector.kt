@@ -16,7 +16,6 @@ import dev.olshevski.navigation.reimagined.AnimatedNavHost
 import dev.olshevski.navigation.reimagined.NavAction
 import dev.olshevski.navigation.reimagined.pop
 import kotlinx.coroutines.launch
-import ru.tech.imageresizershrinker.presentation.batch_resize_screen.BatchResizeScreen
 import ru.tech.imageresizershrinker.presentation.bytes_resize_screen.BytesResizeScreen
 import ru.tech.imageresizershrinker.presentation.compare_screen.CompareScreen
 import ru.tech.imageresizershrinker.presentation.crop_screen.CropScreen
@@ -31,9 +30,10 @@ import ru.tech.imageresizershrinker.presentation.limits_resize_screen.LimitsResi
 import ru.tech.imageresizershrinker.presentation.load_net_image_screen.LoadNetImageScreen
 import ru.tech.imageresizershrinker.presentation.main_screen.viewModel.MainViewModel
 import ru.tech.imageresizershrinker.presentation.pick_color_from_image_screen.PickColorFromImageScreen
+import ru.tech.imageresizershrinker.presentation.resize_and_convert_screen.ResizeAndConvertScreen
 import ru.tech.imageresizershrinker.presentation.root.utils.navigation.Screen
 import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalSettingsState
-import ru.tech.imageresizershrinker.presentation.single_resize_screen.SingleResizeScreen
+import ru.tech.imageresizershrinker.presentation.single_edit_screen.SingleEditScreen
 
 @Composable
 fun ScreenSelector(
@@ -95,15 +95,15 @@ fun ScreenSelector(
                 )
             }
 
-            is Screen.SingleResize -> {
-                SingleResizeScreen(
+            is Screen.SingleEdit -> {
+                SingleEditScreen(
                     uriState = screen.uri,
                     onGoBack = onGoBack
                 )
             }
 
-            is Screen.BatchResize -> {
-                BatchResizeScreen(
+            is Screen.ResizeAndConvert -> {
+                ResizeAndConvertScreen(
                     uriState = screen.uris,
                     onGoBack = onGoBack
                 )

@@ -76,7 +76,7 @@ import ru.tech.imageresizershrinker.presentation.root.widget.preferences.screens
 import ru.tech.imageresizershrinker.presentation.root.widget.preferences.screens.GeneratePalettePreference
 import ru.tech.imageresizershrinker.presentation.root.widget.preferences.screens.LimitsPreference
 import ru.tech.imageresizershrinker.presentation.root.widget.preferences.screens.PickColorPreference
-import ru.tech.imageresizershrinker.presentation.root.widget.preferences.screens.SingleResizePreference
+import ru.tech.imageresizershrinker.presentation.root.widget.preferences.screens.SingleEditPreference
 import ru.tech.imageresizershrinker.presentation.root.widget.sheets.SimpleSheet
 import ru.tech.imageresizershrinker.presentation.root.widget.text.AutoSizeText
 import ru.tech.imageresizershrinker.presentation.root.widget.text.TitleItem
@@ -281,9 +281,9 @@ fun ImagePager(
                         )
                     ) {
                         item {
-                            SingleResizePreference(
+                            SingleEditPreference(
                                 modifier = Modifier.fillMaxWidth(),
-                                onClick = { navigate(Screen.SingleResize(selectedUri!!)) },
+                                onClick = { navigate(Screen.SingleEdit(selectedUri!!)) },
                                 color = color
                             )
                         }

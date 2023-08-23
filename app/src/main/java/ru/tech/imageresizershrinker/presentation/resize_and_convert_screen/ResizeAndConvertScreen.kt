@@ -1,9 +1,10 @@
-package ru.tech.imageresizershrinker.presentation.batch_resize_screen
+package ru.tech.imageresizershrinker.presentation.resize_and_convert_screen
 
 import android.content.res.Configuration
 import android.net.Uri
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.BackHandler
+import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.LocalIndication
 import androidx.compose.foundation.background
@@ -73,7 +74,7 @@ import dev.olshevski.navigation.reimagined.hilt.hiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.R
-import ru.tech.imageresizershrinker.presentation.batch_resize_screen.viewModel.BatchResizeViewModel
+import ru.tech.imageresizershrinker.presentation.resize_and_convert_screen.viewModel.ResizeAndConvertViewModel
 import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
 import ru.tech.imageresizershrinker.presentation.root.transformation.ImageInfoTransformation
 import ru.tech.imageresizershrinker.presentation.root.transformation.filter.SaturationFilter
@@ -109,13 +110,14 @@ import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalSettings
 import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalWindowSizeClass
 import ru.tech.imageresizershrinker.presentation.root.widget.utils.isExpanded
 import ru.tech.imageresizershrinker.presentation.root.widget.utils.middleImageState
+import ru.tech.imageresizershrinker.presentation.single_edit_screen.components.EditExifSheet
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun BatchResizeScreen(
+fun ResizeAndConvertScreen(
     uriState: List<Uri>?,
     onGoBack: () -> Unit,
-    viewModel: BatchResizeViewModel = hiltViewModel()
+    viewModel: ResizeAndConvertViewModel = hiltViewModel()
 ) {
     val context = LocalContext.current as ComponentActivity
     val toastHostState = LocalToastHost.current
@@ -152,6 +154,19 @@ fun BatchResizeScreen(
                     SaturationFilter(context, 2f).transform(it, Size.ORIGINAL)
                 )
             }
+        }
+    }
+
+    LaunchedEffect(viewModel.uris) {
+        if (viewModel.uris?.size == 1) {
+            viewModel.decodeBitmapFromUri(
+                uri = viewModel.uris!![0],
+                onError = {
+                    scope.launch {
+                        toastHostState.showError(context, it)
+                    }
+                }
+            )
         }
     }
 
@@ -197,6 +212,7 @@ fun BatchResizeScreen(
     var showResetDialog by rememberSaveable { mutableStateOf(false) }
     var showOriginal by rememberSaveable { mutableStateOf(false) }
     var showPickImageFromUrisDialog by rememberSaveable { mutableStateOf(false) }
+    val showEditExifDialog = rememberSaveable { mutableStateOf(false) }
 
     val bitmapInfo = viewModel.imageInfo
 
@@ -349,6 +365,83 @@ fun BatchResizeScreen(
         visible = showZoomSheet
     )
 
+    val controls: @Composable () -> Unit = {
+        ImageCounter(
+            imageCount = viewModel.uris?.size?.takeIf { it > 1 },
+            onRepick = {
+                showPickImageFromUrisDialog = true
+            }
+        )
+        AnimatedContent(
+            targetState = viewModel.uris?.size == 1
+        ) { oneUri ->
+            if (oneUri) {
+                ImageTransformBar(
+                    onEditExif = { showEditExifDialog.value = true },
+                    onRotateLeft = viewModel::rotateLeft,
+                    onFlip = viewModel::flip,
+                    onRotateRight = viewModel::rotateRight
+                )
+            } else {
+                LaunchedEffect(Unit) {
+                    showEditExifDialog.value = false
+                    viewModel.updateExif(null)
+                }
+                ImageTransformBar(
+                    onRotateLeft = viewModel::rotateLeft,
+                    onFlip = viewModel::flip,
+                    onRotateRight = viewModel::rotateRight
+                )
+            }
+        }
+        Spacer(Modifier.size(8.dp))
+        PresetWidget(
+            selectedPreset = viewModel.presetSelected,
+            includeTelegramOption = true,
+            onPresetSelected = {
+                viewModel.updatePreset(it)
+            }
+        )
+        Spacer(Modifier.size(8.dp))
+        AnimatedVisibility(viewModel.uris?.size != 1) {
+            Column {
+                SaveExifWidget(
+                    selected = viewModel.keepExif,
+                    onCheckedChange = { viewModel.setKeepExif(!viewModel.keepExif) }
+                )
+                Spacer(Modifier.size(8.dp))
+            }
+        }
+        ResizeImageField(
+            imageInfo = bitmapInfo,
+            bitmap = viewModel.bitmap,
+            onHeightChange = viewModel::updateHeight,
+            onWidthChange = viewModel::updateWidth,
+            showWarning = viewModel.showWarning
+        )
+        if (bitmapInfo.imageFormat.canChangeQuality) {
+            Spacer(Modifier.height(8.dp))
+        }
+        QualityWidget(
+            visible = bitmapInfo.imageFormat.canChangeQuality,
+            enabled = viewModel.bitmap != null,
+            quality = bitmapInfo.quality.coerceIn(0f, 100f),
+            onQualityChange = viewModel::setQuality
+        )
+        Spacer(Modifier.height(8.dp))
+        ExtensionGroup(
+            enabled = viewModel.bitmap != null,
+            imageFormat = bitmapInfo.imageFormat,
+            onFormatChange = viewModel::setMime
+        )
+        Spacer(Modifier.height(8.dp))
+        ResizeGroup(
+            enabled = viewModel.bitmap != null,
+            resizeType = bitmapInfo.resizeType,
+            onResizeChange = viewModel::setResizeType
+        )
+    }
+
     Surface(
         color = MaterialTheme.colorScheme.background,
         modifier = Modifier
@@ -372,7 +465,7 @@ fun BatchResizeScreen(
                     modifier = Modifier.drawHorizontalStroke(),
                     title = {
                         TopAppBarTitle(
-                            title = stringResource(R.string.batch_resize),
+                            title = stringResource(R.string.resize_and_convert),
                             bitmap = viewModel.bitmap,
                             isLoading = viewModel.isImageLoading,
                             size = viewModel.imageInfo.sizeInBytes.toLong()
@@ -448,59 +541,7 @@ fun BatchResizeScreen(
                                 horizontalAlignment = Alignment.CenterHorizontally
                             ) {
                                 if (viewModel.bitmap != null) {
-                                    ImageCounter(
-                                        imageCount = viewModel.uris?.size?.takeIf { it > 1 },
-                                        onRepick = {
-                                            showPickImageFromUrisDialog = true
-                                        }
-                                    )
-                                    ImageTransformBar(
-                                        onRotateLeft = viewModel::rotateLeft,
-                                        onFlip = viewModel::flip,
-                                        onRotateRight = viewModel::rotateRight
-                                    )
-                                    Spacer(Modifier.size(8.dp))
-                                    PresetWidget(
-                                        selectedPreset = viewModel.presetSelected,
-                                        includeTelegramOption = true,
-                                        onPresetSelected = {
-                                            viewModel.updatePreset(it)
-                                        }
-                                    )
-                                    Spacer(Modifier.size(8.dp))
-                                    SaveExifWidget(
-                                        selected = viewModel.keepExif,
-                                        onCheckedChange = { viewModel.setKeepExif(!viewModel.keepExif) }
-                                    )
-                                    Spacer(Modifier.size(8.dp))
-                                    ResizeImageField(
-                                        imageInfo = bitmapInfo,
-                                        bitmap = viewModel.bitmap,
-                                        onHeightChange = viewModel::updateHeight,
-                                        onWidthChange = viewModel::updateWidth,
-                                        showWarning = viewModel.showWarning
-                                    )
-                                    if (bitmapInfo.imageFormat.canChangeQuality) {
-                                        Spacer(Modifier.height(8.dp))
-                                    }
-                                    QualityWidget(
-                                        visible = bitmapInfo.imageFormat.canChangeQuality,
-                                        enabled = viewModel.bitmap != null,
-                                        quality = bitmapInfo.quality.coerceIn(0f, 100f),
-                                        onQualityChange = viewModel::setQuality
-                                    )
-                                    Spacer(Modifier.height(8.dp))
-                                    ExtensionGroup(
-                                        enabled = viewModel.bitmap != null,
-                                        imageFormat = bitmapInfo.imageFormat,
-                                        onFormatChange = viewModel::setMime
-                                    )
-                                    Spacer(Modifier.height(8.dp))
-                                    ResizeGroup(
-                                        enabled = viewModel.bitmap != null,
-                                        resizeType = bitmapInfo.resizeType,
-                                        onResizeChange = viewModel::setResizeType
-                                    )
+                                    controls()
                                 } else if (!viewModel.isImageLoading) {
                                     ImageNotPickedWidget(onPickImage = pickImage)
                                 }
@@ -561,6 +602,14 @@ fun BatchResizeScreen(
                     viewModel.updateUrisSilently(removedUri = uri)
                 },
                 columns = if (imageInside) 2 else 4,
+            )
+
+            EditExifSheet(
+                visible = showEditExifDialog,
+                exif = viewModel.exif,
+                onClearExif = viewModel::clearExif,
+                onUpdateTag = viewModel::updateExifByTag,
+                onRemoveTag = viewModel::removeExifTag
             )
 
             ExitWithoutSavingDialog(

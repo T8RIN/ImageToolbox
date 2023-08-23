@@ -1,4 +1,4 @@
-package ru.tech.imageresizershrinker.presentation.batch_resize_screen.viewModel
+package ru.tech.imageresizershrinker.presentation.resize_and_convert_screen.viewModel
 
 import android.graphics.Bitmap
 import android.net.Uri
@@ -16,6 +16,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import ru.tech.imageresizershrinker.domain.image.ImageManager
+import ru.tech.imageresizershrinker.domain.image.Metadata
 import ru.tech.imageresizershrinker.domain.model.ImageData
 import ru.tech.imageresizershrinker.domain.model.ImageFormat
 import ru.tech.imageresizershrinker.domain.model.ImageInfo
@@ -27,10 +28,13 @@ import ru.tech.imageresizershrinker.domain.saving.model.ImageSaveTarget
 import javax.inject.Inject
 
 @HiltViewModel
-class BatchResizeViewModel @Inject constructor(
+class ResizeAndConvertViewModel @Inject constructor(
     private val fileController: FileController,
     private val imageManager: ImageManager<Bitmap, ExifInterface>
 ) : ViewModel() {
+
+    private val _exif: MutableState<ExifInterface?> = mutableStateOf(null)
+    val exif by _exif
 
     private val _uris = mutableStateOf<List<Uri>?>(null)
     val uris by _uris
@@ -67,13 +71,6 @@ class BatchResizeViewModel @Inject constructor(
 
     private val _selectedUri: MutableState<Uri?> = mutableStateOf(null)
     val selectedUri by _selectedUri
-
-//    private val _cropRect: MutableState<Rect?> = mutableStateOf(null)
-//    val cropRect by _cropRect
-//    TODO: Create Batch Cropping mode
-//    fun updateCropRect(rect: Rect) {
-//        _cropRect.value = rect
-//    }
 
     private var job: Job? = null
 
@@ -277,17 +274,19 @@ class BatchResizeViewModel @Inject constructor(
                         )
                     }.apply {
                         val result = fileController.save(
-                            ImageSaveTarget<ExifInterface>(
+                            ImageSaveTarget(
                                 imageInfo = this,
+                                metadata = if (uris!!.size == 1) exif else null,
                                 originalUri = uri.toString(),
                                 sequenceNumber = _done.value + 1,
                                 data = imageManager.compress(
                                     ImageData(
-                                        bitmap,
-                                        imageInfo
+                                        image = bitmap,
+                                        imageInfo = imageInfo,
+                                        metadata = if (uris!!.size == 1) exif else null
                                     )
                                 )
-                            ), keepExif
+                            ), if (uris!!.size == 1) true else keepExif
                         )
                         if (result is SaveResult.Error.MissingPermissions) {
                             return@withContext onComplete("")
@@ -369,6 +368,7 @@ class BatchResizeViewModel @Inject constructor(
                 onGetImage = {
                     updateBitmap(it.image)
                     setMime(it.imageInfo.imageFormat)
+                    updateExif(it.metadata)
                 },
                 onError = onError
             )
@@ -376,5 +376,29 @@ class BatchResizeViewModel @Inject constructor(
     }
 
     fun getImageManager(): ImageManager<Bitmap, ExifInterface> = imageManager
+
+    fun clearExif() {
+        val t = _exif.value
+        Metadata.metaTags.forEach {
+            t?.setAttribute(it, null)
+        }
+        _exif.value = t
+    }
+
+    fun updateExif(exifInterface: ExifInterface?) {
+        _exif.value = exifInterface
+    }
+
+    fun removeExifTag(tag: String) {
+        val exifInterface = _exif.value
+        exifInterface?.setAttribute(tag, null)
+        updateExif(exifInterface)
+    }
+
+    fun updateExifByTag(tag: String, value: String) {
+        val exifInterface = _exif.value
+        exifInterface?.setAttribute(tag, value)
+        updateExif(exifInterface)
+    }
 
 }

@@ -41,7 +41,6 @@ import ru.tech.imageresizershrinker.presentation.root.utils.navigation.LocalNavC
 import ru.tech.imageresizershrinker.presentation.root.utils.navigation.Screen
 import ru.tech.imageresizershrinker.presentation.root.widget.image.Picture
 import ru.tech.imageresizershrinker.presentation.root.widget.preferences.screens.BackgroundRemoverPreference
-import ru.tech.imageresizershrinker.presentation.root.widget.preferences.screens.BatchResizePreference
 import ru.tech.imageresizershrinker.presentation.root.widget.preferences.screens.BytesResizePreference
 import ru.tech.imageresizershrinker.presentation.root.widget.preferences.screens.CipherPreference
 import ru.tech.imageresizershrinker.presentation.root.widget.preferences.screens.ComparePreference
@@ -53,7 +52,8 @@ import ru.tech.imageresizershrinker.presentation.root.widget.preferences.screens
 import ru.tech.imageresizershrinker.presentation.root.widget.preferences.screens.ImagePreviewPreference
 import ru.tech.imageresizershrinker.presentation.root.widget.preferences.screens.LimitsPreference
 import ru.tech.imageresizershrinker.presentation.root.widget.preferences.screens.PickColorPreference
-import ru.tech.imageresizershrinker.presentation.root.widget.preferences.screens.SingleResizePreference
+import ru.tech.imageresizershrinker.presentation.root.widget.preferences.screens.ResizeAndConvertPreference
+import ru.tech.imageresizershrinker.presentation.root.widget.preferences.screens.SingleEditPreference
 import ru.tech.imageresizershrinker.presentation.root.widget.sheets.SimpleSheet
 import ru.tech.imageresizershrinker.presentation.root.widget.text.AutoSizeText
 import ru.tech.imageresizershrinker.presentation.root.widget.text.TitleItem
@@ -172,11 +172,11 @@ fun ProcessImagesPreferenceSheet(
                     }
                     if (uris.size <= 1) {
                         item {
-                            SingleResizePreference(
+                            SingleEditPreference(
                                 modifier = Modifier.fillMaxWidth(),
                                 onClick = {
                                     navigate(
-                                        Screen.SingleResize(uris.firstOrNull())
+                                        Screen.SingleEdit(uris.firstOrNull())
                                     )
                                 },
                                 color = color
@@ -277,11 +277,11 @@ fun ProcessImagesPreferenceSheet(
                         }
                     } else {
                         item {
-                            BatchResizePreference(
+                            ResizeAndConvertPreference(
                                 modifier = Modifier.fillMaxWidth(),
                                 onClick = {
                                     navigate(
-                                        Screen.BatchResize(uris)
+                                        Screen.ResizeAndConvert(uris)
                                     )
                                 },
                                 color = color

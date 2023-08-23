@@ -14,7 +14,6 @@ import androidx.compose.material.icons.rounded.Crop
 import androidx.compose.material.icons.rounded.Draw
 import androidx.compose.material.icons.rounded.Photo
 import androidx.compose.material.icons.rounded.PhotoFilter
-import androidx.compose.material.icons.rounded.PhotoLibrary
 import androidx.compose.material.icons.rounded.PhotoSizeSelectLarge
 import androidx.compose.material.icons.rounded.Public
 import androidx.compose.material.icons.rounded.Security
@@ -22,6 +21,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import kotlinx.parcelize.Parcelize
 import kotlinx.parcelize.RawValue
 import ru.tech.imageresizershrinker.R
+import ru.tech.imageresizershrinker.presentation.root.theme.icons.CreateAlt
 import ru.tech.imageresizershrinker.presentation.root.theme.icons.FingerprintOff
 import ru.tech.imageresizershrinker.presentation.root.theme.icons.Interface
 import ru.tech.imageresizershrinker.presentation.root.theme.icons.PaletteSwatch
@@ -37,18 +37,19 @@ sealed class Screen(
     @StringRes val subtitle: Int
 ) : Parcelable {
     data object Main : Screen(-1, null, 0, 0)
-    class SingleResize(val uri: Uri? = null) : Screen(
+
+    class SingleEdit(val uri: Uri? = null) : Screen(
         id = 0,
-        icon = Icons.Filled.Resize,
+        icon = Icons.Rounded.CreateAlt,
         title = R.string.single_edit,
         subtitle = R.string.single_edit_sub
     )
 
-    class BatchResize(val uris: List<Uri>? = null) : Screen(
+    class ResizeAndConvert(val uris: List<Uri>? = null) : Screen(
         id = 1,
-        icon = Icons.Rounded.PhotoLibrary,
-        title = R.string.batch_resize,
-        subtitle = R.string.resize_batch_image
+        icon = Icons.Filled.Resize,
+        title = R.string.resize_and_convert,
+        subtitle = R.string.resize_and_convert_sub
     )
 
     class ResizeByBytes(val uris: List<Uri>? = null) : Screen(
@@ -144,8 +145,8 @@ sealed class Screen(
 
     companion object {
         val entries = listOf(
-            SingleResize(),
-            BatchResize(),
+            SingleEdit(),
+            ResizeAndConvert(),
             ResizeByBytes(),
             Crop(),
             Filter(),
@@ -162,8 +163,8 @@ sealed class Screen(
         )
         val typedEntries = listOf(
             listOf(
-                SingleResize(),
-                BatchResize(),
+                SingleEdit(),
+                ResizeAndConvert(),
                 ResizeByBytes(),
                 LimitResize()
             ) to Triple(
