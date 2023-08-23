@@ -18,17 +18,19 @@
   </br>
   <a href="https://github.com/T8RIN/ImageResizer/actions">
       <img alt="Build" src="https://img.shields.io/github/actions/workflow/status/t8rin/imageresizer/android.yml?label=Build&style=for-the-badge"/></a>
+   <img alt="GitHub commits since tagged version (branch)" src="https://img.shields.io/github/commits-since/t8rin/ImageResizer/v1.0?color=palegreen&label=Commits&style=for-the-badge">
+  <img alt="GitHub code size in bytes" src="https://img.shields.io/github/languages/code-size/t8rin/imageresizer?style=for-the-badge&color=37ABB5">
+  <img src="https://wakatime.com/badge/user/7fa5ec35-3afd-4c14-984e-6ea7daf545c7/project/478f070e-48c6-4e7b-9811-c27eca408d51.svg?style=for-the-badge"/>
+  </br>
+  </br>
   <a href="https://hits.sh/github.com/t8rin/ImageResizer/">
-      <img alt="Hits" src="https://hits.sh/github.com/t8rin/ImageResizer.svg?style=for-the-badge&label=Views&extraCount=7500&color=3b8963"/></a>
+      <img alt="Hits" src="https://hits.sh/github.com/t8rin/ImageResizer.svg?style=for-the-badge&label=Views&extraCount=7500&color=ff3f6f"/></a>
   <a href="https://github.com/t8rin/ImageResizer/releases">
       <img src="https://img.shields.io/github/downloads/t8rin/ImageResizer/total?color=orange&style=for-the-badge"/>
   </a>
   <a href="https://github.com/t8rin/ImageResizer/stargazers">
       <img src="https://img.shields.io/github/stars/t8rin/imageresizer?color=ffff00&style=for-the-badge"/>
   </a>
-  <img alt="GitHub commits since tagged version (branch)" src="https://img.shields.io/github/commits-since/t8rin/ImageResizer/v1.0?color=palegreen&label=Commits&style=for-the-badge">
-  <img alt="GitHub code size in bytes" src="https://img.shields.io/github/languages/code-size/t8rin/imageresizer?style=for-the-badge&color=00FFFF">
-  <img src="https://wakatime.com/badge/user/7fa5ec35-3afd-4c14-984e-6ea7daf545c7/project/478f070e-48c6-4e7b-9811-c27eca408d51.svg?style=for-the-badge"/>
   </br>
   <a href="https://github.com/t8rin/imageresizer/releases/latest">
       <img src="https://img.shields.io/github/v/release/t8rin/imageresizer?color=purple&include_prereleases&logo=github&style=for-the-badge"/>
