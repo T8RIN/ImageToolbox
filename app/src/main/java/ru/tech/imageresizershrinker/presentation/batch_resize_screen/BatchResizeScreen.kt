@@ -206,7 +206,7 @@ fun BatchResizeScreen(
     var imageState by remember { mutableStateOf(middleImageState()) }
     val topAppBarState = rememberTopAppBarState()
     val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior(
-        state = topAppBarState, canScroll = { imageState.isExpanded() && !showOriginal }
+        state = topAppBarState, canScroll = { !imageState.isExpanded() && !showOriginal }
     )
 
     LaunchedEffect(imageState, showOriginal) {
