@@ -6,12 +6,8 @@ import android.graphics.Bitmap
 import android.net.Uri
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.BackHandler
-import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.animateDpAsState
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
-import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -72,7 +68,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.RectangleShape
-import androidx.compose.ui.graphics.asAndroidBitmap
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalConfiguration
@@ -80,10 +75,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import coil.size.Size
-import com.smarttoolfactory.cropper.ImageCropper
-import com.smarttoolfactory.cropper.model.AspectRatio
 import com.smarttoolfactory.cropper.model.OutlineType
-import com.smarttoolfactory.cropper.settings.CropDefaults
 import com.t8rin.dynamic.theme.LocalDynamicThemeState
 import dev.olshevski.navigation.reimagined.hilt.hiltViewModel
 import kotlinx.coroutines.Job
@@ -92,9 +84,9 @@ import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.domain.model.ImageFormat
 import ru.tech.imageresizershrinker.presentation.crop_screen.components.AspectRatioSelection
 import ru.tech.imageresizershrinker.presentation.crop_screen.components.CropMaskSelection
+import ru.tech.imageresizershrinker.presentation.crop_screen.components.Cropper
 import ru.tech.imageresizershrinker.presentation.crop_screen.components.aspectRatios
 import ru.tech.imageresizershrinker.presentation.crop_screen.viewModel.CropViewModel
-import ru.tech.imageresizershrinker.presentation.erase_background_screen.components.transparencyChecker
 import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
 import ru.tech.imageresizershrinker.presentation.root.transformation.filter.SaturationFilter
 import ru.tech.imageresizershrinker.presentation.root.utils.confetti.LocalConfettiController
@@ -236,38 +228,38 @@ fun CropScreen(
     val aspectRatios = aspectRatios()
     val controls: @Composable () -> Unit = {
         Column(Modifier.verticalScroll(rememberScrollState())) {
-        AspectRatioSelection(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(vertical = 16.dp),
-            selectedIndex = aspectRatios.indexOfFirst { cr ->
-                cr.aspectRatio == viewModel.cropProperties.aspectRatio
+            AspectRatioSelection(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(vertical = 16.dp),
+                selectedIndex = aspectRatios.indexOfFirst { cr ->
+                    cr.aspectRatio == viewModel.cropProperties.aspectRatio
+                }
+            ) { aspect ->
+                viewModel.setCropAspectRatio(aspect.aspectRatio)
             }
-        ) { aspect ->
-            viewModel.setCropAspectRatio(aspect.aspectRatio)
-        }
-        HorizontalDivider()
-        CropMaskSelection(
-            onCropMaskChange = { viewModel.setCropMask(it) },
-            selectedItem = viewModel.cropProperties.cropOutlineProperty,
-            loadImage = {
-                viewModel.loadImage(it)?.asImageBitmap()
-            }
-        )
-        HorizontalDivider()
-        ExtensionGroup(
-            modifier = Modifier
-                .padding(16.dp)
-                .navigationBarsPadding(),
-            entries = if (viewModel.cropProperties.cropOutlineProperty.outlineType == OutlineType.Rect) {
-                ImageFormat.entries
-            } else ImageFormat.alphaContainedEntries,
-            enabled = viewModel.bitmap != null,
-            imageFormat = viewModel.imageFormat,
-            onFormatChange = {
-                viewModel.updateMimeType(it)
-            }
-        )
+            HorizontalDivider()
+            CropMaskSelection(
+                onCropMaskChange = { viewModel.setCropMask(it) },
+                selectedItem = viewModel.cropProperties.cropOutlineProperty,
+                loadImage = {
+                    viewModel.loadImage(it)?.asImageBitmap()
+                }
+            )
+            HorizontalDivider()
+            ExtensionGroup(
+                modifier = Modifier
+                    .padding(16.dp)
+                    .navigationBarsPadding(),
+                entries = if (viewModel.cropProperties.cropOutlineProperty.outlineType == OutlineType.Rect) {
+                    ImageFormat.entries
+                } else ImageFormat.alphaContainedEntries,
+                enabled = viewModel.bitmap != null,
+                imageFormat = viewModel.imageFormat,
+                onFormatChange = {
+                    viewModel.updateMimeType(it)
+                }
+            )
         }
     }
 
@@ -366,45 +358,27 @@ fun CropScreen(
                         }
                     )
                 }
-                viewModel.bitmap?.let {
+                viewModel.bitmap?.let { bitmap ->
                     if (portrait) {
-                        Column {
-                            AnimatedContent(
-                                targetState = (viewModel.cropProperties.aspectRatio != AspectRatio.Original) to it,
-                                transitionSpec = { fadeIn() togetherWith fadeOut() },
-                                modifier = Modifier
-                                    .weight(1f)
-                                    .fillMaxWidth(),
-                            ) { (fixedAspectRatio, bitmap) ->
-                                val bmp = remember(bitmap) { it.asImageBitmap() }
-                                ImageCropper(
-                                    backgroundModifier = Modifier.transparencyChecker(),
-                                    imageBitmap = bmp,
-                                    contentDescription = null,
-                                    cropProperties = viewModel.cropProperties.copy(fixedAspectRatio = fixedAspectRatio),
-                                    onCropStart = {
-                                        viewModel.imageCropStarted()
-                                    },
-                                    crop = crop,
-                                    cropStyle = CropDefaults.style(
-                                        overlayColor = MaterialTheme.colorScheme.surfaceVariant
-                                    ),
-                                    onCropSuccess = { image ->
-                                        viewModel.imageCropFinished()
-                                        if (share) {
-                                            viewModel.shareBitmap(
-                                                bitmap = image.asAndroidBitmap(),
-                                                onComplete = showConfetti
-                                            )
-                                        } else {
-                                            viewModel.updateBitmap(image.asAndroidBitmap())
-                                        }
-                                        crop = false
-                                        share = false
-                                    },
-                                )
-                            }
-                        }
+                        Cropper(
+                            bitmap = bitmap,
+                            crop = crop,
+                            imageCropStarted = viewModel::imageCropStarted,
+                            imageCropFinished = {
+                                viewModel.imageCropFinished()
+                                if (share) {
+                                    viewModel.shareBitmap(
+                                        bitmap = it,
+                                        onComplete = showConfetti
+                                    )
+                                } else {
+                                    viewModel.updateBitmap(it)
+                                }
+                                crop = false
+                                share = false
+                            },
+                            cropProperties = viewModel.cropProperties
+                        )
                     } else {
                         Row(
                             modifier = Modifier.navBarsPaddingOnlyIfTheyAtTheEnd(),
@@ -413,44 +387,25 @@ fun CropScreen(
                             Box(
                                 Modifier.weight(0.8f)
                             ) {
-                                AnimatedContent(
-                                    targetState = (viewModel.cropProperties.aspectRatio != AspectRatio.Original) to it,
-                                    transitionSpec = { fadeIn() togetherWith fadeOut() },
-                                    modifier = Modifier
-                                        .align(Alignment.Center)
-                                        .fillMaxSize()
-                                ) { (fixedAspectRatio, bitmap) ->
-                                    val bmp = remember(bitmap) { it.asImageBitmap() }
-                                    ImageCropper(
-                                        backgroundModifier = Modifier.transparencyChecker(),
-                                        imageBitmap = bmp,
-                                        contentDescription = null,
-                                        cropStyle = CropDefaults.style(
-                                            overlayColor = MaterialTheme.colorScheme.outlineVariant
-                                        ),
-                                        cropProperties = viewModel.cropProperties.copy(
-                                            fixedAspectRatio = fixedAspectRatio
-                                        ),
-                                        onCropStart = {
-                                            viewModel.imageCropStarted()
-                                        },
-                                        crop = crop,
-                                        onCropSuccess = { image ->
-                                            viewModel.imageCropFinished()
-                                            if (share) {
-                                                viewModel.shareBitmap(
-                                                    bitmap = image.asAndroidBitmap(),
-                                                    onComplete = showConfetti
-                                                )
-                                            } else {
-                                                viewModel.updateBitmap(image.asAndroidBitmap())
-                                                showConfetti()
-                                            }
-                                            crop = false
-                                            share = false
+                                Cropper(
+                                    bitmap = bitmap,
+                                    crop = crop,
+                                    imageCropStarted = viewModel::imageCropStarted,
+                                    imageCropFinished = {
+                                        viewModel.imageCropFinished()
+                                        if (share) {
+                                            viewModel.shareBitmap(
+                                                bitmap = it,
+                                                onComplete = showConfetti
+                                            )
+                                        } else {
+                                            viewModel.updateBitmap(it)
                                         }
-                                    )
-                                }
+                                        crop = false
+                                        share = false
+                                    },
+                                    cropProperties = viewModel.cropProperties
+                                )
                             }
                             Box(
                                 Modifier
@@ -460,9 +415,7 @@ fun CropScreen(
                             )
 
                             Column(
-                                Modifier
-                                    .weight(0.5f)
-                                    .verticalScroll(rememberScrollState())
+                                Modifier.weight(0.5f)
                             ) {
                                 controls()
                             }

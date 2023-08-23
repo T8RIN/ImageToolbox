@@ -5,6 +5,8 @@ import android.net.Uri
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.LocalIndication
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.detectTapGestures
@@ -17,30 +19,51 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.ime
 import androidx.compose.foundation.layout.navigationBars
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Share
 import androidx.compose.material.icons.rounded.ArrowBack
+import androidx.compose.material.icons.rounded.Build
+import androidx.compose.material.icons.rounded.Close
 import androidx.compose.material.icons.rounded.Compare
+import androidx.compose.material.icons.rounded.Crop
+import androidx.compose.material.icons.rounded.Done
 import androidx.compose.material.icons.rounded.History
 import androidx.compose.material.icons.rounded.RestartAlt
 import androidx.compose.material.icons.rounded.ZoomIn
+import androidx.compose.material3.BottomAppBar
+import androidx.compose.material3.BottomSheetScaffold
+import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.FloatingActionButtonDefaults
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.LargeTopAppBar
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedIconButton
 import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.rememberBottomSheetScaffoldState
 import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
@@ -56,6 +79,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.clipToBounds
+import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalConfiguration
@@ -66,9 +91,14 @@ import androidx.compose.ui.unit.dp
 import coil.size.Size
 import com.t8rin.dynamic.theme.LocalDynamicThemeState
 import dev.olshevski.navigation.reimagined.hilt.hiltViewModel
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.R
+import ru.tech.imageresizershrinker.presentation.crop_screen.components.AspectRatioSelection
+import ru.tech.imageresizershrinker.presentation.crop_screen.components.CropMaskSelection
+import ru.tech.imageresizershrinker.presentation.crop_screen.components.Cropper
+import ru.tech.imageresizershrinker.presentation.crop_screen.components.aspectRatios
 import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
 import ru.tech.imageresizershrinker.presentation.root.transformation.filter.SaturationFilter
 import ru.tech.imageresizershrinker.presentation.root.utils.confetti.LocalConfettiController
@@ -77,24 +107,36 @@ import ru.tech.imageresizershrinker.presentation.root.utils.helper.localImagePic
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.parseSaveResult
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.rememberImagePicker
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.drawHorizontalStroke
+import ru.tech.imageresizershrinker.presentation.root.utils.modifier.fabBorder
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.navBarsLandscapePadding
+import ru.tech.imageresizershrinker.presentation.root.utils.modifier.navBarsPaddingOnlyIfTheyAtTheEnd
 import ru.tech.imageresizershrinker.presentation.root.widget.buttons.BottomButtonsBlock
+import ru.tech.imageresizershrinker.presentation.root.widget.controls.ExtensionGroup
+import ru.tech.imageresizershrinker.presentation.root.widget.controls.ImageExtraTransformBar
+import ru.tech.imageresizershrinker.presentation.root.widget.controls.ImageTransformBar
+import ru.tech.imageresizershrinker.presentation.root.widget.controls.PresetWidget
+import ru.tech.imageresizershrinker.presentation.root.widget.controls.QualityWidget
+import ru.tech.imageresizershrinker.presentation.root.widget.controls.ResizeGroup
+import ru.tech.imageresizershrinker.presentation.root.widget.controls.ResizeImageField
 import ru.tech.imageresizershrinker.presentation.root.widget.dialogs.ExitWithoutSavingDialog
 import ru.tech.imageresizershrinker.presentation.root.widget.dialogs.ResetDialog
 import ru.tech.imageresizershrinker.presentation.root.widget.image.ImageContainer
 import ru.tech.imageresizershrinker.presentation.root.widget.image.ImageNotPickedWidget
 import ru.tech.imageresizershrinker.presentation.root.widget.image.imageStickyHeader
+import ru.tech.imageresizershrinker.presentation.root.widget.other.Loading
 import ru.tech.imageresizershrinker.presentation.root.widget.other.LoadingDialog
 import ru.tech.imageresizershrinker.presentation.root.widget.other.LocalToastHost
 import ru.tech.imageresizershrinker.presentation.root.widget.other.TopAppBarEmoji
 import ru.tech.imageresizershrinker.presentation.root.widget.other.showError
 import ru.tech.imageresizershrinker.presentation.root.widget.sheets.CompareSheet
 import ru.tech.imageresizershrinker.presentation.root.widget.sheets.ZoomModalSheet
+import ru.tech.imageresizershrinker.presentation.root.widget.text.Marquee
 import ru.tech.imageresizershrinker.presentation.root.widget.text.TopAppBarTitle
 import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalSettingsState
 import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalWindowSizeClass
 import ru.tech.imageresizershrinker.presentation.root.widget.utils.isExpanded
 import ru.tech.imageresizershrinker.presentation.root.widget.utils.middleImageState
+import ru.tech.imageresizershrinker.presentation.single_edit_screen.components.EditExifSheet
 import ru.tech.imageresizershrinker.presentation.single_edit_screen.viewModel.SingleEditViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -124,7 +166,7 @@ fun SingleEditScreen(
             viewModel.decodeBitmapByUri(
                 uri = it,
                 onGetMimeType = viewModel::setMime,
-                onGetExif = {},
+                onGetExif = viewModel::updateExif,
                 onGetBitmap = viewModel::updateBitmap,
                 onError = {
                     scope.launch {
@@ -161,7 +203,7 @@ fun SingleEditScreen(
                 viewModel.decodeBitmapByUri(
                     uri = it,
                     onGetMimeType = viewModel::setMime,
-                    onGetExif = {},
+                    onGetExif = viewModel::updateExif,
                     onGetBitmap = viewModel::updateBitmap,
                     onError = {
                         scope.launch {
@@ -332,8 +374,68 @@ fun SingleEditScreen(
         else onGoBack()
     }
 
-    val controls: @Composable () -> Unit = {
+    var showCropper by rememberSaveable { mutableStateOf(false) }
 
+    val controls: @Composable () -> Unit = {
+        val showEditExifDialog = rememberSaveable { mutableStateOf(false) }
+        ImageTransformBar(
+            onEditExif = { showEditExifDialog.value = true },
+            onRotateLeft = viewModel::rotateLeft,
+            onFlip = viewModel::flip,
+            onRotateRight = viewModel::rotateRight
+        )
+        Spacer(Modifier.size(8.dp))
+        ImageExtraTransformBar(
+            onCrop = { showCropper = true },
+            onFilter = {},
+            onDraw = {},
+            onEraseBackground = {}
+        )
+        Spacer(Modifier.size(16.dp))
+        PresetWidget(
+            selectedPreset = viewModel.presetSelected,
+            includeTelegramOption = true,
+            onPresetSelected = {
+                viewModel.setPreset(it)
+            }
+        )
+        Spacer(Modifier.size(8.dp))
+        ResizeImageField(
+            imageInfo = bitmapInfo,
+            bitmap = viewModel.bitmap,
+            onHeightChange = viewModel::updateHeight,
+            onWidthChange = viewModel::updateWidth,
+            showWarning = viewModel.showWarning
+        )
+        if (bitmapInfo.imageFormat.canChangeQuality) Spacer(
+            Modifier.height(8.dp)
+        )
+        QualityWidget(
+            visible = bitmapInfo.imageFormat.canChangeQuality,
+            enabled = viewModel.bitmap != null,
+            quality = bitmapInfo.quality.coerceIn(0f, 100f),
+            onQualityChange = viewModel::setQuality
+        )
+        Spacer(Modifier.height(8.dp))
+        ExtensionGroup(
+            enabled = viewModel.bitmap != null,
+            imageFormat = bitmapInfo.imageFormat,
+            onFormatChange = viewModel::setMime
+        )
+        Spacer(Modifier.height(8.dp))
+        ResizeGroup(
+            enabled = viewModel.bitmap != null,
+            resizeType = bitmapInfo.resizeType,
+            onResizeChange = viewModel::setResizeType
+        )
+
+        EditExifSheet(
+            visible = showEditExifDialog,
+            exif = viewModel.exif,
+            onClearExif = viewModel::clearExif,
+            onUpdateTag = viewModel::updateExifByTag,
+            onRemoveTag = viewModel::removeExifTag
+        )
     }
 
     Surface(
@@ -484,6 +586,204 @@ fun SingleEditScreen(
 
             BackHandler(onBack = onBack)
 
+        }
+    }
+
+    AnimatedVisibility(showCropper) {
+        val cropControls = @Composable {
+            val aspectRatios = aspectRatios()
+            AspectRatioSelection(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(vertical = 16.dp),
+                selectedIndex = aspectRatios.indexOfFirst { cr ->
+                    cr.aspectRatio == viewModel.cropProperties.aspectRatio
+                }
+            ) { aspect ->
+                viewModel.setCropAspectRatio(aspect.aspectRatio)
+            }
+            HorizontalDivider()
+            CropMaskSelection(
+                onCropMaskChange = { viewModel.setCropMask(it) },
+                selectedItem = viewModel.cropProperties.cropOutlineProperty,
+                loadImage = {
+                    viewModel.loadImage(it)?.asImageBitmap()
+                }
+            )
+        }
+        var crop by remember { mutableStateOf(false) }
+        val cropButton = @Composable {
+            var job by remember { mutableStateOf<Job?>(null) }
+            FloatingActionButton(
+                onClick = {
+                    job?.cancel()
+                    job = scope.launch {
+                        delay(500)
+                        crop = true
+                    }
+                },
+                modifier = Modifier.fabBorder(),
+                containerColor = MaterialTheme.colorScheme.primaryContainer,
+                elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
+            ) {
+                Icon(Icons.Rounded.Crop, null)
+            }
+        }
+        Surface(Modifier.fillMaxSize()) {
+            // TODO: FALL ASLEEP AND AFTER SUNRISE REALIZE HOW BAD THIS CODE IS AND REWRITE IT TO BE MORE CONVENIENT AND CREATE COMPOSABLE FUNCTION TO WRAP SUCH BOTTOMSHEET CASES BETTER, BECAUSE CREATING EVERYTIME SO BIG BOILERPLATE ARE DULL
+            viewModel.bitmap?.let { bitmap ->
+                var stateBitmap by remember { mutableStateOf(bitmap) }
+                var loading by remember { mutableStateOf(false) }
+                val cropper = @Composable {
+                    Box(contentAlignment = Alignment.Center) {
+                        Cropper(
+                            bitmap = stateBitmap,
+                            crop = crop,
+                            imageCropStarted = { loading = true },
+                            imageCropFinished = {
+                                loading = false
+                                stateBitmap = it
+                                crop = false
+                            },
+                            cropProperties = viewModel.cropProperties
+                        )
+                        AnimatedVisibility(
+                            visible = loading,
+                            modifier = Modifier.fillMaxSize(),
+                            enter = fadeIn(),
+                            exit = fadeOut()
+                        ) {
+                            Box(
+                                contentAlignment = Alignment.Center,
+                                modifier = Modifier
+                                    .fillMaxSize()
+                                    .background(MaterialTheme.colorScheme.surfaceColorAtElevation(6.dp))
+                            ) {
+                                Loading()
+                            }
+                        }
+                    }
+                }
+                val topBar = @Composable {
+                    CenterAlignedTopAppBar(
+                        navigationIcon = {
+                            IconButton(onClick = { showCropper = false }) {
+                                Icon(Icons.Rounded.Close, null)
+                            }
+                        },
+                        colors = TopAppBarDefaults.topAppBarColors(
+                            MaterialTheme.colorScheme.surfaceColorAtElevation(
+                                3.dp
+                            )
+                        ),
+                        modifier = Modifier.drawHorizontalStroke(),
+                        actions = {
+                            AnimatedVisibility(visible = stateBitmap != bitmap) {
+                                OutlinedIconButton(
+                                    colors = IconButtonDefaults.filledTonalIconButtonColors(),
+                                    onClick = {
+                                        viewModel.updateBitmap(stateBitmap)
+                                        showCropper = false
+                                    }
+                                ) {
+                                    Icon(Icons.Rounded.Done, null)
+                                }
+                            }
+                        },
+                        title = {
+                            Marquee(edgeColor = MaterialTheme.colorScheme.surfaceColorAtElevation(3.dp)) {
+                                Text(
+                                    text = stringResource(R.string.crop),
+                                )
+                            }
+                        }
+                    )
+                }
+                Column {
+                    if (imageInside) {
+                        val scaffoldState = rememberBottomSheetScaffoldState()
+                        BottomSheetScaffold(
+                            topBar = topBar,
+                            scaffoldState = scaffoldState,
+                            sheetPeekHeight = 80.dp + WindowInsets.navigationBars.asPaddingValues()
+                                .calculateBottomPadding(),
+                            sheetDragHandle = null,
+                            sheetShape = RectangleShape,
+                            sheetContent = {
+                                Column(Modifier.fillMaxHeight(0.6f)) {
+                                    BottomAppBar(
+                                        modifier = Modifier.drawHorizontalStroke(true),
+                                        actions = {
+                                            IconButton(
+                                                onClick = { scope.launch { scaffoldState.bottomSheetState.expand() } }
+                                            ) {
+                                                Icon(Icons.Rounded.Build, null)
+                                            }
+                                        },
+                                        floatingActionButton = { cropButton() }
+                                    )
+                                    HorizontalDivider()
+                                    cropControls()
+                                }
+                            },
+                            content = {
+                                Box(Modifier.padding(it)) {
+                                    cropper()
+                                }
+                            }
+                        )
+                    } else {
+                        topBar()
+                        Row(
+                            modifier = Modifier.navBarsPaddingOnlyIfTheyAtTheEnd(),
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Box(
+                                Modifier.weight(0.8f)
+                            ) {
+                                cropper()
+                            }
+                            Box(
+                                Modifier
+                                    .fillMaxHeight()
+                                    .width(settingsState.borderWidth.coerceAtLeast(0.25.dp))
+                                    .background(MaterialTheme.colorScheme.outlineVariant())
+                            )
+
+                            Column(
+                                Modifier
+                                    .weight(0.5f)
+                                    .verticalScroll(rememberScrollState())
+                            ) {
+                                cropControls()
+                            }
+
+                            Box(
+                                Modifier
+                                    .fillMaxHeight()
+                                    .width(settingsState.borderWidth.coerceAtLeast(0.25.dp))
+                                    .background(MaterialTheme.colorScheme.outlineVariant())
+                                    .padding(start = 20.dp)
+                            )
+                            Column(
+                                Modifier
+                                    .padding(horizontal = 20.dp)
+                                    .fillMaxHeight()
+                                    .navigationBarsPadding(),
+                                horizontalAlignment = Alignment.CenterHorizontally,
+                                verticalArrangement = Arrangement.Center
+                            ) {
+                                cropButton()
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        if (showCropper) {
+            BackHandler {
+                showCropper = false
+            }
         }
     }
 }

@@ -8,6 +8,11 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.exifinterface.media.ExifInterface
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.smarttoolfactory.cropper.model.AspectRatio
+import com.smarttoolfactory.cropper.model.OutlineType
+import com.smarttoolfactory.cropper.model.RectCropShape
+import com.smarttoolfactory.cropper.settings.CropDefaults
+import com.smarttoolfactory.cropper.settings.CropOutlineProperty
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -15,6 +20,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import ru.tech.imageresizershrinker.domain.image.ImageManager
+import ru.tech.imageresizershrinker.domain.image.Metadata
 import ru.tech.imageresizershrinker.domain.model.ImageData
 import ru.tech.imageresizershrinker.domain.model.ImageFormat
 import ru.tech.imageresizershrinker.domain.model.ImageInfo
@@ -30,6 +36,23 @@ class SingleEditViewModel @Inject constructor(
     private val fileController: FileController,
     private val imageManager: ImageManager<Bitmap, ExifInterface>
 ) : ViewModel() {
+
+    private val _cropProperties = mutableStateOf(
+        CropDefaults.properties(
+            cropOutlineProperty = CropOutlineProperty(
+                OutlineType.Rect,
+                RectCropShape(
+                    id = 0,
+                    title = OutlineType.Rect.name
+                )
+            ),
+            fling = true
+        )
+    )
+    val cropProperties by _cropProperties
+
+    private val _exif: MutableState<ExifInterface?> = mutableStateOf(null)
+    val exif by _exif
 
     private val _uri: MutableState<Uri> = mutableStateOf(Uri.EMPTY)
     val uri: Uri by _uri
@@ -94,14 +117,16 @@ class SingleEditViewModel @Inject constructor(
             bitmap?.let { bitmap ->
                 onComplete(
                     fileController.save(
-                        saveTarget = ImageSaveTarget<ExifInterface>(
+                        saveTarget = ImageSaveTarget(
                             imageInfo = imageInfo,
+                            metadata = exif,
                             originalUri = uri.toString(),
                             sequenceNumber = null,
                             data = imageManager.compress(
                                 ImageData(
                                     image = bitmap,
-                                    imageInfo = imageInfo
+                                    imageInfo = imageInfo,
+                                    metadata = exif,
                                 )
                             )
                         ),
@@ -281,5 +306,43 @@ class SingleEditViewModel @Inject constructor(
         )
         _presetSelected.value = preset
     }
+
+    fun clearExif() {
+        val t = _exif.value
+        Metadata.metaTags.forEach {
+            t?.setAttribute(it, null)
+        }
+        _exif.value = t
+    }
+
+    fun updateExif(exifInterface: ExifInterface?) {
+        _exif.value = exifInterface
+    }
+
+    fun removeExifTag(tag: String) {
+        val exifInterface = _exif.value
+        exifInterface?.setAttribute(tag, null)
+        updateExif(exifInterface)
+    }
+
+    fun updateExifByTag(tag: String, value: String) {
+        val exifInterface = _exif.value
+        exifInterface?.setAttribute(tag, value)
+        updateExif(exifInterface)
+    }
+
+    fun setCropAspectRatio(aspectRatio: AspectRatio) {
+        _cropProperties.value = _cropProperties.value.copy(
+            aspectRatio = aspectRatio,
+            fixedAspectRatio = aspectRatio != AspectRatio.Original
+        )
+    }
+
+    fun setCropMask(cropOutlineProperty: CropOutlineProperty) {
+        _cropProperties.value =
+            _cropProperties.value.copy(cropOutlineProperty = cropOutlineProperty)
+    }
+
+    suspend fun loadImage(uri: Uri): Bitmap? = imageManager.getImage(data = uri)
 
 }

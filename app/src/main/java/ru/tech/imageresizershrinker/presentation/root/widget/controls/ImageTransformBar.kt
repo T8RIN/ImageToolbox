@@ -16,7 +16,10 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Flip
 import androidx.compose.material.icons.filled.RotateLeft
 import androidx.compose.material.icons.filled.RotateRight
+import androidx.compose.material.icons.rounded.Crop
+import androidx.compose.material.icons.rounded.Draw
 import androidx.compose.material.icons.rounded.Fingerprint
+import androidx.compose.material.icons.rounded.PhotoFilter
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.MaterialTheme
@@ -29,6 +32,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.R
+import ru.tech.imageresizershrinker.presentation.root.theme.icons.Transparency
 import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.block
 import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalSettingsState
@@ -147,6 +151,55 @@ fun ImageTransformBar(
             border = border
         ) {
             Icon(Icons.Default.RotateRight, null)
+        }
+    }
+}
+
+@Composable
+fun ImageExtraTransformBar(
+    onCrop: () -> Unit,
+    onFilter: () -> Unit,
+    onDraw: () -> Unit,
+    onEraseBackground: () -> Unit
+) {
+    val settingsState = LocalSettingsState.current
+    val colors = IconButtonDefaults.filledTonalIconButtonColors()
+    val border = BorderStroke(
+        settingsState.borderWidth,
+        MaterialTheme.colorScheme.outlineVariant()
+    )
+
+    Row(Modifier.block(shape = CircleShape)) {
+        OutlinedIconButton(
+            onClick = onCrop,
+            colors = colors,
+            border = border
+        ) {
+            Icon(Icons.Rounded.Crop, null)
+        }
+
+        OutlinedIconButton(
+            onClick = onFilter,
+            colors = colors,
+            border = border
+        ) {
+            Icon(Icons.Rounded.PhotoFilter, null)
+        }
+
+        OutlinedIconButton(
+            onClick = onDraw,
+            colors = colors,
+            border = border
+        ) {
+            Icon(Icons.Rounded.Draw, null)
+        }
+
+        OutlinedIconButton(
+            onClick = onEraseBackground,
+            colors = colors,
+            border = border
+        ) {
+            Icon(Icons.Filled.Transparency, null)
         }
     }
 }
