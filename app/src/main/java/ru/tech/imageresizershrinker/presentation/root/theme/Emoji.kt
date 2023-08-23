@@ -193,7 +193,7 @@ fun EmojiItem(
                     tint = Color(0, 0, 0, 40)
                 )
                 Picture(
-                    filterQuality = FilterQuality.None,
+                    filterQuality = FilterQuality.High,
                     model = emoji,
                     shape = RoundedCornerShape(4.dp),
                     contentDescription = null,

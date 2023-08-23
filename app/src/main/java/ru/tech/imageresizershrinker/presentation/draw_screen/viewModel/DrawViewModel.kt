@@ -21,6 +21,7 @@ import ru.tech.imageresizershrinker.domain.image.Transformation
 import ru.tech.imageresizershrinker.domain.model.ImageData
 import ru.tech.imageresizershrinker.domain.model.ImageFormat
 import ru.tech.imageresizershrinker.domain.model.ImageInfo
+import ru.tech.imageresizershrinker.domain.model.ResizeType
 import ru.tech.imageresizershrinker.domain.saving.FileController
 import ru.tech.imageresizershrinker.domain.saving.SaveResult
 import ru.tech.imageresizershrinker.domain.saving.model.ImageSaveTarget
@@ -85,7 +86,7 @@ class DrawViewModel @Inject constructor(
     ) = viewModelScope.launch {
         _isSaving.value = true
         withContext(Dispatchers.IO) {
-            _drawingBitmap.value?.let { localBitmap ->
+            getDrawingBitmap()?.let { localBitmap ->
                 onComplete(
                     fileController.save(
                         saveTarget = ImageSaveTarget<ExifInterface>(
@@ -183,13 +184,35 @@ class DrawViewModel @Inject constructor(
         }
     }
 
-    private suspend fun getBitmapForSharing(): Bitmap? = withContext(Dispatchers.IO) {
-        _drawingBitmap.value
+    private suspend fun getDrawingBitmap(): Bitmap? = withContext(Dispatchers.IO) {
+        _drawingBitmap.value?.let {
+            when (drawBehavior) {
+                is DrawBehavior.Background -> {
+                    imageManager.resize(
+                        image = it,
+                        width = (drawBehavior as DrawBehavior.Background).width,
+                        height = (drawBehavior as DrawBehavior.Background).height,
+                        resizeType = ResizeType.Explicit
+                    )
+                }
+
+                is DrawBehavior.Image -> {
+                    imageManager.resize(
+                        image = it,
+                        width = _bitmap.value?.width ?: 0,
+                        height = _bitmap.value?.height ?: 0,
+                        resizeType = ResizeType.Explicit
+                    )
+                }
+
+                else -> null
+            }
+        }
     }
 
     fun openColorPicker() {
         viewModelScope.launch {
-            _colorPickerBitmap.value = getBitmapForSharing()
+            _colorPickerBitmap.value = getDrawingBitmap()
         }
     }
 
@@ -224,7 +247,7 @@ class DrawViewModel @Inject constructor(
     fun shareBitmap(onComplete: () -> Unit) {
         _isSaving.value = true
         viewModelScope.launch {
-            getBitmapForSharing()?.let {
+            getDrawingBitmap()?.let {
                 imageManager.shareImage(
                     ImageData(
                         image = it,
