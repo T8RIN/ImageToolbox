@@ -329,4 +329,26 @@
     <string name="text">Text</string>
     <string name="defaultt">Standardeinstellung</string>
     <string name="using_large_fonts_warn">Die Verwendung großer Schriftgrößen führt möglicherweise zu unschönen Nebeneffekten.</string>
+    <string name="erase_mode">Lösch-Modus</string>
+    <string name="erase_background">Hintergrund löschen</string>
+    <string name="emotions">Emotionen</string>
+    <string name="nature_and_animals">Natur und Tiere</string>
+    <string name="food_and_drink">Essen und Trinken</string>
+    <string name="restore_background">Hintergrund wiederherstellen</string>
+    <string name="objects">Objekte</string>
+    <string name="symbols">Symbole</string>
+    <string name="enable_emoji">Emoji aktivieren</string>
+    <string name="travels_and_places">Reisen und Orte</string>
+    <string name="activities">Aktivitäten</string>
+    <string name="blur_radius">Unschärfe-Radius</string>
+    <string name="pipette">Pipette</string>
+    <string name="draw_mode">Zeichenmodus</string>
+    <string name="alphabet_and_numbers">Aa Bb Cc Dd Ee Ff Gg Hh Ii Jj Kk Ll Mm Nn Oo Pp Qq Rr Ss Tt Uu Vv Ww Xx Yy Zz 0123456789 !\?</string>
+    <string name="keep_exif_sub">Behält die Original-Metadaten bei, wenn aktiviert</string>
+    <string name="background_remover">Hintergrund entfernen</string>
+    <string name="background_remover_sub">Entferne den Hintergrund eines Bildes durch zeichnen oder verwende die Automatikfunktion</string>
+    <string name="trim_image">Bildüberstand entfernen</string>
+    <string name="trim_image_sub">Reduziert die Bildmaße durch Entfernen transparenter Pixelbereiche</string>
+    <string name="auto_erase_background">Hintergrund automatisch löschen</string>
+    <string name="restore_image">Bild wiederherstellen</string>
 </resources>
