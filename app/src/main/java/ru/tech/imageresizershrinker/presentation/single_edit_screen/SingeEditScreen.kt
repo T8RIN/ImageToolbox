@@ -108,6 +108,7 @@ import ru.tech.imageresizershrinker.presentation.root.widget.utils.middleImageSt
 import ru.tech.imageresizershrinker.presentation.single_edit_screen.components.CropEditOption
 import ru.tech.imageresizershrinker.presentation.single_edit_screen.components.DrawEditOption
 import ru.tech.imageresizershrinker.presentation.single_edit_screen.components.EditExifSheet
+import ru.tech.imageresizershrinker.presentation.single_edit_screen.components.EraseBackgroundEditOption
 import ru.tech.imageresizershrinker.presentation.single_edit_screen.components.FilterEditOption
 import ru.tech.imageresizershrinker.presentation.single_edit_screen.viewModel.SingleEditViewModel
 
@@ -349,6 +350,7 @@ fun SingleEditScreen(
     var showCropper by rememberSaveable { mutableStateOf(false) }
     var showFiltering by rememberSaveable { mutableStateOf(false) }
     var showDrawing by rememberSaveable { mutableStateOf(false) }
+    var showEraseBackground by rememberSaveable { mutableStateOf(false) }
 
     val controls: @Composable () -> Unit = {
         val showEditExifDialog = rememberSaveable { mutableStateOf(false) }
@@ -363,7 +365,7 @@ fun SingleEditScreen(
             onCrop = { showCropper = true },
             onFilter = { showFiltering = true },
             onDraw = { showDrawing = true },
-            onEraseBackground = {}
+            onEraseBackground = { showEraseBackground = true }
         )
         Spacer(Modifier.size(16.dp))
         PresetWidget(
@@ -567,7 +569,7 @@ fun SingleEditScreen(
 
     CropEditOption(
         visible = showCropper,
-        onDismiss = { showCropper = !showCropper },
+        onDismiss = { showCropper = false },
         useScaffold = imageInside,
         bitmap = viewModel.previewBitmap,
         onGetBitmap = viewModel::updateBitmapAfterEditing,
@@ -580,7 +582,7 @@ fun SingleEditScreen(
     FilterEditOption(
         visible = showFiltering,
         onDismiss = {
-            showFiltering = !showFiltering
+            showFiltering = false
             viewModel.clearFilterList()
         },
         useScaffold = imageInside,
@@ -596,7 +598,7 @@ fun SingleEditScreen(
 
     DrawEditOption(
         visible = showDrawing,
-        onDismiss = { showDrawing = !showDrawing },
+        onDismiss = { showDrawing = false },
         useScaffold = imageInside,
         bitmap = viewModel.previewBitmap,
         onGetBitmap = {
@@ -612,5 +614,26 @@ fun SingleEditScreen(
         lastPaths = viewModel.drawLastPaths,
         undonePaths = viewModel.drawUndonePaths,
         addPath = viewModel::addPathToDrawList
+    )
+
+    EraseBackgroundEditOption(
+        visible = showEraseBackground,
+        onDismiss = { showEraseBackground = false },
+        useScaffold = imageInside,
+        bitmap = viewModel.previewBitmap,
+        orientation = remember(viewModel.previewBitmap) {
+            viewModel.calculateScreenOrientationBasedOnBitmap(viewModel.previewBitmap)
+        },
+        onGetBitmap = {
+            viewModel.updateBitmapAfterEditing(it)
+            viewModel.clearErasing()
+        },
+        undo = viewModel::undoErase,
+        redo = viewModel::redoErase,
+        paths = viewModel.erasePaths,
+        lastPaths = viewModel.eraseLastPaths,
+        undonePaths = viewModel.eraseUndonePaths,
+        addPath = viewModel::addPathToEraseList,
+        imageManager = viewModel.getImageManager()
     )
 }

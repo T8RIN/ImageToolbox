@@ -40,6 +40,15 @@ class SingleEditViewModel @Inject constructor(
     private val imageManager: ImageManager<Bitmap, ExifInterface>
 ) : ViewModel() {
 
+    private val _erasePaths = mutableStateOf(listOf<PathPaint>())
+    val erasePaths: List<PathPaint> by _erasePaths
+
+    private val _eraseLastPaths = mutableStateOf(listOf<PathPaint>())
+    val eraseLastPaths: List<PathPaint> by _eraseLastPaths
+
+    private val _eraseUndonePaths = mutableStateOf(listOf<PathPaint>())
+    val eraseUndonePaths: List<PathPaint> by _eraseUndonePaths
+
     private val _drawPaths = mutableStateOf(listOf<PathPaint>())
     val drawPaths: List<PathPaint> by _drawPaths
 
@@ -472,5 +481,54 @@ class SingleEditViewModel @Inject constructor(
         }
         _drawUndonePaths.value = listOf()
     }
+
+    fun clearErasing(canUndo: Boolean = false) {
+        viewModelScope.launch {
+            delay(500L)
+            _eraseLastPaths.value = if (canUndo) erasePaths else listOf()
+            _erasePaths.value = listOf()
+            _eraseUndonePaths.value = listOf()
+        }
+    }
+
+    fun undoErase() {
+        if (erasePaths.isEmpty() && eraseLastPaths.isNotEmpty()) {
+            _erasePaths.value = eraseLastPaths
+            _eraseLastPaths.value = listOf()
+            return
+        }
+        if (erasePaths.isEmpty()) {
+            return
+        }
+        val lastPath = erasePaths.lastOrNull()
+
+        _erasePaths.value = erasePaths.toMutableList().apply {
+            remove(lastPath)
+        }
+        if (lastPath != null) {
+            _eraseUndonePaths.value = eraseUndonePaths.toMutableList().apply {
+                add(lastPath)
+            }
+        }
+    }
+
+    fun redoErase() {
+        if (eraseUndonePaths.isEmpty()) {
+            return
+        }
+        val lastPath = eraseUndonePaths.last()
+        addPathToEraseList(lastPath)
+        _eraseUndonePaths.value = eraseUndonePaths.toMutableList().apply {
+            remove(lastPath)
+        }
+    }
+
+    fun addPathToEraseList(pathPaint: PathPaint) {
+        _erasePaths.value = _erasePaths.value.toMutableList().apply {
+            add(pathPaint)
+        }
+        _eraseUndonePaths.value = listOf()
+    }
+
 
 }

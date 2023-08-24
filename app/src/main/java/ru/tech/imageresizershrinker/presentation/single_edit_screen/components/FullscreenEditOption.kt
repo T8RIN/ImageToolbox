@@ -22,11 +22,13 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Build
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.BottomSheetScaffold
+import androidx.compose.material3.BottomSheetScaffoldState
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.SheetValue
 import androidx.compose.material3.Surface
 import androidx.compose.material3.rememberBottomSheetScaffoldState
 import androidx.compose.runtime.Composable
@@ -50,7 +52,7 @@ fun FullscreenEditOption(
     useScaffold: Boolean,
     sheetSize: Float = 0.6f,
     showControls: Boolean = true,
-    controls: @Composable () -> Unit,
+    controls: @Composable (BottomSheetScaffoldState?) -> Unit,
     fabButtons: @Composable () -> Unit,
     actions: @Composable RowScope.() -> Unit,
     topAppBar: @Composable () -> Unit,
@@ -80,8 +82,11 @@ fun FullscreenEditOption(
                                             IconButton(
                                                 onClick = {
                                                     scope.launch {
-                                                        if (scaffoldState.bottomSheetState.hasPartiallyExpandedState) scaffoldState.bottomSheetState.expand()
-                                                        else scaffoldState.bottomSheetState.partialExpand()
+                                                        if (scaffoldState.bottomSheetState.currentValue == SheetValue.Expanded) {
+                                                            scaffoldState.bottomSheetState.partialExpand()
+                                                        } else {
+                                                            scaffoldState.bottomSheetState.expand()
+                                                        }
                                                     }
                                                 }
                                             ) {
@@ -109,7 +114,7 @@ fun FullscreenEditOption(
                                             .navigationBarsPadding(),
                                         horizontalAlignment = Alignment.CenterHorizontally
                                     ) {
-                                        controls()
+                                        controls(scaffoldState)
                                     }
                                 }
                             }
@@ -145,7 +150,7 @@ fun FullscreenEditOption(
                                     .verticalScroll(rememberScrollState()),
                                 horizontalAlignment = Alignment.CenterHorizontally
                             ) {
-                                controls()
+                                controls(null)
                             }
                         }
 

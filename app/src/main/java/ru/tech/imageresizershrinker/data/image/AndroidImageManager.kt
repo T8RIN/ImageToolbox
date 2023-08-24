@@ -25,6 +25,7 @@ import coil.size.Size
 import coil.util.DebugLogger
 import com.github.awxkee.avifcoil.HeifDecoder
 import com.radzivon.bartoshyk.avif.coder.HeifCoder
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import ru.tech.imageresizershrinker.R
@@ -348,6 +349,27 @@ class AndroidImageManager @Inject constructor(
             )
         }
         onComplete()
+    }
+
+    override suspend fun trimEmptyParts(image: Bitmap): Bitmap = BackgroundRemover.trim(image)
+
+    override fun removeBackgroundFromImage(
+        image: Bitmap,
+        onSuccess: (Bitmap) -> Unit,
+        onFailure: (Throwable) -> Unit,
+        trimEmptyParts: Boolean
+    ) {
+        BackgroundRemover.bitmapForProcessing(
+            bitmap = image,
+            scope = CoroutineScope(Dispatchers.IO)
+        ) { result ->
+            if (result.isSuccess) {
+                result.getOrNull()?.let {
+                    if (trimEmptyParts) trimEmptyParts(it)
+                    else it
+                }?.let(onSuccess)
+            } else result.exceptionOrNull()?.let(onFailure)
+        }
     }
 
     override suspend fun shareImages(

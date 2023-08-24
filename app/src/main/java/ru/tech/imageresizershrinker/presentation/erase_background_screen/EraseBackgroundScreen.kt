@@ -410,14 +410,14 @@ fun EraseBackgroundScreen(
                 blurRadius = blurRadius,
                 onRadiusChange = { blurRadius = it }
             )
-            SaveExifWidget(
-                selected = viewModel.saveExif,
-                onCheckedChange = { viewModel.setSaveExif(it) },
-                modifier = Modifier.padding(start = 16.dp, end = 16.dp, top = 8.dp)
-            )
             TrimImageToggle(
                 selected = viewModel.trimImage,
                 onCheckedChange = { viewModel.setTrimImage(it) },
+                modifier = Modifier.padding(start = 16.dp, end = 16.dp, top = 8.dp)
+            )
+            SaveExifWidget(
+                selected = viewModel.saveExif,
+                onCheckedChange = { viewModel.setSaveExif(it) },
                 modifier = Modifier.padding(start = 16.dp, end = 16.dp, top = 8.dp)
             )
             ExtensionGroup(

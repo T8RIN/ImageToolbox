@@ -96,4 +96,13 @@ interface ImageManager<I, M> {
 
     suspend fun getImage(data: Any, originalSize: Boolean = true): I?
 
+    fun removeBackgroundFromImage(
+        image: I,
+        onSuccess: (I) -> Unit,
+        onFailure: (Throwable) -> Unit,
+        trimEmptyParts: Boolean = false
+    )
+
+    suspend fun trimEmptyParts(image: I): I
+
 }
