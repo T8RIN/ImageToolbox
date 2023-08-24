@@ -351,4 +351,8 @@
     <string name="pipette">Pipette</string>
     <string name="restore_background">Restaurer l\'arrière-plan</string>
     <string name="draw_mode">Mode Dessin</string>
+    <string name="something_went_wrong_emphasis">Oups... Quelque chose s\'est mal passé, écrivez-moi en utilisant les options ci-dessous et j\'essaierai de trouver une solution</string>
+    <string name="resize_and_convert_sub">Modifiez la taille des images données ou convertissez-les dans d\'autres formats. Vous pouvez également y modifier les métadonnées EXIF si vous choisissez une seule image.</string>
+    <string name="resize_and_convert">Redimensionner et Convertir</string>
+    <string name="create_issue">Créer un problème</string>
 </resources>
