@@ -49,7 +49,7 @@ fun FullscreenEditOption(
     onDismiss: () -> Unit,
     useScaffold: Boolean,
     sheetSize: Float = 0.6f,
-    showControlsInScaffold: Boolean = true,
+    showControls: Boolean = true,
     controls: @Composable () -> Unit,
     fabButtons: @Composable () -> Unit,
     actions: @Composable RowScope.() -> Unit,
@@ -71,12 +71,12 @@ fun FullscreenEditOption(
                         sheetDragHandle = null,
                         sheetShape = RectangleShape,
                         sheetContent = {
-                            Column(if (showControlsInScaffold) Modifier.fillMaxHeight(sheetSize) else Modifier) {
+                            Column(if (showControls) Modifier.fillMaxHeight(sheetSize) else Modifier) {
                                 BottomAppBar(
                                     modifier = Modifier.drawHorizontalStroke(true),
                                     actions = {
                                         actions()
-                                        if (showControlsInScaffold) {
+                                        if (showControls) {
                                             IconButton(
                                                 onClick = {
                                                     scope.launch {
@@ -101,7 +101,7 @@ fun FullscreenEditOption(
                                         }
                                     }
                                 )
-                                if (showControlsInScaffold) {
+                                if (showControls) {
                                     HorizontalDivider()
                                     Column(Modifier.verticalScroll(rememberScrollState())) {
                                         controls()
@@ -126,19 +126,21 @@ fun FullscreenEditOption(
                         ) {
                             content()
                         }
-                        Box(
-                            Modifier
-                                .fillMaxHeight()
-                                .width(settingsState.borderWidth.coerceAtLeast(0.25.dp))
-                                .background(MaterialTheme.colorScheme.outlineVariant())
-                        )
 
-                        Column(
-                            Modifier
-                                .weight(0.5f)
-                                .verticalScroll(rememberScrollState())
-                        ) {
-                            controls()
+                        if (showControls) {
+                            Box(
+                                Modifier
+                                    .fillMaxHeight()
+                                    .width(settingsState.borderWidth.coerceAtLeast(0.25.dp))
+                                    .background(MaterialTheme.colorScheme.outlineVariant())
+                            )
+                            Column(
+                                Modifier
+                                    .weight(0.7f)
+                                    .verticalScroll(rememberScrollState())
+                            ) {
+                                controls()
+                            }
                         }
 
                         Box(

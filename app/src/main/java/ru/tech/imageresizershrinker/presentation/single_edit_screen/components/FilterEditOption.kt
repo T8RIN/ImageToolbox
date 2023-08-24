@@ -43,9 +43,12 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.exifinterface.media.ExifInterface
+import com.smarttoolfactory.image.zoom.animatedZoom
+import com.smarttoolfactory.image.zoom.rememberAnimatedZoomState
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.domain.image.ImageManager
+import ru.tech.imageresizershrinker.presentation.erase_background_screen.components.transparencyChecker
 import ru.tech.imageresizershrinker.presentation.filters_screen.components.AddFiltersSheet
 import ru.tech.imageresizershrinker.presentation.filters_screen.components.FilterItem
 import ru.tech.imageresizershrinker.presentation.filters_screen.components.FilterReorderSheet
@@ -90,7 +93,7 @@ fun FilterEditOption(
         var stateBitmap by remember(bitmap) { mutableStateOf(bitmap) }
         FullscreenEditOption(
             sheetSize = 0.4f,
-            showControlsInScaffold = filterList.isNotEmpty(),
+            showControls = filterList.isNotEmpty(),
             canGoBack = stateBitmap != bitmap,
             visible = visible,
             onDismiss = onDismiss,
@@ -101,18 +104,17 @@ fun FilterEditOption(
                     horizontalAlignment = Alignment.CenterHorizontally,
                     verticalArrangement = Arrangement.Center
                 ) {
-                    if (filterList.isNotEmpty()) {
-                        Column(Modifier.block(MaterialTheme.shapes.extraLarge)) {
-                            TitleItem(text = stringResource(R.string.filters))
-                            Column(
-                                horizontalAlignment = Alignment.CenterHorizontally,
-                                verticalArrangement = Arrangement.spacedBy(8.dp),
-                                modifier = Modifier.padding(8.dp)
-                            ) {
-                                filterList.forEachIndexed { index, filter ->
-                                    FilterItem(
-                                        filter = filter,
-                                        onFilterChange = {
+                    Column(Modifier.block(MaterialTheme.shapes.extraLarge)) {
+                        TitleItem(text = stringResource(R.string.filters))
+                        Column(
+                            horizontalAlignment = Alignment.CenterHorizontally,
+                            verticalArrangement = Arrangement.spacedBy(8.dp),
+                            modifier = Modifier.padding(8.dp)
+                        ) {
+                            filterList.forEachIndexed { index, filter ->
+                                FilterItem(
+                                    filter = filter,
+                                    onFilterChange = {
                                             updateFilter(
                                                 it,
                                                 index
@@ -154,26 +156,6 @@ fun FilterEditOption(
                                 }
                             }
                         }
-                    } else {
-                        OutlinedButton(
-                            colors = ButtonDefaults.filledTonalButtonColors(
-                                containerColor = MaterialTheme.colorScheme.mixedColor,
-                                contentColor = MaterialTheme.colorScheme.onMixedColor
-                            ),
-                            border = BorderStroke(
-                                width = settingsState.borderWidth,
-                                color = MaterialTheme.colorScheme.outlineVariant(
-                                    onTopOf = MaterialTheme.colorScheme.mixedColor
-                                )
-                            ),
-                            onClick = { showFilterSheet.value = true },
-                            modifier = Modifier.padding(horizontal = 16.dp)
-                        ) {
-                            Icon(Icons.Rounded.PhotoFilter, null)
-                            Spacer(Modifier.width(8.dp))
-                            Text(stringResource(id = R.string.add_filter))
-                        }
-                    }
                 }
             },
             fabButtons = {
@@ -233,8 +215,12 @@ fun FilterEditOption(
                     onSuccess = {
                         stateBitmap = it.result.drawable.toBitmap()
                     },
-                    modifier = Modifier.fillMaxSize(),
-                    contentScale = ContentScale.Fit
+                    showTransparencyChecker = false,
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .transparencyChecker()
+                        .animatedZoom(animatedZoomState = rememberAnimatedZoomState()),
+                    contentScale = ContentScale.Fit,
                 )
             }
         }
