@@ -80,7 +80,7 @@ fun FullscreenEditOption(
                                             IconButton(
                                                 onClick = {
                                                     scope.launch {
-                                                        if (!scaffoldState.bottomSheetState.hasExpandedState) scaffoldState.bottomSheetState.expand()
+                                                        if (scaffoldState.bottomSheetState.hasPartiallyExpandedState) scaffoldState.bottomSheetState.expand()
                                                         else scaffoldState.bottomSheetState.partialExpand()
                                                     }
                                                 }
@@ -103,7 +103,12 @@ fun FullscreenEditOption(
                                 )
                                 if (showControls) {
                                     HorizontalDivider()
-                                    Column(Modifier.verticalScroll(rememberScrollState())) {
+                                    Column(
+                                        modifier = Modifier
+                                            .verticalScroll(rememberScrollState())
+                                            .navigationBarsPadding(),
+                                        horizontalAlignment = Alignment.CenterHorizontally
+                                    ) {
                                         controls()
                                     }
                                 }
@@ -135,9 +140,10 @@ fun FullscreenEditOption(
                                     .background(MaterialTheme.colorScheme.outlineVariant())
                             )
                             Column(
-                                Modifier
+                                modifier = Modifier
                                     .weight(0.7f)
-                                    .verticalScroll(rememberScrollState())
+                                    .verticalScroll(rememberScrollState()),
+                                horizontalAlignment = Alignment.CenterHorizontally
                             ) {
                                 controls()
                             }

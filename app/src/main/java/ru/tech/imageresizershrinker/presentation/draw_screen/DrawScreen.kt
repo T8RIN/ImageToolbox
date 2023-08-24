@@ -123,12 +123,12 @@ import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalSettings
 import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalWindowSizeClass
 
 
-private val ColorSaver: Saver<Color, Int> = Saver(
+val ColorSaver: Saver<Color, Int> = Saver(
     save = { it.toArgb() },
     restore = { Color(it) }
 )
 
-private val DrawModeSaver: Saver<DrawMode, Int> = Saver(
+val DrawModeSaver: Saver<DrawMode, Int> = Saver(
     save = { it.ordinal },
     restore = { DrawMode(it) }
 )

@@ -1,5 +1,6 @@
 package ru.tech.imageresizershrinker.presentation.single_edit_screen.viewModel
 
+import android.content.pm.ActivityInfo
 import android.graphics.Bitmap
 import android.net.Uri
 import androidx.compose.runtime.MutableState
@@ -29,6 +30,7 @@ import ru.tech.imageresizershrinker.domain.model.ResizeType
 import ru.tech.imageresizershrinker.domain.saving.FileController
 import ru.tech.imageresizershrinker.domain.saving.SaveResult
 import ru.tech.imageresizershrinker.domain.saving.model.ImageSaveTarget
+import ru.tech.imageresizershrinker.presentation.erase_background_screen.components.PathPaint
 import ru.tech.imageresizershrinker.presentation.root.transformation.filter.FilterTransformation
 import javax.inject.Inject
 
@@ -37,6 +39,15 @@ class SingleEditViewModel @Inject constructor(
     private val fileController: FileController,
     private val imageManager: ImageManager<Bitmap, ExifInterface>
 ) : ViewModel() {
+
+    private val _drawPaths = mutableStateOf(listOf<PathPaint>())
+    val drawPaths: List<PathPaint> by _drawPaths
+
+    private val _drawLastPaths = mutableStateOf(listOf<PathPaint>())
+    val drawLastPaths: List<PathPaint> by _drawLastPaths
+
+    private val _drawUndonePaths = mutableStateOf(listOf<PathPaint>())
+    val drawUndonePaths: List<PathPaint> by _drawUndonePaths
 
     private val _filterList = mutableStateOf(listOf<FilterTransformation<*>>())
     val filterList by _filterList
@@ -167,13 +178,15 @@ class SingleEditViewModel @Inject constructor(
         }
     }
 
-    fun resetValues(saveMime: Boolean = false) {
+    fun resetValues(newBitmapComes: Boolean = false) {
         _imageInfo.value = ImageInfo(
-            width = _bitmap.value?.width ?: 0,
-            height = _bitmap.value?.height ?: 0,
-            imageFormat = if (saveMime) imageInfo.imageFormat else ImageFormat.Default()
+            width = _internalBitmap.value?.width ?: 0,
+            height = _internalBitmap.value?.height ?: 0,
+            imageFormat = imageInfo.imageFormat
         )
-        _bitmap.value = _internalBitmap.value
+        if (newBitmapComes) {
+            _bitmap.value = _internalBitmap.value
+        }
         checkBitmapAndUpdate(resetPreset = true, resetTelegram = true)
     }
 
@@ -182,7 +195,19 @@ class SingleEditViewModel @Inject constructor(
             val size = bitmap?.let { bitmap.width to bitmap.height }
             _bitmap.value =
                 imageManager.scaleUntilCanShow(bitmap).also { _internalBitmap.value = it }
-            resetValues(saveMime = true)
+            resetValues(true)
+            _imageInfo.value = _imageInfo.value.copy(
+                width = size?.first ?: 0,
+                height = size?.second ?: 0
+            )
+        }
+    }
+
+    fun updateBitmapAfterEditing(bitmap: Bitmap?) {
+        viewModelScope.launch {
+            val size = bitmap?.let { bitmap.width to bitmap.height }
+            _bitmap.value = imageManager.scaleUntilCanShow(bitmap)
+            resetValues()
             _imageInfo.value = _imageInfo.value.copy(
                 width = size?.first ?: 0,
                 height = size?.second ?: 0
@@ -388,6 +413,64 @@ class SingleEditViewModel @Inject constructor(
 
     fun clearFilterList() {
         _filterList.value = listOf()
+    }
+
+    fun calculateScreenOrientationBasedOnBitmap(bitmap: Bitmap?): Int {
+        if (bitmap == null) return ActivityInfo.SCREEN_ORIENTATION_USER
+        val imageRatio = bitmap.width / bitmap.height.toFloat()
+        return if (imageRatio <= 1.05f) {
+            ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
+        } else {
+            ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
+        }
+    }
+
+    fun clearDrawing(canUndo: Boolean = false) {
+        viewModelScope.launch {
+            delay(500L)
+            _drawLastPaths.value = if (canUndo) drawPaths else listOf()
+            _drawPaths.value = listOf()
+            _drawUndonePaths.value = listOf()
+        }
+    }
+
+    fun undoDraw() {
+        if (drawPaths.isEmpty() && drawLastPaths.isNotEmpty()) {
+            _drawPaths.value = drawLastPaths
+            _drawLastPaths.value = listOf()
+            return
+        }
+        if (drawPaths.isEmpty()) {
+            return
+        }
+        val lastPath = drawPaths.lastOrNull()
+
+        _drawPaths.value = drawPaths.toMutableList().apply {
+            remove(lastPath)
+        }
+        if (lastPath != null) {
+            _drawUndonePaths.value = drawUndonePaths.toMutableList().apply {
+                add(lastPath)
+            }
+        }
+    }
+
+    fun redoDraw() {
+        if (drawUndonePaths.isEmpty()) {
+            return
+        }
+        val lastPath = drawUndonePaths.last()
+        addPathToDrawList(lastPath)
+        _drawUndonePaths.value = drawUndonePaths.toMutableList().apply {
+            remove(lastPath)
+        }
+    }
+
+    fun addPathToDrawList(pathPaint: PathPaint) {
+        _drawPaths.value = _drawPaths.value.toMutableList().apply {
+            add(pathPaint)
+        }
+        _drawUndonePaths.value = listOf()
     }
 
 }

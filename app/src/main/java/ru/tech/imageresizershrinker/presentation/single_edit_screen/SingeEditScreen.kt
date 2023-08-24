@@ -106,6 +106,7 @@ import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalWindowSi
 import ru.tech.imageresizershrinker.presentation.root.widget.utils.isExpanded
 import ru.tech.imageresizershrinker.presentation.root.widget.utils.middleImageState
 import ru.tech.imageresizershrinker.presentation.single_edit_screen.components.CropEditOption
+import ru.tech.imageresizershrinker.presentation.single_edit_screen.components.DrawEditOption
 import ru.tech.imageresizershrinker.presentation.single_edit_screen.components.EditExifSheet
 import ru.tech.imageresizershrinker.presentation.single_edit_screen.components.FilterEditOption
 import ru.tech.imageresizershrinker.presentation.single_edit_screen.viewModel.SingleEditViewModel
@@ -331,7 +332,7 @@ fun SingleEditScreen(
     }
 
     CompareSheet(
-        data = viewModel.bitmap to viewModel.previewBitmap,
+        data = viewModel.initialBitmap to viewModel.previewBitmap,
         visible = showCompareSheet
     )
 
@@ -347,6 +348,7 @@ fun SingleEditScreen(
 
     var showCropper by rememberSaveable { mutableStateOf(false) }
     var showFiltering by rememberSaveable { mutableStateOf(false) }
+    var showDrawing by rememberSaveable { mutableStateOf(false) }
 
     val controls: @Composable () -> Unit = {
         val showEditExifDialog = rememberSaveable { mutableStateOf(false) }
@@ -360,7 +362,7 @@ fun SingleEditScreen(
         ImageExtraTransformBar(
             onCrop = { showCropper = true },
             onFilter = { showFiltering = true },
-            onDraw = {},
+            onDraw = { showDrawing = true },
             onEraseBackground = {}
         )
         Spacer(Modifier.size(16.dp))
@@ -568,7 +570,7 @@ fun SingleEditScreen(
         onDismiss = { showCropper = !showCropper },
         useScaffold = imageInside,
         bitmap = viewModel.previewBitmap,
-        onGetBitmap = viewModel::updateBitmap,
+        onGetBitmap = viewModel::updateBitmapAfterEditing,
         cropProperties = viewModel.cropProperties,
         setCropAspectRatio = viewModel::setCropAspectRatio,
         setCropMask = viewModel::setCropMask,
@@ -583,12 +585,32 @@ fun SingleEditScreen(
         },
         useScaffold = imageInside,
         bitmap = viewModel.previewBitmap,
-        onGetBitmap = viewModel::updateBitmap,
+        onGetBitmap = viewModel::updateBitmapAfterEditing,
         imageManager = viewModel.getImageManager(),
         filterList = viewModel.filterList,
         updateOrder = viewModel::updateOrder,
         updateFilter = viewModel::updateFilter,
         removeAt = viewModel::removeFilterAtIndex,
         addFilter = viewModel::addFilter
+    )
+
+    DrawEditOption(
+        visible = showDrawing,
+        onDismiss = { showDrawing = !showDrawing },
+        useScaffold = imageInside,
+        bitmap = viewModel.previewBitmap,
+        onGetBitmap = {
+            viewModel.updateBitmapAfterEditing(it)
+            viewModel.clearDrawing()
+        },
+        orientation = remember(viewModel.previewBitmap) {
+            viewModel.calculateScreenOrientationBasedOnBitmap(viewModel.previewBitmap)
+        },
+        undo = viewModel::undoDraw,
+        redo = viewModel::redoDraw,
+        paths = viewModel.drawPaths,
+        lastPaths = viewModel.drawLastPaths,
+        undonePaths = viewModel.drawUndonePaths,
+        addPath = viewModel::addPathToDrawList
     )
 }
