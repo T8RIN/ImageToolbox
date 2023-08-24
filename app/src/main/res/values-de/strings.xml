@@ -351,4 +351,8 @@
     <string name="trim_image_sub">Reduziert die Bildmaße durch Entfernen transparenter Pixelbereiche</string>
     <string name="auto_erase_background">Hintergrund automatisch löschen</string>
     <string name="restore_image">Bild wiederherstellen</string>
+    <string name="create_issue">Fehlermeldung anlegen</string>
+    <string name="resize_and_convert_sub">Ändere die Größe bestimmter Bilder oder konvertiere sie in andere Formate, außerdem kannst Du bei Auswahl eines einzelnen Bildes EXIF-Metadaten bearbeiten</string>
+    <string name="something_went_wrong_emphasis">Upps ... Irgendwas ist schiefgelaufen. Schreib mir mittels der nachfolgenden Optionen und ich werde versuchen, eine Lösung zu finden</string>
+    <string name="resize_and_convert">Größenänderung und Konvertierung</string>
 </resources>
