@@ -15,7 +15,7 @@ import kotlin.math.roundToInt
 
 object ImageUtils {
 
-    fun Drawable.toBitmap(): Bitmap? {
+    fun Drawable.toBitmap(): Bitmap {
         val drawable = this
         if (drawable is BitmapDrawable) {
             if (drawable.bitmap != null) {

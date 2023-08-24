@@ -167,7 +167,7 @@ class CrashActivity : CrashHandler() {
                                             startActivity(
                                                 Intent(
                                                     Intent.ACTION_VIEW,
-                                                    Uri.parse(AUTHOR_TG)
+                                                    Uri.parse(AUTHOR_TG + "_imagetoolbox")
                                                 )
                                             )
                                             newClip(title + "\n\n" + body)

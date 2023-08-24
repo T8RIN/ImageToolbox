@@ -205,20 +205,6 @@ class FilterViewModel @Inject constructor(
         _canSave.value = _bitmap.value != null && _filterList.value.isNotEmpty()
     }
 
-    fun addFilter(filter: FilterTransformation<*>) {
-        _filterList.value = _filterList.value + filter
-        updateCanSave()
-        _needToApplyFilters.value = true
-    }
-
-    fun removeFilterAtIndex(index: Int) {
-        _filterList.value = _filterList.value.toMutableList().apply {
-            removeAt(index)
-        }
-        updateCanSave()
-        _needToApplyFilters.value = true
-    }
-
     private var filterJob: Job? = null
 
     fun setFilteredPreview(bitmap: Bitmap) {
@@ -252,6 +238,20 @@ class FilterViewModel @Inject constructor(
 
     fun updateOrder(value: List<FilterTransformation<*>>) {
         _filterList.value = value
+        _needToApplyFilters.value = true
+    }
+
+    fun addFilter(filter: FilterTransformation<*>) {
+        _filterList.value = _filterList.value + filter
+        updateCanSave()
+        _needToApplyFilters.value = true
+    }
+
+    fun removeFilterAtIndex(index: Int) {
+        _filterList.value = _filterList.value.toMutableList().apply {
+            removeAt(index)
+        }
+        updateCanSave()
         _needToApplyFilters.value = true
     }
 

@@ -29,6 +29,7 @@ import ru.tech.imageresizershrinker.domain.model.ResizeType
 import ru.tech.imageresizershrinker.domain.saving.FileController
 import ru.tech.imageresizershrinker.domain.saving.SaveResult
 import ru.tech.imageresizershrinker.domain.saving.model.ImageSaveTarget
+import ru.tech.imageresizershrinker.presentation.root.transformation.filter.FilterTransformation
 import javax.inject.Inject
 
 @HiltViewModel
@@ -36,6 +37,9 @@ class SingleEditViewModel @Inject constructor(
     private val fileController: FileController,
     private val imageManager: ImageManager<Bitmap, ExifInterface>
 ) : ViewModel() {
+
+    private val _filterList = mutableStateOf(listOf<FilterTransformation<*>>())
+    val filterList by _filterList
 
     private val _cropProperties = mutableStateOf(
         CropDefaults.properties(
@@ -56,6 +60,9 @@ class SingleEditViewModel @Inject constructor(
 
     private val _uri: MutableState<Uri> = mutableStateOf(Uri.EMPTY)
     val uri: Uri by _uri
+
+    private val _internalBitmap: MutableState<Bitmap?> = mutableStateOf(null)
+    val initialBitmap by _internalBitmap
 
     private val _bitmap: MutableState<Bitmap?> = mutableStateOf(null)
     val bitmap: Bitmap? by _bitmap
@@ -166,13 +173,15 @@ class SingleEditViewModel @Inject constructor(
             height = _bitmap.value?.height ?: 0,
             imageFormat = if (saveMime) imageInfo.imageFormat else ImageFormat.Default()
         )
+        _bitmap.value = _internalBitmap.value
         checkBitmapAndUpdate(resetPreset = true, resetTelegram = true)
     }
 
     fun updateBitmap(bitmap: Bitmap?) {
         viewModelScope.launch {
             val size = bitmap?.let { bitmap.width to bitmap.height }
-            _bitmap.value = imageManager.scaleUntilCanShow(bitmap)
+            _bitmap.value =
+                imageManager.scaleUntilCanShow(bitmap).also { _internalBitmap.value = it }
             resetValues(saveMime = true)
             _imageInfo.value = _imageInfo.value.copy(
                 width = size?.first ?: 0,
@@ -344,5 +353,41 @@ class SingleEditViewModel @Inject constructor(
     }
 
     suspend fun loadImage(uri: Uri): Bitmap? = imageManager.getImage(data = uri)
+
+    fun getImageManager(): ImageManager<Bitmap, ExifInterface> = imageManager
+
+    fun <T : Any> updateFilter(
+        value: T,
+        index: Int,
+        showError: (Throwable) -> Unit
+    ) {
+        val list = _filterList.value.toMutableList()
+        kotlin.runCatching {
+            list[index] = list[index].copy(value)
+            _filterList.value = list
+        }.exceptionOrNull()?.let {
+            showError(it)
+            list[index] = list[index].newInstance()
+            _filterList.value = list
+        }
+    }
+
+    fun updateOrder(value: List<FilterTransformation<*>>) {
+        _filterList.value = value
+    }
+
+    fun addFilter(filter: FilterTransformation<*>) {
+        _filterList.value = _filterList.value + filter
+    }
+
+    fun removeFilterAtIndex(index: Int) {
+        _filterList.value = _filterList.value.toMutableList().apply {
+            removeAt(index)
+        }
+    }
+
+    fun clearFilterList() {
+        _filterList.value = listOf()
+    }
 
 }

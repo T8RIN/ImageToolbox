@@ -59,14 +59,6 @@ object ContextUtils {
         }
     }
 
-    fun Context.isExternalStorageWritable(): Boolean {
-        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) true
-        else ContextCompat.checkSelfPermission(
-            this,
-            Manifest.permission.WRITE_EXTERNAL_STORAGE
-        ) == PackageManager.PERMISSION_GRANTED
-    }
-
     fun Context.needToShowStoragePermissionRequest(): Boolean {
         val show = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) false
         else if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) false
@@ -204,12 +196,14 @@ object ContextUtils {
     }
 
     fun Context.cacheSize(): String {
-        val cache = cacheDir.walkTopDown().filter { it.isFile }.map { it.length() }.sum()
-        val code = codeCacheDir.walkTopDown().filter { it.isFile }.map { it.length() }.sum()
-        var size = cache + code
-        externalCacheDirs.forEach { file ->
-            size += file.walkTopDown().filter { it.isFile }.map { it.length() }.sum()
-        }
-        return readableByteCount(size)
+        return kotlin.runCatching {
+            val cache = cacheDir.walkTopDown().filter { it.isFile }.map { it.length() }.sum()
+            val code = codeCacheDir.walkTopDown().filter { it.isFile }.map { it.length() }.sum()
+            var size = cache + code
+            externalCacheDirs.forEach { file ->
+                size += file.walkTopDown().filter { it.isFile }.map { it.length() }.sum()
+            }
+            readableByteCount(size)
+        }.getOrNull() ?: "0 B"
     }
 }

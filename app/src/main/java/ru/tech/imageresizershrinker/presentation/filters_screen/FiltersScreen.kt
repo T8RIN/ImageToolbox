@@ -5,7 +5,6 @@ import android.net.Uri
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.LocalIndication
 import androidx.compose.foundation.background
@@ -24,7 +23,6 @@ import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.ime
 import androidx.compose.foundation.layout.navigationBars
@@ -32,9 +30,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Share
 import androidx.compose.material.icons.rounded.ArrowBack
@@ -42,11 +38,9 @@ import androidx.compose.material.icons.rounded.Build
 import androidx.compose.material.icons.rounded.Compare
 import androidx.compose.material.icons.rounded.History
 import androidx.compose.material.icons.rounded.PhotoFilter
-import androidx.compose.material.icons.rounded.Reorder
 import androidx.compose.material.icons.rounded.ZoomIn
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.IconButtonDefaults
@@ -72,7 +66,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.clipToBounds
-import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalConfiguration
@@ -85,13 +78,10 @@ import com.t8rin.dynamic.theme.LocalDynamicThemeState
 import dev.olshevski.navigation.reimagined.hilt.hiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import org.burnoutcrew.reorderable.ReorderableItem
-import org.burnoutcrew.reorderable.detectReorderAfterLongPress
-import org.burnoutcrew.reorderable.rememberReorderableLazyListState
-import org.burnoutcrew.reorderable.reorderable
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.presentation.filters_screen.components.AddFiltersSheet
 import ru.tech.imageresizershrinker.presentation.filters_screen.components.FilterItem
+import ru.tech.imageresizershrinker.presentation.filters_screen.components.FilterReorderSheet
 import ru.tech.imageresizershrinker.presentation.filters_screen.viewModel.FilterViewModel
 import ru.tech.imageresizershrinker.presentation.root.theme.mixedColor
 import ru.tech.imageresizershrinker.presentation.root.theme.onMixedColor
@@ -121,9 +111,7 @@ import ru.tech.imageresizershrinker.presentation.root.widget.other.TopAppBarEmoj
 import ru.tech.imageresizershrinker.presentation.root.widget.other.showError
 import ru.tech.imageresizershrinker.presentation.root.widget.sheets.CompareSheet
 import ru.tech.imageresizershrinker.presentation.root.widget.sheets.PickImageFromUrisSheet
-import ru.tech.imageresizershrinker.presentation.root.widget.sheets.SimpleSheet
 import ru.tech.imageresizershrinker.presentation.root.widget.sheets.ZoomModalSheet
-import ru.tech.imageresizershrinker.presentation.root.widget.text.AutoSizeText
 import ru.tech.imageresizershrinker.presentation.root.widget.text.TitleItem
 import ru.tech.imageresizershrinker.presentation.root.widget.text.TopAppBarTitle
 import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalSettingsState
@@ -664,80 +652,16 @@ fun FiltersScreen(
                 imageManager = viewModel.getImageManager()
             )
 
+            FilterReorderSheet(
+                filterList = filterList,
+                visible = showReorderSheet,
+                updateOrder = viewModel::updateOrder
+            )
+
             ExitWithoutSavingDialog(
                 onExit = onGoBack,
                 onDismiss = { showExitDialog = false },
                 visible = showExitDialog
-            )
-
-            SimpleSheet(
-                sheetContent = {
-                    if (filterList.size < 2) {
-                        showReorderSheet.value = false
-                    }
-                    Box {
-                        val data = remember { mutableStateOf(filterList) }
-                        val state = rememberReorderableLazyListState(
-                            onMove = { from, to ->
-                                data.value = data.value.toMutableList().apply {
-                                    add(to.index, removeAt(from.index))
-                                }
-                            },
-                            onDragEnd = { _, _ ->
-                                viewModel.updateOrder(data.value)
-                            }
-                        )
-                        LazyColumn(
-                            state = state.listState,
-                            modifier = Modifier
-                                .reorderable(state)
-                                .detectReorderAfterLongPress(state),
-                            contentPadding = PaddingValues(8.dp),
-                            verticalArrangement = Arrangement.spacedBy(8.dp)
-                        ) {
-                            items(data.value, key = { it.hashCode() }) { filter ->
-                                ReorderableItem(state, key = filter.hashCode()) { isDragging ->
-                                    val elevation by animateDpAsState(if (isDragging) 16.dp else 0.dp)
-                                    val tonalElevation by animateDpAsState(if (isDragging) 16.dp else 1.dp)
-                                    FilterItem(
-                                        filter = filter,
-                                        onFilterChange = {},
-                                        modifier = Modifier
-                                            .fillMaxWidth()
-                                            .shadow(elevation, RoundedCornerShape(16.dp)),
-                                        backgroundColor = MaterialTheme.colorScheme.surfaceColorAtElevation(
-                                            tonalElevation
-                                        ),
-                                        previewOnly = true,
-                                        showDragHandle = filterList.size >= 2,
-                                        onRemove = {}
-                                    )
-                                }
-                            }
-                        }
-                        HorizontalDivider(Modifier.align(Alignment.TopCenter))
-                        HorizontalDivider(Modifier.align(Alignment.BottomCenter))
-                    }
-                },
-                visible = showReorderSheet,
-                title = {
-                    TitleItem(
-                        text = stringResource(R.string.reorder),
-                        icon = Icons.Rounded.Reorder
-                    )
-                },
-                confirmButton = {
-                    OutlinedButton(
-                        colors = ButtonDefaults.filledTonalButtonColors(),
-                        border = BorderStroke(
-                            settingsState.borderWidth,
-                            MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.secondaryContainer)
-                        ),
-                        onClick = { showReorderSheet.value = false }
-                    ) {
-                        AutoSizeText(stringResource(R.string.close))
-                    }
-                },
             )
 
             BackHandler(onBack = onBack)
