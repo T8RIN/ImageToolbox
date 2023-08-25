@@ -12,6 +12,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.presentation.root.theme.EmojiItem
@@ -44,6 +45,8 @@ fun TopAppBarEmoji() {
                     exit = fadeOut() + slideOutHorizontally()
                 ) {
                     EmojiItem(
+                        fontScale = LocalSettingsState.current.fontScale
+                            ?: LocalDensity.current.fontScale,
                         emoji = settingsState.selectedEmoji,
                         fontSize = MaterialTheme.typography.headlineMedium.fontSize
                     )

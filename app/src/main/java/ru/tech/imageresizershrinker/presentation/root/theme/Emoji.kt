@@ -28,6 +28,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
@@ -171,13 +172,20 @@ fun EmojiItem(
     emoji: Uri?,
     modifier: Modifier = Modifier,
     fontSize: TextUnit = LocalTextStyle.current.fontSize,
+    fontScale: Float,
     onNoEmoji: @Composable (size: Dp) -> Unit = {}
 ) {
     AnimatedContent(
         targetState = emoji to fontSize,
         modifier = modifier
     ) { (emoji, fontSize) ->
-        val size = with(LocalDensity.current) { fontSize.toDp() }
+        val density = Density(
+            density = LocalDensity.current.density,
+            fontScale = fontScale
+        )
+        val size = with(density) {
+            fontSize.toDp()
+        }
         emoji?.let {
             Box {
                 Icon(

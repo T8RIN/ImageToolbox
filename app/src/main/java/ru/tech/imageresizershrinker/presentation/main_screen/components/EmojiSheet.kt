@@ -197,7 +197,8 @@ fun EmojiSheet(
                             ) {
                                 EmojiItem(
                                     emoji = emoji,
-                                    fontSize = MaterialTheme.typography.headlineLarge.fontSize
+                                    fontSize = MaterialTheme.typography.headlineLarge.fontSize,
+                                    fontScale = 1f
                                 )
                             }
                         }

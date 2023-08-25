@@ -359,6 +359,7 @@ fun LazyListScope.settingsBlock(
                                     if (emoji != null) Modifier.scaleOnTap(onRelease = {})
                                     else Modifier
                                 ),
+                                fontScale = 1f,
                                 fontSize = MaterialTheme.typography.headlineLarge.fontSize,
                                 onNoEmoji = { size ->
                                     Icon(
