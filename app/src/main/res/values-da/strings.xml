@@ -50,7 +50,6 @@
     <string name="color_copied">Farve kopieret</string>
     <string name="crop_sub">Beskær billedet til enhver grænse</string>
     <string name="version">Version</string>
-    <string name="resize_batch_image">Ændre specifikationer for givne billedbatches</string>
     <string name="batch_resize">Ændring af batchstørrelse</string>
     <string name="keep_exif">Behold EXIF</string>
     <string name="images">Billeder: %d</string>
