@@ -587,7 +587,9 @@ fun SingleEditScreen(
         },
         useScaffold = imageInside,
         bitmap = viewModel.previewBitmap,
-        onGetBitmap = viewModel::updateBitmapAfterEditing,
+        onGetBitmap = {
+            viewModel.updateBitmapAfterEditing(it, true)
+        },
         imageManager = viewModel.getImageManager(),
         filterList = viewModel.filterList,
         updateOrder = viewModel::updateOrder,
@@ -602,7 +604,7 @@ fun SingleEditScreen(
         useScaffold = imageInside,
         bitmap = viewModel.previewBitmap,
         onGetBitmap = {
-            viewModel.updateBitmapAfterEditing(it)
+            viewModel.updateBitmapAfterEditing(it, true)
             viewModel.clearDrawing()
         },
         orientation = remember(viewModel.previewBitmap) {
@@ -624,10 +626,8 @@ fun SingleEditScreen(
         orientation = remember(viewModel.previewBitmap) {
             viewModel.calculateScreenOrientationBasedOnBitmap(viewModel.previewBitmap)
         },
-        onGetBitmap = {
-            viewModel.updateBitmapAfterEditing(it)
-            viewModel.clearErasing()
-        },
+        onGetBitmap = viewModel::updateBitmapAfterEditing,
+        clearErasing = viewModel::clearErasing,
         undo = viewModel::undoErase,
         redo = viewModel::redoErase,
         paths = viewModel.erasePaths,

@@ -69,10 +69,10 @@ fun CropEditOption(
 ) {
     val scope = rememberCoroutineScope()
     bitmap?.let {
-        var crop by remember { mutableStateOf(false) }
-        var stateBitmap by remember(bitmap) { mutableStateOf(bitmap) }
+        var crop by remember(visible) { mutableStateOf(false) }
+        var stateBitmap by remember(bitmap, visible) { mutableStateOf(bitmap) }
         FullscreenEditOption(
-            canGoBack = stateBitmap != bitmap,
+            canGoBack = stateBitmap == bitmap,
             visible = visible,
             onDismiss = onDismiss,
             useScaffold = useScaffold,

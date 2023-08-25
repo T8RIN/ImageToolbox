@@ -90,11 +90,11 @@ fun FilterEditOption(
         val showFilterSheet = rememberSaveable { mutableStateOf(false) }
         val showReorderSheet = rememberSaveable { mutableStateOf(false) }
 
-        var stateBitmap by remember(bitmap) { mutableStateOf(bitmap) }
+        var stateBitmap by remember(bitmap, visible) { mutableStateOf(bitmap) }
         FullscreenEditOption(
             sheetSize = 0.4f,
             showControls = filterList.isNotEmpty(),
-            canGoBack = stateBitmap != bitmap,
+            canGoBack = stateBitmap == bitmap,
             visible = visible,
             onDismiss = onDismiss,
             useScaffold = useScaffold,

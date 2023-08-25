@@ -285,6 +285,7 @@ class EraseBackgroundViewModel @Inject constructor(
                     _bitmap.value = it
                     _paths.value = listOf()
                     _lastPaths.value = listOf()
+                    _undonePaths.value = listOf()
                     _isSaving.value = false
                     onSuccess()
                 },

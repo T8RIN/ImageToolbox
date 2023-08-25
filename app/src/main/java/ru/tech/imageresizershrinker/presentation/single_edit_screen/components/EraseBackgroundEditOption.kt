@@ -3,7 +3,11 @@ package ru.tech.imageresizershrinker.presentation.single_edit_screen.components
 import android.graphics.Bitmap
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -17,7 +21,6 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Close
 import androidx.compose.material.icons.rounded.Done
-import androidx.compose.material.icons.rounded.Draw
 import androidx.compose.material.icons.rounded.Redo
 import androidx.compose.material.icons.rounded.Undo
 import androidx.compose.material.icons.rounded.ZoomIn
@@ -59,10 +62,12 @@ import ru.tech.imageresizershrinker.presentation.erase_background_screen.compone
 import ru.tech.imageresizershrinker.presentation.erase_background_screen.components.EraseModeCard
 import ru.tech.imageresizershrinker.presentation.erase_background_screen.components.PathPaint
 import ru.tech.imageresizershrinker.presentation.erase_background_screen.components.TrimImageToggle
+import ru.tech.imageresizershrinker.presentation.root.theme.icons.Transparency
 import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
 import ru.tech.imageresizershrinker.presentation.root.utils.confetti.LocalConfettiController
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.block
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.drawHorizontalStroke
+import ru.tech.imageresizershrinker.presentation.root.widget.other.Loading
 import ru.tech.imageresizershrinker.presentation.root.widget.other.LocalToastHost
 import ru.tech.imageresizershrinker.presentation.root.widget.other.LockScreenOrientation
 import ru.tech.imageresizershrinker.presentation.root.widget.other.showError
@@ -77,7 +82,8 @@ fun EraseBackgroundEditOption(
     useScaffold: Boolean,
     bitmap: Bitmap?,
     orientation: Int,
-    onGetBitmap: (Bitmap) -> Unit,
+    onGetBitmap: (Bitmap, Boolean) -> Unit,
+    clearErasing: (Boolean) -> Unit,
     undo: () -> Unit,
     redo: () -> Unit,
     paths: List<PathPaint>,
@@ -116,7 +122,7 @@ fun EraseBackgroundEditOption(
                 thumbContent = {
                     AnimatedContent(zoomEnabled) { zoom ->
                         Icon(
-                            if (!zoom) Icons.Rounded.Draw else Icons.Rounded.ZoomIn,
+                            if (!zoom) Icons.Filled.Transparency else Icons.Rounded.ZoomIn,
                             null,
                             Modifier.size(SwitchDefaults.IconSize)
                         )
@@ -132,7 +138,7 @@ fun EraseBackgroundEditOption(
             mutableFloatStateOf(0f)
         }
 
-        var trimImage by rememberSaveable { mutableStateOf(false) }
+        var trimImage by rememberSaveable { mutableStateOf(true) }
 
         val secondaryControls = @Composable {
             val border = BorderStroke(
@@ -169,9 +175,13 @@ fun EraseBackgroundEditOption(
             }
         }
 
-        var stateBitmap by remember(bitmap) { mutableStateOf(bitmap) }
+        var bitmapState by remember(bitmap, visible) { mutableStateOf(bitmap) }
+        var erasedBitmap by remember(bitmap, visible) { mutableStateOf(bitmap) }
+
+        var loading by remember { mutableStateOf(false) }
+
         FullscreenEditOption(
-            canGoBack = stateBitmap != bitmap,
+            canGoBack = erasedBitmap == bitmap,
             visible = visible,
             onDismiss = onDismiss,
             useScaffold = useScaffold,
@@ -184,26 +194,28 @@ fun EraseBackgroundEditOption(
                 )
                 AutoEraseBackgroundCard(
                     onClick = {
-                        //TODO: FIX CUZ DONT WORK
                         scope.launch {
                             scaffoldState?.bottomSheetState?.partialExpand()
-                            imageManager.removeBackgroundFromImage(
-                                image = stateBitmap,
-                                trimEmptyParts = trimImage,
-                                onSuccess = {
-                                    stateBitmap = it
-                                    showConfetti()
-                                },
-                                onFailure = {
-                                    scope.launch {
-                                        toastHostState.showError(context, it)
-                                    }
-                                }
-                            )
                         }
+                        loading = true
+                        imageManager.removeBackgroundFromImage(
+                            image = erasedBitmap,
+                            onSuccess = {
+                                loading = false
+                                bitmapState = it
+                                clearErasing(false)
+                                showConfetti()
+                            },
+                            onFailure = {
+                                loading = false
+                                scope.launch {
+                                    toastHostState.showError(context, it)
+                                }
+                            }
+                        )
                     },
                     onReset = {
-                        stateBitmap = bitmap
+                        bitmapState = bitmap
                     }
                 )
                 LineWidthSelector(
@@ -244,16 +256,18 @@ fun EraseBackgroundEditOption(
                     ),
                     modifier = Modifier.drawHorizontalStroke(),
                     actions = {
-                        AnimatedVisibility(visible = stateBitmap != bitmap) {
+                        AnimatedVisibility(visible = erasedBitmap != bitmap) {
                             OutlinedIconButton(
                                 colors = IconButtonDefaults.filledTonalIconButtonColors(),
                                 onClick = {
                                     scope.launch {
                                         onGetBitmap(
                                             if (trimImage) imageManager.trimEmptyParts(
-                                                stateBitmap
-                                            ) else stateBitmap
+                                                erasedBitmap
+                                            ) else erasedBitmap,
+                                            !trimImage
                                         )
+                                        clearErasing(false)
                                     }
                                     onDismiss()
                                 }
@@ -273,13 +287,17 @@ fun EraseBackgroundEditOption(
             }
         ) {
             Box(contentAlignment = Alignment.Center) {
-                remember(stateBitmap) {
-                    derivedStateOf {
-                        stateBitmap.copy(Bitmap.Config.ARGB_8888, true).asImageBitmap()
-                    }
-                }.value.let { imageBitmap ->
+                AnimatedContent(
+                    targetState = remember(bitmapState) {
+                        derivedStateOf {
+                            bitmapState.copy(Bitmap.Config.ARGB_8888, true).asImageBitmap()
+                        }
+                    }.value,
+                    transitionSpec = { fadeIn() togetherWith fadeOut() }
+                ) { imageBitmap ->
                     val aspectRatio = imageBitmap.width / imageBitmap.height.toFloat()
                     BitmapEraser(
+                        imageBitmapForShader = bitmap.asImageBitmap(),
                         imageBitmap = imageBitmap,
                         paths = paths,
                         strokeWidth = strokeWidth,
@@ -291,11 +309,24 @@ fun EraseBackgroundEditOption(
                             .aspectRatio(aspectRatio, useScaffold)
                             .fillMaxSize(),
                         zoomEnabled = zoomEnabled,
-                        onErased = {
-                            stateBitmap = it
-                        },
-                        imageBitmapForShader = bitmap.asImageBitmap()
+                        onErased = { erasedBitmap = it }
                     )
+                }
+
+                AnimatedVisibility(
+                    visible = loading,
+                    modifier = Modifier.fillMaxSize(),
+                    enter = fadeIn(),
+                    exit = fadeOut()
+                ) {
+                    Box(
+                        contentAlignment = Alignment.Center,
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .background(MaterialTheme.colorScheme.surfaceColorAtElevation(6.dp))
+                    ) {
+                        Loading()
+                    }
                 }
             }
         }

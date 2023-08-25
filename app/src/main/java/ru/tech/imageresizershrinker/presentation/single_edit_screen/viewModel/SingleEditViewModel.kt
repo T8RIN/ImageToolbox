@@ -212,10 +212,18 @@ class SingleEditViewModel @Inject constructor(
         }
     }
 
-    fun updateBitmapAfterEditing(bitmap: Bitmap?) {
+    fun updateBitmapAfterEditing(bitmap: Bitmap?, saveOriginalSize: Boolean = false) {
         viewModelScope.launch {
-            val size = bitmap?.let { bitmap.width to bitmap.height }
-            _bitmap.value = imageManager.scaleUntilCanShow(bitmap)
+            val bmp = bitmap?.let {
+                imageManager.resize(
+                    image = it,
+                    width = _bitmap.value?.width ?: it.width,
+                    height = _bitmap.value?.height ?: it.height,
+                    resizeType = if (saveOriginalSize) ResizeType.Explicit else ResizeType.Flexible
+                )
+            }
+            val size = bmp?.let { bmp.width to bmp.height }
+            _bitmap.value = imageManager.scaleUntilCanShow(bmp)
             resetValues()
             _imageInfo.value = _imageInfo.value.copy(
                 width = size?.first ?: 0,
@@ -484,7 +492,7 @@ class SingleEditViewModel @Inject constructor(
 
     fun clearErasing(canUndo: Boolean = false) {
         viewModelScope.launch {
-            delay(500L)
+            delay(250L)
             _eraseLastPaths.value = if (canUndo) erasePaths else listOf()
             _erasePaths.value = listOf()
             _eraseUndonePaths.value = listOf()

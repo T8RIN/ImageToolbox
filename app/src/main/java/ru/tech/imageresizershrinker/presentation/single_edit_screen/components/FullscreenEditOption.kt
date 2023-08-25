@@ -32,7 +32,11 @@ import androidx.compose.material3.SheetValue
 import androidx.compose.material3.Surface
 import androidx.compose.material3.rememberBottomSheetScaffoldState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.RectangleShape
@@ -41,6 +45,7 @@ import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.drawHorizontalStroke
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.navBarsPaddingOnlyIfTheyAtTheEnd
+import ru.tech.imageresizershrinker.presentation.root.widget.dialogs.ExitWithoutSavingDialog
 import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalSettingsState
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -179,8 +184,17 @@ fun FullscreenEditOption(
             }
         }
         if (visible) {
+            var showExitDialog by remember { mutableStateOf(false) }
             BackHandler {
-                if (canGoBack) onDismiss()
+                if (!canGoBack) showExitDialog = true
+                else onDismiss()
+            }
+            if (showExitDialog) {
+                ExitWithoutSavingDialog(
+                    onExit = onDismiss,
+                    onDismiss = { showExitDialog = false },
+                    visible = showExitDialog
+                )
             }
         }
     }
