@@ -37,7 +37,6 @@
     <string name="color_copied">Culoare copiată</string>
     <string name="crop_sub">Decupează imaginea la orice limită</string>
     <string name="version">Versiune</string>
-    <string name="resize_batch_image">Schimbă specificațiile imaginii prin loturi</string>
     <string name="batch_resize">Redimensionare pe loturi</string>
     <string name="keep_exif">Păstrează EXIF</string>
     <string name="images">Imagini: %d</string>
