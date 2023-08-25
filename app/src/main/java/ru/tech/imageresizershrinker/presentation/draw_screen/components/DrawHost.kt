@@ -256,26 +256,26 @@ fun DrawHost(
                                     .width(settingsState.borderWidth.coerceAtLeast(0.25.dp))
                                     .background(MaterialTheme.colorScheme.outlineVariant())
                             )
-                                LazyColumn(
-                                    horizontalAlignment = Alignment.CenterHorizontally,
-                                    contentPadding = PaddingValues(
-                                        bottom = WindowInsets
-                                            .navigationBars
-                                            .asPaddingValues()
-                                            .calculateBottomPadding() + WindowInsets.ime
-                                            .asPaddingValues()
-                                            .calculateBottomPadding(),
-                                        top = if (drawBehavior is DrawBehavior.None) 20.dp else 0.dp,
-                                    ),
-                                    modifier = Modifier
-                                        .weight(0.7f)
-                                        .clipToBounds()
-                                ) {
-                                    item {
-                                        secondaryControls()
-                                        controls()
-                                    }
+                            LazyColumn(
+                                horizontalAlignment = Alignment.CenterHorizontally,
+                                contentPadding = PaddingValues(
+                                    bottom = WindowInsets
+                                        .navigationBars
+                                        .asPaddingValues()
+                                        .calculateBottomPadding() + WindowInsets.ime
+                                        .asPaddingValues()
+                                        .calculateBottomPadding(),
+                                    top = if (drawBehavior is DrawBehavior.None) 20.dp else 0.dp,
+                                ),
+                                modifier = Modifier
+                                    .weight(0.7f)
+                                    .clipToBounds()
+                            ) {
+                                item {
+                                    secondaryControls()
+                                    controls()
                                 }
+                            }
                             Box(
                                 Modifier
                                     .fillMaxHeight()
@@ -325,26 +325,26 @@ fun DrawHost(
                                     .width(settingsState.borderWidth.coerceAtLeast(0.25.dp))
                                     .background(MaterialTheme.colorScheme.outlineVariant())
                             )
-                                LazyColumn(
-                                    horizontalAlignment = Alignment.CenterHorizontally,
-                                    contentPadding = PaddingValues(
-                                        bottom = WindowInsets
-                                            .navigationBars
-                                            .asPaddingValues()
-                                            .calculateBottomPadding() + WindowInsets.ime
-                                            .asPaddingValues()
-                                            .calculateBottomPadding(),
-                                        top = if (drawBehavior is DrawBehavior.None) 20.dp else 0.dp,
-                                    ),
-                                    modifier = Modifier
-                                        .weight(0.7f)
-                                        .clipToBounds()
-                                ) {
-                                    item {
-                                        secondaryControls()
-                                        controls()
-                                    }
+                            LazyColumn(
+                                horizontalAlignment = Alignment.CenterHorizontally,
+                                contentPadding = PaddingValues(
+                                    bottom = WindowInsets
+                                        .navigationBars
+                                        .asPaddingValues()
+                                        .calculateBottomPadding() + WindowInsets.ime
+                                        .asPaddingValues()
+                                        .calculateBottomPadding(),
+                                    top = if (drawBehavior is DrawBehavior.None) 20.dp else 0.dp,
+                                ),
+                                modifier = Modifier
+                                    .weight(0.7f)
+                                    .clipToBounds()
+                            ) {
+                                item {
+                                    secondaryControls()
+                                    controls()
                                 }
+                            }
                             Box(
                                 Modifier
                                     .fillMaxHeight()

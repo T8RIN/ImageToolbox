@@ -57,6 +57,7 @@ fun rememberCropState(
                     limitPan = false
                 )
             }
+
             else -> {
                 DynamicCropState(
                     imageSize = imageSize,

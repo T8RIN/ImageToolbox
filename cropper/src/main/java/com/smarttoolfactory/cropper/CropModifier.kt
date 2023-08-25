@@ -1,7 +1,12 @@
 package com.smarttoolfactory.cropper
 
 import androidx.compose.foundation.gestures.detectTapGestures
-import androidx.compose.runtime.*
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
 import androidx.compose.ui.draw.clipToBounds
@@ -54,7 +59,7 @@ fun Modifier.crop(
 
     factory = {
 
-        LaunchedEffect(key1 = cropState){
+        LaunchedEffect(key1 = cropState) {
             cropState.init()
         }
 

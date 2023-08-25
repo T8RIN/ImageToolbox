@@ -1041,7 +1041,7 @@ fun LazyListScope.settingsBlock(
                         else 0.2f
                     ).value
                 ),
-                endIcon = if(currentFolderUri != null) Icons.Outlined.FolderSpecial else Icons.Rounded.FolderSpecial,
+                endIcon = if (currentFolderUri != null) Icons.Outlined.FolderSpecial else Icons.Rounded.FolderSpecial,
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 8.dp)

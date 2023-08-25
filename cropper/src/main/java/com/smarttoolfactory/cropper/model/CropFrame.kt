@@ -25,7 +25,7 @@ data class CropFrame(
 
     fun addOutline(outline: CropOutline): CropFrame {
         outlines.toMutableList().add(outline)
-       return this
+        return this
     }
 }
 
@@ -42,6 +42,7 @@ fun getOutlineContainer(
                 outlines = outlines as List<RoundedCornerCropShape>
             )
         }
+
         OutlineType.CutCorner -> {
             CutCornerRectOutlineContainer(
                 selectedIndex = index,
@@ -76,6 +77,7 @@ fun getOutlineContainer(
                 outlines = outlines as List<ImageMaskOutline>
             )
         }
+
         else -> {
             RectOutlineContainer(
                 selectedIndex = index,

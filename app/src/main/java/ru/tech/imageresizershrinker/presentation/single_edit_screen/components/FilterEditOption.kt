@@ -115,47 +115,47 @@ fun FilterEditOption(
                                 FilterItem(
                                     filter = filter,
                                     onFilterChange = {
-                                            updateFilter(
-                                                it,
-                                                index
-                                            ) {
-                                                scope.launch {
-                                                    toastHostState.showError(
-                                                        context,
-                                                        it
-                                                    )
-                                                }
+                                        updateFilter(
+                                            it,
+                                            index
+                                        ) {
+                                            scope.launch {
+                                                toastHostState.showError(
+                                                    context,
+                                                    it
+                                                )
                                             }
-                                        },
-                                        onLongPress = {
-                                            showReorderSheet.value = true
-                                        },
-                                        showDragHandle = false,
-                                        onRemove = {
-                                            removeAt(index)
                                         }
+                                    },
+                                    onLongPress = {
+                                        showReorderSheet.value = true
+                                    },
+                                    showDragHandle = false,
+                                    onRemove = {
+                                        removeAt(index)
+                                    }
+                                )
+                            }
+                            OutlinedButton(
+                                colors = ButtonDefaults.filledTonalButtonColors(
+                                    containerColor = MaterialTheme.colorScheme.mixedColor,
+                                    contentColor = MaterialTheme.colorScheme.onMixedColor
+                                ),
+                                border = BorderStroke(
+                                    settingsState.borderWidth,
+                                    MaterialTheme.colorScheme.outlineVariant(
+                                        onTopOf = MaterialTheme.colorScheme.mixedColor
                                     )
-                                }
-                                OutlinedButton(
-                                    colors = ButtonDefaults.filledTonalButtonColors(
-                                        containerColor = MaterialTheme.colorScheme.mixedColor,
-                                        contentColor = MaterialTheme.colorScheme.onMixedColor
-                                    ),
-                                    border = BorderStroke(
-                                        settingsState.borderWidth,
-                                        MaterialTheme.colorScheme.outlineVariant(
-                                            onTopOf = MaterialTheme.colorScheme.mixedColor
-                                        )
-                                    ),
-                                    onClick = { showFilterSheet.value = true },
-                                    modifier = Modifier.padding(horizontal = 16.dp)
-                                ) {
-                                    Icon(Icons.Rounded.PhotoFilter, null)
-                                    Spacer(Modifier.width(8.dp))
-                                    Text(stringResource(id = R.string.add_filter))
-                                }
+                                ),
+                                onClick = { showFilterSheet.value = true },
+                                modifier = Modifier.padding(horizontal = 16.dp)
+                            ) {
+                                Icon(Icons.Rounded.PhotoFilter, null)
+                                Spacer(Modifier.width(8.dp))
+                                Text(stringResource(id = R.string.add_filter))
                             }
                         }
+                    }
                 }
             },
             fabButtons = {

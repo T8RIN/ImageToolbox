@@ -638,69 +638,69 @@ class AndroidImageManager @Inject constructor(
                 out.toByteArray()
             }
 
-                ImageFormat.Png -> {
-                    val out = ByteArrayOutputStream()
-                    currentImage.compress(
-                        Bitmap.CompressFormat.PNG,
-                        imageData.imageInfo.quality.toInt().coerceIn(0, 100),
-                        out
-                    )
-                    out.toByteArray()
-                }
-
-                ImageFormat.Webp.Lossless -> {
-                    val out = ByteArrayOutputStream()
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-                        currentImage.compress(
-                            Bitmap.CompressFormat.WEBP_LOSSLESS,
-                            imageData.imageInfo.quality.toInt().coerceIn(0, 100),
-                            out
-                        )
-                    } else currentImage.compress(
-                        Bitmap.CompressFormat.WEBP,
-                        imageData.imageInfo.quality.toInt().coerceIn(0, 100),
-                        out
-                    )
-                    out.toByteArray()
-                }
-
-                ImageFormat.Webp.Lossy -> {
-                    val out = ByteArrayOutputStream()
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-                        currentImage.compress(
-                            Bitmap.CompressFormat.WEBP_LOSSY,
-                            imageData.imageInfo.quality.toInt().coerceIn(0, 100),
-                            out
-                        )
-                    } else currentImage.compress(
-                        Bitmap.CompressFormat.WEBP,
-                        imageData.imageInfo.quality.toInt().coerceIn(0, 100),
-                        out
-                    )
-                    out.toByteArray()
-                }
-
-                ImageFormat.Avif -> {
-                    heifCoder.encodeAvif(
-                        currentImage,
-                        imageData.imageInfo.quality.toInt().coerceIn(0, 100)
-                    )
-                }
-
-                ImageFormat.Heic -> {
-                    heifCoder.encodeHeic(
-                        currentImage,
-                        imageData.imageInfo.quality.toInt().coerceIn(0, 100)
-                    )
-                }
-
-                ImageFormat.Heif -> {
-                    heifCoder.encodeHeic(
-                        currentImage,
-                        imageData.imageInfo.quality.toInt().coerceIn(0, 100)
-                    )
-                }
+            ImageFormat.Png -> {
+                val out = ByteArrayOutputStream()
+                currentImage.compress(
+                    Bitmap.CompressFormat.PNG,
+                    imageData.imageInfo.quality.toInt().coerceIn(0, 100),
+                    out
+                )
+                out.toByteArray()
             }
+
+            ImageFormat.Webp.Lossless -> {
+                val out = ByteArrayOutputStream()
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                    currentImage.compress(
+                        Bitmap.CompressFormat.WEBP_LOSSLESS,
+                        imageData.imageInfo.quality.toInt().coerceIn(0, 100),
+                        out
+                    )
+                } else currentImage.compress(
+                    Bitmap.CompressFormat.WEBP,
+                    imageData.imageInfo.quality.toInt().coerceIn(0, 100),
+                    out
+                )
+                out.toByteArray()
+            }
+
+            ImageFormat.Webp.Lossy -> {
+                val out = ByteArrayOutputStream()
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                    currentImage.compress(
+                        Bitmap.CompressFormat.WEBP_LOSSY,
+                        imageData.imageInfo.quality.toInt().coerceIn(0, 100),
+                        out
+                    )
+                } else currentImage.compress(
+                    Bitmap.CompressFormat.WEBP,
+                    imageData.imageInfo.quality.toInt().coerceIn(0, 100),
+                    out
+                )
+                out.toByteArray()
+            }
+
+            ImageFormat.Avif -> {
+                heifCoder.encodeAvif(
+                    currentImage,
+                    imageData.imageInfo.quality.toInt().coerceIn(0, 100)
+                )
+            }
+
+            ImageFormat.Heic -> {
+                heifCoder.encodeHeic(
+                    currentImage,
+                    imageData.imageInfo.quality.toInt().coerceIn(0, 100)
+                )
+            }
+
+            ImageFormat.Heif -> {
+                heifCoder.encodeHeic(
+                    currentImage,
+                    imageData.imageInfo.quality.toInt().coerceIn(0, 100)
+                )
+            }
+        }
     }
 
     override fun flip(image: Bitmap, isFlipped: Boolean): Bitmap {

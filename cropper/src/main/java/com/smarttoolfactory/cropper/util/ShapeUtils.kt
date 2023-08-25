@@ -168,5 +168,5 @@ fun calculateSizeAndOffsetFromAspectRatio(
     val left = (width - newSize.width) / 2
     val top = (height - newSize.height) / 2
 
-   return Pair(newSize, Offset(left, top))
+    return Pair(newSize, Offset(left, top))
 }

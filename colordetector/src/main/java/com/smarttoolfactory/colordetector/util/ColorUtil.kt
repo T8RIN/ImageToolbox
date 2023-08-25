@@ -4,7 +4,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.core.graphics.ColorUtils
 import com.smarttoolfactory.colordetector.util.ColorUtil.fractionToRGBRange
-import java.util.*
+import java.util.Locale
 import kotlin.math.roundToInt
 
 
@@ -76,9 +76,9 @@ object ColorUtil {
         return RGBUtil.rgbToHSL(red, green, blue)
     }
 
-/*
-    COLOR-RGB Conversions
- */
+    /*
+        COLOR-RGB Conversions
+     */
 
     /**
      * Convert Jetpack [Color] into 3 element array of red, green, and blue
@@ -192,9 +192,9 @@ object ColorUtil {
     }
 
 
-/*
-    ColorInt-RGB Conversions
- */
+    /*
+        ColorInt-RGB Conversions
+     */
     /**
      * Convert Color [Integer] into 3 element array of red, green, and blue
      *```
@@ -648,9 +648,9 @@ object RGBUtil {
                 Integer.toHexString(blue.fractionToRGBRange()).toStringComponent()
     }
 
-/*
-    RGB-HEX Conversions
- */
+    /*
+        RGB-HEX Conversions
+     */
     /**
      * Get hex representation of a rgb Color in [Integer] format
      */

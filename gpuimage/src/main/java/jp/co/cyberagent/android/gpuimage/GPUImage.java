@@ -65,6 +65,7 @@ public class GPUImage {
     private Bitmap currentBitmap;
     private ScaleType scaleType = ScaleType.CENTER_CROP;
     private int scaleWidth, scaleHeight;
+
     /**
      * Instantiates a new GPUImage object.
      *

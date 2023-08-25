@@ -19,7 +19,7 @@ jobs:
           cache: gradle
 
       - run: bash ./gradlew assembleRelease
-      
+
       - uses: iota9star/sign-android-release@v1.0.5
         name: Sign app APK
         # ID used to access action output

@@ -83,6 +83,7 @@ fun View.screenshot(
                         PixelCopy.SUCCESS -> {
                             bitmapCallback.invoke(ImageResult.Success(bitmap))
                         }
+
                         PixelCopy.ERROR_DESTINATION_INVALID -> {
                             bitmapCallback.invoke(
                                 ImageResult.Error(
@@ -97,6 +98,7 @@ fun View.screenshot(
                                 )
                             )
                         }
+
                         PixelCopy.ERROR_SOURCE_INVALID -> {
                             bitmapCallback.invoke(
                                 ImageResult.Error(
@@ -108,6 +110,7 @@ fun View.screenshot(
                                 )
                             )
                         }
+
                         PixelCopy.ERROR_TIMEOUT -> {
                             bitmapCallback.invoke(
                                 ImageResult.Error(
@@ -118,6 +121,7 @@ fun View.screenshot(
                                 )
                             )
                         }
+
                         PixelCopy.ERROR_SOURCE_NO_DATA -> {
                             bitmapCallback.invoke(
                                 ImageResult.Error(
@@ -131,6 +135,7 @@ fun View.screenshot(
                                 )
                             )
                         }
+
                         else -> {
                             bitmapCallback.invoke(
                                 ImageResult.Error(

@@ -2,7 +2,25 @@ package com.smarttoolfactory.cropper.settings
 
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.ui.graphics.ImageBitmap
-import com.smarttoolfactory.cropper.model.*
+import com.smarttoolfactory.cropper.model.CropFrame
+import com.smarttoolfactory.cropper.model.CropOutline
+import com.smarttoolfactory.cropper.model.CropOutlineContainer
+import com.smarttoolfactory.cropper.model.CustomOutlineContainer
+import com.smarttoolfactory.cropper.model.CustomPathOutline
+import com.smarttoolfactory.cropper.model.CutCornerCropShape
+import com.smarttoolfactory.cropper.model.CutCornerRectOutlineContainer
+import com.smarttoolfactory.cropper.model.ImageMaskOutline
+import com.smarttoolfactory.cropper.model.ImageMaskOutlineContainer
+import com.smarttoolfactory.cropper.model.OutlineType
+import com.smarttoolfactory.cropper.model.OvalCropShape
+import com.smarttoolfactory.cropper.model.OvalOutlineContainer
+import com.smarttoolfactory.cropper.model.PolygonCropShape
+import com.smarttoolfactory.cropper.model.PolygonOutlineContainer
+import com.smarttoolfactory.cropper.model.PolygonProperties
+import com.smarttoolfactory.cropper.model.RectCropShape
+import com.smarttoolfactory.cropper.model.RectOutlineContainer
+import com.smarttoolfactory.cropper.model.RoundedCornerCropShape
+import com.smarttoolfactory.cropper.model.RoundedRectOutlineContainer
 import com.smarttoolfactory.cropper.util.createPolygonShape
 
 class CropFrameFactory(private val defaultImages: List<ImageBitmap>) {

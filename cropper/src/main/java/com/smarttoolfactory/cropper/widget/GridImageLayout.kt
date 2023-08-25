@@ -8,7 +8,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.layout.*
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.layout.Layout
+import androidx.compose.ui.layout.Measurable
+import androidx.compose.ui.layout.MeasurePolicy
+import androidx.compose.ui.layout.Placeable
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.Constraints
@@ -91,6 +95,7 @@ private fun ImageDrawLayout(
                     width = constraints.maxWidth / 2 - spacePx / 2,
                     height = constraints.maxHeight
                 )
+
                 else -> Constraints.fixed(
                     width = constraints.maxWidth / 2 - spacePx / 2,
                     height = constraints.maxHeight / 2 - spacePx / 2
@@ -124,6 +129,7 @@ private fun ImageDrawLayout(
                             placeable.placeRelative(0, 0)
                         }
                     }
+
                     2 -> {
                         var xPos = 0
                         placeables.forEach { placeable: Placeable ->
@@ -131,6 +137,7 @@ private fun ImageDrawLayout(
                             xPos += placeable.width + spacePx
                         }
                     }
+
                     else -> {
                         var xPos = 0
                         var yPos = 0

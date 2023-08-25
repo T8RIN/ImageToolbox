@@ -130,7 +130,7 @@ data class CropOutlineProperty(
 /**
  * Light, Dark or system controlled theme
  */
-enum class CropTheme{
+enum class CropTheme {
     Light,
     Dark,
     System

@@ -4,7 +4,9 @@ import androidx.compose.foundation.gestures.awaitFirstDown
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.pointer.AwaitPointerEventScope
 import androidx.compose.ui.input.pointer.PointerEventPass
-import androidx.compose.ui.input.pointer.PointerEventPass.*
+import androidx.compose.ui.input.pointer.PointerEventPass.Final
+import androidx.compose.ui.input.pointer.PointerEventPass.Initial
+import androidx.compose.ui.input.pointer.PointerEventPass.Main
 import androidx.compose.ui.input.pointer.PointerInputChange
 import androidx.compose.ui.input.pointer.pointerInput
 

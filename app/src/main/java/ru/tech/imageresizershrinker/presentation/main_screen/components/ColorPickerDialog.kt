@@ -227,7 +227,7 @@ fun ColorPickerDialog(
                             ColorCustomComponent(
                                 color = primary,
                                 onColorChange = {
-                                    if(primary != it) {
+                                    if (primary != it) {
                                         secondary = Color(it).calculateSecondaryColor()
                                         tertiary = Color(it).calculateTertiaryColor()
                                         surface = Color(it).calculateSurfaceColor()

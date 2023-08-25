@@ -20,7 +20,7 @@ import androidx.compose.ui.unit.IntRect
  * Receiver scope being used by the children parameter of [ImageWithConstraints]
  */
 @Stable
- interface ImageScope {
+interface ImageScope {
     /**
      * The constraints given by the parent layout in pixels.
      *

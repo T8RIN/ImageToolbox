@@ -21,10 +21,12 @@ internal fun calculateZoom(
             newZoomLevel = ZoomLevel.Max
             newZoom = max.coerceAtMost(3f)
         }
+
         ZoomLevel.Max -> {
             newZoomLevel = ZoomLevel.Min
             newZoom = if (min == initial) initial else min
         }
+
         else -> {
             newZoomLevel = ZoomLevel.Mid
             newZoom = if (min == initial) (min + max.coerceAtMost(3f)) / 2 else initial
@@ -37,9 +39,11 @@ internal fun getNextZoomLevel(zoomLevel: ZoomLevel): ZoomLevel = when (zoomLevel
     ZoomLevel.Mid -> {
         ZoomLevel.Max
     }
+
     ZoomLevel.Max -> {
         ZoomLevel.Min
     }
+
     else -> {
         ZoomLevel.Mid
     }

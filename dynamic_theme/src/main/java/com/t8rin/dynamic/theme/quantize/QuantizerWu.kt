@@ -35,7 +35,7 @@ class QuantizerWu : Quantizer {
     lateinit var cubes: Array<Box?>
     override fun quantize(pixels: IntArray, colorCount: Int): QuantizerResult {
         val mapResult = QuantizerMap().quantize(pixels, colorCount)
-        constructHistogram(mapResult!!.colorToCount)
+        constructHistogram(mapResult.colorToCount)
         createMoments()
         val createBoxesResult = createBoxes(colorCount)
         val colors = createResult(createBoxesResult.resultCount)
@@ -212,12 +212,14 @@ class QuantizerWu : Quantizer {
                 two.g0 = one.g0
                 two.b0 = one.b0
             }
+
             Direction.GREEN -> {
                 one.g1 = maxGResult.cutLocation
                 two.r0 = one.r0
                 two.g0 = one.g1
                 two.b0 = one.b0
             }
+
             Direction.BLUE -> {
                 one.b1 = maxBResult.cutLocation
                 two.r0 = one.r0
@@ -329,12 +331,14 @@ class QuantizerWu : Quantizer {
                         + moment[getIndex(cube.r0, cube.g1, cube.b0)]
                         + moment[getIndex(cube.r0, cube.g0, cube.b1)])
                         - moment[getIndex(cube.r0, cube.g0, cube.b0)])
+
                 Direction.GREEN -> ((-moment[getIndex(
                     cube!!.r1, cube.g0, cube.b1
                 )]
                         + moment[getIndex(cube.r1, cube.g0, cube.b0)]
                         + moment[getIndex(cube.r0, cube.g0, cube.b1)])
                         - moment[getIndex(cube.r0, cube.g0, cube.b0)])
+
                 Direction.BLUE -> ((-moment[getIndex(
                     cube!!.r1, cube.g1, cube.b0
                 )]
@@ -351,12 +355,14 @@ class QuantizerWu : Quantizer {
                         - moment[getIndex(position, cube.g1, cube.b0)]
                         - moment[getIndex(position, cube.g0, cube.b1)])
                         + moment[getIndex(position, cube.g0, cube.b0)])
+
                 Direction.GREEN -> ((moment[getIndex(
                     cube!!.r1, position, cube.b1
                 )]
                         - moment[getIndex(cube.r1, position, cube.b0)]
                         - moment[getIndex(cube.r0, position, cube.b1)])
                         + moment[getIndex(cube.r0, position, cube.b0)])
+
                 Direction.BLUE -> ((moment[getIndex(
                     cube!!.r1, cube.g1, position
                 )]

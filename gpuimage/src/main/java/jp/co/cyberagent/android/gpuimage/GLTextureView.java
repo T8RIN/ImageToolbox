@@ -696,6 +696,7 @@ public class GLTextureView extends TextureView
 
         void destroyContext(EGL10 egl, EGLDisplay display, EGLContext context);
     }
+
     /**
      * An interface for customizing the eglCreateWindowSurface and eglDestroySurface calls.
      * <p>
@@ -711,6 +712,7 @@ public class GLTextureView extends TextureView
 
         void destroySurface(EGL10 egl, EGLDisplay display, EGLSurface surface);
     }
+
     /**
      * An interface for choosing an EGLConfig configuration from a list of
      * potential configurations.
@@ -1021,6 +1023,7 @@ public class GLTextureView extends TextureView
         private boolean renderComplete;
         private boolean sizeChanged = true;
         private EglHelper eglHelper;
+
         GLThread(WeakReference<GLTextureView> glTextureViewWeakRef) {
             super();
             width = 0;
@@ -1740,6 +1743,7 @@ public class GLTextureView extends TextureView
         protected int alphaSize;
         protected int depthSize;
         protected int stencilSize;
+
         public ComponentSizeChooser(int redSize, int greenSize, int blueSize, int alphaSize,
                                     int depthSize, int stencilSize) {
             super(new int[]{

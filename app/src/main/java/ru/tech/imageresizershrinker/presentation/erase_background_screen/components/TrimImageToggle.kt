@@ -41,7 +41,8 @@ fun TrimImageToggle(
         Column(
             Modifier
                 .weight(1f)
-                .padding(start = 16.dp, end = 16.dp, top = 6.dp, bottom = 8.dp)) {
+                .padding(start = 16.dp, end = 16.dp, top = 6.dp, bottom = 8.dp)
+        ) {
             Text(
                 text = stringResource(R.string.trim_image),
                 fontWeight = FontWeight.Medium

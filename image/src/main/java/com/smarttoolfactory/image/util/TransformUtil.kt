@@ -36,6 +36,7 @@ internal fun getTouchRegion(
         HandlePlacement.Side -> {
             getSideTouchRegion(position, rect, squareOfThreshold)
         }
+
         else -> {
             val touchRegion = getCornerTouchRegion(position, rect, squareOfThreshold)
             if (touchRegion == TouchRegion.Inside) {
@@ -59,21 +60,25 @@ private fun getCornerTouchRegion(
             rect.topLeft,
             squareOfThreshold
         ) -> TouchRegion.TopLeft
+
         inDistanceSquared(
             position,
             rect.topRight,
             squareOfThreshold
         ) -> TouchRegion.TopRight
+
         inDistanceSquared(
             position,
             rect.bottomLeft,
             squareOfThreshold
         ) -> TouchRegion.BottomLeft
+
         inDistanceSquared(
             position,
             rect.bottomRight,
             squareOfThreshold
         ) -> TouchRegion.BottomRight
+
         rect.contains(offset = position) -> TouchRegion.Inside
         else -> TouchRegion.None
     }
@@ -94,12 +99,15 @@ internal fun getDistanceToEdgeFromTouch(
     TouchRegion.TopLeft -> {
         rect.topLeft - touchPosition
     }
+
     TouchRegion.TopRight -> {
         rect.topRight - touchPosition
     }
+
     TouchRegion.BottomLeft -> {
         rect.bottomLeft - touchPosition
     }
+
     TouchRegion.BottomRight -> {
         rect.bottomRight - touchPosition
     }
@@ -107,15 +115,19 @@ internal fun getDistanceToEdgeFromTouch(
     TouchRegion.CenterLeft -> {
         rect.centerLeft - touchPosition
     }
+
     TouchRegion.TopCenter -> {
         rect.topCenter - touchPosition
     }
+
     TouchRegion.CenterRight -> {
         rect.centerRight - touchPosition
     }
+
     TouchRegion.BottomCenter -> {
         rect.bottomCenter - touchPosition
     }
+
     else -> {
         Offset.Zero
     }
@@ -133,21 +145,25 @@ private fun getSideTouchRegion(
             rect.centerLeft,
             squareOfThreshold
         ) -> TouchRegion.CenterLeft
+
         inDistanceSquared(
             position,
             rect.topCenter,
             squareOfThreshold
         ) -> TouchRegion.TopCenter
+
         inDistanceSquared(
             position,
             rect.centerRight,
             squareOfThreshold
         ) -> TouchRegion.CenterRight
+
         inDistanceSquared(
             position,
             rect.bottomCenter,
             squareOfThreshold
         ) -> TouchRegion.BottomCenter
+
         rect.contains(offset = position) -> TouchRegion.Inside
         else -> TouchRegion.None
     }

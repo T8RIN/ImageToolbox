@@ -522,11 +522,13 @@ class DynamicColor
                     100.0,
                     keepAwayTone + requiredDelta
                 )
+
                 TonePolarity.LIGHTER -> clampDouble(
                     0.0,
                     100.0,
                     keepAwayTone - requiredDelta
                 )
+
                 TonePolarity.NO_PREFERENCE -> {
                     val keepAwayToneStandard = constraint.keepAway.tone.apply(scheme)
                     val preferLighten = toneStandard > keepAwayToneStandard

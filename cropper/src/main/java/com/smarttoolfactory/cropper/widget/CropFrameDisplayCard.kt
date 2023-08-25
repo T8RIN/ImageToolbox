@@ -176,6 +176,7 @@ private fun CropFrameDisplay(
                 content()
             }
         }
+
         is CropPath -> {
             Box(
                 modifier = modifier,
@@ -204,6 +205,7 @@ private fun CropFrameDisplay(
                 content()
             }
         }
+
         else -> {
             Box(
                 modifier = modifier,

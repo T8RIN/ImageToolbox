@@ -19,8 +19,12 @@ import com.t8rin.dynamic.theme.hct.Hct
 import com.t8rin.dynamic.theme.utils.ColorUtils.labFromArgb
 import com.t8rin.dynamic.theme.utils.MathUtils.sanitizeDegreesDouble
 import com.t8rin.dynamic.theme.utils.MathUtils.sanitizeDegreesInt
-import java.util.*
-import kotlin.math.*
+import java.util.Collections
+import kotlin.math.abs
+import kotlin.math.cos
+import kotlin.math.hypot
+import kotlin.math.pow
+import kotlin.math.roundToInt
 
 /**
  * Design utilities using color temperature theory.

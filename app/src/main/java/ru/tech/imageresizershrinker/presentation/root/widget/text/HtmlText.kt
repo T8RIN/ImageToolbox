@@ -28,7 +28,8 @@ import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalSettings
 fun HtmlText(
     html: String,
     modifier: Modifier = Modifier,
-    style: TextStyle = LocalTextStyle.current.copy(textAlign = TextAlign.Left).copy(color = MaterialTheme.colorScheme.onSurface),
+    style: TextStyle = LocalTextStyle.current.copy(textAlign = TextAlign.Left)
+        .copy(color = MaterialTheme.colorScheme.onSurface),
     hyperlinkStyle: TextStyle = style.copy(
         color = if (LocalSettingsState.current.isNightMode) Color.Cyan.blend(MaterialTheme.colorScheme.primary)
         else Color.Blue.blend(MaterialTheme.colorScheme.primary, 0.5f)
@@ -68,7 +69,8 @@ fun HtmlText(
 
                     is URLSpan -> {
                         addStyle(
-                            style = hyperlinkStyle.toSpanStyle().copy(textDecoration = TextDecoration.Underline),
+                            style = hyperlinkStyle.toSpanStyle()
+                                .copy(textDecoration = TextDecoration.Underline),
                             start = startIndex,
                             end = endIndex
                         )
@@ -95,8 +97,8 @@ fun HtmlText(
     ) { it ->
         annotatedText.getStringAnnotations(tag = Tag.Hyperlink.name, start = it, end = it)
             .firstOrNull()?.let {
-            onHyperlinkClick(it.item)
-        }
+                onHyperlinkClick(it.item)
+            }
     }
 }
 

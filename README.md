@@ -43,8 +43,9 @@
   </a>
 </p>
 
-<h4 align="center">Image toolbox is the app which based on modern tech stack using Clean Architecture. It has features like filters applying, cropping, EXIF editing, quality and output image type picking and tons of another options</h4>
-
+<h4 align="center">Image toolbox is the app which based on modern tech stack using Clean
+Architecture. It has features like filters applying, cropping, EXIF editing, quality and output
+image type picking and tons of another options</h4>
 
 ![Frame 7 (1)](https://github.com/T8RIN/ImageToolbox/assets/52178347/0e7514fb-574b-483a-8ca7-1a9e62e2d408)
 
@@ -68,34 +69,37 @@
   </br>
 
 # ⬇️ Download
-Go to the [Releases](https://github.com/t8rin/imageresizer/releases/latest) and download latest apk or click badges below.
+
+Go to the [Releases](https://github.com/t8rin/imageresizer/releases/latest) and download latest apk
+or click badges below.
 
 [<img src="https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png"
-      align="center"
-      alt='Get it on Google Play'
-      height="80">](https://play.google.com/store/apps/details?id=ru.tech.imageresizershrinker)
+align="center"
+alt='Get it on Google Play'
+height="80">](https://play.google.com/store/apps/details?id=ru.tech.imageresizershrinker)
 [<img src="https://gitlab.com/fdroid/artwork/-/raw/master/badge/get-it-on-en-au.png"
-      alt='Get it on fdroid'
-      align="center"
-      height="80">](https://f-droid.org/packages/ru.tech.imageresizershrinker)
+alt='Get it on fdroid'
+align="center"
+height="80">](https://f-droid.org/packages/ru.tech.imageresizershrinker)
 [<img src="https://gitlab.com/IzzyOnDroid/repo/-/raw/master/assets/IzzyOnDroid.png"
-      alt='Get it on izzy'
-      align="center"
-      height="80">](https://apt.izzysoft.de/fdroid/index/apk/ru.tech.imageresizershrinker)
+alt='Get it on izzy'
+align="center"
+height="80">](https://apt.izzysoft.de/fdroid/index/apk/ru.tech.imageresizershrinker)
 [<img src="https://user-images.githubusercontent.com/69304392/148696068-0cfea65d-b18f-4685-82b5-329a330b1c0d.png"
-      alt='Get it on GitHub'
-      align="center"
-      height="80">](https://github.com/t8rin/imageresizer/releases/latest)    
+alt='Get it on GitHub'
+align="center"
+height="80">](https://github.com/t8rin/imageresizer/releases/latest)
 </div>
 
 # ✨ Features
+
 - Batch processing
 - Applying filter chains (More than 45 various filters)
 
   <details>
   <summary>Available filters</summary>
   <br>
-  
+
   - [x] Saturation
   - [x] Contrast
   - [x] Brightness
@@ -145,9 +149,9 @@ Go to the [Releases](https://github.com/t8rin/imageresizer/releases/latest) and 
   - [x] Weak Pixel Inclusion Filter
   - [x] Color Matrix
   - [x] Lookup
-  
+
   </details>
-  
+
 - AES-256 GCM No Padding files encryption and decryption
 - EXIF metadata editing/deleting
 - Loading images from internet
@@ -205,14 +209,16 @@ Go to the [Releases](https://github.com/t8rin/imageresizer/releases/latest) and 
   - Saving to any specific folder
 
 #
+
 ![Frame 8 (3)](https://github.com/T8RIN/ImageToolbox/assets/52178347/147ecde5-4d92-4926-9356-636db84e3a86)
 
-  
 # 🌟 UI tweaks
+
 - Custom app color scheme
 - Light/Dark mode
 - AMOLED mode
-- Monet implementation (Dynamic colors) for android 12 and above by [Dynamic Theme](https://github.com/T8RIN/DynamicTheme)
+- Monet implementation (Dynamic colors) for android 12 and above
+  by [Dynamic Theme](https://github.com/T8RIN/DynamicTheme)
 - Dynamic colors theming even for Android versions less than 12
 - Image based color scheme
 - Custom fonts
@@ -228,19 +234,22 @@ Go to the [Releases](https://github.com/t8rin/imageresizer/releases/latest) and 
 
 (Yes, app supports dynamic coloring based on wallpapers for every android version)
 
-
 # 📚 Tech stack & Open-source libraries
+
 - Minimum SDK level 21
 
-- [Kotlin](https://kotlinlang.org/) based 
+- [Kotlin](https://kotlinlang.org/) based
 
-- [Dynamic Theme](https://github.com/T8RIN/DynamicTheme) - library, which allows you to easily implement custom color theming.
+- [Dynamic Theme](https://github.com/T8RIN/DynamicTheme) - library, which allows you to easily
+  implement custom color theming.
 
-- [Modal Sheet](https://github.com/T8RIN/ModalSheet) - modal bottom sheet that follows M3 guidelines.
+- [Modal Sheet](https://github.com/T8RIN/ModalSheet) - modal bottom sheet that follows M3
+  guidelines.
 
 - [Coroutines](https://github.com/Kotlin/kotlinx.coroutines) for asynchronous work.
 
-- [Flow](https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.flow/) to emit values from data layer reactively.
+- [Flow](https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.flow/)
+  to emit values from data layer reactively.
 
 - [Accompanist](https://github.com/google/accompanist) to expand jetpack compose opportunities.
 
@@ -248,57 +257,76 @@ Go to the [Releases](https://github.com/t8rin/imageresizer/releases/latest) and 
 
 - [Coil](https://github.com/coil-kt/coil) for loading images.
 
-- [Compose Navigation Reimagined](https://github.com/olshevski/compose-navigation-reimagined) - High intelligence navigation library for Jetpack Compose.
+- [Compose Navigation Reimagined](https://github.com/olshevski/compose-navigation-reimagined) - High
+  intelligence navigation library for Jetpack Compose.
 
 - [Konfetti](https://github.com/DanielMartinus/Konfetti) to establish beatyful particle system.
 
 - Jetpack
-  - [Compose](https://developer.android.com/jetpack/compose) - Modern Declarative UI style framework based on composable functions.
-  
-  - [Material You Kit](https://developer.android.com/jetpack/androidx/releases/compose-material3) - Material 3 powerful UI components.
-  
-  - [ViewModel](https://developer.android.com/topic/libraries/architecture/viewmodel) - Manages UI-related data holder and lifecycle aware. Allows data to survive configuration changes such as screen rotations.
-  
-  - [Data Store](https://developer.android.com/jetpack/androidx/releases/datastore) - Store data asynchronously, consistently, and transactionally.
-  
-  - [Lifecycle](https://developer.android.com/jetpack/androidx/releases/lifecycle) - Observe Android lifecycles and handle UI states upon the lifecycle changes.
-  
-  - [Exif Interface](https://developer.android.com/jetpack/androidx/releases/exifinterface) - Read and write image file EXIF tags.
+  - [Compose](https://developer.android.com/jetpack/compose) - Modern Declarative UI style
+    framework based on composable functions.
 
-- [GPU Image](https://github.com/cats-oss/android-gpuimage) for creating and applying filters to the images.
+  - [Material You Kit](https://developer.android.com/jetpack/androidx/releases/compose-material3) -
+    Material 3 powerful UI components.
+
+  - [ViewModel](https://developer.android.com/topic/libraries/architecture/viewmodel) - Manages
+    UI-related data holder and lifecycle aware. Allows data to survive configuration changes such
+    as screen rotations.
+
+  - [Data Store](https://developer.android.com/jetpack/androidx/releases/datastore) - Store data
+    asynchronously, consistently, and transactionally.
+
+  - [Lifecycle](https://developer.android.com/jetpack/androidx/releases/lifecycle) - Observe
+    Android lifecycles and handle UI states upon the lifecycle changes.
+
+  - [Exif Interface](https://developer.android.com/jetpack/androidx/releases/exifinterface) - Read
+    and write image file EXIF tags.
+
+- [GPU Image](https://github.com/cats-oss/android-gpuimage) for creating and applying filters to the
+  images.
 
 - [SmartToolFactory](https://github.com/SmartToolFactory) provides a bunch of helpful libraries
 
 - [AVIF Coder](https://github.com/awxkee/avif-coder) library that provides avif, heic, heif support
+
 <div align="center">
 
 #
+
 ![Frame 9](https://github.com/T8RIN/ImageToolbox/assets/52178347/1727027c-c8ac-4154-9e9d-a9319fcf8057)
 
 # 🌐 Translation
-You can help translate ImageResizer into your language on [Hosted Weblate](https://hosted.weblate.org/engage/image-resizer/)
+
+You can help translate ImageResizer into your language
+on [Hosted Weblate](https://hosted.weblate.org/engage/image-resizer/)
 
 [![Состояние перевода](https://hosted.weblate.org/widgets/image-resizer/-/horizontal-auto.svg)](https://hosted.weblate.org/engage/image-resizer/)
 </br>
 [![Translation status](https://hosted.weblate.org/widgets/image-resizer/-/image-resizer/287x66-black.png)](https://hosted.weblate.org/engage/image-resizer/)
 
-
 # ❤️ Find this repository useful?
-Support it by joining __[stargazers](https://github.com/t8rin/ImageResizer/stargazers)__ for this repository. :star: <br>
+
+Support it by joining __[stargazers](https://github.com/t8rin/ImageResizer/stargazers)__ for this
+repository. :star: <br>
 And __[follow](https://github.com/t8rin)__ me for my next creations! 🤩
 
 # ☕ Buy me a coffee
-This application is completely free, but if you want to support the project development, you can go to the [QIWI](https://qiwi.com/n/T8RIN) page :heart:
+
+This application is completely free, but if you want to support the project development, you can go
+to the [QIWI](https://qiwi.com/n/T8RIN) page :heart:
 
 # ⭐ Star History
+
 [![Star History Chart](https://api.star-history.com/svg?repos=t8rin/ImageResizer&type=Date)](https://star-history.com/#t8rin/ImageResizer&Date)
 
 # 📢 Contributors
+
 <a href="https://github.com/t8rin/imageresizer/graphs/contributors">
   <img src="https://contrib.rocks/image?repo=t8rin/Imageresizer" />
 </a>
 
 # ⚖️ License
+
 ```xml
 Designed and developed by 2023 T8RIN
 
