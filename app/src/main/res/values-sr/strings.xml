@@ -34,7 +34,6 @@
     <string name="color_copied">Color prepisivati</string>
     <string name="crop_sub">Urod image na any bounds</string>
     <string name="version">Inačica</string>
-    <string name="batch_resize">Batch resize</string>
     <string name="keep_exif">Tvrđava EXIF.</string>
     <string name="change_preview">Mijena preview</string>
     <string name="remove">Brisati</string>
