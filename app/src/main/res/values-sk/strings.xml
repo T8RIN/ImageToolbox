@@ -51,7 +51,6 @@
     <string name="color_copied">Farba skopírovaná</string>
     <string name="crop_sub">Orezanie obrázka do ľubovoľných hraníc</string>
     <string name="version">Verzia</string>
-    <string name="resize_batch_image">Zmena špecifikácií daných dávok obrázkov</string>
     <string name="batch_resize">Dávková zmena veľkosti</string>
     <string name="keep_exif">Ponechať EXIF</string>
     <string name="images">Obrázky: %d</string>
