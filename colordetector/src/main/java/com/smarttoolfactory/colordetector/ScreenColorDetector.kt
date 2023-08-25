@@ -30,6 +30,7 @@ import androidx.compose.ui.unit.dp
 import com.smarttoolfactory.colordetector.ScreenRefreshPolicy.OnDown
 import com.smarttoolfactory.colordetector.ScreenRefreshPolicy.OnEnable
 import com.smarttoolfactory.colordetector.ScreenRefreshPolicy.OnUp
+import com.smarttoolfactory.colordetector.model.ColorData
 import com.smarttoolfactory.colordetector.util.calculateColorInPixel
 import com.smarttoolfactory.gesture.pointerMotionEvents
 import com.smarttoolfactory.image.ImageWithThumbnail

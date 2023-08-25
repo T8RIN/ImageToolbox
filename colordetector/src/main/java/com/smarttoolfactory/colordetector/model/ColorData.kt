@@ -1,4 +1,4 @@
-package com.smarttoolfactory.colordetector
+package com.smarttoolfactory.colordetector.model
 
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.Stable

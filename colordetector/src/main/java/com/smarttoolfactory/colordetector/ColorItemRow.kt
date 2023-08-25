@@ -20,8 +20,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.smarttoolfactory.colordetector.model.ColorData
 
 @Composable
 internal fun ColorItemRow(
@@ -54,15 +56,16 @@ internal fun ColorItemRow(
                 )
         )
 
-        Spacer(modifier = Modifier.width(20.dp))
+        Spacer(modifier = Modifier.width(8.dp))
 
         Column(
             modifier = Modifier.fillMaxHeight(),
             verticalArrangement = Arrangement.SpaceEvenly
         ) {
             Text(
-                text = colorData.hexText.uppercase(),
-                fontSize = 16.sp,
+                text = colorData.name,
+                fontSize = 17.sp,
+                fontWeight = FontWeight.Bold,
                 color = contentColor,
                 style = style
             )
@@ -70,7 +73,7 @@ internal fun ColorItemRow(
 
         Spacer(modifier = Modifier.weight(1f))
         Text(
-            text = populationPercent,
+            text = colorData.hexText.uppercase(),
             style = style,
             fontSize = 16.sp,
             color = contentColor,

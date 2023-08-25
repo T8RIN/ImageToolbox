@@ -24,6 +24,8 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.palette.graphics.Palette
+import com.smarttoolfactory.colordetector.model.ColorData
+import com.smarttoolfactory.colordetector.parser.rememberColorParser
 import com.smarttoolfactory.colordetector.util.ColorUtil
 import com.smarttoolfactory.colordetector.util.ColorUtil.fractionToIntPercent
 
@@ -45,6 +47,7 @@ fun ImageColorPalette(
     onEmpty: @Composable ColumnScope.() -> Unit,
     onColorChange: (ColorData) -> Unit
 ) {
+    val parser = rememberColorParser()
     val paletteData: List<PaletteData> by remember(imageBitmap, maximumColorCount) {
         derivedStateOf {
             val paletteData = mutableListOf<PaletteData>()
@@ -61,16 +64,18 @@ fun ImageColorPalette(
             palette.swatches.forEach { paletteSwatch ->
                 paletteSwatch?.let { swatch ->
                     val color = Color(swatch.rgb)
-                    val name = ""
+                    val name = parser.parseColorName(color)
                     val colorData = ColorData(color, name)
                     val percent: Float = swatch.population / numberOfPixels
                     paletteData.add(PaletteData(colorData = colorData, percent))
                 }
             }
-            paletteData.sortedWith(
+            paletteData.distinctBy {
+                it.colorData.name
+            }.sortedWith(
                 compareBy(
-                    { ColorUtil.colorToHSV(it.colorData.color)[0] },
                     { it.colorData.color.luminance() },
+                    { ColorUtil.colorToHSV(it.colorData.color)[0] },
                 )
             )
         }
