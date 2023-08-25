@@ -64,7 +64,6 @@
     <string name="color_copied">ทำสำเนาสีแล้ว</string>
     <string name="crop_sub">ครอบตัดรูปภาพไปยังขอบเขตใดก็ได้</string>
     <string name="version">รุ่น</string>
-    <string name="resize_batch_image">เปลี่ยนข้อกำหนดของชุดภาพที่กำหนด</string>
     <string name="batch_resize">ปรับขนาดเป็นชุด</string>
     <string name="keep_exif">เก็บ EXIF</string>
     <string name="images">ภาพ: %d</string>
