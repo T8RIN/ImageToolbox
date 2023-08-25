@@ -9,34 +9,25 @@ import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.slideInHorizontally
 import androidx.compose.animation.slideOutHorizontally
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.detectTapGestures
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.displayCutoutPadding
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.systemBarsPadding
-import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
-import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.ArrowBack
-import androidx.compose.material.icons.rounded.Image
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.minimumInteractiveComponentSize
@@ -52,7 +43,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.smarttoolfactory.image.zoom.ZoomLevel
 import com.smarttoolfactory.image.zoom.animatedZoom
@@ -60,27 +50,10 @@ import com.smarttoolfactory.image.zoom.rememberAnimatedZoomState
 import dev.olshevski.navigation.reimagined.navigate
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import ru.tech.imageresizershrinker.R
+import ru.tech.imageresizershrinker.presentation.main_screen.components.ProcessImagesPreferenceSheet
 import ru.tech.imageresizershrinker.presentation.root.theme.icons.CreateAlt
-import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
 import ru.tech.imageresizershrinker.presentation.root.utils.navigation.LocalNavController
-import ru.tech.imageresizershrinker.presentation.root.utils.navigation.Screen
 import ru.tech.imageresizershrinker.presentation.root.widget.image.Picture
-import ru.tech.imageresizershrinker.presentation.root.widget.preferences.screens.BackgroundRemoverPreference
-import ru.tech.imageresizershrinker.presentation.root.widget.preferences.screens.BytesResizePreference
-import ru.tech.imageresizershrinker.presentation.root.widget.preferences.screens.CipherPreference
-import ru.tech.imageresizershrinker.presentation.root.widget.preferences.screens.CropPreference
-import ru.tech.imageresizershrinker.presentation.root.widget.preferences.screens.DeleteExifPreference
-import ru.tech.imageresizershrinker.presentation.root.widget.preferences.screens.DrawPreference
-import ru.tech.imageresizershrinker.presentation.root.widget.preferences.screens.FilterPreference
-import ru.tech.imageresizershrinker.presentation.root.widget.preferences.screens.GeneratePalettePreference
-import ru.tech.imageresizershrinker.presentation.root.widget.preferences.screens.LimitsPreference
-import ru.tech.imageresizershrinker.presentation.root.widget.preferences.screens.PickColorPreference
-import ru.tech.imageresizershrinker.presentation.root.widget.preferences.screens.SingleEditPreference
-import ru.tech.imageresizershrinker.presentation.root.widget.sheets.SimpleSheet
-import ru.tech.imageresizershrinker.presentation.root.widget.text.AutoSizeText
-import ru.tech.imageresizershrinker.presentation.root.widget.text.TitleItem
-import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalSettingsState
 
 @OptIn(ExperimentalFoundationApi::class, ExperimentalMaterial3Api::class)
 @Composable
@@ -92,7 +65,6 @@ fun ImagePager(
     onDismiss: () -> Unit
 ) {
     val scope = rememberCoroutineScope()
-    val settingsState = LocalSettingsState.current
     val navController = LocalNavController.current
 
     AnimatedVisibility(
@@ -243,123 +215,14 @@ fun ImagePager(
             )
         }
 
-        SimpleSheet(
-            title = {
-                TitleItem(text = stringResource(R.string.image), icon = Icons.Rounded.Image)
-            },
+        ProcessImagesPreferenceSheet(
+            uris = listOfNotNull(selectedUri),
             visible = wantToEdit,
-            confirmButton = {
-                OutlinedButton(
-                    onClick = {
-                        wantToEdit.value = false
-                    },
-                    border = BorderStroke(
-                        settingsState.borderWidth,
-                        MaterialTheme.colorScheme.outlineVariant()
-                    )
-                ) {
-                    AutoSizeText(stringResource(id = R.string.cancel))
-                }
-            },
-            sheetContent = {
-                val navigate: (Screen) -> Unit = { screen ->
-                    scope.launch {
-                        wantToEdit.value = false
-                        delay(200)
-                        navController.navigate(screen)
-                    }
-                }
-                val color = MaterialTheme.colorScheme.secondaryContainer
-                Box {
-                    LazyVerticalStaggeredGrid(
-                        columns = StaggeredGridCells.Adaptive(250.dp),
-                        contentPadding = PaddingValues(16.dp),
-                        verticalItemSpacing = 8.dp,
-                        horizontalArrangement = Arrangement.spacedBy(
-                            8.dp,
-                            Alignment.CenterHorizontally
-                        )
-                    ) {
-                        item {
-                            SingleEditPreference(
-                                modifier = Modifier.fillMaxWidth(),
-                                onClick = { navigate(Screen.SingleEdit(selectedUri!!)) },
-                                color = color
-                            )
-                        }
-                        item {
-                            BytesResizePreference(
-                                modifier = Modifier.fillMaxWidth(),
-                                onClick = { navigate(Screen.ResizeByBytes(listOf(selectedUri!!))) },
-                                color = color
-                            )
-                        }
-                        item {
-                            FilterPreference(
-                                modifier = Modifier.fillMaxWidth(),
-                                onClick = { navigate(Screen.Filter(listOf(selectedUri!!))) },
-                                color = color
-                            )
-                        }
-                        item {
-                            CropPreference(
-                                modifier = Modifier.fillMaxWidth(),
-                                onClick = { navigate(Screen.Crop(selectedUri)) },
-                                color = color
-                            )
-                        }
-                        item {
-                            DrawPreference(
-                                modifier = Modifier.fillMaxWidth(),
-                                onClick = { navigate(Screen.Draw(selectedUri)) },
-                                color = color
-                            )
-                        }
-                        item {
-                            BackgroundRemoverPreference(
-                                modifier = Modifier.fillMaxWidth(),
-                                onClick = { navigate(Screen.EraseBackground(selectedUri)) },
-                                color = color
-                            )
-                        }
-                        item {
-                            CipherPreference(
-                                modifier = Modifier.fillMaxWidth(),
-                                onClick = { navigate(Screen.Cipher(selectedUri!!)) },
-                                color = color
-                            )
-                        }
-                        item {
-                            PickColorPreference(
-                                modifier = Modifier.fillMaxWidth(),
-                                onClick = { navigate(Screen.PickColorFromImage(selectedUri)) },
-                                color = color
-                            )
-                        }
-                        item {
-                            GeneratePalettePreference(
-                                modifier = Modifier.fillMaxWidth(),
-                                onClick = { navigate(Screen.GeneratePalette(selectedUri)) },
-                                color = color
-                            )
-                        }
-                        item {
-                            DeleteExifPreference(
-                                modifier = Modifier.fillMaxWidth(),
-                                onClick = { navigate(Screen.DeleteExif(listOf(selectedUri!!))) },
-                                color = color
-                            )
-                        }
-                        item {
-                            LimitsPreference(
-                                modifier = Modifier.fillMaxWidth(),
-                                onClick = { navigate(Screen.LimitResize(uris)) },
-                                color = color
-                            )
-                        }
-                    }
-                    HorizontalDivider(Modifier.align(Alignment.TopCenter))
-                    HorizontalDivider(Modifier.align(Alignment.BottomCenter))
+            navigate = { screen ->
+                scope.launch {
+                    wantToEdit.value = false
+                    delay(200)
+                    navController.navigate(screen)
                 }
             }
         )

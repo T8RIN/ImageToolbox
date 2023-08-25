@@ -45,7 +45,7 @@ fun ImageColorPalette(
     onEmpty: @Composable ColumnScope.() -> Unit,
     onColorChange: (ColorData) -> Unit
 ) {
-    val paletteData: List<PaletteData> by remember(imageBitmap) {
+    val paletteData: List<PaletteData> by remember(imageBitmap, maximumColorCount) {
         derivedStateOf {
             val paletteData = mutableListOf<PaletteData>()
             val palette = Palette

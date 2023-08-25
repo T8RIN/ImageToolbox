@@ -6,7 +6,10 @@ import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.animateDpAsState
+import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -22,6 +25,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
@@ -38,8 +42,11 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.LargeTopAppBar
+import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Slider
+import androidx.compose.material3.SliderDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.surfaceColorAtElevation
@@ -47,6 +54,7 @@ import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -79,6 +87,7 @@ import ru.tech.imageresizershrinker.presentation.generate_palette_screen.viewMod
 import ru.tech.imageresizershrinker.presentation.pick_color_from_image_screen.copyColorIntoClipboard
 import ru.tech.imageresizershrinker.presentation.pick_color_from_image_screen.format
 import ru.tech.imageresizershrinker.presentation.root.theme.icons.PaletteSwatch
+import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
 import ru.tech.imageresizershrinker.presentation.root.transformation.filter.SaturationFilter
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.Picker
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.localImagePickerMode
@@ -99,6 +108,7 @@ import ru.tech.imageresizershrinker.presentation.root.widget.text.Marquee
 import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalSettingsState
 import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalWindowSizeClass
 import ru.tech.imageresizershrinker.presentation.root.widget.utils.isScrollingUp
+import kotlin.math.roundToInt
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -243,6 +253,8 @@ fun GeneratePaletteScreen(
         visible = showSheet
     )
 
+    var count by rememberSaveable { mutableIntStateOf(32) }
+
     Box(
         Modifier
             .fillMaxSize()
@@ -315,6 +327,10 @@ fun GeneratePaletteScreen(
                                     .weight(1f)
                                     .verticalScroll(scrollState)
                             ) {
+                                PaletteColorsCountSelector(
+                                    count = count,
+                                    onCountChange = { count = it }
+                                )
                                 ImageColorPalette(
                                     borderWidth = settingsState.borderWidth,
                                     imageBitmap = bmp,
@@ -327,6 +343,7 @@ fun GeneratePaletteScreen(
                                         .padding(4.dp),
                                     style = LocalTextStyle.current,
                                     onEmpty = { noPalette() },
+                                    maximumColorCount = count,
                                     onColorChange = {
                                         context.copyColorIntoClipboard(
                                             context.getString(R.string.color),
@@ -361,6 +378,10 @@ fun GeneratePaletteScreen(
                                 contentDescription = null,
                                 contentScale = ContentScale.FillWidth
                             )
+                            PaletteColorsCountSelector(
+                                count = count,
+                                onCountChange = { count = it }
+                            )
                             ImageColorPalette(
                                 borderWidth = settingsState.borderWidth,
                                 imageBitmap = bmp,
@@ -372,6 +393,7 @@ fun GeneratePaletteScreen(
                                     .padding(4.dp),
                                 onEmpty = { noPalette() },
                                 style = LocalTextStyle.current,
+                                maximumColorCount = count,
                                 onColorChange = {
                                     context.copyColorIntoClipboard(
                                         context.getString(R.string.color),
@@ -430,5 +452,74 @@ fun GeneratePaletteScreen(
 
     BackHandler {
         onGoBack()
+    }
+}
+
+@Composable
+fun PaletteColorsCountSelector(
+    count: Int,
+    onCountChange: (Int) -> Unit
+) {
+    val settingsState = LocalSettingsState.current
+
+    var _count by remember(count) { mutableIntStateOf(count) }
+    Column(
+        modifier = Modifier
+            .padding(horizontal = 16.dp)
+            .block(shape = RoundedCornerShape(24.dp)),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Spacer(Modifier.height(8.dp))
+        Row(
+            modifier = Modifier.padding(horizontal = 16.dp),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.Center
+        ) {
+            Text(
+                text = stringResource(R.string.max_colors_count),
+                modifier = Modifier.weight(1f)
+            )
+            Text(
+                text = "$_count",
+                color = LocalContentColor.current.copy(alpha = 0.7f)
+            )
+        }
+        Spacer(Modifier.weight(1f))
+        Slider(
+            modifier = Modifier
+                .padding(horizontal = 3.dp, vertical = 3.dp)
+                .background(
+                    MaterialTheme.colorScheme.secondaryContainer.copy(alpha = 0.4f),
+                    CircleShape
+                )
+                .border(
+                    settingsState.borderWidth,
+                    MaterialTheme.colorScheme.outlineVariant(
+                        onTopOf = MaterialTheme.colorScheme.secondaryContainer.copy(
+                            alpha = 0.4f
+                        )
+                    ),
+                    CircleShape
+                )
+                .padding(horizontal = 12.dp),
+            colors = SliderDefaults.colors(
+                inactiveTrackColor =
+                MaterialTheme.colorScheme.outlineVariant(
+                    onTopOf = MaterialTheme.colorScheme.secondaryContainer.copy(
+                        alpha = 0.4f
+                    )
+                )
+            ),
+            value = animateFloatAsState(_count.toFloat()).value,
+            onValueChange = {
+                _count = it.roundToInt()
+            },
+            onValueChangeFinished = {
+                onCountChange(_count)
+            },
+            valueRange = 1f..128f,
+            steps = 127
+        )
     }
 }

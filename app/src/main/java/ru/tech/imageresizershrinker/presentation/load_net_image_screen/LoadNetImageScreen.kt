@@ -5,7 +5,6 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
@@ -28,26 +27,21 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
-import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Cancel
 import androidx.compose.material.icons.outlined.Share
 import androidx.compose.material.icons.rounded.ArrowBack
 import androidx.compose.material.icons.rounded.BrokenImage
-import androidx.compose.material.icons.rounded.Image
 import androidx.compose.material.icons.rounded.Save
 import androidx.compose.material.icons.rounded.ZoomIn
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.FloatingActionButtonDefaults
-import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.LargeTopAppBar
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
@@ -85,6 +79,7 @@ import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.domain.model.ImageInfo
 import ru.tech.imageresizershrinker.presentation.load_net_image_screen.viewModel.LoadNetImageViewModel
+import ru.tech.imageresizershrinker.presentation.main_screen.components.ProcessImagesPreferenceSheet
 import ru.tech.imageresizershrinker.presentation.root.theme.icons.CreateAlt
 import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
 import ru.tech.imageresizershrinker.presentation.root.transformation.filter.SaturationFilter
@@ -96,29 +91,14 @@ import ru.tech.imageresizershrinker.presentation.root.utils.modifier.drawHorizon
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.fabBorder
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.navBarsLandscapePadding
 import ru.tech.imageresizershrinker.presentation.root.utils.navigation.LocalNavController
-import ru.tech.imageresizershrinker.presentation.root.utils.navigation.Screen
 import ru.tech.imageresizershrinker.presentation.root.widget.buttons.ToggleGroupButton
 import ru.tech.imageresizershrinker.presentation.root.widget.image.Picture
 import ru.tech.imageresizershrinker.presentation.root.widget.other.LoadingDialog
 import ru.tech.imageresizershrinker.presentation.root.widget.other.LocalToastHost
 import ru.tech.imageresizershrinker.presentation.root.widget.other.TopAppBarEmoji
-import ru.tech.imageresizershrinker.presentation.root.widget.preferences.screens.BackgroundRemoverPreference
-import ru.tech.imageresizershrinker.presentation.root.widget.preferences.screens.BytesResizePreference
-import ru.tech.imageresizershrinker.presentation.root.widget.preferences.screens.CipherPreference
-import ru.tech.imageresizershrinker.presentation.root.widget.preferences.screens.CropPreference
-import ru.tech.imageresizershrinker.presentation.root.widget.preferences.screens.DeleteExifPreference
-import ru.tech.imageresizershrinker.presentation.root.widget.preferences.screens.DrawPreference
-import ru.tech.imageresizershrinker.presentation.root.widget.preferences.screens.FilterPreference
-import ru.tech.imageresizershrinker.presentation.root.widget.preferences.screens.GeneratePalettePreference
-import ru.tech.imageresizershrinker.presentation.root.widget.preferences.screens.LimitsPreference
-import ru.tech.imageresizershrinker.presentation.root.widget.preferences.screens.PickColorPreference
-import ru.tech.imageresizershrinker.presentation.root.widget.preferences.screens.SingleEditPreference
-import ru.tech.imageresizershrinker.presentation.root.widget.sheets.SimpleSheet
 import ru.tech.imageresizershrinker.presentation.root.widget.sheets.ZoomModalSheet
-import ru.tech.imageresizershrinker.presentation.root.widget.text.AutoSizeText
 import ru.tech.imageresizershrinker.presentation.root.widget.text.Marquee
 import ru.tech.imageresizershrinker.presentation.root.widget.text.RoundedTextField
-import ru.tech.imageresizershrinker.presentation.root.widget.text.TitleItem
 import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalSettingsState
 import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalWindowSizeClass
 
@@ -512,123 +492,14 @@ fun LoadNetImageScreen(
         }
     }
 
-    SimpleSheet(
-        title = {
-            TitleItem(text = stringResource(R.string.image), icon = Icons.Rounded.Image)
-        },
+    ProcessImagesPreferenceSheet(
+        uris = listOfNotNull(viewModel.tempUri),
         visible = wantToEdit,
-        confirmButton = {
-            OutlinedButton(
-                onClick = {
-                    wantToEdit.value = false
-                },
-                border = BorderStroke(
-                    settingsState.borderWidth,
-                    MaterialTheme.colorScheme.outlineVariant()
-                )
-            ) {
-                AutoSizeText(stringResource(id = R.string.cancel))
-            }
-        },
-        sheetContent = {
-            val navigate: (Screen) -> Unit = { screen ->
-                scope.launch {
-                    wantToEdit.value = false
-                    delay(200)
-                    navController.navigate(screen)
-                }
-            }
-            val color = MaterialTheme.colorScheme.secondaryContainer
-            Box {
-                LazyVerticalStaggeredGrid(
-                    columns = StaggeredGridCells.Adaptive(250.dp),
-                    contentPadding = PaddingValues(16.dp),
-                    verticalItemSpacing = 8.dp,
-                    horizontalArrangement = Arrangement.spacedBy(
-                        8.dp,
-                        Alignment.CenterHorizontally
-                    )
-                ) {
-                    item {
-                        SingleEditPreference(
-                            modifier = Modifier.fillMaxWidth(),
-                            onClick = { navigate(Screen.SingleEdit(viewModel.tempUri!!)) },
-                            color = color
-                        )
-                    }
-                    item {
-                        BytesResizePreference(
-                            modifier = Modifier.fillMaxWidth(),
-                            onClick = { navigate(Screen.ResizeByBytes(listOf(viewModel.tempUri!!))) },
-                            color = color
-                        )
-                    }
-                    item {
-                        FilterPreference(
-                            modifier = Modifier.fillMaxWidth(),
-                            onClick = { navigate(Screen.Filter(listOf(viewModel.tempUri!!))) },
-                            color = color
-                        )
-                    }
-                    item {
-                        CropPreference(
-                            modifier = Modifier.fillMaxWidth(),
-                            onClick = { navigate(Screen.Crop(viewModel.tempUri)) },
-                            color = color
-                        )
-                    }
-                    item {
-                        DrawPreference(
-                            modifier = Modifier.fillMaxWidth(),
-                            onClick = { navigate(Screen.Draw(viewModel.tempUri)) },
-                            color = color
-                        )
-                    }
-                    item {
-                        BackgroundRemoverPreference(
-                            modifier = Modifier.fillMaxWidth(),
-                            onClick = { navigate(Screen.EraseBackground(viewModel.tempUri)) },
-                            color = color
-                        )
-                    }
-                    item {
-                        CipherPreference(
-                            modifier = Modifier.fillMaxWidth(),
-                            onClick = { navigate(Screen.Cipher(viewModel.tempUri)) },
-                            color = color
-                        )
-                    }
-                    item {
-                        PickColorPreference(
-                            modifier = Modifier.fillMaxWidth(),
-                            onClick = { navigate(Screen.PickColorFromImage(viewModel.tempUri)) },
-                            color = color
-                        )
-                    }
-                    item {
-                        GeneratePalettePreference(
-                            modifier = Modifier.fillMaxWidth(),
-                            onClick = { navigate(Screen.GeneratePalette(viewModel.tempUri)) },
-                            color = color
-                        )
-                    }
-                    item {
-                        LimitsPreference(
-                            modifier = Modifier.fillMaxWidth(),
-                            onClick = { navigate(Screen.LimitResize(listOf(viewModel.tempUri!!))) },
-                            color = color
-                        )
-                    }
-                    item {
-                        DeleteExifPreference(
-                            modifier = Modifier.fillMaxWidth(),
-                            onClick = { navigate(Screen.DeleteExif(listOf(viewModel.tempUri!!))) },
-                            color = color
-                        )
-                    }
-                }
-                HorizontalDivider(Modifier.align(Alignment.TopCenter))
-                HorizontalDivider(Modifier.align(Alignment.BottomCenter))
+        navigate = { screen ->
+            scope.launch {
+                wantToEdit.value = false
+                delay(200)
+                navController.navigate(screen)
             }
         }
     )

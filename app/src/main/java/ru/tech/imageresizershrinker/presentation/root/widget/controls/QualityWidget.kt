@@ -63,7 +63,7 @@ fun QualityWidget(
         )
     ) {
         Column(
-            Modifier
+            modifier = Modifier
                 .height(sliderHeight * 2.2f)
                 .alpha(alpha)
                 .block(shape = RoundedCornerShape(24.dp)),

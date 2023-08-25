@@ -12,7 +12,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.R
-import ru.tech.imageresizershrinker.presentation.root.theme.icons.Resize
+import ru.tech.imageresizershrinker.presentation.root.theme.icons.CreateAlt
 import ru.tech.imageresizershrinker.presentation.root.widget.preferences.PreferenceItem
 
 @Composable
@@ -25,7 +25,7 @@ fun SingleEditPreference(
 ) {
     PreferenceItem(
         onClick = onClick,
-        icon = Icons.Filled.Resize,
+        icon = Icons.Rounded.CreateAlt,
         title = stringResource(R.string.single_edit),
         subtitle = stringResource(R.string.single_edit_sub),
         color = color,

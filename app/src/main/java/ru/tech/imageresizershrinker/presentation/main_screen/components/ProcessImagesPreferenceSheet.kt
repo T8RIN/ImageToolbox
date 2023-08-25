@@ -34,6 +34,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import dev.olshevski.navigation.reimagined.NavController
 import dev.olshevski.navigation.reimagined.navigate
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
@@ -62,10 +63,16 @@ import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalSettings
 @Composable
 fun ProcessImagesPreferenceSheet(
     uris: List<Uri>,
-    visible: MutableState<Boolean>
+    visible: MutableState<Boolean>,
+    navController: NavController<Screen> = LocalNavController.current,
+    navigate: (Screen) -> Unit = { screen ->
+        navController.apply {
+            this.navigate(screen)
+            visible.value = false
+        }
+    }
 ) {
     val settingsState = LocalSettingsState.current
-    val navController = LocalNavController.current
     SimpleSheet(
         title = {
             TitleItem(
@@ -87,12 +94,6 @@ fun ProcessImagesPreferenceSheet(
             }
         },
         sheetContent = {
-            val navigate: (Screen) -> Unit = { screen ->
-                navController.apply {
-                    navigate(screen)
-                    visible.value = false
-                }
-            }
             val color = MaterialTheme.colorScheme.secondaryContainer
             Box(Modifier.fillMaxWidth()) {
                 LazyVerticalStaggeredGrid(
@@ -177,6 +178,17 @@ fun ProcessImagesPreferenceSheet(
                                 onClick = {
                                     navigate(
                                         Screen.SingleEdit(uris.firstOrNull())
+                                    )
+                                },
+                                color = color
+                            )
+                        }
+                        item {
+                            ResizeAndConvertPreference(
+                                modifier = Modifier.fillMaxWidth(),
+                                onClick = {
+                                    navigate(
+                                        Screen.ResizeAndConvert(uris)
                                     )
                                 },
                                 color = color
