@@ -67,8 +67,6 @@
     <string name="color_copied">রঙ কপি করা হয়েছে</string>
     <string name="crop_sub">ছবিকে যে কোনো সীমানায় কাটুন</string>
     <string name="version">সংস্করণ</string>
-    <string name="resize_batch_image">প্রদত্ত চিত্র ব্যাচের চশমা পরিবর্তন করুন</string>
-    <string name="batch_resize">ব্যাচের আকার পরিবর্তন করুন</string>
     <string name="keep_exif">EXIF রাখুন</string>
     <string name="images">ছবি: %d</string>
     <string name="change_preview">পূর্বরূপ পরিবর্তন করুন</string>

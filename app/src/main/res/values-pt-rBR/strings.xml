@@ -36,7 +36,6 @@
     <string name="single_edit_sub">Alterar especificações de uma determinada imagem</string>
     <string name="pick_color_sub">Escolha a cor da imagem, copie ou compartilhe</string>
     <string name="version">Versão</string>
-    <string name="resize_batch_image">Alterar especificações de várias imagens ao mesmo tempo</string>
     <string name="keep_exif">Manter EXIF</string>
     <string name="images">Imagens: %d</string>
     <string name="remove">Remover</string>
@@ -67,7 +66,6 @@
     <string name="pick_color">Escolher cor</string>
     <string name="crop_sub">Corte a imagem em qualquer limite</string>
     <string name="single_edit">Redimensionar</string>
-    <string name="batch_resize">Redimensionar várias</string>
     <string name="change_preview">Alterar visualização</string>
     <string name="update">Atualização</string>
     <string name="no_palette">Não foi possível gerar uma paleta para essa imagem</string>

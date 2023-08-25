@@ -50,8 +50,6 @@
     <string name="color_copied">Kleur gekopieer</string>
     <string name="crop_sub">Sny prent tot enige grense</string>
     <string name="version">Weergawe</string>
-    <string name="resize_batch_image">Verander spesifikasies van gegewe beeldgroepe</string>
-    <string name="batch_resize">Batch verander grootte</string>
     <string name="keep_exif">Hou EXIF</string>
     <string name="images">Prente: %d</string>
     <string name="change_preview">Verander voorskou</string>

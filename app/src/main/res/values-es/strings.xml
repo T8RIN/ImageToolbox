@@ -47,8 +47,6 @@
     <string name="color_copied">Color copiado</string>
     <string name="crop_sub">Recorta la imagen a cualquier límite</string>
     <string name="version">Versión</string>
-    <string name="resize_batch_image">Cambiar las especificaciones de los lotes de imágenes</string>
-    <string name="batch_resize">Redimensionamiento por lotes</string>
     <string name="keep_exif">Conservar EXIF</string>
     <string name="images">Imágenes: %d</string>
     <string name="change_preview">Cambiar vista previa</string>

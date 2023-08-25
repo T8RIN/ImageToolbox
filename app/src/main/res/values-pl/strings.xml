@@ -57,8 +57,6 @@
     <string name="color_copied">Kolor skopiowany</string>
     <string name="crop_sub">Przytnij obraz w dowolny sposób</string>
     <string name="version">Wersja</string>
-    <string name="resize_batch_image">Zmień parametry wielu zdjęć na raz</string>
-    <string name="batch_resize">Zmień rozmiar (kilka na raz)</string>
     <string name="keep_exif">Zachowaj EXIF</string>
     <string name="images">Zdjęcia: %d</string>
     <string name="remove">Usuń</string>

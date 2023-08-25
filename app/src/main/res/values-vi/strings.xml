@@ -69,8 +69,6 @@
     <string name="color_copied">Sao chép màu</string>
     <string name="crop_sub">Cắt hình ảnh thành bất kỳ giới hạn nào</string>
     <string name="version">Phiên bản</string>
-    <string name="resize_batch_image">Thay đổi thông số kỹ thuật của lô hình ảnh nhất định</string>
-    <string name="batch_resize">Thay đổi kích thước hàng loạt</string>
     <string name="keep_exif">Giữ EXIF</string>
     <string name="images">Hình ảnh: %d</string>
     <string name="change_preview">Thay đổi bản xem trước</string>

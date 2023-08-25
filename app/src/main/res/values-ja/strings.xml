@@ -54,8 +54,6 @@
     <string name="images">画像はイメージです：%d</string>
     <string name="crop_sub">画像を任意の範囲に切り取る</string>
     <string name="version">バージョン</string>
-    <string name="resize_batch_image">指定した画像バッチの仕様を変更する</string>
-    <string name="batch_resize">複数枚リサイズ</string>
     <string name="keep_exif">EXIFを保持する</string>
     <string name="change_preview">チェンジプレビュー</string>
     <string name="remove">削除</string>
