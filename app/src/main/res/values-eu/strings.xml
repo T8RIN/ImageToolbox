@@ -50,7 +50,6 @@
     <string name="color_copied">Kolorea kopiatu da</string>
     <string name="crop_sub">Moztu irudia edozein mugatara</string>
     <string name="version">Bertsioa</string>
-    <string name="resize_batch_image">Aldatu emandako irudi sorten zehaztapenak</string>
     <string name="batch_resize">Lotearen tamaina aldatzea</string>
     <string name="change_preview">Aldatu aurrebista</string>
     <string name="update">Eguneratu</string>
