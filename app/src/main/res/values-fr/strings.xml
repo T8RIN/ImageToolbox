@@ -50,7 +50,6 @@
     <string name="color_copied">Couleur copiée</string>
     <string name="crop_sub">Rogner l\'image aux dimensions voulues</string>
     <string name="version">Version</string>
-    <string name="batch_resize">Redimensionnement par lots</string>
     <string name="keep_exif">Conserver EXIF</string>
     <string name="images">Images : %d</string>
     <string name="change_preview">Modifier l\'aperçu</string>
