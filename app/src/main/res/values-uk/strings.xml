@@ -15,7 +15,6 @@
     <string name="image_not_saved_sub">Всі незбережені зміни будуть втрачені, якщо ви підете зараз</string>
     <string name="color_copied">Колір скопійовано</string>
     <string name="crop_sub">Обрізати зображення до будь-яких меж</string>
-    <string name="batch_resize">Багаторазове масштабування</string>
     <string name="keep_exif">Зберегти EXIF</string>
     <string name="remove">Видалити</string>
     <string name="palette_sub">Створити зразок палітри кольорів із заданого зображення</string>
