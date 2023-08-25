@@ -6,7 +6,6 @@ import android.content.ClipboardManager
 import android.content.Context
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.animateColorAsState
-import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
@@ -21,14 +20,13 @@ import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
@@ -56,15 +54,13 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.Slider
-import androidx.compose.material3.SliderDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -76,18 +72,16 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.luminance
 import androidx.compose.ui.graphics.toArgb
-import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
-import androidx.core.graphics.blue
-import androidx.core.graphics.green
-import androidx.core.graphics.red
-import com.smarttoolfactory.colordetector.util.RGBUtil.alpha
+import com.smarttoolfactory.colordetector.util.ColorUtil
+import com.smarttoolfactory.colorpicker.selector.SelectorRectSaturationValueHSV
+import com.smarttoolfactory.colorpicker.slider.SliderAlphaHSL
+import com.smarttoolfactory.colorpicker.slider.SliderHueHSV
 import com.t8rin.dynamic.theme.ColorTuple
 import com.t8rin.dynamic.theme.ColorTupleItem
 import com.t8rin.dynamic.theme.calculateSecondaryColor
@@ -150,22 +144,26 @@ fun ColorPickerDialog(
         colorTuple = appColorTuple
     )
 
+    LaunchedEffect(visible.value) {
+        if (!visible.value) {
+            delay(2500)
+            primary = colorTuple.primary.toArgb()
+            secondary = colorTuple.secondary?.toArgb()
+                ?: colorTuple.primary.calculateSecondaryColor()
+            tertiary =
+                colorTuple.tertiary?.toArgb()
+                    ?: colorTuple.primary.calculateTertiaryColor()
+            surface =
+                colorTuple.surface?.toArgb()
+                    ?: colorTuple.primary.calculateSurfaceColor()
+        }
+    }
+
     SimpleSheet(
         visible = visible,
         title = { TitleItem(text = title, icon = Icons.Outlined.Palette, modifier = Modifier) },
         endConfirmButtonPadding = 0.dp,
         sheetContent = {
-            DisposableEffect(Unit) {
-                onDispose {
-                    primary = colorTuple.primary.toArgb()
-                    secondary = colorTuple.secondary?.toArgb()
-                        ?: colorTuple.primary.calculateSecondaryColor()
-                    tertiary =
-                        colorTuple.tertiary?.toArgb() ?: colorTuple.primary.calculateTertiaryColor()
-                    surface =
-                        colorTuple.surface?.toArgb() ?: colorTuple.primary.calculateSurfaceColor()
-                }
-            }
             HorizontalDivider()
             Box {
                 LazyVerticalGrid(
@@ -186,7 +184,7 @@ fun ColorPickerDialog(
                             verticalAlignment = Alignment.CenterVertically,
                             horizontalArrangement = Arrangement.Center,
                             modifier = Modifier
-                                .block()
+                                .block(RoundedCornerShape(24.dp))
                                 .padding(16.dp)
                         ) {
                             Icon(Icons.Rounded.PaletteSwatch, null)
@@ -220,11 +218,11 @@ fun ColorPickerDialog(
                         Column(
                             horizontalAlignment = Alignment.CenterHorizontally,
                             modifier = Modifier
-                                .block()
+                                .block(RoundedCornerShape(24.dp))
                                 .padding(horizontal = 20.dp)
                         ) {
                             TitleItem(text = stringResource(R.string.primary))
-                            ColorCustomComponent(
+                            ColorSelection(
                                 color = primary,
                                 onColorChange = {
                                     if (primary != it) {
@@ -235,58 +233,54 @@ fun ColorPickerDialog(
                                     primary = it
                                 }
                             )
-                            Spacer(modifier = Modifier.height(16.dp))
                         }
                     }
                     item {
                         Column(
                             horizontalAlignment = Alignment.CenterHorizontally,
                             modifier = Modifier
-                                .block()
+                                .block(RoundedCornerShape(24.dp))
                                 .padding(horizontal = 20.dp)
                         ) {
                             TitleItem(text = stringResource(R.string.secondary))
-                            ColorCustomComponent(
+                            ColorSelection(
                                 color = secondary,
                                 onColorChange = {
                                     secondary = it
                                 }
                             )
-                            Spacer(modifier = Modifier.height(16.dp))
                         }
                     }
                     item {
                         Column(
                             horizontalAlignment = Alignment.CenterHorizontally,
                             modifier = Modifier
-                                .block()
+                                .block(RoundedCornerShape(24.dp))
                                 .padding(horizontal = 20.dp)
                         ) {
                             TitleItem(text = stringResource(R.string.tertiary))
-                            ColorCustomComponent(
+                            ColorSelection(
                                 color = tertiary,
                                 onColorChange = {
                                     tertiary = it
                                 }
                             )
-                            Spacer(modifier = Modifier.height(16.dp))
                         }
                     }
                     item {
                         Column(
                             horizontalAlignment = Alignment.CenterHorizontally,
                             modifier = Modifier
-                                .block()
+                                .block(RoundedCornerShape(24.dp))
                                 .padding(horizontal = 20.dp)
                         ) {
                             TitleItem(text = stringResource(R.string.surface))
-                            ColorCustomComponent(
+                            ColorSelection(
                                 color = surface,
                                 onColorChange = {
                                     surface = it
                                 }
                             )
-                            Spacer(modifier = Modifier.height(16.dp))
                         }
                     }
                 }
@@ -618,82 +612,149 @@ fun AvailableColorTuplesDialog(
 }
 
 @Composable
-fun ColorCustomComponent(
+fun ColorSelection(
     color: Int,
     onColorChange: (Int) -> Unit,
 ) {
+    val color = Color(color)
+    val hsv = ColorUtil.colorToHSV(color)
+    var hue by remember { mutableFloatStateOf(hsv[0]) }
+    val saturation = hsv[1]
+    val value = hsv[2]
+
     Column {
-        ColorCustomInfoComponent(
-            color = color,
+        ColorInfo(
+            color = color.toArgb(),
             onColorChange = onColorChange,
         )
-        ColorCustomControlComponent(
-            color = color,
-            onColorChange = onColorChange
+        Spacer(Modifier.height(16.dp))
+        SelectorRectSaturationValueHSV(
+            modifier = Modifier
+                .fillMaxWidth()
+                .aspectRatio(4 / 3f)
+                .block(RoundedCornerShape(2.dp), applyResultPadding = false)
+                .clip(RoundedCornerShape(3.dp)),
+            hue = hue,
+            saturation = saturation,
+            value = value
+        ) { s, v ->
+            onColorChange(
+                Color.hsv(hue, s, v).toArgb()
+            )
+        }
+        Spacer(Modifier.height(16.dp))
+        SliderHueHSV(
+            hue = hue,
+            saturation = saturation,
+            value = value,
+            onValueChange = { h ->
+                hue = h
+                onColorChange(
+                    Color.hsv(hue, saturation, value).toArgb()
+                )
+            },
+            modifier = Modifier
+                .background(
+                    color = MaterialTheme.colorScheme.surfaceVariant,
+                    shape = CircleShape
+                )
+                .height(40.dp)
+                .border(
+                    width = LocalSettingsState.current.borderWidth,
+                    color = MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.surfaceVariant),
+                    shape = CircleShape
+                )
+                .padding(horizontal = 10.dp)
         )
+        Spacer(modifier = Modifier.height(16.dp))
+        LaunchedEffect(color) {
+            if (hue != hsv[0]) hue = hsv[0]
+        }
     }
 }
 
 @Composable
-fun AlphaColorCustomComponent(
+fun AlphaColorSelection(
     color: Int,
-    onColorChange: (Int, Int) -> Unit,
+    onColorChange: (Int) -> Unit,
 ) {
+    val color = Color(color)
+    val hsv = ColorUtil.colorToHSV(color)
+    var hue by remember { mutableFloatStateOf(hsv[0]) }
+    var alpha by remember { mutableFloatStateOf(color.alpha) }
+    val saturation = hsv[1]
+    val value = hsv[2]
+
     Column {
-        var alphaValue by remember(color) { mutableIntStateOf(color.alpha) }
-        ColorCustomInfoComponent(
-            color = color,
+        ColorInfo(
+            color = color.toArgb(),
             onColorChange = {
-                onColorChange(it, alphaValue)
+                onColorChange(Color(it).toArgb())
             },
         )
-        ColorCustomControlComponent(
-            color = color,
-            onColorChange = { onColorChange(it, alphaValue) }
+        Spacer(Modifier.height(16.dp))
+        SelectorRectSaturationValueHSV(
+            modifier = Modifier
+                .fillMaxWidth()
+                .aspectRatio(4 / 3f)
+                .block(RoundedCornerShape(2.dp), applyResultPadding = false)
+                .clip(RoundedCornerShape(3.dp)),
+            hue = hue,
+            saturation = saturation,
+            value = value
+        ) { s, v ->
+            val c = Color.hsv(hue, s, v, alpha).toArgb()
+            onColorChange(c)
+        }
+        Spacer(Modifier.height(16.dp))
+        SliderHueHSV(
+            hue = hue,
+            saturation = saturation,
+            value = value,
+            onValueChange = { h ->
+                hue = h
+                val c = Color.hsv(h, saturation, value, alpha).toArgb()
+                onColorChange(c)
+            },
+            modifier = Modifier
+                .background(
+                    color = MaterialTheme.colorScheme.surfaceVariant,
+                    shape = CircleShape
+                )
+                .height(40.dp)
+                .border(
+                    width = LocalSettingsState.current.borderWidth,
+                    color = MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.surfaceVariant),
+                    shape = CircleShape
+                )
+                .padding(horizontal = 10.dp)
         )
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Text(
-                text = stringResource(id = R.string.alpha),
-                style = MaterialTheme.typography.labelMedium,
-            )
-            val settingsState = LocalSettingsState.current
-            Slider(
-                modifier = Modifier
-                    .weight(1f)
-                    .padding(top = 16.dp, start = 12.dp, end = 12.dp, bottom = 8.dp)
-                    .offset(y = (-2).dp)
-                    .background(
-                        color = MaterialTheme.colorScheme.secondaryContainer,
-                        shape = CircleShape
-                    )
-                    .height(40.dp)
-                    .border(
-                        width = settingsState.borderWidth,
-                        color = MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.secondaryContainer),
-                        shape = CircleShape
-                    )
-                    .padding(horizontal = 10.dp),
-                colors = SliderDefaults.colors(
-                    inactiveTrackColor =
-                    MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.secondaryContainer)
-                ),
-                valueRange = 0f..255f,
-                value = animateFloatAsState(targetValue = alphaValue.toFloat()).value,
-                onValueChange = {
-                    alphaValue = it.toInt()
-                    onColorChange(color, alphaValue)
-                },
-            )
-
-            Text(
-                modifier = Modifier.width(32.dp),
-                text = alphaValue.toString(),
-                style = MaterialTheme.typography.labelMedium,
-                textAlign = TextAlign.End,
-            )
+        Spacer(modifier = Modifier.height(8.dp))
+        SliderAlphaHSL(
+            hue = hue,
+            alpha = alpha,
+            modifier = Modifier
+                .background(
+                    color = MaterialTheme.colorScheme.surfaceVariant,
+                    shape = CircleShape
+                )
+                .height(40.dp)
+                .border(
+                    width = LocalSettingsState.current.borderWidth,
+                    color = MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.surfaceVariant),
+                    shape = CircleShape
+                )
+                .padding(horizontal = 10.dp),
+            onValueChange = {
+                alpha = it
+                val c = Color.hsv(hue, saturation, value, alpha).toArgb()
+                onColorChange(c)
+            }
+        )
+        Spacer(modifier = Modifier.height(16.dp))
+        LaunchedEffect(color) {
+            if (hue != hsv[0]) hue = hsv[0]
+            if (alpha != color.alpha) alpha = color.alpha
         }
     }
 }
@@ -730,7 +791,7 @@ fun getFormattedColor(color: Int): String =
 
 
 @Composable
-private fun ColorCustomInfoComponent(
+private fun ColorInfo(
     color: Int,
     borderWidth: Dp = LocalSettingsState.current.borderWidth,
     onColorChange: (Int) -> Unit,
@@ -777,7 +838,11 @@ private fun ColorCustomInfoComponent(
                 contentAlignment = Alignment.Center
             ) {
                 IconButton(
-                    onClick = { onColorChange(Random.nextInt()) }
+                    onClick = {
+                        onColorChange(
+                            Color(Random.nextInt()).copy(alpha = Color(color).alpha).toArgb()
+                        )
+                    }
                 ) {
                     Icon(
                         imageVector = Icons.Rounded.Shuffle,
@@ -918,107 +983,4 @@ private operator fun String.times(i: Int): String {
         s += this
     }
     return s
-}
-
-@Composable
-private fun ColorCustomControlComponent(
-    color: Int,
-    onColorChange: (Int) -> Unit
-) {
-    val redValue = remember(color) { mutableIntStateOf(color.red) }
-    val greenValue = remember(color) { mutableIntStateOf(color.green) }
-    val blueValue = remember(color) { mutableIntStateOf(color.blue) }
-
-    val newColor by remember(redValue.intValue, greenValue.intValue, blueValue.intValue) {
-        mutableStateOf(Color(redValue.intValue, greenValue.intValue, blueValue.intValue))
-    }
-
-    LaunchedEffect(newColor) { onColorChange.invoke(newColor.toArgb()) }
-
-    val colorItemLabelWidth = remember { mutableStateOf<Int?>(null) }
-    val colorValueLabelWidth = remember { mutableStateOf<Int?>(null) }
-
-    val colorItems = mutableListOf(
-        stringResource(R.string.color_red) to redValue,
-        stringResource(R.string.color_green) to greenValue,
-        stringResource(R.string.color_blue) to blueValue
-    )
-
-    Column(modifier = Modifier.padding(top = 12.dp)) {
-        colorItems.forEach { entry ->
-            ColorCustomControlItemComponent(
-                label = entry.first,
-                value = entry.second.intValue,
-                onValueChange = { entry.second.intValue = it },
-                colorItemLabelWidth = colorItemLabelWidth,
-                colorValueLabelWidth = colorValueLabelWidth
-            )
-        }
-    }
-}
-
-@Composable
-private fun ColorCustomControlItemComponent(
-    label: String,
-    value: Int,
-    onValueChange: (Int) -> Unit,
-    colorItemLabelWidth: MutableState<Int?>,
-    colorValueLabelWidth: MutableState<Int?>,
-) {
-    val wrapOrFixedModifier: @Composable (MutableState<Int?>) -> Modifier = { stateWidth ->
-        val defaultModifier = Modifier
-            .wrapContentWidth()
-            .onGloballyPositioned { coordinates ->
-                if ((stateWidth.value ?: 0) < coordinates.size.width) {
-                    stateWidth.value = coordinates.size.width
-                }
-            }
-        stateWidth.value?.let {
-            Modifier.width(LocalDensity.current.run { it.toDp() + 4.dp })
-        } ?: defaultModifier
-    }
-
-    Row(
-        modifier = Modifier.fillMaxWidth(),
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        Text(
-            modifier = wrapOrFixedModifier(colorItemLabelWidth),
-            text = label,
-            style = MaterialTheme.typography.labelMedium,
-        )
-
-        val settingsState = LocalSettingsState.current
-        Slider(
-            modifier = Modifier
-                .weight(1f)
-                .padding(top = 16.dp, start = 12.dp, end = 12.dp, bottom = 8.dp)
-                .offset(y = (-2).dp)
-                .background(
-                    color = MaterialTheme.colorScheme.secondaryContainer,
-                    shape = CircleShape
-                )
-                .height(40.dp)
-                .border(
-                    width = settingsState.borderWidth,
-                    color = MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.secondaryContainer),
-                    shape = CircleShape
-                )
-                .padding(horizontal = 10.dp),
-            colors = SliderDefaults.colors(
-                inactiveTrackColor =
-                MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.secondaryContainer)
-            ),
-            valueRange = 0f..255f,
-            value = animateFloatAsState(targetValue = value.toFloat()).value,
-            onValueChange = { onValueChange(it.toInt()) },
-        )
-
-        Text(
-            modifier = Modifier.width(32.dp),
-            text = value.toString(),
-            style = MaterialTheme.typography.labelMedium,
-            textAlign = TextAlign.End,
-        )
-    }
 }

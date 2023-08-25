@@ -59,8 +59,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import ru.tech.imageresizershrinker.R
-import ru.tech.imageresizershrinker.presentation.main_screen.components.AlphaColorCustomComponent
-import ru.tech.imageresizershrinker.presentation.main_screen.components.ColorCustomComponent
+import ru.tech.imageresizershrinker.presentation.main_screen.components.AlphaColorSelection
+import ru.tech.imageresizershrinker.presentation.main_screen.components.ColorSelection
 import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
 import ru.tech.imageresizershrinker.presentation.root.transformation.filter.FilterTransformation
 import ru.tech.imageresizershrinker.presentation.root.transformation.filter.RGBFilter
@@ -170,17 +170,17 @@ fun <T> FilterItem(
                     is Color -> {
                         Box(modifier = Modifier.padding(start = 16.dp, top = 16.dp, end = 16.dp)) {
                             if (filter is RGBFilter) {
-                                ColorCustomComponent(
+                                ColorSelection(
                                     color = filter.value.toArgb(),
                                     onColorChange = { c ->
                                         onFilterChange(Color(c))
                                     }
                                 )
                             } else {
-                                AlphaColorCustomComponent(
+                                AlphaColorSelection(
                                     color = (filter.value as Color).toArgb(),
-                                    onColorChange = { c, alpha ->
-                                        onFilterChange(Color(c).copy(alpha / 255f))
+                                    onColorChange = { c ->
+                                        onFilterChange(Color(c))
                                     }
                                 )
                             }
@@ -422,7 +422,7 @@ fun <T> FilterItem(
                                                 end = 16.dp,
                                             )
                                     )
-                                    ColorCustomComponent(
+                                    ColorSelection(
                                         color = color1.toArgb(),
                                         onColorChange = { c ->
                                             color1 = Color(c)
@@ -440,7 +440,7 @@ fun <T> FilterItem(
                                                 end = 16.dp
                                             )
                                     )
-                                    ColorCustomComponent(
+                                    ColorSelection(
                                         color = color2.toArgb(),
                                         onColorChange = { c ->
                                             color2 = Color(c)

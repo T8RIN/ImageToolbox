@@ -47,7 +47,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import ru.tech.imageresizershrinker.R
-import ru.tech.imageresizershrinker.presentation.main_screen.components.ColorCustomComponent
+import ru.tech.imageresizershrinker.presentation.main_screen.components.ColorSelection
 import ru.tech.imageresizershrinker.presentation.root.theme.inverse
 import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.block
@@ -200,7 +200,7 @@ fun DrawBackgroundSelector(
                         .verticalScroll(rememberScrollState())
                         .padding(24.dp)
                 ) {
-                    ColorCustomComponent(
+                    ColorSelection(
                         color = customColor?.toArgb() ?: 0,
                         onColorChange = {
                             customColor = Color(it)
