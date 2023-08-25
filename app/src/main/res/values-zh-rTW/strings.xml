@@ -88,7 +88,6 @@
     <string name="resize_type">調整尺寸方式</string>
     <string name="by_bytes_resize">依檔案大小調整尺寸</string>
     <string name="ok">確定</string>
-    <string name="resize_batch_image">批次更改選取圖片的規格</string>
     <string name="no_palette">無法從選取的圖片產生調色盤</string>
     <string name="flexible">彈性</string>
     <string name="generate_palette">產生調色盤</string>
