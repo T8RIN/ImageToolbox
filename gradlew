@@ -73,10 +73,10 @@ warn() {
 
 die() {
     echo
-            echo
+    echo
     "$*"
     echo
-            exit
+    exit
     1
 }
 
@@ -255,7 +255,7 @@ save() {
     "$i" | sed
     "s/'/'\\\\''/g;1s/^/'/;\$s/\$/' \\\\/";
     done
-            echo
+    echo
     " "
 }
 
