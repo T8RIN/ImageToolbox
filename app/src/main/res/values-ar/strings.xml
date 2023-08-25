@@ -61,7 +61,6 @@
     <string name="color_copied">تم نسخ اللون</string>
     <string name="crop_sub">اقتصاص الصورة بأي حدود</string>
     <string name="version">إصدار</string>
-    <string name="resize_batch_image">تغيير مواصفات دفعات الصور المعطاة</string>
     <string name="batch_resize">تغيير حجم الدُفعات</string>
     <string name="keep_exif">حافظ على EXIF</string>
     <string name="images">الصور: %d</string>
