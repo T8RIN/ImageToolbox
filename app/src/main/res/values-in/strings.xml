@@ -6,7 +6,6 @@
     <string name="cancel">Batal</string>
     <string name="pick_color">Pilih warna</string>
     <string name="pick_color_sub">Pilih warna dari gambar, salin atau bagikan</string>
-    <string name="batch_resize">Ubah ukuran batch</string>
     <string name="keep_exif">Simpan EXIF</string>
     <string name="images">Gambar: %d</string>
     <string name="change_preview">Ubah pratinjau</string>
