@@ -5,7 +5,6 @@
     <string name="search_here">Tìm kiếm ở đây</string>
     <string name="dynamic_colors_sub">Nếu được bật, thì màu ứng dụng sẽ được áp dụng cho màu hình nền</string>
     <string name="failed_to_save">Không lưu được (các) ảnh %d</string>
-    <string name="png_warning_bytes">Lưu ở chế độ PNG có thể không ổn định vì nó là định dạng lossless</string>
     <string name="primary">Sơ đẳng</string>
     <string name="tertiary">đại học</string>
     <string name="secondary">Sơ trung</string>
@@ -141,7 +140,6 @@
     <string name="saturation">bão hòa</string>
     <string name="gaussian_blur">Gaussian mờ</string>
     <string name="opacity">độ mờ</string>
-    <string name="coming_soon">Sắp ra mắt</string>
     <string name="kuwahara">làm mịn Kuwahara</string>
     <string name="radius">bán kính</string>
     <string name="scale">Tỉ lệ</string>
@@ -164,7 +162,6 @@
     <string name="add_file_size_sub">Nếu được bật, hãy thêm chiều rộng và chiều cao của hình ảnh đã lưu vào tên của tệp đầu ra</string>
     <string name="image_preview">Xem trước hình ảnh</string>
     <string name="image_preview_sub">Xem trước mọi loại hình ảnh: GIF, SVG, v.v.</string>
-    <string name="cropping">cắt xén</string>
     <string name="image_source">nguồn hình ảnh</string>
     <string name="photo_picker">bộ chọn ảnh</string>
     <string name="gallery_picker">Phòng trưng bày</string>

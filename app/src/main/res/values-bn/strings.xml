@@ -121,7 +121,6 @@
     <string name="search_here">এখানে অনুসন্ধান করুন</string>
     <string name="dynamic_colors_sub">যদি সক্ষম করা থাকে, তাহলে অ্যাপের রং ওয়ালপেপারের রঙে গৃহীত হবে</string>
     <string name="failed_to_save">%d ছবি(গুলি) সংরক্ষণ করতে ব্যর্থ হয়েছে</string>
-    <string name="png_warning_bytes">PNG মোডে সংরক্ষণ করা অস্থির হতে পারে, কারণ এটি ক্ষতিহীন বিন্যাস</string>
     <string name="check_updates_sub">যদি সক্ষম করা থাকে, অ্যাপ স্টার্টআপের পরে আপডেট ডায়ালগ আপনাকে দেখানো হবে৷</string>
     <string name="zoom">ছবি জুম</string>
     <string name="share">শেয়ার করুন</string>
@@ -168,7 +167,6 @@
     <string name="emoji_sub">প্রধান স্ক্রিনে কোন ইমোজি প্রদর্শিত হবে তা নির্বাচন করুন</string>
     <string name="stack_blur">স্ট্যাক ব্লার</string>
     <string name="luminance_threshold">উজ্জ্বলতা থ্রেশহোল্ড</string>
-    <string name="coming_soon">শীঘ্রই আসছে</string>
     <string name="add_file_size">ফাইলের আকার যোগ করুন</string>
     <string name="add_file_size_sub">সক্রিয় থাকলে আউটপুট ফাইলের নামে সংরক্ষিত চিত্রের প্রস্থ এবং উচ্চতা যোগ করে</string>
     <string name="delete_exif_sub">যেকোনো দুটি ছবি থেকে EXIF মেটাডেটা মুছুন</string>
@@ -232,7 +230,6 @@
     <string name="color_balance">রঙের ভারসাম্য</string>
     <string name="delete_exif">EXIF মুছুন</string>
     <string name="image_preview">ছবির পূর্বরূপ</string>
-    <string name="cropping">ক্রপিং</string>
     <string name="photo_picker_sub">অ্যান্ড্রয়েড আধুনিক ফটো পিকার যা স্ক্রিনের নীচে প্রদর্শিত হয়, শুধুমাত্র অ্যান্ড্রয়েড 12+ এ কাজ করতে পারে এবং EXIF মেটাডেটা পাওয়ার ক্ষেত্রেও সমস্যা রয়েছে</string>
     <string name="image_source">ইমেজ সোর্স</string>
     <string name="photo_picker">ফটো পিকার</string>

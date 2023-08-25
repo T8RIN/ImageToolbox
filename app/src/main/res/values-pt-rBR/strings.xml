@@ -104,7 +104,6 @@
     <string name="nothing_found_by_search">Nada encontrado por sua consulta</string>
     <string name="dynamic_colors_sub">Se habilitado, as cores do aplicativo serão adotadas a partir das cores do papel de parede</string>
     <string name="failed_to_save">Falha ao salvar a(s) imagem(ns) %d</string>
-    <string name="png_warning_bytes">Salvar no modo PNG pode ser instável, porque é um formato sem perdas</string>
     <string name="surface">Superfície</string>
     <string name="primary">Principal</string>
     <string name="secondary">Secundário</string>
@@ -144,7 +143,6 @@
     <string name="sobel_edge">borda de Sobel</string>
     <string name="delete_exif">Excluir EXIF</string>
     <string name="end">Fim</string>
-    <string name="coming_soon">Em breve</string>
     <string name="radius">Raio</string>
     <string name="limits_resize">Redimensionar limites</string>
     <string name="limits_resize_sub">Redimensione as imagens fornecidas para seguir os limites de largura e altura especificados, salvando a proporção</string>
@@ -171,7 +169,6 @@
     <string name="add_file_size_sub">Se ativado, adiciona largura e altura da imagem salva ao nome do arquivo de saída</string>
     <string name="delete_exif_sub">Exclua os metadados EXIF de algumas imagens</string>
     <string name="image_preview">Pré-visualização de imagem</string>
-    <string name="cropping">corte</string>
     <string name="photo_picker_sub">O seletor de fotos moderno do Android, que aparece na parte inferior da tela, pode funcionar apenas no Android 12+ e também apresenta problemas ao receber metadados EXIF</string>
     <string name="file_explorer_picker_sub">Use a intenção GetContent para escolher a imagem, funciona em qualquer lugar, mas também pode ter problemas ao receber imagens selecionadas em alguns dispositivos, não é minha culpa</string>
     <string name="edit">Editar</string>

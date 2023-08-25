@@ -111,7 +111,6 @@
     <string name="search_here">Bilatu hemen</string>
     <string name="dynamic_colors_sub">Gaituta badago, aplikazioaren koloreak hartuko dira horma-paperen koloreetarako</string>
     <string name="failed_to_save">Ezin izan dira gorde %d irudiak</string>
-    <string name="png_warning_bytes">PNG moduan gordetzea ezegonkorra izan daiteke, galerarik gabeko formatua delako</string>
     <string name="primary">Lehen mailakoa</string>
     <string name="border_thickness">Ertzaren lodiera</string>
     <string name="permission_sub">Aplikazioak zure biltegiratze sarbidea behar du irudiak gordetzeko, beharrezkoa da, hori gabe ezin du funtzionatu, beraz, eman baimena hurrengo elkarrizketa-koadroan</string>
@@ -135,7 +134,6 @@
     <string name="line_width">Lerroaren zabalera</string>
     <string name="laplacian">Laplazianoa</string>
     <string name="vignette">Viñeta</string>
-    <string name="coming_soon">Laister</string>
     <string name="radius">Erradioa</string>
     <string name="scale">Eskala</string>
     <string name="order_sub">Pantaila nagusiko aukeren ordena zehazten du</string>
@@ -236,7 +234,6 @@
     <string name="color_balance">Koloreen oreka</string>
     <string name="delete_exif">Ezabatu EXIF</string>
     <string name="image_preview_sub">Aurreikusi edozein motatako irudiak: GIF, SVG eta abar</string>
-    <string name="cropping">Mozketa</string>
     <string name="image_source">Irudiaren iturria</string>
     <string name="photo_picker">Argazki-hautatzailea</string>
     <string name="gallery_picker">Galeria</string>

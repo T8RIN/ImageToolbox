@@ -104,7 +104,6 @@
     <string name="search_here">यहां तलाश करो</string>
     <string name="dynamic_colors_sub">यदि सक्षम किया गया है, तो ऐप रंगों को वॉलपेपर रंगों में अपनाया जाएगा</string>
     <string name="failed_to_save">%d छवि (छवियों) को सहेजने में विफल</string>
-    <string name="png_warning_bytes">पीएनजी मोड में सहेजना अस्थिर हो सकता है, क्योंकि यह दोषरहित प्रारूप है</string>
     <string name="surface">सतह</string>
     <string name="buy_me_a_coffee">मुझे एक कॉफी खरीदो</string>
     <string name="check_updates">अद्यतन के लिए जाँच</string>
@@ -133,7 +132,6 @@
     <string name="add_file_size_sub">यदि सक्षम है तो आउटपुट फ़ाइल के नाम में सहेजी गई छवि की चौड़ाई और ऊंचाई जोड़ता है</string>
     <string name="delete_exif">EXIF हटाएं</string>
     <string name="image_preview">छवि पूर्वावलोकन</string>
-    <string name="cropping">फसल</string>
     <string name="image_source">छवि स्रोत</string>
     <string name="photo_picker">फोटो पिकर</string>
     <string name="gallery_picker">गेलरी</string>
@@ -161,7 +159,6 @@
     <string name="spacing">अंतर</string>
     <string name="line_width">रेखा की चौडाई</string>
     <string name="cga_colorspace">जीसीए कलरस्पेस</string>
-    <string name="coming_soon">जल्द आ रहा है</string>
     <string name="radius">RADIUS</string>
     <string name="scale">पैमाना</string>
     <string name="distortion">विरूपण</string>

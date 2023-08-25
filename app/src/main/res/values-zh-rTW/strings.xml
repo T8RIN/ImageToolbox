@@ -104,7 +104,6 @@
     <string name="single_edit">調整單一圖片尺寸</string>
     <string name="palette_sub">從選取的圖片產生調色盤樣本</string>
     <string name="failed_to_save">無法儲存 %d 影像</string>
-    <string name="png_warning_bytes">以 PNG 模式儲存可能不穩定，因為它是無損格式</string>
     <string name="border_thickness">邊框厚度</string>
     <string name="surface">表面</string>
     <string name="buy_me_a_coffee">請我喝杯咖啡</string>
@@ -135,7 +134,6 @@
     <string name="delete_exif_sub">從任意一對圖片中刪除 EXIF 詮釋資料</string>
     <string name="image_preview">圖片預覽</string>
     <string name="image_preview_sub">預覽任何類型的圖片：GIF、SVG 等</string>
-    <string name="cropping">裁切</string>
     <string name="image_source">圖片來源</string>
     <string name="photo_picker">照片選擇器</string>
     <string name="gallery_picker">圖片庫</string>
@@ -232,7 +230,6 @@
     <string name="refractive_index">折射率</string>
     <string name="color_matrix">色彩矩陣</string>
     <string name="content_scale">內容縮放</string>
-    <string name="coming_soon">即將推出</string>
     <string name="weak_pixel_inclusion">弱像素包含 (WPI)</string>
     <string name="lookup">抬頭</string>
     <string name="stack_blur">堆棧模糊</string>

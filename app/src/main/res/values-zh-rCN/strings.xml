@@ -104,7 +104,6 @@
     <string name="nothing_found_by_search">没有发现您所查询的内容</string>
     <string name="dynamic_colors_sub">如果启用，则应用颜色将更改为壁纸颜色</string>
     <string name="failed_to_save">无法保存 %d 个图像</string>
-    <string name="png_warning_bytes">以 PNG 模式保存可能不稳定，因为它是无损格式</string>
     <string name="add">添加</string>
     <string name="values">值</string>
     <string name="permission">权限</string>
@@ -135,7 +134,6 @@
     <string name="delete_exif_sub">删除任意一对图像的 EXIF 元数据</string>
     <string name="image_preview">预览图片</string>
     <string name="image_preview_sub">预览任何类型的图片：GIF、SVG以及其它格式</string>
-    <string name="cropping">裁剪</string>
     <string name="color_filter">颜色滤镜</string>
     <string name="alpha">Alpha 值</string>
     <string name="vibrance">色相</string>
@@ -222,7 +220,6 @@
     <string name="refractive_index">折射率</string>
     <string name="color_matrix">颜色矩阵</string>
     <string name="opacity">不透明度</string>
-    <string name="coming_soon">即将推出</string>
     <string name="sketch">草图</string>
     <string name="threshold">临界点</string>
     <string name="quantizationLevels">量化级别</string>

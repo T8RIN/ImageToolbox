@@ -105,7 +105,6 @@
     <string name="search_here">Soek hier</string>
     <string name="dynamic_colors_sub">As dit geaktiveer is, sal toepassingskleure na muurpapierkleure aangeneem word</string>
     <string name="failed_to_save">Kon nie %d prent(e) stoor nie</string>
-    <string name="png_warning_bytes">Stoor in PNG-modus kan onstabiel wees, want dit is verlieslose formaat</string>
     <string name="primary">Primêr</string>
     <string name="tertiary">Tersiêre</string>
     <string name="secondary">Sekondêr</string>
@@ -176,7 +175,6 @@
     <string name="luminance_threshold">Luminansie drempel</string>
     <string name="add_file_size">Voeg lêergrootte by</string>
     <string name="add_file_size_sub">As dit geaktiveer is, voeg die breedte en hoogte van die gestoorde prent by die naam van die uitvoerlêer</string>
-    <string name="coming_soon">Kom binnekort</string>
     <string name="emoji_sub">Kies watter emoji\'s op die hoofskerm vertoon sal word</string>
     <string name="image_preview">Prentvoorskou</string>
     <string name="image_preview_sub">Voorbeskou enige tipe beelde: GIF, SVG, ensovoorts</string>
@@ -232,7 +230,6 @@
     <string name="posterize">Plakkaatverf</string>
     <string name="delete_exif">Vee EXIF uit</string>
     <string name="delete_exif_sub">Vee EXIF-metadata van enige paar beelde uit</string>
-    <string name="cropping">Sny</string>
     <string name="image_source">Beeldbron</string>
     <string name="photo_picker">Fotokieser</string>
     <string name="gallery_picker_sub">Eenvoudige gallery-beeldkieser, dit sal net werk as jy daardie toepassing het</string>

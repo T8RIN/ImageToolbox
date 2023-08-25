@@ -104,7 +104,6 @@
     <string name="search_here">Ищите здесь</string>
     <string name="dynamic_colors_sub">При включении тема приложения будет подстраиваться под ваши обои</string>
     <string name="failed_to_save">Не удалось сохранить %d изображение(я)</string>
-    <string name="png_warning_bytes">Сохранение в формате PNG может быть крайне нестабильно, так как этот формат не поддерживает уменьшение качества</string>
     <string name="primary">Первичный</string>
     <string name="tertiary">Третичный</string>
     <string name="secondary">Вторичный</string>
@@ -140,7 +139,6 @@
     <string name="delete_exif_sub">Удалите метаданные EXIF у любого количества изображений</string>
     <string name="image_preview">Предпросмотр</string>
     <string name="image_preview_sub">Предварительный просмотр изображений любого типа: GIF, SVG и так далее</string>
-    <string name="cropping">Обрезка</string>
     <string name="image_source">Источник изображений</string>
     <string name="photo_picker">Фото пикер</string>
     <string name="gallery_picker">Галерея</string>
@@ -229,7 +227,6 @@
     <string name="sphere_refraction">Сферическое преломление</string>
     <string name="glass_sphere_refraction">Преломление стеклянной сферы</string>
     <string name="opacity">Непрозрачность</string>
-    <string name="coming_soon">Вскоре</string>
     <string name="limits_resize_sub">Измените размер заданных изображений, чтобы они соответствовали заданным ограничениям ширины и высоты с сохранением соотношения сторон</string>
     <string name="limits_resize">Ограничение размера</string>
     <string name="quantizationLevels">Количественный уровень</string>

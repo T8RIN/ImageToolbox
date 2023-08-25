@@ -104,7 +104,6 @@
     <string name="nothing_found_by_search">Walang nakitang tugma sa query mo</string>
     <string name="dynamic_colors_sub">Kung nakabukas, aangkop ang kulay ng app sa kulay ng wallpaper</string>
     <string name="failed_to_save">Nagkaproblema sa pag-save ng %d larawan</string>
-    <string name="png_warning_bytes">Pwedeng magkaproblema sa pagse-save sa PNG, dahil isa itong loseless format</string>
     <string name="primary">Pangunahin</string>
     <string name="tertiary">Tersiyaryo</string>
     <string name="secondary">Sekondaryo</string>
@@ -135,7 +134,6 @@
     <string name="delete_exif_sub">Magtanggal ng EXIF metadata sa anumang pares ng larawan</string>
     <string name="image_preview">Pasilip sa larawan</string>
     <string name="image_preview_sub">I-preview ang anumang uri ng mga larawana: GIF, SVG, at iba pa</string>
-    <string name="cropping">Pag-crop</string>
     <string name="image_source">Pinagmulan ng larawan</string>
     <string name="photo_picker">Tagapili ng larawan</string>
     <string name="gallery_picker">Gallery</string>
@@ -181,7 +179,6 @@
     <string name="first_color">Unang kulay</string>
     <string name="luminance_threshold">Luminance threshold</string>
     <string name="ratio_description">Binabago ang laki ng mga larawan sa mga larawang may huling na-edit na Lapad o Taas na bahagi, nagpapakita ng panghuling laki ng larawan sa realtime - pinapanatili ang aspect ratio</string>
-    <string name="coming_soon">Malapit na</string>
     <string name="replace_sequence_number_sub">Kung pinagana, papalitan ang strandard timestamp sa numero ng pagkakasunud-sunod ng imahe kung gumagamit ka ng batch processing</string>
     <string name="load_image_from_net">Mag-load ng larawan mula sa net</string>
     <string name="image_link">Link ng larawan</string>

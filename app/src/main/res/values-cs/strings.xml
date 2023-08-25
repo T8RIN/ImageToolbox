@@ -105,7 +105,6 @@
     <string name="search_here">Hledejte zde</string>
     <string name="dynamic_colors_sub">Pokud je tato možnost povolena, barvy aplikace se přizpůsobí barvám tapety.</string>
     <string name="failed_to_save">Nepodařilo se uložit obrázek (obrázky) %d</string>
-    <string name="png_warning_bytes">Ukládání v režimu PNG může být nestabilní, protože se jedná o bezeztrátový formát.</string>
     <string name="primary">Primární</string>
     <string name="tertiary">Terciární</string>
     <string name="secondary">Sekundární</string>
@@ -136,7 +135,6 @@
     <string name="line_width">Šířka čáry</string>
     <string name="sobel_edge">Hrana Sobel</string>
     <string name="end">Konec</string>
-    <string name="coming_soon">Již brzy</string>
     <string name="scale">Měřítko</string>
     <string name="radius">Poloměr</string>
     <string name="emoji">Emoji</string>
@@ -238,7 +236,6 @@
     <string name="color_balance">Vyvážení barev</string>
     <string name="delete_exif">Smazat EXIF</string>
     <string name="image_preview_sub">Náhled libovolného typu obrázků: GIF, SVG a tak dále</string>
-    <string name="cropping">Oříznutí</string>
     <string name="image_source">Zdroj obrázku</string>
     <string name="photo_picker">Výběr fotografií</string>
     <string name="gallery_picker">Galerie</string>

@@ -105,7 +105,6 @@
     <string name="search_here">Procure aqui</string>
     <string name="dynamic_colors_sub">Se ativado, as cores do aplicativo serão adotadas para as cores do papel de parede</string>
     <string name="failed_to_save">Falha ao salvar %d imagem(ns)</string>
-    <string name="png_warning_bytes">Salvar no modo PNG pode ser instável, porque é um formato sem perdas</string>
     <string name="primary">primário</string>
     <string name="tertiary">Terciário</string>
     <string name="secondary">Secundário</string>
@@ -225,7 +224,6 @@
     <string name="glass_sphere_refraction">refração da esfera de vidro</string>
     <string name="color_matrix">Matriz de cores</string>
     <string name="opacity">Opacidade</string>
-    <string name="coming_soon">Em breve</string>
     <string name="limits_resize_sub">Redimensione as imagens fornecidas para seguir os limites de largura e altura especificados, salvando a proporção</string>
     <string name="sketch">Esboço</string>
     <string name="threshold">Limite</string>
@@ -244,7 +242,6 @@
     <string name="luminance_threshold">Limiar de luminância</string>
     <string name="delete_exif">Excluir EXIF</string>
     <string name="delete_exif_sub">Exclua os metadados EXIF de algumas imagens</string>
-    <string name="cropping">corte</string>
     <string name="file_explorer_picker_sub">Use a intenção GetContent para escolher a imagem, funciona em qualquer lugar, mas também pode ter problemas ao receber imagens selecionadas em alguns dispositivos, não é minha culpa</string>
     <string name="gallery_picker_sub">Seletor de imagens de galeria simples, funcionará apenas se você tiver esse aplicativo</string>
     <string name="order_sub">Determina a ordem das opções na tela principal</string>

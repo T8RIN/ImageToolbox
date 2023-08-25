@@ -104,7 +104,6 @@
     <string name="nothing_found_by_search">Sorgunuzda hiçbir şey bulunamadı</string>
     <string name="dynamic_colors_sub">Etkinleştirilirse, uygulama renkleri duvar kağıdı renklerine uyarlanır</string>
     <string name="failed_to_save">%d resim(ler)i kaydedilemedi</string>
-    <string name="png_warning_bytes">Kayıpsız format olduğu için PNG modunda kaydetmek sorunlara neden olabilir.</string>
     <string name="surface">Yüzey</string>
     <string name="primary">Birincil</string>
     <string name="tertiary">Üçüncül</string>
@@ -135,7 +134,6 @@
     <string name="image_preview">Resim önizleme</string>
     <string name="image_preview_sub">Her tür görüntüyü önizleyin: GIF, SVG ve benzeri</string>
     <string name="emoji">emojisi</string>
-    <string name="cropping">Kırpma</string>
     <string name="image_source">Resim kaynağı</string>
     <string name="photo_picker">fotoğraf seçici</string>
     <string name="gallery_picker">Galeri</string>
@@ -226,7 +224,6 @@
     <string name="glass_sphere_refraction">Cam küre kırılması</string>
     <string name="color_matrix">Renk matrisi</string>
     <string name="opacity">opaklık</string>
-    <string name="coming_soon">Yakında gelecek</string>
     <string name="limits_resize">Yeniden boyutlandırmayı sınırlar</string>
     <string name="limits_resize_sub">En boy oranını kaydederek verilen genişlik ve yükseklik sınırlarını takip etmek için verilen görüntüleri yeniden boyutlandırın</string>
     <string name="sketch">Kroki</string>

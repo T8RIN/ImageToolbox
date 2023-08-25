@@ -32,7 +32,6 @@
     <string name="ok">Ok</string>
     <string name="no_exif">No EXIF data found</string>
     <string name="add_tag">Add tag</string>
-    <string name="exif" translatable="false">EXIF</string>
     <string name="save">Save</string>
     <string name="clear">Clear</string>
     <string name="clear_exif">Clear EXIF</string>
@@ -97,7 +96,6 @@
     <string name="color_blue">Blue</string>
     <string name="clipboard_paste_invalid_color_code">Paste valid aRGB-Code.</string>
     <string name="clipboard_paste_invalid_empty">Nothing to paste</string>
-    <string name="argb" translatable="false">ARGB</string>
     <string name="cannot_change_palette_while_dynamic_colors_applied">Can not change app color scheme while dynamic colors are turned on</string>
     <string name="pick_accent_color">App theme will be based on color, which you will select</string>
     <string name="about_app">About app</string>
@@ -113,7 +111,6 @@
     <string name="search_here">Search here</string>
     <string name="dynamic_colors_sub">If enabled, then app colors will be adopted to wallpaper colors</string>
     <string name="failed_to_save">Failed to save %d image(s)</string>
-    <string name="png_warning_bytes">Saving in PNG mode can be unstable, because it is lossless format</string>
     <string name="telegram" translatable="false">Telegram</string>
     <string name="email" translatable="false">Email</string>
     <string name="github" translatable="false">GitHub</string>
@@ -131,7 +128,6 @@
     <string name="grant_permission_manual">App needs this permission to work, please grant it manually</string>
     <string name="external_storage">External storage</string>
     <string name="monet_colors">Monet colors</string>
-    <string name="hex" translatable="false">HEX</string>
     <string name="buy_me_a_coffee">Buy me a coffee</string>
     <string name="buy_me_a_coffee_sub">This application is completely free, but if you want to support the project development, you can click here</string>
     <string name="fab_alignment">FAB alignment</string>
@@ -149,7 +145,6 @@
     <string name="delete_exif_sub">Delete EXIF metadata from any couple of images</string>
     <string name="image_preview">Image preview</string>
     <string name="image_preview_sub">Preview any type of images: GIF, SVG, and so on</string>
-    <string name="cropping">Cropping</string>
     <string name="image_source">Image source</string>
     <string name="photo_picker">Photo picker</string>
     <string name="gallery_picker">Gallery</string>
@@ -239,7 +234,6 @@
     <string name="color_matrix">Color matrix</string>
     <string name="float_array_of" translatable="false">floatArrayOf(f, f, f)</string>
     <string name="opacity">Opacity</string>
-    <string name="coming_soon">Coming soon</string>
     <string name="limits_resize">Limits resize</string>
     <string name="limits_resize_sub">Resize given images to follow given width and height limits with saving aspect ratio</string>
     <string name="sketch">Sketch</string>

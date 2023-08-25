@@ -104,7 +104,6 @@
     <string name="nothing_found_by_search">No se ha encontrado nada con su consulta</string>
     <string name="dynamic_colors_sub">Si está habilitado, los colores de la aplicación se adoptarán para empapelar los colores</string>
     <string name="failed_to_save">Error al guardar las imágenes de %d</string>
-    <string name="png_warning_bytes">Guardar en modo PNG puede ser inestable, porque es un formato sin pérdidas</string>
     <string name="primary">Primario</string>
     <string name="tertiary">Terciario</string>
     <string name="secondary">Secundario</string>
@@ -145,7 +144,6 @@
     <string name="crosshatch">sombreado</string>
     <string name="spacing">Espaciado</string>
     <string name="cga_colorspace">espacio de color GCA</string>
-    <string name="coming_soon">Muy pronto</string>
     <string name="kuwahara">Suavizado Kuwahara</string>
     <string name="image_preview_sub">Vista previa de cualquier tipo de imagen: GIF, SVG, etc.</string>
     <string name="order">Orden</string>
@@ -236,7 +234,6 @@
     <string name="fast_blur">Desenfoque rápido</string>
     <string name="delete_exif">Eliminar EXIF</string>
     <string name="delete_exif_sub">Eliminar metadatos EXIF de cualquier par de imágenes</string>
-    <string name="cropping">recorte</string>
     <string name="load_image_from_net">Cargar imagen desde la red</string>
     <string name="options_arrangement">Arreglo de opciones</string>
     <string name="edit">Editar</string>

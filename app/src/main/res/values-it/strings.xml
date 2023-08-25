@@ -104,7 +104,6 @@
     <string name="nothing_found_by_search">Nessun risultato per questa ricerca</string>
     <string name="dynamic_colors_sub">Se abilitato, i colori dell\'app verranno adottati per i colori dello sfondo</string>
     <string name="failed_to_save">Impossibile salvare le immagini %d</string>
-    <string name="png_warning_bytes">Il salvataggio in modalità PNG può essere instabile, perché è un formato senza perdita di dati</string>
     <string name="surface">Superficie</string>
     <string name="secondary">Secondario</string>
     <string name="permission_sub">L\'app ha bisogno di accedere alla memoria per salvare le immagini, senza questo permesso non può funzionare. Per favore concedi l\'autorizzazione nella finestra di dialogo seguente</string>
@@ -139,7 +138,6 @@
     <string name="spacing">Spaziatura</string>
     <string name="line_width">Larghezza della linea</string>
     <string name="sobel_edge">Bordo di Sobel</string>
-    <string name="coming_soon">Prossimamente</string>
     <string name="radius">Raggio</string>
     <string name="image_link">Collegamento immagine</string>
     <string name="alpha">Alfa</string>
@@ -154,7 +152,6 @@
     <string name="delete_exif_sub">Elimina i metadati EXIF da qualsiasi coppia di immagini</string>
     <string name="image_preview">Anteprima dell\'immagine</string>
     <string name="image_preview_sub">Visualizza l\'anteprima di qualsiasi tipo di immagine: GIF, SVG e così via</string>
-    <string name="cropping">Ritaglio</string>
     <string name="image_source">Fonte immagine</string>
     <string name="photo_picker">Selettore di foto</string>
     <string name="gallery_picker">Galleria</string>

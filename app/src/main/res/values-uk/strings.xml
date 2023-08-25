@@ -104,7 +104,6 @@
     <string name="nothing_found_by_search">За вашим запитом нічого не знайдено</string>
     <string name="dynamic_colors_sub">Якщо ввімкнено, то кольори додатків будуть прийняті до кольорів шпалер</string>
     <string name="failed_to_save">Не вдалося зберегти %d зображення(и)</string>
-    <string name="png_warning_bytes">Збереження в режимі PNG може бути нестабільним, оскільки це формат без втрат</string>
     <string name="primary">Первинний</string>
     <string name="tertiary">Третинний</string>
     <string name="secondary">Вторинний</string>
@@ -135,7 +134,6 @@
     <string name="add_file_size_sub">Якщо ввімкнено, додає ширину та висоту збереженого зображення до назви вихідного файлу</string>
     <string name="image_preview">Попередній перегляд зображень</string>
     <string name="image_preview_sub">Переглядайте будь-які типи зображень: GIF, SVG тощо</string>
-    <string name="cropping">Обрізання</string>
     <string name="image_source">Джерело зображення</string>
     <string name="photo_picker">Вибір фотографій</string>
     <string name="gallery_picker">Галерея</string>
@@ -198,7 +196,6 @@
     <string name="effect">Ефект</string>
     <string name="distance">Відстань</string>
     <string name="bulge">Опуклість</string>
-    <string name="coming_soon">Незабаром</string>
     <string name="radius">Радіус</string>
     <string name="scale">Масштаб</string>
     <string name="limits_resize_sub">Змініть розмір заданих зображень відповідно до заданих обмежень ширини та висоти зі збереженням співвідношення сторін</string>

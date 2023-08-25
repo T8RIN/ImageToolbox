@@ -113,7 +113,6 @@
     <string name="search_here">ค้นหาที่นี่</string>
     <string name="dynamic_colors_sub">หากเปิดใช้งาน สีของแอพจะถูกนำไปใช้กับสีวอลเปเปอร์</string>
     <string name="failed_to_save">บันทึกภาพ %d ไม่สำเร็จ</string>
-    <string name="png_warning_bytes">การบันทึกในโหมด PNG อาจไม่เสถียร เนื่องจากเป็นรูปแบบที่ไม่สูญเสียข้อมูล</string>
     <string name="secondary">รอง</string>
     <string name="border_thickness">ความหนาของเส้นขอบ</string>
     <string name="surface">พื้นผิว</string>
@@ -215,7 +214,6 @@
     <string name="glass_sphere_refraction">การหักเหของทรงกลมแก้ว</string>
     <string name="color_matrix">เมทริกซ์สี</string>
     <string name="opacity">ความทึบ</string>
-    <string name="coming_soon">เร็วๆ นี้</string>
     <string name="limits_resize_sub">ปรับขนาดรูปภาพที่กำหนดตามขีดจำกัดความกว้างและความสูงที่กำหนดพร้อมบันทึกอัตราส่วนภาพ</string>
     <string name="sketch">ร่าง</string>
     <string name="threshold">เกณฑ์</string>
@@ -237,7 +235,6 @@
     <string name="color_balance">ความสมดุลของสี</string>
     <string name="image_preview">ภาพตัวอย่าง</string>
     <string name="image_preview_sub">ดูตัวอย่างรูปภาพประเภทใดก็ได้: GIF, SVG และอื่นๆ</string>
-    <string name="cropping">การครอบตัด</string>
     <string name="image_source">ที่มาของภาพ</string>
     <string name="photo_picker">เครื่องมือเลือกรูปภาพ</string>
     <string name="gallery_picker">แกลลอรี่</string>

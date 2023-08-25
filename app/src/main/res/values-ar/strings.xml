@@ -104,7 +104,6 @@
     <string name="nothing_found_by_search">لم يتم العثور على شيء من خلال الاستعلام الخاص بك</string>
     <string name="dynamic_colors_sub">إذا تم تمكينه ، اعتماد ألوان التطبيق لألوان الخلفية</string>
     <string name="failed_to_save">فشل حفظ %d صورة (صور)</string>
-    <string name="png_warning_bytes">يمكن أن يكون الحفظ في وضع PNG غير مستقر ، لأنه تنسيق غير ضياع</string>
     <string name="surface">سطح</string>
     <string name="buy_me_a_coffee">اشتري لي قهوة</string>
     <string name="buy_me_a_coffee_sub">هذا التطبيق مجاني تمامًا ، ولكن إذا كنت ترغب في دعم تطوير المشروع ، يمكنك النقر هنا</string>
@@ -134,7 +133,6 @@
     <string name="delete_exif">حذف EXIF</string>
     <string name="delete_exif_sub">احذف بيانات EXIF الوصفية من أي صورتين</string>
     <string name="image_preview">معاينة الصورة</string>
-    <string name="cropping">اقتصاص</string>
     <string name="image_source">مصدر الصورة</string>
     <string name="file_explorer_picker_sub">استخدم نية GetContent لاختيار الصورة ، وتعمل في كل مكان ، ولكن قد تواجه أيضًا مشكلات في تلقي الصور الملتقطة بالكمبيوتر على بعض الأجهزة ، وهذا ليس خطأي</string>
     <string name="options_arrangement">ترتيب الخيارات</string>
@@ -166,7 +164,6 @@
     <string name="stack_blur">طمس بطيء</string>
     <string name="sketch">رسم</string>
     <string name="threshold">عتبة</string>
-    <string name="coming_soon">قريباً</string>
     <string name="replace_sequence_number">استبدل رقم التسلسل</string>
     <string name="replace_sequence_number_sub">في حالة التمكين ، يستبدل الطابع الزمني strandard برقم تسلسل الصورة إذا كنت تستخدم معالجة الدُفعات</string>
     <string name="load_image_from_net">تحميل الصورة من النت</string>

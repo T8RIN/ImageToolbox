@@ -104,7 +104,6 @@
     <string name="search_here">Søg her</string>
     <string name="dynamic_colors_sub">Hvis den er aktiveret, vil appens farver blive tilpasset tapetets farver</string>
     <string name="failed_to_save">Det lykkedes ikke at gemme %d billede(r)</string>
-    <string name="png_warning_bytes">Det kan være ustabilt at gemme i PNG-formatet, fordi det er et tabsfrit format.</string>
     <string name="primary">Primært</string>
     <string name="tertiary">Tertiær</string>
     <string name="secondary">Sekundær</string>
@@ -145,7 +144,6 @@
     <string name="bilaterial_blur">Bilateral sløring</string>
     <string name="vignette">Vignette</string>
     <string name="start">Start</string>
-    <string name="coming_soon">Kommer snart</string>
     <string name="radius">Radius</string>
     <string name="bulge">Bule</string>
     <string name="emoji">Emoji</string>
@@ -236,7 +234,6 @@
     <string name="zoom_blur">Zoom sløring</string>
     <string name="color_balance">Farvebalance</string>
     <string name="image_preview">Forhåndsvisning af billede</string>
-    <string name="cropping">Beskæring</string>
     <string name="load_image_from_net">Indlæs billede fra nettet</string>
     <string name="load_image_from_net_sub">Indlæs et hvilket som helst billede fra internettet, se et eksempel på det, zoom og gem eller rediger det, hvis du vil</string>
     <string name="content_scale">Indholdsskala</string>

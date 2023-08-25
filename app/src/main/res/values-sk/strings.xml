@@ -105,7 +105,6 @@
     <string name="search_here">Hľadajte tu</string>
     <string name="dynamic_colors_sub">Ak je táto možnosť povolená, farby aplikácie sa prispôsobia farbám tapety</string>
     <string name="failed_to_save">Nepodarilo sa uložiť obrázok(y) %d</string>
-    <string name="png_warning_bytes">Ukladanie v režime PNG môže byť nestabilné, pretože ide o bezstratový formát</string>
     <string name="primary">Primárne</string>
     <string name="tertiary">Terciárne</string>
     <string name="secondary">Sekundárne</string>
@@ -222,7 +221,6 @@
     <string name="glass_sphere_refraction">Lom sklenenej gule</string>
     <string name="color_matrix">Farebná matrica</string>
     <string name="opacity">Nepriehľadnosť</string>
-    <string name="coming_soon">Už čoskoro</string>
     <string name="quantizationLevels">Úrovne kvantovania</string>
     <string name="snooth_toon">Hladký toon</string>
     <string name="toon">Toon</string>
@@ -233,7 +231,6 @@
     <string name="color_balance">Vyváženie farieb</string>
     <string name="image_preview">Ukážka obrázka</string>
     <string name="image_preview_sub">Ukážka akéhokoľvek typu obrázkov: GIF, SVG atď</string>
-    <string name="cropping">Orezanie</string>
     <string name="photo_picker_sub">Moderný nástroj na výber fotografií pre Android, ktorý sa zobrazuje v spodnej časti obrazovky, môže fungovať iba v systéme Android 12+ a má tiež problémy s prijímaním metadát EXIF</string>
     <string name="image_source">Zdroj obrázka</string>
     <string name="photo_picker">Výber fotografií</string>

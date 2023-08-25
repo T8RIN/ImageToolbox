@@ -104,7 +104,6 @@
     <string name="nothing_found_by_search">Nimic găsit prin interogarea dvs.</string>
     <string name="dynamic_colors_sub">Dacă este activată, atunci culorile aplicației vor fi adoptate pentru a tapeta culorile</string>
     <string name="failed_to_save">Nu a reușit să salveze imagini %d</string>
-    <string name="png_warning_bytes">Salvarea în modul PNG poate fi instabilă, deoarece este format fără pierderi</string>
     <string name="surface">Suprafață</string>
     <string name="primary">Principal</string>
     <string name="tertiary">Terțiar</string>
@@ -149,7 +148,6 @@
     <string name="fill">Completati</string>
     <string name="fit">Potrivi</string>
     <string name="opacity">Opacitate</string>
-    <string name="coming_soon">In curand</string>
     <string name="scale">Scară</string>
     <string name="radius">Rază</string>
     <string name="bulge">Bulge</string>
@@ -238,7 +236,6 @@
     <string name="luminance_threshold">Pragul de luminanță</string>
     <string name="delete_exif">Ștergeți EXIF</string>
     <string name="delete_exif_sub">Ștergeți metadatele EXIF din orice două imagini</string>
-    <string name="cropping">Decuparea</string>
     <string name="image_source">Sursa imaginii</string>
     <string name="photo_picker">Selector de fotografii</string>
     <string name="gallery_picker">Galerie</string>

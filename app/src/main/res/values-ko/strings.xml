@@ -73,7 +73,6 @@
     <string name="nothing_found_by_search">검색어에서 아무것도 찾지 못했습니다.</string>
     <string name="search_here">여기에서 검색</string>
     <string name="failed_to_save">%d 이미지 저장 실패</string>
-    <string name="png_warning_bytes">PNG 모드의 저장은 무손실 형식이기 때문에 불안정 할 수 있습니다</string>
     <string name="primary">기본</string>
     <string name="tertiary">제삼기</string>
     <string name="secondary">보조</string>
@@ -131,7 +130,6 @@
     <string name="add_file_size_sub">활성화하면 저장된 이미지의 너비와 높이가 출력 파일의 이름에 추가됩니다.</string>
     <string name="add_file_size">파일 크기 추가</string>
     <string name="delete_exif">EXIF 삭제</string>
-    <string name="cropping">자르기</string>
     <string name="image_source">이미지 출처</string>
     <string name="photo_picker">사진 선택기</string>
     <string name="photo_picker_sub">화면 하단에 표시되는 Android 최신 사진 선택기는 Android 12 이상에서만 작동할 수 있으며 EXIF 메타데이터 수신에 문제가 있습니다.</string>
@@ -227,7 +225,6 @@
     <string name="sphere_refraction">구 굴절</string>
     <string name="glass_sphere_refraction">유리 구 굴절</string>
     <string name="color_matrix">컬러 매트릭스</string>
-    <string name="coming_soon">곧 출시</string>
     <string name="sketch">스케치</string>
     <string name="threshold">한계점</string>
     <string name="quantizationLevels">양자화 수준</string>

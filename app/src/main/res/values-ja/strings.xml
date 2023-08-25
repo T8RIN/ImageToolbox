@@ -104,7 +104,6 @@
     <string name="search_here">ここから検索</string>
     <string name="dynamic_colors_sub">有効な場合、アプリの色は壁紙の色に採用されます</string>
     <string name="failed_to_save">%d 画像の保存に失敗しました。</string>
-    <string name="png_warning_bytes">PNGモードでの保存は、ロスレス形式であるため不安定になることがある</string>
     <string name="values">数値</string>
     <string name="add">追加</string>
     <string name="permission">権限</string>
@@ -135,7 +134,6 @@
     <string name="delete_exif_sub">任意のカップルの画像から EXIF メタデータを削除します</string>
     <string name="image_preview">画像プレビュー</string>
     <string name="image_preview_sub">GIF、SVG などのあらゆる種類の画像をプレビューします</string>
-    <string name="cropping">トリミング</string>
     <string name="photo_picker_sub">画面の下部に表示される Android の最新のフォト ピッカーは、Android 12 以降でのみ動作する可能性があり、EXIF メタデータの受信にも問題があります</string>
     <string name="image_source">画像ソース</string>
     <string name="photo_picker">写真ピッカー</string>
@@ -176,7 +174,6 @@
     <string name="stack_blur">スタックブラー</string>
     <string name="luminance_threshold">輝度閾値</string>
     <string name="second_color">2番目の色</string>
-    <string name="coming_soon">近日公開</string>
     <string name="load_image_from_net">ネットから画像をロード</string>
     <string name="load_image_from_net_sub">インターネットから画像を読み込み、プレビュー、ズームし、必要に応じて保存または編集することもできます</string>
     <string name="fit">フィット</string>

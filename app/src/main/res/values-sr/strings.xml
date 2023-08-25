@@ -84,7 +84,6 @@
     <string name="nothing_found_by_search">Ništica pronađen by tvoj query</string>
     <string name="search_here">Potraga tuda</string>
     <string name="dynamic_colors_sub">Li omogućivati, tadašnji app colors volja biti usvojiti na wallpaper colors</string>
-    <string name="png_warning_bytes">Saving in PNG mode limenka biti nestabilan, zato free i lossless format</string>
     <string name="primary">Osnovan</string>
     <string name="tertiary">Tertiary</string>
     <string name="secondary">Srednji</string>
@@ -221,7 +220,6 @@
     <string name="glass_sphere_refraction">Рефракција стаклене сфере</string>
     <string name="color_matrix">Матрица боја</string>
     <string name="opacity">Непрозирност</string>
-    <string name="coming_soon">Долази ускоро</string>
     <string name="limits_resize_sub">Промените величину дате слике да бисте пратили дате границе ширине и висине уз чување односа ширине и висине</string>
     <string name="posterize">Постеризе</string>
     <string name="weak_pixel_inclusion">Слабо укључивање пиксела</string>
@@ -238,7 +236,6 @@
     <string name="zoom_blur">Зоом блур</string>
     <string name="color_balance">Баланс боја</string>
     <string name="image_preview">Преглед слике</string>
-    <string name="cropping">Обрезивање</string>
     <string name="image_source">Извор слике</string>
     <string name="photo_picker">Бирач фотографија</string>
     <string name="gallery_picker">Галерија</string>

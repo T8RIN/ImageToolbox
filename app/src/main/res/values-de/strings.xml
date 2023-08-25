@@ -104,7 +104,6 @@
     <string name="nothing_found_by_search">Deine Suchanfrage hat nichts gefunden</string>
     <string name="dynamic_colors_sub">Wenn aktiviert, werden die Farben der Anwendung an die Farben des Hintergrundbildes angepasst.</string>
     <string name="failed_to_save">Fehler beim Speichern von %d-Bildern</string>
-    <string name="png_warning_bytes">Das Speichern im PNG-Modus kann instabil sein, da es sich um ein verlustfreies Format handelt</string>
     <string name="surface">Oberfläche</string>
     <string name="values">Werte</string>
     <string name="add">Hinzufügen</string>
@@ -135,7 +134,6 @@
     <string name="delete_exif_sub">EXIF-Metadaten von einem beliebigen Bilderpaar löschen</string>
     <string name="image_preview">Bildvorschau</string>
     <string name="image_preview_sub">Sieh dir jegliches Bildformat an: GIF, SVG usw.</string>
-    <string name="cropping">Zuschneiden</string>
     <string name="image_source">Bildquelle</string>
     <string name="gallery_picker">Galerie</string>
     <string name="photo_picker">Bildauswahl</string>
@@ -224,7 +222,6 @@
     <string name="kuwahara">Kuwahara-Glättung</string>
     <string name="radius">Radius</string>
     <string name="distortion">Verzerrung</string>
-    <string name="coming_soon">Demnächst verfügbar</string>
     <string name="refractive_index">Brechungsindex</string>
     <string name="glass_sphere_refraction">Glaskugel-Brechung</string>
     <string name="sketch">Skizze</string>
@@ -351,6 +348,6 @@
     <string name="restore_image">Bild wiederherstellen</string>
     <string name="create_issue">Fehlermeldung anlegen</string>
     <string name="resize_and_convert_sub">Ändere die Größe bestimmter Bilder oder konvertiere sie in andere Formate, außerdem kannst Du bei Auswahl eines einzelnen Bildes EXIF-Metadaten bearbeiten</string>
-    <string name="something_went_wrong_emphasis">Upps ... Irgendwas ist schiefgelaufen. Schreib mir mittels der nachfolgenden Optionen und ich werde versuchen, eine Lösung zu finden</string>
+    <string name="something_went_wrong_emphasis">Upps… Irgendwas ist schiefgelaufen. Schreib mir mittels der nachfolgenden Optionen und ich werde versuchen, eine Lösung zu finden</string>
     <string name="resize_and_convert">Größenänderung und Konvertierung</string>
 </resources>

@@ -105,7 +105,6 @@
     <string name="search_here">Cari di sini</string>
     <string name="dynamic_colors_sub">Jika diaktifkan, maka warna aplikasi akan diadopsi ke warna wallpaper</string>
     <string name="failed_to_save">Gagal menyimpan gambar %d</string>
-    <string name="png_warning_bytes">Menyimpan dalam mode PNG bisa jadi tidak stabil, karena ini adalah format lossless</string>
     <string name="primary">Primer</string>
     <string name="tertiary">Tersier</string>
     <string name="secondary">Sekunder</string>
@@ -137,7 +136,6 @@
     <string name="image_preview">Pratinjau gambar</string>
     <string name="order_sub">Menentukan urutan opsi pada layar utama</string>
     <string name="photo_picker_sub">Pemilih foto modern Android yang muncul di bagian bawah layar, mungkin hanya berfungsi pada Android 12+ dan juga memiliki masalah dengan penerimaan metadata EXIF</string>
-    <string name="cropping">Pemangkasan</string>
     <string name="image_source">Sumber gambar</string>
     <string name="photo_picker">Pemilih foto</string>
     <string name="file_explorer_picker">Penjelajah file</string>
@@ -162,7 +160,6 @@
     <string name="crosshatch">Crosshatch</string>
     <string name="spacing">Jarak</string>
     <string name="line_width">Lebar garis</string>
-    <string name="coming_soon">Segera hadir</string>
     <string name="radius">Radius</string>
     <string name="scale">Skala</string>
     <string name="add_filter">Tambahkan filter</string>

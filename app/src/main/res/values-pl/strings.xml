@@ -104,7 +104,6 @@
     <string name="nothing_found_by_search">Nic nie znaleziono na podstawie Twojego zapytania</string>
     <string name="dynamic_colors_sub">Jeśli ta opcja jest włączona, kolory aplikacji zostaną dostosowane do kolorów tapet</string>
     <string name="failed_to_save">Nie udało się zapisać obrazów %d</string>
-    <string name="png_warning_bytes">Zapisywanie w trybie PNG może być niestabilne, ponieważ jest to format bezstratny</string>
     <string name="surface">Powierzchnia</string>
     <string name="buy_me_a_coffee">Kup mi kawę</string>
     <string name="fab_alignment">Dostosowanie FAB</string>
@@ -154,7 +153,6 @@
     <string name="delete_exif_sub">Usuń metadane EXIF z dowolnej pary obrazów</string>
     <string name="image_preview">Podgląd obrazu</string>
     <string name="image_preview_sub">Wyświetl podgląd dowolnego typu obrazów: GIF, SVG i tak dalej</string>
-    <string name="cropping">Uprawa</string>
     <string name="image_source">Źródło obrazu</string>
     <string name="gallery_picker">Galeria</string>
     <string name="photo_picker_sub">Nowoczesny selektor zdjęć w Androidzie, który pojawia się u dołu ekranu, może działać tylko na Androidzie 12+ i ma również problemy z odbieraniem metadanych EXIF</string>
@@ -220,7 +218,6 @@
     <string name="glass_sphere_refraction">Refrakcja szklanej kuli</string>
     <string name="color_matrix">Matryca kolorów</string>
     <string name="opacity">Nieprzezroczystość</string>
-    <string name="coming_soon">Wkrótce</string>
     <string name="limits_resize_sub">Zmień rozmiar podanych obrazów, aby przestrzegać podanych ograniczeń szerokości i wysokości, zachowując współczynnik proporcji</string>
     <string name="toon">Kreskówka</string>
     <string name="posterize">posteryzować</string>

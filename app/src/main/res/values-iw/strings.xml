@@ -100,7 +100,6 @@
     <string name="issue_tracker">מאתר בעיות</string>
     <string name="issue_tracker_sub">שלח לכאן דוחות באגים ובקשות לתכונות</string>
     <string name="failed_to_save">שמירת התמונות %d נכשלה</string>
-    <string name="png_warning_bytes">שמירה במצב PNG עלולה להיות לא יציבה, מכיוון שהיא פורמט ללא אובדן</string>
     <string name="help_translate">עזרה בתרגום</string>
     <string name="help_translate_sub">תקן טעויות תרגום או התאם את הפרויקט לשפות אחרות</string>
     <string name="nothing_found_by_search">שום דבר לא נמצא על ידי השאילתה שלך</string>
@@ -137,7 +136,6 @@
     <string name="haze">עֲרָפֶל</string>
     <string name="sepia">חוּם כֵּהֶה</string>
     <string name="emboss">הבלטה</string>
-    <string name="coming_soon">בקרוב</string>
     <string name="delete_exif">מחק EXIF</string>
     <string name="no_image">אין תמונה</string>
     <string name="filter">לְסַנֵן</string>
@@ -174,7 +172,6 @@
     <string name="delete_exif_sub">מחק מטא נתונים של EXIF מכל זוג תמונות</string>
     <string name="image_preview">תצוגה מקדימה של תמונה</string>
     <string name="image_preview_sub">תצוגה מקדימה של כל סוג של תמונות: GIF, SVG וכן הלאה</string>
-    <string name="cropping">חיתוך</string>
     <string name="image_source">מקור תמונה</string>
     <string name="photo_picker">בוחר תמונות</string>
     <string name="gallery_picker">גלריה</string>
