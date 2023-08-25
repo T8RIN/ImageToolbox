@@ -150,7 +150,9 @@ dependencies {
     implementation(project(":avif-coder-coil"))
     implementation(project(":avif-coder"))
     implementation(project(":screenshot"))
-    implementation(project(":colorpicker"))
+    implementation(project(":colorpicker")) {
+        exclude("com.github.SmartToolFactory", "Compose-Color-Detector")
+    }
 
     implementation("org.burnoutcrew.composereorderable:reorderable:0.9.6")
 
