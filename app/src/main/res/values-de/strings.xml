@@ -76,7 +76,6 @@
     <string name="color_copied">Farbe kopiert</string>
     <string name="crop_sub">Schneide ein Bild beliebig zu</string>
     <string name="version">Version</string>
-    <string name="resize_batch_image">Ändere die Eigenschaften mehrerer Bilder gleichzeitig</string>
     <string name="images">Bilder: %d</string>
     <string name="change_preview">Wechsele Vorschaubild</string>
     <string name="remove">Entfernen</string>
