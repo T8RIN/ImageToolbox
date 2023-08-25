@@ -353,6 +353,6 @@
     <string name="draw_mode">Режим рисования</string>
     <string name="create_issue">Создать задачу</string>
     <string name="something_went_wrong_emphasis">Упс… Что-то пошло не так, напишите мне, используя приведенные ниже варианты, и я постараюсь найти решение</string>
-    <string name="resize_and_convert_sub">Измените размер заданных изображений или конвертируйте их в другие форматы, также там вы можете редактировать метаданные EXIF, если выберете одно изображение</string>
-    <string name="resize_and_convert">Изменить размер и конвертировать</string>
+    <string name="resize_and_convert_sub">Измените размер заданных изображений или конвертируйте их в другие форматы, также здесь вы можете редактировать метаданные EXIF, если выберете одно изображение</string>
+    <string name="resize_and_convert">Изменение размера и конвертация</string>
 </resources>
