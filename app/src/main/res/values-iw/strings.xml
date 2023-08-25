@@ -54,7 +54,6 @@
     <string name="color_copied">צבע הועתק</string>
     <string name="crop_sub">חתוך תמונה לכל גבול</string>
     <string name="version">גִרְסָה</string>
-    <string name="resize_batch_image">שנה מפרט של קבוצות תמונה נתונות</string>
     <string name="batch_resize">שינוי גודל אצווה</string>
     <string name="keep_exif">שמור על EXIF</string>
     <string name="images">תמונות: %d</string>
