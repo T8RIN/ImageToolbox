@@ -50,7 +50,6 @@
     <string name="color_copied">Kinopya ang kulay</string>
     <string name="crop_sub">Putulan ang larawan sa anumang laki</string>
     <string name="version">Bersyon</string>
-    <string name="resize_batch_image">Baguhin ang laki ng maramihang larawan</string>
     <string name="batch_resize">Maramihang pag-resize</string>
     <string name="keep_exif">Panatilihin ang EXIF</string>
     <string name="images">Mga larawan: %d</string>
