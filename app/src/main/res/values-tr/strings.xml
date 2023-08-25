@@ -38,7 +38,6 @@
     <string name="color">Renk</string>
     <string name="color_copied">Renk kopyalandı</string>
     <string name="crop_sub">Görüntüyü herhangi bir sınıra kırpın</string>
-    <string name="resize_batch_image">Verilen görüntü gruplarının özelliklerini değiştirme</string>
     <string name="images">Görüntüler: %d</string>
     <string name="change_preview">Önizlemeyi değiştir</string>
     <string name="remove">Kaldır</string>
