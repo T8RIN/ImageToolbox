@@ -45,7 +45,6 @@
     <string name="color_copied">颜色代码已复制</string>
     <string name="crop_sub">将图片裁剪至任何大小</string>
     <string name="version">版本号</string>
-    <string name="resize_batch_image">批量更改选定图片的规格</string>
     <string name="batch_resize">批量缩放图片</string>
     <string name="keep_exif">保留 EXIF 信息</string>
     <string name="images">图片数量：%d</string>
