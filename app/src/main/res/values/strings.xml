@@ -54,7 +54,6 @@
     <string name="color_copied">Color copied</string>
     <string name="crop_sub">Crop image to any bounds</string>
     <string name="version">Version</string>
-    <string name="batch_resize">Batch resize</string>
     <string name="keep_exif">Keep EXIF</string>
     <string name="images">Images: %d</string>
     <string name="change_preview">Change preview</string>
