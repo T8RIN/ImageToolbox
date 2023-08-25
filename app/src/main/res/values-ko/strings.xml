@@ -98,7 +98,6 @@
     <string name="presets">사전설정</string>
     <string name="version">버전</string>
     <string name="crop">자르기</string>
-    <string name="batch_resize">일괄 크기 조정</string>
     <string name="pick_color">색상 선택</string>
     <string name="crop_sub">원하는 범위로 이미지 자르기</string>
     <string name="pick_color_sub">이미지에서 색상을 선택, 복사 또는 공유</string>
