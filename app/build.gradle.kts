@@ -130,7 +130,7 @@ dependencies {
     kapt("com.google.dagger:hilt-compiler:2.47")
 
     //Accompanist
-    implementation("com.google.accompanist:accompanist-placeholder-material:0.33.0-alpha")
+    implementation("com.google.accompanist:accompanist-placeholder-material:0.33.1-alpha")
 
     //Coil
     implementation("io.coil-kt:coil:2.4.0")
@@ -157,6 +157,6 @@ dependencies {
     //ml-kit selfie segmentation
     implementation("com.google.mlkit:segmentation-selfie:16.0.0-beta4")
 
-    implementation("com.google.accompanist:accompanist-systemuicontroller:0.33.0-alpha")
+    implementation("com.google.accompanist:accompanist-systemuicontroller:0.33.1-alpha")
 
 }

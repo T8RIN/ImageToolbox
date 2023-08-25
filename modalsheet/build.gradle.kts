@@ -62,5 +62,5 @@ dependencies {
     implementation("androidx.compose.ui:ui-util:1.6.0-alpha02")
 
     implementation("androidx.lifecycle:lifecycle-viewmodel-savedstate:2.6.1")
-    implementation("androidx.lifecycle:lifecycle-viewmodel:2.6.1")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.1")
 }

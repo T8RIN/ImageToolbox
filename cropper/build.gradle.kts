@@ -60,11 +60,11 @@ dependencies {
     implementation(project(":gesture"))
 
     // Jetpack Compose
-    implementation("androidx.compose.ui:ui:1.4.3")
-    implementation("androidx.compose.runtime:runtime:1.4.3")
+    implementation("androidx.compose.ui:ui:1.5.0")
+    implementation("androidx.compose.runtime:runtime:1.5.0")
 
     // Material Design 3 for Compose
     implementation("androidx.compose.material3:material3:1.1.1")
     // Material design icons
-    implementation("androidx.compose.material:material-icons-extended:1.4.3")
+    implementation("androidx.compose.material:material-icons-extended:1.5.0")
 }
