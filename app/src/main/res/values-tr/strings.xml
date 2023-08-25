@@ -65,7 +65,6 @@
     <string name="clear_exif_sub">Görüntünün tüm EXIF verileri silinecektir, bu işlem geri alınamaz!</string>
     <string name="add_tag">Etiket ekle</string>
     <string name="presets">Ön Ayarlar</string>
-    <string name="batch_resize">Toplu yeniden boyutlandırma</string>
     <string name="image_not_saved_sub">Şimdi ayrılırsanız, kaydedilmemiş tüm değişiklikler kaybolacaktır</string>
     <string name="single_edit">Tekli yeniden boyutlandırma</string>
     <string name="single_edit_sub">Verilen tek bir görüntünün özelliklerini değiştirme</string>
