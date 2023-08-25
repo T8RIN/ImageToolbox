@@ -55,7 +55,6 @@
     <string name="color_copied">कलर कॉपी किया गया</string>
     <string name="crop_sub">छवि को किसी भी सीमा तक क्रॉप करें</string>
     <string name="version">संस्करण</string>
-    <string name="resize_batch_image">दिए गए छवि बैचों के विनिर्देश बदलें</string>
     <string name="batch_resize">बैच का आकार बदलना</string>
     <string name="keep_exif">एक्सिफ रखें</string>
     <string name="images">छवियां: %d</string>
