@@ -66,7 +66,6 @@
     <string name="pick_color">Escolher cor</string>
     <string name="crop_sub">Corte a imagem em qualquer limite</string>
     <string name="single_edit">Redimensionar</string>
-    <string name="batch_resize">Redimensionar várias</string>
     <string name="change_preview">Alterar visualização</string>
     <string name="update">Atualização</string>
     <string name="no_palette">Não foi possível gerar uma paleta para essa imagem</string>
