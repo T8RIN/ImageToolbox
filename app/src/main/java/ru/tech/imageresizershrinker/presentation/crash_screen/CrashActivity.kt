@@ -270,7 +270,7 @@ class CrashActivity : CrashHandler() {
                                             contentDescription = null,
                                             modifier = Modifier.padding(start = 16.dp)
                                         )
-                                        Text(
+                                        AutoSizeText(
                                             text = exName,
                                             fontWeight = FontWeight.Bold,
                                             textAlign = TextAlign.Start,
@@ -309,7 +309,9 @@ class CrashActivity : CrashHandler() {
                             ) {
                                 ExtendedFloatingActionButton(
                                     elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
-                                    modifier = Modifier.fabBorder(),
+                                    modifier = Modifier
+                                        .fabBorder()
+                                        .weight(1f, false),
                                     onClick = {
                                         startActivity(
                                             Intent(

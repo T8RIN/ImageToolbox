@@ -32,7 +32,7 @@ import com.smarttoolfactory.colordetector.util.ColorUtil
 
 
 @Composable
-fun ColorDisplayWithClipboard(
+fun ColorDisplay(
     modifier: Modifier = Modifier,
     colorData: ColorData
 ) {

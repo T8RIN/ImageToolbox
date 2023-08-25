@@ -177,7 +177,7 @@ fun ScreenColorDetector(
 
                     val labelOffsetY = (offset.y - labelSize.height / 2).toInt()
 
-                    ColorDisplayWithClipboard(
+                    ColorDisplay(
                         modifier = Modifier
                             .offset {
                                 IntOffset(
