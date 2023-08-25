@@ -72,7 +72,6 @@
     <string name="check_source_code_sub">Aktuelle Meldungen, Problemmeldungen und mehr</string>
     <string name="pick_color_sub">Wähle eine Farbe aus einem Bild und kopiere oder teile diese</string>
     <string name="color">Farbe</string>
-    <string name="batch_resize">Stapelverarbeitung</string>
     <string name="color_copied">Farbe kopiert</string>
     <string name="crop_sub">Schneide ein Bild beliebig zu</string>
     <string name="version">Version</string>
