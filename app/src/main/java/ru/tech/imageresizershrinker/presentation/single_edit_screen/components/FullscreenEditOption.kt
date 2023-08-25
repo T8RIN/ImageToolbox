@@ -20,6 +20,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Build
+import androidx.compose.material.icons.rounded.Close
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.BottomSheetScaffold
 import androidx.compose.material3.BottomSheetScaffoldState
@@ -60,18 +61,30 @@ fun FullscreenEditOption(
     controls: @Composable (BottomSheetScaffoldState?) -> Unit,
     fabButtons: @Composable () -> Unit,
     actions: @Composable RowScope.() -> Unit,
-    topAppBar: @Composable () -> Unit,
+    topAppBar: @Composable (closeButton: @Composable () -> Unit) -> Unit,
     content: @Composable () -> Unit
 ) {
     val scope = rememberCoroutineScope()
     val settingsState = LocalSettingsState.current
+
+    var showExitDialog by remember(visible) { mutableStateOf(false) }
+    val internalOnDismiss = {
+        if (!canGoBack) showExitDialog = true
+        else onDismiss()
+    }
     AnimatedVisibility(visible) {
         Surface(Modifier.fillMaxSize()) {
             Column {
                 if (useScaffold) {
                     val scaffoldState = rememberBottomSheetScaffoldState()
                     BottomSheetScaffold(
-                        topBar = topAppBar,
+                        topBar = {
+                            topAppBar {
+                                IconButton(onClick = internalOnDismiss) {
+                                    Icon(Icons.Rounded.Close, null)
+                                }
+                            }
+                        },
                         scaffoldState = scaffoldState,
                         sheetPeekHeight = 80.dp + WindowInsets.navigationBars.asPaddingValues()
                             .calculateBottomPadding(),
@@ -131,7 +144,11 @@ fun FullscreenEditOption(
                         }
                     )
                 } else {
-                    topAppBar()
+                    topAppBar {
+                        IconButton(onClick = internalOnDismiss) {
+                            Icon(Icons.Rounded.Close, null)
+                        }
+                    }
                     Row(
                         modifier = Modifier.navBarsPaddingOnlyIfTheyAtTheEnd(),
                         verticalAlignment = Alignment.CenterVertically
@@ -184,18 +201,12 @@ fun FullscreenEditOption(
             }
         }
         if (visible) {
-            var showExitDialog by remember { mutableStateOf(false) }
-            BackHandler {
-                if (!canGoBack) showExitDialog = true
-                else onDismiss()
-            }
-            if (showExitDialog) {
-                ExitWithoutSavingDialog(
-                    onExit = onDismiss,
-                    onDismiss = { showExitDialog = false },
-                    visible = showExitDialog
-                )
-            }
+            BackHandler { internalOnDismiss() }
+            ExitWithoutSavingDialog(
+                onExit = onDismiss,
+                onDismiss = { showExitDialog = false },
+                visible = showExitDialog
+            )
         }
     }
 }

@@ -237,13 +237,9 @@ fun DrawEditOption(
                     Spacer(Modifier.weight(1f))
                 }
             },
-            topAppBar = {
+            topAppBar = { closeButton ->
                 CenterAlignedTopAppBar(
-                    navigationIcon = {
-                        IconButton(onClick = onDismiss) {
-                            Icon(Icons.Rounded.Close, null)
-                        }
-                    },
+                    navigationIcon = closeButton,
                     colors = TopAppBarDefaults.topAppBarColors(
                         MaterialTheme.colorScheme.surfaceColorAtElevation(
                             3.dp

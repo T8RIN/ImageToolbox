@@ -19,7 +19,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.Close
 import androidx.compose.material.icons.rounded.Done
 import androidx.compose.material.icons.rounded.Redo
 import androidx.compose.material.icons.rounded.Undo
@@ -27,7 +26,6 @@ import androidx.compose.material.icons.rounded.ZoomIn
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedIconButton
@@ -242,13 +240,9 @@ fun EraseBackgroundEditOption(
                     Spacer(Modifier.weight(1f))
                 }
             },
-            topAppBar = {
+            topAppBar = { closeButton ->
                 CenterAlignedTopAppBar(
-                    navigationIcon = {
-                        IconButton(onClick = onDismiss) {
-                            Icon(Icons.Rounded.Close, null)
-                        }
-                    },
+                    navigationIcon = closeButton,
                     colors = TopAppBarDefaults.topAppBarColors(
                         MaterialTheme.colorScheme.surfaceColorAtElevation(
                             3.dp

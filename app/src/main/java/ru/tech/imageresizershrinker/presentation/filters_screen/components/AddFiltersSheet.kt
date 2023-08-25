@@ -434,7 +434,8 @@ fun AddFiltersSheet(
                         imageBlock = {
                             SimplePicture(
                                 bitmap = transformedBitmap,
-                                loading = loading
+                                loading = loading,
+                                modifier = Modifier.padding(16.dp)
                             )
                         },
                         backgroundColor = backgroundColor

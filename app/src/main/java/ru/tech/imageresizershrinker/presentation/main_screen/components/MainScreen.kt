@@ -527,58 +527,62 @@ fun MainScreen(
                             WindowInsets.displayCutout.asPaddingValues()
                         } else PaddingValues()
 
-                        LazyVerticalStaggeredGrid(
-                            modifier = Modifier
-                                .fillMaxHeight()
-                                .weight(1f),
-                            columns = StaggeredGridCells.Adaptive(220.dp),
-                            verticalItemSpacing = 12.dp,
-                            horizontalArrangement = Arrangement.spacedBy(
-                                12.dp,
-                                Alignment.CenterHorizontally
-                            ),
-                            contentPadding = PaddingValues(
-                                bottom = 12.dp + if (isGrid) {
-                                    WindowInsets
-                                        .navigationBars
-                                        .asPaddingValues()
-                                        .calculateBottomPadding() + if (!compactHeight) {
-                                        128.dp
-                                    } else 0.dp
-                                } else 0.dp,
-                                top = 12.dp,
-                                end = 12.dp + cutout.calculateEndPadding(LocalLayoutDirection.current),
-                                start = 12.dp + cutout.calculateStartPadding(LocalLayoutDirection.current)
-                            ),
-                            content = {
-                                items(
-                                    if (settingsState.groupOptionsByTypes) {
-                                        Screen.typedEntries[currentPage].first
-                                    } else screenList
-                                ) { screen ->
-                                    AnimationBox {
-                                        PreferenceItemOverload(
-                                            onClick = {
-                                                navController.popUpTo { it == Screen.Main }
-                                                navController.navigate(screen)
-                                            },
-                                            onLongClick = {
-                                                showArrangementSheet.value =
-                                                    !settingsState.groupOptionsByTypes
-                                            },
-                                            modifier = Modifier
-                                                .fillMaxWidth()
-                                                .animateItemPlacement(),
-                                            title = stringResource(screen.title),
-                                            subtitle = stringResource(screen.subtitle),
-                                            icon = {
-                                                Icon(screen.icon!!, null)
-                                            }
-                                        )
+                        Catch {
+                            LazyVerticalStaggeredGrid(
+                                modifier = Modifier
+                                    .fillMaxHeight()
+                                    .weight(1f),
+                                columns = StaggeredGridCells.Adaptive(220.dp),
+                                verticalItemSpacing = 12.dp,
+                                horizontalArrangement = Arrangement.spacedBy(
+                                    12.dp,
+                                    Alignment.CenterHorizontally
+                                ),
+                                contentPadding = PaddingValues(
+                                    bottom = 12.dp + if (isGrid) {
+                                        WindowInsets
+                                            .navigationBars
+                                            .asPaddingValues()
+                                            .calculateBottomPadding() + if (!compactHeight) {
+                                            128.dp
+                                        } else 0.dp
+                                    } else 0.dp,
+                                    top = 12.dp,
+                                    end = 12.dp + cutout.calculateEndPadding(LocalLayoutDirection.current),
+                                    start = 12.dp + cutout.calculateStartPadding(
+                                        LocalLayoutDirection.current
+                                    )
+                                ),
+                                content = {
+                                    items(
+                                        if (settingsState.groupOptionsByTypes) {
+                                            Screen.typedEntries[currentPage].first
+                                        } else screenList
+                                    ) { screen ->
+                                        AnimationBox {
+                                            PreferenceItemOverload(
+                                                onClick = {
+                                                    navController.popUpTo { it == Screen.Main }
+                                                    navController.navigate(screen)
+                                                },
+                                                onLongClick = {
+                                                    showArrangementSheet.value =
+                                                        !settingsState.groupOptionsByTypes
+                                                },
+                                                modifier = Modifier
+                                                    .fillMaxWidth()
+                                                    .animateItemPlacement(),
+                                                title = stringResource(screen.title),
+                                                subtitle = stringResource(screen.subtitle),
+                                                icon = {
+                                                    Icon(screen.icon!!, null)
+                                                }
+                                            )
+                                        }
                                     }
                                 }
-                            }
-                        )
+                            )
+                        }
                     }
 
                     if (isSheetSlideable) {
@@ -1022,4 +1026,13 @@ fun MainScreen(
             }
         }
     )
+}
+
+// KOSTYL in cause of weird error
+// java.lang.IllegalArgumentException: width(-54) must be >= 0
+@Composable
+private fun Catch(content: @Composable () -> Unit) {
+    runCatching {
+        content()
+    }.getOrNull()
 }

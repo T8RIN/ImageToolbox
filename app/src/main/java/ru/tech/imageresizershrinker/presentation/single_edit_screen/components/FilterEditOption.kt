@@ -170,14 +170,17 @@ fun FilterEditOption(
                     Icon(Icons.Rounded.PhotoFilter, null)
                 }
             },
-            actions = {},
-            topAppBar = {
+            actions = {
+                if (filterList.isEmpty()) {
+                    Text(
+                        text = stringResource(id = R.string.add_filter),
+                        modifier = Modifier.padding(horizontal = 16.dp)
+                    )
+                }
+            },
+            topAppBar = { closeButton ->
                 CenterAlignedTopAppBar(
-                    navigationIcon = {
-                        IconButton(onClick = onDismiss) {
-                            Icon(Icons.Rounded.Close, null)
-                        }
-                    },
+                    navigationIcon = closeButton,
                     colors = TopAppBarDefaults.topAppBarColors(
                         MaterialTheme.colorScheme.surfaceColorAtElevation(
                             3.dp
