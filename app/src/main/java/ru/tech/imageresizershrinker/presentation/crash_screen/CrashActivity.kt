@@ -103,7 +103,7 @@ class CrashActivity : CrashHandler() {
 
         val title = "[Bug] App Crash: $exName"
         val deviceInfo =
-            "Device: ${Build.MODEL} (${Build.BRAND} - ${Build.DEVICE}), SDK: ${Build.VERSION.SDK_INT} (${Build.VERSION.RELEASE}, App: ${BuildConfig.VERSION_NAME} (${BuildConfig.VERSION_CODE})\n\n"
+            "Device: ${Build.MODEL} (${Build.BRAND} - ${Build.DEVICE}), SDK: ${Build.VERSION.SDK_INT} (${Build.VERSION.RELEASE}), App: ${BuildConfig.VERSION_NAME} (${BuildConfig.VERSION_CODE})\n\n"
         val body = "$deviceInfo$ex"
 
 

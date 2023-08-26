@@ -38,3 +38,7 @@ jobs:
         with:
           name: Signed apks
           path: app/build/outputs/apk/release/*-signed.apk
+      - uses: actions/upload-artifact@v3
+        with:
+          name: Mapping
+          path: app/build/outputs/mapping/release/mapping.txt
