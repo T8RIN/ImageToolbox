@@ -325,8 +325,10 @@ fun EraseBackgroundEditOption(
             }
         }
 
-        LockScreenOrientation(
-            orientation = orientation
-        )
+        if (visible) {
+            LockScreenOrientation(
+                orientation = orientation
+            )
+        }
     }
 }
