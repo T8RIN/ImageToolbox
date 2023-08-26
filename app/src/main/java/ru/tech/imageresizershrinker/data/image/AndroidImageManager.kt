@@ -359,17 +359,19 @@ class AndroidImageManager @Inject constructor(
         onFailure: (Throwable) -> Unit,
         trimEmptyParts: Boolean
     ) {
-        BackgroundRemover.bitmapForProcessing(
-            bitmap = image,
-            scope = CoroutineScope(Dispatchers.IO)
-        ) { result ->
-            if (result.isSuccess) {
-                result.getOrNull()?.let {
-                    if (trimEmptyParts) trimEmptyParts(it)
-                    else it
-                }?.let(onSuccess)
-            } else result.exceptionOrNull()?.let(onFailure)
-        }
+        kotlin.runCatching {
+            BackgroundRemover.bitmapForProcessing(
+                bitmap = image,
+                scope = CoroutineScope(Dispatchers.IO)
+            ) { result ->
+                if (result.isSuccess) {
+                    result.getOrNull()?.let {
+                        if (trimEmptyParts) trimEmptyParts(it)
+                        else it
+                    }?.let(onSuccess)
+                } else result.exceptionOrNull()?.let(onFailure)
+            }
+        }.exceptionOrNull()?.let(onFailure)
     }
 
     override suspend fun shareImages(
