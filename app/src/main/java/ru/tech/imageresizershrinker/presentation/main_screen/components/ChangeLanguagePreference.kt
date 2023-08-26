@@ -66,12 +66,16 @@ fun ChangeLanguagePreference() {
             },
             onClick = {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                    context.startActivity(
-                        Intent(
-                            Settings.ACTION_APP_LOCALE_SETTINGS,
-                            Uri.parse("package:${context.packageName}")
+                    kotlin.runCatching {
+                        context.startActivity(
+                            Intent(
+                                Settings.ACTION_APP_LOCALE_SETTINGS,
+                                Uri.parse("package:${context.packageName}")
+                            )
                         )
-                    )
+                    }.getOrNull().let {
+                        if (it == null) showDialog.value = true
+                    }
                 } else {
                     showDialog.value = true
                 }

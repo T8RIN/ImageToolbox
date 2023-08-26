@@ -107,7 +107,7 @@ import kotlin.random.Random
 
 @ExperimentalMaterial3Api
 @Composable
-fun ColorPickerDialog(
+fun ColorTuplePicker(
     visible: MutableState<Boolean>,
     colorTuple: ColorTuple,
     borderWidth: Dp = LocalSettingsState.current.borderWidth,
@@ -146,7 +146,7 @@ fun ColorPickerDialog(
 
     LaunchedEffect(visible.value) {
         if (!visible.value) {
-            delay(2500)
+            delay(1000)
             primary = colorTuple.primary.toArgb()
             secondary = colorTuple.secondary?.toArgb()
                 ?: colorTuple.primary.calculateSecondaryColor()
@@ -326,7 +326,7 @@ fun ColorPickerDialog(
     ExperimentalMaterial3Api::class
 )
 @Composable
-fun AvailableColorTuplesDialog(
+fun AvailableColorTuplesSheet(
     visible: MutableState<Boolean>,
     colorTupleList: List<ColorTuple>,
     currentColorTuple: ColorTuple,
@@ -600,7 +600,7 @@ fun AvailableColorTuplesDialog(
             }
         },
     )
-    ColorPickerDialog(
+    ColorTuplePicker(
         visible = showEditColorPicker,
         colorTuple = currentColorTuple,
         onColorChange = {

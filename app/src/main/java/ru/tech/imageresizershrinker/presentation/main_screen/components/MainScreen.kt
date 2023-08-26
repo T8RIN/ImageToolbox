@@ -51,7 +51,6 @@ import androidx.compose.foundation.lazy.staggeredgrid.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.AlternateEmail
 import androidx.compose.material.icons.rounded.Close
@@ -110,7 +109,6 @@ import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
@@ -153,11 +151,7 @@ import ru.tech.imageresizershrinker.presentation.root.utils.navigation.LocalNavC
 import ru.tech.imageresizershrinker.presentation.root.utils.navigation.Screen
 import ru.tech.imageresizershrinker.presentation.root.widget.other.AnimationBox
 import ru.tech.imageresizershrinker.presentation.root.widget.other.LocalToastHost
-import ru.tech.imageresizershrinker.presentation.root.widget.other.RevealDirection
-import ru.tech.imageresizershrinker.presentation.root.widget.other.RevealValue
 import ru.tech.imageresizershrinker.presentation.root.widget.other.TopAppBarEmoji
-import ru.tech.imageresizershrinker.presentation.root.widget.other.rememberRevealState
-import ru.tech.imageresizershrinker.presentation.root.widget.other.revealSwipeable
 import ru.tech.imageresizershrinker.presentation.root.widget.preferences.PreferenceItem
 import ru.tech.imageresizershrinker.presentation.root.widget.preferences.PreferenceItemOverload
 import ru.tech.imageresizershrinker.presentation.root.widget.sheets.SimpleSheet
@@ -167,12 +161,10 @@ import ru.tech.imageresizershrinker.presentation.root.widget.text.TitleItem
 import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalEditPresetsState
 import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalSettingsState
 import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalWindowSizeClass
-import kotlin.math.roundToInt
 
 @OptIn(
     ExperimentalMaterial3Api::class,
-    ExperimentalFoundationApi::class,
-    ExperimentalMaterialApi::class
+    ExperimentalFoundationApi::class
 )
 @Composable
 fun MainScreen(
@@ -253,22 +245,27 @@ fun MainScreen(
         }
 
         val configuration = LocalConfiguration.current
-        val state = rememberRevealState()
-
-        val widthState by remember(state.offset) {
+        var expanded by remember { mutableStateOf(false) }
+        val widthState by remember(expanded) {
             derivedStateOf {
-                min(
-                    configuration.screenWidthDp.dp * 0.85f,
-                    if (!isSheetSlideable) {
+                if (isSheetSlideable) {
+                    min(
+                        configuration.screenWidthDp.dp * 0.85f,
+                        DrawerDefaults.MaximumDrawerWidth
+                    )
+                } else {
+                    if (expanded) configuration.screenWidthDp.dp * 0.5f
+                    else min(
+                        configuration.screenWidthDp.dp * 0.3f,
                         270.dp
-                    } else DrawerDefaults.MaximumDrawerWidth
-                ) - (if (!isSheetSlideable) state.offset.value.roundToInt().dp else 0.dp)
+                    )
+                }
             }
         }
 
         ModalDrawerSheet(
             modifier = Modifier
-                .width(widthState)
+                .width(animateDpAsState(targetValue = widthState).value)
                 .then(
                     if (isSheetSlideable) {
                         Modifier
@@ -281,15 +278,7 @@ fun MainScreen(
                                 ),
                                 DrawerDefaults.shape
                             )
-                    } else Modifier.revealSwipeable(
-                        maxRevealPx = with(LocalDensity.current) { 80.dp.toPx() },
-                        directions = setOf(
-                            RevealDirection.EndToStart,
-                        ),
-                        maxAmountOfOverflow = 1.dp,
-                        state = state,
-                        enabled = false
-                    )
+                    } else Modifier
                 ),
             windowInsets = WindowInsets(0)
         ) {
@@ -361,20 +350,14 @@ fun MainScreen(
                         if (!isSheetSlideable) {
                             IconButton(
                                 onClick = {
-                                    scope.launch {
-                                        if (state.currentValue == RevealValue.Default) {
-                                            state.animateTo(RevealValue.FullyRevealedStart)
-                                        } else {
-                                            state.animateTo(RevealValue.Default)
-                                        }
-                                    }
+                                    expanded = !expanded
                                 }
                             ) {
                                 Icon(
                                     Icons.Rounded.MenuOpen,
                                     null,
                                     modifier = Modifier.rotate(
-                                        animateFloatAsState(if (state.currentValue == RevealValue.Default) 0f else 180f).value
+                                        animateFloatAsState(if (!expanded) 0f else 180f).value
                                     )
                                 )
                             }
@@ -782,7 +765,7 @@ fun MainScreen(
     }
 
     val showColorPicker = rememberSaveable { mutableStateOf(false) }
-    AvailableColorTuplesDialog(
+    AvailableColorTuplesSheet(
         visible = showPickColorDialog,
         colorTupleList = settingsState.colorTupleList,
         currentColorTuple = getAppColorTuple(
@@ -794,7 +777,7 @@ fun MainScreen(
             showColorPicker.value = true
         },
         colorPicker = { onUpdateColorTuples ->
-            ColorPickerDialog(
+            ColorTuplePicker(
                 visible = showColorPicker,
                 colorTuple = settingsState.appColorTuple,
                 onColorChange = {
