@@ -1,8 +1,6 @@
 package ru.tech.imageresizershrinker.presentation.root.widget.activity
 
-import android.annotation.SuppressLint
 import android.content.Context
-import android.content.pm.ActivityInfo
 import android.content.res.Configuration
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
@@ -13,6 +11,9 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.AndroidEntryPoint
 import dagger.hilt.android.EntryPointAccessors
 import dagger.hilt.components.SingletonComponent
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import ru.tech.imageresizershrinker.domain.model.SettingsState
 import ru.tech.imageresizershrinker.domain.use_case.get_settings_state.GetSettingsStateUseCase
@@ -46,12 +47,11 @@ open class M3Activity : AppCompatActivity() {
         GlobalExceptionHandler.initialize(applicationContext, CrashActivity::class.java)
     }
 
-    @SuppressLint("SourceLockedOrientationActivity")
     override fun recreate() {
-        val o = requestedOrientation
-        requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
-        requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
-        requestedOrientation = o
+        CoroutineScope(Dispatchers.Main.immediate).launch {
+            kotlinx.coroutines.delay(10L)
+            super.recreate()
+        }
     }
 
 }
