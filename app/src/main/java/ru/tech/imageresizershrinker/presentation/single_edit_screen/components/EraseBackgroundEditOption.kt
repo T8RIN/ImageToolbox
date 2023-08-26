@@ -109,6 +109,10 @@ fun EraseBackgroundEditOption(
 
         val switch = @Composable {
             Switch(
+                modifier = Modifier.then(
+                    if (!useScaffold) Modifier.padding(start = 8.dp)
+                    else Modifier
+                ),
                 colors = SwitchDefaults.colors(
                     uncheckedBorderColor = MaterialTheme.colorScheme.primary,
                     uncheckedThumbColor = MaterialTheme.colorScheme.onPrimary,
@@ -230,7 +234,12 @@ fun EraseBackgroundEditOption(
                 TrimImageToggle(
                     selected = trimImage,
                     onCheckedChange = { trimImage = it },
-                    modifier = Modifier.padding(start = 16.dp, end = 16.dp, top = 8.dp)
+                    modifier = Modifier.padding(
+                        start = 16.dp,
+                        end = 16.dp,
+                        top = 8.dp,
+                        bottom = 16.dp
+                    )
                 )
             },
             fabButtons = {},

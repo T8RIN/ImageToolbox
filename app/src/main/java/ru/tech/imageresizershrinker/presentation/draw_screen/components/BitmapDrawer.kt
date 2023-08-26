@@ -214,7 +214,7 @@ fun BitmapDrawer(
                                 color = drawColor
                                 alpha = drawColor.alpha
                             }.asFrameworkPaint().apply {
-                                if (effect is DrawMode.Neon && !isEraserOn) {
+                                if (effect is DrawMode.Neon && !isErasing) {
                                     this.color = Color.White.toArgb()
                                     setShadowLayer(
                                         radius,

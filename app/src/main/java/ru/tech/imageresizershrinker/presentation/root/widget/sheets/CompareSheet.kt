@@ -80,6 +80,7 @@ fun CompareSheet(
                                 .copy(alpha = 0.1f),
                             RoundedCornerShape(4.dp)
                         )
+                        .weight(1f, false)
                 ) {
                     if (before != null && after != null) {
                         BeforeAfterImage(
