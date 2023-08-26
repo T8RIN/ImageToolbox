@@ -153,12 +153,11 @@ dependencies {
     implementation(project(":colorpicker")) {
         exclude("com.github.SmartToolFactory", "Compose-Color-Detector")
     }
+    implementation(project(":systemuicontroller"))
 
     implementation("org.burnoutcrew.composereorderable:reorderable:0.9.6")
 
     //ml-kit selfie segmentation
     implementation("com.google.mlkit:segmentation-selfie:16.0.0-beta4")
-
-    implementation("com.google.accompanist:accompanist-systemuicontroller:0.33.1-alpha")
 
 }

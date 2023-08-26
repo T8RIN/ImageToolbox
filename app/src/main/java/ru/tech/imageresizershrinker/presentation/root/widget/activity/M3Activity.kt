@@ -3,9 +3,9 @@ package ru.tech.imageresizershrinker.presentation.root.widget.activity
 import android.content.Context
 import android.content.res.Configuration
 import android.os.Bundle
+import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
-import androidx.core.view.WindowCompat
 import dagger.hilt.EntryPoint
 import dagger.hilt.InstallIn
 import dagger.hilt.android.AndroidEntryPoint
@@ -42,8 +42,7 @@ open class M3Activity : AppCompatActivity() {
         installSplashScreen()
         super.onCreate(savedInstanceState)
         adjustFontSize(settingsState.fontScale)
-
-        WindowCompat.setDecorFitsSystemWindows(window, false)
+        enableEdgeToEdge()
         GlobalExceptionHandler.initialize(applicationContext, CrashActivity::class.java)
     }
 
