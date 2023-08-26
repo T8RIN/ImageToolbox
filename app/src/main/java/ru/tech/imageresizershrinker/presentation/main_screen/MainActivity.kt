@@ -30,7 +30,6 @@ import nl.dionsegijn.konfetti.compose.KonfettiView
 import ru.tech.imageresizershrinker.presentation.main_screen.components.AppExitDialog
 import ru.tech.imageresizershrinker.presentation.main_screen.components.EditPresetsSheet
 import ru.tech.imageresizershrinker.presentation.main_screen.components.PermissionDialog
-import ru.tech.imageresizershrinker.presentation.main_screen.components.ProcessImagesPreferenceSheet
 import ru.tech.imageresizershrinker.presentation.main_screen.components.ScreenSelector
 import ru.tech.imageresizershrinker.presentation.main_screen.components.UpdateSheet
 import ru.tech.imageresizershrinker.presentation.main_screen.components.particles
@@ -45,6 +44,7 @@ import ru.tech.imageresizershrinker.presentation.root.widget.activity.M3Activity
 import ru.tech.imageresizershrinker.presentation.root.widget.other.LocalToastHost
 import ru.tech.imageresizershrinker.presentation.root.widget.other.ToastHost
 import ru.tech.imageresizershrinker.presentation.root.widget.other.rememberToastHostState
+import ru.tech.imageresizershrinker.presentation.root.widget.sheets.ProcessImagesPreferenceSheet
 import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalEditPresetsState
 import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalSettingsState
 import ru.tech.imageresizershrinker.presentation.root.widget.utils.setContentWithWindowSizeClass

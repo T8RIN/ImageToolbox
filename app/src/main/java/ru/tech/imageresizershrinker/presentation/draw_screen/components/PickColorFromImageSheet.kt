@@ -46,9 +46,9 @@ import com.smarttoolfactory.colordetector.ImageColorDetector
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.presentation.erase_background_screen.components.transparencyChecker
-import ru.tech.imageresizershrinker.presentation.pick_color_from_image_screen.copyColorIntoClipboard
-import ru.tech.imageresizershrinker.presentation.pick_color_from_image_screen.format
 import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
+import ru.tech.imageresizershrinker.presentation.root.utils.helper.ContextUtils.copyColorIntoClipboard
+import ru.tech.imageresizershrinker.presentation.root.utils.helper.toHex
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.block
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.shimmer
 import ru.tech.imageresizershrinker.presentation.root.widget.other.LocalToastHost
@@ -158,7 +158,7 @@ fun PickColorFromImageSheet(
                             .clickable {
                                 context.copyColorIntoClipboard(
                                     context.getString(R.string.color),
-                                    color.format()
+                                    color.toHex()
                                 )
                                 scope.launch {
                                     toastHostState.showToast(
@@ -175,7 +175,7 @@ fun PickColorFromImageSheet(
                             .clickable {
                                 context.copyColorIntoClipboard(
                                     context.getString(R.string.color),
-                                    color.format()
+                                    color.toHex()
                                 )
                                 scope.launch {
                                     toastHostState.showToast(
@@ -193,7 +193,7 @@ fun PickColorFromImageSheet(
                                 RoundedCornerShape(8.dp)
                             )
                             .padding(horizontal = 8.dp),
-                        text = color.format(),
+                        text = color.toHex(),
                         style = LocalTextStyle.current.copy(
                             fontWeight = FontWeight.Bold,
                             color = MaterialTheme.colorScheme.onSecondaryContainer

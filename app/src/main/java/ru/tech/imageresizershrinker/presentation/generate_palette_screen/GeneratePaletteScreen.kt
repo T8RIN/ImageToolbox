@@ -84,14 +84,14 @@ import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.presentation.erase_background_screen.components.transparencyChecker
 import ru.tech.imageresizershrinker.presentation.generate_palette_screen.viewModel.GeneratePaletteViewModel
-import ru.tech.imageresizershrinker.presentation.pick_color_from_image_screen.copyColorIntoClipboard
-import ru.tech.imageresizershrinker.presentation.pick_color_from_image_screen.format
 import ru.tech.imageresizershrinker.presentation.root.theme.icons.PaletteSwatch
 import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
 import ru.tech.imageresizershrinker.presentation.root.transformation.filter.SaturationFilter
+import ru.tech.imageresizershrinker.presentation.root.utils.helper.ContextUtils.copyColorIntoClipboard
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.Picker
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.localImagePickerMode
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.rememberImagePicker
+import ru.tech.imageresizershrinker.presentation.root.utils.helper.toHex
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.block
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.drawHorizontalStroke
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.fabBorder
@@ -347,7 +347,7 @@ fun GeneratePaletteScreen(
                                     onColorChange = {
                                         context.copyColorIntoClipboard(
                                             context.getString(R.string.color),
-                                            it.color.format()
+                                            it.color.toHex()
                                         )
                                         scope.launch {
                                             color = it.color
@@ -397,7 +397,7 @@ fun GeneratePaletteScreen(
                                 onColorChange = {
                                     context.copyColorIntoClipboard(
                                         context.getString(R.string.color),
-                                        it.color.format()
+                                        it.color.toHex()
                                     )
                                     scope.launch {
                                         color = it.color

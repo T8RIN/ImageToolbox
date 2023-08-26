@@ -149,6 +149,8 @@ import ru.tech.imageresizershrinker.presentation.root.utils.modifier.pulsate
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.scaleOnTap
 import ru.tech.imageresizershrinker.presentation.root.utils.navigation.LocalNavController
 import ru.tech.imageresizershrinker.presentation.root.utils.navigation.Screen
+import ru.tech.imageresizershrinker.presentation.root.widget.color_picker.AvailableColorTuplesSheet
+import ru.tech.imageresizershrinker.presentation.root.widget.color_picker.ColorTuplePicker
 import ru.tech.imageresizershrinker.presentation.root.widget.other.AnimationBox
 import ru.tech.imageresizershrinker.presentation.root.widget.other.LocalToastHost
 import ru.tech.imageresizershrinker.presentation.root.widget.other.TopAppBarEmoji

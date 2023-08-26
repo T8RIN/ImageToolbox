@@ -1,4 +1,4 @@
-package ru.tech.imageresizershrinker.presentation.main_screen.components
+package ru.tech.imageresizershrinker.presentation.root.widget.sheets
 
 import android.net.Uri
 import androidx.compose.foundation.BorderStroke
@@ -55,7 +55,6 @@ import ru.tech.imageresizershrinker.presentation.root.widget.preferences.screens
 import ru.tech.imageresizershrinker.presentation.root.widget.preferences.screens.PickColorPreference
 import ru.tech.imageresizershrinker.presentation.root.widget.preferences.screens.ResizeAndConvertPreference
 import ru.tech.imageresizershrinker.presentation.root.widget.preferences.screens.SingleEditPreference
-import ru.tech.imageresizershrinker.presentation.root.widget.sheets.SimpleSheet
 import ru.tech.imageresizershrinker.presentation.root.widget.text.AutoSizeText
 import ru.tech.imageresizershrinker.presentation.root.widget.text.TitleItem
 import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalSettingsState

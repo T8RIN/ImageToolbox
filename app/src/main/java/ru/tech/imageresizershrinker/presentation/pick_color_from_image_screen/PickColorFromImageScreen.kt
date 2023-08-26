@@ -1,8 +1,5 @@
 package ru.tech.imageresizershrinker.presentation.pick_color_from_image_screen
 
-import android.content.ClipData
-import android.content.ClipboardManager
-import android.content.Context
 import android.content.res.Configuration
 import android.net.Uri
 import androidx.activity.compose.BackHandler
@@ -68,10 +65,8 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.graphics.isUnspecified
-import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
@@ -93,9 +88,11 @@ import ru.tech.imageresizershrinker.presentation.pick_color_from_image_screen.vi
 import ru.tech.imageresizershrinker.presentation.root.theme.icons.PaletteSwatch
 import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
 import ru.tech.imageresizershrinker.presentation.root.transformation.filter.SaturationFilter
+import ru.tech.imageresizershrinker.presentation.root.utils.helper.ContextUtils.copyColorIntoClipboard
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.Picker
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.localImagePickerMode
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.rememberImagePicker
+import ru.tech.imageresizershrinker.presentation.root.utils.helper.toHex
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.block
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.drawHorizontalStroke
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.fabBorder
@@ -303,7 +300,7 @@ fun PickColorFromImageScreen(
                                                         .clickable {
                                                             context.copyColorIntoClipboard(
                                                                 context.getString(R.string.color),
-                                                                color.format()
+                                                                color.toHex()
                                                             )
                                                             scope.launch {
                                                                 toastHostState.showToast(
@@ -321,7 +318,7 @@ fun PickColorFromImageScreen(
                                                             RoundedCornerShape(8.dp)
                                                         )
                                                         .padding(horizontal = 6.dp),
-                                                    text = color.format(),
+                                                    text = color.toHex(),
                                                     style = LocalTextStyle.current.copy(
                                                         fontWeight = FontWeight.Bold,
                                                         color = MaterialTheme.colorScheme.onSecondaryContainer
@@ -362,7 +359,7 @@ fun PickColorFromImageScreen(
                                                         .clickable {
                                                             context.copyColorIntoClipboard(
                                                                 context.getString(R.string.color),
-                                                                color.format()
+                                                                color.toHex()
                                                             )
                                                             scope.launch {
                                                                 toastHostState.showToast(
@@ -433,7 +430,7 @@ fun PickColorFromImageScreen(
                                                     .clickable {
                                                         context.copyColorIntoClipboard(
                                                             context.getString(R.string.color),
-                                                            color.format()
+                                                            color.toHex()
                                                         )
                                                         scope.launch {
                                                             toastHostState.showToast(
@@ -451,7 +448,7 @@ fun PickColorFromImageScreen(
                                                         RoundedCornerShape(8.dp)
                                                     )
                                                     .padding(horizontal = 6.dp),
-                                                text = color.format(),
+                                                text = color.toHex(),
                                                 style = LocalTextStyle.current.copy(
                                                     fontWeight = FontWeight.Bold,
                                                     color = MaterialTheme.colorScheme.onSecondaryContainer
@@ -484,7 +481,7 @@ fun PickColorFromImageScreen(
                                                     .clickable {
                                                         context.copyColorIntoClipboard(
                                                             context.getString(R.string.color),
-                                                            color.format()
+                                                            color.toHex()
                                                         )
                                                         scope.launch {
                                                             toastHostState.showToast(
@@ -643,13 +640,4 @@ fun PickColorFromImageScreen(
     BackHandler {
         onGoBack()
     }
-}
-
-fun Color.format(): String =
-    String.format("#%08X", (0xFFFFFFFF and this.toArgb().toLong())).replace("#FF", "#")
-
-fun Context.copyColorIntoClipboard(label: String, value: String) {
-    val clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-    val clip = ClipData.newPlainText(label, value)
-    clipboard.setPrimaryClip(clip)
 }

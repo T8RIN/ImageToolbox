@@ -2,6 +2,8 @@ package ru.tech.imageresizershrinker.presentation.root.utils.helper
 
 import android.Manifest
 import android.app.Activity
+import android.content.ClipData
+import android.content.ClipboardManager
 import android.content.Context
 import android.content.ContextWrapper
 import android.content.Intent
@@ -205,5 +207,31 @@ object ContextUtils {
             }
             readableByteCount(size)
         }.getOrNull() ?: "0 B"
+    }
+
+    /** Save a text into the clipboard. */
+    fun Context.copyColorIntoClipboard(label: String, value: String) {
+        val clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+        val clip = ClipData.newPlainText(label, value)
+        clipboard.setPrimaryClip(clip)
+    }
+
+    /** Receive the clipboard data. */
+    fun Context.pasteColorFromClipboard(
+        onPastedColor: (Int) -> Unit,
+        onPastedColorFailure: (String) -> Unit,
+    ) {
+        val clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+        val item = clipboard.primaryClip?.getItemAt(0)
+        val text = item?.text?.toString()
+        text?.let {
+            runCatching {
+                onPastedColor(android.graphics.Color.parseColor(it))
+            }.getOrElse {
+                onPastedColorFailure(getString(R.string.clipboard_paste_invalid_color_code))
+            }
+        } ?: run {
+            onPastedColorFailure(getString(R.string.clipboard_paste_invalid_empty))
+        }
     }
 }
