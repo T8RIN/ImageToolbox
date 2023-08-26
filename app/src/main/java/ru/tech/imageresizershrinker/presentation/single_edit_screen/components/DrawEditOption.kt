@@ -47,7 +47,6 @@ import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.R
-import ru.tech.imageresizershrinker.presentation.draw_screen.ColorSaver
 import ru.tech.imageresizershrinker.presentation.draw_screen.DrawModeSaver
 import ru.tech.imageresizershrinker.presentation.draw_screen.components.BitmapDrawer
 import ru.tech.imageresizershrinker.presentation.draw_screen.components.BlurRadiusSelector
@@ -65,6 +64,7 @@ import ru.tech.imageresizershrinker.presentation.root.theme.onMixedColor
 import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.block
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.drawHorizontalStroke
+import ru.tech.imageresizershrinker.presentation.root.utils.saver.ColorSaver
 import ru.tech.imageresizershrinker.presentation.root.widget.other.LockScreenOrientation
 import ru.tech.imageresizershrinker.presentation.root.widget.text.Marquee
 import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalSettingsState

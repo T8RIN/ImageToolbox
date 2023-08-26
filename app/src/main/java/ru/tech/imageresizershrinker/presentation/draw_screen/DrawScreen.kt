@@ -67,7 +67,6 @@ import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.saveable.Saver
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -76,7 +75,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.asAndroidBitmap
-import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
@@ -112,6 +110,7 @@ import ru.tech.imageresizershrinker.presentation.root.utils.helper.rememberImage
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.block
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.drawHorizontalStroke
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.fabBorder
+import ru.tech.imageresizershrinker.presentation.root.utils.saver.ColorSaver
 import ru.tech.imageresizershrinker.presentation.root.widget.controls.ExtensionGroup
 import ru.tech.imageresizershrinker.presentation.root.widget.controls.SaveExifWidget
 import ru.tech.imageresizershrinker.presentation.root.widget.dialogs.ExitWithoutSavingDialog
@@ -121,17 +120,6 @@ import ru.tech.imageresizershrinker.presentation.root.widget.other.LockScreenOri
 import ru.tech.imageresizershrinker.presentation.root.widget.other.showError
 import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalSettingsState
 import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalWindowSizeClass
-
-
-val ColorSaver: Saver<Color, Int> = Saver(
-    save = { it.toArgb() },
-    restore = { Color(it) }
-)
-
-val DrawModeSaver: Saver<DrawMode, Int> = Saver(
-    save = { it.ordinal },
-    restore = { DrawMode(it) }
-)
 
 @SuppressLint("AutoboxingStateCreation")
 @OptIn(ExperimentalMaterial3Api::class)
