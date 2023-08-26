@@ -33,6 +33,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.presentation.root.theme.icons.Transparency
+import ru.tech.imageresizershrinker.presentation.root.theme.mixedColor
+import ru.tech.imageresizershrinker.presentation.root.theme.onMixedColor
 import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.block
 import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalSettingsState
@@ -163,7 +165,10 @@ fun ImageExtraTransformBar(
     onEraseBackground: () -> Unit
 ) {
     val settingsState = LocalSettingsState.current
-    val colors = IconButtonDefaults.filledTonalIconButtonColors()
+    val colors = IconButtonDefaults.filledTonalIconButtonColors(
+        containerColor = MaterialTheme.colorScheme.mixedColor,
+        contentColor = MaterialTheme.colorScheme.onMixedColor
+    )
     val border = BorderStroke(
         settingsState.borderWidth,
         MaterialTheme.colorScheme.outlineVariant()
