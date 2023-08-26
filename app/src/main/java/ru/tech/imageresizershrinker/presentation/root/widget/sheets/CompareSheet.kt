@@ -40,7 +40,6 @@ import com.smarttoolfactory.beforeafter.OverlayStyle
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.presentation.erase_background_screen.components.transparencyChecker
 import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
-import ru.tech.imageresizershrinker.presentation.root.utils.modifier.block
 import ru.tech.imageresizershrinker.presentation.root.widget.text.AutoSizeText
 import ru.tech.imageresizershrinker.presentation.root.widget.text.TitleItem
 import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalSettingsState
@@ -87,7 +86,6 @@ fun CompareSheet(
                             overlayStyle = OverlayStyle(),
                             modifier = Modifier
                                 .padding(8.dp)
-                                .block(RoundedCornerShape(4.dp))
                                 .clip(RoundedCornerShape(4.dp))
                                 .align(Alignment.Center)
                                 .transparencyChecker(),
