@@ -1,2 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<resources>
+    <string name="pick_image">Выберыце малюнак для пачатку</string>
+    <string name="height">Вышыня %1$s</string>
+    <string name="explicit">Спецыфічны</string>
+    <string name="app_closing">Закрыццё праграмы</string>
+    <string name="reset_image_sub">Змены выявы будуць вяртацца да пачатковых значэнняў</string>
+    <string name="reset">Скід</string>
+    <string name="copied">Скапіравана ў буфер абмену</string>
+    <string name="exception">Выключэнне</string>
+    <string name="ok">Ок</string>
+    <string name="no_exif">Дадзеныя EXIF не знойдзены</string>
+    <string name="add_tag">Дадаць тэг</string>
+    <string name="smth_went_wrong">Нешта пайшло не так: %1$s</string>
+    <string name="size">Памер %1$s</string>
+    <string name="loading">Загрузка…</string>
+    <string name="image_too_large_preview">Відарыс занадта вялікі для папярэдняга прагляду, але ён усё роўна будзе захаваны</string>
+    <string name="width">Шырыня %1$s</string>
+    <string name="resize_type">Тып маштабавання</string>
+    <string name="quality">Якасць</string>
+    <string name="extension">Пашырэнне</string>
+    <string name="flexible">Гнуткі</string>
+    <string name="pick_image_alt">Выберыце малюнак</string>
+    <string name="app_closing_sub">Вы ўпэўнены, што хочаце закрыць праграму\?</string>
+    <string name="stay">Заставайся</string>
+    <string name="close">Закрыць</string>
+    <string name="reset_image">Скінуць выяву</string>
+    <string name="values_reset">Значэнне скінута правільна</string>
+    <string name="something_went_wrong">Нешта пайшло не так</string>
+    <string name="restart_app">Перазапусціць праграму</string>
+    <string name="edit_exif">Рэдагаваць EXIF</string>
+</resources>
