@@ -18,8 +18,8 @@ android {
         applicationId = "ru.tech.imageresizershrinker"
         minSdk = 21
         targetSdk = 34
-        versionCode = 83
-        versionName = "2.3.0-rc01"
+        versionCode = 84
+        versionName = "2.3.0-rc02"
         resourceConfigurations += setOf(
             "en",
             "ar",
@@ -153,6 +153,7 @@ dependencies {
     implementation(project(":colorpicker")) {
         exclude("com.github.SmartToolFactory", "Compose-Color-Detector")
     }
+
     implementation(project(":systemuicontroller"))
 
     implementation("org.burnoutcrew.composereorderable:reorderable:0.9.6")
