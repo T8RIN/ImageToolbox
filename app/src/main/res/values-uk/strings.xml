@@ -316,4 +316,27 @@
     <string name="restore">Відновлення</string>
     <string name="restore_sub">Відновлення налаштувань застосунку з раніше створеного файлу</string>
     <string name="reset_settings_sub">Це поверне ваші налаштування до значень за замовчуванням, зверніть увагу, що це неможливо скасувати без резервного копіювання файлу з параметра вище</string>
+    <string name="delete">Видалити</string>
+    <string name="delete_color_scheme_warn">Ви збираєтеся видалити вибрану колірну схему. Цю дію неможливо скасувати.</string>
+    <string name="delete_color_scheme_title">Видалити схему</string>
+    <string name="font">Шрифт</string>
+    <string name="text">Текст</string>
+    <string name="font_scale">Розмір тексту</string>
+    <string name="defaultt">За замовчуванням</string>
+    <string name="emotions">Емоції</string>
+    <string name="food_and_drink">Їжа та напої</string>
+    <string name="nature_and_animals">Природа і тварини</string>
+    <string name="objects">Об\'єкти</string>
+    <string name="symbols">Символи</string>
+    <string name="enable_emoji">Увімкнути емодзі</string>
+    <string name="travels_and_places">Подорожі та місця</string>
+    <string name="activities">Активності</string>
+    <string name="background_remover">Видальник фону</string>
+    <string name="background_remover_sub">Видаліть фон із зображення, намалювавши або скориставшись опцією Auto</string>
+    <string name="trim_image">Обрізати зображення</string>
+    <string name="auto_erase_background">Автоматичне видалення фону</string>
+    <string name="using_large_fonts_warn">Використання більшого розміру тексту призведе до проблем з інтерфейсом, які неможливо вирішити. Використовуйте лише на свій розсуд</string>
+    <string name="keep_exif_sub">Оригінальні метадані зображення буде збережено, якщо ввімкнено</string>
+    <string name="restore_image">Відновити зображення</string>
+    <string name="trim_image_sub">Прозорий простір навколо зображення буде обрізано</string>
 </resources>
