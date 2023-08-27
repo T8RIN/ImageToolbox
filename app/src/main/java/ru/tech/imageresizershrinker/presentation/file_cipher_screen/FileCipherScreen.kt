@@ -100,7 +100,7 @@ import androidx.compose.ui.unit.sp
 import dev.olshevski.navigation.reimagined.hilt.hiltViewModel
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.R
-import ru.tech.imageresizershrinker.presentation.file_cipher_screen.components.TipSheet
+import ru.tech.imageresizershrinker.presentation.file_cipher_screen.components.CipherTipSheet
 import ru.tech.imageresizershrinker.presentation.file_cipher_screen.viewModel.FileCipherViewModel
 import ru.tech.imageresizershrinker.presentation.root.theme.Green
 import ru.tech.imageresizershrinker.presentation.root.theme.icons.ShieldKey
@@ -758,7 +758,7 @@ fun FileCipherScreen(
         visible = showExitDialog
     )
 
-    TipSheet(visible = showTip)
+    CipherTipSheet(visible = showTip)
 
     BackHandler(onBack = onBack)
 

@@ -28,7 +28,7 @@ import ru.tech.imageresizershrinker.presentation.root.widget.text.TitleItem
 import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalSettingsState
 
 @Composable
-fun TipSheet(
+fun CipherTipSheet(
     visible: MutableState<Boolean>
 ) {
     val settingsState = LocalSettingsState.current
