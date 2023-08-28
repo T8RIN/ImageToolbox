@@ -197,15 +197,17 @@ class CompareViewModel @Inject constructor(
         val finalBitmap = Bitmap.createBitmap(image.width, image.height, image.config)
         val canvas = android.graphics.Canvas(finalBitmap)
         canvas.drawBitmap(image, Matrix(), null)
-        canvas.drawBitmap(
-            Bitmap.createBitmap(
-                overlay,
-                0,
-                0,
-                (width * percent / 100).roundToInt(),
-                height
-            ), 0f, 0f, null
-        )
+        kotlin.runCatching {
+            canvas.drawBitmap(
+                Bitmap.createBitmap(
+                    overlay,
+                    0,
+                    0,
+                    (width * percent / 100).roundToInt(),
+                    height
+                ), 0f, 0f, null
+            )
+        }
         return finalBitmap
     }
 

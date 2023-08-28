@@ -132,9 +132,6 @@ dependencies {
     implementation("com.google.dagger:hilt-android:2.47")
     kapt("com.google.dagger:hilt-compiler:2.47")
 
-    //Accompanist
-    implementation("com.google.accompanist:accompanist-placeholder-material:0.33.1-alpha")
-
     //Coil
     implementation("io.coil-kt:coil:2.4.0")
     implementation("io.coil-kt:coil-compose:2.4.0")
@@ -153,11 +150,13 @@ dependencies {
     implementation(project(":avif-coder-coil"))
     implementation(project(":avif-coder"))
     implementation(project(":screenshot"))
+    implementation(project(":systemuicontroller"))
+    implementation(project(":placeholder-material3"))
+    implementation(project(":placeholder"))
+
     implementation(project(":colorpicker")) {
         exclude("com.github.SmartToolFactory", "Compose-Color-Detector")
     }
-
-    implementation(project(":systemuicontroller"))
 
     implementation("org.burnoutcrew.composereorderable:reorderable:0.9.6")
 
