@@ -6,6 +6,10 @@
         android:minSdkVersion="21"
         tools:overrideLibrary="com.radzivon.bartoshyk.avif, com.github.awxkee.avifcoil, com.github.awxkee.avifcoder" />
 
+    <uses-permission
+        android:name="com.google.android.gms.permission.AD_ID"
+        tools:node="remove" />
+
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     <uses-permission
