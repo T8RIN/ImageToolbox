@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
     <string name="app_name" translatable="false">Image Toolbox</string>
     <string name="app_launcher_name" translatable="false">Image Toolbox (Resizer)</string>
     <string name="file_provider" translatable="false">ru.tech.imageresizershrinker.fileprovider</string>
@@ -311,11 +311,11 @@
     <string name="presets_sub">If you are selected preset 125 image will be saved as 125% size of original image at 100% quality, and if you will choose preset 50 then image will be saved as 50% size and 50% quality</string>
     <string name="presets_sub_bytes">Preset here determines % of output file, i.e. if you select preset 50 on 5mb image then you will get 2.5mb image after saving</string>
     <string name="randomize_filename">Randomize filename</string>
-    <string name="randomize_filename_sub">If enabled output fileaname would be fully random</string>
+    <string name="randomize_filename_sub">If enabled output filename would be fully random</string>
     <string name="saved_to">Saved to %1$s folder with name %2$s</string>
     <string name="saved_to_without_filename">Saved to %1$s folder</string>
     <string name="tg_chat">Telegram chat</string>
-    <string name="tg_chat_sub">Discuss the app and get feedbak from other users, also here you can get beta updates and insights</string>
+    <string name="tg_chat_sub">Discuss the app and get feedback from other users, also here you can get beta updates and insights</string>
     <string name="crop_mask">Crop mask</string>
     <string name="aspect_ratio">Aspect ratio</string>
     <string name="image_crop_mask_sub">Use this mask type to create mask from given image, notice that it SHOULD have alpha channel</string>
@@ -325,7 +325,7 @@
     <string name="backup_sub">Backup your app settings to the file</string>
     <string name="restore_sub">Restore app settings from previously generated file</string>
     <string name="corrupted_file_or_not_a_backup">Corrupted file or not a backup</string>
-    <string name="settings_restored">Settings restored sucessfully</string>
+    <string name="settings_restored">Settings restored successfully</string>
     <string name="contact_me">Contact me</string>
     <string name="reset_settings_sub">This will roll back your settings to the default values, notice that this cant\'be undone withoun backup file from option above</string>
     <string name="delete">Delete</string>
