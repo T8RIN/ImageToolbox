@@ -22,6 +22,7 @@ fun PreferenceRowSwitch(
     color: Color = MaterialTheme.colorScheme.secondaryContainer.copy(
         alpha = 0.2f
     ),
+    startContent: (@Composable () -> Unit)? = null,
     onClick: (Boolean) -> Unit
 ) {
     PreferenceRow(
@@ -30,6 +31,7 @@ fun PreferenceRowSwitch(
         title = title,
         color = color,
         subtitle = subtitle,
+        startContent = startContent,
         onClick = { onClick(!checked) },
         endContent = {
             val thumbIcon: (@Composable () -> Unit)? = if (checked) {

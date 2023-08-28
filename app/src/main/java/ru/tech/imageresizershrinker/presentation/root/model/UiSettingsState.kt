@@ -43,7 +43,9 @@ data class UiSettingsState(
     val addOriginalFilename: Boolean = false,
     val randomizeFilename: Boolean = false,
     val font: UiFontFam,
-    val fontScale: Float?
+    val fontScale: Float?,
+    val allowCollectCrashlytics: Boolean,
+    val allowCollectAnalytics: Boolean
 )
 
 @Composable
@@ -71,7 +73,9 @@ fun SettingsState.toUiState() = UiSettingsState(
     addOriginalFilename = addOriginalFilename,
     randomizeFilename = randomizeFilename,
     font = font.toUiFont(),
-    fontScale = fontScale?.takeIf { it > 0 }
+    fontScale = fontScale?.takeIf { it > 0 },
+    allowCollectCrashlytics = allowCollectCrashlytics,
+    allowCollectAnalytics = allowCollectAnalytics
 )
 
 private fun FontFam.toUiFont(): UiFontFam {

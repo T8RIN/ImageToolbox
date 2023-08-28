@@ -4,6 +4,8 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.util.Log
+import com.google.firebase.crashlytics.ktx.crashlytics
+import com.google.firebase.ktx.Firebase
 import ru.tech.imageresizershrinker.presentation.root.widget.activity.M3Activity
 import kotlin.system.exitProcess
 
@@ -15,6 +17,10 @@ class GlobalExceptionHandler<T : CrashHandler> private constructor(
 ) : Thread.UncaughtExceptionHandler {
 
     override fun uncaughtException(p0: Thread, p1: Throwable) {
+        if (allowCollectCrashlytics) {
+            Firebase.crashlytics.recordException(p1)
+            Firebase.crashlytics.sendUnsentReports()
+        }
         kotlin.runCatching {
             Log.e(this.toString(), p1.stackTraceToString())
             applicationContext.launchActivity(activityToBeLaunched, p1)
@@ -41,14 +47,24 @@ class GlobalExceptionHandler<T : CrashHandler> private constructor(
     companion object {
         fun <T : CrashHandler> initialize(
             applicationContext: Context,
-            activityToBeLaunched: Class<T>
+            activityToBeLaunched: Class<T>,
         ) = Thread.setDefaultUncaughtExceptionHandler(
             GlobalExceptionHandler(
-                applicationContext,
+                applicationContext = applicationContext,
                 Thread.getDefaultUncaughtExceptionHandler() as Thread.UncaughtExceptionHandler,
                 activityToBeLaunched
             )
         )
+
+        fun setAllowCollectCrashlytics(
+            value: Boolean
+        ) {
+            Firebase.crashlytics.setCrashlyticsCollectionEnabled(value)
+            allowCollectCrashlytics = value
+        }
+
+        var allowCollectCrashlytics: Boolean = true
+            private set
     }
 }
 

@@ -49,11 +49,6 @@ fun PreferenceRow(
     CompositionLocalProvider(LocalContentColor provides contentColor) {
         Row(
             modifier = modifier
-                .then(
-                    if (applyHorPadding) {
-                        Modifier.padding(horizontal = 16.dp)
-                    } else Modifier
-                )
                 .clip(RoundedCornerShape(16.dp))
                 .then(
                     onClick?.let {
@@ -61,7 +56,12 @@ fun PreferenceRow(
                     } ?: Modifier
                 )
                 .block(color = color)
-                .padding(horizontal = if (startContent != null) 0.dp else 16.dp, vertical = 8.dp),
+                .padding(horizontal = if (startContent != null) 0.dp else 16.dp, vertical = 8.dp)
+                .then(
+                    if (applyHorPadding) {
+                        Modifier.padding(horizontal = 16.dp)
+                    } else Modifier
+                ),
             verticalAlignment = Alignment.CenterVertically
         ) {
             startContent?.invoke()

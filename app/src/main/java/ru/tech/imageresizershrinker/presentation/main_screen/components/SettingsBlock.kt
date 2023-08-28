@@ -133,9 +133,12 @@ import ru.tech.imageresizershrinker.presentation.root.model.UiFontFam
 import ru.tech.imageresizershrinker.presentation.root.model.UiSettingsState
 import ru.tech.imageresizershrinker.presentation.root.theme.EmojiItem
 import ru.tech.imageresizershrinker.presentation.root.theme.blend
+import ru.tech.imageresizershrinker.presentation.root.theme.icons.Analytics
+import ru.tech.imageresizershrinker.presentation.root.theme.icons.Crashlytics
 import ru.tech.imageresizershrinker.presentation.root.theme.icons.CreateAlt
 import ru.tech.imageresizershrinker.presentation.root.theme.icons.DownloadFile
 import ru.tech.imageresizershrinker.presentation.root.theme.icons.FileSettings
+import ru.tech.imageresizershrinker.presentation.root.theme.icons.Firebase
 import ru.tech.imageresizershrinker.presentation.root.theme.icons.Lamp
 import ru.tech.imageresizershrinker.presentation.root.theme.icons.Telegram
 import ru.tech.imageresizershrinker.presentation.root.theme.inverse
@@ -1435,6 +1438,49 @@ fun LazyListScope.settingsBlock(
             title = stringResource(R.string.reset),
             text = stringResource(R.string.reset_settings_sub)
         )
+    }
+    item {
+        SettingItem(
+            icon = Icons.Rounded.Firebase,
+            text = stringResource(R.string.firebase),
+            initialState = false
+        ) {
+            PreferenceRowSwitch(
+                modifier = Modifier.padding(horizontal = 8.dp),
+                applyHorPadding = true,
+                title = stringResource(R.string.crashlytics),
+                subtitle = stringResource(id = R.string.crashlytics_sub),
+                startContent = {
+                    Icon(
+                        Icons.Rounded.Crashlytics,
+                        null,
+                        modifier = Modifier.padding(end = 16.dp)
+                    )
+                },
+                checked = settingsState.allowCollectCrashlytics,
+                onClick = {
+                    viewModel.toggleAllowCollectCrashlytics()
+                }
+            )
+            Spacer(Modifier.height(8.dp))
+            PreferenceRowSwitch(
+                modifier = Modifier.padding(horizontal = 8.dp),
+                applyHorPadding = true,
+                title = stringResource(R.string.analytics),
+                subtitle = stringResource(id = R.string.analytics_sub),
+                startContent = {
+                    Icon(
+                        imageVector = Icons.Rounded.Analytics,
+                        contentDescription = null,
+                        modifier = Modifier.padding(end = 16.dp)
+                    )
+                },
+                checked = settingsState.allowCollectAnalytics,
+                onClick = {
+                    viewModel.toggleAllowCollectAnalytics()
+                }
+            )
+        }
     }
     item {
         // Contact me

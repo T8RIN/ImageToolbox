@@ -16,6 +16,8 @@ import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.data.keys.Keys.ADD_ORIGINAL_NAME_TO_FILENAME
 import ru.tech.imageresizershrinker.data.keys.Keys.ADD_SEQ_NUM_TO_FILENAME
 import ru.tech.imageresizershrinker.data.keys.Keys.ADD_SIZE_TO_FILENAME
+import ru.tech.imageresizershrinker.data.keys.Keys.ALLOW_ANALYTICS
+import ru.tech.imageresizershrinker.data.keys.Keys.ALLOW_CRASHLYTICS
 import ru.tech.imageresizershrinker.data.keys.Keys.ALLOW_IMAGE_MONET
 import ru.tech.imageresizershrinker.data.keys.Keys.AMOLED_MODE
 import ru.tech.imageresizershrinker.data.keys.Keys.APP_COLOR_TUPLE
@@ -86,7 +88,9 @@ class SettingsRepositoryImpl @Inject constructor(
             addOriginalFilename = false,
             randomizeFilename = prefs[RANDOMIZE_FILENAME] ?: false,
             font = FontFam.fromOrdinal(prefs[SELECTED_FONT_INDEX]),
-            fontScale = (prefs[FONT_SCALE] ?: 1f).takeIf { it > 0f }
+            fontScale = (prefs[FONT_SCALE] ?: 1f).takeIf { it > 0f },
+            allowCollectCrashlytics = prefs[ALLOW_CRASHLYTICS] ?: true,
+            allowCollectAnalytics = prefs[ALLOW_ANALYTICS] ?: true
         )
     }
 
@@ -117,7 +121,9 @@ class SettingsRepositoryImpl @Inject constructor(
             addOriginalFilename = prefs[ADD_ORIGINAL_NAME_TO_FILENAME] ?: false,
             randomizeFilename = prefs[RANDOMIZE_FILENAME] ?: false,
             font = FontFam.fromOrdinal(prefs[SELECTED_FONT_INDEX]),
-            fontScale = (prefs[FONT_SCALE] ?: 1f).takeIf { it > 0f }
+            fontScale = (prefs[FONT_SCALE] ?: 1f).takeIf { it > 0f },
+            allowCollectCrashlytics = prefs[ALLOW_CRASHLYTICS] ?: true,
+            allowCollectAnalytics = prefs[ALLOW_ANALYTICS] ?: true
         )
     }
 
@@ -333,6 +339,20 @@ class SettingsRepositoryImpl @Inject constructor(
     override suspend fun setFontScale(scale: Float) {
         dataStore.edit {
             it[FONT_SCALE] = scale
+        }
+    }
+
+    override suspend fun toggleAllowCrashlytics() {
+        dataStore.edit {
+            val v = it[ALLOW_CRASHLYTICS] ?: true
+            it[ALLOW_CRASHLYTICS] = !v
+        }
+    }
+
+    override suspend fun toggleAllowAnalytics() {
+        dataStore.edit {
+            val v = it[ALLOW_ANALYTICS] ?: true
+            it[ALLOW_ANALYTICS] = !v
         }
     }
 

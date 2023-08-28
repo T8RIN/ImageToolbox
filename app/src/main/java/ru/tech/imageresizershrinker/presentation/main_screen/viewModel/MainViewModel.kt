@@ -7,6 +7,8 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.google.firebase.analytics.ktx.analytics
+import com.google.firebase.ktx.Firebase
 import com.t8rin.dynamic.theme.ColorTuple
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.olshevski.navigation.reimagined.navController
@@ -33,6 +35,8 @@ import ru.tech.imageresizershrinker.domain.use_case.edit_settings.SetNightModeUs
 import ru.tech.imageresizershrinker.domain.use_case.edit_settings.ToggleAddFileSizeUseCase
 import ru.tech.imageresizershrinker.domain.use_case.edit_settings.ToggleAddOriginalFilenameUseCase
 import ru.tech.imageresizershrinker.domain.use_case.edit_settings.ToggleAddSequenceNumberUseCase
+import ru.tech.imageresizershrinker.domain.use_case.edit_settings.ToggleAllowCollectAnalyticsUseCase
+import ru.tech.imageresizershrinker.domain.use_case.edit_settings.ToggleAllowCollectCrashlyticsUseCase
 import ru.tech.imageresizershrinker.domain.use_case.edit_settings.ToggleAllowImageMonetUseCase
 import ru.tech.imageresizershrinker.domain.use_case.edit_settings.ToggleAmoledModeUseCase
 import ru.tech.imageresizershrinker.domain.use_case.edit_settings.ToggleClearCacheOnLaunchUseCase
@@ -52,6 +56,7 @@ import ru.tech.imageresizershrinker.domain.use_case.edit_settings.UpdateSaveFold
 import ru.tech.imageresizershrinker.domain.use_case.get_settings_state.GetSettingsStateFlowUseCase
 import ru.tech.imageresizershrinker.domain.use_case.get_settings_state.GetSettingsStateUseCase
 import ru.tech.imageresizershrinker.domain.use_case.reset_settings.ResetSettingsUseCase
+import ru.tech.imageresizershrinker.presentation.root.utils.exception.GlobalExceptionHandler
 import ru.tech.imageresizershrinker.presentation.root.utils.navigation.Screen
 import ru.tech.imageresizershrinker.presentation.root.widget.other.ToastHostState
 import java.io.OutputStream
@@ -90,7 +95,9 @@ class MainViewModel @Inject constructor(
     private val resetSettingsUseCase: ResetSettingsUseCase,
     private val createBackupFilenameUseCase: CreateBackupFilenameUseCase,
     private val setFontUseCase: SetFontUseCase,
-    private val setFontScaleUseCase: SetFontScaleUseCase
+    private val setFontScaleUseCase: SetFontScaleUseCase,
+    private val toggleAllowCollectCrashlyticsUseCase: ToggleAllowCollectCrashlyticsUseCase,
+    private val toggleAllowCollectAnalyticsUseCase: ToggleAllowCollectAnalyticsUseCase
 ) : ViewModel() {
 
     private val _settingsState = mutableStateOf(SettingsState.Default())
@@ -387,6 +394,20 @@ class MainViewModel @Inject constructor(
     fun onUpdateFontScale(scale: Float) {
         viewModelScope.launch {
             setFontScaleUseCase(scale)
+        }
+    }
+
+    fun toggleAllowCollectCrashlytics() {
+        viewModelScope.launch {
+            toggleAllowCollectCrashlyticsUseCase()
+            GlobalExceptionHandler.setAllowCollectCrashlytics(settingsState.allowCollectCrashlytics)
+        }
+    }
+
+    fun toggleAllowCollectAnalytics() {
+        viewModelScope.launch {
+            toggleAllowCollectAnalyticsUseCase()
+            Firebase.analytics.setAnalyticsCollectionEnabled(settingsState.allowCollectCrashlytics)
         }
     }
 

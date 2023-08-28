@@ -6,6 +6,8 @@ import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import com.google.firebase.analytics.ktx.analytics
+import com.google.firebase.ktx.Firebase
 import dagger.hilt.EntryPoint
 import dagger.hilt.InstallIn
 import dagger.hilt.android.AndroidEntryPoint
@@ -43,7 +45,12 @@ open class M3Activity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         adjustFontSize(settingsState.fontScale)
         enableEdgeToEdge()
-        GlobalExceptionHandler.initialize(applicationContext, CrashActivity::class.java)
+        GlobalExceptionHandler.setAllowCollectCrashlytics(settingsState.allowCollectCrashlytics)
+        GlobalExceptionHandler.initialize(
+            applicationContext = applicationContext,
+            activityToBeLaunched = CrashActivity::class.java,
+        )
+        Firebase.analytics.setAnalyticsCollectionEnabled(settingsState.allowCollectCrashlytics)
     }
 
     override fun recreate() {

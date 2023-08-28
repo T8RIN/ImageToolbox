@@ -70,4 +70,8 @@ interface SettingsRepository {
     suspend fun setFont(font: FontFam)
 
     suspend fun setFontScale(scale: Float)
+
+    suspend fun toggleAllowCrashlytics()
+
+    suspend fun toggleAllowAnalytics()
 }

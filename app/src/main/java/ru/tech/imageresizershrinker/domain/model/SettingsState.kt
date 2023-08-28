@@ -26,8 +26,11 @@ data class SettingsState(
     val addOriginalFilename: Boolean,
     val randomizeFilename: Boolean,
     val font: FontFam,
-    val fontScale: Float?
+    val fontScale: Float?,
+    val allowCollectCrashlytics: Boolean,
+    val allowCollectAnalytics: Boolean
 ) : Domain {
+
     companion object {
         fun Default() = SettingsState(
             nightMode = NightMode.System,
@@ -53,7 +56,9 @@ data class SettingsState(
             addOriginalFilename = false,
             randomizeFilename = false,
             font = FontFam.Montserrat,
-            fontScale = 1f
+            fontScale = 1f,
+            allowCollectCrashlytics = true,
+            allowCollectAnalytics = true
         )
     }
 }

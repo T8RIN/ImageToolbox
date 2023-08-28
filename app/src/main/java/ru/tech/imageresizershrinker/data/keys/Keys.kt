@@ -30,4 +30,6 @@ object Keys {
     val RANDOMIZE_FILENAME = booleanPreferencesKey("rand-filename")
     val SELECTED_FONT_INDEX = intPreferencesKey("font")
     val FONT_SCALE = floatPreferencesKey("font_scale")
+    val ALLOW_CRASHLYTICS = booleanPreferencesKey("allow_crashlytics")
+    val ALLOW_ANALYTICS = booleanPreferencesKey("allow_analytics")
 }
