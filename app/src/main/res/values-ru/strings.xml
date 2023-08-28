@@ -356,4 +356,7 @@
     <string name="resize_and_convert_sub">Измените размер заданных изображений или конвертируйте их в другие форматы, также здесь вы можете редактировать метаданные EXIF, если выберете одно изображение</string>
     <string name="resize_and_convert">Изменение размера и конвертация</string>
     <string name="max_colors_count">Максимальное количество цветов</string>
+    <string name="analytics">Аналитика</string>
+    <string name="crashlytics_sub">Это позволяет приложению собирать отчеты об ошибках автоматически</string>
+    <string name="analytics_sub">Разрешите собирать анонимную статистику использования приложения</string>
 </resources>
