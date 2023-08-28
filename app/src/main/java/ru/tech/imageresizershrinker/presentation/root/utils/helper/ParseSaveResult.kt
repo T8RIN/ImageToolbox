@@ -39,6 +39,7 @@ fun parseSaveResult(
                     )
                 }
                 scope.launch { onSuccess() }
+                showReview(context)
             }
         }
 

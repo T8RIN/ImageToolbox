@@ -30,6 +30,7 @@ fun Activity.failedToSaveImages(
                 Icons.Rounded.Save
             )
         }
+        showReview(this)
         showConfetti()
     } else if (failed < done) {
         scope.launch {

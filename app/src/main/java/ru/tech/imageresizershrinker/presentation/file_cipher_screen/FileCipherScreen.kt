@@ -110,6 +110,7 @@ import ru.tech.imageresizershrinker.presentation.root.utils.confetti.LocalConfet
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.ContextUtils.getFileName
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.ImageUtils.fileSize
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.readableByteCount
+import ru.tech.imageresizershrinker.presentation.root.utils.helper.showReview
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.block
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.drawHorizontalStroke
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.fabBorder
@@ -181,6 +182,7 @@ fun FileCipherScreen(
                                 ),
                                 Icons.Rounded.Save
                             )
+                            showReview(context)
                         }
                     }
                 }
