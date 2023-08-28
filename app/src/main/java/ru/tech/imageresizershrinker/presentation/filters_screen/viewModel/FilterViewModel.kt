@@ -211,6 +211,7 @@ class FilterViewModel @Inject constructor(
         filterJob?.cancel()
         filterJob = viewModelScope.launch {
             withContext(Dispatchers.IO) {
+                kotlinx.coroutines.delay(200L)
                 _isImageLoading.value = true
                 updateBitmap(bitmap)
                 _isImageLoading.value = false
