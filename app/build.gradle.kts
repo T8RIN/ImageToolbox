@@ -20,8 +20,8 @@ android {
         applicationId = "ru.tech.imageresizershrinker"
         minSdk = 21
         targetSdk = 34
-        versionCode = 84
-        versionName = "2.3.0"
+        versionCode = 85
+        versionName = "2.3.1-beta01"
         resourceConfigurations += setOf(
             "en",
             "ar",
@@ -165,4 +165,6 @@ dependencies {
 
     implementation("com.google.firebase:firebase-crashlytics-ktx:18.4.1")
     implementation("com.google.firebase:firebase-analytics-ktx:21.3.0")
+
+    implementation("com.google.android.play:review-ktx:2.0.1")
 }
