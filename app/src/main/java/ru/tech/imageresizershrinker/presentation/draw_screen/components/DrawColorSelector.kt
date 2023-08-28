@@ -194,7 +194,7 @@ fun DrawColorSelector(
                 Column(
                     Modifier
                         .verticalScroll(rememberScrollState())
-                        .padding(24.dp)
+                        .padding(36.dp)
                 ) {
                     ColorSelection(
                         color = customColor?.toArgb() ?: 0,
