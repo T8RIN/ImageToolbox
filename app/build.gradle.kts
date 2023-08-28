@@ -52,7 +52,8 @@ android {
             "sr",
             "da",
             "pt",
-            "sk"
+            "sk",
+            "be"
         )
         archivesName.set("image-toolbox-$versionName")
     }
