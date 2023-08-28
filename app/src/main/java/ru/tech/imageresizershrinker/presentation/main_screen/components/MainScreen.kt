@@ -1,6 +1,5 @@
 package ru.tech.imageresizershrinker.presentation.main_screen.components
 
-import android.app.Activity
 import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.net.Uri
@@ -95,7 +94,6 @@ import androidx.compose.material3.windowsizeclass.WindowHeightSizeClass
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
@@ -119,9 +117,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.min
 import androidx.compose.ui.window.DialogProperties
 import androidx.compose.ui.zIndex
-import com.google.android.play.core.review.ReviewInfo
-import com.google.android.play.core.review.ReviewManager
-import com.google.android.play.core.review.ReviewManagerFactory
 import com.t8rin.dynamic.theme.getAppColorTuple
 import dev.olshevski.navigation.reimagined.navigate
 import dev.olshevski.navigation.reimagined.popUpTo
@@ -1017,28 +1012,4 @@ fun MainScreen(
             }
         }
     )
-
-    val reviewManager = remember {
-        ReviewManagerFactory.create(context)
-    }
-    val reviewInfo = rememberReviewTask(reviewManager)
-    LaunchedEffect(key1 = reviewInfo) {
-        reviewInfo?.let {
-            reviewManager.launchReviewFlow(context as Activity, reviewInfo)
-        }
-    }
-}
-
-@Composable
-fun rememberReviewTask(reviewManager: ReviewManager): ReviewInfo? {
-    var reviewInfo: ReviewInfo? by remember {
-        mutableStateOf(null)
-    }
-    reviewManager.requestReviewFlow().addOnCompleteListener {
-        if (it.isSuccessful) {
-            reviewInfo = it.result
-        }
-    }
-
-    return reviewInfo
 }

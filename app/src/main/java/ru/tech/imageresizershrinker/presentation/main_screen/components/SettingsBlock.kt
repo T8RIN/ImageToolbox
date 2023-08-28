@@ -1440,6 +1440,7 @@ fun LazyListScope.settingsBlock(
         )
     }
     item {
+        // Firebase
         SettingItem(
             icon = Icons.Rounded.Firebase,
             text = stringResource(R.string.firebase),
@@ -1447,7 +1448,8 @@ fun LazyListScope.settingsBlock(
         ) {
             PreferenceRowSwitch(
                 modifier = Modifier.padding(horizontal = 8.dp),
-                applyHorPadding = true,
+                applyHorPadding = false,
+                resultModifier = Modifier.padding(horizontal = 16.dp),
                 title = stringResource(R.string.crashlytics),
                 subtitle = stringResource(id = R.string.crashlytics_sub),
                 startContent = {
@@ -1465,7 +1467,8 @@ fun LazyListScope.settingsBlock(
             Spacer(Modifier.height(8.dp))
             PreferenceRowSwitch(
                 modifier = Modifier.padding(horizontal = 8.dp),
-                applyHorPadding = true,
+                applyHorPadding = false,
+                resultModifier = Modifier.padding(horizontal = 16.dp),
                 title = stringResource(R.string.analytics),
                 subtitle = stringResource(id = R.string.analytics_sub),
                 startContent = {

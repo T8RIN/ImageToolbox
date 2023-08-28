@@ -40,6 +40,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.launch
@@ -154,7 +155,9 @@ fun FullscreenEditOption(
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         Box(
-                            Modifier.weight(0.8f)
+                            Modifier
+                                .weight(0.8f)
+                                .clipToBounds()
                         ) {
                             content()
                         }

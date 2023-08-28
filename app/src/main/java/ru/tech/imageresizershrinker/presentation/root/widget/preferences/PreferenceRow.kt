@@ -40,6 +40,10 @@ fun PreferenceRow(
     startContent: (@Composable () -> Unit)? = null,
     endContent: (@Composable () -> Unit)? = null,
     titleFontStyle: TextStyle = LocalTextStyle.current.copy(lineHeight = 18.sp),
+    resultModifier: Modifier = Modifier.padding(
+        horizontal = if (startContent != null) 0.dp else 16.dp,
+        vertical = 8.dp
+    ),
     onClick: (() -> Unit)?
 ) {
     val contentColor = contentColor
@@ -49,6 +53,11 @@ fun PreferenceRow(
     CompositionLocalProvider(LocalContentColor provides contentColor) {
         Row(
             modifier = modifier
+                .then(
+                    if (applyHorPadding) {
+                        Modifier.padding(horizontal = 16.dp)
+                    } else Modifier
+                )
                 .clip(RoundedCornerShape(16.dp))
                 .then(
                     onClick?.let {
@@ -56,12 +65,7 @@ fun PreferenceRow(
                     } ?: Modifier
                 )
                 .block(color = color)
-                .padding(horizontal = if (startContent != null) 0.dp else 16.dp, vertical = 8.dp)
-                .then(
-                    if (applyHorPadding) {
-                        Modifier.padding(horizontal = 16.dp)
-                    } else Modifier
-                ),
+                .then(resultModifier),
             verticalAlignment = Alignment.CenterVertically
         ) {
             startContent?.invoke()

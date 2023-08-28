@@ -1,5 +1,6 @@
 package ru.tech.imageresizershrinker.presentation.root.widget.preferences
 
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Check
@@ -10,6 +11,7 @@ import androidx.compose.material3.SwitchDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.presentation.root.theme.blend
 
 @Composable
@@ -23,10 +25,15 @@ fun PreferenceRowSwitch(
         alpha = 0.2f
     ),
     startContent: (@Composable () -> Unit)? = null,
+    resultModifier: Modifier = Modifier.padding(
+        horizontal = if (startContent != null) 0.dp else 16.dp,
+        vertical = 8.dp
+    ),
     onClick: (Boolean) -> Unit
 ) {
     PreferenceRow(
         modifier = modifier,
+        resultModifier = resultModifier,
         applyHorPadding = applyHorPadding,
         title = title,
         color = color,
