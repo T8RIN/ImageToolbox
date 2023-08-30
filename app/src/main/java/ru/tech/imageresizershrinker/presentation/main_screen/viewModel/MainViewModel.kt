@@ -7,8 +7,6 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.google.firebase.analytics.ktx.analytics
-import com.google.firebase.ktx.Firebase
 import com.t8rin.dynamic.theme.ColorTuple
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.olshevski.navigation.reimagined.navController
@@ -407,7 +405,7 @@ class MainViewModel @Inject constructor(
     fun toggleAllowCollectAnalytics() {
         viewModelScope.launch {
             toggleAllowCollectAnalyticsUseCase()
-            Firebase.analytics.setAnalyticsCollectionEnabled(settingsState.allowCollectCrashlytics)
+            GlobalExceptionHandler.setAnalyticsCollectionEnabled(settingsState.allowCollectCrashlytics)
         }
     }
 

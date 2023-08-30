@@ -1439,50 +1439,52 @@ fun LazyListScope.settingsBlock(
             text = stringResource(R.string.reset_settings_sub)
         )
     }
-    item {
-        // Firebase
-        SettingItem(
-            icon = Icons.Rounded.Firebase,
-            text = stringResource(R.string.firebase),
-            initialState = false
-        ) {
-            PreferenceRowSwitch(
-                modifier = Modifier.padding(horizontal = 8.dp),
-                applyHorPadding = false,
-                resultModifier = Modifier.padding(horizontal = 16.dp),
-                title = stringResource(R.string.crashlytics),
-                subtitle = stringResource(id = R.string.crashlytics_sub),
-                startContent = {
-                    Icon(
-                        Icons.Rounded.Crashlytics,
-                        null,
-                        modifier = Modifier.padding(end = 16.dp)
-                    )
-                },
-                checked = settingsState.allowCollectCrashlytics,
-                onClick = {
-                    viewModel.toggleAllowCollectCrashlytics()
-                }
-            )
-            Spacer(Modifier.height(8.dp))
-            PreferenceRowSwitch(
-                modifier = Modifier.padding(horizontal = 8.dp),
-                applyHorPadding = false,
-                resultModifier = Modifier.padding(horizontal = 16.dp),
-                title = stringResource(R.string.analytics),
-                subtitle = stringResource(id = R.string.analytics_sub),
-                startContent = {
-                    Icon(
-                        imageVector = Icons.Rounded.Analytics,
-                        contentDescription = null,
-                        modifier = Modifier.padding(end = 16.dp)
-                    )
-                },
-                checked = settingsState.allowCollectAnalytics,
-                onClick = {
-                    viewModel.toggleAllowCollectAnalytics()
-                }
-            )
+    if (BuildConfig.FLAVOR != "foss") {
+        item {
+            // Firebase
+            SettingItem(
+                icon = Icons.Rounded.Firebase,
+                text = stringResource(R.string.firebase),
+                initialState = false
+            ) {
+                PreferenceRowSwitch(
+                    modifier = Modifier.padding(horizontal = 8.dp),
+                    applyHorPadding = false,
+                    resultModifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
+                    title = stringResource(R.string.crashlytics),
+                    subtitle = stringResource(id = R.string.crashlytics_sub),
+                    startContent = {
+                        Icon(
+                            Icons.Rounded.Crashlytics,
+                            null,
+                            modifier = Modifier.padding(end = 16.dp)
+                        )
+                    },
+                    checked = settingsState.allowCollectCrashlytics,
+                    onClick = {
+                        viewModel.toggleAllowCollectCrashlytics()
+                    }
+                )
+                Spacer(Modifier.height(8.dp))
+                PreferenceRowSwitch(
+                    modifier = Modifier.padding(horizontal = 8.dp),
+                    applyHorPadding = false,
+                    resultModifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
+                    title = stringResource(R.string.analytics),
+                    subtitle = stringResource(id = R.string.analytics_sub),
+                    startContent = {
+                        Icon(
+                            imageVector = Icons.Rounded.Analytics,
+                            contentDescription = null,
+                            modifier = Modifier.padding(end = 16.dp)
+                        )
+                    },
+                    checked = settingsState.allowCollectAnalytics,
+                    onClick = {
+                        viewModel.toggleAllowCollectAnalytics()
+                    }
+                )
+            }
         }
     }
     item {

@@ -1,6 +1,8 @@
 @file:Suppress("UnstableApiUsage")
 
+import dagger.hilt.android.plugin.util.capitalize
 import org.jetbrains.kotlin.gradle.plugin.mpp.pm20.util.archivesName
+import java.util.Locale
 
 plugins {
     id("com.android.application")
@@ -10,6 +12,16 @@ plugins {
     id("com.google.dagger.hilt.android")
     id("com.google.gms.google-services")
     id("com.google.firebase.crashlytics")
+}
+
+afterEvaluate {
+    android.productFlavors.forEach { flavor ->
+        tasks.matching {
+            it.name.contains("GoogleServices") && it.name.contains(flavor.name.capitalize(Locale.getDefault()))
+        }.forEach {
+            it.enabled = flavor.extra.get("useGoogleGcm") == true
+        }
+    }
 }
 
 android {
@@ -55,7 +67,21 @@ android {
             "sk",
             "be"
         )
-        archivesName.set("image-toolbox-$versionName")
+        archivesName.set("image-toolbox-${applicationIdSuffix?.let { "$it-" } ?: ""}$versionName")
+    }
+
+    flavorDimensions += "app"
+
+    productFlavors {
+        create("foss") {
+            dimension = "app"
+            applicationIdSuffix = ".foss"
+            extra.set("useGoogleGcm", false)
+        }
+        create("market") {
+            dimension = "app"
+            extra.set("useGoogleGcm", true)
+        }
     }
 
     buildTypes {
@@ -161,10 +187,10 @@ dependencies {
     implementation("org.burnoutcrew.composereorderable:reorderable:0.9.6")
 
     //ml-kit selfie segmentation
-    implementation("com.google.mlkit:segmentation-selfie:16.0.0-beta4")
+    "marketImplementation"("com.google.mlkit:segmentation-selfie:16.0.0-beta4")
 
-    implementation("com.google.firebase:firebase-crashlytics-ktx:18.4.1")
-    implementation("com.google.firebase:firebase-analytics-ktx:21.3.0")
+    "marketImplementation"("com.google.firebase:firebase-crashlytics-ktx:18.4.1")
+    "marketImplementation"("com.google.firebase:firebase-analytics-ktx:21.3.0")
 
-    implementation("com.google.android.play:review-ktx:2.0.1")
+    "marketImplementation"("com.google.android.play:review-ktx:2.0.1")
 }

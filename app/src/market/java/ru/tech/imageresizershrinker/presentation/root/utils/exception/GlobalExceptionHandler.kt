@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.util.Log
+import com.google.firebase.analytics.ktx.analytics
 import com.google.firebase.crashlytics.ktx.crashlytics
 import com.google.firebase.ktx.Firebase
 import ru.tech.imageresizershrinker.presentation.root.widget.activity.M3Activity
@@ -56,6 +57,13 @@ class GlobalExceptionHandler<T : CrashHandler> private constructor(
             )
         )
 
+        fun setAnalyticsCollectionEnabled(
+            value: Boolean
+        ) {
+            Firebase.analytics.setAnalyticsCollectionEnabled(value)
+            allowCollectAnalytics = value
+        }
+
         fun setAllowCollectCrashlytics(
             value: Boolean
         ) {
@@ -64,6 +72,9 @@ class GlobalExceptionHandler<T : CrashHandler> private constructor(
         }
 
         var allowCollectCrashlytics: Boolean = true
+            private set
+
+        var allowCollectAnalytics: Boolean = true
             private set
     }
 }

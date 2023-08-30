@@ -6,19 +6,13 @@ import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
-import com.google.firebase.analytics.ktx.analytics
-import com.google.firebase.ktx.Firebase
-import dagger.hilt.EntryPoint
-import dagger.hilt.InstallIn
 import dagger.hilt.android.AndroidEntryPoint
 import dagger.hilt.android.EntryPointAccessors
-import dagger.hilt.components.SingletonComponent
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import ru.tech.imageresizershrinker.domain.model.SettingsState
-import ru.tech.imageresizershrinker.domain.use_case.get_settings_state.GetSettingsStateUseCase
 import ru.tech.imageresizershrinker.presentation.crash_screen.CrashActivity
 import ru.tech.imageresizershrinker.presentation.root.utils.exception.GlobalExceptionHandler
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.ContextUtils.adjustFontSize
@@ -30,8 +24,7 @@ open class M3Activity : AppCompatActivity() {
 
     override fun attachBaseContext(newBase: Context) {
         settingsState = runBlocking {
-            EntryPointAccessors
-                .fromApplication(newBase, SettingsStateEntryPoint::class.java)
+            EntryPointAccessors.fromApplication(newBase, SettingsStateEntryPoint::class.java)
                 .getSettingsStateUseCase()
         }
         val newOverride = Configuration(newBase.resources?.configuration)
@@ -50,7 +43,6 @@ open class M3Activity : AppCompatActivity() {
             applicationContext = applicationContext,
             activityToBeLaunched = CrashActivity::class.java,
         )
-        Firebase.analytics.setAnalyticsCollectionEnabled(settingsState.allowCollectCrashlytics)
     }
 
     override fun recreate() {
@@ -60,10 +52,4 @@ open class M3Activity : AppCompatActivity() {
         }
     }
 
-}
-
-@EntryPoint
-@InstallIn(SingletonComponent::class)
-private interface SettingsStateEntryPoint {
-    val getSettingsStateUseCase: GetSettingsStateUseCase
 }
