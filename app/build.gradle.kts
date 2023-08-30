@@ -146,7 +146,7 @@ dependencies {
 
     //Di
     implementation("com.google.dagger:hilt-android:2.47")
-    kapt("com.google.dagger:hilt-compiler:2.47")
+    kapt("com.google.dagger:hilt-compiler:2.48")
 
     //Coil
     implementation("io.coil-kt:coil:2.4.0")
