@@ -17,7 +17,7 @@ plugins {
 afterEvaluate {
     android.productFlavors.forEach { flavor ->
         tasks.matching {
-            it.name.contains("GoogleServices") && it.name.contains(flavor.name.capitalize(Locale.getDefault()))
+            it.name.contains("GoogleServices") && it.name.contains(flavor.name.capitalize(Locale.getDefault())) || it.name.lowercase().contains("crashlytics")
         }.forEach {
             it.enabled = flavor.extra.get("useGoogleGcm") == true
         }
