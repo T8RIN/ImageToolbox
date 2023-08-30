@@ -128,7 +128,7 @@ dependencies {
     implementation("androidx.exifinterface:exifinterface:1.3.6")
     implementation("androidx.appcompat:appcompat:1.7.0-alpha03")
     implementation("androidx.documentfile:documentfile:1.0.1")
-    implementation("androidx.datastore:datastore-preferences:1.1.0-alpha04")
+    implementation("androidx.datastore:datastore-preferences-android:1.1.0-alpha04")
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.6.1")
 
     //Navigation
