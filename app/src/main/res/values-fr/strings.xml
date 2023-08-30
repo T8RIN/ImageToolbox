@@ -351,4 +351,7 @@
     <string name="resize_and_convert">Redimensionner et Convertir</string>
     <string name="create_issue">Créer un problème</string>
     <string name="max_colors_count">Nombre maximal de couleurs</string>
+    <string name="crashlytics_sub">Cela permet à l\'application de collecter manuellement les rapports d\'erreur</string>
+    <string name="analytics">Analyse</string>
+    <string name="analytics_sub">Autoriser la collecte de statistiques anonymes sur l\'utilisation des applications</string>
 </resources>

@@ -350,4 +350,8 @@
     <string name="resize_and_convert_sub">Ändere die Größe bestimmter Bilder oder konvertiere sie in andere Formate, außerdem kannst Du bei Auswahl eines einzelnen Bildes EXIF-Metadaten bearbeiten</string>
     <string name="something_went_wrong_emphasis">Upps… Irgendwas ist schiefgelaufen. Schreib mir mittels der nachfolgenden Optionen und ich werde versuchen, eine Lösung zu finden</string>
     <string name="resize_and_convert">Größenänderung und Konvertierung</string>
+    <string name="max_colors_count">Höchstzahl an Farben</string>
+    <string name="crashlytics_sub">Erlaubt der App, Absturzberichte manuell zu erfassen</string>
+    <string name="analytics">Analyse</string>
+    <string name="analytics_sub">Erlaube anonymisierte App-Nutzungsstatitiken zu erfassen</string>
 </resources>
