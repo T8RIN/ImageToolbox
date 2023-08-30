@@ -19,7 +19,7 @@
     <string name="close">Закрыть</string>
     <string name="reset_image">Сбросить изображение</string>
     <string name="reset_image_sub">Все изменения будут отменены, а вы увидите исходное изображение</string>
-    <string name="values_reset">Изображение успешно сброшено</string>
+    <string name="values_reset">Значения успешно сброшены</string>
     <string name="reset">Сброс</string>
     <string name="something_went_wrong">Что-то пошло не так</string>
     <string name="restart_app">Перезапустить приложение</string>
