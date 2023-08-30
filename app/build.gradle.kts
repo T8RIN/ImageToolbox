@@ -14,16 +14,6 @@ plugins {
     id("com.google.firebase.crashlytics")
 }
 
-afterEvaluate {
-    android.productFlavors.forEach { flavor ->
-        tasks.matching {
-            it.name.contains("GoogleServices") && it.name.contains(flavor.name.capitalize(Locale.getDefault())) || it.name.lowercase().contains("crashlytics")
-        }.forEach {
-            it.enabled = flavor.extra.get("useGoogleGcm") == true
-        }
-    }
-}
-
 android {
     namespace = "ru.tech.imageresizershrinker"
     compileSdk = 34
@@ -76,11 +66,11 @@ android {
         create("foss") {
             dimension = "app"
             applicationIdSuffix = ".foss"
-            extra.set("useGoogleGcm", false)
+            extra.set("gmsEnabled", false)
         }
         create("market") {
             dimension = "app"
-            extra.set("useGoogleGcm", true)
+            extra.set("gmsEnabled", true)
         }
     }
 
@@ -133,12 +123,12 @@ android {
 dependencies {
 
     //AndroidX
-    implementation("androidx.activity:activity-compose:1.8.0-alpha06")
+    implementation("androidx.activity:activity-compose:1.8.0-alpha07")
     implementation("androidx.core:core-splashscreen:1.0.1")
     implementation("androidx.exifinterface:exifinterface:1.3.6")
     implementation("androidx.appcompat:appcompat:1.7.0-alpha03")
     implementation("androidx.documentfile:documentfile:1.0.1")
-    implementation("androidx.datastore:datastore-preferences:1.0.0")
+    implementation("androidx.datastore:datastore-preferences:1.1.0-alpha04")
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.6.1")
 
     //Navigation
@@ -193,4 +183,15 @@ dependencies {
     "marketImplementation"("com.google.firebase:firebase-analytics-ktx:21.3.0")
 
     "marketImplementation"("com.google.android.play:review-ktx:2.0.1")
+}
+
+
+afterEvaluate {
+    android.productFlavors.forEach { flavor ->
+        tasks.matching {
+            (it.name.contains("GoogleServices") || it.name.contains("Crashlytics")) && it.name.contains(flavor.name.capitalize(Locale.getDefault()))
+        }.forEach {
+            it.enabled = flavor.extra.get("gmsEnabled") == true
+        }
+    }
 }
