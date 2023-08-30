@@ -1,3 +1,5 @@
+@file:Suppress("KotlinConstantConditions")
+
 package ru.tech.imageresizershrinker.presentation.main_screen.components
 
 import android.content.ActivityNotFoundException
@@ -410,7 +412,15 @@ fun MainScreen(
                                     Row(verticalAlignment = Alignment.CenterVertically) {
                                         Text(stringResource(R.string.app_name))
                                         Badge(
-                                            content = { Text("${Screen.entries.size}") },
+                                            content = {
+                                                Text(
+                                                    text = "${Screen.entries.size}".plus(
+                                                        if (BuildConfig.FLAVOR == "foss") {
+                                                            " FOSS"
+                                                        } else ""
+                                                    )
+                                                )
+                                            },
                                             modifier = Modifier
                                                 .padding(horizontal = 2.dp)
                                                 .padding(bottom = 12.dp)

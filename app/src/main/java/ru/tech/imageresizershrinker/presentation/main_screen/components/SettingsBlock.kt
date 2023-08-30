@@ -1,3 +1,5 @@
+@file:Suppress("KotlinConstantConditions")
+
 package ru.tech.imageresizershrinker.presentation.main_screen.components
 
 import android.annotation.SuppressLint
