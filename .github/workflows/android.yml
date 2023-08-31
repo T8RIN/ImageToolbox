@@ -25,7 +25,7 @@ jobs:
         # ID used to access action output
         id: sign_app
         with:
-          releaseDirectory: app/build/outputs/foss/apk/release
+          releaseDirectory: app/build/outputs/apk/foss/release
           fileRex: .*apk
           signingKeyBase64: ${{ secrets.SIGNING_KEY }}
           alias: ${{ secrets.ALIAS }}
@@ -37,4 +37,4 @@ jobs:
       - uses: actions/upload-artifact@v3
         with:
           name: Signed apks FOSS
-          path: app/build/outputs/foss/apk/release*-signed.apk
+          path: app/build/outputs/apk/foss/release*-signed.apk
