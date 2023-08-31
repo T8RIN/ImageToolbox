@@ -21,9 +21,9 @@ jobs:
       - run: bash ./gradlew assembleRelease
       
       - uses: iota9star/sign-android-release@v1.0.5
-        name: Sign app APK
+        name: Sign FOSS APK
         # ID used to access action output
-        id: sign_app
+        id: sign_app_foss
         with:
           releaseDirectory: app/build/outputs/apk/foss/release
           fileRex: .*apk
@@ -38,3 +38,42 @@ jobs:
         with:
           name: Signed apks FOSS
           path: app/build/outputs/apk/foss/release*-signed.apk
+
+      - uses: iota9star/sign-android-release@v1.0.5
+        name: Sign Market APK
+        # ID used to access action output
+        id: sign_app_market
+        with:
+          releaseDirectory: app/build/outputs/apk/market/release
+          fileRex: .*apk
+          signingKeyBase64: ${{ secrets.SIGNING_KEY }}
+          alias: ${{ secrets.ALIAS }}
+          keyStorePassword: ${{ secrets.KEY_STORE_PASS }}
+          keyPassword: ${{ secrets.KEY_STORE_PASS }}
+        env:
+          BUILD_TOOLS_VERSION: "30.0.2"
+
+      - uses: actions/upload-artifact@v3
+        with:
+          name: Signed apks Market
+          path: app/build/outputs/apk/market/release*-signed.apk
+
+      - uses: iota9star/sign-android-release@v1.0.5
+        name: Sign Jxl APK
+        # ID used to access action output
+        id: sign_app_jxl
+        with:
+          releaseDirectory: app/build/outputs/apk/jxl/release
+          fileRex: .*apk
+          signingKeyBase64: ${{ secrets.SIGNING_KEY }}
+          alias: ${{ secrets.ALIAS }}
+          keyStorePassword: ${{ secrets.KEY_STORE_PASS }}
+          keyPassword: ${{ secrets.KEY_STORE_PASS }}
+        env:
+          BUILD_TOOLS_VERSION: "30.0.2"
+
+      - uses: actions/upload-artifact@v3
+        with:
+          name: Signed apks Jxl
+          path: app/build/outputs/apk/jxl/release*-signed.apk
+
