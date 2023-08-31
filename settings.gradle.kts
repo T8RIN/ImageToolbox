@@ -1,5 +1,8 @@
 @file:Suppress("UnstableApiUsage")
 
+include(":jxlcoder-coil")
+
+
 pluginManagement {
     repositories {
         gradlePluginPortal()
@@ -33,3 +36,4 @@ include(":colorpicker")
 include(":systemuicontroller")
 include(":placeholder")
 include(":placeholder-material3")
+include(":jxlcoder")

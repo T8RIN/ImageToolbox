@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "698299287298",
+    "project_id": "imagetoolbox-13e3c",
+    "storage_bucket": "imagetoolbox-13e3c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:698299287298:android:11af7edf43198644b6e41b",
+        "android_client_info": {
+          "package_name": "ru.tech.imageresizershrinker"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "698299287298-5ukroo831v2bn1vj8ff0oa7ch5h94mfg.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBH5QgaBw6XAfuxhPVJzq-r9s8ZMFalXzU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "698299287298-5ukroo831v2bn1vj8ff0oa7ch5h94mfg.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

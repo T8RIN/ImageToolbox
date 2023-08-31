@@ -76,7 +76,8 @@ fun ResetDialog(
                                 Icons.Rounded.DoneOutline
                             )
                         }
-                    }) {
+                    }
+                ) {
                     Text(stringResource(R.string.reset))
                 }
             }

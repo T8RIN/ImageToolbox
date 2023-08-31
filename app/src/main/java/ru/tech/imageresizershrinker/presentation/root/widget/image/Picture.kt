@@ -4,7 +4,6 @@ package ru.tech.imageresizershrinker.presentation.root.widget.image
 
 import android.app.Activity
 import android.content.res.Configuration
-import android.os.Build
 import androidx.annotation.FloatRange
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.AnimationSpec
@@ -61,29 +60,20 @@ import coil.ImageLoader
 import coil.compose.AsyncImagePainter
 import coil.compose.SubcomposeAsyncImage
 import coil.compose.SubcomposeAsyncImageScope
-import coil.decode.GifDecoder
-import coil.decode.ImageDecoderDecoder
-import coil.decode.SvgDecoder
-import coil.imageLoader
 import coil.request.ImageRequest
 import coil.transform.Transformation
-import com.github.awxkee.avifcoil.HeifDecoder
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.presentation.erase_background_screen.components.transparencyChecker
+import ru.tech.imageresizershrinker.presentation.root.app.ImageApplication
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.ContextUtils.findActivity
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.shimmer
 import ru.tech.imageresizershrinker.presentation.root.widget.image.StatusBarUtils.hideSystemBars
 import ru.tech.imageresizershrinker.presentation.root.widget.image.StatusBarUtils.showSystemBars
 
 @Composable
-fun pictureImageLoader(): ImageLoader {
-    return LocalContext.current.imageLoader.newBuilder().components {
-        if (Build.VERSION.SDK_INT >= 28) add(ImageDecoderDecoder.Factory())
-        else add(GifDecoder.Factory())
-        add(SvgDecoder.Factory())
-        if (Build.VERSION.SDK_INT >= 24) add(HeifDecoder.Factory())
-    }.build()
+fun pictureImageLoader(): ImageLoader = remember {
+    ImageApplication.loader()
 }
 
 @Composable

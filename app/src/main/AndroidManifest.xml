@@ -4,7 +4,7 @@
 
     <uses-sdk
         android:minSdkVersion="21"
-        tools:overrideLibrary="com.radzivon.bartoshyk.avif, com.github.awxkee.avifcoil, com.github.awxkee.avifcoder" />
+        tools:overrideLibrary="com.radzivon.bartoshyk.avif, com.github.awxkee.avifcoil, com.github.awxkee.avifcoder, com.awxkee.jxlcoder, com.t8rin.jxlcoder_coil" />
 
     <uses-permission
         android:name="com.google.android.gms.permission.AD_ID"

@@ -57,7 +57,7 @@ android {
             "sk",
             "be"
         )
-        archivesName.set("image-toolbox-${applicationIdSuffix?.let { "$it-" } ?: ""}$versionName")
+        archivesName.set("image-toolbox-$versionName")
     }
 
     flavorDimensions += "app"
@@ -65,11 +65,16 @@ android {
     productFlavors {
         create("foss") {
             dimension = "app"
-            applicationIdSuffix = ".foss"
+            versionNameSuffix = "-foss"
             extra.set("gmsEnabled", false)
         }
         create("market") {
             dimension = "app"
+            extra.set("gmsEnabled", true)
+        }
+        create("jxl") {
+            dimension = "app"
+            versionNameSuffix = "-jxl"
             extra.set("gmsEnabled", true)
         }
     }
@@ -176,15 +181,22 @@ dependencies {
 
     implementation("org.burnoutcrew.composereorderable:reorderable:0.9.6")
 
-    //ml-kit selfie segmentation
-    "marketImplementation"("com.google.mlkit:segmentation-selfie:16.0.0-beta4")
 
+    "marketImplementation"("com.google.mlkit:segmentation-selfie:16.0.0-beta4")
     "marketImplementation"("com.google.firebase:firebase-crashlytics-ktx:18.4.1"){
         exclude("androidx.datastore", "datastore-preferences")
     }
     "marketImplementation"("com.google.firebase:firebase-analytics-ktx:21.3.0")
-
     "marketImplementation"("com.google.android.play:review-ktx:2.0.1")
+
+    "jxlImplementation"("com.google.mlkit:segmentation-selfie:16.0.0-beta4")
+    "jxlImplementation"("com.google.firebase:firebase-crashlytics-ktx:18.4.1"){
+        exclude("androidx.datastore", "datastore-preferences")
+    }
+    "jxlImplementation"("com.google.firebase:firebase-analytics-ktx:21.3.0")
+    "jxlImplementation"("com.google.android.play:review-ktx:2.0.1")
+    "jxlImplementation"(project(":jxlcoder"))
+    "jxlImplementation"(project(":jxlcoder-coil"))
 }
 
 
