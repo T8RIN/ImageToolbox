@@ -167,7 +167,7 @@ class FileControllerImpl @Inject constructor(
         }
 
         var filename = ""
-
+        //TODO not saving JXL
         kotlin.runCatching {
             var initialExif: ExifInterface? = null
 
@@ -201,6 +201,7 @@ class FileControllerImpl @Inject constructor(
                     ex.saveAttributes()
                 }
             } else if (keepMetadata) {
+                //TODO create ability to save exif for heic and others
                 val exif = context
                     .contentResolver
                     .openFileDescriptor(saveTarget.originalUri.toUri(), "r")
@@ -211,8 +212,7 @@ class FileControllerImpl @Inject constructor(
                     exif?.copyTo(ex)
                     ex.saveAttributes()
                 }
-            } else {
-            }
+            } else Unit
         }.let { result ->
             if (result.isFailure) {
                 return SaveResult.Error.Exception(result.exceptionOrNull() ?: Throwable())
