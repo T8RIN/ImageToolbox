@@ -179,7 +179,9 @@ dependencies {
     //ml-kit selfie segmentation
     "marketImplementation"("com.google.mlkit:segmentation-selfie:16.0.0-beta4")
 
-    "marketImplementation"("com.google.firebase:firebase-crashlytics-ktx:18.4.1")
+    "marketImplementation"("com.google.firebase:firebase-crashlytics-ktx:18.4.1"){
+        exclude("androidx.datastore", "datastore-preferences")
+    }
     "marketImplementation"("com.google.firebase:firebase-analytics-ktx:21.3.0")
 
     "marketImplementation"("com.google.android.play:review-ktx:2.0.1")
