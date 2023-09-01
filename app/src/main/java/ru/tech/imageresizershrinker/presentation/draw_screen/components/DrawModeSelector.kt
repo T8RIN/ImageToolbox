@@ -13,6 +13,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Brush
+import androidx.compose.material.icons.rounded.Looks
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -33,7 +34,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.max
 import ru.tech.imageresizershrinker.R
-import ru.tech.imageresizershrinker.presentation.erase_background_screen.components.DrawMode
 import ru.tech.imageresizershrinker.presentation.root.theme.icons.Highlighter
 import ru.tech.imageresizershrinker.presentation.root.theme.icons.Laser
 import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
@@ -94,6 +94,7 @@ fun DrawModeSelector(
                                 DrawMode.Highlighter -> Icons.Rounded.Highlighter
                                 DrawMode.Neon -> Icons.Rounded.Laser
                                 DrawMode.Pen -> Icons.Rounded.Brush
+//                                DrawMode.Rainbow -> Icons.Rounded.Looks
                             },
                             contentDescription = null
                         )

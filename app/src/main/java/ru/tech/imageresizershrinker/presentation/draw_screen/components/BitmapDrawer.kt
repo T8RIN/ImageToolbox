@@ -46,7 +46,6 @@ import com.smarttoolfactory.image.util.update
 import com.smarttoolfactory.image.zoom.animatedZoom
 import com.smarttoolfactory.image.zoom.rememberAnimatedZoomState
 import kotlinx.coroutines.launch
-import ru.tech.imageresizershrinker.presentation.erase_background_screen.components.DrawMode
 import ru.tech.imageresizershrinker.presentation.erase_background_screen.components.PathPaint
 import ru.tech.imageresizershrinker.presentation.erase_background_screen.components.transparencyChecker
 import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
@@ -287,3 +286,14 @@ private fun ImageBitmap.overlay(overlay: ImageBitmap): ImageBitmap {
     canvas.drawBitmap(overlay.asAndroidBitmap(), 0f, 0f, null)
     return finalBitmap.asImageBitmap()
 }
+
+private val RainbowColors = listOf(
+    Color(0xFFD50000),
+    Color(0xFFFF6D00),
+    Color(0xFFFFC800),
+    Color(0xFF6AFF00),
+    Color(0xFF00FFC4),
+    Color(0xFF00D9FF),
+    Color(0xFF0037FF),
+    Color(0xFFBB00FF)
+)

@@ -47,7 +47,7 @@ import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.R
-import ru.tech.imageresizershrinker.presentation.draw_screen.DrawModeSaver
+import ru.tech.imageresizershrinker.presentation.root.utils.saver.DrawModeSaver
 import ru.tech.imageresizershrinker.presentation.draw_screen.components.BitmapDrawer
 import ru.tech.imageresizershrinker.presentation.draw_screen.components.BlurRadiusSelector
 import ru.tech.imageresizershrinker.presentation.draw_screen.components.DrawAlphaSelector
@@ -56,7 +56,7 @@ import ru.tech.imageresizershrinker.presentation.draw_screen.components.DrawMode
 import ru.tech.imageresizershrinker.presentation.draw_screen.components.LineWidthSelector
 import ru.tech.imageresizershrinker.presentation.draw_screen.components.OpenColorPickerCard
 import ru.tech.imageresizershrinker.presentation.draw_screen.components.PickColorFromImageSheet
-import ru.tech.imageresizershrinker.presentation.erase_background_screen.components.DrawMode
+import ru.tech.imageresizershrinker.presentation.draw_screen.components.DrawMode
 import ru.tech.imageresizershrinker.presentation.erase_background_screen.components.PathPaint
 import ru.tech.imageresizershrinker.presentation.root.theme.icons.Eraser
 import ru.tech.imageresizershrinker.presentation.root.theme.mixedColor
