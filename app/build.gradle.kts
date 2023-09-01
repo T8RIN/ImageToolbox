@@ -23,7 +23,7 @@ android {
         minSdk = 21
         targetSdk = 34
         versionCode = 85
-        versionName = "2.3.1-beta01"
+        versionName = "2.3.1"
         resourceConfigurations += setOf(
             "en",
             "ar",
