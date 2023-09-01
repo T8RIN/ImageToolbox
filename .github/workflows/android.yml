@@ -37,7 +37,7 @@ jobs:
       - uses: actions/upload-artifact@v3
         with:
           name: Signed apks FOSS
-          path: app/build/outputs/apk/foss/release*-signed.apk
+          path: app/build/outputs/apk/foss/release/*-signed.apk
 
       - uses: iota9star/sign-android-release@v1.0.5
         name: Sign Market APK
@@ -56,7 +56,7 @@ jobs:
       - uses: actions/upload-artifact@v3
         with:
           name: Signed apks Market
-          path: app/build/outputs/apk/market/release*-signed.apk
+          path: app/build/outputs/apk/market/release/*-signed.apk
 
       - uses: iota9star/sign-android-release@v1.0.5
         name: Sign Jxl APK
@@ -75,5 +75,5 @@ jobs:
       - uses: actions/upload-artifact@v3
         with:
           name: Signed apks Jxl
-          path: app/build/outputs/apk/jxl/release*-signed.apk
+          path: app/build/outputs/apk/jxl/release/*-signed.apk
 
