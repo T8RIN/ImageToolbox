@@ -368,6 +368,7 @@
     <string name="crashlytics_sub">This allows app to collect crash reports manually</string>
     <string name="analytics">Analytics</string>
     <string name="analytics_sub">Allow collecting anonymous app usage statistics</string>
+    <string name="jxl_sub">JXL format not officially supported by android so something might not work, also saving will work only if you choose custom output directory, this is an experimental version, bugs here will not be fixed unless google will add JXL support, this version also can view such images</string>
     <string-array name="fab_alignment_sub">
         <item>Start</item>
         <item>Center</item>

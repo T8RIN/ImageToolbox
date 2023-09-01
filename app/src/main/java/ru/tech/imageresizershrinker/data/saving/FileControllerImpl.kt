@@ -13,6 +13,7 @@ import android.os.Build
 import android.os.Environment
 import android.provider.MediaStore
 import android.provider.OpenableColumns
+import android.util.Log
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -194,25 +195,27 @@ class FileControllerImpl @Inject constructor(
                 it.write(saveTarget.data)
             }
 
-            if (initialExif != null) {
-                getFileDescriptorFor(savingFolder.fileUri)?.use {
-                    val ex = ExifInterface(it.fileDescriptor)
-                    initialExif.copyTo(ex)
-                    ex.saveAttributes()
-                }
-            } else if (keepMetadata) {
-                //TODO create ability to save exif for heic and others
-                val exif = context
-                    .contentResolver
-                    .openFileDescriptor(saveTarget.originalUri.toUri(), "r")
-                    ?.use { ExifInterface(it.fileDescriptor) }
+            kotlin.runCatching {
+                if (initialExif != null) {
+                    getFileDescriptorFor(savingFolder.fileUri)?.use {
+                        val ex = ExifInterface(it.fileDescriptor)
+                        initialExif.copyTo(ex)
+                        ex.saveAttributes()
+                    }
+                } else if (keepMetadata) {
+                    //TODO create ability to save exif for heic and others
+                    val exif = context
+                        .contentResolver
+                        .openFileDescriptor(saveTarget.originalUri.toUri(), "r")
+                        ?.use { ExifInterface(it.fileDescriptor) }
 
-                getFileDescriptorFor(savingFolder.fileUri)?.use {
-                    val ex = ExifInterface(it.fileDescriptor)
-                    exif?.copyTo(ex)
-                    ex.saveAttributes()
-                }
-            } else Unit
+                    getFileDescriptorFor(savingFolder.fileUri)?.use {
+                        val ex = ExifInterface(it.fileDescriptor)
+                        exif?.copyTo(ex)
+                        ex.saveAttributes()
+                    }
+                } else Unit
+            }
         }.let { result ->
             if (result.isFailure) {
                 return SaveResult.Error.Exception(result.exceptionOrNull() ?: Throwable())

@@ -10,7 +10,7 @@ data class ImageSaveTarget<M>(
     val sequenceNumber: Int?,
     val metadata: M? = null,
     override val filename: String? = null,
-    override val imageFormat: ImageFormat = ImageFormat.Default(),
+    override val imageFormat: ImageFormat = imageInfo.imageFormat,
     override val data: ByteArray
 ) : SaveTarget {
     override fun equals(other: Any?): Boolean {

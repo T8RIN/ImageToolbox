@@ -102,12 +102,25 @@ internal object ImageCompressor {
                 )
             }
 
-            ImageFormat.Jxl -> {
+            ImageFormat.Jxl.Lossless -> {
+//                jxlCoder.encode(
+//                    bitmap = image,
+//                    compressionOption = if (quality.toInt().coerceIn(0, 100) == 100) {
+//                        JxlCompressionOption.LOSSLESS
+//                    } else JxlCompressionOption.LOSSY,
+//                    lossyLevel = (15f - (0f..100f).convert(quality.coerceIn(0f, 100f), 0f..15f))
+//                )
                 jxlCoder.encode(
                     bitmap = image,
-                    compressionOption = if (quality.toInt().coerceIn(0, 100) == 100) {
-                        JxlCompressionOption.LOSSLESS
-                    } else JxlCompressionOption.LOSSY,
+                    compressionOption = JxlCompressionOption.LOSSLESS,
+                    lossyLevel = (15f - (0f..100f).convert(quality.coerceIn(0f, 100f), 0f..15f))
+                )
+            }
+
+            ImageFormat.Jxl.Lossy -> {
+                jxlCoder.encode(
+                    bitmap = image,
+                    compressionOption = JxlCompressionOption.LOSSY,
                     lossyLevel = (15f - (0f..100f).convert(quality.coerceIn(0f, 100f), 0f..15f))
                 )
             }

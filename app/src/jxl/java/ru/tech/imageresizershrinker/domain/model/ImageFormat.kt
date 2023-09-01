@@ -68,19 +68,23 @@ sealed class ImageFormat(
         canChangeQuality = true
     )
 
-    data object Jxl : ImageFormat(
-        title = "JXL",
+    sealed class Jxl(title: String) : ImageFormat(
         extension = "jxl",
         type = "image/jxl",
-        canChangeQuality = true
-    )
+        canChangeQuality = false,
+        title = title
+    ) {
+        data object Lossless : Jxl(title = "JXL Lossless")
+
+        data object Lossy : Jxl(title = "JXL Lossy")
+    }
 
     companion object {
         fun Default(): ImageFormat = Jpg
 
         operator fun get(typeString: String?): ImageFormat = when {
             typeString == null -> Default()
-            typeString.contains("jxl") -> Jxl
+            typeString.contains("jxl") || typeString.contains("jpxl") -> Jxl.Lossless
             typeString.contains("png") -> Png
             typeString.contains("bmp") -> Bmp
             typeString.contains("jpeg") -> Jpeg
@@ -100,7 +104,8 @@ sealed class ImageFormat(
                 Avif,
                 Heic,
                 Heif,
-                Jxl
+                Jxl.Lossless,
+                Jxl.Lossy
             )
 
         val highLevelFormats
@@ -108,7 +113,8 @@ sealed class ImageFormat(
                 Avif,
                 Heic,
                 Heif,
-                Jxl
+                Jxl.Lossless,
+                Jxl.Lossy
             )
 
         val entries
@@ -122,7 +128,8 @@ sealed class ImageFormat(
                 Avif,
                 Heic,
                 Heif,
-                Jxl
+                Jxl.Lossless,
+                Jxl.Lossy
             )
     }
 }
