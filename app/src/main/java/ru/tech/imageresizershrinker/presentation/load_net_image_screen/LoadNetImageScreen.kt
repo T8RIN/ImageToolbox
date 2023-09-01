@@ -258,9 +258,6 @@ fun LoadNetImageScreen(
                                 height = bitmap.height,
                             )
                         )
-                        scope.launch {
-                            confettiController.showEmpty()
-                        }
                         wantToEdit.value = true
                     }
                 },

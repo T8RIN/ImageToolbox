@@ -54,14 +54,6 @@ android {
     kotlinOptions {
         jvmTarget = JavaVersion.VERSION_17.toString()
     }
-
-    packaging {
-        jniLibs {
-            excludes.add("lib/*/liblog.so")
-            useLegacyPackaging = false
-            keepDebugSymbols.clear()
-        }
-    }
 }
 dependencies {
     implementation("androidx.annotation:annotation-jvm:1.6.0")

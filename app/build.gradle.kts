@@ -70,13 +70,11 @@ android {
         }
         create("market") {
             dimension = "app"
-            versionName = "2.3.1"
             extra.set("gmsEnabled", true)
         }
         create("jxl") {
             dimension = "app"
             versionNameSuffix = "-jxl"
-            applicationIdSuffix = ".jxl"
             extra.set("gmsEnabled", true)
         }
     }
@@ -125,6 +123,11 @@ android {
             isUniversalApk = true
         }
     }
+    packaging {
+        jniLibs {
+            pickFirsts.add("lib/*/libcoder.so")
+        }
+    }
 }
 
 dependencies {
@@ -170,8 +173,11 @@ dependencies {
     implementation(project(":modalsheet"))
     implementation(project(":gpuimage"))
     implementation(project(":gesture"))
-    implementation(project(":avif-coder-coil"))
-    implementation(project(":avif-coder"))
+    "marketImplementation"(project(":avif-coder-coil"))
+    "marketImplementation"(project(":avif-coder"))
+    "jxlImplementation"(project(":avif-coder-coil"))
+    "jxlImplementation"(project(":avif-coder"))
+    "fossImplementation"("com.github.awxkee:avif-coder:1.0.24")
     implementation(project(":screenshot"))
     implementation(project(":systemuicontroller"))
     implementation(project(":placeholder-material3"))

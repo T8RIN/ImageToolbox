@@ -34,12 +34,4 @@ android {
             )
         }
     }
-
-    packaging {
-        jniLibs {
-            excludes.add("lib/*/liblog.so")
-            useLegacyPackaging = false
-            keepDebugSymbols += setOf("**/libyuv-decoder.so")
-        }
-    }
 }
