@@ -70,11 +70,13 @@ android {
         }
         create("market") {
             dimension = "app"
+            versionName = "2.3.1"
             extra.set("gmsEnabled", true)
         }
         create("jxl") {
             dimension = "app"
             versionNameSuffix = "-jxl"
+            applicationIdSuffix = ".jxl"
             extra.set("gmsEnabled", true)
         }
     }

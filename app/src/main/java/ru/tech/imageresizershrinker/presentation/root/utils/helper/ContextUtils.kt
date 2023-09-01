@@ -1,3 +1,5 @@
+@file:Suppress("SameParameterValue")
+
 package ru.tech.imageresizershrinker.presentation.root.utils.helper
 
 import android.Manifest
@@ -29,6 +31,8 @@ import ru.tech.imageresizershrinker.presentation.root.utils.permission.Permissio
 import ru.tech.imageresizershrinker.presentation.root.utils.permission.PermissionUtils.askUserToRequestPermissionExplicitly
 import ru.tech.imageresizershrinker.presentation.root.utils.permission.PermissionUtils.checkPermissions
 import ru.tech.imageresizershrinker.presentation.root.utils.permission.PermissionUtils.setPermissionsAllowed
+import java.io.BufferedReader
+import java.io.InputStreamReader
 
 
 object ContextUtils {
@@ -233,5 +237,18 @@ object ContextUtils {
         } ?: run {
             onPastedColorFailure(getString(R.string.clipboard_paste_invalid_empty))
         }
+    }
+
+    fun isMiUi(): Boolean {
+        return !getSystemProperty("ro.miui.ui.version.name").isNullOrBlank()
+    }
+
+    private fun getSystemProperty(name: String): String? {
+        return kotlin.runCatching {
+            val p = Runtime.getRuntime().exec("getprop $name")
+            BufferedReader(InputStreamReader(p.inputStream), 1024).use {
+                return@runCatching it.readLine()
+            }
+        }.getOrNull()
     }
 }

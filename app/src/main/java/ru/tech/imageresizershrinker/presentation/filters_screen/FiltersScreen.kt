@@ -34,7 +34,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Share
 import androidx.compose.material.icons.rounded.ArrowBack
-import androidx.compose.material.icons.rounded.Build
+import androidx.compose.material.icons.rounded.Tune
 import androidx.compose.material.icons.rounded.Compare
 import androidx.compose.material.icons.rounded.History
 import androidx.compose.material.icons.rounded.PhotoFilter
@@ -328,7 +328,7 @@ fun FiltersScreen(
         zoomButton()
         if (viewModel.bitmap != null && filterList.size >= 2) {
             IconButton(onClick = { showReorderSheet.value = true }) {
-                Icon(Icons.Rounded.Build, null)
+                Icon(Icons.Rounded.Tune, null)
             }
         }
     }

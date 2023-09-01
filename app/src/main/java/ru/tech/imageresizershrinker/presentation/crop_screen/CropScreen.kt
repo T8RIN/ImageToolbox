@@ -33,9 +33,9 @@ import androidx.compose.material.icons.outlined.RestartAlt
 import androidx.compose.material.icons.outlined.Share
 import androidx.compose.material.icons.rounded.AddPhotoAlternate
 import androidx.compose.material.icons.rounded.ArrowBack
-import androidx.compose.material.icons.rounded.Build
 import androidx.compose.material.icons.rounded.Crop
 import androidx.compose.material.icons.rounded.Save
+import androidx.compose.material.icons.rounded.Tune
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.BottomSheetScaffold
 import androidx.compose.material3.ButtonDefaults
@@ -335,7 +335,7 @@ fun CropScreen(
                                         }
                                     },
                                 ) {
-                                    Icon(Icons.Rounded.Build, null)
+                                    Icon(Icons.Rounded.Tune, null)
                                 }
                             }
                             IconButton(

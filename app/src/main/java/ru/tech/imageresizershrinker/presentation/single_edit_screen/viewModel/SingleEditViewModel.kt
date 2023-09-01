@@ -217,8 +217,8 @@ class SingleEditViewModel @Inject constructor(
             val bmp = bitmap?.let {
                 imageManager.resize(
                     image = it,
-                    width = _bitmap.value?.width ?: it.width,
-                    height = _bitmap.value?.height ?: it.height,
+                    width = (if(imageInfo.rotationDegrees % 90 != 0f) _bitmap.value?.width else _bitmap.value?.height) ?: it.width,
+                    height = (if(imageInfo.rotationDegrees % 90 != 0f) _bitmap.value?.height else _bitmap.value?.width) ?: it.height,
                     resizeType = if (saveOriginalSize) ResizeType.Explicit else ResizeType.Flexible
                 )
             }

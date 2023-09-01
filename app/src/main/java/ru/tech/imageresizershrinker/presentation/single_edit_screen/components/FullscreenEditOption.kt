@@ -19,7 +19,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.Build
+import androidx.compose.material.icons.rounded.Tune
 import androidx.compose.material.icons.rounded.Close
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.BottomSheetScaffold
@@ -63,6 +63,7 @@ fun FullscreenEditOption(
     fabButtons: @Composable () -> Unit,
     actions: @Composable RowScope.() -> Unit,
     topAppBar: @Composable (closeButton: @Composable () -> Unit) -> Unit,
+    scaffoldState: BottomSheetScaffoldState = rememberBottomSheetScaffoldState(),
     content: @Composable () -> Unit
 ) {
     val scope = rememberCoroutineScope()
@@ -77,7 +78,6 @@ fun FullscreenEditOption(
         Surface(Modifier.fillMaxSize()) {
             Column {
                 if (useScaffold) {
-                    val scaffoldState = rememberBottomSheetScaffoldState()
                     BottomSheetScaffold(
                         topBar = {
                             topAppBar {
@@ -109,7 +109,7 @@ fun FullscreenEditOption(
                                                     }
                                                 }
                                             ) {
-                                                Icon(Icons.Rounded.Build, null)
+                                                Icon(Icons.Rounded.Tune, null)
                                             }
                                         }
                                     },

@@ -40,7 +40,7 @@ import androidx.compose.material.icons.outlined.Delete
 import androidx.compose.material.icons.outlined.Share
 import androidx.compose.material.icons.rounded.AddPhotoAlternate
 import androidx.compose.material.icons.rounded.ArrowBack
-import androidx.compose.material.icons.rounded.Build
+import androidx.compose.material.icons.rounded.Tune
 import androidx.compose.material.icons.rounded.Draw
 import androidx.compose.material.icons.rounded.FormatPaint
 import androidx.compose.material.icons.rounded.Image
@@ -199,7 +199,7 @@ fun DrawHost(
                                 }
                             },
                         ) {
-                            Icon(Icons.Rounded.Build, null)
+                            Icon(Icons.Rounded.Tune, null)
                         }
                     }
                     IconButton(

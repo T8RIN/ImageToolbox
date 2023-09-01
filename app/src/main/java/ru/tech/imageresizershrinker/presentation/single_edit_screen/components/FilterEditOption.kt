@@ -25,6 +25,7 @@ import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedIconButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.rememberBottomSheetScaffoldState
 import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -86,12 +87,14 @@ fun FilterEditOption(
     val toastHostState = LocalToastHost.current
     val context = LocalContext.current
     bitmap?.let {
+        val scaffoldState = rememberBottomSheetScaffoldState()
+
         val showFilterSheet = rememberSaveable { mutableStateOf(false) }
         val showReorderSheet = rememberSaveable { mutableStateOf(false) }
 
         var stateBitmap by remember(bitmap, visible) { mutableStateOf(bitmap) }
         FullscreenEditOption(
-            sheetSize = 0.4f,
+            sheetSize = 0.6f,
             showControls = filterList.isNotEmpty(),
             canGoBack = stateBitmap == bitmap,
             visible = visible,
@@ -169,6 +172,7 @@ fun FilterEditOption(
                     Icon(Icons.Rounded.PhotoFilter, null)
                 }
             },
+            scaffoldState = scaffoldState,
             actions = {
                 if (filterList.isEmpty()) {
                     Text(
@@ -231,8 +235,18 @@ fun FilterEditOption(
         AddFiltersSheet(
             visible = showFilterSheet,
             previewBitmap = stateBitmap,
-            onFilterPicked = { addFilter(it.newInstance()) },
-            onFilterPickedWithParams = { addFilter(it) },
+            onFilterPicked = {
+                scope.launch {
+                    scaffoldState.bottomSheetState.expand()
+                }
+                addFilter(it.newInstance())
+            },
+            onFilterPickedWithParams = {
+                scope.launch {
+                    scaffoldState.bottomSheetState.expand()
+                }
+                addFilter(it)
+            },
             imageManager = imageManager
         )
 

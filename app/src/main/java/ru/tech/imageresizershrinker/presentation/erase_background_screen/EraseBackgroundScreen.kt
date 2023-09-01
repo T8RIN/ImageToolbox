@@ -38,7 +38,7 @@ import androidx.compose.material.icons.outlined.Delete
 import androidx.compose.material.icons.outlined.Share
 import androidx.compose.material.icons.rounded.AddPhotoAlternate
 import androidx.compose.material.icons.rounded.ArrowBack
-import androidx.compose.material.icons.rounded.Build
+import androidx.compose.material.icons.rounded.Tune
 import androidx.compose.material.icons.rounded.Redo
 import androidx.compose.material.icons.rounded.Save
 import androidx.compose.material.icons.rounded.Undo
@@ -337,7 +337,7 @@ fun EraseBackgroundScreen(
                             }
                         },
                     ) {
-                        Icon(Icons.Rounded.Build, null)
+                        Icon(Icons.Rounded.Tune, null)
                     }
                 }
                 IconButton(
