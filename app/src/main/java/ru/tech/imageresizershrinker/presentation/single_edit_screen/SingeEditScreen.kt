@@ -356,6 +356,7 @@ fun SingleEditScreen(
         val showEditExifDialog = rememberSaveable { mutableStateOf(false) }
         ImageTransformBar(
             onEditExif = { showEditExifDialog.value = true },
+            imageFormat = viewModel.imageInfo.imageFormat,
             onRotateLeft = viewModel::rotateLeft,
             onFlip = viewModel::flip,
             onRotateRight = viewModel::rotateRight

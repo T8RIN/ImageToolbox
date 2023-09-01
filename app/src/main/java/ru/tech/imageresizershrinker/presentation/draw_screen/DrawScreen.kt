@@ -353,6 +353,7 @@ fun DrawScreen(
         SaveExifWidget(
             modifier = Modifier.padding(horizontal = 16.dp),
             selected = viewModel.saveExif,
+            imageFormat = viewModel.imageFormat,
             onCheckedChange = viewModel::setSaveExif
         )
         ExtensionGroup(

@@ -416,6 +416,7 @@ fun EraseBackgroundScreen(
                 modifier = Modifier.padding(start = 16.dp, end = 16.dp, top = 8.dp)
             )
             SaveExifWidget(
+                imageFormat = viewModel.imageFormat,
                 selected = viewModel.saveExif,
                 onCheckedChange = { viewModel.setSaveExif(it) },
                 modifier = Modifier.padding(start = 16.dp, end = 16.dp, top = 8.dp)

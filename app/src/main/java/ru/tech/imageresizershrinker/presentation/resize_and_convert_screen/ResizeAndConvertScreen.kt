@@ -380,6 +380,7 @@ fun ResizeAndConvertScreen(
                     onEditExif = { showEditExifDialog.value = true },
                     onRotateLeft = viewModel::rotateLeft,
                     onFlip = viewModel::flip,
+                    imageFormat = viewModel.imageInfo.imageFormat,
                     onRotateRight = viewModel::rotateRight
                 )
             } else {
@@ -406,6 +407,7 @@ fun ResizeAndConvertScreen(
         AnimatedVisibility(viewModel.uris?.size != 1) {
             Column {
                 SaveExifWidget(
+                    imageFormat = viewModel.imageInfo.imageFormat,
                     selected = viewModel.keepExif,
                     onCheckedChange = { viewModel.setKeepExif(!viewModel.keepExif) }
                 )

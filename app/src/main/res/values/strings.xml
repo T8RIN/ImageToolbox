@@ -369,6 +369,7 @@
     <string name="analytics">Analytics</string>
     <string name="analytics_sub">Allow collecting anonymous app usage statistics</string>
     <string name="jxl_sub">JXL format not officially supported by android so something might not work, also saving will work only if you choose custom output directory, this is an experimental version, bugs here will not be fixed unless google will add JXL support, this version also can view such images</string>
+    <string name="image_exif_warning">Currently %1$s format on android allows only read exif and not to change/save it, that means output image won\'t have metadata at all</string>
     <string-array name="fab_alignment_sub">
         <item>Start</item>
         <item>Center</item>

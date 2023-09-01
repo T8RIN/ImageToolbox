@@ -1,5 +1,10 @@
 package ru.tech.imageresizershrinker.presentation.root.widget.controls
 
+import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -21,25 +26,31 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import ru.tech.imageresizershrinker.R
+import ru.tech.imageresizershrinker.domain.model.ImageFormat
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.block
 
 @Composable
 fun SaveExifWidget(
     selected: Boolean,
+    imageFormat: ImageFormat,
     onCheckedChange: (Boolean) -> Unit,
     modifier: Modifier = Modifier
 ) {
     Row(
         modifier = modifier
             .clip(shape = RoundedCornerShape(24.dp))
-            .clickable { onCheckedChange(!selected) }
+            .then(
+                if (imageFormat.canWriteExif) {
+                    Modifier.clickable { onCheckedChange(!selected) }
+                } else Modifier
+            )
             .block(shape = RoundedCornerShape(24.dp))
             .padding(horizontal = 16.dp, vertical = 8.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
         Icon(Icons.Rounded.Fingerprint, null, modifier = Modifier.defaultMinSize(24.dp, 24.dp))
         Column(
-            Modifier
+            modifier = Modifier
                 .weight(1f)
                 .padding(start = 16.dp, end = 16.dp, top = 6.dp, bottom = 8.dp)
         ) {
@@ -47,17 +58,33 @@ fun SaveExifWidget(
                 text = stringResource(R.string.keep_exif),
                 fontWeight = FontWeight.Medium
             )
-            Text(
-                text = stringResource(R.string.keep_exif_sub),
-                fontWeight = FontWeight.Normal,
-                color = LocalContentColor.current.copy(0.5f),
-                lineHeight = 12.sp,
-                fontSize = 12.sp
+            AnimatedContent(
+                targetState = imageFormat.canWriteExif,
+                transitionSpec = {
+                    fadeIn().togetherWith(fadeOut())
+                }
+            ) { canWriteExif ->
+                Text(
+                    text = if (canWriteExif) {
+                        stringResource(R.string.keep_exif_sub)
+                    } else {
+                        stringResource(
+                            R.string.image_exif_warning,
+                            imageFormat.title
+                        )
+                    },
+                    fontWeight = FontWeight.Normal,
+                    color = LocalContentColor.current.copy(0.5f),
+                    lineHeight = 12.sp,
+                    fontSize = 12.sp
+                )
+            }
+        }
+        AnimatedVisibility(visible = imageFormat.canWriteExif) {
+            Switch(
+                checked = selected,
+                onCheckedChange = onCheckedChange
             )
         }
-        Switch(
-            checked = selected,
-            onCheckedChange = onCheckedChange
-        )
     }
 }
