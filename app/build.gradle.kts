@@ -22,8 +22,8 @@ android {
         applicationId = "ru.tech.imageresizershrinker"
         minSdk = 21
         targetSdk = 34
-        versionCode = 85
-        versionName = "2.3.1"
+        versionCode = 86
+        versionName = "2.3.2"
         resourceConfigurations += setOf(
             "en",
             "ar",

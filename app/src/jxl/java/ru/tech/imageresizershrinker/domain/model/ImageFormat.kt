@@ -6,34 +6,39 @@ sealed class ImageFormat(
     val title: String,
     val extension: String,
     val type: String,
-    val canChangeQuality: Boolean
+    val canChangeQuality: Boolean,
+    val canWriteExif: Boolean = false
 ) : Domain {
     data object Png : ImageFormat(
         title = "PNG",
         extension = "png",
         type = "image/png",
-        canChangeQuality = false
+        canChangeQuality = false,
+        canWriteExif = true
     )
 
     data object Jpg : ImageFormat(
         title = "JPG",
         extension = "jpg",
         type = "image/jpg",
-        canChangeQuality = true
+        canChangeQuality = true,
+        canWriteExif = true
     )
 
     data object Jpeg : ImageFormat(
         title = "JPEG",
         extension = "jpeg",
         type = "image/jpeg",
-        canChangeQuality = true
+        canChangeQuality = true,
+        canWriteExif = true
     )
 
     sealed class Webp(title: String) : ImageFormat(
         extension = "webp",
         type = "image/webp",
         canChangeQuality = true,
-        title = title
+        title = title,
+        canWriteExif = true
     ) {
         data object Lossless : Webp(title = "WEBP Lossless")
 
