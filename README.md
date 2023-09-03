@@ -47,7 +47,7 @@
 Architecture. It has features like filters applying, cropping, EXIF editing, quality and output
 image type picking and tons of another options</h4>
 
-![Frame 7 (1)](https://github.com/T8RIN/ImageToolbox/assets/52178347/0e7514fb-574b-483a-8ca7-1a9e62e2d408)
+![Frame 7](https://github.com/T8RIN/ImageToolbox/assets/52178347/cc7cbff6-bed3-48e6-b666-8d39b226052a)
 
 
 <div align="center">
