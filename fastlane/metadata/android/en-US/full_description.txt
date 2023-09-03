@@ -1,1 +1,58 @@
-<p><i>ImageResizer</i> is a simple image resizer with width/height selection, EXIF redacting, quality and output image type picking, telegram sticker pattern and output image size prediction.</p>
+Image Toolbox with these ✨ Features: 
+- Batch processing
+- Applying filter chains (More than 45 various filters)
+- AES-256 GCM No Padding files encryption and decryption
+- EXIF metadata editing/deleting
+- Loading images from internet
+- Background Removing
+  - By drawing
+  - Automatical
+- Drawing on Image/Background
+  - Pen
+  - Neon
+  - Highlighter
+- Image Resizing
+  - Width changing
+  - Height changing
+  - Adaptive resize
+  - Resize retaining aspect ratio
+  - Resize by given limits
+- Image Shrinking
+  - Quality compressing
+  - Preset shrinking
+  - Reducing size by given weight (in KB)
+- Cropping
+  - Regular crop
+  - Crop by aspect ratio
+  - Crop with shape mask
+    - Rounded Corners
+    - Cut Corners
+    - Oval
+    - Squircle
+    - Octagon
+    - Rounded Pentagon
+    - Clover
+    - David Star
+    - Kotlin Logo
+    - Heart
+    - Star
+    - Image Mask
+- Format Convertion
+  - HEIF
+  - HEIC
+  - AVIF
+  - WEBP
+  - JPEG
+  - JPG
+  - PNG
+  - SVG, GIF to WEBP, PNG, JPEG, JPG, HEIF, HEIC, AVIF
+  - Telegram sticker PNG format
+- Color Utils
+  - Palette generation
+  - Picking color from image
+- Additional Features
+  - Rotating
+  - Flipping
+  - Comparing images
+  - Previewing SVG, GIF and msotly all types of images
+  - Saving to any specific folder

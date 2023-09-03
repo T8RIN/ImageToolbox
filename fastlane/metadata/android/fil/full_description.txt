@@ -1,1 +1,0 @@
-<p>Ang <i>ImageResizer</i> ay isang simpleng pang-resize ng larawan na may pampili ng lapad/taas, pambura ng EXIF, pampili ng kalidad at uri ng output, sticker pattern para sa Telegram, at panghula sa bigat ng output.</p>

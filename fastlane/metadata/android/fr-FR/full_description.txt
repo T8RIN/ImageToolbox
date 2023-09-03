@@ -1,1 +1,0 @@
-<p><i>ImageResizer</i> est un redimensionneur d'image simple avec sélection de largeur/hauteur, modification de métadonnées EXIFs, sélection de la qualité et du type d'image de sortie, modèle d'autocollant pour Telegram et prédiction de la taille de l'image de sortie.</p>

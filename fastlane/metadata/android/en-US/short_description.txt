@@ -1,1 +1,1 @@
-Simple image resizer
+Filter, Resize, Compare, Crop - do anything with your images
