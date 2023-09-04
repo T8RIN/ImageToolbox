@@ -1,3 +1,5 @@
+@file:Suppress("KotlinConstantConditions")
+
 package ru.tech.imageresizershrinker.presentation.erase_background_screen.components
 
 import androidx.compose.foundation.BorderStroke
@@ -24,6 +26,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import ru.tech.imageresizershrinker.BuildConfig
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.presentation.root.theme.mixedColor
 import ru.tech.imageresizershrinker.presentation.root.theme.onMixedColor
@@ -42,28 +45,30 @@ fun AutoEraseBackgroundCard(
             .padding(start = 16.dp, end = 16.dp, top = 8.dp)
             .block(resultPadding = 8.dp, shape = RoundedCornerShape(24.dp))
     ) {
-        Row(
-            modifier = Modifier
-                .block(
-                    applyResultPadding = false,
-                    color = MaterialTheme.colorScheme.mixedColor.copy(0.7f)
+        if (BuildConfig.FLAVOR != "foss") {
+            Row(
+                modifier = Modifier
+                    .block(
+                        applyResultPadding = false,
+                        color = MaterialTheme.colorScheme.mixedColor.copy(0.7f)
+                    )
+                    .clickable { onClick() }
+                    .padding(16.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(
+                    stringResource(id = R.string.auto_erase_background),
+                    modifier = Modifier.weight(1f),
+                    color = MaterialTheme.colorScheme.onMixedColor
                 )
-                .clickable { onClick() }
-                .padding(16.dp),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Text(
-                stringResource(id = R.string.auto_erase_background),
-                modifier = Modifier.weight(1f),
-                color = MaterialTheme.colorScheme.onMixedColor
-            )
-            Icon(
-                imageVector = Icons.Rounded.AutoFixHigh,
-                contentDescription = null,
-                tint = MaterialTheme.colorScheme.onMixedColor
-            )
+                Icon(
+                    imageVector = Icons.Rounded.AutoFixHigh,
+                    contentDescription = null,
+                    tint = MaterialTheme.colorScheme.onMixedColor
+                )
+            }
+            Spacer(modifier = Modifier.height(4.dp))
         }
-        Spacer(modifier = Modifier.height(4.dp))
         OutlinedButton(
             colors = ButtonDefaults.filledTonalButtonColors(
                 containerColor = MaterialTheme.colorScheme.mixedColor.copy(0.4f),
