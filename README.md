@@ -48,7 +48,7 @@ Architecture. It has features like filters applying, cropping, EXIF editing, qua
 image type picking and tons of another options</h4>
 
 <p align="middle">
-    <img src="./fastlane/metadata/android/en-US/images/banner.png" width="99%" />
+    <img src="./fastlane/metadata/android/en-US/images/banner/banner1.png" width="99%" />
     <img src="./fastlane/metadata/android/en-US/images/phoneScreenshots/01.png" width="13%" />
     <img src="./fastlane/metadata/android/en-US/images/phoneScreenshots/02.png" width="13%" />
     <img src="./fastlane/metadata/android/en-US/images/phoneScreenshots/03.png" width="13%" />
@@ -218,7 +218,7 @@ height="80">](https://github.com/t8rin/imageresizer/releases/latest)
 
 #
 
-![Frame 8 (3)](https://github.com/T8RIN/ImageToolbox/assets/52178347/147ecde5-4d92-4926-9356-636db84e3a86)
+<img src="./fastlane/metadata/android/en-US/images/banner/banner2.png" width="99%" />
 
 # 🌟 UI tweaks
 
@@ -301,7 +301,7 @@ height="80">](https://github.com/t8rin/imageresizer/releases/latest)
 
 #
 
-![Frame 9](https://github.com/T8RIN/ImageToolbox/assets/52178347/1727027c-c8ac-4154-9e9d-a9319fcf8057)
+<img src="./fastlane/metadata/android/en-US/images/banner/banner3.png" width="99%" />
 
 # 🌐 Translation
 
