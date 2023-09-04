@@ -48,7 +48,7 @@ Architecture. It has features like filters applying, cropping, EXIF editing, qua
 image type picking and tons of another options</h4>
 
 <p align="middle">
-    <img src="https://github.com/T8RIN/ImageToolbox/assets/52178347/cc7cbff6-bed3-48e6-b666-8d39b226052a" width="99%" />
+    <img src="./fastlane/metadata/android/en-US/images/banner.png" width="99%" />
     <img src="./fastlane/metadata/android/en-US/images/phoneScreenshots/01.png" width="13%" />
     <img src="./fastlane/metadata/android/en-US/images/phoneScreenshots/02.png" width="13%" />
     <img src="./fastlane/metadata/android/en-US/images/phoneScreenshots/03.png" width="13%" />
