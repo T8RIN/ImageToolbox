@@ -117,9 +117,7 @@ sealed class ImageFormat(
             get() = listOf(
                 Avif,
                 Heic,
-                Heif,
-                Jxl.Lossless,
-                Jxl.Lossy
+                Heif
             )
 
         val entries

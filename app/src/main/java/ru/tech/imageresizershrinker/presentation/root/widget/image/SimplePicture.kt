@@ -42,7 +42,7 @@ fun SimplePicture(
                     modifier = modifier
                         .clip(MaterialTheme.shapes.medium)
                         .transparencyChecker()
-                        .shimmer(loading, MaterialTheme.colorScheme.surfaceColorAtElevation(12.dp))
+                        .shimmer(loading)
                 )
             }
         }
