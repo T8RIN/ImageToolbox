@@ -579,7 +579,7 @@ fun MainScreen(
                         )
                     }
 
-                    if (isSheetSlideable) {
+                    AnimatedVisibility (isSheetSlideable || sheetExpanded) {
                         AnimatedContent(
                             targetState = settingsState.groupOptionsByTypes,
                             transitionSpec = { fadeIn() togetherWith fadeOut() }
