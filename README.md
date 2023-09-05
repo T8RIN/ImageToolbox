@@ -76,6 +76,16 @@ image type picking and tons of another options</h4>
   Join our chat where you can discuss anything you want and also look into CI channel where i will post betas and anouncemets
   </br>
 
+# ☕ Buy me a coffee
+
+This application is completely free, but if you want to support the project development, you can go
+to the [QIWI](https://qiwi.com/n/T8RIN) page :heart:
+
+Or use crypto wallets below
+
+| </br> ![Bitcoin](https://img.shields.io/badge/Bitcoin-EAB300?style=for-the-badge&logo=Bitcoin%20SV&logoColor=white) <br/> <br/> ->  ```17Pk1RurnkJxLV9V7mc6Y7dLyHFb9rvQDq```  <- <br/> <br/> | </br> ![Tether](https://img.shields.io/badge/USDT-168363?style=for-the-badge&logo=tether&logoColor=white) <br/> <br/> ->  ```TMPAu7a54NvQNEKnNWh3naXu3oYijqP3U7```  <- <br/> <br/> |
+| :----: | :----: |
+
 # ⬇️ Download
 
 Go to the [Releases](https://github.com/t8rin/imageresizer/releases/latest) and download latest apk
@@ -317,11 +327,6 @@ on [Hosted Weblate](https://hosted.weblate.org/engage/image-resizer/)
 Support it by joining __[stargazers](https://github.com/t8rin/ImageResizer/stargazers)__ for this
 repository. :star: <br>
 And __[follow](https://github.com/t8rin)__ me for my next creations! 🤩
-
-# ☕ Buy me a coffee
-
-This application is completely free, but if you want to support the project development, you can go
-to the [QIWI](https://qiwi.com/n/T8RIN) page :heart:
 
 # ⭐ Star History
 
