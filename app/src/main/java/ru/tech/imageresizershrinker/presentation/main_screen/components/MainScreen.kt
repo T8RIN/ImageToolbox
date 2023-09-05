@@ -28,7 +28,6 @@ import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.calculateEndPadding
 import androidx.compose.foundation.layout.calculateStartPadding
 import androidx.compose.foundation.layout.displayCutout
-import androidx.compose.foundation.layout.displayCutoutPadding
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -38,10 +37,8 @@ import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.requiredSize
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBars
 import androidx.compose.foundation.layout.systemBars
-import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.lazy.LazyColumn
@@ -77,7 +74,6 @@ import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.IconButtonDefaults
-import androidx.compose.material3.LargeFloatingActionButton
 import androidx.compose.material3.LargeTopAppBar
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalDrawerSheet
@@ -108,6 +104,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
@@ -239,6 +236,7 @@ fun MainScreen(
         }
     }
 
+    var sheetExpanded by rememberSaveable { mutableStateOf(false) }
     val drawerContent = @Composable {
         if (sideSheetState.isOpen && isSheetSlideable) {
             BackHandler {
@@ -249,8 +247,7 @@ fun MainScreen(
         }
 
         val configuration = LocalConfiguration.current
-        var expanded by remember { mutableStateOf(false) }
-        val widthState by remember(expanded) {
+        val widthState by remember(sheetExpanded) {
             derivedStateOf {
                 if (isSheetSlideable) {
                     min(
@@ -258,9 +255,9 @@ fun MainScreen(
                         DrawerDefaults.MaximumDrawerWidth
                     )
                 } else {
-                    if (expanded) configuration.screenWidthDp.dp * 0.5f
+                    if (sheetExpanded) configuration.screenWidthDp.dp * 0.55f
                     else min(
-                        configuration.screenWidthDp.dp * 0.3f,
+                        configuration.screenWidthDp.dp * 0.4f,
                         270.dp
                     )
                 }
@@ -284,6 +281,7 @@ fun MainScreen(
                             )
                     } else Modifier
                 ),
+            drawerShape = if(isSheetSlideable) DrawerDefaults.shape else RectangleShape,
             windowInsets = WindowInsets(0)
         ) {
             CompositionLocalProvider(LocalLayoutDirection provides layoutDirection) {
@@ -320,7 +318,7 @@ fun MainScreen(
                                 Icon(Icons.Rounded.Close, null)
                             }
                         }
-                        if (!isSheetSlideable && compactHeight) {
+                        if (!isSheetSlideable) {
                             OutlinedIconButton(
                                 onClick = updateButtonOnClick,
                                 colors = IconButtonDefaults.filledTonalIconButtonColors(),
@@ -354,14 +352,14 @@ fun MainScreen(
                         if (!isSheetSlideable) {
                             IconButton(
                                 onClick = {
-                                    expanded = !expanded
+                                    sheetExpanded = !sheetExpanded
                                 }
                             ) {
                                 Icon(
                                     Icons.Rounded.MenuOpen,
                                     null,
                                     modifier = Modifier.rotate(
-                                        animateFloatAsState(if (!expanded) 0f else 180f).value
+                                        animateFloatAsState(if (!sheetExpanded) 0f else 180f).value
                                     )
                                 )
                             }
@@ -455,7 +453,7 @@ fun MainScreen(
                     )
 
                     Row(Modifier.weight(1f)) {
-                        AnimatedVisibility(!isSheetSlideable && settingsState.groupOptionsByTypes) {
+                        AnimatedVisibility(!isSheetSlideable && settingsState.groupOptionsByTypes && !sheetExpanded) {
                             Row {
                                 Surface(
                                     color = MaterialTheme.colorScheme.surfaceColorAtElevation(3.dp),
@@ -705,42 +703,6 @@ fun MainScreen(
                             }
                         }
                     }
-                }
-                if (!isSheetSlideable && !compactHeight) {
-                    LargeFloatingActionButton(
-                        onClick = updateButtonOnClick,
-                        modifier = Modifier
-                            .align(Alignment.BottomEnd)
-                            .padding(16.dp)
-                            .systemBarsPadding()
-                            .displayCutoutPadding()
-                            .pulsate(enabled = viewModel.updateAvailable)
-                            .fabBorder(shape = FloatingActionButtonDefaults.largeShape),
-                        elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
-                        content = {
-                            if (viewModel.updateAvailable) {
-                                Icon(
-                                    imageVector = Icons.Rounded.FileDownload,
-                                    contentDescription = null,
-                                    modifier = Modifier.size(FloatingActionButtonDefaults.LargeIconSize)
-                                )
-                            } else if (context.verifyInstallerId()) {
-                                Icon(
-                                    imageVector = Icons.Rounded.GooglePlay,
-                                    contentDescription = null,
-                                    modifier = Modifier
-                                        .size(FloatingActionButtonDefaults.LargeIconSize)
-                                        .offset(1.5.dp)
-                                )
-                            } else {
-                                Icon(
-                                    imageVector = Icons.Rounded.Github,
-                                    contentDescription = null,
-                                    modifier = Modifier.size(FloatingActionButtonDefaults.LargeIconSize)
-                                )
-                            }
-                        }
-                    )
                 }
             }
         }
