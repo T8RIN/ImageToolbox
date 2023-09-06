@@ -10,20 +10,13 @@ import android.graphics.Matrix
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.net.Uri
-import android.os.Build
 import android.webkit.MimeTypeMap
 import androidx.core.content.FileProvider
 import androidx.core.net.toUri
 import androidx.exifinterface.media.ExifInterface
 import coil.ImageLoader
-import coil.decode.GifDecoder
-import coil.decode.ImageDecoderDecoder
-import coil.decode.SvgDecoder
-import coil.imageLoader
 import coil.request.ImageRequest
 import coil.size.Size
-import coil.util.DebugLogger
-import com.github.awxkee.avifcoil.HeifDecoder
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -401,6 +394,13 @@ class AndroidImageManager @Inject constructor(
                 it.write(compress(ImageData(image, imageInfo)))
             }
             FileProvider.getUriForFile(context, context.getString(R.string.file_provider), file)
+                .also {
+                    context.grantUriPermission(
+                        context.packageName,
+                        it,
+                        Intent.FLAG_GRANT_WRITE_URI_PERMISSION or Intent.FLAG_GRANT_READ_URI_PERMISSION
+                    )
+                }
         }.getOrNull()?.toString()
     }
 
@@ -681,6 +681,7 @@ class AndroidImageManager @Inject constructor(
     }
 
     private fun getExtension(uri: String): String? {
+        if (uri.endsWith(".jxl")) return "jxl"
         return if (ContentResolver.SCHEME_CONTENT == uri.toUri().scheme) {
             MimeTypeMap.getSingleton()
                 .getExtensionFromMimeType(

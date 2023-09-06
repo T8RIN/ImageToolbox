@@ -1,5 +1,6 @@
 package ru.tech.imageresizershrinker.domain.model
 
+import android.util.Log
 import ru.tech.imageresizershrinker.domain.Domain
 
 sealed class ImageFormat(
@@ -89,7 +90,7 @@ sealed class ImageFormat(
 
         operator fun get(typeString: String?): ImageFormat = when {
             typeString == null -> Default()
-            typeString.contains("jxl") || typeString.contains("jpxl") -> Jxl.Lossless
+            typeString.contains("jxl") -> Jxl.Lossless
             typeString.contains("png") -> Png
             typeString.contains("bmp") -> Bmp
             typeString.contains("jpeg") -> Jpeg

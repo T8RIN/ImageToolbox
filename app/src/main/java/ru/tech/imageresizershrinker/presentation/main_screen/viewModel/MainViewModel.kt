@@ -409,4 +409,12 @@ class MainViewModel @Inject constructor(
         }
     }
 
+    private var alreadyCleared: Boolean = false
+    fun autoClearCache(function: () -> Unit) {
+        if (settingsState.clearCacheOnLaunch && !alreadyCleared) {
+            function()
+            alreadyCleared = true
+        }
+    }
+
 }

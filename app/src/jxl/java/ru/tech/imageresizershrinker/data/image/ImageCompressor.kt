@@ -5,6 +5,7 @@ package ru.tech.imageresizershrinker.data.image
 import android.graphics.Bitmap
 import android.os.Build
 import com.awxkee.jxlcoder.JxlCoder
+import com.awxkee.jxlcoder.JxlColorSpace
 import com.awxkee.jxlcoder.JxlCompressionOption
 import com.radzivon.bartoshyk.avif.coder.HeifCoder
 import ru.tech.imageresizershrinker.domain.model.ImageFormat
@@ -105,6 +106,7 @@ internal object ImageCompressor {
             ImageFormat.Jxl.Lossless -> {
                 jxlCoder.encode(
                     bitmap = image,
+                    colorSpace = JxlColorSpace.RGBA,
                     compressionOption = JxlCompressionOption.LOSSLESS,
                     loosyLevel = (15f - (0f..100f).convert(quality.coerceIn(0f, 100f), 0f..15f))
                 )
@@ -113,6 +115,7 @@ internal object ImageCompressor {
             ImageFormat.Jxl.Lossy -> {
                 jxlCoder.encode(
                     bitmap = image,
+                    colorSpace = JxlColorSpace.RGBA,
                     compressionOption = JxlCompressionOption.LOSSY,
                     loosyLevel = (15f - (0f..100f).convert(quality.coerceIn(0f, 100f), 0f..15f))
                 )

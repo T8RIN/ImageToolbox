@@ -59,6 +59,8 @@ class MainActivity : M3Activity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        viewModel.autoClearCache { clearCache() }
+
         parseImage(intent)
 
         setContentWithWindowSizeClass {
@@ -89,11 +91,6 @@ class MainActivity : M3Activity() {
                     if (!showUpdateSheet.value) {
                         kotlinx.coroutines.delay(600)
                         viewModel.cancelledUpdate()
-                    }
-                }
-                LaunchedEffect(Unit) {
-                    if (viewModel.settingsState.clearCacheOnLaunch) {
-                        this@MainActivity.clearCache {}
                     }
                 }
                 val conf = LocalConfiguration.current

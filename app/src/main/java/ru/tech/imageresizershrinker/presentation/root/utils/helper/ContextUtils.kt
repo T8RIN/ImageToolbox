@@ -1,4 +1,4 @@
-@file:Suppress("SameParameterValue")
+@file:Suppress("SameParameterValue", "KotlinConstantConditions")
 
 package ru.tech.imageresizershrinker.presentation.root.utils.helper
 
@@ -23,6 +23,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import ru.tech.imageresizershrinker.BuildConfig
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.IntentUtils.parcelable
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.IntentUtils.parcelableArrayList
@@ -124,24 +125,23 @@ object ContextUtils {
         onGetUris: (List<Uri>) -> Unit,
         notHasUris: Boolean
     ) {
+        fun ClipData.clipList() = List(
+            size = itemCount,
+            init = {
+                getItemAt(it).uri
+            }
+        )
         onStart()
         if (intent?.type != null && notHasUris) onColdStart()
-        if (intent?.type?.startsWith("image/") == true) {
+        if (intent?.type?.startsWith("image/") == true || (intent?.clipData?.clipList()
+                ?.any { it.toString().endsWith(".jxl") } == true && BuildConfig.FLAVOR == "jxl")
+        ) {
             when (intent.action) {
                 Intent.ACTION_VIEW -> {
                     val data = intent.data
                     val clipData = intent.clipData
                     if (clipData != null) {
-                        navigate(
-                            Screen.ImagePreview(
-                                List(
-                                    size = clipData.itemCount,
-                                    init = {
-                                        clipData.getItemAt(it).uri
-                                    }
-                                )
-                            )
-                        )
+                        navigate(Screen.ImagePreview(intent.clipData!!.clipList()))
                     } else if (data != null) {
                         navigate(Screen.ImagePreview(listOf(data)))
                     }
