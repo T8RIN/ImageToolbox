@@ -186,14 +186,14 @@ dependencies {
 
 
     "marketImplementation"("com.google.mlkit:segmentation-selfie:16.0.0-beta4")
-    "marketImplementation"("com.google.firebase:firebase-crashlytics-ktx:18.4.1"){
+    "marketImplementation"("com.google.firebase:firebase-crashlytics-ktx:18.4.1") {
         exclude("androidx.datastore", "datastore-preferences")
     }
     "marketImplementation"("com.google.firebase:firebase-analytics-ktx:21.3.0")
     "marketImplementation"("com.google.android.play:review-ktx:2.0.1")
 
     "jxlImplementation"("com.google.mlkit:segmentation-selfie:16.0.0-beta4")
-    "jxlImplementation"("com.google.firebase:firebase-crashlytics-ktx:18.4.1"){
+    "jxlImplementation"("com.google.firebase:firebase-crashlytics-ktx:18.4.1") {
         exclude("androidx.datastore", "datastore-preferences")
     }
     "jxlImplementation"("com.google.firebase:firebase-analytics-ktx:21.3.0")
@@ -206,7 +206,9 @@ dependencies {
 afterEvaluate {
     android.productFlavors.forEach { flavor ->
         tasks.matching {
-            (it.name.contains("GoogleServices") || it.name.contains("Crashlytics")) && it.name.contains(flavor.name.capitalize(Locale.getDefault()))
+            (it.name.contains("GoogleServices") || it.name.contains("Crashlytics")) && it.name.contains(
+                flavor.name.capitalize(Locale.getDefault())
+            )
         }.forEach {
             it.enabled = flavor.extra.get("gmsEnabled") == true
         }

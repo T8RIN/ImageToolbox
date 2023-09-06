@@ -281,7 +281,7 @@ fun MainScreen(
                             )
                     } else Modifier
                 ),
-            drawerShape = if(isSheetSlideable) DrawerDefaults.shape else RectangleShape,
+            drawerShape = if (isSheetSlideable) DrawerDefaults.shape else RectangleShape,
             windowInsets = WindowInsets(0)
         ) {
             CompositionLocalProvider(LocalLayoutDirection provides layoutDirection) {
@@ -579,7 +579,7 @@ fun MainScreen(
                         )
                     }
 
-                    AnimatedVisibility (isSheetSlideable || sheetExpanded) {
+                    AnimatedVisibility(isSheetSlideable || sheetExpanded) {
                         AnimatedContent(
                             targetState = settingsState.groupOptionsByTypes,
                             transitionSpec = { fadeIn() togetherWith fadeOut() }

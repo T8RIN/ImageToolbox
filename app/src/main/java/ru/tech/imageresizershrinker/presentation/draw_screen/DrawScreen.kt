@@ -91,12 +91,12 @@ import ru.tech.imageresizershrinker.presentation.draw_screen.components.DrawBack
 import ru.tech.imageresizershrinker.presentation.draw_screen.components.DrawBehavior
 import ru.tech.imageresizershrinker.presentation.draw_screen.components.DrawColorSelector
 import ru.tech.imageresizershrinker.presentation.draw_screen.components.DrawHost
+import ru.tech.imageresizershrinker.presentation.draw_screen.components.DrawMode
 import ru.tech.imageresizershrinker.presentation.draw_screen.components.DrawModeSelector
 import ru.tech.imageresizershrinker.presentation.draw_screen.components.LineWidthSelector
 import ru.tech.imageresizershrinker.presentation.draw_screen.components.OpenColorPickerCard
 import ru.tech.imageresizershrinker.presentation.draw_screen.components.PickColorFromImageSheet
 import ru.tech.imageresizershrinker.presentation.draw_screen.viewModel.DrawViewModel
-import ru.tech.imageresizershrinker.presentation.draw_screen.components.DrawMode
 import ru.tech.imageresizershrinker.presentation.root.theme.icons.Eraser
 import ru.tech.imageresizershrinker.presentation.root.theme.mixedColor
 import ru.tech.imageresizershrinker.presentation.root.theme.onMixedColor

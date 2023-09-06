@@ -1,6 +1,5 @@
 package ru.tech.imageresizershrinker.domain.model
 
-import android.util.Log
 import ru.tech.imageresizershrinker.domain.Domain
 
 sealed class ImageFormat(
