@@ -13,8 +13,8 @@ import com.t8rin.dynamic.theme.ColorTuple
 import ru.tech.imageresizershrinker.domain.model.FontFam
 import ru.tech.imageresizershrinker.domain.model.NightMode
 import ru.tech.imageresizershrinker.domain.model.SettingsState
-import ru.tech.imageresizershrinker.presentation.root.theme.Emoji
-import ru.tech.imageresizershrinker.presentation.root.theme.allIcons
+import ru.tech.imageresizershrinker.presentation.root.icons.emoji.Emoji
+import ru.tech.imageresizershrinker.presentation.root.icons.emoji.allIcons
 import ru.tech.imageresizershrinker.presentation.root.theme.defaultColorTuple
 import ru.tech.imageresizershrinker.presentation.root.theme.toColor
 import ru.tech.imageresizershrinker.presentation.root.utils.navigation.Screen

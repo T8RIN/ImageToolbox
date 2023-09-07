@@ -16,7 +16,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.core.APP_LINK
-import ru.tech.imageresizershrinker.presentation.root.theme.icons.Github
+import ru.tech.imageresizershrinker.presentation.root.icons.material.Github
 import ru.tech.imageresizershrinker.presentation.root.widget.preferences.PreferenceItem
 
 

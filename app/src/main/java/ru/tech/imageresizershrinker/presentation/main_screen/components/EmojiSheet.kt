@@ -51,8 +51,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.R
-import ru.tech.imageresizershrinker.presentation.root.theme.EmojiData
-import ru.tech.imageresizershrinker.presentation.root.theme.EmojiItem
+import ru.tech.imageresizershrinker.presentation.root.icons.emoji.EmojiData
+import ru.tech.imageresizershrinker.presentation.root.icons.emoji.EmojiItem
 import ru.tech.imageresizershrinker.presentation.root.theme.blend
 import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.block

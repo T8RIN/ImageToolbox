@@ -57,8 +57,8 @@ import androidx.compose.ui.unit.max
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.domain.model.Preset
-import ru.tech.imageresizershrinker.presentation.root.theme.icons.CreateAlt
-import ru.tech.imageresizershrinker.presentation.root.theme.icons.Telegram
+import ru.tech.imageresizershrinker.presentation.root.icons.material.CreateAlt
+import ru.tech.imageresizershrinker.presentation.root.icons.material.Telegram
 import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.alertDialog
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.block

@@ -60,7 +60,7 @@ import ru.tech.imageresizershrinker.presentation.erase_background_screen.compone
 import ru.tech.imageresizershrinker.presentation.erase_background_screen.components.EraseModeCard
 import ru.tech.imageresizershrinker.presentation.erase_background_screen.components.PathPaint
 import ru.tech.imageresizershrinker.presentation.erase_background_screen.components.TrimImageToggle
-import ru.tech.imageresizershrinker.presentation.root.theme.icons.Transparency
+import ru.tech.imageresizershrinker.presentation.root.icons.material.Transparency
 import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
 import ru.tech.imageresizershrinker.presentation.root.utils.confetti.LocalConfettiController
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.block

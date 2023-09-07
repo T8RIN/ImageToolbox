@@ -1,4 +1,4 @@
-package ru.tech.imageresizershrinker.presentation.root.theme.icons
+package ru.tech.imageresizershrinker.presentation.root.icons.material
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.ui.graphics.Color
@@ -11,7 +11,7 @@ import androidx.compose.ui.graphics.vector.ImageVector.Builder
 import androidx.compose.ui.graphics.vector.path
 import androidx.compose.ui.unit.dp
 
-public val Icons.Filled.Transparency: ImageVector
+val Icons.Filled.Transparency: ImageVector
     get() {
         if (_transparency != null) {
             return _transparency!!

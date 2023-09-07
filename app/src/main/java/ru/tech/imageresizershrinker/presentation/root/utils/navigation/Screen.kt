@@ -21,13 +21,13 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import kotlinx.parcelize.Parcelize
 import kotlinx.parcelize.RawValue
 import ru.tech.imageresizershrinker.R
-import ru.tech.imageresizershrinker.presentation.root.theme.icons.CreateAlt
-import ru.tech.imageresizershrinker.presentation.root.theme.icons.FingerprintOff
-import ru.tech.imageresizershrinker.presentation.root.theme.icons.Interface
-import ru.tech.imageresizershrinker.presentation.root.theme.icons.PaletteSwatch
-import ru.tech.imageresizershrinker.presentation.root.theme.icons.Resize
-import ru.tech.imageresizershrinker.presentation.root.theme.icons.Toolbox
-import ru.tech.imageresizershrinker.presentation.root.theme.icons.Transparency
+import ru.tech.imageresizershrinker.presentation.root.icons.material.CreateAlt
+import ru.tech.imageresizershrinker.presentation.root.icons.material.FingerprintOff
+import ru.tech.imageresizershrinker.presentation.root.icons.material.Interface
+import ru.tech.imageresizershrinker.presentation.root.icons.material.PaletteSwatch
+import ru.tech.imageresizershrinker.presentation.root.icons.material.Resize
+import ru.tech.imageresizershrinker.presentation.root.icons.material.Toolbox
+import ru.tech.imageresizershrinker.presentation.root.icons.material.Transparency
 
 @Parcelize
 sealed class Screen(

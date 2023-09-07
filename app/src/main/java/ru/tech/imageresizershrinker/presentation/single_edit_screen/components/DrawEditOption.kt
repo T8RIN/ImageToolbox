@@ -57,7 +57,7 @@ import ru.tech.imageresizershrinker.presentation.draw_screen.components.LineWidt
 import ru.tech.imageresizershrinker.presentation.draw_screen.components.OpenColorPickerCard
 import ru.tech.imageresizershrinker.presentation.draw_screen.components.PickColorFromImageSheet
 import ru.tech.imageresizershrinker.presentation.erase_background_screen.components.PathPaint
-import ru.tech.imageresizershrinker.presentation.root.theme.icons.Eraser
+import ru.tech.imageresizershrinker.presentation.root.icons.material.Eraser
 import ru.tech.imageresizershrinker.presentation.root.theme.mixedColor
 import ru.tech.imageresizershrinker.presentation.root.theme.onMixedColor
 import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant

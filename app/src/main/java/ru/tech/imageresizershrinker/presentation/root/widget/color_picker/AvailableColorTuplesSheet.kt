@@ -57,9 +57,9 @@ import com.t8rin.dynamic.theme.ColorTuple
 import com.t8rin.dynamic.theme.ColorTupleItem
 import com.t8rin.dynamic.theme.rememberColorScheme
 import ru.tech.imageresizershrinker.R
+import ru.tech.imageresizershrinker.presentation.root.icons.material.CreateAlt
+import ru.tech.imageresizershrinker.presentation.root.icons.material.PaletteSwatch
 import ru.tech.imageresizershrinker.presentation.root.theme.defaultColorTuple
-import ru.tech.imageresizershrinker.presentation.root.theme.icons.CreateAlt
-import ru.tech.imageresizershrinker.presentation.root.theme.icons.PaletteSwatch
 import ru.tech.imageresizershrinker.presentation.root.theme.inverse
 import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.ListUtils.nearestFor

@@ -78,7 +78,7 @@ import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.presentation.erase_background_screen.components.transparencyChecker
 import ru.tech.imageresizershrinker.presentation.generate_palette_screen.components.PaletteColorsCountSelector
 import ru.tech.imageresizershrinker.presentation.generate_palette_screen.viewModel.GeneratePaletteViewModel
-import ru.tech.imageresizershrinker.presentation.root.theme.icons.PaletteSwatch
+import ru.tech.imageresizershrinker.presentation.root.icons.material.PaletteSwatch
 import ru.tech.imageresizershrinker.presentation.root.transformation.filter.SaturationFilter
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.ContextUtils.copyColorIntoClipboard
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.Picker

@@ -73,13 +73,13 @@ import ru.tech.imageresizershrinker.core.AUTHOR_TG
 import ru.tech.imageresizershrinker.core.ISSUE_TRACKER
 import ru.tech.imageresizershrinker.presentation.crash_screen.viewModel.CrashViewModel
 import ru.tech.imageresizershrinker.presentation.main_screen.MainActivity
+import ru.tech.imageresizershrinker.presentation.root.icons.material.Github
+import ru.tech.imageresizershrinker.presentation.root.icons.material.Telegram
 import ru.tech.imageresizershrinker.presentation.root.model.toUiState
 import ru.tech.imageresizershrinker.presentation.root.theme.Black
 import ru.tech.imageresizershrinker.presentation.root.theme.Blue
 import ru.tech.imageresizershrinker.presentation.root.theme.ImageToolboxTheme
 import ru.tech.imageresizershrinker.presentation.root.theme.White
-import ru.tech.imageresizershrinker.presentation.root.theme.icons.Github
-import ru.tech.imageresizershrinker.presentation.root.theme.icons.Telegram
 import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
 import ru.tech.imageresizershrinker.presentation.root.utils.exception.CrashHandler
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.fabBorder
