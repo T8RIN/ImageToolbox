@@ -142,6 +142,7 @@ import ru.tech.imageresizershrinker.presentation.root.icons.material.Lamp
 import ru.tech.imageresizershrinker.presentation.root.icons.material.Telegram
 import ru.tech.imageresizershrinker.presentation.root.model.UiFontFam
 import ru.tech.imageresizershrinker.presentation.root.model.UiSettingsState
+import ru.tech.imageresizershrinker.presentation.root.shapes.DavidStarShape
 import ru.tech.imageresizershrinker.presentation.root.theme.blend
 import ru.tech.imageresizershrinker.presentation.root.theme.inverse
 import ru.tech.imageresizershrinker.presentation.root.theme.mixedColor
@@ -1588,14 +1589,14 @@ fun LazyListScope.settingsBlock(
                                             MaterialTheme.colorScheme.primaryContainer
                                         }
                                     ).value,
-                                    shape = MaterialTheme.shapes.medium
+                                    shape = DavidStarShape
                                 )
                                 .border(
                                     settingsState.borderWidth,
                                     MaterialTheme.colorScheme.outlineVariant(),
-                                    shape = MaterialTheme.shapes.medium
+                                    shape = DavidStarShape
                                 )
-                                .scale(1.4f)
+                                .scale(1.25f)
                         )
                     },
                     onClick = {
