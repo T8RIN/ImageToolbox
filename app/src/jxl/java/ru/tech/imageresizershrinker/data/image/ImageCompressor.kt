@@ -108,7 +108,7 @@ internal object ImageCompressor {
                     bitmap = image,
                     colorSpace = JxlColorSpace.RGBA,
                     compressionOption = JxlCompressionOption.LOSSLESS,
-                    loosyLevel = (15f - (0f..100f).convert(quality.coerceIn(0f, 100f), 0f..15f))
+                    effort = (10 - (0..100).convert(quality.toInt().coerceIn(0, 100), 0..10))
                 )
             }
 
@@ -117,17 +117,17 @@ internal object ImageCompressor {
                     bitmap = image,
                     colorSpace = JxlColorSpace.RGBA,
                     compressionOption = JxlCompressionOption.LOSSY,
-                    loosyLevel = (15f - (0f..100f).convert(quality.coerceIn(0f, 100f), 0f..15f))
+                    effort = (10 - (0..100).convert(quality.toInt().coerceIn(0, 100), 0..10))
                 )
             }
         }
     }
 }
 
-private fun ClosedFloatingPointRange<Float>.convert(
-    number: Float,
-    target: ClosedFloatingPointRange<Float>
-): Float {
+private fun IntRange.convert(
+    number: Int,
+    target: IntRange
+): Int {
     val ratio = number / (endInclusive - start)
-    return (ratio * (target.endInclusive - target.start))
+    return (ratio * (target.last - target.first))
 }

@@ -119,8 +119,8 @@ class JxlDecoder(
         ).toByteString()
 
         private fun isJXL(source: BufferedSource): Boolean {
-            return source.rangeEquals(2, MAGIC_1) || source.rangeEquals(
-                MAGIC_2.size.toLong(),
+            return source.rangeEquals(0, MAGIC_1) || source.rangeEquals(
+                0,
                 MAGIC_2
             )
         }

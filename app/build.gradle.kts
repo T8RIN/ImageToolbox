@@ -198,7 +198,7 @@ dependencies {
     }
     "jxlImplementation"("com.google.firebase:firebase-analytics-ktx:21.3.0")
     "jxlImplementation"("com.google.android.play:review-ktx:2.0.1")
-    "jxlImplementation"("com.github.awxkee:jxl-coder:1.2.4")
+    "jxlImplementation"("com.github.awxkee:jxl-coder:1.3.0")
     "jxlImplementation"(project(":jxlcoder-coil"))
 }
 
