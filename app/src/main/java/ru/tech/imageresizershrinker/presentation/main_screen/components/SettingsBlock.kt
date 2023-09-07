@@ -142,6 +142,7 @@ import ru.tech.imageresizershrinker.presentation.root.icons.material.Lamp
 import ru.tech.imageresizershrinker.presentation.root.icons.material.Telegram
 import ru.tech.imageresizershrinker.presentation.root.model.UiFontFam
 import ru.tech.imageresizershrinker.presentation.root.model.UiSettingsState
+import ru.tech.imageresizershrinker.presentation.root.shapes.CloverShape
 import ru.tech.imageresizershrinker.presentation.root.shapes.DavidStarShape
 import ru.tech.imageresizershrinker.presentation.root.theme.blend
 import ru.tech.imageresizershrinker.presentation.root.theme.inverse
@@ -273,14 +274,15 @@ fun LazyListScope.settingsBlock(
                     endContent = {
                         ColorTupleItem(
                             modifier = Modifier
-                                .size(64.dp)
+                                .size(72.dp)
                                 .offset(7.dp)
-                                .border(
-                                    settingsState.borderWidth,
-                                    MaterialTheme.colorScheme.outlineVariant(
-                                        0.2f
-                                    ),
-                                    MaterialTheme.shapes.medium
+                                .block(
+                                    shape = CloverShape,
+                                    color = MaterialTheme
+                                        .colorScheme
+                                        .surfaceVariant
+                                        .copy(alpha = 0.5f),
+                                    borderColor = MaterialTheme.colorScheme.outlineVariant(0.2f)
                                 ),
                             colorTuple = settingsState.appColorTuple,
                             backgroundColor = MaterialTheme
@@ -343,19 +345,13 @@ fun LazyListScope.settingsBlock(
                             modifier = Modifier
                                 .size(64.dp)
                                 .offset(x = 7.dp)
-                                .background(
-                                    MaterialTheme
+                                .block(
+                                    shape = CloverShape,
+                                    color = MaterialTheme
                                         .colorScheme
                                         .surfaceVariant
                                         .copy(alpha = 0.5f),
-                                    MaterialTheme.shapes.medium
-                                )
-                                .border(
-                                    settingsState.borderWidth,
-                                    MaterialTheme.colorScheme.outlineVariant(
-                                        0.2f
-                                    ),
-                                    MaterialTheme.shapes.medium
+                                    borderColor = MaterialTheme.colorScheme.outlineVariant(0.2f)
                                 ),
                             contentAlignment = Alignment.Center
                         ) {
@@ -1536,9 +1532,7 @@ fun LazyListScope.settingsBlock(
                             shape = MaterialTheme.shapes.medium
                         )
                     },
-                    onClick = {
-                        onShowAuthor()
-                    }
+                    onClick = onShowAuthor
                 )
             }
         }
@@ -1578,8 +1572,9 @@ fun LazyListScope.settingsBlock(
                                 .padding(start = 8.dp)
                                 .size(64.dp)
                                 .offset(7.dp)
-                                .background(
-                                    animateColorAsState(
+                                .block(
+                                    applyResultPadding = false,
+                                    color = animateColorAsState(
                                         if (settingsState.isNightMode) {
                                             MaterialTheme.colorScheme.background.blend(
                                                 Color.White,
@@ -1589,11 +1584,7 @@ fun LazyListScope.settingsBlock(
                                             MaterialTheme.colorScheme.primaryContainer
                                         }
                                     ).value,
-                                    shape = DavidStarShape
-                                )
-                                .border(
-                                    settingsState.borderWidth,
-                                    MaterialTheme.colorScheme.outlineVariant(),
+                                    borderColor = MaterialTheme.colorScheme.outlineVariant(),
                                     shape = DavidStarShape
                                 )
                                 .scale(1.25f)

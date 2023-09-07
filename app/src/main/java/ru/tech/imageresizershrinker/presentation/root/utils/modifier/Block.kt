@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
+import androidx.compose.foundation.shape.CornerBasedShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.AlertDialogDefaults
 import androidx.compose.material3.FloatingActionButtonDefaults
@@ -22,12 +23,15 @@ import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.drawWithCache
 import androidx.compose.ui.draw.drawWithContent
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.graphics.drawOutline
+import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.isUnspecified
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalDensity
@@ -46,11 +50,35 @@ fun Modifier.block(
     resultPadding: Dp = 4.dp,
     borderColor: Color? = null
 ) = composed {
+    val settingsState = LocalSettingsState.current
+    val colorScheme = MaterialTheme.colorScheme
     val color1 = if (color.isUnspecified) {
-        MaterialTheme.colorScheme.surfaceColorAtElevation(1.dp)
+        colorScheme.surfaceColorAtElevation(1.dp)
     } else color
 
-    this
+    val density = LocalDensity.current
+
+    val genericModifier = Modifier.drawWithCache {
+        val outline = shape.createOutline(
+            size,
+            layoutDirection,
+            density
+        )
+        onDrawWithContent {
+            drawOutline(
+                outline = outline,
+                color = color1
+            )
+            drawOutline(
+                outline = outline,
+                color = borderColor ?: colorScheme.outlineVariant(0.1f, color1),
+                style = Stroke(with(density) { settingsState.borderWidth.toPx() })
+            )
+            drawContent()
+        }
+    }
+
+    val cornerModifier = Modifier
         .background(
             color = color1,
             shape = shape
@@ -59,6 +87,12 @@ fun Modifier.block(
             width = LocalSettingsState.current.borderWidth,
             color = borderColor ?: MaterialTheme.colorScheme.outlineVariant(0.1f, color1),
             shape = shape
+        )
+
+    this
+        .then(
+            if (shape is CornerBasedShape) cornerModifier
+            else genericModifier
         )
         .clip(shape)
         .then(if (applyResultPadding) Modifier.padding(resultPadding) else Modifier)
