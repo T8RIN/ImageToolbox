@@ -136,6 +136,7 @@ class SingleEditViewModel @Inject constructor(
         }
     }
 
+    private var savingJob: Job? = null
     fun saveBitmap(
         onComplete: (result: SaveResult) -> Unit,
     ) = viewModelScope.launch {
@@ -163,7 +164,7 @@ class SingleEditViewModel @Inject constructor(
             }
             _isSaving.value = false
         }
-    }
+    }.also { savingJob = it }
 
     private suspend fun updatePreview(
         bitmap: Bitmap
@@ -538,6 +539,12 @@ class SingleEditViewModel @Inject constructor(
             add(pathPaint)
         }
         _eraseUndonePaths.value = listOf()
+    }
+
+    fun cancelSaving() {
+        savingJob?.cancel()
+        savingJob = null
+        _isSaving.value = false
     }
 
 
