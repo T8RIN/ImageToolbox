@@ -40,15 +40,15 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.rounded.ArrowBack
+import androidx.compose.material.icons.automirrored.rounded.HelpOutline
+import androidx.compose.material.icons.automirrored.rounded.InsertDriveFile
 import androidx.compose.material.icons.outlined.Cancel
-import androidx.compose.material.icons.rounded.ArrowBack
 import androidx.compose.material.icons.rounded.CheckCircle
 import androidx.compose.material.icons.rounded.ErrorOutline
 import androidx.compose.material.icons.rounded.FileDownload
 import androidx.compose.material.icons.rounded.FileOpen
 import androidx.compose.material.icons.rounded.FolderOpen
-import androidx.compose.material.icons.rounded.HelpOutline
-import androidx.compose.material.icons.rounded.InsertDriveFile
 import androidx.compose.material.icons.rounded.Save
 import androidx.compose.material.icons.rounded.Share
 import androidx.compose.material.icons.rounded.Shuffle
@@ -254,7 +254,7 @@ fun FileCipherScreen(
                         ),
                         navigationIcon = {
                             IconButton(onClick = onGoBack) {
-                                Icon(Icons.Rounded.ArrowBack, null)
+                                Icon(Icons.AutoMirrored.Rounded.ArrowBack, null)
                             }
                         },
                         actions = {
@@ -344,9 +344,9 @@ fun FileCipherScreen(
                                                                 6.dp
                                                             )
                                                         ),
-                                                        shape = SegmentedButtonDefaults.shape(
-                                                            index,
-                                                            items.size
+                                                        shape = SegmentedButtonDefaults.itemShape(
+                                                            index = index,
+                                                            count = items.size
                                                         )
                                                     ) {
                                                         Text(text = item, fontSize = 12.sp)
@@ -363,7 +363,7 @@ fun FileCipherScreen(
                                                     MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.secondaryContainer)
                                                 ),
                                             ) {
-                                                Icon(Icons.Rounded.HelpOutline, null)
+                                                Icon(Icons.AutoMirrored.Rounded.HelpOutline, null)
                                             }
                                         }
 
@@ -388,7 +388,7 @@ fun FileCipherScreen(
                                                 applyHorPadding = false,
                                                 startContent = {
                                                     Icon(
-                                                        Icons.Rounded.InsertDriveFile,
+                                                        Icons.AutoMirrored.Rounded.InsertDriveFile,
                                                         null,
                                                         tint = MaterialTheme.colorScheme.onPrimaryContainer,
                                                         modifier = Modifier.padding(

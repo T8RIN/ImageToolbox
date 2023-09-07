@@ -133,13 +133,13 @@ android {
 dependencies {
 
     //AndroidX
-    implementation("androidx.activity:activity-compose:1.8.0-alpha07")
+    implementation("androidx.activity:activity-compose:1.8.0-beta01")
     implementation("androidx.core:core-splashscreen:1.0.1")
     implementation("androidx.exifinterface:exifinterface:1.3.6")
     implementation("androidx.appcompat:appcompat:1.7.0-alpha03")
     implementation("androidx.documentfile:documentfile:1.0.1")
-    implementation("androidx.datastore:datastore-preferences-android:1.1.0-alpha04")
-    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.6.1")
+    implementation("androidx.datastore:datastore-preferences-android:1.1.0-alpha05")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.6.2")
 
     //Navigation
     implementation("dev.olshevski.navigation:reimagined:1.5.0")
@@ -149,10 +149,10 @@ dependencies {
     implementation("nl.dionsegijn:konfetti-compose:2.0.3")
 
     //Compose
-    implementation("androidx.compose.material3:material3:1.2.0-alpha04")
-    implementation("androidx.compose.material3:material3-window-size-class:1.2.0-alpha04")
-    implementation("androidx.compose.material:material-icons-extended:1.6.0-alpha02")
-    implementation("androidx.compose.material:material:1.6.0-alpha02")
+    implementation("androidx.compose.material3:material3:1.2.0-alpha07")
+    implementation("androidx.compose.material3:material3-window-size-class:1.2.0-alpha07")
+    implementation("androidx.compose.material:material-icons-extended:1.6.0-alpha05")
+    implementation("androidx.compose.material:material:1.6.0-alpha05")
 
     //Di
     implementation("com.google.dagger:hilt-android:2.48")

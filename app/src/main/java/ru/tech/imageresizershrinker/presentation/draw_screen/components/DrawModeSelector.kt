@@ -85,15 +85,16 @@ fun DrawModeSelector(
                             activeContainerColor = MaterialTheme.colorScheme.secondary,
                             activeContentColor = MaterialTheme.colorScheme.onSecondary
                         ),
-                        shape = SegmentedButtonDefaults.shape(index, DrawMode.entries.size),
-
-                        ) {
+                        shape = SegmentedButtonDefaults.itemShape(
+                            index = index,
+                            count = DrawMode.entries.size
+                        )
+                    ) {
                         Icon(
                             imageVector = when (item) {
                                 DrawMode.Highlighter -> Icons.Rounded.Highlighter
                                 DrawMode.Neon -> Icons.Rounded.Laser
                                 DrawMode.Pen -> Icons.Rounded.Brush
-//                                DrawMode.Rainbow -> Icons.Rounded.Looks
                             },
                             contentDescription = null
                         )

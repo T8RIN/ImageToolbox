@@ -54,7 +54,7 @@ android {
 
 
 dependencies {
-    implementation("androidx.compose.foundation:foundation:1.6.0-alpha02")
-    implementation("androidx.compose.ui:ui-util:1.6.0-alpha02")
+    implementation("androidx.compose.foundation:foundation:1.6.0-alpha05")
+    implementation("androidx.compose.ui:ui-util:1.6.0-alpha05")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3")
 }
