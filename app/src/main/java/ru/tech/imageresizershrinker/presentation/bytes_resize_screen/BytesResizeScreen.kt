@@ -462,7 +462,7 @@ fun BytesResizeScreen(
                                         selected = viewModel.keepExif,
                                         onCheckedChange = { viewModel.setKeepExif(!viewModel.keepExif) }
                                     )
-                                    if (viewModel.imageFormat.canChangeQuality) Spacer(
+                                    if (viewModel.imageFormat.canChangeCompressionValue) Spacer(
                                         Modifier.size(8.dp)
                                     )
                                     ImageFormatAlert(viewModel.imageFormat)

@@ -569,11 +569,11 @@ fun FiltersScreen(
                                         selected = viewModel.keepExif,
                                         onCheckedChange = { viewModel.setKeepExif(!viewModel.keepExif) }
                                     )
-                                    if (viewModel.imageInfo.imageFormat.canChangeQuality) Spacer(
+                                    if (viewModel.imageInfo.imageFormat.canChangeCompressionValue) Spacer(
                                         Modifier.size(8.dp)
                                     )
                                     QualityWidget(
-                                        visible = viewModel.imageInfo.imageFormat.canChangeQuality,
+                                        imageFormat = viewModel.imageInfo.imageFormat,
                                         enabled = viewModel.bitmap != null,
                                         quality = viewModel.imageInfo.quality,
                                         onQualityChange = viewModel::setQuality

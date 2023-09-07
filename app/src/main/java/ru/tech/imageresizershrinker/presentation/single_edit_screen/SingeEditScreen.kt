@@ -384,11 +384,11 @@ fun SingleEditScreen(
             onWidthChange = viewModel::updateWidth,
             showWarning = viewModel.showWarning
         )
-        if (bitmapInfo.imageFormat.canChangeQuality) Spacer(
+        if (bitmapInfo.imageFormat.canChangeCompressionValue) Spacer(
             Modifier.height(8.dp)
         )
         QualityWidget(
-            visible = bitmapInfo.imageFormat.canChangeQuality,
+            imageFormat = bitmapInfo.imageFormat,
             enabled = viewModel.bitmap != null,
             quality = bitmapInfo.quality.coerceIn(0f, 100f),
             onQualityChange = viewModel::setQuality

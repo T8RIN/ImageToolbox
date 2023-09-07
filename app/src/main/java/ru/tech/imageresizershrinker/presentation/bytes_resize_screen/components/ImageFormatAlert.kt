@@ -29,7 +29,7 @@ import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalSettings
 fun ImageFormatAlert(format: ImageFormat) {
     val settingsState = LocalSettingsState.current
     AnimatedVisibility(
-        visible = !format.canChangeQuality,
+        visible = !format.canChangeCompressionValue,
         enter = fadeIn() + expandIn(expandFrom = Alignment.TopCenter),
         exit = fadeOut() + shrinkOut(shrinkTowards = Alignment.TopCenter)
     ) {

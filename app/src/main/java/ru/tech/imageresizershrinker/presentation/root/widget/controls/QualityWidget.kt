@@ -1,13 +1,20 @@
 package ru.tech.imageresizershrinker.presentation.root.widget.controls
 
+import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.expandVertically
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.CircleShape
@@ -26,8 +33,11 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.compositeOver
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import ru.tech.imageresizershrinker.R
+import ru.tech.imageresizershrinker.domain.model.ImageFormat
 import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.block
 import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalSettingsState
@@ -35,11 +45,12 @@ import kotlin.math.roundToInt
 
 @Composable
 fun QualityWidget(
-    visible: Boolean,
+    imageFormat: ImageFormat,
     enabled: Boolean,
     quality: Float,
     onQualityChange: (Float) -> Unit
 ) {
+    val visible = imageFormat.canChangeCompressionValue
     val settingsState = LocalSettingsState.current
     val sliderHeight = animateDpAsState(
         targetValue = if (visible) 44.dp else 0.dp
@@ -53,74 +64,111 @@ fun QualityWidget(
         targetValue = if (visible && enabled) 1f else if (!enabled) 0.5f else 0f
     ).value
 
-    ProvideTextStyle(
-        value = TextStyle(
-            color = if (!enabled) {
-                MaterialTheme.colorScheme.onSurface
-                    .copy(alpha = 0.38f)
-                    .compositeOver(MaterialTheme.colorScheme.surface)
-            } else Color.Unspecified
-        )
+    val isQuality = imageFormat.compressionType is ImageFormat.Companion.CompressionType.Quality
+    val isEffort = imageFormat.compressionType is ImageFormat.Companion.CompressionType.Effort
+
+    val compressingLiteral = if (isQuality) "%" else ""
+
+    AnimatedVisibility(
+        visible = visible,
+        enter = fadeIn() + expandVertically(),
+        exit = fadeOut() + shrinkVertically()
     ) {
-        Column(
-            modifier = Modifier
-                .height(sliderHeight * 2.2f)
-                .alpha(alpha)
-                .block(shape = RoundedCornerShape(24.dp)),
-            verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.CenterHorizontally
+        ProvideTextStyle(
+            value = TextStyle(
+                color = if (!enabled) {
+                    MaterialTheme.colorScheme.onSurface
+                        .copy(alpha = 0.38f)
+                        .compositeOver(MaterialTheme.colorScheme.surface)
+                } else Color.Unspecified
+            )
         ) {
-            Spacer(Modifier.height(8.dp))
-            Row(
-                modifier = Modifier.padding(horizontal = 16.dp),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.Center
-            ) {
-                Text(
-                    text = stringResource(R.string.quality),
-                    modifier = Modifier
-                        .weight(1f)
-                        .alpha(alpha)
-                )
-                Text(
-                    text = "${quality.roundToInt()}%",
-                    color = LocalContentColor.current.copy(alpha = 0.7f)
-                )
-            }
-            Spacer(Modifier.weight(1f))
-            Slider(
+            Column(
                 modifier = Modifier
-                    .padding(horizontal = 3.dp, vertical = 3.dp)
-                    .height(sliderHeight)
-                    .alpha(sliderAlpha)
-                    .background(
-                        MaterialTheme.colorScheme.secondaryContainer.copy(alpha = 0.4f),
-                        CircleShape
-                    )
-                    .border(
-                        settingsState.borderWidth,
+                    .alpha(alpha)
+                    .block(shape = RoundedCornerShape(24.dp)),
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Spacer(Modifier.height(8.dp))
+                Row(
+                    modifier = Modifier.padding(horizontal = 16.dp),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.Center
+                ) {
+                    AnimatedContent(isEffort, modifier = Modifier.weight(1f)) { effort ->
+                        Text(
+                            text = if (!effort) stringResource(R.string.quality) else stringResource(
+                                R.string.effort
+                            ),
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .alpha(alpha)
+                        )
+                    }
+                    AnimatedContent(compressingLiteral) { literal ->
+                        Text(
+                            text = "${
+                                quality.roundToInt().coerceIn(imageFormat.compressionRange)
+                            }$literal",
+                            color = LocalContentColor.current.copy(alpha = 0.7f)
+                        )
+                    }
+                }
+                Spacer(Modifier.weight(1f))
+                Slider(
+                    modifier = Modifier
+                        .padding(horizontal = 3.dp, vertical = 3.dp)
+                        .height(sliderHeight)
+                        .alpha(sliderAlpha)
+                        .background(
+                            MaterialTheme.colorScheme.secondaryContainer.copy(alpha = 0.4f),
+                            CircleShape
+                        )
+                        .border(
+                            settingsState.borderWidth,
+                            MaterialTheme.colorScheme.outlineVariant(
+                                onTopOf = MaterialTheme.colorScheme.secondaryContainer.copy(
+                                    alpha = 0.4f
+                                )
+                            ),
+                            CircleShape
+                        )
+                        .padding(horizontal = 12.dp),
+                    colors = SliderDefaults.colors(
+                        inactiveTrackColor =
                         MaterialTheme.colorScheme.outlineVariant(
                             onTopOf = MaterialTheme.colorScheme.secondaryContainer.copy(
                                 alpha = 0.4f
                             )
-                        ),
-                        CircleShape
-                    )
-                    .padding(horizontal = 12.dp),
-                colors = SliderDefaults.colors(
-                    inactiveTrackColor =
-                    MaterialTheme.colorScheme.outlineVariant(
-                        onTopOf = MaterialTheme.colorScheme.secondaryContainer.copy(
-                            alpha = 0.4f
                         )
+                    ),
+                    enabled = enabled,
+                    value = animateFloatAsState(quality).value,
+                    onValueChange = {
+                        onQualityChange(it.toInt().coerceIn(imageFormat.compressionRange).toFloat())
+                    },
+                    valueRange = imageFormat.compressionRange.let { it.first.toFloat()..it.last.toFloat() },
+                    steps = imageFormat.compressionRange.let { it.last - it.first }
+                )
+                AnimatedVisibility(isEffort) {
+                    Text(
+                        text = stringResource(
+                            R.string.effort_sub,
+                            imageFormat.compressionRange.first,
+                            imageFormat.compressionRange.last
+                        ),
+                        fontSize = 12.sp,
+                        textAlign = TextAlign.Center,
+                        lineHeight = 12.sp,
+                        color = LocalContentColor.current.copy(0.5f),
+                        modifier = Modifier
+                            .padding(4.dp)
+                            .block(RoundedCornerShape(20.dp))
+                            .padding(4.dp)
                     )
-                ),
-                enabled = enabled,
-                value = animateFloatAsState(quality).value,
-                onValueChange = onQualityChange,
-                valueRange = 0f..100f,
-                steps = 100
-            )
+                }
+            }
         }
     }
 }

@@ -24,7 +24,7 @@ internal object ImageCompressor {
                 val out = ByteArrayOutputStream()
                 image.compress(
                     Bitmap.CompressFormat.JPEG,
-                    quality.toInt().coerceIn(0, 100),
+                    quality.toInt().coerceIn(imageFormat.compressionRange),
                     out
                 )
                 out.toByteArray()
@@ -34,7 +34,7 @@ internal object ImageCompressor {
                 val out = ByteArrayOutputStream()
                 image.compress(
                     Bitmap.CompressFormat.JPEG,
-                    quality.toInt().coerceIn(0, 100),
+                    quality.toInt().coerceIn(imageFormat.compressionRange),
                     out
                 )
                 out.toByteArray()
@@ -44,7 +44,7 @@ internal object ImageCompressor {
                 val out = ByteArrayOutputStream()
                 image.compress(
                     Bitmap.CompressFormat.PNG,
-                    quality.toInt().coerceIn(0, 100),
+                    quality.toInt().coerceIn(imageFormat.compressionRange),
                     out
                 )
                 out.toByteArray()
@@ -55,12 +55,12 @@ internal object ImageCompressor {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
                     image.compress(
                         Bitmap.CompressFormat.WEBP_LOSSLESS,
-                        quality.toInt().coerceIn(0, 100),
+                        quality.toInt().coerceIn(imageFormat.compressionRange),
                         out
                     )
                 } else image.compress(
                     Bitmap.CompressFormat.WEBP,
-                    quality.toInt().coerceIn(0, 100),
+                    quality.toInt().coerceIn(imageFormat.compressionRange),
                     out
                 )
                 out.toByteArray()
@@ -71,12 +71,12 @@ internal object ImageCompressor {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
                     image.compress(
                         Bitmap.CompressFormat.WEBP_LOSSY,
-                        quality.toInt().coerceIn(0, 100),
+                        quality.toInt().coerceIn(imageFormat.compressionRange),
                         out
                     )
                 } else image.compress(
                     Bitmap.CompressFormat.WEBP,
-                    quality.toInt().coerceIn(0, 100),
+                    quality.toInt().coerceIn(imageFormat.compressionRange),
                     out
                 )
                 out.toByteArray()
@@ -85,21 +85,21 @@ internal object ImageCompressor {
             ImageFormat.Avif -> {
                 heifCoder.encodeAvif(
                     bitmap = image,
-                    quality = quality.toInt().coerceIn(0, 100)
+                    quality = quality.toInt().coerceIn(imageFormat.compressionRange)
                 )
             }
 
             ImageFormat.Heic -> {
                 heifCoder.encodeHeic(
                     bitmap = image,
-                    quality = quality.toInt().coerceIn(0, 100)
+                    quality = quality.toInt().coerceIn(imageFormat.compressionRange)
                 )
             }
 
             ImageFormat.Heif -> {
                 heifCoder.encodeHeic(
                     bitmap = image,
-                    quality = quality.toInt().coerceIn(0, 100)
+                    quality = quality.toInt().coerceIn(imageFormat.compressionRange)
                 )
             }
 
@@ -108,7 +108,7 @@ internal object ImageCompressor {
                     bitmap = image,
                     colorSpace = JxlColorSpace.RGBA,
                     compressionOption = JxlCompressionOption.LOSSLESS,
-                    effort = (10 - (0..100).convert(quality.toInt().coerceIn(0, 100), 0..10))
+                    effort = quality.toInt().coerceIn(imageFormat.compressionRange)
                 )
             }
 
@@ -117,17 +117,9 @@ internal object ImageCompressor {
                     bitmap = image,
                     colorSpace = JxlColorSpace.RGBA,
                     compressionOption = JxlCompressionOption.LOSSY,
-                    effort = (10 - (0..100).convert(quality.toInt().coerceIn(0, 100), 0..10))
+                    effort = quality.toInt().coerceIn(imageFormat.compressionRange)
                 )
             }
         }
     }
-}
-
-private fun IntRange.convert(
-    number: Int,
-    target: IntRange
-): Int {
-    val ratio = number / (endInclusive - start)
-    return (ratio * (target.last - target.first))
 }

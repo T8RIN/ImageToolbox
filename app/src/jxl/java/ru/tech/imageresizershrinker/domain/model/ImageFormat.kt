@@ -6,14 +6,16 @@ sealed class ImageFormat(
     val title: String,
     val extension: String,
     val type: String,
-    val canChangeQuality: Boolean,
-    val canWriteExif: Boolean = false
+    val canChangeCompressionValue: Boolean,
+    val canWriteExif: Boolean = false,
+    val compressionRange: IntRange = 0..100,
+    val compressionType: CompressionType = CompressionType.Quality
 ) : Domain {
     data object Png : ImageFormat(
         title = "PNG",
         extension = "png",
         type = "image/png",
-        canChangeQuality = false,
+        canChangeCompressionValue = false,
         canWriteExif = true
     )
 
@@ -21,7 +23,7 @@ sealed class ImageFormat(
         title = "JPG",
         extension = "jpg",
         type = "image/jpg",
-        canChangeQuality = true,
+        canChangeCompressionValue = true,
         canWriteExif = true
     )
 
@@ -29,55 +31,67 @@ sealed class ImageFormat(
         title = "JPEG",
         extension = "jpeg",
         type = "image/jpeg",
-        canChangeQuality = true,
+        canChangeCompressionValue = true,
         canWriteExif = true
     )
 
-    sealed class Webp(title: String) : ImageFormat(
+    sealed class Webp(
+        title: String,
+        compressionType: CompressionType
+    ) : ImageFormat(
         extension = "webp",
         type = "image/webp",
-        canChangeQuality = true,
+        canChangeCompressionValue = true,
         title = title,
-        canWriteExif = true
+        canWriteExif = true,
+        compressionType = compressionType
     ) {
-        data object Lossless : Webp(title = "WEBP Lossless")
+        data object Lossless : Webp(
+            title = "WEBP Lossless",
+            compressionType = CompressionType.Effort
+        )
 
-        data object Lossy : Webp(title = "WEBP Lossy")
+        data object Lossy : Webp(
+            title = "WEBP Lossy",
+            compressionType = CompressionType.Quality
+        )
     }
 
     data object Bmp : ImageFormat(
         title = "BMP",
         extension = "bmp",
         type = "image/bmp",
-        canChangeQuality = false
+        canChangeCompressionValue = false
     )
 
     data object Avif : ImageFormat(
         title = "AVIF",
         extension = "avif",
         type = "image/avif",
-        canChangeQuality = true
+        canChangeCompressionValue = true
     )
 
     data object Heif : ImageFormat(
         title = "HEIF",
         extension = "heif",
         type = "image/heif",
-        canChangeQuality = true
+        canChangeCompressionValue = true
     )
 
     data object Heic : ImageFormat(
         title = "HEIC",
         extension = "heic",
         type = "image/heic",
-        canChangeQuality = true
+        canChangeCompressionValue = true
     )
 
     sealed class Jxl(title: String) : ImageFormat(
         extension = "jxl",
         type = "image/jxl",
-        canChangeQuality = false,
-        title = title
+        canChangeCompressionValue = true,
+        title = title,
+        compressionRange = 1..9,
+        compressionType = CompressionType.Effort
     ) {
         data object Lossless : Jxl(title = "JXL Lossless")
 
@@ -85,6 +99,11 @@ sealed class ImageFormat(
     }
 
     companion object {
+        sealed class CompressionType {
+            data object Quality : CompressionType()
+            data object Effort : CompressionType()
+        }
+
         fun Default(): ImageFormat = Jpg
 
         operator fun get(typeString: String?): ImageFormat = when {

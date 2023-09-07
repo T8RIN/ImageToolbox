@@ -421,13 +421,13 @@ fun ResizeAndConvertScreen(
             onWidthChange = viewModel::updateWidth,
             showWarning = viewModel.showWarning
         )
-        if (bitmapInfo.imageFormat.canChangeQuality) {
+        if (bitmapInfo.imageFormat.canChangeCompressionValue) {
             Spacer(Modifier.height(8.dp))
         }
         QualityWidget(
-            visible = bitmapInfo.imageFormat.canChangeQuality,
+            imageFormat = bitmapInfo.imageFormat,
             enabled = viewModel.bitmap != null,
-            quality = bitmapInfo.quality.coerceIn(0f, 100f),
+            quality = bitmapInfo.quality,
             onQualityChange = viewModel::setQuality
         )
         Spacer(Modifier.height(8.dp))
