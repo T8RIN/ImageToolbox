@@ -15,6 +15,7 @@ import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -56,7 +57,6 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.FilledIconButton
 import androidx.compose.material3.FilledTonalButton
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.FloatingActionButtonDefaults
@@ -104,6 +104,7 @@ import ru.tech.imageresizershrinker.presentation.file_cipher_screen.components.C
 import ru.tech.imageresizershrinker.presentation.file_cipher_screen.viewModel.FileCipherViewModel
 import ru.tech.imageresizershrinker.presentation.root.icons.material.ShieldKey
 import ru.tech.imageresizershrinker.presentation.root.icons.material.ShieldOpen
+import ru.tech.imageresizershrinker.presentation.root.shapes.CloverShape
 import ru.tech.imageresizershrinker.presentation.root.theme.Green
 import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
 import ru.tech.imageresizershrinker.presentation.root.utils.confetti.LocalConfettiController
@@ -289,33 +290,20 @@ fun FileCipherScreen(
                                             horizontalAlignment = Alignment.CenterHorizontally
                                         ) {
                                             Spacer(Modifier.height(16.dp))
-                                            FilledIconButton(
-                                                onClick = { filePicker.launch("*/*") },
-                                                modifier = Modifier.size(100.dp),
-                                                shape = RoundedCornerShape(16.dp),
-                                                colors = IconButtonDefaults.filledTonalIconButtonColors(
-                                                    containerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(
-                                                        6.dp
-                                                    ),
-                                                    contentColor = MaterialTheme.colorScheme.onSurfaceVariant
-                                                )
-                                            ) {
-                                                Icon(
-                                                    Icons.TwoTone.FileOpen,
-                                                    null,
-                                                    modifier = Modifier
-                                                        .fillMaxSize()
-                                                        .border(
-                                                            settingsState.borderWidth,
-                                                            MaterialTheme.colorScheme.outlineVariant(
-                                                                0.2f
-                                                            ),
-                                                            RoundedCornerShape(16.dp)
-                                                        )
-                                                        .padding(12.dp),
-                                                    tint = MaterialTheme.colorScheme.onSurfaceVariant
-                                                )
-                                            }
+                                            Icon(
+                                                Icons.TwoTone.FileOpen,
+                                                null,
+                                                modifier = Modifier
+                                                    .size(100.dp)
+                                                    .block(
+                                                        CloverShape,
+                                                        applyResultPadding = false,
+                                                        color = MaterialTheme.colorScheme.primaryContainer
+                                                    )
+                                                    .clickable { filePicker.launch("*/*") }
+                                                    .padding(12.dp),
+                                                tint = MaterialTheme.colorScheme.onPrimaryContainer
+                                            )
                                             Text(
                                                 stringResource(R.string.pick_file_to_start),
                                                 Modifier.padding(16.dp),

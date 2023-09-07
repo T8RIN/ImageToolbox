@@ -2,7 +2,6 @@ package ru.tech.imageresizershrinker.presentation.root.widget.other
 
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope
@@ -13,34 +12,29 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.unit.dp
-import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalSettingsState
+import ru.tech.imageresizershrinker.presentation.root.shapes.CloverShape
+import ru.tech.imageresizershrinker.presentation.root.utils.modifier.block
 
 @Composable
 fun BoxScope.Loading() {
-    val settingsState = LocalSettingsState.current
     Box(
         modifier = Modifier
             .heightIn(max = 84.dp)
             .fillMaxHeight()
             .aspectRatio(1f)
-            .aspectRatio(1f)
-            .clip(RoundedCornerShape(24.dp))
-            .border(
-                settingsState.borderWidth,
-                MaterialTheme.colorScheme.onSecondaryContainer.copy(0.4f),
-                RoundedCornerShape(24.dp)
+            .block(
+                shape = CloverShape,
+                color = MaterialTheme.colorScheme.secondaryContainer,
+                applyResultPadding = false
             )
-            .background(MaterialTheme.colorScheme.secondaryContainer)
             .align(Alignment.Center)
     ) {
         CircularProgressIndicator(
@@ -56,17 +50,15 @@ fun BoxScope.Loading() {
 
 @Composable
 fun Loading(modifier: Modifier = Modifier) {
-    val settingsState = LocalSettingsState.current
     Box(
         modifier
             .heightIn(max = 84.dp)
             .fillMaxHeight()
             .aspectRatio(1f)
-            .clip(RoundedCornerShape(24.dp))
-            .border(
-                settingsState.borderWidth,
-                MaterialTheme.colorScheme.onSecondaryContainer.copy(0.4f),
-                RoundedCornerShape(24.dp)
+            .block(
+                shape = CloverShape,
+                color = MaterialTheme.colorScheme.secondaryContainer,
+                applyResultPadding = false
             )
             .background(MaterialTheme.colorScheme.secondaryContainer)
     ) {
@@ -83,23 +75,20 @@ fun Loading(modifier: Modifier = Modifier) {
 
 @Composable
 fun BoxScope.Loading(done: Int, left: Int) {
-    val settingsState = LocalSettingsState.current
     Column(
         modifier = Modifier
             .size(108.dp)
-            .clip(RoundedCornerShape(24.dp))
-            .border(
-                settingsState.borderWidth,
-                MaterialTheme.colorScheme.onSecondaryContainer.copy(0.4f),
-                RoundedCornerShape(24.dp)
+            .block(
+                shape = CloverShape,
+                color = MaterialTheme.colorScheme.secondaryContainer,
+                applyResultPadding = false
             )
-            .background(MaterialTheme.colorScheme.secondaryContainer)
             .align(Alignment.Center),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Spacer(Modifier.height(8.dp))
-        if (left == 1) {
+        if (left == 1 || done == 0) {
             CircularProgressIndicator(
                 color = MaterialTheme.colorScheme.onSecondaryContainer,
                 strokeCap = StrokeCap.Round,

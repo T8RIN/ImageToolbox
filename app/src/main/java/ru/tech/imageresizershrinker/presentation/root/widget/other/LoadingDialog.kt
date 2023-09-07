@@ -8,7 +8,7 @@ import androidx.compose.ui.window.Dialog
 
 @Composable
 fun LoadingDialog() {
-    Dialog(onDismissRequest = { }) {
+    Dialog(onDismissRequest = { /*TODO: ADD SAVE STOPPING */ }) {
         Box(Modifier.fillMaxSize()) { Loading() }
     }
     KeepScreenOn()
@@ -16,7 +16,7 @@ fun LoadingDialog() {
 
 @Composable
 fun LoadingDialog(done: Int, left: Int) {
-    Dialog(onDismissRequest = { }) {
+    Dialog(onDismissRequest = { /*TODO: ADD SAVE STOPPING */ }) {
         Box(Modifier.fillMaxSize()) {
             Loading(done, left)
         }
