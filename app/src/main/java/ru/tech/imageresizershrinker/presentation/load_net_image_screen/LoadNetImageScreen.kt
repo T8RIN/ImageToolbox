@@ -483,7 +483,9 @@ fun LoadNetImageScreen(
             }
 
 
-            if (viewModel.isSaving) LoadingDialog()
+            if (viewModel.isSaving) LoadingDialog {
+                viewModel.cancelSaving()
+            }
 
             BackHandler { onGoBack() }
         }

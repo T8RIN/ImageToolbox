@@ -146,6 +146,8 @@ class FilterViewModel @Inject constructor(
         _keepExif.value = boolean
     }
 
+    private var savingJob: Job? = null
+
     fun saveBitmaps(
         onResult: (Int, String) -> Unit
     ) = viewModelScope.launch {
@@ -185,6 +187,10 @@ class FilterViewModel @Inject constructor(
             }
             onResult(failed, fileController.savingPath)
         }
+        _isSaving.value = false
+    }.also {
+        savingJob?.cancel()
+        savingJob = it
         _isSaving.value = false
     }
 
@@ -294,6 +300,10 @@ class FilterViewModel @Inject constructor(
                     }
                 }
             )
+        }.also {
+            savingJob?.cancel()
+            savingJob = it
+            _isSaving.value = false
         }
     }
 
@@ -316,6 +326,12 @@ class FilterViewModel @Inject constructor(
                 }
             }
         }
+    }
+
+    fun cancelSaving() {
+        savingJob?.cancel()
+        savingJob = null
+        _isSaving.value = false
     }
 
 }

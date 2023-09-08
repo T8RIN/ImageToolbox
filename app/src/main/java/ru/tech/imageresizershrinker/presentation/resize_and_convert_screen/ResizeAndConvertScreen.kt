@@ -621,7 +621,12 @@ fun ResizeAndConvertScreen(
             )
 
             if (viewModel.isSaving) {
-                LoadingDialog(viewModel.done, viewModel.uris?.size ?: 1)
+                LoadingDialog(
+                    done = viewModel.done,
+                    left = viewModel.uris?.size ?: 1
+                ) {
+                    viewModel.cancelSaving()
+                }
             }
 
             BackHandler(onBack = onBack)

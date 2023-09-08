@@ -277,7 +277,7 @@ fun LazyListScope.settingsBlock(
                                 .size(72.dp)
                                 .offset(7.dp)
                                 .block(
-                                    shape = CloverShape,
+                                    shape = DavidStarShape,
                                     color = MaterialTheme
                                         .colorScheme
                                         .surfaceVariant
@@ -285,10 +285,7 @@ fun LazyListScope.settingsBlock(
                                     borderColor = MaterialTheme.colorScheme.outlineVariant(0.2f)
                                 ),
                             colorTuple = settingsState.appColorTuple,
-                            backgroundColor = MaterialTheme
-                                .colorScheme
-                                .surfaceVariant
-                                .copy(alpha = 0.5f)
+                            backgroundColor = Color.Transparent
                         ) {
                             Box(
                                 modifier = Modifier
@@ -744,6 +741,7 @@ fun LazyListScope.settingsBlock(
                                 font = font,
                                 onClick = {
                                     viewModel.setFont(font.asDomain())
+                                    (context as? Activity)?.recreate()
                                 }
                             )
                         }

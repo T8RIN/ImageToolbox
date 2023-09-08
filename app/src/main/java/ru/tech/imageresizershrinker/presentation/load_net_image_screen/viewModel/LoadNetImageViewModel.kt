@@ -12,6 +12,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import ru.tech.imageresizershrinker.domain.image.ImageManager
@@ -41,6 +42,8 @@ class LoadNetImageViewModel @Inject constructor(
     fun updateBitmap(bitmap: Bitmap?) {
         _bitmap.value = bitmap
     }
+
+    private var savingJob: Job? = null
 
     fun saveBitmap(
         link: String,
@@ -73,6 +76,10 @@ class LoadNetImageViewModel @Inject constructor(
             }
         }
         _isSaving.value = false
+    }.also {
+        savingJob?.cancel()
+        savingJob = it
+        _isSaving.value = false
     }
 
     fun cacheImage(image: Bitmap, imageInfo: ImageInfo) {
@@ -93,7 +100,17 @@ class LoadNetImageViewModel @Inject constructor(
                     onComplete()
                 }
             )
+        }.also {
+            savingJob?.cancel()
+            savingJob = it
+            _isSaving.value = false
         }
+    }
+
+    fun cancelSaving() {
+        savingJob?.cancel()
+        savingJob = null
+        _isSaving.value = false
     }
 
 }

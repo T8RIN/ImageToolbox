@@ -440,7 +440,7 @@ fun GeneratePaletteScreen(
         }
     }
 
-    if (viewModel.isImageLoading) LoadingDialog()
+    if (viewModel.isImageLoading) LoadingDialog(false){}
 
     BackHandler {
         onGoBack()

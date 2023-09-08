@@ -12,6 +12,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import ru.tech.imageresizershrinker.domain.image.ImageManager
@@ -143,6 +144,8 @@ class EraseBackgroundViewModel @Inject constructor(
         }
     }
 
+    private var savingJob: Job? = null
+
     fun saveBitmap(
         onComplete: (saveResult: SaveResult) -> Unit
     ) = viewModelScope.launch {
@@ -175,6 +178,10 @@ class EraseBackgroundViewModel @Inject constructor(
             }
         }
         _isSaving.value = false
+    }.also {
+        savingJob?.cancel()
+        savingJob = it
+        _isSaving.value = false
     }
 
     private suspend fun getErasedBitmap(): Bitmap? {
@@ -189,9 +196,9 @@ class EraseBackgroundViewModel @Inject constructor(
     }
 
     fun shareBitmap(onComplete: () -> Unit) {
-        _isSaving.value = true
         viewModelScope.launch {
             _erasedBitmap.value?.let { trim(it) }?.let {
+                _isSaving.value = true
                 imageManager.shareImage(
                     ImageData(
                         image = it,
@@ -204,8 +211,12 @@ class EraseBackgroundViewModel @Inject constructor(
                     onComplete = onComplete
                 )
             } ?: onComplete()
+            _isSaving.value = false
+        }.also {
+            savingJob?.cancel()
+            savingJob = it
+            _isSaving.value = false
         }
-        _isSaving.value = false
     }
 
     fun updateErasedBitmap(bitmap: Bitmap) {
@@ -307,6 +318,12 @@ class EraseBackgroundViewModel @Inject constructor(
 
     fun toggleEraser() {
         _isRecoveryOn.update { !it }
+    }
+
+    fun cancelSaving() {
+        savingJob?.cancel()
+        savingJob = null
+        _isSaving.value = false
     }
 
 }

@@ -256,6 +256,8 @@ class ResizeAndConvertViewModel @Inject constructor(
         _keepExif.value = boolean
     }
 
+    private var savingJob: Job? = null
+
     fun saveBitamps(
         onComplete: (path: String) -> Unit
     ) = viewModelScope.launch {
@@ -297,6 +299,10 @@ class ResizeAndConvertViewModel @Inject constructor(
             }
             onComplete(fileController.savingPath)
         }
+        _isSaving.value = false
+    }.also {
+        savingJob?.cancel()
+        savingJob = it
         _isSaving.value = false
     }
 
@@ -355,6 +361,10 @@ class ResizeAndConvertViewModel @Inject constructor(
                     }
                 }
             )
+        }.also {
+            savingJob?.cancel()
+            savingJob = it
+            _isSaving.value = false
         }
     }
 
@@ -399,6 +409,12 @@ class ResizeAndConvertViewModel @Inject constructor(
         val exifInterface = _exif.value
         exifInterface?.setAttribute(tag, value)
         updateExif(exifInterface)
+    }
+
+    fun cancelSaving() {
+        savingJob?.cancel()
+        savingJob = null
+        _isSaving.value = false
     }
 
 }

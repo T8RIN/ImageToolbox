@@ -10,6 +10,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import ru.tech.imageresizershrinker.domain.image.ImageManager
@@ -45,6 +46,8 @@ class FileCipherViewModel @Inject constructor(
         resetCalculatedData()
     }
 
+    private var savingJob: Job? = null
+
     fun startCryptography(
         key: String,
         onFileRequest: suspend (Uri) -> ByteArray?,
@@ -72,6 +75,10 @@ class FileCipherViewModel @Inject constructor(
             }
         }
         _isSaving.value = false
+    }.also {
+        savingJob?.cancel()
+        savingJob = it
+        _isSaving.value = false
     }
 
     fun setIsEncrypt(isEncrypt: Boolean) {
@@ -84,13 +91,19 @@ class FileCipherViewModel @Inject constructor(
     }
 
     fun saveCryptographyTo(outputStream: OutputStream?, onComplete: (Throwable?) -> Unit) {
-        _isSaving.value = true
-        kotlin.runCatching {
-            outputStream?.use {
-                it.write(_byteArray.value)
-            }
-        }.exceptionOrNull().let(onComplete)
-        _isSaving.value = false
+        viewModelScope.launch {
+            _isSaving.value = true
+            kotlin.runCatching {
+                outputStream?.use {
+                    it.write(_byteArray.value)
+                }
+            }.exceptionOrNull().let(onComplete)
+            _isSaving.value = false
+        }.also {
+            savingJob?.cancel()
+            savingJob = it
+            _isSaving.value = false
+        }
     }
 
     fun generateRandomPassword(): String = generateRandomPasswordUseCase(18)
