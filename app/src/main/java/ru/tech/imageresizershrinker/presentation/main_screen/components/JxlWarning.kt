@@ -19,7 +19,7 @@ import ru.tech.imageresizershrinker.BuildConfig
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.presentation.root.icons.material.Jxl
 import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
-import ru.tech.imageresizershrinker.presentation.root.utils.modifier.alertDialog
+import ru.tech.imageresizershrinker.presentation.root.utils.modifier.alertDialogBorder
 import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalSettingsState
 
 @Composable
@@ -27,7 +27,7 @@ fun JxlWarning() {
     var showJxlWarning by rememberSaveable { mutableStateOf(BuildConfig.FLAVOR == "jxl") }
     if (showJxlWarning) {
         AlertDialog(
-            modifier = Modifier.alertDialog(),
+            modifier = Modifier.alertDialogBorder(),
             onDismissRequest = { showJxlWarning = false },
             icon = {
                 Icon(Icons.Filled.Jxl, null)

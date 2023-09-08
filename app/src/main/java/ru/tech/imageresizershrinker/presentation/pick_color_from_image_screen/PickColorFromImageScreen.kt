@@ -93,7 +93,7 @@ import ru.tech.imageresizershrinker.presentation.root.utils.helper.Picker
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.localImagePickerMode
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.rememberImagePicker
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.toHex
-import ru.tech.imageresizershrinker.presentation.root.utils.modifier.block
+import ru.tech.imageresizershrinker.presentation.root.utils.modifier.container
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.drawHorizontalStroke
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.fabBorder
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.navBarsPaddingOnlyIfTheyAtTheBottom
@@ -517,7 +517,7 @@ fun PickColorFromImageScreen(
                                     .fillMaxSize()
                                     .padding(16.dp)
                                     .navBarsPaddingOnlyIfTheyAtTheEnd()
-                                    .block(resultPadding = 8.dp)
+                                    .container(resultPadding = 8.dp)
                                     .clip(RoundedCornerShape(12.dp))
                                     .transparencyChecker(),
                                 onColorChange = viewModel::updateColor
@@ -541,7 +541,7 @@ fun PickColorFromImageScreen(
                                             modifier = Modifier
                                                 .fillMaxSize()
                                                 .navBarsPaddingOnlyIfTheyAtTheBottom()
-                                                .block(resultPadding = 8.dp)
+                                                .container(resultPadding = 8.dp)
                                                 .clip(RoundedCornerShape(12.dp))
                                                 .transparencyChecker(),
                                             onColorChange = viewModel::updateColor

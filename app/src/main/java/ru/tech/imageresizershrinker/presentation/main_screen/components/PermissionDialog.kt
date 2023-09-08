@@ -25,7 +25,7 @@ import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.ContextUtils.findActivity
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.ContextUtils.needToShowStoragePermissionRequest
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.ContextUtils.requestStoragePermission
-import ru.tech.imageresizershrinker.presentation.root.utils.modifier.alertDialog
+import ru.tech.imageresizershrinker.presentation.root.utils.modifier.alertDialogBorder
 import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalSettingsState
 
 @Composable
@@ -50,7 +50,7 @@ fun PermissionDialog() {
 
     if (showDialog) {
         AlertDialog(
-            modifier = Modifier.alertDialog(),
+            modifier = Modifier.alertDialogBorder(),
             onDismissRequest = { },
             icon = {
                 Icon(Icons.Rounded.Storage, null)

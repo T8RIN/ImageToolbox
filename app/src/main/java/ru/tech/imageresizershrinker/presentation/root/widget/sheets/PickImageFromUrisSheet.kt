@@ -34,7 +34,7 @@ import androidx.compose.ui.unit.dp
 import coil.transform.Transformation
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
-import ru.tech.imageresizershrinker.presentation.root.utils.modifier.block
+import ru.tech.imageresizershrinker.presentation.root.utils.modifier.container
 import ru.tech.imageresizershrinker.presentation.root.widget.image.Picture
 import ru.tech.imageresizershrinker.presentation.root.widget.text.AutoSizeText
 import ru.tech.imageresizershrinker.presentation.root.widget.text.TitleItem
@@ -73,7 +73,7 @@ fun PickImageFromUrisSheet(
                                 horizontalAlignment = Alignment.CenterHorizontally,
                                 modifier = Modifier
                                     .padding(4.dp)
-                                    .block(RoundedCornerShape(8.dp))
+                                    .container(RoundedCornerShape(8.dp))
                             ) {
                                 Picture(
                                     transformations = transformations,
@@ -95,7 +95,7 @@ fun PickImageFromUrisSheet(
                                                 )
                                             } else Modifier
                                         )
-                                        .block(RoundedCornerShape(8.dp)),
+                                        .container(RoundedCornerShape(8.dp)),
                                     shape = RoundedCornerShape(8.dp),
                                     contentScale = ContentScale.Fit
                                 )

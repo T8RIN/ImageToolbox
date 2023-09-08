@@ -24,7 +24,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import ru.tech.imageresizershrinker.presentation.root.utils.modifier.block
+import ru.tech.imageresizershrinker.presentation.root.utils.modifier.container
 
 @Composable
 fun PreferenceRow(
@@ -64,7 +64,7 @@ fun PreferenceRow(
                         Modifier.clickable { onClick() }
                     } ?: Modifier
                 )
-                .block(color = color)
+                .container(color = color)
                 .then(resultModifier),
             verticalAlignment = Alignment.CenterVertically
         ) {

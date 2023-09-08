@@ -26,7 +26,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
-import ru.tech.imageresizershrinker.presentation.root.utils.modifier.block
+import ru.tech.imageresizershrinker.presentation.root.utils.modifier.container
 import ru.tech.imageresizershrinker.presentation.root.widget.text.TitleItem
 
 @Composable
@@ -39,10 +39,10 @@ fun SettingItem(
     Column(
         Modifier
             .animateContentSize()
-            .padding(start = 12.dp, end = 12.dp, top = 8.dp)
-            .block(
+            .padding(start = 12.dp, end = 12.dp, top = 4.dp, bottom = 4.dp)
+            .container(
                 color = MaterialTheme.colorScheme.surfaceColorAtElevation(2.dp),
-                applyResultPadding = false,
+                resultPadding = 0.dp,
                 shape = RoundedCornerShape(20.dp)
             )
     ) {

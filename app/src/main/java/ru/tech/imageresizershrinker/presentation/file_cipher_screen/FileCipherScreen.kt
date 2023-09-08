@@ -112,7 +112,7 @@ import ru.tech.imageresizershrinker.presentation.root.utils.helper.ContextUtils.
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.ImageUtils.fileSize
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.readableByteCount
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.showReview
-import ru.tech.imageresizershrinker.presentation.root.utils.modifier.block
+import ru.tech.imageresizershrinker.presentation.root.utils.modifier.container
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.drawHorizontalStroke
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.fabBorder
 import ru.tech.imageresizershrinker.presentation.root.widget.dialogs.ExitWithoutSavingDialog
@@ -285,7 +285,7 @@ fun FileCipherScreen(
                                 Column(horizontalAlignment = Alignment.CenterHorizontally) {
                                     if (!hasUri) {
                                         Column(
-                                            modifier = Modifier.block(),
+                                            modifier = Modifier.container(),
                                             verticalArrangement = Arrangement.Center,
                                             horizontalAlignment = Alignment.CenterHorizontally
                                         ) {
@@ -295,9 +295,9 @@ fun FileCipherScreen(
                                                 null,
                                                 modifier = Modifier
                                                     .size(100.dp)
-                                                    .block(
+                                                    .container(
                                                         CloverShape,
-                                                        applyResultPadding = false,
+                                                        resultPadding = 0.dp,
                                                         color = MaterialTheme.colorScheme.primaryContainer
                                                     )
                                                     .clickable { filePicker.launch("*/*") }
@@ -314,7 +314,7 @@ fun FileCipherScreen(
                                     } else {
                                         Row(
                                             modifier = Modifier
-                                                .block(MaterialTheme.shapes.extraLarge)
+                                                .container(MaterialTheme.shapes.extraLarge)
                                                 .padding(horizontal = 8.dp, vertical = 4.dp),
                                             verticalAlignment = Alignment.CenterVertically
                                         ) {
@@ -421,7 +421,7 @@ fun FileCipherScreen(
                                             RoundedTextField(
                                                 modifier = Modifier
                                                     .padding(top = 16.dp)
-                                                    .block(shape = RoundedCornerShape(24.dp))
+                                                    .container(shape = RoundedCornerShape(24.dp))
                                                     .padding(8.dp),
                                                 value = key,
                                                 startIcon = {
@@ -615,7 +615,7 @@ fun FileCipherScreen(
                                                     RoundedTextField(
                                                         modifier = Modifier
                                                             .padding(top = 8.dp)
-                                                            .block(shape = RoundedCornerShape(24.dp))
+                                                            .container(shape = RoundedCornerShape(24.dp))
                                                             .padding(8.dp),
                                                         value = name,
                                                         keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),

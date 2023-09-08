@@ -88,7 +88,7 @@ import ru.tech.imageresizershrinker.presentation.root.utils.helper.Picker
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.failedToSaveImages
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.localImagePickerMode
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.rememberImagePicker
-import ru.tech.imageresizershrinker.presentation.root.utils.modifier.block
+import ru.tech.imageresizershrinker.presentation.root.utils.modifier.container
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.drawHorizontalStroke
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.navBarsLandscapePadding
 import ru.tech.imageresizershrinker.presentation.root.widget.buttons.BottomButtonsBlock
@@ -429,7 +429,7 @@ fun BytesResizeScreen(
                                         if (handMode) {
                                             RoundedTextField(
                                                 modifier = Modifier
-                                                    .block(shape = RoundedCornerShape(24.dp))
+                                                    .container(shape = RoundedCornerShape(24.dp))
                                                     .padding(8.dp),
                                                 enabled = viewModel.bitmap != null,
                                                 value = (viewModel.maxBytes / 1024).toString()

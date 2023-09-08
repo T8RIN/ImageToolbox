@@ -49,7 +49,7 @@ import ru.tech.imageresizershrinker.presentation.erase_background_screen.compone
 import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.ContextUtils.copyColorIntoClipboard
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.toHex
-import ru.tech.imageresizershrinker.presentation.root.utils.modifier.block
+import ru.tech.imageresizershrinker.presentation.root.utils.modifier.container
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.shimmer
 import ru.tech.imageresizershrinker.presentation.root.widget.other.LocalToastHost
 import ru.tech.imageresizershrinker.presentation.root.widget.sheets.SimpleSheet
@@ -103,7 +103,7 @@ fun PickColorFromImageSheet(
                         modifier = Modifier
                             .padding(16.dp)
                             .align(Alignment.Center)
-                            .block(resultPadding = 8.dp)
+                            .container(resultPadding = 8.dp)
                             .clip(RoundedCornerShape(12.dp))
                             .transparencyChecker()
                     )
@@ -111,7 +111,7 @@ fun PickColorFromImageSheet(
                     Modifier
                         .padding(16.dp)
                         .align(Alignment.Center)
-                        .block(resultPadding = 8.dp)
+                        .container(resultPadding = 8.dp)
                         .clip(RoundedCornerShape(12.dp))
                         .fillMaxWidth()
                         .fillMaxHeight(0.5f)
@@ -136,7 +136,7 @@ fun PickColorFromImageSheet(
                     verticalAlignment = Alignment.CenterVertically,
                     modifier = Modifier
                         .padding(end = 16.dp)
-                        .block(color = MaterialTheme.colorScheme.surfaceColorAtElevation(14.dp))
+                        .container(color = MaterialTheme.colorScheme.surfaceColorAtElevation(14.dp))
                         .padding(4.dp)
                 ) {
                     Box(

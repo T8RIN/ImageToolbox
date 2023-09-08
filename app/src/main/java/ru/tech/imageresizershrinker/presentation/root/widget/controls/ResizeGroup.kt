@@ -40,7 +40,7 @@ import androidx.compose.ui.unit.sp
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.domain.model.ResizeType
 import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
-import ru.tech.imageresizershrinker.presentation.root.utils.modifier.block
+import ru.tech.imageresizershrinker.presentation.root.utils.modifier.container
 import ru.tech.imageresizershrinker.presentation.root.widget.buttons.ToggleGroupButton
 import ru.tech.imageresizershrinker.presentation.root.widget.sheets.SimpleSheet
 import ru.tech.imageresizershrinker.presentation.root.widget.text.AutoSizeText
@@ -59,7 +59,7 @@ fun ResizeGroup(
 
     ToggleGroupButton(
         modifier = Modifier
-            .block(shape = RoundedCornerShape(24.dp))
+            .container(shape = RoundedCornerShape(24.dp))
             .padding(start = 3.dp, end = 2.dp),
         enabled = enabled,
         title = {

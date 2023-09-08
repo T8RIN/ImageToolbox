@@ -85,7 +85,7 @@ import ru.tech.imageresizershrinker.presentation.root.utils.helper.Picker
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.localImagePickerMode
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.rememberImagePicker
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.toHex
-import ru.tech.imageresizershrinker.presentation.root.utils.modifier.block
+import ru.tech.imageresizershrinker.presentation.root.utils.modifier.container
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.drawHorizontalStroke
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.fabBorder
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.navBarsPaddingOnlyIfTheyAtTheBottom
@@ -189,7 +189,7 @@ fun GeneratePaletteScreen(
 
     val noPalette: @Composable ColumnScope.() -> Unit = {
         Column(
-            Modifier.block(),
+            Modifier.container(),
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
@@ -307,7 +307,7 @@ fun GeneratePaletteScreen(
                                     .fillMaxHeight()
                                     .padding(16.dp)
                                     .navBarsPaddingOnlyIfTheyAtTheBottom()
-                                    .block()
+                                    .container()
                                     .padding(4.dp)
                                     .clip(RoundedCornerShape(8.dp))
                                     .transparencyChecker(),
@@ -331,7 +331,7 @@ fun GeneratePaletteScreen(
                                         .padding(bottom = 72.dp)
                                         .padding(16.dp)
                                         .navigationBarsPadding()
-                                        .block(RoundedCornerShape(24.dp))
+                                        .container(RoundedCornerShape(24.dp))
                                         .padding(4.dp),
                                     style = LocalTextStyle.current,
                                     onEmpty = { noPalette() },
@@ -363,7 +363,7 @@ fun GeneratePaletteScreen(
                                 modifier = Modifier
                                     .fillMaxWidth()
                                     .padding(16.dp)
-                                    .block()
+                                    .container()
                                     .padding(4.dp)
                                     .clip(RoundedCornerShape(8.dp))
                                     .transparencyChecker(),
@@ -381,7 +381,7 @@ fun GeneratePaletteScreen(
                                     .padding(bottom = 72.dp)
                                     .padding(16.dp)
                                     .navigationBarsPadding()
-                                    .block(RoundedCornerShape(24.dp))
+                                    .container(RoundedCornerShape(24.dp))
                                     .padding(4.dp),
                                 onEmpty = { noPalette() },
                                 style = LocalTextStyle.current,

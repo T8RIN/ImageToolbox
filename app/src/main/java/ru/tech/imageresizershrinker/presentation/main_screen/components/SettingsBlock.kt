@@ -153,7 +153,7 @@ import ru.tech.imageresizershrinker.presentation.root.utils.confetti.LocalConfet
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.ContextUtils.cacheSize
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.ContextUtils.clearCache
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.toUiPath
-import ru.tech.imageresizershrinker.presentation.root.utils.modifier.block
+import ru.tech.imageresizershrinker.presentation.root.utils.modifier.container
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.pulsate
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.scaleOnTap
 import ru.tech.imageresizershrinker.presentation.root.widget.dialogs.ResetDialog
@@ -185,6 +185,7 @@ fun LazyListScope.settingsBlock(
     context: Context,
     viewModel: MainViewModel
 ) {
+    item { Spacer(Modifier.height(8.dp)) }
     item {
         // Night mode
         SettingItem(
@@ -276,7 +277,7 @@ fun LazyListScope.settingsBlock(
                             modifier = Modifier
                                 .size(72.dp)
                                 .offset(7.dp)
-                                .block(
+                                .container(
                                     shape = DavidStarShape,
                                     color = MaterialTheme
                                         .colorScheme
@@ -342,7 +343,7 @@ fun LazyListScope.settingsBlock(
                             modifier = Modifier
                                 .size(64.dp)
                                 .offset(x = 7.dp)
-                                .block(
+                                .container(
                                     shape = CloverShape,
                                     color = MaterialTheme
                                         .colorScheme
@@ -393,7 +394,7 @@ fun LazyListScope.settingsBlock(
                 Column(
                     Modifier
                         .padding(horizontal = 8.dp)
-                        .block(
+                        .container(
                             color = MaterialTheme
                                 .colorScheme
                                 .secondaryContainer
@@ -483,7 +484,7 @@ fun LazyListScope.settingsBlock(
                 Column(
                     Modifier
                         .padding(horizontal = 8.dp)
-                        .block(
+                        .container(
                             color = MaterialTheme
                                 .colorScheme
                                 .secondaryContainer
@@ -578,7 +579,7 @@ fun LazyListScope.settingsBlock(
                 Box(
                     Modifier
                         .padding(horizontal = 8.dp)
-                        .block(
+                        .container(
                             color = MaterialTheme
                                 .colorScheme
                                 .secondaryContainer
@@ -1570,8 +1571,8 @@ fun LazyListScope.settingsBlock(
                                 .padding(start = 8.dp)
                                 .size(64.dp)
                                 .offset(7.dp)
-                                .block(
-                                    applyResultPadding = false,
+                                .container(
+                                    resultPadding = 0.dp,
                                     color = animateColorAsState(
                                         if (settingsState.isNightMode) {
                                             MaterialTheme.colorScheme.background.blend(
@@ -1680,4 +1681,5 @@ fun LazyListScope.settingsBlock(
         }
         Spacer(modifier = Modifier.height(8.dp))
     }
+    item { Spacer(Modifier.height(8.dp)) }
 }

@@ -57,7 +57,7 @@ import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.domain.image.Metadata
 import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.ImageUtils.toMap
-import ru.tech.imageresizershrinker.presentation.root.utils.modifier.alertDialog
+import ru.tech.imageresizershrinker.presentation.root.utils.modifier.alertDialogBorder
 import ru.tech.imageresizershrinker.presentation.root.widget.preferences.PreferenceItemOverload
 import ru.tech.imageresizershrinker.presentation.root.widget.sheets.SimpleSheet
 import ru.tech.imageresizershrinker.presentation.root.widget.text.AutoSizeText
@@ -366,7 +366,7 @@ fun EditExifSheet(
             )
             if (showClearExifDialog) {
                 AlertDialog(
-                    modifier = Modifier.alertDialog(),
+                    modifier = Modifier.alertDialogBorder(),
                     onDismissRequest = { showClearExifDialog = false },
                     title = { Text(stringResource(R.string.clear_exif)) },
                     icon = { Icon(Icons.Rounded.Delete, null) },

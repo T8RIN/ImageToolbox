@@ -60,8 +60,8 @@ import ru.tech.imageresizershrinker.domain.model.Preset
 import ru.tech.imageresizershrinker.presentation.root.icons.material.CreateAlt
 import ru.tech.imageresizershrinker.presentation.root.icons.material.Telegram
 import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
-import ru.tech.imageresizershrinker.presentation.root.utils.modifier.alertDialog
-import ru.tech.imageresizershrinker.presentation.root.utils.modifier.block
+import ru.tech.imageresizershrinker.presentation.root.utils.modifier.alertDialogBorder
+import ru.tech.imageresizershrinker.presentation.root.utils.modifier.container
 import ru.tech.imageresizershrinker.presentation.root.utils.navigation.LocalNavController
 import ru.tech.imageresizershrinker.presentation.root.utils.navigation.Screen
 import ru.tech.imageresizershrinker.presentation.root.widget.other.RevealValue
@@ -95,7 +95,7 @@ fun PresetWidget(
         swipeableContent = {
             Column(
                 modifier = Modifier
-                    .block(shape = RoundedCornerShape(24.dp))
+                    .container(shape = RoundedCornerShape(24.dp))
                     .pointerInput(Unit) {
                         detectTapGestures(
                             onLongPress = {
@@ -252,7 +252,7 @@ fun PresetWidget(
             Box(
                 Modifier
                     .fillMaxSize()
-                    .block(
+                    .container(
                         color = MaterialTheme.colorScheme.surface.copy(alpha = 0.5f),
                         shape = RoundedCornerShape(24.dp)
                     )
@@ -276,7 +276,7 @@ fun PresetWidget(
 
     if (showPresetInfoDialog) {
         AlertDialog(
-            modifier = Modifier.alertDialog(),
+            modifier = Modifier.alertDialogBorder(),
             onDismissRequest = { showPresetInfoDialog = false },
             confirmButton = {
                 OutlinedButton(

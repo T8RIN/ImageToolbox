@@ -55,7 +55,7 @@ import ru.tech.imageresizershrinker.presentation.root.theme.inverse
 import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.ContextUtils.copyColorIntoClipboard
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.ContextUtils.pasteColorFromClipboard
-import ru.tech.imageresizershrinker.presentation.root.utils.modifier.alertDialog
+import ru.tech.imageresizershrinker.presentation.root.utils.modifier.alertDialogBorder
 import ru.tech.imageresizershrinker.presentation.root.widget.text.AutoSizeText
 import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalSettingsState
 import kotlin.random.Random
@@ -189,7 +189,7 @@ fun ColorInfo(
                 if (expanded) {
                     var value by remember { mutableStateOf(getFormattedColor(color)) }
                     AlertDialog(
-                        modifier = Modifier.alertDialog(),
+                        modifier = Modifier.alertDialogBorder(),
                         onDismissRequest = { expanded = false },
                         icon = {
                             Icon(Icons.Outlined.Palette, null)

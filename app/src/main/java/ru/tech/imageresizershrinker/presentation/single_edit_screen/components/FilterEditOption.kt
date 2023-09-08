@@ -57,7 +57,7 @@ import ru.tech.imageresizershrinker.presentation.root.theme.onMixedColor
 import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
 import ru.tech.imageresizershrinker.presentation.root.transformation.filter.FilterTransformation
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.ImageUtils.toBitmap
-import ru.tech.imageresizershrinker.presentation.root.utils.modifier.block
+import ru.tech.imageresizershrinker.presentation.root.utils.modifier.container
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.drawHorizontalStroke
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.fabBorder
 import ru.tech.imageresizershrinker.presentation.root.widget.image.Picture
@@ -106,7 +106,7 @@ fun FilterEditOption(
                     horizontalAlignment = Alignment.CenterHorizontally,
                     verticalArrangement = Arrangement.Center
                 ) {
-                    Column(Modifier.block(MaterialTheme.shapes.extraLarge)) {
+                    Column(Modifier.container(MaterialTheme.shapes.extraLarge)) {
                         TitleItem(text = stringResource(R.string.filters))
                         Column(
                             horizontalAlignment = Alignment.CenterHorizontally,

@@ -34,7 +34,7 @@ import com.smarttoolfactory.cropper.model.CropAspectRatio
 import com.smarttoolfactory.cropper.widget.AspectRatioSelectionCard
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
-import ru.tech.imageresizershrinker.presentation.root.utils.modifier.block
+import ru.tech.imageresizershrinker.presentation.root.utils.modifier.container
 
 @Composable
 fun AspectRatioSelection(
@@ -71,8 +71,8 @@ fun AspectRatioSelection(
                     AspectRatioSelectionCard(
                         modifier = Modifier
                             .width(90.dp)
-                            .block(
-                                applyResultPadding = false,
+                            .container(
+                                resultPadding = 0.dp,
                                 color = animateColorAsState(
                                     targetValue = if (selected) {
                                         MaterialTheme.colorScheme.primaryContainer
@@ -93,8 +93,8 @@ fun AspectRatioSelection(
                     val selected = selectedIndex == index
                     Box(
                         modifier = Modifier
-                            .block(
-                                applyResultPadding = false,
+                            .container(
+                                resultPadding = 0.dp,
                                 color = animateColorAsState(
                                     targetValue = if (selected) {
                                         MaterialTheme.colorScheme.primaryContainer

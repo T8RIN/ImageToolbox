@@ -39,7 +39,7 @@ import androidx.compose.ui.unit.sp
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.domain.model.ImageFormat
 import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
-import ru.tech.imageresizershrinker.presentation.root.utils.modifier.block
+import ru.tech.imageresizershrinker.presentation.root.utils.modifier.container
 import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalSettingsState
 import kotlin.math.roundToInt
 
@@ -86,7 +86,7 @@ fun QualityWidget(
             Column(
                 modifier = Modifier
                     .alpha(alpha)
-                    .block(shape = RoundedCornerShape(24.dp)),
+                    .container(shape = RoundedCornerShape(24.dp)),
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
@@ -164,7 +164,7 @@ fun QualityWidget(
                         color = LocalContentColor.current.copy(0.5f),
                         modifier = Modifier
                             .padding(4.dp)
-                            .block(RoundedCornerShape(20.dp))
+                            .container(RoundedCornerShape(20.dp))
                             .padding(4.dp)
                     )
                 }

@@ -55,7 +55,7 @@ import ru.tech.imageresizershrinker.presentation.root.icons.emoji.EmojiData
 import ru.tech.imageresizershrinker.presentation.root.icons.emoji.EmojiItem
 import ru.tech.imageresizershrinker.presentation.root.theme.blend
 import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
-import ru.tech.imageresizershrinker.presentation.root.utils.modifier.block
+import ru.tech.imageresizershrinker.presentation.root.utils.modifier.container
 import ru.tech.imageresizershrinker.presentation.root.widget.sheets.SimpleSheet
 import ru.tech.imageresizershrinker.presentation.root.widget.text.AutoSizeText
 import ru.tech.imageresizershrinker.presentation.root.widget.text.TitleItem
@@ -154,7 +154,7 @@ fun EmojiSheet(
                         Row(
                             modifier = Modifier
                                 .padding(vertical = 16.dp)
-                                .block(
+                                .container(
                                     color = MaterialTheme.colorScheme.secondaryContainer.copy(
                                         0.4f
                                     )

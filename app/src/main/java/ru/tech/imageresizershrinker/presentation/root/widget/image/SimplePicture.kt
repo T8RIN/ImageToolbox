@@ -13,7 +13,7 @@ import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.presentation.erase_background_screen.components.transparencyChecker
-import ru.tech.imageresizershrinker.presentation.root.utils.modifier.block
+import ru.tech.imageresizershrinker.presentation.root.utils.modifier.container
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.shimmer
 
 @Composable
@@ -30,7 +30,7 @@ fun SimplePicture(
         ?.let {
             Box(
                 modifier = boxModifier
-                    .block()
+                    .container()
                     .padding(4.dp),
                 contentAlignment = Alignment.Center
             ) {

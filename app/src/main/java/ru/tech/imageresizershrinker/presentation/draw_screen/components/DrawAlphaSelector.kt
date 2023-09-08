@@ -27,7 +27,7 @@ import androidx.compose.ui.unit.sp
 import com.smarttoolfactory.colordetector.util.ColorUtil.roundToTwoDigits
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
-import ru.tech.imageresizershrinker.presentation.root.utils.modifier.block
+import ru.tech.imageresizershrinker.presentation.root.utils.modifier.container
 import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalSettingsState
 
 @Composable
@@ -39,7 +39,7 @@ fun DrawAlphaSelector(
     Column(
         Modifier
             .padding(start = 16.dp, end = 16.dp, bottom = 16.dp)
-            .block(shape = RoundedCornerShape(24.dp))
+            .container(shape = RoundedCornerShape(24.dp))
             .animateContentSize()
     ) {
         Row(

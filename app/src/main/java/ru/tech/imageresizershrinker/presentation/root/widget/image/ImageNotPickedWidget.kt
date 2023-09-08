@@ -20,7 +20,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.presentation.root.shapes.CloverShape
-import ru.tech.imageresizershrinker.presentation.root.utils.modifier.block
+import ru.tech.imageresizershrinker.presentation.root.utils.modifier.container
 
 @Composable
 fun ImageNotPickedWidget(
@@ -29,7 +29,7 @@ fun ImageNotPickedWidget(
     text: String = stringResource(R.string.pick_image),
 ) {
     Column(
-        modifier = modifier.block(),
+        modifier = modifier.container(),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
@@ -39,9 +39,9 @@ fun ImageNotPickedWidget(
             null,
             modifier = Modifier
                 .size(100.dp)
-                .block(
+                .container(
                     CloverShape,
-                    applyResultPadding = false,
+                    resultPadding = 0.dp,
                     color = MaterialTheme.colorScheme.primaryContainer
                 )
                 .clickable { onPickImage() }

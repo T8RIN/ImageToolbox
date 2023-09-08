@@ -93,7 +93,7 @@ import ru.tech.imageresizershrinker.presentation.root.utils.helper.Picker
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.failedToSaveImages
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.localImagePickerMode
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.rememberImagePicker
-import ru.tech.imageresizershrinker.presentation.root.utils.modifier.block
+import ru.tech.imageresizershrinker.presentation.root.utils.modifier.container
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.drawHorizontalStroke
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.navBarsLandscapePadding
 import ru.tech.imageresizershrinker.presentation.root.widget.buttons.BottomButtonsBlock
@@ -490,7 +490,7 @@ fun FiltersScreen(
                                         }
                                     )
                                     if (filterList.isNotEmpty()) {
-                                        Column(Modifier.block(MaterialTheme.shapes.extraLarge)) {
+                                        Column(Modifier.container(MaterialTheme.shapes.extraLarge)) {
                                             TitleItem(text = stringResource(R.string.filters))
                                             Column(
                                                 horizontalAlignment = Alignment.CenterHorizontally,

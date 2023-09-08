@@ -63,7 +63,7 @@ import ru.tech.imageresizershrinker.presentation.root.theme.defaultColorTuple
 import ru.tech.imageresizershrinker.presentation.root.theme.inverse
 import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.ListUtils.nearestFor
-import ru.tech.imageresizershrinker.presentation.root.utils.modifier.alertDialog
+import ru.tech.imageresizershrinker.presentation.root.utils.modifier.alertDialogBorder
 import ru.tech.imageresizershrinker.presentation.root.widget.sheets.SimpleSheet
 import ru.tech.imageresizershrinker.presentation.root.widget.text.AutoSizeText
 import ru.tech.imageresizershrinker.presentation.root.widget.text.TitleItem
@@ -96,7 +96,7 @@ fun AvailableColorTuplesSheet(
 
             if (showConfirmDeleteDialog) {
                 AlertDialog(
-                    modifier = Modifier.alertDialog(),
+                    modifier = Modifier.alertDialogBorder(),
                     onDismissRequest = { showConfirmDeleteDialog = false },
                     confirmButton = {
                         OutlinedButton(

@@ -27,7 +27,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.domain.model.ImageFormat
-import ru.tech.imageresizershrinker.presentation.root.utils.modifier.block
+import ru.tech.imageresizershrinker.presentation.root.utils.modifier.container
 
 @Composable
 fun SaveExifWidget(
@@ -44,7 +44,7 @@ fun SaveExifWidget(
                     Modifier.clickable { onCheckedChange(!selected) }
                 } else Modifier
             )
-            .block(shape = RoundedCornerShape(24.dp))
+            .container(shape = RoundedCornerShape(24.dp))
             .padding(horizontal = 16.dp, vertical = 8.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {

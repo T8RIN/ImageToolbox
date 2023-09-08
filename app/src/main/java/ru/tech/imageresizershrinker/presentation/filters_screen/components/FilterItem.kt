@@ -62,8 +62,8 @@ import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
 import ru.tech.imageresizershrinker.presentation.root.transformation.filter.FilterTransformation
 import ru.tech.imageresizershrinker.presentation.root.transformation.filter.RGBFilter
-import ru.tech.imageresizershrinker.presentation.root.utils.modifier.alertDialog
-import ru.tech.imageresizershrinker.presentation.root.utils.modifier.block
+import ru.tech.imageresizershrinker.presentation.root.utils.modifier.alertDialogBorder
+import ru.tech.imageresizershrinker.presentation.root.utils.modifier.container
 import ru.tech.imageresizershrinker.presentation.root.widget.color_picker.AlphaColorSelection
 import ru.tech.imageresizershrinker.presentation.root.widget.color_picker.ColorSelection
 import ru.tech.imageresizershrinker.presentation.root.widget.text.RoundedTextField
@@ -90,7 +90,7 @@ fun <T> FilterItem(
     val settingsState = LocalSettingsState.current
     Row(
         modifier = modifier
-            .block(color = backgroundColor, shape = MaterialTheme.shapes.extraLarge)
+            .container(color = backgroundColor, shape = MaterialTheme.shapes.extraLarge)
             .animateContentSize()
             .then(
                 onLongPress?.let {
@@ -727,7 +727,7 @@ private fun ValueDialog(
     if (expanded) {
         var value by remember(valueState) { mutableStateOf(valueState) }
         AlertDialog(
-            modifier = Modifier.alertDialog(),
+            modifier = Modifier.alertDialogBorder(),
             onDismissRequest = onDismiss,
             icon = {
                 Icon(Icons.Outlined.ViewArray, null)

@@ -61,7 +61,7 @@ import ru.tech.imageresizershrinker.presentation.root.icons.material.Eraser
 import ru.tech.imageresizershrinker.presentation.root.theme.mixedColor
 import ru.tech.imageresizershrinker.presentation.root.theme.onMixedColor
 import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
-import ru.tech.imageresizershrinker.presentation.root.utils.modifier.block
+import ru.tech.imageresizershrinker.presentation.root.utils.modifier.container
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.drawHorizontalStroke
 import ru.tech.imageresizershrinker.presentation.root.utils.saver.ColorSaver
 import ru.tech.imageresizershrinker.presentation.root.utils.saver.DrawModeSaver
@@ -141,7 +141,7 @@ fun DrawEditOption(
             Row(
                 Modifier
                     .padding(16.dp)
-                    .then(if (!useScaffold) Modifier.block(shape = CircleShape) else Modifier)
+                    .then(if (!useScaffold) Modifier.container(shape = CircleShape) else Modifier)
             ) {
                 switch()
                 Spacer(Modifier.width(8.dp))

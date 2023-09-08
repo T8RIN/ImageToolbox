@@ -24,7 +24,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
-import ru.tech.imageresizershrinker.presentation.root.utils.modifier.alertDialog
+import ru.tech.imageresizershrinker.presentation.root.utils.modifier.alertDialogBorder
 import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalSettingsState
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -44,7 +44,7 @@ fun LoadingDialog(canCancel: Boolean = true, onCancelLoading: () -> Unit) {
     }
     if (showWantDismissDialog) {
         AlertDialog(
-            modifier = Modifier.alertDialog(),
+            modifier = Modifier.alertDialogBorder(),
             onDismissRequest = {
                 showWantDismissDialog = false
             },
@@ -115,7 +115,7 @@ fun LoadingDialog(done: Int, left: Int, onCancelLoading: () -> Unit) {
     }
     if (showWantDismissDialog) {
         AlertDialog(
-            modifier = Modifier.alertDialog(),
+            modifier = Modifier.alertDialogBorder(),
             onDismissRequest = {
                 showWantDismissDialog = false
             },

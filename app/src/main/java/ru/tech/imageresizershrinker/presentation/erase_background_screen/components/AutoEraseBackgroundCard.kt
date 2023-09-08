@@ -31,7 +31,7 @@ import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.presentation.root.theme.mixedColor
 import ru.tech.imageresizershrinker.presentation.root.theme.onMixedColor
 import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
-import ru.tech.imageresizershrinker.presentation.root.utils.modifier.block
+import ru.tech.imageresizershrinker.presentation.root.utils.modifier.container
 import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalSettingsState
 
 @Composable
@@ -43,13 +43,13 @@ fun AutoEraseBackgroundCard(
     Column(
         Modifier
             .padding(start = 16.dp, end = 16.dp, top = 8.dp)
-            .block(resultPadding = 8.dp, shape = RoundedCornerShape(24.dp))
+            .container(resultPadding = 8.dp, shape = RoundedCornerShape(24.dp))
     ) {
         if (BuildConfig.FLAVOR != "foss") {
             Row(
                 modifier = Modifier
-                    .block(
-                        applyResultPadding = false,
+                    .container(
+                        resultPadding = 0.dp,
                         color = MaterialTheme.colorScheme.mixedColor.copy(0.7f)
                     )
                     .clickable { onClick() }

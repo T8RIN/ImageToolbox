@@ -85,7 +85,7 @@ import ru.tech.imageresizershrinker.presentation.root.transformation.filter.Satu
 import ru.tech.imageresizershrinker.presentation.root.utils.confetti.LocalConfettiController
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.ImageUtils.toBitmap
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.parseSaveResult
-import ru.tech.imageresizershrinker.presentation.root.utils.modifier.block
+import ru.tech.imageresizershrinker.presentation.root.utils.modifier.container
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.drawHorizontalStroke
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.fabBorder
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.navBarsLandscapePadding
@@ -174,7 +174,7 @@ fun LoadNetImageScreen(
                         if (viewModel.bitmap == null) Modifier.height(140.dp)
                         else Modifier
                     )
-                    .block()
+                    .container()
                     .padding(4.dp),
                 contentScale = scale,
                 shape = MaterialTheme.shapes.small,
@@ -412,7 +412,7 @@ fun LoadNetImageScreen(
                                 if (!landscape) imageBlock()
                                 ToggleGroupButton(
                                     modifier = Modifier
-                                        .block(shape = RoundedCornerShape(24.dp)),
+                                        .container(shape = RoundedCornerShape(24.dp)),
                                     title = stringResource(id = R.string.content_scale),
                                     enabled = viewModel.bitmap != null,
                                     items = listOf(
@@ -431,7 +431,7 @@ fun LoadNetImageScreen(
                                 Spacer(Modifier.height(8.dp))
                                 RoundedTextField(
                                     modifier = Modifier
-                                        .block(shape = RoundedCornerShape(24.dp))
+                                        .container(shape = RoundedCornerShape(24.dp))
                                         .padding(8.dp),
                                     value = link,
                                     onValueChange = {

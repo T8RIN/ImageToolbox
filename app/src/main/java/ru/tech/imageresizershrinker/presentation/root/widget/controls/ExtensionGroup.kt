@@ -42,7 +42,7 @@ import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.domain.model.ImageFormat
 import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
-import ru.tech.imageresizershrinker.presentation.root.utils.modifier.block
+import ru.tech.imageresizershrinker.presentation.root.utils.modifier.container
 import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalSettingsState
 
 @OptIn(ExperimentalLayoutApi::class)
@@ -70,7 +70,7 @@ fun ExtensionGroup(
     ) {
         Column(
             modifier = modifier
-                .block(
+                .container(
                     shape = RoundedCornerShape(24.dp),
                     color = MaterialTheme.colorScheme.surfaceColorAtElevation(1.dp),
                 ),
@@ -104,7 +104,7 @@ fun ExtensionGroup(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(8.dp)
-                        .block()
+                        .container()
                         .padding(horizontal = 8.dp, vertical = 12.dp)
                 ) {
                     items.forEach {

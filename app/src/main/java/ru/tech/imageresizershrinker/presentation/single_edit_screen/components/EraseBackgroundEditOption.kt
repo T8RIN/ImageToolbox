@@ -63,7 +63,7 @@ import ru.tech.imageresizershrinker.presentation.erase_background_screen.compone
 import ru.tech.imageresizershrinker.presentation.root.icons.material.Transparency
 import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
 import ru.tech.imageresizershrinker.presentation.root.utils.confetti.LocalConfettiController
-import ru.tech.imageresizershrinker.presentation.root.utils.modifier.block
+import ru.tech.imageresizershrinker.presentation.root.utils.modifier.container
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.drawHorizontalStroke
 import ru.tech.imageresizershrinker.presentation.root.widget.other.Loading
 import ru.tech.imageresizershrinker.presentation.root.widget.other.LocalToastHost
@@ -152,7 +152,7 @@ fun EraseBackgroundEditOption(
             Row(
                 Modifier
                     .padding(16.dp)
-                    .then(if (!useScaffold) Modifier.block(shape = CircleShape) else Modifier)
+                    .then(if (!useScaffold) Modifier.container(shape = CircleShape) else Modifier)
             ) {
                 switch()
                 Spacer(Modifier.width(8.dp))

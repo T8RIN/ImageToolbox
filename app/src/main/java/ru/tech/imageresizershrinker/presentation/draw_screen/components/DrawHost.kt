@@ -90,7 +90,7 @@ import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.presentation.erase_background_screen.components.PathPaint
 import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.ImageUtils.restrict
-import ru.tech.imageresizershrinker.presentation.root.utils.modifier.block
+import ru.tech.imageresizershrinker.presentation.root.utils.modifier.container
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.drawHorizontalStroke
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.fabBorder
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.navBarsPaddingOnlyIfTheyAtTheEnd
@@ -519,7 +519,7 @@ fun DrawHost(
                     Row(
                         Modifier
                             .padding(16.dp)
-                            .block(shape = RoundedCornerShape(24.dp))
+                            .container(shape = RoundedCornerShape(24.dp))
                     ) {
                         RoundedTextField(
                             value = width.takeIf { it != 0 }?.toString() ?: "",

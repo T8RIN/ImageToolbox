@@ -36,7 +36,7 @@ import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.presentation.root.icons.material.Highlighter
 import ru.tech.imageresizershrinker.presentation.root.icons.material.Laser
 import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
-import ru.tech.imageresizershrinker.presentation.root.utils.modifier.block
+import ru.tech.imageresizershrinker.presentation.root.utils.modifier.container
 import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalSettingsState
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -50,7 +50,7 @@ fun DrawModeSelector(
     val settingsState = LocalSettingsState.current
     Column(
         modifier = modifier
-            .block(shape = RoundedCornerShape(24.dp))
+            .container(shape = RoundedCornerShape(24.dp))
             .padding(start = 3.dp, end = 2.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {

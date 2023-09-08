@@ -56,7 +56,7 @@ import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.Picker
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.localImagePickerMode
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.rememberImagePicker
-import ru.tech.imageresizershrinker.presentation.root.utils.modifier.block
+import ru.tech.imageresizershrinker.presentation.root.utils.modifier.container
 import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalSettingsState
 import kotlin.math.roundToInt
 
@@ -122,8 +122,8 @@ fun CropMaskSelection(
                     modifier = Modifier
                         .padding(vertical = 8.dp)
                         .height(100.dp)
-                        .block(
-                            applyResultPadding = false,
+                        .container(
+                            resultPadding = 0.dp,
                             color = animateColorAsState(
                                 targetValue = if (selected) {
                                     MaterialTheme.colorScheme.primaryContainer
@@ -156,7 +156,7 @@ fun CropMaskSelection(
             Column(
                 modifier = Modifier
                     .padding(start = 16.dp, end = 16.dp, bottom = 16.dp)
-                    .block(shape = RoundedCornerShape(24.dp)),
+                    .container(shape = RoundedCornerShape(24.dp)),
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
@@ -244,7 +244,7 @@ fun CropMaskSelection(
             Column(
                 modifier = Modifier
                     .padding(start = 16.dp, end = 16.dp, bottom = 16.dp)
-                    .block(shape = RoundedCornerShape(24.dp))
+                    .container(shape = RoundedCornerShape(24.dp))
                     .padding(8.dp),
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally

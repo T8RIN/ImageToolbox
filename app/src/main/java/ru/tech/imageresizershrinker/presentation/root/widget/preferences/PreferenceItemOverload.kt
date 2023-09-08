@@ -38,6 +38,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
+import ru.tech.imageresizershrinker.presentation.root.utils.modifier.container
 import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalSettingsState
 
 @OptIn(ExperimentalFoundationApi::class)
@@ -58,26 +59,18 @@ fun PreferenceItemOverload(
         .fillMaxWidth()
         .padding(horizontal = 12.dp)
 ) {
-
-    val settingsState = LocalSettingsState.current
-
     ProvideTextStyle(value = LocalTextStyle.current.copy(textAlign = TextAlign.Start)) {
         Card(
             shape = shape,
             modifier = modifier
-                .border(
-                    settingsState.borderWidth,
-                    MaterialTheme.colorScheme.outlineVariant(0.1f, color),
-                    shape
-                )
-                .clip(shape)
+                .container(shape = shape, resultPadding = 0.dp, color = color)
                 .then(
                     if (onClick != null) {
                         Modifier.combinedClickable(onClick = onClick, onLongClick = onLongClick)
                     } else Modifier
                 ),
             colors = CardDefaults.cardColors(
-                containerColor = color,
+                containerColor = Color.Transparent,
                 contentColor = contentColor
             )
         ) {

@@ -141,7 +141,7 @@ import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
 import ru.tech.imageresizershrinker.presentation.root.theme.suggestContainerColorBy
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.ContextUtils.verifyInstallerId
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.plus
-import ru.tech.imageresizershrinker.presentation.root.utils.modifier.alertDialog
+import ru.tech.imageresizershrinker.presentation.root.utils.modifier.alertDialogBorder
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.drawHorizontalStroke
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.fabBorder
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.pulsate
@@ -780,7 +780,7 @@ fun MainScreen(
             modifier = Modifier
                 .width(340.dp)
                 .padding(16.dp)
-                .alertDialog(),
+                .alertDialogBorder(),
             properties = DialogProperties(usePlatformDefaultWidth = false),
             onDismissRequest = { showChangeFilenameDialog = false },
             icon = {

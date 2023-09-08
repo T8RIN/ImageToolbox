@@ -17,7 +17,7 @@ import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.presentation.root.theme.mixedColor
 import ru.tech.imageresizershrinker.presentation.root.theme.onMixedColor
-import ru.tech.imageresizershrinker.presentation.root.utils.modifier.block
+import ru.tech.imageresizershrinker.presentation.root.utils.modifier.container
 
 @Composable
 fun OpenColorPickerCard(
@@ -26,8 +26,8 @@ fun OpenColorPickerCard(
     Row(
         modifier = Modifier
             .padding(start = 16.dp, end = 16.dp, top = 16.dp)
-            .block(
-                applyResultPadding = false,
+            .container(
+                resultPadding = 0.dp,
                 color = MaterialTheme.colorScheme.mixedColor.copy(0.7f),
                 shape = RoundedCornerShape(24.dp)
             )

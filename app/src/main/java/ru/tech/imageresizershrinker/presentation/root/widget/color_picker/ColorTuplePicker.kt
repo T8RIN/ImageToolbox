@@ -48,7 +48,7 @@ import kotlinx.coroutines.delay
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.presentation.root.icons.material.PaletteSwatch
 import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
-import ru.tech.imageresizershrinker.presentation.root.utils.modifier.block
+import ru.tech.imageresizershrinker.presentation.root.utils.modifier.container
 import ru.tech.imageresizershrinker.presentation.root.widget.sheets.SimpleSheet
 import ru.tech.imageresizershrinker.presentation.root.widget.text.AutoSizeText
 import ru.tech.imageresizershrinker.presentation.root.widget.text.TitleItem
@@ -133,7 +133,7 @@ fun ColorTuplePicker(
                             verticalAlignment = Alignment.CenterVertically,
                             horizontalArrangement = Arrangement.Center,
                             modifier = Modifier
-                                .block(RoundedCornerShape(24.dp))
+                                .container(RoundedCornerShape(24.dp))
                                 .padding(16.dp)
                         ) {
                             Icon(Icons.Rounded.PaletteSwatch, null)
@@ -167,7 +167,7 @@ fun ColorTuplePicker(
                         Column(
                             horizontalAlignment = Alignment.CenterHorizontally,
                             modifier = Modifier
-                                .block(RoundedCornerShape(24.dp))
+                                .container(RoundedCornerShape(24.dp))
                                 .padding(horizontal = 20.dp)
                         ) {
                             TitleItem(text = stringResource(R.string.primary))
@@ -188,7 +188,7 @@ fun ColorTuplePicker(
                         Column(
                             horizontalAlignment = Alignment.CenterHorizontally,
                             modifier = Modifier
-                                .block(RoundedCornerShape(24.dp))
+                                .container(RoundedCornerShape(24.dp))
                                 .padding(horizontal = 20.dp)
                         ) {
                             TitleItem(text = stringResource(R.string.secondary))
@@ -204,7 +204,7 @@ fun ColorTuplePicker(
                         Column(
                             horizontalAlignment = Alignment.CenterHorizontally,
                             modifier = Modifier
-                                .block(RoundedCornerShape(24.dp))
+                                .container(RoundedCornerShape(24.dp))
                                 .padding(horizontal = 20.dp)
                         ) {
                             TitleItem(text = stringResource(R.string.tertiary))
@@ -220,7 +220,7 @@ fun ColorTuplePicker(
                         Column(
                             horizontalAlignment = Alignment.CenterHorizontally,
                             modifier = Modifier
-                                .block(RoundedCornerShape(24.dp))
+                                .container(RoundedCornerShape(24.dp))
                                 .padding(horizontal = 20.dp)
                         ) {
                             TitleItem(text = stringResource(R.string.surface))

@@ -42,7 +42,7 @@ import ru.tech.imageresizershrinker.presentation.root.icons.material.Transparenc
 import ru.tech.imageresizershrinker.presentation.root.theme.mixedColor
 import ru.tech.imageresizershrinker.presentation.root.theme.onMixedColor
 import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
-import ru.tech.imageresizershrinker.presentation.root.utils.modifier.block
+import ru.tech.imageresizershrinker.presentation.root.utils.modifier.container
 import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalSettingsState
 
 @Composable
@@ -62,7 +62,7 @@ fun ImageTransformBar(
 
     Column(
         modifier = Modifier
-            .block(shape = RoundedCornerShape(animateDpAsState(targetValue = if (imageFormat?.canWriteExif == true) 48.dp else 24.dp).value))
+            .container(shape = RoundedCornerShape(animateDpAsState(targetValue = if (imageFormat?.canWriteExif == true) 48.dp else 24.dp).value))
             .animateContentSize()
     ) {
         Row(verticalAlignment = Alignment.CenterVertically) {
@@ -152,7 +152,7 @@ fun ImageExtraTransformBar(
         MaterialTheme.colorScheme.outlineVariant()
     )
 
-    Row(Modifier.block(shape = CircleShape)) {
+    Row(Modifier.container(shape = CircleShape)) {
         OutlinedIconButton(
             onClick = onCrop,
             colors = colors,

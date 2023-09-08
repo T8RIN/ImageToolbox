@@ -1,5 +1,6 @@
 package ru.tech.imageresizershrinker.presentation.root.widget.other
 
+import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -18,7 +19,8 @@ import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.presentation.root.shapes.DavidStarShape
-import ru.tech.imageresizershrinker.presentation.root.utils.modifier.block
+import ru.tech.imageresizershrinker.presentation.root.utils.modifier.container
+import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalSettingsState
 
 @Composable
 fun BoxScope.Loading() {
@@ -28,13 +30,18 @@ fun BoxScope.Loading() {
 
 @Composable
 fun Loading(modifier: Modifier = Modifier) {
+    val settingsState = LocalSettingsState.current
     Box(
         modifier
             .size(84.dp)
-            .block(
+            .shadow(
+                elevation = animateDpAsState(if (settingsState.borderWidth > 0.dp) 1.dp else 10.dp).value,
+                shape = DavidStarShape
+            )
+            .container(
                 shape = DavidStarShape,
                 color = MaterialTheme.colorScheme.secondaryContainer,
-                applyResultPadding = false
+                resultPadding = 0.dp
             )
     ) {
         CircularProgressIndicator(
@@ -50,13 +57,18 @@ fun Loading(modifier: Modifier = Modifier) {
 
 @Composable
 fun BoxScope.Loading(done: Int, left: Int) {
+    val settingsState = LocalSettingsState.current
     Column(
         modifier = Modifier
             .size(108.dp)
-            .block(
+            .shadow(
+                elevation = animateDpAsState(if (settingsState.borderWidth > 0.dp) 1.dp else 10.dp).value,
+                shape = DavidStarShape
+            )
+            .container(
                 shape = DavidStarShape,
                 color = MaterialTheme.colorScheme.secondaryContainer,
-                applyResultPadding = false
+                resultPadding = 0.dp
             )
             .align(Alignment.Center),
         verticalArrangement = Arrangement.Center,

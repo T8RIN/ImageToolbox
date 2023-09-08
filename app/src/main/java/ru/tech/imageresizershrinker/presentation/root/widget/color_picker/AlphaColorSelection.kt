@@ -27,7 +27,7 @@ import com.smarttoolfactory.colorpicker.selector.SelectorRectSaturationValueHSV
 import com.smarttoolfactory.colorpicker.slider.SliderAlphaHSL
 import com.smarttoolfactory.colorpicker.slider.SliderHueHSV
 import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
-import ru.tech.imageresizershrinker.presentation.root.utils.modifier.block
+import ru.tech.imageresizershrinker.presentation.root.utils.modifier.container
 import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalSettingsState
 
 @Composable
@@ -54,7 +54,7 @@ fun AlphaColorSelection(
             modifier = Modifier
                 .fillMaxWidth()
                 .aspectRatio(4 / 3f)
-                .block(RoundedCornerShape(2.dp), applyResultPadding = false)
+                .container(RoundedCornerShape(2.dp), resultPadding = 0.dp)
                 .clip(RoundedCornerShape(3.dp)),
             hue = hue,
             saturation = saturation,

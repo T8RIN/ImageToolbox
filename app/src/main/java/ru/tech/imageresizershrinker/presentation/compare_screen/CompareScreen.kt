@@ -96,7 +96,7 @@ import ru.tech.imageresizershrinker.presentation.root.utils.helper.Picker
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.localImagePickerMode
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.parseSaveResult
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.rememberImagePicker
-import ru.tech.imageresizershrinker.presentation.root.utils.modifier.block
+import ru.tech.imageresizershrinker.presentation.root.utils.modifier.container
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.drawHorizontalStroke
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.fabBorder
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.navBarsPaddingOnlyIfTheyAtTheBottom
@@ -317,7 +317,7 @@ fun CompareScreen(
                                             BeforeAfterImage(
                                                 modifier = Modifier
                                                     .padding(16.dp)
-                                                    .block(RoundedCornerShape(16.dp))
+                                                    .container(RoundedCornerShape(16.dp))
                                                     .padding(4.dp)
                                                     .clip(RoundedCornerShape(12.dp))
                                                     .transparencyChecker(),
@@ -401,7 +401,7 @@ fun CompareScreen(
                                                     enableZoom = false,
                                                     modifier = Modifier
                                                         .navBarsPaddingOnlyIfTheyAtTheBottom()
-                                                        .block(RoundedCornerShape(16.dp))
+                                                        .container(RoundedCornerShape(16.dp))
                                                         .padding(4.dp)
                                                         .clip(RoundedCornerShape(12.dp))
                                                         .transparencyChecker(),
