@@ -279,9 +279,24 @@ class MainViewModel @Inject constructor(
     }
 
     private fun isNeedUpdate(tag: String): Boolean {
-        return (tag != BuildConfig.VERSION_NAME) && !tag.contains("beta") && !tag.contains("alpha") && !tag.contains(
-            "rc"
-        )
+        fun String.toVersionCode(): Int {
+            return replace("-", "")
+                .replace(".", "")
+                .replace("_", "")
+                .replace("alpha", "1")
+                .replace("beta", "2")
+                .replace("rc", "3")
+                .replace("foss", "")
+                .replace("jxl", "")
+                .toIntOrNull() ?: -1
+        }
+
+        val build = BuildConfig.VERSION_NAME
+
+        val tagVC = tag.toVersionCode()
+        val buildVC = build.toVersionCode()
+
+        return tagVC > buildVC
     }
 
     fun hideSelectDialog() {

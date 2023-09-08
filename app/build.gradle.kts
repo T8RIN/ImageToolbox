@@ -23,7 +23,7 @@ android {
         minSdk = 21
         targetSdk = 34
         versionCode = 86
-        versionName = "2.3.2"
+        versionName = "2.3.1-foss"
         resourceConfigurations += setOf(
             "en",
             "ar",
@@ -65,7 +65,7 @@ android {
     productFlavors {
         create("foss") {
             dimension = "app"
-            versionNameSuffix = "-foss"
+            versionNameSuffix = "_foss"
             extra.set("gmsEnabled", false)
         }
         create("market") {
@@ -74,7 +74,7 @@ android {
         }
         create("jxl") {
             dimension = "app"
-            versionNameSuffix = "-jxl"
+            versionNameSuffix = "_jxl"
             extra.set("gmsEnabled", true)
         }
     }
