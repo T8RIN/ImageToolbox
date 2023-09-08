@@ -4,7 +4,6 @@ import android.net.Uri
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -13,6 +12,7 @@ import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.navigationBarsPadding
@@ -53,6 +53,7 @@ import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.presentation.root.icons.emoji.EmojiData
 import ru.tech.imageresizershrinker.presentation.root.icons.emoji.EmojiItem
+import ru.tech.imageresizershrinker.presentation.root.shapes.CloverShape
 import ru.tech.imageresizershrinker.presentation.root.theme.blend
 import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.container
@@ -129,7 +130,7 @@ fun EmojiSheet(
             HorizontalDivider()
             LazyVerticalGrid(
                 state = state,
-                columns = GridCells.Adaptive(50.dp),
+                columns = GridCells.Adaptive(55.dp),
                 modifier = Modifier
                     .weight(1f)
                     .fillMaxWidth()
@@ -138,11 +139,11 @@ fun EmojiSheet(
                     ),
                 userScrollEnabled = emojiEnabled,
                 verticalArrangement = Arrangement.spacedBy(
-                    4.dp,
+                    6.dp,
                     Alignment.CenterVertically
                 ),
                 horizontalArrangement = Arrangement.spacedBy(
-                    4.dp,
+                    6.dp,
                     Alignment.CenterHorizontally
                 ),
                 contentPadding = PaddingValues(start = 16.dp, end = 16.dp, bottom = 16.dp)
@@ -157,7 +158,8 @@ fun EmojiSheet(
                                 .container(
                                     color = MaterialTheme.colorScheme.secondaryContainer.copy(
                                         0.4f
-                                    )
+                                    ),
+                                    resultPadding = 0.dp
                                 )
                                 .padding(16.dp),
                             verticalAlignment = Alignment.CenterVertically,
@@ -173,23 +175,20 @@ fun EmojiSheet(
                             val selected = index == selectedEmojiIndex
                             Box(
                                 modifier = Modifier
+                                    .aspectRatio(1f)
                                     .size(58.dp)
-                                    .background(
+                                    .container(
                                         color = if (selected) MaterialTheme.colorScheme.primaryContainer
                                         else MaterialTheme.colorScheme.secondaryContainer.copy(alpha = 0.2f),
-                                        shape = MaterialTheme.shapes.medium
-                                    )
-                                    .border(
-                                        width = LocalSettingsState.current.borderWidth,
-                                        color = if (selected) MaterialTheme.colorScheme.onPrimaryContainer.copy(
+                                        shape = CloverShape,
+                                        borderColor = if (selected) MaterialTheme.colorScheme.onPrimaryContainer.copy(
                                             0.7f
                                         )
                                         else MaterialTheme.colorScheme.onSecondaryContainer.copy(
                                             alpha = 0.1f
                                         ),
-                                        shape = MaterialTheme.shapes.medium
+                                        resultPadding = 0.dp
                                     )
-                                    .clip(MaterialTheme.shapes.medium)
                                     .clickable {
                                         onEmojiPicked(index)
                                     },

@@ -20,6 +20,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.presentation.root.shapes.CloverShape
+import ru.tech.imageresizershrinker.presentation.root.theme.mixedColor
+import ru.tech.imageresizershrinker.presentation.root.theme.onMixedColor
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.container
 
 @Composable
@@ -42,11 +44,11 @@ fun ImageNotPickedWidget(
                 .container(
                     CloverShape,
                     resultPadding = 0.dp,
-                    color = MaterialTheme.colorScheme.primaryContainer
+                    color = MaterialTheme.colorScheme.mixedColor
                 )
                 .clickable { onPickImage() }
                 .padding(12.dp),
-            tint = MaterialTheme.colorScheme.onPrimaryContainer
+            tint = MaterialTheme.colorScheme.onMixedColor
         )
         Text(
             text,

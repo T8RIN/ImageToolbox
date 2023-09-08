@@ -283,7 +283,8 @@ fun LazyListScope.settingsBlock(
                                         .colorScheme
                                         .surfaceVariant
                                         .copy(alpha = 0.5f),
-                                    borderColor = MaterialTheme.colorScheme.outlineVariant(0.2f)
+                                    borderColor = MaterialTheme.colorScheme.outlineVariant(0.2f),
+                                    resultPadding = 5.dp
                                 ),
                             colorTuple = settingsState.appColorTuple,
                             backgroundColor = Color.Transparent

@@ -48,6 +48,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.luminance
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.Dp
@@ -59,11 +60,13 @@ import com.t8rin.dynamic.theme.rememberColorScheme
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.presentation.root.icons.material.CreateAlt
 import ru.tech.imageresizershrinker.presentation.root.icons.material.PaletteSwatch
+import ru.tech.imageresizershrinker.presentation.root.shapes.DavidStarShape
 import ru.tech.imageresizershrinker.presentation.root.theme.defaultColorTuple
 import ru.tech.imageresizershrinker.presentation.root.theme.inverse
 import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.ListUtils.nearestFor
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.alertDialogBorder
+import ru.tech.imageresizershrinker.presentation.root.utils.modifier.container
 import ru.tech.imageresizershrinker.presentation.root.widget.sheets.SimpleSheet
 import ru.tech.imageresizershrinker.presentation.root.widget.text.AutoSizeText
 import ru.tech.imageresizershrinker.presentation.root.widget.text.TitleItem
@@ -235,27 +238,27 @@ fun AvailableColorTuplesSheet(
                 ) {
                     colorTupleList.forEach { colorTuple ->
                         ColorTupleItem(
-                            colorTuple = colorTuple, modifier = Modifier
+                            colorTuple = colorTuple,
+                            modifier = Modifier
                                 .padding(2.dp)
                                 .size(64.dp)
-                                .border(
-                                    borderWidth,
-                                    MaterialTheme.colorScheme.outlineVariant(
-                                        0.2f
-                                    ),
-                                    MaterialTheme.shapes.medium
+                                .container(
+                                    shape = DavidStarShape,
+                                    color = rememberColorScheme(
+                                        LocalSettingsState.current.isNightMode,
+                                        LocalSettingsState.current.isDynamicColors,
+                                        colorTuple
+                                    ).surfaceVariant.copy(alpha = 0.8f),
+                                    borderColor = MaterialTheme.colorScheme.outlineVariant(0.2f),
+                                    resultPadding = 0.dp
                                 )
-                                .clip(MaterialTheme.shapes.medium)
                                 .combinedClickable(
                                     onClick = {
                                         onPickTheme(colorTuple)
                                     },
-                                ),
-                            backgroundColor = rememberColorScheme(
-                                LocalSettingsState.current.isNightMode,
-                                LocalSettingsState.current.isDynamicColors,
-                                colorTuple
-                            ).surfaceVariant.copy(alpha = 0.8f)
+                                )
+                                .padding(3.dp),
+                            backgroundColor = Color.Transparent
                         ) {
                             AnimatedContent(
                                 targetState = colorTuple == currentColorTuple
@@ -301,17 +304,15 @@ fun AvailableColorTuplesSheet(
                         modifier = Modifier
                             .padding(2.dp)
                             .size(64.dp)
-                            .border(
-                                borderWidth,
-                                MaterialTheme.colorScheme.outlineVariant(
-                                    0.2f
-                                ),
-                                MaterialTheme.shapes.medium
+                            .container(
+                                shape = DavidStarShape,
+                                color = MaterialTheme.colorScheme.surfaceVariant,
+                                borderColor = MaterialTheme.colorScheme.outlineVariant(0.2f),
+                                resultPadding = 0.dp
                             )
-                            .clip(MaterialTheme.shapes.medium)
-                            .clickable { openColorPicker() },
-                        backgroundColor = MaterialTheme.colorScheme
-                            .surfaceVariant
+                            .clickable { openColorPicker() }
+                            .padding(3.dp),
+                        backgroundColor = Color.Transparent
                     ) {
                         Icon(
                             imageVector = Icons.Rounded.AddCircleOutline,
