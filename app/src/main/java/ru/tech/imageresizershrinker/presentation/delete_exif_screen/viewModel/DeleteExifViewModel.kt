@@ -11,6 +11,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import ru.tech.imageresizershrinker.domain.image.ImageManager
@@ -90,6 +91,8 @@ class DeleteExifViewModel @Inject constructor(
         }
     }
 
+    private var savingJob: Job? = null
+
     fun saveBitmaps(
         onResult: (Int, String) -> Unit
     ) = viewModelScope.launch {
@@ -122,6 +125,10 @@ class DeleteExifViewModel @Inject constructor(
             onResult(failed, fileController.savingPath)
         }
         _isSaving.value = false
+    }.also {
+        _isSaving.value = false
+        savingJob?.cancel()
+        savingJob = it
     }
 
     fun setBitmap(uri: Uri) {
@@ -154,7 +161,9 @@ class DeleteExifViewModel @Inject constructor(
     }
 
     fun shareBitmaps(onComplete: () -> Unit) {
-        viewModelScope.launch {
+        _isSaving.value = false
+        savingJob?.cancel()
+        savingJob = viewModelScope.launch {
             _isSaving.value = true
             imageManager.shareImages(
                 uris = uris?.map { it.toString() } ?: emptyList(),
@@ -175,5 +184,11 @@ class DeleteExifViewModel @Inject constructor(
     }
 
     fun getImageManager(): ImageManager<Bitmap, ExifInterface> = imageManager
+
+    fun cancelSaving() {
+        _isSaving.value = false
+        savingJob?.cancel()
+        savingJob = null
+    }
 
 }

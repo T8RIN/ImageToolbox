@@ -379,7 +379,9 @@ fun DeleteExifScreen(
             }
 
             if (viewModel.isSaving) {
-                LoadingDialog(viewModel.done, viewModel.uris?.size ?: 1)
+                LoadingDialog(viewModel.done, viewModel.uris?.size ?: 1) {
+                    viewModel.cancelSaving()
+                }
             }
 
             PickImageFromUrisSheet(

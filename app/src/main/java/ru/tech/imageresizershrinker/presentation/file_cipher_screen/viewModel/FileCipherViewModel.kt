@@ -96,7 +96,9 @@ class FileCipherViewModel @Inject constructor(
     fun generateRandomPassword(): String = generateRandomPasswordUseCase(18)
 
     fun shareFile(it: ByteArray, filename: String, onComplete: () -> Unit) {
-        viewModelScope.launch {
+        _isSaving.value = false
+        savingJob?.cancel()
+        savingJob = viewModelScope.launch {
             _isSaving.value = true
             imageManager.shareFile(
                 byteArray = it,
@@ -107,6 +109,12 @@ class FileCipherViewModel @Inject constructor(
                 }
             )
         }
+    }
+
+    fun cancelSaving() {
+        savingJob?.cancel()
+        savingJob = null
+        _isSaving.value = false
     }
 
 }

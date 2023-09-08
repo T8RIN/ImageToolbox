@@ -573,7 +573,9 @@ fun DrawScreen(
     }
 
     if (viewModel.isSaving || viewModel.isImageLoading) {
-        LoadingDialog()
+        LoadingDialog(viewModel.isSaving) {
+            viewModel.cancelSaving()
+        }
     }
 
     PickColorFromImageSheet(

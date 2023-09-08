@@ -164,7 +164,11 @@ class SingleEditViewModel @Inject constructor(
             }
             _isSaving.value = false
         }
-    }.also { savingJob = it }
+    }.also {
+        _isSaving.value = false
+        savingJob?.cancel()
+        savingJob = it
+    }
 
     private suspend fun updatePreview(
         bitmap: Bitmap
@@ -330,7 +334,9 @@ class SingleEditViewModel @Inject constructor(
     }
 
     fun shareBitmap(onComplete: () -> Unit) {
-        viewModelScope.launch {
+        _isSaving.value = false
+        savingJob?.cancel()
+        savingJob = viewModelScope.launch {
             _isSaving.value = true
             imageManager.shareImages(
                 uris = listOf(_uri.value.toString()),
@@ -546,6 +552,5 @@ class SingleEditViewModel @Inject constructor(
         savingJob = null
         _isSaving.value = false
     }
-
 
 }

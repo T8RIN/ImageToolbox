@@ -15,6 +15,7 @@ import com.smarttoolfactory.cropper.settings.CropDefaults
 import com.smarttoolfactory.cropper.settings.CropOutlineProperty
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import ru.tech.imageresizershrinker.domain.image.ImageManager
@@ -80,6 +81,8 @@ class CropViewModel @Inject constructor(
         _imageFormat.value = imageFormat
     }
 
+    private var savingJob: Job? = null
+
     fun saveBitmap(
         bitmap: Bitmap? = _bitmap.value,
         onComplete: (saveResult: SaveResult) -> Unit
@@ -119,6 +122,10 @@ class CropViewModel @Inject constructor(
                 )
             }
         }
+        _isSaving.value = false
+    }.also {
+        savingJob?.cancel()
+        savingJob = it
         _isSaving.value = false
     }
 
@@ -171,7 +178,9 @@ class CropViewModel @Inject constructor(
     }
 
     fun shareBitmap(bitmap: Bitmap, onComplete: () -> Unit) {
-        viewModelScope.launch {
+        _isSaving.value = false
+        savingJob?.cancel()
+        savingJob = viewModelScope.launch {
             _isSaving.value = true
             imageManager.shareImage(
                 ImageData(
@@ -191,5 +200,11 @@ class CropViewModel @Inject constructor(
     }
 
     suspend fun loadImage(uri: Uri): Bitmap? = imageManager.getImage(data = uri)
+
+    fun cancelSaving() {
+        _isSaving.value = false
+        savingJob?.cancel()
+        savingJob = null
+    }
 
 }

@@ -24,25 +24,27 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
+import ru.tech.imageresizershrinker.presentation.root.utils.modifier.alertDialog
 import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalSettingsState
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun LoadingDialog(onCancelLoading: () -> Unit) {
-    var showWantDismissDialog by remember { mutableStateOf(false) }
-    AlertDialog(onDismissRequest = { showWantDismissDialog = true }) {
+fun LoadingDialog(canCancel: Boolean = true, onCancelLoading: () -> Unit) {
+    var showWantDismissDialog by remember(canCancel) { mutableStateOf(false) }
+    AlertDialog(onDismissRequest = { showWantDismissDialog = canCancel }) {
         Box(
             Modifier
                 .fillMaxSize()
                 .pointerInput(Unit) {
                     detectTapGestures {
-                        showWantDismissDialog = !showWantDismissDialog
+                        showWantDismissDialog = canCancel
                     }
                 }
         ) { Loading() }
     }
     if (showWantDismissDialog) {
         AlertDialog(
+            modifier = Modifier.alertDialog(),
             onDismissRequest = {
                 showWantDismissDialog = false
             },
@@ -113,6 +115,7 @@ fun LoadingDialog(done: Int, left: Int, onCancelLoading: () -> Unit) {
     }
     if (showWantDismissDialog) {
         AlertDialog(
+            modifier = Modifier.alertDialog(),
             onDismissRequest = {
                 showWantDismissDialog = false
             },

@@ -12,6 +12,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import ru.tech.imageresizershrinker.domain.image.ImageManager
@@ -132,13 +133,17 @@ class CompareViewModel @Inject constructor(
         originalSize: Boolean
     ): Bitmap? = imageManager.getImage(uri.toString(), originalSize)?.image
 
+    private var savingJob: Job? = null
+
     fun shareBitmap(
         percent: Float,
         imageFormat: ImageFormat,
         onComplete: () -> Unit
     ) {
-        _isImageLoading.value = true
-        viewModelScope.launch {
+        _isImageLoading.value = false
+        savingJob?.cancel()
+        savingJob = viewModelScope.launch {
+            _isImageLoading.value = true
             getOverlayedImage(percent)?.let {
                 imageManager.shareImage(
                     ImageData(
@@ -152,8 +157,8 @@ class CompareViewModel @Inject constructor(
                     onComplete = onComplete
                 )
             } ?: onComplete()
+            _isImageLoading.value = false
         }
-        _isImageLoading.value = false
     }
 
     fun saveBitmap(
@@ -190,6 +195,10 @@ class CompareViewModel @Inject constructor(
             }
         }
         _isImageLoading.value = false
+    }.also {
+        _isImageLoading.value = false
+        savingJob?.cancel()
+        savingJob = it
     }
 
     private fun Bitmap.overlay(overlay: Bitmap, percent: Float): Bitmap {
@@ -215,6 +224,12 @@ class CompareViewModel @Inject constructor(
         return _bitmapData.value?.let { (b, a) ->
             a?.let { b?.overlay(it, percent) }
         }
+    }
+
+    fun cancelSaving() {
+        savingJob?.cancel()
+        savingJob = null
+        _isImageLoading.value = false
     }
 
 }

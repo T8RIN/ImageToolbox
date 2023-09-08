@@ -595,7 +595,7 @@ fun CropScreen(
     }
 
     if (viewModel.isSaving || viewModel.isImageLoading) {
-        LoadingDialog()
+        LoadingDialog(canCancel = viewModel.isSaving) { viewModel.cancelSaving() }
     }
 
     ExitWithoutSavingDialog(

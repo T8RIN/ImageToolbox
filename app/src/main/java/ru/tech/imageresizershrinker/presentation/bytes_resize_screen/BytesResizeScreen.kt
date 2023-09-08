@@ -33,8 +33,8 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.rounded.ArrowBack
 import androidx.compose.material.icons.outlined.Share
-import androidx.compose.material.icons.rounded.ArrowBack
 import androidx.compose.material.icons.rounded.FrontHand
 import androidx.compose.material.icons.rounded.PhotoSizeSelectSmall
 import androidx.compose.material.icons.rounded.ZoomIn
@@ -336,7 +336,7 @@ fun BytesResizeScreen(
                         IconButton(
                             onClick = onBack
                         ) {
-                            Icon(Icons.Rounded.ArrowBack, null)
+                            Icon(Icons.AutoMirrored.Rounded.ArrowBack, null)
                         }
                     },
                     actions = {
@@ -502,7 +502,9 @@ fun BytesResizeScreen(
             }
 
             if (viewModel.isSaving) {
-                LoadingDialog(viewModel.done, viewModel.uris?.size ?: 1)
+                LoadingDialog(viewModel.done, viewModel.uris?.size ?: 1) {
+                    viewModel.cancelSaving()
+                }
             }
 
             PickImageFromUrisSheet(

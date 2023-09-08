@@ -14,6 +14,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.olshevski.navigation.reimagined.navController
 import dev.olshevski.navigation.reimagined.navigate
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import ru.tech.imageresizershrinker.domain.image.ImageManager
@@ -81,6 +82,8 @@ class DrawViewModel @Inject constructor(
         _imageFormat.value = imageFormat
     }
 
+    private var savingJob: Job? = null
+
     fun saveBitmap(
         onComplete: (saveResult: SaveResult) -> Unit
     ) = viewModelScope.launch {
@@ -113,6 +116,10 @@ class DrawViewModel @Inject constructor(
             }
         }
         _isSaving.value = false
+    }.also {
+        _isSaving.value = false
+        savingJob?.cancel()
+        savingJob = it
     }
 
     private suspend fun calculateScreenOrientationBasedOnUri(uri: Uri): Int {
@@ -246,8 +253,9 @@ class DrawViewModel @Inject constructor(
     }
 
     fun shareBitmap(onComplete: () -> Unit) {
+        savingJob?.cancel()
         _isSaving.value = true
-        viewModelScope.launch {
+        savingJob = viewModelScope.launch {
             getDrawingBitmap()?.let {
                 imageManager.shareImage(
                     ImageData(
@@ -329,4 +337,11 @@ class DrawViewModel @Inject constructor(
     fun updateDrawing(bitmap: Bitmap) {
         _drawingBitmap.value = bitmap
     }
+
+    fun cancelSaving() {
+        savingJob?.cancel()
+        savingJob = null
+        _isSaving.value = false
+    }
+
 }

@@ -631,7 +631,7 @@ fun CompareScreen(
         visible = showShareSheet
     )
 
-    if (viewModel.isImageLoading) LoadingDialog()
+    if (viewModel.isImageLoading) LoadingDialog { viewModel.cancelSaving() }
 
     BackHandler {
         onGoBack()
