@@ -1,3 +1,5 @@
+@file:Suppress("ConstPropertyName")
+
 package ru.tech.imageresizershrinker.presentation.main_screen.components
 
 import androidx.compose.animation.animateColorAsState
@@ -42,6 +44,7 @@ import androidx.compose.ui.semantics.clearAndSetSemantics
 import androidx.compose.ui.unit.Constraints
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.flow.map
+import ru.tech.imageresizershrinker.presentation.root.theme.inverse
 import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
 import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalSettingsState
 import kotlin.math.roundToInt
@@ -128,13 +131,15 @@ fun NavigationItem(
                 Modifier
                     .layoutId(IndicatorLayoutIdTag)
                     .background(
-                        color = MaterialTheme.colorScheme.secondaryContainer.copy(alpha = animationProgress),
+                        color = MaterialTheme.colorScheme.secondaryContainer
+                            .inverse({ 0.05f })
+                            .copy(alpha = animationProgress),
                         shape = CircleShape,
                     )
                     .border(
-                        LocalSettingsState.current.borderWidth,
-                        MaterialTheme.colorScheme.outlineVariant(),
-                        CircleShape
+                        width = LocalSettingsState.current.borderWidth,
+                        color = MaterialTheme.colorScheme.outlineVariant(),
+                        shape = CircleShape
                     )
             )
         }
@@ -194,19 +199,18 @@ private fun MeasureScope.placeLabelAndIcon(
         .coerceAtLeast(4.dp.roundToPx())
 
     // Icon (when selected) should be `contentVerticalPadding` from top
-    val selectedIconY = contentVerticalPadding
     val unselectedIconY =
-        if (alwaysShowLabel) selectedIconY else (height - iconPlaceable.height) / 2
+        if (alwaysShowLabel) contentVerticalPadding else (height - iconPlaceable.height) / 2
 
     // How far the icon needs to move between unselected and selected states.
-    val iconDistance = unselectedIconY - selectedIconY
+    val iconDistance = unselectedIconY - contentVerticalPadding
 
     // The interpolated fraction of iconDistance that all placeables need to move based on
     // animationProgress.
     val offset = (iconDistance * (1 - animationProgress)).roundToInt()
 
     // Label should be fixed padding below icon
-    val labelY = selectedIconY + iconPlaceable.height + 4.dp.roundToPx() +
+    val labelY = contentVerticalPadding + iconPlaceable.height + 4.dp.roundToPx() +
             4.dp.roundToPx()
 
     val containerWidth = constraints.maxWidth
@@ -215,18 +219,18 @@ private fun MeasureScope.placeLabelAndIcon(
     val iconX = (containerWidth - iconPlaceable.width) / 2
 
     val rippleX = (containerWidth - indicatorRipplePlaceable.width) / 2
-    val rippleY = selectedIconY - 4.dp.roundToPx()
+    val rippleY = contentVerticalPadding - 4.dp.roundToPx()
 
     return layout(containerWidth, height) {
         indicatorPlaceable?.let {
             val indicatorX = (containerWidth - it.width) / 2
-            val indicatorY = selectedIconY - 4.dp.roundToPx()
+            val indicatorY = contentVerticalPadding - 4.dp.roundToPx()
             it.placeRelative(indicatorX, indicatorY + offset)
         }
         if (alwaysShowLabel || animationProgress != 0f) {
             labelPlaceable.placeRelative(labelX, labelY + offset)
         }
-        iconPlaceable.placeRelative(iconX, selectedIconY + offset)
+        iconPlaceable.placeRelative(iconX, contentVerticalPadding + offset)
         indicatorRipplePlaceable.placeRelative(rippleX, rippleY + offset)
     }
 }

@@ -80,7 +80,7 @@ fun Modifier.container(
     this
         .shadow(
             shape = shape,
-            elevation = animateDpAsState(if(settingsState.borderWidth > 0.dp) 0.dp else 2.dp).value,
+            elevation = animateDpAsState(if(settingsState.borderWidth > 0.dp) 0.dp else 1.dp).value,
             clip = false
         )
         .then(

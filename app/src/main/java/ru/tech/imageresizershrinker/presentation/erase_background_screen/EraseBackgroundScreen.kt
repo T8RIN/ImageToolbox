@@ -311,7 +311,10 @@ fun EraseBackgroundScreen(
                 )
             }
 
-        } ?: ImageNotPickedWidget(onPickImage = pickImage, modifier = Modifier.padding(top = 20.dp))
+        } ?: ImageNotPickedWidget(
+            onPickImage = pickImage,
+            modifier = Modifier.padding(top = 20.dp, start = 20.dp, end = 20.dp)
+        )
     }
 
     val topAppBar = @Composable {

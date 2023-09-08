@@ -37,6 +37,7 @@ import androidx.compose.material.icons.rounded.KeyboardArrowDown
 import androidx.compose.material.icons.rounded.RestartAlt
 import androidx.compose.material.icons.twotone.SentimentDissatisfied
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExtendedFloatingActionButton
 import androidx.compose.material3.FilledTonalButton
@@ -58,6 +59,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.rotate
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -82,6 +84,7 @@ import ru.tech.imageresizershrinker.presentation.root.theme.ImageToolboxTheme
 import ru.tech.imageresizershrinker.presentation.root.theme.White
 import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
 import ru.tech.imageresizershrinker.presentation.root.utils.exception.CrashHandler
+import ru.tech.imageresizershrinker.presentation.root.utils.modifier.container
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.fabBorder
 import ru.tech.imageresizershrinker.presentation.root.widget.other.ToastHost
 import ru.tech.imageresizershrinker.presentation.root.widget.other.rememberToastHostState
@@ -240,18 +243,14 @@ class CrashActivity : CrashHandler() {
                                     }
                                 }
                                 Spacer(modifier = Modifier.height(16.dp))
-                                OutlinedCard(
-                                    colors = CardDefaults.cardColors(),
+                                Card(
+                                    colors = CardDefaults.cardColors(Color.Transparent),
                                     modifier = Modifier
                                         .fillMaxWidth()
                                         .padding(horizontal = 16.dp)
                                         .navigationBarsPadding()
-                                        .animateContentSize(),
-                                    border = BorderStroke(
-                                        settingsState.borderWidth,
-                                        MaterialTheme.colorScheme.outlineVariant()
-                                    ),
-                                    shape = RoundedCornerShape(24.dp)
+                                        .container(RoundedCornerShape(24.dp), resultPadding = 0.dp)
+                                        .animateContentSize()
                                 ) {
                                     var showError by rememberSaveable {
                                         mutableStateOf(false)
