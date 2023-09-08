@@ -55,12 +55,12 @@ android {
 }
 
 dependencies {
-    implementation("androidx.compose.ui:ui:1.6.0-alpha05")
-    implementation("androidx.compose.foundation:foundation:1.6.0-alpha05")
-    implementation("androidx.compose.material3:material3:1.2.0-alpha07")
-    implementation("androidx.compose.material:material:1.6.0-alpha05")
-    implementation("androidx.compose.ui:ui-util:1.6.0-alpha05")
+    implementation("androidx.compose.ui:ui:1.6.0-alpha02")
+    implementation("androidx.compose.foundation:foundation:1.6.0-alpha02")
+    implementation("androidx.compose.material3:material3:1.2.0-alpha04")
+    implementation("androidx.compose.material:material:1.6.0-alpha02")
+    implementation("androidx.compose.ui:ui-util:1.6.0-alpha02")
 
-    implementation("androidx.lifecycle:lifecycle-viewmodel-savedstate:2.6.2")
-    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.2")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-savedstate:2.6.1")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.1")
 }

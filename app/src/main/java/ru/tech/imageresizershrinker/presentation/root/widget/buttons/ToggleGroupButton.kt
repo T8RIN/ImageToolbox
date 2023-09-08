@@ -97,10 +97,7 @@ fun ToggleGroupButton(
                                 },
                                 activeContentColor = MaterialTheme.colorScheme.onSecondary
                             ),
-                            shape = SegmentedButtonDefaults.itemShape(
-                                index = index,
-                                count = items.size
-                            )
+                            shape = SegmentedButtonDefaults.shape(index, items.size)
                         ) {
                             Text(text = item, fontSize = 13.sp)
                         }
