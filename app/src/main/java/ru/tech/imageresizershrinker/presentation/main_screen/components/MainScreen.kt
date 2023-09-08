@@ -407,16 +407,27 @@ fun MainScreen(
                                         .colorScheme
                                         .surfaceColorAtElevation(3.dp)
                                 ) {
+                                    val titleText = remember {
+                                        "${Screen.entries.size}".plus(
+                                            if (BuildConfig.FLAVOR == "market") {
+                                                BuildConfig.VERSION_NAME
+                                                    .split("-")
+                                                    .takeIf { it.size > 1 }
+                                                    ?.drop(1)?.first()
+                                                    ?.takeWhile { it.isLetter() }
+                                                    ?.uppercase()?.let {
+                                                        " $it"
+                                                    } ?: ""
+                                            } else " ${BuildConfig.FLAVOR.uppercase()}"
+                                        )
+                                    }
+
                                     Row(verticalAlignment = Alignment.CenterVertically) {
                                         Text(stringResource(R.string.app_name))
                                         Badge(
                                             content = {
                                                 Text(
-                                                    text = "${Screen.entries.size}".plus(
-                                                        if (BuildConfig.FLAVOR == "foss") {
-                                                            " FOSS"
-                                                        } else ""
-                                                    )
+                                                    text = titleText
                                                 )
                                             },
                                             modifier = Modifier
