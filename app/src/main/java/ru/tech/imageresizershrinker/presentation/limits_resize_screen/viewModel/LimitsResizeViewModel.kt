@@ -12,6 +12,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import ru.tech.imageresizershrinker.domain.image.ImageManager
@@ -109,6 +110,8 @@ class LimitsResizeViewModel @Inject constructor(
         _keepExif.value = boolean
     }
 
+    private var savingJob: Job? = null
+
     fun saveBitmaps(
         onResult: (Int, String) -> Unit
     ) = viewModelScope.launch {
@@ -158,6 +161,10 @@ class LimitsResizeViewModel @Inject constructor(
             }
             onResult(failed, fileController.savingPath)
         }
+        _isSaving.value = false
+    }.also {
+        savingJob?.cancel()
+        savingJob = it
         _isSaving.value = false
     }
 
@@ -220,6 +227,10 @@ class LimitsResizeViewModel @Inject constructor(
                     }
                 }
             )
+        }.also {
+            savingJob?.cancel()
+            savingJob = it
+            _isSaving.value = false
         }
     }
 
@@ -245,6 +256,12 @@ class LimitsResizeViewModel @Inject constructor(
 
     fun setResizeType(resizeType: ResizeType) {
         _imageInfo.value = _imageInfo.value.copy(resizeType = resizeType)
+    }
+
+    fun cancelSaving() {
+        savingJob?.cancel()
+        savingJob = null
+        _isSaving.value = false
     }
 
 }

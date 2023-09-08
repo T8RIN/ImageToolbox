@@ -31,7 +31,6 @@ fun Loading(modifier: Modifier = Modifier) {
     Box(
         modifier
             .size(84.dp)
-            .shadow(10.dp, DavidStarShape)
             .block(
                 shape = DavidStarShape,
                 color = MaterialTheme.colorScheme.secondaryContainer,
@@ -54,7 +53,6 @@ fun BoxScope.Loading(done: Int, left: Int) {
     Column(
         modifier = Modifier
             .size(108.dp)
-            .shadow(10.dp, DavidStarShape)
             .block(
                 shape = DavidStarShape,
                 color = MaterialTheme.colorScheme.secondaryContainer,
