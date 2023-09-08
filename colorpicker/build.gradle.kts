@@ -44,7 +44,7 @@ android {
 
 dependencies {
 
-    implementation("androidx.core:core-ktx:1.10.1")
+    implementation("androidx.core:core-ktx:1.12.0")
 
     implementation(project(":gesture"))
     implementation("com.github.SmartToolFactory:Compose-Extended-Colors:1.0.0-alpha07")
