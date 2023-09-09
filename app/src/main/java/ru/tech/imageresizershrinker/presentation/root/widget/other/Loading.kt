@@ -15,9 +15,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.unit.dp
+import ru.tech.imageresizershrinker.presentation.draw_screen.components.materialShadow
 import ru.tech.imageresizershrinker.presentation.root.shapes.DavidStarShape
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.container
 import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalSettingsState
@@ -34,7 +34,7 @@ fun Loading(modifier: Modifier = Modifier) {
     Box(
         modifier
             .size(84.dp)
-            .shadow(
+            .materialShadow(
                 elevation = animateDpAsState(if (settingsState.borderWidth > 0.dp) 1.dp else 10.dp).value,
                 shape = DavidStarShape
             )
@@ -61,7 +61,7 @@ fun BoxScope.Loading(done: Int, left: Int) {
     Column(
         modifier = Modifier
             .size(108.dp)
-            .shadow(
+            .materialShadow(
                 elevation = animateDpAsState(if (settingsState.borderWidth > 0.dp) 1.dp else 10.dp).value,
                 shape = DavidStarShape
             )

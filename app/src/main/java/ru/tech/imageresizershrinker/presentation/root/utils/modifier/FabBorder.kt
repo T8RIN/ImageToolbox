@@ -19,7 +19,7 @@ import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalSettings
 fun Modifier.fabBorder(
     height: Dp = Dp.Unspecified,
     shape: Shape? = null,
-    elevation: Dp = 8.dp
+    elevation: Dp = 4.dp
 ) = composed {
     val h = if (height.isUnspecified) {
         LocalSettingsState.current.borderWidth.takeIf { it > 0.dp }

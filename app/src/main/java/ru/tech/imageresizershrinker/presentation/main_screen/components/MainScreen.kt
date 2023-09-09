@@ -150,7 +150,6 @@ import ru.tech.imageresizershrinker.presentation.root.utils.navigation.LocalNavC
 import ru.tech.imageresizershrinker.presentation.root.utils.navigation.Screen
 import ru.tech.imageresizershrinker.presentation.root.widget.color_picker.AvailableColorTuplesSheet
 import ru.tech.imageresizershrinker.presentation.root.widget.color_picker.ColorTuplePicker
-import ru.tech.imageresizershrinker.presentation.root.widget.other.AnimationBox
 import ru.tech.imageresizershrinker.presentation.root.widget.other.LocalToastHost
 import ru.tech.imageresizershrinker.presentation.root.widget.other.TopAppBarEmoji
 import ru.tech.imageresizershrinker.presentation.root.widget.preferences.PreferenceItem
@@ -565,26 +564,24 @@ fun MainScreen(
                                         Screen.typedEntries[currentPage].first
                                     } else screenList
                                 ) { screen ->
-                                    AnimationBox {
-                                        PreferenceItemOverload(
-                                            onClick = {
-                                                navController.popUpTo { it == Screen.Main }
-                                                navController.navigate(screen)
-                                            },
-                                            onLongClick = {
-                                                showArrangementSheet.value =
-                                                    !settingsState.groupOptionsByTypes
-                                            },
-                                            modifier = Modifier
-                                                .fillMaxWidth()
-                                                .animateItemPlacement(),
-                                            title = stringResource(screen.title),
-                                            subtitle = stringResource(screen.subtitle),
-                                            icon = {
-                                                Icon(screen.icon!!, null)
-                                            }
-                                        )
-                                    }
+                                    PreferenceItemOverload(
+                                        onClick = {
+                                            navController.popUpTo { it == Screen.Main }
+                                            navController.navigate(screen)
+                                        },
+                                        onLongClick = {
+                                            showArrangementSheet.value =
+                                                !settingsState.groupOptionsByTypes
+                                        },
+                                        modifier = Modifier
+                                            .fillMaxWidth()
+                                            .animateItemPlacement(),
+                                        title = stringResource(screen.title),
+                                        subtitle = stringResource(screen.subtitle),
+                                        icon = {
+                                            Icon(screen.icon!!, null)
+                                        }
+                                    )
                                 }
                             }
                         )

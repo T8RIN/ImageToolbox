@@ -57,6 +57,7 @@ import ru.tech.imageresizershrinker.presentation.root.utils.helper.Picker
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.localImagePickerMode
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.rememberImagePicker
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.container
+import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedSlider
 import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalSettingsState
 import kotlin.math.roundToInt
 
@@ -175,31 +176,8 @@ fun CropMaskSelection(
                         color = LocalContentColor.current.copy(alpha = 0.7f)
                     )
                 }
-                Slider(
-                    modifier = Modifier
-                        .padding(horizontal = 3.dp, vertical = 3.dp)
-                        .background(
-                            MaterialTheme.colorScheme.secondaryContainer.copy(alpha = 0.4f),
-                            CircleShape
-                        )
-                        .border(
-                            settingsState.borderWidth,
-                            MaterialTheme.colorScheme.outlineVariant(
-                                onTopOf = MaterialTheme.colorScheme.secondaryContainer.copy(
-                                    alpha = 0.4f
-                                )
-                            ),
-                            CircleShape
-                        )
-                        .padding(horizontal = 12.dp),
-                    colors = SliderDefaults.colors(
-                        inactiveTrackColor =
-                        MaterialTheme.colorScheme.outlineVariant(
-                            onTopOf = MaterialTheme.colorScheme.secondaryContainer.copy(
-                                alpha = 0.4f
-                            )
-                        )
-                    ),
+                EnhancedSlider(
+                    modifier = Modifier.padding(horizontal = 3.dp, vertical = 3.dp),
                     value = animateIntAsState(cornerRadius).value.toFloat(),
                     onValueChange = {
                         cornerRadius = it.roundToInt()

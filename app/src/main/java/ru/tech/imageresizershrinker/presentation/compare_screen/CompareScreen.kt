@@ -22,7 +22,6 @@ import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
@@ -48,8 +47,6 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.LargeTopAppBar
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
-import androidx.compose.material3.Slider
-import androidx.compose.material3.SliderDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
@@ -100,6 +97,7 @@ import ru.tech.imageresizershrinker.presentation.root.utils.modifier.container
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.drawHorizontalStroke
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.fabBorder
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.navBarsPaddingOnlyIfTheyAtTheBottom
+import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedSlider
 import ru.tech.imageresizershrinker.presentation.root.widget.controls.ExtensionGroup
 import ru.tech.imageresizershrinker.presentation.root.widget.image.ImageNotPickedWidget
 import ru.tech.imageresizershrinker.presentation.root.widget.image.Picture
@@ -347,28 +345,12 @@ fun CompareScreen(
                                     }
                                 },
                                 actions = {
-                                    Slider(
+                                    EnhancedSlider(
                                         modifier = Modifier
                                             .padding(horizontal = 16.dp)
                                             .weight(100f, true)
-                                            .offset(y = (-2).dp)
-                                            .background(
-                                                color = MaterialTheme.colorScheme.secondaryContainer,
-                                                shape = CircleShape
-                                            )
-                                            .border(
-                                                width = settingsState.borderWidth,
-                                                color = MaterialTheme.colorScheme.outlineVariant(
-                                                    onTopOf = MaterialTheme.colorScheme.secondaryContainer
-                                                ),
-                                                shape = CircleShape
-                                            )
-                                            .padding(horizontal = 16.dp),
-                                        colors = SliderDefaults.colors(
-                                            inactiveTrackColor =
-                                            MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.secondaryContainer)
-                                        ),
-                                        value = animateFloatAsState(targetValue = progress).value,
+                                            .offset(y = (-2).dp),
+                                        value = progress,
                                         onValueChange = {
                                             progress = it
                                         },
@@ -454,27 +436,13 @@ fun CompareScreen(
                                     }
                                     .width((LocalConfiguration.current.screenHeightDp / 2f).dp)
                                     .height(50.dp)
-                                    .background(
-                                        MaterialTheme.colorScheme.secondaryContainer,
-                                        CircleShape
-                                    )
-                                    .border(
-                                        settingsState.borderWidth,
-                                        MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.secondaryContainer),
-                                        CircleShape
-                                    )
-                                    .padding(horizontal = 16.dp)
 
-                                Slider(
+                                EnhancedSlider(
                                     modifier = modifier,
                                     value = animateFloatAsState(targetValue = progress).value,
                                     onValueChange = {
                                         progress = it
                                     },
-                                    colors = SliderDefaults.colors(
-                                        inactiveTrackColor =
-                                        MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.secondaryContainer)
-                                    ),
                                     valueRange = 0f..100f
                                 )
 

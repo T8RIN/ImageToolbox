@@ -14,7 +14,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.drawWithCache
-import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.compositeOver
@@ -24,7 +23,7 @@ import androidx.compose.ui.graphics.isUnspecified
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import ru.tech.imageresizershrinker.presentation.main_screen.components.boxShadow
+import ru.tech.imageresizershrinker.presentation.draw_screen.components.materialShadow
 import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
 import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalSettingsState
 
@@ -33,14 +32,16 @@ fun Modifier.container(
     color: Color = Color.Unspecified,
     resultPadding: Dp = 4.dp,
     borderColor: Color? = null,
-    autoShadowElevation: Dp = 1.dp
+    autoShadowElevation: Dp = 1.dp,
+    composeColorOnTopOfBackground: Boolean = true,
 ) = composed {
     val settingsState = LocalSettingsState.current
     val colorScheme = MaterialTheme.colorScheme
     val color1 = if (color.isUnspecified) {
         colorScheme.surfaceColorAtElevation(1.dp)
     } else {
-        color.compositeOver(colorScheme.background)
+        if(composeColorOnTopOfBackground) color.compositeOver(colorScheme.background)
+        else color
     }
 
     val density = LocalDensity.current
@@ -74,15 +75,14 @@ fun Modifier.container(
         )
         .border(
             width = LocalSettingsState.current.borderWidth,
-            color = borderColor ?: MaterialTheme.colorScheme.outlineVariant(0.1f, color1),
+            color = borderColor ?: colorScheme.outlineVariant(0.1f, color1),
             shape = shape
         )
 
     this
-        .shadow(
+        .materialShadow(
             shape = shape,
-            elevation = animateDpAsState(if(settingsState.borderWidth > 0.dp) 0.dp else autoShadowElevation).value,
-            clip = false
+            elevation = animateDpAsState(if (settingsState.borderWidth > 0.dp) 0.dp else autoShadowElevation).value,
         )
         .then(
             if (shape is CornerBasedShape) cornerModifier

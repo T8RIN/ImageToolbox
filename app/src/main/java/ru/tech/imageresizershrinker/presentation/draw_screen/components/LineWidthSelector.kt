@@ -28,6 +28,7 @@ import com.smarttoolfactory.colordetector.util.ColorUtil.roundToTwoDigits
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.container
+import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedSlider
 import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalSettingsState
 
 @Composable
@@ -85,7 +86,7 @@ fun LineWidthSelector(
                 )
             )
         }
-        Slider(
+        EnhancedSlider(
             modifier = Modifier
                 .padding(
                     top = 16.dp,
@@ -93,22 +94,7 @@ fun LineWidthSelector(
                     end = 12.dp,
                     bottom = 8.dp
                 )
-                .offset(y = (-2).dp)
-                .background(
-                    color = MaterialTheme.colorScheme.secondaryContainer,
-                    shape = CircleShape
-                )
-                .height(40.dp)
-                .border(
-                    width = settingsState.borderWidth,
-                    color = MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.secondaryContainer),
-                    shape = CircleShape
-                )
-                .padding(horizontal = 10.dp),
-            colors = SliderDefaults.colors(
-                inactiveTrackColor =
-                MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.secondaryContainer)
-            ),
+                .offset(y = (-2).dp),
             value = animateFloatAsState(targetValue = strokeWidth).value,
             valueRange = 1f..100f,
             onValueChange = {

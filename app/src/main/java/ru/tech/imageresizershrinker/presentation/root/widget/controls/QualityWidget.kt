@@ -116,32 +116,13 @@ fun QualityWidget(
                     }
                 }
                 Spacer(Modifier.weight(1f))
-                Slider(
+                EnhancedSlider(
                     modifier = Modifier
                         .padding(horizontal = 3.dp, vertical = 3.dp)
                         .height(sliderHeight)
-                        .alpha(sliderAlpha)
-                        .background(
-                            MaterialTheme.colorScheme.secondaryContainer.copy(alpha = 0.4f),
-                            CircleShape
-                        )
-                        .border(
-                            settingsState.borderWidth,
-                            MaterialTheme.colorScheme.outlineVariant(
-                                onTopOf = MaterialTheme.colorScheme.secondaryContainer.copy(
-                                    alpha = 0.4f
-                                )
-                            ),
-                            CircleShape
-                        )
-                        .padding(horizontal = 12.dp),
-                    colors = SliderDefaults.colors(
-                        inactiveTrackColor =
-                        MaterialTheme.colorScheme.outlineVariant(
-                            onTopOf = MaterialTheme.colorScheme.secondaryContainer.copy(
-                                alpha = 0.4f
-                            )
-                        )
+                        .alpha(sliderAlpha),
+                    backgroundColor = MaterialTheme.colorScheme.secondaryContainer.copy(
+                        alpha = 0.4f
                     ),
                     enabled = enabled,
                     value = animateFloatAsState(quality).value,

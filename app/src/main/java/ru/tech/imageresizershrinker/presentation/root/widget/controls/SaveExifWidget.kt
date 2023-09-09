@@ -20,7 +20,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -38,13 +37,12 @@ fun SaveExifWidget(
 ) {
     Row(
         modifier = modifier
-            .clip(shape = RoundedCornerShape(24.dp))
+            .container(shape = RoundedCornerShape(24.dp), resultPadding = 0.dp)
             .then(
                 if (imageFormat.canWriteExif) {
                     Modifier.clickable { onCheckedChange(!selected) }
                 } else Modifier
             )
-            .container(shape = RoundedCornerShape(24.dp))
             .padding(horizontal = 16.dp, vertical = 8.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {

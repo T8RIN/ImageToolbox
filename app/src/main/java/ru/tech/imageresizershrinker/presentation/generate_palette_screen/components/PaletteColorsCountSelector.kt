@@ -28,6 +28,7 @@ import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.container
+import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedSlider
 import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalSettingsState
 import kotlin.math.roundToInt
 
@@ -62,23 +63,9 @@ fun PaletteColorsCountSelector(
             )
         }
         Spacer(Modifier.weight(1f))
-        Slider(
-            modifier = Modifier
-                .padding(horizontal = 3.dp, vertical = 3.dp)
-                .background(
-                    MaterialTheme.colorScheme.secondaryContainer.copy(alpha = 0.4f),
-                    CircleShape
-                )
-                .border(
-                    settingsState.borderWidth,
-                    MaterialTheme.colorScheme.outlineVariant(
-                        onTopOf = MaterialTheme.colorScheme.secondaryContainer.copy(
-                            alpha = 0.4f
-                        )
-                    ),
-                    CircleShape
-                )
-                .padding(horizontal = 12.dp),
+        EnhancedSlider(
+            modifier = Modifier.padding(horizontal = 3.dp, vertical = 3.dp),
+            backgroundColor = MaterialTheme.colorScheme.secondaryContainer.copy(alpha = 0.4f),
             colors = SliderDefaults.colors(
                 inactiveTrackColor =
                 MaterialTheme.colorScheme.outlineVariant(

@@ -34,6 +34,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.isSpecified
 import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
+import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedSlider
 import ru.tech.imageresizershrinker.presentation.root.widget.other.GradientEdge
 import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalSettingsState
 import ru.tech.imageresizershrinker.presentation.root.widget.utils.rememberAvailableHeight
@@ -88,39 +89,23 @@ fun LazyListScope.imageStickyHeader(
                         .fillMaxWidth(0.7f),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    Row(
-                        modifier = Modifier
-                            .weight(1f)
-                            .background(
-                                color = MaterialTheme.colorScheme.tertiaryContainer.copy(alpha = 0.3f),
-                                shape = CircleShape
-                            )
-                            .height(40.dp)
-                            .border(
-                                width = settingsState.borderWidth,
-                                color = MaterialTheme.colorScheme
-                                    .outlineVariant()
-                                    .copy(alpha = 0.3f),
-                                shape = CircleShape
-                            )
-                    ) {
-                        Slider(
-                            modifier = Modifier.padding(horizontal = 10.dp),
-                            value = animateFloatAsState(targetValue = imageState.position.toFloat()).value,
-                            onValueChange = {
-                                onStateChange(imageState.copy(position = it.toInt()))
-                            },
-                            colors = SliderDefaults.colors(
-                                inactiveTrackColor = MaterialTheme.colorScheme.outlineVariant(
-                                    onTopOf = MaterialTheme.colorScheme.tertiaryContainer
-                                ).copy(0.5f),
-                                thumbColor = MaterialTheme.colorScheme.tertiary,
-                                activeTrackColor = MaterialTheme.colorScheme.tertiary.copy(0.5f)
-                            ),
-                            steps = 3,
-                            valueRange = 0f..4f
-                        )
-                    }
+                    EnhancedSlider(
+                        modifier = Modifier.weight(1f).padding(horizontal = 10.dp),
+                        value = animateFloatAsState(targetValue = imageState.position.toFloat()).value,
+                        onValueChange = {
+                            onStateChange(imageState.copy(position = it.toInt()))
+                        },
+                        backgroundColor = MaterialTheme.colorScheme.tertiaryContainer.copy(alpha = 0.3f),
+                        colors = SliderDefaults.colors(
+                            inactiveTrackColor = MaterialTheme.colorScheme.outlineVariant(
+                                onTopOf = MaterialTheme.colorScheme.tertiaryContainer
+                            ).copy(0.5f),
+                            activeTrackColor = MaterialTheme.colorScheme.tertiary.copy(0.5f)
+                        ),
+                        thumbColor = MaterialTheme.colorScheme.tertiary,
+                        steps = 3,
+                        valueRange = 0f..4f
+                    )
                     OutlinedIconToggleButton(
                         checked = imageState.isBlocked,
                         onCheckedChange = {

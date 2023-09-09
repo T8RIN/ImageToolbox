@@ -18,6 +18,7 @@ import androidx.compose.material.ripple.rememberRipple
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Slider
+import androidx.compose.material3.SliderColors
 import androidx.compose.material3.SliderDefaults
 import androidx.compose.material3.SliderState
 import androidx.compose.runtime.Composable
@@ -25,12 +26,13 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.unit.dp
+import ru.tech.imageresizershrinker.presentation.draw_screen.components.materialShadow
 import ru.tech.imageresizershrinker.presentation.root.shapes.DavidStarShape
 import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
+import ru.tech.imageresizershrinker.presentation.root.utils.modifier.container
 import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalSettingsState
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -45,9 +47,13 @@ fun EnhancedSlider(
     thumbShape: Shape = DavidStarShape,
     thumbColor: Color = MaterialTheme.colorScheme.primary,
     backgroundColor: Color = MaterialTheme.colorScheme.secondaryContainer,
-    steps: Int = 0
+    steps: Int = 0,
+    enabled: Boolean = true,
+    colors: SliderColors = SliderDefaults.colors(
+        inactiveTrackColor = MaterialTheme.colorScheme.outlineVariant(onTopOf = backgroundColor),
+        thumbColor = thumbColor
+    )
 ) {
-    val settingsState = LocalSettingsState.current
     val interactionSource = remember { MutableInteractionSource() }
     val thumb: @Composable (SliderState) -> Unit = {
         val interactions = remember { mutableStateListOf<Interaction>() }
@@ -81,29 +87,24 @@ fun EnhancedSlider(
                     )
                 )
                 .hoverable(interactionSource = interactionSource)
-                .shadow(elevation, thumbShape, clip = false)
+                .materialShadow(shape = thumbShape, elevation = elevation)
                 .background(thumbColor, thumbShape)
         )
     }
     Slider(
         interactionSource = interactionSource,
         thumb = thumb,
+        enabled = enabled,
         modifier = modifier
-            .background(
-                color = backgroundColor,
-                shape = backgroundShape
-            )
             .height(40.dp)
-            .border(
-                width = settingsState.borderWidth,
-                color = MaterialTheme.colorScheme.outlineVariant(onTopOf = backgroundColor),
-                shape = backgroundShape
+            .container(
+                color = backgroundColor,
+                shape = backgroundShape,
+                borderColor = MaterialTheme.colorScheme.outlineVariant(onTopOf = backgroundColor),
+                composeColorOnTopOfBackground = false
             )
             .padding(horizontal = 10.dp),
-        colors = SliderDefaults.colors(
-            inactiveTrackColor =
-            MaterialTheme.colorScheme.outlineVariant(onTopOf = backgroundColor)
-        ),
+        colors = colors,
         value = animateFloatAsState(value).value,
         onValueChange = onValueChange,
         onValueChangeFinished = onValueChangeFinished,

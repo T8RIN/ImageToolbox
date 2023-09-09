@@ -184,6 +184,8 @@ dependencies {
 
     implementation("org.burnoutcrew.composereorderable:reorderable:0.9.6")
 
+    implementation("com.github.zed-alpha.shadow-gadgets:compose:2.1.0")
+
 
     "marketImplementation"("com.google.mlkit:segmentation-selfie:16.0.0-beta4")
     "marketImplementation"("com.google.firebase:firebase-crashlytics-ktx:18.4.1") {
