@@ -1,7 +1,5 @@
 package ru.tech.imageresizershrinker.presentation.root.widget.color_picker
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
@@ -10,7 +8,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -26,9 +23,7 @@ import com.smarttoolfactory.colordetector.util.ColorUtil
 import com.smarttoolfactory.colorpicker.selector.SelectorRectSaturationValueHSV
 import com.smarttoolfactory.colorpicker.slider.SliderAlphaHSL
 import com.smarttoolfactory.colorpicker.slider.SliderHueHSV
-import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.container
-import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalSettingsState
 
 @Composable
 fun AlphaColorSelection(
@@ -73,16 +68,14 @@ fun AlphaColorSelection(
                 val c = Color.hsv(h, saturation, value, alpha).toArgb()
                 onColorChange(c)
             },
+            trackHeight = 16.dp,
             modifier = Modifier
-                .background(
-                    color = MaterialTheme.colorScheme.surfaceVariant,
-                    shape = CircleShape
-                )
-                .height(40.dp)
-                .border(
-                    width = LocalSettingsState.current.borderWidth,
-                    color = MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.surfaceVariant),
-                    shape = CircleShape
+                .container(
+                    shape = CircleShape,
+                    resultPadding = 0.dp,
+                    color = Color.Transparent,
+                    composeColorOnTopOfBackground = false,
+                    clip = false
                 )
                 .padding(horizontal = 10.dp)
         )
@@ -90,16 +83,14 @@ fun AlphaColorSelection(
         SliderAlphaHSL(
             hue = hue,
             alpha = alpha,
+            trackHeight = 16.dp,
             modifier = Modifier
-                .background(
-                    color = MaterialTheme.colorScheme.surfaceVariant,
-                    shape = CircleShape
-                )
-                .height(40.dp)
-                .border(
-                    width = LocalSettingsState.current.borderWidth,
-                    color = MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.surfaceVariant),
-                    shape = CircleShape
+                .container(
+                    shape = CircleShape,
+                    resultPadding = 0.dp,
+                    color = Color.Transparent,
+                    composeColorOnTopOfBackground = false,
+                    clip = false
                 )
                 .padding(horizontal = 10.dp),
             onValueChange = {

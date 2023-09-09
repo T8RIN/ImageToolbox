@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
@@ -13,6 +14,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.smarttoolfactory.colorpicker.ui.brush.sliderAlphaHSLGradient
 import com.smarttoolfactory.colorpicker.ui.brush.sliderAlphaHSVGradient
@@ -50,6 +52,7 @@ fun SliderHueHSV(
     @FloatRange(from = 0.0, to = 360.0) hue: Float,
     @FloatRange(from = 0.0, to = 1.0) saturation: Float,
     @FloatRange(from = 0.0, to = 1.0) value: Float,
+    trackHeight: Dp = 12.dp,
     onValueChange: (Float) -> Unit
 ) {
     val sliderHueSelectionHSLGradient = sliderHueHSVGradient(
@@ -59,6 +62,7 @@ fun SliderHueHSV(
 
     CheckeredColorfulSlider(
         modifier = modifier,
+        trackHeight = trackHeight,
         value = animateFloatAsState(targetValue = hue).value,
         valueRange = 0f..360f,
         onValueChange = onValueChange,
@@ -251,11 +255,13 @@ fun SliderAlphaHSL(
     modifier: Modifier = Modifier,
     @FloatRange(from = 0.0, to = 360.0) hue: Float,
     @FloatRange(from = 0.0, to = 1.0) alpha: Float,
-    onValueChange: (Float) -> Unit
+    trackHeight: Dp = 12.dp,
+    onValueChange: (Float) -> Unit,
 ) {
     val sliderAlphaHSLGradient = sliderAlphaHSLGradient(hue = hue)
     CheckeredColorfulSlider(
         modifier = modifier,
+        trackHeight = trackHeight,
         value = animateFloatAsState(targetValue = alpha).value,
         onValueChange = onValueChange,
         brush = sliderAlphaHSLGradient,
@@ -376,7 +382,8 @@ fun CheckeredColorfulSlider(
     valueRange: ClosedFloatingPointRange<Float> = 0f..1f,
     onValueChange: (Float) -> Unit,
     brush: Brush,
-    drawChecker: Boolean = false
+    drawChecker: Boolean = false,
+    trackHeight: Dp = 12.dp
 ) {
     BoxWithConstraints(
         modifier = modifier,
@@ -387,8 +394,8 @@ fun CheckeredColorfulSlider(
             Box(
                 modifier = Modifier
                     .width(maxWidth)
-                    .height(11.dp)
-                    .drawChecker(shape = RoundedCornerShape(6.dp))
+                    .height(trackHeight - 1.dp)
+                    .drawChecker(shape = CircleShape)
             )
         }
 
@@ -396,7 +403,7 @@ fun CheckeredColorfulSlider(
             value = value,
             modifier = Modifier,
             thumbRadius = 12.dp,
-            trackHeight = 12.dp,
+            trackHeight = trackHeight,
             onValueChange = { value ->
                 onValueChange(value.roundToTwoDigits())
             },

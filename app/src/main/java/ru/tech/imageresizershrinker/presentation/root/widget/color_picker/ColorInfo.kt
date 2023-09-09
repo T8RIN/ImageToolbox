@@ -2,8 +2,6 @@ package ru.tech.imageresizershrinker.presentation.root.widget.color_picker
 
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.animateColorAsState
-import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -50,10 +48,10 @@ import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.delay
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.presentation.root.theme.inverse
-import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.ContextUtils.copyColorIntoClipboard
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.ContextUtils.pasteColorFromClipboard
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.alertDialogBorder
+import ru.tech.imageresizershrinker.presentation.root.utils.modifier.container
 import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedButton
 import ru.tech.imageresizershrinker.presentation.root.widget.text.AutoSizeText
 import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalSettingsState
@@ -88,19 +86,14 @@ fun ColorInfo(
         modifier = Modifier.fillMaxWidth(),
         verticalAlignment = Alignment.CenterVertically
     ) {
-
         Card(
             modifier = Modifier
                 .size(56.dp)
-                .border(
-                    BorderStroke(
-                        borderWidth,
-                        MaterialTheme.colorScheme.outlineVariant(onTopOf = Color(color))
-                    ),
-                    MaterialTheme.shapes.medium,
+                .container(
+                    shape = MaterialTheme.shapes.medium,
+                    color = Color(color)
                 ),
-            shape = MaterialTheme.shapes.medium,
-            colors = CardDefaults.elevatedCardColors(containerColor = Color(color)),
+            colors = CardDefaults.cardColors(Color.Transparent)
         ) {
             Box(
                 modifier = Modifier.fillMaxSize(),
@@ -135,13 +128,10 @@ fun ColorInfo(
                 .height(60.dp)
                 .fillMaxWidth()
                 .padding(start = 16.dp)
-                .border(
-                    BorderStroke(
-                        borderWidth,
-                        MaterialTheme.colorScheme.outlineVariant()
-                    ),
-                    MaterialTheme.shapes.medium,
-                )
+                .container(
+                    shape = MaterialTheme.shapes.medium,
+                ),
+            colors = CardDefaults.cardColors(Color.Transparent)
         ) {
             AnimatedContent(
                 colorPasteError.value != null
