@@ -18,7 +18,6 @@ import androidx.compose.animation.fadeOut
 import androidx.compose.animation.slideInHorizontally
 import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.animation.togetherWith
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -50,9 +49,7 @@ import androidx.compose.material3.FloatingActionButtonDefaults
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedIconButton
 import androidx.compose.material3.SheetValue
 import androidx.compose.material3.Switch
 import androidx.compose.material3.SwitchDefaults
@@ -79,7 +76,6 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.max
 import com.t8rin.dynamic.theme.LocalDynamicThemeState
 import com.t8rin.dynamic.theme.getAppColorTuple
 import com.t8rin.dynamic.theme.observeAsState
@@ -112,6 +108,7 @@ import ru.tech.imageresizershrinker.presentation.root.utils.modifier.drawHorizon
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.fabBorder
 import ru.tech.imageresizershrinker.presentation.root.utils.saver.ColorSaver
 import ru.tech.imageresizershrinker.presentation.root.utils.saver.DrawModeSaver
+import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedIconButton
 import ru.tech.imageresizershrinker.presentation.root.widget.controls.ExtensionGroup
 import ru.tech.imageresizershrinker.presentation.root.widget.controls.SaveExifWidget
 import ru.tech.imageresizershrinker.presentation.root.widget.dialogs.ExitWithoutSavingDialog
@@ -370,45 +367,44 @@ fun DrawScreen(
     }
 
     val secondaryControls = @Composable {
-        val border = BorderStroke(
-            settingsState.borderWidth,
-            MaterialTheme.colorScheme.outlineVariant(
-                luminance = 0.1f
-            )
-        )
         Row(
             Modifier
                 .padding(16.dp)
                 .container(shape = CircleShape)
         ) {
             switch()
-            OutlinedIconButton(
-                border = border,
+            EnhancedIconButton(
+                containerColor = Color.Transparent,
+                borderColor = MaterialTheme.colorScheme.outlineVariant(
+                    luminance = 0.1f
+                ),
                 onClick = viewModel::undo,
                 enabled = viewModel.lastPaths.isNotEmpty() || viewModel.paths.isNotEmpty()
             ) {
                 Icon(Icons.Rounded.Undo, null)
             }
-            OutlinedIconButton(
-                border = border,
+            EnhancedIconButton(
+                containerColor = Color.Transparent,
+                borderColor = MaterialTheme.colorScheme.outlineVariant(
+                    luminance = 0.1f
+                ),
                 onClick = viewModel::redo,
                 enabled = viewModel.undonePaths.isNotEmpty()
             ) {
                 Icon(Icons.Rounded.Redo, null)
             }
-            OutlinedIconButton(
-                colors = IconButtonDefaults.filledIconButtonColors(
-                    containerColor = animateColorAsState(
-                        if (isEraserOn) MaterialTheme.colorScheme.mixedContainer
-                        else Color.Transparent
-                    ).value,
-                    contentColor = animateColorAsState(
-                        if (isEraserOn) MaterialTheme.colorScheme.onMixedContainer
-                        else MaterialTheme.colorScheme.onSurface
-                    ).value,
-                    disabledContainerColor = Color.Transparent
+            EnhancedIconButton(
+                borderColor = MaterialTheme.colorScheme.outlineVariant(
+                    luminance = 0.1f
                 ),
-                border = border,
+                containerColor = animateColorAsState(
+                    if (isEraserOn) MaterialTheme.colorScheme.mixedContainer
+                    else Color.Transparent
+                ).value,
+                contentColor = animateColorAsState(
+                    if (isEraserOn) MaterialTheme.colorScheme.onMixedContainer
+                    else MaterialTheme.colorScheme.onSurface
+                ).value,
                 onClick = {
                     isEraserOn = !isEraserOn
                 }
@@ -511,24 +507,19 @@ fun DrawScreen(
                                 ) {
                                     Icon(Icons.Rounded.Redo, null)
                                 }
-                                OutlinedIconButton(
-                                    colors = IconButtonDefaults.filledIconButtonColors(
-                                        containerColor = animateColorAsState(
-                                            if (isEraserOn) MaterialTheme.colorScheme.mixedContainer
-                                            else Color.Transparent
-                                        ).value,
-                                        contentColor = animateColorAsState(
-                                            if (isEraserOn) MaterialTheme.colorScheme.onMixedContainer
-                                            else MaterialTheme.colorScheme.onSurface
-                                        ).value,
-                                        disabledContainerColor = Color.Transparent
-                                    ),
-                                    border = BorderStroke(
-                                        max(settingsState.borderWidth, 1.dp), animateColorAsState(
-                                            if (isEraserOn) MaterialTheme.colorScheme.outlineVariant
-                                            else Color.Transparent
-                                        ).value
-                                    ),
+                                EnhancedIconButton(
+                                    containerColor = animateColorAsState(
+                                        if (isEraserOn) MaterialTheme.colorScheme.mixedContainer
+                                        else Color.Transparent
+                                    ).value,
+                                    contentColor = animateColorAsState(
+                                        if (isEraserOn) MaterialTheme.colorScheme.onMixedContainer
+                                        else MaterialTheme.colorScheme.onSurface
+                                    ).value,
+                                    borderColor = animateColorAsState(
+                                        if (isEraserOn) MaterialTheme.colorScheme.outlineVariant
+                                        else Color.Transparent
+                                    ).value,
                                     onClick = { isEraserOn = !isEraserOn }
                                 ) {
                                     Icon(Icons.Rounded.Eraser, null)

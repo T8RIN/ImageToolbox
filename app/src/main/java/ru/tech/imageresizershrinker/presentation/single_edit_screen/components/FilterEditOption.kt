@@ -17,9 +17,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.FloatingActionButtonDefaults
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedIconButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberBottomSheetScaffoldState
@@ -56,6 +54,7 @@ import ru.tech.imageresizershrinker.presentation.root.utils.modifier.container
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.drawHorizontalStroke
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.fabBorder
 import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedButton
+import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedIconButton
 import ru.tech.imageresizershrinker.presentation.root.widget.image.Picture
 import ru.tech.imageresizershrinker.presentation.root.widget.other.LocalToastHost
 import ru.tech.imageresizershrinker.presentation.root.widget.other.showError
@@ -179,8 +178,8 @@ fun FilterEditOption(
                     modifier = Modifier.drawHorizontalStroke(),
                     actions = {
                         AnimatedVisibility(visible = stateBitmap != bitmap) {
-                            OutlinedIconButton(
-                                colors = IconButtonDefaults.filledTonalIconButtonColors(),
+                            EnhancedIconButton(
+                                containerColor = MaterialTheme.colorScheme.secondaryContainer,
                                 onClick = {
                                     onGetBitmap(stateBitmap)
                                     onDismiss()

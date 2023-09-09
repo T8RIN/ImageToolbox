@@ -2,7 +2,6 @@ package ru.tech.imageresizershrinker.presentation.main_screen.components
 
 import android.net.Uri
 import androidx.compose.animation.core.animateFloatAsState
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -28,9 +27,7 @@ import androidx.compose.material.icons.rounded.Check
 import androidx.compose.material.icons.rounded.Shuffle
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedIconButton
 import androidx.compose.material3.Switch
 import androidx.compose.material3.SwitchDefaults
 import androidx.compose.material3.Text
@@ -53,9 +50,9 @@ import ru.tech.imageresizershrinker.presentation.root.icons.emoji.EmojiData
 import ru.tech.imageresizershrinker.presentation.root.icons.emoji.EmojiItem
 import ru.tech.imageresizershrinker.presentation.root.shapes.CloverShape
 import ru.tech.imageresizershrinker.presentation.root.theme.blend
-import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.container
 import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedButton
+import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedIconButton
 import ru.tech.imageresizershrinker.presentation.root.widget.sheets.SimpleSheet
 import ru.tech.imageresizershrinker.presentation.root.widget.text.AutoSizeText
 import ru.tech.imageresizershrinker.presentation.root.widget.text.TitleItem
@@ -214,7 +211,8 @@ fun EmojiSheet(
             ) {
                 TitleItem(text = stringResource(R.string.emoji), icon = Icons.Outlined.Face5)
                 Spacer(Modifier.weight(1f))
-                OutlinedIconButton(
+                EnhancedIconButton(
+                    containerColor = MaterialTheme.colorScheme.tertiaryContainer,
                     enabled = emojiEnabled,
                     onClick = {
                         onEmojiPicked(Random.nextInt(0, allEmojis.lastIndex))
@@ -222,13 +220,6 @@ fun EmojiSheet(
                             state.animateScrollToItem(selectedEmojiIndex)
                         }
                     },
-                    colors = IconButtonDefaults.filledTonalIconButtonColors(
-                        containerColor = MaterialTheme.colorScheme.tertiaryContainer,
-                        contentColor = MaterialTheme.colorScheme.onTertiaryContainer
-                    ),
-                    border = BorderStroke(
-                        settingsState.borderWidth, MaterialTheme.colorScheme.outlineVariant()
-                    )
                 ) {
                     Icon(Icons.Rounded.Shuffle, null)
                 }

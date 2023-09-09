@@ -73,13 +73,11 @@ import androidx.compose.material3.FloatingActionButtonDefaults
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.LargeTopAppBar
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalDrawerSheet
 import androidx.compose.material3.ModalNavigationDrawer
 import androidx.compose.material3.NavigationBar
-import androidx.compose.material3.OutlinedIconButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -138,7 +136,6 @@ import ru.tech.imageresizershrinker.presentation.root.icons.material.Github
 import ru.tech.imageresizershrinker.presentation.root.icons.material.GooglePlay
 import ru.tech.imageresizershrinker.presentation.root.icons.material.Telegram
 import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
-import ru.tech.imageresizershrinker.presentation.root.theme.suggestContainerColorBy
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.ContextUtils.verifyInstallerId
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.plus
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.alertDialogBorder
@@ -151,6 +148,7 @@ import ru.tech.imageresizershrinker.presentation.root.utils.navigation.Screen
 import ru.tech.imageresizershrinker.presentation.root.widget.color_picker.AvailableColorTuplesSheet
 import ru.tech.imageresizershrinker.presentation.root.widget.color_picker.ColorTuplePicker
 import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedButton
+import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedIconButton
 import ru.tech.imageresizershrinker.presentation.root.widget.other.LocalToastHost
 import ru.tech.imageresizershrinker.presentation.root.widget.other.TopAppBarEmoji
 import ru.tech.imageresizershrinker.presentation.root.widget.preferences.PreferenceItem
@@ -320,18 +318,13 @@ fun MainScreen(
                             }
                         }
                         if (!isSheetSlideable) {
-                            OutlinedIconButton(
+                            EnhancedIconButton(
                                 onClick = updateButtonOnClick,
-                                colors = IconButtonDefaults.filledTonalIconButtonColors(),
-                                border = BorderStroke(
-                                    settingsState.borderWidth,
-                                    MaterialTheme.colorScheme.outlineVariant(
-                                        luminance = 0.3f,
-                                        onTopOf = MaterialTheme.colorScheme.suggestContainerColorBy(
-                                            MaterialTheme.colorScheme.secondaryContainer
-                                        )
-                                    )
+                                borderColor = MaterialTheme.colorScheme.outlineVariant(
+                                    luminance = 0.3f,
+                                    onTopOf = MaterialTheme.colorScheme.onSecondaryContainer
                                 ),
+                                containerColor = MaterialTheme.colorScheme.secondaryContainer,
                                 modifier = Modifier.pulsate(enabled = viewModel.updateAvailable),
                                 content = {
                                     if (viewModel.updateAvailable) {

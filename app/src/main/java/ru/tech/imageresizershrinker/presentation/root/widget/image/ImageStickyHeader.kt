@@ -5,7 +5,6 @@ import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -20,19 +19,22 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Lock
 import androidx.compose.material.icons.rounded.LockOpen
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButtonDefaults
+import androidx.compose.material3.LocalMinimumInteractiveComponentEnforcement
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedIconToggleButton
-import androidx.compose.material3.Slider
 import androidx.compose.material3.SliderDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.isSpecified
 import androidx.compose.ui.unit.dp
+import ru.tech.imageresizershrinker.presentation.draw_screen.components.materialShadow
 import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
 import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedSlider
 import ru.tech.imageresizershrinker.presentation.root.widget.other.GradientEdge
@@ -40,7 +42,7 @@ import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalSettings
 import ru.tech.imageresizershrinker.presentation.root.widget.utils.rememberAvailableHeight
 import ru.tech.imageresizershrinker.presentation.root.widget.utils.rememberFullHeight
 
-@OptIn(ExperimentalFoundationApi::class)
+@OptIn(ExperimentalFoundationApi::class, ExperimentalMaterial3Api::class)
 fun LazyListScope.imageStickyHeader(
     visible: Boolean,
     expanded: Boolean = false,
@@ -90,7 +92,9 @@ fun LazyListScope.imageStickyHeader(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     EnhancedSlider(
-                        modifier = Modifier.weight(1f).padding(horizontal = 10.dp),
+                        modifier = Modifier
+                            .weight(1f)
+                            .padding(horizontal = 10.dp),
                         value = animateFloatAsState(targetValue = imageState.position.toFloat()).value,
                         onValueChange = {
                             onStateChange(imageState.copy(position = it.toInt()))
@@ -106,31 +110,37 @@ fun LazyListScope.imageStickyHeader(
                         steps = 3,
                         valueRange = 0f..4f
                     )
-                    OutlinedIconToggleButton(
-                        checked = imageState.isBlocked,
-                        onCheckedChange = {
-                            onStateChange(imageState.copy(isBlocked = it))
-                        },
-                        border = BorderStroke(
-                            width = settingsState.borderWidth,
-                            color = MaterialTheme.colorScheme
-                                .outlineVariant()
-                                .copy(alpha = 0.3f)
-                        ),
-                        colors = IconButtonDefaults.filledTonalIconToggleButtonColors(
-                            checkedContainerColor = MaterialTheme.colorScheme.tertiary.copy(
-                                0.8f
+                    CompositionLocalProvider(LocalMinimumInteractiveComponentEnforcement provides false) {
+                        OutlinedIconToggleButton(
+                            checked = imageState.isBlocked,
+                            onCheckedChange = {
+                                onStateChange(imageState.copy(isBlocked = it))
+                            },
+                            modifier = Modifier.materialShadow(
+                                shape = CircleShape,
+                                elevation = if (settingsState.borderWidth > 0.dp) 0.dp else 0.5.dp
                             ),
-                            checkedContentColor = MaterialTheme.colorScheme.onTertiary,
-                            containerColor = MaterialTheme.colorScheme.surfaceVariant.copy(0.5f),
-                            contentColor = MaterialTheme.colorScheme.onSurfaceVariant
-                        )
-                    ) {
-                        AnimatedContent(targetState = imageState.isBlocked) { blocked ->
-                            if (blocked) {
-                                Icon(Icons.Rounded.Lock, null)
-                            } else {
-                                Icon(Icons.Rounded.LockOpen, null)
+                            border = BorderStroke(
+                                width = settingsState.borderWidth,
+                                color = MaterialTheme.colorScheme
+                                    .outlineVariant()
+                                    .copy(alpha = 0.3f)
+                            ),
+                            colors = IconButtonDefaults.filledTonalIconToggleButtonColors(
+                                checkedContainerColor = MaterialTheme.colorScheme.tertiary.copy(
+                                    0.8f
+                                ),
+                                checkedContentColor = MaterialTheme.colorScheme.onTertiary,
+                                containerColor = MaterialTheme.colorScheme.surfaceVariant.copy(0.5f),
+                                contentColor = MaterialTheme.colorScheme.onSurfaceVariant
+                            )
+                        ) {
+                            AnimatedContent(targetState = imageState.isBlocked) { blocked ->
+                                if (blocked) {
+                                    Icon(Icons.Rounded.Lock, null)
+                                } else {
+                                    Icon(Icons.Rounded.LockOpen, null)
+                                }
                             }
                         }
                     }

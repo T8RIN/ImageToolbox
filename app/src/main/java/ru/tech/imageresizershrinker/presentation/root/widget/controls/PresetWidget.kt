@@ -4,7 +4,6 @@ package ru.tech.imageresizershrinker.presentation.root.widget.controls
 
 //noinspection UsingMaterialAndMaterial3Libraries
 import androidx.compose.animation.animateColorAsState
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.detectTapGestures
@@ -28,11 +27,9 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Info
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedIconButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.runtime.Composable
@@ -209,12 +206,8 @@ fun PresetWidget(
                         shape = RoundedCornerShape(24.dp)
                     )
             ) {
-                OutlinedIconButton(
-                    colors = IconButtonDefaults.filledTonalIconButtonColors(),
-                    border = BorderStroke(
-                        settingsState.borderWidth,
-                        MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.secondaryContainer)
-                    ),
+                EnhancedIconButton(
+                    containerColor = MaterialTheme.colorScheme.secondaryContainer,
                     onClick = { editPresetsState.value = true },
                     modifier = Modifier
                         .padding(16.dp)
@@ -293,7 +286,8 @@ private fun Chip(
                             )
                             .compositeOver(Color.Black)
                     ).value,
-                    shape = MaterialTheme.shapes.medium
+                    shape = MaterialTheme.shapes.medium,
+                    autoShadowElevation = 0.5.dp
                 )
                 .clickable(onClick = onClick),
             contentAlignment = Alignment.Center

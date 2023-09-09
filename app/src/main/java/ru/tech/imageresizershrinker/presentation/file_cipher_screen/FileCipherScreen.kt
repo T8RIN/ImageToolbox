@@ -62,12 +62,10 @@ import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.FloatingActionButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.LargeTopAppBar
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedCard
-import androidx.compose.material3.OutlinedIconButton
 import androidx.compose.material3.SegmentedButton
 import androidx.compose.material3.SegmentedButtonBorder
 import androidx.compose.material3.SegmentedButtonDefaults
@@ -115,6 +113,7 @@ import ru.tech.imageresizershrinker.presentation.root.utils.helper.showReview
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.container
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.drawHorizontalStroke
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.fabBorder
+import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedIconButton
 import ru.tech.imageresizershrinker.presentation.root.widget.dialogs.ExitWithoutSavingDialog
 import ru.tech.imageresizershrinker.presentation.root.widget.other.LoadingDialog
 import ru.tech.imageresizershrinker.presentation.root.widget.other.LocalToastHost
@@ -353,15 +352,11 @@ fun FileCipherScreen(
                                                     }
                                                 }
                                             }
-                                            OutlinedIconButton(
+                                            EnhancedIconButton(
+                                                containerColor = MaterialTheme.colorScheme.secondaryContainer,
                                                 onClick = {
                                                     showTip.value = true
-                                                },
-                                                colors = IconButtonDefaults.filledTonalIconButtonColors(),
-                                                border = BorderStroke(
-                                                    settingsState.borderWidth,
-                                                    MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.secondaryContainer)
-                                                ),
+                                                }
                                             ) {
                                                 Icon(Icons.Rounded.HelpOutline, null)
                                             }

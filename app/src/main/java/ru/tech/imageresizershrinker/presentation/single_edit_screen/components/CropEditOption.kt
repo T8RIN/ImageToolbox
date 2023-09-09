@@ -19,9 +19,7 @@ import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.FloatingActionButtonDefaults
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedIconButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.surfaceColorAtElevation
@@ -49,6 +47,7 @@ import ru.tech.imageresizershrinker.presentation.crop_screen.components.Cropper
 import ru.tech.imageresizershrinker.presentation.crop_screen.components.aspectRatios
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.drawHorizontalStroke
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.fabBorder
+import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedIconButton
 import ru.tech.imageresizershrinker.presentation.root.widget.other.Loading
 import ru.tech.imageresizershrinker.presentation.root.widget.text.Marquee
 
@@ -124,8 +123,8 @@ fun CropEditOption(
                     modifier = Modifier.drawHorizontalStroke(),
                     actions = {
                         AnimatedVisibility(visible = stateBitmap != bitmap) {
-                            OutlinedIconButton(
-                                colors = IconButtonDefaults.filledTonalIconButtonColors(),
+                            EnhancedIconButton(
+                                containerColor = MaterialTheme.colorScheme.secondaryContainer,
                                 onClick = {
                                     onGetBitmap(stateBitmap)
                                     onDismiss()

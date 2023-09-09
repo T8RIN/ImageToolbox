@@ -41,7 +41,6 @@ import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.domain.model.ImageFormat
 import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.container
-import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalSettingsState
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
@@ -155,7 +154,8 @@ private fun Chip(
                     else MaterialTheme.colorScheme.tertiary
                         .copy(alpha = 0.9f)
                         .compositeOver(Color.Black),
-                    shape = MaterialTheme.shapes.small
+                    shape = MaterialTheme.shapes.small,
+                    autoShadowElevation = 0.5.dp
                 )
                 .clickable(onClick = onClick),
             contentAlignment = Alignment.Center
