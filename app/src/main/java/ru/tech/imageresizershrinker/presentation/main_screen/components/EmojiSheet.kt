@@ -26,12 +26,10 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Face5
 import androidx.compose.material.icons.rounded.Check
 import androidx.compose.material.icons.rounded.Shuffle
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedIconButton
 import androidx.compose.material3.Switch
 import androidx.compose.material3.SwitchDefaults
@@ -57,6 +55,7 @@ import ru.tech.imageresizershrinker.presentation.root.shapes.CloverShape
 import ru.tech.imageresizershrinker.presentation.root.theme.blend
 import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.container
+import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedButton
 import ru.tech.imageresizershrinker.presentation.root.widget.sheets.SimpleSheet
 import ru.tech.imageresizershrinker.presentation.root.widget.text.AutoSizeText
 import ru.tech.imageresizershrinker.presentation.root.widget.text.TitleItem
@@ -233,12 +232,9 @@ fun EmojiSheet(
                 ) {
                     Icon(Icons.Rounded.Shuffle, null)
                 }
-                OutlinedButton(
-                    onClick = { showSheet = false },
-                    colors = ButtonDefaults.filledTonalButtonColors(),
-                    border = BorderStroke(
-                        settingsState.borderWidth, MaterialTheme.colorScheme.outlineVariant()
-                    )
+                EnhancedButton(
+                    containerColor = MaterialTheme.colorScheme.secondaryContainer,
+                    onClick = { showSheet = false }
                 ) {
                     AutoSizeText(stringResource(R.string.close))
                 }

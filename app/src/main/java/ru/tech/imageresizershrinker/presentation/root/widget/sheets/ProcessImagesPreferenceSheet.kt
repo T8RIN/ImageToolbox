@@ -1,7 +1,6 @@
 package ru.tech.imageresizershrinker.presentation.root.widget.sheets
 
 import android.net.Uri
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
@@ -21,7 +20,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Image
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
@@ -40,6 +38,7 @@ import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
 import ru.tech.imageresizershrinker.presentation.root.utils.navigation.LocalNavController
 import ru.tech.imageresizershrinker.presentation.root.utils.navigation.Screen
+import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedButton
 import ru.tech.imageresizershrinker.presentation.root.widget.image.Picture
 import ru.tech.imageresizershrinker.presentation.root.widget.preferences.screens.BackgroundRemoverPreference
 import ru.tech.imageresizershrinker.presentation.root.widget.preferences.screens.BytesResizePreference
@@ -80,14 +79,11 @@ fun ProcessImagesPreferenceSheet(
             )
         },
         confirmButton = {
-            OutlinedButton(
+            EnhancedButton(
+                containerColor = Color.Transparent,
                 onClick = {
                     visible.value = false
                 },
-                border = BorderStroke(
-                    settingsState.borderWidth,
-                    MaterialTheme.colorScheme.outlineVariant()
-                )
             ) {
                 AutoSizeText(stringResource(id = R.string.cancel))
             }

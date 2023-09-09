@@ -2,7 +2,6 @@ package ru.tech.imageresizershrinker.presentation.root.widget.color_picker
 
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.animateColorAsState
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -30,12 +29,10 @@ import androidx.compose.material.icons.rounded.AddCircleOutline
 import androidx.compose.material.icons.rounded.Delete
 import androidx.compose.material.icons.rounded.Done
 import androidx.compose.material3.AlertDialog
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.runtime.Composable
@@ -67,6 +64,7 @@ import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.ListUtils.nearestFor
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.alertDialogBorder
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.container
+import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedButton
 import ru.tech.imageresizershrinker.presentation.root.widget.sheets.SimpleSheet
 import ru.tech.imageresizershrinker.presentation.root.widget.text.AutoSizeText
 import ru.tech.imageresizershrinker.presentation.root.widget.text.TitleItem
@@ -102,24 +100,15 @@ fun AvailableColorTuplesSheet(
                     modifier = Modifier.alertDialogBorder(),
                     onDismissRequest = { showConfirmDeleteDialog = false },
                     confirmButton = {
-                        OutlinedButton(
-                            colors = ButtonDefaults.buttonColors(),
-                            border = BorderStroke(
-                                settingsState.borderWidth,
-                                MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.primary)
-                            ),
+                        EnhancedButton(
                             onClick = { showConfirmDeleteDialog = false }
                         ) {
                             Text(stringResource(R.string.cancel))
                         }
                     },
                     dismissButton = {
-                        OutlinedButton(
-                            colors = ButtonDefaults.filledTonalButtonColors(),
-                            border = BorderStroke(
-                                settingsState.borderWidth,
-                                MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.secondaryContainer)
-                            ),
+                        EnhancedButton(
+                            containerColor = MaterialTheme.colorScheme.secondaryContainer,
                             onClick = {
                                 showConfirmDeleteDialog = false
                                 if ((colorTupleList - currentColorTuple).isEmpty()) {
@@ -174,38 +163,24 @@ fun AvailableColorTuplesSheet(
                 )
             }
             Row {
-                OutlinedButton(
+                EnhancedButton(
+                    containerColor = MaterialTheme.colorScheme.errorContainer,
+                    contentColor = MaterialTheme.colorScheme.onErrorContainer,
                     onClick = {
                         showConfirmDeleteDialog = true
                     },
-                    colors = ButtonDefaults.outlinedButtonColors(
-                        containerColor = MaterialTheme.colorScheme.errorContainer,
-                        contentColor = MaterialTheme.colorScheme.onErrorContainer,
-                    ),
-                    border = BorderStroke(
-                        borderWidth,
-                        MaterialTheme.colorScheme.outlineVariant(
-                            onTopOf = MaterialTheme.colorScheme.errorContainer
-                        )
-                    ),
+                    borderColor = MaterialTheme.colorScheme.outlineVariant(
+                        onTopOf = MaterialTheme.colorScheme.errorContainer
+                    )
                 ) {
                     Icon(Icons.Rounded.Delete, null)
                 }
                 Spacer(Modifier.width(8.dp))
-                OutlinedButton(
+                EnhancedButton(
+                    containerColor = MaterialTheme.colorScheme.secondaryContainer,
                     onClick = {
                         showEditColorPicker.value = true
-                    },
-                    colors = ButtonDefaults.outlinedButtonColors(
-                        containerColor = MaterialTheme.colorScheme.secondaryContainer,
-                        contentColor = MaterialTheme.colorScheme.onSecondaryContainer,
-                    ),
-                    border = BorderStroke(
-                        borderWidth,
-                        MaterialTheme.colorScheme.outlineVariant(
-                            onTopOf = MaterialTheme.colorScheme.secondaryContainer
-                        )
-                    ),
+                    }
                 ) {
                     Icon(Icons.Rounded.CreateAlt, null)
                 }
@@ -330,20 +305,10 @@ fun AvailableColorTuplesSheet(
             }
         },
         confirmButton = {
-            OutlinedButton(
+            EnhancedButton(
                 onClick = {
                     visible.value = false
-                },
-                colors = ButtonDefaults.outlinedButtonColors(
-                    containerColor = MaterialTheme.colorScheme.primary,
-                    contentColor = MaterialTheme.colorScheme.onPrimary,
-                ),
-                border = BorderStroke(
-                    borderWidth,
-                    MaterialTheme.colorScheme.outlineVariant(
-                        onTopOf = MaterialTheme.colorScheme.primary
-                    )
-                ),
+                }
             ) {
                 AutoSizeText(stringResource(R.string.close))
             }

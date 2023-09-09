@@ -14,11 +14,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.ChangeCircle
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedIconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -29,6 +27,7 @@ import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.container
+import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedButton
 import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalSettingsState
 
 @Composable
@@ -49,18 +48,13 @@ fun ImageCounter(
                     .container(shape = CircleShape)
                     .padding(start = 3.dp)
             ) {
-                OutlinedButton(
+                EnhancedButton(
+                    containerColor = MaterialTheme.colorScheme.tertiaryContainer.copy(0.3f),
+                    contentColor = MaterialTheme.colorScheme.onTertiaryContainer.copy(0.9f),
                     onClick = { if ((imageCount ?: 0) > 1) onRepick() },
-                    border = BorderStroke(
-                        settingsState.borderWidth,
-                        MaterialTheme.colorScheme.outlineVariant(
-                            0.1f,
-                            MaterialTheme.colorScheme.tertiaryContainer.copy(0.1f),
-                        ),
-                    ),
-                    colors = ButtonDefaults.filledTonalButtonColors(
-                        containerColor = MaterialTheme.colorScheme.tertiaryContainer.copy(0.3f),
-                        contentColor = MaterialTheme.colorScheme.onTertiaryContainer.copy(0.9f)
+                    borderColor = MaterialTheme.colorScheme.outlineVariant(
+                        0.1f,
+                        MaterialTheme.colorScheme.tertiaryContainer.copy(0.1f),
                     )
                 ) {
                     Text(stringResource(R.string.images, imageCount ?: 0L))

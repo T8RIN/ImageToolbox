@@ -1,7 +1,6 @@
 package ru.tech.imageresizershrinker.presentation.root.widget.sheets
 
 import android.net.Uri
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -18,16 +17,15 @@ import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.PhotoLibrary
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -35,6 +33,7 @@ import coil.transform.Transformation
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.container
+import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedButton
 import ru.tech.imageresizershrinker.presentation.root.widget.image.Picture
 import ru.tech.imageresizershrinker.presentation.root.widget.text.AutoSizeText
 import ru.tech.imageresizershrinker.presentation.root.widget.text.TitleItem
@@ -99,17 +98,8 @@ fun PickImageFromUrisSheet(
                                     shape = RoundedCornerShape(8.dp),
                                     contentScale = ContentScale.Fit
                                 )
-                                OutlinedButton(
-                                    colors = ButtonDefaults.outlinedButtonColors(
-                                        containerColor = MaterialTheme.colorScheme.secondaryContainer,
-                                        contentColor = MaterialTheme.colorScheme.onSecondaryContainer,
-                                    ),
-                                    border = BorderStroke(
-                                        settingsState.borderWidth,
-                                        MaterialTheme.colorScheme.outlineVariant(
-                                            onTopOf = MaterialTheme.colorScheme.secondaryContainer
-                                        )
-                                    ),
+                                EnhancedButton(
+                                    containerColor = MaterialTheme.colorScheme.secondaryContainer,
                                     onClick = {
                                         onUriRemoved(uri)
                                     },
@@ -130,12 +120,9 @@ fun PickImageFromUrisSheet(
             }
         },
         confirmButton = {
-            OutlinedButton(
+            EnhancedButton(
+                containerColor = Color.Transparent,
                 onClick = onDismiss,
-                border = BorderStroke(
-                    settingsState.borderWidth,
-                    MaterialTheme.colorScheme.outlineVariant()
-                )
             ) {
                 AutoSizeText(stringResource(R.string.close))
             }

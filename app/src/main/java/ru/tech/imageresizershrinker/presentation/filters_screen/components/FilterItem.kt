@@ -3,9 +3,7 @@ package ru.tech.imageresizershrinker.presentation.filters_screen.components
 import android.annotation.SuppressLint
 import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.animateFloatAsState
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
@@ -27,15 +25,11 @@ import androidx.compose.material.icons.rounded.Done
 import androidx.compose.material.icons.rounded.DragHandle
 import androidx.compose.material.icons.rounded.RemoveCircleOutline
 import androidx.compose.material3.AlertDialog
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.Slider
-import androidx.compose.material3.SliderDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -66,6 +60,7 @@ import ru.tech.imageresizershrinker.presentation.root.utils.modifier.alertDialog
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.container
 import ru.tech.imageresizershrinker.presentation.root.widget.color_picker.AlphaColorSelection
 import ru.tech.imageresizershrinker.presentation.root.widget.color_picker.ColorSelection
+import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedButton
 import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedSlider
 import ru.tech.imageresizershrinker.presentation.root.widget.text.RoundedTextField
 import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalSettingsState
@@ -690,23 +685,14 @@ private fun ValueDialog(
                 }
             },
             confirmButton = {
-                OutlinedButton(
+                EnhancedButton(
+                    containerColor = MaterialTheme.colorScheme.secondaryContainer,
                     onClick = {
                         onDismiss()
                         onValueUpdate(
                             (value.toFloatOrNull() ?: 0f).roundTo(roundTo).coerceIn(valueRange)
                         )
                     },
-                    colors = ButtonDefaults.outlinedButtonColors(
-                        containerColor = MaterialTheme.colorScheme.secondaryContainer,
-                        contentColor = MaterialTheme.colorScheme.onSecondaryContainer,
-                    ),
-                    border = BorderStroke(
-                        LocalSettingsState.current.borderWidth,
-                        MaterialTheme.colorScheme.outlineVariant(
-                            onTopOf = MaterialTheme.colorScheme.secondaryContainer
-                        )
-                    ),
                 ) {
                     Text(stringResource(R.string.ok))
                 }

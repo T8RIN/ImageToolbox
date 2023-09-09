@@ -18,7 +18,6 @@ import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.shrinkOut
 import androidx.compose.animation.togetherWith
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -80,7 +79,6 @@ import androidx.compose.material.icons.rounded.Translate
 import androidx.compose.material.icons.rounded.UploadFile
 import androidx.compose.material.icons.rounded.WbSunny
 import androidx.compose.material.icons.twotone.Palette
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -88,7 +86,6 @@ import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.getValue
@@ -145,8 +142,8 @@ import ru.tech.imageresizershrinker.presentation.root.shapes.CloverShape
 import ru.tech.imageresizershrinker.presentation.root.shapes.DavidStarShape
 import ru.tech.imageresizershrinker.presentation.root.theme.blend
 import ru.tech.imageresizershrinker.presentation.root.theme.inverse
-import ru.tech.imageresizershrinker.presentation.root.theme.mixedColor
-import ru.tech.imageresizershrinker.presentation.root.theme.onMixedColor
+import ru.tech.imageresizershrinker.presentation.root.theme.mixedContainer
+import ru.tech.imageresizershrinker.presentation.root.theme.onMixedContainer
 import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
 import ru.tech.imageresizershrinker.presentation.root.utils.confetti.LocalConfettiController
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.ContextUtils.cacheSize
@@ -155,6 +152,7 @@ import ru.tech.imageresizershrinker.presentation.root.utils.helper.toUiPath
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.container
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.pulsate
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.scaleOnTap
+import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedButton
 import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedSlider
 import ru.tech.imageresizershrinker.presentation.root.widget.dialogs.ResetDialog
 import ru.tech.imageresizershrinker.presentation.root.widget.image.Picture
@@ -713,13 +711,8 @@ fun LazyListScope.settingsBlock(
                 }
             },
             confirmButton = {
-                OutlinedButton(
-                    onClick = { showFontSheet.value = false },
-                    colors = ButtonDefaults.buttonColors(),
-                    border = BorderStroke(
-                        settingsState.borderWidth,
-                        MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.primary)
-                    )
+                EnhancedButton(
+                    onClick = { showFontSheet.value = false }
                 ) {
                     AutoSizeText(stringResource(R.string.close))
                 }
@@ -882,13 +875,8 @@ fun LazyListScope.settingsBlock(
                 }
             },
             confirmButton = {
-                OutlinedButton(
+                EnhancedButton(
                     onClick = { showFontScaleSheet.value = false },
-                    colors = ButtonDefaults.buttonColors(),
-                    border = BorderStroke(
-                        settingsState.borderWidth,
-                        MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.primary)
-                    )
                 ) {
                     AutoSizeText(stringResource(R.string.close))
                 }
@@ -1619,8 +1607,8 @@ fun LazyListScope.settingsBlock(
                     },
                     title = stringResource(R.string.tg_chat),
                     subtitle = stringResource(R.string.tg_chat_sub),
-                    color = MaterialTheme.colorScheme.mixedColor.copy(alpha = 0.7f),
-                    contentColor = MaterialTheme.colorScheme.onMixedColor.copy(alpha = 0.9f),
+                    color = MaterialTheme.colorScheme.mixedContainer.copy(alpha = 0.7f),
+                    contentColor = MaterialTheme.colorScheme.onMixedContainer.copy(alpha = 0.9f),
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(horizontal = 8.dp),

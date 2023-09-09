@@ -1,14 +1,11 @@
 package ru.tech.imageresizershrinker.presentation.root.widget.dialogs
 
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.DoneOutline
 import androidx.compose.material.icons.rounded.RestartAlt
 import androidx.compose.material3.AlertDialog
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
@@ -17,8 +14,8 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.R
-import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.alertDialogBorder
+import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedButton
 import ru.tech.imageresizershrinker.presentation.root.widget.other.LocalToastHost
 import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalSettingsState
 
@@ -43,30 +40,15 @@ fun ResetDialog(
             text = { Text(text) },
             onDismissRequest = onDismiss,
             confirmButton = {
-                OutlinedButton(
-                    colors = ButtonDefaults.outlinedButtonColors(
-                        containerColor = MaterialTheme.colorScheme.primary,
-                        contentColor = MaterialTheme.colorScheme.onPrimary,
-                    ),
-                    border = BorderStroke(
-                        settingsState.borderWidth,
-                        MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.primary)
-                    ),
+                EnhancedButton(
                     onClick = onDismiss
                 ) {
                     Text(stringResource(R.string.close))
                 }
             },
             dismissButton = {
-                OutlinedButton(
-                    colors = ButtonDefaults.outlinedButtonColors(
-                        containerColor = MaterialTheme.colorScheme.secondaryContainer,
-                        contentColor = MaterialTheme.colorScheme.onSecondaryContainer,
-                    ),
-                    border = BorderStroke(
-                        settingsState.borderWidth,
-                        MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.secondaryContainer)
-                    ),
+                EnhancedButton(
+                    containerColor = MaterialTheme.colorScheme.secondaryContainer,
                     onClick = {
                         onReset()
                         onDismiss()

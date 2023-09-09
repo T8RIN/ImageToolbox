@@ -1,6 +1,5 @@
 package ru.tech.imageresizershrinker.presentation.root.widget.controls
 
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -18,12 +17,10 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Info
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
@@ -39,7 +36,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.domain.model.ResizeType
-import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.container
 import ru.tech.imageresizershrinker.presentation.root.widget.buttons.ToggleGroupButton
 import ru.tech.imageresizershrinker.presentation.root.widget.sheets.SimpleSheet
@@ -156,12 +152,8 @@ fun ResizeGroup(
             TitleItem(text = stringResource(R.string.resize_type))
         },
         confirmButton = {
-            OutlinedButton(
-                colors = ButtonDefaults.filledTonalButtonColors(),
-                border = BorderStroke(
-                    settingsState.borderWidth,
-                    MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.secondaryContainer)
-                ),
+            EnhancedButton(
+                containerColor = MaterialTheme.colorScheme.secondaryContainer,
                 onClick = { state.value = false }
             ) {
                 AutoSizeText(stringResource(R.string.close))

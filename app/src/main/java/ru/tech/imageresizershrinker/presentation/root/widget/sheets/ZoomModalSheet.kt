@@ -1,7 +1,6 @@
 package ru.tech.imageresizershrinker.presentation.root.widget.sheets
 
 import android.graphics.Bitmap
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -17,10 +16,8 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.ZoomIn
 import androidx.compose.material3.BottomSheetDefaults
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
@@ -37,6 +34,7 @@ import com.smarttoolfactory.image.zoom.rememberAnimatedZoomState
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.presentation.erase_background_screen.components.transparencyChecker
 import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
+import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedButton
 import ru.tech.imageresizershrinker.presentation.root.widget.text.AutoSizeText
 import ru.tech.imageresizershrinker.presentation.root.widget.text.TitleItem
 import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalSettingsState
@@ -98,15 +96,8 @@ fun ZoomModalSheet(
             ) {
                 TitleItem(text = stringResource(R.string.zoom), icon = Icons.Rounded.ZoomIn)
                 Spacer(Modifier.weight(1f))
-                OutlinedButton(
-                    colors = ButtonDefaults.outlinedButtonColors(
-                        containerColor = MaterialTheme.colorScheme.secondaryContainer,
-                        contentColor = MaterialTheme.colorScheme.onSecondaryContainer,
-                    ),
-                    border = BorderStroke(
-                        settingsState.borderWidth,
-                        MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.secondaryContainer)
-                    ),
+                EnhancedButton(
+                    containerColor = MaterialTheme.colorScheme.secondaryContainer,
                     onClick = {
                         showSheet = false
                     },

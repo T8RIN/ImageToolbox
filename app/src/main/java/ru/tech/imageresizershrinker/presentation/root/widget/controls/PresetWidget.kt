@@ -27,13 +27,11 @@ import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Info
 import androidx.compose.material3.AlertDialog
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedIconButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.surfaceColorAtElevation
@@ -233,12 +231,8 @@ fun PresetWidget(
             modifier = Modifier.alertDialogBorder(),
             onDismissRequest = { showPresetInfoDialog = false },
             confirmButton = {
-                OutlinedButton(
-                    colors = ButtonDefaults.filledTonalButtonColors(),
-                    border = BorderStroke(
-                        settingsState.borderWidth,
-                        MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.secondaryContainer)
-                    ),
+                EnhancedButton(
+                    containerColor = MaterialTheme.colorScheme.secondaryContainer,
                     onClick = { showPresetInfoDialog = false }
                 ) {
                     Text(stringResource(R.string.ok))

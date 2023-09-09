@@ -37,7 +37,7 @@ fun ColorScheme.suggestContainerColorBy(color: Color) = when (color) {
     else -> surface
 }
 
-inline val ColorScheme.mixedColor: Color
+inline val ColorScheme.mixedContainer: Color
     @Composable get() = run {
         tertiaryContainer.blend(
             primaryContainer,
@@ -45,7 +45,7 @@ inline val ColorScheme.mixedColor: Color
         )
     }
 
-inline val ColorScheme.onMixedColor: Color
+inline val ColorScheme.onMixedContainer: Color
     @Composable get() = run {
         onTertiaryContainer.blend(
             onPrimaryContainer,

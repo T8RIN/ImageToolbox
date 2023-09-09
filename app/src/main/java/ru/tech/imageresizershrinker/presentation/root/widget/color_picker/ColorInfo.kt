@@ -22,13 +22,11 @@ import androidx.compose.material.icons.rounded.ContentCopy
 import androidx.compose.material.icons.rounded.ContentPaste
 import androidx.compose.material.icons.rounded.Shuffle
 import androidx.compose.material3.AlertDialog
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -56,6 +54,7 @@ import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.ContextUtils.copyColorIntoClipboard
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.ContextUtils.pasteColorFromClipboard
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.alertDialogBorder
+import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedButton
 import ru.tech.imageresizershrinker.presentation.root.widget.text.AutoSizeText
 import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalSettingsState
 import kotlin.random.Random
@@ -219,23 +218,14 @@ fun ColorInfo(
                             }
                         },
                         confirmButton = {
-                            OutlinedButton(
+                            EnhancedButton(
+                                containerColor = MaterialTheme.colorScheme.secondaryContainer,
                                 onClick = {
                                     val hexColor =
                                         value.removePrefix("#").toLong(16) or 0x00000000FF000000
                                     onColorChange(Color(hexColor).toArgb())
                                     expanded = false
-                                },
-                                colors = ButtonDefaults.outlinedButtonColors(
-                                    containerColor = MaterialTheme.colorScheme.secondaryContainer,
-                                    contentColor = MaterialTheme.colorScheme.onSecondaryContainer,
-                                ),
-                                border = BorderStroke(
-                                    borderWidth,
-                                    MaterialTheme.colorScheme.outlineVariant(
-                                        onTopOf = MaterialTheme.colorScheme.secondaryContainer
-                                    )
-                                ),
+                                }
                             ) {
                                 Text(stringResource(R.string.ok))
                             }

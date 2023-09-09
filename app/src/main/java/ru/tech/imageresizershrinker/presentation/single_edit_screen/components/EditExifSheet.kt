@@ -24,14 +24,12 @@ import androidx.compose.material.icons.rounded.Delete
 import androidx.compose.material.icons.rounded.Fingerprint
 import androidx.compose.material.icons.rounded.RemoveCircleOutline
 import androidx.compose.material3.AlertDialog
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedCard
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
@@ -46,6 +44,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
@@ -58,6 +57,7 @@ import ru.tech.imageresizershrinker.domain.image.Metadata
 import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.ImageUtils.toMap
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.alertDialogBorder
+import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedButton
 import ru.tech.imageresizershrinker.presentation.root.widget.preferences.PreferenceItemOverload
 import ru.tech.imageresizershrinker.presentation.root.widget.sheets.SimpleSheet
 import ru.tech.imageresizershrinker.presentation.root.widget.text.AutoSizeText
@@ -86,15 +86,7 @@ fun EditExifSheet(
         nestedScrollEnabled = false,
         endConfirmButtonPadding = 0.dp,
         confirmButton = {
-            OutlinedButton(
-                colors = ButtonDefaults.outlinedButtonColors(
-                    containerColor = MaterialTheme.colorScheme.primary,
-                    contentColor = MaterialTheme.colorScheme.onPrimary,
-                ),
-                border = BorderStroke(
-                    settingsState.borderWidth,
-                    MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.primary)
-                ),
+            EnhancedButton(
                 onClick = { visible.value = false }
             ) {
                 AutoSizeText(stringResource(R.string.ok))
@@ -109,28 +101,19 @@ fun EditExifSheet(
                 }
             Row {
                 if (exifMap?.isEmpty() == false) {
-                    OutlinedButton(
+                    EnhancedButton(
+                        containerColor = Color.Transparent,
                         onClick = {
                             showClearExifDialog = true
-                        }, border = BorderStroke(
-                            settingsState.borderWidth,
-                            MaterialTheme.colorScheme.outlineVariant()
-                        )
+                        }
                     ) {
                         Text(stringResource(R.string.clear))
                     }
                     Spacer(Modifier.width(8.dp))
                 }
                 if (count > 0) {
-                    OutlinedButton(
-                        colors = ButtonDefaults.outlinedButtonColors(
-                            containerColor = MaterialTheme.colorScheme.secondaryContainer,
-                            contentColor = MaterialTheme.colorScheme.onSecondaryContainer,
-                        ),
-                        border = BorderStroke(
-                            settingsState.borderWidth,
-                            MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.secondaryContainer)
-                        ),
+                    EnhancedButton(
+                        containerColor = MaterialTheme.colorScheme.secondaryContainer,
                         onClick = { showAddExifDialog.value = true }
                     ) {
                         Text(stringResource(R.string.add_tag))
@@ -347,15 +330,7 @@ fun EditExifSheet(
                                 icon = Icons.Rounded.Fingerprint
                             )
                             Spacer(Modifier.weight(1f))
-                            OutlinedButton(
-                                colors = ButtonDefaults.outlinedButtonColors(
-                                    containerColor = MaterialTheme.colorScheme.primary,
-                                    contentColor = MaterialTheme.colorScheme.onPrimary,
-                                ),
-                                border = BorderStroke(
-                                    settingsState.borderWidth,
-                                    MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.primary)
-                                ),
+                            EnhancedButton(
                                 onClick = { showAddExifDialog.value = false }
                             ) {
                                 AutoSizeText(stringResource(R.string.ok))
@@ -371,30 +346,15 @@ fun EditExifSheet(
                     title = { Text(stringResource(R.string.clear_exif)) },
                     icon = { Icon(Icons.Rounded.Delete, null) },
                     confirmButton = {
-                        OutlinedButton(
-                            colors = ButtonDefaults.outlinedButtonColors(
-                                containerColor = MaterialTheme.colorScheme.primary,
-                                contentColor = MaterialTheme.colorScheme.onPrimary,
-                            ),
-                            border = BorderStroke(
-                                settingsState.borderWidth,
-                                MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.primary)
-                            ),
+                        EnhancedButton(
                             onClick = { showClearExifDialog = false }
                         ) {
                             Text(stringResource(R.string.cancel))
                         }
                     },
                     dismissButton = {
-                        OutlinedButton(
-                            colors = ButtonDefaults.outlinedButtonColors(
-                                containerColor = MaterialTheme.colorScheme.secondaryContainer,
-                                contentColor = MaterialTheme.colorScheme.onSecondaryContainer,
-                            ),
-                            border = BorderStroke(
-                                settingsState.borderWidth,
-                                MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.secondaryContainer)
-                            ),
+                        EnhancedButton(
+                            containerColor = MaterialTheme.colorScheme.secondaryContainer,
                             onClick = {
                                 showClearExifDialog = false
                                 onClearExif()

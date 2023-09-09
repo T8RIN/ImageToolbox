@@ -1,6 +1,5 @@
 package ru.tech.imageresizershrinker.presentation.root.widget.color_picker
 
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -16,12 +15,10 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Palette
 import androidx.compose.material.icons.rounded.ContentPaste
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -35,7 +32,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import com.t8rin.dynamic.theme.ColorTuple
@@ -47,8 +43,8 @@ import com.t8rin.dynamic.theme.rememberColorScheme
 import kotlinx.coroutines.delay
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.presentation.root.icons.material.PaletteSwatch
-import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.container
+import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedButton
 import ru.tech.imageresizershrinker.presentation.root.widget.sheets.SimpleSheet
 import ru.tech.imageresizershrinker.presentation.root.widget.text.AutoSizeText
 import ru.tech.imageresizershrinker.presentation.root.widget.text.TitleItem
@@ -59,7 +55,6 @@ import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalSettings
 fun ColorTuplePicker(
     visible: MutableState<Boolean>,
     colorTuple: ColorTuple,
-    borderWidth: Dp = LocalSettingsState.current.borderWidth,
     title: String = stringResource(R.string.color_scheme),
     onColorChange: (ColorTuple) -> Unit
 ) {
@@ -141,7 +136,8 @@ fun ColorTuplePicker(
                             Text(stringResource(R.string.monet_colors))
                             Spacer(Modifier.width(8.dp))
                             Spacer(Modifier.weight(1f))
-                            OutlinedButton(
+                            EnhancedButton(
+                                containerColor = MaterialTheme.colorScheme.secondaryContainer,
                                 onClick = {
                                     scheme.apply {
                                         primary = this.primary.toArgb()
@@ -150,14 +146,6 @@ fun ColorTuplePicker(
                                         surface = this.surface.toArgb()
                                     }
                                 },
-                                colors = ButtonDefaults.outlinedButtonColors(
-                                    containerColor = MaterialTheme.colorScheme.secondaryContainer,
-                                    contentColor = MaterialTheme.colorScheme.onSecondaryContainer
-                                ),
-                                border = BorderStroke(
-                                    borderWidth,
-                                    MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.secondaryContainer)
-                                )
                             ) {
                                 Icon(Icons.Rounded.ContentPaste, null)
                             }
@@ -242,15 +230,7 @@ fun ColorTuplePicker(
             }
         },
         confirmButton = {
-            OutlinedButton(
-                colors = ButtonDefaults.outlinedButtonColors(
-                    containerColor = MaterialTheme.colorScheme.primary,
-                    contentColor = MaterialTheme.colorScheme.onPrimary,
-                ),
-                border = BorderStroke(
-                    borderWidth,
-                    MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.primary)
-                ),
+            EnhancedButton(
                 onClick = {
                     onColorChange(
                         ColorTuple(

@@ -22,7 +22,6 @@ import androidx.compose.material.icons.outlined.PhotoSizeSelectSmall
 import androidx.compose.material.icons.rounded.AddCircle
 import androidx.compose.material.icons.rounded.PhotoSizeSelectSmall
 import androidx.compose.material3.AlertDialog
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButtonDefaults
@@ -48,6 +47,7 @@ import androidx.core.text.isDigitsOnly
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.alertDialogBorder
+import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedButton
 import ru.tech.imageresizershrinker.presentation.root.widget.sheets.SimpleSheet
 import ru.tech.imageresizershrinker.presentation.root.widget.text.AutoSizeText
 import ru.tech.imageresizershrinker.presentation.root.widget.text.TitleItem
@@ -178,26 +178,21 @@ fun EditPresetsSheet(
                                     }
                                 },
                                 confirmButton = {
-                                    OutlinedButton(
+                                    EnhancedButton(
+                                        containerColor = MaterialTheme.colorScheme.secondaryContainer.copy(
+                                            alpha = if (settingsState.isNightMode) 0.5f
+                                            else 1f
+                                        ),
+                                        borderColor = MaterialTheme.colorScheme.outlineVariant(
+                                            onTopOf = MaterialTheme.colorScheme.secondaryContainer
+                                        ),
+                                        contentColor = MaterialTheme.colorScheme.onSecondaryContainer,
                                         onClick = {
                                             updatePresets(
                                                 list + (value.toIntOrNull() ?: 0)
                                             )
                                             expanded = false
                                         },
-                                        colors = ButtonDefaults.outlinedButtonColors(
-                                            containerColor = MaterialTheme.colorScheme.secondaryContainer.copy(
-                                                alpha = if (settingsState.isNightMode) 0.5f
-                                                else 1f
-                                            ),
-                                            contentColor = MaterialTheme.colorScheme.onSecondaryContainer,
-                                        ),
-                                        border = BorderStroke(
-                                            settingsState.borderWidth,
-                                            MaterialTheme.colorScheme.outlineVariant(
-                                                onTopOf = MaterialTheme.colorScheme.secondaryContainer
-                                            )
-                                        ),
                                     ) {
                                         Text(stringResource(R.string.add))
                                     }

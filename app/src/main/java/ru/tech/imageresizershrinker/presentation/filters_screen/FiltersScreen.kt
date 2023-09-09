@@ -39,14 +39,12 @@ import androidx.compose.material.icons.rounded.History
 import androidx.compose.material.icons.rounded.PhotoFilter
 import androidx.compose.material.icons.rounded.Tune
 import androidx.compose.material.icons.rounded.ZoomIn
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.LargeTopAppBar
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedIconButton
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -83,8 +81,8 @@ import ru.tech.imageresizershrinker.presentation.filters_screen.components.AddFi
 import ru.tech.imageresizershrinker.presentation.filters_screen.components.FilterItem
 import ru.tech.imageresizershrinker.presentation.filters_screen.components.FilterReorderSheet
 import ru.tech.imageresizershrinker.presentation.filters_screen.viewModel.FilterViewModel
-import ru.tech.imageresizershrinker.presentation.root.theme.mixedColor
-import ru.tech.imageresizershrinker.presentation.root.theme.onMixedColor
+import ru.tech.imageresizershrinker.presentation.root.theme.mixedContainer
+import ru.tech.imageresizershrinker.presentation.root.theme.onMixedContainer
 import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
 import ru.tech.imageresizershrinker.presentation.root.transformation.ImageInfoTransformation
 import ru.tech.imageresizershrinker.presentation.root.transformation.filter.SaturationFilter
@@ -97,6 +95,7 @@ import ru.tech.imageresizershrinker.presentation.root.utils.modifier.container
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.drawHorizontalStroke
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.navBarsLandscapePadding
 import ru.tech.imageresizershrinker.presentation.root.widget.buttons.BottomButtonsBlock
+import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedButton
 import ru.tech.imageresizershrinker.presentation.root.widget.controls.ExtensionGroup
 import ru.tech.imageresizershrinker.presentation.root.widget.controls.QualityWidget
 import ru.tech.imageresizershrinker.presentation.root.widget.controls.SaveExifWidget
@@ -413,13 +412,13 @@ fun FiltersScreen(
                             OutlinedIconButton(
                                 onClick = { showFilterSheet.value = true },
                                 colors = IconButtonDefaults.filledTonalIconButtonColors(
-                                    containerColor = MaterialTheme.colorScheme.mixedColor,
-                                    contentColor = MaterialTheme.colorScheme.onMixedColor
+                                    containerColor = MaterialTheme.colorScheme.mixedContainer,
+                                    contentColor = MaterialTheme.colorScheme.onMixedContainer
                                 ),
                                 border = BorderStroke(
                                     settingsState.borderWidth,
                                     MaterialTheme.colorScheme.outlineVariant(
-                                        onTopOf = MaterialTheme.colorScheme.mixedColor
+                                        onTopOf = MaterialTheme.colorScheme.mixedContainer
                                     )
                                 ),
                             ) {
@@ -523,17 +522,8 @@ fun FiltersScreen(
                                                         }
                                                     )
                                                 }
-                                                OutlinedButton(
-                                                    colors = ButtonDefaults.filledTonalButtonColors(
-                                                        containerColor = MaterialTheme.colorScheme.mixedColor,
-                                                        contentColor = MaterialTheme.colorScheme.onMixedColor
-                                                    ),
-                                                    border = BorderStroke(
-                                                        settingsState.borderWidth,
-                                                        MaterialTheme.colorScheme.outlineVariant(
-                                                            onTopOf = MaterialTheme.colorScheme.mixedColor
-                                                        )
-                                                    ),
+                                                EnhancedButton(
+                                                    containerColor = MaterialTheme.colorScheme.mixedContainer,
                                                     onClick = { showFilterSheet.value = true },
                                                     modifier = Modifier.padding(horizontal = 16.dp)
                                                 ) {
@@ -544,17 +534,8 @@ fun FiltersScreen(
                                             }
                                         }
                                     } else {
-                                        OutlinedButton(
-                                            colors = ButtonDefaults.filledTonalButtonColors(
-                                                containerColor = MaterialTheme.colorScheme.mixedColor,
-                                                contentColor = MaterialTheme.colorScheme.onMixedColor
-                                            ),
-                                            border = BorderStroke(
-                                                width = settingsState.borderWidth,
-                                                color = MaterialTheme.colorScheme.outlineVariant(
-                                                    onTopOf = MaterialTheme.colorScheme.mixedColor
-                                                )
-                                            ),
+                                        EnhancedButton(
+                                            containerColor = MaterialTheme.colorScheme.mixedContainer,
                                             onClick = { showFilterSheet.value = true },
                                             modifier = Modifier.padding(horizontal = 16.dp)
                                         ) {

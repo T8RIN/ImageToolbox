@@ -58,8 +58,8 @@ import ru.tech.imageresizershrinker.presentation.draw_screen.components.OpenColo
 import ru.tech.imageresizershrinker.presentation.draw_screen.components.PickColorFromImageSheet
 import ru.tech.imageresizershrinker.presentation.erase_background_screen.components.PathPaint
 import ru.tech.imageresizershrinker.presentation.root.icons.material.Eraser
-import ru.tech.imageresizershrinker.presentation.root.theme.mixedColor
-import ru.tech.imageresizershrinker.presentation.root.theme.onMixedColor
+import ru.tech.imageresizershrinker.presentation.root.theme.mixedContainer
+import ru.tech.imageresizershrinker.presentation.root.theme.onMixedContainer
 import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.container
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.drawHorizontalStroke
@@ -162,11 +162,11 @@ fun DrawEditOption(
                 OutlinedIconButton(
                     colors = IconButtonDefaults.filledIconButtonColors(
                         containerColor = animateColorAsState(
-                            if (isEraserOn) MaterialTheme.colorScheme.mixedColor
+                            if (isEraserOn) MaterialTheme.colorScheme.mixedContainer
                             else Color.Transparent
                         ).value,
                         contentColor = animateColorAsState(
-                            if (isEraserOn) MaterialTheme.colorScheme.onMixedColor
+                            if (isEraserOn) MaterialTheme.colorScheme.onMixedContainer
                             else MaterialTheme.colorScheme.onSurface
                         ).value,
                         disabledContainerColor = Color.Transparent

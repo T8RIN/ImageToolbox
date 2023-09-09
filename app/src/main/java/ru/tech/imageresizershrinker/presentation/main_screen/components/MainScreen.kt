@@ -79,7 +79,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalDrawerSheet
 import androidx.compose.material3.ModalNavigationDrawer
 import androidx.compose.material3.NavigationBar
-import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedIconButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Surface
@@ -104,6 +103,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalConfiguration
@@ -150,6 +150,7 @@ import ru.tech.imageresizershrinker.presentation.root.utils.navigation.LocalNavC
 import ru.tech.imageresizershrinker.presentation.root.utils.navigation.Screen
 import ru.tech.imageresizershrinker.presentation.root.widget.color_picker.AvailableColorTuplesSheet
 import ru.tech.imageresizershrinker.presentation.root.widget.color_picker.ColorTuplePicker
+import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedButton
 import ru.tech.imageresizershrinker.presentation.root.widget.other.LocalToastHost
 import ru.tech.imageresizershrinker.presentation.root.widget.other.TopAppBarEmoji
 import ru.tech.imageresizershrinker.presentation.root.widget.preferences.PreferenceItem
@@ -823,23 +824,18 @@ fun MainScreen(
                 }
             },
             confirmButton = {
-                OutlinedButton(
+                EnhancedButton(
+                    containerColor = MaterialTheme.colorScheme.secondaryContainer.copy(
+                        alpha = if (settingsState.isNightMode) 0.5f
+                        else 1f
+                    ),
+                    contentColor = MaterialTheme.colorScheme.onSecondaryContainer,
                     onClick = {
                         viewModel.updateFilename(value.trim())
                         showChangeFilenameDialog = false
                     },
-                    colors = ButtonDefaults.outlinedButtonColors(
-                        containerColor = MaterialTheme.colorScheme.secondaryContainer.copy(
-                            alpha = if (settingsState.isNightMode) 0.5f
-                            else 1f
-                        ),
-                        contentColor = MaterialTheme.colorScheme.onSecondaryContainer,
-                    ),
-                    border = BorderStroke(
-                        settingsState.borderWidth,
-                        MaterialTheme.colorScheme.outlineVariant(
-                            onTopOf = MaterialTheme.colorScheme.secondaryContainer
-                        )
+                    borderColor = MaterialTheme.colorScheme.outlineVariant(
+                        onTopOf = MaterialTheme.colorScheme.secondaryContainer
                     ),
                 ) {
                     Text(stringResource(R.string.ok))
@@ -865,11 +861,9 @@ fun MainScreen(
             )
         },
         confirmButton = {
-            OutlinedButton(
+            EnhancedButton(
+                containerColor = Color.Transparent,
                 onClick = { showAuthorDialog.value = false },
-                border = BorderStroke(
-                    settingsState.borderWidth, MaterialTheme.colorScheme.outlineVariant()
-                )
             ) {
                 AutoSizeText(stringResource(R.string.close))
             }
@@ -938,11 +932,9 @@ fun MainScreen(
             )
         },
         confirmButton = {
-            OutlinedButton(
-                onClick = { showArrangementSheet.value = false },
-                border = BorderStroke(
-                    settingsState.borderWidth, MaterialTheme.colorScheme.outlineVariant()
-                )
+            EnhancedButton(
+                containerColor = Color.Transparent,
+                onClick = { showArrangementSheet.value = false }
             ) {
                 AutoSizeText(stringResource(R.string.close))
             }

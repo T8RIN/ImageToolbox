@@ -15,8 +15,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.R
-import ru.tech.imageresizershrinker.presentation.root.theme.mixedColor
-import ru.tech.imageresizershrinker.presentation.root.theme.onMixedColor
+import ru.tech.imageresizershrinker.presentation.root.theme.mixedContainer
+import ru.tech.imageresizershrinker.presentation.root.theme.onMixedContainer
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.container
 
 @Composable
@@ -28,7 +28,7 @@ fun OpenColorPickerCard(
             .padding(start = 16.dp, end = 16.dp, top = 16.dp)
             .container(
                 resultPadding = 0.dp,
-                color = MaterialTheme.colorScheme.mixedColor.copy(0.7f),
+                color = MaterialTheme.colorScheme.mixedContainer.copy(0.7f),
                 shape = RoundedCornerShape(24.dp)
             )
             .clickable { onOpen() }
@@ -38,12 +38,12 @@ fun OpenColorPickerCard(
         Text(
             text = stringResource(id = R.string.pipette),
             modifier = Modifier.weight(1f),
-            color = MaterialTheme.colorScheme.onMixedColor
+            color = MaterialTheme.colorScheme.onMixedContainer
         )
         Icon(
             imageVector = Icons.Rounded.Colorize,
             contentDescription = null,
-            tint = MaterialTheme.colorScheme.onMixedColor
+            tint = MaterialTheme.colorScheme.onMixedContainer
         )
     }
 }

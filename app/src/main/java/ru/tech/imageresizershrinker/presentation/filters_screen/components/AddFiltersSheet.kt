@@ -1,7 +1,6 @@
 package ru.tech.imageresizershrinker.presentation.filters_screen.components
 
 import android.graphics.Bitmap
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -36,14 +35,12 @@ import androidx.compose.material.icons.rounded.LensBlur
 import androidx.compose.material.icons.rounded.Light
 import androidx.compose.material.icons.rounded.PhotoFilter
 import androidx.compose.material.icons.rounded.Slideshow
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.ScrollableTabRow
 import androidx.compose.material3.Tab
 import androidx.compose.material3.TabRowDefaults
@@ -124,6 +121,7 @@ import ru.tech.imageresizershrinker.presentation.root.transformation.filter.Weak
 import ru.tech.imageresizershrinker.presentation.root.transformation.filter.WhiteBalanceFilter
 import ru.tech.imageresizershrinker.presentation.root.transformation.filter.ZoomBlurFilter
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.drawHorizontalStroke
+import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedButton
 import ru.tech.imageresizershrinker.presentation.root.widget.image.SimplePicture
 import ru.tech.imageresizershrinker.presentation.root.widget.image.imageStickyHeader
 import ru.tech.imageresizershrinker.presentation.root.widget.preferences.PreferenceItemOverload
@@ -343,12 +341,8 @@ fun AddFiltersSheet(
             TitleItem(text = stringResource(R.string.filter), icon = Icons.Rounded.PhotoFilter)
         },
         confirmButton = {
-            OutlinedButton(
-                colors = ButtonDefaults.filledTonalButtonColors(),
-                border = BorderStroke(
-                    settingsState.borderWidth,
-                    MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.secondaryContainer)
-                ),
+            EnhancedButton(
+                containerColor = MaterialTheme.colorScheme.secondaryContainer,
                 onClick = { visible.value = false }
             ) {
                 AutoSizeText(stringResource(R.string.close))
