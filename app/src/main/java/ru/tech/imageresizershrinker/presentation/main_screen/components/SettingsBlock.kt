@@ -479,7 +479,7 @@ fun LazyListScope.settingsBlock(
                             viewModel.updateEmojisCount(sliderValue)
                         },
                         valueRange = 1f..5f,
-                        steps = 3
+                        steps = 3,
                         backgroundShape = RoundedCornerShape(12.dp),
                     )
                 }
