@@ -3,12 +3,10 @@ package ru.tech.imageresizershrinker.presentation.root.widget.controls
 import android.os.Build
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.SizeTransform
+import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.togetherWith
-import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -28,10 +26,10 @@ import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.compositeOver
 import androidx.compose.ui.res.stringResource
@@ -136,9 +134,10 @@ private fun Chip(
     onClick: () -> Unit,
     label: @Composable () -> Unit
 ) {
-    val settingsState = LocalSettingsState.current
-    val color = if (selected) MaterialTheme.colorScheme.tertiary
-    else MaterialTheme.colorScheme.secondaryContainer.copy(alpha = 0.6f)
+    val color by animateColorAsState(
+        if (selected) MaterialTheme.colorScheme.tertiary
+        else MaterialTheme.colorScheme.secondaryContainer.copy(alpha = 0.6f)
+    )
 
     CompositionLocalProvider(
         LocalTextStyle provides MaterialTheme.typography.labelLarge.copy(
@@ -149,16 +148,13 @@ private fun Chip(
     ) {
         Box(
             modifier = Modifier
-                .clip(MaterialTheme.shapes.small)
-                .background(color)
-                .border(
-                    border = BorderStroke(
-                        width = settingsState.borderWidth,
-                        color = if (!selected) MaterialTheme.colorScheme.outlineVariant()
-                        else MaterialTheme.colorScheme.tertiary
-                            .copy(alpha = 0.9f)
-                            .compositeOver(Color.Black)
-                    ),
+                .container(
+                    color = color,
+                    resultPadding = 0.dp,
+                    borderColor = if (!selected) MaterialTheme.colorScheme.outlineVariant()
+                    else MaterialTheme.colorScheme.tertiary
+                        .copy(alpha = 0.9f)
+                        .compositeOver(Color.Black),
                     shape = MaterialTheme.shapes.small
                 )
                 .clickable(onClick = onClick),

@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -29,6 +30,7 @@ import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButtonDefaults
+import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
@@ -36,6 +38,7 @@ import androidx.compose.material3.OutlinedIconButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -53,7 +56,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.max
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.domain.model.Preset
@@ -153,33 +155,9 @@ fun PresetWidget(
                         if (includeTelegramOption) {
                             item {
                                 val selected = selectedPreset.isTelegram()
-                                OutlinedIconButton(
-                                    shape = MaterialTheme.shapes.medium,
-                                    onClick = {
-                                        onPresetSelected(Preset.Telegram)
-                                    },
-                                    border = BorderStroke(
-                                        max(settingsState.borderWidth, 1.dp),
-                                        animateColorAsState(
-                                            if (!selected) MaterialTheme.colorScheme.outlineVariant()
-                                            else MaterialTheme.colorScheme.primary.copy(
-                                                alpha = 0.9f
-                                            ).compositeOver(Color.Black)
-                                        ).value
-                                    ),
-                                    colors = IconButtonDefaults.outlinedIconButtonColors(
-                                        containerColor = animateColorAsState(
-                                            if (selected) MaterialTheme.colorScheme.primary
-                                            else MaterialTheme.colorScheme.secondaryContainer.copy(
-                                                alpha = 0.6f
-                                            )
-                                        ).value,
-                                        contentColor = animateColorAsState(
-                                            if (selected) MaterialTheme.colorScheme.onPrimary
-                                            else MaterialTheme.colorScheme.onSurface
-                                        ).value,
-                                    ),
-                                    modifier = Modifier.size(36.dp)
+                                Chip(
+                                    selected = selected,
+                                    onClick = { onPresetSelected(Preset.Telegram) }
                                 ) {
                                     Icon(Icons.Rounded.Telegram, null)
                                 }
@@ -188,33 +166,9 @@ fun PresetWidget(
                         data.forEach {
                             item {
                                 val selected = selectedPreset.value() == it
-                                OutlinedIconButton(
-                                    shape = MaterialTheme.shapes.medium,
-                                    onClick = {
-                                        onPresetSelected(Preset.Numeric(it))
-                                    },
-                                    border = BorderStroke(
-                                        max(settingsState.borderWidth, 1.dp),
-                                        animateColorAsState(
-                                            if (!selected) MaterialTheme.colorScheme.outlineVariant()
-                                            else MaterialTheme.colorScheme.primary.copy(
-                                                alpha = 0.9f
-                                            ).compositeOver(Color.Black)
-                                        ).value
-                                    ),
-                                    colors = IconButtonDefaults.outlinedIconButtonColors(
-                                        containerColor = animateColorAsState(
-                                            if (selected) MaterialTheme.colorScheme.primary
-                                            else MaterialTheme.colorScheme.secondaryContainer.copy(
-                                                alpha = 0.6f
-                                            )
-                                        ).value,
-                                        contentColor = animateColorAsState(
-                                            if (selected) MaterialTheme.colorScheme.onPrimary
-                                            else MaterialTheme.colorScheme.onSurface
-                                        ).value,
-                                    ),
-                                    modifier = Modifier.size(36.dp)
+                                Chip(
+                                    selected = selected,
+                                    onClick = { onPresetSelected(Preset.Numeric(it)) }
                                 ) {
                                     AutoSizeText(it.toString())
                                 }
@@ -304,5 +258,58 @@ fun PresetWidget(
                 else Text(stringResource(R.string.presets_sub_bytes))
             }
         )
+    }
+}
+
+@Composable
+private fun Chip(
+    selected: Boolean,
+    onClick: () -> Unit,
+    label: @Composable () -> Unit
+) {
+    val color by animateColorAsState(
+        if (selected) MaterialTheme.colorScheme.primary
+        else MaterialTheme.colorScheme.secondaryContainer.copy(
+            alpha = 0.6f
+        )
+    )
+
+    CompositionLocalProvider(
+        LocalTextStyle provides MaterialTheme.typography.labelLarge.copy(
+            fontWeight = FontWeight.SemiBold,
+            color = if (selected) MaterialTheme.colorScheme.onTertiary
+            else MaterialTheme.colorScheme.onSurface
+        ),
+        LocalContentColor provides animateColorAsState(
+            if (selected) MaterialTheme.colorScheme.onPrimary
+            else MaterialTheme.colorScheme.onSurface
+        ).value,
+    ) {
+        Box(
+            modifier = Modifier
+                .defaultMinSize(36.dp, 36.dp)
+                .container(
+                    color = color,
+                    resultPadding = 0.dp,
+                    borderColor = animateColorAsState(
+                        if (!selected) MaterialTheme.colorScheme.outlineVariant()
+                        else MaterialTheme.colorScheme.primary
+                            .copy(
+                                alpha = 0.9f
+                            )
+                            .compositeOver(Color.Black)
+                    ).value,
+                    shape = MaterialTheme.shapes.medium
+                )
+                .clickable(onClick = onClick),
+            contentAlignment = Alignment.Center
+        ) {
+            Box(
+                modifier = Modifier.padding(6.dp),
+                contentAlignment = Alignment.Center
+            ) {
+                label()
+            }
+        }
     }
 }
