@@ -169,6 +169,7 @@ import ru.tech.imageresizershrinker.presentation.root.utils.helper.toUiPath
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.container
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.pulsate
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.scaleOnTap
+import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedSlider
 import ru.tech.imageresizershrinker.presentation.root.widget.dialogs.ResetDialog
 import ru.tech.imageresizershrinker.presentation.root.widget.image.Picture
 import ru.tech.imageresizershrinker.presentation.root.widget.other.ToastDuration
@@ -466,26 +467,11 @@ fun LazyListScope.settingsBlock(
                             )
                         )
                     }
-                    Slider(
+                    EnhancedSlider(
                         modifier = Modifier
                             .padding(top = 16.dp, start = 12.dp, end = 12.dp, bottom = 8.dp)
-                            .offset(y = (-2).dp)
-                            .background(
-                                color = MaterialTheme.colorScheme.secondaryContainer,
-                                shape = RoundedCornerShape(12.dp)
-                            )
-                            .height(40.dp)
-                            .border(
-                                width = settingsState.borderWidth,
-                                color = MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.secondaryContainer),
-                                shape = RoundedCornerShape(12.dp)
-                            )
-                            .padding(horizontal = 10.dp),
-                        colors = SliderDefaults.colors(
-                            inactiveTrackColor =
-                            MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.secondaryContainer)
-                        ),
-                        value = animateFloatAsState(sliderValue.toFloat()).value,
+                            .offset(y = (-2).dp),
+                        value = sliderValue,
                         onValueChange = {
                             sliderValue = it.toInt()
                         },
@@ -494,6 +480,7 @@ fun LazyListScope.settingsBlock(
                         },
                         valueRange = 1f..5f,
                         steps = 3
+                        backgroundShape = RoundedCornerShape(12.dp),
                     )
                 }
                 Column(
@@ -561,72 +548,18 @@ fun LazyListScope.settingsBlock(
                             )
                         )
                     }
-                    val interactionSource = remember { MutableInteractionSource() }
-                    val thumb: @Composable (SliderState) -> Unit = {
-                        val interactions = remember { mutableStateListOf<Interaction>() }
-                        LaunchedEffect(interactionSource) {
-                            interactionSource.interactions.collect { interaction ->
-                                when (interaction) {
-                                    is PressInteraction.Press -> interactions.add(interaction)
-                                    is PressInteraction.Release -> interactions.remove(interaction.press)
-                                    is PressInteraction.Cancel -> interactions.remove(interaction.press)
-                                    is DragInteraction.Start -> interactions.add(interaction)
-                                    is DragInteraction.Stop -> interactions.remove(interaction.start)
-                                    is DragInteraction.Cancel -> interactions.remove(interaction.start)
-                                }
-                            }
-                        }
-
-                        val elevation = if (interactions.isNotEmpty()) {
-                            6.dp
-                        } else {
-                            1.dp
-                        }
-                        val shape = DavidStarShape
-
-                        Spacer(
-                            Modifier
-                                .size(20.dp)
-                                .indication(
-                                    interactionSource = interactionSource,
-                                    indication = rememberRipple(
-                                        bounded = false,
-                                        radius = 18.dp
-                                    )
-                                )
-                                .hoverable(interactionSource = interactionSource)
-                                .shadow(elevation, shape, clip = false)
-                                .background(MaterialTheme.colorScheme.primary, shape)
-                        )
-                    }
-                    Slider(
-                        interactionSource = interactionSource,
-                        thumb = thumb,
+                    EnhancedSlider(
                         modifier = Modifier
                             .padding(top = 16.dp, start = 12.dp, end = 12.dp, bottom = 8.dp)
-                            .offset(y = (-2).dp)
-                            .background(
-                                color = MaterialTheme.colorScheme.secondaryContainer,
-                                shape = RoundedCornerShape(12.dp)
-                            )
-                            .height(40.dp)
-                            .border(
-                                width = settingsState.borderWidth,
-                                color = MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.secondaryContainer),
-                                shape = RoundedCornerShape(12.dp)
-                            )
-                            .padding(horizontal = 10.dp),
-                        colors = SliderDefaults.colors(
-                            inactiveTrackColor =
-                            MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.secondaryContainer)
-                        ),
-                        value = animateFloatAsState(sliderValue).value,
+                            .offset(y = (-2).dp),
+                        value = sliderValue,
                         onValueChange = {
                             sliderValue = it.roundToTwoDigits()
                         },
                         onValueChangeFinished = {
                             viewModel.setBorderWidth(sliderValue)
                         },
+                        backgroundShape = RoundedCornerShape(12.dp),
                         valueRange = 0f..1.5f,
                         steps = 14
                     )
@@ -694,7 +627,7 @@ fun LazyListScope.settingsBlock(
                                 )
                             }
                             Spacer(modifier = Modifier.weight(1f))
-                            Slider(
+                            EnhancedSlider(
                                 modifier = Modifier
                                     .padding(
                                         start = 12.dp,
@@ -702,31 +635,15 @@ fun LazyListScope.settingsBlock(
                                         bottom = 4.dp,
                                         top = 4.dp
                                     )
-                                    .offset(y = (-2).dp)
-                                    .background(
-                                        color = MaterialTheme.colorScheme.secondaryContainer,
-                                        shape = RoundedCornerShape(12.dp)
-                                    )
-                                    .height(40.dp)
-                                    .border(
-                                        width = settingsState.borderWidth,
-                                        color = MaterialTheme.colorScheme.outlineVariant(
-                                            onTopOf = MaterialTheme.colorScheme.secondaryContainer
-                                        ),
-                                        shape = RoundedCornerShape(12.dp)
-                                    )
-                                    .padding(horizontal = 10.dp),
-                                colors = SliderDefaults.colors(
-                                    inactiveTrackColor =
-                                    MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.secondaryContainer)
-                                ),
-                                value = animateFloatAsState(sliderValue).value,
+                                    .offset(y = (-2).dp),
+                                value = sliderValue,
                                 onValueChange = {
                                     sliderValue = it
                                     viewModel.setAlignment(sliderValue)
                                 },
                                 valueRange = 0f..2f,
-                                steps = 1
+                                steps = 1,
+                                backgroundShape = RoundedCornerShape(12.dp),
                             )
                         }
                         FabPreview(
