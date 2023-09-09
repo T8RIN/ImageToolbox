@@ -29,4 +29,24 @@
     <string name="something_went_wrong">Нешта пайшло не так</string>
     <string name="restart_app">Перазапусціць праграму</string>
     <string name="edit_exif">Рэдагаваць EXIF</string>
+    <string name="image_not_saved_sub">Усе незахаваныя змены будуць страчаны, калі вы выйдзеце зараз</string>
+    <string name="save">Захаваць</string>
+    <string name="image_exif_warning">У цяперашні час фармат %1$s на Android дазваляе толькі чытаць exif, але не змяняць/захоўваць іх, гэта азначае, што выходная выява наогул не будзе мець метададзеных.</string>
+    <string name="clear">Ачысціць</string>
+    <string name="clear_exif">Ачысціць EXIF</string>
+    <string name="image_not_saved">Захаванне</string>
+    <string name="pick_color">Выберыце колер</string>
+    <string name="pick_color_sub">Выберыце колер з малюнка, скапіруйце або падзяліцеся ім</string>
+    <string name="image">Малюнак</string>
+    <string name="presets">Прадустаноўкі</string>
+    <string name="check_source_code_sub">Атрымлівайце апошнія абнаўленні, абмяркоўвайце праблемы і многае іншае</string>
+    <string name="clear_exif_sub">Усе EXIF дадзеныя выявы будуць ачышчаны, гэта дзеянне нельга адмяніць!</string>
+    <string name="single_edit">Адна праўка</string>
+    <string name="color_copied">Колер скапіяваны</string>
+    <string name="check_source_code">Зыходны код</string>
+    <string name="single_edit_sub">Змяніць характарыстыкі аднаго дадзенага відарыса</string>
+    <string name="ratio">Суадносіны</string>
+    <string name="cancel">Адмяніць</string>
+    <string name="crop">Выразаць</string>
+    <string name="color">Колер</string>
 </resources>

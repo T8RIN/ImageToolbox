@@ -339,4 +339,20 @@
     <string name="keep_exif_sub">Оригінальні метадані зображення буде збережено, якщо ввімкнено</string>
     <string name="restore_image">Відновити зображення</string>
     <string name="trim_image_sub">Прозорий простір навколо зображення буде обрізано</string>
+    <string name="something_went_wrong_emphasis">Ой… Щось пішло не так. Напишіть мені, використовуючи параметри нижче, і я спробую знайти рішення</string>
+    <string name="max_colors_count">Максимальна кількість кольорів</string>
+    <string name="image_exif_warning">Наразі формат %1$s на android дозволяє лише читати exif, а не змінювати/зберігати його, це означає, що вихідне зображення взагалі не матиме метаданих</string>
+    <string name="analytics_sub">Дозволити збирати анонімну статистику використання програми</string>
+    <string name="draw_mode">Режим малювання</string>
+    <string name="erase_background">Стерти фон</string>
+    <string name="jxl_sub">Формат JXL офіційно не підтримується Android, тому щось може не працювати, також збереження працюватиме, лише якщо ви виберете спеціальний каталог виводу, це експериментальна версія, помилки тут не будуть виправлені, якщо Google не додасть підтримку JXL, ця версія також може переглядати такі зображення</string>
+    <string name="blur_radius">Ступінь розмиття</string>
+    <string name="crashlytics_sub">Це дозволяє програмі збирати звіти про збої вручну</string>
+    <string name="create_issue">Повідомити про помилку</string>
+    <string name="pipette">Піпетка</string>
+    <string name="analytics">Аналітика</string>
+    <string name="resize_and_convert">Змінити розмір і конвертувати</string>
+    <string name="restore_background">Відновити фон</string>
+    <string name="resize_and_convert_sub">Змініть розмір заданих зображень або конвертуйте їх в інші формати, також там ви можете редагувати метадані EXIF, якщо ви вибрали одне зображення</string>
+    <string name="erase_mode">Режим стирання</string>
 </resources>
