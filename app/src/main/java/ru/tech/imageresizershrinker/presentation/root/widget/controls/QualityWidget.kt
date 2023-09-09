@@ -2,14 +2,11 @@ package ru.tech.imageresizershrinker.presentation.root.widget.controls
 
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.expandVertically
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.shrinkVertically
-import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -17,18 +14,14 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ProvideTextStyle
-import androidx.compose.material3.Slider
-import androidx.compose.material3.SliderDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.compositeOver
 import androidx.compose.ui.res.stringResource
@@ -38,9 +31,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.domain.model.ImageFormat
-import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.container
-import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalSettingsState
 import kotlin.math.roundToInt
 
 @Composable
@@ -51,18 +42,6 @@ fun QualityWidget(
     onQualityChange: (Float) -> Unit
 ) {
     val visible = imageFormat.canChangeCompressionValue
-    val settingsState = LocalSettingsState.current
-    val sliderHeight = animateDpAsState(
-        targetValue = if (visible) 44.dp else 0.dp
-    ).value
-
-    val alpha = animateFloatAsState(
-        targetValue = if (visible) 1f else 0f
-    ).value
-
-    val sliderAlpha = animateFloatAsState(
-        targetValue = if (visible && enabled) 1f else if (!enabled) 0.5f else 0f
-    ).value
 
     val isQuality = imageFormat.compressionType is ImageFormat.Companion.CompressionType.Quality
     val isEffort = imageFormat.compressionType is ImageFormat.Companion.CompressionType.Effort
@@ -85,7 +64,6 @@ fun QualityWidget(
         ) {
             Column(
                 modifier = Modifier
-                    .alpha(alpha)
                     .container(shape = RoundedCornerShape(24.dp)),
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally
@@ -101,9 +79,7 @@ fun QualityWidget(
                             text = if (!effort) stringResource(R.string.quality) else stringResource(
                                 R.string.effort
                             ),
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .alpha(alpha)
+                            modifier = Modifier.fillMaxWidth()
                         )
                     }
                     AnimatedContent(compressingLiteral) { literal ->
@@ -117,13 +93,7 @@ fun QualityWidget(
                 }
                 Spacer(Modifier.weight(1f))
                 EnhancedSlider(
-                    modifier = Modifier
-                        .padding(horizontal = 3.dp, vertical = 3.dp)
-                        .height(sliderHeight)
-                        .alpha(sliderAlpha),
-                    backgroundColor = MaterialTheme.colorScheme.secondaryContainer.copy(
-                        alpha = 0.4f
-                    ),
+                    modifier = Modifier.padding(horizontal = 3.dp, vertical = 3.dp),
                     enabled = enabled,
                     value = animateFloatAsState(quality).value,
                     onValueChange = {

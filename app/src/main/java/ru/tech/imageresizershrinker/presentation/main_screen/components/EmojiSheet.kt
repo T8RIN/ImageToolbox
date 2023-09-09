@@ -67,7 +67,6 @@ fun EmojiSheet(
     onEmojiPicked: (Int) -> Unit,
     visible: MutableState<Boolean>
 ) {
-    val settingsState = LocalSettingsState.current
     var showSheet by visible
     val scope = rememberCoroutineScope()
     val state = rememberLazyGridState()

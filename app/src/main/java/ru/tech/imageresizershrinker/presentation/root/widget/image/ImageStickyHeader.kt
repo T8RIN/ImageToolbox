@@ -99,14 +99,13 @@ fun LazyListScope.imageStickyHeader(
                         onValueChange = {
                             onStateChange(imageState.copy(position = it.toInt()))
                         },
-                        backgroundColor = MaterialTheme.colorScheme.tertiaryContainer.copy(alpha = 0.3f),
                         colors = SliderDefaults.colors(
                             inactiveTrackColor = MaterialTheme.colorScheme.outlineVariant(
                                 onTopOf = MaterialTheme.colorScheme.tertiaryContainer
                             ).copy(0.5f),
                             activeTrackColor = MaterialTheme.colorScheme.tertiary.copy(0.5f)
                         ),
-                        thumbColor = MaterialTheme.colorScheme.tertiary,
+                        thumbColor = MaterialTheme.colorScheme.onTertiary,
                         steps = 3,
                         valueRange = 0f..4f
                     )

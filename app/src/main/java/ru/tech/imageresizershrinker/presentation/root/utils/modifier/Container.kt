@@ -33,6 +33,7 @@ fun Modifier.container(
     resultPadding: Dp = 4.dp,
     borderColor: Color? = null,
     autoShadowElevation: Dp = 1.dp,
+    clip: Boolean = true,
     composeColorOnTopOfBackground: Boolean = true,
 ) = composed {
     val settingsState = LocalSettingsState.current
@@ -88,6 +89,6 @@ fun Modifier.container(
             if (shape is CornerBasedShape) cornerModifier
             else genericModifier
         )
-        .clip(shape)
+        .then(if(clip) Modifier.clip(shape) else Modifier)
         .then(if (resultPadding > 0.dp) Modifier.padding(resultPadding) else Modifier)
 }

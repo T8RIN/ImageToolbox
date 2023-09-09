@@ -43,6 +43,7 @@ import ru.tech.imageresizershrinker.presentation.root.utils.helper.ContextUtils.
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.ContextUtils.parseImageFromIntent
 import ru.tech.imageresizershrinker.presentation.root.utils.navigation.LocalNavController
 import ru.tech.imageresizershrinker.presentation.root.widget.activity.M3Activity
+import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedSliderInit
 import ru.tech.imageresizershrinker.presentation.root.widget.other.LocalToastHost
 import ru.tech.imageresizershrinker.presentation.root.widget.other.ToastHost
 import ru.tech.imageresizershrinker.presentation.root.widget.other.rememberToastHostState
@@ -66,6 +67,8 @@ class MainActivity : M3Activity() {
         setContentWithWindowSizeClass {
             var showExitDialog by rememberSaveable { mutableStateOf(false) }
             val editPresetsState = rememberSaveable { mutableStateOf(false) }
+
+            EnhancedSliderInit()
 
             CompositionLocalProvider(
                 LocalToastHost provides viewModel.toastHostState,

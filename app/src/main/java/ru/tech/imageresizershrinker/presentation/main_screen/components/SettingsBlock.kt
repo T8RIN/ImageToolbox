@@ -463,8 +463,7 @@ fun LazyListScope.settingsBlock(
                             viewModel.updateEmojisCount(sliderValue)
                         },
                         valueRange = 1f..5f,
-                        steps = 3,
-                        backgroundShape = RoundedCornerShape(12.dp),
+                        steps = 3
                     )
                 }
                 Column(
@@ -543,7 +542,6 @@ fun LazyListScope.settingsBlock(
                         onValueChangeFinished = {
                             viewModel.setBorderWidth(sliderValue)
                         },
-                        backgroundShape = RoundedCornerShape(12.dp),
                         valueRange = 0f..1.5f,
                         steps = 14
                     )
@@ -625,9 +623,9 @@ fun LazyListScope.settingsBlock(
                                     sliderValue = it
                                     viewModel.setAlignment(sliderValue)
                                 },
+
                                 valueRange = 0f..2f,
-                                steps = 1,
-                                backgroundShape = RoundedCornerShape(12.dp),
+                                steps = 1
                             )
                         }
                         FabPreview(

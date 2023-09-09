@@ -1,19 +1,15 @@
 package ru.tech.imageresizershrinker.presentation.generate_palette_screen.components
 
 import androidx.compose.animation.core.animateFloatAsState
-import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Slider
 import androidx.compose.material3.SliderDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -29,7 +25,6 @@ import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.container
 import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedSlider
-import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalSettingsState
 import kotlin.math.roundToInt
 
 @Composable
@@ -37,9 +32,7 @@ fun PaletteColorsCountSelector(
     count: Int,
     onCountChange: (Int) -> Unit
 ) {
-    val settingsState = LocalSettingsState.current
-
-    var _count by remember(count) { mutableIntStateOf(count) }
+    var count1 by remember(count) { mutableIntStateOf(count) }
     Column(
         modifier = Modifier
             .padding(horizontal = 16.dp)
@@ -58,14 +51,13 @@ fun PaletteColorsCountSelector(
                 modifier = Modifier.weight(1f)
             )
             Text(
-                text = "$_count",
+                text = "$count1",
                 color = LocalContentColor.current.copy(alpha = 0.7f)
             )
         }
         Spacer(Modifier.weight(1f))
         EnhancedSlider(
             modifier = Modifier.padding(horizontal = 3.dp, vertical = 3.dp),
-            backgroundColor = MaterialTheme.colorScheme.secondaryContainer.copy(alpha = 0.4f),
             colors = SliderDefaults.colors(
                 inactiveTrackColor =
                 MaterialTheme.colorScheme.outlineVariant(
@@ -74,12 +66,12 @@ fun PaletteColorsCountSelector(
                     )
                 )
             ),
-            value = animateFloatAsState(_count.toFloat()).value,
+            value = animateFloatAsState(count1.toFloat()).value,
             onValueChange = {
-                _count = it.roundToInt()
+                count1 = it.roundToInt()
             },
             onValueChangeFinished = {
-                onCountChange(_count)
+                onCountChange(count1)
             },
             valueRange = 1f..128f,
             steps = 127
