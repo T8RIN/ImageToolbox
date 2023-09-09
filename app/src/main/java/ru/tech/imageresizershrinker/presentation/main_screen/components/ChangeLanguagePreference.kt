@@ -50,12 +50,14 @@ import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalSettings
 import java.util.Locale
 
 @Composable
-fun ChangeLanguagePreference() {
+fun ChangeLanguagePreference(
+    modifier: Modifier = Modifier
+) {
     val context = LocalContext.current
     val showDialog = rememberSaveable { mutableStateOf(false) }
     Column(Modifier.animateContentSize()) {
         PreferenceRow(
-            modifier = Modifier.padding(horizontal = 8.dp),
+            modifier = modifier,
             applyHorPadding = false,
             title = stringResource(R.string.language),
             subtitle = context.getCurrentLocaleString(),

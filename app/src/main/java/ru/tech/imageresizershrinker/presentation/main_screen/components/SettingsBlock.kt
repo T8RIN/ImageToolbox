@@ -22,6 +22,12 @@ import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.hoverable
+import androidx.compose.foundation.indication
+import androidx.compose.foundation.interaction.DragInteraction
+import androidx.compose.foundation.interaction.Interaction
+import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.interaction.PressInteraction
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -80,9 +86,11 @@ import androidx.compose.material.icons.rounded.Translate
 import androidx.compose.material.icons.rounded.UploadFile
 import androidx.compose.material.icons.rounded.WbSunny
 import androidx.compose.material.icons.twotone.Palette
+import androidx.compose.material.ripple.rememberRipple
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalContentColor
@@ -90,11 +98,15 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Slider
 import androidx.compose.material3.SliderDefaults
+import androidx.compose.material3.SliderState
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -104,6 +116,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.scale
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.luminance
 import androidx.compose.ui.platform.LocalContext
@@ -171,6 +184,7 @@ import ru.tech.imageresizershrinker.presentation.root.widget.text.TitleItem
 import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalSettingsState
 import kotlin.math.roundToInt
 
+@OptIn(ExperimentalMaterial3Api::class)
 @SuppressLint("SourceLockedOrientationActivity")
 fun LazyListScope.settingsBlock(
     onEditPresets: () -> Unit,
@@ -249,7 +263,7 @@ fun LazyListScope.settingsBlock(
             text = stringResource(R.string.customization),
             initialState = true
         ) {
-            Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+            Column {
                 val enabled = !settingsState.isDynamicColors
                 PreferenceRow(
                     applyHorPadding = false,
@@ -260,7 +274,7 @@ fun LazyListScope.settingsBlock(
                                 else 0.5f
                             ).value
                         )
-                        .padding(horizontal = 8.dp),
+                        .padding(start = 8.dp, end = 8.dp, bottom = 8.dp),
                     title = stringResource(R.string.color_scheme),
                     subtitle = stringResource(R.string.pick_accent_color),
                     onClick = {
@@ -315,7 +329,7 @@ fun LazyListScope.settingsBlock(
                     }
                 )
                 PreferenceRowSwitch(
-                    modifier = Modifier.padding(horizontal = 8.dp),
+                    modifier = Modifier.padding(start = 8.dp, end = 8.dp, bottom = 8.dp),
                     applyHorPadding = false,
                     title = stringResource(R.string.dynamic_colors),
                     subtitle = stringResource(R.string.dynamic_colors_sub),
@@ -323,21 +337,21 @@ fun LazyListScope.settingsBlock(
                     onClick = { viewModel.toggleDynamicColors() }
                 )
                 PreferenceRowSwitch(
-                    modifier = Modifier.padding(horizontal = 8.dp),
+                    modifier = Modifier.padding(start = 8.dp, end = 8.dp, bottom = 8.dp),
                     applyHorPadding = false,
                     title = stringResource(R.string.amoled_mode),
                     subtitle = stringResource(R.string.amoled_mode_sub),
                     checked = settingsState.isAmoledMode,
-                    onClick = { viewModel.updateAmoledMode() }
+                    onClick = {
+                        viewModel.updateAmoledMode()
+                    }
                 )
                 PreferenceRow(
-                    modifier = Modifier.padding(horizontal = 8.dp),
+                    modifier = Modifier.padding(start = 8.dp, end = 8.dp),
                     applyHorPadding = false,
                     title = stringResource(R.string.emoji),
                     subtitle = stringResource(R.string.emoji_sub),
-                    onClick = {
-                        onEditEmoji()
-                    },
+                    onClick = onEditEmoji,
                     endContent = {
                         val emoji = LocalSettingsState.current.selectedEmoji
                         Box(
@@ -547,7 +561,47 @@ fun LazyListScope.settingsBlock(
                             )
                         )
                     }
+                    val interactionSource = remember { MutableInteractionSource() }
+                    val thumb: @Composable (SliderState) -> Unit = {
+                        val interactions = remember { mutableStateListOf<Interaction>() }
+                        LaunchedEffect(interactionSource) {
+                            interactionSource.interactions.collect { interaction ->
+                                when (interaction) {
+                                    is PressInteraction.Press -> interactions.add(interaction)
+                                    is PressInteraction.Release -> interactions.remove(interaction.press)
+                                    is PressInteraction.Cancel -> interactions.remove(interaction.press)
+                                    is DragInteraction.Start -> interactions.add(interaction)
+                                    is DragInteraction.Stop -> interactions.remove(interaction.start)
+                                    is DragInteraction.Cancel -> interactions.remove(interaction.start)
+                                }
+                            }
+                        }
+
+                        val elevation = if (interactions.isNotEmpty()) {
+                            6.dp
+                        } else {
+                            1.dp
+                        }
+                        val shape = DavidStarShape
+
+                        Spacer(
+                            Modifier
+                                .size(20.dp)
+                                .indication(
+                                    interactionSource = interactionSource,
+                                    indication = rememberRipple(
+                                        bounded = false,
+                                        radius = 18.dp
+                                    )
+                                )
+                                .hoverable(interactionSource = interactionSource)
+                                .shadow(elevation, shape, clip = false)
+                                .background(MaterialTheme.colorScheme.primary, shape)
+                        )
+                    }
                     Slider(
+                        interactionSource = interactionSource,
+                        thumb = thumb,
                         modifier = Modifier
                             .padding(top = 16.dp, start = 12.dp, end = 12.dp, bottom = 8.dp)
                             .offset(y = (-2).dp)
@@ -568,13 +622,13 @@ fun LazyListScope.settingsBlock(
                         ),
                         value = animateFloatAsState(sliderValue).value,
                         onValueChange = {
-                            sliderValue = it
+                            sliderValue = it.roundToTwoDigits()
                         },
                         onValueChangeFinished = {
                             viewModel.setBorderWidth(sliderValue)
                         },
-                        valueRange = 0f..4f,
-                        steps = 15
+                        valueRange = 0f..1.5f,
+                        steps = 14
                     )
                 }
                 Box(
@@ -685,14 +739,14 @@ fun LazyListScope.settingsBlock(
         }
     }
     item {
+        // Font
         val showFontSheet = rememberSaveable { mutableStateOf(false) }
         val showFontScaleSheet = rememberSaveable { mutableStateOf(false) }
         SettingItem(
             icon = Icons.Rounded.TextFormat,
             text = stringResource(R.string.text),
         ) {
-            ChangeLanguagePreference()
-            Spacer(Modifier.height(8.dp))
+            ChangeLanguagePreference(Modifier.padding(bottom = 8.dp, start = 8.dp, end = 8.dp))
             PreferenceItem(
                 onClick = { showFontSheet.value = true },
                 title = stringResource(R.string.font),
@@ -954,13 +1008,13 @@ fun LazyListScope.settingsBlock(
             PreferenceItem(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(horizontal = 8.dp)
                     .alpha(
                         animateFloatAsState(
                             if (enabled) 1f
                             else 0.5f
                         ).value
-                    ),
+                    )
+                    .padding(start = 8.dp, end = 8.dp, bottom = 8.dp),
                 onClick = {
                     if (enabled) {
                         onEditArrangement()
@@ -979,7 +1033,6 @@ fun LazyListScope.settingsBlock(
                     .copy(alpha = 0.2f),
                 endIcon = Icons.Rounded.CreateAlt,
             )
-            Spacer(Modifier.height(8.dp))
             PreferenceRowSwitch(
                 modifier = Modifier.padding(horizontal = 8.dp),
                 applyHorPadding = false,
@@ -1119,18 +1172,16 @@ fun LazyListScope.settingsBlock(
                         endIcon = Icons.Rounded.CreateAlt,
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(horizontal = 8.dp)
+                            .padding(start = 8.dp, end = 8.dp, bottom = 8.dp)
                     )
-                    Spacer(Modifier.height(8.dp))
                     PreferenceRowSwitch(
-                        modifier = Modifier.padding(horizontal = 8.dp),
+                        modifier = Modifier.padding(start = 8.dp, end = 8.dp, bottom = 8.dp),
                         applyHorPadding = false,
                         onClick = { viewModel.toggleAddFileSize() },
                         title = stringResource(R.string.add_file_size),
                         subtitle = stringResource(R.string.add_file_size_sub),
                         checked = settingsState.addSizeInFilename
                     )
-                    Spacer(Modifier.height(8.dp))
                     val enabled = settingsState.imagePickerModeInt != 0
                     PreferenceRowSwitch(
                         applyHorPadding = false,
@@ -1141,7 +1192,7 @@ fun LazyListScope.settingsBlock(
                                     else 0.5f
                                 ).value
                             )
-                            .padding(horizontal = 8.dp),
+                            .padding(start = 8.dp, end = 8.dp, bottom = 8.dp),
                         onClick = {
                             if (enabled) viewModel.toggleAddOriginalFilename()
                             else scope.launch {
@@ -1155,16 +1206,14 @@ fun LazyListScope.settingsBlock(
                         subtitle = stringResource(R.string.add_original_filename_sub),
                         checked = settingsState.addOriginalFilename && enabled
                     )
-                    Spacer(Modifier.height(8.dp))
                     PreferenceRowSwitch(
-                        modifier = Modifier.padding(horizontal = 8.dp),
+                        modifier = Modifier.padding(start = 8.dp, end = 8.dp, bottom = 8.dp),
                         applyHorPadding = false,
                         onClick = { viewModel.toggleAddSequenceNumber() },
                         title = stringResource(R.string.replace_sequence_number),
                         subtitle = stringResource(R.string.replace_sequence_number_sub),
                         checked = settingsState.addSequenceNumber
                     )
-                    Spacer(Modifier.height(8.dp))
                 }
                 if (settingsState.randomizeFilename) {
                     Surface(modifier = Modifier.matchParentSize(), color = Color.Transparent) {}

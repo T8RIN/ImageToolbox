@@ -32,7 +32,8 @@ fun Modifier.container(
     shape: Shape = RoundedCornerShape(16.dp),
     color: Color = Color.Unspecified,
     resultPadding: Dp = 4.dp,
-    borderColor: Color? = null
+    borderColor: Color? = null,
+    autoShadowElevation: Dp = 1.dp
 ) = composed {
     val settingsState = LocalSettingsState.current
     val colorScheme = MaterialTheme.colorScheme
@@ -80,7 +81,7 @@ fun Modifier.container(
     this
         .shadow(
             shape = shape,
-            elevation = animateDpAsState(if(settingsState.borderWidth > 0.dp) 0.dp else 1.dp).value,
+            elevation = animateDpAsState(if(settingsState.borderWidth > 0.dp) 0.dp else autoShadowElevation).value,
             clip = false
         )
         .then(

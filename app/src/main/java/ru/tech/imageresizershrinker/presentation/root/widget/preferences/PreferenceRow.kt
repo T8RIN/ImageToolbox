@@ -58,13 +58,12 @@ fun PreferenceRow(
                         Modifier.padding(horizontal = 16.dp)
                     } else Modifier
                 )
-                .clip(RoundedCornerShape(16.dp))
+                .container(color = color, resultPadding = 0.dp)
                 .then(
                     onClick?.let {
                         Modifier.clickable { onClick() }
                     } ?: Modifier
                 )
-                .container(color = color)
                 .then(resultModifier),
             verticalAlignment = Alignment.CenterVertically
         ) {
