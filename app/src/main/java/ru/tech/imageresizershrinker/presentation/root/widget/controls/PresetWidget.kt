@@ -211,6 +211,7 @@ fun PresetWidget(
                     onClick = { editPresetsState.value = true },
                     modifier = Modifier
                         .padding(16.dp)
+                        .padding(top = 8.dp)
                         .align(Alignment.CenterStart)
                 ) {
                     Icon(Icons.Rounded.CreateAlt, null)

@@ -31,9 +31,8 @@ fun TrimImageToggle(
 ) {
     Row(
         modifier = modifier
-            .clip(shape = RoundedCornerShape(24.dp))
+            .container(shape = RoundedCornerShape(24.dp), resultPadding = 0.dp)
             .clickable { onCheckedChange(!selected) }
-            .container(shape = RoundedCornerShape(24.dp))
             .padding(horizontal = 16.dp, vertical = 8.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
