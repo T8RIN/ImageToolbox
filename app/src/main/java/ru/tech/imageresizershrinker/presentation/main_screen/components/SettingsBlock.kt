@@ -72,6 +72,7 @@ import androidx.compose.material.icons.rounded.RestartAlt
 import androidx.compose.material.icons.rounded.Save
 import androidx.compose.material.icons.rounded.SettingsBackupRestore
 import androidx.compose.material.icons.rounded.SettingsSystemDaydream
+import androidx.compose.material.icons.rounded.SystemSecurityUpdate
 import androidx.compose.material.icons.rounded.TableRows
 import androidx.compose.material.icons.rounded.TextFields
 import androidx.compose.material.icons.rounded.TextFormat
@@ -623,7 +624,6 @@ fun LazyListScope.settingsBlock(
                                     sliderValue = it
                                     viewModel.setAlignment(sliderValue)
                                 },
-
                                 valueRange = 0f..2f,
                                 steps = 1
                             )
@@ -1425,6 +1425,24 @@ fun LazyListScope.settingsBlock(
         }
     }
     item {
+        SettingItem(
+            icon = Icons.Rounded.SystemSecurityUpdate,
+            text = stringResource(R.string.updates),
+            initialState = false
+        ) {
+            PreferenceRowSwitch(
+                modifier = Modifier.padding(horizontal = 8.dp),
+                applyHorPadding = false,
+                title = stringResource(R.string.check_updates),
+                subtitle = stringResource(R.string.check_updates_sub),
+                checked = viewModel.settingsState.showDialogOnStartup,
+                onClick = {
+                    viewModel.toggleShowDialog()
+                }
+            )
+        }
+    }
+    item {
         // Contact me
         SettingItem(
             icon = Icons.Rounded.PersonSearch,
@@ -1540,16 +1558,6 @@ fun LazyListScope.settingsBlock(
                                 }
                             }
                         )
-                    }
-                )
-                PreferenceRowSwitch(
-                    modifier = Modifier.padding(horizontal = 8.dp),
-                    applyHorPadding = false,
-                    title = stringResource(R.string.check_updates),
-                    subtitle = stringResource(R.string.check_updates_sub),
-                    checked = viewModel.settingsState.showDialogOnStartup,
-                    onClick = {
-                        viewModel.toggleShowDialog()
                     }
                 )
                 PreferenceRow(

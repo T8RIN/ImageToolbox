@@ -58,14 +58,6 @@ fun PaletteColorsCountSelector(
         Spacer(Modifier.weight(1f))
         EnhancedSlider(
             modifier = Modifier.padding(horizontal = 3.dp, vertical = 3.dp),
-            colors = SliderDefaults.colors(
-                inactiveTrackColor =
-                MaterialTheme.colorScheme.outlineVariant(
-                    onTopOf = MaterialTheme.colorScheme.secondaryContainer.copy(
-                        alpha = 0.4f
-                    )
-                )
-            ),
             value = animateFloatAsState(count1.toFloat()).value,
             onValueChange = {
                 count1 = it.roundToInt()
