@@ -244,13 +244,13 @@ fun BitmapEraser(
 
             Image(
                 modifier = Modifier
+                    .matchParentSize()
                     .then(
                         if (!zoomEnabled) canvasModifier
                         else Modifier
                     )
                     .clipToBounds()
                     .clip(RoundedCornerShape(2.dp))
-                    .transparencyChecker()
                     .matchParentSize()
                     .border(
                         width = 1.dp,

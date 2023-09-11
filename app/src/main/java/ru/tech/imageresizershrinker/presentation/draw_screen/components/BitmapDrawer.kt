@@ -257,14 +257,13 @@ fun BitmapDrawer(
 
             Image(
                 modifier = Modifier
+                    .matchParentSize()
                     .then(
                         if (!zoomEnabled) canvasModifier
                         else Modifier
                     )
-                    .clipToBounds()
                     .clip(RoundedCornerShape(2.dp))
                     .transparencyChecker()
-                    .matchParentSize()
                     .border(
                         width = 1.dp,
                         color = MaterialTheme.colorScheme.outlineVariant(),
@@ -286,14 +285,3 @@ private fun ImageBitmap.overlay(overlay: ImageBitmap): ImageBitmap {
     canvas.drawBitmap(overlay.asAndroidBitmap(), 0f, 0f, null)
     return finalBitmap.asImageBitmap()
 }
-
-private val RainbowColors = listOf(
-    Color(0xFFD50000),
-    Color(0xFFFF6D00),
-    Color(0xFFFFC800),
-    Color(0xFF6AFF00),
-    Color(0xFF00FFC4),
-    Color(0xFF00D9FF),
-    Color(0xFF0037FF),
-    Color(0xFFBB00FF)
-)
