@@ -28,7 +28,8 @@ data class SettingsState(
     val font: FontFam,
     val fontScale: Float?,
     val allowCollectCrashlytics: Boolean,
-    val allowCollectAnalytics: Boolean
+    val allowCollectAnalytics: Boolean,
+    val allowBetas: Boolean
 ) : Domain {
 
     companion object {
@@ -58,7 +59,8 @@ data class SettingsState(
             font = FontFam.Montserrat,
             fontScale = 1f,
             allowCollectCrashlytics = true,
-            allowCollectAnalytics = true
+            allowCollectAnalytics = true,
+            allowBetas = true
         )
     }
 }

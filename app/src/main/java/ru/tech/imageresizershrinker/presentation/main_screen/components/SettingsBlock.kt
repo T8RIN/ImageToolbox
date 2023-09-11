@@ -131,6 +131,7 @@ import ru.tech.imageresizershrinker.domain.model.NightMode
 import ru.tech.imageresizershrinker.presentation.main_screen.viewModel.MainViewModel
 import ru.tech.imageresizershrinker.presentation.root.icons.emoji.EmojiItem
 import ru.tech.imageresizershrinker.presentation.root.icons.material.Analytics
+import ru.tech.imageresizershrinker.presentation.root.icons.material.Beta
 import ru.tech.imageresizershrinker.presentation.root.icons.material.Crashlytics
 import ru.tech.imageresizershrinker.presentation.root.icons.material.CreateAlt
 import ru.tech.imageresizershrinker.presentation.root.icons.material.DownloadFile
@@ -1451,6 +1452,27 @@ fun LazyListScope.settingsBlock(
                     )
                 }
             )
+            if(!context.isInstalledFromPlayStore()) {
+                Spacer(Modifier.height(8.dp))
+                PreferenceRowSwitch(
+                    modifier = Modifier.padding(horizontal = 8.dp),
+                    applyHorPadding = false,
+                    resultModifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
+                    title = stringResource(R.string.allow_betas),
+                    subtitle = stringResource(R.string.allow_betas_sub),
+                    checked = settingsState.allowBetas,
+                    onClick = {
+                        viewModel.toggleAllowBetas()
+                    },
+                    startContent = {
+                        Icon(
+                            Icons.Rounded.Beta,
+                            null,
+                            modifier = Modifier.padding(end = 16.dp)
+                        )
+                    }
+                )
+            }
         }
     }
     item {

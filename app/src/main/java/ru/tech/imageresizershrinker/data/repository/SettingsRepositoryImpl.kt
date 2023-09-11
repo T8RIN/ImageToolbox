@@ -17,6 +17,7 @@ import ru.tech.imageresizershrinker.data.keys.Keys.ADD_ORIGINAL_NAME_TO_FILENAME
 import ru.tech.imageresizershrinker.data.keys.Keys.ADD_SEQ_NUM_TO_FILENAME
 import ru.tech.imageresizershrinker.data.keys.Keys.ADD_SIZE_TO_FILENAME
 import ru.tech.imageresizershrinker.data.keys.Keys.ALLOW_ANALYTICS
+import ru.tech.imageresizershrinker.data.keys.Keys.ALLOW_BETAS
 import ru.tech.imageresizershrinker.data.keys.Keys.ALLOW_CRASHLYTICS
 import ru.tech.imageresizershrinker.data.keys.Keys.ALLOW_IMAGE_MONET
 import ru.tech.imageresizershrinker.data.keys.Keys.AMOLED_MODE
@@ -54,7 +55,7 @@ import java.util.Date
 import java.util.Locale
 import javax.inject.Inject
 
-
+// TODO: try to encapsulate settings to separate interface to prevent many toggle/change/update functions
 class SettingsRepositoryImpl @Inject constructor(
     @ApplicationContext private val context: Context,
     private val dataStore: DataStore<Preferences>
@@ -90,7 +91,8 @@ class SettingsRepositoryImpl @Inject constructor(
             font = FontFam.fromOrdinal(prefs[SELECTED_FONT_INDEX]),
             fontScale = (prefs[FONT_SCALE] ?: 1f).takeIf { it > 0f },
             allowCollectCrashlytics = prefs[ALLOW_CRASHLYTICS] ?: true,
-            allowCollectAnalytics = prefs[ALLOW_ANALYTICS] ?: true
+            allowCollectAnalytics = prefs[ALLOW_ANALYTICS] ?: true,
+            allowBetas = prefs[ALLOW_BETAS] ?: true
         )
     }
 
@@ -123,7 +125,8 @@ class SettingsRepositoryImpl @Inject constructor(
             font = FontFam.fromOrdinal(prefs[SELECTED_FONT_INDEX]),
             fontScale = (prefs[FONT_SCALE] ?: 1f).takeIf { it > 0f },
             allowCollectCrashlytics = prefs[ALLOW_CRASHLYTICS] ?: true,
-            allowCollectAnalytics = prefs[ALLOW_ANALYTICS] ?: true
+            allowCollectAnalytics = prefs[ALLOW_ANALYTICS] ?: true,
+            allowBetas = prefs[ALLOW_BETAS] ?: true
         )
     }
 
@@ -353,6 +356,13 @@ class SettingsRepositoryImpl @Inject constructor(
         dataStore.edit {
             val v = it[ALLOW_ANALYTICS] ?: true
             it[ALLOW_ANALYTICS] = !v
+        }
+    }
+
+    override suspend fun toggleAllowBetas() {
+        dataStore.edit {
+            val v = it[ALLOW_BETAS] ?: true
+            it[ALLOW_BETAS] = !v
         }
     }
 

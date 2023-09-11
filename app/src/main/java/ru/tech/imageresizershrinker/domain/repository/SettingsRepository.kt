@@ -74,4 +74,6 @@ interface SettingsRepository {
     suspend fun toggleAllowCrashlytics()
 
     suspend fun toggleAllowAnalytics()
+
+    suspend fun toggleAllowBetas()
 }

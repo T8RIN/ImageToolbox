@@ -1,3 +1,5 @@
+@file:Suppress("SameParameterValue")
+
 package ru.tech.imageresizershrinker.presentation.main_screen.viewModel
 
 import android.net.Uri
@@ -33,6 +35,7 @@ import ru.tech.imageresizershrinker.domain.use_case.edit_settings.SetNightModeUs
 import ru.tech.imageresizershrinker.domain.use_case.edit_settings.ToggleAddFileSizeUseCase
 import ru.tech.imageresizershrinker.domain.use_case.edit_settings.ToggleAddOriginalFilenameUseCase
 import ru.tech.imageresizershrinker.domain.use_case.edit_settings.ToggleAddSequenceNumberUseCase
+import ru.tech.imageresizershrinker.domain.use_case.edit_settings.ToggleAllowBetasUseCase
 import ru.tech.imageresizershrinker.domain.use_case.edit_settings.ToggleAllowCollectAnalyticsUseCase
 import ru.tech.imageresizershrinker.domain.use_case.edit_settings.ToggleAllowCollectCrashlyticsUseCase
 import ru.tech.imageresizershrinker.domain.use_case.edit_settings.ToggleAllowImageMonetUseCase
@@ -95,7 +98,8 @@ class MainViewModel @Inject constructor(
     private val setFontUseCase: SetFontUseCase,
     private val setFontScaleUseCase: SetFontScaleUseCase,
     private val toggleAllowCollectCrashlyticsUseCase: ToggleAllowCollectCrashlyticsUseCase,
-    private val toggleAllowCollectAnalyticsUseCase: ToggleAllowCollectAnalyticsUseCase
+    private val toggleAllowCollectAnalyticsUseCase: ToggleAllowCollectAnalyticsUseCase,
+    private val toggleAllowBetasUseCase: ToggleAllowBetasUseCase
 ) : ViewModel() {
 
     private val _settingsState = mutableStateOf(SettingsState.Default())
@@ -270,7 +274,7 @@ class MainViewModel @Inject constructor(
                                 }
                             }
 
-                            if (isNeedUpdate(tag)) {
+                            if (isNeedUpdate(nameFrom = BuildConfig.VERSION_NAME, nameTo = tag)) {
                                 _updateAvailable.value = true
                                 if (showDialog) {
                                     _showUpdateDialog.value = true
@@ -285,7 +289,7 @@ class MainViewModel @Inject constructor(
         }
     }
 
-    private fun isNeedUpdate(tag: String): Boolean {
+    private fun isNeedUpdate(nameFrom: String, nameTo: String): Boolean {
         fun String.toVersionCode(): Int {
             return replace("-", "")
                 .replace(".", "")
@@ -298,12 +302,19 @@ class MainViewModel @Inject constructor(
                 .toIntOrNull() ?: -1
         }
 
-        val build = BuildConfig.VERSION_NAME
+        val betaList = listOf(
+            "beta", "alpha", "rc"
+        )
 
-        val tagVC = tag.toVersionCode()
-        val buildVC = build.toVersionCode()
-
-        return tagVC > buildVC
+        val tagVC = nameTo.toVersionCode()
+        val buildVC = nameFrom.toVersionCode()
+        return if (betaList.all { it !in nameTo }) {
+            tagVC > buildVC
+        } else {
+            if (settingsState.allowBetas || betaList.any { it in nameFrom }) {
+                tagVC > buildVC
+            } else false
+        }
     }
 
     fun hideSelectDialog() {
@@ -436,6 +447,12 @@ class MainViewModel @Inject constructor(
         if (settingsState.clearCacheOnLaunch && !alreadyCleared) {
             function()
             alreadyCleared = true
+        }
+    }
+
+    fun toggleAllowBetas() {
+        viewModelScope.launch {
+            toggleAllowBetasUseCase()
         }
     }
 

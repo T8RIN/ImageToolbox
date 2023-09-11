@@ -45,7 +45,8 @@ data class UiSettingsState(
     val font: UiFontFam,
     val fontScale: Float?,
     val allowCollectCrashlytics: Boolean,
-    val allowCollectAnalytics: Boolean
+    val allowCollectAnalytics: Boolean,
+    val allowBetas: Boolean
 )
 
 @Composable
@@ -75,7 +76,8 @@ fun SettingsState.toUiState() = UiSettingsState(
     font = font.toUiFont(),
     fontScale = fontScale?.takeIf { it > 0 },
     allowCollectCrashlytics = allowCollectCrashlytics,
-    allowCollectAnalytics = allowCollectAnalytics
+    allowCollectAnalytics = allowCollectAnalytics,
+    allowBetas = allowBetas
 )
 
 private fun FontFam.toUiFont(): UiFontFam {

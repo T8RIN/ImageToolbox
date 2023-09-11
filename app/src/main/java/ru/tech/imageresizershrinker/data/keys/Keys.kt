@@ -32,4 +32,5 @@ object Keys {
     val FONT_SCALE = floatPreferencesKey("font_scale")
     val ALLOW_CRASHLYTICS = booleanPreferencesKey("allow_crashlytics")
     val ALLOW_ANALYTICS = booleanPreferencesKey("allow_analytics")
+    val ALLOW_BETAS = booleanPreferencesKey("allow_betas")
 }
