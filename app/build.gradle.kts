@@ -202,6 +202,9 @@ dependencies {
     "jxlImplementation"("com.google.android.play:review-ktx:2.0.1")
     "jxlImplementation"("com.github.awxkee:jxl-coder:1.3.0")
     "jxlImplementation"(project(":jxlcoder-coil"))
+
+    "marketImplementation"("com.google.android.play:app-update:2.1.0")
+    "marketImplementation"("com.google.android.play:app-update-ktx:2.1.0")
 }
 
 

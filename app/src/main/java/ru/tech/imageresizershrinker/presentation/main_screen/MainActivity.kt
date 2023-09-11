@@ -41,6 +41,7 @@ import ru.tech.imageresizershrinker.presentation.root.theme.ImageToolboxTheme
 import ru.tech.imageresizershrinker.presentation.root.utils.confetti.LocalConfettiController
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.ContextUtils.clearCache
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.ContextUtils.parseImageFromIntent
+import ru.tech.imageresizershrinker.presentation.root.utils.helper.ContextUtils.isInstalledFromPlayStore
 import ru.tech.imageresizershrinker.presentation.root.utils.navigation.LocalNavController
 import ru.tech.imageresizershrinker.presentation.root.widget.activity.M3Activity
 import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedSliderInit
@@ -159,7 +160,7 @@ class MainActivity : M3Activity() {
 
                     ToastHost(hostState = LocalToastHost.current)
 
-                    SideEffect { viewModel.tryGetUpdate(showDialog = viewModel.settingsState.showDialogOnStartup) }
+                    SideEffect { viewModel.tryGetUpdate(installedFromMarket = isInstalledFromPlayStore()) }
 
                     PermissionDialog()
 

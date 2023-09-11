@@ -97,11 +97,15 @@ object ContextUtils {
         return createConfigurationContext(configuration)
     }
 
-    fun Context.verifyInstallerId(
-        validInstallers: List<String> = listOf(
+    fun Context.isInstalledFromPlayStore(): Boolean = verifyInstallerId(
+        listOf(
             "com.android.vending",
             "com.google.android.feedback"
         )
+    )
+
+    fun Context.verifyInstallerId(
+        validInstallers: List<String>
     ): Boolean = validInstallers.contains(getInstallerPackageName(packageName))
 
     private fun Context.getInstallerPackageName(packageName: String): String? {

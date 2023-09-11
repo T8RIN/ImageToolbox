@@ -11,7 +11,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.Download
+import androidx.compose.material.icons.rounded.NewReleases
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.LocalTextStyle
@@ -34,11 +34,9 @@ import ru.tech.imageresizershrinker.presentation.root.widget.sheets.SimpleSheet
 import ru.tech.imageresizershrinker.presentation.root.widget.text.AutoSizeText
 import ru.tech.imageresizershrinker.presentation.root.widget.text.HtmlText
 import ru.tech.imageresizershrinker.presentation.root.widget.text.TitleItem
-import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalSettingsState
 
 @Composable
 fun UpdateSheet(changelog: String, tag: String, visible: MutableState<Boolean>) {
-    val settingsState = LocalSettingsState.current
     val context = LocalContext.current
 
     SimpleSheet(
@@ -65,14 +63,14 @@ fun UpdateSheet(changelog: String, tag: String, visible: MutableState<Boolean>) 
                             ) {
                                 TitleItem(
                                     text = stringResource(R.string.new_version, tag),
-                                    icon = Icons.Rounded.Download
+                                    icon = Icons.Rounded.NewReleases
                                 )
                             }
                         }
                         HorizontalDivider()
                         Column(Modifier.verticalScroll(rememberScrollState())) {
                             HtmlText(
-                                html = changelog,
+                                html = changelog.trimIndent(),
                                 modifier = Modifier.padding(start = 24.dp, end = 24.dp, top = 24.dp)
                             ) { uri ->
                                 context.startActivity(Intent(Intent.ACTION_VIEW, uri.toUri()))

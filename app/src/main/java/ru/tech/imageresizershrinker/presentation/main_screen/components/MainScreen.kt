@@ -136,7 +136,7 @@ import ru.tech.imageresizershrinker.presentation.root.icons.material.Github
 import ru.tech.imageresizershrinker.presentation.root.icons.material.GooglePlay
 import ru.tech.imageresizershrinker.presentation.root.icons.material.Telegram
 import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
-import ru.tech.imageresizershrinker.presentation.root.utils.helper.ContextUtils.verifyInstallerId
+import ru.tech.imageresizershrinker.presentation.root.utils.helper.ContextUtils.isInstalledFromPlayStore
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.plus
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.alertDialogBorder
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.drawHorizontalStroke
@@ -199,6 +199,7 @@ fun MainScreen(
         if (viewModel.updateAvailable) {
             viewModel.tryGetUpdate(
                 newRequest = true,
+                installedFromMarket = context.isInstalledFromPlayStore(),
                 onNoUpdates = {
                     scope.launch {
                         toastHost.showToast(
@@ -208,7 +209,7 @@ fun MainScreen(
                     }
                 }
             )
-        } else if (context.verifyInstallerId()) {
+        } else if (context.isInstalledFromPlayStore()) {
             try {
                 context.startActivity(
                     Intent(
@@ -329,7 +330,7 @@ fun MainScreen(
                                 content = {
                                     if (viewModel.updateAvailable) {
                                         Icon(Icons.Rounded.FileDownload, null)
-                                    } else if (context.verifyInstallerId()) {
+                                    } else if (context.isInstalledFromPlayStore()) {
                                         Icon(
                                             Icons.Rounded.GooglePlay,
                                             null,
@@ -640,6 +641,7 @@ fun MainScreen(
                                             onClick = {
                                                 viewModel.tryGetUpdate(
                                                     newRequest = true,
+                                                    installedFromMarket = context.isInstalledFromPlayStore(),
                                                     onNoUpdates = {
                                                         scope.launch {
                                                             toastHost.showToast(
@@ -659,7 +661,7 @@ fun MainScreen(
                                     floatingActionButton = {
                                         FloatingActionButton(
                                             onClick = {
-                                                if (context.verifyInstallerId()) {
+                                                if (context.isInstalledFromPlayStore()) {
                                                     try {
                                                         context.startActivity(
                                                             Intent(
@@ -689,7 +691,7 @@ fun MainScreen(
                                                 .requiredSize(size = 56.dp),
                                             elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
                                             content = {
-                                                if (context.verifyInstallerId()) {
+                                                if (context.isInstalledFromPlayStore()) {
                                                     Icon(
                                                         Icons.Rounded.GooglePlay,
                                                         null,

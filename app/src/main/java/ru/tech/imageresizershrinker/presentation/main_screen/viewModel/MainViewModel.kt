@@ -135,7 +135,6 @@ class MainViewModel @Inject constructor(
         getSettingsStateFlowUseCase().onEach {
             _settingsState.value = it
         }.launchIn(viewModelScope)
-        tryGetUpdate(showDialog = settingsState.showDialogOnStartup)
     }
 
     fun toggleAddSequenceNumber() {
@@ -241,36 +240,44 @@ class MainViewModel @Inject constructor(
 
     fun tryGetUpdate(
         newRequest: Boolean = false,
-        showDialog: Boolean = true,
+        installedFromMarket: Boolean,
         onNoUpdates: () -> Unit = {}
     ) {
-        if (!_cancelledUpdate.value || newRequest) {
-            viewModelScope.launch {
-                withContext(Dispatchers.IO) {
-                    kotlin.runCatching {
-                        val nodes = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(
-                            URL("$APP_RELEASES.atom").openConnection().getInputStream()
-                        )?.getElementsByTagName("feed")
+        val showDialog = settingsState.showDialogOnStartup
+        if (installedFromMarket) {
+            if (showDialog) {
+                _showUpdateDialog.value = true
+            }
+        } else {
+            if (!_cancelledUpdate.value || newRequest) {
+                viewModelScope.launch {
+                    withContext(Dispatchers.IO) {
+                        kotlin.runCatching {
+                            val nodes =
+                                DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(
+                                    URL("$APP_RELEASES.atom").openConnection().getInputStream()
+                                )?.getElementsByTagName("feed")
 
-                        if (nodes != null) {
-                            for (i in 0 until nodes.length) {
-                                val element = nodes.item(i) as Element
-                                val title = element.getElementsByTagName("entry")
-                                val line = (title.item(0) as Element)
-                                _tag.value = (line.getElementsByTagName("title")
-                                    .item(0) as Element).textContent
-                                _changelog.value = (line.getElementsByTagName("content")
-                                    .item(0) as Element).textContent
+                            if (nodes != null) {
+                                for (i in 0 until nodes.length) {
+                                    val element = nodes.item(i) as Element
+                                    val title = element.getElementsByTagName("entry")
+                                    val line = (title.item(0) as Element)
+                                    _tag.value = (line.getElementsByTagName("title")
+                                        .item(0) as Element).textContent
+                                    _changelog.value = (line.getElementsByTagName("content")
+                                        .item(0) as Element).textContent
+                                }
                             }
-                        }
 
-                        if (isNeedUpdate(tag)) {
-                            _updateAvailable.value = true
-                            if (showDialog) {
-                                _showUpdateDialog.value = true
+                            if (isNeedUpdate(tag)) {
+                                _updateAvailable.value = true
+                                if (showDialog) {
+                                    _showUpdateDialog.value = true
+                                }
+                            } else {
+                                onNoUpdates()
                             }
-                        } else {
-                            onNoUpdates()
                         }
                     }
                 }

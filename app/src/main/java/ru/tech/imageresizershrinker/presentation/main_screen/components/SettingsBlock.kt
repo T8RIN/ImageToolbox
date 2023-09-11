@@ -63,6 +63,7 @@ import androidx.compose.material.icons.rounded.FontDownload
 import androidx.compose.material.icons.rounded.ImageSearch
 import androidx.compose.material.icons.rounded.Info
 import androidx.compose.material.icons.rounded.ModeNight
+import androidx.compose.material.icons.rounded.NewReleases
 import androidx.compose.material.icons.rounded.Palette
 import androidx.compose.material.icons.rounded.PersonSearch
 import androidx.compose.material.icons.rounded.PhotoSizeSelectSmall
@@ -149,6 +150,7 @@ import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
 import ru.tech.imageresizershrinker.presentation.root.utils.confetti.LocalConfettiController
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.ContextUtils.cacheSize
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.ContextUtils.clearCache
+import ru.tech.imageresizershrinker.presentation.root.utils.helper.ContextUtils.isInstalledFromPlayStore
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.toUiPath
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.container
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.pulsate
@@ -1425,6 +1427,7 @@ fun LazyListScope.settingsBlock(
         }
     }
     item {
+        // Updates
         SettingItem(
             icon = Icons.Rounded.SystemSecurityUpdate,
             text = stringResource(R.string.updates),
@@ -1433,11 +1436,19 @@ fun LazyListScope.settingsBlock(
             PreferenceRowSwitch(
                 modifier = Modifier.padding(horizontal = 8.dp),
                 applyHorPadding = false,
+                resultModifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
                 title = stringResource(R.string.check_updates),
                 subtitle = stringResource(R.string.check_updates_sub),
                 checked = viewModel.settingsState.showDialogOnStartup,
                 onClick = {
                     viewModel.toggleShowDialog()
+                },
+                startContent = {
+                    Icon(
+                        Icons.Rounded.NewReleases,
+                        null,
+                        modifier = Modifier.padding(end = 16.dp)
+                    )
                 }
             )
         }
@@ -1549,6 +1560,7 @@ fun LazyListScope.settingsBlock(
                     onClick = {
                         viewModel.tryGetUpdate(
                             newRequest = true,
+                            installedFromMarket = context.isInstalledFromPlayStore(),
                             onNoUpdates = {
                                 scope.launch {
                                     toastHostState.showToast(
