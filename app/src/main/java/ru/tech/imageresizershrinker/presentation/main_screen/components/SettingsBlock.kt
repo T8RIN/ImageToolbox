@@ -1452,7 +1452,7 @@ fun LazyListScope.settingsBlock(
                     )
                 }
             )
-            if(!context.isInstalledFromPlayStore()) {
+            if (!context.isInstalledFromPlayStore()) {
                 Spacer(Modifier.height(8.dp))
                 PreferenceRowSwitch(
                     modifier = Modifier.padding(horizontal = 8.dp),
@@ -1462,7 +1462,7 @@ fun LazyListScope.settingsBlock(
                     subtitle = stringResource(R.string.allow_betas_sub),
                     checked = settingsState.allowBetas,
                     onClick = {
-                        viewModel.toggleAllowBetas()
+                        viewModel.toggleAllowBetas(context.isInstalledFromPlayStore())
                     },
                     startContent = {
                         Icon(
@@ -1473,6 +1473,33 @@ fun LazyListScope.settingsBlock(
                     }
                 )
             }
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(start = 16.dp, end = 16.dp, top = 16.dp, bottom = 8.dp),
+                contentAlignment = Alignment.Center
+            ) {
+                EnhancedButton(
+                    containerColor = MaterialTheme.colorScheme.primaryContainer,
+                    onClick = {
+                        viewModel.tryGetUpdate(
+                            newRequest = true,
+                            installedFromMarket = context.isInstalledFromPlayStore(),
+                            onNoUpdates = {
+                                scope.launch {
+                                    toastHostState.showToast(
+                                        icon = Icons.Rounded.FileDownloadOff,
+                                        message = context.getString(R.string.no_updates)
+                                    )
+                                }
+                            }
+                        )
+                    }
+                ) {
+                    Text("Check for updates")
+                }
+            }
+
         }
     }
     item {

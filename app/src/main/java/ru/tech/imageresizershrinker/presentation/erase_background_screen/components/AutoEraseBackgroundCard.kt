@@ -42,7 +42,8 @@ fun AutoEraseBackgroundCard(
             .padding(start = 16.dp, end = 16.dp, top = 8.dp)
             .container(resultPadding = 8.dp, shape = RoundedCornerShape(24.dp))
     ) {
-        if (BuildConfig.FLAVOR != "foss") {
+        val notFoss = BuildConfig.FLAVOR != "foss"
+        if (notFoss) {
             Row(
                 modifier = Modifier
                     .container(
@@ -72,7 +73,7 @@ fun AutoEraseBackgroundCard(
             onClick = onReset,
             modifier = Modifier
                 .fillMaxWidth()
-                .offset(y = 3.dp)
+                .offset(y = if(notFoss) 3.dp else 0.dp)
         ) {
             Icon(Icons.Rounded.SettingsBackupRestore, null)
             Spacer(Modifier.width(8.dp))

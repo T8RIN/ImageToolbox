@@ -450,9 +450,13 @@ class MainViewModel @Inject constructor(
         }
     }
 
-    fun toggleAllowBetas() {
+    fun toggleAllowBetas(installedFromMarket: Boolean) {
         viewModelScope.launch {
             toggleAllowBetasUseCase()
+            tryGetUpdate(
+                newRequest = true,
+                installedFromMarket = installedFromMarket
+            )
         }
     }
 
