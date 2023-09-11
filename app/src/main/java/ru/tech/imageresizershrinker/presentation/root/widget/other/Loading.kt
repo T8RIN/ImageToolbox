@@ -3,12 +3,14 @@ package ru.tech.imageresizershrinker.presentation.root.widget.other
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope
+import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
@@ -32,9 +34,10 @@ fun BoxScope.Loading() {
 @Composable
 fun Loading(modifier: Modifier = Modifier) {
     val settingsState = LocalSettingsState.current
-    Box(
+    BoxWithConstraints(
         modifier
-            .size(84.dp)
+            .height(IntrinsicSize.Max)
+            .heightIn(max = 84.dp)
             .aspectRatio(1f)
             .materialShadow(
                 elevation = animateDpAsState(if (settingsState.borderWidth > 0.dp) 1.dp else 10.dp).value,
@@ -47,9 +50,11 @@ fun Loading(modifier: Modifier = Modifier) {
             )
     ) {
         CircularProgressIndicator(
-            modifier = Modifier.align(
-                Alignment.Center
-            ),
+            modifier = Modifier
+                .align(
+                    Alignment.Center
+                )
+                .size(minWidth / 2),
             strokeCap = StrokeCap.Round,
             color = MaterialTheme.colorScheme.onSecondaryContainer
         )
@@ -63,7 +68,6 @@ fun BoxScope.Loading(done: Int, left: Int) {
     Column(
         modifier = Modifier
             .size(108.dp)
-            .aspectRatio(1f)
             .materialShadow(
                 elevation = animateDpAsState(if (settingsState.borderWidth > 0.dp) 1.dp else 10.dp).value,
                 shape = DavidStarShape
