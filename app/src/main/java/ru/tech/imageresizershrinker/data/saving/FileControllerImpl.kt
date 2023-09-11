@@ -175,11 +175,7 @@ class FileControllerImpl @Inject constructor(
                 initialExif = saveTarget.metadata as ExifInterface?
 
                 saveTarget.copy(
-                    filename = constructFilename(
-                        context = context,
-                        fileParams = fileParams,
-                        saveTarget = saveTarget
-                    )
+                    filename = constructImageFilename(saveTarget)
                 )
             } else saveTarget
 
@@ -237,9 +233,7 @@ class FileControllerImpl @Inject constructor(
         val fileUri: Uri? = null,
     )
 
-    private fun constructFilename(
-        context: Context,
-        fileParams: FileParams,
+    override fun constructImageFilename(
         saveTarget: ImageSaveTarget<*>
     ): String {
         val extension = saveTarget.imageInfo.imageFormat.extension

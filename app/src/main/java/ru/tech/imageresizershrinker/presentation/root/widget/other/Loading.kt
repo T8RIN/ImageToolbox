@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.CircularProgressIndicator
@@ -34,6 +35,7 @@ fun Loading(modifier: Modifier = Modifier) {
     Box(
         modifier
             .size(84.dp)
+            .aspectRatio(1f)
             .materialShadow(
                 elevation = animateDpAsState(if (settingsState.borderWidth > 0.dp) 1.dp else 10.dp).value,
                 shape = DavidStarShape
@@ -61,6 +63,7 @@ fun BoxScope.Loading(done: Int, left: Int) {
     Column(
         modifier = Modifier
             .size(108.dp)
+            .aspectRatio(1f)
             .materialShadow(
                 elevation = animateDpAsState(if (settingsState.borderWidth > 0.dp) 1.dp else 10.dp).value,
                 shape = DavidStarShape

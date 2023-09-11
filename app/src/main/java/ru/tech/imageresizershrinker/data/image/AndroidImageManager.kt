@@ -29,6 +29,8 @@ import ru.tech.imageresizershrinker.domain.model.ImageInfo
 import ru.tech.imageresizershrinker.domain.model.Preset
 import ru.tech.imageresizershrinker.domain.model.ResizeType
 import ru.tech.imageresizershrinker.domain.repository.CipherRepository
+import ru.tech.imageresizershrinker.domain.saving.FileController
+import ru.tech.imageresizershrinker.domain.saving.model.ImageSaveTarget
 import ru.tech.imageresizershrinker.presentation.root.app.ImageApplication
 import java.io.ByteArrayInputStream
 import java.io.ByteArrayOutputStream
@@ -42,7 +44,7 @@ import kotlin.math.roundToInt
 
 class AndroidImageManager @Inject constructor(
     private val context: Context,
-    private val cipherRepository: CipherRepository
+    private val fileController: FileController
 ) : ImageManager<Bitmap, ExifInterface> {
 
     private fun loader(): ImageLoader = ImageApplication.loader()
@@ -387,9 +389,14 @@ class AndroidImageManager @Inject constructor(
         val imagesFolder = File(context.cacheDir, "images")
         return@withContext kotlin.runCatching {
             imagesFolder.mkdirs()
-            val ext = imageInfo.imageFormat.extension
-            val file =
-                File(imagesFolder, "$name(${cipherRepository.generateRandomString(15)}).$ext")
+            val saveTarget = ImageSaveTarget<ExifInterface>(
+                imageInfo = imageInfo,
+                originalUri = "share",
+                sequenceNumber = null,
+                data = byteArrayOf()
+            )
+
+            val file = File(imagesFolder, fileController.constructImageFilename(saveTarget))
             FileOutputStream(file).use {
                 it.write(compress(ImageData(image, imageInfo)))
             }
@@ -409,7 +416,15 @@ class AndroidImageManager @Inject constructor(
         onComplete: () -> Unit,
         name: String
     ) = withContext(Dispatchers.IO) {
-        cacheImage(imageData.image, imageData.imageInfo)?.let { shareUri(it.toUri()) }
+        cacheImage(
+            image = imageData.image,
+            imageInfo = imageData.imageInfo
+        )?.let {
+            shareUri(
+                uri = it.toUri(),
+                type = imageData.imageInfo.imageFormat.type
+            )
+        }
         onComplete()
     }
 
@@ -730,7 +745,7 @@ class AndroidImageManager @Inject constructor(
         return width * height * (if (config == Bitmap.Config.RGB_565) 2 else 4)
     }
 
-    private fun shareUri(uri: Uri, type: String = "image/*") {
+    private fun shareUri(uri: Uri, type: String) {
         val sendIntent = Intent(Intent.ACTION_SEND).apply {
             putExtra(Intent.EXTRA_STREAM, uri)
             addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)

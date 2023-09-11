@@ -249,9 +249,8 @@ fun BitmapEraser(
                         if (!zoomEnabled) canvasModifier
                         else Modifier
                     )
-                    .clipToBounds()
                     .clip(RoundedCornerShape(2.dp))
-                    .matchParentSize()
+                    .transparencyChecker()
                     .border(
                         width = 1.dp,
                         color = MaterialTheme.colorScheme.outlineVariant(),

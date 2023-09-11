@@ -11,6 +11,7 @@ import dagger.hilt.components.SingletonComponent
 import ru.tech.imageresizershrinker.data.image.AndroidImageManager
 import ru.tech.imageresizershrinker.domain.image.ImageManager
 import ru.tech.imageresizershrinker.domain.repository.CipherRepository
+import ru.tech.imageresizershrinker.domain.saving.FileController
 import javax.inject.Singleton
 
 @Module
@@ -21,7 +22,10 @@ object ImageModule {
     @Provides
     fun provideImageManager(
         @ApplicationContext context: Context,
-        cipherRepository: CipherRepository
-    ): ImageManager<Bitmap, ExifInterface> = AndroidImageManager(context, cipherRepository)
+        fileController: FileController
+    ): ImageManager<Bitmap, ExifInterface> = AndroidImageManager(
+        context = context,
+        fileController = fileController
+    )
 
 }
