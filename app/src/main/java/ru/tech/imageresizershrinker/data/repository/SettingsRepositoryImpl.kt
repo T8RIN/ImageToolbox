@@ -55,7 +55,6 @@ import java.util.Date
 import java.util.Locale
 import javax.inject.Inject
 
-// TODO: try to encapsulate settings to separate interface to prevent many toggle/change/update functions
 class SettingsRepositoryImpl @Inject constructor(
     @ApplicationContext private val context: Context,
     private val dataStore: DataStore<Preferences>

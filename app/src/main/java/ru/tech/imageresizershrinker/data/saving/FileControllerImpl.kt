@@ -167,7 +167,7 @@ class FileControllerImpl @Inject constructor(
         }
 
         var filename = ""
-        //TODO not saving JXL
+
         kotlin.runCatching {
             var initialExif: ExifInterface? = null
 
