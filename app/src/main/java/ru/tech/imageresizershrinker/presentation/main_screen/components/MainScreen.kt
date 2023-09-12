@@ -79,7 +79,6 @@ import androidx.compose.material3.ModalDrawerSheet
 import androidx.compose.material3.ModalNavigationDrawer
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
@@ -139,6 +138,7 @@ import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.ContextUtils.isInstalledFromPlayStore
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.plus
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.alertDialogBorder
+import ru.tech.imageresizershrinker.presentation.root.utils.modifier.container
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.drawHorizontalStroke
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.fabBorder
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.pulsate
@@ -460,11 +460,17 @@ fun MainScreen(
                     Row(Modifier.weight(1f)) {
                         AnimatedVisibility(!isSheetSlideable && settingsState.groupOptionsByTypes && !sheetExpanded) {
                             Row {
-                                Surface(
-                                    color = MaterialTheme.colorScheme.surfaceColorAtElevation(3.dp),
+                                Box(
                                     modifier = Modifier
                                         .fillMaxHeight()
                                         .widthIn(min = 80.dp)
+                                        .container(
+                                            shape = RectangleShape,
+                                            color = MaterialTheme.colorScheme.surfaceColorAtElevation(
+                                                1.dp
+                                            ),
+                                            autoShadowElevation = 10.dp,
+                                        )
                                 ) {
                                     Column(
                                         modifier = Modifier
@@ -484,7 +490,10 @@ fun MainScreen(
                                                     .asPaddingValues()
                                                     .calculateStartPadding(LocalLayoutDirection.current)
                                             ),
-                                        verticalArrangement = Arrangement.Center,
+                                        verticalArrangement = Arrangement.spacedBy(
+                                            4.dp,
+                                            Alignment.CenterVertically
+                                        ),
                                         horizontalAlignment = Alignment.CenterHorizontally
                                     ) {
                                         Spacer(Modifier.height(8.dp))
