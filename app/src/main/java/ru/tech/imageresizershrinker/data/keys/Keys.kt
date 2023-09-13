@@ -33,4 +33,5 @@ object Keys {
     val ALLOW_CRASHLYTICS = booleanPreferencesKey("allow_crashlytics")
     val ALLOW_ANALYTICS = booleanPreferencesKey("allow_analytics")
     val ALLOW_BETAS = booleanPreferencesKey("allow_betas")
+    val ALLOW_SHADOWS_INSTEAD_OF_BORDERS = booleanPreferencesKey("ALLOW_SHADOWS_INSTEAD_OF_BORDERS")
 }

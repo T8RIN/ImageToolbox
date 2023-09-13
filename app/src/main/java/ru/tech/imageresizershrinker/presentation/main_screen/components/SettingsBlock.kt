@@ -10,6 +10,7 @@ import android.net.Uri
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.animateFloatAsState
@@ -120,6 +121,7 @@ import ru.tech.imageresizershrinker.presentation.root.icons.material.DownloadFil
 import ru.tech.imageresizershrinker.presentation.root.icons.material.FileSettings
 import ru.tech.imageresizershrinker.presentation.root.icons.material.Firebase
 import ru.tech.imageresizershrinker.presentation.root.icons.material.Lamp
+import ru.tech.imageresizershrinker.presentation.root.icons.material.Shadow
 import ru.tech.imageresizershrinker.presentation.root.icons.material.Telegram
 import ru.tech.imageresizershrinker.presentation.root.model.UiSettingsState
 import ru.tech.imageresizershrinker.presentation.root.shapes.CloverShape
@@ -527,6 +529,26 @@ fun LazyListScope.settingsBlock(
                         },
                         valueRange = 0f..1.5f,
                         steps = 14
+                    )
+                }
+                AnimatedVisibility(visible = settingsState.borderWidth <= 0.dp) {
+                    PreferenceRowSwitch(
+                        modifier = Modifier.padding(horizontal = 8.dp),
+                        applyHorPadding = false,
+                        resultModifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
+                        title = stringResource(R.string.shadows),
+                        subtitle = stringResource(R.string.shadows_setting_sub),
+                        checked = viewModel.settingsState.allowShowingShadowsInsteadOfBorders,
+                        onClick = {
+                            viewModel.toggleAllowShowingShadowsInsteadOfBorders()
+                        },
+                        startContent = {
+                            Icon(
+                                Icons.Filled.Shadow,
+                                null,
+                                modifier = Modifier.padding(end = 16.dp)
+                            )
+                        }
                     )
                 }
                 Box(

@@ -29,7 +29,8 @@ data class SettingsState(
     val fontScale: Float?,
     val allowCollectCrashlytics: Boolean,
     val allowCollectAnalytics: Boolean,
-    val allowBetas: Boolean
+    val allowBetas: Boolean,
+    val allowShowingShadowsInsteadOfBorders: Boolean
 ) : Domain {
 
     companion object {
@@ -60,7 +61,8 @@ data class SettingsState(
             fontScale = 1f,
             allowCollectCrashlytics = true,
             allowCollectAnalytics = true,
-            allowBetas = true
+            allowBetas = true,
+            allowShowingShadowsInsteadOfBorders = true
         )
     }
 }

@@ -737,7 +737,7 @@ fun MainScreen(
                 Spacer(
                     Modifier
                         .fillMaxHeight()
-                        .width(settingsState.borderWidth.coerceAtLeast(1.dp))
+                        .width(settingsState.borderWidth)
                         .background(
                             MaterialTheme.colorScheme.outlineVariant(
                                 0.3f,
@@ -745,20 +745,22 @@ fun MainScreen(
                             )
                         )
                 )
+            }
+            Box(
+                Modifier.container(
+                    shape = RectangleShape,
+                    color = MaterialTheme.colorScheme.surfaceColorAtElevation(
+                        1.dp
+                    ),
+                    borderColor = MaterialTheme.colorScheme.outlineVariant(
+                        0.3f,
+                        DrawerDefaults.containerColor
+                    ),
+                    autoShadowElevation = 2.dp,
+                    resultPadding = 0.dp
+                )
+            ) {
                 drawerContent()
-            } else {
-                Box(
-                    Modifier.container(
-                        shape = RectangleShape,
-                        color = MaterialTheme.colorScheme.surfaceColorAtElevation(
-                            1.dp
-                        ),
-                        autoShadowElevation = 2.dp,
-                        resultPadding = 0.dp
-                    )
-                ) {
-                    drawerContent()
-                }
             }
         }
     }

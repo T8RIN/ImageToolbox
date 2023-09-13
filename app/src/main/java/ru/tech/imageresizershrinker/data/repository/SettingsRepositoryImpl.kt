@@ -20,6 +20,7 @@ import ru.tech.imageresizershrinker.data.keys.Keys.ALLOW_ANALYTICS
 import ru.tech.imageresizershrinker.data.keys.Keys.ALLOW_BETAS
 import ru.tech.imageresizershrinker.data.keys.Keys.ALLOW_CRASHLYTICS
 import ru.tech.imageresizershrinker.data.keys.Keys.ALLOW_IMAGE_MONET
+import ru.tech.imageresizershrinker.data.keys.Keys.ALLOW_SHADOWS_INSTEAD_OF_BORDERS
 import ru.tech.imageresizershrinker.data.keys.Keys.AMOLED_MODE
 import ru.tech.imageresizershrinker.data.keys.Keys.APP_COLOR_TUPLE
 import ru.tech.imageresizershrinker.data.keys.Keys.AUTO_CACHE_CLEAR
@@ -91,7 +92,8 @@ class SettingsRepositoryImpl @Inject constructor(
             fontScale = (prefs[FONT_SCALE] ?: 1f).takeIf { it > 0f },
             allowCollectCrashlytics = prefs[ALLOW_CRASHLYTICS] ?: true,
             allowCollectAnalytics = prefs[ALLOW_ANALYTICS] ?: true,
-            allowBetas = prefs[ALLOW_BETAS] ?: true
+            allowBetas = prefs[ALLOW_BETAS] ?: true,
+            allowShowingShadowsInsteadOfBorders = prefs[ALLOW_SHADOWS_INSTEAD_OF_BORDERS] ?: true
         )
     }
 
@@ -125,7 +127,8 @@ class SettingsRepositoryImpl @Inject constructor(
             fontScale = (prefs[FONT_SCALE] ?: 1f).takeIf { it > 0f },
             allowCollectCrashlytics = prefs[ALLOW_CRASHLYTICS] ?: true,
             allowCollectAnalytics = prefs[ALLOW_ANALYTICS] ?: true,
-            allowBetas = prefs[ALLOW_BETAS] ?: true
+            allowBetas = prefs[ALLOW_BETAS] ?: true,
+            allowShowingShadowsInsteadOfBorders = prefs[ALLOW_SHADOWS_INSTEAD_OF_BORDERS] ?: true
         )
     }
 
@@ -362,6 +365,13 @@ class SettingsRepositoryImpl @Inject constructor(
         dataStore.edit {
             val v = it[ALLOW_BETAS] ?: true
             it[ALLOW_BETAS] = !v
+        }
+    }
+
+    override suspend fun toggleAllowShowingShadowsInsteadOfBorders() {
+        dataStore.edit {
+            val v = it[ALLOW_SHADOWS_INSTEAD_OF_BORDERS] ?: true
+            it[ALLOW_SHADOWS_INSTEAD_OF_BORDERS] = !v
         }
     }
 

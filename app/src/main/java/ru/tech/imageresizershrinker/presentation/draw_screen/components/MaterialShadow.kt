@@ -1,6 +1,7 @@
 package ru.tech.imageresizershrinker.presentation.draw_screen.components
 
 import android.os.Build
+import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
@@ -13,13 +14,16 @@ import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.LayoutDirection
+import androidx.compose.ui.unit.dp
 import com.gigamole.composeshadowsplus.rsblur.rsBlurShadow
 import com.zedalpha.shadowgadgets.compose.clippedShadow
+import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalSettingsState
 
 @Composable
 fun Modifier.materialShadow(
     shape: Shape,
-    elevation: Dp
+    elevation: Dp,
+    enabled: Boolean = LocalSettingsState.current.allowShowingShadowsInsteadOfBorders
 ) = composed {
     val isConcavePath by remember(shape) {
         derivedStateOf {
@@ -32,15 +36,16 @@ fun Modifier.materialShadow(
             }
         }
     }
+    val elev = animateDpAsState(if (enabled) elevation else 0.dp).value
 
     val api29Shadow = Modifier.clippedShadow(
         shape = shape,
-        elevation = elevation
+        elevation = elev
     )
 
     val api21shadow = Modifier.rsBlurShadow(
         shape = shape,
-        radius = elevation
+        radius = elev
     )
     when {
         isConcavePath && Build.VERSION.SDK_INT < Build.VERSION_CODES.Q -> api21shadow

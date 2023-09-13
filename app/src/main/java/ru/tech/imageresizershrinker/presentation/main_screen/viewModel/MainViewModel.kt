@@ -27,6 +27,7 @@ import ru.tech.imageresizershrinker.domain.model.SettingsState
 import ru.tech.imageresizershrinker.domain.use_case.backup_and_restore.CreateBackupFileUseCase
 import ru.tech.imageresizershrinker.domain.use_case.backup_and_restore.CreateBackupFilenameUseCase
 import ru.tech.imageresizershrinker.domain.use_case.backup_and_restore.RestoreFromBackupFileUseCase
+import ru.tech.imageresizershrinker.domain.use_case.edit_settings.AllowShowingShadowsInsteadOfBordersUseCase
 import ru.tech.imageresizershrinker.domain.use_case.edit_settings.SetAlignmentUseCase
 import ru.tech.imageresizershrinker.domain.use_case.edit_settings.SetBorderWidthUseCase
 import ru.tech.imageresizershrinker.domain.use_case.edit_settings.SetFontScaleUseCase
@@ -99,7 +100,8 @@ class MainViewModel @Inject constructor(
     private val setFontScaleUseCase: SetFontScaleUseCase,
     private val toggleAllowCollectCrashlyticsUseCase: ToggleAllowCollectCrashlyticsUseCase,
     private val toggleAllowCollectAnalyticsUseCase: ToggleAllowCollectAnalyticsUseCase,
-    private val toggleAllowBetasUseCase: ToggleAllowBetasUseCase
+    private val toggleAllowBetasUseCase: ToggleAllowBetasUseCase,
+    private val allowShowingShadowsInsteadOfBordersUseCase: AllowShowingShadowsInsteadOfBordersUseCase
 ) : ViewModel() {
 
     private val _settingsState = mutableStateOf(SettingsState.Default())
@@ -457,6 +459,12 @@ class MainViewModel @Inject constructor(
                 newRequest = true,
                 installedFromMarket = installedFromMarket
             )
+        }
+    }
+
+    fun toggleAllowShowingShadowsInsteadOfBorders() {
+        viewModelScope.launch {
+            allowShowingShadowsInsteadOfBordersUseCase()
         }
     }
 

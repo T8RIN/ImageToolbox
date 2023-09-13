@@ -76,4 +76,6 @@ interface SettingsRepository {
     suspend fun toggleAllowAnalytics()
 
     suspend fun toggleAllowBetas()
+
+    suspend fun toggleAllowShowingShadowsInsteadOfBorders()
 }
