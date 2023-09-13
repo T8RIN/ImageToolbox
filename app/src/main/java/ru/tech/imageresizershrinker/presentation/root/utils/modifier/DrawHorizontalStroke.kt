@@ -10,9 +10,12 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.isUnspecified
 import androidx.compose.ui.zIndex
+import com.gigamole.composeshadowsplus.common.ShadowsPlusDefaults
+import com.gigamole.composeshadowsplus.rsblur.rsBlurShadow
 import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
 import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalSettingsState
 
@@ -38,9 +41,13 @@ fun Modifier.drawHorizontalStroke(top: Boolean = false, height: Dp = Dp.Unspecif
                     size = Size(this.size.width, heightPx)
                 )
             }
-    }
-        .shadow(
-            animateDpAsState(if (h == null) 6.dp else 0.dp).value
+    }.then(
+        if(!top) Modifier.shadow(
+            animateDpAsState(if (h == null) 3.dp else 0.dp).value
+        ) else Modifier.rsBlurShadow(
+            animateDpAsState(if (h == null) 3.dp else 0.dp).value,
+            offset = DpOffset(x = 0.dp, y = (-0.5).dp),
+            color = ShadowsPlusDefaults.ShadowColor.copy(0.15f)
         )
-        .zIndex(100f)
+    ).zIndex(100f)
 }
