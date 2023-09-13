@@ -76,6 +76,7 @@ import androidx.compose.material.icons.rounded.WbSunny
 import androidx.compose.material.icons.twotone.Palette
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.SliderDefaults
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.getValue
@@ -637,6 +638,15 @@ fun LazyListScope.settingsBlock(
                                     sliderValue = it
                                     viewModel.setAlignment(sliderValue)
                                 },
+                                colors = SliderDefaults.colors(
+                                    activeTickColor = MaterialTheme.colorScheme.inverseSurface,
+                                    inactiveTickColor = MaterialTheme.colorScheme.inverseSurface,
+                                    activeTrackColor = Color.Transparent,
+                                    inactiveTrackColor = MaterialTheme.colorScheme.onPrimaryContainer.copy(
+                                        0.15f
+                                    ),
+                                    thumbColor = MaterialTheme.colorScheme.onPrimaryContainer
+                                ),
                                 valueRange = 0f..2f,
                                 steps = 1
                             )
