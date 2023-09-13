@@ -205,6 +205,7 @@ fun DeleteExifScreen(
                 isLoading = viewModel.isImageLoading,
                 shouldShowPreview = true
             )
+            Spacer(Modifier.height(8.dp))
             ImageCounter(
                 imageCount = viewModel.uris?.size?.takeIf { it > 1 },
                 onRepick = {

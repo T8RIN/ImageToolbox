@@ -5,7 +5,6 @@ import androidx.compose.animation.expandIn
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.shrinkOut
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -15,9 +14,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.ChangeCircle
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedIconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -28,6 +25,7 @@ import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.container
 import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedButton
+import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedIconButton
 import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalSettingsState
 
 @Composable
@@ -59,19 +57,14 @@ fun ImageCounter(
                 ) {
                     Text(stringResource(R.string.images, imageCount ?: 0L))
                 }
-                OutlinedIconButton(
+                EnhancedIconButton(
                     onClick = { if ((imageCount ?: 0) > 1) onRepick() },
-                    border = BorderStroke(
-                        settingsState.borderWidth,
-                        MaterialTheme.colorScheme.outlineVariant(
-                            0.1f,
-                            MaterialTheme.colorScheme.tertiaryContainer.copy(0.1f),
-                        ),
+                    borderColor = MaterialTheme.colorScheme.outlineVariant(
+                        0.1f,
+                        MaterialTheme.colorScheme.tertiaryContainer.copy(0.1f),
                     ),
-                    colors = IconButtonDefaults.filledIconButtonColors(
-                        containerColor = MaterialTheme.colorScheme.tertiaryContainer.copy(0.3f),
-                        contentColor = MaterialTheme.colorScheme.onTertiaryContainer.copy(0.9f)
-                    )
+                    containerColor = MaterialTheme.colorScheme.tertiaryContainer.copy(0.3f),
+                    contentColor = MaterialTheme.colorScheme.onTertiaryContainer.copy(0.9f)
                 ) {
                     Icon(Icons.Rounded.ChangeCircle, null)
                 }

@@ -65,6 +65,7 @@ import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
 import ru.tech.imageresizershrinker.presentation.root.utils.confetti.LocalConfettiController
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.container
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.drawHorizontalStroke
+import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedIconButton
 import ru.tech.imageresizershrinker.presentation.root.widget.other.Loading
 import ru.tech.imageresizershrinker.presentation.root.widget.other.LocalToastHost
 import ru.tech.imageresizershrinker.presentation.root.widget.other.LockScreenOrientation
@@ -260,8 +261,8 @@ fun EraseBackgroundEditOption(
                     modifier = Modifier.drawHorizontalStroke(),
                     actions = {
                         AnimatedVisibility(visible = erasedBitmap != bitmap) {
-                            OutlinedIconButton(
-                                colors = IconButtonDefaults.filledTonalIconButtonColors(),
+                            EnhancedIconButton(
+                                containerColor = MaterialTheme.colorScheme.secondaryContainer,
                                 onClick = {
                                     scope.launch {
                                         onGetBitmap(

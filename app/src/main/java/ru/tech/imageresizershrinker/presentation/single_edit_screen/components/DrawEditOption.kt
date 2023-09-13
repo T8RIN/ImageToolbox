@@ -65,6 +65,7 @@ import ru.tech.imageresizershrinker.presentation.root.utils.modifier.container
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.drawHorizontalStroke
 import ru.tech.imageresizershrinker.presentation.root.utils.saver.ColorSaver
 import ru.tech.imageresizershrinker.presentation.root.utils.saver.DrawModeSaver
+import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedIconButton
 import ru.tech.imageresizershrinker.presentation.root.widget.other.LockScreenOrientation
 import ru.tech.imageresizershrinker.presentation.root.widget.text.Marquee
 import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalSettingsState
@@ -159,19 +160,18 @@ fun DrawEditOption(
                 ) {
                     Icon(Icons.Rounded.Redo, null)
                 }
-                OutlinedIconButton(
-                    colors = IconButtonDefaults.filledIconButtonColors(
-                        containerColor = animateColorAsState(
-                            if (isEraserOn) MaterialTheme.colorScheme.mixedContainer
-                            else Color.Transparent
-                        ).value,
-                        contentColor = animateColorAsState(
-                            if (isEraserOn) MaterialTheme.colorScheme.onMixedContainer
-                            else MaterialTheme.colorScheme.onSurface
-                        ).value,
-                        disabledContainerColor = Color.Transparent
+                EnhancedIconButton(
+                    containerColor = animateColorAsState(
+                        if (isEraserOn) MaterialTheme.colorScheme.mixedContainer
+                        else Color.Transparent
+                    ).value,
+                    contentColor = animateColorAsState(
+                        if (isEraserOn) MaterialTheme.colorScheme.onMixedContainer
+                        else MaterialTheme.colorScheme.onSurface
+                    ).value,
+                    borderColor = MaterialTheme.colorScheme.outlineVariant(
+                        luminance = 0.1f
                     ),
-                    border = border,
                     onClick = {
                         isEraserOn = !isEraserOn
                     }
