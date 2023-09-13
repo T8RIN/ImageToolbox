@@ -1,8 +1,8 @@
 package ru.tech.imageresizershrinker.presentation.main_screen.components
 
+import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -19,9 +19,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.AddPhotoAlternate
 import androidx.compose.material.icons.twotone.Image
-import androidx.compose.material3.FilledIconButton
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme.colorScheme
 import androidx.compose.material3.MaterialTheme.shapes
@@ -38,9 +36,10 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import ru.tech.imageresizershrinker.R
-import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
+import ru.tech.imageresizershrinker.presentation.root.shapes.CloverShape
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.container
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.fabBorder
+import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedIconButton
 import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalSettingsState
 
 @Composable
@@ -48,46 +47,40 @@ fun FabPreview(
     modifier: Modifier = Modifier,
     alignment: Alignment,
 ) {
+    val shadowEnabled = LocalSettingsState.current.allowShowingShadowsInsteadOfBorders
+    val elevation by animateDpAsState(if (shadowEnabled) 4.dp else 0.dp)
     Column(
         modifier = modifier
             .fillMaxWidth()
             .aspectRatio(1f / 1.7f)
             .padding(4.dp)
-            .fabBorder(shape = RoundedCornerShape(12.dp), elevation = 4.dp)
+            .fabBorder(shape = RoundedCornerShape(12.dp), elevation = elevation)
             .clip(RoundedCornerShape(12.dp))
             .background(colorScheme.background),
         verticalArrangement = Arrangement.SpaceBetween
     ) {
-        val settingsState = LocalSettingsState.current
         Column(
             modifier = Modifier
                 .padding(horizontal = 8.dp, vertical = 8.dp)
-                .fabBorder(shape = shapes.small, elevation = 4.dp)
+                .fabBorder(shape = shapes.small, elevation = elevation)
                 .container(shape = shapes.small)
                 .fillMaxWidth(1f),
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Spacer(Modifier.height(4.dp))
-            FilledIconButton(
+            EnhancedIconButton(
                 onClick = {},
                 modifier = Modifier.size(25.dp),
-                shape = RoundedCornerShape(4.dp),
-                colors = IconButtonDefaults.filledTonalIconButtonColors(
-                    containerColor = colorScheme.surfaceColorAtElevation(6.dp),
-                    contentColor = colorScheme.onSurfaceVariant
-                )
+                shape = CloverShape,
+                containerColor = colorScheme.surfaceColorAtElevation(6.dp),
+                contentColor = colorScheme.onSurfaceVariant
             ) {
                 Icon(
                     imageVector = Icons.TwoTone.Image,
                     contentDescription = null,
                     modifier = Modifier
                         .fillMaxSize()
-                        .border(
-                            settingsState.borderWidth,
-                            colorScheme.outlineVariant(0.2f),
-                            RoundedCornerShape(4.dp)
-                        )
                         .padding(3.dp),
                     tint = colorScheme.onSurfaceVariant
                 )

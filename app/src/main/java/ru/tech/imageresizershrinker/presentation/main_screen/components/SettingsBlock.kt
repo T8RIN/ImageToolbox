@@ -71,6 +71,7 @@ import androidx.compose.material.icons.rounded.TextFields
 import androidx.compose.material.icons.rounded.TextFormat
 import androidx.compose.material.icons.rounded.Translate
 import androidx.compose.material.icons.rounded.UploadFile
+import androidx.compose.material.icons.rounded.WaterDrop
 import androidx.compose.material.icons.rounded.WbSunny
 import androidx.compose.material.icons.twotone.Palette
 import androidx.compose.material3.Icon
@@ -371,10 +372,18 @@ fun LazyListScope.settingsBlock(
                 PreferenceRowSwitch(
                     modifier = Modifier.padding(horizontal = 8.dp),
                     applyHorPadding = false,
+                    resultModifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
                     title = stringResource(R.string.allow_image_monet),
                     subtitle = stringResource(R.string.allow_image_monet_sub),
                     checked = settingsState.allowChangeColorByImage,
-                    onClick = { viewModel.updateAllowImageMonet() }
+                    onClick = { viewModel.updateAllowImageMonet() },
+                    startContent = {
+                        Icon(
+                            Icons.Rounded.WaterDrop,
+                            null,
+                            modifier = Modifier.padding(end = 16.dp)
+                        )
+                    }
                 )
                 Column(
                     Modifier
