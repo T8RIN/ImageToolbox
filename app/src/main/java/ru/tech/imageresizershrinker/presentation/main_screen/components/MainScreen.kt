@@ -321,10 +321,6 @@ fun MainScreen(
                         if (!isSheetSlideable) {
                             EnhancedIconButton(
                                 onClick = updateButtonOnClick,
-                                borderColor = MaterialTheme.colorScheme.outlineVariant(
-                                    luminance = 0.3f,
-                                    onTopOf = MaterialTheme.colorScheme.onSecondaryContainer
-                                ),
                                 containerColor = MaterialTheme.colorScheme.secondaryContainer,
                                 modifier = Modifier.pulsate(enabled = viewModel.updateAvailable),
                                 content = {
@@ -470,6 +466,7 @@ fun MainScreen(
                                                 1.dp
                                             ),
                                             autoShadowElevation = 10.dp,
+                                            resultPadding = 0.dp
                                         )
                                 ) {
                                     Column(
@@ -736,18 +733,33 @@ fun MainScreen(
             Box(Modifier.weight(1f)) {
                 content()
             }
-            Box(
-                Modifier
-                    .fillMaxHeight()
-                    .width(settingsState.borderWidth.coerceAtLeast(1.dp))
-                    .background(
-                        MaterialTheme.colorScheme.outlineVariant(
-                            0.3f,
-                            DrawerDefaults.containerColor
+            if (settingsState.borderWidth > 0.dp) {
+                Spacer(
+                    Modifier
+                        .fillMaxHeight()
+                        .width(settingsState.borderWidth.coerceAtLeast(1.dp))
+                        .background(
+                            MaterialTheme.colorScheme.outlineVariant(
+                                0.3f,
+                                DrawerDefaults.containerColor
+                            )
                         )
+                )
+                drawerContent()
+            } else {
+                Box(
+                    Modifier.container(
+                        shape = RectangleShape,
+                        color = MaterialTheme.colorScheme.surfaceColorAtElevation(
+                            1.dp
+                        ),
+                        autoShadowElevation = 2.dp,
+                        resultPadding = 0.dp
                     )
-            )
-            drawerContent()
+                ) {
+                    drawerContent()
+                }
+            }
         }
     }
 
