@@ -124,6 +124,7 @@ import ru.tech.imageresizershrinker.presentation.root.icons.material.FileSetting
 import ru.tech.imageresizershrinker.presentation.root.icons.material.Firebase
 import ru.tech.imageresizershrinker.presentation.root.icons.material.Lamp
 import ru.tech.imageresizershrinker.presentation.root.icons.material.Shadow
+import ru.tech.imageresizershrinker.presentation.root.icons.material.Symbol
 import ru.tech.imageresizershrinker.presentation.root.icons.material.Telegram
 import ru.tech.imageresizershrinker.presentation.root.model.UiSettingsState
 import ru.tech.imageresizershrinker.presentation.root.shapes.CloverShape
@@ -940,10 +941,18 @@ fun LazyListScope.settingsBlock(
             PreferenceRowSwitch(
                 modifier = Modifier.padding(horizontal = 8.dp),
                 applyHorPadding = false,
+                resultModifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
                 onClick = { viewModel.toggleRandomizeFilename() },
                 title = stringResource(R.string.randomize_filename),
                 subtitle = stringResource(R.string.randomize_filename_sub),
-                checked = settingsState.randomizeFilename
+                checked = settingsState.randomizeFilename,
+                startContent = {
+                    Icon(
+                        Icons.Rounded.Symbol,
+                        null,
+                        modifier = Modifier.padding(end = 16.dp)
+                    )
+                }
             )
         }
     }
