@@ -1,5 +1,6 @@
 package com.smarttoolfactory.beforeafter
 
+import android.graphics.Bitmap
 import androidx.annotation.FloatRange
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.gestures.detectTapGestures
@@ -23,6 +24,8 @@ import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.DefaultAlpha
 import androidx.compose.ui.graphics.FilterQuality
 import androidx.compose.ui.graphics.ImageBitmap
+import androidx.compose.ui.graphics.asAndroidBitmap
+import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.drawscope.translate
 import androidx.compose.ui.graphics.graphicsLayer
@@ -45,6 +48,7 @@ import com.smarttoolfactory.beforeafter.util.update
 import com.smarttoolfactory.gesture.detectMotionEvents
 import com.smarttoolfactory.gesture.detectTransformGestures
 import kotlinx.coroutines.launch
+import kotlin.math.max
 
 /**
  * A composable that lays out and draws a given [beforeImage] and [afterImage]
@@ -345,6 +349,8 @@ private fun ImageImpl(
 
     Box {
 
+        val afterImageImpl = afterImage.scaleTo(beforeImage)
+
         Canvas(modifier = modifier) {
 
             val canvasWidth = size.width
@@ -384,7 +390,7 @@ private fun ImageImpl(
                         filterQuality = filterQuality
                     )
                     drawImage(
-                        afterImage,
+                        afterImageImpl,
                         srcSize = IntSize(bitmapWidth, bitmapHeight),
                         srcOffset = IntOffset(srcOffsetX, 0),
                         dstSize = IntSize(width, height),
@@ -424,4 +430,25 @@ private fun ImageImpl(
             afterLabel()
         }
     }
+}
+
+@Composable
+private fun ImageBitmap.scaleTo(
+    beforeImage: ImageBitmap
+): ImageBitmap = remember(this, beforeImage) {
+    val widthInternal = beforeImage.width
+    val heightInternal = beforeImage.height
+
+    val max = max(widthInternal, heightInternal)
+    kotlin.runCatching {
+        if (this.height >= this.width) {
+            val aspectRatio = this.width.toDouble() / this.height.toDouble()
+            val targetWidth = (max * aspectRatio).toInt()
+            Bitmap.createScaledBitmap(this.asAndroidBitmap(), targetWidth, max, false)
+        } else {
+            val aspectRatio = this.height.toDouble() / this.width.toDouble()
+            val targetHeight = (max * aspectRatio).toInt()
+            Bitmap.createScaledBitmap(this.asAndroidBitmap(), max, targetHeight, false)
+        }
+    }.getOrNull()?.asImageBitmap() ?: this
 }
