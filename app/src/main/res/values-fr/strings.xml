@@ -359,5 +359,9 @@
     <string name="wait">Patientez</string>
     <string name="effort_sub">Une valeur de %d signifie une compression rapide, ce qui entraîne une taille de fichier relativement importante. %d signifie passer plus de temps à compresser, ce qui donne un fichier plus petit</string>
     <string name="saving_almost_complete">La sauvegarde est presque terminée. Si vous l\'annulez maintenant, vous devrez recommencer à sauvegarder.</string>
-    <string name="effort">Essai</string>
+    <string name="effort">Travail</string>
+    <string name="updates">Mises à jour</string>
+    <string name="allow_betas">Autoriser les versions bêta</string>
+    <string name="shadows_setting_sub">Permet de dessiner des ombres derrière les conteneurs et les boutons si les bordures sont désactivées</string>
+    <string name="allow_betas_sub">La vérification des mises à jour inclura les versions bêta de l\'application si elle est activée</string>
 </resources>
