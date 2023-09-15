@@ -123,8 +123,6 @@ import ru.tech.imageresizershrinker.presentation.root.icons.material.DownloadFil
 import ru.tech.imageresizershrinker.presentation.root.icons.material.FileSettings
 import ru.tech.imageresizershrinker.presentation.root.icons.material.Firebase
 import ru.tech.imageresizershrinker.presentation.root.icons.material.Lamp
-import ru.tech.imageresizershrinker.presentation.root.icons.material.LetterO
-import ru.tech.imageresizershrinker.presentation.root.icons.material.LetterS
 import ru.tech.imageresizershrinker.presentation.root.icons.material.Numeric
 import ru.tech.imageresizershrinker.presentation.root.icons.material.Prefix
 import ru.tech.imageresizershrinker.presentation.root.icons.material.Shadow
@@ -899,24 +897,15 @@ fun LazyListScope.settingsBlock(
                             .padding(start = 8.dp, end = 8.dp, bottom = 8.dp)
                     )
                     PreferenceRowSwitch(
-                        resultModifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
                         modifier = Modifier.padding(start = 8.dp, end = 8.dp, bottom = 8.dp),
                         applyHorPadding = false,
                         onClick = { viewModel.toggleAddFileSize() },
                         title = stringResource(R.string.add_file_size),
                         subtitle = stringResource(R.string.add_file_size_sub),
-                        checked = settingsState.addSizeInFilename,
-                        startContent = {
-                            Icon(
-                                Icons.Filled.LetterS,
-                                null,
-                                modifier = Modifier.padding(end = 16.dp)
-                            )
-                        }
+                        checked = settingsState.addSizeInFilename
                     )
                     val enabled = settingsState.imagePickerModeInt != 0
                     PreferenceRowSwitch(
-                        resultModifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
                         applyHorPadding = false,
                         modifier = Modifier
                             .alpha(
@@ -937,14 +926,7 @@ fun LazyListScope.settingsBlock(
                         },
                         title = stringResource(R.string.add_original_filename),
                         subtitle = stringResource(R.string.add_original_filename_sub),
-                        checked = settingsState.addOriginalFilename && enabled,
-                        startContent = {
-                            Icon(
-                                Icons.Filled.LetterO,
-                                null,
-                                modifier = Modifier.padding(end = 16.dp)
-                            )
-                        }
+                        checked = settingsState.addOriginalFilename && enabled
                     )
                     PreferenceRowSwitch(
                         resultModifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
@@ -1344,6 +1326,7 @@ fun LazyListScope.settingsBlock(
                 contentAlignment = Alignment.Center
             ) {
                 EnhancedButton(
+                    containerColor = MaterialTheme.colorScheme.tertiary,
                     onClick = {
                         viewModel.tryGetUpdate(
                             newRequest = true,
@@ -1393,8 +1376,8 @@ fun LazyListScope.settingsBlock(
                 PreferenceRow(
                     modifier = Modifier.padding(horizontal = 8.dp),
                     applyHorPadding = false,
-                    color = MaterialTheme.colorScheme.tertiaryContainer.copy(alpha = 0.7f),
-                    contentColor = MaterialTheme.colorScheme.onTertiaryContainer.copy(alpha = 0.9f),
+                    color = MaterialTheme.colorScheme.secondaryContainer,
+                    contentColor = MaterialTheme.colorScheme.onSecondaryContainer,
                     title = stringResource(R.string.app_developer),
                     subtitle = stringResource(R.string.app_developer_nick),
                     startContent = {
