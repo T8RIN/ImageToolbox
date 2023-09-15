@@ -33,8 +33,8 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.ArrowBack
 import androidx.compose.material.icons.outlined.Share
+import androidx.compose.material.icons.rounded.ArrowBack
 import androidx.compose.material.icons.rounded.FrontHand
 import androidx.compose.material.icons.rounded.PhotoSizeSelectSmall
 import androidx.compose.material.icons.rounded.ZoomIn

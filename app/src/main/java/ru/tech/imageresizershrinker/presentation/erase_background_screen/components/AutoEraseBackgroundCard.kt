@@ -29,14 +29,12 @@ import ru.tech.imageresizershrinker.presentation.root.theme.mixedContainer
 import ru.tech.imageresizershrinker.presentation.root.theme.onMixedContainer
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.container
 import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedButton
-import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalSettingsState
 
 @Composable
 fun AutoEraseBackgroundCard(
     onClick: () -> Unit,
     onReset: () -> Unit
 ) {
-    val settingsState = LocalSettingsState.current
     Column(
         Modifier
             .padding(start = 16.dp, end = 16.dp, top = 8.dp)
@@ -73,7 +71,7 @@ fun AutoEraseBackgroundCard(
             onClick = onReset,
             modifier = Modifier
                 .fillMaxWidth()
-                .offset(y = if(notFoss) 3.dp else 0.dp)
+                .offset(y = if (notFoss) 3.dp else 0.dp)
         ) {
             Icon(Icons.Rounded.SettingsBackupRestore, null)
             Spacer(Modifier.width(8.dp))

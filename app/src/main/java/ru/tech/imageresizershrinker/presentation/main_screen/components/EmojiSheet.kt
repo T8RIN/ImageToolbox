@@ -56,7 +56,6 @@ import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedIc
 import ru.tech.imageresizershrinker.presentation.root.widget.sheets.SimpleSheet
 import ru.tech.imageresizershrinker.presentation.root.widget.text.AutoSizeText
 import ru.tech.imageresizershrinker.presentation.root.widget.text.TitleItem
-import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalSettingsState
 import kotlin.random.Random
 
 @Composable

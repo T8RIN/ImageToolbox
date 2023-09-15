@@ -28,7 +28,6 @@ import ru.tech.imageresizershrinker.domain.model.ImageFormat
 import ru.tech.imageresizershrinker.domain.model.ImageInfo
 import ru.tech.imageresizershrinker.domain.model.Preset
 import ru.tech.imageresizershrinker.domain.model.ResizeType
-import ru.tech.imageresizershrinker.domain.repository.CipherRepository
 import ru.tech.imageresizershrinker.domain.saving.FileController
 import ru.tech.imageresizershrinker.domain.saving.model.ImageSaveTarget
 import ru.tech.imageresizershrinker.presentation.root.app.ImageApplication

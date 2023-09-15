@@ -4,8 +4,6 @@ import android.net.Uri
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.animateIntAsState
-import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -20,12 +18,9 @@ import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.itemsIndexed
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Slider
-import androidx.compose.material3.SliderDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.runtime.Composable
@@ -58,7 +53,6 @@ import ru.tech.imageresizershrinker.presentation.root.utils.helper.localImagePic
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.rememberImagePicker
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.container
 import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedSlider
-import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalSettingsState
 import kotlin.math.roundToInt
 
 @Composable
@@ -68,8 +62,6 @@ fun CropMaskSelection(
     loadImage: suspend (Uri) -> ImageBitmap?,
     onCropMaskChange: (CropOutlineProperty) -> Unit
 ) {
-    val settingsState = LocalSettingsState.current
-
     var cornerRadius by rememberSaveable { mutableIntStateOf(20) }
 
     val outlineProperties = outlineProperties()

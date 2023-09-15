@@ -41,7 +41,7 @@ fun Modifier.container(
     val color1 = if (color.isUnspecified) {
         colorScheme.surfaceColorAtElevation(1.dp)
     } else {
-        if(composeColorOnTopOfBackground) color.compositeOver(colorScheme.background)
+        if (composeColorOnTopOfBackground) color.compositeOver(colorScheme.background)
         else color
     }
 
@@ -89,6 +89,6 @@ fun Modifier.container(
             if (shape is CornerBasedShape) cornerModifier
             else genericModifier
         )
-        .then(if(clip) Modifier.clip(shape) else Modifier)
+        .then(if (clip) Modifier.clip(shape) else Modifier)
         .then(if (resultPadding > 0.dp) Modifier.padding(resultPadding) else Modifier)
 }

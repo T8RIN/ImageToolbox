@@ -10,7 +10,6 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import ru.tech.imageresizershrinker.data.image.AndroidImageManager
 import ru.tech.imageresizershrinker.domain.image.ImageManager
-import ru.tech.imageresizershrinker.domain.repository.CipherRepository
 import ru.tech.imageresizershrinker.domain.saving.FileController
 import javax.inject.Singleton
 
