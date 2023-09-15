@@ -1315,7 +1315,6 @@ fun LazyListScope.settingsBlock(
                 contentAlignment = Alignment.Center
             ) {
                 EnhancedButton(
-                    containerColor = MaterialTheme.colorScheme.primaryContainer,
                     onClick = {
                         viewModel.tryGetUpdate(
                             newRequest = true,
