@@ -34,7 +34,6 @@ import androidx.compose.material.icons.rounded.BugReport
 import androidx.compose.material.icons.rounded.ContentCopy
 import androidx.compose.material.icons.rounded.KeyboardArrowDown
 import androidx.compose.material.icons.rounded.RestartAlt
-import androidx.compose.material.icons.twotone.SentimentDissatisfied
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExtendedFloatingActionButton
@@ -72,6 +71,7 @@ import ru.tech.imageresizershrinker.core.ISSUE_TRACKER
 import ru.tech.imageresizershrinker.presentation.crash_screen.viewModel.CrashViewModel
 import ru.tech.imageresizershrinker.presentation.main_screen.MainActivity
 import ru.tech.imageresizershrinker.presentation.root.icons.material.Github
+import ru.tech.imageresizershrinker.presentation.root.icons.material.Robot
 import ru.tech.imageresizershrinker.presentation.root.icons.material.Telegram
 import ru.tech.imageresizershrinker.presentation.root.model.toUiState
 import ru.tech.imageresizershrinker.presentation.root.theme.Black
@@ -145,7 +145,7 @@ class CrashActivity : CrashHandler() {
                             ) {
                                 Spacer(modifier = Modifier.height(16.dp))
                                 Icon(
-                                    imageVector = Icons.TwoTone.SentimentDissatisfied,
+                                    imageVector = Icons.Rounded.Robot,
                                     contentDescription = null,
                                     modifier = Modifier
                                         .size(size * 0.3f)
