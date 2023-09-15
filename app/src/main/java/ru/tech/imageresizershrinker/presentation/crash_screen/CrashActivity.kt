@@ -11,7 +11,6 @@ import androidx.activity.viewModels
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.animateFloatAsState
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -36,11 +35,9 @@ import androidx.compose.material.icons.rounded.ContentCopy
 import androidx.compose.material.icons.rounded.KeyboardArrowDown
 import androidx.compose.material.icons.rounded.RestartAlt
 import androidx.compose.material.icons.twotone.SentimentDissatisfied
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExtendedFloatingActionButton
-import androidx.compose.material3.FilledTonalButton
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.FloatingActionButtonDefaults
 import androidx.compose.material3.Icon
@@ -85,6 +82,7 @@ import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
 import ru.tech.imageresizershrinker.presentation.root.utils.exception.CrashHandler
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.container
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.fabBorder
+import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedButton
 import ru.tech.imageresizershrinker.presentation.root.widget.other.ToastHost
 import ru.tech.imageresizershrinker.presentation.root.widget.other.rememberToastHostState
 import ru.tech.imageresizershrinker.presentation.root.widget.text.AutoSizeText
@@ -133,7 +131,6 @@ class CrashActivity : CrashHandler() {
             CompositionLocalProvider(
                 LocalSettingsState provides viewModel.settingsState.toUiState()
             ) {
-                val settingsState = LocalSettingsState.current
                 ImageToolboxTheme {
                     val conf = LocalConfiguration.current
                     val size = min(conf.screenWidthDp.dp, conf.screenHeightDp.dp)
@@ -164,7 +161,7 @@ class CrashActivity : CrashHandler() {
                                 )
                                 Spacer(modifier = Modifier.height(24.dp))
                                 Row(Modifier.padding(horizontal = 16.dp)) {
-                                    FilledTonalButton(
+                                    EnhancedButton(
                                         onClick = {
                                             startActivity(
                                                 Intent(
@@ -177,16 +174,11 @@ class CrashActivity : CrashHandler() {
                                         modifier = Modifier
                                             .weight(1f)
                                             .height(50.dp),
-                                        colors = ButtonDefaults.filledTonalButtonColors(
-                                            containerColor = Blue,
-                                            contentColor = White
-                                        ),
-                                        border = BorderStroke(
-                                            settingsState.borderWidth,
-                                            MaterialTheme.colorScheme.outlineVariant(
-                                                onTopOf = Blue
-                                            )
-                                        ),
+                                        containerColor = Blue,
+                                        contentColor = White,
+                                        borderColor = MaterialTheme.colorScheme.outlineVariant(
+                                            onTopOf = Blue
+                                        )
                                     ) {
                                         Row(
                                             verticalAlignment = Alignment.CenterVertically,
@@ -204,7 +196,7 @@ class CrashActivity : CrashHandler() {
                                         }
                                     }
                                     Spacer(Modifier.width(8.dp))
-                                    FilledTonalButton(
+                                    EnhancedButton(
                                         onClick = {
                                             startActivity(
                                                 Intent(
@@ -217,16 +209,11 @@ class CrashActivity : CrashHandler() {
                                         modifier = Modifier
                                             .weight(1f)
                                             .height(50.dp),
-                                        colors = ButtonDefaults.filledTonalButtonColors(
-                                            containerColor = Black,
-                                            contentColor = White
-                                        ),
-                                        border = BorderStroke(
-                                            settingsState.borderWidth,
-                                            MaterialTheme.colorScheme.outlineVariant(
-                                                onTopOf = Black
-                                            )
-                                        ),
+                                        containerColor = Black,
+                                        contentColor = White,
+                                        borderColor = MaterialTheme.colorScheme.outlineVariant(
+                                            onTopOf = Black
+                                        )
                                     ) {
                                         Row(
                                             verticalAlignment = Alignment.CenterVertically,

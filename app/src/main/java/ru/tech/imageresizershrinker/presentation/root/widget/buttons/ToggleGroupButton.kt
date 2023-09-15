@@ -1,6 +1,7 @@
 package ru.tech.imageresizershrinker.presentation.root.widget.buttons
 
 import android.annotation.SuppressLint
+import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.*
@@ -17,6 +18,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.max
 import androidx.compose.ui.unit.sp
+import ru.tech.imageresizershrinker.presentation.draw_screen.components.materialShadow
 import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
 import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalSettingsState
 
@@ -80,10 +82,14 @@ fun ToggleGroupButton(
                         .padding(start = 6.dp, end = 6.dp, bottom = 8.dp, top = 8.dp)
                 ) {
                     items.forEachIndexed { index, item ->
+                        val shape = SegmentedButtonDefaults.shape(
+                            position = index,
+                            count = items.size
+                        )
                         SegmentedButton(
                             enabled = enabled,
                             onClick = { indexChanged(index) },
-                            border = SegmentedButtonBorder(max(settingsState.borderWidth, 1.dp)),
+                            border = SegmentedButtonBorder(settingsState.borderWidth),
                             selected = index == selectedIndex,
                             colors = SegmentedButtonDefaults.colors(
                                 activeBorderColor = MaterialTheme.colorScheme.outlineVariant(),
@@ -97,7 +103,15 @@ fun ToggleGroupButton(
                                 },
                                 activeContentColor = MaterialTheme.colorScheme.onSecondary
                             ),
-                            shape = SegmentedButtonDefaults.shape(index, items.size)
+                            modifier = Modifier.materialShadow(
+                                shape = shape,
+                                elevation = animateDpAsState(
+                                    if (settingsState.borderWidth >= 0.dp || !settingsState.allowShowingShadowsInsteadOfBorders) 0.dp
+                                    else if (selectedIndex == index) 2.dp
+                                    else 1.dp
+                                ).value
+                            ),
+                            shape = shape
                         ) {
                             Text(text = item, fontSize = 13.sp)
                         }

@@ -13,7 +13,6 @@ import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.togetherWith
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -63,8 +62,6 @@ import androidx.compose.material.icons.rounded.TableRows
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Badge
 import androidx.compose.material3.BottomAppBar
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.DrawerDefaults
 import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -625,22 +622,14 @@ fun MainScreen(
                                 BottomAppBar(
                                     modifier = Modifier.drawHorizontalStroke(top = true),
                                     actions = {
-                                        Button(
-                                            colors = ButtonDefaults.outlinedButtonColors(
-                                                containerColor = MaterialTheme.colorScheme.secondaryContainer,
-                                                contentColor = MaterialTheme.colorScheme.onSecondaryContainer.copy(
-                                                    alpha = 0.5f
-                                                )
+                                        EnhancedButton(
+                                            containerColor = MaterialTheme.colorScheme.secondaryContainer,
+                                            contentColor = MaterialTheme.colorScheme.onSecondaryContainer.copy(
+                                                alpha = 0.5f
                                             ),
-                                            border = BorderStroke(
-                                                settingsState.borderWidth,
-                                                MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.secondaryContainer)
+                                            borderColor = MaterialTheme.colorScheme.outlineVariant(
+                                                onTopOf = MaterialTheme.colorScheme.secondaryContainer
                                             ),
-                                            elevation = if (settingsState.borderWidth > 0.dp) {
-                                                null
-                                            } else {
-                                                ButtonDefaults.elevatedButtonElevation()
-                                            },
                                             modifier = Modifier
                                                 .padding(horizontal = 16.dp)
                                                 .pulsate(enabled = viewModel.updateAvailable),

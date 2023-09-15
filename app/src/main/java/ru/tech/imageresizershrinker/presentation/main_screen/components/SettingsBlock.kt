@@ -1535,5 +1535,4 @@ fun LazyListScope.settingsBlock(
         }
         Spacer(modifier = Modifier.height(8.dp))
     }
-    item { Spacer(Modifier.height(8.dp)) }
 }

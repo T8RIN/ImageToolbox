@@ -1,9 +1,7 @@
 package ru.tech.imageresizershrinker.presentation.root.widget.controls
 
-import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.interaction.MutableInteractionSource
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.material.minimumInteractiveComponentSize
@@ -15,14 +13,11 @@ import androidx.compose.material3.LocalMinimumInteractiveComponentEnforcement
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedIconButton
-import androidx.compose.material3.Surface
 import androidx.compose.material3.contentColorFor
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.takeOrElse
@@ -49,37 +44,28 @@ fun EnhancedButton(
 ) {
     val settingsState = LocalSettingsState.current
 
-    val alpha by animateFloatAsState(if (enabled) 1f else 0.5f)
-    Box {
-        CompositionLocalProvider(LocalMinimumInteractiveComponentEnforcement provides false) {
-            OutlinedButton(
-                onClick = onClick,
-                modifier = modifier
-                    .alpha(alpha)
-                    .materialShadow(
-                        shape = shape,
-                        elevation = if (settingsState.borderWidth > 0.dp) 0.dp else 0.5.dp
-                    ),
-                shape = shape,
-                colors = ButtonDefaults.outlinedButtonColors(
-                    contentColor = contentColor,
-                    containerColor = containerColor
+    CompositionLocalProvider(LocalMinimumInteractiveComponentEnforcement provides false) {
+        OutlinedButton(
+            onClick = onClick,
+            modifier = modifier
+                .materialShadow(
+                    shape = shape,
+                    elevation = if (settingsState.borderWidth > 0.dp) 0.dp else 0.5.dp
                 ),
-                border = BorderStroke(
-                    width = settingsState.borderWidth,
-                    color = borderColor
-                ),
-                contentPadding = contentPadding,
-                interactionSource = interactionSource,
-                content = content
-            )
-        }
-        if (!enabled) {
-            Surface(
-                modifier = Modifier.matchParentSize(),
-                color = Color.Transparent
-            ) {}
-        }
+            shape = shape,
+            colors = ButtonDefaults.buttonColors(
+                contentColor = contentColor,
+                containerColor = containerColor
+            ),
+            enabled = enabled,
+            border = BorderStroke(
+                width = settingsState.borderWidth,
+                color = borderColor
+            ),
+            contentPadding = contentPadding,
+            interactionSource = interactionSource,
+            content = content
+        )
     }
 }
 
@@ -98,37 +84,28 @@ fun EnhancedIconButton(
 ) {
     val settingsState = LocalSettingsState.current
 
-    val alpha by animateFloatAsState(if (enabled) 1f else 0.5f)
-    Box {
-        CompositionLocalProvider(LocalMinimumInteractiveComponentEnforcement provides false) {
-            OutlinedIconButton(
-                onClick = onClick,
-                modifier = modifier
-                    .minimumInteractiveComponentSize()
-                    .alpha(alpha)
-                    .materialShadow(
-                        shape = shape,
-                        elevation = if (settingsState.borderWidth > 0.dp) 0.dp else 0.5.dp
-                    ),
-                shape = shape,
-                colors = IconButtonDefaults.outlinedIconButtonColors(
-                    contentColor = contentColor,
-                    containerColor = containerColor
+    CompositionLocalProvider(LocalMinimumInteractiveComponentEnforcement provides false) {
+        OutlinedIconButton(
+            onClick = onClick,
+            modifier = modifier
+                .minimumInteractiveComponentSize()
+                .materialShadow(
+                    shape = shape,
+                    elevation = if (settingsState.borderWidth > 0.dp) 0.dp else 0.5.dp
                 ),
-                border = BorderStroke(
-                    width = settingsState.borderWidth,
-                    color = borderColor
-                ),
-                interactionSource = interactionSource,
-                content = content
-            )
-        }
-        if (!enabled) {
-            Surface(
-                modifier = Modifier.matchParentSize(),
-                color = Color.Transparent
-            ) {}
-        }
+            shape = shape,
+            colors = IconButtonDefaults.iconButtonColors(
+                contentColor = contentColor,
+                containerColor = containerColor
+            ),
+            enabled = enabled,
+            border = BorderStroke(
+                width = settingsState.borderWidth,
+                color = borderColor
+            ),
+            interactionSource = interactionSource,
+            content = content
+        )
     }
 }
 

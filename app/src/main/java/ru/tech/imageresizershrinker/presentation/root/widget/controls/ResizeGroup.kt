@@ -41,7 +41,6 @@ import ru.tech.imageresizershrinker.presentation.root.widget.buttons.ToggleGroup
 import ru.tech.imageresizershrinker.presentation.root.widget.sheets.SimpleSheet
 import ru.tech.imageresizershrinker.presentation.root.widget.text.AutoSizeText
 import ru.tech.imageresizershrinker.presentation.root.widget.text.TitleItem
-import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalSettingsState
 
 
 @Composable
@@ -51,7 +50,6 @@ fun ResizeGroup(
     onResizeChange: (ResizeType) -> Unit
 ) {
     val state = rememberSaveable { mutableStateOf(false) }
-    val settingsState = LocalSettingsState.current
 
     ToggleGroupButton(
         modifier = Modifier

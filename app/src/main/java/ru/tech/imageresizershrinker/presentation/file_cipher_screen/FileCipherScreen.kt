@@ -53,7 +53,6 @@ import androidx.compose.material.icons.rounded.Save
 import androidx.compose.material.icons.rounded.Share
 import androidx.compose.material.icons.rounded.Shuffle
 import androidx.compose.material.icons.twotone.FileOpen
-import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -98,6 +97,7 @@ import androidx.compose.ui.unit.sp
 import dev.olshevski.navigation.reimagined.hilt.hiltViewModel
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.R
+import ru.tech.imageresizershrinker.presentation.draw_screen.components.materialShadow
 import ru.tech.imageresizershrinker.presentation.file_cipher_screen.components.CipherTipSheet
 import ru.tech.imageresizershrinker.presentation.file_cipher_screen.viewModel.FileCipherViewModel
 import ru.tech.imageresizershrinker.presentation.root.icons.material.ShieldKey
@@ -113,6 +113,7 @@ import ru.tech.imageresizershrinker.presentation.root.utils.helper.showReview
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.container
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.drawHorizontalStroke
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.fabBorder
+import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedButton
 import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedIconButton
 import ru.tech.imageresizershrinker.presentation.root.widget.dialogs.ExitWithoutSavingDialog
 import ru.tech.imageresizershrinker.presentation.root.widget.other.LoadingDialog
@@ -328,25 +329,31 @@ fun FileCipherScreen(
                                                     .padding(end = 8.dp, start = 2.dp)
                                             ) {
                                                 items.forEachIndexed { index, item ->
+                                                    val shape = SegmentedButtonDefaults.shape(
+                                                        position = index,
+                                                        count = items.size
+                                                    )
+                                                    val selected =
+                                                        index == if (viewModel.isEncrypt) 0 else 1
                                                     SegmentedButton(
                                                         onClick = { viewModel.setIsEncrypt(index == 0) },
-                                                        border = SegmentedButtonBorder(
-                                                            max(
-                                                                settingsState.borderWidth,
-                                                                1.dp
-                                                            )
-                                                        ),
-                                                        selected = index == if (viewModel.isEncrypt) 0 else 1,
+                                                        border = SegmentedButtonBorder(settingsState.borderWidth),
+                                                        selected = selected,
                                                         colors = SegmentedButtonDefaults.colors(
                                                             activeBorderColor = MaterialTheme.colorScheme.outlineVariant(),
                                                             inactiveContainerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(
                                                                 6.dp
                                                             )
                                                         ),
-                                                        shape = SegmentedButtonDefaults.shape(
-                                                            index,
-                                                            items.size
-                                                        )
+                                                        modifier = Modifier.materialShadow(
+                                                            shape = shape,
+                                                            elevation = animateDpAsState(
+                                                                if (settingsState.borderWidth >= 0.dp || !settingsState.allowShowingShadowsInsteadOfBorders) 0.dp
+                                                                else if (selected) 2.dp
+                                                                else 1.dp
+                                                            ).value
+                                                        ),
+                                                        shape = shape
                                                     ) {
                                                         Text(text = item, fontSize = 12.sp)
                                                     }
@@ -394,13 +401,12 @@ fun FileCipherScreen(
                                                 }
                                             )
 
-                                            FilledTonalButton(
+                                            EnhancedButton(
                                                 onClick = { filePicker.launch("*/*") },
                                                 modifier = Modifier.padding(top = 16.dp),
-                                                colors = ButtonDefaults.filledTonalButtonColors(),
-                                                border = BorderStroke(
-                                                    settingsState.borderWidth,
-                                                    MaterialTheme.colorScheme.outlineVariant(onTopOf = MaterialTheme.colorScheme.secondaryContainer)
+                                                containerColor = MaterialTheme.colorScheme.secondaryContainer,
+                                                borderColor = MaterialTheme.colorScheme.outlineVariant(
+                                                    onTopOf = MaterialTheme.colorScheme.secondaryContainer
                                                 ),
                                             ) {
                                                 Row(
@@ -461,7 +467,7 @@ fun FileCipherScreen(
                                             )
                                         }
 
-                                        Button(
+                                        EnhancedButton(
                                             enabled = key.isNotEmpty(),
                                             onClick = {
                                                 viewModel.startCryptography(
@@ -491,11 +497,9 @@ fun FileCipherScreen(
                                                 .padding(top = 16.dp)
                                                 .fillMaxWidth()
                                                 .height(56.dp),
-                                            colors = ButtonDefaults.buttonColors(),
-                                            border = BorderStroke(
-                                                settingsState.borderWidth,
-                                                MaterialTheme.colorScheme.outlineVariant(onTopOf = if (key.isNotEmpty()) MaterialTheme.colorScheme.primary else Color.Black)
-                                            ),
+                                            borderColor = MaterialTheme.colorScheme.outlineVariant(
+                                                onTopOf = if (key.isNotEmpty()) MaterialTheme.colorScheme.primary else Color.Black
+                                            )
                                         ) {
                                             AnimatedContent(
                                                 targetState = viewModel.uri to viewModel.isEncrypt,
