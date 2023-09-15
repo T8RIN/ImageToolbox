@@ -123,6 +123,10 @@ import ru.tech.imageresizershrinker.presentation.root.icons.material.DownloadFil
 import ru.tech.imageresizershrinker.presentation.root.icons.material.FileSettings
 import ru.tech.imageresizershrinker.presentation.root.icons.material.Firebase
 import ru.tech.imageresizershrinker.presentation.root.icons.material.Lamp
+import ru.tech.imageresizershrinker.presentation.root.icons.material.LetterO
+import ru.tech.imageresizershrinker.presentation.root.icons.material.LetterS
+import ru.tech.imageresizershrinker.presentation.root.icons.material.Numeric
+import ru.tech.imageresizershrinker.presentation.root.icons.material.Prefix
 import ru.tech.imageresizershrinker.presentation.root.icons.material.Shadow
 import ru.tech.imageresizershrinker.presentation.root.icons.material.Symbol
 import ru.tech.imageresizershrinker.presentation.root.icons.material.Telegram
@@ -889,20 +893,30 @@ fun LazyListScope.settingsBlock(
                             .secondaryContainer
                             .copy(alpha = 0.2f),
                         endIcon = Icons.Rounded.CreateAlt,
+                        icon = Icons.Filled.Prefix,
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(start = 8.dp, end = 8.dp, bottom = 8.dp)
                     )
                     PreferenceRowSwitch(
+                        resultModifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
                         modifier = Modifier.padding(start = 8.dp, end = 8.dp, bottom = 8.dp),
                         applyHorPadding = false,
                         onClick = { viewModel.toggleAddFileSize() },
                         title = stringResource(R.string.add_file_size),
                         subtitle = stringResource(R.string.add_file_size_sub),
-                        checked = settingsState.addSizeInFilename
+                        checked = settingsState.addSizeInFilename,
+                        startContent = {
+                            Icon(
+                                Icons.Filled.LetterS,
+                                null,
+                                modifier = Modifier.padding(end = 16.dp)
+                            )
+                        }
                     )
                     val enabled = settingsState.imagePickerModeInt != 0
                     PreferenceRowSwitch(
+                        resultModifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
                         applyHorPadding = false,
                         modifier = Modifier
                             .alpha(
@@ -923,15 +937,30 @@ fun LazyListScope.settingsBlock(
                         },
                         title = stringResource(R.string.add_original_filename),
                         subtitle = stringResource(R.string.add_original_filename_sub),
-                        checked = settingsState.addOriginalFilename && enabled
+                        checked = settingsState.addOriginalFilename && enabled,
+                        startContent = {
+                            Icon(
+                                Icons.Filled.LetterO,
+                                null,
+                                modifier = Modifier.padding(end = 16.dp)
+                            )
+                        }
                     )
                     PreferenceRowSwitch(
+                        resultModifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
                         modifier = Modifier.padding(start = 8.dp, end = 8.dp, bottom = 8.dp),
                         applyHorPadding = false,
                         onClick = { viewModel.toggleAddSequenceNumber() },
                         title = stringResource(R.string.replace_sequence_number),
                         subtitle = stringResource(R.string.replace_sequence_number_sub),
-                        checked = settingsState.addSequenceNumber
+                        checked = settingsState.addSequenceNumber,
+                        startContent = {
+                            Icon(
+                                Icons.Filled.Numeric,
+                                null,
+                                modifier = Modifier.padding(end = 16.dp)
+                            )
+                        }
                     )
                 }
                 if (settingsState.randomizeFilename) {
