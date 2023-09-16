@@ -356,4 +356,12 @@
     <string name="analytics_sub">Erlaube anonymisierte App-Nutzungsstatitiken zu erfassen</string>
     <string name="jxl_sub">Das JXL-Format wird von Android nicht offiziell unterstützt, so dass mõglicherweise etwas nicht funktioniert. Auch das Speichern wird nur funktionieren, wenn du ein benutzerdefiniertes Ausgabeverzeichnis wählst. Dies ist eine experimentelle Version, Bugs hier werden nicht behoben werden, solange Google keine JXL-Unterstützung nachrüstet. Diese Version kann auch solche Bilder anzeigen.</string>
     <string name="image_exif_warning">Derzeit erlaubt das %1$s-Format auf Android nur das Lesen von Exif-Daten und nicht das Ändern/Speichern, d.h. das ausgegebene Bild wird keine Metadaten haben</string>
+    <string name="updates">Aktualisierungen</string>
+    <string name="wait">Warten</string>
+    <string name="effort_sub">Ein Wert von %d bedeutet, dass die Komprimierung schnell erfolgt, was zu einer relativ großen Datei führt. %d bedeutet, dass die Komprimierung mehr Zeit in Anspruch nimmt, was zu einer kleineren Datei führt</string>
+    <string name="allow_betas">Betas zulassen</string>
+    <string name="saving_almost_complete">Der Speichervorgang ist fast abgeschlossen. Wenn Sie ihn jetzt abbrechen, müssen Sie erneut mit dem Speichern beginnen.</string>
+    <string name="effort">Aufwand</string>
+    <string name="shadows_setting_sub">Ermöglicht das Zeichnen von Schatten hinter Containern und Schaltflächen, wenn Rahmen deaktiviert sind</string>
+    <string name="allow_betas_sub">Die Aktualisierungsprüfung schließt Beta-App-Versionen ein, wenn sie aktiviert ist</string>
 </resources>
