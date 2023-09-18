@@ -65,7 +65,7 @@ android {
     productFlavors {
         create("foss") {
             dimension = "app"
-            versionNameSuffix = "_foss"
+            versionNameSuffix = "-foss"
             extra.set("gmsEnabled", false)
         }
         create("market") {
@@ -74,7 +74,7 @@ android {
         }
         create("jxl") {
             dimension = "app"
-            versionNameSuffix = "_jxl"
+            versionNameSuffix = "-jxl"
             extra.set("gmsEnabled", true)
         }
     }
