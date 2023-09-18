@@ -31,7 +31,7 @@ android {
 }
 
 dependencies {
-    api("com.github.awxkee:jxl-coder:1.4.0")
+    api("com.github.awxkee:jxl-coder:1.5.0")
     api("io.coil-kt:coil:2.4.0")
     implementation("io.coil-kt:coil-gif:2.4.0")
     implementation("io.coil-kt:coil-svg:2.4.0")
