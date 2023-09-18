@@ -16,7 +16,7 @@
     <string name="color_copied">Колір скопійовано</string>
     <string name="crop_sub">Обрізати зображення до будь-яких меж</string>
     <string name="keep_exif">Зберегти EXIF</string>
-    <string name="remove">Видалити</string>
+    <string name="remove">Вилучити</string>
     <string name="palette_sub">Створити зразок палітри кольорів із заданого зображення</string>
     <string name="generate_palette">Створити палітру</string>
     <string name="new_version">Нова версія %1$s</string>
@@ -355,4 +355,13 @@
     <string name="restore_background">Відновити фон</string>
     <string name="resize_and_convert_sub">Змініть розмір заданих зображень або конвертуйте їх в інші формати, також там ви можете редагувати метадані EXIF, якщо ви вибрали одне зображення</string>
     <string name="erase_mode">Режим стирання</string>
+    <string name="updates">Оновлення</string>
+    <string name="wait">Зачекайте</string>
+    <string name="effort_sub">Значення %d означає швидке стиснення, що призводить до відносно великого розміру файлу. %d означає витрачати більше часу на стиснення, в результаті чого менший файл</string>
+    <string name="allow_betas">Дозволити бета-версії</string>
+    <string name="alphabet_and_numbers">А а, Б б, В в, Г г, Ґ ґ, Д д, Е е, Є є, Ж ж, З з, И и, І і, Ї ї, Й й, К к, Л л, М м, Н н, О о, П п, Р р, С с, Т т, У у, Ф ф, Х х, Ц ц, Ч ч, Ш ш, Щ щ, Ь ь, Ю ю, Я я 0123456789 !\?</string>
+    <string name="saving_almost_complete">Збереження майже завершено, якщо ви скасуєте, що тепер вам потрібно буде почати збереження знову</string>
+    <string name="effort">Зусилля</string>
+    <string name="shadows_setting_sub">Вмикає малювання тіней за контейнерами та кнопками, якщо вимкнені межі</string>
+    <string name="allow_betas_sub">Перевірка оновлень включатиме бета-версії застосунків, якщо ввімкнено</string>
 </resources>
