@@ -303,7 +303,11 @@ fun CompareScreen(
                                 modifier = Modifier
                                     .weight(1f)
                                     .fillMaxWidth()
-                                    .animatedZoom(animatedZoomState = rememberAnimatedZoomState())
+                                    .animatedZoom(
+                                        animatedZoomState = rememberAnimatedZoomState(
+                                            maxZoom = 30f
+                                        )
+                                    )
                             ) {
                                 AnimatedContent(targetState = bitmapPair) { data ->
                                     data.let { (b, a) ->
@@ -362,7 +366,11 @@ fun CompareScreen(
                             Box(
                                 Modifier
                                     .weight(0.8f)
-                                    .animatedZoom(animatedZoomState = rememberAnimatedZoomState())
+                                    .animatedZoom(
+                                        animatedZoomState = rememberAnimatedZoomState(
+                                            maxZoom = 30f
+                                        )
+                                    )
                                     .padding(20.dp)
                             ) {
                                 Box(

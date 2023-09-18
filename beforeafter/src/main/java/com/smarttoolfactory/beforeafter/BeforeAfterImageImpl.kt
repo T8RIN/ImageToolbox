@@ -177,7 +177,7 @@ internal fun BeforeAfterImageImpl(
 
         var isHandleTouched by remember { mutableStateOf(false) }
 
-        val zoomState = rememberZoomState(limitPan = true)
+        val zoomState = rememberZoomState(limitPan = true, maxZoom = 30f)
         val coroutineScope = rememberCoroutineScope()
 
         val transformModifier = Modifier.pointerInput(Unit) {
