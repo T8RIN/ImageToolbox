@@ -173,7 +173,7 @@ dependencies {
     implementation(project(":modalsheet"))
     implementation(project(":gpuimage"))
     implementation(project(":gesture"))
-    implementation("com.github.awxkee:avif-coder:1.1.7")
+    implementation("com.github.awxkee:avif-coder:1.4.2")
     implementation(project(":screenshot"))
     implementation(project(":systemuicontroller"))
     implementation(project(":placeholder"))
