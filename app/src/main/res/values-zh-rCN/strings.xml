@@ -350,4 +350,18 @@
     <string name="resize_and_convert">调整大小和转换</string>
     <string name="resize_and_convert_sub">更改给定图像的大小或将其转换为其他格式，如果选择单个图像，还可以编辑 EXIF 元数据</string>
     <string name="alphabet_and_numbers">你好，世界！Aa Bb Cc Dd Ee Ff Gg Hh Ii Jj Kk Ll Mm Nn Oo Pp Qq Rr Ss Tt Uu Vv Ww Xx Yy Zz 0123456789 !\?</string>
+    <string name="updates">更新</string>
+    <string name="max_colors_count">最大颜色数</string>
+    <string name="wait">等待</string>
+    <string name="image_exif_warning">目前 Android 上的 %1$s 格式只允许读取 exif 而不允许更改/保存它，这意味着输出图像根本没有元数据</string>
+    <string name="effort_sub">值 %d 表示快速压缩，导致文件大小相对较大。%d 表示花更多的时间进行压缩，从而产生更小的文件</string>
+    <string name="analytics_sub">允许收集匿名应用使用统计数据</string>
+    <string name="allow_betas">允许 beta</string>
+    <string name="jxl_sub">JXL 格式不被 Android 正式支持，所以有些东西可能无法工作，也只有当你选择自定义输出目录时保存才会生效，这是一个实验版本，这里的错误不会被修复，除非谷歌将添加 JXL 支持，这个版本也可以查看这样的图像</string>
+    <string name="crashlytics_sub">这允许应用程序手动收集崩溃报告</string>
+    <string name="saving_almost_complete">保存几乎完成了，如果你现在取消，你将需要重新开始保存</string>
+    <string name="analytics">分析</string>
+    <string name="effort">成就</string>
+    <string name="shadows_setting_sub">如果边框被禁用，则启用在容器和按钮后面绘制阴影</string>
+    <string name="allow_betas_sub">如果启用，更新检查将包括 beta 应用程序版本</string>
 </resources>
