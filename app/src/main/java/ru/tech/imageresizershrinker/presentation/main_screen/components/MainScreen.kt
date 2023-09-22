@@ -707,6 +707,16 @@ fun MainScreen(
         }
     }
     if (isSheetSlideable) {
+//        EmojiSheetContent(
+//            emojiEnabled = true,
+//            onEmojiPicked = {},
+//            allEmojis = Emoji.allIcons(),
+//            emojiWithCategories = Emoji.allIconsCategorized(),
+//            lazyGridState = rememberLazyGridState(),
+//            onDismiss = {},
+//            selectedEmojiIndex = 3
+//        )
+
         CompositionLocalProvider(
             LocalLayoutDirection provides if (layoutDirection == LayoutDirection.Ltr) LayoutDirection.Rtl
             else LayoutDirection.Ltr
@@ -853,8 +863,8 @@ fun MainScreen(
 
     EmojiSheet(
         selectedEmojiIndex = viewModel.settingsState.selectedEmoji ?: 0,
-        emojiWithCategories = Emoji.allIconsCategorized,
-        allEmojis = Emoji.allIcons,
+        emojiWithCategories = Emoji.allIconsCategorized(),
+        allEmojis = Emoji.allIcons(),
         onEmojiPicked = viewModel::updateEmoji,
         visible = showEmojiDialog
     )

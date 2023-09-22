@@ -109,7 +109,6 @@ android {
                 "META-INF/*.kotlin_module",
                 "kotlin/*.kotlin_builtins",
                 "kotlin/**/*.kotlin_builtins",
-                "META-INF/*",
                 "CERT.SF",
                 "publicsuffixes.gz"
             )
@@ -207,6 +206,8 @@ dependencies {
     "marketImplementation"("com.google.android.play:app-update-ktx:2.1.0")
 
     implementation("com.github.GIGAMOLE:ComposeShadowsPlus:1.0.2")
+
+    implementation("org.jetbrains.kotlinx:kotlinx-collections-immutable:0.3.5")
 }
 
 

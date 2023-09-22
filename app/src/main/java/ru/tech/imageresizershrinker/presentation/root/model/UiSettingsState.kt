@@ -62,7 +62,7 @@ fun SettingsState.toUiState() = UiSettingsState(
     presets = presets.mapNotNull { it.value() },
     fabAlignment = fabAlignment.toAlignment(),
     showDialogOnStartup = showDialogOnStartup,
-    selectedEmoji = selectedEmoji?.takeIf { it != -1 }?.let { Emoji.allIcons[it] },
+    selectedEmoji = selectedEmoji?.takeIf { it != -1 }?.let { Emoji.allIcons()[it] },
     imagePickerModeInt = imagePickerModeInt,
     clearCacheOnLaunch = clearCacheOnLaunch,
     groupOptionsByTypes = groupOptionsByTypes,

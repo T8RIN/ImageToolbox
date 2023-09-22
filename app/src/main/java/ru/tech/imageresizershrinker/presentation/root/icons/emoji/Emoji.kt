@@ -13,10 +13,13 @@ import androidx.compose.material.icons.outlined.EmojiObjects
 import androidx.compose.material.icons.outlined.EmojiSymbols
 import androidx.compose.material.icons.outlined.EmojiTransportation
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.stringResource
 import androidx.core.net.toUri
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.persistentListOf
+import kotlinx.collections.immutable.toPersistentList
 import ru.tech.imageresizershrinker.R
 import java.io.File
 
@@ -47,13 +50,15 @@ private fun Context.getFileFromAssets(cat: String, filename: String): Uri =
             }
         }.toUri()
 
-val Emoji.allIcons: List<Uri>
-    @Synchronized
-    @Composable
-    get() {
-        initializeEmojis(LocalContext.current)
-        return remember { (Emotions!! + Food!! + Nature!! + Objects!! + Events!! + Transportation!! + Symbols!!) }
-    }
+@Composable
+fun Emoji.allIcons(
+    context: Context = LocalContext.current
+): ImmutableList<Uri> = remember {
+    derivedStateOf {
+        initializeEmojis(context)
+        (Emotions!! + Food!! + Nature!! + Objects!! + Events!! + Transportation!! + Symbols!!).toPersistentList()
+    }.value
+}
 
 private fun initializeEmojis(context: Context) {
     if (
@@ -98,46 +103,48 @@ private fun initializeEmojis(context: Context) {
     }
 }
 
-val Emoji.allIconsCategorized: List<EmojiData>
-    @Synchronized
-    @Composable
-    get() {
-        initializeEmojis(LocalContext.current)
-        return listOf(
+@Composable
+fun Emoji.allIconsCategorized(
+    context: Context = LocalContext.current
+): ImmutableList<EmojiData> = remember {
+    derivedStateOf {
+        initializeEmojis(context)
+        persistentListOf(
             EmojiData(
-                title = stringResource(R.string.emotions),
+                title = context.getString(R.string.emotions),
                 icon = Icons.Outlined.EmojiEmotions,
                 emojis = Emotions!!
             ),
             EmojiData(
-                title = stringResource(R.string.food_and_drink),
+                title = context.getString(R.string.food_and_drink),
                 icon = Icons.Outlined.EmojiFoodBeverage,
                 emojis = Food!!
             ),
             EmojiData(
-                title = stringResource(R.string.nature_and_animals),
+                title = context.getString(R.string.nature_and_animals),
                 icon = Icons.Outlined.EmojiNature,
                 emojis = Nature!!
             ),
             EmojiData(
-                title = stringResource(R.string.objects),
+                title = context.getString(R.string.objects),
                 icon = Icons.Outlined.EmojiObjects,
                 emojis = Objects!!
             ),
             EmojiData(
-                title = stringResource(R.string.activities),
+                title = context.getString(R.string.activities),
                 icon = Icons.Outlined.EmojiEvents,
                 emojis = Events!!
             ),
             EmojiData(
-                stringResource(R.string.travels_and_places),
+                context.getString(R.string.travels_and_places),
                 Icons.Outlined.EmojiTransportation,
                 Transportation!!
             ),
             EmojiData(
-                title = stringResource(R.string.symbols),
+                title = context.getString(R.string.symbols),
                 icon = Icons.Outlined.EmojiSymbols,
                 emojis = Symbols!!
             )
         )
-    }
+    }.value
+}
