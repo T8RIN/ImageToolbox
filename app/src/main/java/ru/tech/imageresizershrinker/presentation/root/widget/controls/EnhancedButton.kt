@@ -91,7 +91,7 @@ fun EnhancedIconButton(
                 .minimumInteractiveComponentSize()
                 .materialShadow(
                     shape = shape,
-                    elevation = if (settingsState.borderWidth > 0.dp) 0.dp else 0.5.dp
+                    elevation = if (settingsState.borderWidth > 0.dp) 0.dp else 0.7.dp
                 ),
             shape = shape,
             colors = IconButtonDefaults.iconButtonColors(

@@ -92,7 +92,8 @@ fun PickFontScaleSheet(
                                         MaterialTheme.colorScheme.onPrimaryContainer.copy(0.7f)
                                     } else {
                                         MaterialTheme.colorScheme.onSecondaryContainer.copy(0.1f)
-                                    }
+                                    },
+                                    resultPadding = 0.dp
                                 )
                                 .clickable {
                                     onFontScaleChange(0f)
@@ -120,7 +121,8 @@ fun PickFontScaleSheet(
                                             MaterialTheme.colorScheme.onPrimaryContainer.copy(0.7f)
                                         } else {
                                             MaterialTheme.colorScheme.onSecondaryContainer.copy(0.1f)
-                                        }
+                                        },
+                                        resultPadding = 0.dp
                                     )
                                     .clickable {
                                         onFontScaleChange(scale)

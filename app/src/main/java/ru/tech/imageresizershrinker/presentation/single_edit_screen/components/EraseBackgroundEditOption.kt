@@ -261,7 +261,7 @@ fun EraseBackgroundEditOption(
                     actions = {
                         AnimatedVisibility(visible = erasedBitmap != bitmap) {
                             EnhancedIconButton(
-                                containerColor = MaterialTheme.colorScheme.secondaryContainer,
+                                containerColor = MaterialTheme.colorScheme.tertiaryContainer,
                                 onClick = {
                                     scope.launch {
                                         onGetBitmap(

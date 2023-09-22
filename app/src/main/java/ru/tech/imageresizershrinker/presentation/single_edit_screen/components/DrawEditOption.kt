@@ -24,7 +24,6 @@ import androidx.compose.material.icons.rounded.ZoomIn
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedIconButton
 import androidx.compose.material3.Switch
@@ -250,8 +249,8 @@ fun DrawEditOption(
                     modifier = Modifier.drawHorizontalStroke(),
                     actions = {
                         AnimatedVisibility(visible = stateBitmap != bitmap) {
-                            OutlinedIconButton(
-                                colors = IconButtonDefaults.filledTonalIconButtonColors(),
+                            EnhancedIconButton(
+                                containerColor = MaterialTheme.colorScheme.tertiaryContainer,
                                 onClick = {
                                     onGetBitmap(stateBitmap)
                                     onDismiss()

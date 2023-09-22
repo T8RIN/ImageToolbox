@@ -1,6 +1,5 @@
 package ru.tech.imageresizershrinker.presentation.single_edit_screen.components
 
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -24,13 +23,11 @@ import androidx.compose.material.icons.rounded.Delete
 import androidx.compose.material.icons.rounded.Fingerprint
 import androidx.compose.material.icons.rounded.RemoveCircleOutline
 import androidx.compose.material3.AlertDialog
-import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedCard
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.surfaceColorAtElevation
@@ -54,16 +51,15 @@ import androidx.compose.ui.unit.sp
 import androidx.exifinterface.media.ExifInterface
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.domain.image.Metadata
-import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.ImageUtils.toMap
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.alertDialogBorder
+import ru.tech.imageresizershrinker.presentation.root.utils.modifier.container
 import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedButton
 import ru.tech.imageresizershrinker.presentation.root.widget.preferences.PreferenceItemOverload
 import ru.tech.imageresizershrinker.presentation.root.widget.sheets.SimpleSheet
 import ru.tech.imageresizershrinker.presentation.root.widget.text.AutoSizeText
 import ru.tech.imageresizershrinker.presentation.root.widget.text.RoundedTextField
 import ru.tech.imageresizershrinker.presentation.root.widget.text.TitleItem
-import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalSettingsState
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
@@ -74,7 +70,6 @@ fun EditExifSheet(
     onUpdateTag: (String, String) -> Unit,
     onRemoveTag: (String) -> Unit
 ) {
-    val settingsState = LocalSettingsState.current
     var showClearExifDialog by rememberSaveable { mutableStateOf(false) }
     val showAddExifDialog = rememberSaveable { mutableStateOf(false) }
 
@@ -137,66 +132,61 @@ fun EditExifSheet(
                 }
                 Box {
                     LazyColumn(
-                        contentPadding = PaddingValues(8.dp)
+                        contentPadding = PaddingValues(8.dp),
+                        verticalArrangement = Arrangement.spacedBy(8.dp)
                     ) {
                         items(exifMap!!.toList()) { (tag, value) ->
-                            OutlinedCard(
-                                border = BorderStroke(
-                                    settingsState.borderWidth,
-                                    MaterialTheme.colorScheme.outlineVariant()
-                                ),
-                                modifier = Modifier
-                                    .padding(vertical = 4.dp),
-                                colors = CardDefaults.cardColors(
-                                    containerColor = MaterialTheme.colorScheme.secondaryContainer.copy(
-                                        alpha = 0.1f
-                                    )
-                                )
-                            ) {
-                                Column(Modifier.fillMaxWidth()) {
-                                    Row {
-                                        Text(
-                                            text = tag,
-                                            fontSize = 16.sp,
-                                            modifier = Modifier
-                                                .padding(12.dp)
-                                                .weight(1f),
-                                            textAlign = TextAlign.Start
+                            Column(
+                                Modifier
+                                    .fillMaxWidth()
+                                    .container(
+                                        color = MaterialTheme.colorScheme.secondaryContainer.copy(
+                                            alpha = 0.1f
                                         )
-                                        IconButton(
-                                            onClick = {
-                                                onRemoveTag(tag)
-                                                exifMap = exifMap?.toMutableMap()
-                                                    ?.apply { remove(tag) }
-                                            }
-                                        ) {
-                                            Icon(
-                                                Icons.Rounded.RemoveCircleOutline,
-                                                null
-                                            )
-                                        }
-                                    }
-                                    OutlinedTextField(
-                                        onValueChange = {
-                                            onUpdateTag(tag, it)
-                                            exifMap = exifMap?.toMutableMap()
-                                                ?.apply {
-                                                    this[tag] = it
-                                                }
-                                        },
-                                        value = value,
-                                        textStyle = LocalTextStyle.current.copy(
-                                            fontSize = 16.sp,
-                                            fontWeight = FontWeight.Bold
-                                        ),
-                                        keyboardOptions = KeyboardOptions.Default.copy(
-                                            imeAction = ImeAction.Next
-                                        ),
-                                        modifier = Modifier
-                                            .fillMaxWidth()
-                                            .padding(8.dp)
                                     )
+                            ) {
+                                Row {
+                                    Text(
+                                        text = tag,
+                                        fontSize = 16.sp,
+                                        modifier = Modifier
+                                            .padding(12.dp)
+                                            .weight(1f),
+                                        textAlign = TextAlign.Start
+                                    )
+                                    IconButton(
+                                        onClick = {
+                                            onRemoveTag(tag)
+                                            exifMap = exifMap?.toMutableMap()
+                                                ?.apply { remove(tag) }
+                                        }
+                                    ) {
+                                        Icon(
+                                            Icons.Rounded.RemoveCircleOutline,
+                                            null
+                                        )
+                                    }
                                 }
+                                OutlinedTextField(
+                                    onValueChange = {
+                                        onUpdateTag(tag, it)
+                                        exifMap = exifMap?.toMutableMap()
+                                            ?.apply {
+                                                this[tag] = it
+                                            }
+                                    },
+                                    value = value,
+                                    textStyle = LocalTextStyle.current.copy(
+                                        fontSize = 16.sp,
+                                        fontWeight = FontWeight.Bold
+                                    ),
+                                    keyboardOptions = KeyboardOptions.Default.copy(
+                                        imeAction = ImeAction.Next
+                                    ),
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .padding(8.dp)
+                                )
                             }
                         }
                     }

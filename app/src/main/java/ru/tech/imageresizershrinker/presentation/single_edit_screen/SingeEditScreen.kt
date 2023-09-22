@@ -601,7 +601,10 @@ fun SingleEditScreen(
 
     DrawEditOption(
         visible = showDrawing,
-        onDismiss = { showDrawing = false },
+        onDismiss = {
+            showDrawing = false
+            viewModel.clearDrawing()
+        },
         useScaffold = imageInside,
         bitmap = viewModel.previewBitmap,
         onGetBitmap = {
@@ -621,7 +624,10 @@ fun SingleEditScreen(
 
     EraseBackgroundEditOption(
         visible = showEraseBackground,
-        onDismiss = { showEraseBackground = false },
+        onDismiss = {
+            showEraseBackground = false
+            viewModel.clearErasing()
+        },
         useScaffold = imageInside,
         bitmap = viewModel.previewBitmap,
         orientation = remember(viewModel.previewBitmap) {

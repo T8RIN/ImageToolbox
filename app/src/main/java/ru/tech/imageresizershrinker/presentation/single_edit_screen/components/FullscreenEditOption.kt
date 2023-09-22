@@ -57,6 +57,7 @@ fun FullscreenEditOption(
     canGoBack: Boolean,
     onDismiss: () -> Unit,
     useScaffold: Boolean,
+    modifier: Modifier = Modifier,
     sheetSize: Float = 0.6f,
     showControls: Boolean = true,
     controls: @Composable (BottomSheetScaffoldState?) -> Unit,
@@ -92,7 +93,13 @@ fun FullscreenEditOption(
                         sheetDragHandle = null,
                         sheetShape = RectangleShape,
                         sheetContent = {
-                            Column(if (showControls) Modifier.fillMaxHeight(sheetSize) else Modifier) {
+                            Column(
+                                modifier.then(
+                                    if (showControls && sheetSize > 0f) Modifier.fillMaxHeight(
+                                        sheetSize
+                                    ) else Modifier
+                                )
+                            ) {
                                 BottomAppBar(
                                     modifier = Modifier.drawHorizontalStroke(true),
                                     actions = {

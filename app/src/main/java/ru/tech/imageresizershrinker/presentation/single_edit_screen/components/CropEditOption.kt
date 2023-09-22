@@ -124,7 +124,7 @@ fun CropEditOption(
                     actions = {
                         AnimatedVisibility(visible = stateBitmap != bitmap) {
                             EnhancedIconButton(
-                                containerColor = MaterialTheme.colorScheme.secondaryContainer,
+                                containerColor = MaterialTheme.colorScheme.tertiaryContainer,
                                 onClick = {
                                     onGetBitmap(stateBitmap)
                                     onDismiss()

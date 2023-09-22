@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
@@ -34,6 +35,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -60,7 +62,6 @@ import ru.tech.imageresizershrinker.presentation.root.widget.other.LocalToastHos
 import ru.tech.imageresizershrinker.presentation.root.widget.other.showError
 import ru.tech.imageresizershrinker.presentation.root.widget.text.Marquee
 import ru.tech.imageresizershrinker.presentation.root.widget.text.TitleItem
-import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalSettingsState
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -78,7 +79,6 @@ fun FilterEditOption(
     updateOrder: (List<FilterTransformation<*>>) -> Unit
 ) {
     val scope = rememberCoroutineScope()
-    val settingsState = LocalSettingsState.current
     val toastHostState = LocalToastHost.current
     val context = LocalContext.current
     bitmap?.let {
@@ -89,10 +89,11 @@ fun FilterEditOption(
 
         var stateBitmap by remember(bitmap, visible) { mutableStateOf(bitmap) }
         FullscreenEditOption(
-            sheetSize = 0.6f,
+            sheetSize = -1f,
             showControls = filterList.isNotEmpty(),
             canGoBack = stateBitmap == bitmap,
             visible = visible,
+            modifier = Modifier.heightIn(max = LocalConfiguration.current.screenHeightDp.dp / 2),
             onDismiss = onDismiss,
             useScaffold = useScaffold,
             controls = {
@@ -179,7 +180,7 @@ fun FilterEditOption(
                     actions = {
                         AnimatedVisibility(visible = stateBitmap != bitmap) {
                             EnhancedIconButton(
-                                containerColor = MaterialTheme.colorScheme.secondaryContainer,
+                                containerColor = MaterialTheme.colorScheme.tertiaryContainer,
                                 onClick = {
                                     onGetBitmap(stateBitmap)
                                     onDismiss()

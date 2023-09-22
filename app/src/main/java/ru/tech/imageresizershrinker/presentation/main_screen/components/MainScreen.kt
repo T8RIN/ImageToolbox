@@ -707,16 +707,6 @@ fun MainScreen(
         }
     }
     if (isSheetSlideable) {
-//        EmojiSheetContent(
-//            emojiEnabled = true,
-//            onEmojiPicked = {},
-//            allEmojis = Emoji.allIcons(),
-//            emojiWithCategories = Emoji.allIconsCategorized(),
-//            lazyGridState = rememberLazyGridState(),
-//            onDismiss = {},
-//            selectedEmojiIndex = 3
-//        )
-
         CompositionLocalProvider(
             LocalLayoutDirection provides if (layoutDirection == LayoutDirection.Ltr) LayoutDirection.Rtl
             else LayoutDirection.Ltr
