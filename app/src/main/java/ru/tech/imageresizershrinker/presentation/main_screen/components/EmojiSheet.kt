@@ -234,7 +234,7 @@ fun EmojiSheetContent(
                             contentAlignment = Alignment.Center
                         ) {
                             EmojiItem(
-                                emoji = emoji,
+                                emoji = emoji.toString(),
                                 fontSize = MaterialTheme.typography.headlineLarge.fontSize,
                                 fontScale = 1f
                             )

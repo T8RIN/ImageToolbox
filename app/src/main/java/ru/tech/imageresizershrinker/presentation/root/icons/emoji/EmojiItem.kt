@@ -1,6 +1,5 @@
 package ru.tech.imageresizershrinker.presentation.root.icons.emoji
 
-import android.net.Uri
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.offset
@@ -30,23 +29,42 @@ import ru.tech.imageresizershrinker.presentation.root.widget.image.pictureImageL
 
 @Composable
 fun EmojiItem(
-    emoji: Uri?,
+    emoji: String?,
     modifier: Modifier = Modifier,
     fontSize: TextUnit = LocalTextStyle.current.fontSize,
     fontScale: Float,
     onNoEmoji: @Composable (size: Dp) -> Unit = {}
 ) {
+    val context = LocalContext.current
+    val dens = LocalDensity.current
+    val density = remember(dens) {
+        Density(
+            density = dens.density,
+            fontScale = fontScale
+        )
+    }
+    var shimmering by remember { mutableStateOf(true) }
+    val painter = rememberAsyncImagePainter(
+        model = remember(emoji) {
+            derivedStateOf {
+                ImageRequest.Builder(context)
+                    .data(emoji)
+                    .listener(
+                        onSuccess = { _, _ ->
+                            shimmering = false
+                        }
+                    )
+                    .crossfade(true)
+                    .build()
+            }
+        }.value,
+        imageLoader = pictureImageLoader()
+    )
+
     AnimatedContent(
         targetState = emoji to fontSize,
         modifier = modifier
     ) { (emoji, fontSize) ->
-        val dens = LocalDensity.current
-        val density = remember(dens) {
-            Density(
-                density = dens.density,
-                fontScale = fontScale
-            )
-        }
         val size by remember(fontSize, density) {
             derivedStateOf {
                 with(density) {
@@ -56,19 +74,6 @@ fun EmojiItem(
         }
         emoji?.let {
             Box {
-                var shimmering by remember { mutableStateOf(true) }
-                val painter = rememberAsyncImagePainter(
-                    model = ImageRequest.Builder(LocalContext.current)
-                        .data(emoji)
-                        .listener(
-                            onSuccess = { _, _ ->
-                                shimmering = false
-                            }
-                        )
-                        .crossfade(true)
-                        .build(),
-                    imageLoader = pictureImageLoader()
-                )
                 Icon(
                     painter = painter,
                     contentDescription = null,

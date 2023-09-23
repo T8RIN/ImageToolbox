@@ -344,7 +344,7 @@ fun LazyListScope.settingsBlock(
                             contentAlignment = Alignment.Center
                         ) {
                             EmojiItem(
-                                emoji = emoji,
+                                emoji = emoji.toString(),
                                 modifier = Modifier.then(
                                     if (emoji != null) Modifier.scaleOnTap(onRelease = {})
                                     else Modifier
