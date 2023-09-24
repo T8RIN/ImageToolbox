@@ -35,7 +35,7 @@ data class UiSettingsState(
     val clearCacheOnLaunch: Boolean = true,
     val groupOptionsByTypes: Boolean = true,
     val screenList: List<Screen> = listOf(),
-    val colorTupleList: List<ColorTuple> = listOf(),
+    val colorTupleList: List<ColorTuple>,
     val addSequenceNumber: Boolean = true,
     val saveFolderUri: Uri? = null,
     val filenamePrefix: String = "",

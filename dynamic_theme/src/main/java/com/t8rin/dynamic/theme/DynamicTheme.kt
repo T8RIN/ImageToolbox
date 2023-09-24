@@ -396,7 +396,10 @@ data class ColorTuple(
     val secondary: Color? = null,
     val tertiary: Color? = null,
     val surface: Color? = null
-)
+) {
+    override fun toString(): String =
+        "ColorTuple(primary=${primary.toArgb()}, secondary=${secondary?.toArgb()}, tertiary=${tertiary?.toArgb()}, surface=${surface?.toArgb()})"
+}
 
 /**
  * Creates and remember [DynamicThemeState] instance

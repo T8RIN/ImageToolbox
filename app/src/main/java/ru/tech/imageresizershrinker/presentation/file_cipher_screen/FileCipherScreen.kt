@@ -3,7 +3,6 @@ package ru.tech.imageresizershrinker.presentation.file_cipher_screen
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
-import android.util.Log
 import androidx.activity.compose.BackHandler
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
@@ -195,7 +194,6 @@ fun FileCipherScreen(
     val filePicker = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.OpenDocument(),
         onResult = { uri ->
-            Log.d("COCK", uri.toString())
             uri?.let {
                 viewModel.setUri(it)
             }

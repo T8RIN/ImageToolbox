@@ -3,7 +3,7 @@ package ru.tech.imageresizershrinker.presentation.root.utils.modifier
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
@@ -17,20 +17,21 @@ fun Modifier.scaleOnTap(
     min: Float = 0.8f,
     max: Float = 1.3f,
     onHold: () -> Unit = {},
-    onRelease: () -> Unit
+    onRelease: (time: Long) -> Unit
 ) = composed {
-    var scaleState by remember(initial) { mutableStateOf(initial) }
+    var scaleState by remember(initial) { mutableFloatStateOf(initial) }
     val scale by animateFloatAsState(scaleState)
 
     scale(scale)
         .pointerInput(Unit) {
             detectTapGestures(
                 onPress = {
+                    val time = System.currentTimeMillis()
                     scaleState = max
                     onHold()
                     delay(200)
                     tryAwaitRelease()
-                    onRelease()
+                    onRelease(System.currentTimeMillis() - time)
                     scaleState = min
                     delay(200)
                     scaleState = initial

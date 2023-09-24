@@ -2,14 +2,17 @@
 
 package ru.tech.imageresizershrinker.presentation.main_screen.viewModel
 
+import android.graphics.Bitmap
 import android.net.Uri
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.exifinterface.media.ExifInterface
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.t8rin.dynamic.theme.ColorTuple
+import com.t8rin.dynamic.theme.extractPrimaryColor
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.olshevski.navigation.reimagined.navController
 import kotlinx.coroutines.Dispatchers
@@ -21,6 +24,7 @@ import kotlinx.coroutines.withContext
 import org.w3c.dom.Element
 import ru.tech.imageresizershrinker.BuildConfig
 import ru.tech.imageresizershrinker.core.APP_RELEASES
+import ru.tech.imageresizershrinker.domain.image.ImageManager
 import ru.tech.imageresizershrinker.domain.model.FontFam
 import ru.tech.imageresizershrinker.domain.model.NightMode
 import ru.tech.imageresizershrinker.domain.model.SettingsState
@@ -68,6 +72,7 @@ import javax.xml.parsers.DocumentBuilderFactory
 
 @HiltViewModel
 class MainViewModel @Inject constructor(
+    private val imageManager: ImageManager<Bitmap, ExifInterface>,
     private val getSettingsStateUseCase: GetSettingsStateUseCase,
     getSettingsStateFlowUseCase: GetSettingsStateFlowUseCase,
     private val toggleAddSequenceNumberUseCase: ToggleAddSequenceNumberUseCase,
@@ -465,6 +470,21 @@ class MainViewModel @Inject constructor(
     fun toggleAllowShowingShadowsInsteadOfBorders() {
         viewModelScope.launch {
             allowShowingShadowsInsteadOfBordersUseCase()
+        }
+    }
+
+    fun addColorTupleFromEmoji(getEmoji: (Int?) -> String) {
+        viewModelScope.launch {
+            imageManager.getImage(data = getEmoji(settingsState.selectedEmoji))
+                ?.extractPrimaryColor()
+                ?.let { primary ->
+                    val colorTuple = ColorTuple(primary)
+                    val colorTupleS = colorTuple.run {
+                        "${primary.toArgb()}*${secondary?.toArgb()}*${tertiary?.toArgb()}*${surface?.toArgb()}"
+                    }
+                    updateColorTuple(colorTuple)
+                    updateColorTuplesUseCase(settingsState.colorTupleList + "*" + colorTupleS)
+                }
         }
     }
 

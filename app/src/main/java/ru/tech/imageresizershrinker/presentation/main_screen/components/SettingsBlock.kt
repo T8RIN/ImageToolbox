@@ -114,7 +114,9 @@ import ru.tech.imageresizershrinker.core.ISSUE_TRACKER
 import ru.tech.imageresizershrinker.core.WEBLATE_LINK
 import ru.tech.imageresizershrinker.domain.model.NightMode
 import ru.tech.imageresizershrinker.presentation.main_screen.viewModel.MainViewModel
+import ru.tech.imageresizershrinker.presentation.root.icons.emoji.Emoji
 import ru.tech.imageresizershrinker.presentation.root.icons.emoji.EmojiItem
+import ru.tech.imageresizershrinker.presentation.root.icons.emoji.allIcons
 import ru.tech.imageresizershrinker.presentation.root.icons.material.Analytics
 import ru.tech.imageresizershrinker.presentation.root.icons.material.Beta
 import ru.tech.imageresizershrinker.presentation.root.icons.material.Crashlytics
@@ -343,11 +345,25 @@ fun LazyListScope.settingsBlock(
                                 ),
                             contentAlignment = Alignment.Center
                         ) {
+                            val emojis = Emoji.allIcons()
                             EmojiItem(
                                 emoji = emoji.toString(),
                                 modifier = Modifier.then(
-                                    if (emoji != null) Modifier.scaleOnTap(onRelease = {})
-                                    else Modifier
+                                    if (emoji != null) {
+                                        Modifier.scaleOnTap(
+                                            onRelease = { time ->
+                                                if (time > 500) {
+                                                    viewModel.addColorTupleFromEmoji(
+                                                        getEmoji = { index ->
+                                                            index?.let {
+                                                                emojis[it].toString()
+                                                            } ?: ""
+                                                        }
+                                                    )
+                                                }
+                                            }
+                                        )
+                                    } else Modifier
                                 ),
                                 fontScale = 1f,
                                 fontSize = MaterialTheme.typography.headlineLarge.fontSize,
