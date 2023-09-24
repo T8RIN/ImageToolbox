@@ -104,8 +104,8 @@ import ru.tech.imageresizershrinker.presentation.root.utils.helper.localImagePic
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.parseSaveResult
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.rememberImagePicker
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.container
+import ru.tech.imageresizershrinker.presentation.root.utils.modifier.containerFabBorder
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.drawHorizontalStroke
-import ru.tech.imageresizershrinker.presentation.root.utils.modifier.fabBorder
 import ru.tech.imageresizershrinker.presentation.root.utils.saver.ColorSaver
 import ru.tech.imageresizershrinker.presentation.root.utils.saver.DrawModeSaver
 import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedIconButton
@@ -530,7 +530,7 @@ fun DrawScreen(
                                     if (viewModel.drawBehavior is DrawBehavior.Image) {
                                         FloatingActionButton(
                                             onClick = pickImage,
-                                            modifier = Modifier.fabBorder(),
+                                            modifier = Modifier.containerFabBorder(),
                                             containerColor = MaterialTheme.colorScheme.tertiaryContainer,
                                             elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
                                         ) {
@@ -540,7 +540,7 @@ fun DrawScreen(
                                     }
                                     FloatingActionButton(
                                         onClick = saveBitmap,
-                                        modifier = Modifier.fabBorder(),
+                                        modifier = Modifier.containerFabBorder(),
                                         elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
                                     ) {
                                         Icon(Icons.Rounded.Save, null)

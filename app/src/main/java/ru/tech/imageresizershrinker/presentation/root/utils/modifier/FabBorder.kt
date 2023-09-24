@@ -19,7 +19,7 @@ import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalSettings
 fun Modifier.fabBorder(
     height: Dp = Dp.Unspecified,
     shape: Shape? = null,
-    elevation: Dp = 6.dp
+    autoElevation: Dp = 6.dp
 ) = composed {
     val h = if (height.isUnspecified) {
         LocalSettingsState.current.borderWidth.takeIf { it > 0.dp }
@@ -39,7 +39,9 @@ fun Modifier.fabBorder(
             szape
         )
     }.shadow(
-        animateDpAsState(if (h == null) elevation else 0.dp).value,
+        animateDpAsState(if (h == null) autoElevation else 0.dp).value,
         szape
     )
 }
+
+fun Modifier.containerFabBorder() = fabBorder(autoElevation = 1.5.dp)

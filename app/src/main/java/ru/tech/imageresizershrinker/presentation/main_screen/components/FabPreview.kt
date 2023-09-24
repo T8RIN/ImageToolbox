@@ -54,7 +54,7 @@ fun FabPreview(
             .fillMaxWidth()
             .aspectRatio(1f / 1.7f)
             .padding(4.dp)
-            .fabBorder(shape = RoundedCornerShape(12.dp), elevation = elevation)
+            .fabBorder(shape = RoundedCornerShape(12.dp), autoElevation = elevation)
             .clip(RoundedCornerShape(12.dp))
             .background(colorScheme.background),
         verticalArrangement = Arrangement.SpaceBetween
@@ -62,7 +62,7 @@ fun FabPreview(
         Column(
             modifier = Modifier
                 .padding(horizontal = 8.dp, vertical = 8.dp)
-                .fabBorder(shape = shapes.small, elevation = elevation)
+                .fabBorder(shape = shapes.small, autoElevation = elevation)
                 .container(shape = shapes.small)
                 .fillMaxWidth(1f),
             verticalArrangement = Arrangement.Center,
@@ -111,7 +111,7 @@ fun FabPreview(
                     modifier = Modifier
                         .padding(8.dp)
                         .size(22.dp)
-                        .fabBorder(shape = RoundedCornerShape(7.dp), elevation = 4.dp)
+                        .fabBorder(shape = RoundedCornerShape(7.dp), autoElevation = 4.dp)
                         .background(
                             color = colorScheme.primaryContainer,
                             shape = RoundedCornerShape(7.dp),

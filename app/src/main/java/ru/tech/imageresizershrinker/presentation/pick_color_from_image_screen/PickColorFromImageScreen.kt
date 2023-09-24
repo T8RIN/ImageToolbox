@@ -65,6 +65,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.graphics.isUnspecified
 import androidx.compose.ui.input.nestedscroll.nestedScroll
@@ -94,6 +95,7 @@ import ru.tech.imageresizershrinker.presentation.root.utils.helper.localImagePic
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.rememberImagePicker
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.toHex
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.container
+import ru.tech.imageresizershrinker.presentation.root.utils.modifier.containerFabBorder
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.drawHorizontalStroke
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.fabBorder
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.navBarsPaddingOnlyIfTheyAtTheBottom
@@ -549,14 +551,13 @@ fun PickColorFromImageScreen(
                                     }
                                 }
                             }
-                            Box(
-                                Modifier
-                                    .fillMaxHeight()
-                                    .width(settingsState.borderWidth.coerceAtLeast(0.25.dp))
-                                    .background(MaterialTheme.colorScheme.outlineVariant())
-                            )
                             Column(
                                 Modifier
+                                    .container(
+                                        shape = RectangleShape,
+                                        color = MaterialTheme.colorScheme.surfaceContainer,
+                                        resultPadding = 0.dp
+                                    )
                                     .fillMaxHeight()
                                     .padding(horizontal = 20.dp)
                                     .navigationBarsPadding(),
@@ -567,7 +568,7 @@ fun PickColorFromImageScreen(
                                 Spacer(modifier = Modifier.height(16.dp))
                                 FloatingActionButton(
                                     onClick = pickImage,
-                                    modifier = Modifier.fabBorder(),
+                                    modifier = Modifier.containerFabBorder(),
                                     elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation()
                                 ) {
                                     Icon(Icons.Rounded.AddPhotoAlternate, null)

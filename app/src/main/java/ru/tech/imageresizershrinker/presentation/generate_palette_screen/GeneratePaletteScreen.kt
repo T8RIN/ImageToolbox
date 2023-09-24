@@ -320,6 +320,7 @@ fun GeneratePaletteScreen(
                                     .verticalScroll(scrollState)
                             ) {
                                 PaletteColorsCountSelector(
+                                    modifier = Modifier.padding(top = 16.dp),
                                     count = count,
                                     onCountChange = { count = it }
                                 )
@@ -418,7 +419,7 @@ fun GeneratePaletteScreen(
             modifier = Modifier
                 .navigationBarsPadding()
                 .padding(12.dp)
-                .align(if (!landscape) settingsState.fabAlignment else Alignment.BottomEnd)
+                .align(if (!landscape || viewModel.bitmap == null) settingsState.fabAlignment else Alignment.BottomEnd)
                 .fabBorder(),
             elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
         ) {

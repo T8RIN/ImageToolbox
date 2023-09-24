@@ -64,6 +64,9 @@ class EraseBackgroundViewModel @Inject constructor(
     private val _isSaving: MutableState<Boolean> = mutableStateOf(false)
     val isSaving: Boolean by _isSaving
 
+    private val _isErasingBG: MutableState<Boolean> = mutableStateOf(false)
+    val isErasingBG: Boolean by _isErasingBG
+
     private val _isImageLoading: MutableState<Boolean> = mutableStateOf(false)
     val isImageLoading: Boolean by _isImageLoading
 
@@ -289,7 +292,7 @@ class EraseBackgroundViewModel @Inject constructor(
 
     fun autoEraseBackground(onSuccess: () -> Unit, onFailure: (Throwable) -> Unit) {
         _erasedBitmap.value?.let {
-            _isSaving.value = true
+            _isErasingBG.value = true
             imageManager.removeBackgroundFromImage(
                 image = it,
                 onSuccess = {
@@ -297,11 +300,11 @@ class EraseBackgroundViewModel @Inject constructor(
                     _paths.value = listOf()
                     _lastPaths.value = listOf()
                     _undonePaths.value = listOf()
-                    _isSaving.value = false
+                    _isErasingBG.value = false
                     onSuccess()
                 },
                 onFailure = {
-                    _isSaving.value = false
+                    _isErasingBG.value = false
                     onFailure(it)
                 }
             )

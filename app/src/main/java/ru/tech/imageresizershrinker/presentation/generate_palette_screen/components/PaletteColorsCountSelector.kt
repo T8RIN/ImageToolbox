@@ -26,12 +26,13 @@ import kotlin.math.roundToInt
 
 @Composable
 fun PaletteColorsCountSelector(
+    modifier: Modifier = Modifier,
     count: Int,
     onCountChange: (Int) -> Unit
 ) {
     var count1 by remember(count) { mutableIntStateOf(count) }
     Column(
-        modifier = Modifier
+        modifier = modifier
             .padding(horizontal = 16.dp)
             .container(shape = RoundedCornerShape(24.dp)),
         verticalArrangement = Arrangement.Center,

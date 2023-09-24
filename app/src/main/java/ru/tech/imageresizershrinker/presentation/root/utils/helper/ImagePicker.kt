@@ -56,10 +56,8 @@ class ImagePicker(
         ImagePickerMode.GetContentSingle, ImagePickerMode.GetContentMultiple -> {
             val intent = Intent().apply {
                 type = "image/*"
-                action = Intent.ACTION_GET_CONTENT
-                if (mode == ImagePickerMode.GetContentMultiple) {
-                    putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
-                }
+                action = Intent.ACTION_OPEN_DOCUMENT
+                putExtra(Intent.EXTRA_ALLOW_MULTIPLE, mode == ImagePickerMode.GetContentMultiple)
             }
             getContent.launch(
                 Intent.createChooser(

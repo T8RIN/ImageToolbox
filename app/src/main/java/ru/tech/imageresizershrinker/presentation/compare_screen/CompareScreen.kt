@@ -5,7 +5,6 @@ import android.net.Uri
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.core.animateFloatAsState
-import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -62,6 +61,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.TransformOrigin
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.graphics.graphicsLayer
@@ -91,6 +91,7 @@ import ru.tech.imageresizershrinker.presentation.root.utils.helper.localImagePic
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.parseSaveResult
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.rememberImagePicker
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.container
+import ru.tech.imageresizershrinker.presentation.root.utils.modifier.containerFabBorder
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.drawHorizontalStroke
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.fabBorder
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.navBarsPaddingOnlyIfTheyAtTheBottom
@@ -340,7 +341,7 @@ fun CompareScreen(
                                 floatingActionButton = {
                                     FloatingActionButton(
                                         onClick = pickImage,
-                                        modifier = Modifier.fabBorder(),
+                                        modifier = Modifier.containerFabBorder(),
                                         elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation()
                                     ) {
                                         Icon(Icons.Rounded.AddPhotoAlternate, null)
@@ -407,14 +408,12 @@ fun CompareScreen(
                                     }
                                 }
                             }
-                            Box(
-                                Modifier
-                                    .fillMaxHeight()
-                                    .width(settingsState.borderWidth.coerceAtLeast(0.25.dp))
-                                    .background(MaterialTheme.colorScheme.outlineVariant())
-                            )
                             Column(
                                 Modifier
+                                    .container(
+                                        shape = RectangleShape,
+                                        color = MaterialTheme.colorScheme.surfaceContainer
+                                    )
                                     .padding(horizontal = 20.dp)
                                     .fillMaxHeight()
                                     .navigationBarsPadding(),
@@ -441,7 +440,6 @@ fun CompareScreen(
                                         }
                                     }
                                     .width((LocalConfiguration.current.screenHeightDp / 2f).dp)
-                                    .height(50.dp)
 
                                 EnhancedSlider(
                                     modifier = modifier,
@@ -454,7 +452,7 @@ fun CompareScreen(
 
                                 FloatingActionButton(
                                     onClick = pickImage,
-                                    modifier = Modifier.fabBorder(),
+                                    modifier = Modifier.containerFabBorder(),
                                     elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation()
                                 ) {
                                     Icon(Icons.Rounded.AddPhotoAlternate, null)

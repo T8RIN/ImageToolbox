@@ -26,7 +26,6 @@ import androidx.compose.foundation.layout.ime
 import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
@@ -72,6 +71,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalConfiguration
@@ -85,11 +85,10 @@ import dev.olshevski.navigation.reimagined.NavController
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.presentation.erase_background_screen.components.PathPaint
-import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.ImageUtils.restrict
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.container
+import ru.tech.imageresizershrinker.presentation.root.utils.modifier.containerFabBorder
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.drawHorizontalStroke
-import ru.tech.imageresizershrinker.presentation.root.utils.modifier.fabBorder
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.navBarsPaddingOnlyIfTheyAtTheEnd
 import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedButton
 import ru.tech.imageresizershrinker.presentation.root.widget.other.TopAppBarEmoji
@@ -242,17 +241,16 @@ fun DrawHost(
                         ) {
                             Box(
                                 Modifier
+                                    .container(
+                                        shape = RectangleShape,
+                                        resultPadding = 0.dp,
+                                        color = MaterialTheme.colorScheme.surfaceContainer
+                                    )
                                     .weight(1.2f)
                                     .clipToBounds()
                             ) {
                                 drawBox()
                             }
-                            Box(
-                                Modifier
-                                    .fillMaxHeight()
-                                    .width(settingsState.borderWidth.coerceAtLeast(0.25.dp))
-                                    .background(MaterialTheme.colorScheme.outlineVariant())
-                            )
                             LazyColumn(
                                 horizontalAlignment = Alignment.CenterHorizontally,
                                 contentPadding = PaddingValues(
@@ -273,15 +271,12 @@ fun DrawHost(
                                     controls()
                                 }
                             }
-                            Box(
-                                Modifier
-                                    .fillMaxHeight()
-                                    .width(settingsState.borderWidth.coerceAtLeast(0.25.dp))
-                                    .background(MaterialTheme.colorScheme.outlineVariant())
-                                    .padding(start = 20.dp)
-                            )
                             Column(
                                 Modifier
+                                    .container(
+                                        shape = RectangleShape,
+                                        color = MaterialTheme.colorScheme.surfaceContainer
+                                    )
                                     .padding(horizontal = 20.dp)
                                     .fillMaxHeight()
                                     .navigationBarsPadding(),
@@ -290,7 +285,7 @@ fun DrawHost(
                             ) {
                                 FloatingActionButton(
                                     onClick = onSaveRequest,
-                                    modifier = Modifier.fabBorder(),
+                                    modifier = Modifier.containerFabBorder(),
                                     elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
                                 ) {
                                     Icon(Icons.Rounded.Save, null)
@@ -311,17 +306,16 @@ fun DrawHost(
                         ) {
                             Box(
                                 Modifier
+                                    .container(
+                                        shape = RectangleShape,
+                                        resultPadding = 0.dp,
+                                        color = MaterialTheme.colorScheme.surfaceContainer
+                                    )
                                     .weight(1.2f)
                                     .clipToBounds()
                             ) {
                                 drawBox()
                             }
-                            Box(
-                                Modifier
-                                    .fillMaxHeight()
-                                    .width(settingsState.borderWidth.coerceAtLeast(0.25.dp))
-                                    .background(MaterialTheme.colorScheme.outlineVariant())
-                            )
                             LazyColumn(
                                 horizontalAlignment = Alignment.CenterHorizontally,
                                 contentPadding = PaddingValues(
@@ -342,15 +336,12 @@ fun DrawHost(
                                     controls()
                                 }
                             }
-                            Box(
-                                Modifier
-                                    .fillMaxHeight()
-                                    .width(settingsState.borderWidth.coerceAtLeast(0.25.dp))
-                                    .background(MaterialTheme.colorScheme.outlineVariant())
-                                    .padding(start = 20.dp)
-                            )
                             Column(
-                                Modifier
+                                modifier = Modifier
+                                    .container(
+                                        shape = RectangleShape,
+                                        color = MaterialTheme.colorScheme.surfaceContainer
+                                    )
                                     .padding(horizontal = 20.dp)
                                     .fillMaxHeight()
                                     .navigationBarsPadding(),
@@ -359,17 +350,17 @@ fun DrawHost(
                             ) {
                                 FloatingActionButton(
                                     onClick = onPickImage,
-                                    modifier = Modifier.fabBorder(),
+                                    modifier = Modifier.containerFabBorder(),
                                     containerColor = MaterialTheme.colorScheme.tertiaryContainer,
                                     elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
                                     content = {
                                         Icon(Icons.Rounded.AddPhotoAlternate, null)
                                     }
                                 )
-                                Spacer(modifier = Modifier.height(16.dp))
+                                Spacer(modifier = Modifier.height(8.dp))
                                 FloatingActionButton(
                                     onClick = onSaveRequest,
-                                    modifier = Modifier.fabBorder(),
+                                    modifier = Modifier.containerFabBorder(),
                                     elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
                                 ) {
                                     Icon(Icons.Rounded.Save, null)
@@ -380,7 +371,6 @@ fun DrawHost(
                 }
 
                 is DrawBehavior.None -> {
-
                     LargeTopAppBar(
                         scrollBehavior = scrollBehavior,
                         modifier = Modifier.drawHorizontalStroke(),
@@ -410,10 +400,10 @@ fun DrawHost(
                     val cutout = WindowInsets.displayCutout.asPaddingValues()
                     LazyVerticalStaggeredGrid(
                         modifier = Modifier.weight(1f),
-                        columns = StaggeredGridCells.Adaptive(400.dp),
+                        columns = StaggeredGridCells.Fixed(2),
                         horizontalArrangement = Arrangement.spacedBy(
-                            12.dp,
-                            Alignment.CenterHorizontally
+                            space = 12.dp,
+                            alignment = Alignment.CenterHorizontally
                         ),
                         verticalItemSpacing = 12.dp,
                         contentPadding = PaddingValues(
@@ -465,7 +455,7 @@ fun DrawHost(
                             modifier = Modifier
                                 .navigationBarsPadding()
                                 .padding(16.dp)
-                                .fabBorder(),
+                                .containerFabBorder(),
                             elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
                             text = {
                                 Text(stringResource(R.string.pick_image_alt))

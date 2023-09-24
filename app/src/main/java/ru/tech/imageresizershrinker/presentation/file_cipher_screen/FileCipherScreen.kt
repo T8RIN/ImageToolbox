@@ -3,6 +3,7 @@ package ru.tech.imageresizershrinker.presentation.file_cipher_screen
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import android.util.Log
 import androidx.activity.compose.BackHandler
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
@@ -192,8 +193,9 @@ fun FileCipherScreen(
     )
 
     val filePicker = rememberLauncherForActivityResult(
-        contract = ActivityResultContracts.GetContent(),
+        contract = ActivityResultContracts.OpenDocument(),
         onResult = { uri ->
+            Log.d("COCK", uri.toString())
             uri?.let {
                 viewModel.setUri(it)
             }
@@ -291,8 +293,8 @@ fun FileCipherScreen(
                                         ) {
                                             Spacer(Modifier.height(16.dp))
                                             Icon(
-                                                Icons.TwoTone.FileOpen,
-                                                null,
+                                                imageVector = Icons.TwoTone.FileOpen,
+                                                contentDescription = null,
                                                 modifier = Modifier
                                                     .size(100.dp)
                                                     .container(
@@ -300,13 +302,13 @@ fun FileCipherScreen(
                                                         resultPadding = 0.dp,
                                                         color = MaterialTheme.colorScheme.primaryContainer
                                                     )
-                                                    .clickable { filePicker.launch("*/*") }
+                                                    .clickable { filePicker.launch(arrayOf("*/*")) }
                                                     .padding(12.dp),
                                                 tint = MaterialTheme.colorScheme.onPrimaryContainer
                                             )
                                             Text(
-                                                stringResource(R.string.pick_file_to_start),
-                                                Modifier.padding(16.dp),
+                                                text = stringResource(R.string.pick_file_to_start),
+                                                modifier = Modifier.padding(16.dp),
                                                 textAlign = TextAlign.Center,
                                                 color = MaterialTheme.colorScheme.onSurfaceVariant
                                             )
@@ -402,7 +404,7 @@ fun FileCipherScreen(
                                             )
 
                                             EnhancedButton(
-                                                onClick = { filePicker.launch("*/*") },
+                                                onClick = { filePicker.launch(arrayOf("*/*")) },
                                                 modifier = Modifier.padding(top = 16.dp),
                                                 containerColor = MaterialTheme.colorScheme.secondaryContainer,
                                                 borderColor = MaterialTheme.colorScheme.outlineVariant(
@@ -714,7 +716,7 @@ fun FileCipherScreen(
         if (viewModel.uri == null) {
             FloatingActionButton(
                 onClick = {
-                    filePicker.launch("*/*")
+                    filePicker.launch(arrayOf("*/*"))
                 },
                 modifier = Modifier
                     .navigationBarsPadding()

@@ -19,7 +19,6 @@ import androidx.compose.material.icons.outlined.Image
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
-import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -76,7 +75,7 @@ fun AspectRatioSelection(
                                 color = animateColorAsState(
                                     targetValue = if (selected) {
                                         MaterialTheme.colorScheme.primaryContainer
-                                    } else MaterialTheme.colorScheme.surfaceColorAtElevation(1.dp),
+                                    } else MaterialTheme.colorScheme.surfaceContainerLowest,
                                 ).value,
                                 borderColor = if (selected) MaterialTheme.colorScheme.onPrimaryContainer.copy(
                                     0.7f
@@ -98,7 +97,7 @@ fun AspectRatioSelection(
                                 color = animateColorAsState(
                                     targetValue = if (selected) {
                                         MaterialTheme.colorScheme.primaryContainer
-                                    } else MaterialTheme.colorScheme.surfaceColorAtElevation(1.dp),
+                                    } else MaterialTheme.colorScheme.surfaceContainerLowest,
                                 ).value,
                                 borderColor = if (selected) MaterialTheme.colorScheme.onPrimaryContainer.copy(
                                     0.7f

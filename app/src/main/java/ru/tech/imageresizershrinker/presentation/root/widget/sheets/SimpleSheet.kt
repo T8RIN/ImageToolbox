@@ -75,12 +75,12 @@ fun SimpleSheet(
             )
             .fabBorder(
                 shape = BottomSheetDefaults.ExpandedShape,
-                elevation = 16.dp
+                autoElevation = 16.dp
             )
             .fabBorder(
                 height = 0.dp,
                 shape = BottomSheetDefaults.ExpandedShape,
-                elevation = 16.dp
+                autoElevation = 16.dp
             )
             .animateContentSize(),
         elevation = 0.dp,
@@ -136,12 +136,12 @@ fun SimpleSheet(
             )
             .fabBorder(
                 shape = BottomSheetDefaults.ExpandedShape,
-                elevation = 16.dp
+                autoElevation = 16.dp
             )
             .fabBorder(
                 height = 0.dp,
                 shape = BottomSheetDefaults.ExpandedShape,
-                elevation = 16.dp
+                autoElevation = 16.dp
             )
             .animateContentSize(),
         elevation = 0.dp,
@@ -212,12 +212,12 @@ fun SimpleSheet(
             )
             .fabBorder(
                 shape = BottomSheetDefaults.ExpandedShape,
-                elevation = 16.dp
+                autoElevation = 16.dp
             )
             .fabBorder(
                 height = 0.dp,
                 shape = BottomSheetDefaults.ExpandedShape,
-                elevation = 16.dp
+                autoElevation = 16.dp
             )
             .animateContentSize(),
         elevation = 0.dp,

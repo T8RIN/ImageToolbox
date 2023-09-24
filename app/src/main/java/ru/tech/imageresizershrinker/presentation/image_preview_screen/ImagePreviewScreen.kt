@@ -3,8 +3,6 @@ package ru.tech.imageresizershrinker.presentation.image_preview_screen
 import android.net.Uri
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.BackHandler
-import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -46,7 +44,6 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
@@ -60,11 +57,11 @@ import dev.olshevski.navigation.reimagined.hilt.hiltViewModel
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.presentation.image_preview_screen.components.ImagePager
 import ru.tech.imageresizershrinker.presentation.image_preview_screen.viewModel.ImagePreviewViewModel
-import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
 import ru.tech.imageresizershrinker.presentation.root.transformation.filter.SaturationFilter
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.Picker
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.localImagePickerMode
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.rememberImagePicker
+import ru.tech.imageresizershrinker.presentation.root.utils.modifier.container
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.drawHorizontalStroke
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.fabBorder
 import ru.tech.imageresizershrinker.presentation.root.widget.image.ImageNotPickedWidget
@@ -229,20 +226,14 @@ fun ImagePreviewScreen(
                                     contentScale = ContentScale.Fit,
                                     modifier = Modifier
                                         .fillMaxWidth()
-                                        .clip(MaterialTheme.shapes.large)
+                                        .container(
+                                            shape = MaterialTheme.shapes.large,
+                                            resultPadding = 0.dp
+                                        )
                                         .clickable {
                                             showImagePreviewDialog = true
                                             viewModel.selectUri(it)
-                                        }
-                                        .background(
-                                            MaterialTheme.colorScheme.surfaceVariant,
-                                            MaterialTheme.shapes.large
-                                        )
-                                        .border(
-                                            settingsState.borderWidth,
-                                            MaterialTheme.colorScheme.outlineVariant(),
-                                            MaterialTheme.shapes.large
-                                        ),
+                                        },
                                     shape = MaterialTheme.shapes.large
                                 )
                             }
@@ -253,20 +244,15 @@ fun ImagePreviewScreen(
                                     modifier = Modifier
                                         .fillMaxWidth()
                                         .aspectRatio(2f)
-                                        .clip(MaterialTheme.shapes.large)
+                                        .container(
+                                            shape = MaterialTheme.shapes.large,
+                                            resultPadding = 0.dp,
+                                            color = MaterialTheme.colorScheme.secondaryContainer
+                                        )
                                         .clickable {
                                             addImages = true
                                             pickImageLauncher.pickImage()
-                                        }
-                                        .background(
-                                            MaterialTheme.colorScheme.secondaryContainer,
-                                            MaterialTheme.shapes.large
-                                        )
-                                        .border(
-                                            settingsState.borderWidth,
-                                            MaterialTheme.colorScheme.outlineVariant(),
-                                            MaterialTheme.shapes.large
-                                        ),
+                                        },
                                     contentAlignment = Alignment.Center
                                 ) {
                                     Icon(

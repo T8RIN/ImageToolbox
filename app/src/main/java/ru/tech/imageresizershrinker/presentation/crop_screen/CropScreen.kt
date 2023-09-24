@@ -8,7 +8,6 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.animateDpAsState
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -71,6 +70,7 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.zIndex
 import coil.size.Size
 import com.smarttoolfactory.cropper.model.OutlineType
 import com.t8rin.dynamic.theme.LocalDynamicThemeState
@@ -85,13 +85,14 @@ import ru.tech.imageresizershrinker.presentation.crop_screen.components.CropMask
 import ru.tech.imageresizershrinker.presentation.crop_screen.components.Cropper
 import ru.tech.imageresizershrinker.presentation.crop_screen.components.aspectRatios
 import ru.tech.imageresizershrinker.presentation.crop_screen.viewModel.CropViewModel
-import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
 import ru.tech.imageresizershrinker.presentation.root.transformation.filter.SaturationFilter
 import ru.tech.imageresizershrinker.presentation.root.utils.confetti.LocalConfettiController
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.Picker
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.localImagePickerMode
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.parseSaveResult
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.rememberImagePicker
+import ru.tech.imageresizershrinker.presentation.root.utils.modifier.container
+import ru.tech.imageresizershrinker.presentation.root.utils.modifier.containerFabBorder
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.drawHorizontalStroke
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.fabBorder
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.navBarsPaddingOnlyIfTheyAtTheEnd
@@ -384,7 +385,10 @@ fun CropScreen(
                             verticalAlignment = Alignment.CenterVertically
                         ) {
                             Box(
-                                Modifier.weight(0.8f)
+                                Modifier
+                                    .zIndex(-100f)
+                                    .container(shape = RectangleShape, resultPadding = 0.dp)
+                                    .weight(0.8f)
                             ) {
                                 Cropper(
                                     bitmap = bitmap,
@@ -406,27 +410,18 @@ fun CropScreen(
                                     cropProperties = viewModel.cropProperties
                                 )
                             }
-                            Box(
-                                Modifier
-                                    .fillMaxHeight()
-                                    .width(settingsState.borderWidth.coerceAtLeast(0.25.dp))
-                                    .background(MaterialTheme.colorScheme.outlineVariant())
-                            )
 
                             Column(
                                 Modifier.weight(0.5f)
                             ) {
                                 controls()
                             }
-                            Box(
-                                Modifier
-                                    .fillMaxHeight()
-                                    .width(settingsState.borderWidth.coerceAtLeast(0.25.dp))
-                                    .background(MaterialTheme.colorScheme.outlineVariant())
-                                    .padding(start = 20.dp)
-                            )
                             Column(
                                 Modifier
+                                    .container(
+                                        RectangleShape,
+                                        color = MaterialTheme.colorScheme.surfaceContainerHigh
+                                    )
                                     .padding(horizontal = 20.dp)
                                     .fillMaxHeight()
                                     .navigationBarsPadding(),
@@ -435,24 +430,24 @@ fun CropScreen(
                             ) {
                                 FloatingActionButton(
                                     onClick = pickImage,
-                                    modifier = Modifier.fabBorder(),
+                                    modifier = Modifier.containerFabBorder(),
                                     containerColor = MaterialTheme.colorScheme.tertiaryContainer,
                                     elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
                                     content = {
                                         Icon(Icons.Rounded.AddPhotoAlternate, null)
                                     }
                                 )
-                                Spacer(modifier = Modifier.height(16.dp))
+                                Spacer(modifier = Modifier.height(8.dp))
                                 var job by remember { mutableStateOf<Job?>(null) }
                                 FloatingActionButton(
                                     onClick = {
                                         job?.cancel()
                                         job = scope.launch {
-                                            kotlinx.coroutines.delay(500)
+                                            delay(500)
                                             crop = true
                                         }
                                     },
-                                    modifier = Modifier.fabBorder(),
+                                    modifier = Modifier.containerFabBorder(),
                                     containerColor = MaterialTheme.colorScheme.secondaryContainer,
                                     elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
                                 ) {
@@ -460,12 +455,12 @@ fun CropScreen(
                                 }
                                 AnimatedVisibility(viewModel.isBitmapChanged) {
                                     Column {
-                                        Spacer(modifier = Modifier.height(16.dp))
+                                        Spacer(modifier = Modifier.height(8.dp))
                                         FloatingActionButton(
                                             onClick = {
                                                 viewModel.bitmap?.let(saveBitmap)
                                             },
-                                            modifier = Modifier.fabBorder(),
+                                            modifier = Modifier.containerFabBorder(),
                                             elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
                                         ) {
                                             Icon(Icons.Rounded.Save, null)

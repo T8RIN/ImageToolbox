@@ -6,7 +6,6 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.LocalIndication
-import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.indication
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -20,7 +19,6 @@ import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.asPaddingValues
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.ime
@@ -61,6 +59,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.clipToBounds
+import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalConfiguration
@@ -79,7 +78,6 @@ import ru.tech.imageresizershrinker.presentation.filters_screen.components.Filte
 import ru.tech.imageresizershrinker.presentation.filters_screen.components.FilterReorderSheet
 import ru.tech.imageresizershrinker.presentation.filters_screen.viewModel.FilterViewModel
 import ru.tech.imageresizershrinker.presentation.root.theme.mixedContainer
-import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
 import ru.tech.imageresizershrinker.presentation.root.transformation.ImageInfoTransformation
 import ru.tech.imageresizershrinker.presentation.root.transformation.filter.SaturationFilter
 import ru.tech.imageresizershrinker.presentation.root.utils.confetti.LocalConfettiController
@@ -335,7 +333,9 @@ fun FiltersScreen(
             onPickImage = pickImage,
             onSaveBitmap = saveBitmaps,
             canSave = viewModel.canSave,
-            actions = actions
+            actions = {
+                if (imageInside) actions()
+            }
         )
     }
 
@@ -422,6 +422,10 @@ fun FiltersScreen(
                     if (!imageInside && !viewModel.uris.isNullOrEmpty()) {
                         Box(
                             Modifier
+                                .container(
+                                    shape = RectangleShape,
+                                    color = MaterialTheme.colorScheme.surfaceContainer
+                                )
                                 .weight(1.2f)
                                 .padding(20.dp)
                         ) {
@@ -429,12 +433,6 @@ fun FiltersScreen(
                                 imageBlock()
                             }
                         }
-                        Box(
-                            Modifier
-                                .fillMaxHeight()
-                                .width(settingsState.borderWidth.coerceAtLeast(0.25.dp))
-                                .background(MaterialTheme.colorScheme.outlineVariant())
-                        )
                     }
 
                     LazyColumn(
@@ -564,13 +562,6 @@ fun FiltersScreen(
                         }
                     }
                     if (!imageInside && viewModel.bitmap != null) {
-                        Box(
-                            Modifier
-                                .fillMaxHeight()
-                                .width(settingsState.borderWidth.coerceAtLeast(0.25.dp))
-                                .background(MaterialTheme.colorScheme.outlineVariant())
-                                .padding(start = 20.dp)
-                        )
                         buttons()
                     }
                 }

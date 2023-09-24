@@ -7,7 +7,6 @@ import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.LocalIndication
-import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.indication
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -21,14 +20,12 @@ import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.asPaddingValues
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.ime
 import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
@@ -61,6 +58,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.clipToBounds
+import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalConfiguration
@@ -75,13 +73,13 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.presentation.resize_and_convert_screen.viewModel.ResizeAndConvertViewModel
-import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
 import ru.tech.imageresizershrinker.presentation.root.transformation.ImageInfoTransformation
 import ru.tech.imageresizershrinker.presentation.root.transformation.filter.SaturationFilter
 import ru.tech.imageresizershrinker.presentation.root.utils.confetti.LocalConfettiController
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.Picker
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.localImagePickerMode
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.rememberImagePicker
+import ru.tech.imageresizershrinker.presentation.root.utils.modifier.container
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.drawHorizontalStroke
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.navBarsLandscapePadding
 import ru.tech.imageresizershrinker.presentation.root.widget.buttons.BottomButtonsBlock
@@ -497,6 +495,10 @@ fun ResizeAndConvertScreen(
                     if (!imageInside && viewModel.bitmap != null) {
                         Box(
                             Modifier
+                                .container(
+                                    RectangleShape,
+                                    color = MaterialTheme.colorScheme.surfaceContainer
+                                )
                                 .weight(1.2f)
                                 .padding(20.dp)
                         ) {
@@ -504,12 +506,6 @@ fun ResizeAndConvertScreen(
                                 imageBlock()
                             }
                         }
-                        Box(
-                            Modifier
-                                .fillMaxHeight()
-                                .width(settingsState.borderWidth.coerceAtLeast(0.25.dp))
-                                .background(MaterialTheme.colorScheme.outlineVariant())
-                        )
                     }
                     LazyColumn(
                         contentPadding = PaddingValues(
@@ -551,13 +547,6 @@ fun ResizeAndConvertScreen(
                         }
                     }
                     if (!imageInside && viewModel.bitmap != null) {
-                        Box(
-                            Modifier
-                                .fillMaxHeight()
-                                .width(settingsState.borderWidth.coerceAtLeast(0.25.dp))
-                                .background(MaterialTheme.colorScheme.outlineVariant())
-                                .padding(start = 20.dp)
-                        )
                         buttons()
                     }
                 }

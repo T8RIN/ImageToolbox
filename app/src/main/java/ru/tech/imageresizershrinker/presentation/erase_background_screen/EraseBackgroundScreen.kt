@@ -10,7 +10,6 @@ import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -103,7 +102,6 @@ import ru.tech.imageresizershrinker.presentation.erase_background_screen.compone
 import ru.tech.imageresizershrinker.presentation.erase_background_screen.components.TrimImageToggle
 import ru.tech.imageresizershrinker.presentation.erase_background_screen.viewModel.EraseBackgroundViewModel
 import ru.tech.imageresizershrinker.presentation.root.icons.material.Transparency
-import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
 import ru.tech.imageresizershrinker.presentation.root.transformation.filter.SaturationFilter
 import ru.tech.imageresizershrinker.presentation.root.utils.confetti.LocalConfettiController
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.Picker
@@ -111,6 +109,7 @@ import ru.tech.imageresizershrinker.presentation.root.utils.helper.localImagePic
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.parseSaveResult
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.rememberImagePicker
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.container
+import ru.tech.imageresizershrinker.presentation.root.utils.modifier.containerFabBorder
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.drawHorizontalStroke
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.fabBorder
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.navBarsPaddingOnlyIfTheyAtTheEnd
@@ -460,7 +459,7 @@ fun EraseBackgroundScreen(
                             Row {
                                 FloatingActionButton(
                                     onClick = pickImage,
-                                    modifier = Modifier.fabBorder(),
+                                    modifier = Modifier.containerFabBorder(),
                                     containerColor = MaterialTheme.colorScheme.tertiaryContainer,
                                     elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
                                 ) {
@@ -469,7 +468,7 @@ fun EraseBackgroundScreen(
                                 Spacer(modifier = Modifier.width(8.dp))
                                 FloatingActionButton(
                                     onClick = saveBitmap,
-                                    modifier = Modifier.fabBorder(),
+                                    modifier = Modifier.containerFabBorder(),
                                     elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
                                 ) {
                                     Icon(Icons.Rounded.Save, null)
@@ -556,18 +555,17 @@ fun EraseBackgroundScreen(
                 ) {
                     Box(
                         Modifier
+                            .container(
+                                shape = RectangleShape,
+                                resultPadding = 0.dp,
+                                color = MaterialTheme.colorScheme.surfaceContainer
+                            )
                             .weight(1.2f)
                             .clipToBounds(),
                         contentAlignment = Alignment.Center
                     ) {
                         image()
                     }
-                    Box(
-                        Modifier
-                            .fillMaxHeight()
-                            .width(settingsState.borderWidth.coerceAtLeast(0.25.dp))
-                            .background(MaterialTheme.colorScheme.outlineVariant())
-                    )
                     LazyColumn(
                         horizontalAlignment = Alignment.CenterHorizontally,
                         contentPadding = PaddingValues(
@@ -586,15 +584,12 @@ fun EraseBackgroundScreen(
                             controls()
                         }
                     }
-                    Box(
-                        Modifier
-                            .fillMaxHeight()
-                            .width(settingsState.borderWidth.coerceAtLeast(0.25.dp))
-                            .background(MaterialTheme.colorScheme.outlineVariant())
-                            .padding(start = 20.dp)
-                    )
                     Column(
                         Modifier
+                            .container(
+                                shape = RectangleShape,
+                                color = MaterialTheme.colorScheme.surfaceContainer
+                            )
                             .padding(horizontal = 20.dp)
                             .fillMaxHeight()
                             .navigationBarsPadding(),
@@ -623,7 +618,7 @@ fun EraseBackgroundScreen(
         }
     }
 
-    if (viewModel.isSaving || viewModel.isImageLoading) {
+    if (viewModel.isSaving || viewModel.isImageLoading || viewModel.isErasingBG) {
         LoadingDialog(viewModel.isSaving) {
             viewModel.cancelSaving()
         }
