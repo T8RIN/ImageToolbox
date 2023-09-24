@@ -662,9 +662,9 @@ class AndroidImageManager @Inject constructor(
         var width = imageInfo.width
         var height = imageInfo.height
 
-        while (height * width * 4L >= 4096 * 4096 * 5L) {
-            height = (height * 0.9f).roundToInt()
-            width = (width * 0.9f).roundToInt()
+        while (height * width * 4L >= 2096 * 2096 * 5L) {
+            height = (height * 0.8f).roundToInt()
+            width = (width * 0.8f).roundToInt()
         }
 
         out.write(compress(ImageData(image, imageInfo.copy(width = width, height = height))))
