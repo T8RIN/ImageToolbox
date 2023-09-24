@@ -98,7 +98,6 @@ import ru.tech.imageresizershrinker.presentation.root.widget.text.AutoSizeText
 import ru.tech.imageresizershrinker.presentation.root.widget.text.Marquee
 import ru.tech.imageresizershrinker.presentation.root.widget.text.RoundedTextField
 import ru.tech.imageresizershrinker.presentation.root.widget.text.TitleItem
-import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalSettingsState
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -130,7 +129,6 @@ fun DrawHost(
     onDraw: (Bitmap) -> Unit
 ) {
     val showBackgroundDrawingSetup = rememberSaveable { mutableStateOf(false) }
-    val settingsState = LocalSettingsState.current
 
     val scope = rememberCoroutineScope()
     val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
