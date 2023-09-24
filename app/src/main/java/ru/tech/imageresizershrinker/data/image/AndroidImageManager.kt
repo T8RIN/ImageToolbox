@@ -164,8 +164,6 @@ class AndroidImageManager @Inject constructor(
         val widthInternal = width.takeIf { it > 0 } ?: image.width
         val heightInternal = height.takeIf { it > 0 } ?: image.height
 
-        val max = max(widthInternal, heightInternal)
-
         return@withContext when (resizeType) {
             ResizeType.Explicit -> {
                 Bitmap.createScaledBitmap(
@@ -177,27 +175,42 @@ class AndroidImageManager @Inject constructor(
             }
 
             ResizeType.Flexible -> {
-                kotlin.runCatching {
-                    if (image.height >= image.width) {
-                        val aspectRatio = image.width.toDouble() / image.height.toDouble()
-                        val targetWidth = (max * aspectRatio).toInt()
-                        Bitmap.createScaledBitmap(image, targetWidth, max, false)
-                    } else {
-                        val aspectRatio = image.height.toDouble() / image.width.toDouble()
-                        val targetHeight = (max * aspectRatio).toInt()
-                        Bitmap.createScaledBitmap(image, max, targetHeight, false)
-                    }
-                }.getOrNull() ?: image
+                flexibleResize(
+                    image = image,
+                    max = max(widthInternal, heightInternal)
+                )
             }
 
             ResizeType.Ratio -> {
-                resizeWithAspectRatio(image, widthInternal, heightInternal)
+                resizeWithAspectRatio(
+                    image = image,
+                    w = widthInternal,
+                    h = heightInternal
+                )
             }
 
             is ResizeType.Limits -> {
-                resizeType.resizeWithLimits(image, widthInternal, heightInternal)
+                resizeType.resizeWithLimits(
+                    image = image,
+                    width = widthInternal,
+                    height = heightInternal
+                )
             }
         }
+    }
+
+    private fun flexibleResize(image: Bitmap, max: Int): Bitmap {
+        return kotlin.runCatching {
+            if (image.height >= image.width) {
+                val aspectRatio = image.width.toDouble() / image.height.toDouble()
+                val targetWidth = (max * aspectRatio).toInt()
+                Bitmap.createScaledBitmap(image, targetWidth, max, false)
+            } else {
+                val aspectRatio = image.height.toDouble() / image.width.toDouble()
+                val targetHeight = (max * aspectRatio).toInt()
+                Bitmap.createScaledBitmap(image, max, targetHeight, false)
+            }
+        }.getOrNull() ?: image
     }
 
     private suspend fun ResizeType.Limits.resizeWithLimits(

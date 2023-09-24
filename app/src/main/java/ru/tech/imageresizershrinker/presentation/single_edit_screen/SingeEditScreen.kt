@@ -286,7 +286,9 @@ fun SingleEditScreen(
             targetState = (viewModel.bitmap == null) to imageInside,
             onPickImage = pickImage,
             onSaveBitmap = saveBitmap,
-            actions = actions
+            actions = {
+                if (imageInside) actions()
+            }
         )
     }
 

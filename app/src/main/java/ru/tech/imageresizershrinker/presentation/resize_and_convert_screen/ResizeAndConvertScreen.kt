@@ -322,7 +322,9 @@ fun ResizeAndConvertScreen(
             targetState = (viewModel.uris.isNullOrEmpty()) to imageInside,
             onPickImage = pickImage,
             onSaveBitmap = saveBitmaps,
-            actions = actions
+            actions = {
+                if (imageInside) actions()
+            }
         )
     }
 
