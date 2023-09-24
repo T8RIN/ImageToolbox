@@ -355,4 +355,6 @@
     <string name="crashlytics_sub">Acest lucru permite aplicației să colecteze rapoarte de crash-uri manual</string>
     <string name="analytics_sub">Permite colectarea de statistici anonime privind utilizarea aplicației</string>
     <string name="jxl_sub">Formatul JXL nu este suportat oficial de Android, astfel încât ceva ar putea să nu funcționeze, de asemenea, salvarea va funcționa numai dacă alegeți directorul de ieșire personalizat, aceasta este o versiune experimentală, bug-urile de aici nu vor fi fixate decât dacă Google va adăuga suport pentru JXL, această versiune poate, de asemenea, să vizualizeze astfel de imagini</string>
+    <string name="image_exif_warning">În prezent, formatul %1$s de pe android permite doar citirea exif și nu modificarea/salvarea acestuia, ceea ce înseamnă că imaginea de ieșire nu va avea deloc metadate.</string>
+    <string name="effort">Efort</string>
 </resources>
