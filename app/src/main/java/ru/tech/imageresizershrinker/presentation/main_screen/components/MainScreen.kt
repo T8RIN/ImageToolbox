@@ -417,7 +417,15 @@ fun MainScreen(
                                     }
 
                                     Row(verticalAlignment = Alignment.CenterVertically) {
-                                        Text(stringResource(R.string.app_name))
+                                        Text(
+                                            text = stringResource(R.string.app_name),
+                                            modifier = Modifier.padding(
+                                                start = WindowInsets
+                                                    .displayCutout
+                                                    .asPaddingValues()
+                                                    .calculateStartPadding(layoutDirection)
+                                            )
+                                        )
                                         Badge(
                                             content = {
                                                 Text(

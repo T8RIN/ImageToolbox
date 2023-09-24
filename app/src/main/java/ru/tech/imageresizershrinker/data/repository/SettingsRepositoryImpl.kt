@@ -1,5 +1,6 @@
 package ru.tech.imageresizershrinker.data.repository
 
+import android.annotation.SuppressLint
 import android.content.Context
 import androidx.core.net.toUri
 import androidx.datastore.core.DataStore
@@ -283,6 +284,7 @@ class SettingsRepositoryImpl @Inject constructor(
         return File(context.filesDir, "datastore/image_resizer.preferences_pb").readBytes()
     }
 
+    @SuppressLint("RestrictedApi")
     override suspend fun restoreFromBackupFile(
         backupFileUri: String,
         onSuccess: () -> Unit,
