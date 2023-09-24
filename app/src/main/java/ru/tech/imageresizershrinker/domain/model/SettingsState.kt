@@ -41,7 +41,7 @@ data class SettingsState(
             emojisCount = 1,
             isAmoledMode = false,
             appColorTuple = "",
-            borderWidth = 1f,
+            borderWidth = 0f,
             presets = emptyList(),
             fabAlignment = 1,
             selectedEmoji = 0,

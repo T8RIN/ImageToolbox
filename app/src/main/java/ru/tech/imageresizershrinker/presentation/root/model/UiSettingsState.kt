@@ -26,7 +26,7 @@ data class UiSettingsState(
     val emojisCount: Int = 1,
     val isAmoledMode: Boolean = false,
     val appColorTuple: ColorTuple = ColorTuple(Color.Unspecified),
-    val borderWidth: Dp = 1.dp,
+    val borderWidth: Dp = 0.dp,
     val presets: List<Int> = listOf(),
     val fabAlignment: Alignment = Alignment.BottomCenter,
     val showDialogOnStartup: Boolean = true,

@@ -44,7 +44,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import kotlinx.collections.immutable.ImmutableList
@@ -144,13 +143,7 @@ fun EmojiSheetContent(
         Row(
             modifier = Modifier
                 .background(MaterialTheme.colorScheme.surfaceColorAtElevation(10.dp))
-                .padding(start = 8.dp, end = 8.dp, bottom = 8.dp)
-                .clip(MaterialTheme.shapes.large)
-                .clickable {
-                    if (!emojiEnabled) onEmojiPicked(Random.nextInt(0, allEmojis.lastIndex))
-                    else onEmojiPicked(-1)
-                }
-                .padding(start = 8.dp, end = 8.dp),
+                .padding(start = 16.dp, end = 16.dp, bottom = 8.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
             Text(stringResource(id = R.string.enable_emoji), modifier = Modifier.weight(1f))

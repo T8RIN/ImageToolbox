@@ -355,7 +355,14 @@ fun MainScreen(
                     }
                 )
                 LazyColumn(
-                    contentPadding = WindowInsets.navigationBars.asPaddingValues() + WindowInsets.displayCutout.asPaddingValues(),
+                    contentPadding = WindowInsets.navigationBars.asPaddingValues().plus(
+                        paddingValues = WindowInsets.displayCutout.asPaddingValues().run {
+                            PaddingValues(
+                                bottom = calculateBottomPadding(),
+                                end = calculateEndPadding(layoutDirection)
+                            )
+                        }
+                    ),
                     state = lazyListState
                 ) {
                     settingsBlock(

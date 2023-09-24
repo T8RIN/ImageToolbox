@@ -68,7 +68,7 @@ class SettingsRepositoryImpl @Inject constructor(
             isDynamicColors = prefs[DYNAMIC_COLORS] ?: true,
             isAmoledMode = prefs[AMOLED_MODE] ?: false,
             appColorTuple = prefs[APP_COLOR_TUPLE] ?: "",
-            borderWidth = prefs[BORDER_WIDTH] ?: 1f,
+            borderWidth = prefs[BORDER_WIDTH] ?: 0f,
             showDialogOnStartup = prefs[SHOW_UPDATE_DIALOG] ?: true,
             selectedEmoji = prefs[SELECTED_EMOJI_INDEX] ?: 0,
             screenList = prefs[SCREEN_ORDER]?.split("/")?.map {
@@ -103,7 +103,7 @@ class SettingsRepositoryImpl @Inject constructor(
             isDynamicColors = prefs[DYNAMIC_COLORS] ?: true,
             isAmoledMode = prefs[AMOLED_MODE] ?: false,
             appColorTuple = prefs[APP_COLOR_TUPLE] ?: "",
-            borderWidth = prefs[BORDER_WIDTH] ?: 1f,
+            borderWidth = prefs[BORDER_WIDTH] ?: 0f,
             showDialogOnStartup = prefs[SHOW_UPDATE_DIALOG] ?: true,
             selectedEmoji = prefs[SELECTED_EMOJI_INDEX] ?: 0,
             screenList = prefs[SCREEN_ORDER]?.split("/")?.map {
