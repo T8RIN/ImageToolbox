@@ -1,5 +1,6 @@
 package ru.tech.imageresizershrinker.presentation.draw_screen.components
 
+import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
@@ -72,28 +73,37 @@ fun DrawModeSelector(
                     .padding(start = 6.dp, end = 6.dp, bottom = 8.dp, top = 8.dp)
             ) {
                 DrawMode.entries.forEachIndexed { index, item ->
+                    val selected = drawMode == item
+                    val shape = SegmentedButtonDefaults.itemShape(
+                        index = index,
+                        count = DrawMode.entries.size
+                    )
                     SegmentedButton(
                         onClick = { onDrawModeChange(item) },
-                        border = SegmentedButtonBorder(max(settingsState.borderWidth, 1.dp)),
-                        selected = drawMode == item,
+                        selected = selected,
                         icon = {},
+                        border = SegmentedButtonBorder(settingsState.borderWidth),
                         colors = SegmentedButtonDefaults.colors(
                             activeBorderColor = MaterialTheme.colorScheme.outlineVariant(),
                             inactiveContainerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(
                                 6.dp
-                            ),
-                            activeContainerColor = MaterialTheme.colorScheme.secondary,
-                            activeContentColor = MaterialTheme.colorScheme.onSecondary
+                            )
                         ),
-                        shape = SegmentedButtonDefaults.shape(index, DrawMode.entries.size),
-
-                        ) {
+                        modifier = Modifier.materialShadow(
+                            shape = shape,
+                            elevation = animateDpAsState(
+                                if (settingsState.borderWidth >= 0.dp || !settingsState.allowShowingShadowsInsteadOfBorders) 0.dp
+                                else if (selected) 2.dp
+                                else 1.dp
+                            ).value
+                        ),
+                        shape = shape
+                    ) {
                         Icon(
                             imageVector = when (item) {
                                 DrawMode.Highlighter -> Icons.Rounded.Highlighter
                                 DrawMode.Neon -> Icons.Rounded.Laser
                                 DrawMode.Pen -> Icons.Rounded.Brush
-//                                DrawMode.Rainbow -> Icons.Rounded.Looks
                             },
                             contentDescription = null
                         )

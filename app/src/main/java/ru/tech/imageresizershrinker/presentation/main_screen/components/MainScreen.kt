@@ -42,7 +42,6 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
 import androidx.compose.foundation.lazy.staggeredgrid.items
@@ -50,12 +49,12 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.rounded.MenuOpen
 import androidx.compose.material.icons.rounded.AlternateEmail
 import androidx.compose.material.icons.rounded.Close
 import androidx.compose.material.icons.rounded.DragHandle
 import androidx.compose.material.icons.rounded.FileDownload
 import androidx.compose.material.icons.rounded.FileDownloadOff
-import androidx.compose.material.icons.rounded.MenuOpen
 import androidx.compose.material.icons.rounded.Person
 import androidx.compose.material.icons.rounded.Settings
 import androidx.compose.material.icons.rounded.TableRows
@@ -133,7 +132,6 @@ import ru.tech.imageresizershrinker.presentation.root.icons.material.GooglePlay
 import ru.tech.imageresizershrinker.presentation.root.icons.material.Telegram
 import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.ContextUtils.isInstalledFromPlayStore
-import ru.tech.imageresizershrinker.presentation.root.utils.helper.plus
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.alertDialogBorder
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.container
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.drawHorizontalStroke
@@ -190,7 +188,6 @@ fun MainScreen(
         LocalWindowSizeClass.current.heightSizeClass == WindowHeightSizeClass.Compact
     val isSheetSlideable = !isGrid
     val layoutDirection = LocalLayoutDirection.current
-    val lazyListState = rememberLazyListState()
 
     val updateButtonOnClick = {
         if (viewModel.updateAvailable) {
@@ -344,7 +341,7 @@ fun MainScreen(
                                 }
                             ) {
                                 Icon(
-                                    Icons.Rounded.MenuOpen,
+                                    Icons.AutoMirrored.Rounded.MenuOpen,
                                     null,
                                     modifier = Modifier.rotate(
                                         animateFloatAsState(if (!sheetExpanded) 0f else 180f).value
@@ -354,31 +351,15 @@ fun MainScreen(
                         }
                     }
                 )
-                LazyColumn(
-                    contentPadding = WindowInsets.navigationBars.asPaddingValues().plus(
-                        paddingValues = WindowInsets.displayCutout.asPaddingValues().run {
-                            PaddingValues(
-                                bottom = calculateBottomPadding(),
-                                end = calculateEndPadding(layoutDirection)
-                            )
-                        }
-                    ),
-                    state = lazyListState
-                ) {
-                    settingsBlock(
-                        onEditPresets = { editPresetsState.value = true },
-                        onEditArrangement = { showArrangementSheet.value = true },
-                        onEditFilename = { showChangeFilenameDialog = true },
-                        onEditEmoji = { showEmojiDialog.value = true },
-                        onEditColorScheme = { showPickColorDialog.value = true },
-                        onShowAuthor = { showAuthorDialog.value = true },
-                        settingsState = settingsState,
-                        toastHostState = toastHost,
-                        scope = scope,
-                        context = context,
-                        viewModel = viewModel
-                    )
-                }
+                SettingsBlock(
+                    onEditPresets = { editPresetsState.value = true },
+                    onEditArrangement = { showArrangementSheet.value = true },
+                    onEditFilename = { showChangeFilenameDialog = true },
+                    onEditEmoji = { showEmojiDialog.value = true },
+                    onEditColorScheme = { showPickColorDialog.value = true },
+                    onShowAuthor = { showAuthorDialog.value = true },
+                    viewModel = viewModel
+                )
             }
         }
     }

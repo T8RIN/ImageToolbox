@@ -1,9 +1,10 @@
 package ru.tech.imageresizershrinker.presentation.main_screen.components
 
-import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateContentSize
+import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Spacer
@@ -36,6 +37,7 @@ fun SettingItem(
     initialState: Boolean = false,
     content: @Composable ColumnScope.() -> Unit
 ) {
+
     Column(
         Modifier
             .animateContentSize()
@@ -68,8 +70,8 @@ fun SettingItem(
                 }
             }
         )
-        AnimatedVisibility(expanded) {
-            Column {
+        BoxWithConstraints {
+            Column(Modifier.height(animateDpAsState(if (expanded) maxHeight else 0.dp).value)) {
                 Spacer(modifier = Modifier.height(8.dp))
                 content()
                 Spacer(modifier = Modifier.height(8.dp))

@@ -82,10 +82,7 @@ fun ToggleGroupButton(
                         .padding(start = 6.dp, end = 6.dp, bottom = 8.dp, top = 8.dp)
                 ) {
                     items.forEachIndexed { index, item ->
-                        val shape = SegmentedButtonDefaults.shape(
-                            position = index,
-                            count = items.size
-                        )
+                        val shape = SegmentedButtonDefaults.itemShape(index, items.size)
                         SegmentedButton(
                             enabled = enabled,
                             onClick = { indexChanged(index) },

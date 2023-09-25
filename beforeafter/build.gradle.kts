@@ -64,7 +64,7 @@ dependencies {
     implementation("androidx.compose.runtime:runtime:1.5.1")
 
     // Material Design 3 for Compose
-    implementation("androidx.compose.material3:material3:1.1.1")
+    implementation("androidx.compose.material3:material3:1.1.2")
     // Material design icons
     implementation("androidx.compose.material:material-icons-extended:1.5.1")
 }

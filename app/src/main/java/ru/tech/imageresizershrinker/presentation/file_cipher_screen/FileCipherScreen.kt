@@ -40,15 +40,15 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.rounded.ArrowBack
+import androidx.compose.material.icons.automirrored.rounded.HelpOutline
+import androidx.compose.material.icons.automirrored.rounded.InsertDriveFile
 import androidx.compose.material.icons.outlined.Cancel
-import androidx.compose.material.icons.rounded.ArrowBack
 import androidx.compose.material.icons.rounded.CheckCircle
 import androidx.compose.material.icons.rounded.ErrorOutline
 import androidx.compose.material.icons.rounded.FileDownload
 import androidx.compose.material.icons.rounded.FileOpen
 import androidx.compose.material.icons.rounded.FolderOpen
-import androidx.compose.material.icons.rounded.HelpOutline
-import androidx.compose.material.icons.rounded.InsertDriveFile
 import androidx.compose.material.icons.rounded.Save
 import androidx.compose.material.icons.rounded.Share
 import androidx.compose.material.icons.rounded.Shuffle
@@ -254,7 +254,7 @@ fun FileCipherScreen(
                         ),
                         navigationIcon = {
                             IconButton(onClick = onGoBack) {
-                                Icon(Icons.Rounded.ArrowBack, null)
+                                Icon(Icons.AutoMirrored.Rounded.ArrowBack, null)
                             }
                         },
                         actions = {
@@ -329,9 +329,9 @@ fun FileCipherScreen(
                                                     .padding(end = 8.dp, start = 2.dp)
                                             ) {
                                                 items.forEachIndexed { index, item ->
-                                                    val shape = SegmentedButtonDefaults.shape(
-                                                        position = index,
-                                                        count = items.size
+                                                    val shape = SegmentedButtonDefaults.itemShape(
+                                                        index,
+                                                        items.size
                                                     )
                                                     val selected =
                                                         index == if (viewModel.isEncrypt) 0 else 1
@@ -365,7 +365,7 @@ fun FileCipherScreen(
                                                     showTip.value = true
                                                 }
                                             ) {
-                                                Icon(Icons.Rounded.HelpOutline, null)
+                                                Icon(Icons.AutoMirrored.Rounded.HelpOutline, null)
                                             }
                                         }
 
@@ -390,7 +390,7 @@ fun FileCipherScreen(
                                                 applyHorPadding = false,
                                                 startContent = {
                                                     Icon(
-                                                        Icons.Rounded.InsertDriveFile,
+                                                        Icons.AutoMirrored.Rounded.InsertDriveFile,
                                                         null,
                                                         tint = MaterialTheme.colorScheme.onPrimaryContainer,
                                                         modifier = Modifier.padding(

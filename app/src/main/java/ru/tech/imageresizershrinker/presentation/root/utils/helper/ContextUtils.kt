@@ -184,7 +184,7 @@ object ContextUtils {
                         Icons.Rounded.ErrorOutline
                     )
                 }
-            } else null
+            } else Unit
         }.getOrNull() ?: showToast(
             getString(R.string.something_went_wrong),
             Icons.Rounded.ErrorOutline

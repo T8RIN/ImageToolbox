@@ -34,10 +34,10 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.rounded.ArrowBack
 import androidx.compose.material.icons.outlined.Delete
 import androidx.compose.material.icons.outlined.Share
 import androidx.compose.material.icons.rounded.AddPhotoAlternate
-import androidx.compose.material.icons.rounded.ArrowBack
 import androidx.compose.material.icons.rounded.Draw
 import androidx.compose.material.icons.rounded.FormatPaint
 import androidx.compose.material.icons.rounded.Image
@@ -220,7 +220,7 @@ fun DrawHost(
                     IconButton(
                         onClick = onBack
                     ) {
-                        Icon(Icons.Rounded.ArrowBack, null)
+                        Icon(Icons.AutoMirrored.Rounded.ArrowBack, null)
                     }
                 },
             )
@@ -388,7 +388,7 @@ fun DrawHost(
                             IconButton(
                                 onClick = onBack
                             ) {
-                                Icon(Icons.Rounded.ArrowBack, null)
+                                Icon(Icons.AutoMirrored.Rounded.ArrowBack, null)
                             }
                         },
                         actions = {
@@ -398,7 +398,7 @@ fun DrawHost(
                     val cutout = WindowInsets.displayCutout.asPaddingValues()
                     LazyVerticalStaggeredGrid(
                         modifier = Modifier.weight(1f),
-                        columns = StaggeredGridCells.Fixed(2),
+                        columns = StaggeredGridCells.Adaptive(300.dp),
                         horizontalArrangement = Arrangement.spacedBy(
                             space = 12.dp,
                             alignment = Alignment.CenterHorizontally
