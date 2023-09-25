@@ -55,7 +55,7 @@ class ScreenshotService : Service() {
 
         val resultCode = intent?.getIntExtra("resultCode", RESULT_CANCELED) ?: RESULT_CANCELED
         val data = intent?.parcelable<Intent>("data")
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val notificationManager =
                 getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
             notificationManager.createNotificationChannel(
@@ -65,13 +65,22 @@ class ScreenshotService : Service() {
                     NotificationManager.IMPORTANCE_DEFAULT
                 )
             )
-            startForeground(
-                1,
-                Notification.Builder(applicationContext, "1")
-                    .setSmallIcon(R.drawable.outline_colorize_24)
-                    .build(),
-                ServiceInfo.FOREGROUND_SERVICE_TYPE_MEDIA_PROJECTION
-            )
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                startForeground(
+                    1,
+                    Notification.Builder(applicationContext, "1")
+                        .setSmallIcon(R.drawable.ic_launcher_monochrome)
+                        .build(),
+                    ServiceInfo.FOREGROUND_SERVICE_TYPE_MEDIA_PROJECTION
+                )
+            } else {
+                startForeground(
+                    1,
+                    Notification.Builder(applicationContext, "1")
+                        .setSmallIcon(R.drawable.ic_launcher_monochrome)
+                        .build()
+                )
+            }
         }
         startCapture(mediaProjectionManager.getMediaProjection(resultCode, data!!), intent)
 

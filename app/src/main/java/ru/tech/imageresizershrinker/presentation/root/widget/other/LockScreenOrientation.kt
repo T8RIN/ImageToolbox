@@ -1,15 +1,14 @@
 package ru.tech.imageresizershrinker.presentation.root.widget.other
 
+import android.app.Activity
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.ui.platform.LocalContext
-import ru.tech.imageresizershrinker.presentation.root.utils.helper.ContextUtils.findActivity
 
 @Composable
 fun LockScreenOrientation(orientation: Int) {
-    val context = LocalContext.current
+    val activity = LocalContext.current as Activity
     DisposableEffect(orientation) {
-        val activity = context.findActivity() ?: return@DisposableEffect onDispose {}
         val originalOrientation = activity.requestedOrientation
         activity.requestedOrientation = orientation
         onDispose {
