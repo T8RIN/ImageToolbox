@@ -137,52 +137,58 @@ object ContextUtils {
         )
         onStart()
         if (intent?.type != null && notHasUris) onColdStart()
-        if (intent?.type?.startsWith("image/") == true || (intent?.clipData?.clipList()
-                ?.any { it.toString().endsWith(".jxl") } == true && BuildConfig.FLAVOR == "jxl")
-        ) {
-            when (intent.action) {
-                Intent.ACTION_VIEW -> {
-                    val data = intent.data
-                    val clipData = intent.clipData
-                    if (clipData != null) {
-                        navigate(Screen.ImagePreview(intent.clipData!!.clipList()))
-                    } else if (data != null) {
-                        navigate(Screen.ImagePreview(listOf(data)))
-                    }
-                }
 
-                Intent.ACTION_SEND -> {
-                    intent.parcelable<Uri>(Intent.EXTRA_STREAM)?.let {
-                        if (intent.getStringExtra("screen") == Screen.PickColorFromImage::class.simpleName) {
-                            navigate(Screen.PickColorFromImage(it))
-                        } else {
-                            onGetUris(listOf(it))
+        runCatching {
+            if (intent?.type?.startsWith("image/") == true || (intent?.clipData?.clipList()
+                    ?.any { it.toString().endsWith(".jxl") } == true && BuildConfig.FLAVOR == "jxl")
+            ) {
+                when (intent.action) {
+                    Intent.ACTION_VIEW -> {
+                        val data = intent.data
+                        val clipData = intent.clipData
+                        if (clipData != null) {
+                            navigate(Screen.ImagePreview(intent.clipData!!.clipList()))
+                        } else if (data != null) {
+                            navigate(Screen.ImagePreview(listOf(data)))
+                        } else null
+                    }
+
+                    Intent.ACTION_SEND -> {
+                        intent.parcelable<Uri>(Intent.EXTRA_STREAM)?.let {
+                            if (intent.getStringExtra("screen") == Screen.PickColorFromImage::class.simpleName) {
+                                navigate(Screen.PickColorFromImage(it))
+                            } else {
+                                onGetUris(listOf(it))
+                            }
                         }
                     }
-                }
 
-                Intent.ACTION_SEND_MULTIPLE -> {
-                    intent.parcelableArrayList<Uri>(Intent.EXTRA_STREAM)?.let {
-                        onGetUris(it)
+                    Intent.ACTION_SEND_MULTIPLE -> {
+                        intent.parcelableArrayList<Uri>(Intent.EXTRA_STREAM)?.let {
+                            onGetUris(it)
+                        }
+                    }
+
+                    else -> {
+                        intent.data?.let { onGetUris(listOf(it)) }
                     }
                 }
-
-                else -> {
-                    intent.data?.let { onGetUris(listOf(it)) }
+            } else if (intent?.type != null) {
+                if (intent.type?.contains("text") == true) {
+                    navigate(Screen.LoadNetImage(intent.getStringExtra(Intent.EXTRA_TEXT) ?: ""))
+                } else {
+                    intent.parcelable<Uri>(Intent.EXTRA_STREAM)?.let {
+                        navigate(Screen.Cipher(it))
+                    } ?: showToast(
+                        getString(R.string.unsupported_type, intent.type),
+                        Icons.Rounded.ErrorOutline
+                    )
                 }
-            }
-        } else if (intent?.type != null) {
-            if (intent.type?.contains("text") == true) {
-                navigate(Screen.LoadNetImage(intent.getStringExtra(Intent.EXTRA_TEXT) ?: ""))
-            } else {
-                intent.parcelable<Uri>(Intent.EXTRA_STREAM)?.let {
-                    navigate(Screen.Cipher(it))
-                } ?: showToast(
-                    getString(R.string.unsupported_type, intent.type),
-                    Icons.Rounded.ErrorOutline
-                )
-            }
-        }
+            } else null
+        }.getOrNull() ?: showToast(
+            getString(R.string.something_went_wrong),
+            Icons.Rounded.ErrorOutline
+        )
     }
 
     tailrec fun Context.findActivity(): Activity? = when (this) {
