@@ -152,8 +152,8 @@ class EraseBackgroundViewModel @Inject constructor(
     fun saveBitmap(
         onComplete: (saveResult: SaveResult) -> Unit
     ) = viewModelScope.launch {
-        _isSaving.value = true
         withContext(Dispatchers.IO) {
+            _isSaving.value = true
             getErasedBitmap()?.let { localBitmap ->
                 onComplete(
                     fileController.save(
@@ -179,12 +179,12 @@ class EraseBackgroundViewModel @Inject constructor(
                     )
                 )
             }
+            _isSaving.value = false
         }
-        _isSaving.value = false
     }.also {
+        _isSaving.value = false
         savingJob?.cancel()
         savingJob = it
-        _isSaving.value = false
     }
 
     private suspend fun getErasedBitmap(): Bitmap? {
@@ -216,9 +216,9 @@ class EraseBackgroundViewModel @Inject constructor(
             } ?: onComplete()
             _isSaving.value = false
         }.also {
+            _isSaving.value = false
             savingJob?.cancel()
             savingJob = it
-            _isSaving.value = false
         }
     }
 

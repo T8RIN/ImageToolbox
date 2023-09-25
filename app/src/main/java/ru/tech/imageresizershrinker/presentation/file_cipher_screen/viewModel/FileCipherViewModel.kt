@@ -53,8 +53,8 @@ class FileCipherViewModel @Inject constructor(
         onFileRequest: suspend (Uri) -> ByteArray?,
         onComplete: (Throwable?) -> Unit
     ) = viewModelScope.launch {
-        _isSaving.value = true
         withContext(Dispatchers.IO) {
+            _isSaving.value = true
             if (_uri.value == null) {
                 onComplete(null)
                 return@withContext
@@ -73,12 +73,12 @@ class FileCipherViewModel @Inject constructor(
                     } else it
                 )
             }
+            _isSaving.value = false
         }
-        _isSaving.value = false
     }.also {
+        _isSaving.value = false
         savingJob?.cancel()
         savingJob = it
-        _isSaving.value = false
     }
 
     fun setIsEncrypt(isEncrypt: Boolean) {
@@ -90,8 +90,11 @@ class FileCipherViewModel @Inject constructor(
         _byteArray.value = null
     }
 
-    fun saveCryptographyTo(outputStream: OutputStream?, onComplete: (Throwable?) -> Unit) {
-        viewModelScope.launch {
+    fun saveCryptographyTo(
+        outputStream: OutputStream?,
+        onComplete: (Throwable?) -> Unit
+    ) = viewModelScope.launch {
+        withContext(Dispatchers.IO) {
             _isSaving.value = true
             kotlin.runCatching {
                 outputStream?.use {
@@ -99,11 +102,11 @@ class FileCipherViewModel @Inject constructor(
                 }
             }.exceptionOrNull().let(onComplete)
             _isSaving.value = false
-        }.also {
-            savingJob?.cancel()
-            savingJob = it
-            _isSaving.value = false
         }
+    }.also {
+        _isSaving.value = false
+        savingJob?.cancel()
+        savingJob = it
     }
 
     fun generateRandomPassword(): String = generateRandomPasswordUseCase(18)

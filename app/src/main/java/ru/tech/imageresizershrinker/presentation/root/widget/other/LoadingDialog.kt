@@ -61,7 +61,7 @@ fun LoadingDialog(canCancel: Boolean = true, onCancelLoading: () -> Unit) {
             },
             dismissButton = {
                 EnhancedButton(
-                    containerColor = MaterialTheme.colorScheme.primaryContainer,
+                    containerColor = MaterialTheme.colorScheme.secondaryContainer,
                     onClick = onCancelLoading
                 ) {
                     Text(stringResource(id = R.string.cancel))
@@ -117,6 +117,7 @@ fun LoadingDialog(done: Int, left: Int, onCancelLoading: () -> Unit) {
             },
             dismissButton = {
                 EnhancedButton(
+                    containerColor = MaterialTheme.colorScheme.secondaryContainer,
                     onClick = onCancelLoading
                 ) {
                     Text(stringResource(id = R.string.cancel))

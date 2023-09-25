@@ -166,8 +166,8 @@ class CompareViewModel @Inject constructor(
         imageFormat: ImageFormat,
         onComplete: (saveResult: SaveResult) -> Unit
     ) = viewModelScope.launch {
-        _isImageLoading.value = true
         withContext(Dispatchers.IO) {
+            _isImageLoading.value = true
             getOverlayedImage(percent)?.let { localBitmap ->
                 onComplete(
                     fileController.save(
@@ -193,8 +193,8 @@ class CompareViewModel @Inject constructor(
                     )
                 )
             }
+            _isImageLoading.value = false
         }
-        _isImageLoading.value = false
     }.also {
         _isImageLoading.value = false
         savingJob?.cancel()

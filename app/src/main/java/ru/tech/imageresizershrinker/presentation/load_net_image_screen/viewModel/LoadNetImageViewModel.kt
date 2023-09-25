@@ -49,8 +49,8 @@ class LoadNetImageViewModel @Inject constructor(
         link: String,
         onComplete: (saveResult: SaveResult) -> Unit
     ) = viewModelScope.launch {
-        _isSaving.value = true
         withContext(Dispatchers.IO) {
+            _isSaving.value = true
             imageManager.getImage(data = link)?.let { bitmap ->
                 ByteArrayOutputStream().use { out ->
                     bitmap.compress(
@@ -74,12 +74,12 @@ class LoadNetImageViewModel @Inject constructor(
                     )
                 }
             }
+            _isSaving.value = false
         }
-        _isSaving.value = false
     }.also {
+        _isSaving.value = false
         savingJob?.cancel()
         savingJob = it
-        _isSaving.value = false
     }
 
     fun cacheImage(image: Bitmap, imageInfo: ImageInfo) {
@@ -101,9 +101,9 @@ class LoadNetImageViewModel @Inject constructor(
                 }
             )
         }.also {
+            _isSaving.value = false
             savingJob?.cancel()
             savingJob = it
-            _isSaving.value = false
         }
     }
 

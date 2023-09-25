@@ -87,8 +87,8 @@ class DrawViewModel @Inject constructor(
     fun saveBitmap(
         onComplete: (saveResult: SaveResult) -> Unit
     ) = viewModelScope.launch {
-        _isSaving.value = true
         withContext(Dispatchers.IO) {
+            _isSaving.value = true
             getDrawingBitmap()?.let { localBitmap ->
                 onComplete(
                     fileController.save(
@@ -114,8 +114,8 @@ class DrawViewModel @Inject constructor(
                     )
                 )
             }
+            _isSaving.value = false
         }
-        _isSaving.value = false
     }.also {
         _isSaving.value = false
         savingJob?.cancel()

@@ -151,8 +151,8 @@ class FilterViewModel @Inject constructor(
     fun saveBitmaps(
         onResult: (Int, String) -> Unit
     ) = viewModelScope.launch {
-        _isSaving.value = true
         withContext(Dispatchers.IO) {
+            _isSaving.value = true
             var failed = 0
             _done.value = 0
             uris?.forEach { uri ->
@@ -186,12 +186,12 @@ class FilterViewModel @Inject constructor(
                 _done.value += 1
             }
             onResult(failed, fileController.savingPath)
+            _isSaving.value = false
         }
-        _isSaving.value = false
     }.also {
+        _isSaving.value = false
         savingJob?.cancel()
         savingJob = it
-        _isSaving.value = false
     }
 
     fun setBitmap(uri: Uri) {
@@ -301,9 +301,9 @@ class FilterViewModel @Inject constructor(
                 }
             )
         }.also {
+            _isSaving.value = false
             savingJob?.cancel()
             savingJob = it
-            _isSaving.value = false
         }
     }
 

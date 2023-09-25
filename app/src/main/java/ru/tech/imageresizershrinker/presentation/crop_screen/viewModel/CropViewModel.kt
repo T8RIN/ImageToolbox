@@ -87,8 +87,8 @@ class CropViewModel @Inject constructor(
         bitmap: Bitmap? = _bitmap.value,
         onComplete: (saveResult: SaveResult) -> Unit
     ) = viewModelScope.launch {
-        _isSaving.value = true
         withContext(Dispatchers.IO) {
+            _isSaving.value = true
             bitmap?.let { localBitmap ->
                 val byteArray = imageManager.compress(
                     ImageData(
@@ -121,12 +121,12 @@ class CropViewModel @Inject constructor(
                     )
                 )
             }
+            _isSaving.value = false
         }
-        _isSaving.value = false
     }.also {
+        _isSaving.value = false
         savingJob?.cancel()
         savingJob = it
-        _isSaving.value = false
     }
 
     fun setCropAspectRatio(aspectRatio: AspectRatio) {

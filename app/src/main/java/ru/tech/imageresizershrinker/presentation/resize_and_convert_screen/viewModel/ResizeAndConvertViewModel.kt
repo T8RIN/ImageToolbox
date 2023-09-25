@@ -362,9 +362,9 @@ class ResizeAndConvertViewModel @Inject constructor(
                 }
             )
         }.also {
+            _isSaving.value = false
             savingJob?.cancel()
             savingJob = it
-            _isSaving.value = false
         }
     }
 
