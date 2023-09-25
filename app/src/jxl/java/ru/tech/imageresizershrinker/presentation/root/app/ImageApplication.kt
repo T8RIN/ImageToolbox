@@ -7,7 +7,6 @@ import coil.decode.GifDecoder
 import coil.decode.ImageDecoderDecoder
 import coil.decode.SvgDecoder
 import coil.imageLoader
-import coil.util.DebugLogger
 import com.github.awxkee.avifcoil.HeifDecoder
 import com.google.mlkit.common.sdkinternal.MlKitContext
 import com.t8rin.jxlcoder_coil.JxlDecoder
@@ -24,9 +23,9 @@ class ImageApplication : Application() {
                 if (Build.VERSION.SDK_INT >= 28) add(ImageDecoderDecoder.Factory())
                 else add(GifDecoder.Factory())
                 add(SvgDecoder.Factory())
-                if (Build.VERSION.SDK_INT >= 24) add(HeifDecoder.Factory())
+                if (Build.VERSION.SDK_INT >= 24) add(HeifDecoder.Factory(this@ImageApplication))
                 add(JxlDecoder.Factory())
-            }.allowHardware(false).logger(DebugLogger()).build()
+            }.allowHardware(false).build()
         }
     }
 

@@ -258,11 +258,11 @@ class ResizeAndConvertViewModel @Inject constructor(
 
     private var savingJob: Job? = null
 
-    fun saveBitamps(
+    fun saveBitmaps(
         onComplete: (path: String) -> Unit
     ) = viewModelScope.launch {
-        _isSaving.value = true
         withContext(Dispatchers.IO) {
+            _isSaving.value = true
             _done.value = 0
             uris?.forEach { uri ->
                 runCatching {
@@ -298,12 +298,12 @@ class ResizeAndConvertViewModel @Inject constructor(
                 _done.value += 1
             }
             onComplete(fileController.savingPath)
+            _isSaving.value = false
         }
-        _isSaving.value = false
     }.also {
+        _isSaving.value = false
         savingJob?.cancel()
         savingJob = it
-        _isSaving.value = false
     }
 
     fun setBitmap(uri: Uri) {

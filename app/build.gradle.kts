@@ -172,7 +172,7 @@ dependencies {
     implementation(project(":modalsheet"))
     implementation(project(":gpuimage"))
     implementation(project(":gesture"))
-    implementation("com.github.awxkee:avif-coder:1.4.2")
+    implementation("com.github.awxkee:avif-coder:1.5.1")
     implementation(project(":screenshot"))
     implementation(project(":systemuicontroller"))
     implementation(project(":placeholder"))
@@ -199,13 +199,13 @@ dependencies {
     }
     "jxlImplementation"("com.google.firebase:firebase-analytics-ktx:21.3.0")
     "jxlImplementation"("com.google.android.play:review-ktx:2.0.1")
-    "jxlImplementation"("com.github.awxkee:jxl-coder:1.5.0")
+    "jxlImplementation"("com.github.awxkee:jxl-coder:1.5.2")
     "jxlImplementation"(project(":jxlcoder-coil"))
 
     "marketImplementation"("com.google.android.play:app-update:2.1.0")
     "marketImplementation"("com.google.android.play:app-update-ktx:2.1.0")
 
-    implementation("com.github.GIGAMOLE:ComposeShadowsPlus:1.0.2")
+    implementation("com.github.GIGAMOLE:ComposeShadowsPlus:1.0.3")
 
     implementation("org.jetbrains.kotlinx:kotlinx-collections-immutable:0.3.5")
 }

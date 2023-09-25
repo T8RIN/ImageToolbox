@@ -22,7 +22,7 @@ class ImageApplication : Application() {
                 if (Build.VERSION.SDK_INT >= 28) add(ImageDecoderDecoder.Factory())
                 else add(GifDecoder.Factory())
                 add(SvgDecoder.Factory())
-                if (Build.VERSION.SDK_INT >= 24) add(HeifDecoder.Factory())
+                if (Build.VERSION.SDK_INT >= 24) add(HeifDecoder.Factory(this@ImageApplication))
             }.allowHardware(false).build()
         }
     }
