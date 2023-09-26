@@ -357,4 +357,11 @@
     <string name="jxl_sub">Formatul JXL nu este suportat oficial de Android, astfel încât ceva ar putea să nu funcționeze, de asemenea, salvarea va funcționa numai dacă alegeți directorul de ieșire personalizat, aceasta este o versiune experimentală, bug-urile de aici nu vor fi fixate decât dacă Google va adăuga suport pentru JXL, această versiune poate, de asemenea, să vizualizeze astfel de imagini</string>
     <string name="image_exif_warning">În prezent, formatul %1$s de pe android permite doar citirea exif și nu modificarea/salvarea acestuia, ceea ce înseamnă că imaginea de ieșire nu va avea deloc metadate.</string>
     <string name="effort">Efort</string>
+    <string name="updates">Actualizări</string>
+    <string name="wait">Așteptați</string>
+    <string name="effort_sub">O valoare de %d înseamnă că se comprimă rapid, ceea ce duce la o dimensiune relativ mare a fișierului. %d înseamnă că trebuie să se petreacă mai mult timp comprimând, rezultând un fișier mai mic.</string>
+    <string name="allow_betas">Permiteți beta</string>
+    <string name="saving_almost_complete">Salvarea este aproape finalizată, dacă o anulați acum, va trebui să începeți din nou salvarea.</string>
+    <string name="shadows_setting_sub">Permite desenarea umbrelor în spatele containerelor și butoanelor dacă marginile sunt dezactivate</string>
+    <string name="allow_betas_sub">Verificarea pentru actualizări va include și versiuni beta al aplicației dacă este activată</string>
 </resources>
