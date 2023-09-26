@@ -385,15 +385,10 @@ fun MainScreen(
                                     val titleText = remember {
                                         "${Screen.entries.size}".plus(
                                             if (BuildConfig.FLAVOR == "market") {
-                                                BuildConfig.VERSION_NAME
-                                                    .split("-")
-                                                    .takeIf { it.size > 1 }
-                                                    ?.drop(1)?.first()
-                                                    ?.takeWhile { it.isLetter() }
-                                                    ?.uppercase()?.let {
-                                                        " $it"
-                                                    } ?: ""
-                                            } else " ${BuildConfig.FLAVOR.uppercase()}"
+                                                getVersionPreRelease()
+                                            } else {
+                                                " ${BuildConfig.FLAVOR.uppercase()} ${getVersionPreRelease()}"
+                                            }
                                         )
                                     }
 
@@ -987,4 +982,15 @@ fun MainScreen(
             }
         }
     )
+}
+
+private fun getVersionPreRelease(): String {
+    return BuildConfig.VERSION_NAME
+        .split("-")
+        .takeIf { it.size > 1 }
+        ?.drop(1)?.first()
+        ?.takeWhile { it.isLetter() }
+        ?.uppercase()?.let {
+            " $it"
+        } ?: ""
 }
