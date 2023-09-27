@@ -1,20 +1,24 @@
 package ru.tech.imageresizershrinker.presentation.draw_screen.components
 
 sealed class DrawMode(val ordinal: Int) {
-    data object Neon : DrawMode(1)
-    data object Highlighter : DrawMode(2)
+    data object Neon : DrawMode(2)
+    data object Highlighter : DrawMode(3)
     data object Pen : DrawMode(0)
+
+    data object PrivacyBlur : DrawMode(1)
 
     companion object {
         val entries by lazy {
             listOf(
-                Pen, Neon, Highlighter
+                Pen, PrivacyBlur, Neon, Highlighter
             )
         }
 
         operator fun invoke(ordinal: Int) = when (ordinal) {
-            1 -> Neon
-            2 -> Highlighter
+            0 -> Pen
+            1 -> PrivacyBlur
+            2 -> Neon
+            3 -> Highlighter
             else -> Pen
         }
     }

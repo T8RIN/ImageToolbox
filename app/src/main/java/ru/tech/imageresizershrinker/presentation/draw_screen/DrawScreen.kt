@@ -312,7 +312,7 @@ fun DrawScreen(
             strokeWidth = strokeWidth,
             onChangeStrokeWidth = { strokeWidth = it }
         )
-        AnimatedVisibility(visible = drawMode !is DrawMode.Highlighter) {
+        AnimatedVisibility(visible = drawMode !is DrawMode.Highlighter && drawMode !is DrawMode.PrivacyBlur) {
             BlurRadiusSelector(
                 modifier = Modifier
                     .padding(top = 16.dp, end = 16.dp, start = 16.dp),
@@ -328,11 +328,13 @@ fun DrawScreen(
         } else {
             Spacer(Modifier.height(16.dp))
         }
-        DrawColorSelector(
-            drawColor = drawColor,
-            onColorChange = { drawColor = it }
-        )
-        AnimatedVisibility(visible = drawMode !is DrawMode.Neon) {
+        AnimatedVisibility(visible = drawMode !is DrawMode.PrivacyBlur) {
+            DrawColorSelector(
+                drawColor = drawColor,
+                onColorChange = { drawColor = it }
+            )
+        }
+        AnimatedVisibility(visible = drawMode !is DrawMode.Neon && drawMode !is DrawMode.PrivacyBlur) {
             DrawAlphaSelector(
                 alpha = alpha,
                 onAlphaChange = { alpha = it }
@@ -428,6 +430,7 @@ fun DrawScreen(
             scaffoldState = scaffoldState,
             isBitmapChanged = viewModel.isBitmapChanged,
             onBack = onBack,
+            imageManager = viewModel.getImageManager(),
             onShare = { viewModel.shareBitmap { showConfetti() } },
             paths = viewModel.paths,
             isEraserOn = isEraserOn,

@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.BlurCircular
 import androidx.compose.material.icons.rounded.Brush
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -104,6 +105,7 @@ fun DrawModeSelector(
                                 DrawMode.Highlighter -> Icons.Rounded.Highlighter
                                 DrawMode.Neon -> Icons.Rounded.Laser
                                 DrawMode.Pen -> Icons.Rounded.Brush
+                                is DrawMode.PrivacyBlur -> Icons.Rounded.BlurCircular
                             },
                             contentDescription = null
                         )

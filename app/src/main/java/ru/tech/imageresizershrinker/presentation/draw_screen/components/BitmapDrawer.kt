@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -26,6 +27,7 @@ import androidx.compose.ui.graphics.BlendMode
 import androidx.compose.ui.graphics.Canvas
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
+import androidx.compose.ui.graphics.ImageShader
 import androidx.compose.ui.graphics.Paint
 import androidx.compose.ui.graphics.PaintingStyle
 import androidx.compose.ui.graphics.Path
@@ -38,6 +40,7 @@ import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.graphics.nativeCanvas
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import com.smarttoolfactory.gesture.MotionEvent
 import com.smarttoolfactory.gesture.pointerMotionEvents
@@ -45,14 +48,17 @@ import com.smarttoolfactory.image.util.update
 import com.smarttoolfactory.image.zoom.animatedZoom
 import com.smarttoolfactory.image.zoom.rememberAnimatedZoomState
 import kotlinx.coroutines.launch
+import ru.tech.imageresizershrinker.domain.image.ImageManager
 import ru.tech.imageresizershrinker.presentation.erase_background_screen.components.PathPaint
 import ru.tech.imageresizershrinker.presentation.erase_background_screen.components.transparencyChecker
 import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
+import ru.tech.imageresizershrinker.presentation.root.transformation.filter.StackBlurFilter
 
 
 @Composable
 fun BitmapDrawer(
     imageBitmap: ImageBitmap,
+    imageManager: ImageManager<Bitmap, *>,
     paths: List<PathPaint>,
     blurRadius: Float,
     onAddPath: (PathPaint) -> Unit,
@@ -67,6 +73,7 @@ fun BitmapDrawer(
 ) {
     val zoomState = rememberAnimatedZoomState(maxZoom = 30f)
     val scope = rememberCoroutineScope()
+    val context = LocalContext.current
 
     Box(
         modifier = Modifier
@@ -114,6 +121,28 @@ fun BitmapDrawer(
                     .asImageBitmap()
             }
 
+            var blurredBitmap by remember {
+                mutableStateOf<ImageBitmap?>(null)
+            }
+
+            LaunchedEffect(imageBitmap, drawBitmap) {
+                blurredBitmap = imageManager.transform(
+                    image = drawImageBitmap.overlay(drawBitmap).asAndroidBitmap(),
+                    transformations = listOf(StackBlurFilter(context, 0.3f to 50))
+                )?.asImageBitmap()
+            }
+
+            val shaderBitmap = remember(blurredBitmap) {
+                blurredBitmap?.asAndroidBitmap()?.let {
+                    Bitmap.createScaledBitmap(
+                        it,
+                        imageWidth,
+                        imageHeight,
+                        false
+                    ).asImageBitmap()
+                }
+            }
+
             SideEffect {
                 onDraw(drawImageBitmap.overlay(drawBitmap).asAndroidBitmap())
             }
@@ -129,6 +158,9 @@ fun BitmapDrawer(
                     strokeCap =
                         if (drawMode is DrawMode.Highlighter) StrokeCap.Square else StrokeCap.Round
                     color = drawColor
+                    shader = if (drawMode is DrawMode.PrivacyBlur) {
+                        shaderBitmap?.let { ImageShader(it) }
+                    } else shader
                     alpha = drawColor.alpha
                     this.strokeWidth = strokeWidth
                     strokeJoin = StrokeJoin.Round
@@ -197,7 +229,6 @@ fun BitmapDrawer(
                     drawColor(Color.Transparent.toArgb(), PorterDuff.Mode.CLEAR)
                     drawColor(backgroundColor.toArgb())
 
-
                     paths.forEach { (path, stroke, radius, drawColor, isErasing, effect) ->
                         this.drawPath(
                             path.asAndroidPath(),
@@ -206,6 +237,9 @@ fun BitmapDrawer(
                                 style = PaintingStyle.Stroke
                                 strokeCap =
                                     if (effect is DrawMode.Highlighter) StrokeCap.Square else StrokeCap.Round
+                                shader = if (effect is DrawMode.PrivacyBlur) shaderBitmap?.let {
+                                    ImageShader(it)
+                                } else shader
                                 this.strokeWidth = stroke
                                 strokeJoin = StrokeJoin.Round
                                 isAntiAlias = true

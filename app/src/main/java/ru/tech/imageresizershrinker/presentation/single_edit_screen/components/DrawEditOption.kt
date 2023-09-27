@@ -46,6 +46,7 @@ import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.R
+import ru.tech.imageresizershrinker.domain.image.ImageManager
 import ru.tech.imageresizershrinker.presentation.draw_screen.components.BitmapDrawer
 import ru.tech.imageresizershrinker.presentation.draw_screen.components.BlurRadiusSelector
 import ru.tech.imageresizershrinker.presentation.draw_screen.components.DrawAlphaSelector
@@ -73,6 +74,7 @@ import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalSettings
 @Composable
 fun DrawEditOption(
     visible: Boolean,
+    imageManager: ImageManager<Bitmap, *>,
     onDismiss: () -> Unit,
     useScaffold: Boolean,
     bitmap: Bitmap?,
@@ -202,7 +204,7 @@ fun DrawEditOption(
                     strokeWidth = strokeWidth,
                     onChangeStrokeWidth = { strokeWidth = it }
                 )
-                AnimatedVisibility(visible = drawMode !is DrawMode.Highlighter) {
+                AnimatedVisibility(visible = drawMode !is DrawMode.Highlighter && drawMode !is DrawMode.PrivacyBlur) {
                     BlurRadiusSelector(
                         modifier = Modifier
                             .padding(top = 16.dp, end = 16.dp, start = 16.dp),
@@ -211,11 +213,13 @@ fun DrawEditOption(
                     )
                 }
                 Spacer(modifier = Modifier.height(16.dp))
-                DrawColorSelector(
-                    drawColor = drawColor,
-                    onColorChange = { drawColor = it }
-                )
-                AnimatedVisibility(visible = drawMode !is DrawMode.Neon) {
+                AnimatedVisibility(visible = drawMode !is DrawMode.PrivacyBlur) {
+                    DrawColorSelector(
+                        drawColor = drawColor,
+                        onColorChange = { drawColor = it }
+                    )
+                }
+                AnimatedVisibility(visible = drawMode !is DrawMode.Neon && drawMode !is DrawMode.PrivacyBlur) {
                     DrawAlphaSelector(
                         alpha = alpha,
                         onAlphaChange = { alpha = it }
@@ -280,6 +284,7 @@ fun DrawEditOption(
                     BitmapDrawer(
                         imageBitmap = imageBitmap,
                         paths = paths,
+                        imageManager = imageManager,
                         strokeWidth = strokeWidth,
                         blurRadius = blurRadius,
                         drawColor = drawColor.copy(alpha),

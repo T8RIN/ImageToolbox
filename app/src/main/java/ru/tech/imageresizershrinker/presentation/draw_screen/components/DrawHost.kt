@@ -83,6 +83,7 @@ import dev.olshevski.navigation.reimagined.AnimatedNavHost
 import dev.olshevski.navigation.reimagined.NavController
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.R
+import ru.tech.imageresizershrinker.domain.image.ImageManager
 import ru.tech.imageresizershrinker.presentation.erase_background_screen.components.PathPaint
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.ImageUtils.restrict
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.container
@@ -102,6 +103,7 @@ import ru.tech.imageresizershrinker.presentation.root.widget.text.TitleItem
 @Composable
 fun DrawHost(
     modifier: Modifier,
+    imageManager: ImageManager<Bitmap, *>,
     navController: NavController<DrawBehavior>,
     portrait: Boolean,
     zoomEnabled: Boolean,
@@ -157,6 +159,7 @@ fun DrawHost(
                     .fillMaxSize(),
                 zoomEnabled = zoomEnabled,
                 onDraw = onDraw,
+                imageManager = imageManager,
                 backgroundColor = backgroundColor
             )
         }

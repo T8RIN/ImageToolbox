@@ -36,6 +36,8 @@ class DrawViewModel @Inject constructor(
     private val imageManager: ImageManager<Bitmap, ExifInterface>
 ) : ViewModel() {
 
+    fun getImageManager(): ImageManager<Bitmap, ExifInterface> = imageManager
+
     private val _bitmap: MutableState<Bitmap?> = mutableStateOf(null)
     val bitmap: Bitmap? by _bitmap
 
