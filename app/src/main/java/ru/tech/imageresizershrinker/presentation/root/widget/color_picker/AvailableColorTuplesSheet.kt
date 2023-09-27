@@ -63,6 +63,7 @@ import ru.tech.imageresizershrinker.presentation.root.utils.helper.ListUtils.nea
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.alertDialogBorder
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.container
 import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedButton
+import ru.tech.imageresizershrinker.presentation.root.widget.sheets.SimpleDragHandle
 import ru.tech.imageresizershrinker.presentation.root.widget.sheets.SimpleSheet
 import ru.tech.imageresizershrinker.presentation.root.widget.text.AutoSizeText
 import ru.tech.imageresizershrinker.presentation.root.widget.text.TitleItem
@@ -89,6 +90,22 @@ fun AvailableColorTuplesSheet(
     SimpleSheet(
         visible = visible,
         endConfirmButtonPadding = 0.dp,
+        dragHandle = {
+            SimpleDragHandle {
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .background(MaterialTheme.colorScheme.surfaceColorAtElevation(10.dp)),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.Center
+                ) {
+                    TitleItem(
+                        text = stringResource(R.string.color_scheme),
+                        icon = Icons.Rounded.PaletteSwatch
+                    )
+                }
+            }
+        },
         title = {
             var showConfirmDeleteDialog by remember { mutableStateOf(false) }
 
@@ -184,18 +201,6 @@ fun AvailableColorTuplesSheet(
             }
         },
         sheetContent = {
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .background(MaterialTheme.colorScheme.surfaceColorAtElevation(10.dp)),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.Center
-            ) {
-                TitleItem(
-                    text = stringResource(R.string.color_scheme),
-                    icon = Icons.Rounded.PaletteSwatch
-                )
-            }
             Box(Modifier.fillMaxWidth(), contentAlignment = Alignment.Center) {
                 FlowRow(
                     verticalArrangement = Arrangement.Center,
