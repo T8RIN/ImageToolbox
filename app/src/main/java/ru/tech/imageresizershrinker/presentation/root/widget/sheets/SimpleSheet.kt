@@ -27,11 +27,14 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.zIndex
 import com.t8rin.modalsheet.ModalSheet
 import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
-import ru.tech.imageresizershrinker.presentation.root.utils.modifier.fabBorder
+import ru.tech.imageresizershrinker.presentation.root.utils.modifier.autoElevatedBorder
+import ru.tech.imageresizershrinker.presentation.root.utils.modifier.drawHorizontalStroke
 import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalSettingsState
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -39,16 +42,7 @@ import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalSettings
 fun SimpleSheet(
     nestedScrollEnabled: Boolean = false,
     sheetContent: @Composable ColumnScope.() -> Unit,
-    dragHandle: @Composable ColumnScope.() -> Unit = {
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .background(MaterialTheme.colorScheme.surfaceColorAtElevation(10.dp)),
-            horizontalArrangement = Arrangement.Center
-        ) {
-            BottomSheetDefaults.DragHandle()
-        }
-    },
+    dragHandle: @Composable ColumnScope.() -> Unit = { SimpleDragHandle() },
     visible: MutableState<Boolean>
 ) {
     val settingsState = LocalSettingsState.current
@@ -73,11 +67,11 @@ fun SimpleSheet(
                 ),
                 shape = BottomSheetDefaults.ExpandedShape
             )
-            .fabBorder(
+            .autoElevatedBorder(
                 shape = BottomSheetDefaults.ExpandedShape,
                 autoElevation = 16.dp
             )
-            .fabBorder(
+            .autoElevatedBorder(
                 height = 0.dp,
                 shape = BottomSheetDefaults.ExpandedShape,
                 autoElevation = 16.dp
@@ -99,6 +93,7 @@ fun SimpleSheet(
     nestedScrollEnabled: Boolean = false,
     sheetContent: @Composable ColumnScope.() -> Unit,
     confirmButton: @Composable RowScope.() -> Unit,
+    dragHandle: @Composable ColumnScope.() -> Unit = { SimpleDragHandle() },
     title: @Composable () -> Unit,
     endConfirmButtonPadding: Dp = 16.dp,
     visible: MutableState<Boolean>
@@ -112,16 +107,7 @@ fun SimpleSheet(
             durationMillis = 600,
             easing = CubicBezierEasing(0.48f, 0.19f, 0.05f, 1.03f)
         ),
-        dragHandle = {
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .background(MaterialTheme.colorScheme.surfaceColorAtElevation(10.dp)),
-                horizontalArrangement = Arrangement.Center
-            ) {
-                BottomSheetDefaults.DragHandle()
-            }
-        },
+        dragHandle = dragHandle,
         containerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(2.dp),
         sheetModifier = Modifier
             .statusBarsPadding()
@@ -134,11 +120,11 @@ fun SimpleSheet(
                 ),
                 shape = BottomSheetDefaults.ExpandedShape
             )
-            .fabBorder(
+            .autoElevatedBorder(
                 shape = BottomSheetDefaults.ExpandedShape,
                 autoElevation = 16.dp
             )
-            .fabBorder(
+            .autoElevatedBorder(
                 height = 0.dp,
                 shape = BottomSheetDefaults.ExpandedShape,
                 autoElevation = 16.dp
@@ -157,6 +143,7 @@ fun SimpleSheet(
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
+                    .drawHorizontalStroke(true, autoElevation = 6.dp)
                     .background(MaterialTheme.colorScheme.surfaceColorAtElevation(10.dp))
                     .padding(16.dp)
                     .navigationBarsPadding()
@@ -177,6 +164,7 @@ fun SimpleSheet(
     nestedScrollEnabled: Boolean = false,
     sheetContent: @Composable ColumnScope.() -> Unit,
     confirmButton: (@Composable RowScope.() -> Unit)? = null,
+    dragHandle: @Composable ColumnScope.() -> Unit = { SimpleDragHandle() },
     title: (@Composable () -> Unit)? = null,
     visible: Boolean,
     onDismiss: (Boolean) -> Unit
@@ -188,16 +176,7 @@ fun SimpleSheet(
             durationMillis = 600,
             easing = CubicBezierEasing(0.48f, 0.19f, 0.05f, 1.03f)
         ),
-        dragHandle = {
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .background(MaterialTheme.colorScheme.surfaceColorAtElevation(10.dp)),
-                horizontalArrangement = Arrangement.Center
-            ) {
-                BottomSheetDefaults.DragHandle()
-            }
-        },
+        dragHandle = dragHandle,
         containerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(2.dp),
         sheetModifier = Modifier
             .statusBarsPadding()
@@ -210,11 +189,11 @@ fun SimpleSheet(
                 ),
                 shape = BottomSheetDefaults.ExpandedShape
             )
-            .fabBorder(
+            .autoElevatedBorder(
                 shape = BottomSheetDefaults.ExpandedShape,
                 autoElevation = 16.dp
             )
-            .fabBorder(
+            .autoElevatedBorder(
                 height = 0.dp,
                 shape = BottomSheetDefaults.ExpandedShape,
                 autoElevation = 16.dp
@@ -234,6 +213,7 @@ fun SimpleSheet(
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
+                        .drawHorizontalStroke(true, autoElevation = 6.dp)
                         .background(MaterialTheme.colorScheme.surfaceColorAtElevation(10.dp))
                         .navigationBarsPadding()
                         .padding(16.dp)
@@ -247,4 +227,34 @@ fun SimpleSheet(
             }
         }
     )
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun SimpleDragHandle(
+    modifier: Modifier = Modifier,
+    color: Color = MaterialTheme.colorScheme.surfaceColorAtElevation(10.dp),
+    drawStroke: Boolean = true,
+    content: @Composable ColumnScope.() -> Unit = {},
+) {
+    Column(
+        modifier
+            .then(
+                if (drawStroke) {
+                    Modifier
+                        .drawHorizontalStroke(autoElevation = 3.dp)
+                        .zIndex(Float.MAX_VALUE)
+                } else Modifier
+            )
+            .background(color),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.Center
+        ) {
+            BottomSheetDefaults.DragHandle()
+        }
+        content()
+    }
 }

@@ -66,7 +66,6 @@ import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.FloatingActionButtonDefaults
-import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.LargeTopAppBar
@@ -133,9 +132,9 @@ import ru.tech.imageresizershrinker.presentation.root.icons.material.Telegram
 import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.ContextUtils.isInstalledFromPlayStore
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.alertDialogBorder
+import ru.tech.imageresizershrinker.presentation.root.utils.modifier.autoElevatedBorder
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.container
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.drawHorizontalStroke
-import ru.tech.imageresizershrinker.presentation.root.utils.modifier.fabBorder
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.pulsate
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.scaleOnTap
 import ru.tech.imageresizershrinker.presentation.root.utils.navigation.LocalNavController
@@ -673,7 +672,7 @@ fun MainScreen(
                                                 }
                                             },
                                             modifier = Modifier
-                                                .fabBorder()
+                                                .autoElevatedBorder()
                                                 .requiredSize(size = 56.dp),
                                             elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
                                             content = {
@@ -915,8 +914,6 @@ fun MainScreen(
                     )
                     Spacer(Modifier.height(16.dp))
                 }
-                HorizontalDivider(Modifier.align(Alignment.TopCenter))
-                HorizontalDivider(Modifier.align(Alignment.BottomCenter))
             }
         }
     )
@@ -977,8 +974,6 @@ fun MainScreen(
                         }
                     }
                 }
-                HorizontalDivider(Modifier.align(Alignment.TopCenter))
-                HorizontalDivider(Modifier.align(Alignment.BottomCenter))
             }
         }
     )

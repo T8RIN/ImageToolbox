@@ -141,8 +141,6 @@ fun ResizeGroup(
                         lineHeight = 18.sp
                     )
                 }
-                HorizontalDivider()
-                HorizontalDivider(Modifier.align(Alignment.BottomCenter))
             }
         },
         visible = state,

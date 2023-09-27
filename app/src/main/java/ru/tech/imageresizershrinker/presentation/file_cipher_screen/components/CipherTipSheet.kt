@@ -12,7 +12,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -22,13 +21,11 @@ import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedBu
 import ru.tech.imageresizershrinker.presentation.root.widget.sheets.SimpleSheet
 import ru.tech.imageresizershrinker.presentation.root.widget.text.AutoSizeText
 import ru.tech.imageresizershrinker.presentation.root.widget.text.TitleItem
-import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalSettingsState
 
 @Composable
 fun CipherTipSheet(
     visible: MutableState<Boolean>
 ) {
-    val settingsState = LocalSettingsState.current
     SimpleSheet(
         sheetContent = {
             Box {
@@ -68,8 +65,6 @@ fun CipherTipSheet(
                         lineHeight = 18.sp
                     )
                 }
-                HorizontalDivider()
-                HorizontalDivider(Modifier.align(Alignment.BottomCenter))
             }
         },
         visible = visible,

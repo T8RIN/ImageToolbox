@@ -5,7 +5,6 @@ import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.togetherWith
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -24,12 +23,10 @@ import androidx.compose.material.icons.outlined.PhotoSizeSelectSmall
 import androidx.compose.material.icons.rounded.AddCircle
 import androidx.compose.material.icons.rounded.PhotoSizeSelectSmall
 import androidx.compose.material3.AlertDialog
-import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -182,17 +179,14 @@ fun EditPresetsSheet(
                         }
                     }
                 }
-                HorizontalDivider(Modifier.align(Alignment.TopCenter))
-                HorizontalDivider(Modifier.align(Alignment.BottomCenter))
             }
         },
         confirmButton = {
-            OutlinedButton(
+            EnhancedButton(
                 onClick = { editPresetsState.value = false },
-                border = BorderStroke(
-                    settingsState.borderWidth,
-                    MaterialTheme.colorScheme.outlineVariant()
-                )
+                borderColor = MaterialTheme.colorScheme.outlineVariant(),
+                containerColor = Color.Transparent,
+                contentColor = MaterialTheme.colorScheme.onSurface
             ) {
                 AutoSizeText(stringResource(R.string.close))
             }

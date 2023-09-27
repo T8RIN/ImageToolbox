@@ -80,8 +80,8 @@ import ru.tech.imageresizershrinker.presentation.root.theme.ImageToolboxTheme
 import ru.tech.imageresizershrinker.presentation.root.theme.White
 import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
 import ru.tech.imageresizershrinker.presentation.root.utils.exception.CrashHandler
+import ru.tech.imageresizershrinker.presentation.root.utils.modifier.autoElevatedBorder
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.container
-import ru.tech.imageresizershrinker.presentation.root.utils.modifier.fabBorder
 import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedButton
 import ru.tech.imageresizershrinker.presentation.root.widget.other.ToastHost
 import ru.tech.imageresizershrinker.presentation.root.widget.other.rememberToastHostState
@@ -295,7 +295,7 @@ class CrashActivity : CrashHandler() {
                                 ExtendedFloatingActionButton(
                                     elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
                                     modifier = Modifier
-                                        .fabBorder()
+                                        .autoElevatedBorder()
                                         .weight(1f, false),
                                     onClick = {
                                         startActivity(
@@ -322,7 +322,7 @@ class CrashActivity : CrashHandler() {
                                 FloatingActionButton(
                                     containerColor = MaterialTheme.colorScheme.tertiaryContainer,
                                     elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
-                                    modifier = Modifier.fabBorder(),
+                                    modifier = Modifier.autoElevatedBorder(),
                                     onClick = {
                                         newClip(title + "\n\n" + body)
                                     }

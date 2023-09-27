@@ -27,10 +27,10 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.rounded.ArrowBack
 import androidx.compose.material.icons.outlined.RestartAlt
 import androidx.compose.material.icons.outlined.Share
 import androidx.compose.material.icons.rounded.AddPhotoAlternate
-import androidx.compose.material.icons.rounded.ArrowBack
 import androidx.compose.material.icons.rounded.Crop
 import androidx.compose.material.icons.rounded.Save
 import androidx.compose.material.icons.rounded.Tune
@@ -91,10 +91,10 @@ import ru.tech.imageresizershrinker.presentation.root.utils.helper.Picker
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.localImagePickerMode
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.parseSaveResult
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.rememberImagePicker
+import ru.tech.imageresizershrinker.presentation.root.utils.modifier.autoElevatedBorder
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.container
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.containerFabBorder
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.drawHorizontalStroke
-import ru.tech.imageresizershrinker.presentation.root.utils.modifier.fabBorder
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.navBarsPaddingOnlyIfTheyAtTheEnd
 import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedButton
 import ru.tech.imageresizershrinker.presentation.root.widget.controls.ExtensionGroup
@@ -293,7 +293,7 @@ fun CropScreen(
                             IconButton(
                                 onClick = onBack
                             ) {
-                                Icon(Icons.Rounded.ArrowBack, null)
+                                Icon(Icons.AutoMirrored.Rounded.ArrowBack, null)
                             }
                         },
                         actions = {
@@ -319,7 +319,7 @@ fun CropScreen(
                             IconButton(
                                 onClick = onBack
                             ) {
-                                Icon(Icons.Rounded.ArrowBack, null)
+                                Icon(Icons.AutoMirrored.Rounded.ArrowBack, null)
                             }
                         },
                         actions = {
@@ -489,7 +489,7 @@ fun CropScreen(
                 ) {
                     ExtendedFloatingActionButton(
                         onClick = pickImage,
-                        modifier = Modifier.fabBorder(),
+                        modifier = Modifier.autoElevatedBorder(),
                         elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
                         text = {
                             Text(stringResource(R.string.pick_image_alt))
@@ -534,7 +534,7 @@ fun CropScreen(
                             Row {
                                 FloatingActionButton(
                                     onClick = pickImage,
-                                    modifier = Modifier.fabBorder(),
+                                    modifier = Modifier.autoElevatedBorder(),
                                     containerColor = MaterialTheme.colorScheme.tertiaryContainer,
                                     elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
                                 ) {
@@ -561,7 +561,7 @@ fun CropScreen(
                                             onClick = {
                                                 viewModel.bitmap?.let(saveBitmap)
                                             },
-                                            modifier = Modifier.fabBorder(),
+                                            modifier = Modifier.autoElevatedBorder(),
                                             elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
                                         ) {
                                             Icon(Icons.Rounded.Save, null)
@@ -571,7 +571,6 @@ fun CropScreen(
                             }
                         }
                     )
-                    HorizontalDivider()
                     controls()
                 }
             },

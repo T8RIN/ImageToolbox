@@ -16,7 +16,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Palette
 import androidx.compose.material.icons.rounded.ContentPaste
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -33,7 +32,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.zIndex
 import com.t8rin.dynamic.theme.ColorTuple
 import com.t8rin.dynamic.theme.calculateSecondaryColor
 import com.t8rin.dynamic.theme.calculateSurfaceColor
@@ -108,7 +106,6 @@ fun ColorTuplePicker(
         title = { TitleItem(text = title, icon = Icons.Outlined.Palette, modifier = Modifier) },
         endConfirmButtonPadding = 0.dp,
         sheetContent = {
-            HorizontalDivider()
             Box {
                 LazyVerticalGrid(
                     columns = GridCells.Adaptive(260.dp),
@@ -221,12 +218,6 @@ fun ColorTuplePicker(
                         }
                     }
                 }
-
-                HorizontalDivider(
-                    Modifier
-                        .align(Alignment.BottomCenter)
-                        .zIndex(100f)
-                )
             }
         },
         confirmButton = {

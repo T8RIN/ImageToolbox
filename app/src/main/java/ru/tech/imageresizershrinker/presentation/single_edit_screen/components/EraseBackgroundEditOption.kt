@@ -19,9 +19,9 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.rounded.Redo
+import androidx.compose.material.icons.automirrored.rounded.Undo
 import androidx.compose.material.icons.rounded.Done
-import androidx.compose.material.icons.rounded.Redo
-import androidx.compose.material.icons.rounded.Undo
 import androidx.compose.material.icons.rounded.ZoomIn
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -161,14 +161,14 @@ fun EraseBackgroundEditOption(
                     onClick = undo,
                     enabled = lastPaths.isNotEmpty() || paths.isNotEmpty()
                 ) {
-                    Icon(Icons.Rounded.Undo, null)
+                    Icon(Icons.AutoMirrored.Rounded.Undo, null)
                 }
                 OutlinedIconButton(
                     border = border,
                     onClick = redo,
                     enabled = undonePaths.isNotEmpty()
                 ) {
-                    Icon(Icons.Rounded.Redo, null)
+                    Icon(Icons.AutoMirrored.Rounded.Redo, null)
                 }
                 EraseModeButton(
                     isRecoveryOn = isRecoveryOn,
@@ -242,7 +242,7 @@ fun EraseBackgroundEditOption(
                     )
                 )
             },
-            fabButtons = {},
+            fabButtons = null,
             actions = {
                 if (useScaffold) {
                     secondaryControls()

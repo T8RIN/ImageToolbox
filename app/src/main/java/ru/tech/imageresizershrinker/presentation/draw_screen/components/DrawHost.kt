@@ -48,7 +48,6 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExtendedFloatingActionButton
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.FloatingActionButtonDefaults
-import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.LargeTopAppBar
@@ -551,8 +550,6 @@ fun DrawHost(
                         onColorChange = { sheetBackgroundColor = it }
                     )
                 }
-                HorizontalDivider()
-                HorizontalDivider(Modifier.align(Alignment.BottomCenter))
             }
         },
         visible = showBackgroundDrawingSetup

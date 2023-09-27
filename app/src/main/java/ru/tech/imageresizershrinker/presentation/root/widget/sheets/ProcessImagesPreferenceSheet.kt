@@ -18,7 +18,6 @@ import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridItemSpan
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Image
-import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -356,8 +355,6 @@ fun ProcessImagesPreferenceSheet(
                         }
                     }
                 }
-                HorizontalDivider(Modifier.align(Alignment.TopCenter))
-                HorizontalDivider(Modifier.align(Alignment.BottomCenter))
             }
         },
         visible = visible,

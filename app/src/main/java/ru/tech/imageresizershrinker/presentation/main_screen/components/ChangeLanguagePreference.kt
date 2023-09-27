@@ -19,7 +19,6 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Language
-import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.RadioButton
@@ -43,7 +42,6 @@ import ru.tech.imageresizershrinker.presentation.root.widget.preferences.Prefere
 import ru.tech.imageresizershrinker.presentation.root.widget.sheets.SimpleSheet
 import ru.tech.imageresizershrinker.presentation.root.widget.text.AutoSizeText
 import ru.tech.imageresizershrinker.presentation.root.widget.text.TitleItem
-import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalSettingsState
 import java.util.Locale
 
 @Composable
@@ -105,7 +103,6 @@ private fun PickLanguageSheet(
     onSelect: (String) -> Unit,
     visible: MutableState<Boolean>
 ) {
-    val settingsState = LocalSettingsState.current
     SimpleSheet(
         title = {
             TitleItem(
@@ -144,8 +141,6 @@ private fun PickLanguageSheet(
                     }
                     Spacer(modifier = Modifier.height(8.dp))
                 }
-                HorizontalDivider(Modifier.align(Alignment.TopCenter))
-                HorizontalDivider(Modifier.align(Alignment.BottomCenter))
             }
         },
         confirmButton = {

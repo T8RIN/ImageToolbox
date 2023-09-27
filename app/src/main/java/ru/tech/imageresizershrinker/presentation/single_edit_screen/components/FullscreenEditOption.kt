@@ -25,7 +25,6 @@ import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.BottomSheetScaffold
 import androidx.compose.material3.BottomSheetScaffoldState
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -45,6 +44,7 @@ import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
+import ru.tech.imageresizershrinker.presentation.root.utils.modifier.container
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.drawHorizontalStroke
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.navBarsPaddingOnlyIfTheyAtTheEnd
 import ru.tech.imageresizershrinker.presentation.root.widget.dialogs.ExitWithoutSavingDialog
@@ -61,7 +61,7 @@ fun FullscreenEditOption(
     sheetSize: Float = 0.6f,
     showControls: Boolean = true,
     controls: @Composable (BottomSheetScaffoldState?) -> Unit,
-    fabButtons: @Composable () -> Unit,
+    fabButtons: (@Composable () -> Unit)?,
     actions: @Composable RowScope.() -> Unit,
     topAppBar: @Composable (closeButton: @Composable () -> Unit) -> Unit,
     scaffoldState: BottomSheetScaffoldState = rememberBottomSheetScaffoldState(),
@@ -128,12 +128,13 @@ fun FullscreenEditOption(
                                             ),
                                             verticalAlignment = Alignment.CenterVertically
                                         ) {
-                                            fabButtons()
+                                            if (fabButtons != null) {
+                                                fabButtons()
+                                            }
                                         }
                                     }
                                 )
                                 if (showControls) {
-                                    HorizontalDivider()
                                     Column(
                                         modifier = Modifier
                                             .verticalScroll(rememberScrollState())
@@ -164,18 +165,20 @@ fun FullscreenEditOption(
                         Box(
                             Modifier
                                 .weight(0.8f)
+                                .fillMaxHeight()
                                 .clipToBounds()
                         ) {
                             content()
                         }
+                        Box(
+                            Modifier
+                                .fillMaxHeight()
+                                .width(settingsState.borderWidth.coerceAtLeast(0.25.dp))
+                                .background(MaterialTheme.colorScheme.outlineVariant())
+                                .padding(start = 20.dp)
+                        )
 
                         if (showControls) {
-                            Box(
-                                Modifier
-                                    .fillMaxHeight()
-                                    .width(settingsState.borderWidth.coerceAtLeast(0.25.dp))
-                                    .background(MaterialTheme.colorScheme.outlineVariant())
-                            )
                             Column(
                                 modifier = Modifier
                                     .weight(0.7f)
@@ -185,26 +188,32 @@ fun FullscreenEditOption(
                                 controls(null)
                             }
                         }
-
-                        Box(
-                            Modifier
-                                .fillMaxHeight()
-                                .width(settingsState.borderWidth.coerceAtLeast(0.25.dp))
-                                .background(MaterialTheme.colorScheme.outlineVariant())
-                                .padding(start = 20.dp)
-                        )
-                        Column(
-                            Modifier
-                                .padding(horizontal = 20.dp)
-                                .fillMaxHeight()
-                                .navigationBarsPadding(),
-                            horizontalAlignment = Alignment.CenterHorizontally,
-                            verticalArrangement = Arrangement.spacedBy(
-                                8.dp,
-                                Alignment.CenterVertically
+                        fabButtons?.let {
+                            Box(
+                                Modifier
+                                    .fillMaxHeight()
+                                    .width(settingsState.borderWidth.coerceAtLeast(0.25.dp))
+                                    .background(MaterialTheme.colorScheme.outlineVariant())
+                                    .padding(start = 20.dp)
                             )
-                        ) {
-                            fabButtons()
+                            Column(
+                                Modifier
+                                    .container(
+                                        shape = RectangleShape,
+                                        color = MaterialTheme.colorScheme.surfaceContainer,
+                                        resultPadding = 0.dp
+                                    )
+                                    .padding(horizontal = 20.dp)
+                                    .fillMaxHeight()
+                                    .navigationBarsPadding(),
+                                horizontalAlignment = Alignment.CenterHorizontally,
+                                verticalArrangement = Arrangement.spacedBy(
+                                    8.dp,
+                                    Alignment.CenterVertically
+                                )
+                            ) {
+                                it()
+                            }
                         }
                     }
                 }

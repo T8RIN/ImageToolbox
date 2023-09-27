@@ -29,9 +29,9 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.rounded.ArrowBack
 import androidx.compose.material.icons.outlined.Cancel
 import androidx.compose.material.icons.outlined.Share
-import androidx.compose.material.icons.rounded.ArrowBack
 import androidx.compose.material.icons.rounded.BrokenImage
 import androidx.compose.material.icons.rounded.Save
 import androidx.compose.material.icons.rounded.ZoomIn
@@ -85,9 +85,9 @@ import ru.tech.imageresizershrinker.presentation.root.transformation.filter.Satu
 import ru.tech.imageresizershrinker.presentation.root.utils.confetti.LocalConfettiController
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.ImageUtils.toBitmap
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.parseSaveResult
+import ru.tech.imageresizershrinker.presentation.root.utils.modifier.autoElevatedBorder
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.container
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.drawHorizontalStroke
-import ru.tech.imageresizershrinker.presentation.root.utils.modifier.fabBorder
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.navBarsLandscapePadding
 import ru.tech.imageresizershrinker.presentation.root.utils.navigation.LocalNavController
 import ru.tech.imageresizershrinker.presentation.root.widget.buttons.ToggleGroupButton
@@ -261,7 +261,7 @@ fun LoadNetImageScreen(
                         wantToEdit.value = true
                     }
                 },
-                modifier = Modifier.fabBorder(),
+                modifier = Modifier.autoElevatedBorder(),
                 containerColor = MaterialTheme.colorScheme.tertiaryContainer,
                 elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation()
             ) {
@@ -269,7 +269,7 @@ fun LoadNetImageScreen(
             }
             FloatingActionButton(
                 onClick = { saveBitmap() },
-                modifier = Modifier.fabBorder(),
+                modifier = Modifier.autoElevatedBorder(),
                 containerColor = MaterialTheme.colorScheme.primaryContainer,
                 elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation()
             ) {
@@ -332,7 +332,7 @@ fun LoadNetImageScreen(
                     ),
                     navigationIcon = {
                         IconButton(onClick = onGoBack) {
-                            Icon(Icons.Rounded.ArrowBack, null)
+                            Icon(Icons.AutoMirrored.Rounded.ArrowBack, null)
                         }
                     },
                     actions = {

@@ -30,7 +30,6 @@ import androidx.compose.material.icons.rounded.Delete
 import androidx.compose.material.icons.rounded.Done
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -50,7 +49,6 @@ import androidx.compose.ui.graphics.luminance
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.zIndex
 import com.t8rin.dynamic.theme.ColorTuple
 import com.t8rin.dynamic.theme.ColorTupleItem
 import com.t8rin.dynamic.theme.rememberColorScheme
@@ -93,7 +91,6 @@ fun AvailableColorTuplesSheet(
         endConfirmButtonPadding = 0.dp,
         title = {
             var showConfirmDeleteDialog by remember { mutableStateOf(false) }
-            val settingsState = LocalSettingsState.current
 
             if (showConfirmDeleteDialog) {
                 AlertDialog(
@@ -200,11 +197,6 @@ fun AvailableColorTuplesSheet(
                 )
             }
             Box(Modifier.fillMaxWidth(), contentAlignment = Alignment.Center) {
-                HorizontalDivider(
-                    Modifier
-                        .align(Alignment.TopCenter)
-                        .zIndex(100f)
-                )
                 FlowRow(
                     verticalArrangement = Arrangement.Center,
                     modifier = Modifier
@@ -297,11 +289,6 @@ fun AvailableColorTuplesSheet(
                         )
                     }
                 }
-                HorizontalDivider(
-                    Modifier
-                        .align(Alignment.BottomCenter)
-                        .zIndex(100f)
-                )
             }
         },
         confirmButton = {

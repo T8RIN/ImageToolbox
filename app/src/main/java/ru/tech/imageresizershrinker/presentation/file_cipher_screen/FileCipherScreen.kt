@@ -110,9 +110,9 @@ import ru.tech.imageresizershrinker.presentation.root.utils.helper.ContextUtils.
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.ImageUtils.fileSize
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.readableByteCount
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.showReview
+import ru.tech.imageresizershrinker.presentation.root.utils.modifier.autoElevatedBorder
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.container
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.drawHorizontalStroke
-import ru.tech.imageresizershrinker.presentation.root.utils.modifier.fabBorder
 import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedButton
 import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedIconButton
 import ru.tech.imageresizershrinker.presentation.root.widget.dialogs.ExitWithoutSavingDialog
@@ -720,7 +720,7 @@ fun FileCipherScreen(
                     .navigationBarsPadding()
                     .padding(12.dp)
                     .align(settingsState.fabAlignment)
-                    .fabBorder(),
+                    .autoElevatedBorder(),
                 elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
             ) {
                 val expanded =

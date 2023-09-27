@@ -23,7 +23,6 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Draw
 import androidx.compose.material.icons.rounded.Palette
-import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -202,8 +201,6 @@ fun DrawColorSelector(
                         }
                     )
                 }
-                HorizontalDivider()
-                HorizontalDivider(Modifier.align(Alignment.BottomCenter))
             }
         },
         visible = showColorPicker,

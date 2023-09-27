@@ -45,8 +45,8 @@ import ru.tech.imageresizershrinker.presentation.crop_screen.components.AspectRa
 import ru.tech.imageresizershrinker.presentation.crop_screen.components.CropMaskSelection
 import ru.tech.imageresizershrinker.presentation.crop_screen.components.Cropper
 import ru.tech.imageresizershrinker.presentation.crop_screen.components.aspectRatios
+import ru.tech.imageresizershrinker.presentation.root.utils.modifier.autoElevatedBorder
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.drawHorizontalStroke
-import ru.tech.imageresizershrinker.presentation.root.utils.modifier.fabBorder
 import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedIconButton
 import ru.tech.imageresizershrinker.presentation.root.widget.other.Loading
 import ru.tech.imageresizershrinker.presentation.root.widget.text.Marquee
@@ -104,7 +104,7 @@ fun CropEditOption(
                             crop = true
                         }
                     },
-                    modifier = Modifier.fabBorder(),
+                    modifier = Modifier.autoElevatedBorder(autoElevation = 1.5.dp),
                     containerColor = MaterialTheme.colorScheme.primaryContainer,
                     elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
                 ) {

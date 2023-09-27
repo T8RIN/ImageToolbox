@@ -13,11 +13,15 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.isUnspecified
 import androidx.compose.ui.zIndex
-import ru.tech.imageresizershrinker.presentation.draw_screen.components.materialShadow
+import com.gigamole.composeshadowsplus.common.shadowsPlus
 import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
 import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalSettingsState
 
-fun Modifier.drawHorizontalStroke(top: Boolean = false, height: Dp = Dp.Unspecified) = composed {
+fun Modifier.drawHorizontalStroke(
+    top: Boolean = false,
+    height: Dp = Dp.Unspecified,
+    autoElevation: Dp = 6.dp,
+) = composed {
     val borderWidth = LocalSettingsState.current.borderWidth
     val h = if (height.isUnspecified) {
         borderWidth.takeIf { it > 0.dp }
@@ -30,7 +34,7 @@ fun Modifier.drawHorizontalStroke(top: Boolean = false, height: Dp = Dp.Unspecif
         Modifier
     } else {
         val heightPx = with(LocalDensity.current) { h.toPx() }
-        zIndex(100f)
+        zIndex(20f)
             .drawWithContent {
                 drawContent()
                 drawRect(
@@ -40,9 +44,10 @@ fun Modifier.drawHorizontalStroke(top: Boolean = false, height: Dp = Dp.Unspecif
                 )
             }
     }
-        .materialShadow(
+        .shadowsPlus(
+            spread = (-2).dp,
             shape = RectangleShape,
-            elevation = animateDpAsState(if (h == null) 6.dp else 0.dp).value
+            radius = animateDpAsState(if (h == null) autoElevation else 0.dp).value
         )
-        .zIndex(100f)
+        .zIndex(20f)
 }

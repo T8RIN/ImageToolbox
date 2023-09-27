@@ -23,13 +23,13 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.rounded.ArrowBack
+import androidx.compose.material.icons.automirrored.rounded.RotateLeft
+import androidx.compose.material.icons.automirrored.rounded.RotateRight
 import androidx.compose.material.icons.outlined.Share
 import androidx.compose.material.icons.rounded.AddPhotoAlternate
-import androidx.compose.material.icons.rounded.ArrowBack
 import androidx.compose.material.icons.rounded.ErrorOutline
 import androidx.compose.material.icons.rounded.IosShare
-import androidx.compose.material.icons.rounded.RotateLeft
-import androidx.compose.material.icons.rounded.RotateRight
 import androidx.compose.material.icons.rounded.Save
 import androidx.compose.material.icons.rounded.Share
 import androidx.compose.material.icons.rounded.SwapHoriz
@@ -38,7 +38,6 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExtendedFloatingActionButton
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.FloatingActionButtonDefaults
-import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.LargeTopAppBar
@@ -90,10 +89,10 @@ import ru.tech.imageresizershrinker.presentation.root.utils.helper.Picker
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.localImagePickerMode
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.parseSaveResult
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.rememberImagePicker
+import ru.tech.imageresizershrinker.presentation.root.utils.modifier.autoElevatedBorder
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.container
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.containerFabBorder
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.drawHorizontalStroke
-import ru.tech.imageresizershrinker.presentation.root.utils.modifier.fabBorder
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.navBarsPaddingOnlyIfTheyAtTheBottom
 import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedButton
 import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedSlider
@@ -224,7 +223,7 @@ fun CompareScreen(
                                 onGoBack()
                             }
                         ) {
-                            Icon(Icons.Rounded.ArrowBack, null)
+                            Icon(Icons.AutoMirrored.Rounded.ArrowBack, null)
                         }
                     },
                     title = {
@@ -250,7 +249,7 @@ fun CompareScreen(
                                 onGoBack()
                             }
                         ) {
-                            Icon(Icons.Rounded.ArrowBack, null)
+                            Icon(Icons.AutoMirrored.Rounded.ArrowBack, null)
                         }
                     },
                     actions = {
@@ -275,8 +274,9 @@ fun CompareScreen(
                                 viewModel.rotation
                             ) { rotation ->
                                 Icon(
-                                    if (rotation == 90f) Icons.Rounded.RotateLeft
-                                    else Icons.Rounded.RotateRight, null
+                                    imageVector = if (rotation == 90f) Icons.AutoMirrored.Rounded.RotateLeft
+                                    else Icons.AutoMirrored.Rounded.RotateRight,
+                                    contentDescription = null
                                 )
                             }
                         }
@@ -479,7 +479,7 @@ fun CompareScreen(
                     .navigationBarsPadding()
                     .padding(16.dp)
                     .align(settingsState.fabAlignment)
-                    .fabBorder(),
+                    .autoElevatedBorder(),
                 elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
                 icon = {
                     Icon(Icons.Rounded.AddPhotoAlternate, null)
@@ -576,8 +576,6 @@ fun CompareScreen(
                     )
                     Spacer(Modifier.height(16.dp))
                 }
-                HorizontalDivider()
-                HorizontalDivider(Modifier.align(Alignment.BottomCenter))
             }
         },
         confirmButton = {

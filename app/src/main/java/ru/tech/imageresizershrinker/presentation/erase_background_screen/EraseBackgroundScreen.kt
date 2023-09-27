@@ -33,14 +33,14 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.rounded.ArrowBack
+import androidx.compose.material.icons.automirrored.rounded.Redo
+import androidx.compose.material.icons.automirrored.rounded.Undo
 import androidx.compose.material.icons.outlined.Delete
 import androidx.compose.material.icons.outlined.Share
 import androidx.compose.material.icons.rounded.AddPhotoAlternate
-import androidx.compose.material.icons.rounded.ArrowBack
-import androidx.compose.material.icons.rounded.Redo
 import androidx.compose.material.icons.rounded.Save
 import androidx.compose.material.icons.rounded.Tune
-import androidx.compose.material.icons.rounded.Undo
 import androidx.compose.material.icons.rounded.ZoomIn
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.BottomSheetScaffold
@@ -49,7 +49,6 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExtendedFloatingActionButton
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.FloatingActionButtonDefaults
-import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.LargeTopAppBar
@@ -108,10 +107,10 @@ import ru.tech.imageresizershrinker.presentation.root.utils.helper.Picker
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.localImagePickerMode
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.parseSaveResult
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.rememberImagePicker
+import ru.tech.imageresizershrinker.presentation.root.utils.modifier.autoElevatedBorder
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.container
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.containerFabBorder
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.drawHorizontalStroke
-import ru.tech.imageresizershrinker.presentation.root.utils.modifier.fabBorder
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.navBarsPaddingOnlyIfTheyAtTheEnd
 import ru.tech.imageresizershrinker.presentation.root.widget.controls.ExtensionGroup
 import ru.tech.imageresizershrinker.presentation.root.widget.controls.SaveExifWidget
@@ -269,7 +268,7 @@ fun EraseBackgroundScreen(
             onClick = { viewModel.undo() },
             enabled = viewModel.lastPaths.isNotEmpty() || viewModel.paths.isNotEmpty()
         ) {
-            Icon(Icons.Rounded.Undo, null)
+            Icon(Icons.AutoMirrored.Rounded.Undo, null)
         }
         OutlinedIconButton(
             border = if (portrait) {
@@ -278,7 +277,7 @@ fun EraseBackgroundScreen(
             onClick = { viewModel.redo() },
             enabled = viewModel.undonePaths.isNotEmpty()
         ) {
-            Icon(Icons.Rounded.Redo, null)
+            Icon(Icons.AutoMirrored.Rounded.Redo, null)
         }
     }
 
@@ -363,7 +362,7 @@ fun EraseBackgroundScreen(
                 IconButton(
                     onClick = onBack
                 ) {
-                    Icon(Icons.Rounded.ArrowBack, null)
+                    Icon(Icons.AutoMirrored.Rounded.ArrowBack, null)
                 }
             },
         )
@@ -476,7 +475,6 @@ fun EraseBackgroundScreen(
                             }
                         }
                     )
-                    HorizontalDivider()
                     Column(Modifier.verticalScroll(rememberScrollState())) {
                         controls()
                     }
@@ -515,7 +513,7 @@ fun EraseBackgroundScreen(
                             IconButton(
                                 onClick = onBack
                             ) {
-                                Icon(Icons.Rounded.ArrowBack, null)
+                                Icon(Icons.AutoMirrored.Rounded.ArrowBack, null)
                             }
                         },
                         actions = {
@@ -535,7 +533,7 @@ fun EraseBackgroundScreen(
                         .align(settingsState.fabAlignment)
                         .navigationBarsPadding()
                         .padding(16.dp)
-                        .fabBorder(),
+                        .autoElevatedBorder(),
                     elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
                     text = {
                         Text(stringResource(R.string.pick_image_alt))
@@ -598,7 +596,7 @@ fun EraseBackgroundScreen(
                     ) {
                         FloatingActionButton(
                             onClick = pickImage,
-                            modifier = Modifier.fabBorder(),
+                            modifier = Modifier.autoElevatedBorder(),
                             containerColor = MaterialTheme.colorScheme.tertiaryContainer,
                             elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
                         ) {
@@ -607,7 +605,7 @@ fun EraseBackgroundScreen(
                         Spacer(modifier = Modifier.height(16.dp))
                         FloatingActionButton(
                             onClick = saveBitmap,
-                            modifier = Modifier.fabBorder(),
+                            modifier = Modifier.autoElevatedBorder(),
                             elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
                         ) {
                             Icon(Icons.Rounded.Save, null)

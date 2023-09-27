@@ -30,8 +30,8 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.rounded.ArrowBack
 import androidx.compose.material.icons.rounded.AddPhotoAlternate
-import androidx.compose.material.icons.rounded.ArrowBack
 import androidx.compose.material.icons.rounded.Colorize
 import androidx.compose.material.icons.rounded.ContentPaste
 import androidx.compose.material.icons.rounded.ZoomIn
@@ -94,10 +94,10 @@ import ru.tech.imageresizershrinker.presentation.root.utils.helper.Picker
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.localImagePickerMode
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.rememberImagePicker
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.toHex
+import ru.tech.imageresizershrinker.presentation.root.utils.modifier.autoElevatedBorder
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.container
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.containerFabBorder
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.drawHorizontalStroke
-import ru.tech.imageresizershrinker.presentation.root.utils.modifier.fabBorder
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.navBarsPaddingOnlyIfTheyAtTheBottom
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.navBarsPaddingOnlyIfTheyAtTheEnd
 import ru.tech.imageresizershrinker.presentation.root.utils.navigation.LocalNavController
@@ -240,7 +240,7 @@ fun PickColorFromImageScreen(
                                     onGoBack()
                                 }
                             ) {
-                                Icon(Icons.Rounded.ArrowBack, null)
+                                Icon(Icons.AutoMirrored.Rounded.ArrowBack, null)
                             }
                         },
                         title = {
@@ -276,7 +276,7 @@ fun PickColorFromImageScreen(
                                         },
                                         modifier = Modifier.statusBarsPadding()
                                     ) {
-                                        Icon(Icons.Rounded.ArrowBack, null)
+                                        Icon(Icons.AutoMirrored.Rounded.ArrowBack, null)
                                     }
                                     if (!portrait) {
                                         ProvideTextStyle(
@@ -607,7 +607,7 @@ fun PickColorFromImageScreen(
                     floatingActionButton = {
                         FloatingActionButton(
                             onClick = pickImage,
-                            modifier = Modifier.fabBorder(),
+                            modifier = Modifier.autoElevatedBorder(),
                             elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation()
                         ) {
                             Icon(Icons.Rounded.AddPhotoAlternate, null)
@@ -624,7 +624,7 @@ fun PickColorFromImageScreen(
                     .navigationBarsPadding()
                     .padding(16.dp)
                     .align(settingsState.fabAlignment)
-                    .fabBorder(),
+                    .autoElevatedBorder(),
                 elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
                 text = {
                     Text(stringResource(R.string.pick_image_alt))

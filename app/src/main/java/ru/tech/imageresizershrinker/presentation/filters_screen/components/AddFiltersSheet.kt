@@ -37,7 +37,6 @@ import androidx.compose.material.icons.rounded.PhotoFilter
 import androidx.compose.material.icons.rounded.Slideshow
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -120,11 +119,11 @@ import ru.tech.imageresizershrinker.presentation.root.transformation.filter.Vign
 import ru.tech.imageresizershrinker.presentation.root.transformation.filter.WeakPixelFilter
 import ru.tech.imageresizershrinker.presentation.root.transformation.filter.WhiteBalanceFilter
 import ru.tech.imageresizershrinker.presentation.root.transformation.filter.ZoomBlurFilter
-import ru.tech.imageresizershrinker.presentation.root.utils.modifier.drawHorizontalStroke
 import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedButton
 import ru.tech.imageresizershrinker.presentation.root.widget.image.SimplePicture
 import ru.tech.imageresizershrinker.presentation.root.widget.image.imageStickyHeader
 import ru.tech.imageresizershrinker.presentation.root.widget.preferences.PreferenceItemOverload
+import ru.tech.imageresizershrinker.presentation.root.widget.sheets.SimpleDragHandle
 import ru.tech.imageresizershrinker.presentation.root.widget.sheets.SimpleSheet
 import ru.tech.imageresizershrinker.presentation.root.widget.text.AutoSizeText
 import ru.tech.imageresizershrinker.presentation.root.widget.text.Marquee
@@ -223,63 +222,66 @@ fun AddFiltersSheet(
     }
 
     SimpleSheet(
-        sheetContent = {
-            Box {
-                Column {
-                    Row(
-                        modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.Center
-                    ) {
-                        ScrollableTabRow(
-                            divider = {},
-                            containerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(10.dp),
-                            selectedTabIndex = pagerState.currentPage,
-                            indicator = { tabPositions ->
-                                if (pagerState.currentPage < tabPositions.size) {
-                                    TabRowDefaults.PrimaryIndicator(
-                                        modifier = Modifier
-                                            .tabIndicatorOffset(tabPositions[pagerState.currentPage]),
-                                        width = 60.dp,
-                                        height = 4.dp,
-                                        shape = RoundedCornerShape(topStart = 100f, topEnd = 100f)
-                                    )
-                                }
-                            }
-                        ) {
-                            listOf(
-                                Icons.Rounded.FormatColorFill to stringResource(id = R.string.color),
-                                Icons.Rounded.Light to stringResource(R.string.light_aka_illumination),
-                                Icons.Rounded.FilterHdr to stringResource(R.string.effect),
-                                Icons.Rounded.LensBlur to stringResource(R.string.blur),
-                                Icons.Rounded.Animation to stringResource(R.string.distortion)
-                            ).forEachIndexed { index, (icon, title) ->
-                                val selected = pagerState.currentPage == index
-                                Tab(
-                                    unselectedContentColor = MaterialTheme.colorScheme.onSurface,
+        dragHandle = {
+            SimpleDragHandle {
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.Center
+                ) {
+                    ScrollableTabRow(
+                        divider = {},
+                        containerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(10.dp),
+                        selectedTabIndex = pagerState.currentPage,
+                        indicator = { tabPositions ->
+                            if (pagerState.currentPage < tabPositions.size) {
+                                TabRowDefaults.PrimaryIndicator(
                                     modifier = Modifier
-                                        .padding(8.dp)
-                                        .clip(CircleShape),
-                                    selected = selected,
-                                    onClick = {
-                                        scope.launch {
-                                            pagerState.animateScrollToPage(index)
-                                        }
-                                    },
-                                    icon = {
-                                        Icon(
-                                            imageVector = icon,
-                                            contentDescription = null,
-                                            tint = if (selected) {
-                                                MaterialTheme.colorScheme.primary
-                                            } else MaterialTheme.colorScheme.onSurface
-                                        )
-                                    },
-                                    text = { Text(title) }
+                                        .tabIndicatorOffset(tabPositions[pagerState.currentPage]),
+                                    width = 60.dp,
+                                    height = 4.dp,
+                                    shape = RoundedCornerShape(topStart = 100f, topEnd = 100f)
                                 )
                             }
                         }
+                    ) {
+                        listOf(
+                            Icons.Rounded.FormatColorFill to stringResource(id = R.string.color),
+                            Icons.Rounded.Light to stringResource(R.string.light_aka_illumination),
+                            Icons.Rounded.FilterHdr to stringResource(R.string.effect),
+                            Icons.Rounded.LensBlur to stringResource(R.string.blur),
+                            Icons.Rounded.Animation to stringResource(R.string.distortion)
+                        ).forEachIndexed { index, (icon, title) ->
+                            val selected = pagerState.currentPage == index
+                            Tab(
+                                unselectedContentColor = MaterialTheme.colorScheme.onSurface,
+                                modifier = Modifier
+                                    .padding(8.dp)
+                                    .clip(CircleShape),
+                                selected = selected,
+                                onClick = {
+                                    scope.launch {
+                                        pagerState.animateScrollToPage(index)
+                                    }
+                                },
+                                icon = {
+                                    Icon(
+                                        imageVector = icon,
+                                        contentDescription = null,
+                                        tint = if (selected) {
+                                            MaterialTheme.colorScheme.primary
+                                        } else MaterialTheme.colorScheme.onSurface
+                                    )
+                                },
+                                text = { Text(title) }
+                            )
+                        }
                     }
-                    HorizontalDivider()
+                }
+            }
+        },
+        sheetContent = {
+            Box {
+                Column {
                     HorizontalPager(state = pagerState, beyondBoundsPageCount = 4) { page ->
                         Column(
                             Modifier
@@ -334,7 +336,6 @@ fun AddFiltersSheet(
                         }
                     }
                 }
-                HorizontalDivider(Modifier.align(Alignment.BottomCenter))
             }
         },
         title = {
@@ -373,16 +374,8 @@ fun AddFiltersSheet(
 
     val backgroundColor = MaterialTheme.colorScheme.surfaceColorAtElevation(2.dp).copy(0.8f)
     SimpleSheet(
-        sheetContent = {
-            DisposableEffect(Unit) {
-                onDispose {
-                    imageState = imageState.copy(position = 2)
-                }
-            }
-            Column(
-                horizontalAlignment = Alignment.CenterHorizontally,
-                modifier = Modifier.fillMaxWidth()
-            ) {
+        dragHandle = {
+            SimpleDragHandle {
                 CenterAlignedTopAppBar(
                     navigationIcon = {
                         IconButton(onClick = { previewSheetData = null }) {
@@ -394,7 +387,6 @@ fun AddFiltersSheet(
                             10.dp
                         )
                     ),
-                    modifier = Modifier.drawHorizontalStroke(),
                     actions = {
                         IconButton(
                             onClick = {
@@ -418,6 +410,18 @@ fun AddFiltersSheet(
                         }
                     }
                 )
+            }
+        },
+        sheetContent = {
+            DisposableEffect(Unit) {
+                onDispose {
+                    imageState = imageState.copy(position = 2)
+                }
+            }
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally,
+                modifier = Modifier.fillMaxWidth()
+            ) {
                 LazyColumn(
                     horizontalAlignment = Alignment.CenterHorizontally,
                 ) {

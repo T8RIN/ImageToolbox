@@ -8,14 +8,11 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.FontDownload
-import androidx.compose.material3.HorizontalDivider
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.zIndex
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.presentation.main_screen.components.FontSelectionItem
 import ru.tech.imageresizershrinker.presentation.root.model.UiFontFam
@@ -32,9 +29,6 @@ fun PickFontFamilySheet(
         visible = visible,
         sheetContent = {
             Box {
-                HorizontalDivider(
-                    Modifier.zIndex(100f)
-                )
                 Column(
                     verticalArrangement = Arrangement.spacedBy(8.dp),
                     modifier = Modifier
@@ -52,11 +46,6 @@ fun PickFontFamilySheet(
                         )
                     }
                 }
-                HorizontalDivider(
-                    Modifier
-                        .align(Alignment.BottomCenter)
-                        .zIndex(100f)
-                )
             }
         },
         confirmButton = {

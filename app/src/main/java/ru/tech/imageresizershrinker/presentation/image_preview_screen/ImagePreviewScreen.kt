@@ -22,8 +22,8 @@ import androidx.compose.foundation.lazy.staggeredgrid.rememberLazyStaggeredGridS
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.rounded.ArrowBack
 import androidx.compose.material.icons.rounded.AddPhotoAlternate
-import androidx.compose.material.icons.rounded.ArrowBack
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExtendedFloatingActionButton
 import androidx.compose.material3.FloatingActionButtonDefaults
@@ -61,9 +61,9 @@ import ru.tech.imageresizershrinker.presentation.root.transformation.filter.Satu
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.Picker
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.localImagePickerMode
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.rememberImagePicker
+import ru.tech.imageresizershrinker.presentation.root.utils.modifier.autoElevatedBorder
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.container
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.drawHorizontalStroke
-import ru.tech.imageresizershrinker.presentation.root.utils.modifier.fabBorder
 import ru.tech.imageresizershrinker.presentation.root.widget.image.ImageNotPickedWidget
 import ru.tech.imageresizershrinker.presentation.root.widget.image.Picture
 import ru.tech.imageresizershrinker.presentation.root.widget.other.TopAppBarEmoji
@@ -170,7 +170,7 @@ fun ImagePreviewScreen(
                     ),
                     navigationIcon = {
                         IconButton(onClick = onGoBack) {
-                            Icon(Icons.Rounded.ArrowBack, null)
+                            Icon(Icons.AutoMirrored.Rounded.ArrowBack, null)
                         }
                     },
                     actions = {
@@ -272,7 +272,7 @@ fun ImagePreviewScreen(
                 modifier = Modifier
                     .navigationBarsPadding()
                     .padding(16.dp)
-                    .fabBorder()
+                    .autoElevatedBorder()
                     .align(settingsState.fabAlignment),
                 elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
                 expanded = if (settingsState.fabAlignment == Alignment.BottomCenter) true else gridState.isScrollingUp(),

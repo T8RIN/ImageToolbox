@@ -7,18 +7,21 @@ import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
-import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.graphics.isSpecified
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.isUnspecified
+import ru.tech.imageresizershrinker.presentation.draw_screen.components.materialShadow
 import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
 import ru.tech.imageresizershrinker.presentation.root.theme.suggestContainerColorBy
 import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalSettingsState
 
-fun Modifier.fabBorder(
+fun Modifier.autoElevatedBorder(
     height: Dp = Dp.Unspecified,
     shape: Shape? = null,
+    color: Color = Color.Unspecified,
     autoElevation: Dp = 6.dp
 ) = composed {
     val h = if (height.isUnspecified) {
@@ -31,17 +34,20 @@ fun Modifier.fabBorder(
         Modifier
     } else {
         border(
-            h,
-            MaterialTheme.colorScheme.outlineVariant(
-                luminance = 0.3f,
-                onTopOf = MaterialTheme.colorScheme.suggestContainerColorBy(LocalContentColor.current)
-            ),
-            szape
+            width = h,
+            color = if (color.isSpecified) color
+            else {
+                MaterialTheme.colorScheme.outlineVariant(
+                    luminance = 0.3f,
+                    onTopOf = MaterialTheme.colorScheme.suggestContainerColorBy(LocalContentColor.current)
+                )
+            },
+            shape = szape
         )
-    }.shadow(
-        animateDpAsState(if (h == null) autoElevation else 0.dp).value,
-        szape
+    }.materialShadow(
+        elevation = animateDpAsState(if (h == null) autoElevation else 0.dp).value,
+        shape = szape
     )
 }
 
-fun Modifier.containerFabBorder() = fabBorder(autoElevation = 1.5.dp)
+fun Modifier.containerFabBorder() = autoElevatedBorder(autoElevation = 1.5.dp)

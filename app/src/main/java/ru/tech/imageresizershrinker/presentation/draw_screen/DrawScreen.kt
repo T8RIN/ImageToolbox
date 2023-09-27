@@ -35,18 +35,17 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.rounded.Redo
+import androidx.compose.material.icons.automirrored.rounded.Undo
 import androidx.compose.material.icons.rounded.AddPhotoAlternate
 import androidx.compose.material.icons.rounded.Draw
-import androidx.compose.material.icons.rounded.Redo
 import androidx.compose.material.icons.rounded.Save
-import androidx.compose.material.icons.rounded.Undo
 import androidx.compose.material.icons.rounded.ZoomIn
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.BottomSheetScaffold
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.FloatingActionButtonDefaults
-import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -381,7 +380,7 @@ fun DrawScreen(
                 onClick = viewModel::undo,
                 enabled = viewModel.lastPaths.isNotEmpty() || viewModel.paths.isNotEmpty()
             ) {
-                Icon(Icons.Rounded.Undo, null)
+                Icon(Icons.AutoMirrored.Rounded.Undo, null)
             }
             EnhancedIconButton(
                 containerColor = Color.Transparent,
@@ -391,7 +390,7 @@ fun DrawScreen(
                 onClick = viewModel::redo,
                 enabled = viewModel.undonePaths.isNotEmpty()
             ) {
-                Icon(Icons.Rounded.Redo, null)
+                Icon(Icons.AutoMirrored.Rounded.Redo, null)
             }
             EnhancedIconButton(
                 borderColor = MaterialTheme.colorScheme.outlineVariant(
@@ -499,13 +498,13 @@ fun DrawScreen(
                                     onClick = { viewModel.undo() },
                                     enabled = viewModel.lastPaths.isNotEmpty() || viewModel.paths.isNotEmpty()
                                 ) {
-                                    Icon(Icons.Rounded.Undo, null)
+                                    Icon(Icons.AutoMirrored.Rounded.Undo, null)
                                 }
                                 IconButton(
                                     onClick = { viewModel.redo() },
                                     enabled = viewModel.undonePaths.isNotEmpty()
                                 ) {
-                                    Icon(Icons.Rounded.Redo, null)
+                                    Icon(Icons.AutoMirrored.Rounded.Redo, null)
                                 }
                                 EnhancedIconButton(
                                     containerColor = animateColorAsState(
@@ -548,7 +547,6 @@ fun DrawScreen(
                                 }
                             }
                         )
-                        HorizontalDivider()
                         LazyColumn(horizontalAlignment = Alignment.CenterHorizontally) {
                             item {
                                 controls()

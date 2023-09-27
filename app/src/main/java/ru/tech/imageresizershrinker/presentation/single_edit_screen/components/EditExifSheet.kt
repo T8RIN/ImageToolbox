@@ -1,7 +1,6 @@
 package ru.tech.imageresizershrinker.presentation.single_edit_screen.components
 
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -10,7 +9,6 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
@@ -23,17 +21,16 @@ import androidx.compose.material.icons.rounded.Delete
 import androidx.compose.material.icons.rounded.Fingerprint
 import androidx.compose.material.icons.rounded.RemoveCircleOutline
 import androidx.compose.material3.AlertDialog
-import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
-import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.SideEffect
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -56,6 +53,7 @@ import ru.tech.imageresizershrinker.presentation.root.utils.modifier.alertDialog
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.container
 import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedButton
 import ru.tech.imageresizershrinker.presentation.root.widget.preferences.PreferenceItemOverload
+import ru.tech.imageresizershrinker.presentation.root.widget.sheets.SimpleDragHandle
 import ru.tech.imageresizershrinker.presentation.root.widget.sheets.SimpleSheet
 import ru.tech.imageresizershrinker.presentation.root.widget.text.AutoSizeText
 import ru.tech.imageresizershrinker.presentation.root.widget.text.RoundedTextField
@@ -116,13 +114,10 @@ fun EditExifSheet(
                 }
             }
         },
-        visible = visible,
-        sheetContent = {
-            if (exifMap?.isEmpty() == false) {
+        dragHandle = {
+            SimpleDragHandle {
                 Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .background(MaterialTheme.colorScheme.surfaceColorAtElevation(10.dp)),
+                    modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.Center
                 ) {
                     TitleItem(
@@ -130,6 +125,11 @@ fun EditExifSheet(
                         icon = Icons.Rounded.Fingerprint
                     )
                 }
+            }
+        },
+        visible = visible,
+        sheetContent = {
+            if (exifMap?.isEmpty() == false) {
                 Box {
                     LazyColumn(
                         contentPadding = PaddingValues(8.dp),
@@ -190,8 +190,6 @@ fun EditExifSheet(
                             }
                         }
                     }
-                    HorizontalDivider(Modifier.align(Alignment.TopCenter))
-                    HorizontalDivider(Modifier.align(Alignment.BottomCenter))
                 }
             } else {
                 Box {
@@ -202,61 +200,69 @@ fun EditExifSheet(
                             .padding(12.dp),
                         textAlign = TextAlign.Center
                     )
-                    HorizontalDivider(Modifier.align(Alignment.TopCenter))
-                    HorizontalDivider(Modifier.align(Alignment.BottomCenter))
+                }
+            }
+            val tags by remember(exifMap) {
+                derivedStateOf {
+                    Metadata.metaTags.filter {
+                        it !in (exifMap?.keys ?: emptyList())
+                    }.sorted()
+                }
+            }
+            if (tags.isEmpty()) {
+                SideEffect {
+                    showAddExifDialog.value = false
+                }
+            }
+            var query by rememberSaveable { mutableStateOf("") }
+            val list by remember(tags, query) {
+                derivedStateOf {
+                    tags.filter {
+                        query.lowercase() in it.lowercase()
+                    }
                 }
             }
             SimpleSheet(
                 nestedScrollEnabled = false,
                 visible = showAddExifDialog,
+                dragHandle = {
+                    SimpleDragHandle {
+                        Column {
+                            RoundedTextField(
+                                textStyle = LocalTextStyle.current.copy(
+                                    textAlign = TextAlign.Start
+                                ),
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(horizontal = 16.dp, vertical = 8.dp),
+                                shape = RoundedCornerShape(30),
+                                label = stringResource(R.string.search_here),
+                                onValueChange = { query = it },
+                                value = query
+                            )
+                            Spacer(Modifier.height(8.dp))
+                        }
+                    }
+                },
+                confirmButton = {
+                    EnhancedButton(
+                        onClick = { showAddExifDialog.value = false }
+                    ) {
+                        AutoSizeText(stringResource(R.string.ok))
+                    }
+                },
+                title = {
+                    TitleItem(
+                        text = stringResource(R.string.add_tag),
+                        icon = Icons.Rounded.Fingerprint
+                    )
+                },
                 sheetContent = {
                     Column {
-                        val tags =
-                            remember(exifMap) {
-                                Metadata.metaTags.filter {
-                                    it !in (exifMap?.keys ?: emptyList())
-                                }.sorted()
-                            }
-                        if (tags.isEmpty()) {
-                            SideEffect {
-                                showAddExifDialog.value = false
-                            }
-                        }
-                        var query by rememberSaveable { mutableStateOf("") }
-                        val list = remember(tags, query) {
-                            tags.filter {
-                                query.lowercase() in it.lowercase()
-                            }
-                        }
                         LazyColumn(
                             contentPadding = PaddingValues(bottom = 8.dp),
                             modifier = Modifier.weight(1f, false)
                         ) {
-                            stickyHeader {
-                                Column(
-                                    modifier = Modifier
-                                        .background(
-                                            MaterialTheme.colorScheme.surfaceColorAtElevation(
-                                                10.dp
-                                            )
-                                        )
-                                ) {
-                                    RoundedTextField(
-                                        textStyle = LocalTextStyle.current.copy(
-                                            textAlign = TextAlign.Start
-                                        ),
-                                        modifier = Modifier
-                                            .fillMaxWidth()
-                                            .padding(horizontal = 16.dp, vertical = 8.dp),
-                                        shape = RoundedCornerShape(30),
-                                        label = stringResource(R.string.search_here),
-                                        onValueChange = { query = it },
-                                        value = query
-                                    )
-                                    Spacer(Modifier.height(8.dp))
-                                    HorizontalDivider()
-                                }
-                            }
                             item {
                                 Spacer(Modifier.height(8.dp))
                             }
@@ -301,29 +307,6 @@ fun EditExifSheet(
                                         )
                                     }
                                 }
-                            }
-                        }
-                        HorizontalDivider()
-                        Row(
-                            modifier = Modifier
-                                .background(
-                                    MaterialTheme.colorScheme.surfaceColorAtElevation(
-                                        10.dp
-                                    )
-                                )
-                                .padding(16.dp)
-                                .padding(end = 16.dp)
-                                .navigationBarsPadding()
-                        ) {
-                            TitleItem(
-                                text = stringResource(R.string.add_tag),
-                                icon = Icons.Rounded.Fingerprint
-                            )
-                            Spacer(Modifier.weight(1f))
-                            EnhancedButton(
-                                onClick = { showAddExifDialog.value = false }
-                            ) {
-                                AutoSizeText(stringResource(R.string.ok))
                             }
                         }
                     }

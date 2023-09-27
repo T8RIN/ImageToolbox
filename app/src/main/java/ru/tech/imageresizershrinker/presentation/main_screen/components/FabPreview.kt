@@ -37,8 +37,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.presentation.root.shapes.CloverShape
+import ru.tech.imageresizershrinker.presentation.root.utils.modifier.autoElevatedBorder
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.container
-import ru.tech.imageresizershrinker.presentation.root.utils.modifier.fabBorder
 import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedIconButton
 import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalSettingsState
 
@@ -54,7 +54,7 @@ fun FabPreview(
             .fillMaxWidth()
             .aspectRatio(1f / 1.7f)
             .padding(4.dp)
-            .fabBorder(shape = RoundedCornerShape(12.dp), autoElevation = elevation)
+            .autoElevatedBorder(shape = RoundedCornerShape(12.dp), autoElevation = elevation)
             .clip(RoundedCornerShape(12.dp))
             .background(colorScheme.background),
         verticalArrangement = Arrangement.SpaceBetween
@@ -62,7 +62,7 @@ fun FabPreview(
         Column(
             modifier = Modifier
                 .padding(horizontal = 8.dp, vertical = 8.dp)
-                .fabBorder(shape = shapes.small, autoElevation = elevation)
+                .autoElevatedBorder(shape = shapes.small, autoElevation = elevation)
                 .container(shape = shapes.small)
                 .fillMaxWidth(1f),
             verticalArrangement = Arrangement.Center,
@@ -111,7 +111,7 @@ fun FabPreview(
                     modifier = Modifier
                         .padding(8.dp)
                         .size(22.dp)
-                        .fabBorder(shape = RoundedCornerShape(7.dp), autoElevation = 4.dp)
+                        .autoElevatedBorder(shape = RoundedCornerShape(7.dp), autoElevation = 4.dp)
                         .background(
                             color = colorScheme.primaryContainer,
                             shape = RoundedCornerShape(7.dp),

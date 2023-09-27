@@ -31,10 +31,10 @@ import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.R
+import ru.tech.imageresizershrinker.presentation.root.utils.modifier.autoElevatedBorder
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.container
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.containerFabBorder
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.drawHorizontalStroke
-import ru.tech.imageresizershrinker.presentation.root.utils.modifier.fabBorder
 
 @Composable
 fun BottomButtonsBlock(
@@ -53,7 +53,7 @@ fun BottomButtonsBlock(
                 modifier = Modifier
                     .navigationBarsPadding()
                     .padding(16.dp)
-                    .fabBorder(),
+                    .autoElevatedBorder(),
                 elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
                 text = {
                     Text(stringResource(R.string.pick_image_alt))

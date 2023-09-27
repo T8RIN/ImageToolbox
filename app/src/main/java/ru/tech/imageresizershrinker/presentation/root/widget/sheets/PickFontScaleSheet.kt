@@ -20,7 +20,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.TextFields
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -36,7 +35,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.compose.ui.zIndex
 import com.smarttoolfactory.colordetector.util.ColorUtil.roundToTwoDigits
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.container
@@ -59,9 +57,6 @@ fun PickFontScaleSheet(
                 List(19) { (0.6f + it / 20f).roundToTwoDigits() }
             }
             Box {
-                HorizontalDivider(
-                    Modifier.zIndex(100f)
-                )
                 LazyVerticalGrid(
                     columns = GridCells.Adaptive(64.dp),
                     verticalArrangement = Arrangement.spacedBy(
@@ -180,11 +175,6 @@ fun PickFontScaleSheet(
                         }
                     }
                 }
-                HorizontalDivider(
-                    Modifier
-                        .align(Alignment.BottomCenter)
-                        .zIndex(100f)
-                )
             }
         },
         confirmButton = {

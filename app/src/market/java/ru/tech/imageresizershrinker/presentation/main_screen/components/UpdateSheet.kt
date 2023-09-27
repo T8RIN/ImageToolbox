@@ -14,7 +14,6 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.FileDownloadOff
 import androidx.compose.material.icons.rounded.NewReleases
-import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
@@ -108,7 +107,6 @@ fun UpdateSheet(changelog: String, tag: String, visible: MutableState<Boolean>) 
                                     )
                                 }
                             }
-                            HorizontalDivider()
                             Column(Modifier.verticalScroll(rememberScrollState())) {
                                 HtmlText(
                                     html = changelog.trimIndent(),
@@ -122,7 +120,6 @@ fun UpdateSheet(changelog: String, tag: String, visible: MutableState<Boolean>) 
                                 }
                             }
                         }
-                        HorizontalDivider(Modifier.align(Alignment.BottomCenter))
                     }
                 }
             },

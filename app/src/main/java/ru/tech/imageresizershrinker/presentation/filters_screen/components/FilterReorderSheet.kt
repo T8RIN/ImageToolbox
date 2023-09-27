@@ -10,7 +10,6 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Reorder
-import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.runtime.Composable
@@ -18,7 +17,6 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.res.stringResource
@@ -33,7 +31,6 @@ import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedBu
 import ru.tech.imageresizershrinker.presentation.root.widget.sheets.SimpleSheet
 import ru.tech.imageresizershrinker.presentation.root.widget.text.AutoSizeText
 import ru.tech.imageresizershrinker.presentation.root.widget.text.TitleItem
-import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalSettingsState
 
 @Composable
 fun FilterReorderSheet(
@@ -41,7 +38,6 @@ fun FilterReorderSheet(
     visible: MutableState<Boolean>,
     updateOrder: (List<FilterTransformation<*>>) -> Unit
 ) {
-    val settingsState = LocalSettingsState.current
     SimpleSheet(
         sheetContent = {
             if (filterList.size < 2) {
@@ -87,8 +83,6 @@ fun FilterReorderSheet(
                         }
                     }
                 }
-                HorizontalDivider(Modifier.align(Alignment.TopCenter))
-                HorizontalDivider(Modifier.align(Alignment.BottomCenter))
             }
         },
         visible = visible,

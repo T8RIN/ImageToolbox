@@ -25,8 +25,8 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.rounded.ArrowBack
 import androidx.compose.material.icons.rounded.AddPhotoAlternate
-import androidx.compose.material.icons.rounded.ArrowBack
 import androidx.compose.material.icons.rounded.Colorize
 import androidx.compose.material.icons.rounded.ContentPaste
 import androidx.compose.material.icons.rounded.ZoomIn
@@ -85,9 +85,9 @@ import ru.tech.imageresizershrinker.presentation.root.utils.helper.Picker
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.localImagePickerMode
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.rememberImagePicker
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.toHex
+import ru.tech.imageresizershrinker.presentation.root.utils.modifier.autoElevatedBorder
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.container
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.drawHorizontalStroke
-import ru.tech.imageresizershrinker.presentation.root.utils.modifier.fabBorder
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.navBarsPaddingOnlyIfTheyAtTheBottom
 import ru.tech.imageresizershrinker.presentation.root.utils.navigation.LocalNavController
 import ru.tech.imageresizershrinker.presentation.root.utils.navigation.Screen
@@ -273,7 +273,7 @@ fun GeneratePaletteScreen(
                             onGoBack()
                         }
                     ) {
-                        Icon(Icons.Rounded.ArrowBack, null)
+                        Icon(Icons.AutoMirrored.Rounded.ArrowBack, null)
                     }
                 },
                 actions = {
@@ -420,7 +420,7 @@ fun GeneratePaletteScreen(
                 .navigationBarsPadding()
                 .padding(12.dp)
                 .align(if (!landscape || viewModel.bitmap == null) settingsState.fabAlignment else Alignment.BottomEnd)
-                .fabBorder(),
+                .autoElevatedBorder(),
             elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
         ) {
             val expanded =

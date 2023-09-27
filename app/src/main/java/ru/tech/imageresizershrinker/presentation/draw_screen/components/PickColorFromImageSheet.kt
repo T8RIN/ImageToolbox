@@ -17,7 +17,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Colorize
 import androidx.compose.material.icons.rounded.ContentPaste
 import androidx.compose.material.icons.rounded.ZoomIn
-import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
@@ -41,7 +40,6 @@ import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.zIndex
 import com.smarttoolfactory.colordetector.ImageColorDetector
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.R
@@ -117,12 +115,6 @@ fun PickColorFromImageSheet(
                         .fillMaxHeight(0.5f)
                         .shimmer(true)
                 )
-                HorizontalDivider(
-                    Modifier
-                        .zIndex(100f)
-                        .align(Alignment.BottomCenter)
-                )
-                HorizontalDivider()
             }
         },
         confirmButton = {
