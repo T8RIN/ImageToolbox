@@ -149,7 +149,12 @@ fun BitmapDrawer(
             LaunchedEffect(imageBitmap, drawBitmap, paths, drawPathBitmap) {
                 blurredBitmap = imageManager.transform(
                     image = outputImage.asAndroidBitmap(),
-                    transformations = listOf()
+                    transformations = listOf(
+                        StackBlurFilter(
+                            context,
+                            0.3f to 20
+                        )
+                    )
                 )?.asImageBitmap()
             }
 
