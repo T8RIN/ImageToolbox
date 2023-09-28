@@ -4,20 +4,16 @@ import android.graphics.Bitmap
 import android.graphics.BlurMaskFilter
 import android.graphics.Matrix
 import android.graphics.PorterDuff
-import android.graphics.PorterDuffXfermode
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.SideEffect
-import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -27,13 +23,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.graphics.AndroidPaint
 import androidx.compose.ui.graphics.BlendMode
 import androidx.compose.ui.graphics.Canvas
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
-import androidx.compose.ui.graphics.ImageShader
-import androidx.compose.ui.graphics.NativeCanvas
 import androidx.compose.ui.graphics.Paint
 import androidx.compose.ui.graphics.PaintingStyle
 import androidx.compose.ui.graphics.Path
@@ -49,7 +42,6 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.window.Popup
 import com.smarttoolfactory.gesture.MotionEvent
 import com.smarttoolfactory.gesture.pointerMotionEvents
 import com.smarttoolfactory.image.util.update
@@ -65,7 +57,6 @@ import ru.tech.imageresizershrinker.presentation.root.transformation.filter.Stac
 import kotlin.math.cos
 import kotlin.math.sin
 import android.graphics.Canvas as AndroidCanvas
-import android.graphics.Path as AndroidPath
 
 
 @Composable
@@ -88,6 +79,15 @@ fun BitmapDrawer(
     val zoomState = rememberAnimatedZoomState(maxZoom = 30f)
     val scope = rememberCoroutineScope()
     val context = LocalContext.current
+
+    val transformations = remember(context) {
+        listOf(
+            StackBlurFilter(
+                context,
+                0.3f to 20
+            )
+        )
+    }
 
     Box(
         modifier = Modifier
@@ -270,15 +270,8 @@ fun BitmapDrawer(
                             LaunchedEffect(shaderSource) {
                                 if (shaderSource == null) {
                                     shaderSource = imageManager.transform(
-                                        image = drawImageBitmap
-                                            .overlay(drawBitmap)
-                                            .asAndroidBitmap(),
-                                        transformations = listOf(
-                                            StackBlurFilter(
-                                                context,
-                                                0.3f to 20
-                                            )
-                                        )
+                                        image = outputImage.asAndroidBitmap(),
+                                        transformations = transformations
                                     )?.asImageBitmap()?.clipBitmap(
                                         path = path,
                                         paint = Paint().apply {
@@ -347,12 +340,7 @@ fun BitmapDrawer(
             LaunchedEffect(outputImage, paths) {
                 blurredBitmap = imageManager.transform(
                     image = outputImage.asAndroidBitmap(),
-                    transformations = listOf(
-                        StackBlurFilter(
-                            context,
-                            0.3f to 20
-                        )
-                    )
+                    transformations = transformations
                 )?.asImageBitmap()
             }
 
@@ -381,7 +369,6 @@ fun BitmapDrawer(
                             color = Color.Transparent
                             blendMode = BlendMode.Clear
                         }
-                        val bitmap = shaderBitmap.asAndroidBitmap()
                         val newPath = android.graphics.Path(drawPath.asAndroidPath())
 
                         drawImage(
