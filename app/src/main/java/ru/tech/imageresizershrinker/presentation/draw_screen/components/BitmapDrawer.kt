@@ -146,7 +146,7 @@ fun BitmapDrawer(
 
             val outputImage = drawImageBitmap.overlay(drawBitmap)
 
-            LaunchedEffect(imageBitmap, drawBitmap, paths, drawPathBitmap) {
+            LaunchedEffect(outputImage, paths) {
                 blurredBitmap = imageManager.transform(
                     image = outputImage.asAndroidBitmap(),
                     transformations = listOf(
