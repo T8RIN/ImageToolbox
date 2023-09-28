@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.BlurCircular
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -20,14 +19,15 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.smarttoolfactory.colordetector.util.ColorUtil.roundToTwoDigits
 import ru.tech.imageresizershrinker.R
+import ru.tech.imageresizershrinker.presentation.root.icons.material.Dots
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.container
 import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedSlider
 
 @Composable
-fun BlurRadiusSelector(
+fun BrushSoftnessSelector(
     modifier: Modifier,
-    blurRadius: Float,
-    onRadiusChange: (Float) -> Unit
+    value: Float,
+    onValueChange: (Float) -> Unit
 ) {
     Column(
         modifier = modifier
@@ -38,7 +38,7 @@ fun BlurRadiusSelector(
             verticalAlignment = Alignment.CenterVertically
         ) {
             Icon(
-                imageVector = Icons.Rounded.BlurCircular,
+                imageVector = Icons.Rounded.Dots,
                 contentDescription = null,
                 modifier = Modifier
                     .padding(
@@ -47,7 +47,7 @@ fun BlurRadiusSelector(
                     )
             )
             Text(
-                text = stringResource(R.string.blur_radius),
+                text = stringResource(R.string.brush_softness),
                 modifier = Modifier
                     .padding(
                         top = 16.dp,
@@ -57,7 +57,7 @@ fun BlurRadiusSelector(
                     .weight(1f)
             )
             Text(
-                text = "$blurRadius",
+                text = "$value",
                 color = MaterialTheme.colorScheme.onSurface.copy(
                     alpha = 0.5f
                 ),
@@ -86,10 +86,10 @@ fun BlurRadiusSelector(
                     bottom = 8.dp
                 )
                 .offset(y = (-2).dp),
-            value = animateFloatAsState(targetValue = blurRadius).value,
+            value = animateFloatAsState(targetValue = value).value,
             valueRange = 0f..100f,
             onValueChange = {
-                onRadiusChange(it.roundToTwoDigits())
+                onValueChange(it.roundToTwoDigits())
             }
         )
     }

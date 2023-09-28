@@ -92,7 +92,7 @@ import dev.olshevski.navigation.reimagined.hilt.hiltViewModel
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.domain.model.ImageFormat
-import ru.tech.imageresizershrinker.presentation.draw_screen.components.BlurRadiusSelector
+import ru.tech.imageresizershrinker.presentation.draw_screen.components.BrushSoftnessSelector
 import ru.tech.imageresizershrinker.presentation.draw_screen.components.LineWidthSelector
 import ru.tech.imageresizershrinker.presentation.erase_background_screen.components.AutoEraseBackgroundCard
 import ru.tech.imageresizershrinker.presentation.erase_background_screen.components.BitmapEraser
@@ -405,11 +405,11 @@ fun EraseBackgroundScreen(
                 strokeWidth = strokeWidth,
                 onChangeStrokeWidth = { strokeWidth = it }
             )
-            BlurRadiusSelector(
+            BrushSoftnessSelector(
                 modifier = Modifier
                     .padding(top = 8.dp, end = 16.dp, start = 16.dp),
-                blurRadius = blurRadius,
-                onRadiusChange = { blurRadius = it }
+                value = blurRadius,
+                onValueChange = { blurRadius = it }
             )
             TrimImageToggle(
                 selected = viewModel.trimImage,

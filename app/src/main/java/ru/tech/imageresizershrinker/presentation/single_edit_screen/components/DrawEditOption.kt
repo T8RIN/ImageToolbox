@@ -48,7 +48,7 @@ import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.domain.image.ImageManager
 import ru.tech.imageresizershrinker.presentation.draw_screen.components.BitmapDrawer
-import ru.tech.imageresizershrinker.presentation.draw_screen.components.BlurRadiusSelector
+import ru.tech.imageresizershrinker.presentation.draw_screen.components.BrushSoftnessSelector
 import ru.tech.imageresizershrinker.presentation.draw_screen.components.DrawAlphaSelector
 import ru.tech.imageresizershrinker.presentation.draw_screen.components.DrawArrowsSelector
 import ru.tech.imageresizershrinker.presentation.draw_screen.components.DrawColorSelector
@@ -130,7 +130,7 @@ fun DrawEditOption(
         var alpha by rememberSaveable(drawMode) {
             mutableFloatStateOf(if (drawMode is DrawMode.Highlighter) 0.4f else 1f)
         }
-        var blurRadius by rememberSaveable(drawMode) {
+        var brushSoftness by rememberSaveable(drawMode) {
             mutableFloatStateOf(if (drawMode is DrawMode.Neon) 35f else 0f)
         }
         var drawArrowsEnabled by remember {
@@ -209,11 +209,11 @@ fun DrawEditOption(
                     onChangeStrokeWidth = { strokeWidth = it }
                 )
                 AnimatedVisibility(visible = drawMode !is DrawMode.Highlighter && drawMode !is DrawMode.PrivacyBlur) {
-                    BlurRadiusSelector(
+                    BrushSoftnessSelector(
                         modifier = Modifier
                             .padding(top = 16.dp, end = 16.dp, start = 16.dp),
-                        blurRadius = blurRadius,
-                        onRadiusChange = { blurRadius = it }
+                        value = brushSoftness,
+                        onValueChange = { brushSoftness = it }
                     )
                 }
                 Spacer(modifier = Modifier.height(16.dp))
@@ -301,7 +301,7 @@ fun DrawEditOption(
                         paths = paths,
                         imageManager = imageManager,
                         strokeWidth = strokeWidth,
-                        blurRadius = blurRadius,
+                        brushSoftness = brushSoftness,
                         drawColor = drawColor.copy(alpha),
                         onAddPath = addPath,
                         isEraserOn = isEraserOn,

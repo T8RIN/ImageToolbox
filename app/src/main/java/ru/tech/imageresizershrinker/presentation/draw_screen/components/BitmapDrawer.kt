@@ -64,7 +64,7 @@ fun BitmapDrawer(
     imageBitmap: ImageBitmap,
     imageManager: ImageManager<Bitmap, *>,
     paths: List<PathPaint>,
-    blurRadius: Float,
+    brushSoftness: Float,
     onAddPath: (PathPaint) -> Unit,
     strokeWidth: Float,
     isEraserOn: Boolean,
@@ -155,7 +155,7 @@ fun BitmapDrawer(
             }
 
             val drawPaint =
-                remember(strokeWidth, isEraserOn, drawColor, blurRadius, drawMode) {
+                remember(strokeWidth, isEraserOn, drawColor, brushSoftness, drawMode) {
                     Paint().apply {
                         blendMode = if (!isEraserOn) blendMode else BlendMode.Clear
                         style = PaintingStyle.Stroke
@@ -172,15 +172,15 @@ fun BitmapDrawer(
                         if (drawMode is DrawMode.Neon && !isEraserOn) {
                             this.color = Color.White.toArgb()
                             setShadowLayer(
-                                blurRadius,
+                                brushSoftness,
                                 0f,
                                 0f,
                                 drawColor
                                     .copy(alpha = .8f)
                                     .toArgb()
                             )
-                        } else if (blurRadius > 0f) {
-                            maskFilter = BlurMaskFilter(blurRadius, BlurMaskFilter.Blur.NORMAL)
+                        } else if (brushSoftness > 0f) {
+                            maskFilter = BlurMaskFilter(brushSoftness, BlurMaskFilter.Blur.NORMAL)
                         }
                     }
                 }
@@ -242,7 +242,7 @@ fun BitmapDrawer(
                             PathPaint(
                                 path = drawPath,
                                 strokeWidth = strokeWidth,
-                                blurRadius = blurRadius,
+                                blurRadius = brushSoftness,
                                 drawColor = drawColor,
                                 isErasing = isEraserOn,
                                 drawMode = drawMode

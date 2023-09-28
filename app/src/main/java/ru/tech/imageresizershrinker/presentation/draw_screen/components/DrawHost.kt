@@ -126,7 +126,7 @@ fun DrawHost(
     strokeWidth: Float,
     drawArrowsEnabled: Boolean,
     bitmap: Bitmap,
-    blurRadius: Float,
+    brushSoftness: Float,
     addPath: (PathPaint) -> Unit,
     onDraw: (Bitmap) -> Unit
 ) {
@@ -149,7 +149,7 @@ fun DrawHost(
                 imageBitmap = imageBitmap,
                 paths = paths,
                 strokeWidth = strokeWidth,
-                blurRadius = blurRadius,
+                brushSoftness = brushSoftness,
                 drawColor = drawColor.copy(drawAlpha),
                 onAddPath = addPath,
                 isEraserOn = isEraserOn,

@@ -80,7 +80,7 @@ import com.t8rin.dynamic.theme.getAppColorTuple
 import com.t8rin.dynamic.theme.observeAsState
 import dev.olshevski.navigation.reimagined.hilt.hiltViewModel
 import kotlinx.coroutines.launch
-import ru.tech.imageresizershrinker.presentation.draw_screen.components.BlurRadiusSelector
+import ru.tech.imageresizershrinker.presentation.draw_screen.components.BrushSoftnessSelector
 import ru.tech.imageresizershrinker.presentation.draw_screen.components.DrawAlphaSelector
 import ru.tech.imageresizershrinker.presentation.draw_screen.components.DrawArrowsSelector
 import ru.tech.imageresizershrinker.presentation.draw_screen.components.DrawBackgroundSelector
@@ -293,7 +293,7 @@ fun DrawScreen(
     var alpha by rememberSaveable(viewModel.drawBehavior, drawMode) {
         mutableFloatStateOf(if (drawMode is DrawMode.Highlighter) 0.4f else 1f)
     }
-    var blurRadius by rememberSaveable(viewModel.drawBehavior, drawMode) {
+    var brushSoftness by rememberSaveable(viewModel.drawBehavior, drawMode) {
         mutableFloatStateOf(if (drawMode is DrawMode.Neon) 35f else 0f)
     }
     var drawArrowsEnabled by remember(viewModel.drawBehavior) {
@@ -317,11 +317,11 @@ fun DrawScreen(
             onChangeStrokeWidth = { strokeWidth = it }
         )
         AnimatedVisibility(visible = drawMode !is DrawMode.Highlighter && drawMode !is DrawMode.PrivacyBlur) {
-            BlurRadiusSelector(
+            BrushSoftnessSelector(
                 modifier = Modifier
                     .padding(top = 16.dp, end = 16.dp, start = 16.dp),
-                blurRadius = blurRadius,
-                onRadiusChange = { blurRadius = it }
+                value = brushSoftness,
+                onValueChange = { brushSoftness = it }
             )
         }
         if (viewModel.drawBehavior is DrawBehavior.Background) {
@@ -463,7 +463,7 @@ fun DrawScreen(
                     configuration.screenHeightDp
                 ).asAndroidBitmap()
             },
-            blurRadius = blurRadius,
+            brushSoftness = brushSoftness,
             addPath = viewModel::addPath,
             onDraw = viewModel::updateDrawing,
             controls = controls,
