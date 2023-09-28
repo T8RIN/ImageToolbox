@@ -4,16 +4,20 @@ import android.graphics.Bitmap
 import android.graphics.BlurMaskFilter
 import android.graphics.Matrix
 import android.graphics.PorterDuff
+import android.graphics.PorterDuffXfermode
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.SideEffect
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -23,11 +27,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.AndroidPaint
 import androidx.compose.ui.graphics.BlendMode
 import androidx.compose.ui.graphics.Canvas
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.ImageShader
+import androidx.compose.ui.graphics.NativeCanvas
 import androidx.compose.ui.graphics.Paint
 import androidx.compose.ui.graphics.PaintingStyle
 import androidx.compose.ui.graphics.Path
@@ -43,11 +49,13 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.window.Popup
 import com.smarttoolfactory.gesture.MotionEvent
 import com.smarttoolfactory.gesture.pointerMotionEvents
 import com.smarttoolfactory.image.util.update
 import com.smarttoolfactory.image.zoom.animatedZoom
 import com.smarttoolfactory.image.zoom.rememberAnimatedZoomState
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.domain.image.ImageManager
 import ru.tech.imageresizershrinker.presentation.erase_background_screen.components.PathPaint
@@ -56,6 +64,8 @@ import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
 import ru.tech.imageresizershrinker.presentation.root.transformation.filter.StackBlurFilter
 import kotlin.math.cos
 import kotlin.math.sin
+import android.graphics.Canvas as AndroidCanvas
+import android.graphics.Path as AndroidPath
 
 
 @Composable
@@ -112,7 +122,7 @@ fun BitmapDrawer(
                     imageHeight,
                     false
                 ).apply {
-                    val canvas = android.graphics.Canvas(this)
+                    val canvas = AndroidCanvas(this)
                     val paint = android.graphics.Paint().apply {
                         color = backgroundColor.toArgb()
                     }
@@ -125,14 +135,21 @@ fun BitmapDrawer(
                     .asImageBitmap()
             }
 
+            val drawPathBitmap: ImageBitmap = remember {
+                Bitmap.createBitmap(imageWidth, imageHeight, Bitmap.Config.ARGB_8888)
+                    .asImageBitmap()
+            }
+
             var blurredBitmap by remember {
                 mutableStateOf<ImageBitmap?>(null)
             }
 
-            LaunchedEffect(imageBitmap, drawBitmap) {
+            val outputImage = drawImageBitmap.overlay(drawBitmap)
+
+            LaunchedEffect(imageBitmap, drawBitmap, paths, drawPathBitmap) {
                 blurredBitmap = imageManager.transform(
-                    image = drawImageBitmap.overlay(drawBitmap).asAndroidBitmap(),
-                    transformations = listOf(StackBlurFilter(context, 0.3f to 20))
+                    image = outputImage.asAndroidBitmap(),
+                    transformations = listOf()
                 )?.asImageBitmap()
             }
 
@@ -147,44 +164,57 @@ fun BitmapDrawer(
                 }
             }
 
+            Popup {
+                if (shaderBitmap != null) {
+                    Image(shaderBitmap, null, modifier = Modifier.width(100.dp))
+                }
+            }
+
             SideEffect {
-                onDraw(drawImageBitmap.overlay(drawBitmap).asAndroidBitmap())
+                onDraw(outputImage.asAndroidBitmap())
             }
 
             val canvas: Canvas = remember {
                 Canvas(drawBitmap)
             }
 
-            val drawPaint = remember(strokeWidth, isEraserOn, drawColor, blurRadius, drawMode) {
-                Paint().apply {
-                    blendMode = if (!isEraserOn) blendMode else BlendMode.Clear
-                    style = PaintingStyle.Stroke
-                    strokeCap =
-                        if (drawMode is DrawMode.Highlighter) StrokeCap.Square else StrokeCap.Round
-                    color = drawColor
-                    shader = if (drawMode is DrawMode.PrivacyBlur) {
-                        shaderBitmap?.let { ImageShader(it) }
-                    } else shader
-                    alpha = drawColor.alpha
-                    this.strokeWidth = strokeWidth
-                    strokeJoin = StrokeJoin.Round
-                    isAntiAlias = true
-                }.asFrameworkPaint().apply {
-                    if (drawMode is DrawMode.Neon && !isEraserOn) {
-                        this.color = Color.White.toArgb()
-                        setShadowLayer(
-                            blurRadius,
-                            0f,
-                            0f,
-                            drawColor
-                                .copy(alpha = .8f)
-                                .toArgb()
-                        )
-                    } else if (blurRadius > 0f) {
-                        maskFilter = BlurMaskFilter(blurRadius, BlurMaskFilter.Blur.NORMAL)
+            val drawPathCanvas: Canvas = remember {
+                Canvas(drawPathBitmap)
+            }
+
+            val drawPaint =
+                remember(strokeWidth, isEraserOn, drawColor, blurRadius, drawMode) {
+                    Paint().apply {
+                        blendMode = if (!isEraserOn) blendMode else BlendMode.Clear
+                        style = PaintingStyle.Stroke
+                        strokeCap =
+                            if (drawMode is DrawMode.Highlighter) StrokeCap.Square else StrokeCap.Round
+                        color = if (drawMode is DrawMode.PrivacyBlur) {
+                            Color.Transparent
+                        } else drawColor
+                        shader = if (drawMode is DrawMode.PrivacyBlur) {
+                            shaderBitmap?.let { ImageShader(it) }
+                        } else shader
+                        alpha = drawColor.alpha
+                        this.strokeWidth = strokeWidth
+                        strokeJoin = StrokeJoin.Round
+                        isAntiAlias = true
+                    }.asFrameworkPaint().apply {
+                        if (drawMode is DrawMode.Neon && !isEraserOn) {
+                            this.color = Color.White.toArgb()
+                            setShadowLayer(
+                                blurRadius,
+                                0f,
+                                0f,
+                                drawColor
+                                    .copy(alpha = .8f)
+                                    .toArgb()
+                            )
+                        } else if (blurRadius > 0f) {
+                            maskFilter = BlurMaskFilter(blurRadius, BlurMaskFilter.Blur.NORMAL)
+                        }
                     }
                 }
-            }
 
             var drawPath by remember { mutableStateOf(Path()) }
 
@@ -219,7 +249,6 @@ fun BitmapDrawer(
 
                             val (x, y) = lastPoint - preLastPoint
 
-
                             val angle1 = 150.0
                             val rotatedX1 =
                                 x * cos(Math.toRadians(angle1)) - y * sin(Math.toRadians(angle1))
@@ -251,6 +280,7 @@ fun BitmapDrawer(
                             )
                         )
                         scope.launch {
+                            if (drawMode is DrawMode.PrivacyBlur) delay(400L)
                             drawPath = Path()
                         }
                     }
@@ -258,44 +288,85 @@ fun BitmapDrawer(
                     else -> Unit
                 }
 
-                with(canvas.nativeCanvas) {
+                with(nativeCanvas) {
                     drawColor(Color.Transparent.toArgb(), PorterDuff.Mode.CLEAR)
                     drawColor(backgroundColor.toArgb())
 
                     paths.forEach { (path, stroke, radius, drawColor, isErasing, effect) ->
-                        this.drawPath(
-                            path.asAndroidPath(),
-                            Paint().apply {
-                                blendMode = if (!isErasing) blendMode else BlendMode.Clear
-                                style = PaintingStyle.Stroke
-                                strokeCap =
-                                    if (effect is DrawMode.Highlighter) StrokeCap.Square else StrokeCap.Round
-                                shader = if (effect is DrawMode.PrivacyBlur) shaderBitmap?.let {
-                                    ImageShader(it)
-                                } else shader
-                                this.strokeWidth = stroke
-                                strokeJoin = StrokeJoin.Round
-                                isAntiAlias = true
-                                color = drawColor
-                                alpha = drawColor.alpha
-                            }.asFrameworkPaint().apply {
-                                if (effect is DrawMode.Neon && !isErasing) {
-                                    this.color = Color.White.toArgb()
-                                    setShadowLayer(
-                                        radius,
-                                        0f,
-                                        0f,
-                                        drawColor
-                                            .copy(alpha = .8f)
-                                            .toArgb()
+                        var shaderSource by remember {
+                            mutableStateOf<ImageBitmap?>(null)
+                        }
+
+                        if (effect is DrawMode.PrivacyBlur && !isErasing) {
+                            LaunchedEffect(shaderSource) {
+                                if (shaderSource == null) {
+                                    shaderSource = imageManager.transform(
+                                        image = drawImageBitmap
+                                            .overlay(drawBitmap)
+                                            .asAndroidBitmap(),
+                                        transformations = listOf(
+                                            StackBlurFilter(
+                                                context,
+                                                0.3f to 20
+                                            )
+                                        )
+                                    )?.asImageBitmap()?.clipBitmap(
+                                        path = path,
+                                        paint = Paint().apply {
+                                            style = PaintingStyle.Stroke
+                                            strokeCap = StrokeCap.Round
+                                            this.strokeWidth = stroke
+                                            strokeJoin = StrokeJoin.Round
+                                            isAntiAlias = true
+                                            color = Color.Transparent
+                                            blendMode = BlendMode.Clear
+                                        }
                                     )
-                                } else if (radius > 0f) {
-                                    maskFilter = BlurMaskFilter(radius, BlurMaskFilter.Blur.NORMAL)
                                 }
                             }
-                        )
+                            if (shaderSource != null) {
+                                drawImage(
+                                    shaderSource!!, Offset.Zero, Paint()
+                                )
+                            }
+                        } else {
+                            this.drawPath(
+                                path.asAndroidPath(),
+                                Paint().apply {
+                                    blendMode = if (!isErasing) blendMode else BlendMode.Clear
+                                    style = PaintingStyle.Stroke
+                                    strokeCap =
+                                        if (effect is DrawMode.Highlighter) StrokeCap.Square else StrokeCap.Round
+                                    this.strokeWidth = stroke
+                                    strokeJoin = StrokeJoin.Round
+                                    isAntiAlias = true
+                                    color = drawColor
+                                    alpha = drawColor.alpha
+                                }.asFrameworkPaint().apply {
+                                    if (effect is DrawMode.Neon && !isErasing) {
+                                        this.color = Color.White.toArgb()
+                                        setShadowLayer(
+                                            radius,
+                                            0f,
+                                            0f,
+                                            drawColor
+                                                .copy(alpha = .8f)
+                                                .toArgb()
+                                        )
+                                    } else if (radius > 0f) {
+                                        maskFilter =
+                                            BlurMaskFilter(radius, BlurMaskFilter.Blur.NORMAL)
+                                    }
+                                }
+                            )
+                        }
                     }
+                }
+            }
 
+            drawPathCanvas.apply {
+                with(nativeCanvas) {
+                    drawColor(Color.Transparent.toArgb(), PorterDuff.Mode.CLEAR)
                     this.drawPath(
                         drawPath.asAndroidPath(),
                         drawPaint
@@ -335,7 +406,7 @@ fun BitmapDrawer(
                         color = MaterialTheme.colorScheme.outlineVariant(),
                         RoundedCornerShape(2.dp)
                     ),
-                bitmap = drawImageBitmap.overlay(drawBitmap),
+                bitmap = outputImage.overlay(drawPathBitmap),
                 contentDescription = null,
                 contentScale = ContentScale.FillBounds
             )
@@ -343,10 +414,27 @@ fun BitmapDrawer(
     }
 }
 
+private fun ImageBitmap.clipBitmap(
+    path: Path,
+    paint: Paint,
+): ImageBitmap {
+    val bitmap = this.asAndroidBitmap()
+    val newPath = android.graphics.Path(path.asAndroidPath())
+    AndroidCanvas(bitmap).apply {
+        drawPath(
+            newPath.apply {
+                fillType = android.graphics.Path.FillType.INVERSE_WINDING
+            },
+            paint.asFrameworkPaint()
+        )
+    }
+    return bitmap.asImageBitmap()
+}
+
 private fun ImageBitmap.overlay(overlay: ImageBitmap): ImageBitmap {
     val image = this.asAndroidBitmap()
     val finalBitmap = Bitmap.createBitmap(image.width, image.height, image.config)
-    val canvas = android.graphics.Canvas(finalBitmap)
+    val canvas = AndroidCanvas(finalBitmap)
     canvas.drawBitmap(image, Matrix(), null)
     canvas.drawBitmap(overlay.asAndroidBitmap(), 0f, 0f, null)
     return finalBitmap.asImageBitmap()
