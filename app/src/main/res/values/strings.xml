@@ -378,6 +378,8 @@
     <string name="allow_betas">Allow betas</string>
     <string name="allow_betas_sub">Update checking will include beta app versions if enabled</string>
     <string name="shadows_setting_sub">Enables drawing shadows behind containers and buttons if borders are disabled</string>
+    <string name="draw_arrows">Draw Arrows</string>
+    <string name="draw_arrows_sub">If enabled drawing path will be represented as pointing arrow</string>
     <string-array name="fab_alignment_sub">
         <item>Start</item>
         <item>Center</item>

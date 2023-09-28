@@ -50,6 +50,7 @@ import ru.tech.imageresizershrinker.domain.image.ImageManager
 import ru.tech.imageresizershrinker.presentation.draw_screen.components.BitmapDrawer
 import ru.tech.imageresizershrinker.presentation.draw_screen.components.BlurRadiusSelector
 import ru.tech.imageresizershrinker.presentation.draw_screen.components.DrawAlphaSelector
+import ru.tech.imageresizershrinker.presentation.draw_screen.components.DrawArrowsSelector
 import ru.tech.imageresizershrinker.presentation.draw_screen.components.DrawColorSelector
 import ru.tech.imageresizershrinker.presentation.draw_screen.components.DrawMode
 import ru.tech.imageresizershrinker.presentation.draw_screen.components.DrawModeSelector
@@ -131,6 +132,9 @@ fun DrawEditOption(
         }
         var blurRadius by rememberSaveable(drawMode) {
             mutableFloatStateOf(if (drawMode is DrawMode.Neon) 35f else 0f)
+        }
+        var drawArrowsEnabled by remember {
+            mutableStateOf(false)
         }
 
         val secondaryControls = @Composable {
@@ -234,6 +238,17 @@ fun DrawEditOption(
                     drawMode = drawMode,
                     onDrawModeChange = { drawMode = it }
                 )
+                AnimatedVisibility(!isEraserOn) {
+                    DrawArrowsSelector(
+                        modifier = Modifier.padding(
+                            start = 16.dp,
+                            end = 16.dp,
+                            bottom = 16.dp
+                        ),
+                        checked = drawArrowsEnabled,
+                        onCheckedChange = { drawArrowsEnabled = it }
+                    )
+                }
             },
             fabButtons = null,
             actions = {
@@ -299,6 +314,7 @@ fun DrawEditOption(
                         onDraw = {
                             stateBitmap = it
                         },
+                        drawArrowsEnabled = drawArrowsEnabled,
                         backgroundColor = Color.Transparent
                     )
                 }

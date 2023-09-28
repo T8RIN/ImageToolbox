@@ -124,6 +124,7 @@ fun DrawHost(
     drawColor: Color,
     drawAlpha: Float,
     strokeWidth: Float,
+    drawArrowsEnabled: Boolean,
     bitmap: Bitmap,
     blurRadius: Float,
     addPath: (PathPaint) -> Unit,
@@ -160,6 +161,7 @@ fun DrawHost(
                 zoomEnabled = zoomEnabled,
                 onDraw = onDraw,
                 imageManager = imageManager,
+                drawArrowsEnabled = drawArrowsEnabled,
                 backgroundColor = backgroundColor
             )
         }

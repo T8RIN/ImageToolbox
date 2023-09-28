@@ -82,6 +82,7 @@ import dev.olshevski.navigation.reimagined.hilt.hiltViewModel
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.presentation.draw_screen.components.BlurRadiusSelector
 import ru.tech.imageresizershrinker.presentation.draw_screen.components.DrawAlphaSelector
+import ru.tech.imageresizershrinker.presentation.draw_screen.components.DrawArrowsSelector
 import ru.tech.imageresizershrinker.presentation.draw_screen.components.DrawBackgroundSelector
 import ru.tech.imageresizershrinker.presentation.draw_screen.components.DrawBehavior
 import ru.tech.imageresizershrinker.presentation.draw_screen.components.DrawColorSelector
@@ -295,6 +296,9 @@ fun DrawScreen(
     var blurRadius by rememberSaveable(viewModel.drawBehavior, drawMode) {
         mutableFloatStateOf(if (drawMode is DrawMode.Neon) 35f else 0f)
     }
+    var drawArrowsEnabled by remember(viewModel.drawBehavior) {
+        mutableStateOf(false)
+    }
 
     val controls = @Composable {
         OpenColorPickerCard(
@@ -349,6 +353,17 @@ fun DrawScreen(
             drawMode = drawMode,
             onDrawModeChange = { drawMode = it }
         )
+        AnimatedVisibility(!isEraserOn) {
+            DrawArrowsSelector(
+                modifier = Modifier.padding(
+                    start = 16.dp,
+                    end = 16.dp,
+                    bottom = 16.dp
+                ),
+                checked = drawArrowsEnabled,
+                onCheckedChange = { drawArrowsEnabled = it }
+            )
+        }
         SaveExifWidget(
             modifier = Modifier.padding(horizontal = 16.dp),
             selected = viewModel.saveExif,
@@ -434,6 +449,7 @@ fun DrawScreen(
             onShare = { viewModel.shareBitmap { showConfetti() } },
             paths = viewModel.paths,
             isEraserOn = isEraserOn,
+            drawArrowsEnabled = drawArrowsEnabled,
             drawMode = drawMode,
             backgroundColor = backgroundColor,
             drawColor = drawColor.copy(alpha),

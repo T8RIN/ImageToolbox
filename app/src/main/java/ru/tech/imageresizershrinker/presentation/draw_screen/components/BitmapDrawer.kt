@@ -31,6 +31,7 @@ import androidx.compose.ui.graphics.ImageShader
 import androidx.compose.ui.graphics.Paint
 import androidx.compose.ui.graphics.PaintingStyle
 import androidx.compose.ui.graphics.Path
+import androidx.compose.ui.graphics.PathMeasure
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.StrokeJoin
 import androidx.compose.ui.graphics.asAndroidBitmap
@@ -53,6 +54,8 @@ import ru.tech.imageresizershrinker.presentation.erase_background_screen.compone
 import ru.tech.imageresizershrinker.presentation.erase_background_screen.components.transparencyChecker
 import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
 import ru.tech.imageresizershrinker.presentation.root.transformation.filter.StackBlurFilter
+import kotlin.math.cos
+import kotlin.math.sin
 
 
 @Composable
@@ -66,6 +69,7 @@ fun BitmapDrawer(
     isEraserOn: Boolean,
     drawMode: DrawMode,
     modifier: Modifier,
+    drawArrowsEnabled: Boolean,
     onDraw: (Bitmap) -> Unit,
     backgroundColor: Color,
     zoomEnabled: Boolean,
@@ -128,7 +132,7 @@ fun BitmapDrawer(
             LaunchedEffect(imageBitmap, drawBitmap) {
                 blurredBitmap = imageManager.transform(
                     image = drawImageBitmap.overlay(drawBitmap).asAndroidBitmap(),
-                    transformations = listOf(StackBlurFilter(context, 0.3f to 50))
+                    transformations = listOf(StackBlurFilter(context, 0.3f to 20))
                 )?.asImageBitmap()
             }
 
@@ -204,6 +208,35 @@ fun BitmapDrawer(
 
                     MotionEvent.Up -> {
                         drawPath.lineTo(currentPosition.x, currentPosition.y)
+
+                        if (drawArrowsEnabled && !isEraserOn) {
+                            val preLastPoint = PathMeasure().apply {
+                                setPath(drawPath, false)
+                            }.let {
+                                it.getPosition(it.length - strokeWidth * 3f)
+                            }
+                            val lastPoint = currentPosition
+
+                            val (x, y) = lastPoint - preLastPoint
+
+
+                            val angle1 = 150.0
+                            val rotatedX1 =
+                                x * cos(Math.toRadians(angle1)) - y * sin(Math.toRadians(angle1))
+                            val rotatedY1 =
+                                x * sin(Math.toRadians(angle1)) + y * cos(Math.toRadians(angle1))
+
+                            val angle2 = 210.0
+                            val rotatedX2 =
+                                x * cos(Math.toRadians(angle2)) - y * sin(Math.toRadians(angle2))
+                            val rotatedY2 =
+                                x * sin(Math.toRadians(angle2)) + y * cos(Math.toRadians(angle2))
+
+                            drawPath.relativeLineTo(rotatedX1.toFloat(), rotatedY1.toFloat())
+                            drawPath.moveTo(lastPoint.x, lastPoint.y)
+                            drawPath.relativeLineTo(rotatedX2.toFloat(), rotatedY2.toFloat())
+                        }
+
                         currentPosition = Offset.Unspecified
                         previousPosition = currentPosition
                         motionEvent = MotionEvent.Idle
