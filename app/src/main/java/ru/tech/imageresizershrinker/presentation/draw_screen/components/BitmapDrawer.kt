@@ -140,40 +140,7 @@ fun BitmapDrawer(
                     .asImageBitmap()
             }
 
-            var blurredBitmap by remember {
-                mutableStateOf<ImageBitmap?>(null)
-            }
-
             val outputImage = drawImageBitmap.overlay(drawBitmap)
-
-            LaunchedEffect(outputImage, paths) {
-                blurredBitmap = imageManager.transform(
-                    image = outputImage.asAndroidBitmap(),
-                    transformations = listOf(
-                        StackBlurFilter(
-                            context,
-                            0.3f to 20
-                        )
-                    )
-                )?.asImageBitmap()
-            }
-
-            val shaderBitmap = remember(blurredBitmap) {
-                blurredBitmap?.asAndroidBitmap()?.let {
-                    Bitmap.createScaledBitmap(
-                        it,
-                        imageWidth,
-                        imageHeight,
-                        false
-                    ).asImageBitmap()
-                }
-            }
-
-            Popup {
-                if (shaderBitmap != null) {
-                    Image(shaderBitmap, null, modifier = Modifier.width(100.dp))
-                }
-            }
 
             SideEffect {
                 onDraw(outputImage.asAndroidBitmap())
@@ -197,9 +164,6 @@ fun BitmapDrawer(
                         color = if (drawMode is DrawMode.PrivacyBlur) {
                             Color.Transparent
                         } else drawColor
-                        shader = if (drawMode is DrawMode.PrivacyBlur) {
-                            shaderBitmap?.let { ImageShader(it) }
-                        } else shader
                         alpha = drawColor.alpha
                         this.strokeWidth = strokeWidth
                         strokeJoin = StrokeJoin.Round
@@ -366,16 +330,70 @@ fun BitmapDrawer(
                             )
                         }
                     }
+
+                    if (drawMode !is DrawMode.PrivacyBlur) {
+                        drawPath(
+                            drawPath.asAndroidPath(),
+                            drawPaint
+                        )
+                    }
                 }
             }
 
-            drawPathCanvas.apply {
-                with(nativeCanvas) {
-                    drawColor(Color.Transparent.toArgb(), PorterDuff.Mode.CLEAR)
-                    this.drawPath(
-                        drawPath.asAndroidPath(),
-                        drawPaint
+            var blurredBitmap by remember {
+                mutableStateOf<ImageBitmap?>(null)
+            }
+
+            LaunchedEffect(outputImage, paths) {
+                blurredBitmap = imageManager.transform(
+                    image = outputImage.asAndroidBitmap(),
+                    transformations = listOf(
+                        StackBlurFilter(
+                            context,
+                            0.3f to 20
+                        )
                     )
+                )?.asImageBitmap()
+            }
+
+            val shaderBitmap = remember(blurredBitmap) {
+                blurredBitmap?.asAndroidBitmap()?.let {
+                    Bitmap.createScaledBitmap(
+                        it,
+                        imageWidth,
+                        imageHeight,
+                        false
+                    ).asImageBitmap()
+                }
+            }
+
+            if (drawMode is DrawMode.PrivacyBlur && shaderBitmap != null) {
+                drawPathCanvas.apply {
+                    with(nativeCanvas) {
+                        drawColor(Color.Transparent.toArgb(), PorterDuff.Mode.CLEAR)
+
+                        val paint = Paint().apply {
+                            style = PaintingStyle.Stroke
+                            strokeCap = StrokeCap.Round
+                            this.strokeWidth = strokeWidth
+                            strokeJoin = StrokeJoin.Round
+                            isAntiAlias = true
+                            color = Color.Transparent
+                            blendMode = BlendMode.Clear
+                        }
+                        val bitmap = shaderBitmap.asAndroidBitmap()
+                        val newPath = android.graphics.Path(drawPath.asAndroidPath())
+
+                        drawImage(
+                            shaderBitmap, Offset.Zero, Paint()
+                        )
+                        drawPath(
+                            newPath.apply {
+                                fillType = android.graphics.Path.FillType.INVERSE_WINDING
+                            },
+                            paint.asFrameworkPaint()
+                        )
+                    }
                 }
             }
 
