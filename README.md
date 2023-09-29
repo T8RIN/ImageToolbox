@@ -230,6 +230,7 @@ height="80">](https://github.com/t8rin/imageresizer/releases/latest)
   - Comparing images
   - Previewing SVG, GIF and msotly all types of images
   - Saving to any specific folder
+  - Randomizing output filename
 
 #
 
