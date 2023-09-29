@@ -47,8 +47,15 @@ data class UiSettingsState(
     val allowCollectCrashlytics: Boolean,
     val allowCollectAnalytics: Boolean,
     val allowBetas: Boolean,
-    val allowShowingShadowsInsteadOfBorders: Boolean
+    val allowShowingShadowsInsteadOfBorders: Boolean,
+    val appOpenCount: Int
 )
+
+fun UiSettingsState.isFirstLaunch(
+    approximate: Boolean = true
+) = if (approximate) {
+    appOpenCount <= 3f
+} else appOpenCount <= 1f
 
 @Composable
 fun SettingsState.toUiState() = UiSettingsState(
@@ -79,7 +86,8 @@ fun SettingsState.toUiState() = UiSettingsState(
     allowCollectCrashlytics = allowCollectCrashlytics,
     allowCollectAnalytics = allowCollectAnalytics,
     allowBetas = allowBetas,
-    allowShowingShadowsInsteadOfBorders = allowShowingShadowsInsteadOfBorders
+    allowShowingShadowsInsteadOfBorders = allowShowingShadowsInsteadOfBorders,
+    appOpenCount = appOpenCount
 )
 
 private fun FontFam.toUiFont(): UiFontFam {

@@ -32,6 +32,7 @@ import ru.tech.imageresizershrinker.domain.use_case.backup_and_restore.CreateBac
 import ru.tech.imageresizershrinker.domain.use_case.backup_and_restore.CreateBackupFilenameUseCase
 import ru.tech.imageresizershrinker.domain.use_case.backup_and_restore.RestoreFromBackupFileUseCase
 import ru.tech.imageresizershrinker.domain.use_case.edit_settings.AllowShowingShadowsInsteadOfBordersUseCase
+import ru.tech.imageresizershrinker.domain.use_case.edit_settings.RegisterAppOpenUseCase
 import ru.tech.imageresizershrinker.domain.use_case.edit_settings.SetAlignmentUseCase
 import ru.tech.imageresizershrinker.domain.use_case.edit_settings.SetBorderWidthUseCase
 import ru.tech.imageresizershrinker.domain.use_case.edit_settings.SetFontScaleUseCase
@@ -106,7 +107,8 @@ class MainViewModel @Inject constructor(
     private val toggleAllowCollectCrashlyticsUseCase: ToggleAllowCollectCrashlyticsUseCase,
     private val toggleAllowCollectAnalyticsUseCase: ToggleAllowCollectAnalyticsUseCase,
     private val toggleAllowBetasUseCase: ToggleAllowBetasUseCase,
-    private val allowShowingShadowsInsteadOfBordersUseCase: AllowShowingShadowsInsteadOfBordersUseCase
+    private val allowShowingShadowsInsteadOfBordersUseCase: AllowShowingShadowsInsteadOfBordersUseCase,
+    private val registerAppOpenUseCase: RegisterAppOpenUseCase
 ) : ViewModel() {
 
     private val _settingsState = mutableStateOf(SettingsState.Default())
@@ -141,6 +143,7 @@ class MainViewModel @Inject constructor(
 
     init {
         runBlocking {
+            registerAppOpenUseCase()
             _settingsState.value = getSettingsStateUseCase()
         }
         getSettingsStateFlowUseCase().onEach {

@@ -34,4 +34,5 @@ object Keys {
     val ALLOW_ANALYTICS = booleanPreferencesKey("allow_analytics")
     val ALLOW_BETAS = booleanPreferencesKey("allow_betas")
     val ALLOW_SHADOWS_INSTEAD_OF_BORDERS = booleanPreferencesKey("ALLOW_SHADOWS_INSTEAD_OF_BORDERS")
+    val APP_OPEN_COUNT = intPreferencesKey("APP_OPEN_COUNT")
 }

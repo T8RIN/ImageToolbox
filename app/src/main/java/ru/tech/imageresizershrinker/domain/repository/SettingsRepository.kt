@@ -78,4 +78,6 @@ interface SettingsRepository {
     suspend fun toggleAllowBetas()
 
     suspend fun toggleAllowShowingShadowsInsteadOfBorders()
+
+    suspend fun registerAppOpen()
 }

@@ -24,6 +24,7 @@ import ru.tech.imageresizershrinker.data.keys.Keys.ALLOW_IMAGE_MONET
 import ru.tech.imageresizershrinker.data.keys.Keys.ALLOW_SHADOWS_INSTEAD_OF_BORDERS
 import ru.tech.imageresizershrinker.data.keys.Keys.AMOLED_MODE
 import ru.tech.imageresizershrinker.data.keys.Keys.APP_COLOR_TUPLE
+import ru.tech.imageresizershrinker.data.keys.Keys.APP_OPEN_COUNT
 import ru.tech.imageresizershrinker.data.keys.Keys.AUTO_CACHE_CLEAR
 import ru.tech.imageresizershrinker.data.keys.Keys.BORDER_WIDTH
 import ru.tech.imageresizershrinker.data.keys.Keys.COLOR_TUPLES
@@ -94,7 +95,8 @@ class SettingsRepositoryImpl @Inject constructor(
             allowCollectCrashlytics = prefs[ALLOW_CRASHLYTICS] ?: true,
             allowCollectAnalytics = prefs[ALLOW_ANALYTICS] ?: true,
             allowBetas = prefs[ALLOW_BETAS] ?: true,
-            allowShowingShadowsInsteadOfBorders = prefs[ALLOW_SHADOWS_INSTEAD_OF_BORDERS] ?: true
+            allowShowingShadowsInsteadOfBorders = prefs[ALLOW_SHADOWS_INSTEAD_OF_BORDERS] ?: true,
+            appOpenCount = prefs[APP_OPEN_COUNT] ?: 0
         )
     }
 
@@ -129,7 +131,8 @@ class SettingsRepositoryImpl @Inject constructor(
             allowCollectCrashlytics = prefs[ALLOW_CRASHLYTICS] ?: true,
             allowCollectAnalytics = prefs[ALLOW_ANALYTICS] ?: true,
             allowBetas = prefs[ALLOW_BETAS] ?: true,
-            allowShowingShadowsInsteadOfBorders = prefs[ALLOW_SHADOWS_INSTEAD_OF_BORDERS] ?: true
+            allowShowingShadowsInsteadOfBorders = prefs[ALLOW_SHADOWS_INSTEAD_OF_BORDERS] ?: true,
+            appOpenCount = prefs[APP_OPEN_COUNT] ?: 0
         )
     }
 
@@ -374,6 +377,13 @@ class SettingsRepositoryImpl @Inject constructor(
         dataStore.edit {
             val v = it[ALLOW_SHADOWS_INSTEAD_OF_BORDERS] ?: true
             it[ALLOW_SHADOWS_INSTEAD_OF_BORDERS] = !v
+        }
+    }
+
+    override suspend fun registerAppOpen() {
+        dataStore.edit {
+            val v = it[APP_OPEN_COUNT] ?: 0
+            it[APP_OPEN_COUNT] = v + 1
         }
     }
 

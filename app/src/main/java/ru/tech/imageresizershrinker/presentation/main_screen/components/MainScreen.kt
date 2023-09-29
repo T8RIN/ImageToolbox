@@ -129,6 +129,7 @@ import ru.tech.imageresizershrinker.presentation.root.icons.material.FileSetting
 import ru.tech.imageresizershrinker.presentation.root.icons.material.Github
 import ru.tech.imageresizershrinker.presentation.root.icons.material.GooglePlay
 import ru.tech.imageresizershrinker.presentation.root.icons.material.Telegram
+import ru.tech.imageresizershrinker.presentation.root.model.isFirstLaunch
 import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.ContextUtils.isInstalledFromPlayStore
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.alertDialogBorder
@@ -136,6 +137,7 @@ import ru.tech.imageresizershrinker.presentation.root.utils.modifier.autoElevate
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.container
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.drawHorizontalStroke
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.pulsate
+import ru.tech.imageresizershrinker.presentation.root.utils.modifier.rotateAnimation
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.scaleOnTap
 import ru.tech.imageresizershrinker.presentation.root.utils.navigation.LocalNavController
 import ru.tech.imageresizershrinker.presentation.root.utils.navigation.Screen
@@ -430,7 +432,13 @@ fun MainScreen(
                                         scope.launch {
                                             sideSheetState.open()
                                         }
-                                    }
+                                    },
+                                    modifier = Modifier
+                                        .pulsate(
+                                            range = 0.95f..1.2f,
+                                            enabled = settingsState.isFirstLaunch()
+                                        )
+                                        .rotateAnimation(enabled = settingsState.isFirstLaunch())
                                 ) {
                                     Icon(Icons.Rounded.Settings, null)
                                 }

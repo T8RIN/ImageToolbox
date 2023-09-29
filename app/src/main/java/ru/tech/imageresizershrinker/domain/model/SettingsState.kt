@@ -30,7 +30,8 @@ data class SettingsState(
     val allowCollectCrashlytics: Boolean,
     val allowCollectAnalytics: Boolean,
     val allowBetas: Boolean,
-    val allowShowingShadowsInsteadOfBorders: Boolean
+    val allowShowingShadowsInsteadOfBorders: Boolean,
+    val appOpenCount: Int
 ) : Domain {
 
     companion object {
@@ -62,7 +63,8 @@ data class SettingsState(
             allowCollectCrashlytics = true,
             allowCollectAnalytics = true,
             allowBetas = true,
-            allowShowingShadowsInsteadOfBorders = true
+            allowShowingShadowsInsteadOfBorders = true,
+            appOpenCount = 0
         )
     }
 }

@@ -148,6 +148,7 @@ import ru.tech.imageresizershrinker.presentation.root.icons.material.Shadow
 import ru.tech.imageresizershrinker.presentation.root.icons.material.Symbol
 import ru.tech.imageresizershrinker.presentation.root.icons.material.Telegram
 import ru.tech.imageresizershrinker.presentation.root.icons.material.USDT
+import ru.tech.imageresizershrinker.presentation.root.model.isFirstLaunch
 import ru.tech.imageresizershrinker.presentation.root.shapes.CloverShape
 import ru.tech.imageresizershrinker.presentation.root.shapes.DavidStarShape
 import ru.tech.imageresizershrinker.presentation.root.theme.BitcoinColor
@@ -222,59 +223,135 @@ fun SettingsBlock(
             Column {
                 item { Spacer(Modifier.height(8.dp)) }
                 item {
-                    // Night mode
+                    // Contact me
                     SettingItem(
-                        icon = Icons.Rounded.Lamp,
-                        text = stringResource(R.string.night_mode),
-                        initialState = false
+                        icon = Icons.Rounded.PersonSearch,
+                        text = stringResource(R.string.contact_me),
+                        initialState = settingsState.isFirstLaunch()
                     ) {
+                        val showDonateSheet = rememberSaveable { mutableStateOf(false) }
                         Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                            listOf(
-                                Triple(
-                                    stringResource(R.string.dark),
-                                    Icons.Rounded.ModeNight,
-                                    NightMode.Dark
-                                ),
-                                Triple(
-                                    stringResource(R.string.light),
-                                    Icons.Rounded.WbSunny,
-                                    NightMode.Light
-                                ),
-                                Triple(
-                                    stringResource(R.string.system),
-                                    Icons.Rounded.SettingsSystemDaydream,
-                                    NightMode.System
-                                ),
-                            ).forEach { (title, icon, nightMode) ->
-                                val selected = nightMode == viewModel.settingsState.nightMode
-                                PreferenceItem(
-                                    onClick = { viewModel.setNightMode(nightMode) },
-                                    title = title,
-                                    color = MaterialTheme.colorScheme.secondaryContainer.copy(
-                                        alpha = animateFloatAsState(
-                                            if (selected) 0.7f
-                                            else 0.2f
-                                        ).value
-                                    ),
-                                    icon = icon,
-                                    modifier = Modifier
-                                        .fillMaxWidth()
-                                        .padding(horizontal = 8.dp)
-                                        .border(
-                                            width = settingsState.borderWidth,
-                                            color = animateColorAsState(
-                                                if (selected) MaterialTheme
-                                                    .colorScheme
-                                                    .onSecondaryContainer
-                                                    .copy(alpha = 0.5f)
-                                                else Color.Transparent
-                                            ).value,
-                                            shape = RoundedCornerShape(16.dp)
-                                        ),
-                                    endIcon = if (selected) Icons.Rounded.RadioButtonChecked else Icons.Rounded.RadioButtonUnchecked
-                                )
-                            }
+                            PreferenceRow(
+                                modifier = Modifier.padding(horizontal = 8.dp),
+                                applyHorPadding = false,
+                                title = stringResource(R.string.app_developer),
+                                subtitle = stringResource(R.string.app_developer_nick),
+                                startContent = {
+                                    Picture(
+                                        model = AUTHOR_AVATAR,
+                                        modifier = Modifier
+                                            .padding(horizontal = 8.dp)
+                                            .size(48.dp)
+                                            .container(
+                                                shape = CloverShape,
+                                                resultPadding = 0.dp
+                                            ),
+                                        shape = RectangleShape
+                                    )
+                                },
+                                onClick = onShowAuthor
+                            )
+                            PreferenceRow(
+                                modifier = Modifier
+                                    .pulsate(
+                                        range = 0.98f..1.02f,
+                                        enabled = settingsState.isFirstLaunch()
+                                    )
+                                    .padding(horizontal = 8.dp),
+                                applyHorPadding = false,
+                                color = MaterialTheme.colorScheme.tertiaryContainer,
+                                contentColor = MaterialTheme.colorScheme.onTertiaryContainer,
+                                title = stringResource(R.string.donation),
+                                subtitle = stringResource(R.string.donation_sub),
+                                endContent = {
+                                    Icon(Icons.Rounded.Payments, null)
+                                },
+                                onClick = {
+                                    showDonateSheet.value = true
+                                }
+                            )
                         }
+
+                        SimpleSheet(
+                            visible = showDonateSheet,
+                            title = {
+                                TitleItem(
+                                    text = stringResource(R.string.donation),
+                                    icon = Icons.Rounded.Payments
+                                )
+                            },
+                            confirmButton = {
+                                EnhancedButton(
+                                    containerColor = Color.Transparent,
+                                    onClick = { showDonateSheet.value = false },
+                                ) {
+                                    AutoSizeText(stringResource(R.string.close))
+                                }
+                            },
+                            sheetContent = {
+                                val darkMode = !LocalSettingsState.current.isNightMode
+                                Box {
+                                    Column(Modifier.verticalScroll(rememberScrollState())) {
+                                        Box(
+                                            modifier = Modifier
+                                                .padding(16.dp)
+                                                .container(color = MaterialTheme.colorScheme.tertiaryContainer),
+                                            contentAlignment = Alignment.Center
+                                        ) {
+                                            Text(
+                                                text = stringResource(R.string.donation_sub),
+                                                fontSize = 12.sp,
+                                                modifier = Modifier.padding(8.dp),
+                                                textAlign = TextAlign.Center,
+                                                fontWeight = FontWeight.SemiBold,
+                                                lineHeight = 14.sp,
+                                                color = LocalContentColor.current.copy(alpha = 0.5f)
+                                            )
+                                        }
+                                        PreferenceItem(
+                                            color = BitcoinColor,
+                                            contentColor = BitcoinColor.inverse(
+                                                fraction = { 1f },
+                                                darkMode = darkMode
+                                            ),
+                                            onClick = {
+                                                context.apply {
+                                                    copyToClipboard(
+                                                        label = getString(R.string.bitcoin),
+                                                        value = BitcoinWallet
+                                                    )
+                                                }
+                                            },
+                                            endIcon = Icons.Rounded.ContentCopy,
+                                            title = stringResource(R.string.bitcoin),
+                                            icon = Icons.Filled.Bitcoin,
+                                            subtitle = BitcoinWallet
+                                        )
+                                        Spacer(Modifier.height(8.dp))
+                                        PreferenceItem(
+                                            color = USDTColor,
+                                            contentColor = USDTColor.inverse(
+                                                fraction = { 1f },
+                                                darkMode = darkMode
+                                            ),
+                                            onClick = {
+                                                context.apply {
+                                                    copyToClipboard(
+                                                        label = getString(R.string.usdt),
+                                                        value = USDTWallet
+                                                    )
+                                                }
+                                            },
+                                            endIcon = Icons.Rounded.ContentCopy,
+                                            title = stringResource(R.string.usdt),
+                                            icon = Icons.Filled.USDT,
+                                            subtitle = USDTWallet
+                                        )
+                                        Spacer(Modifier.height(16.dp))
+                                    }
+                                }
+                            }
+                        )
                     }
                 }
                 item {
@@ -747,6 +824,62 @@ fun SettingsBlock(
                                         modifier = Modifier.width(74.dp)
                                     )
                                 }
+                            }
+                        }
+                    }
+                }
+                item {
+                    // Night mode
+                    SettingItem(
+                        icon = Icons.Rounded.Lamp,
+                        text = stringResource(R.string.night_mode),
+                        initialState = false
+                    ) {
+                        Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                            listOf(
+                                Triple(
+                                    stringResource(R.string.dark),
+                                    Icons.Rounded.ModeNight,
+                                    NightMode.Dark
+                                ),
+                                Triple(
+                                    stringResource(R.string.light),
+                                    Icons.Rounded.WbSunny,
+                                    NightMode.Light
+                                ),
+                                Triple(
+                                    stringResource(R.string.system),
+                                    Icons.Rounded.SettingsSystemDaydream,
+                                    NightMode.System
+                                ),
+                            ).forEach { (title, icon, nightMode) ->
+                                val selected = nightMode == viewModel.settingsState.nightMode
+                                PreferenceItem(
+                                    onClick = { viewModel.setNightMode(nightMode) },
+                                    title = title,
+                                    color = MaterialTheme.colorScheme.secondaryContainer.copy(
+                                        alpha = animateFloatAsState(
+                                            if (selected) 0.7f
+                                            else 0.2f
+                                        ).value
+                                    ),
+                                    icon = icon,
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .padding(horizontal = 8.dp)
+                                        .border(
+                                            width = settingsState.borderWidth,
+                                            color = animateColorAsState(
+                                                if (selected) MaterialTheme
+                                                    .colorScheme
+                                                    .onSecondaryContainer
+                                                    .copy(alpha = 0.5f)
+                                                else Color.Transparent
+                                            ).value,
+                                            shape = RoundedCornerShape(16.dp)
+                                        ),
+                                    endIcon = if (selected) Icons.Rounded.RadioButtonChecked else Icons.Rounded.RadioButtonUnchecked
+                                )
                             }
                         }
                     }
@@ -1464,133 +1597,6 @@ fun SettingsBlock(
                             }
                         }
 
-                    }
-                }
-                item {
-                    // Contact me
-                    SettingItem(
-                        icon = Icons.Rounded.PersonSearch,
-                        text = stringResource(R.string.contact_me),
-                        initialState = false
-                    ) {
-                        val showDonateSheet = rememberSaveable { mutableStateOf(false) }
-                        Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                            PreferenceRow(
-                                modifier = Modifier.padding(horizontal = 8.dp),
-                                applyHorPadding = false,
-                                title = stringResource(R.string.app_developer),
-                                subtitle = stringResource(R.string.app_developer_nick),
-                                startContent = {
-                                    Picture(
-                                        model = AUTHOR_AVATAR,
-                                        modifier = Modifier
-                                            .padding(horizontal = 8.dp)
-                                            .size(48.dp)
-                                            .container(
-                                                shape = CloverShape,
-                                                resultPadding = 0.dp
-                                            ),
-                                        shape = RectangleShape
-                                    )
-                                },
-                                onClick = onShowAuthor
-                            )
-                            PreferenceRow(
-                                modifier = Modifier.padding(horizontal = 8.dp),
-                                applyHorPadding = false,
-                                color = MaterialTheme.colorScheme.tertiaryContainer,
-                                contentColor = MaterialTheme.colorScheme.onTertiaryContainer,
-                                title = stringResource(R.string.donation),
-                                subtitle = stringResource(R.string.donation_sub),
-                                endContent = {
-                                    Icon(Icons.Rounded.Payments, null)
-                                },
-                                onClick = {
-                                    showDonateSheet.value = true
-                                }
-                            )
-                        }
-
-                        SimpleSheet(
-                            visible = showDonateSheet,
-                            title = {
-                                TitleItem(
-                                    text = stringResource(R.string.donation),
-                                    icon = Icons.Rounded.Payments
-                                )
-                            },
-                            confirmButton = {
-                                EnhancedButton(
-                                    containerColor = Color.Transparent,
-                                    onClick = { showDonateSheet.value = false },
-                                ) {
-                                    AutoSizeText(stringResource(R.string.close))
-                                }
-                            },
-                            sheetContent = {
-                                val darkMode = !LocalSettingsState.current.isNightMode
-                                Box {
-                                    Column(Modifier.verticalScroll(rememberScrollState())) {
-                                        Box(
-                                            modifier = Modifier
-                                                .padding(16.dp)
-                                                .container(color = MaterialTheme.colorScheme.tertiaryContainer),
-                                            contentAlignment = Alignment.Center
-                                        ) {
-                                            Text(
-                                                text = stringResource(R.string.donation_sub),
-                                                fontSize = 12.sp,
-                                                modifier = Modifier.padding(8.dp),
-                                                textAlign = TextAlign.Center,
-                                                fontWeight = FontWeight.SemiBold,
-                                                lineHeight = 14.sp,
-                                                color = LocalContentColor.current.copy(alpha = 0.5f)
-                                            )
-                                        }
-                                        PreferenceItem(
-                                            color = BitcoinColor,
-                                            contentColor = BitcoinColor.inverse(
-                                                fraction = { 1f },
-                                                darkMode = darkMode
-                                            ),
-                                            onClick = {
-                                                context.apply {
-                                                    copyToClipboard(
-                                                        label = getString(R.string.bitcoin),
-                                                        value = BitcoinWallet
-                                                    )
-                                                }
-                                            },
-                                            endIcon = Icons.Rounded.ContentCopy,
-                                            title = stringResource(R.string.bitcoin),
-                                            icon = Icons.Filled.Bitcoin,
-                                            subtitle = BitcoinWallet
-                                        )
-                                        Spacer(Modifier.height(8.dp))
-                                        PreferenceItem(
-                                            color = USDTColor,
-                                            contentColor = USDTColor.inverse(
-                                                fraction = { 1f },
-                                                darkMode = darkMode
-                                            ),
-                                            onClick = {
-                                                context.apply {
-                                                    copyToClipboard(
-                                                        label = getString(R.string.usdt),
-                                                        value = USDTWallet
-                                                    )
-                                                }
-                                            },
-                                            endIcon = Icons.Rounded.ContentCopy,
-                                            title = stringResource(R.string.usdt),
-                                            icon = Icons.Filled.USDT,
-                                            subtitle = USDTWallet
-                                        )
-                                        Spacer(Modifier.height(16.dp))
-                                    }
-                                }
-                            }
-                        )
                     }
                 }
                 item {
