@@ -50,12 +50,10 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.MenuOpen
-import androidx.compose.material.icons.rounded.AlternateEmail
 import androidx.compose.material.icons.rounded.Close
 import androidx.compose.material.icons.rounded.DragHandle
 import androidx.compose.material.icons.rounded.FileDownload
 import androidx.compose.material.icons.rounded.FileDownloadOff
-import androidx.compose.material.icons.rounded.Person
 import androidx.compose.material.icons.rounded.Settings
 import androidx.compose.material.icons.rounded.TableRows
 import androidx.compose.material3.AlertDialog
@@ -119,8 +117,6 @@ import org.burnoutcrew.reorderable.reorderable
 import ru.tech.imageresizershrinker.BuildConfig
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.core.APP_LINK
-import ru.tech.imageresizershrinker.core.AUTHOR_LINK
-import ru.tech.imageresizershrinker.core.AUTHOR_TG
 import ru.tech.imageresizershrinker.presentation.main_screen.viewModel.MainViewModel
 import ru.tech.imageresizershrinker.presentation.root.icons.emoji.Emoji
 import ru.tech.imageresizershrinker.presentation.root.icons.emoji.allIcons
@@ -128,7 +124,6 @@ import ru.tech.imageresizershrinker.presentation.root.icons.emoji.allIconsCatego
 import ru.tech.imageresizershrinker.presentation.root.icons.material.FileSettings
 import ru.tech.imageresizershrinker.presentation.root.icons.material.Github
 import ru.tech.imageresizershrinker.presentation.root.icons.material.GooglePlay
-import ru.tech.imageresizershrinker.presentation.root.icons.material.Telegram
 import ru.tech.imageresizershrinker.presentation.root.model.isFirstLaunch
 import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.ContextUtils.isInstalledFromPlayStore
@@ -176,7 +171,6 @@ fun MainScreen(
     val scope = rememberCoroutineScope()
 
     val showPickColorDialog = rememberSaveable { mutableStateOf(false) }
-    val showAuthorDialog = rememberSaveable { mutableStateOf(false) }
     val showEmojiDialog = rememberSaveable { mutableStateOf(false) }
     val showArrangementSheet = rememberSaveable { mutableStateOf(false) }
 
@@ -358,7 +352,6 @@ fun MainScreen(
                     onEditFilename = { showChangeFilenameDialog = true },
                     onEditEmoji = { showEmojiDialog.value = true },
                     onEditColorScheme = { showPickColorDialog.value = true },
-                    onShowAuthor = { showAuthorDialog.value = true },
                     viewModel = viewModel
                 )
             }
@@ -855,74 +848,6 @@ fun MainScreen(
         allEmojis = Emoji.allIcons(),
         onEmojiPicked = viewModel::updateEmoji,
         visible = showEmojiDialog
-    )
-
-    SimpleSheet(
-        visible = showAuthorDialog,
-        title = {
-            TitleItem(
-                text = stringResource(R.string.app_developer_nick),
-                icon = Icons.Rounded.Person
-            )
-        },
-        confirmButton = {
-            EnhancedButton(
-                containerColor = Color.Transparent,
-                onClick = { showAuthorDialog.value = false },
-            ) {
-                AutoSizeText(stringResource(R.string.close))
-            }
-        },
-        sheetContent = {
-            Box {
-                Column(Modifier.verticalScroll(rememberScrollState())) {
-                    Spacer(Modifier.height(16.dp))
-                    PreferenceItem(
-                        color = MaterialTheme.colorScheme.tertiaryContainer,
-                        onClick = {
-                            context.startActivity(
-                                Intent(
-                                    Intent.ACTION_VIEW,
-                                    Uri.parse(AUTHOR_TG)
-                                )
-                            )
-                        },
-                        title = stringResource(R.string.telegram),
-                        icon = Icons.Rounded.Telegram,
-                        subtitle = stringResource(R.string.app_developer_nick)
-                    )
-                    Spacer(Modifier.height(8.dp))
-                    PreferenceItem(
-                        color = MaterialTheme.colorScheme.secondaryContainer,
-                        onClick = {
-                            context.startActivity(
-                                Intent(
-                                    Intent.ACTION_VIEW,
-                                    Uri.parse(AUTHOR_LINK)
-                                )
-                            )
-                        },
-                        title = stringResource(R.string.github),
-                        icon = Icons.Rounded.Github,
-                        subtitle = stringResource(R.string.app_developer_nick)
-                    )
-                    Spacer(Modifier.height(8.dp))
-                    PreferenceItem(
-                        onClick = {
-                            Intent(Intent.ACTION_SENDTO).apply {
-                                data =
-                                    Uri.parse("mailto:${context.getString(R.string.developer_email)}")
-                                context.startActivity(this)
-                            }
-                        },
-                        title = stringResource(R.string.email),
-                        icon = Icons.Rounded.AlternateEmail,
-                        subtitle = stringResource(R.string.developer_email)
-                    )
-                    Spacer(Modifier.height(16.dp))
-                }
-            }
-        }
     )
 
     SimpleSheet(

@@ -1,7 +1,5 @@
 package ru.tech.imageresizershrinker.presentation.crash_screen
 
-import android.content.ClipData
-import android.content.ClipboardManager
 import android.content.Intent
 import android.net.Uri
 import android.os.Build
@@ -80,6 +78,7 @@ import ru.tech.imageresizershrinker.presentation.root.theme.ImageToolboxTheme
 import ru.tech.imageresizershrinker.presentation.root.theme.White
 import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
 import ru.tech.imageresizershrinker.presentation.root.utils.exception.CrashHandler
+import ru.tech.imageresizershrinker.presentation.root.utils.helper.ContextUtils.copyToClipboard
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.autoElevatedBorder
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.container
 import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedButton
@@ -112,14 +111,10 @@ class CrashActivity : CrashHandler() {
             val scope = rememberCoroutineScope()
 
             val newClip: (String) -> Unit = {
-                (getSystemService(CLIPBOARD_SERVICE) as ClipboardManager).apply {
-                    setPrimaryClip(
-                        ClipData.newPlainText(
-                            getString(R.string.exception),
-                            it
-                        )
-                    )
-                }
+                copyToClipboard(
+                    label = getString(R.string.exception),
+                    value = it
+                )
                 scope.launch {
                     toastHostState.showToast(
                         icon = Icons.Rounded.ContentCopy,

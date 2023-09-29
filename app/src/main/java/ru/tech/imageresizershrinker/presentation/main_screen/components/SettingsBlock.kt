@@ -51,6 +51,7 @@ import androidx.compose.material.icons.outlined.FolderOff
 import androidx.compose.material.icons.outlined.FolderSpecial
 import androidx.compose.material.icons.outlined.Image
 import androidx.compose.material.icons.rounded.AddCircleOutline
+import androidx.compose.material.icons.rounded.AlternateEmail
 import androidx.compose.material.icons.rounded.Block
 import androidx.compose.material.icons.rounded.BugReport
 import androidx.compose.material.icons.rounded.Cached
@@ -63,10 +64,12 @@ import androidx.compose.material.icons.rounded.FolderSpecial
 import androidx.compose.material.icons.rounded.FontDownload
 import androidx.compose.material.icons.rounded.ImageSearch
 import androidx.compose.material.icons.rounded.Info
+import androidx.compose.material.icons.rounded.Link
 import androidx.compose.material.icons.rounded.ModeNight
 import androidx.compose.material.icons.rounded.NewReleases
 import androidx.compose.material.icons.rounded.Palette
 import androidx.compose.material.icons.rounded.Payments
+import androidx.compose.material.icons.rounded.Person
 import androidx.compose.material.icons.rounded.PersonSearch
 import androidx.compose.material.icons.rounded.PhotoSizeSelectSmall
 import androidx.compose.material.icons.rounded.RadioButtonChecked
@@ -123,6 +126,8 @@ import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.BuildConfig
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.core.AUTHOR_AVATAR
+import ru.tech.imageresizershrinker.core.AUTHOR_LINK
+import ru.tech.imageresizershrinker.core.AUTHOR_TG
 import ru.tech.imageresizershrinker.core.BitcoinWallet
 import ru.tech.imageresizershrinker.core.CHAT_LINK
 import ru.tech.imageresizershrinker.core.ISSUE_TRACKER
@@ -141,6 +146,7 @@ import ru.tech.imageresizershrinker.presentation.root.icons.material.CreateAlt
 import ru.tech.imageresizershrinker.presentation.root.icons.material.DownloadFile
 import ru.tech.imageresizershrinker.presentation.root.icons.material.FileSettings
 import ru.tech.imageresizershrinker.presentation.root.icons.material.Firebase
+import ru.tech.imageresizershrinker.presentation.root.icons.material.Github
 import ru.tech.imageresizershrinker.presentation.root.icons.material.Lamp
 import ru.tech.imageresizershrinker.presentation.root.icons.material.Numeric
 import ru.tech.imageresizershrinker.presentation.root.icons.material.Prefix
@@ -185,6 +191,30 @@ import ru.tech.imageresizershrinker.presentation.root.widget.text.TitleItem
 import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalSettingsState
 import kotlin.math.roundToInt
 
+
+private val topShape = RoundedCornerShape(
+    topStart = 16.dp,
+    topEnd = 16.dp,
+    bottomStart = 6.dp,
+    bottomEnd = 6.dp
+)
+
+private val centerShape = RoundedCornerShape(
+    topStart = 6.dp,
+    topEnd = 6.dp,
+    bottomStart = 6.dp,
+    bottomEnd = 6.dp
+)
+
+private val bottomShape = RoundedCornerShape(
+    topStart = 6.dp,
+    topEnd = 6.dp,
+    bottomStart = 16.dp,
+    bottomEnd = 16.dp
+)
+
+private val defaultShape = RoundedCornerShape(16.dp)
+
 @SuppressLint("SourceLockedOrientationActivity")
 @Composable
 fun SettingsBlock(
@@ -193,7 +223,6 @@ fun SettingsBlock(
     onEditFilename: () -> Unit,
     onEditEmoji: () -> Unit,
     onEditColorScheme: () -> Unit,
-    onShowAuthor: () -> Unit,
     viewModel: MainViewModel
 ) {
     val settingsState = LocalSettingsState.current
@@ -230,12 +259,14 @@ fun SettingsBlock(
                         initialState = settingsState.isFirstLaunch()
                     ) {
                         val showDonateSheet = rememberSaveable { mutableStateOf(false) }
-                        Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                        val showAuthorSheet = rememberSaveable { mutableStateOf(false) }
+                        Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
                             PreferenceRow(
                                 modifier = Modifier.padding(horizontal = 8.dp),
                                 applyHorPadding = false,
                                 title = stringResource(R.string.app_developer),
                                 subtitle = stringResource(R.string.app_developer_nick),
+                                shape = topShape,
                                 startContent = {
                                     Picture(
                                         model = AUTHOR_AVATAR,
@@ -249,7 +280,7 @@ fun SettingsBlock(
                                         shape = RectangleShape
                                     )
                                 },
-                                onClick = onShowAuthor
+                                onClick = { showAuthorSheet.value = true }
                             )
                             PreferenceRow(
                                 modifier = Modifier
@@ -258,6 +289,7 @@ fun SettingsBlock(
                                         enabled = settingsState.isFirstLaunch()
                                     )
                                     .padding(horizontal = 8.dp),
+                                shape = bottomShape,
                                 applyHorPadding = false,
                                 color = MaterialTheme.colorScheme.tertiaryContainer,
                                 contentColor = MaterialTheme.colorScheme.onTertiaryContainer,
@@ -271,6 +303,80 @@ fun SettingsBlock(
                                 }
                             )
                         }
+
+                        SimpleSheet(
+                            visible = showAuthorSheet,
+                            title = {
+                                TitleItem(
+                                    text = stringResource(R.string.app_developer_nick),
+                                    icon = Icons.Rounded.Person
+                                )
+                            },
+                            confirmButton = {
+                                EnhancedButton(
+                                    containerColor = Color.Transparent,
+                                    onClick = { showAuthorSheet.value = false },
+                                ) {
+                                    AutoSizeText(stringResource(R.string.close))
+                                }
+                            },
+                            sheetContent = {
+                                Box {
+                                    Column(Modifier.verticalScroll(rememberScrollState())) {
+                                        Spacer(Modifier.height(16.dp))
+                                        PreferenceItem(
+                                            color = MaterialTheme.colorScheme.tertiaryContainer,
+                                            onClick = {
+                                                context.startActivity(
+                                                    Intent(
+                                                        Intent.ACTION_VIEW,
+                                                        Uri.parse(AUTHOR_TG)
+                                                    )
+                                                )
+                                            },
+                                            endIcon = Icons.Rounded.Link,
+                                            shape = topShape,
+                                            title = stringResource(R.string.telegram),
+                                            icon = Icons.Rounded.Telegram,
+                                            subtitle = stringResource(R.string.app_developer_nick)
+                                        )
+                                        Spacer(Modifier.height(4.dp))
+                                        PreferenceItem(
+                                            color = MaterialTheme.colorScheme.secondaryContainer,
+                                            onClick = {
+                                                context.startActivity(
+                                                    Intent(
+                                                        Intent.ACTION_VIEW,
+                                                        Uri.parse(AUTHOR_LINK)
+                                                    )
+                                                )
+                                            },
+                                            endIcon = Icons.Rounded.Link,
+                                            shape = centerShape,
+                                            title = stringResource(R.string.github),
+                                            icon = Icons.Rounded.Github,
+                                            subtitle = stringResource(R.string.app_developer_nick)
+                                        )
+                                        Spacer(Modifier.height(4.dp))
+                                        PreferenceItem(
+                                            onClick = {
+                                                Intent(Intent.ACTION_SENDTO).apply {
+                                                    data =
+                                                        Uri.parse("mailto:${context.getString(R.string.developer_email)}")
+                                                    context.startActivity(this)
+                                                }
+                                            },
+                                            shape = bottomShape,
+                                            endIcon = Icons.Rounded.Link,
+                                            title = stringResource(R.string.email),
+                                            icon = Icons.Rounded.AlternateEmail,
+                                            subtitle = stringResource(R.string.developer_email)
+                                        )
+                                        Spacer(Modifier.height(16.dp))
+                                    }
+                                }
+                            }
+                        )
 
                         SimpleSheet(
                             visible = showDonateSheet,
@@ -314,12 +420,19 @@ fun SettingsBlock(
                                                 fraction = { 1f },
                                                 darkMode = darkMode
                                             ),
+                                            shape = topShape,
                                             onClick = {
                                                 context.apply {
                                                     copyToClipboard(
                                                         label = getString(R.string.bitcoin),
                                                         value = BitcoinWallet
                                                     )
+                                                    scope.launch {
+                                                        toastHostState.showToast(
+                                                            icon = Icons.Rounded.ContentCopy,
+                                                            message = getString(R.string.copied),
+                                                        )
+                                                    }
                                                 }
                                             },
                                             endIcon = Icons.Rounded.ContentCopy,
@@ -327,9 +440,10 @@ fun SettingsBlock(
                                             icon = Icons.Filled.Bitcoin,
                                             subtitle = BitcoinWallet
                                         )
-                                        Spacer(Modifier.height(8.dp))
+                                        Spacer(Modifier.height(4.dp))
                                         PreferenceItem(
                                             color = USDTColor,
+                                            shape = bottomShape,
                                             contentColor = USDTColor.inverse(
                                                 fraction = { 1f },
                                                 darkMode = darkMode
@@ -340,6 +454,12 @@ fun SettingsBlock(
                                                         label = getString(R.string.usdt),
                                                         value = USDTWallet
                                                     )
+                                                    scope.launch {
+                                                        toastHostState.showToast(
+                                                            icon = Icons.Rounded.ContentCopy,
+                                                            message = getString(R.string.copied),
+                                                        )
+                                                    }
                                                 }
                                             },
                                             endIcon = Icons.Rounded.ContentCopy,
@@ -372,7 +492,8 @@ fun SettingsBlock(
                                             else 0.5f
                                         ).value
                                     )
-                                    .padding(start = 8.dp, end = 8.dp, bottom = 8.dp),
+                                    .padding(start = 8.dp, end = 8.dp, bottom = 4.dp),
+                                shape = topShape,
                                 title = stringResource(R.string.color_scheme),
                                 subtitle = stringResource(R.string.pick_accent_color),
                                 onClick = {
@@ -432,8 +553,9 @@ fun SettingsBlock(
                                 modifier = Modifier.padding(
                                     start = 8.dp,
                                     end = 8.dp,
-                                    bottom = 8.dp
+                                    bottom = 4.dp
                                 ),
+                                shape = centerShape,
                                 applyHorPadding = false,
                                 title = stringResource(R.string.dynamic_colors),
                                 subtitle = stringResource(R.string.dynamic_colors_sub),
@@ -444,8 +566,9 @@ fun SettingsBlock(
                                 modifier = Modifier.padding(
                                     start = 8.dp,
                                     end = 8.dp,
-                                    bottom = 8.dp
+                                    bottom = 4.dp
                                 ),
+                                shape = centerShape,
                                 applyHorPadding = false,
                                 title = stringResource(R.string.amoled_mode),
                                 subtitle = stringResource(R.string.amoled_mode_sub),
@@ -457,6 +580,7 @@ fun SettingsBlock(
                             PreferenceRow(
                                 modifier = Modifier.padding(start = 8.dp, end = 8.dp),
                                 applyHorPadding = false,
+                                shape = bottomShape,
                                 title = stringResource(R.string.emoji),
                                 subtitle = stringResource(R.string.emoji_sub),
                                 onClick = onEditEmoji,
@@ -521,7 +645,7 @@ fun SettingsBlock(
                         text = stringResource(R.string.secondary_customization),
                         initialState = false
                     ) {
-                        Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                        Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
                             PreferenceRowSwitch(
                                 modifier = Modifier.padding(horizontal = 8.dp),
                                 applyHorPadding = false,
@@ -529,6 +653,7 @@ fun SettingsBlock(
                                     horizontal = 16.dp,
                                     vertical = 8.dp
                                 ),
+                                shape = topShape,
                                 title = stringResource(R.string.allow_image_monet),
                                 subtitle = stringResource(R.string.allow_image_monet_sub),
                                 checked = settingsState.allowChangeColorByImage,
@@ -545,6 +670,7 @@ fun SettingsBlock(
                                 Modifier
                                     .padding(horizontal = 8.dp)
                                     .container(
+                                        shape = centerShape,
                                         color = MaterialTheme
                                             .colorScheme
                                             .secondaryContainer
@@ -625,6 +751,7 @@ fun SettingsBlock(
                                 Modifier
                                     .padding(horizontal = 8.dp)
                                     .container(
+                                        shape = centerShape,
                                         color = MaterialTheme
                                             .colorScheme
                                             .secondaryContainer
@@ -714,6 +841,7 @@ fun SettingsBlock(
                                         horizontal = 16.dp,
                                         vertical = 8.dp
                                     ),
+                                    shape = centerShape,
                                     title = stringResource(R.string.shadows),
                                     subtitle = stringResource(R.string.shadows_setting_sub),
                                     checked = viewModel.settingsState.allowShowingShadowsInsteadOfBorders,
@@ -733,6 +861,7 @@ fun SettingsBlock(
                                 Modifier
                                     .padding(horizontal = 8.dp)
                                     .container(
+                                        shape = bottomShape,
                                         color = MaterialTheme
                                             .colorScheme
                                             .secondaryContainer
@@ -835,7 +964,7 @@ fun SettingsBlock(
                         text = stringResource(R.string.night_mode),
                         initialState = false
                     ) {
-                        Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                        Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
                             listOf(
                                 Triple(
                                     stringResource(R.string.dark),
@@ -852,8 +981,13 @@ fun SettingsBlock(
                                     Icons.Rounded.SettingsSystemDaydream,
                                     NightMode.System
                                 ),
-                            ).forEach { (title, icon, nightMode) ->
+                            ).forEachIndexed { index, (title, icon, nightMode) ->
                                 val selected = nightMode == viewModel.settingsState.nightMode
+                                val shape = when (index) {
+                                    0 -> topShape
+                                    1 -> centerShape
+                                    else -> bottomShape
+                                }
                                 PreferenceItem(
                                     onClick = { viewModel.setNightMode(nightMode) },
                                     title = title,
@@ -863,6 +997,7 @@ fun SettingsBlock(
                                             else 0.2f
                                         ).value
                                     ),
+                                    shape = shape,
                                     icon = icon,
                                     modifier = Modifier
                                         .fillMaxWidth()
@@ -876,7 +1011,7 @@ fun SettingsBlock(
                                                     .copy(alpha = 0.5f)
                                                 else Color.Transparent
                                             ).value,
-                                            shape = RoundedCornerShape(16.dp)
+                                            shape = shape
                                         ),
                                     endIcon = if (selected) Icons.Rounded.RadioButtonChecked else Icons.Rounded.RadioButtonUnchecked
                                 )
@@ -893,13 +1028,15 @@ fun SettingsBlock(
                         text = stringResource(R.string.text),
                     ) {
                         ChangeLanguagePreference(
-                            Modifier.padding(
-                                bottom = 8.dp,
+                            modifier = Modifier.padding(
+                                bottom = 4.dp,
                                 start = 8.dp,
                                 end = 8.dp
-                            )
+                            ),
+                            shape = topShape
                         )
                         PreferenceItem(
+                            shape = centerShape,
                             onClick = { showFontSheet.value = true },
                             title = stringResource(R.string.font),
                             subtitle = settingsState.font.name ?: stringResource(R.string.system),
@@ -912,8 +1049,9 @@ fun SettingsBlock(
                                 .fillMaxWidth()
                                 .padding(horizontal = 8.dp)
                         )
-                        Spacer(Modifier.height(8.dp))
+                        Spacer(Modifier.height(4.dp))
                         PreferenceItem(
+                            shape = bottomShape,
                             onClick = { showFontScaleSheet.value = true },
                             title = stringResource(R.string.font_scale),
                             subtitle = settingsState.fontScale?.takeIf { it > 0 }?.toString()
@@ -955,6 +1093,7 @@ fun SettingsBlock(
                     ) {
                         val enabled = !settingsState.groupOptionsByTypes
                         PreferenceItem(
+                            shape = topShape,
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .alpha(
@@ -963,7 +1102,7 @@ fun SettingsBlock(
                                         else 0.5f
                                     ).value
                                 )
-                                .padding(start = 8.dp, end = 8.dp, bottom = 8.dp),
+                                .padding(start = 8.dp, end = 8.dp, bottom = 4.dp),
                             onClick = {
                                 if (enabled) {
                                     onEditArrangement()
@@ -983,6 +1122,7 @@ fun SettingsBlock(
                             endIcon = Icons.Rounded.CreateAlt,
                         )
                         PreferenceRowSwitch(
+                            shape = bottomShape,
                             modifier = Modifier.padding(horizontal = 8.dp),
                             applyHorPadding = false,
                             title = stringResource(R.string.group_options_by_type),
@@ -1001,6 +1141,7 @@ fun SettingsBlock(
                         text = stringResource(R.string.presets),
                     ) {
                         PreferenceItem(
+                            shape = defaultShape,
                             onClick = { onEditPresets() },
                             title = stringResource(R.string.values),
                             subtitle = settingsState.presets.joinToString(", "),
@@ -1036,6 +1177,7 @@ fun SettingsBlock(
                             }
                         )
                         PreferenceItem(
+                            shape = topShape,
                             onClick = { viewModel.updateSaveFolderUri(null) },
                             title = stringResource(R.string.def),
                             subtitle = stringResource(R.string.default_folder),
@@ -1057,11 +1199,12 @@ fun SettingsBlock(
                                         )
                                         else Color.Transparent
                                     ).value,
-                                    shape = RoundedCornerShape(16.dp)
+                                    shape = topShape
                                 )
                         )
-                        Spacer(modifier = Modifier.height(8.dp))
+                        Spacer(modifier = Modifier.height(4.dp))
                         PreferenceItem(
+                            shape = bottomShape,
                             onClick = {
                                 kotlin.runCatching {
                                     launcher.launch(currentFolderUri)
@@ -1096,7 +1239,7 @@ fun SettingsBlock(
                                         )
                                         else Color.Transparent
                                     ).value,
-                                    shape = RoundedCornerShape(16.dp)
+                                    shape = bottomShape
                                 )
                         )
                     }
@@ -1108,8 +1251,12 @@ fun SettingsBlock(
                         text = stringResource(R.string.filename),
                     ) {
                         Box {
-                            Column(Modifier.alpha(animateFloatAsState(if (!settingsState.randomizeFilename) 1f else 0.5f).value)) {
+                            Column(
+                                modifier = Modifier
+                                    .alpha(animateFloatAsState(if (!settingsState.randomizeFilename) 1f else 0.5f).value)
+                            ) {
                                 PreferenceItem(
+                                    shape = topShape,
                                     onClick = { onEditFilename() },
                                     title = stringResource(R.string.prefix),
                                     subtitle = (settingsState.filenamePrefix.takeIf { it.isNotEmpty() }
@@ -1122,13 +1269,14 @@ fun SettingsBlock(
                                     icon = Icons.Filled.Prefix,
                                     modifier = Modifier
                                         .fillMaxWidth()
-                                        .padding(start = 8.dp, end = 8.dp, bottom = 8.dp)
+                                        .padding(start = 8.dp, end = 8.dp, bottom = 4.dp)
                                 )
                                 PreferenceRowSwitch(
+                                    shape = centerShape,
                                     modifier = Modifier.padding(
                                         start = 8.dp,
                                         end = 8.dp,
-                                        bottom = 8.dp
+                                        bottom = 4.dp
                                     ),
                                     applyHorPadding = false,
                                     onClick = { viewModel.toggleAddFileSize() },
@@ -1138,6 +1286,7 @@ fun SettingsBlock(
                                 )
                                 val enabled = settingsState.imagePickerModeInt != 0
                                 PreferenceRowSwitch(
+                                    shape = centerShape,
                                     applyHorPadding = false,
                                     modifier = Modifier
                                         .alpha(
@@ -1146,7 +1295,7 @@ fun SettingsBlock(
                                                 else 0.5f
                                             ).value
                                         )
-                                        .padding(start = 8.dp, end = 8.dp, bottom = 8.dp),
+                                        .padding(start = 8.dp, end = 8.dp, bottom = 4.dp),
                                     onClick = {
                                         if (enabled) viewModel.toggleAddOriginalFilename()
                                         else scope.launch {
@@ -1161,6 +1310,7 @@ fun SettingsBlock(
                                     checked = settingsState.addOriginalFilename && enabled
                                 )
                                 PreferenceRowSwitch(
+                                    shape = centerShape,
                                     resultModifier = Modifier.padding(
                                         horizontal = 16.dp,
                                         vertical = 8.dp
@@ -1168,7 +1318,7 @@ fun SettingsBlock(
                                     modifier = Modifier.padding(
                                         start = 8.dp,
                                         end = 8.dp,
-                                        bottom = 8.dp
+                                        bottom = 4.dp
                                     ),
                                     applyHorPadding = false,
                                     onClick = { viewModel.toggleAddSequenceNumber() },
@@ -1192,6 +1342,7 @@ fun SettingsBlock(
                             }
                         }
                         PreferenceRowSwitch(
+                            shape = bottomShape,
                             modifier = Modifier.padding(horizontal = 8.dp),
                             applyHorPadding = false,
                             resultModifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
@@ -1221,6 +1372,7 @@ fun SettingsBlock(
                         ) { mutableStateOf(context.cacheSize()) }
 
                         PreferenceItem(
+                            shape = topShape,
                             onClick = {
                                 context.clearCache { cache = it }
                             },
@@ -1235,8 +1387,9 @@ fun SettingsBlock(
                             subtitle = stringResource(R.string.found_s, cache),
                             endIcon = Icons.Rounded.DeleteOutline
                         )
-                        Spacer(modifier = Modifier.height(8.dp))
+                        Spacer(modifier = Modifier.height(4.dp))
                         PreferenceRowSwitch(
+                            shape = bottomShape,
                             modifier = Modifier.padding(horizontal = 8.dp),
                             applyHorPadding = false,
                             title = stringResource(R.string.auto_cache_clearing),
@@ -1255,6 +1408,7 @@ fun SettingsBlock(
                         text = stringResource(R.string.image_source),
                     ) {
                         PreferenceItem(
+                            shape = topShape,
                             onClick = { viewModel.updateImagePickerMode(0) },
                             title = stringResource(R.string.photo_picker),
                             icon = Icons.Outlined.BurstMode,
@@ -1277,11 +1431,12 @@ fun SettingsBlock(
                                         )
                                         else Color.Transparent
                                     ).value,
-                                    shape = RoundedCornerShape(16.dp)
+                                    shape = topShape
                                 )
                         )
-                        Spacer(modifier = Modifier.height(8.dp))
+                        Spacer(modifier = Modifier.height(4.dp))
                         PreferenceItem(
+                            shape = centerShape,
                             onClick = { viewModel.updateImagePickerMode(1) },
                             title = stringResource(R.string.gallery_picker),
                             icon = Icons.Outlined.Image,
@@ -1304,11 +1459,12 @@ fun SettingsBlock(
                                         )
                                         else Color.Transparent
                                     ).value,
-                                    shape = RoundedCornerShape(16.dp)
+                                    shape = centerShape
                                 )
                         )
-                        Spacer(modifier = Modifier.height(8.dp))
+                        Spacer(modifier = Modifier.height(4.dp))
                         PreferenceItem(
+                            shape = bottomShape,
                             onClick = { viewModel.updateImagePickerMode(2) },
                             title = stringResource(R.string.file_explorer_picker),
                             subtitle = stringResource(R.string.file_explorer_picker_sub),
@@ -1331,7 +1487,7 @@ fun SettingsBlock(
                                         )
                                         else Color.Transparent
                                     ).value,
-                                    shape = RoundedCornerShape(16.dp)
+                                    shape = bottomShape
                                 )
                         )
                     }
@@ -1409,6 +1565,7 @@ fun SettingsBlock(
                             onClick = {
                                 backupSavingLauncher.launch("*/*#${viewModel.createBackupFilename()}")
                             },
+                            shape = topShape,
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .padding(horizontal = 8.dp),
@@ -1420,11 +1577,12 @@ fun SettingsBlock(
                             subtitle = stringResource(R.string.backup_sub),
                             endIcon = Icons.Rounded.UploadFile
                         )
-                        Spacer(modifier = Modifier.height(8.dp))
+                        Spacer(modifier = Modifier.height(4.dp))
                         PreferenceItem(
                             onClick = {
                                 filePicker.launch("*/*")
                             },
+                            shape = centerShape,
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .padding(horizontal = 8.dp),
@@ -1436,11 +1594,12 @@ fun SettingsBlock(
                             subtitle = stringResource(R.string.restore_sub),
                             endIcon = Icons.Rounded.DownloadFile
                         )
-                        Spacer(modifier = Modifier.height(8.dp))
+                        Spacer(modifier = Modifier.height(4.dp))
                         PreferenceItem(
                             onClick = {
                                 showResetDialog = true
                             },
+                            shape = bottomShape,
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .padding(horizontal = 8.dp),
@@ -1476,6 +1635,7 @@ fun SettingsBlock(
                             initialState = false
                         ) {
                             PreferenceRowSwitch(
+                                shape = topShape,
                                 modifier = Modifier.padding(horizontal = 8.dp),
                                 applyHorPadding = false,
                                 resultModifier = Modifier.padding(
@@ -1496,8 +1656,9 @@ fun SettingsBlock(
                                     viewModel.toggleAllowCollectCrashlytics()
                                 }
                             )
-                            Spacer(Modifier.height(8.dp))
+                            Spacer(modifier = Modifier.height(4.dp))
                             PreferenceRowSwitch(
+                                shape = bottomShape,
                                 modifier = Modifier.padding(horizontal = 8.dp),
                                 applyHorPadding = false,
                                 resultModifier = Modifier.padding(
@@ -1529,6 +1690,7 @@ fun SettingsBlock(
                         initialState = false
                     ) {
                         PreferenceRowSwitch(
+                            shape = if (!context.isInstalledFromPlayStore()) topShape else defaultShape,
                             modifier = Modifier.padding(horizontal = 8.dp),
                             applyHorPadding = false,
                             resultModifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
@@ -1547,7 +1709,7 @@ fun SettingsBlock(
                             }
                         )
                         if (!context.isInstalledFromPlayStore()) {
-                            Spacer(Modifier.height(8.dp))
+                            Spacer(Modifier.height(4.dp))
                             PreferenceRowSwitch(
                                 modifier = Modifier.padding(horizontal = 8.dp),
                                 applyHorPadding = false,
@@ -1555,6 +1717,7 @@ fun SettingsBlock(
                                     horizontal = 16.dp,
                                     vertical = 8.dp
                                 ),
+                                shape = bottomShape,
                                 title = stringResource(R.string.allow_betas),
                                 subtitle = stringResource(R.string.allow_betas_sub),
                                 checked = settingsState.allowBetas,
@@ -1606,9 +1769,10 @@ fun SettingsBlock(
                         text = stringResource(R.string.about_app),
                         initialState = true
                     ) {
-                        Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                        Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
                             PreferenceRow(
                                 applyHorPadding = false,
+                                shape = topShape,
                                 modifier = Modifier
                                     .pulsate(
                                         enabled = viewModel.updateAvailable,
@@ -1668,6 +1832,7 @@ fun SettingsBlock(
                                 }
                             )
                             PreferenceRow(
+                                shape = centerShape,
                                 modifier = Modifier.padding(horizontal = 8.dp),
                                 applyHorPadding = false,
                                 title = stringResource(R.string.help_translate),
@@ -1685,6 +1850,7 @@ fun SettingsBlock(
                                 }
                             )
                             PreferenceRow(
+                                shape = centerShape,
                                 modifier = Modifier.padding(horizontal = 8.dp),
                                 applyHorPadding = false,
                                 title = stringResource(R.string.issue_tracker),
@@ -1702,6 +1868,7 @@ fun SettingsBlock(
                                 }
                             )
                             PreferenceRow(
+                                shape = centerShape,
                                 applyHorPadding = false,
                                 onClick = {
                                     context.startActivity(
@@ -1729,6 +1896,7 @@ fun SettingsBlock(
                                     .padding(horizontal = 8.dp),
                             )
                             SourceCodePreference(
+                                shape = bottomShape,
                                 modifier = Modifier
                                     .fillMaxWidth()
                                     .padding(horizontal = 8.dp)
