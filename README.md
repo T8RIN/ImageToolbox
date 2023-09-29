@@ -181,12 +181,15 @@ height="80">](https://github.com/t8rin/imageresizer/releases/latest)
   - Pen
   - Neon
   - Highlighter
+  - Privacy Blur
+  - Pointing Arrow Mode
 - Image Resizing
   - Width changing
   - Height changing
   - Adaptive resize
   - Resize retaining aspect ratio
   - Resize by given limits
+  - Center Crop with background color changing
 - Image Shrinking
   - Quality compressing
   - Preset shrinking
@@ -215,7 +218,8 @@ height="80">](https://github.com/t8rin/imageresizer/releases/latest)
   - JPEG
   - JPG
   - PNG
-  - SVG, GIF to WEBP, PNG, JPEG, JPG, HEIF, HEIC, AVIF
+  - JXL
+  - SVG, GIF to WEBP, PNG, JPEG, JPG, HEIF, HEIC, AVIF, JXL
   - Telegram sticker PNG format
 - Color Utils
   - Palette generation
