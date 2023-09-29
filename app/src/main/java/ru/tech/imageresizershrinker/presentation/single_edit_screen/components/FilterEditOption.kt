@@ -45,7 +45,6 @@ import com.smarttoolfactory.image.zoom.rememberAnimatedZoomState
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.domain.image.ImageManager
-import ru.tech.imageresizershrinker.presentation.root.utils.modifier.transparencyChecker
 import ru.tech.imageresizershrinker.presentation.filters_screen.components.AddFiltersSheet
 import ru.tech.imageresizershrinker.presentation.filters_screen.components.FilterItem
 import ru.tech.imageresizershrinker.presentation.filters_screen.components.FilterReorderSheet
@@ -55,6 +54,7 @@ import ru.tech.imageresizershrinker.presentation.root.utils.helper.ImageUtils.to
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.autoElevatedBorder
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.container
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.drawHorizontalStroke
+import ru.tech.imageresizershrinker.presentation.root.utils.modifier.transparencyChecker
 import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedButton
 import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedIconButton
 import ru.tech.imageresizershrinker.presentation.root.widget.image.Picture

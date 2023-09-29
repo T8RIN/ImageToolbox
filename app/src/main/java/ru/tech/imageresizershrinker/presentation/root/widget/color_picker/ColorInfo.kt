@@ -14,7 +14,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Palette
@@ -45,7 +44,6 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.delay
 import ru.tech.imageresizershrinker.R
@@ -57,13 +55,11 @@ import ru.tech.imageresizershrinker.presentation.root.utils.modifier.container
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.transparencyChecker
 import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedButton
 import ru.tech.imageresizershrinker.presentation.root.widget.text.AutoSizeText
-import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalSettingsState
 import kotlin.random.Random
 
 @Composable
 fun ColorInfo(
     color: Int,
-    borderWidth: Dp = LocalSettingsState.current.borderWidth,
     onColorChange: (Int) -> Unit,
 ) {
     val context = LocalContext.current

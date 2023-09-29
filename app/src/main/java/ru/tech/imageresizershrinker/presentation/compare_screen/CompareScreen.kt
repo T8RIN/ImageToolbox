@@ -81,7 +81,6 @@ import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.domain.model.ImageFormat
 import ru.tech.imageresizershrinker.presentation.compare_screen.viewModel.CompareViewModel
-import ru.tech.imageresizershrinker.presentation.root.utils.modifier.transparencyChecker
 import ru.tech.imageresizershrinker.presentation.root.theme.blend
 import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
 import ru.tech.imageresizershrinker.presentation.root.utils.confetti.LocalConfettiController
@@ -94,6 +93,7 @@ import ru.tech.imageresizershrinker.presentation.root.utils.modifier.container
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.containerFabBorder
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.drawHorizontalStroke
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.navBarsPaddingOnlyIfTheyAtTheBottom
+import ru.tech.imageresizershrinker.presentation.root.utils.modifier.transparencyChecker
 import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedButton
 import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedSlider
 import ru.tech.imageresizershrinker.presentation.root.widget.controls.ExtensionGroup

@@ -75,7 +75,6 @@ import dev.olshevski.navigation.reimagined.navigate
 import dev.olshevski.navigation.reimagined.pop
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.R
-import ru.tech.imageresizershrinker.presentation.root.utils.modifier.transparencyChecker
 import ru.tech.imageresizershrinker.presentation.generate_palette_screen.components.PaletteColorsCountSelector
 import ru.tech.imageresizershrinker.presentation.generate_palette_screen.viewModel.GeneratePaletteViewModel
 import ru.tech.imageresizershrinker.presentation.root.icons.material.PaletteSwatch
@@ -89,6 +88,7 @@ import ru.tech.imageresizershrinker.presentation.root.utils.modifier.autoElevate
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.container
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.drawHorizontalStroke
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.navBarsPaddingOnlyIfTheyAtTheBottom
+import ru.tech.imageresizershrinker.presentation.root.utils.modifier.transparencyChecker
 import ru.tech.imageresizershrinker.presentation.root.utils.navigation.LocalNavController
 import ru.tech.imageresizershrinker.presentation.root.utils.navigation.Screen
 import ru.tech.imageresizershrinker.presentation.root.widget.image.ImageNotPickedWidget

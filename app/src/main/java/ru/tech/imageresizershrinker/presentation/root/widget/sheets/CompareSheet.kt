@@ -35,8 +35,8 @@ import androidx.compose.ui.unit.dp
 import com.smarttoolfactory.beforeafter.BeforeAfterImage
 import com.smarttoolfactory.beforeafter.OverlayStyle
 import ru.tech.imageresizershrinker.R
-import ru.tech.imageresizershrinker.presentation.root.utils.modifier.transparencyChecker
 import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
+import ru.tech.imageresizershrinker.presentation.root.utils.modifier.transparencyChecker
 import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedButton
 import ru.tech.imageresizershrinker.presentation.root.widget.text.AutoSizeText
 import ru.tech.imageresizershrinker.presentation.root.widget.text.TitleItem
