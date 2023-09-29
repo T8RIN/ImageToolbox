@@ -117,7 +117,7 @@ fun DrawBackgroundSelector(
                             .transparencyChecker()
                             .background(customColor ?: MaterialTheme.colorScheme.primary)
                             .autoElevatedBorder(
-                                height = 0.dp,
+                                color = Color.Transparent,
                                 shape = CircleShape,
                                 autoElevation = 1.dp
                             )
