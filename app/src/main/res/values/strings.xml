@@ -370,7 +370,7 @@
     <string name="jxl_sub">JXL format not officially supported by android so something might not work, also saving will work only if you choose custom output directory, this is an experimental version, bugs here will not be fixed unless google will add JXL support, this version also can view such images</string>
     <string name="image_exif_warning">Currently %1$s format on android allows only read exif and not to change/save it, that means output image won\'t have metadata at all</string>
     <string name="effort">Effort</string>
-    <string name="effort_sub">A value of %d means to compress quickly, resulting in a relatively large file size. %d means to spend more time compressing, resulting in a smaller file</string>
+    <string name="effort_sub">A value of %1$d means to compress quickly, resulting in a relatively large file size. %2$d means to spend more time compressing, resulting in a smaller file</string>
     <string name="wait">Wait</string>
     <string name="saving_almost_complete">Saving almost completed, if you cancel that now you will need to start saving again then</string>
     <string name="updates">Updates</string>
