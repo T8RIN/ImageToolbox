@@ -7,6 +7,7 @@ import ru.tech.imageresizershrinker.domain.image.ImageManager
 import ru.tech.imageresizershrinker.domain.image.Transformation
 import ru.tech.imageresizershrinker.domain.model.ImageInfo
 import ru.tech.imageresizershrinker.domain.model.Preset
+import ru.tech.imageresizershrinker.domain.model.ResizeType
 import coil.transform.Transformation as CoilTransformation
 
 class ImageInfoTransformation(
@@ -34,10 +35,12 @@ class ImageInfoTransformation(
         }
         return imageManager.createPreview(
             image = input,
-            imageInfo = info.copy(
-                width = if (info.width * info.height < 512 * 512) info.width * 3 else info.width,
-                height = if (info.width * info.height < 512 * 512) info.height * 3 else info.height,
-            ),
+            imageInfo = if (info.resizeType !is ResizeType.CenterCrop) {
+                info.copy(
+                    width = if (info.width * info.height < 512 * 512) info.width * 3 else info.width,
+                    height = if (info.width * info.height < 512 * 512) info.height * 3 else info.height,
+                )
+            } else info,
             onGetByteCount = {}
         )
     }

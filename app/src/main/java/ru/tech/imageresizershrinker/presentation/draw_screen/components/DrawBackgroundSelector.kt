@@ -1,9 +1,9 @@
 package ru.tech.imageresizershrinker.presentation.draw_screen.components
 
 import android.annotation.SuppressLint
+import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -30,12 +30,12 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.luminance
@@ -45,27 +45,23 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.presentation.root.theme.inverse
-import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
-import ru.tech.imageresizershrinker.presentation.root.utils.modifier.autoElevatedBorder
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.container
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.transparencyChecker
 import ru.tech.imageresizershrinker.presentation.root.widget.color_picker.AlphaColorSelection
-import ru.tech.imageresizershrinker.presentation.root.widget.color_picker.ColorSelection
 import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedButton
 import ru.tech.imageresizershrinker.presentation.root.widget.sheets.SimpleSheet
 import ru.tech.imageresizershrinker.presentation.root.widget.text.AutoSizeText
 import ru.tech.imageresizershrinker.presentation.root.widget.text.TitleItem
-import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalSettingsState
 
 @Composable
 fun DrawBackgroundSelector(
     backgroundColor: Color,
     onColorChange: (Color) -> Unit,
     @SuppressLint("ModifierParameter")
-    modifier: Modifier = Modifier.padding(16.dp)
+    modifier: Modifier = Modifier
+        .padding(16.dp)
+        .container(shape = RoundedCornerShape(24.dp))
 ) {
-    val settingsState = LocalSettingsState.current
-
     var customColor by remember { mutableStateOf<Color?>(null) }
     val showColorPicker = remember { mutableStateOf(false) }
 
@@ -73,9 +69,7 @@ fun DrawBackgroundSelector(
         customColor = backgroundColor
     }
 
-    Column(
-        modifier.container(shape = RoundedCornerShape(24.dp))
-    ) {
+    Column(modifier) {
         Row(
             Modifier.fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically,
@@ -97,6 +91,9 @@ fun DrawBackgroundSelector(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 item {
+                    val background by animateColorAsState(
+                        customColor ?: MaterialTheme.colorScheme.primary
+                    )
                     Box(
                         Modifier
                             .size(
@@ -106,20 +103,15 @@ fun DrawBackgroundSelector(
                                     )
                                 ).value
                             )
-                            .border(
-                                width = settingsState.borderWidth,
-                                color = MaterialTheme.colorScheme.outlineVariant(
-                                    onTopOf = customColor ?: MaterialTheme.colorScheme.primary
-                                ),
-                                shape = CircleShape
-                            )
-                            .clip(CircleShape)
-                            .transparencyChecker()
-                            .background(customColor ?: MaterialTheme.colorScheme.primary)
-                            .autoElevatedBorder(
-                                color = Color.Transparent,
+                            .container(
                                 shape = CircleShape,
-                                autoElevation = 1.dp
+                                color = background,
+                                resultPadding = 0.dp
+                            )
+                            .transparencyChecker()
+                            .background(
+                                color = background,
+                                shape = CircleShape
                             )
                             .clickable {
                                 showColorPicker.value = true
@@ -129,20 +121,17 @@ fun DrawBackgroundSelector(
                         Icon(
                             imageVector = Icons.Rounded.Palette,
                             contentDescription = null,
-                            tint = (customColor ?: MaterialTheme.colorScheme.primary).inverse(
+                            tint = background.inverse(
                                 fraction = {
                                     if (it) 0.8f
                                     else 0.5f
                                 },
-                                darkMode = (customColor
-                                    ?: MaterialTheme.colorScheme.primary).luminance() < 0.3f
+                                darkMode = background.luminance() < 0.3f
                             ),
                             modifier = Modifier
                                 .size(32.dp)
                                 .background(
-                                    color = (customColor ?: MaterialTheme.colorScheme.primary).copy(
-                                        alpha = 1f
-                                    ),
+                                    color = background.copy(1f),
                                     shape = CircleShape
                                 )
                                 .padding(4.dp)
@@ -161,15 +150,11 @@ fun DrawBackgroundSelector(
                                     )
                                 ).value
                             )
-                            .border(
-                                width = settingsState.borderWidth,
-                                color = MaterialTheme.colorScheme.outlineVariant(
-                                    onTopOf = color
-                                ),
-                                shape = CircleShape
+                            .container(
+                                shape = CircleShape,
+                                color = color,
+                                resultPadding = 0.dp
                             )
-                            .clip(CircleShape)
-                            .background(color)
                             .clickable {
                                 onColorChange(color)
                                 customColor = null
@@ -208,6 +193,9 @@ fun DrawBackgroundSelector(
         }
     }
 
+    var tempColor by remember(showColorPicker.value) {
+        mutableIntStateOf(customColor?.toArgb() ?: Color.Transparent.toArgb())
+    }
     SimpleSheet(
         sheetContent = {
             Box {
@@ -217,10 +205,9 @@ fun DrawBackgroundSelector(
                         .padding(36.dp)
                 ) {
                     AlphaColorSelection(
-                        color = customColor?.toArgb() ?: 0,
+                        color = tempColor,
                         onColorChange = {
-                            customColor = Color(it)
-                            onColorChange(Color(it))
+                            tempColor = it
                         }
                     )
                 }
@@ -237,6 +224,8 @@ fun DrawBackgroundSelector(
             EnhancedButton(
                 containerColor = MaterialTheme.colorScheme.secondaryContainer,
                 onClick = {
+                    customColor = Color(tempColor)
+                    onColorChange(Color(tempColor))
                     showColorPicker.value = false
                 }
             ) {

@@ -675,11 +675,12 @@ class AndroidImageManager @Inject constructor(
         var width = imageInfo.width
         var height = imageInfo.height
 
-        while (height * width * 4L >= 2096 * 2096 * 5L) {
-            height = (height * 0.8f).roundToInt()
-            width = (width * 0.8f).roundToInt()
+        if (imageInfo.resizeType !is ResizeType.CenterCrop) {
+            while (height * width * 4L >= 2096 * 2096 * 5L) {
+                height = (height * 0.8f).roundToInt()
+                width = (width * 0.8f).roundToInt()
+            }
         }
-
         out.write(compress(ImageData(image, imageInfo.copy(width = width, height = height))))
         val b = out.toByteArray()
         onGetByteCount(b.size)
@@ -691,7 +692,7 @@ class AndroidImageManager @Inject constructor(
         out.flush()
         out.close()
 
-        return@withContext scaleUntilCanShow(bitmap) ?: image
+        return@withContext bitmap!!
     }
 
     private fun Drawable.toBitmap(): Bitmap? {
@@ -736,6 +737,7 @@ class AndroidImageManager @Inject constructor(
         image: Bitmap,
         w: Int, h: Int
     ): Bitmap {
+        if (w == image.width && h == image.height) return image
         val canvas = Bitmap.createBitmap(w, h, image.config).apply { setHasAlpha(true) }
         Canvas(canvas).apply {
             drawColor(Color.Transparent.toArgb(), PorterDuff.Mode.CLEAR)

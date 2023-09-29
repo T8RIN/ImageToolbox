@@ -48,7 +48,6 @@ import ru.tech.imageresizershrinker.presentation.root.widget.buttons.ToggleGroup
 import ru.tech.imageresizershrinker.presentation.root.widget.sheets.SimpleSheet
 import ru.tech.imageresizershrinker.presentation.root.widget.text.AutoSizeText
 import ru.tech.imageresizershrinker.presentation.root.widget.text.TitleItem
-import java.lang.IllegalStateException
 
 
 @Composable
@@ -130,7 +129,9 @@ fun ResizeGroup(
         )
         AnimatedVisibility(visible = resizeType is ResizeType.CenterCrop) {
             DrawBackgroundSelector(
-                modifier = Modifier.padding(8.dp),
+                modifier = Modifier
+                    .padding(8.dp)
+                    .container(shape = RoundedCornerShape(16.dp)),
                 backgroundColor = canvasColor,
                 onColorChange = {
                     canvasColor = it

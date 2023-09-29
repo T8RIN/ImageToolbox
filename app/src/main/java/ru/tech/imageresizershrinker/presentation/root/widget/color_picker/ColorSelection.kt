@@ -37,7 +37,7 @@ fun ColorSelection(
 
     Column {
         ColorInfo(
-            color = color1.toArgb(),
+            color = color1.copy(1f).toArgb(),
             onColorChange = onColorChange,
         )
         Spacer(Modifier.height(16.dp))
