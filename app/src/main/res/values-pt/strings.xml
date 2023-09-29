@@ -118,7 +118,6 @@
     <string name="grant_permission_manual">O aplicativo precisa dessa permissão para funcionar, conceda-a manualmente</string>
     <string name="external_storage">Armazenamento externo</string>
     <string name="monet_colors">cores Monet</string>
-    <string name="buy_me_a_coffee">Compre-me um café</string>
     <string name="donation_sub">Esta aplicação é totalmente gratuita, mas se quiser apoiar o desenvolvimento do projeto, pode clicar aqui</string>
     <string name="fab_alignment">Alinhamento FAB</string>
     <string name="check_updates">Verifique se há atualizações</string>
