@@ -10,6 +10,7 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import ru.tech.imageresizershrinker.data.migrations.BorderWidthMigration
 import javax.inject.Singleton
 
 @Module
@@ -21,7 +22,8 @@ object DataStoreModule {
     fun provideDataStore(
         @ApplicationContext context: Context
     ): DataStore<Preferences> = PreferenceDataStoreFactory.create(
-        produceFile = { context.preferencesDataStoreFile("image_resizer") }
+        produceFile = { context.preferencesDataStoreFile("image_resizer") },
+        migrations = listOf(BorderWidthMigration())
     )
 
 }
