@@ -17,7 +17,7 @@ import com.smarttoolfactory.cropper.ImageCropper
 import com.smarttoolfactory.cropper.model.AspectRatio
 import com.smarttoolfactory.cropper.settings.CropDefaults
 import com.smarttoolfactory.cropper.settings.CropProperties
-import ru.tech.imageresizershrinker.presentation.erase_background_screen.components.transparencyChecker
+import ru.tech.imageresizershrinker.presentation.root.utils.modifier.transparencyChecker
 
 @Composable
 fun Cropper(

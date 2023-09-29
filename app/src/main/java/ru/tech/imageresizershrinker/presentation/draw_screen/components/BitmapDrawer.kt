@@ -50,7 +50,7 @@ import com.smarttoolfactory.image.zoom.rememberAnimatedZoomState
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.domain.image.ImageManager
 import ru.tech.imageresizershrinker.presentation.erase_background_screen.components.PathPaint
-import ru.tech.imageresizershrinker.presentation.erase_background_screen.components.transparencyChecker
+import ru.tech.imageresizershrinker.presentation.root.utils.modifier.transparencyChecker
 import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
 import ru.tech.imageresizershrinker.presentation.root.transformation.filter.StackBlurFilter
 import kotlin.math.cos

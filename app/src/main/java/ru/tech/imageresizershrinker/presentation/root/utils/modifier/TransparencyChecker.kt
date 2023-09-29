@@ -1,4 +1,4 @@
-package ru.tech.imageresizershrinker.presentation.erase_background_screen.components
+package ru.tech.imageresizershrinker.presentation.root.utils.modifier
 
 import androidx.compose.material3.ColorScheme
 import androidx.compose.material3.MaterialTheme

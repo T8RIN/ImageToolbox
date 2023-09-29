@@ -64,7 +64,7 @@ import coil.request.ImageRequest
 import coil.transform.Transformation
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
-import ru.tech.imageresizershrinker.presentation.erase_background_screen.components.transparencyChecker
+import ru.tech.imageresizershrinker.presentation.root.utils.modifier.transparencyChecker
 import ru.tech.imageresizershrinker.presentation.root.app.ImageApplication
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.ContextUtils.findActivity
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.shimmer
