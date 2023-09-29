@@ -349,7 +349,7 @@
     <string name="pipette">Pipetă</string>
     <string name="draw_mode">Mod de desen</string>
     <string name="create_issue">Creați o problemă</string>
-    <string name="something_went_wrong_emphasis">Ooops... Ceva a mers prost, scrie-mi folosind opțiunile de mai jos și voi încerca să găsesc o soluție</string>
+    <string name="something_went_wrong_emphasis">Ooops… Ceva a mers prost, scrie-mi folosind opțiunile de mai jos și voi încerca să găsesc o soluție</string>
     <string name="resize_and_convert_sub">Modificați dimensiunea imaginilor date sau convertiți-le în alte formate, de asemenea, acolo puteți edita metadatele EXIF dacă alegeți o singură imagine</string>
     <string name="presets_sub_bytes">Preset aici determină % din fișierul de ieșire, de exemplu, dacă selectați preset 50 pe o imagine de 5mb, atunci veți obține o imagine de 2,5mb după salvare.</string>
     <string name="crashlytics_sub">Acest lucru permite aplicației să colecteze rapoarte de crash-uri manual</string>

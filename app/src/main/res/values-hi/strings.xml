@@ -298,7 +298,7 @@
     <string name="warning_bytes">%1$s मोड में सेव करना अस्थिर हो सकता है, क्योंकि यह दोषरहित प्रारूप है</string>
     <string name="reset_settings_sub">यह आपकी सेटिंग्स को डिफ़ॉल्ट मानों पर वापस ले आएगा, ध्यान दें कि उपरोक्त विकल्प से बैकअप फ़ाइल के बिना इसे पहले की तरह नहीं किया जा सकता है</string>
     <string name="updates">अपडेट</string>
-    <string name="something_went_wrong_emphasis">ओह... कुछ गलत हो गया है, नीचे दिए गए विकल्पों का उपयोग करके मुझे लिखें और मैं समाधान खोजने का प्रयास करूंगा</string>
+    <string name="something_went_wrong_emphasis">ओह… कुछ गलत हो गया है, नीचे दिए गए विकल्पों का उपयोग करके मुझे लिखें और मैं समाधान खोजने का प्रयास करूंगा</string>
     <string name="tg_chat">टेलीग्राम चैट</string>
     <string name="crop_mask">मास्क क्रॉप करे</string>
     <string name="nature_and_animals">प्रकृति और जानवर</string>

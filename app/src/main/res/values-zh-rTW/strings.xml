@@ -316,7 +316,7 @@
     <string name="tg_chat">Telegram 聊天</string>
     <string name="tg_chat_sub">討論此應用程式與從其他使用者獲取意見回饋，您也可以在此獲得 beta 更新與見解</string>
     <string name="reset_settings_sub">這將會恢復您的設定至預設值，請注意，如果沒有備份檔案，則無法撤銷</string>
-    <string name="something_went_wrong_emphasis">哎呀... 發生了一些錯誤，使用以下的選項寫信給我，我將會嘗試尋找解決方案</string>
+    <string name="something_went_wrong_emphasis">哎呀… 發生了一些錯誤，使用以下的選項寫信給我，我將會嘗試尋找解決方案</string>
     <string name="nature_and_animals">自然與動物</string>
     <string name="max_colors_count">最大色彩數量</string>
     <string name="activities">活動</string>
