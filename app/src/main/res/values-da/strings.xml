@@ -117,7 +117,6 @@
     <string name="grant_permission_manual">Appen har brug for denne tilladelse for at fungere, giv den venligst manuelt</string>
     <string name="external_storage">Ekstern lagring</string>
     <string name="monet_colors">Monet farver</string>
-    <string name="buy_me_a_coffee">Køb mig en kop kaffe</string>
     <string name="donation_sub">Denne applikation er helt gratis, men hvis du vil støtte udviklingen af projektet, kan du klikke her</string>
     <string name="fab_alignment">FAB-tilpasning</string>
     <string name="check_updates">Tjek for opdateringer</string>
