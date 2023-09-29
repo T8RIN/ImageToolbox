@@ -47,7 +47,6 @@ import com.smarttoolfactory.gesture.pointerMotionEvents
 import com.smarttoolfactory.image.util.update
 import com.smarttoolfactory.image.zoom.animatedZoom
 import com.smarttoolfactory.image.zoom.rememberAnimatedZoomState
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.domain.image.ImageManager
 import ru.tech.imageresizershrinker.presentation.erase_background_screen.components.PathPaint
@@ -185,7 +184,7 @@ fun BitmapDrawer(
                     }
                 }
 
-            var drawPath by remember { mutableStateOf(Path()) }
+            var drawPath by remember(drawMode) { mutableStateOf(Path()) }
 
             canvas.apply {
                 when (motionEvent) {
@@ -249,8 +248,8 @@ fun BitmapDrawer(
                             )
                         )
                         scope.launch {
-                            if (drawMode is DrawMode.PrivacyBlur) delay(400L)
-                            drawPath = Path()
+                            if (drawMode is DrawMode.PrivacyBlur && !isEraserOn) Unit
+                            else drawPath = Path()
                         }
                     }
 
@@ -287,12 +286,15 @@ fun BitmapDrawer(
                                 }
                             }
                             if (shaderSource != null) {
+                                LaunchedEffect(shaderSource) {
+                                    drawPath = Path()
+                                }
                                 drawImage(
                                     shaderSource!!, Offset.Zero, Paint()
                                 )
                             }
                         } else {
-                            this.drawPath(
+                            drawPath(
                                 path.asAndroidPath(),
                                 Paint().apply {
                                     blendMode = if (!isErasing) blendMode else BlendMode.Clear
@@ -324,7 +326,7 @@ fun BitmapDrawer(
                         }
                     }
 
-                    if (drawMode !is DrawMode.PrivacyBlur) {
+                    if (drawMode !is DrawMode.PrivacyBlur || isEraserOn) {
                         drawPath(
                             drawPath.asAndroidPath(),
                             drawPaint
@@ -355,7 +357,7 @@ fun BitmapDrawer(
                 }
             }
 
-            if (drawMode is DrawMode.PrivacyBlur && shaderBitmap != null) {
+            if (drawMode is DrawMode.PrivacyBlur && shaderBitmap != null && !isEraserOn) {
                 drawPathCanvas.apply {
                     with(nativeCanvas) {
                         drawColor(Color.Transparent.toArgb(), PorterDuff.Mode.CLEAR)
