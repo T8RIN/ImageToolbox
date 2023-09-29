@@ -118,7 +118,6 @@
     <string name="grant_permission_manual">Aplikace potřebuje toto oprávnění ke své činnosti, udělte ji prosím ručně.</string>
     <string name="external_storage">Externí úložiště</string>
     <string name="monet_colors">Monetovy barvy</string>
-    <string name="buy_me_a_coffee">Kupte mi kávu</string>
     <string name="donation_sub">Tato aplikace je zcela zdarma, ale pokud chcete podpořit vývoj projektu, můžete kliknout zde.</string>
     <string name="fab_alignment">Vyrovnání FAB</string>
     <string name="check_updates">Zkontrolujte aktualizace</string>
