@@ -79,10 +79,8 @@ image type picking and tons of another options</h4>
 
 # ☕ Buy me a coffee
 
-This application is completely free, but if you want to support the project development, you can go
-to the [QIWI](https://qiwi.com/n/T8RIN) page :heart:
+This application is completely free, but if you want to support the project development, you can send a donation to crypto wallets below
 
-Or use crypto wallets below
 
 | </br> ![Bitcoin](https://img.shields.io/badge/Bitcoin-EAB300?style=for-the-badge&logo=Bitcoin%20SV&logoColor=white) <br/> <br/> ->  ```17Pk1RurnkJxLV9V7mc6Y7dLyHFb9rvQDq```  <- <br/> <br/> | </br> ![Tether](https://img.shields.io/badge/USDT-168363?style=for-the-badge&logo=tether&logoColor=white) <br/> <br/> ->  ```TMPAu7a54NvQNEKnNWh3naXu3oYijqP3U7```  <- <br/> <br/> |
 | :----: | :----: |
