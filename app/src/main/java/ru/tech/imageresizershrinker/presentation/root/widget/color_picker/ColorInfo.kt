@@ -2,6 +2,7 @@ package ru.tech.imageresizershrinker.presentation.root.widget.color_picker
 
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.animateColorAsState
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -13,6 +14,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Palette
@@ -52,6 +54,7 @@ import ru.tech.imageresizershrinker.presentation.root.utils.helper.ContextUtils.
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.ContextUtils.pasteColorFromClipboard
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.alertDialogBorder
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.container
+import ru.tech.imageresizershrinker.presentation.root.utils.modifier.transparencyChecker
 import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedButton
 import ru.tech.imageresizershrinker.presentation.root.widget.text.AutoSizeText
 import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalSettingsState
@@ -91,8 +94,11 @@ fun ColorInfo(
                 .size(56.dp)
                 .container(
                     shape = MaterialTheme.shapes.medium,
-                    color = Color(color)
-                ),
+                    color = Color(color),
+                    resultPadding = 0.dp
+                )
+                .transparencyChecker()
+                .background(Color(color), MaterialTheme.shapes.medium),
             colors = CardDefaults.cardColors(Color.Transparent)
         ) {
             Box(
@@ -117,7 +123,14 @@ fun ColorInfo(
                                 },
                                 darkMode = Color(color).luminance() < 0.3f
                             )
-                        ).value
+                        ).value,
+                        modifier = Modifier
+                            .size(28.dp)
+                            .background(
+                                color = Color(color).copy(alpha = 1f),
+                                shape = RoundedCornerShape(8.dp)
+                            )
+                            .padding(2.dp)
                     )
                 }
             }

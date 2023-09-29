@@ -381,6 +381,7 @@
     <string name="draw_arrows">Draw Arrows</string>
     <string name="draw_arrows_sub">If enabled drawing path will be represented as pointing arrow</string>
     <string name="brush_softness">Brush softness</string>
+    <string name="crop_description">Pictures will be center cropped to this size if it\'s size larger than input dimensions and canvas will be expanded with given background color in other cases</string>
     <string-array name="fab_alignment_sub">
         <item>Start</item>
         <item>Center</item>

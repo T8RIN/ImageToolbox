@@ -1,5 +1,6 @@
 package ru.tech.imageresizershrinker.presentation.draw_screen.components
 
+import android.annotation.SuppressLint
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -45,7 +46,10 @@ import androidx.compose.ui.unit.sp
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.presentation.root.theme.inverse
 import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
+import ru.tech.imageresizershrinker.presentation.root.utils.modifier.autoElevatedBorder
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.container
+import ru.tech.imageresizershrinker.presentation.root.utils.modifier.transparencyChecker
+import ru.tech.imageresizershrinker.presentation.root.widget.color_picker.AlphaColorSelection
 import ru.tech.imageresizershrinker.presentation.root.widget.color_picker.ColorSelection
 import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedButton
 import ru.tech.imageresizershrinker.presentation.root.widget.sheets.SimpleSheet
@@ -56,7 +60,9 @@ import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalSettings
 @Composable
 fun DrawBackgroundSelector(
     backgroundColor: Color,
-    onColorChange: (Color) -> Unit
+    onColorChange: (Color) -> Unit,
+    @SuppressLint("ModifierParameter")
+    modifier: Modifier = Modifier.padding(16.dp)
 ) {
     val settingsState = LocalSettingsState.current
 
@@ -68,9 +74,7 @@ fun DrawBackgroundSelector(
     }
 
     Column(
-        Modifier
-            .padding(16.dp)
-            .container(shape = RoundedCornerShape(24.dp))
+        modifier.container(shape = RoundedCornerShape(24.dp))
     ) {
         Row(
             Modifier.fillMaxWidth(),
@@ -110,7 +114,13 @@ fun DrawBackgroundSelector(
                                 shape = CircleShape
                             )
                             .clip(CircleShape)
+                            .transparencyChecker()
                             .background(customColor ?: MaterialTheme.colorScheme.primary)
+                            .autoElevatedBorder(
+                                height = 0.dp,
+                                shape = CircleShape,
+                                autoElevation = 1.dp
+                            )
                             .clickable {
                                 showColorPicker.value = true
                             },
@@ -126,7 +136,16 @@ fun DrawBackgroundSelector(
                                 },
                                 darkMode = (customColor
                                     ?: MaterialTheme.colorScheme.primary).luminance() < 0.3f
-                            )
+                            ),
+                            modifier = Modifier
+                                .size(32.dp)
+                                .background(
+                                    color = (customColor ?: MaterialTheme.colorScheme.primary).copy(
+                                        alpha = 1f
+                                    ),
+                                    shape = CircleShape
+                                )
+                                .padding(4.dp)
                         )
                     }
                 }
@@ -197,7 +216,7 @@ fun DrawBackgroundSelector(
                         .verticalScroll(rememberScrollState())
                         .padding(36.dp)
                 ) {
-                    ColorSelection(
+                    AlphaColorSelection(
                         color = customColor?.toArgb() ?: 0,
                         onColorChange = {
                             customColor = Color(it)

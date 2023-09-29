@@ -7,10 +7,14 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Canvas
 import android.graphics.Matrix
+import android.graphics.Paint
+import android.graphics.PorterDuff
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.webkit.MimeTypeMap
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.toArgb
 import androidx.core.content.FileProvider
 import androidx.core.net.toUri
 import androidx.exifinterface.media.ExifInterface
@@ -40,6 +44,7 @@ import javax.inject.Inject
 import kotlin.math.abs
 import kotlin.math.max
 import kotlin.math.roundToInt
+
 
 class AndroidImageManager @Inject constructor(
     private val context: Context,
@@ -194,6 +199,14 @@ class AndroidImageManager @Inject constructor(
                     image = image,
                     width = widthInternal,
                     height = heightInternal
+                )
+            }
+
+            is ResizeType.CenterCrop -> {
+                resizeType.resizeWithCenterCrop(
+                    image = image,
+                    w = widthInternal,
+                    h = heightInternal
                 )
             }
         }
@@ -717,6 +730,19 @@ class AndroidImageManager @Inject constructor(
         } else {
             MimeTypeMap.getFileExtensionFromUrl(uri).lowercase(Locale.getDefault())
         }
+    }
+
+    private fun ResizeType.CenterCrop.resizeWithCenterCrop(
+        image: Bitmap,
+        w: Int, h: Int
+    ): Bitmap {
+        val canvas = Bitmap.createBitmap(w, h, image.config).apply { setHasAlpha(true) }
+        Canvas(canvas).apply {
+            drawColor(Color.Transparent.toArgb(), PorterDuff.Mode.CLEAR)
+            drawColor(this@resizeWithCenterCrop.canvasColor)
+            drawBitmap(image, (width - image.width) / 2f, (height - image.height) / 2f, Paint())
+        }
+        return canvas
     }
 
     private var lastModification: Pair<Int, Int> = 0 to 0

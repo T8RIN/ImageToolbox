@@ -45,6 +45,7 @@ import androidx.compose.ui.unit.sp
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.presentation.root.theme.inverse
 import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
+import ru.tech.imageresizershrinker.presentation.root.utils.modifier.autoElevatedBorder
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.container
 import ru.tech.imageresizershrinker.presentation.root.widget.color_picker.ColorSelection
 import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedButton
@@ -107,6 +108,7 @@ fun DrawColorSelector(
                             )
                             .clip(CircleShape)
                             .background(customColor ?: MaterialTheme.colorScheme.primary)
+                            .autoElevatedBorder(height = 0.dp, shape = CircleShape, autoElevation = 1.dp)
                             .clickable {
                                 showColorPicker.value = true
                             },

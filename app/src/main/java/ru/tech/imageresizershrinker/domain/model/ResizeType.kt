@@ -3,14 +3,19 @@ package ru.tech.imageresizershrinker.domain.model
 import ru.tech.imageresizershrinker.domain.Domain
 
 sealed class ResizeType : Domain {
-    object Explicit : ResizeType()
-    object Flexible : ResizeType()
-    object Ratio : ResizeType()
+    data object Explicit : ResizeType()
+    data object Flexible : ResizeType()
+
+    data class CenterCrop(
+        val canvasColor: Int = 0
+    ) : ResizeType()
+
+    data object Ratio : ResizeType()
 
     sealed class Limits : ResizeType() {
-        object Skip : Limits()
-        object Copy : Limits()
-        object Force : Limits()
+        data object Skip : Limits()
+        data object Copy : Limits()
+        data object Force : Limits()
     }
 
     companion object {
