@@ -4,12 +4,24 @@ package ru.tech.imageresizershrinker.presentation.root.widget.other
 
 import androidx.compose.animation.core.CubicBezierEasing
 import androidx.compose.animation.core.Easing
-import androidx.compose.animation.core.SnapSpec
 import androidx.compose.foundation.gestures.Orientation
-import androidx.compose.foundation.layout.*
-//noinspection UsingMaterialAndMaterial3Libraries
-import androidx.compose.material.*
-import androidx.compose.runtime.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxScope
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.offset
+import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.FractionalThreshold
+import androidx.compose.material.ResistanceConfig
+import androidx.compose.material.SwipeableDefaults
+import androidx.compose.material.SwipeableState
+import androidx.compose.material.rememberSwipeableState
+import androidx.compose.material.swipeable
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
@@ -202,16 +214,5 @@ fun rememberRevealState(
 suspend fun RevealState.reset() {
     animateTo(
         targetValue = RevealValue.Default,
-    )
-}
-
-/**
- * Reset the component to the default position, with an animation.
- */
-@OptIn(ExperimentalMaterialApi::class)
-suspend fun RevealState.resetFast() {
-    animateTo(
-        targetValue = RevealValue.Default,
-        anim = SnapSpec(1)
     )
 }

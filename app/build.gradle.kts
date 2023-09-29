@@ -127,6 +127,10 @@ android {
             pickFirsts.add("lib/*/libcoder.so")
         }
     }
+
+    lint {
+        disable += "UsingMaterialAndMaterial3Libraries"
+    }
 }
 
 dependencies {

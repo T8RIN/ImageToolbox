@@ -2,7 +2,7 @@
 
 package ru.tech.imageresizershrinker.presentation.root.widget.controls
 
-//noinspection UsingMaterialAndMaterial3Libraries
+
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
