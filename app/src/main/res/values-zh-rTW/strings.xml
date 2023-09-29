@@ -106,7 +106,6 @@
     <string name="failed_to_save">無法儲存 %d 影像</string>
     <string name="border_thickness">邊框厚度</string>
     <string name="surface">表面</string>
-    <string name="buy_me_a_coffee">請我喝杯咖啡</string>
     <string name="donation_sub">這個應用程式是完全免費的，但如果您想支持專案開發，您可以點擊這裡</string>
     <string name="permission_sub">應用程式需要存取您的儲存區以儲存圖片，這是必要的，否則它就無法工作，所以請在下一個對話框中授予權限</string>
     <string name="fab_alignment">FAB 對齊</string>
