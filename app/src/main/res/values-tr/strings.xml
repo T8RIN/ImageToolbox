@@ -117,7 +117,6 @@
     <string name="grant_permission_manual">Uygulamanın çalışması için izne ihtiyacı var. Lütfen manuel olarak izini kabul ediniz.</string>
     <string name="external_storage">Harici Depolama</string>
     <string name="monet_colors">Monet renkleri</string>
-    <string name="buy_me_a_coffee">Bana bir kahve al.</string>
     <string name="donation_sub">Bu uygulama tamamen ücretsizdir, ancak projenin geliştirilmesine destek olmak istiyorsanız buraya tıklayabilirsiniz</string>
     <string name="fab_alignment">FAB hizalama</string>
     <string name="check_updates">Güncellemeleri kontrol edin</string>

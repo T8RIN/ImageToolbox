@@ -105,7 +105,6 @@
     <string name="dynamic_colors_sub">Jeśli ta opcja jest włączona, kolory aplikacji zostaną dostosowane do kolorów tapet</string>
     <string name="failed_to_save">Nie udało się zapisać obrazów %d</string>
     <string name="surface">Powierzchnia</string>
-    <string name="buy_me_a_coffee">Kup mi kawę</string>
     <string name="fab_alignment">Dostosowanie FAB</string>
     <string name="check_updates">Sprawdź, czy są aktualizacje</string>
     <string name="check_updates_sub">Jeśli włączone, okno dialogowe aktualizacji będzie wyświetlane po uruchomieniu aplikacji</string>

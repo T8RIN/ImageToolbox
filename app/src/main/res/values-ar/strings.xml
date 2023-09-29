@@ -105,7 +105,6 @@
     <string name="dynamic_colors_sub">إذا تم تمكينه ، اعتماد ألوان التطبيق لألوان الخلفية</string>
     <string name="failed_to_save">فشل حفظ %d صورة (صور)</string>
     <string name="surface">سطح</string>
-    <string name="buy_me_a_coffee">اشتري لي قهوة</string>
     <string name="donation_sub">هذا التطبيق مجاني تمامًا ، ولكن إذا كنت ترغب في دعم تطوير المشروع ، يمكنك النقر هنا</string>
     <string name="fab_alignment">محاذاة FAB</string>
     <string name="check_updates">تحقق من وجود تحديثات</string>

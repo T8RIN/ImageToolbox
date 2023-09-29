@@ -128,7 +128,6 @@
     <string name="grant_permission_manual">App needs this permission to work, please grant it manually</string>
     <string name="external_storage">External storage</string>
     <string name="monet_colors">Monet colors</string>
-    <string name="buy_me_a_coffee">Buy me a coffee</string>
     <string name="donation_sub">This application is completely free, but if you want to support the project development, you can click here</string>
     <string name="fab_alignment">FAB alignment</string>
     <string name="check_updates">Check for updates</string>
@@ -371,7 +370,7 @@
     <string name="jxl_sub">JXL format not officially supported by android so something might not work, also saving will work only if you choose custom output directory, this is an experimental version, bugs here will not be fixed unless google will add JXL support, this version also can view such images</string>
     <string name="image_exif_warning">Currently %1$s format on android allows only read exif and not to change/save it, that means output image won\'t have metadata at all</string>
     <string name="effort">Effort</string>
-    <string name="effort_sub">A value of %d means to compress quickly, resulting in a relatively large file size. %d means to spend more time compressing, resulting in a smaller file</string>
+    <string name="effort_sub">A value of %1$d means to compress quickly, resulting in a relatively large file size. %2$d means to spend more time compressing, resulting in a smaller file</string>
     <string name="wait">Wait</string>
     <string name="saving_almost_complete">Saving almost completed, if you cancel that now you will need to start saving again then</string>
     <string name="updates">Updates</string>
