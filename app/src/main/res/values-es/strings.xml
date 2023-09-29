@@ -115,7 +115,6 @@
     <string name="grant">Otorgar</string>
     <string name="permission_sub">La aplicación necesita acceso a su almacenamiento para guardar imágenes, sin ello no funciona, por lo que permítalo en el siguiente diálogo</string>
     <string name="grant_permission_manual">La aplicación necesita este permiso para funcionar, por favor, permítalo manualmente</string>
-    <string name="buy_me_a_coffee">Invítame a un café</string>
     <string name="donation_sub">Esta aplicación es totalmente gratuita, pero si quieres apoyar el desarrollo del proyecto, puedes hacer clic aquí</string>
     <string name="fab_alignment">Alineación FAB</string>
     <string name="check_updates">Buscar actualizaciones</string>
