@@ -38,10 +38,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.BorderStyle
 import androidx.compose.material.icons.outlined.BurstMode
@@ -51,11 +49,9 @@ import androidx.compose.material.icons.outlined.FolderOff
 import androidx.compose.material.icons.outlined.FolderSpecial
 import androidx.compose.material.icons.outlined.Image
 import androidx.compose.material.icons.rounded.AddCircleOutline
-import androidx.compose.material.icons.rounded.AlternateEmail
 import androidx.compose.material.icons.rounded.Block
 import androidx.compose.material.icons.rounded.BugReport
 import androidx.compose.material.icons.rounded.Cached
-import androidx.compose.material.icons.rounded.ContentCopy
 import androidx.compose.material.icons.rounded.DeleteOutline
 import androidx.compose.material.icons.rounded.FileDownloadOff
 import androidx.compose.material.icons.rounded.Folder
@@ -64,12 +60,10 @@ import androidx.compose.material.icons.rounded.FolderSpecial
 import androidx.compose.material.icons.rounded.FontDownload
 import androidx.compose.material.icons.rounded.ImageSearch
 import androidx.compose.material.icons.rounded.Info
-import androidx.compose.material.icons.rounded.Link
 import androidx.compose.material.icons.rounded.ModeNight
 import androidx.compose.material.icons.rounded.NewReleases
 import androidx.compose.material.icons.rounded.Palette
 import androidx.compose.material.icons.rounded.Payments
-import androidx.compose.material.icons.rounded.Person
 import androidx.compose.material.icons.rounded.PersonSearch
 import androidx.compose.material.icons.rounded.PhotoSizeSelectSmall
 import androidx.compose.material.icons.rounded.RadioButtonChecked
@@ -88,7 +82,6 @@ import androidx.compose.material.icons.rounded.WaterDrop
 import androidx.compose.material.icons.rounded.WbSunny
 import androidx.compose.material.icons.twotone.Palette
 import androidx.compose.material3.Icon
-import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SliderDefaults
 import androidx.compose.material3.Surface
@@ -116,7 +109,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringArrayResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.smarttoolfactory.colordetector.util.ColorUtil.roundToTwoDigits
@@ -126,12 +118,8 @@ import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.BuildConfig
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.core.AUTHOR_AVATAR
-import ru.tech.imageresizershrinker.core.AUTHOR_LINK
-import ru.tech.imageresizershrinker.core.AUTHOR_TG
-import ru.tech.imageresizershrinker.core.BitcoinWallet
 import ru.tech.imageresizershrinker.core.CHAT_LINK
 import ru.tech.imageresizershrinker.core.ISSUE_TRACKER
-import ru.tech.imageresizershrinker.core.USDTWallet
 import ru.tech.imageresizershrinker.core.WEBLATE_LINK
 import ru.tech.imageresizershrinker.domain.model.NightMode
 import ru.tech.imageresizershrinker.presentation.main_screen.viewModel.MainViewModel
@@ -140,32 +128,26 @@ import ru.tech.imageresizershrinker.presentation.root.icons.emoji.EmojiItem
 import ru.tech.imageresizershrinker.presentation.root.icons.emoji.allIcons
 import ru.tech.imageresizershrinker.presentation.root.icons.material.Analytics
 import ru.tech.imageresizershrinker.presentation.root.icons.material.Beta
-import ru.tech.imageresizershrinker.presentation.root.icons.material.Bitcoin
 import ru.tech.imageresizershrinker.presentation.root.icons.material.Crashlytics
 import ru.tech.imageresizershrinker.presentation.root.icons.material.CreateAlt
 import ru.tech.imageresizershrinker.presentation.root.icons.material.DownloadFile
 import ru.tech.imageresizershrinker.presentation.root.icons.material.FileSettings
 import ru.tech.imageresizershrinker.presentation.root.icons.material.Firebase
-import ru.tech.imageresizershrinker.presentation.root.icons.material.Github
 import ru.tech.imageresizershrinker.presentation.root.icons.material.Lamp
 import ru.tech.imageresizershrinker.presentation.root.icons.material.Numeric
 import ru.tech.imageresizershrinker.presentation.root.icons.material.Prefix
 import ru.tech.imageresizershrinker.presentation.root.icons.material.Shadow
 import ru.tech.imageresizershrinker.presentation.root.icons.material.Symbol
 import ru.tech.imageresizershrinker.presentation.root.icons.material.Telegram
-import ru.tech.imageresizershrinker.presentation.root.icons.material.USDT
 import ru.tech.imageresizershrinker.presentation.root.model.isFirstLaunch
 import ru.tech.imageresizershrinker.presentation.root.shapes.CloverShape
 import ru.tech.imageresizershrinker.presentation.root.shapes.DavidStarShape
-import ru.tech.imageresizershrinker.presentation.root.theme.BitcoinColor
-import ru.tech.imageresizershrinker.presentation.root.theme.USDTColor
 import ru.tech.imageresizershrinker.presentation.root.theme.blend
 import ru.tech.imageresizershrinker.presentation.root.theme.inverse
 import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
 import ru.tech.imageresizershrinker.presentation.root.utils.confetti.LocalConfettiController
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.ContextUtils.cacheSize
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.ContextUtils.clearCache
-import ru.tech.imageresizershrinker.presentation.root.utils.helper.ContextUtils.copyToClipboard
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.ContextUtils.isInstalledFromPlayStore
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.plus
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.toUiPath
@@ -185,9 +167,6 @@ import ru.tech.imageresizershrinker.presentation.root.widget.preferences.Prefere
 import ru.tech.imageresizershrinker.presentation.root.widget.preferences.screens.SourceCodePreference
 import ru.tech.imageresizershrinker.presentation.root.widget.sheets.PickFontFamilySheet
 import ru.tech.imageresizershrinker.presentation.root.widget.sheets.PickFontScaleSheet
-import ru.tech.imageresizershrinker.presentation.root.widget.sheets.SimpleSheet
-import ru.tech.imageresizershrinker.presentation.root.widget.text.AutoSizeText
-import ru.tech.imageresizershrinker.presentation.root.widget.text.TitleItem
 import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalSettingsState
 import kotlin.math.roundToInt
 
@@ -304,174 +283,9 @@ fun SettingsBlock(
                             )
                         }
 
-                        SimpleSheet(
-                            visible = showAuthorSheet,
-                            title = {
-                                TitleItem(
-                                    text = stringResource(R.string.app_developer_nick),
-                                    icon = Icons.Rounded.Person
-                                )
-                            },
-                            confirmButton = {
-                                EnhancedButton(
-                                    containerColor = Color.Transparent,
-                                    onClick = { showAuthorSheet.value = false },
-                                ) {
-                                    AutoSizeText(stringResource(R.string.close))
-                                }
-                            },
-                            sheetContent = {
-                                Box {
-                                    Column(Modifier.verticalScroll(rememberScrollState())) {
-                                        Spacer(Modifier.height(16.dp))
-                                        PreferenceItem(
-                                            color = MaterialTheme.colorScheme.tertiaryContainer,
-                                            onClick = {
-                                                context.startActivity(
-                                                    Intent(
-                                                        Intent.ACTION_VIEW,
-                                                        Uri.parse(AUTHOR_TG)
-                                                    )
-                                                )
-                                            },
-                                            endIcon = Icons.Rounded.Link,
-                                            shape = topShape,
-                                            title = stringResource(R.string.telegram),
-                                            icon = Icons.Rounded.Telegram,
-                                            subtitle = stringResource(R.string.app_developer_nick)
-                                        )
-                                        Spacer(Modifier.height(4.dp))
-                                        PreferenceItem(
-                                            color = MaterialTheme.colorScheme.secondaryContainer,
-                                            onClick = {
-                                                context.startActivity(
-                                                    Intent(
-                                                        Intent.ACTION_VIEW,
-                                                        Uri.parse(AUTHOR_LINK)
-                                                    )
-                                                )
-                                            },
-                                            endIcon = Icons.Rounded.Link,
-                                            shape = centerShape,
-                                            title = stringResource(R.string.github),
-                                            icon = Icons.Rounded.Github,
-                                            subtitle = stringResource(R.string.app_developer_nick)
-                                        )
-                                        Spacer(Modifier.height(4.dp))
-                                        PreferenceItem(
-                                            onClick = {
-                                                Intent(Intent.ACTION_SENDTO).apply {
-                                                    data =
-                                                        Uri.parse("mailto:${context.getString(R.string.developer_email)}")
-                                                    context.startActivity(this)
-                                                }
-                                            },
-                                            shape = bottomShape,
-                                            endIcon = Icons.Rounded.Link,
-                                            title = stringResource(R.string.email),
-                                            icon = Icons.Rounded.AlternateEmail,
-                                            subtitle = stringResource(R.string.developer_email)
-                                        )
-                                        Spacer(Modifier.height(16.dp))
-                                    }
-                                }
-                            }
-                        )
+                        AuthorLinksSheet(showAuthorSheet)
 
-                        SimpleSheet(
-                            visible = showDonateSheet,
-                            title = {
-                                TitleItem(
-                                    text = stringResource(R.string.donation),
-                                    icon = Icons.Rounded.Payments
-                                )
-                            },
-                            confirmButton = {
-                                EnhancedButton(
-                                    containerColor = Color.Transparent,
-                                    onClick = { showDonateSheet.value = false },
-                                ) {
-                                    AutoSizeText(stringResource(R.string.close))
-                                }
-                            },
-                            sheetContent = {
-                                val darkMode = !LocalSettingsState.current.isNightMode
-                                Box {
-                                    Column(Modifier.verticalScroll(rememberScrollState())) {
-                                        Box(
-                                            modifier = Modifier
-                                                .padding(16.dp)
-                                                .container(color = MaterialTheme.colorScheme.tertiaryContainer),
-                                            contentAlignment = Alignment.Center
-                                        ) {
-                                            Text(
-                                                text = stringResource(R.string.donation_sub),
-                                                fontSize = 12.sp,
-                                                modifier = Modifier.padding(8.dp),
-                                                textAlign = TextAlign.Center,
-                                                fontWeight = FontWeight.SemiBold,
-                                                lineHeight = 14.sp,
-                                                color = LocalContentColor.current.copy(alpha = 0.5f)
-                                            )
-                                        }
-                                        PreferenceItem(
-                                            color = BitcoinColor,
-                                            contentColor = BitcoinColor.inverse(
-                                                fraction = { 1f },
-                                                darkMode = darkMode
-                                            ),
-                                            shape = topShape,
-                                            onClick = {
-                                                context.apply {
-                                                    copyToClipboard(
-                                                        label = getString(R.string.bitcoin),
-                                                        value = BitcoinWallet
-                                                    )
-                                                    scope.launch {
-                                                        toastHostState.showToast(
-                                                            icon = Icons.Rounded.ContentCopy,
-                                                            message = getString(R.string.copied),
-                                                        )
-                                                    }
-                                                }
-                                            },
-                                            endIcon = Icons.Rounded.ContentCopy,
-                                            title = stringResource(R.string.bitcoin),
-                                            icon = Icons.Filled.Bitcoin,
-                                            subtitle = BitcoinWallet
-                                        )
-                                        Spacer(Modifier.height(4.dp))
-                                        PreferenceItem(
-                                            color = USDTColor,
-                                            shape = bottomShape,
-                                            contentColor = USDTColor.inverse(
-                                                fraction = { 1f },
-                                                darkMode = darkMode
-                                            ),
-                                            onClick = {
-                                                context.apply {
-                                                    copyToClipboard(
-                                                        label = getString(R.string.usdt),
-                                                        value = USDTWallet
-                                                    )
-                                                    scope.launch {
-                                                        toastHostState.showToast(
-                                                            icon = Icons.Rounded.ContentCopy,
-                                                            message = getString(R.string.copied),
-                                                        )
-                                                    }
-                                                }
-                                            },
-                                            endIcon = Icons.Rounded.ContentCopy,
-                                            title = stringResource(R.string.usdt),
-                                            icon = Icons.Filled.USDT,
-                                            subtitle = USDTWallet
-                                        )
-                                        Spacer(Modifier.height(16.dp))
-                                    }
-                                }
-                            }
-                        )
+                        DonateSheet(showDonateSheet)
                     }
                 }
                 item {
