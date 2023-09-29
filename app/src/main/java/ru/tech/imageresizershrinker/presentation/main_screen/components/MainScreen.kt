@@ -433,7 +433,10 @@ fun MainScreen(
                                         )
                                         .rotateAnimation(enabled = settingsState.isFirstLaunch())
                                 ) {
-                                    Icon(Icons.Rounded.Settings, null)
+                                    Icon(
+                                        imageVector = Icons.Rounded.Settings,
+                                        contentDescription = null
+                                    )
                                 }
                             }
                         },
