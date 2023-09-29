@@ -105,7 +105,6 @@
     <string name="dynamic_colors_sub">यदि सक्षम किया गया है, तो ऐप रंगों को वॉलपेपर रंगों में अपनाया जाएगा</string>
     <string name="failed_to_save">%d छवि (छवियों) को सहेजने में विफल</string>
     <string name="surface">सतह</string>
-    <string name="buy_me_a_coffee">मुझे एक कॉफी खरीदो</string>
     <string name="check_updates">अद्यतन के लिए जाँच</string>
     <string name="check_updates_sub">यदि सक्षम है, तो ऐप स्टार्टअप के बाद आपको अपडेट डायलॉग दिखाया जाएगा</string>
     <string name="permission_sub">छवियों को सहेजने के लिए ऐप को आपके संग्रहण तक पहुंच की आवश्यकता है, यह आवश्यक है, इसके बिना यह काम नहीं कर सकता है, इसलिए कृपया अगले संवाद पर अनुमति दें</string>
