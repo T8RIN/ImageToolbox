@@ -108,7 +108,11 @@ fun DrawColorSelector(
                             )
                             .clip(CircleShape)
                             .background(customColor ?: MaterialTheme.colorScheme.primary)
-                            .autoElevatedBorder(height = 0.dp, shape = CircleShape, autoElevation = 1.dp)
+                            .autoElevatedBorder(
+                                height = 0.dp,
+                                shape = CircleShape,
+                                autoElevation = 1.dp
+                            )
                             .clickable {
                                 showColorPicker.value = true
                             },
