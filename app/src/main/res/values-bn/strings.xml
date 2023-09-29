@@ -13,7 +13,6 @@
     <string name="grant_permission_manual">অ্যাপটির কাজ করার জন্য এই অনুমতির প্রয়োজন, অনুগ্রহ করে এটি ম্যানুয়ালি মঞ্জুর করুন</string>
     <string name="external_storage">বহিরাগত সংগ্রহস্থল</string>
     <string name="monet_colors">Monet রং</string>
-    <string name="buy_me_a_coffee">আমাকে একটা কফি কিনে দাও</string>
     <string name="donation_sub">এই অ্যাপ্লিকেশনটি সম্পূর্ণ বিনামূল্যে, তবে আপনি যদি প্রকল্পের উন্নয়নে সহায়তা করতে চান তবে আপনি এখানে ক্লিক করতে পারেন</string>
     <string name="fab_alignment">FAB প্রান্তিককরণ</string>
     <string name="check_updates">হালনাগাদ এর জন্য অনুসন্ধান করুন</string>
