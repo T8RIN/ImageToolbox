@@ -98,7 +98,7 @@
     <string name="external_storage">Vanjski spremište</string>
     <string name="monet_colors">Monet colors</string>
     <string name="buy_me_a_coffee">Buy prpers a kava</string>
-    <string name="buy_me_a_coffee_sub">This prijava i sasvim free, ali li free want to pomoć the projekt razvoj, free limenka click tuda</string>
+    <string name="donation_sub">This prijava i sasvim free, ali li free want to pomoć the projekt razvoj, free limenka click tuda</string>
     <string name="fab_alignment">FAB alignment</string>
     <string name="check_updates">Pregled for poboljšati</string>
     <string name="check_updates_sub">Li omogućivati, poboljšati dialog volja biti pokazati na free after app startup</string>

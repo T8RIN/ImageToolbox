@@ -119,7 +119,7 @@
     <string name="external_storage">אחסון חיצוני</string>
     <string name="monet_colors">צבעי מונה</string>
     <string name="buy_me_a_coffee">תקנה לי קפה</string>
-    <string name="buy_me_a_coffee_sub">אפליקציה זו חינמית לחלוטין, אך אם תרצו לתמוך בפיתוח הפרויקט, תוכלו ללחוץ כאן</string>
+    <string name="donation_sub">אפליקציה זו חינמית לחלוטין, אך אם תרצו לתמוך בפיתוח הפרויקט, תוכלו ללחוץ כאן</string>
     <string name="fab_alignment">יישור FAB</string>
     <string name="check_updates">בדוק עדכונים</string>
     <string name="check_updates_sub">אם מופעל, תיבת דו-שיח עדכון תוצג לך לאחר הפעלת האפליקציה</string>

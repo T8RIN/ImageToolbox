@@ -118,7 +118,7 @@
     <string name="issue_tracker_sub">Gửi báo cáo lỗi và yêu cầu tính năng tại đây</string>
     <string name="help_translate">Giúp dịch</string>
     <string name="buy_me_a_coffee">Mua cho tôi một ly cà phê</string>
-    <string name="buy_me_a_coffee_sub">Ứng dụng này hoàn toàn miễn phí, nhưng nếu bạn muốn hỗ trợ phát triển dự án, bạn có thể bấm vào đây</string>
+    <string name="donation_sub">Ứng dụng này hoàn toàn miễn phí, nhưng nếu bạn muốn hỗ trợ phát triển dự án, bạn có thể bấm vào đây</string>
     <string name="fab_alignment">căn chỉnh FAB</string>
     <string name="check_updates">Kiểm tra cập nhật</string>
     <string name="check_updates_sub">Nếu được bật, hộp thoại cập nhật sẽ hiển thị cho bạn sau khi khởi động ứng dụng</string>

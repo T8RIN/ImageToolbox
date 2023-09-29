@@ -120,7 +120,7 @@
     <string name="zoom">Powiększenie obrazu</string>
     <string name="prefix">Prefiks</string>
     <string name="filename">Nazwa pliku</string>
-    <string name="buy_me_a_coffee_sub">Ta aplikacja jest całkowicie darmowa, ale jeśli chcesz wesprzeć rozwój projektu, możesz kliknąć tutaj</string>
+    <string name="donation_sub">Ta aplikacja jest całkowicie darmowa, ale jeśli chcesz wesprzeć rozwój projektu, możesz kliknąć tutaj</string>
     <string name="grant_permission_manual">Aplikacja potrzebuje tego pozwolenia do działania, proszę o jego ręczne przyznanie</string>
     <string name="border_thickness">Grubość granicy</string>
     <string name="share">Podziel się</string>

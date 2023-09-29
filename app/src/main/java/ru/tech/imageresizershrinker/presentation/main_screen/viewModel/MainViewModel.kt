@@ -485,6 +485,7 @@ class MainViewModel @Inject constructor(
                     updateColorTuple(colorTuple)
                     updateColorTuplesUseCase(settingsState.colorTupleList + "*" + colorTupleS)
                 }
+            if (settingsState.isDynamicColors) toggleDynamicColors()
         }
     }
 

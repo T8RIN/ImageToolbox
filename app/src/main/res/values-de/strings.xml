@@ -118,7 +118,7 @@
     <string name="external_storage">Externer Speicher</string>
     <string name="monet_colors">„Monet“-Farben</string>
     <string name="buy_me_a_coffee">Kauf mir einen Kaffee</string>
-    <string name="buy_me_a_coffee_sub">Diese Anwendung ist völlig kostenlos, aber wenn du die Projektentwicklung unterstützen möchtest, klicke hier.</string>
+    <string name="donation_sub">Diese Anwendung ist völlig kostenlos, aber wenn du die Projektentwicklung unterstützen möchtest, klicke hier.</string>
     <string name="check_updates">Auf Aktualisierungen prüfen</string>
     <string name="check_updates_sub">Wenn aktiviert, wird der Aktualisierungsdialog nach dem Start der App angezeigt</string>
     <string name="zoom">Bild-Zoom</string>

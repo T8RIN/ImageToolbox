@@ -106,7 +106,7 @@
     <string name="failed_to_save">فشل حفظ %d صورة (صور)</string>
     <string name="surface">سطح</string>
     <string name="buy_me_a_coffee">اشتري لي قهوة</string>
-    <string name="buy_me_a_coffee_sub">هذا التطبيق مجاني تمامًا ، ولكن إذا كنت ترغب في دعم تطوير المشروع ، يمكنك النقر هنا</string>
+    <string name="donation_sub">هذا التطبيق مجاني تمامًا ، ولكن إذا كنت ترغب في دعم تطوير المشروع ، يمكنك النقر هنا</string>
     <string name="fab_alignment">محاذاة FAB</string>
     <string name="check_updates">تحقق من وجود تحديثات</string>
     <string name="check_updates_sub">في حالة التمكين ، سيظهر لك مربع حوار التحديث بعد بدء تشغيل التطبيق</string>

@@ -118,7 +118,7 @@
     <string name="external_storage">Penyimpanan eksternal</string>
     <string name="monet_colors">Warna monet</string>
     <string name="buy_me_a_coffee">Belikan aku kopi.</string>
-    <string name="buy_me_a_coffee_sub">Aplikasi ini sepenuhnya gratis, tetapi jika Anda ingin mendukung pengembangan proyek, Anda dapat mengklik di sini</string>
+    <string name="donation_sub">Aplikasi ini sepenuhnya gratis, tetapi jika Anda ingin mendukung pengembangan proyek, Anda dapat mengklik di sini</string>
     <string name="fab_alignment">Penyelarasan FAB</string>
     <string name="check_updates">Periksa pembaruan</string>
     <string name="check_updates_sub">Jika diaktifkan, dialog pembaruan akan ditampilkan kepada Anda setelah aplikasi dimulai</string>

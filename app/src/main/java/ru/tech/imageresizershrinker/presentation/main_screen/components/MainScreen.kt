@@ -870,7 +870,7 @@ fun MainScreen(
                 Column(Modifier.verticalScroll(rememberScrollState())) {
                     Spacer(Modifier.height(16.dp))
                     PreferenceItem(
-                        color = MaterialTheme.colorScheme.secondaryContainer,
+                        color = MaterialTheme.colorScheme.tertiaryContainer,
                         onClick = {
                             context.startActivity(
                                 Intent(
@@ -887,20 +887,6 @@ fun MainScreen(
                     PreferenceItem(
                         color = MaterialTheme.colorScheme.secondaryContainer,
                         onClick = {
-                            Intent(Intent.ACTION_SENDTO).apply {
-                                data =
-                                    Uri.parse("mailto:${context.getString(R.string.developer_email)}")
-                                context.startActivity(this)
-                            }
-                        },
-                        title = stringResource(R.string.email),
-                        icon = Icons.Rounded.AlternateEmail,
-                        subtitle = stringResource(R.string.developer_email)
-                    )
-                    Spacer(Modifier.height(8.dp))
-                    PreferenceItem(
-                        color = MaterialTheme.colorScheme.secondaryContainer,
-                        onClick = {
                             context.startActivity(
                                 Intent(
                                     Intent.ACTION_VIEW,
@@ -911,6 +897,19 @@ fun MainScreen(
                         title = stringResource(R.string.github),
                         icon = Icons.Rounded.Github,
                         subtitle = stringResource(R.string.app_developer_nick)
+                    )
+                    Spacer(Modifier.height(8.dp))
+                    PreferenceItem(
+                        onClick = {
+                            Intent(Intent.ACTION_SENDTO).apply {
+                                data =
+                                    Uri.parse("mailto:${context.getString(R.string.developer_email)}")
+                                context.startActivity(this)
+                            }
+                        },
+                        title = stringResource(R.string.email),
+                        icon = Icons.Rounded.AlternateEmail,
+                        subtitle = stringResource(R.string.developer_email)
                     )
                     Spacer(Modifier.height(16.dp))
                 }

@@ -79,7 +79,7 @@ import ru.tech.imageresizershrinker.presentation.generate_palette_screen.compone
 import ru.tech.imageresizershrinker.presentation.generate_palette_screen.viewModel.GeneratePaletteViewModel
 import ru.tech.imageresizershrinker.presentation.root.icons.material.PaletteSwatch
 import ru.tech.imageresizershrinker.presentation.root.transformation.filter.SaturationFilter
-import ru.tech.imageresizershrinker.presentation.root.utils.helper.ContextUtils.copyColorIntoClipboard
+import ru.tech.imageresizershrinker.presentation.root.utils.helper.ContextUtils.copyToClipboard
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.Picker
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.localImagePickerMode
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.rememberImagePicker
@@ -338,7 +338,7 @@ fun GeneratePaletteScreen(
                                     onEmpty = { noPalette() },
                                     maximumColorCount = count,
                                     onColorChange = {
-                                        context.copyColorIntoClipboard(
+                                        context.copyToClipboard(
                                             context.getString(R.string.color),
                                             it.color.toHex()
                                         )
@@ -388,7 +388,7 @@ fun GeneratePaletteScreen(
                                 style = LocalTextStyle.current,
                                 maximumColorCount = count,
                                 onColorChange = {
-                                    context.copyColorIntoClipboard(
+                                    context.copyToClipboard(
                                         context.getString(R.string.color),
                                         it.color.toHex()
                                     )

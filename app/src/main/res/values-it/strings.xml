@@ -109,7 +109,7 @@
     <string name="permission_sub">L\'app ha bisogno di accedere alla memoria per salvare le immagini, senza questo permesso non può funzionare. Per favore concedi l\'autorizzazione nella finestra di dialogo seguente</string>
     <string name="monet_colors">Colori Monet</string>
     <string name="buy_me_a_coffee">Offrimi un caffè</string>
-    <string name="buy_me_a_coffee_sub">Questa applicazione è completamente gratuita, ma se vuoi sostenere lo sviluppo del progetto, puoi cliccare qui</string>
+    <string name="donation_sub">Questa applicazione è completamente gratuita, ma se vuoi sostenere lo sviluppo del progetto, puoi cliccare qui</string>
     <string name="fab_alignment">Allineamento FAB</string>
     <string name="check_updates">Controlla gli aggiornamenti</string>
     <string name="check_updates_sub">Se abilitata, la finestra di aggiornamento verrà mostrata all\'avvio dell\'applicazione.</string>

@@ -109,7 +109,7 @@
     <string name="tertiary">Terțiar</string>
     <string name="secondary">Secundar</string>
     <string name="border_thickness">Grosimea marginii</string>
-    <string name="buy_me_a_coffee_sub">Această aplicație este complet gratuit, dar dacă vrei să susții dezvoltarea proiectului, poți să dai click aici</string>
+    <string name="donation_sub">Această aplicație este complet gratuit, dar dacă vrei să susții dezvoltarea proiectului, poți să dai click aici</string>
     <string name="buy_me_a_coffee">Cumpără-mi o cafea</string>
     <string name="values">Valori</string>
     <string name="add">Adaugă</string>

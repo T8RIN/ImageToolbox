@@ -106,7 +106,7 @@
     <string name="failed_to_save">Echec de l’enregistrement des images %d</string>
     <string name="surface">Surface</string>
     <string name="buy_me_a_coffee">Offrez-moi un café</string>
-    <string name="buy_me_a_coffee_sub">Cette application est entièrement gratuite, mais si vous souhaitez soutenir le développement du projet, vous pouvez cliquer ici</string>
+    <string name="donation_sub">Cette application est entièrement gratuite, mais si vous souhaitez soutenir le développement du projet, vous pouvez cliquer ici</string>
     <string name="primary">Primaire</string>
     <string name="permission_sub">L\'application a besoin d\'accéder à votre stockage pour enregistrer des images, c\'est nécessaire, sans accord, elle ne fonctionnera pas, veuillez donc accorder l\'autorisation dans la boîte de dialogue suivante</string>
     <string name="external_storage">Stockage externe</string>

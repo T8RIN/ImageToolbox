@@ -88,7 +88,7 @@ import ru.tech.imageresizershrinker.presentation.pick_color_from_image_screen.vi
 import ru.tech.imageresizershrinker.presentation.root.icons.material.PaletteSwatch
 import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
 import ru.tech.imageresizershrinker.presentation.root.transformation.filter.SaturationFilter
-import ru.tech.imageresizershrinker.presentation.root.utils.helper.ContextUtils.copyColorIntoClipboard
+import ru.tech.imageresizershrinker.presentation.root.utils.helper.ContextUtils.copyToClipboard
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.Picker
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.localImagePickerMode
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.rememberImagePicker
@@ -300,7 +300,7 @@ fun PickColorFromImageScreen(
                                                         .padding(horizontal = 8.dp)
                                                         .clip(RoundedCornerShape(8.dp))
                                                         .clickable {
-                                                            context.copyColorIntoClipboard(
+                                                            context.copyToClipboard(
                                                                 context.getString(R.string.color),
                                                                 color.toHex()
                                                             )
@@ -359,7 +359,7 @@ fun PickColorFromImageScreen(
                                                         )
                                                         .clip(RoundedCornerShape(12.dp))
                                                         .clickable {
-                                                            context.copyColorIntoClipboard(
+                                                            context.copyToClipboard(
                                                                 context.getString(R.string.color),
                                                                 color.toHex()
                                                             )
@@ -430,7 +430,7 @@ fun PickColorFromImageScreen(
                                                     .padding(horizontal = 8.dp)
                                                     .clip(RoundedCornerShape(8.dp))
                                                     .clickable {
-                                                        context.copyColorIntoClipboard(
+                                                        context.copyToClipboard(
                                                             context.getString(R.string.color),
                                                             color.toHex()
                                                         )
@@ -481,7 +481,7 @@ fun PickColorFromImageScreen(
                                                     )
                                                     .clip(RoundedCornerShape(12.dp))
                                                     .clickable {
-                                                        context.copyColorIntoClipboard(
+                                                        context.copyToClipboard(
                                                             context.getString(R.string.color),
                                                             color.toHex()
                                                         )

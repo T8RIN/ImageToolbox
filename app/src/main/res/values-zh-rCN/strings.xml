@@ -113,7 +113,7 @@
     <string name="border_thickness">边框宽度</string>
     <string name="surface">表面</string>
     <string name="buy_me_a_coffee">请我喝杯咖啡</string>
-    <string name="buy_me_a_coffee_sub">该应用程序完全免费。如果你想支持该项目开发，你可以点击这里</string>
+    <string name="donation_sub">该应用程序完全免费。如果你想支持该项目开发，你可以点击这里</string>
     <string name="fab_alignment">悬浮球对齐</string>
     <string name="check_updates">检查更新</string>
     <string name="check_updates_sub">如果启用，更新对话框将在应用程序启动后显示</string>

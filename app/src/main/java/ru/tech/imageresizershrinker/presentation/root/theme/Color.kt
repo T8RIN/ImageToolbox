@@ -95,3 +95,9 @@ inline val Black: Color
 
 inline val White: Color
     @Composable get() = Color(0xFFFFFFFF).harmonizeWithPrimary(0.05f)
+
+inline val BitcoinColor: Color
+    @Composable get() = Color(0xFFF7931A).harmonizeWithPrimary(0.2f)
+
+inline val USDTColor: Color
+    @Composable get() = Color(0xFF50AF95).harmonizeWithPrimary(0.2f)

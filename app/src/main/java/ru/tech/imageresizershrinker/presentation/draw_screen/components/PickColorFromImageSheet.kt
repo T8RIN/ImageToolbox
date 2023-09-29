@@ -44,7 +44,7 @@ import com.smarttoolfactory.colordetector.ImageColorDetector
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
-import ru.tech.imageresizershrinker.presentation.root.utils.helper.ContextUtils.copyColorIntoClipboard
+import ru.tech.imageresizershrinker.presentation.root.utils.helper.ContextUtils.copyToClipboard
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.toHex
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.container
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.shimmer
@@ -148,7 +148,7 @@ fun PickColorFromImageSheet(
                             )
                             .clip(RoundedCornerShape(12.dp))
                             .clickable {
-                                context.copyColorIntoClipboard(
+                                context.copyToClipboard(
                                     context.getString(R.string.color),
                                     color.toHex()
                                 )
@@ -165,7 +165,7 @@ fun PickColorFromImageSheet(
                         modifier = Modifier
                             .clip(RoundedCornerShape(8.dp))
                             .clickable {
-                                context.copyColorIntoClipboard(
+                                context.copyToClipboard(
                                     context.getString(R.string.color),
                                     color.toHex()
                                 )

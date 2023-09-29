@@ -38,8 +38,10 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.BorderStyle
 import androidx.compose.material.icons.outlined.BurstMode
@@ -52,7 +54,7 @@ import androidx.compose.material.icons.rounded.AddCircleOutline
 import androidx.compose.material.icons.rounded.Block
 import androidx.compose.material.icons.rounded.BugReport
 import androidx.compose.material.icons.rounded.Cached
-import androidx.compose.material.icons.rounded.Coffee
+import androidx.compose.material.icons.rounded.ContentCopy
 import androidx.compose.material.icons.rounded.DeleteOutline
 import androidx.compose.material.icons.rounded.FileDownloadOff
 import androidx.compose.material.icons.rounded.Folder
@@ -64,6 +66,7 @@ import androidx.compose.material.icons.rounded.Info
 import androidx.compose.material.icons.rounded.ModeNight
 import androidx.compose.material.icons.rounded.NewReleases
 import androidx.compose.material.icons.rounded.Palette
+import androidx.compose.material.icons.rounded.Payments
 import androidx.compose.material.icons.rounded.PersonSearch
 import androidx.compose.material.icons.rounded.PhotoSizeSelectSmall
 import androidx.compose.material.icons.rounded.RadioButtonChecked
@@ -82,6 +85,7 @@ import androidx.compose.material.icons.rounded.WaterDrop
 import androidx.compose.material.icons.rounded.WbSunny
 import androidx.compose.material.icons.twotone.Palette
 import androidx.compose.material3.Icon
+import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SliderDefaults
 import androidx.compose.material3.Surface
@@ -100,6 +104,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.luminance
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLayoutDirection
@@ -108,6 +113,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringArrayResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.smarttoolfactory.colordetector.util.ColorUtil.roundToTwoDigits
@@ -117,9 +123,10 @@ import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.BuildConfig
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.core.AUTHOR_AVATAR
+import ru.tech.imageresizershrinker.core.BitcoinWallet
 import ru.tech.imageresizershrinker.core.CHAT_LINK
-import ru.tech.imageresizershrinker.core.DONATE
 import ru.tech.imageresizershrinker.core.ISSUE_TRACKER
+import ru.tech.imageresizershrinker.core.USDTWallet
 import ru.tech.imageresizershrinker.core.WEBLATE_LINK
 import ru.tech.imageresizershrinker.domain.model.NightMode
 import ru.tech.imageresizershrinker.presentation.main_screen.viewModel.MainViewModel
@@ -128,6 +135,7 @@ import ru.tech.imageresizershrinker.presentation.root.icons.emoji.EmojiItem
 import ru.tech.imageresizershrinker.presentation.root.icons.emoji.allIcons
 import ru.tech.imageresizershrinker.presentation.root.icons.material.Analytics
 import ru.tech.imageresizershrinker.presentation.root.icons.material.Beta
+import ru.tech.imageresizershrinker.presentation.root.icons.material.Bitcoin
 import ru.tech.imageresizershrinker.presentation.root.icons.material.Crashlytics
 import ru.tech.imageresizershrinker.presentation.root.icons.material.CreateAlt
 import ru.tech.imageresizershrinker.presentation.root.icons.material.DownloadFile
@@ -139,16 +147,18 @@ import ru.tech.imageresizershrinker.presentation.root.icons.material.Prefix
 import ru.tech.imageresizershrinker.presentation.root.icons.material.Shadow
 import ru.tech.imageresizershrinker.presentation.root.icons.material.Symbol
 import ru.tech.imageresizershrinker.presentation.root.icons.material.Telegram
+import ru.tech.imageresizershrinker.presentation.root.icons.material.USDT
 import ru.tech.imageresizershrinker.presentation.root.shapes.CloverShape
 import ru.tech.imageresizershrinker.presentation.root.shapes.DavidStarShape
+import ru.tech.imageresizershrinker.presentation.root.theme.BitcoinColor
+import ru.tech.imageresizershrinker.presentation.root.theme.USDTColor
 import ru.tech.imageresizershrinker.presentation.root.theme.blend
 import ru.tech.imageresizershrinker.presentation.root.theme.inverse
-import ru.tech.imageresizershrinker.presentation.root.theme.mixedContainer
-import ru.tech.imageresizershrinker.presentation.root.theme.onMixedContainer
 import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
 import ru.tech.imageresizershrinker.presentation.root.utils.confetti.LocalConfettiController
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.ContextUtils.cacheSize
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.ContextUtils.clearCache
+import ru.tech.imageresizershrinker.presentation.root.utils.helper.ContextUtils.copyToClipboard
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.ContextUtils.isInstalledFromPlayStore
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.plus
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.toUiPath
@@ -168,6 +178,9 @@ import ru.tech.imageresizershrinker.presentation.root.widget.preferences.Prefere
 import ru.tech.imageresizershrinker.presentation.root.widget.preferences.screens.SourceCodePreference
 import ru.tech.imageresizershrinker.presentation.root.widget.sheets.PickFontFamilySheet
 import ru.tech.imageresizershrinker.presentation.root.widget.sheets.PickFontScaleSheet
+import ru.tech.imageresizershrinker.presentation.root.widget.sheets.SimpleSheet
+import ru.tech.imageresizershrinker.presentation.root.widget.text.AutoSizeText
+import ru.tech.imageresizershrinker.presentation.root.widget.text.TitleItem
 import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalSettingsState
 import kotlin.math.roundToInt
 
@@ -1460,29 +1473,11 @@ fun SettingsBlock(
                         text = stringResource(R.string.contact_me),
                         initialState = false
                     ) {
+                        val showDonateSheet = rememberSaveable { mutableStateOf(false) }
                         Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
                             PreferenceRow(
                                 modifier = Modifier.padding(horizontal = 8.dp),
                                 applyHorPadding = false,
-                                title = stringResource(R.string.buy_me_a_coffee),
-                                subtitle = stringResource(R.string.buy_me_a_coffee_sub),
-                                endContent = {
-                                    Icon(Icons.Rounded.Coffee, null)
-                                },
-                                onClick = {
-                                    context.startActivity(
-                                        Intent(
-                                            Intent.ACTION_VIEW,
-                                            Uri.parse(DONATE)
-                                        )
-                                    )
-                                }
-                            )
-                            PreferenceRow(
-                                modifier = Modifier.padding(horizontal = 8.dp),
-                                applyHorPadding = false,
-                                color = MaterialTheme.colorScheme.secondaryContainer,
-                                contentColor = MaterialTheme.colorScheme.onSecondaryContainer,
                                 title = stringResource(R.string.app_developer),
                                 subtitle = stringResource(R.string.app_developer_nick),
                                 startContent = {
@@ -1491,17 +1486,111 @@ fun SettingsBlock(
                                         modifier = Modifier
                                             .padding(horizontal = 8.dp)
                                             .size(48.dp)
-                                            .border(
-                                                settingsState.borderWidth,
-                                                MaterialTheme.colorScheme.outlineVariant(),
-                                                MaterialTheme.shapes.medium
+                                            .container(
+                                                shape = CloverShape,
+                                                resultPadding = 0.dp
                                             ),
-                                        shape = MaterialTheme.shapes.medium
+                                        shape = RectangleShape
                                     )
                                 },
                                 onClick = onShowAuthor
                             )
+                            PreferenceRow(
+                                modifier = Modifier.padding(horizontal = 8.dp),
+                                applyHorPadding = false,
+                                color = MaterialTheme.colorScheme.tertiaryContainer,
+                                contentColor = MaterialTheme.colorScheme.onTertiaryContainer,
+                                title = stringResource(R.string.donation),
+                                subtitle = stringResource(R.string.donation_sub),
+                                endContent = {
+                                    Icon(Icons.Rounded.Payments, null)
+                                },
+                                onClick = {
+                                    showDonateSheet.value = true
+                                }
+                            )
                         }
+
+                        SimpleSheet(
+                            visible = showDonateSheet,
+                            title = {
+                                TitleItem(
+                                    text = stringResource(R.string.donation),
+                                    icon = Icons.Rounded.Payments
+                                )
+                            },
+                            confirmButton = {
+                                EnhancedButton(
+                                    containerColor = Color.Transparent,
+                                    onClick = { showDonateSheet.value = false },
+                                ) {
+                                    AutoSizeText(stringResource(R.string.close))
+                                }
+                            },
+                            sheetContent = {
+                                val darkMode = !LocalSettingsState.current.isNightMode
+                                Box {
+                                    Column(Modifier.verticalScroll(rememberScrollState())) {
+                                        Box(
+                                            modifier = Modifier
+                                                .padding(16.dp)
+                                                .container(color = MaterialTheme.colorScheme.tertiaryContainer),
+                                            contentAlignment = Alignment.Center
+                                        ) {
+                                            Text(
+                                                text = stringResource(R.string.donation_sub),
+                                                fontSize = 12.sp,
+                                                modifier = Modifier.padding(8.dp),
+                                                textAlign = TextAlign.Center,
+                                                fontWeight = FontWeight.SemiBold,
+                                                lineHeight = 14.sp,
+                                                color = LocalContentColor.current.copy(alpha = 0.5f)
+                                            )
+                                        }
+                                        PreferenceItem(
+                                            color = BitcoinColor,
+                                            contentColor = BitcoinColor.inverse(
+                                                fraction = { 1f },
+                                                darkMode = darkMode
+                                            ),
+                                            onClick = {
+                                                context.apply {
+                                                    copyToClipboard(
+                                                        label = getString(R.string.bitcoin),
+                                                        value = BitcoinWallet
+                                                    )
+                                                }
+                                            },
+                                            endIcon = Icons.Rounded.ContentCopy,
+                                            title = stringResource(R.string.bitcoin),
+                                            icon = Icons.Filled.Bitcoin,
+                                            subtitle = BitcoinWallet
+                                        )
+                                        Spacer(Modifier.height(8.dp))
+                                        PreferenceItem(
+                                            color = USDTColor,
+                                            contentColor = USDTColor.inverse(
+                                                fraction = { 1f },
+                                                darkMode = darkMode
+                                            ),
+                                            onClick = {
+                                                context.apply {
+                                                    copyToClipboard(
+                                                        label = getString(R.string.usdt),
+                                                        value = USDTWallet
+                                                    )
+                                                }
+                                            },
+                                            endIcon = Icons.Rounded.ContentCopy,
+                                            title = stringResource(R.string.usdt),
+                                            icon = Icons.Filled.USDT,
+                                            subtitle = USDTWallet
+                                        )
+                                        Spacer(Modifier.height(16.dp))
+                                    }
+                                }
+                            }
+                        )
                     }
                 }
                 item {
@@ -1625,8 +1714,10 @@ fun SettingsBlock(
                                 },
                                 title = stringResource(R.string.tg_chat),
                                 subtitle = stringResource(R.string.tg_chat_sub),
-                                color = MaterialTheme.colorScheme.mixedContainer.copy(alpha = 0.7f),
-                                contentColor = MaterialTheme.colorScheme.onMixedContainer.copy(alpha = 0.9f),
+                                color = MaterialTheme.colorScheme.secondaryContainer.copy(alpha = 0.7f),
+                                contentColor = MaterialTheme.colorScheme.onSecondaryContainer.copy(
+                                    alpha = 0.9f
+                                ),
                                 modifier = Modifier
                                     .fillMaxWidth()
                                     .padding(horizontal = 8.dp),

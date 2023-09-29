@@ -119,7 +119,7 @@
     <string name="external_storage">Externé úložisko</string>
     <string name="monet_colors">Monetove farby</string>
     <string name="buy_me_a_coffee">Kúp mi kávu</string>
-    <string name="buy_me_a_coffee_sub">Táto aplikácia je úplne zadarmo, ale ak chcete podporiť vývoj projektu, môžete kliknúť sem</string>
+    <string name="donation_sub">Táto aplikácia je úplne zadarmo, ale ak chcete podporiť vývoj projektu, môžete kliknúť sem</string>
     <string name="fab_alignment">Vyrovnanie FAB</string>
     <string name="check_updates">Kontrola aktualizácií</string>
     <string name="check_updates_sub">Ak je povolená, po spustení aplikácie sa zobrazí dialógové okno aktualizácie</string>

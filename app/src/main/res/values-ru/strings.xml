@@ -118,7 +118,7 @@
     <string name="external_storage">Внешний накопитель</string>
     <string name="monet_colors">Динамические цвета</string>
     <string name="buy_me_a_coffee">Купите мне кофе</string>
-    <string name="buy_me_a_coffee_sub">Это приложение полностью бесплатное, однако если вы хотите поддержать его разработку, вы можете нажать здесь</string>
+    <string name="donation_sub">Это приложение полностью бесплатное, однако если вы хотите поддержать его разработку, вы можете нажать здесь</string>
     <string name="fab_alignment">Расположение кнопки</string>
     <string-array name="fab_alignment_sub">
         <item>Начало</item>

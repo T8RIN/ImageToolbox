@@ -110,7 +110,7 @@
     <string name="border_thickness">Kapal ng gilid</string>
     <string name="surface">Ibabaw</string>
     <string name="buy_me_a_coffee">Bilhan ako ng kape</string>
-    <string name="buy_me_a_coffee_sub">Libre ang app na ito, pero pindutin ito kung gusto mong suportahan ang development ng proyekto</string>
+    <string name="donation_sub">Libre ang app na ito, pero pindutin ito kung gusto mong suportahan ang development ng proyekto</string>
     <string name="permission_sub">Kailangan ng app ng access sa storage mo para mag-save ng mga larawan, kaya mangyaring ibigay ang pahintulot sa ipapakitang diyalogo</string>
     <string name="fab_alignment">Pagpapantay ng FAB</string>
     <string name="check_updates">Tingnan kung may update</string>

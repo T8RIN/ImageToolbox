@@ -14,7 +14,7 @@
     <string name="tertiary">ตติยภูมิ</string>
     <string name="monet_colors">สีโมเน่ต์</string>
     <string name="buy_me_a_coffee">ซื้อกาแฟให้ฉัน</string>
-    <string name="buy_me_a_coffee_sub">แอปพลิเคชันนี้ไม่มีค่าใช้จ่ายใด ๆ แต่ถ้าคุณต้องการสนับสนุนการพัฒนาโครงการ คุณสามารถคลิกที่นี่</string>
+    <string name="donation_sub">แอปพลิเคชันนี้ไม่มีค่าใช้จ่ายใด ๆ แต่ถ้าคุณต้องการสนับสนุนการพัฒนาโครงการ คุณสามารถคลิกที่นี่</string>
     <string name="fab_alignment">การจัดตำแหน่ง FAB</string>
     <string name="check_updates">ตรวจสอบสำหรับการอัพเดต</string>
     <string name="check_updates_sub">หากเปิดใช้งาน กล่องโต้ตอบการอัปเดตจะแสดงให้คุณเห็นหลังจากเริ่มต้นแอป</string>
