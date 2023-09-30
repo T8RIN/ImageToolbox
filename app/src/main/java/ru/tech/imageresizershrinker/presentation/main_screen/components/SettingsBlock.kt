@@ -243,6 +243,7 @@ fun SettingsBlock(
                             PreferenceRow(
                                 modifier = Modifier.padding(horizontal = 8.dp),
                                 applyHorPadding = false,
+                                color = MaterialTheme.colorScheme.secondaryContainer,
                                 title = stringResource(R.string.app_developer),
                                 subtitle = stringResource(R.string.app_developer_nick),
                                 shape = topShape,
@@ -1434,7 +1435,9 @@ fun SettingsBlock(
                         },
                         onReset = {
                             showResetDialog = false
-                            viewModel.resetSettings()
+                            viewModel.resetSettings {
+                                (context as Activity).recreate()
+                            }
                         },
                         title = stringResource(R.string.reset),
                         text = stringResource(R.string.reset_settings_sub)

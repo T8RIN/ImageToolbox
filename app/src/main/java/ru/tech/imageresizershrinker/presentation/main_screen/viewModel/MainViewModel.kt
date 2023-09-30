@@ -418,9 +418,9 @@ class MainViewModel @Inject constructor(
         }
     }
 
-    fun resetSettings() {
+    fun resetSettings(recreateApp: () -> Unit) {
         viewModelScope.launch {
-            resetSettingsUseCase()
+            resetSettingsUseCase(recreateApp)
         }
     }
 
