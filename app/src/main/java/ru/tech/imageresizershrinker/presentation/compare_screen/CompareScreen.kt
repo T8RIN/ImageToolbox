@@ -5,7 +5,6 @@ import android.net.Uri
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.core.animateFloatAsState
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -82,7 +81,6 @@ import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.domain.model.ImageFormat
 import ru.tech.imageresizershrinker.presentation.compare_screen.viewModel.CompareViewModel
 import ru.tech.imageresizershrinker.presentation.root.theme.blend
-import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
 import ru.tech.imageresizershrinker.presentation.root.utils.confetti.LocalConfettiController
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.Picker
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.localImagePickerMode
@@ -109,6 +107,21 @@ import ru.tech.imageresizershrinker.presentation.root.widget.text.Marquee
 import ru.tech.imageresizershrinker.presentation.root.widget.text.TitleItem
 import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalSettingsState
 import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalWindowSizeClass
+
+
+private val topShape = RoundedCornerShape(
+    topStart = 16.dp,
+    topEnd = 16.dp,
+    bottomStart = 6.dp,
+    bottomEnd = 6.dp
+)
+
+private val bottomShape = RoundedCornerShape(
+    topStart = 6.dp,
+    topEnd = 6.dp,
+    bottomStart = 16.dp,
+    bottomEnd = 16.dp
+)
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -520,12 +533,10 @@ fun CompareScreen(
                             )
                             .height(100.dp)
                             .width(120.dp)
-                            .border(
-                                width = settingsState.borderWidth,
-                                color = MaterialTheme.colorScheme.outlineVariant(),
-                                shape = MaterialTheme.shapes.extraLarge
+                            .container(
+                                shape = MaterialTheme.shapes.extraLarge,
+                                resultPadding = 0.dp
                             )
-                            .clip(shape = MaterialTheme.shapes.extraLarge)
                     ) {
                         Picture(
                             model = remember(viewModel.bitmapData) {
@@ -533,7 +544,7 @@ fun CompareScreen(
                                     viewModel.getOverlayedImage(progress)
                                 }
                             }.value,
-                            shape = MaterialTheme.shapes.extraLarge,
+                            shape = RectangleShape,
                             modifier = Modifier.fillMaxSize()
                         )
                     }
@@ -553,18 +564,20 @@ fun CompareScreen(
                             saveBitmap()
                             showShareSheet.value = false
                         },
+                        shape = topShape,
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(horizontal = 16.dp),
                         color = MaterialTheme.colorScheme.primaryContainer,
                         endIcon = Icons.Rounded.Save
                     )
-                    Spacer(Modifier.height(8.dp))
+                    Spacer(Modifier.height(4.dp))
                     PreferenceItem(
                         title = stringResource(id = R.string.share),
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(horizontal = 16.dp),
+                        shape = bottomShape,
                         onClick = {
                             viewModel.shareBitmap(progress, imageFormat) {
                                 showConfetti()

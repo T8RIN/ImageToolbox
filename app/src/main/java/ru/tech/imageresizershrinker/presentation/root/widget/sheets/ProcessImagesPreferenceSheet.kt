@@ -2,7 +2,6 @@ package ru.tech.imageresizershrinker.presentation.root.widget.sheets
 
 import android.net.Uri
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -24,8 +23,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
@@ -34,7 +33,7 @@ import androidx.compose.ui.unit.sp
 import dev.olshevski.navigation.reimagined.NavController
 import dev.olshevski.navigation.reimagined.navigate
 import ru.tech.imageresizershrinker.R
-import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
+import ru.tech.imageresizershrinker.presentation.root.utils.modifier.container
 import ru.tech.imageresizershrinker.presentation.root.utils.navigation.LocalNavController
 import ru.tech.imageresizershrinker.presentation.root.utils.navigation.Screen
 import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedButton
@@ -55,7 +54,6 @@ import ru.tech.imageresizershrinker.presentation.root.widget.preferences.screens
 import ru.tech.imageresizershrinker.presentation.root.widget.preferences.screens.SingleEditPreference
 import ru.tech.imageresizershrinker.presentation.root.widget.text.AutoSizeText
 import ru.tech.imageresizershrinker.presentation.root.widget.text.TitleItem
-import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalSettingsState
 
 @Composable
 fun ProcessImagesPreferenceSheet(
@@ -69,7 +67,6 @@ fun ProcessImagesPreferenceSheet(
         }
     }
 ) {
-    val settingsState = LocalSettingsState.current
     SimpleSheet(
         title = {
             TitleItem(
@@ -110,16 +107,14 @@ fun ProcessImagesPreferenceSheet(
                                         )
                                         .height(height)
                                         .width(120.dp)
-                                        .border(
-                                            width = settingsState.borderWidth,
-                                            color = MaterialTheme.colorScheme.outlineVariant(),
-                                            shape = MaterialTheme.shapes.extraLarge
+                                        .container(
+                                            shape = MaterialTheme.shapes.extraLarge,
+                                            resultPadding = 0.dp
                                         )
-                                        .clip(shape = MaterialTheme.shapes.extraLarge)
                                 ) {
                                     Picture(
                                         model = uri,
-                                        shape = MaterialTheme.shapes.extraLarge,
+                                        shape = RectangleShape,
                                         modifier = Modifier.fillMaxSize()
                                     )
                                     if (extra > 0) {

@@ -1,10 +1,7 @@
-@file:Suppress("KotlinConstantConditions")
-
 package ru.tech.imageresizershrinker.data.migrations
 
 import androidx.datastore.core.DataMigration
 import androidx.datastore.preferences.core.Preferences
-import ru.tech.imageresizershrinker.BuildConfig
 import ru.tech.imageresizershrinker.data.keys.Keys
 
 class BorderWidthMigration : DataMigration<Preferences> {
@@ -12,7 +9,7 @@ class BorderWidthMigration : DataMigration<Preferences> {
 
     override suspend fun shouldMigrate(
         currentData: Preferences
-    ): Boolean = BuildConfig.VERSION_CODE < 89
+    ): Boolean = (currentData[Keys.APP_OPEN_COUNT] ?: 0) == 0
 
     override suspend fun migrate(
         currentData: Preferences
