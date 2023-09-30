@@ -493,7 +493,7 @@ fun SettingsBlock(
                                     )
                                     .animateContentSize()
                             ) {
-                                var sliderValue by remember {
+                                var sliderValue by remember(settingsState) {
                                     mutableIntStateOf(
                                         settingsState.emojisCount.coerceAtLeast(1)
                                     )
@@ -574,9 +574,9 @@ fun SettingsBlock(
                                     )
                                     .animateContentSize()
                             ) {
-                                var sliderValue by remember {
+                                var sliderValue by remember(settingsState) {
                                     mutableFloatStateOf(
-                                        viewModel.settingsState.borderWidth.coerceAtLeast(0f)
+                                        settingsState.borderWidth.value.coerceAtLeast(0f)
                                     )
                                 }
                                 Row(
@@ -695,7 +695,7 @@ fun SettingsBlock(
                                         ),
                                     verticalAlignment = Alignment.CenterVertically
                                 ) {
-                                    var sliderValue by remember {
+                                    var sliderValue by remember(settingsState) {
                                         mutableFloatStateOf(viewModel.settingsState.fabAlignment.toFloat())
                                     }
                                     Column(
@@ -1435,9 +1435,7 @@ fun SettingsBlock(
                         },
                         onReset = {
                             showResetDialog = false
-                            viewModel.resetSettings {
-                                (context as Activity).recreate()
-                            }
+                            viewModel.resetSettings()
                         },
                         title = stringResource(R.string.reset),
                         text = stringResource(R.string.reset_settings_sub)

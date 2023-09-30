@@ -63,7 +63,7 @@ interface SettingsRepository {
         onFailure: (Throwable) -> Unit
     )
 
-    suspend fun resetSettings(recreateApp: () -> Unit)
+    suspend fun resetSettings()
 
     fun createBackupFilename(): String
 

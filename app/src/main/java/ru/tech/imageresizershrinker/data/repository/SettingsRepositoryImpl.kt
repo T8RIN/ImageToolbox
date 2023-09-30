@@ -9,7 +9,6 @@ import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
@@ -321,15 +320,15 @@ class SettingsRepositoryImpl @Inject constructor(
         toggleClearCacheOnLaunch()
     }
 
-    override suspend fun resetSettings(recreateApp: () -> Unit) {
+    override suspend fun resetSettings() {
         File(
             context.filesDir,
             "datastore/image_resizer.preferences_pb"
         ).apply {
             delete()
             createNewFile()
-            delay(500L)
-            recreateApp()
+            toggleAllowBetas()
+            toggleAllowBetas()
         }
     }
 
