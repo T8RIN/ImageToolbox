@@ -87,6 +87,7 @@ import androidx.compose.material3.SliderDefaults
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableIntStateOf
@@ -493,10 +494,13 @@ fun SettingsBlock(
                                     )
                                     .animateContentSize()
                             ) {
-                                var sliderValue by remember(settingsState) {
-                                    mutableIntStateOf(
+                                val derivedValue by remember(settingsState) {
+                                    derivedStateOf {
                                         settingsState.emojisCount.coerceAtLeast(1)
-                                    )
+                                    }
+                                }
+                                var sliderValue by remember(derivedValue) {
+                                    mutableIntStateOf(derivedValue)
                                 }
                                 Row(
                                     verticalAlignment = Alignment.CenterVertically
@@ -574,10 +578,13 @@ fun SettingsBlock(
                                     )
                                     .animateContentSize()
                             ) {
-                                var sliderValue by remember(settingsState) {
-                                    mutableFloatStateOf(
-                                        settingsState.borderWidth.value.coerceAtLeast(0f)
-                                    )
+                                val derivedValue by remember(viewModel.settingsState) {
+                                    derivedStateOf {
+                                        viewModel.settingsState.borderWidth.coerceAtLeast(0f)
+                                    }
+                                }
+                                var sliderValue by remember(derivedValue) {
+                                    mutableFloatStateOf(derivedValue)
                                 }
                                 Row(
                                     verticalAlignment = Alignment.CenterVertically
@@ -695,8 +702,13 @@ fun SettingsBlock(
                                         ),
                                     verticalAlignment = Alignment.CenterVertically
                                 ) {
-                                    var sliderValue by remember(settingsState) {
-                                        mutableFloatStateOf(viewModel.settingsState.fabAlignment.toFloat())
+                                    val derivedValue by remember(viewModel.settingsState) {
+                                        derivedStateOf {
+                                            viewModel.settingsState.fabAlignment.toFloat()
+                                        }
+                                    }
+                                    var sliderValue by remember(derivedValue) {
+                                        mutableFloatStateOf(derivedValue)
                                     }
                                     Column(
                                         Modifier
