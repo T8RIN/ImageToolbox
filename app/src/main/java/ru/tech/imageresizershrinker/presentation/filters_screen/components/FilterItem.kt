@@ -43,7 +43,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.compositeOver
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.res.stringResource
@@ -56,12 +55,12 @@ import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
 import ru.tech.imageresizershrinker.presentation.root.transformation.filter.FilterTransformation
 import ru.tech.imageresizershrinker.presentation.root.transformation.filter.RGBFilter
-import ru.tech.imageresizershrinker.presentation.root.widget.modifier.alertDialogBorder
-import ru.tech.imageresizershrinker.presentation.root.widget.modifier.container
 import ru.tech.imageresizershrinker.presentation.root.widget.color_picker.AlphaColorSelection
 import ru.tech.imageresizershrinker.presentation.root.widget.color_picker.ColorSelection
 import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedButton
 import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedSlider
+import ru.tech.imageresizershrinker.presentation.root.widget.modifier.alertDialogBorder
+import ru.tech.imageresizershrinker.presentation.root.widget.modifier.container
 import ru.tech.imageresizershrinker.presentation.root.widget.text.RoundedTextField
 import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalSettingsState
 import kotlin.math.absoluteValue
@@ -79,9 +78,7 @@ fun <T> FilterItem(
     @SuppressLint("ModifierParameter") modifier: Modifier = Modifier,
     backgroundColor: Color = MaterialTheme
         .colorScheme
-        .secondaryContainer
-        .copy(0.2f)
-        .compositeOver(MaterialTheme.colorScheme.surface)
+        .surfaceContainer
 ) {
     val settingsState = LocalSettingsState.current
     Row(
@@ -638,7 +635,13 @@ private fun ValueDialog(
                 Icon(Icons.Outlined.ViewArray, null)
             },
             title = {
-                Text(stringResource(R.string.color))
+                Text(
+                    stringResource(
+                        R.string.value_in_range,
+                        valueRange.start.toInt(),
+                        valueRange.endInclusive.toInt()
+                    )
+                )
             },
             text = {
                 Column(

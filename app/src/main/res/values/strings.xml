@@ -384,6 +384,7 @@
     <string name="donation">Donation</string>
     <string name="bitcoin" translatable="false">Bitcoin</string>
     <string name="usdt" translatable="false">USDT</string>
+    <string name="value_in_range">Value in %1$d..%2$d</string>
     <string-array name="fab_alignment_sub">
         <item>Start</item>
         <item>Center</item>

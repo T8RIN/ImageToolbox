@@ -1,4 +1,4 @@
-package ru.tech.imageresizershrinker.presentation.root.utils.saver
+package ru.tech.imageresizershrinker.presentation.root.widget.saver
 
 import androidx.compose.runtime.saveable.Saver
 import androidx.compose.ui.graphics.Color
