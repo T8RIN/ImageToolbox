@@ -23,6 +23,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.geometry.isUnspecified
 import androidx.compose.ui.graphics.BlendMode
 import androidx.compose.ui.graphics.Canvas
 import androidx.compose.ui.graphics.Color
@@ -212,26 +213,25 @@ fun BitmapDrawer(
                                 setPath(drawPath, false)
                             }.let {
                                 it.getPosition(it.length - strokeWidth * 3f)
+                            }.let { if (it.isUnspecified) Offset.Zero else it }
+
+                            val lastPoint = currentPosition.let {
+                                if (it.isUnspecified) Offset.Zero else it
                             }
-                            val lastPoint = currentPosition
 
-                            val (x, y) = lastPoint - preLastPoint
+                            //TODO: On single tap not draws an arrow
 
-                            val angle1 = 150.0
-                            val rotatedX1 =
-                                x * cos(Math.toRadians(angle1)) - y * sin(Math.toRadians(angle1))
-                            val rotatedY1 =
-                                x * sin(Math.toRadians(angle1)) + y * cos(Math.toRadians(angle1))
+                            val arrowVector = lastPoint - preLastPoint
 
-                            val angle2 = 210.0
-                            val rotatedX2 =
-                                x * cos(Math.toRadians(angle2)) - y * sin(Math.toRadians(angle2))
-                            val rotatedY2 =
-                                x * sin(Math.toRadians(angle2)) + y * cos(Math.toRadians(angle2))
+                            val (rx1, ry1) = arrowVector.rotateVector(150.0)
+                            val (rx2, ry2) = arrowVector.rotateVector(210.0)
 
-                            drawPath.relativeLineTo(rotatedX1.toFloat(), rotatedY1.toFloat())
-                            drawPath.moveTo(lastPoint.x, lastPoint.y)
-                            drawPath.relativeLineTo(rotatedX2.toFloat(), rotatedY2.toFloat())
+
+                            drawPath.apply {
+                                relativeLineTo(rx1, ry1)
+                                moveTo(lastPoint.x, lastPoint.y)
+                                relativeLineTo(rx2, ry2)
+                            }
                         }
 
                         currentPosition = Offset.Unspecified
@@ -425,6 +425,13 @@ fun BitmapDrawer(
         }
     }
 }
+
+private fun Offset.rotateVector(
+    angle: Double
+): Offset = Offset(
+    x = (x * cos(Math.toRadians(angle)) - y * sin(Math.toRadians(angle))).toFloat(),
+    y = (x * sin(Math.toRadians(angle)) + y * cos(Math.toRadians(angle))).toFloat()
+)
 
 private fun ImageBitmap.clipBitmap(
     path: Path,
