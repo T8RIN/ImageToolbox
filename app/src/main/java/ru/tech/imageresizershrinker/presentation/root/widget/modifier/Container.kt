@@ -1,6 +1,6 @@
 @file:Suppress("AnimateAsStateLabel")
 
-package ru.tech.imageresizershrinker.presentation.root.utils.modifier
+package ru.tech.imageresizershrinker.presentation.root.widget.modifier
 
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.background

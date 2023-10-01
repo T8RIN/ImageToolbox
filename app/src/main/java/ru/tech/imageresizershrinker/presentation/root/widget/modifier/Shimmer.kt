@@ -1,4 +1,4 @@
-package ru.tech.imageresizershrinker.presentation.root.utils.modifier
+package ru.tech.imageresizershrinker.presentation.root.widget.modifier
 
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.surfaceColorAtElevation
