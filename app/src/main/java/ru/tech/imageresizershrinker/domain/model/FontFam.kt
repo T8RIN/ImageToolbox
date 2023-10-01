@@ -9,6 +9,7 @@ sealed class FontFam(val ordinal: Int) {
     data object Jura : FontFam(6)
     data object Podkova : FontFam(7)
     data object Tektur : FontFam(8)
+    data object DejaVu : FontFam(9)
     data object System : FontFam(0)
 
     companion object {
@@ -21,6 +22,7 @@ sealed class FontFam(val ordinal: Int) {
             6 -> Jura
             7 -> Podkova
             8 -> Tektur
+            9 -> DejaVu
             else -> System
         }
     }

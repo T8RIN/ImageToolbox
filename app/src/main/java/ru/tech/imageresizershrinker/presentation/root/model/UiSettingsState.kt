@@ -101,6 +101,7 @@ private fun FontFam.toUiFont(): UiFontFam {
         FontFam.Podkova -> UiFontFam.Podkova
         FontFam.Tektur -> UiFontFam.Tektur
         FontFam.YsabeauSC -> UiFontFam.YsabeauSC
+        FontFam.DejaVu -> UiFontFam.DejaVu
     }
 }
 

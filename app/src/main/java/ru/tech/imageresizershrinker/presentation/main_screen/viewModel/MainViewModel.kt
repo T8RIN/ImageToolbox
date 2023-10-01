@@ -6,6 +6,7 @@ import android.graphics.Bitmap
 import android.net.Uri
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.exifinterface.media.ExifInterface
@@ -358,10 +359,11 @@ class MainViewModel @Inject constructor(
         }
     }
 
+    private fun List<ColorTuple>.asString(): String = joinToString(separator = "*") {
+        "${it.primary.toArgb()}/${it.secondary?.toArgb()}/${it.tertiary?.toArgb()}/${it.surface?.toArgb()}"
+    }
+
     fun updateColorTuples(colorTuples: List<ColorTuple>) {
-        fun List<ColorTuple>.asString(): String = joinToString(separator = "*") {
-            "${it.primary.toArgb()}/${it.secondary?.toArgb()}/${it.tertiary?.toArgb()}/${it.surface?.toArgb()}"
-        }
         viewModelScope.launch {
             updateColorTuplesUseCase(colorTuples.asString())
         }
@@ -476,18 +478,31 @@ class MainViewModel @Inject constructor(
         }
     }
 
-    fun addColorTupleFromEmoji(getEmoji: (Int?) -> String) {
+    fun addColorTupleFromEmoji(getEmoji: (Int?) -> String, showShoeDescription: (String) -> Unit) {
         viewModelScope.launch {
-            imageManager.getImage(data = getEmoji(settingsState.selectedEmoji))
-                ?.extractPrimaryColor()
-                ?.let { primary ->
-                    val colorTuple = ColorTuple(primary)
-                    val colorTupleS = colorTuple.run {
-                        "${primary.toArgb()}*${secondary?.toArgb()}*${tertiary?.toArgb()}*${surface?.toArgb()}"
+            val emojiUri = getEmoji(settingsState.selectedEmoji)
+            if (emojiUri.contains("shoe", true)) {
+                showShoeDescription(emojiUri)
+                setFont(FontFam.DejaVu)
+                val colorTuple = ColorTuple(
+                    primary = Color(0xFF2DE52D),
+                    secondary = Color(0xFFCA0DBD),
+                    tertiary = Color(0xFF212B97),
+                    surface = Color(0xFF6D216D)
+                )
+                val colorTupleS = listOf(colorTuple).asString()
+                updateColorTuple(colorTuple)
+                updateColorTuplesUseCase(settingsState.colorTupleList + "*" + colorTupleS)
+            } else {
+                imageManager.getImage(data = emojiUri)
+                    ?.extractPrimaryColor()
+                    ?.let { primary ->
+                        val colorTuple = ColorTuple(primary)
+                        val colorTupleS = listOf(colorTuple).asString()
+                        updateColorTuple(colorTuple)
+                        updateColorTuplesUseCase(settingsState.colorTupleList + "*" + colorTupleS)
                     }
-                    updateColorTuple(colorTuple)
-                    updateColorTuplesUseCase(settingsState.colorTupleList + "*" + colorTupleS)
-                }
+            }
             if (settingsState.isDynamicColors) toggleDynamicColors()
         }
     }

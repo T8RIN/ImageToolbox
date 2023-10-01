@@ -6,6 +6,7 @@ import javax.inject.Inject
 class UpdateColorTuplesUseCase @Inject constructor(
     private val settingsRepository: SettingsRepository
 ) {
-    suspend operator fun invoke(colorTuples: String) =
-        settingsRepository.updateColorTuples(colorTuples)
+    suspend operator fun invoke(
+        colorTuples: String
+    ) = settingsRepository.updateColorTuples(colorTuples)
 }

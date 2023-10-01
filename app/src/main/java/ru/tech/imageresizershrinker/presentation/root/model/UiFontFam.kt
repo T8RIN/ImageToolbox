@@ -61,6 +61,11 @@ sealed class UiFontFam(
         "Podkova"
     )
 
+    data object DejaVu : UiFontFam(
+        fontFamily = fontFamilyResource(R.font.dejavu_regular),
+        "DejaVu"
+    )
+
     fun asDomain(): FontFam {
         return when (this) {
             Caveat -> FontFam.Caveat
@@ -72,6 +77,7 @@ sealed class UiFontFam(
             Tektur -> FontFam.Tektur
             YsabeauSC -> FontFam.YsabeauSC
             Montserrat -> FontFam.Montserrat
+            DejaVu -> FontFam.DejaVu
         }
     }
 
@@ -86,6 +92,7 @@ sealed class UiFontFam(
                 Podkova,
                 Tektur,
                 YsabeauSC,
+                DejaVu,
                 System
             )
         }

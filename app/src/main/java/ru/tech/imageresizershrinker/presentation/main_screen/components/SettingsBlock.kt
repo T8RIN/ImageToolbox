@@ -81,6 +81,7 @@ import androidx.compose.material.icons.rounded.UploadFile
 import androidx.compose.material.icons.rounded.WaterDrop
 import androidx.compose.material.icons.rounded.WbSunny
 import androidx.compose.material.icons.twotone.Palette
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SliderDefaults
@@ -152,6 +153,7 @@ import ru.tech.imageresizershrinker.presentation.root.utils.helper.ContextUtils.
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.ContextUtils.isInstalledFromPlayStore
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.plus
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.toUiPath
+import ru.tech.imageresizershrinker.presentation.root.utils.modifier.alertDialogBorder
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.container
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.pulsate
 import ru.tech.imageresizershrinker.presentation.root.utils.modifier.scaleOnTap
@@ -297,6 +299,7 @@ fun SettingsBlock(
                         text = stringResource(R.string.customization),
                         initialState = true
                     ) {
+                        var showShoeDescriptionDialog by rememberSaveable { mutableStateOf("") }
                         Column {
                             val enabled = !settingsState.isDynamicColors
                             PreferenceRow(
@@ -431,6 +434,10 @@ fun SettingsBlock(
                                                                         index?.let {
                                                                             emojis[it].toString()
                                                                         } ?: ""
+                                                                    },
+                                                                    showShoeDescription = {
+                                                                        showShoeDescriptionDialog =
+                                                                            it
                                                                     }
                                                                 )
                                                             }
@@ -450,6 +457,35 @@ fun SettingsBlock(
                                         )
                                     }
                                 }
+                            )
+                        }
+                        if (showShoeDescriptionDialog.isNotEmpty()) {
+                            AlertDialog(
+                                icon = {
+                                    EmojiItem(
+                                        emoji = showShoeDescriptionDialog,
+                                        fontScale = 1f,
+                                        fontSize = MaterialTheme.typography.headlineLarge.fontSize,
+                                    )
+                                },
+                                title = {
+                                    Text(text = "Shoe")
+                                },
+                                text = {
+                                    Text(text = "15.07.1981 - Shoe, (ShoeUnited since 1998)")
+                                },
+                                confirmButton = {
+                                    EnhancedButton(
+                                        containerColor = MaterialTheme.colorScheme.secondaryContainer,
+                                        onClick = { showShoeDescriptionDialog = "" }
+                                    ) {
+                                        Text(stringResource(R.string.close))
+                                    }
+                                },
+                                onDismissRequest = {
+                                    showShoeDescriptionDialog = ""
+                                },
+                                modifier = Modifier.alertDialogBorder()
                             )
                         }
                     }
