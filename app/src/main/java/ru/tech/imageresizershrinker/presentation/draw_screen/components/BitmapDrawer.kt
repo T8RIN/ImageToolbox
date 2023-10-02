@@ -54,6 +54,7 @@ import ru.tech.imageresizershrinker.presentation.erase_background_screen.compone
 import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
 import ru.tech.imageresizershrinker.presentation.root.transformation.filter.StackBlurFilter
 import ru.tech.imageresizershrinker.presentation.root.widget.modifier.transparencyChecker
+import kotlin.math.abs
 import kotlin.math.cos
 import kotlin.math.sin
 import android.graphics.Canvas as AndroidCanvas
@@ -222,15 +223,21 @@ fun BitmapDrawer(
                             //TODO: On single tap not draws an arrow
 
                             val arrowVector = lastPoint - preLastPoint
+                            fun drawArrow() {
 
-                            val (rx1, ry1) = arrowVector.rotateVector(150.0)
-                            val (rx2, ry2) = arrowVector.rotateVector(210.0)
+                                val (rx1, ry1) = arrowVector.rotateVector(150.0)
+                                val (rx2, ry2) = arrowVector.rotateVector(210.0)
 
 
-                            drawPath.apply {
-                                relativeLineTo(rx1, ry1)
-                                moveTo(lastPoint.x, lastPoint.y)
-                                relativeLineTo(rx2, ry2)
+                                drawPath.apply {
+                                    relativeLineTo(rx1, ry1)
+                                    moveTo(lastPoint.x, lastPoint.y)
+                                    relativeLineTo(rx2, ry2)
+                                }
+                            }
+
+                            if (abs(arrowVector.x) < 3f * strokeWidth && abs(arrowVector.y) < 3f * strokeWidth && preLastPoint != Offset.Zero) {
+                                drawArrow()
                             }
                         }
 

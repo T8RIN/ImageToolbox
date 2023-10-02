@@ -91,7 +91,10 @@ fun PickColorFromImageSheet(
 
     SimpleSheet(
         sheetContent = {
-            Box {
+            Box(
+                modifier = Modifier.fillMaxWidth(),
+                contentAlignment = Alignment.Center
+            ) {
                 remember(bitmap) { bitmap?.asImageBitmap() }?.let {
                     ImageColorDetector(
                         canZoom = canZoom,
