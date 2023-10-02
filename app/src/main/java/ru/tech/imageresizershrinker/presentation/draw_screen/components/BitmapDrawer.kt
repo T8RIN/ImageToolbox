@@ -220,8 +220,6 @@ fun BitmapDrawer(
                                 if (it.isUnspecified) Offset.Zero else it
                             }
 
-                            //TODO: On single tap not draws an arrow
-
                             val arrowVector = lastPoint - preLastPoint
                             fun drawArrow() {
 
