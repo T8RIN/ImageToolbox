@@ -357,7 +357,7 @@
     <string name="image_exif_warning">Derzeit erlaubt das %1$s-Format auf Android nur das Lesen von Exif-Daten und nicht das Ändern/Speichern, d.h. das ausgegebene Bild wird keine Metadaten haben</string>
     <string name="updates">Aktualisierungen</string>
     <string name="wait">Warten</string>
-    <string name="effort_sub">Ein Wert von %d bedeutet, dass die Komprimierung schnell erfolgt, was zu einer relativ großen Datei führt. %d bedeutet, dass die Komprimierung mehr Zeit in Anspruch nimmt, was zu einer kleineren Datei führt</string>
+    <string name="effort_sub">Ein Wert von %1$d bedeutet, dass die Komprimierung schnell erfolgt, was zu einer relativ großen Datei führt. %2$d bedeutet, dass die Komprimierung mehr Zeit in Anspruch nimmt, was zu einer kleineren Datei führt</string>
     <string name="allow_betas">Betas zulassen</string>
     <string name="saving_almost_complete">Der Speichervorgang ist fast abgeschlossen. Wenn Sie ihn jetzt abbrechen, müssen Sie erneut mit dem Speichern beginnen.</string>
     <string name="effort">Aufwand</string>
@@ -366,4 +366,6 @@
     <string name="brush_softness">Pinselweichheit</string>
     <string name="draw_arrows">Pfeile zeichnen</string>
     <string name="donation">Spende</string>
+    <string name="draw_arrows_sub">Falls aktiviert, wird der Zeichenpfad als Pfeil dargestellt</string>
+    <string name="crop_description">Bilder werden mittig auf diese Größe zugeschnitten, wenn sie größer sind als die eingegebenen Maße. In anderen Fällen wird die Leinwand mit der angegebenen Hintergrundfarbe erweitert.</string>
 </resources>
