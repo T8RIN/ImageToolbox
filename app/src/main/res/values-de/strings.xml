@@ -363,4 +363,7 @@
     <string name="effort">Aufwand</string>
     <string name="shadows_setting_sub">Ermöglicht das Zeichnen von Schatten hinter Containern und Schaltflächen, wenn Rahmen deaktiviert sind</string>
     <string name="allow_betas_sub">Die Aktualisierungsprüfung schließt Beta-App-Versionen ein, wenn sie aktiviert ist</string>
+    <string name="brush_softness">Pinselweichheit</string>
+    <string name="draw_arrows">Pfeile zeichnen</string>
+    <string name="donation">Spende</string>
 </resources>

@@ -353,7 +353,7 @@
     <string name="travels_and_places">旅遊與地點</string>
     <string name="updates">軟體更新</string>
     <string name="wait">請稍候</string>
-    <string name="effort_sub">數值 %d 表示會快速進行圖片壓縮，但會產生較大的檔案大小。數值 %d 則表示將多花時間壓縮，以獲得較小的檔案</string>
+    <string name="effort_sub">值 %1$d 代表較快速的壓縮，將產生較大的檔案大小；值 %2$d 代表花更多時間壓縮，以獲得較小的檔案</string>
     <string name="allow_betas">允許接收測試版本</string>
     <string name="alphabet_and_numbers">Aa Bb Cc Dd Ee Ff Gg Hh Ii Jj Kk Ll Mm Nn Oo Pp Qq Rr Ss Tt Uu Vv Ww Xx Yy Zz 0123456789 !\?</string>
     <string name="jxl_sub">注意：Android 系統尚未正式支援 JXL 格式。因此，特定功能可能不穩定。您必須選擇自訂的輸出資料夾，才能成功儲存。這是實驗性質的版本，除非 Google 添加對 JXL 的支援，否則這裡的錯誤不會被修復。此版本可以預覽 JXL 格式的圖片</string>
@@ -363,4 +363,9 @@
     <string name="effort">壓縮選項</string>
     <string name="shadows_setting_sub">當邊框停用時，容器和按鈕將會自動繪製陰影效果</string>
     <string name="allow_betas_sub">若您選擇啟用，則在檢查更新時會包括測試版。</string>
+    <string name="brush_softness">畫筆柔度</string>
+    <string name="draw_arrows">繪製箭頭</string>
+    <string name="draw_arrows_sub">若啟用，繪畫路徑將顯示為指向箭頭。</string>
+    <string name="crop_description">如果圖片大小超過輸入尺寸，將會以中心為基準裁剪至此大小；在其他情況下，畫布將根據指定的背景顏色進行擴展</string>
+    <string name="donation">捐款</string>
 </resources>
