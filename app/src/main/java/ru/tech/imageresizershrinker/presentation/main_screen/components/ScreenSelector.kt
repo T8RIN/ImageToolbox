@@ -201,6 +201,8 @@ fun ScreenSelector(
                     onGoBack = onGoBack
                 )
             }
+
+            is Screen.ImageStitching -> TODO()
         }
     }
 }

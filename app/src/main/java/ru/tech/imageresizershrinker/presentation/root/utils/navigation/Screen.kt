@@ -22,6 +22,7 @@ import kotlinx.parcelize.Parcelize
 import kotlinx.parcelize.RawValue
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.presentation.root.icons.material.CreateAlt
+import ru.tech.imageresizershrinker.presentation.root.icons.material.Cube
 import ru.tech.imageresizershrinker.presentation.root.icons.material.FingerprintOff
 import ru.tech.imageresizershrinker.presentation.root.icons.material.Interface
 import ru.tech.imageresizershrinker.presentation.root.icons.material.PaletteSwatch
@@ -101,100 +102,113 @@ sealed class Screen(
         subtitle = R.string.image_preview_sub
     )
 
-    class LoadNetImage(val url: String = "") : Screen(
+    class ImageStitching(val uris: List<Uri>? = null) : Screen(
         id = 9,
+        icon = Icons.Rounded.Cube,
+        title = R.string.image_stitching,
+        subtitle = R.string.image_stitching_sub
+    )
+
+    class LoadNetImage(val url: String = "") : Screen(
+        id = 10,
         icon = Icons.Rounded.Public,
         title = R.string.load_image_from_net,
         subtitle = R.string.load_image_from_net_sub
     )
 
     class PickColorFromImage(val uri: Uri? = null) : Screen(
-        id = 10,
+        id = 11,
         icon = Icons.Rounded.Colorize,
         title = R.string.pick_color,
         subtitle = R.string.pick_color_sub
     )
 
     class GeneratePalette(val uri: Uri? = null) : Screen(
-        id = 11,
+        id = 12,
         icon = Icons.Rounded.PaletteSwatch,
         title = R.string.generate_palette,
         subtitle = R.string.palette_sub
     )
 
     class DeleteExif(val uris: List<Uri>? = null) : Screen(
-        id = 12,
+        id = 13,
         icon = Icons.Rounded.FingerprintOff,
         title = R.string.delete_exif,
         subtitle = R.string.delete_exif_sub
     )
 
     class Compare(val uris: List<Uri>? = null) : Screen(
-        id = 13,
+        id = 14,
         icon = Icons.Rounded.Compare,
         title = R.string.compare,
         subtitle = R.string.compare_sub
     )
 
     class LimitResize(val uris: List<Uri>? = null) : Screen(
-        id = 14,
+        id = 15,
         icon = Icons.Outlined.Margin,
         title = R.string.limits_resize,
         subtitle = R.string.limits_resize_sub
     )
 
     companion object {
-        val entries = listOf(
-            SingleEdit(),
-            ResizeAndConvert(),
-            ResizeByBytes(),
-            Crop(),
-            Filter(),
-            Draw(),
-            Cipher(),
-            EraseBackground(),
-            ImagePreview(),
-            LoadNetImage(),
-            PickColorFromImage(),
-            GeneratePalette(),
-            DeleteExif(),
-            Compare(),
-            LimitResize()
-        )
-        val typedEntries = listOf(
+        val typedEntries by lazy {
+            listOf(
+                listOf(
+                    SingleEdit(),
+                    ResizeAndConvert(),
+                    ResizeByBytes(),
+                    LimitResize()
+                ) to Triple(
+                    R.string.edit,
+                    Icons.Rounded.PhotoSizeSelectLarge,
+                    Icons.Outlined.PhotoSizeSelectSmall
+                ),
+                listOf(
+                    Crop(),
+                    Filter(),
+                    Draw(),
+                    EraseBackground(),
+                    ImageStitching(),
+                    Cipher(),
+                ) to Triple(
+                    R.string.create,
+                    Icons.Filled.AutoAwesome,
+                    Icons.Outlined.AutoAwesome
+                ),
+                listOf(
+                    PickColorFromImage(),
+                    Compare(),
+                    ImagePreview(),
+                    LoadNetImage(),
+                    GeneratePalette(),
+                    DeleteExif(),
+                ) to Triple(
+                    R.string.tools,
+                    Icons.Rounded.Toolbox,
+                    Icons.Outlined.Toolbox
+                )
+            )
+        }
+        val entries by lazy {
             listOf(
                 SingleEdit(),
                 ResizeAndConvert(),
                 ResizeByBytes(),
-                LimitResize()
-            ) to Triple(
-                R.string.edit,
-                Icons.Rounded.PhotoSizeSelectLarge,
-                Icons.Outlined.PhotoSizeSelectSmall
-            ),
-            listOf(
                 Crop(),
                 Filter(),
                 Draw(),
-                EraseBackground(),
                 Cipher(),
-                DeleteExif(),
-            ) to Triple(
-                R.string.create,
-                Icons.Filled.AutoAwesome,
-                Icons.Outlined.AutoAwesome
-            ),
-            listOf(
-                PickColorFromImage(),
-                Compare(),
+                EraseBackground(),
                 ImagePreview(),
+                ImageStitching(),
                 LoadNetImage(),
+                PickColorFromImage(),
                 GeneratePalette(),
-            ) to Triple(
-                R.string.tools,
-                Icons.Rounded.Toolbox,
-                Icons.Outlined.Toolbox
+                DeleteExif(),
+                Compare(),
+                LimitResize()
             )
-        )
+        }
     }
 }

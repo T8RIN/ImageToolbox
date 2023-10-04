@@ -118,12 +118,17 @@ interface ImageManager<I, M> {
     suspend fun combineImages(
         imageUris: List<String>,
         combiningParams: CombiningParams,
-        imageSize: ImageSize?
+        imageScale: Float
     ): ImageData<I, M>
 
     suspend fun calculateCombinedImageDimensions(
         imageUris: List<String>,
         combiningParams: CombiningParams
     ): ImageSize
+
+    suspend fun createCombinedImagesPreview(
+        imageUris: List<String>,
+        combiningParams: CombiningParams
+    ): I
 
 }

@@ -12,7 +12,6 @@ import android.graphics.PorterDuff
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.net.Uri
-import android.util.Log
 import android.webkit.MimeTypeMap
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
@@ -366,15 +365,26 @@ class AndroidImageManager @Inject constructor(
     override suspend fun combineImages(
         imageUris: List<String>,
         combiningParams: CombiningParams,
-        imageSize: ImageSize?
+        imageScale: Float
     ): ImageData<Bitmap, ExifInterface> = combiningParams.run {
-        val size = imageSize ?: calculateCombinedImageDimensions(
+        val size = calculateCombinedImageDimensions(
             imageUris = imageUris,
             combiningParams = combiningParams
         )
 
-        val bitmaps = imageUris.map {
-            val image = getImage(data = it)!!
+        val bitmaps = imageUris.map { uri ->
+            val image = loader().execute(
+                ImageRequest
+                    .Builder(context)
+                    .data(uri)
+                    .size(
+                        Size(
+                            width = 2000,
+                            height = 2000
+                        )
+                    )
+                    .build()
+            ).drawable?.toBitmap()!!
             if (scaleSmallImagesToLarge) {
                 resize(
                     image = image,
@@ -413,10 +423,15 @@ class AndroidImageManager @Inject constructor(
         }
 
         ImageData(
-            image = bitmap,
+            image = resize(
+                image = bitmap,
+                width = (size.width * imageScale).toInt(),
+                height = (size.height * imageScale).toInt(),
+                resizeType = ResizeType.Flexible
+            )!!,
             imageInfo = ImageInfo(
-                width = size.width,
-                height = size.height
+                width = (size.width * imageScale).toInt(),
+                height = (size.height * imageScale).toInt(),
             )
         )
     }
@@ -434,7 +449,12 @@ class AndroidImageManager @Inject constructor(
                 ImageRequest
                     .Builder(context)
                     .data(uri)
-                    .size(Size.ORIGINAL)
+                    .size(
+                        Size(
+                            width = 2000,
+                            height = 2000
+                        )
+                    )
                     .build()
             ).drawable!!.apply {
                 maxWidth = max(maxWidth, minimumWidth)
@@ -448,17 +468,20 @@ class AndroidImageManager @Inject constructor(
 
             val spacing = if (index != drawables.lastIndex) spacing else 0
 
-            if (scaleSmallImagesToLarge) {
-                val max = if (isHorizontal) maxHeight else maxWidth
+            val max = if (isHorizontal) maxHeight else maxWidth
 
-                var targetHeight = 0
-                var targetWidth = 0
+            if (scaleSmallImagesToLarge && max(width, height) < max) {
+                val targetHeight: Int
+                val targetWidth: Int
+
                 if (height >= width) {
                     val aspectRatio = width.toDouble() / height.toDouble()
                     targetWidth = (max * aspectRatio).toInt()
+                    targetHeight = max
                 } else {
                     val aspectRatio = height.toDouble() / width.toDouble()
                     targetHeight = (max * aspectRatio).toInt()
+                    targetWidth = max
                 }
                 if (isHorizontal) {
                     w += targetWidth + spacing
@@ -480,9 +503,31 @@ class AndroidImageManager @Inject constructor(
             w = maxWidth
         }
 
-        Log.d("COCK", w.toString() + "_" + h)
-
         ImageSize(w, h)
+    }
+
+    override suspend fun createCombinedImagesPreview(
+        imageUris: List<String>,
+        combiningParams: CombiningParams
+    ): Bitmap {
+        val imageSize = calculateCombinedImageDimensions(
+            imageUris = imageUris,
+            combiningParams = combiningParams
+        )
+
+        return if (imageSize.height * imageSize.width * 4 < 4096 * 4096 * 5) {
+            combineImages(
+                imageUris = imageUris,
+                combiningParams = combiningParams,
+                imageScale = 0.3f
+            )
+        } else {
+            combineImages(
+                imageUris = imageUris,
+                combiningParams = combiningParams,
+                imageScale = 1f
+            )
+        }.image
     }
 
     override suspend fun trimEmptyParts(image: Bitmap): Bitmap = BackgroundRemover.trim(image)
