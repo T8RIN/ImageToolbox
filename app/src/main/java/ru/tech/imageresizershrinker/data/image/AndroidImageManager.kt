@@ -12,6 +12,7 @@ import android.graphics.PorterDuff
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.net.Uri
+import android.util.Log
 import android.webkit.MimeTypeMap
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
@@ -27,9 +28,11 @@ import kotlinx.coroutines.withContext
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.domain.image.ImageManager
 import ru.tech.imageresizershrinker.domain.image.Transformation
+import ru.tech.imageresizershrinker.domain.model.CombiningParams
 import ru.tech.imageresizershrinker.domain.model.ImageData
 import ru.tech.imageresizershrinker.domain.model.ImageFormat
 import ru.tech.imageresizershrinker.domain.model.ImageInfo
+import ru.tech.imageresizershrinker.domain.model.ImageSize
 import ru.tech.imageresizershrinker.domain.model.Preset
 import ru.tech.imageresizershrinker.domain.model.ResizeType
 import ru.tech.imageresizershrinker.domain.saving.FileController
@@ -358,6 +361,128 @@ class AndroidImageManager @Inject constructor(
             )
         }
         onComplete()
+    }
+
+    override suspend fun combineImages(
+        imageUris: List<String>,
+        combiningParams: CombiningParams,
+        imageSize: ImageSize?
+    ): ImageData<Bitmap, ExifInterface> = combiningParams.run {
+        val size = imageSize ?: calculateCombinedImageDimensions(
+            imageUris = imageUris,
+            combiningParams = combiningParams
+        )
+
+        val bitmaps = imageUris.map {
+            val image = getImage(data = it)!!
+            if (scaleSmallImagesToLarge) {
+                resize(
+                    image = image,
+                    width = if (isHorizontal) image.width else size.width,
+                    height = if (!isHorizontal) image.height else size.height,
+                    resizeType = ResizeType.Flexible
+                )!!
+            } else image
+        }
+
+        val bitmap = Bitmap.createBitmap(size.width, size.height, Bitmap.Config.ARGB_8888)
+        val canvas = Canvas(bitmap).apply {
+            drawColor(Color.Transparent.toArgb(), PorterDuff.Mode.CLEAR)
+            drawColor(backgroundColor)
+        }
+        var pos = 0
+        for (i in imageUris.indices) {
+            if (isHorizontal) {
+                canvas.drawBitmap(
+                    bitmaps[i],
+                    pos.toFloat(),
+                    0f,
+                    null
+                )
+            } else {
+                canvas.drawBitmap(
+                    bitmaps[i],
+                    0f,
+                    pos.toFloat(),
+                    null
+                )
+            }
+            pos += if (isHorizontal) {
+                bitmaps[i].width + spacing
+            } else bitmaps[i].height + spacing
+        }
+
+        ImageData(
+            image = bitmap,
+            imageInfo = ImageInfo(
+                width = size.width,
+                height = size.height
+            )
+        )
+    }
+
+    override suspend fun calculateCombinedImageDimensions(
+        imageUris: List<String>,
+        combiningParams: CombiningParams
+    ): ImageSize = combiningParams.run {
+        var w = 0
+        var h = 0
+        var maxHeight = 0
+        var maxWidth = 0
+        val drawables = imageUris.map { uri ->
+            loader().execute(
+                ImageRequest
+                    .Builder(context)
+                    .data(uri)
+                    .size(Size.ORIGINAL)
+                    .build()
+            ).drawable!!.apply {
+                maxWidth = max(maxWidth, minimumWidth)
+                maxHeight = max(maxHeight, minimumHeight)
+            }
+        }
+
+        drawables.forEachIndexed { index, drawable ->
+            val width = drawable.minimumWidth
+            val height = drawable.minimumHeight
+
+            val spacing = if (index != drawables.lastIndex) spacing else 0
+
+            if (scaleSmallImagesToLarge) {
+                val max = if (isHorizontal) maxHeight else maxWidth
+
+                var targetHeight = 0
+                var targetWidth = 0
+                if (height >= width) {
+                    val aspectRatio = width.toDouble() / height.toDouble()
+                    targetWidth = (max * aspectRatio).toInt()
+                } else {
+                    val aspectRatio = height.toDouble() / width.toDouble()
+                    targetHeight = (max * aspectRatio).toInt()
+                }
+                if (isHorizontal) {
+                    w += targetWidth + spacing
+                } else {
+                    h += targetHeight + spacing
+                }
+            } else {
+                if (isHorizontal) {
+                    w += width + spacing
+                } else {
+                    h += height + spacing
+                }
+            }
+        }
+
+        if (isHorizontal) {
+            h = maxHeight
+        } else {
+            w = maxWidth
+        }
+
+        Log.d("COCK", w.toString() + "_" + h)
+
+        ImageSize(w, h)
     }
 
     override suspend fun trimEmptyParts(image: Bitmap): Bitmap = BackgroundRemover.trim(image)

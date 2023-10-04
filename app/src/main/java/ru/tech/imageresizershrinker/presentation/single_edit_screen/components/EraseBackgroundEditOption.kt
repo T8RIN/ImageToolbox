@@ -62,9 +62,9 @@ import ru.tech.imageresizershrinker.presentation.erase_background_screen.compone
 import ru.tech.imageresizershrinker.presentation.root.icons.material.Transparency
 import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
 import ru.tech.imageresizershrinker.presentation.root.utils.confetti.LocalConfettiController
+import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedIconButton
 import ru.tech.imageresizershrinker.presentation.root.widget.modifier.container
 import ru.tech.imageresizershrinker.presentation.root.widget.modifier.drawHorizontalStroke
-import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedIconButton
 import ru.tech.imageresizershrinker.presentation.root.widget.other.Loading
 import ru.tech.imageresizershrinker.presentation.root.widget.other.LocalToastHost
 import ru.tech.imageresizershrinker.presentation.root.widget.other.LockScreenOrientation
@@ -304,7 +304,7 @@ fun EraseBackgroundEditOption(
                         imageBitmap = imageBitmap,
                         paths = paths,
                         strokeWidth = strokeWidth,
-                        blurRadius = blurRadius,
+                        brushSoftness = blurRadius,
                         onAddPath = addPath,
                         isRecoveryOn = isRecoveryOn,
                         modifier = Modifier

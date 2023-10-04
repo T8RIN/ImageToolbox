@@ -90,6 +90,8 @@ fun BitmapDrawer(
         )
     }
 
+    //TODO: AUTO SCALE PATH TO CANVAS SIZE
+
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -246,7 +248,7 @@ fun BitmapDrawer(
                             PathPaint(
                                 path = drawPath,
                                 strokeWidth = strokeWidth,
-                                blurRadius = brushSoftness,
+                                brushSoftness = brushSoftness,
                                 drawColor = drawColor,
                                 isErasing = isEraserOn,
                                 drawMode = drawMode

@@ -54,7 +54,7 @@ fun BitmapEraser(
     imageBitmap: ImageBitmap,
     imageBitmapForShader: ImageBitmap?,
     paths: List<PathPaint>,
-    blurRadius: Float,
+    brushSoftness: Float,
     onAddPath: (PathPaint) -> Unit,
     strokeWidth: Float,
     isRecoveryOn: Boolean = false,
@@ -136,6 +136,9 @@ fun BitmapEraser(
                     this.strokeWidth = strokeWidth
                     strokeJoin = StrokeJoin.Round
                     isAntiAlias = true
+                }.asFrameworkPaint().apply {
+                    if (brushSoftness > 0f) maskFilter =
+                        BlurMaskFilter(brushSoftness, BlurMaskFilter.Blur.NORMAL)
                 }
             }
 
@@ -173,7 +176,7 @@ fun BitmapEraser(
                             PathPaint(
                                 path = drawPath,
                                 strokeWidth = strokeWidth,
-                                blurRadius = blurRadius,
+                                brushSoftness = brushSoftness,
                                 isErasing = isRecoveryOn
                             )
                         )
@@ -214,12 +217,9 @@ fun BitmapEraser(
                         )
                     }
 
-                    this.drawPath(
+                    drawPath(
                         drawPath.asAndroidPath(),
-                        drawPaint.asFrameworkPaint().apply {
-                            if (blurRadius > 0f) maskFilter =
-                                BlurMaskFilter(blurRadius, BlurMaskFilter.Blur.NORMAL)
-                        }
+                        drawPaint
                     )
                 }
             }

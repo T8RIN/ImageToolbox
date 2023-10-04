@@ -36,8 +36,8 @@ import ru.tech.imageresizershrinker.presentation.root.theme.BitcoinColor
 import ru.tech.imageresizershrinker.presentation.root.theme.USDTColor
 import ru.tech.imageresizershrinker.presentation.root.theme.inverse
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.ContextUtils.copyToClipboard
-import ru.tech.imageresizershrinker.presentation.root.widget.modifier.container
 import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedButton
+import ru.tech.imageresizershrinker.presentation.root.widget.modifier.container
 import ru.tech.imageresizershrinker.presentation.root.widget.other.LocalToastHost
 import ru.tech.imageresizershrinker.presentation.root.widget.preferences.PreferenceItem
 import ru.tech.imageresizershrinker.presentation.root.widget.sheets.SimpleSheet
