@@ -358,9 +358,14 @@
     <string name="effort">Efort</string>
     <string name="updates">Actualizări</string>
     <string name="wait">Așteptați</string>
-    <string name="effort_sub">O valoare de %d înseamnă că se comprimă rapid, ceea ce duce la o dimensiune relativ mare a fișierului. %d înseamnă că trebuie să se petreacă mai mult timp comprimând, rezultând un fișier mai mic.</string>
+    <string name="effort_sub">O valoare de %1$d înseamnă că se comprimă rapid, ceea ce duce la o dimensiune relativ mare a fișierului. %2$d înseamnă că trebuie să se petreacă mai mult timp comprimând, rezultând un fișier mai mic.</string>
     <string name="allow_betas">Permiteți beta</string>
     <string name="saving_almost_complete">Salvarea este aproape finalizată, dacă o anulați acum, va trebui să începeți din nou salvarea.</string>
     <string name="shadows_setting_sub">Permite desenarea umbrelor în spatele containerelor și butoanelor dacă marginile sunt dezactivate</string>
     <string name="allow_betas_sub">Verificarea pentru actualizări va include și versiuni beta al aplicației dacă este activată</string>
+    <string name="brush_softness">Moliciunea periei</string>
+    <string name="draw_arrows">Desenați Săgeți</string>
+    <string name="draw_arrows_sub">Dacă este activată, traiectoria de desen va fi reprezentată ca o săgeată orientată.</string>
+    <string name="crop_description">Imaginile vor fi centrate la această dimensiune dacă dimensiunea lor este mai mare decât dimensiunile de intrare, iar în celelalte cazuri, pânza va fi extinsă cu culoarea de fundal dată.</string>
+    <string name="donation">Donație</string>
 </resources>
