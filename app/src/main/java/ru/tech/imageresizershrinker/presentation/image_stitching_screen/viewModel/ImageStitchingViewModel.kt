@@ -13,6 +13,7 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import ru.tech.imageresizershrinker.domain.image.ImageManager
@@ -57,25 +58,34 @@ class ImageStitchingViewModel @Inject constructor(
 
     fun setMime(imageFormat: ImageFormat) {
         _imageInfo.value = _imageInfo.value.copy(imageFormat = imageFormat)
+        calculatePreview()
     }
 
     fun updateUris(uris: List<Uri>?) {
         _uris.value = null
         _uris.value = uris
 
-        uris?.let {
-            viewModelScope.launch {
+        calculatePreview()
+    }
+
+    private var calculationPreviewJob: Job? = null
+
+    private fun calculatePreview() {
+        calculationPreviewJob?.cancel()
+        uris?.let { uris ->
+            calculationPreviewJob = viewModelScope.launch {
+                delay(300L)
                 _isImageLoading.value = true
                 _previewBitmap.value = imageManager.createCombinedImagesPreview(
-                    imageUris = it.map { it.toString() },
+                    imageUris = uris.map { it.toString() },
                     combiningParams = combiningParams,
                     imageFormat = imageInfo.imageFormat,
                     quality = imageInfo.quality,
                     onGetByteCount = { _imageSize.value = it.toLong() }
                 )
-                _isImageLoading.value = false
             }
         }
+        _isImageLoading.value = false
     }
 
     private var savingJob: Job? = null
@@ -147,6 +157,7 @@ class ImageStitchingViewModel @Inject constructor(
 
     fun setQuality(fl: Float) {
         _imageInfo.value = _imageInfo.value.copy(quality = fl.coerceIn(0f, 100f))
+        calculatePreview()
     }
 
     fun cancelSaving() {
