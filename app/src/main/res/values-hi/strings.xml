@@ -368,4 +368,5 @@
     <string name="draw_arrows_sub">यदि सक्षम किया गया है तो ड्राइंग पथ को इंगित तीर के रूप में दर्शाया जाएगा</string>
     <string name="crop_description">यदि चित्रों का आकार इनपुट आयामों से बड़ा है तो उन्हें बीच में इस आकार में क्रॉप किया जाएगा और अन्य मामलों में कैनवास को दिए गए पृष्ठभूमि रंग के साथ विस्तारित किया जाएगा</string>
     <string name="donation">दान</string>
+    <string name="value_in_range">मान %1$d..%2$d में</string>
 </resources>
