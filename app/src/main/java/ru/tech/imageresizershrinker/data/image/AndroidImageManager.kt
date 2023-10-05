@@ -508,14 +508,17 @@ class AndroidImageManager @Inject constructor(
 
     override suspend fun createCombinedImagesPreview(
         imageUris: List<String>,
-        combiningParams: CombiningParams
+        combiningParams: CombiningParams,
+        imageFormat: ImageFormat,
+        quality: Float,
+        onGetByteCount: (Int) -> Unit
     ): Bitmap {
         val imageSize = calculateCombinedImageDimensions(
             imageUris = imageUris,
             combiningParams = combiningParams
         )
 
-        return if (imageSize.height * imageSize.width * 4 < 4096 * 4096 * 5) {
+        if (imageSize.height * imageSize.width * 4 < 4096 * 4096 * 5) {
             combineImages(
                 imageUris = imageUris,
                 combiningParams = combiningParams,
@@ -527,7 +530,16 @@ class AndroidImageManager @Inject constructor(
                 combiningParams = combiningParams,
                 imageScale = 1f
             )
-        }.image
+        }.let { (image, imageInfo, _) ->
+            return createPreview(
+                image = image,
+                imageInfo = imageInfo.copy(
+                    imageFormat = imageFormat,
+                    quality = quality
+                ),
+                onGetByteCount = onGetByteCount
+            )
+        }
     }
 
     override suspend fun trimEmptyParts(image: Bitmap): Bitmap = BackgroundRemover.trim(image)

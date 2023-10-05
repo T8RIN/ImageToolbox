@@ -93,6 +93,9 @@ import ru.tech.imageresizershrinker.presentation.root.utils.helper.Picker
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.localImagePickerMode
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.rememberImagePicker
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.toHex
+import ru.tech.imageresizershrinker.presentation.root.utils.navigation.LocalNavController
+import ru.tech.imageresizershrinker.presentation.root.utils.navigation.Screen
+import ru.tech.imageresizershrinker.presentation.root.widget.image.ImageNotPickedWidget
 import ru.tech.imageresizershrinker.presentation.root.widget.modifier.autoElevatedBorder
 import ru.tech.imageresizershrinker.presentation.root.widget.modifier.container
 import ru.tech.imageresizershrinker.presentation.root.widget.modifier.containerFabBorder
@@ -100,9 +103,6 @@ import ru.tech.imageresizershrinker.presentation.root.widget.modifier.drawHorizo
 import ru.tech.imageresizershrinker.presentation.root.widget.modifier.navBarsPaddingOnlyIfTheyAtTheBottom
 import ru.tech.imageresizershrinker.presentation.root.widget.modifier.navBarsPaddingOnlyIfTheyAtTheEnd
 import ru.tech.imageresizershrinker.presentation.root.widget.modifier.transparencyChecker
-import ru.tech.imageresizershrinker.presentation.root.utils.navigation.LocalNavController
-import ru.tech.imageresizershrinker.presentation.root.utils.navigation.Screen
-import ru.tech.imageresizershrinker.presentation.root.widget.image.ImageNotPickedWidget
 import ru.tech.imageresizershrinker.presentation.root.widget.other.LoadingDialog
 import ru.tech.imageresizershrinker.presentation.root.widget.other.LocalToastHost
 import ru.tech.imageresizershrinker.presentation.root.widget.other.TopAppBarEmoji
@@ -153,7 +153,7 @@ fun PickColorFromImageScreen(
         viewModel.bitmap?.let {
             if (allowChangeColor) {
                 themeState.updateColorByImage(
-                    SaturationFilter(context, 2f).transform(it, Size.ORIGINAL)
+                    SaturationFilter(context, 2f).transform(it, Size(500, 500))
                 )
             }
         }

@@ -1,10 +1,11 @@
-package ru.tech.imageresizershrinker.presentation.limits_resize_screen
+package ru.tech.imageresizershrinker.presentation.image_stitching_screen
 
 import android.content.res.Configuration
 import android.net.Uri
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -16,22 +17,38 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.ime
 import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.pager.HorizontalPager
+import androidx.compose.foundation.pager.rememberPagerState
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.ArrowBack
 import androidx.compose.material.icons.outlined.Share
+import androidx.compose.material.icons.rounded.Animation
+import androidx.compose.material.icons.rounded.ErrorOutline
+import androidx.compose.material.icons.rounded.FilterHdr
+import androidx.compose.material.icons.rounded.FormatColorFill
+import androidx.compose.material.icons.rounded.LensBlur
+import androidx.compose.material.icons.rounded.Light
 import androidx.compose.material.icons.rounded.ZoomIn
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.LargeTopAppBar
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.ScrollableTabRow
 import androidx.compose.material3.Surface
+import androidx.compose.material3.Tab
+import androidx.compose.material3.TabRowDefaults
+import androidx.compose.material3.TabRowDefaults.tabIndicatorOffset
+import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.material3.surfaceColorAtElevation
@@ -46,6 +63,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.input.nestedscroll.nestedScroll
@@ -61,25 +79,18 @@ import dev.olshevski.navigation.reimagined.hilt.hiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.R
-import ru.tech.imageresizershrinker.domain.model.ImageInfo
-import ru.tech.imageresizershrinker.presentation.limits_resize_screen.components.LimitsResizeGroup
-import ru.tech.imageresizershrinker.presentation.limits_resize_screen.viewModel.LimitsResizeViewModel
-import ru.tech.imageresizershrinker.presentation.root.transformation.ImageInfoTransformation
+import ru.tech.imageresizershrinker.presentation.image_stitching_screen.viewModel.ImageStitchingViewModel
 import ru.tech.imageresizershrinker.presentation.root.transformation.filter.SaturationFilter
 import ru.tech.imageresizershrinker.presentation.root.utils.confetti.LocalConfettiController
-import ru.tech.imageresizershrinker.presentation.root.utils.helper.ImageUtils.fileSize
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.Picker
-import ru.tech.imageresizershrinker.presentation.root.utils.helper.failedToSaveImages
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.localImagePickerMode
+import ru.tech.imageresizershrinker.presentation.root.utils.helper.parseSaveResult
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.rememberImagePicker
 import ru.tech.imageresizershrinker.presentation.root.widget.buttons.BottomButtonsBlock
 import ru.tech.imageresizershrinker.presentation.root.widget.controls.ExtensionGroup
 import ru.tech.imageresizershrinker.presentation.root.widget.controls.QualityWidget
-import ru.tech.imageresizershrinker.presentation.root.widget.controls.ResizeImageField
-import ru.tech.imageresizershrinker.presentation.root.widget.controls.SaveExifWidget
 import ru.tech.imageresizershrinker.presentation.root.widget.dialogs.ExitWithoutSavingDialog
 import ru.tech.imageresizershrinker.presentation.root.widget.image.ImageContainer
-import ru.tech.imageresizershrinker.presentation.root.widget.image.ImageCounter
 import ru.tech.imageresizershrinker.presentation.root.widget.image.ImageNotPickedWidget
 import ru.tech.imageresizershrinker.presentation.root.widget.image.imageStickyHeader
 import ru.tech.imageresizershrinker.presentation.root.widget.modifier.container
@@ -88,8 +99,6 @@ import ru.tech.imageresizershrinker.presentation.root.widget.modifier.navBarsLan
 import ru.tech.imageresizershrinker.presentation.root.widget.other.LoadingDialog
 import ru.tech.imageresizershrinker.presentation.root.widget.other.LocalToastHost
 import ru.tech.imageresizershrinker.presentation.root.widget.other.TopAppBarEmoji
-import ru.tech.imageresizershrinker.presentation.root.widget.other.showError
-import ru.tech.imageresizershrinker.presentation.root.widget.sheets.PickImageFromUrisSheet
 import ru.tech.imageresizershrinker.presentation.root.widget.sheets.ZoomModalSheet
 import ru.tech.imageresizershrinker.presentation.root.widget.text.TopAppBarTitle
 import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalSettingsState
@@ -97,12 +106,12 @@ import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalWindowSi
 import ru.tech.imageresizershrinker.presentation.root.widget.utils.isExpanded
 import ru.tech.imageresizershrinker.presentation.root.widget.utils.middleImageState
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
 @Composable
-fun LimitsResizeScreen(
+fun ImageStitchingScreen(
     uriState: List<Uri>?,
     onGoBack: () -> Unit,
-    viewModel: LimitsResizeViewModel = hiltViewModel()
+    viewModel: ImageStitchingViewModel = hiltViewModel()
 ) {
     val settingsState = LocalSettingsState.current
 
@@ -120,20 +129,13 @@ fun LimitsResizeScreen(
     }
 
     LaunchedEffect(uriState) {
-        uriState?.takeIf { it.isNotEmpty() }?.let { uris ->
+        uriState?.takeIf { it.size > 1 }?.let { uris ->
             viewModel.updateUris(uris)
-            viewModel.decodeBitmapFromUri(
-                uri = uris[0],
-                onError = {
-                    scope.launch {
-                        toastHostState.showError(context, it)
-                    }
-                }
-            )
         }
     }
-    LaunchedEffect(viewModel.bitmap) {
-        viewModel.bitmap?.let {
+
+    LaunchedEffect(viewModel.previewBitmap) {
+        viewModel.previewBitmap?.let {
             if (allowChangeColor) {
                 themeState.updateColorByImage(
                     SaturationFilter(context, 2f).transform(it, Size(500, 500))
@@ -147,15 +149,14 @@ fun LimitsResizeScreen(
             mode = localImagePickerMode(Picker.Multiple)
         ) { list ->
             list.takeIf { it.isNotEmpty() }?.let { uris ->
-                viewModel.updateUris(list)
-                viewModel.decodeBitmapFromUri(
-                    uri = uris[0],
-                    onError = {
-                        scope.launch {
-                            toastHostState.showError(context, it)
-                        }
+                if (uris.size < 2) {
+                    scope.launch {
+                        toastHostState.showToast(
+                            message = context.getString(R.string.pick_at_least_two_images),
+                            icon = Icons.Rounded.ErrorOutline
+                        )
                     }
-                )
+                } else viewModel.updateUris(uris)
             }
         }
 
@@ -166,25 +167,23 @@ fun LimitsResizeScreen(
     var showExitDialog by rememberSaveable { mutableStateOf(false) }
 
     val onBack = {
-        if (viewModel.canSave) showExitDialog = true
+        if (viewModel.previewBitmap != null) showExitDialog = true
         else onGoBack()
     }
 
     val saveBitmaps: () -> Unit = {
-        viewModel.saveBitmaps { failed, savingPath ->
-            context.failedToSaveImages(
-                scope = scope,
-                failed = failed,
-                done = viewModel.done,
+        viewModel.saveBitmaps { saveResult ->
+            parseSaveResult(
+                saveResult = saveResult,
+                onSuccess = showConfetti,
                 toastHostState = toastHostState,
-                savingPathString = savingPath,
-                showConfetti = showConfetti
+                scope = scope,
+                context = context
             )
         }
     }
 
     val focus = LocalFocusManager.current
-    var showPickImageFromUrisDialog by rememberSaveable { mutableStateOf(false) }
 
     val imageInside =
         LocalConfiguration.current.orientation != Configuration.ORIENTATION_LANDSCAPE || LocalWindowSizeClass.current.widthSizeClass == WindowWidthSizeClass.Compact
@@ -206,26 +205,21 @@ fun LimitsResizeScreen(
 
     val imageBlock = @Composable {
         ImageContainer(
-            modifier = Modifier.pointerInput(Unit) {
-                detectTapGestures(
-                    onTap = { showPickImageFromUrisDialog = true }
-                )
-            },
             imageInside = imageInside,
             showOriginal = false,
             previewBitmap = viewModel.previewBitmap,
-            originalBitmap = viewModel.bitmap,
+            originalBitmap = null,
             isLoading = viewModel.isImageLoading,
             shouldShowPreview = true
         )
     }
 
-    val showSheet = rememberSaveable { mutableStateOf(false) }
+    val showZoomSheet = rememberSaveable { mutableStateOf(false) }
     val zoomButton = @Composable {
-        AnimatedVisibility(viewModel.bitmap != null) {
+        AnimatedVisibility(viewModel.previewBitmap != null) {
             IconButton(
                 onClick = {
-                    showSheet.value = true
+                    showZoomSheet.value = true
                 }
             ) {
                 Icon(Icons.Rounded.ZoomIn, null)
@@ -239,7 +233,7 @@ fun LimitsResizeScreen(
                 onClick = {
                     viewModel.shareBitmaps { showConfetti() }
                 },
-                enabled = viewModel.canSave
+                enabled = viewModel.previewBitmap != null
             ) {
                 Icon(Icons.Outlined.Share, null)
             }
@@ -249,7 +243,7 @@ fun LimitsResizeScreen(
 
     val buttons = @Composable {
         BottomButtonsBlock(
-            canSave = viewModel.canSave,
+            canSave = viewModel.previewBitmap != null,
             targetState = (viewModel.uris.isNullOrEmpty()) to imageInside,
             onPickImage = pickImage,
             onSaveBitmap = saveBitmaps,
@@ -261,7 +255,7 @@ fun LimitsResizeScreen(
 
     ZoomModalSheet(
         bitmap = viewModel.previewBitmap,
-        visible = showSheet
+        visible = showZoomSheet
     )
 
     Surface(
@@ -287,10 +281,10 @@ fun LimitsResizeScreen(
                     modifier = Modifier.drawHorizontalStroke(),
                     title = {
                         TopAppBarTitle(
-                            title = stringResource(R.string.limits_resize),
-                            bitmap = viewModel.bitmap,
+                            title = stringResource(R.string.image_stitching),
+                            bitmap = viewModel.previewBitmap,
                             isLoading = viewModel.isImageLoading,
-                            size = viewModel.selectedUri?.fileSize(LocalContext.current) ?: 0L
+                            size = viewModel.imageSize // TODO: Remove imageSize
                         )
                     },
                     colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
@@ -306,7 +300,7 @@ fun LimitsResizeScreen(
                         }
                     },
                     actions = {
-                        if (viewModel.bitmap == null) {
+                        if (viewModel.uris.isNullOrEmpty()) {
                             TopAppBarEmoji()
                         }
                         if (!imageInside) actions()
@@ -316,7 +310,7 @@ fun LimitsResizeScreen(
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.Center,
                 ) {
-                    if (!imageInside && viewModel.bitmap != null) {
+                    if (!imageInside && !viewModel.uris.isNullOrEmpty()) {
                         Box(
                             Modifier
                                 .container(
@@ -339,8 +333,8 @@ fun LimitsResizeScreen(
                                 .asPaddingValues()
                                 .calculateBottomPadding() + WindowInsets.ime
                                 .asPaddingValues()
-                                .calculateBottomPadding() + (if (!imageInside && viewModel.bitmap != null) 20.dp else 100.dp),
-                            top = if (viewModel.bitmap == null || !imageInside) 20.dp else 0.dp,
+                                .calculateBottomPadding() + (if (!imageInside && !viewModel.uris.isNullOrEmpty()) 20.dp else 100.dp),
+                            top = if (viewModel.uris.isNullOrEmpty() || !imageInside) 20.dp else 0.dp,
                             start = 20.dp,
                             end = 20.dp
                         ),
@@ -349,7 +343,7 @@ fun LimitsResizeScreen(
                             .clipToBounds()
                     ) {
                         imageStickyHeader(
-                            visible = imageInside && viewModel.bitmap != null,
+                            visible = imageInside && !viewModel.uris.isNullOrEmpty(),
                             imageState = imageState,
                             onStateChange = { imageState = it },
                             imageBlock = imageBlock
@@ -358,51 +352,104 @@ fun LimitsResizeScreen(
                             Column(
                                 modifier = Modifier
                                     .fillMaxSize()
-                                    .navBarsLandscapePadding(viewModel.bitmap == null),
+                                    .navBarsLandscapePadding(viewModel.uris.isNullOrEmpty()),
                                 verticalArrangement = Arrangement.Center,
                                 horizontalAlignment = Alignment.CenterHorizontally
                             ) {
-                                if (imageInside && viewModel.bitmap == null) imageBlock()
-                                if (viewModel.bitmap != null) {
-                                    ImageCounter(
-                                        imageCount = viewModel.uris?.size?.takeIf { it > 1 },
-                                        onRepick = {
-                                            showPickImageFromUrisDialog = true
+                                if (imageInside && viewModel.uris.isNullOrEmpty()) imageBlock()
+                                if (!viewModel.uris.isNullOrEmpty()) {
+                                    val pagerState = rememberPagerState(pageCount = { 2 })
+                                    Row(
+                                        modifier = Modifier.fillMaxWidth(),
+                                        horizontalArrangement = Arrangement.Center
+                                    ) {
+                                        ScrollableTabRow(
+                                            divider = {},
+                                            containerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(
+                                                10.dp
+                                            ),
+                                            selectedTabIndex = pagerState.currentPage,
+                                            indicator = { tabPositions ->
+                                                if (pagerState.currentPage < tabPositions.size) {
+                                                    TabRowDefaults.PrimaryIndicator(
+                                                        modifier = Modifier
+                                                            .tabIndicatorOffset(tabPositions[pagerState.currentPage]),
+                                                        width = 60.dp,
+                                                        height = 4.dp,
+                                                        shape = RoundedCornerShape(
+                                                            topStart = 100f,
+                                                            topEnd = 100f
+                                                        )
+                                                    )
+                                                }
+                                            }
+                                        ) {
+                                            listOf(
+                                                Icons.Rounded.FormatColorFill to stringResource(id = R.string.color),
+                                                Icons.Rounded.Light to stringResource(R.string.light_aka_illumination),
+                                                Icons.Rounded.FilterHdr to stringResource(R.string.effect),
+                                                Icons.Rounded.LensBlur to stringResource(R.string.blur),
+                                                Icons.Rounded.Animation to stringResource(R.string.distortion)
+                                            ).forEachIndexed { index, (icon, title) ->
+                                                val selected = pagerState.currentPage == index
+                                                Tab(
+                                                    unselectedContentColor = MaterialTheme.colorScheme.onSurface,
+                                                    modifier = Modifier
+                                                        .padding(8.dp)
+                                                        .clip(CircleShape),
+                                                    selected = selected,
+                                                    onClick = {
+                                                        scope.launch {
+                                                            pagerState.animateScrollToPage(index)
+                                                        }
+                                                    },
+                                                    icon = {
+                                                        Icon(
+                                                            imageVector = icon,
+                                                            contentDescription = null,
+                                                            tint = if (selected) {
+                                                                MaterialTheme.colorScheme.primary
+                                                            } else MaterialTheme.colorScheme.onSurface
+                                                        )
+                                                    },
+                                                    text = { Text(title) }
+                                                )
+                                            }
                                         }
-                                    )
-                                    ResizeImageField(
-                                        imageInfo = viewModel.imageInfo,
-                                        bitmap = viewModel.bitmap,
-                                        onWidthChange = viewModel::updateWidth,
-                                        onHeightChange = viewModel::updateHeight
-                                    )
-                                    Spacer(Modifier.size(8.dp))
-                                    SaveExifWidget(
-                                        imageFormat = viewModel.imageInfo.imageFormat,
-                                        selected = viewModel.keepExif,
-                                        onCheckedChange = { viewModel.setKeepExif(!viewModel.keepExif) }
-                                    )
-                                    if (viewModel.imageInfo.imageFormat.canChangeCompressionValue) Spacer(
-                                        Modifier.size(8.dp)
-                                    )
-                                    QualityWidget(
-                                        imageFormat = viewModel.imageInfo.imageFormat,
-                                        enabled = viewModel.bitmap != null,
-                                        quality = viewModel.imageInfo.quality,
-                                        onQualityChange = viewModel::setQuality
-                                    )
-                                    Spacer(Modifier.size(8.dp))
-                                    ExtensionGroup(
-                                        enabled = viewModel.bitmap != null,
-                                        imageFormat = viewModel.imageInfo.imageFormat,
-                                        onFormatChange = viewModel::setMime
-                                    )
-                                    Spacer(Modifier.size(8.dp))
-                                    LimitsResizeGroup(
-                                        enabled = viewModel.bitmap != null,
-                                        resizeType = viewModel.imageInfo.resizeType,
-                                        onResizeChange = viewModel::setResizeType
-                                    )
+                                    }
+                                    HorizontalPager(
+                                        state = pagerState,
+                                        beyondBoundsPageCount = 1
+                                    ) { page ->
+                                        Column(
+                                            modifier = Modifier.padding(vertical = 16.dp),
+                                            verticalArrangement = Arrangement.spacedBy(8.dp)
+                                        ) {
+                                            when (page) {
+                                                0 -> {
+                                                    if (viewModel.imageInfo.imageFormat.canChangeCompressionValue) {
+                                                        Spacer(Modifier.size(8.dp))
+                                                    }
+                                                    QualityWidget(
+                                                        imageFormat = viewModel.imageInfo.imageFormat,
+                                                        enabled = !viewModel.uris.isNullOrEmpty(),
+                                                        quality = viewModel.imageInfo.quality,
+                                                        onQualityChange = viewModel::setQuality
+                                                    )
+                                                    Spacer(Modifier.size(8.dp))
+                                                    ExtensionGroup(
+                                                        enabled = !viewModel.uris.isNullOrEmpty(),
+                                                        imageFormat = viewModel.imageInfo.imageFormat,
+                                                        onFormatChange = viewModel::setMime
+                                                    )
+                                                }
+
+                                                1 -> {
+                                                    Text(text = "TODO")
+                                                }
+                                            }
+                                        }
+                                    }
                                 } else if (!viewModel.isImageLoading) {
                                     ImageNotPickedWidget(onPickImage = pickImage)
                                     Spacer(Modifier.size(8.dp))
@@ -412,13 +459,13 @@ fun LimitsResizeScreen(
                         }
                     }
 
-                    if (!imageInside && viewModel.bitmap != null) {
+                    if (!imageInside && !viewModel.uris.isNullOrEmpty()) {
                         buttons()
                     }
                 }
             }
 
-            if (imageInside || viewModel.bitmap == null) {
+            if (imageInside || viewModel.uris.isNullOrEmpty()) {
                 Box(
                     modifier = Modifier.align(settingsState.fabAlignment)
                 ) {
@@ -427,41 +474,11 @@ fun LimitsResizeScreen(
             }
 
             if (viewModel.isSaving) {
-                LoadingDialog(
-                    done = viewModel.done,
-                    left = viewModel.uris?.size ?: 1
-                ) {
+                LoadingDialog {
                     viewModel.cancelSaving()
                 }
             }
 
-            PickImageFromUrisSheet(
-                transformations = listOf(
-                    ImageInfoTransformation(
-                        imageInfo = ImageInfo(),
-                        imageManager = viewModel.getImageManager()
-                    )
-                ),
-                visible = showPickImageFromUrisDialog,
-                uris = viewModel.uris,
-                selectedUri = viewModel.selectedUri,
-                onDismiss = {
-                    showPickImageFromUrisDialog = false
-                },
-                onUriPicked = { uri ->
-                    try {
-                        viewModel.setBitmap(uri = uri)
-                    } catch (e: Exception) {
-                        scope.launch {
-                            toastHostState.showError(context, e)
-                        }
-                    }
-                },
-                onUriRemoved = { uri ->
-                    viewModel.updateUrisSilently(removedUri = uri)
-                },
-                columns = if (imageInside) 2 else 4,
-            )
 
             ExitWithoutSavingDialog(
                 onExit = onGoBack,

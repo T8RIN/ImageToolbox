@@ -26,6 +26,7 @@ import ru.tech.imageresizershrinker.presentation.file_cipher_screen.FileCipherSc
 import ru.tech.imageresizershrinker.presentation.filters_screen.FiltersScreen
 import ru.tech.imageresizershrinker.presentation.generate_palette_screen.GeneratePaletteScreen
 import ru.tech.imageresizershrinker.presentation.image_preview_screen.ImagePreviewScreen
+import ru.tech.imageresizershrinker.presentation.image_stitching_screen.ImageStitchingScreen
 import ru.tech.imageresizershrinker.presentation.limits_resize_screen.LimitsResizeScreen
 import ru.tech.imageresizershrinker.presentation.load_net_image_screen.LoadNetImageScreen
 import ru.tech.imageresizershrinker.presentation.main_screen.viewModel.MainViewModel
@@ -202,7 +203,12 @@ fun ScreenSelector(
                 )
             }
 
-            is Screen.ImageStitching -> TODO()
+            is Screen.ImageStitching -> {
+                ImageStitchingScreen(
+                    uriState = screen.uris,
+                    onGoBack = onGoBack
+                )
+            }
         }
     }
 }

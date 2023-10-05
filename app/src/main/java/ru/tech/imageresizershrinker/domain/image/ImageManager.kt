@@ -128,7 +128,10 @@ interface ImageManager<I, M> {
 
     suspend fun createCombinedImagesPreview(
         imageUris: List<String>,
-        combiningParams: CombiningParams
+        combiningParams: CombiningParams,
+        imageFormat: ImageFormat,
+        quality: Float,
+        onGetByteCount: (Int) -> Unit
     ): I
 
 }

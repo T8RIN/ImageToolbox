@@ -25,8 +25,8 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.rounded.ArrowBack
 import androidx.compose.material.icons.outlined.Share
-import androidx.compose.material.icons.rounded.ArrowBack
 import androidx.compose.material.icons.rounded.ZoomIn
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -69,13 +69,13 @@ import ru.tech.imageresizershrinker.presentation.root.utils.helper.Picker
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.failedToSaveImages
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.localImagePickerMode
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.rememberImagePicker
-import ru.tech.imageresizershrinker.presentation.root.widget.modifier.drawHorizontalStroke
-import ru.tech.imageresizershrinker.presentation.root.widget.modifier.navBarsLandscapePadding
 import ru.tech.imageresizershrinker.presentation.root.widget.buttons.BottomButtonsBlock
 import ru.tech.imageresizershrinker.presentation.root.widget.dialogs.ExitWithoutSavingDialog
 import ru.tech.imageresizershrinker.presentation.root.widget.image.ImageContainer
 import ru.tech.imageresizershrinker.presentation.root.widget.image.ImageCounter
 import ru.tech.imageresizershrinker.presentation.root.widget.image.ImageNotPickedWidget
+import ru.tech.imageresizershrinker.presentation.root.widget.modifier.drawHorizontalStroke
+import ru.tech.imageresizershrinker.presentation.root.widget.modifier.navBarsLandscapePadding
 import ru.tech.imageresizershrinker.presentation.root.widget.other.LoadingDialog
 import ru.tech.imageresizershrinker.presentation.root.widget.other.LocalToastHost
 import ru.tech.imageresizershrinker.presentation.root.widget.other.TopAppBarEmoji
@@ -128,7 +128,7 @@ fun DeleteExifScreen(
         viewModel.bitmap?.let {
             if (allowChangeColor) {
                 themeState.updateColorByImage(
-                    SaturationFilter(context, 2f).transform(it, Size.ORIGINAL)
+                    SaturationFilter(context, 2f).transform(it, Size(500, 500))
                 )
             }
         }
@@ -295,7 +295,7 @@ fun DeleteExifScreen(
                                 else onGoBack()
                             }
                         ) {
-                            Icon(Icons.Rounded.ArrowBack, null)
+                            Icon(Icons.AutoMirrored.Rounded.ArrowBack, null)
                         }
                     },
                     actions = {
