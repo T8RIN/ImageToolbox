@@ -72,7 +72,7 @@ fun DrawBackgroundSelector(
 
     Column(modifier) {
         Row(
-            Modifier.fillMaxWidth(),
+            modifier = Modifier.fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.Center
         ) {

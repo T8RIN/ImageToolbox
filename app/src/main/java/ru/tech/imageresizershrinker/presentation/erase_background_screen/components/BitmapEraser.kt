@@ -65,6 +65,7 @@ fun BitmapEraser(
     val zoomState = rememberAnimatedZoomState(maxZoom = 30f)
     val scope = rememberCoroutineScope()
 
+    //TODO: Investigate laggy erasing
     Box(
         modifier = Modifier
             .fillMaxSize()

@@ -485,10 +485,10 @@ class MainViewModel @Inject constructor(
                 showShoeDescription(emojiUri)
                 setFont(FontFam.DejaVu)
                 val colorTuple = ColorTuple(
-                    primary = Color(0xFF2DE52D),
+                    primary = Color(0xFF6D217D),
                     secondary = Color(0xFFFFFFA0),
-                    tertiary = Color(0xFF212B97),
-                    surface = Color(0xFF6D216D)
+                    tertiary = Color(0xFF240A95),
+                    surface = Color(0xFF1D2D3D)
                 )
                 val colorTupleS = listOf(colorTuple).asString()
                 updateColorTuple(colorTuple)

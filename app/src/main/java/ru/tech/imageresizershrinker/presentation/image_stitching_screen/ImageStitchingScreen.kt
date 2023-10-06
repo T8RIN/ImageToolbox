@@ -27,8 +27,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.ArrowBack
 import androidx.compose.material.icons.outlined.Share
 import androidx.compose.material.icons.rounded.ErrorOutline
-import androidx.compose.material.icons.rounded.SaveAlt
-import androidx.compose.material.icons.rounded.Tune
 import androidx.compose.material.icons.rounded.ZoomIn
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -69,6 +67,7 @@ import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.presentation.draw_screen.components.DrawBackgroundSelector
 import ru.tech.imageresizershrinker.presentation.image_stitching_screen.components.ImageOrientationToggle
+import ru.tech.imageresizershrinker.presentation.image_stitching_screen.components.ImageReorderCarousel
 import ru.tech.imageresizershrinker.presentation.image_stitching_screen.components.ImageScaleSelector
 import ru.tech.imageresizershrinker.presentation.image_stitching_screen.components.ScaleSmallImagesToLargeToggle
 import ru.tech.imageresizershrinker.presentation.image_stitching_screen.components.SpacingSelector
@@ -93,7 +92,6 @@ import ru.tech.imageresizershrinker.presentation.root.widget.other.LoadingDialog
 import ru.tech.imageresizershrinker.presentation.root.widget.other.LocalToastHost
 import ru.tech.imageresizershrinker.presentation.root.widget.other.TopAppBarEmoji
 import ru.tech.imageresizershrinker.presentation.root.widget.sheets.ZoomModalSheet
-import ru.tech.imageresizershrinker.presentation.root.widget.text.TitleItem
 import ru.tech.imageresizershrinker.presentation.root.widget.text.TopAppBarTitle
 import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalSettingsState
 import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalWindowSizeClass
@@ -150,7 +148,9 @@ fun ImageStitchingScreen(
                             icon = Icons.Rounded.ErrorOutline
                         )
                     }
-                } else viewModel.updateUris(uris)
+                } else {
+                    viewModel.updateUris(uris)
+                }
             }
         }
 
@@ -356,7 +356,10 @@ fun ImageStitchingScreen(
                                         verticalArrangement = Arrangement.spacedBy(8.dp),
                                         horizontalAlignment = Alignment.CenterHorizontally
                                     ) {
-                                        // TODO: Add reordering ability
+                                        ImageReorderCarousel(
+                                            images = viewModel.uris,
+                                            onReorder = viewModel::updateUris
+                                        )
                                         ImageScaleSelector(
                                             modifier = Modifier.padding(top = 8.dp),
                                             value = viewModel.imageScale,

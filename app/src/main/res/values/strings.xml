@@ -394,6 +394,7 @@
     <string name="vertical">Vertical</string>
     <string name="scale_small_images_to_large">Scale small images to large</string>
     <string name="scale_small_images_to_large_sub">Small images will be scaled to the largest one in the sequence if enabled</string>
+    <string name="images_order">Images order</string>
     <string-array name="fab_alignment_sub">
         <item>Start</item>
         <item>Center</item>
