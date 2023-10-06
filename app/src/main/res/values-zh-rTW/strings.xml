@@ -368,4 +368,7 @@
     <string name="draw_arrows_sub">若啟用，繪畫路徑將顯示為指向箭頭。</string>
     <string name="crop_description">如果圖片大小超過輸入尺寸，將會以中心為基準裁剪至此大小；在其他情況下，畫布將根據指定的背景顏色進行擴展</string>
     <string name="donation">捐款</string>
+    <string name="image_stitching">影像合成</string>
+    <string name="image_stitching_sub">將所選影像合成為一幅完整大影像</string>
+    <string name="value_in_range">數值範圍：%1$d 至 %2$d</string>
 </resources>
