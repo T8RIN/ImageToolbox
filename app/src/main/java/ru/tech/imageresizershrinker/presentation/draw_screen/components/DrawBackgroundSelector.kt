@@ -41,6 +41,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.luminance
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import ru.tech.imageresizershrinker.R
@@ -76,7 +77,8 @@ fun DrawBackgroundSelector(
             horizontalArrangement = Arrangement.Center
         ) {
             Text(
-                stringResource(R.string.background_color),
+                fontWeight = FontWeight.Medium,
+                text = stringResource(R.string.background_color),
                 modifier = Modifier.padding(top = 16.dp),
                 fontSize = 18.sp
             )

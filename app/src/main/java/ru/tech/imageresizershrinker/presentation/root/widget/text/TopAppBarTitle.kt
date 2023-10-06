@@ -19,7 +19,7 @@ fun TopAppBarTitle(
     title: String,
     bitmap: Bitmap?,
     isLoading: Boolean,
-    size: Long
+    size: Long?
 ) {
     Marquee(
         edgeColor = MaterialTheme.colorScheme.surfaceColorAtElevation(3.dp)
@@ -32,13 +32,13 @@ fun TopAppBarTitle(
             ),
             transitionSpec = { fadeIn() togetherWith fadeOut() }
         ) { (bmp, loading, sizeInBytes) ->
-            if (bmp == null) {
+            if (bmp == null || size == null) {
                 Text(title)
-            } else if (!loading && sizeInBytes != 0L) {
+            } else if (!loading && size != 0L) {
                 Text(
                     stringResource(
                         R.string.size,
-                        readableByteCount(sizeInBytes)
+                        readableByteCount(size)
                     )
                 )
             } else {

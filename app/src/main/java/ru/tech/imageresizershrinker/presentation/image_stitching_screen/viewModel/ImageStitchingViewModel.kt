@@ -5,7 +5,6 @@ import android.net.Uri
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
-import androidx.compose.runtime.mutableLongStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.exifinterface.media.ExifInterface
 import androidx.lifecycle.ViewModel
@@ -21,9 +20,11 @@ import ru.tech.imageresizershrinker.domain.model.CombiningParams
 import ru.tech.imageresizershrinker.domain.model.ImageData
 import ru.tech.imageresizershrinker.domain.model.ImageFormat
 import ru.tech.imageresizershrinker.domain.model.ImageInfo
+import ru.tech.imageresizershrinker.domain.model.ImageSize
 import ru.tech.imageresizershrinker.domain.saving.FileController
 import ru.tech.imageresizershrinker.domain.saving.SaveResult
 import ru.tech.imageresizershrinker.domain.saving.model.ImageSaveTarget
+import ru.tech.imageresizershrinker.presentation.root.utils.state.update
 import javax.inject.Inject
 
 @HiltViewModel
@@ -32,7 +33,7 @@ class ImageStitchingViewModel @Inject constructor(
     private val imageManager: ImageManager<Bitmap, ExifInterface>
 ) : ViewModel() {
 
-    private val _imageSize: MutableState<Long> = mutableLongStateOf(0L)
+    private val _imageSize: MutableState<ImageSize> = mutableStateOf(ImageSize(0, 0))
     val imageSize by _imageSize
 
     private val _uris = mutableStateOf<List<Uri>?>(null)
@@ -65,7 +66,19 @@ class ImageStitchingViewModel @Inject constructor(
         _uris.value = null
         _uris.value = uris
 
+        calculateImageSize()
         calculatePreview()
+    }
+
+    private fun calculateImageSize() {
+        viewModelScope.launch {
+            uris?.let { uris ->
+                _imageSize.value = imageManager.calculateCombinedImageDimensions(
+                    uris.map { it.toString() },
+                    combiningParams
+                )
+            }
+        }
     }
 
     private var calculationPreviewJob: Job? = null
@@ -81,7 +94,7 @@ class ImageStitchingViewModel @Inject constructor(
                     combiningParams = combiningParams,
                     imageFormat = imageInfo.imageFormat,
                     quality = imageInfo.quality,
-                    onGetByteCount = { _imageSize.value = it.toLong() }
+                    onGetByteCount = {}
                 )
             }
             _isImageLoading.value = false
@@ -164,6 +177,42 @@ class ImageStitchingViewModel @Inject constructor(
         savingJob?.cancel()
         savingJob = null
         _isSaving.value = false
+    }
+
+    fun updateImageScale(newScale: Float) {
+        _imageScale.value = newScale
+    }
+
+    fun toggleIsHorizontal(checked: Boolean) {
+        _combiningParams.update {
+            it.copy(isHorizontal = checked)
+        }
+        calculatePreview()
+        calculateImageSize()
+    }
+
+    fun updateImageSpacing(spacing: Int) {
+        _combiningParams.update {
+            it.copy(spacing = spacing)
+        }
+        calculatePreview()
+        calculateImageSize()
+    }
+
+    fun toggleScaleSmallImagesToLarge(checked: Boolean) {
+        _combiningParams.update {
+            it.copy(scaleSmallImagesToLarge = checked)
+        }
+        calculatePreview()
+        calculateImageSize()
+    }
+
+    fun updateBackgroundSelector(color: Int) {
+        _combiningParams.update {
+            it.copy(backgroundColor = color)
+        }
+        calculatePreview()
+        calculateImageSize()
     }
 
 }

@@ -366,144 +366,148 @@ class AndroidImageManager @Inject constructor(
         imageUris: List<String>,
         combiningParams: CombiningParams,
         imageScale: Float
-    ): ImageData<Bitmap, ExifInterface> = combiningParams.run {
-        val size = calculateCombinedImageDimensions(
-            imageUris = imageUris,
-            combiningParams = combiningParams
-        )
-
-        val bitmaps = imageUris.map { uri ->
-            val image = loader().execute(
-                ImageRequest
-                    .Builder(context)
-                    .data(uri)
-                    .size(
-                        Size(
-                            width = 2000,
-                            height = 2000
-                        )
-                    )
-                    .build()
-            ).drawable?.toBitmap()!!
-            if (scaleSmallImagesToLarge) {
-                resize(
-                    image = image,
-                    width = if (isHorizontal) image.width else size.width,
-                    height = if (!isHorizontal) image.height else size.height,
-                    resizeType = ResizeType.Flexible
-                )!!
-            } else image
-        }
-
-        val bitmap = Bitmap.createBitmap(size.width, size.height, Bitmap.Config.ARGB_8888)
-        val canvas = Canvas(bitmap).apply {
-            drawColor(Color.Transparent.toArgb(), PorterDuff.Mode.CLEAR)
-            drawColor(backgroundColor)
-        }
-        var pos = 0
-        for (i in imageUris.indices) {
-            if (isHorizontal) {
-                canvas.drawBitmap(
-                    bitmaps[i],
-                    pos.toFloat(),
-                    0f,
-                    null
-                )
-            } else {
-                canvas.drawBitmap(
-                    bitmaps[i],
-                    0f,
-                    pos.toFloat(),
-                    null
-                )
-            }
-            pos += if (isHorizontal) {
-                bitmaps[i].width + spacing
-            } else bitmaps[i].height + spacing
-        }
-
-        ImageData(
-            image = resize(
-                image = bitmap,
-                width = (size.width * imageScale).toInt(),
-                height = (size.height * imageScale).toInt(),
-                resizeType = ResizeType.Flexible
-            )!!,
-            imageInfo = ImageInfo(
-                width = (size.width * imageScale).toInt(),
-                height = (size.height * imageScale).toInt(),
+    ): ImageData<Bitmap, ExifInterface> = withContext(Dispatchers.IO) {
+        combiningParams.run {
+            val size = calculateCombinedImageDimensions(
+                imageUris = imageUris,
+                combiningParams = combiningParams
             )
-        )
+
+            val bitmaps = imageUris.map { uri ->
+                val image = loader().execute(
+                    ImageRequest
+                        .Builder(context)
+                        .data(uri)
+                        .size(
+                            Size(
+                                width = 2000,
+                                height = 2000
+                            )
+                        )
+                        .build()
+                ).drawable?.toBitmap()!!
+                if (scaleSmallImagesToLarge) {
+                    resize(
+                        image = image,
+                        width = if (isHorizontal) image.width else size.width,
+                        height = if (!isHorizontal) image.height else size.height,
+                        resizeType = ResizeType.Flexible
+                    )!!
+                } else image
+            }
+
+            val bitmap = Bitmap.createBitmap(size.width, size.height, Bitmap.Config.ARGB_8888)
+            val canvas = Canvas(bitmap).apply {
+                drawColor(Color.Transparent.toArgb(), PorterDuff.Mode.CLEAR)
+                drawColor(backgroundColor)
+            }
+            var pos = 0
+            for (i in imageUris.indices) {
+                if (isHorizontal) {
+                    canvas.drawBitmap(
+                        bitmaps[i],
+                        pos.toFloat(),
+                        0f,
+                        null
+                    )
+                } else {
+                    canvas.drawBitmap(
+                        bitmaps[i],
+                        0f,
+                        pos.toFloat(),
+                        null
+                    )
+                }
+                pos += if (isHorizontal) {
+                    bitmaps[i].width + spacing
+                } else bitmaps[i].height + spacing
+            }
+
+            ImageData(
+                image = resize(
+                    image = bitmap,
+                    width = (size.width * imageScale).toInt(),
+                    height = (size.height * imageScale).toInt(),
+                    resizeType = ResizeType.Flexible
+                )!!,
+                imageInfo = ImageInfo(
+                    width = (size.width * imageScale).toInt(),
+                    height = (size.height * imageScale).toInt(),
+                )
+            )
+        }
     }
 
     override suspend fun calculateCombinedImageDimensions(
         imageUris: List<String>,
         combiningParams: CombiningParams
-    ): ImageSize = combiningParams.run {
-        var w = 0
-        var h = 0
-        var maxHeight = 0
-        var maxWidth = 0
-        val drawables = imageUris.map { uri ->
-            loader().execute(
-                ImageRequest
-                    .Builder(context)
-                    .data(uri)
-                    .size(
-                        Size(
-                            width = 2000,
-                            height = 2000
+    ): ImageSize = withContext(Dispatchers.IO) {
+        combiningParams.run {
+            var w = 0
+            var h = 0
+            var maxHeight = 0
+            var maxWidth = 0
+            val drawables = imageUris.map { uri ->
+                loader().execute(
+                    ImageRequest
+                        .Builder(context)
+                        .data(uri)
+                        .size(
+                            Size(
+                                width = 2000,
+                                height = 2000
+                            )
                         )
-                    )
-                    .build()
-            ).drawable!!.apply {
-                maxWidth = max(maxWidth, minimumWidth)
-                maxHeight = max(maxHeight, minimumHeight)
+                        .build()
+                ).drawable!!.apply {
+                    maxWidth = max(maxWidth, minimumWidth)
+                    maxHeight = max(maxHeight, minimumHeight)
+                }
             }
-        }
 
-        drawables.forEachIndexed { index, drawable ->
-            val width = drawable.minimumWidth
-            val height = drawable.minimumHeight
+            drawables.forEachIndexed { index, drawable ->
+                val width = drawable.minimumWidth
+                val height = drawable.minimumHeight
 
-            val spacing = if (index != drawables.lastIndex) spacing else 0
+                val spacing = if (index != drawables.lastIndex) spacing else 0
 
-            val max = if (isHorizontal) maxHeight else maxWidth
+                val max = if (isHorizontal) maxHeight else maxWidth
 
-            if (scaleSmallImagesToLarge && max(width, height) < max) {
-                val targetHeight: Int
-                val targetWidth: Int
+                if (scaleSmallImagesToLarge && max(width, height) < max) {
+                    val targetHeight: Int
+                    val targetWidth: Int
 
-                if (height >= width) {
-                    val aspectRatio = width.toDouble() / height.toDouble()
-                    targetWidth = (max * aspectRatio).toInt()
-                    targetHeight = max
+                    if (height >= width) {
+                        val aspectRatio = width.toDouble() / height.toDouble()
+                        targetWidth = (max * aspectRatio).toInt()
+                        targetHeight = max
+                    } else {
+                        val aspectRatio = height.toDouble() / width.toDouble()
+                        targetHeight = (max * aspectRatio).toInt()
+                        targetWidth = max
+                    }
+                    if (isHorizontal) {
+                        w += targetWidth + spacing
+                    } else {
+                        h += targetHeight + spacing
+                    }
                 } else {
-                    val aspectRatio = height.toDouble() / width.toDouble()
-                    targetHeight = (max * aspectRatio).toInt()
-                    targetWidth = max
+                    if (isHorizontal) {
+                        w += width + spacing
+                    } else {
+                        h += height + spacing
+                    }
                 }
-                if (isHorizontal) {
-                    w += targetWidth + spacing
-                } else {
-                    h += targetHeight + spacing
-                }
+            }
+
+            if (isHorizontal) {
+                h = maxHeight
             } else {
-                if (isHorizontal) {
-                    w += width + spacing
-                } else {
-                    h += height + spacing
-                }
+                w = maxWidth
             }
-        }
 
-        if (isHorizontal) {
-            h = maxHeight
-        } else {
-            w = maxWidth
+            ImageSize(w, h)
         }
-
-        ImageSize(w, h)
     }
 
     override suspend fun createCombinedImagesPreview(
@@ -512,7 +516,7 @@ class AndroidImageManager @Inject constructor(
         imageFormat: ImageFormat,
         quality: Float,
         onGetByteCount: (Int) -> Unit
-    ): Bitmap {
+    ): Bitmap = withContext(Dispatchers.IO) {
         val imageSize = calculateCombinedImageDimensions(
             imageUris = imageUris,
             combiningParams = combiningParams
@@ -531,7 +535,7 @@ class AndroidImageManager @Inject constructor(
                 imageScale = 1f
             )
         }.let { (image, imageInfo, _) ->
-            return createPreview(
+            return@let createPreview(
                 image = image,
                 imageInfo = imageInfo.copy(
                     imageFormat = imageFormat,

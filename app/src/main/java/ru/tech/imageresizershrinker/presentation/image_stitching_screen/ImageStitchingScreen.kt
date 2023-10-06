@@ -23,12 +23,12 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.ime
 import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.ArrowBack
 import androidx.compose.material.icons.outlined.Share
@@ -65,6 +65,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalConfiguration
@@ -78,6 +79,11 @@ import dev.olshevski.navigation.reimagined.hilt.hiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.R
+import ru.tech.imageresizershrinker.presentation.draw_screen.components.DrawBackgroundSelector
+import ru.tech.imageresizershrinker.presentation.image_stitching_screen.components.ImageOrientationToggle
+import ru.tech.imageresizershrinker.presentation.image_stitching_screen.components.ImageScaleSelector
+import ru.tech.imageresizershrinker.presentation.image_stitching_screen.components.ScaleSmallImagesToLargeToggle
+import ru.tech.imageresizershrinker.presentation.image_stitching_screen.components.SpacingSelector
 import ru.tech.imageresizershrinker.presentation.image_stitching_screen.viewModel.ImageStitchingViewModel
 import ru.tech.imageresizershrinker.presentation.root.transformation.filter.SaturationFilter
 import ru.tech.imageresizershrinker.presentation.root.utils.confetti.LocalConfettiController
@@ -284,7 +290,7 @@ fun ImageStitchingScreen(
                             title = stringResource(R.string.image_stitching),
                             bitmap = viewModel.previewBitmap,
                             isLoading = viewModel.isImageLoading,
-                            size = viewModel.imageSize // TODO: Remove imageSize
+                            size = null
                         )
                     },
                     colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
@@ -359,76 +365,76 @@ fun ImageStitchingScreen(
                                 if (imageInside && viewModel.uris.isNullOrEmpty()) imageBlock()
                                 if (!viewModel.uris.isNullOrEmpty()) {
                                     val pagerState = rememberPagerState(pageCount = { 2 })
-                                    Row(
-                                        modifier = Modifier.fillMaxWidth(),
-                                        horizontalArrangement = Arrangement.Center
-                                    ) {
-                                        PrimaryTabRow(
-                                            divider = {},
-                                            containerColor = Color.Transparent,
-                                            selectedTabIndex = pagerState.currentPage,
-                                            indicator = { tabPositions ->
-                                                if (pagerState.currentPage < tabPositions.size) {
-                                                    val width by animateDpAsState(targetValue = tabPositions[pagerState.currentPage].contentWidth)
-                                                    TabRowDefaults.PrimaryIndicator(
-                                                        modifier = Modifier.tabIndicatorOffset(
-                                                            tabPositions[pagerState.currentPage]
-                                                        ),
-                                                        width = width,
-                                                        height = 4.dp
-                                                    )
-                                                }
-                                            },
-                                            modifier = Modifier
-                                                .container(
-                                                    resultPadding = 0.dp,
-                                                    shape = MaterialTheme.shapes.extraLarge
-                                                )
-                                                .padding(bottom = 8.dp)
-                                        ) {
-                                            listOf(
-                                                Icons.Rounded.Tune to stringResource(R.string.options),
-                                                Icons.Rounded.SaveAlt to stringResource(R.string.saving),
-                                            ).forEachIndexed { index, (icon, title) ->
-                                                val selected = pagerState.currentPage == index
-                                                Tab(
-                                                    unselectedContentColor = MaterialTheme.colorScheme.onSurface,
-                                                    modifier = Modifier
-                                                        .padding(8.dp)
-                                                        .clip(CircleShape),
-                                                    selected = selected,
-                                                    onClick = {
-                                                        scope.launch {
-                                                            pagerState.animateScrollToPage(index)
-                                                        }
-                                                    },
-                                                    icon = {
-                                                        Icon(
-                                                            imageVector = icon,
-                                                            contentDescription = null,
-                                                            tint = if (selected) {
-                                                                MaterialTheme.colorScheme.primary
-                                                            } else MaterialTheme.colorScheme.onSurface
-                                                        )
-                                                    },
-                                                    text = { Text(title) }
+                                    PrimaryTabRow(
+                                        divider = {},
+                                        containerColor = Color.Transparent,
+                                        selectedTabIndex = pagerState.currentPage,
+                                        indicator = { tabPositions ->
+                                            if (pagerState.currentPage < tabPositions.size) {
+                                                val width by animateDpAsState(targetValue = tabPositions[pagerState.currentPage].contentWidth)
+                                                TabRowDefaults.PrimaryIndicator(
+                                                    modifier = Modifier.tabIndicatorOffset(
+                                                        tabPositions[pagerState.currentPage]
+                                                    ),
+                                                    width = width,
+                                                    height = 4.dp
                                                 )
                                             }
+                                        },
+                                        modifier = Modifier
+                                            .fillMaxWidth()
+                                            .container(
+                                                resultPadding = 0.dp,
+                                                shape = RoundedCornerShape(36.dp)
+                                            )
+                                            .padding(bottom = 8.dp)
+                                    ) {
+                                        listOf(
+                                            Icons.Rounded.Tune to stringResource(R.string.options),
+                                            Icons.Rounded.SaveAlt to stringResource(R.string.saving),
+                                        ).forEachIndexed { index, (icon, title) ->
+                                            val selected = pagerState.currentPage == index
+                                            Tab(
+                                                unselectedContentColor = MaterialTheme.colorScheme.onSurface,
+                                                modifier = Modifier
+                                                    .padding(8.dp)
+                                                    .clip(CircleShape),
+                                                selected = selected,
+                                                onClick = {
+                                                    scope.launch {
+                                                        pagerState.animateScrollToPage(index)
+                                                    }
+                                                },
+                                                icon = {
+                                                    Icon(
+                                                        imageVector = icon,
+                                                        contentDescription = null,
+                                                        tint = if (selected) {
+                                                            MaterialTheme.colorScheme.primary
+                                                        } else MaterialTheme.colorScheme.onSurface
+                                                    )
+                                                },
+                                                text = { Text(title) }
+                                            )
                                         }
                                     }
                                     Box {
                                         HorizontalPager(
+                                            modifier = Modifier.fillMaxWidth(),
                                             state = pagerState,
-                                            beyondBoundsPageCount = 1
+                                            verticalAlignment = Alignment.Top
                                         ) { page ->
                                             Column(
-                                                modifier = Modifier.padding(vertical = 16.dp),
+                                                modifier = Modifier.padding(
+                                                    vertical = 16.dp,
+                                                    horizontal = 8.dp
+                                                ),
                                                 verticalArrangement = Arrangement.spacedBy(8.dp)
                                             ) {
                                                 when (page) {
                                                     1 -> {
                                                         if (viewModel.imageInfo.imageFormat.canChangeCompressionValue) {
-                                                            Spacer(Modifier.size(8.dp))
+                                                            Spacer(Modifier.height(8.dp))
                                                         }
                                                         QualityWidget(
                                                             imageFormat = viewModel.imageInfo.imageFormat,
@@ -436,7 +442,6 @@ fun ImageStitchingScreen(
                                                             quality = viewModel.imageInfo.quality,
                                                             onQualityChange = viewModel::setQuality
                                                         )
-                                                        Spacer(Modifier.size(8.dp))
                                                         ExtensionGroup(
                                                             enabled = !viewModel.uris.isNullOrEmpty(),
                                                             imageFormat = viewModel.imageInfo.imageFormat,
@@ -445,7 +450,31 @@ fun ImageStitchingScreen(
                                                     }
 
                                                     0 -> {
-                                                        Text(text = "TODO")
+                                                        ImageScaleSelector(
+                                                            modifier = Modifier.padding(top = 8.dp),
+                                                            value = viewModel.imageScale,
+                                                            onValueChange = viewModel::updateImageScale,
+                                                            approximateImageSize = viewModel.imageSize
+                                                        )
+                                                        ImageOrientationToggle(
+                                                            selected = viewModel.combiningParams.isHorizontal,
+                                                            onCheckedChange = viewModel::toggleIsHorizontal
+                                                        )
+                                                        SpacingSelector(
+                                                            value = viewModel.combiningParams.spacing,
+                                                            onValueChange = viewModel::updateImageSpacing
+                                                        )
+                                                        ScaleSmallImagesToLargeToggle(
+                                                            selected = viewModel.combiningParams.scaleSmallImagesToLarge,
+                                                            onCheckedChange = viewModel::toggleScaleSmallImagesToLarge
+                                                        )
+                                                        DrawBackgroundSelector(
+                                                            backgroundColor = Color(viewModel.combiningParams.backgroundColor),
+                                                            onColorChange = {
+                                                                viewModel.updateBackgroundSelector(it.toArgb())
+                                                            },
+                                                            modifier = Modifier.container(shape = RoundedCornerShape(24.dp))
+                                                        )
                                                     }
                                                 }
                                             }
@@ -469,7 +498,7 @@ fun ImageStitchingScreen(
                                     }
                                 } else if (!viewModel.isImageLoading) {
                                     ImageNotPickedWidget(onPickImage = pickImage)
-                                    Spacer(Modifier.size(8.dp))
+                                    Spacer(Modifier.height(8.dp))
                                 }
                                 Spacer(Modifier.height(8.dp))
                             }
