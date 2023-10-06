@@ -20,6 +20,7 @@ import androidx.core.net.toUri
 import androidx.exifinterface.media.ExifInterface
 import coil.ImageLoader
 import coil.request.ImageRequest
+import coil.size.Scale
 import coil.size.Size
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -368,24 +369,13 @@ class AndroidImageManager @Inject constructor(
         imageScale: Float
     ): ImageData<Bitmap, ExifInterface> = withContext(Dispatchers.IO) {
         combiningParams.run {
-            val size = calculateCombinedImageDimensions(
+            val (size, drawables) = calculateCombinedImageDimensionsAndDrawables(
                 imageUris = imageUris,
                 combiningParams = combiningParams
             )
 
-            val bitmaps = imageUris.map { uri ->
-                val image = loader().execute(
-                    ImageRequest
-                        .Builder(context)
-                        .data(uri)
-                        .size(
-                            Size(
-                                width = 2000,
-                                height = 2000
-                            )
-                        )
-                        .build()
-                ).drawable?.toBitmap()!!
+            val bitmaps = drawables.map { drawable ->
+                val image = drawable.toBitmap()!!
                 if (scaleSmallImagesToLarge) {
                     resize(
                         image = image,
@@ -441,7 +431,15 @@ class AndroidImageManager @Inject constructor(
     override suspend fun calculateCombinedImageDimensions(
         imageUris: List<String>,
         combiningParams: CombiningParams
-    ): ImageSize = withContext(Dispatchers.IO) {
+    ): ImageSize = calculateCombinedImageDimensionsAndDrawables(
+        imageUris = imageUris,
+        combiningParams = combiningParams
+    ).first
+
+    private suspend fun calculateCombinedImageDimensionsAndDrawables(
+        imageUris: List<String>,
+        combiningParams: CombiningParams
+    ): Pair<ImageSize, List<Drawable>> = withContext(Dispatchers.IO) {
         combiningParams.run {
             var w = 0
             var h = 0
@@ -459,6 +457,7 @@ class AndroidImageManager @Inject constructor(
                                 height = 2000
                             )
                         )
+                        .scale(Scale.FIT)
                         .build()
                 ).drawable!!.apply {
                     maxWidth = max(maxWidth, minimumWidth)
@@ -507,7 +506,7 @@ class AndroidImageManager @Inject constructor(
                 w = maxWidth
             }
 
-            ImageSize(w, h)
+            ImageSize(w, h) to drawables
         }
     }
 

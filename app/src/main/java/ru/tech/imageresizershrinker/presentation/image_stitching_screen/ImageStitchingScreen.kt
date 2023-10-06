@@ -5,7 +5,6 @@ import android.net.Uri
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
@@ -18,16 +17,11 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.ime
 import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.pager.HorizontalPager
-import androidx.compose.foundation.pager.rememberPagerState
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.ArrowBack
@@ -41,12 +35,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.LargeTopAppBar
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.PrimaryTabRow
 import androidx.compose.material3.Surface
-import androidx.compose.material3.Tab
-import androidx.compose.material3.TabRowDefaults
-import androidx.compose.material3.TabRowDefaults.tabIndicatorOffset
-import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.material3.surfaceColorAtElevation
@@ -61,7 +50,6 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
@@ -101,11 +89,11 @@ import ru.tech.imageresizershrinker.presentation.root.widget.image.imageStickyHe
 import ru.tech.imageresizershrinker.presentation.root.widget.modifier.container
 import ru.tech.imageresizershrinker.presentation.root.widget.modifier.drawHorizontalStroke
 import ru.tech.imageresizershrinker.presentation.root.widget.modifier.navBarsLandscapePadding
-import ru.tech.imageresizershrinker.presentation.root.widget.other.GradientEdge
 import ru.tech.imageresizershrinker.presentation.root.widget.other.LoadingDialog
 import ru.tech.imageresizershrinker.presentation.root.widget.other.LocalToastHost
 import ru.tech.imageresizershrinker.presentation.root.widget.other.TopAppBarEmoji
 import ru.tech.imageresizershrinker.presentation.root.widget.sheets.ZoomModalSheet
+import ru.tech.imageresizershrinker.presentation.root.widget.text.TitleItem
 import ru.tech.imageresizershrinker.presentation.root.widget.text.TopAppBarTitle
 import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalSettingsState
 import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalWindowSizeClass
@@ -364,137 +352,49 @@ fun ImageStitchingScreen(
                             ) {
                                 if (imageInside && viewModel.uris.isNullOrEmpty()) imageBlock()
                                 if (!viewModel.uris.isNullOrEmpty()) {
-                                    val pagerState = rememberPagerState(pageCount = { 2 })
-                                    PrimaryTabRow(
-                                        divider = {},
-                                        containerColor = Color.Transparent,
-                                        selectedTabIndex = pagerState.currentPage,
-                                        indicator = { tabPositions ->
-                                            if (pagerState.currentPage < tabPositions.size) {
-                                                val width by animateDpAsState(targetValue = tabPositions[pagerState.currentPage].contentWidth)
-                                                TabRowDefaults.PrimaryIndicator(
-                                                    modifier = Modifier.tabIndicatorOffset(
-                                                        tabPositions[pagerState.currentPage]
-                                                    ),
-                                                    width = width,
-                                                    height = 4.dp
-                                                )
-                                            }
-                                        },
-                                        modifier = Modifier
-                                            .fillMaxWidth()
-                                            .container(
-                                                resultPadding = 0.dp,
-                                                shape = RoundedCornerShape(36.dp)
-                                            )
-                                            .padding(bottom = 8.dp)
+                                    Column(
+                                        verticalArrangement = Arrangement.spacedBy(8.dp),
+                                        horizontalAlignment = Alignment.CenterHorizontally
                                     ) {
-                                        listOf(
-                                            Icons.Rounded.Tune to stringResource(R.string.options),
-                                            Icons.Rounded.SaveAlt to stringResource(R.string.saving),
-                                        ).forEachIndexed { index, (icon, title) ->
-                                            val selected = pagerState.currentPage == index
-                                            Tab(
-                                                unselectedContentColor = MaterialTheme.colorScheme.onSurface,
-                                                modifier = Modifier
-                                                    .padding(8.dp)
-                                                    .clip(CircleShape),
-                                                selected = selected,
-                                                onClick = {
-                                                    scope.launch {
-                                                        pagerState.animateScrollToPage(index)
-                                                    }
-                                                },
-                                                icon = {
-                                                    Icon(
-                                                        imageVector = icon,
-                                                        contentDescription = null,
-                                                        tint = if (selected) {
-                                                            MaterialTheme.colorScheme.primary
-                                                        } else MaterialTheme.colorScheme.onSurface
-                                                    )
-                                                },
-                                                text = { Text(title) }
-                                            )
-                                        }
-                                    }
-                                    Box {
-                                        //TODO: NORMAL GRADIENT EDGES
-                                        HorizontalPager(
-                                            modifier = Modifier.fillMaxWidth(),
-                                            state = pagerState,
-                                            verticalAlignment = Alignment.Top
-                                        ) { page ->
-                                            Column(
-                                                modifier = Modifier.padding(
-                                                    vertical = 16.dp,
-                                                    horizontal = 8.dp
-                                                ),
-                                                verticalArrangement = Arrangement.spacedBy(8.dp)
-                                            ) {
-                                                when (page) {
-                                                    1 -> {
-                                                        if (viewModel.imageInfo.imageFormat.canChangeCompressionValue) {
-                                                            Spacer(Modifier.height(8.dp))
-                                                        }
-                                                        QualityWidget(
-                                                            imageFormat = viewModel.imageInfo.imageFormat,
-                                                            enabled = !viewModel.uris.isNullOrEmpty(),
-                                                            quality = viewModel.imageInfo.quality,
-                                                            onQualityChange = viewModel::setQuality
-                                                        )
-                                                        ExtensionGroup(
-                                                            enabled = !viewModel.uris.isNullOrEmpty(),
-                                                            imageFormat = viewModel.imageInfo.imageFormat,
-                                                            onFormatChange = viewModel::setMime
-                                                        )
-                                                    }
-
-                                                    0 -> {
-                                                        ImageScaleSelector(
-                                                            modifier = Modifier.padding(top = 8.dp),
-                                                            value = viewModel.imageScale,
-                                                            onValueChange = viewModel::updateImageScale,
-                                                            approximateImageSize = viewModel.imageSize
-                                                        )
-                                                        ImageOrientationToggle(
-                                                            selected = viewModel.combiningParams.isHorizontal,
-                                                            onCheckedChange = viewModel::toggleIsHorizontal
-                                                        )
-                                                        SpacingSelector(
-                                                            value = viewModel.combiningParams.spacing,
-                                                            onValueChange = viewModel::updateImageSpacing
-                                                        )
-                                                        ScaleSmallImagesToLargeToggle(
-                                                            selected = viewModel.combiningParams.scaleSmallImagesToLarge,
-                                                            onCheckedChange = viewModel::toggleScaleSmallImagesToLarge
-                                                        )
-                                                        DrawBackgroundSelector(
-                                                            backgroundColor = Color(viewModel.combiningParams.backgroundColor),
-                                                            onColorChange = {
-                                                                viewModel.updateBackgroundSelector(it.toArgb())
-                                                            },
-                                                            modifier = Modifier.container(shape = RoundedCornerShape(24.dp))
-                                                        )
-                                                    }
-                                                }
-                                            }
-                                        }
-                                        GradientEdge(
-                                            modifier = Modifier
-                                                .fillParentMaxHeight()
-                                                .width(8.dp)
-                                                .align(Alignment.CenterStart),
-                                            startColor = MaterialTheme.colorScheme.surface,
-                                            endColor = Color.Transparent
+                                        ImageScaleSelector(
+                                            modifier = Modifier.padding(top = 8.dp),
+                                            value = viewModel.imageScale,
+                                            onValueChange = viewModel::updateImageScale,
+                                            approximateImageSize = viewModel.imageSize
                                         )
-                                        GradientEdge(
-                                            modifier = Modifier
-                                                .fillParentMaxHeight()
-                                                .width(8.dp)
-                                                .align(Alignment.CenterEnd),
-                                            startColor = Color.Transparent,
-                                            endColor = MaterialTheme.colorScheme.surface
+                                        ImageOrientationToggle(
+                                            selected = viewModel.combiningParams.isHorizontal,
+                                            onCheckedChange = viewModel::toggleIsHorizontal
+                                        )
+                                        SpacingSelector(
+                                            value = viewModel.combiningParams.spacing,
+                                            onValueChange = viewModel::updateImageSpacing
+                                        )
+                                        ScaleSmallImagesToLargeToggle(
+                                            selected = viewModel.combiningParams.scaleSmallImagesToLarge,
+                                            onCheckedChange = viewModel::toggleScaleSmallImagesToLarge
+                                        )
+                                        DrawBackgroundSelector(
+                                            backgroundColor = Color(viewModel.combiningParams.backgroundColor),
+                                            onColorChange = {
+                                                viewModel.updateBackgroundSelector(it.toArgb())
+                                            },
+                                            modifier = Modifier.container(
+                                                shape = RoundedCornerShape(
+                                                    24.dp
+                                                )
+                                            )
+                                        )
+                                        QualityWidget(
+                                            imageFormat = viewModel.imageInfo.imageFormat,
+                                            enabled = !viewModel.uris.isNullOrEmpty(),
+                                            quality = viewModel.imageInfo.quality,
+                                            onQualityChange = viewModel::setQuality
+                                        )
+                                        ExtensionGroup(
+                                            enabled = !viewModel.uris.isNullOrEmpty(),
+                                            imageFormat = viewModel.imageInfo.imageFormat,
+                                            onFormatChange = viewModel::setMime
                                         )
                                     }
                                 } else if (!viewModel.isImageLoading) {

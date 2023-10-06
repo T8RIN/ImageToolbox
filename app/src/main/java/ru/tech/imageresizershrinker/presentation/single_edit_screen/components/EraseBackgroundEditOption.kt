@@ -90,7 +90,6 @@ fun EraseBackgroundEditOption(
     addPath: (PathPaint) -> Unit,
     imageManager: ImageManager<Bitmap, *>
 ) {
-    //TODO: INSPECT THIS BY THE MORNING
     val settingsState = LocalSettingsState.current
 
     val scope = rememberCoroutineScope()

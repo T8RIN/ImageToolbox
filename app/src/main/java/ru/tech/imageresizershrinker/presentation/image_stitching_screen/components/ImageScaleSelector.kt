@@ -104,9 +104,9 @@ fun ImageScaleSelector(
             }
         )
         AnimatedContent(
-            scaledSize,
-            transitionSpec = { fadeIn() togetherWith fadeOut() }) { scaledSize ->
-            if (scaledSize != null) {
+            targetState = scaledSize != null,
+            transitionSpec = { fadeIn() togetherWith fadeOut() }) { notNull ->
+            if (notNull) {
                 Row(
                     modifier = Modifier
                         .padding(4.dp)
@@ -118,7 +118,7 @@ fun ImageScaleSelector(
                             .weight(1f)
                             .container(
                                 color = MaterialTheme.colorScheme.surfaceContainer,
-                                autoShadowElevation = 0.dp
+                                autoShadowElevation = 0.2.dp
                             )
                             .padding(4.dp),
                         verticalArrangement = Arrangement.Center,
@@ -127,7 +127,7 @@ fun ImageScaleSelector(
                         Text(stringResource(R.string.width, ""))
                         Spacer(Modifier.height(8.dp))
                         Text(
-                            text = scaledSize.width.toString(),
+                            text = scaledSize!!.width.toString(),
                             fontSize = 16.sp,
                             textAlign = TextAlign.Center,
                             color = LocalContentColor.current.copy(0.5f),
@@ -139,7 +139,7 @@ fun ImageScaleSelector(
                             .weight(1f)
                             .container(
                                 color = MaterialTheme.colorScheme.surfaceContainer,
-                                autoShadowElevation = 0.dp
+                                autoShadowElevation = 0.2.dp
                             )
                             .padding(4.dp),
                         verticalArrangement = Arrangement.Center,
@@ -148,7 +148,7 @@ fun ImageScaleSelector(
                         Text(stringResource(R.string.height, ""))
                         Spacer(Modifier.height(8.dp))
                         Text(
-                            text = scaledSize.height.toString(),
+                            text = scaledSize!!.height.toString(),
                             fontSize = 16.sp,
                             textAlign = TextAlign.Center,
                             color = LocalContentColor.current.copy(0.5f),
