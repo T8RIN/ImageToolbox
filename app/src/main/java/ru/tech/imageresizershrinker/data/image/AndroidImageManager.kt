@@ -20,6 +20,7 @@ import androidx.core.net.toUri
 import androidx.exifinterface.media.ExifInterface
 import coil.ImageLoader
 import coil.request.ImageRequest
+import coil.size.Precision
 import coil.size.Scale
 import coil.size.Size
 import kotlinx.coroutines.CoroutineScope
@@ -451,12 +452,12 @@ class AndroidImageManager @Inject constructor(
                         .Builder(context)
                         .data(uri)
                         .size(
-                            //TODO: ITS GIVING WRONG SIZE
                             Size(
                                 width = 2000,
                                 height = 2000
                             )
                         )
+                        .precision(Precision.INEXACT)
                         .scale(Scale.FIT)
                         .build()
                 ).drawable!!.apply {
