@@ -419,6 +419,7 @@ fun ImageStitchingScreen(
                                         }
                                     }
                                     Box {
+                                        //TODO: NORMAL GRADIENT EDGES
                                         HorizontalPager(
                                             modifier = Modifier.fillMaxWidth(),
                                             state = pagerState,

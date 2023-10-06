@@ -453,6 +453,7 @@ class AndroidImageManager @Inject constructor(
                         .Builder(context)
                         .data(uri)
                         .size(
+                            //TODO: ITS GIVING WRONG SIZE
                             Size(
                                 width = 2000,
                                 height = 2000
