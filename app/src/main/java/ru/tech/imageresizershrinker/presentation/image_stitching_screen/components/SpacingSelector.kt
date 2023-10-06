@@ -15,6 +15,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -29,6 +30,7 @@ fun SpacingSelector(
     value: Int,
     onValueChange: (Int) -> Unit
 ) {
+    val density = LocalDensity.current
     Column(
         modifier = modifier
             .container(shape = RoundedCornerShape(24.dp))
@@ -66,7 +68,7 @@ fun SpacingSelector(
             )
             Text(
                 maxLines = 1,
-                text = "Dp",
+                text = "Px",
                 color = MaterialTheme.colorScheme.onSurface.copy(
                     alpha = 0.5f
                 ),
@@ -87,7 +89,7 @@ fun SpacingSelector(
                 )
                 .offset(y = (-2).dp),
             value = animateFloatAsState(targetValue = value.toFloat()).value,
-            valueRange = 0f..64f,
+            valueRange = 0f..128f,
             onValueChange = {
                 onValueChange(it.roundToInt())
             }
