@@ -14,6 +14,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.isUnspecified
 import androidx.compose.ui.zIndex
+import com.gigamole.composeshadowsplus.common.ShadowsPlusType
 import com.gigamole.composeshadowsplus.common.shadowsPlus
 import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
 import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalSettingsState
@@ -42,13 +43,14 @@ fun Modifier.drawHorizontalStroke(
             .drawWithContent {
                 drawContent()
                 drawRect(
-                    color,
+                    color = color,
                     topLeft = if (top) Offset(0f, 0f) else Offset(0f, this.size.height),
                     size = Size(this.size.width, heightPx)
                 )
             }
     }
         .shadowsPlus(
+            type = ShadowsPlusType.SoftLayer,
             spread = (-2).dp,
             shape = RectangleShape,
             radius = animateDpAsState(if (h == null) autoElevation else 0.dp).value
