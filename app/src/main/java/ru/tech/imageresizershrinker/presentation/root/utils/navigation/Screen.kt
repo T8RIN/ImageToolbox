@@ -6,6 +6,7 @@ import androidx.annotation.StringRes
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AutoAwesome
 import androidx.compose.material.icons.outlined.AutoAwesome
+import androidx.compose.material.icons.outlined.Extension
 import androidx.compose.material.icons.outlined.Margin
 import androidx.compose.material.icons.outlined.PhotoSizeSelectSmall
 import androidx.compose.material.icons.rounded.Colorize
@@ -26,6 +27,7 @@ import ru.tech.imageresizershrinker.presentation.root.icons.material.CreateAlt
 import ru.tech.imageresizershrinker.presentation.root.icons.material.FingerprintOff
 import ru.tech.imageresizershrinker.presentation.root.icons.material.Interface
 import ru.tech.imageresizershrinker.presentation.root.icons.material.PaletteSwatch
+import ru.tech.imageresizershrinker.presentation.root.icons.material.Puzzle
 import ru.tech.imageresizershrinker.presentation.root.icons.material.Resize
 import ru.tech.imageresizershrinker.presentation.root.icons.material.Toolbox
 import ru.tech.imageresizershrinker.presentation.root.icons.material.Transparency
@@ -104,7 +106,7 @@ sealed class Screen(
 
     class ImageStitching(val uris: List<Uri>? = null) : Screen(
         id = 9,
-        icon = Icons.Rounded.Extension,
+        icon = Icons.Outlined.Puzzle,
         title = R.string.image_stitching,
         subtitle = R.string.image_stitching_sub
     )

@@ -356,6 +356,7 @@ fun ImageStitchingScreen(
                                         verticalArrangement = Arrangement.spacedBy(8.dp),
                                         horizontalAlignment = Alignment.CenterHorizontally
                                     ) {
+                                        // TODO: Add reordering ability
                                         ImageScaleSelector(
                                             modifier = Modifier.padding(top = 8.dp),
                                             value = viewModel.imageScale,
