@@ -388,6 +388,8 @@
     <string name="image_stitching">Image Stitching</string>
     <string name="image_stitching_sub">Combine the given images to get one big one</string>
     <string name="pick_at_least_two_images">Pick at least 2 images</string>
+    <string name="saving">Saving</string>
+    <string name="options">Options</string>
     <string-array name="fab_alignment_sub">
         <item>Start</item>
         <item>Center</item>

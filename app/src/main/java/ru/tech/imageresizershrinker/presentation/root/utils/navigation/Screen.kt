@@ -12,6 +12,7 @@ import androidx.compose.material.icons.rounded.Colorize
 import androidx.compose.material.icons.rounded.Compare
 import androidx.compose.material.icons.rounded.Crop
 import androidx.compose.material.icons.rounded.Draw
+import androidx.compose.material.icons.rounded.Extension
 import androidx.compose.material.icons.rounded.Photo
 import androidx.compose.material.icons.rounded.PhotoFilter
 import androidx.compose.material.icons.rounded.PhotoSizeSelectLarge
@@ -22,7 +23,6 @@ import kotlinx.parcelize.Parcelize
 import kotlinx.parcelize.RawValue
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.presentation.root.icons.material.CreateAlt
-import ru.tech.imageresizershrinker.presentation.root.icons.material.Cube
 import ru.tech.imageresizershrinker.presentation.root.icons.material.FingerprintOff
 import ru.tech.imageresizershrinker.presentation.root.icons.material.Interface
 import ru.tech.imageresizershrinker.presentation.root.icons.material.PaletteSwatch
@@ -104,7 +104,7 @@ sealed class Screen(
 
     class ImageStitching(val uris: List<Uri>? = null) : Screen(
         id = 9,
-        icon = Icons.Rounded.Cube,
+        icon = Icons.Rounded.Extension,
         title = R.string.image_stitching,
         subtitle = R.string.image_stitching_sub
     )

@@ -1,6 +1,7 @@
 package ru.tech.imageresizershrinker.presentation.filters_screen.components
 
 import android.graphics.Bitmap
+import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -40,7 +41,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.ScrollableTabRow
+import androidx.compose.material3.PrimaryScrollableTabRow
 import androidx.compose.material3.Tab
 import androidx.compose.material3.TabRowDefaults
 import androidx.compose.material3.TabRowDefaults.tabIndicatorOffset
@@ -228,16 +229,16 @@ fun AddFiltersSheet(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.Center
                 ) {
-                    ScrollableTabRow(
+                    PrimaryScrollableTabRow(
                         divider = {},
                         containerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(10.dp),
                         selectedTabIndex = pagerState.currentPage,
                         indicator = { tabPositions ->
                             if (pagerState.currentPage < tabPositions.size) {
+                                val width by animateDpAsState(targetValue = tabPositions[pagerState.currentPage].contentWidth)
                                 TabRowDefaults.PrimaryIndicator(
-                                    modifier = Modifier
-                                        .tabIndicatorOffset(tabPositions[pagerState.currentPage]),
-                                    width = 60.dp,
+                                    modifier = Modifier.tabIndicatorOffset(tabPositions[pagerState.currentPage]),
+                                    width = width,
                                     height = 4.dp,
                                     shape = RoundedCornerShape(topStart = 100f, topEnd = 100f)
                                 )

@@ -72,10 +72,10 @@ class ImageStitchingViewModel @Inject constructor(
 
     private fun calculatePreview() {
         calculationPreviewJob?.cancel()
-        uris?.let { uris ->
-            calculationPreviewJob = viewModelScope.launch {
-                delay(300L)
-                _isImageLoading.value = true
+        calculationPreviewJob = viewModelScope.launch {
+            delay(300L)
+            _isImageLoading.value = true
+            uris?.let { uris ->
                 _previewBitmap.value = imageManager.createCombinedImagesPreview(
                     imageUris = uris.map { it.toString() },
                     combiningParams = combiningParams,
@@ -84,8 +84,8 @@ class ImageStitchingViewModel @Inject constructor(
                     onGetByteCount = { _imageSize.value = it.toLong() }
                 )
             }
+            _isImageLoading.value = false
         }
-        _isImageLoading.value = false
     }
 
     private var savingJob: Job? = null

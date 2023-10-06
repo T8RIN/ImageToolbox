@@ -486,7 +486,7 @@ class MainViewModel @Inject constructor(
                 setFont(FontFam.DejaVu)
                 val colorTuple = ColorTuple(
                     primary = Color(0xFF2DE52D),
-                    secondary = Color(0xFFFF8100),
+                    secondary = Color(0xFFFFFFA0),
                     tertiary = Color(0xFF212B97),
                     surface = Color(0xFF6D216D)
                 )
