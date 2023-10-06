@@ -36,6 +36,7 @@ import com.smarttoolfactory.colordetector.util.ColorUtil.roundToTwoDigits
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.domain.model.ImageSize
 import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedSlider
+import ru.tech.imageresizershrinker.presentation.root.widget.controls.OOMWarning
 import ru.tech.imageresizershrinker.presentation.root.widget.modifier.container
 
 @Composable
@@ -50,6 +51,11 @@ fun ImageScaleSelector(
             val s = approximateImageSize * value
             if (s.isZero()) null
             else s
+        }
+    }
+    val showWarning by remember(scaledSize) {
+        derivedStateOf {
+            scaledSize!!.width * scaledSize!!.height * 4L >= 10_000 * 10_000 * 3L
         }
     }
     Column(
@@ -155,6 +161,7 @@ fun ImageScaleSelector(
                         )
                     }
                 }
+                OOMWarning(visible = showWarning)
             } else {
                 Text(
                     text = stringResource(R.string.loading),
@@ -169,5 +176,4 @@ fun ImageScaleSelector(
             }
         }
     }
-    //TODO: Add OOM warning
 }
