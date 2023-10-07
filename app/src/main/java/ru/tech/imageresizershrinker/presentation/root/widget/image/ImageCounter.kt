@@ -33,7 +33,6 @@ fun ImageCounter(
     imageCount: Int?,
     onRepick: () -> Unit
 ) {
-    val settingsState = LocalSettingsState.current
     AnimatedVisibility(
         visible = imageCount != null,
         enter = fadeIn() + expandIn(expandFrom = Alignment.TopCenter),

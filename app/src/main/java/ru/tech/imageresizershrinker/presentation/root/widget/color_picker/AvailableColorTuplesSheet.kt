@@ -77,7 +77,6 @@ fun AvailableColorTuplesSheet(
     colorTupleList: List<ColorTuple>,
     currentColorTuple: ColorTuple,
     openColorPicker: () -> Unit,
-    borderWidth: Dp = LocalSettingsState.current.borderWidth,
     colorPicker: @Composable (onUpdateColorTuples: (List<ColorTuple>) -> Unit) -> Unit,
     onPickTheme: (ColorTuple) -> Unit,
     onUpdateColorTuples: (List<ColorTuple>) -> Unit,

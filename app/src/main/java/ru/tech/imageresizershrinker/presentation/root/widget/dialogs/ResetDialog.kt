@@ -27,7 +27,6 @@ fun ResetDialog(
     title: String = stringResource(R.string.reset_image),
     text: String = stringResource(R.string.reset_image_sub)
 ) {
-    val settingsState = LocalSettingsState.current
     val scope = rememberCoroutineScope()
     val context = LocalContext.current
     val toastHostState = LocalToastHost.current

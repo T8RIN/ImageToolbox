@@ -21,7 +21,6 @@ fun ExitWithoutSavingDialog(
     onDismiss: () -> Unit,
     visible: Boolean
 ) {
-    val settingsState = LocalSettingsState.current
     if (visible) {
         AlertDialog(
             modifier = Modifier.alertDialogBorder(),

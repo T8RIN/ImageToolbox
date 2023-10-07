@@ -1,5 +1,6 @@
 package ru.tech.imageresizershrinker.presentation.image_stitching_screen.components
 
+import android.annotation.SuppressLint
 import android.net.Uri
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.animateFloatAsState
@@ -53,7 +54,7 @@ import ru.tech.imageresizershrinker.presentation.root.widget.modifier.container
 fun ImageReorderCarousel(
     images: List<Uri>?,
     onReorder: (List<Uri>?) -> Unit,
-    modifier: Modifier = Modifier
+    @SuppressLint("ModifierParameter") modifier: Modifier = Modifier
         .container(RoundedCornerShape(24.dp)),
     onNeedToAddImage: () -> Unit
 ) {

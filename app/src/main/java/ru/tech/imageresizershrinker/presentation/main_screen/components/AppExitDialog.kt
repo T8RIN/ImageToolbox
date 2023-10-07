@@ -23,7 +23,6 @@ fun AppExitDialog(
     visible: Boolean
 ) {
     val activity = LocalContext.current.findActivity()
-    val settingsState = LocalSettingsState.current
 
     if (visible) {
         AlertDialog(
