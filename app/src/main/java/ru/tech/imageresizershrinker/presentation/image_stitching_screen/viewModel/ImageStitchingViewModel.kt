@@ -66,19 +66,7 @@ class ImageStitchingViewModel @Inject constructor(
         _uris.value = null
         _uris.value = uris
 
-        calculateImageSize()
         calculatePreview()
-    }
-
-    private fun calculateImageSize() {
-        viewModelScope.launch {
-            uris?.let { uris ->
-                _imageSize.value = imageManager.calculateCombinedImageDimensions(
-                    uris.map { it.toString() },
-                    combiningParams
-                )
-            }
-        }
     }
 
     private var calculationPreviewJob: Job? = null
@@ -89,13 +77,16 @@ class ImageStitchingViewModel @Inject constructor(
             delay(300L)
             _isImageLoading.value = true
             uris?.let { uris ->
-                _previewBitmap.value = imageManager.createCombinedImagesPreview(
+                imageManager.createCombinedImagesPreview(
                     imageUris = uris.map { it.toString() },
                     combiningParams = combiningParams,
                     imageFormat = imageInfo.imageFormat,
                     quality = imageInfo.quality,
                     onGetByteCount = {}
-                )
+                ).let { (image, size) ->
+                    _previewBitmap.value = image
+                    _imageSize.value = size
+                }
             }
             _isImageLoading.value = false
         }
@@ -188,7 +179,7 @@ class ImageStitchingViewModel @Inject constructor(
             it.copy(isHorizontal = checked)
         }
         calculatePreview()
-        calculateImageSize()
+
     }
 
     fun updateImageSpacing(spacing: Int) {
@@ -196,7 +187,6 @@ class ImageStitchingViewModel @Inject constructor(
             it.copy(spacing = spacing)
         }
         calculatePreview()
-        calculateImageSize()
     }
 
     fun toggleScaleSmallImagesToLarge(checked: Boolean) {
@@ -204,7 +194,6 @@ class ImageStitchingViewModel @Inject constructor(
             it.copy(scaleSmallImagesToLarge = checked)
         }
         calculatePreview()
-        calculateImageSize()
     }
 
     fun updateBackgroundSelector(color: Int) {
@@ -212,7 +201,13 @@ class ImageStitchingViewModel @Inject constructor(
             it.copy(backgroundColor = color)
         }
         calculatePreview()
-        calculateImageSize()
+    }
+
+    fun addUrisToEnd(uris: List<Uri>) {
+        _uris.update {
+            it?.plus(uris)
+        }
+        calculatePreview()
     }
 
 }

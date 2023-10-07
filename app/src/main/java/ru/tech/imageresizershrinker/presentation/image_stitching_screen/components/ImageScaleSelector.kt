@@ -113,55 +113,57 @@ fun ImageScaleSelector(
             targetState = scaledSize != null,
             transitionSpec = { fadeIn() togetherWith fadeOut() }) { notNull ->
             if (notNull) {
-                Row(
-                    modifier = Modifier
-                        .padding(4.dp)
-                        .container(RoundedCornerShape(20.dp))
-                        .padding(4.dp)
-                ) {
-                    Column(
+                Column {
+                    Row(
                         modifier = Modifier
-                            .weight(1f)
-                            .container(
-                                color = MaterialTheme.colorScheme.surfaceContainer,
-                                autoShadowElevation = 0.2.dp
-                            )
-                            .padding(4.dp),
-                        verticalArrangement = Arrangement.Center,
-                        horizontalAlignment = Alignment.CenterHorizontally
+                            .padding(4.dp)
+                            .container(RoundedCornerShape(20.dp))
+                            .padding(4.dp)
                     ) {
-                        Text(stringResource(R.string.width, ""))
-                        Spacer(Modifier.height(8.dp))
-                        Text(
-                            text = scaledSize!!.width.toString(),
-                            fontSize = 16.sp,
-                            textAlign = TextAlign.Center,
-                            color = LocalContentColor.current.copy(0.5f),
-                        )
-                    }
-                    Spacer(Modifier.width(8.dp))
-                    Column(
-                        modifier = Modifier
-                            .weight(1f)
-                            .container(
-                                color = MaterialTheme.colorScheme.surfaceContainer,
-                                autoShadowElevation = 0.2.dp
+                        Column(
+                            modifier = Modifier
+                                .weight(1f)
+                                .container(
+                                    color = MaterialTheme.colorScheme.surfaceContainer,
+                                    autoShadowElevation = 0.2.dp
+                                )
+                                .padding(4.dp),
+                            verticalArrangement = Arrangement.Center,
+                            horizontalAlignment = Alignment.CenterHorizontally
+                        ) {
+                            Text(stringResource(R.string.width, ""))
+                            Spacer(Modifier.height(8.dp))
+                            Text(
+                                text = scaledSize!!.width.toString(),
+                                fontSize = 16.sp,
+                                textAlign = TextAlign.Center,
+                                color = LocalContentColor.current.copy(0.5f),
                             )
-                            .padding(4.dp),
-                        verticalArrangement = Arrangement.Center,
-                        horizontalAlignment = Alignment.CenterHorizontally
-                    ) {
-                        Text(stringResource(R.string.height, ""))
-                        Spacer(Modifier.height(8.dp))
-                        Text(
-                            text = scaledSize!!.height.toString(),
-                            fontSize = 16.sp,
-                            textAlign = TextAlign.Center,
-                            color = LocalContentColor.current.copy(0.5f),
-                        )
+                        }
+                        Spacer(Modifier.width(8.dp))
+                        Column(
+                            modifier = Modifier
+                                .weight(1f)
+                                .container(
+                                    color = MaterialTheme.colorScheme.surfaceContainer,
+                                    autoShadowElevation = 0.2.dp
+                                )
+                                .padding(4.dp),
+                            verticalArrangement = Arrangement.Center,
+                            horizontalAlignment = Alignment.CenterHorizontally
+                        ) {
+                            Text(stringResource(R.string.height, ""))
+                            Spacer(Modifier.height(8.dp))
+                            Text(
+                                text = scaledSize!!.height.toString(),
+                                fontSize = 16.sp,
+                                textAlign = TextAlign.Center,
+                                color = LocalContentColor.current.copy(0.5f),
+                            )
+                        }
                     }
+                    OOMWarning(visible = showWarning)
                 }
-                OOMWarning(visible = showWarning)
             } else {
                 Text(
                     text = stringResource(R.string.loading),

@@ -11,12 +11,16 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.AddPhotoAlternate
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.surfaceColorAtElevation
@@ -41,6 +45,7 @@ import org.burnoutcrew.reorderable.detectReorderAfterLongPress
 import org.burnoutcrew.reorderable.rememberReorderableLazyListState
 import org.burnoutcrew.reorderable.reorderable
 import ru.tech.imageresizershrinker.R
+import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedIconButton
 import ru.tech.imageresizershrinker.presentation.root.widget.image.Picture
 import ru.tech.imageresizershrinker.presentation.root.widget.modifier.container
 
@@ -49,14 +54,11 @@ fun ImageReorderCarousel(
     images: List<Uri>?,
     onReorder: (List<Uri>?) -> Unit,
     modifier: Modifier = Modifier
-        .container(RoundedCornerShape(24.dp))
+        .container(RoundedCornerShape(24.dp)),
+    onNeedToAddImage: () -> Unit
 ) {
     val data = remember { mutableStateOf(images ?: emptyList()) }
-    LaunchedEffect(images) {
-        if (data.value.sorted() != images?.sorted()) {
-            data.value = images ?: emptyList()
-        }
-    }
+
     val state = rememberReorderableLazyListState(
         onMove = { from, to ->
             data.value = data.value.toMutableList().apply {
@@ -67,6 +69,14 @@ fun ImageReorderCarousel(
             onReorder(data.value)
         }
     )
+    val listState = state.listState
+
+    LaunchedEffect(images) {
+        if (data.value.sorted() != images?.sorted()) {
+            data.value = images ?: emptyList()
+            listState.animateScrollToItem(data.value.lastIndex.coerceAtLeast(0))
+        }
+    }
 
     Column(
         modifier = modifier,
@@ -75,7 +85,8 @@ fun ImageReorderCarousel(
     ) {
         Row(
             verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.Center
+            horizontalArrangement = Arrangement.Center,
+            modifier = Modifier.container(color = MaterialTheme.colorScheme.surfaceContainer)
         ) {
             Text(
                 fontWeight = FontWeight.Medium,
@@ -83,10 +94,21 @@ fun ImageReorderCarousel(
                 modifier = Modifier.padding(top = 16.dp, bottom = 8.dp),
                 fontSize = 18.sp
             )
+            EnhancedIconButton(
+                onClick = onNeedToAddImage,
+                containerColor = MaterialTheme.colorScheme.secondaryContainer,
+                forceMinimumInteractiveComponentSize = false,
+                modifier = Modifier.padding(start = 8.dp).size(36.dp).offset(y = 2.dp),
+            ) {
+                Icon(
+                    imageVector = Icons.Rounded.AddPhotoAlternate,
+                    contentDescription = null,
+                    modifier = Modifier.size(20.dp))
+            }
         }
         Box {
             LazyRow(
-                state = state.listState,
+                state = listState,
                 modifier = Modifier
                     .reorderable(state)
                     .detectReorderAfterLongPress(state),

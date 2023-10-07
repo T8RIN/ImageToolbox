@@ -154,6 +154,19 @@ fun ImageStitchingScreen(
             }
         }
 
+    val addImagesLauncher =
+        rememberImagePicker(
+            mode = localImagePickerMode(Picker.Multiple)
+        ) { list ->
+            list.takeIf { it.isNotEmpty() }?.let { uris ->
+                viewModel.addUrisToEnd(uris)
+            }
+        }
+
+    val addImages = {
+        addImagesLauncher.pickImage()
+    }
+
     val pickImage = {
         pickImageLauncher.pickImage()
     }
@@ -358,7 +371,8 @@ fun ImageStitchingScreen(
                                     ) {
                                         ImageReorderCarousel(
                                             images = viewModel.uris,
-                                            onReorder = viewModel::updateUris
+                                            onReorder = viewModel::updateUris,
+                                            onNeedToAddImage = addImages
                                         )
                                         ImageScaleSelector(
                                             modifier = Modifier.padding(top = 8.dp),

@@ -34,8 +34,10 @@ import ru.tech.imageresizershrinker.domain.model.ImageData
 import ru.tech.imageresizershrinker.domain.model.ImageFormat
 import ru.tech.imageresizershrinker.domain.model.ImageInfo
 import ru.tech.imageresizershrinker.domain.model.ImageSize
+import ru.tech.imageresizershrinker.domain.model.ImageWithSize
 import ru.tech.imageresizershrinker.domain.model.Preset
 import ru.tech.imageresizershrinker.domain.model.ResizeType
+import ru.tech.imageresizershrinker.domain.model.withSize
 import ru.tech.imageresizershrinker.domain.saving.FileController
 import ru.tech.imageresizershrinker.domain.saving.model.ImageSaveTarget
 import ru.tech.imageresizershrinker.presentation.root.app.ImageApplication
@@ -517,7 +519,7 @@ class AndroidImageManager @Inject constructor(
         imageFormat: ImageFormat,
         quality: Float,
         onGetByteCount: (Int) -> Unit
-    ): Bitmap = withContext(Dispatchers.IO) {
+    ): ImageWithSize<Bitmap> = withContext(Dispatchers.IO) {
         val imageSize = calculateCombinedImageDimensions(
             imageUris = imageUris,
             combiningParams = combiningParams
@@ -543,7 +545,7 @@ class AndroidImageManager @Inject constructor(
                     quality = quality
                 ),
                 onGetByteCount = onGetByteCount
-            )
+            ) withSize imageSize
         }
     }
 

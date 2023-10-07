@@ -80,6 +80,7 @@ fun EnhancedIconButton(
     borderColor: Color = MaterialTheme.colorScheme.outlineVariant(onTopOf = containerColor),
     shape: Shape = IconButtonDefaults.outlinedShape,
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
+    forceMinimumInteractiveComponentSize: Boolean = true,
     content: @Composable () -> Unit
 ) {
     val settingsState = LocalSettingsState.current
@@ -88,7 +89,10 @@ fun EnhancedIconButton(
         OutlinedIconButton(
             onClick = onClick,
             modifier = modifier
-                .minimumInteractiveComponentSize()
+                .then(
+                    if (forceMinimumInteractiveComponentSize) Modifier.minimumInteractiveComponentSize()
+                    else Modifier
+                )
                 .materialShadow(
                     shape = shape,
                     elevation = if (settingsState.borderWidth > 0.dp) 0.dp else 0.7.dp
