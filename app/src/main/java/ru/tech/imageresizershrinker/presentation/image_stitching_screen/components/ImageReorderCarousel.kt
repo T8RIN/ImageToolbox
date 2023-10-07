@@ -98,12 +98,16 @@ fun ImageReorderCarousel(
                 onClick = onNeedToAddImage,
                 containerColor = MaterialTheme.colorScheme.secondaryContainer,
                 forceMinimumInteractiveComponentSize = false,
-                modifier = Modifier.padding(start = 8.dp).size(36.dp).offset(y = 2.dp),
+                modifier = Modifier
+                    .padding(start = 8.dp)
+                    .size(36.dp)
+                    .offset(y = 2.dp),
             ) {
                 Icon(
                     imageVector = Icons.Rounded.AddPhotoAlternate,
                     contentDescription = null,
-                    modifier = Modifier.size(20.dp))
+                    modifier = Modifier.size(20.dp)
+                )
             }
         }
         Box {

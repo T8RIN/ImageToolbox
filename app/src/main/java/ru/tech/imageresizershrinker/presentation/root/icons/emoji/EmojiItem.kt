@@ -24,8 +24,8 @@ import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest
-import ru.tech.imageresizershrinker.presentation.root.widget.modifier.shimmer
 import ru.tech.imageresizershrinker.presentation.root.widget.image.pictureImageLoader
+import ru.tech.imageresizershrinker.presentation.root.widget.modifier.shimmer
 
 @Composable
 fun EmojiItem(

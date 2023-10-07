@@ -66,10 +66,10 @@ import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.presentation.root.app.ImageApplication
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.ContextUtils.findActivity
-import ru.tech.imageresizershrinker.presentation.root.widget.modifier.shimmer
-import ru.tech.imageresizershrinker.presentation.root.widget.modifier.transparencyChecker
 import ru.tech.imageresizershrinker.presentation.root.widget.image.StatusBarUtils.hideSystemBars
 import ru.tech.imageresizershrinker.presentation.root.widget.image.StatusBarUtils.showSystemBars
+import ru.tech.imageresizershrinker.presentation.root.widget.modifier.shimmer
+import ru.tech.imageresizershrinker.presentation.root.widget.modifier.transparencyChecker
 
 @Composable
 fun pictureImageLoader(): ImageLoader = remember {

@@ -127,6 +127,12 @@ import ru.tech.imageresizershrinker.presentation.root.icons.material.GooglePlay
 import ru.tech.imageresizershrinker.presentation.root.model.isFirstLaunch
 import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.ContextUtils.isInstalledFromPlayStore
+import ru.tech.imageresizershrinker.presentation.root.utils.navigation.LocalNavController
+import ru.tech.imageresizershrinker.presentation.root.utils.navigation.Screen
+import ru.tech.imageresizershrinker.presentation.root.widget.color_picker.AvailableColorTuplesSheet
+import ru.tech.imageresizershrinker.presentation.root.widget.color_picker.ColorTuplePicker
+import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedButton
+import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedIconButton
 import ru.tech.imageresizershrinker.presentation.root.widget.modifier.alertDialogBorder
 import ru.tech.imageresizershrinker.presentation.root.widget.modifier.autoElevatedBorder
 import ru.tech.imageresizershrinker.presentation.root.widget.modifier.container
@@ -134,12 +140,6 @@ import ru.tech.imageresizershrinker.presentation.root.widget.modifier.drawHorizo
 import ru.tech.imageresizershrinker.presentation.root.widget.modifier.pulsate
 import ru.tech.imageresizershrinker.presentation.root.widget.modifier.rotateAnimation
 import ru.tech.imageresizershrinker.presentation.root.widget.modifier.scaleOnTap
-import ru.tech.imageresizershrinker.presentation.root.utils.navigation.LocalNavController
-import ru.tech.imageresizershrinker.presentation.root.utils.navigation.Screen
-import ru.tech.imageresizershrinker.presentation.root.widget.color_picker.AvailableColorTuplesSheet
-import ru.tech.imageresizershrinker.presentation.root.widget.color_picker.ColorTuplePicker
-import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedButton
-import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedIconButton
 import ru.tech.imageresizershrinker.presentation.root.widget.other.LocalToastHost
 import ru.tech.imageresizershrinker.presentation.root.widget.other.TopAppBarEmoji
 import ru.tech.imageresizershrinker.presentation.root.widget.preferences.PreferenceItem
