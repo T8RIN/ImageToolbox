@@ -196,6 +196,7 @@ class LimitsResizeViewModel @Inject constructor(
     }
 
     fun shareBitmaps(onComplete: () -> Unit) {
+        _isSaving.value = false
         viewModelScope.launch {
             _isSaving.value = true
             imageManager.shareImages(
@@ -228,7 +229,6 @@ class LimitsResizeViewModel @Inject constructor(
                 }
             )
         }.also {
-            _isSaving.value = false
             savingJob?.cancel()
             savingJob = it
         }

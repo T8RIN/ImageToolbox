@@ -135,6 +135,7 @@ class ImageStitchingViewModel @Inject constructor(
     }
 
     fun shareBitmaps(onComplete: () -> Unit) {
+        _isSaving.value = false
         viewModelScope.launch {
             _isSaving.value = true
             imageManager.shareImage(
@@ -152,8 +153,8 @@ class ImageStitchingViewModel @Inject constructor(
                 },
                 onComplete = onComplete
             )
-        }.also {
             _isSaving.value = false
+        }.also {
             savingJob?.cancel()
             savingJob = it
         }

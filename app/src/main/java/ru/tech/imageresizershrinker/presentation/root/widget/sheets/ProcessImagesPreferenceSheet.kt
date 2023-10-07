@@ -48,6 +48,7 @@ import ru.tech.imageresizershrinker.presentation.root.widget.preferences.screens
 import ru.tech.imageresizershrinker.presentation.root.widget.preferences.screens.FilterPreference
 import ru.tech.imageresizershrinker.presentation.root.widget.preferences.screens.GeneratePalettePreference
 import ru.tech.imageresizershrinker.presentation.root.widget.preferences.screens.ImagePreviewPreference
+import ru.tech.imageresizershrinker.presentation.root.widget.preferences.screens.ImageStitchingPreference
 import ru.tech.imageresizershrinker.presentation.root.widget.preferences.screens.LimitsPreference
 import ru.tech.imageresizershrinker.presentation.root.widget.preferences.screens.PickColorPreference
 import ru.tech.imageresizershrinker.presentation.root.widget.preferences.screens.ResizeAndConvertPreference
@@ -303,23 +304,21 @@ fun ProcessImagesPreferenceSheet(
                             FilterPreference(
                                 modifier = Modifier.fillMaxWidth(),
                                 onClick = {
-                                    navigate(
-                                        Screen.Filter(uris)
-                                    )
+                                    navigate(Screen.Filter(uris))
                                 },
                                 color = color
                             )
                         }
-                        item {
-                            ImagePreviewPreference(
-                                modifier = Modifier.fillMaxWidth(),
-                                onClick = {
-                                    navigate(
-                                        Screen.ImagePreview(uris)
-                                    )
-                                },
-                                color = color
-                            )
+                        if (uris.size >= 2) {
+                            item {
+                                ImageStitchingPreference(
+                                    modifier = Modifier.fillMaxWidth(),
+                                    onClick = {
+                                        navigate(Screen.ImageStitching(uris))
+                                    },
+                                    color = color
+                                )
+                            }
                         }
                         if (uris.size == 2) {
                             item {
@@ -333,6 +332,17 @@ fun ProcessImagesPreferenceSheet(
                                     color = color
                                 )
                             }
+                        }
+                        item {
+                            ImagePreviewPreference(
+                                modifier = Modifier.fillMaxWidth(),
+                                onClick = {
+                                    navigate(
+                                        Screen.ImagePreview(uris)
+                                    )
+                                },
+                                color = color
+                            )
                         }
                         item {
                             LimitsPreference(
