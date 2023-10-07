@@ -12,15 +12,15 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.AddPhotoAlternate
+import androidx.compose.material.icons.rounded.Add
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -87,25 +87,30 @@ fun ImageReorderCarousel(
         Row(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.Center,
-            modifier = Modifier.container(color = MaterialTheme.colorScheme.surfaceContainer)
+            modifier = Modifier
+                .padding(top = 16.dp, bottom = 8.dp)
+                .container(
+                    color = MaterialTheme.colorScheme.surfaceColorAtElevation(1.dp),
+                    shape = CircleShape
+                )
         ) {
             Text(
                 fontWeight = FontWeight.Medium,
                 text = stringResource(R.string.images_order),
-                modifier = Modifier.padding(top = 16.dp, bottom = 8.dp),
+                modifier = Modifier.padding(start = 8.dp),
                 fontSize = 18.sp
             )
             EnhancedIconButton(
                 onClick = onNeedToAddImage,
-                containerColor = MaterialTheme.colorScheme.secondaryContainer,
+                containerColor = MaterialTheme.colorScheme.surfaceContainerHighest,
+                contentColor = MaterialTheme.colorScheme.onSurfaceVariant,
                 forceMinimumInteractiveComponentSize = false,
                 modifier = Modifier
                     .padding(start = 8.dp)
-                    .size(36.dp)
-                    .offset(y = 2.dp),
+                    .size(30.dp),
             ) {
                 Icon(
-                    imageVector = Icons.Rounded.AddPhotoAlternate,
+                    imageVector = Icons.Rounded.Add,
                     contentDescription = null,
                     modifier = Modifier.size(20.dp)
                 )
@@ -120,6 +125,7 @@ fun ImageReorderCarousel(
                 contentPadding = PaddingValues(12.dp),
                 horizontalArrangement = Arrangement.spacedBy(8.dp)
             ) {
+                //TODO: Add removeImage button
                 itemsIndexed(data.value, key = { _, uri -> uri.hashCode() }) { index, uri ->
                     ReorderableItem(
                         reorderableState = state,

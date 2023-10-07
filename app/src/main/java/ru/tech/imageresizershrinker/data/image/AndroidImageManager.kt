@@ -380,6 +380,7 @@ class AndroidImageManager @Inject constructor(
             val bitmaps = drawables.map { drawable ->
                 val image = drawable.toBitmap()!!
                 if (scaleSmallImagesToLarge) {
+                    //TODO: Fix weird scaling
                     resize(
                         image = image,
                         width = if (isHorizontal) image.width else size.width,

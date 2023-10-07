@@ -205,8 +205,10 @@ class ImageStitchingViewModel @Inject constructor(
     }
 
     fun addUrisToEnd(uris: List<Uri>) {
-        _uris.update {
-            it?.plus(uris)
+        _uris.update { list ->
+            list?.plus(
+                uris.filter { it !in list }
+            )
         }
         calculatePreview()
     }
