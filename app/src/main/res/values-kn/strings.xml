@@ -1,2 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<resources>
+    <string name="size">ಗಾತ್ರ %1$s</string>
+    <string name="close">ಮುಚ್ಚಿ</string>
+    <string name="reset">ಮರುಹೊಂದಿಸಿ</string>
+    <string name="app_closing">ಅಪ್ಲಿಕೇಶನ್ ಮುಚ್ಚಲಾಗುತ್ತಿದೆ</string>
+    <string name="pick_image_alt">ಚಿತ್ರವನ್ನು ಆರಿಸಿ</string>
+    <string name="reset_image">ಚಿತ್ರವನ್ನು ಮರುಹೊಂದಿಸಿ</string>
+    <string name="height">ಎತ್ತರ %1$s</string>
+    <string name="app_closing_sub">ನೀವು ನಿಜವಾಗಿಯೂ ಅಪ್ಲಿಕೇಶನ್ ಅನ್ನು ಮುಚ್ಚಲು ಬಯಸುವಿರಾ\?</string>
+    <string name="restart_app">ಅಪ್ಲಿಕೇಶನ್ ಅನ್ನು ಮರುಪ್ರಾರಂಭಿಸಿ</string>
+    <string name="copied">ಕ್ಲಿಪ್‌ಬೋರ್ಡ್‌ಗೆ ನಕಲಿಸಲಾಗಿದೆ</string>
+    <string name="something_went_wrong">ಏನೋ ತಪ್ಪಾಗಿದೆ</string>
+    <string name="pick_image">ಪ್ರಾರಂಭಿಸಲು ಚಿತ್ರವನ್ನು ಆರಿಸಿ</string>
+    <string name="values_reset">ಮೌಲ್ಯಗಳನ್ನು ಸರಿಯಾಗಿ ಮರುಹೊಂದಿಸಿ</string>
+    <string name="width">ಅಗಲ %1$s</string>
+    <string name="stay">ಉಳಿಯಿರಿ</string>
+    <string name="reset_image_sub">ಮೌಲ್ಯಗಳನ್ನು ಪ್ರಾರಂಭಿಸಲು ಚಿತ್ರದ ಬದಲಾವಣೆಗಳನ್ನು ರೋಲ್‌ಬ್ಯಾಕ್ ಮಾಡಲಾಗುತ್ತದೆ</string>
+    <string name="smth_went_wrong">ಏನೋ ತಪ್ಪಾಗಿದೆ: %1$s</string>
+    <string name="quality">ಗುಣಮಟ್ಟ</string>
+    <string name="loading">ಲೋಡ್ ಆಗುತ್ತಿದೆ…</string>
+    <string name="image_too_large_preview">ಚಿತ್ರವು ಪೂರ್ವವೀಕ್ಷಿಸಲು ತುಂಬಾ ದೊಡ್ಡದಾಗಿದೆ, ಆದರೆ ಅದನ್ನು ಹೇಗಾದರೂ ಉಳಿಸಲು ಪ್ರಯತ್ನಿಸಲಾಗುತ್ತದೆ</string>
+    <string name="resize_type">ಮರುಗಾತ್ರಗೊಳಿಸಿ ಪ್ರಕಾರ</string>
+</resources>

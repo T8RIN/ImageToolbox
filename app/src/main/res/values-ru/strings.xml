@@ -373,4 +373,7 @@
     <string name="draw_arrows_sub">Если включено, то на конце линии будет дорисовываться стрелка</string>
     <string name="crop_description">Изображения будут обрезаны по центру до этого размера, если их размер превышает входные размеры, а в других случаях холст будет расширен с заданным цветом фона</string>
     <string name="donation">Пожертвование</string>
+    <string name="image_stitching">Объединение изображений</string>
+    <string name="image_stitching_sub">Объединить входные изображения в одно большое</string>
+    <string name="value_in_range">Значение в %1$d..%2$d</string>
 </resources>
