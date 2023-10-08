@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -63,15 +62,14 @@ fun AutoEraseBackgroundCard(
                     tint = MaterialTheme.colorScheme.onMixedContainer
                 )
             }
-            Spacer(modifier = Modifier.height(4.dp))
+            Spacer(modifier = Modifier.height(8.dp))
         }
         EnhancedButton(
             containerColor = MaterialTheme.colorScheme.mixedContainer.copy(0.4f),
             contentColor = MaterialTheme.colorScheme.onSecondaryContainer,
             onClick = onReset,
-            modifier = Modifier
-                .fillMaxWidth()
-                .offset(y = if (notFoss) 3.dp else 0.dp)
+            modifier = Modifier.fillMaxWidth(),
+            shape = RoundedCornerShape(16.dp)
         ) {
             Icon(Icons.Rounded.SettingsBackupRestore, null)
             Spacer(Modifier.width(8.dp))
