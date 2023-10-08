@@ -5,7 +5,6 @@ import android.net.Uri
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -98,7 +97,7 @@ import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalWindowSi
 import ru.tech.imageresizershrinker.presentation.root.widget.utils.isExpanded
 import ru.tech.imageresizershrinker.presentation.root.widget.utils.middleImageState
 
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ImageStitchingScreen(
     uriState: List<Uri>?,
@@ -372,7 +371,8 @@ fun ImageStitchingScreen(
                                         ImageReorderCarousel(
                                             images = viewModel.uris,
                                             onReorder = viewModel::updateUris,
-                                            onNeedToAddImage = addImages
+                                            onNeedToAddImage = addImages,
+                                            onNeedToRemoveImageAt = viewModel::removeImageAt
                                         )
                                         ImageScaleSelector(
                                             modifier = Modifier.padding(top = 8.dp),

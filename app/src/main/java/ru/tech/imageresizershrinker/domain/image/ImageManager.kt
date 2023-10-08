@@ -4,8 +4,8 @@ import ru.tech.imageresizershrinker.domain.model.CombiningParams
 import ru.tech.imageresizershrinker.domain.model.ImageData
 import ru.tech.imageresizershrinker.domain.model.ImageFormat
 import ru.tech.imageresizershrinker.domain.model.ImageInfo
-import ru.tech.imageresizershrinker.domain.model.ImageSize
 import ru.tech.imageresizershrinker.domain.model.ImageWithSize
+import ru.tech.imageresizershrinker.domain.model.IntegerSize
 import ru.tech.imageresizershrinker.domain.model.Preset
 import ru.tech.imageresizershrinker.domain.model.ResizeType
 
@@ -125,7 +125,7 @@ interface ImageManager<I, M> {
     suspend fun calculateCombinedImageDimensions(
         imageUris: List<String>,
         combiningParams: CombiningParams
-    ): ImageSize
+    ): IntegerSize
 
     suspend fun createCombinedImagesPreview(
         imageUris: List<String>,

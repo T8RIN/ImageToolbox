@@ -23,7 +23,7 @@ import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.ArrowBack
+import androidx.compose.material.icons.automirrored.rounded.ArrowBack
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -51,6 +51,7 @@ import dev.olshevski.navigation.reimagined.navigate
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.presentation.root.icons.material.CreateAlt
+import ru.tech.imageresizershrinker.presentation.root.theme.White
 import ru.tech.imageresizershrinker.presentation.root.utils.navigation.LocalNavController
 import ru.tech.imageresizershrinker.presentation.root.widget.image.Picture
 import ru.tech.imageresizershrinker.presentation.root.widget.sheets.ProcessImagesPreferenceSheet
@@ -159,7 +160,7 @@ fun ImagePager(
                                     CircleShape
                                 )
                                 .padding(vertical = 4.dp, horizontal = 12.dp),
-                            color = Color.White
+                            color = White
                         )
                     }
                 },
@@ -182,7 +183,7 @@ fun ImagePager(
                             Icon(
                                 imageVector = Icons.Rounded.CreateAlt,
                                 contentDescription = null,
-                                tint = Color.White
+                                tint = White
                             )
                         }
                     }
@@ -205,9 +206,9 @@ fun ImagePager(
                             contentAlignment = Alignment.Center
                         ) {
                             Icon(
-                                imageVector = Icons.Rounded.ArrowBack,
+                                imageVector = Icons.AutoMirrored.Rounded.ArrowBack,
                                 contentDescription = null,
-                                tint = Color.White
+                                tint = White
                             )
                         }
                     }

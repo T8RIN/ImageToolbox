@@ -33,8 +33,8 @@ import ru.tech.imageresizershrinker.domain.model.CombiningParams
 import ru.tech.imageresizershrinker.domain.model.ImageData
 import ru.tech.imageresizershrinker.domain.model.ImageFormat
 import ru.tech.imageresizershrinker.domain.model.ImageInfo
-import ru.tech.imageresizershrinker.domain.model.ImageSize
 import ru.tech.imageresizershrinker.domain.model.ImageWithSize
+import ru.tech.imageresizershrinker.domain.model.IntegerSize
 import ru.tech.imageresizershrinker.domain.model.Preset
 import ru.tech.imageresizershrinker.domain.model.ResizeType
 import ru.tech.imageresizershrinker.domain.model.withSize
@@ -435,7 +435,7 @@ class AndroidImageManager @Inject constructor(
     override suspend fun calculateCombinedImageDimensions(
         imageUris: List<String>,
         combiningParams: CombiningParams
-    ): ImageSize = calculateCombinedImageDimensionsAndDrawables(
+    ): IntegerSize = calculateCombinedImageDimensionsAndDrawables(
         imageUris = imageUris,
         combiningParams = combiningParams
     ).first
@@ -443,7 +443,7 @@ class AndroidImageManager @Inject constructor(
     private suspend fun calculateCombinedImageDimensionsAndDrawables(
         imageUris: List<String>,
         combiningParams: CombiningParams
-    ): Pair<ImageSize, List<Drawable>> = withContext(Dispatchers.IO) {
+    ): Pair<IntegerSize, List<Drawable>> = withContext(Dispatchers.IO) {
         combiningParams.run {
             var w = 0
             var h = 0
@@ -510,7 +510,7 @@ class AndroidImageManager @Inject constructor(
                 w = maxWidth
             }
 
-            ImageSize(w, h) to drawables
+            IntegerSize(w, h) to drawables
         }
     }
 

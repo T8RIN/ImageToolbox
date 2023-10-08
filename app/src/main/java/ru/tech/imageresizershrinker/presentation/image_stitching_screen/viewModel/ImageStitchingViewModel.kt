@@ -20,7 +20,7 @@ import ru.tech.imageresizershrinker.domain.model.CombiningParams
 import ru.tech.imageresizershrinker.domain.model.ImageData
 import ru.tech.imageresizershrinker.domain.model.ImageFormat
 import ru.tech.imageresizershrinker.domain.model.ImageInfo
-import ru.tech.imageresizershrinker.domain.model.ImageSize
+import ru.tech.imageresizershrinker.domain.model.IntegerSize
 import ru.tech.imageresizershrinker.domain.saving.FileController
 import ru.tech.imageresizershrinker.domain.saving.SaveResult
 import ru.tech.imageresizershrinker.domain.saving.model.ImageSaveTarget
@@ -33,7 +33,7 @@ class ImageStitchingViewModel @Inject constructor(
     private val imageManager: ImageManager<Bitmap, ExifInterface>
 ) : ViewModel() {
 
-    private val _imageSize: MutableState<ImageSize> = mutableStateOf(ImageSize(0, 0))
+    private val _imageSize: MutableState<IntegerSize> = mutableStateOf(IntegerSize(0, 0))
     val imageSize by _imageSize
 
     private val _uris = mutableStateOf<List<Uri>?>(null)
@@ -209,6 +209,17 @@ class ImageStitchingViewModel @Inject constructor(
             list?.plus(
                 uris.filter { it !in list }
             )
+        }
+        calculatePreview()
+    }
+
+    fun removeImageAt(index: Int) {
+        _uris.update { list ->
+            list?.toMutableList()?.apply {
+                removeAt(index)
+            }?.takeIf { it.size >= 2 }.also {
+                if (it == null) _previewBitmap.value = null
+            }
         }
         calculatePreview()
     }

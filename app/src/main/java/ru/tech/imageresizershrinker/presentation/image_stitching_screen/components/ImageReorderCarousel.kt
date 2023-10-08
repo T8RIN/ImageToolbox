@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -21,6 +22,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Add
+import androidx.compose.material.icons.rounded.RemoveCircleOutline
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -46,6 +48,7 @@ import org.burnoutcrew.reorderable.detectReorderAfterLongPress
 import org.burnoutcrew.reorderable.rememberReorderableLazyListState
 import org.burnoutcrew.reorderable.reorderable
 import ru.tech.imageresizershrinker.R
+import ru.tech.imageresizershrinker.presentation.root.theme.White
 import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedIconButton
 import ru.tech.imageresizershrinker.presentation.root.widget.image.Picture
 import ru.tech.imageresizershrinker.presentation.root.widget.modifier.container
@@ -56,7 +59,8 @@ fun ImageReorderCarousel(
     onReorder: (List<Uri>?) -> Unit,
     @SuppressLint("ModifierParameter") modifier: Modifier = Modifier
         .container(RoundedCornerShape(24.dp)),
-    onNeedToAddImage: () -> Unit
+    onNeedToAddImage: () -> Unit,
+    onNeedToRemoveImageAt: (Int) -> Unit
 ) {
     val data = remember { mutableStateOf(images ?: emptyList()) }
 
@@ -166,6 +170,24 @@ fun ImageReorderCarousel(
                                     fontSize = 20.sp,
                                     fontWeight = FontWeight.Bold
                                 )
+                            }
+                            androidx.compose.animation.AnimatedVisibility(
+                                visible = (images?.size ?: 0) > 2,
+                                modifier = Modifier
+                                    .align(Alignment.TopEnd)
+                                    .offset(
+                                        x = 4.dp,
+                                        y = (-8).dp
+                                    )
+                            ) {
+                                EnhancedIconButton(
+                                    onClick = { onNeedToRemoveImageAt(index) },
+                                    containerColor = Color.Transparent,
+                                    contentColor = White,
+                                    enableAutoShadowAndBorder = false
+                                ) {
+                                    Icon(Icons.Rounded.RemoveCircleOutline, null)
+                                }
                             }
                         }
                     }

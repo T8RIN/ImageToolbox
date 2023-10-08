@@ -81,6 +81,7 @@ fun EnhancedIconButton(
     shape: Shape = IconButtonDefaults.outlinedShape,
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
     forceMinimumInteractiveComponentSize: Boolean = true,
+    enableAutoShadowAndBorder: Boolean = true,
     content: @Composable () -> Unit
 ) {
     val settingsState = LocalSettingsState.current
@@ -93,9 +94,11 @@ fun EnhancedIconButton(
                     if (forceMinimumInteractiveComponentSize) Modifier.minimumInteractiveComponentSize()
                     else Modifier
                 )
-                .materialShadow(
-                    shape = shape,
-                    elevation = if (settingsState.borderWidth > 0.dp) 0.dp else 0.7.dp
+                .then(
+                    if (enableAutoShadowAndBorder) Modifier.materialShadow(
+                        shape = shape,
+                        elevation = if (settingsState.borderWidth > 0.dp) 0.dp else 0.7.dp
+                    ) else Modifier
                 ),
             shape = shape,
             colors = IconButtonDefaults.iconButtonColors(
@@ -103,10 +106,10 @@ fun EnhancedIconButton(
                 containerColor = containerColor
             ),
             enabled = enabled,
-            border = BorderStroke(
+            border = if (enableAutoShadowAndBorder) BorderStroke(
                 width = settingsState.borderWidth,
                 color = borderColor
-            ),
+            ) else BorderStroke(0.dp, Color.Transparent),
             interactionSource = interactionSource,
             content = content
         )

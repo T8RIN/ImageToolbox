@@ -34,7 +34,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.smarttoolfactory.colordetector.util.ColorUtil.roundToTwoDigits
 import ru.tech.imageresizershrinker.R
-import ru.tech.imageresizershrinker.domain.model.ImageSize
+import ru.tech.imageresizershrinker.domain.model.IntegerSize
 import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedSlider
 import ru.tech.imageresizershrinker.presentation.root.widget.controls.OOMWarning
 import ru.tech.imageresizershrinker.presentation.root.widget.modifier.container
@@ -43,7 +43,7 @@ import ru.tech.imageresizershrinker.presentation.root.widget.modifier.container
 fun ImageScaleSelector(
     modifier: Modifier,
     value: Float,
-    approximateImageSize: ImageSize,
+    approximateImageSize: IntegerSize,
     onValueChange: (Float) -> Unit
 ) {
     val scaledSize by remember(approximateImageSize, value) {

@@ -33,6 +33,7 @@ import androidx.compose.ui.unit.sp
 import dev.olshevski.navigation.reimagined.NavController
 import dev.olshevski.navigation.reimagined.navigate
 import ru.tech.imageresizershrinker.R
+import ru.tech.imageresizershrinker.presentation.root.theme.White
 import ru.tech.imageresizershrinker.presentation.root.utils.navigation.LocalNavController
 import ru.tech.imageresizershrinker.presentation.root.utils.navigation.Screen
 import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedButton
@@ -131,7 +132,7 @@ fun ProcessImagesPreferenceSheet(
                                         ) {
                                             Text(
                                                 text = "+$extra",
-                                                color = Color.White,
+                                                color = White,
                                                 fontSize = 20.sp,
                                                 fontWeight = FontWeight.Bold
                                             )

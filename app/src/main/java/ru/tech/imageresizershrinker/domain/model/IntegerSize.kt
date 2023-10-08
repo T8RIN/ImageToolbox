@@ -1,10 +1,10 @@
 package ru.tech.imageresizershrinker.domain.model
 
-data class ImageSize(
+data class IntegerSize(
     val width: Int,
     val height: Int
 ) {
-    operator fun times(i: Float): ImageSize = ImageSize(
+    operator fun times(i: Float): IntegerSize = IntegerSize(
         width = (width * i).toInt(),
         height = (height * i).toInt()
     ).coerceAtLeast(0, 0)
@@ -12,7 +12,7 @@ data class ImageSize(
     private fun coerceAtLeast(
         minWidth: Int,
         minHeight: Int
-    ): ImageSize = ImageSize(
+    ): IntegerSize = IntegerSize(
         width = width.coerceAtLeast(minWidth),
         height = height.coerceAtLeast(minHeight)
     )
