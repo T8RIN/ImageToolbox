@@ -176,7 +176,7 @@ fun ImageReorderCarousel(
                                 modifier = Modifier
                                     .align(Alignment.TopEnd)
                                     .offset(
-                                        x = 4.dp,
+                                        x = 8.dp,
                                         y = (-8).dp
                                     )
                             ) {
