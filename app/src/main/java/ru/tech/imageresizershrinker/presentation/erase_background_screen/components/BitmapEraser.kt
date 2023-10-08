@@ -65,7 +65,6 @@ fun BitmapEraser(
     val zoomState = rememberAnimatedZoomState(maxZoom = 30f)
     val scope = rememberCoroutineScope()
 
-    //TODO: Investigate laggy erasing
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -117,8 +116,10 @@ fun BitmapEraser(
                     .asImageBitmap()
             }
 
+            val outputImage = erasedBitmap.recompose()
+
             SideEffect {
-                onErased(erasedBitmap.asAndroidBitmap())
+                onErased(outputImage.asAndroidBitmap())
             }
 
             val canvas: Canvas = remember {
@@ -257,10 +258,12 @@ fun BitmapEraser(
                         color = MaterialTheme.colorScheme.outlineVariant(),
                         RoundedCornerShape(2.dp)
                     ),
-                bitmap = erasedBitmap,
+                bitmap = outputImage,
                 contentDescription = null,
                 contentScale = ContentScale.FillBounds
             )
         }
     }
 }
+
+private fun ImageBitmap.recompose(): ImageBitmap = asAndroidBitmap().asImageBitmap()
