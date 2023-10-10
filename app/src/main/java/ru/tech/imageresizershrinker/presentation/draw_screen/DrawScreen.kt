@@ -514,13 +514,13 @@ fun DrawScreen(
                             actions = {
                                 switch()
                                 IconButton(
-                                    onClick = { viewModel.undo() },
+                                    onClick = viewModel::undo,
                                     enabled = viewModel.lastPaths.isNotEmpty() || viewModel.paths.isNotEmpty()
                                 ) {
                                     Icon(Icons.AutoMirrored.Rounded.Undo, null)
                                 }
                                 IconButton(
-                                    onClick = { viewModel.redo() },
+                                    onClick = viewModel::redo,
                                     enabled = viewModel.undonePaths.isNotEmpty()
                                 ) {
                                     Icon(Icons.AutoMirrored.Rounded.Redo, null)

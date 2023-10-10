@@ -28,6 +28,7 @@ import ru.tech.imageresizershrinker.domain.saving.SaveResult
 import ru.tech.imageresizershrinker.domain.saving.model.ImageSaveTarget
 import ru.tech.imageresizershrinker.presentation.draw_screen.components.DrawBehavior
 import ru.tech.imageresizershrinker.presentation.erase_background_screen.components.PathPaint
+import ru.tech.imageresizershrinker.presentation.root.utils.state.update
 import javax.inject.Inject
 
 @HiltViewModel
@@ -303,36 +304,24 @@ class DrawViewModel @Inject constructor(
             _lastPaths.value = listOf()
             return
         }
-        if (paths.isEmpty()) {
-            return
-        }
-        val lastPath = paths.lastOrNull()
+        if (paths.isEmpty()) return
 
-        _paths.value = paths.toMutableList().apply {
-            remove(lastPath)
-        }
-        if (lastPath != null) {
-            _undonePaths.value = undonePaths.toMutableList().apply {
-                add(lastPath)
-            }
-        }
+        val lastPath = paths.last()
+
+        _paths.update { it - lastPath }
+        _undonePaths.update { it + lastPath }
     }
 
     fun redo() {
-        if (undonePaths.isEmpty()) {
-            return
-        }
+        if (undonePaths.isEmpty()) return
+
         val lastPath = undonePaths.last()
-        addPath(lastPath)
-        _undonePaths.value = undonePaths.toMutableList().apply {
-            remove(lastPath)
-        }
+        _paths.update { it + lastPath }
+        _undonePaths.update { it - lastPath }
     }
 
     fun addPath(pathPaint: PathPaint) {
-        _paths.value = _paths.value.toMutableList().apply {
-            add(pathPaint)
-        }
+        _paths.update { it + pathPaint }
         _undonePaths.value = listOf()
     }
 

@@ -32,6 +32,7 @@ import ru.tech.imageresizershrinker.domain.saving.SaveResult
 import ru.tech.imageresizershrinker.domain.saving.model.ImageSaveTarget
 import ru.tech.imageresizershrinker.presentation.erase_background_screen.components.PathPaint
 import ru.tech.imageresizershrinker.presentation.root.transformation.filter.FilterTransformation
+import ru.tech.imageresizershrinker.presentation.root.utils.state.update
 import javax.inject.Inject
 
 @HiltViewModel
@@ -466,36 +467,24 @@ class SingleEditViewModel @Inject constructor(
             _drawLastPaths.value = listOf()
             return
         }
-        if (drawPaths.isEmpty()) {
-            return
-        }
-        val lastPath = drawPaths.lastOrNull()
+        if (drawPaths.isEmpty()) return
 
-        _drawPaths.value = drawPaths.toMutableList().apply {
-            remove(lastPath)
-        }
-        if (lastPath != null) {
-            _drawUndonePaths.value = drawUndonePaths.toMutableList().apply {
-                add(lastPath)
-            }
-        }
+        val lastPath = drawPaths.last()
+
+        _drawPaths.update { it - lastPath }
+        _drawUndonePaths.update { it + lastPath }
     }
 
     fun redoDraw() {
-        if (drawUndonePaths.isEmpty()) {
-            return
-        }
+        if (drawUndonePaths.isEmpty()) return
+
         val lastPath = drawUndonePaths.last()
-        addPathToDrawList(lastPath)
-        _drawUndonePaths.value = drawUndonePaths.toMutableList().apply {
-            remove(lastPath)
-        }
+        _drawPaths.update { it + lastPath }
+        _drawUndonePaths.update { it - lastPath }
     }
 
     fun addPathToDrawList(pathPaint: PathPaint) {
-        _drawPaths.value = _drawPaths.value.toMutableList().apply {
-            add(pathPaint)
-        }
+        _drawPaths.update { it + pathPaint }
         _drawUndonePaths.value = listOf()
     }
 
@@ -514,36 +503,24 @@ class SingleEditViewModel @Inject constructor(
             _eraseLastPaths.value = listOf()
             return
         }
-        if (erasePaths.isEmpty()) {
-            return
-        }
-        val lastPath = erasePaths.lastOrNull()
+        if (erasePaths.isEmpty()) return
 
-        _erasePaths.value = erasePaths.toMutableList().apply {
-            remove(lastPath)
-        }
-        if (lastPath != null) {
-            _eraseUndonePaths.value = eraseUndonePaths.toMutableList().apply {
-                add(lastPath)
-            }
-        }
+        val lastPath = erasePaths.last()
+
+        _erasePaths.update { it - lastPath }
+        _eraseUndonePaths.update { it + lastPath }
     }
 
     fun redoErase() {
-        if (eraseUndonePaths.isEmpty()) {
-            return
-        }
+        if (eraseUndonePaths.isEmpty()) return
+
         val lastPath = eraseUndonePaths.last()
-        addPathToEraseList(lastPath)
-        _eraseUndonePaths.value = eraseUndonePaths.toMutableList().apply {
-            remove(lastPath)
-        }
+        _erasePaths.update { it + lastPath }
+        _eraseUndonePaths.update { it - lastPath }
     }
 
     fun addPathToEraseList(pathPaint: PathPaint) {
-        _erasePaths.value = _erasePaths.value.toMutableList().apply {
-            add(pathPaint)
-        }
+        _erasePaths.update { it + pathPaint }
         _eraseUndonePaths.value = listOf()
     }
 

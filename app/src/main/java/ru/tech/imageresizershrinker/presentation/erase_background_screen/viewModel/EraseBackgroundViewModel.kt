@@ -126,13 +126,6 @@ class EraseBackgroundViewModel @Inject constructor(
         _imageFormat.value = imageFormat
     }
 
-    fun addPath(path: PathPaint) {
-        _paths.value = _paths.value.toMutableList().apply {
-            add(path)
-        }
-        _undonePaths.value = listOf()
-    }
-
     private suspend fun calculateScreenOrientationBasedOnUri(uri: Uri): Int {
         val bmp = imageManager
             .getImage(
@@ -248,30 +241,25 @@ class EraseBackgroundViewModel @Inject constructor(
             _lastPaths.value = listOf()
             return
         }
-        if (paths.isEmpty()) {
-            return
-        }
-        val lastPath = paths.lastOrNull()
+        if (paths.isEmpty()) return
 
-        _paths.value = paths.toMutableList().apply {
-            remove(lastPath)
-        }
-        if (lastPath != null) {
-            _undonePaths.value = undonePaths.toMutableList().apply {
-                add(lastPath)
-            }
-        }
+        val lastPath = paths.last()
+
+        _paths.update { it - lastPath }
+        _undonePaths.update { it + lastPath }
     }
 
     fun redo() {
-        if (undonePaths.isEmpty()) {
-            return
-        }
+        if (undonePaths.isEmpty()) return
+
         val lastPath = undonePaths.last()
-        addPath(lastPath)
-        _undonePaths.value = undonePaths.toMutableList().apply {
-            remove(lastPath)
-        }
+        _paths.update { it + lastPath }
+        _undonePaths.update { it - lastPath }
+    }
+
+    fun addPath(pathPaint: PathPaint) {
+        _paths.update { it + pathPaint }
+        _undonePaths.value = listOf()
     }
 
     fun clearDrawing() {

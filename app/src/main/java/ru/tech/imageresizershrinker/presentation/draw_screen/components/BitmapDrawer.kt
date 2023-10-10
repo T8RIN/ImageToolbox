@@ -273,7 +273,7 @@ fun BitmapDrawer(
                         }
 
                         if (effect is DrawMode.PrivacyBlur && !isErasing) {
-                            LaunchedEffect(shaderSource) {
+                            LaunchedEffect(shaderSource, backgroundColor) {
                                 if (shaderSource == null) {
                                     shaderSource = imageManager.transform(
                                         image = outputImage.asAndroidBitmap(),
