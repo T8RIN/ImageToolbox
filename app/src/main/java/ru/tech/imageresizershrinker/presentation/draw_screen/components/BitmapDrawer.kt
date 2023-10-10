@@ -268,15 +268,14 @@ fun BitmapDrawer(
                     drawColor(backgroundColor.toArgb())
 
                     paths.forEach { (path, stroke, radius, drawColor, isErasing, effect) ->
-                        var shaderSource by remember {
-                            mutableStateOf<ImageBitmap?>(null)
-                        }
-
                         if (effect is DrawMode.PrivacyBlur && !isErasing) {
-                            LaunchedEffect(shaderSource, backgroundColor) {
+                            var shaderSource by remember(backgroundColor) {
+                                mutableStateOf<ImageBitmap?>(null)
+                            }
+                            LaunchedEffect(shaderSource) {
                                 if (shaderSource == null) {
                                     shaderSource = imageManager.transform(
-                                        image = outputImage.asAndroidBitmap(),
+                                        image = drawImageBitmap.overlay(drawBitmap).asAndroidBitmap(),
                                         transformations = transformations
                                     )?.asImageBitmap()?.clipBitmap(
                                         path = path,
@@ -297,7 +296,9 @@ fun BitmapDrawer(
                                     drawPath = Path()
                                 }
                                 drawImage(
-                                    shaderSource!!, Offset.Zero, Paint()
+                                    image = shaderSource!!,
+                                    topLeftOffset = Offset.Zero,
+                                    paint = Paint()
                                 )
                             }
                         } else {
@@ -346,7 +347,7 @@ fun BitmapDrawer(
                 mutableStateOf<ImageBitmap?>(null)
             }
 
-            LaunchedEffect(outputImage, paths) {
+            LaunchedEffect(outputImage, paths, backgroundColor) {
                 blurredBitmap = imageManager.transform(
                     image = outputImage.asAndroidBitmap(),
                     transformations = transformations
