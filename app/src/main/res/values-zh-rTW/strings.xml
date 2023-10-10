@@ -371,4 +371,12 @@
     <string name="image_stitching">影像合成</string>
     <string name="image_stitching_sub">將所選影像合成為一幅完整大影像</string>
     <string name="value_in_range">數值範圍：%1$d 至 %2$d</string>
+    <string name="horizontal">橫向</string>
+    <string name="images_order">圖片順序安排</string>
+    <string name="pick_at_least_two_images">請選擇至少兩張圖片</string>
+    <string name="scale_small_images_to_large_sub">若開啟此選項，小圖片將會放大至序列中最大的圖片大小</string>
+    <string name="image_orientation">圖片定位</string>
+    <string name="vertical">縱向</string>
+    <string name="output_image_scale">輸出圖片縮放比例</string>
+    <string name="scale_small_images_to_large">將小圖片放大至大尺寸</string>
 </resources>
