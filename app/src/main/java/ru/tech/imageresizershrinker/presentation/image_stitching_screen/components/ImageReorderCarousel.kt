@@ -183,7 +183,7 @@ fun ImageReorderCarousel(
                                 EnhancedIconButton(
                                     onClick = { onNeedToRemoveImageAt(index) },
                                     containerColor = Color.Transparent,
-                                    contentColor = White,
+                                    contentColor = MaterialTheme.colorScheme.onSurface,
                                     enableAutoShadowAndBorder = false
                                 ) {
                                     Icon(Icons.Rounded.RemoveCircleOutline, null)

@@ -379,14 +379,8 @@ class AndroidImageManager @Inject constructor(
 
             val bitmaps = drawables.map { drawable ->
                 val image = drawable.toBitmap()!!
-                if (scaleSmallImagesToLarge) {
-                    //TODO: Fix weird scaling
-                    resize(
-                        image = image,
-                        width = if (isHorizontal) image.width else size.width,
-                        height = if (!isHorizontal) image.height else size.height,
-                        resizeType = ResizeType.Flexible
-                    )!!
+                if (scaleSmallImagesToLarge && image.shouldUpscale(isHorizontal, size)) {
+                    image.upscale(isHorizontal, size)
                 } else image
             }
 
@@ -470,6 +464,7 @@ class AndroidImageManager @Inject constructor(
             }
 
             drawables.forEachIndexed { index, drawable ->
+                val image = drawable.toBitmap()!!
                 val width = drawable.minimumWidth
                 val height = drawable.minimumHeight
 
@@ -477,18 +472,20 @@ class AndroidImageManager @Inject constructor(
 
                 val max = if (isHorizontal) maxHeight else maxWidth
 
-                if (scaleSmallImagesToLarge && max(width, height) < max) {
+                if (scaleSmallImagesToLarge && image.shouldUpscale(
+                        isHorizontal = isHorizontal,
+                        size = IntegerSize(maxWidth, maxHeight)
+                    )
+                ) {
                     val targetHeight: Int
                     val targetWidth: Int
 
-                    if (height >= width) {
-                        val aspectRatio = width.toDouble() / height.toDouble()
-                        targetWidth = (max * aspectRatio).toInt()
-                        targetHeight = max
+                    if (isHorizontal) {
+                        targetHeight = maxHeight
+                        targetWidth = (targetHeight * image.aspectRatio).toInt()
                     } else {
-                        val aspectRatio = height.toDouble() / width.toDouble()
-                        targetHeight = (max * aspectRatio).toInt()
-                        targetWidth = max
+                        targetWidth = maxWidth
+                        targetHeight = (targetWidth / image.aspectRatio).toInt()
                     }
                     if (isHorizontal) {
                         w += targetWidth + spacing
@@ -867,8 +864,8 @@ class AndroidImageManager @Inject constructor(
 
         if (imageInfo.resizeType !is ResizeType.CenterCrop) {
             while (height * width * 4L >= 2096 * 2096 * 5L) {
-                height = (height * 0.8f).roundToInt()
-                width = (width * 0.8f).roundToInt()
+                height = (height * 0.7f).roundToInt()
+                width = (width * 0.7f).roundToInt()
             }
         }
         out.write(compress(ImageData(image, imageInfo.copy(width = width, height = height))))
@@ -997,6 +994,25 @@ class AndroidImageManager @Inject constructor(
         val shareIntent = Intent.createChooser(sendIntent, context.getString(R.string.share))
         shareIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         context.startActivity(shareIntent)
+    }
+
+    private fun Bitmap.shouldUpscale(
+        isHorizontal: Boolean,
+        size: IntegerSize
+    ): Boolean {
+        return if (isHorizontal) this.height != size.height
+        else this.width != size.width
+    }
+
+    private fun Bitmap.upscale(
+        isHorizontal: Boolean,
+        size: IntegerSize
+    ): Bitmap {
+        return if (isHorizontal) {
+            Bitmap.createScaledBitmap(this, (size.height * aspectRatio).toInt(), size.height, false)
+        } else {
+            Bitmap.createScaledBitmap(this, size.width, (size.width / aspectRatio).toInt(), false)
+        }
     }
 
 }
