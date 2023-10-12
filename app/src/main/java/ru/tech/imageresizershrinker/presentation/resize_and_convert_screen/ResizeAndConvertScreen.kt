@@ -468,7 +468,7 @@ fun ResizeAndConvertScreen(
                     title = {
                         TopAppBarTitle(
                             title = stringResource(R.string.resize_and_convert),
-                            bitmap = viewModel.bitmap,
+                            input = viewModel.bitmap,
                             isLoading = viewModel.isImageLoading,
                             size = viewModel.imageInfo.sizeInBytes.toLong()
                         )

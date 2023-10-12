@@ -319,7 +319,7 @@ fun BytesResizeScreen(
                     title = {
                         TopAppBarTitle(
                             title = stringResource(R.string.by_bytes_resize),
-                            bitmap = viewModel.bitmap,
+                            input = viewModel.bitmap,
                             isLoading = viewModel.isImageLoading,
                             size = viewModel.imageSize
                         )

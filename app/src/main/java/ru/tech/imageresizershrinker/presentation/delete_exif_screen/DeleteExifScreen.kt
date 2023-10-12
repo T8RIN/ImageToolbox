@@ -278,7 +278,7 @@ fun DeleteExifScreen(
                     title = {
                         TopAppBarTitle(
                             title = stringResource(R.string.delete_exif),
-                            bitmap = viewModel.bitmap,
+                            input = viewModel.bitmap,
                             isLoading = viewModel.isImageLoading,
                             size = viewModel.selectedUri?.fileSize(LocalContext.current) ?: 0L
                         )

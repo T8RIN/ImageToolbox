@@ -20,8 +20,6 @@ import androidx.core.net.toUri
 import androidx.exifinterface.media.ExifInterface
 import coil.ImageLoader
 import coil.request.ImageRequest
-import coil.size.Precision
-import coil.size.Scale
 import coil.size.Size
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -372,13 +370,12 @@ class AndroidImageManager @Inject constructor(
         imageScale: Float
     ): ImageData<Bitmap, ExifInterface> = withContext(Dispatchers.IO) {
         combiningParams.run {
-            val (size, drawables) = calculateCombinedImageDimensionsAndDrawables(
+            val (size, images) = calculateCombinedImageDimensionsAndBitmaps(
                 imageUris = imageUris,
                 combiningParams = combiningParams
             )
 
-            val bitmaps = drawables.map { drawable ->
-                val image = drawable.toBitmap()!!
+            val bitmaps = images.map { image ->
                 if (scaleSmallImagesToLarge && image.shouldUpscale(isHorizontal, size)) {
                     image.upscale(isHorizontal, size)
                 } else image
@@ -389,6 +386,8 @@ class AndroidImageManager @Inject constructor(
                 drawColor(Color.Transparent.toArgb(), PorterDuff.Mode.CLEAR)
                 drawColor(backgroundColor)
             }
+
+
             var pos = 0
             for (i in imageUris.indices) {
                 if (isHorizontal) {
@@ -429,48 +428,38 @@ class AndroidImageManager @Inject constructor(
     override suspend fun calculateCombinedImageDimensions(
         imageUris: List<String>,
         combiningParams: CombiningParams
-    ): IntegerSize = calculateCombinedImageDimensionsAndDrawables(
+    ): IntegerSize = calculateCombinedImageDimensionsAndBitmaps(
         imageUris = imageUris,
         combiningParams = combiningParams
     ).first
 
-    private suspend fun calculateCombinedImageDimensionsAndDrawables(
+    private suspend fun calculateCombinedImageDimensionsAndBitmaps(
         imageUris: List<String>,
         combiningParams: CombiningParams
-    ): Pair<IntegerSize, List<Drawable>> = withContext(Dispatchers.IO) {
+    ): Pair<IntegerSize, List<Bitmap>> = withContext(Dispatchers.IO) {
         combiningParams.run {
             var w = 0
             var h = 0
             var maxHeight = 0
             var maxWidth = 0
-            val drawables = imageUris.map { uri ->
+            val drawables = imageUris.mapNotNull { uri ->
                 loader().execute(
                     ImageRequest
                         .Builder(context)
                         .data(uri)
-                        .size(
-                            Size(
-                                width = 2000,
-                                height = 2000
-                            )
-                        )
-                        .precision(Precision.INEXACT)
-                        .scale(Scale.FIT)
+                        .size(Size.ORIGINAL)
                         .build()
-                ).drawable!!.apply {
-                    maxWidth = max(maxWidth, minimumWidth)
-                    maxHeight = max(maxHeight, minimumHeight)
+                ).drawable?.toBitmap()?.apply {
+                    maxWidth = max(maxWidth, width)
+                    maxHeight = max(maxHeight, height)
                 }
             }
 
-            drawables.forEachIndexed { index, drawable ->
-                val image = drawable.toBitmap()!!
-                val width = drawable.minimumWidth
-                val height = drawable.minimumHeight
+            drawables.forEachIndexed { index, image ->
+                val width = image.width
+                val height = image.height
 
                 val spacing = if (index != drawables.lastIndex) spacing else 0
-
-                val max = if (isHorizontal) maxHeight else maxWidth
 
                 if (scaleSmallImagesToLarge && image.shouldUpscale(
                         isHorizontal = isHorizontal,
@@ -523,19 +512,11 @@ class AndroidImageManager @Inject constructor(
             combiningParams = combiningParams
         )
 
-        if (imageSize.height * imageSize.width * 4 < 4096 * 4096 * 5) {
-            combineImages(
-                imageUris = imageUris,
-                combiningParams = combiningParams,
-                imageScale = 0.3f
-            )
-        } else {
-            combineImages(
-                imageUris = imageUris,
-                combiningParams = combiningParams,
-                imageScale = 1f
-            )
-        }.let { (image, imageInfo, _) ->
+        combineImages(
+            imageUris = imageUris,
+            combiningParams = combiningParams,
+            imageScale = 1f
+        ).let { (image, imageInfo, _) ->
             return@let createPreview(
                 image = image,
                 imageInfo = imageInfo.copy(
@@ -858,28 +839,29 @@ class AndroidImageManager @Inject constructor(
         onGetByteCount: (Int) -> Unit
     ): Bitmap = withContext(Dispatchers.IO) {
         if (imageInfo.height == 0 || imageInfo.width == 0) return@withContext image
-        val out = ByteArrayOutputStream()
         var width = imageInfo.width
         var height = imageInfo.height
 
+        ByteArrayOutputStream().use {
+            it.write(compress(ImageData(image, imageInfo.copy(width = width, height = height))))
+            onGetByteCount(it.toByteArray().size)
+        }
+
         if (imageInfo.resizeType !is ResizeType.CenterCrop) {
-            while (height * width * 4L >= 2096 * 2096 * 5L) {
+            while (height * width * 4L >= 3096 * 3096 * 5L) {
                 height = (height * 0.7f).roundToInt()
                 width = (width * 0.7f).roundToInt()
             }
         }
-        out.write(compress(ImageData(image, imageInfo.copy(width = width, height = height))))
-        val b = out.toByteArray()
-        onGetByteCount(b.size)
 
-        val bitmap = loader().execute(
-            ImageRequest.Builder(context).data(b).build()
-        ).drawable?.toBitmap()
+        ByteArrayOutputStream().use {
+            it.write(compress(ImageData(image, imageInfo.copy(width = width, height = height))))
+            val bitmap = loader().execute(
+                ImageRequest.Builder(context).data(it.toByteArray()).build()
+            ).drawable?.toBitmap()
 
-        out.flush()
-        out.close()
-
-        return@withContext bitmap!!
+            return@withContext bitmap!!
+        }
     }
 
     private fun Drawable.toBitmap(): Bitmap? {

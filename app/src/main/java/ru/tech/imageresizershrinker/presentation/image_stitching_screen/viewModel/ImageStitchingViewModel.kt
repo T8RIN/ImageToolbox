@@ -57,6 +57,9 @@ class ImageStitchingViewModel @Inject constructor(
     private val _imageScale: MutableState<Float> = mutableFloatStateOf(0.5f)
     val imageScale by _imageScale
 
+    private val _imageByteSize: MutableState<Int?> = mutableStateOf(null)
+    val imageByteSize by _imageByteSize
+
     fun setMime(imageFormat: ImageFormat) {
         _imageInfo.value = _imageInfo.value.copy(imageFormat = imageFormat)
         calculatePreview()
@@ -82,7 +85,9 @@ class ImageStitchingViewModel @Inject constructor(
                     combiningParams = combiningParams,
                     imageFormat = imageInfo.imageFormat,
                     quality = imageInfo.quality,
-                    onGetByteCount = {}
+                    onGetByteCount = {
+                        _imageByteSize.value = it
+                    }
                 ).let { (image, size) ->
                     _previewBitmap.value = image
                     _imageSize.value = size

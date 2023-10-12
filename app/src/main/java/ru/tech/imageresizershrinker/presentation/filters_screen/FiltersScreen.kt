@@ -373,7 +373,7 @@ fun FiltersScreen(
                     title = {
                         TopAppBarTitle(
                             title = stringResource(R.string.filter),
-                            bitmap = viewModel.bitmap,
+                            input = viewModel.bitmap,
                             isLoading = viewModel.isImageLoading,
                             size = viewModel.bitmapSize ?: 0L
                         )

@@ -439,7 +439,7 @@ fun SingleEditScreen(
                     title = {
                         TopAppBarTitle(
                             title = stringResource(R.string.single_edit),
-                            bitmap = viewModel.bitmap,
+                            input = viewModel.bitmap,
                             isLoading = viewModel.isImageLoading,
                             size = viewModel.imageInfo.sizeInBytes.toLong()
                         )

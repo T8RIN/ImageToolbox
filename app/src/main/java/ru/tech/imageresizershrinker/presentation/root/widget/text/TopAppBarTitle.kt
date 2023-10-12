@@ -1,6 +1,5 @@
 package ru.tech.imageresizershrinker.presentation.root.widget.text
 
-import android.graphics.Bitmap
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
@@ -15,35 +14,36 @@ import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.readableByteCount
 
 @Composable
-fun TopAppBarTitle(
+fun <T : Any> TopAppBarTitle(
     title: String,
-    bitmap: Bitmap?,
+    input: T?,
     isLoading: Boolean,
-    size: Long?
+    size: Long?,
+    updateOnSizeChange: Boolean = true
 ) {
     Marquee(
         edgeColor = MaterialTheme.colorScheme.surfaceColorAtElevation(3.dp)
     ) {
         AnimatedContent(
             targetState = Triple(
-                bitmap,
+                input,
                 isLoading,
-                size
+                if (updateOnSizeChange) size else Unit
             ),
             transitionSpec = { fadeIn() togetherWith fadeOut() }
-        ) { (bmp, loading, sizeInBytes) ->
-            if (bmp == null || size == null) {
+        ) { (inp, loading, _) ->
+            if (loading) {
+                Text(
+                    stringResource(R.string.loading)
+                )
+            } else if (inp == null || size == null) {
                 Text(title)
-            } else if (!loading && size != 0L) {
+            } else if (size != 0L) {
                 Text(
                     stringResource(
                         R.string.size,
                         readableByteCount(size)
                     )
-                )
-            } else {
-                Text(
-                    stringResource(R.string.loading)
                 )
             }
         }

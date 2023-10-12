@@ -2,8 +2,13 @@ package ru.tech.imageresizershrinker.presentation.image_stitching_screen.compone
 
 import android.annotation.SuppressLint
 import android.net.Uri
+import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.scaleIn
+import androidx.compose.animation.scaleOut
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -22,16 +27,17 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Add
-import androidx.compose.material.icons.rounded.RemoveCircleOutline
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
@@ -48,7 +54,7 @@ import org.burnoutcrew.reorderable.detectReorderAfterLongPress
 import org.burnoutcrew.reorderable.rememberReorderableLazyListState
 import org.burnoutcrew.reorderable.reorderable
 import ru.tech.imageresizershrinker.R
-import ru.tech.imageresizershrinker.presentation.root.theme.White
+import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedButton
 import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedIconButton
 import ru.tech.imageresizershrinker.presentation.root.widget.image.Picture
 import ru.tech.imageresizershrinker.presentation.root.widget.modifier.container
@@ -121,6 +127,7 @@ fun ImageReorderCarousel(
             }
         }
         Box {
+            var globalIsDragging by remember { mutableStateOf(false) }
             LazyRow(
                 state = listState,
                 modifier = Modifier
@@ -135,58 +142,62 @@ fun ImageReorderCarousel(
                         reorderableState = state,
                         key = uri.hashCode()
                     ) { isDragging ->
+                        SideEffect {
+                            globalIsDragging = isDragging
+                        }
+
                         val elevation by animateDpAsState(if (isDragging) 4.dp else 0.dp)
                         val alpha by animateFloatAsState(if (isDragging) 0.3f else 0.6f)
-                        Box(
-                            Modifier
-                                .size(120.dp)
-                                .shadow(elevation, RoundedCornerShape(16.dp))
-                                .container(
-                                    shape = RoundedCornerShape(16.dp),
-                                    color = Color.Transparent,
-                                    resultPadding = 0.dp
-                                )
+                        Column(
+                            horizontalAlignment = Alignment.CenterHorizontally
                         ) {
-                            Picture(
-                                model = uri,
-                                modifier = Modifier.fillMaxSize(),
-                                shape = RectangleShape,
-                                contentScale = ContentScale.Fit
-                            )
                             Box(
                                 Modifier
                                     .size(120.dp)
-                                    .background(
-                                        color = MaterialTheme.colorScheme.surfaceContainer.copy(
-                                            alpha = alpha
-                                        ),
-                                        shape = RoundedCornerShape(16.dp)
-                                    ),
-                                contentAlignment = Alignment.Center
-                            ) {
-                                Text(
-                                    text = "${index + 1}",
-                                    color = MaterialTheme.colorScheme.onSurface,
-                                    fontSize = 20.sp,
-                                    fontWeight = FontWeight.Bold
-                                )
-                            }
-                            androidx.compose.animation.AnimatedVisibility(
-                                visible = (images?.size ?: 0) > 2,
-                                modifier = Modifier
-                                    .align(Alignment.TopEnd)
-                                    .offset(
-                                        x = 8.dp,
-                                        y = (-8).dp
+                                    .shadow(elevation, RoundedCornerShape(16.dp))
+                                    .container(
+                                        shape = RoundedCornerShape(16.dp),
+                                        color = Color.Transparent,
+                                        resultPadding = 0.dp
                                     )
                             ) {
-                                EnhancedIconButton(
-                                    onClick = { onNeedToRemoveImageAt(index) },
-                                    containerColor = Color.Transparent,
-                                    contentColor = MaterialTheme.colorScheme.onSurface,
-                                    enableAutoShadowAndBorder = false
+                                Picture(
+                                    model = uri,
+                                    modifier = Modifier.fillMaxSize(),
+                                    shape = RectangleShape,
+                                    contentScale = ContentScale.Fit
+                                )
+                                Box(
+                                    Modifier
+                                        .size(120.dp)
+                                        .background(
+                                            color = MaterialTheme.colorScheme.surfaceContainer.copy(
+                                                alpha = alpha
+                                            ),
+                                            shape = RoundedCornerShape(16.dp)
+                                        ),
+                                    contentAlignment = Alignment.Center
                                 ) {
-                                    Icon(Icons.Rounded.RemoveCircleOutline, null)
+                                    Text(
+                                        text = "${index + 1}",
+                                        color = MaterialTheme.colorScheme.onSurface,
+                                        fontSize = 20.sp,
+                                        fontWeight = FontWeight.Bold
+                                    )
+                                }
+                            }
+                            androidx.compose.animation.AnimatedVisibility(
+                                visible = (images?.size ?: 0) > 2 && !globalIsDragging,
+                                enter = scaleIn() + fadeIn(),
+                                exit = scaleOut() + fadeOut()
+                            ) {
+                                EnhancedButton(
+                                    contentPadding = PaddingValues(),
+                                    onClick = { onNeedToRemoveImageAt(index) },
+                                    containerColor = MaterialTheme.colorScheme.secondaryContainer,
+                                    modifier = Modifier.padding(top = 8.dp).height(30.dp)
+                                ) {
+                                    Text(stringResource(R.string.remove), fontSize = 11.sp)
                                 }
                             }
                         }

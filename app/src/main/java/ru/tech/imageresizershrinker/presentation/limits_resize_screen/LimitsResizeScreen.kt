@@ -288,7 +288,7 @@ fun LimitsResizeScreen(
                     title = {
                         TopAppBarTitle(
                             title = stringResource(R.string.limits_resize),
-                            bitmap = viewModel.bitmap,
+                            input = viewModel.bitmap,
                             isLoading = viewModel.isImageLoading,
                             size = viewModel.selectedUri?.fileSize(LocalContext.current) ?: 0L
                         )

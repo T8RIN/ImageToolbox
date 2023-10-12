@@ -96,6 +96,7 @@ import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalSettings
 import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalWindowSizeClass
 import ru.tech.imageresizershrinker.presentation.root.widget.utils.isExpanded
 import ru.tech.imageresizershrinker.presentation.root.widget.utils.middleImageState
+import kotlin.math.roundToLong
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -288,9 +289,11 @@ fun ImageStitchingScreen(
                     title = {
                         TopAppBarTitle(
                             title = stringResource(R.string.image_stitching),
-                            bitmap = viewModel.previewBitmap,
+                            input = viewModel.uris,
                             isLoading = viewModel.isImageLoading,
-                            size = null
+                            size = viewModel
+                                .imageByteSize?.times(viewModel.imageScale)?.roundToLong(),
+                            updateOnSizeChange = false
                         )
                     },
                     colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
@@ -299,9 +302,7 @@ fun ImageStitchingScreen(
                         )
                     ),
                     navigationIcon = {
-                        IconButton(
-                            onClick = onBack
-                        ) {
+                        IconButton(onClick = onBack) {
                             Icon(Icons.AutoMirrored.Rounded.ArrowBack, null)
                         }
                     },
