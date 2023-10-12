@@ -10,10 +10,13 @@ sealed class FontFam(val ordinal: Int) {
     data object Podkova : FontFam(7)
     data object Tektur : FontFam(8)
     data object DejaVu : FontFam(9)
+    data object BadScript : FontFam(10)
+    data object RuslanDisplay : FontFam(11)
     data object System : FontFam(0)
 
     companion object {
         fun fromOrdinal(int: Int?): FontFam = when (int) {
+            0 -> System
             1, null -> Montserrat
             2 -> Caveat
             3 -> Comfortaa
@@ -23,6 +26,8 @@ sealed class FontFam(val ordinal: Int) {
             7 -> Podkova
             8 -> Tektur
             9 -> DejaVu
+            10 -> BadScript
+            11 -> RuslanDisplay
             else -> System
         }
     }

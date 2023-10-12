@@ -27,14 +27,14 @@ fun FontSelectionItem(
     onClick: () -> Unit
 ) {
     val settingsState = LocalSettingsState.current
-    val (_, name) = font
+    val (_, name, isVariable) = font
     val selected = font == settingsState.font
     MaterialTheme(
         typography = Typography(font)
     ) {
         PreferenceItem(
             onClick = onClick,
-            title = name ?: stringResource(id = R.string.system),
+            title = "$name" ?: stringResource(id = R.string.system),
             subtitle = stringResource(R.string.alphabet_and_numbers),
             color = MaterialTheme.colorScheme.secondaryContainer.copy(
                 alpha = animateFloatAsState(

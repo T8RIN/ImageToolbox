@@ -8,62 +8,94 @@ import ru.tech.imageresizershrinker.presentation.root.theme.fontFamilyResource
 
 sealed class UiFontFam(
     val fontFamily: FontFamily,
-    val name: String?
+    val name: String?,
+    private val variable: Boolean
 ) {
+    val isVariable: Boolean?
+        get() = variable.takeIf {
+            Build.VERSION.SDK_INT >= Build.VERSION_CODES.O
+        }
+
     operator fun component1() = fontFamily
     operator fun component2() = name
+    operator fun component3() = isVariable
 
     data object Montserrat : UiFontFam(
         fontFamily = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             fontFamilyResource(R.font.montserrat_variable)
         } else fontFamilyResource(R.font.montserrat_regular),
-        name = "Montserrat"
+        name = "Montserrat",
+        variable = true
     )
 
     data object Caveat : UiFontFam(
         fontFamily = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             fontFamilyResource(R.font.caveat_variable)
         } else fontFamilyResource(R.font.caveat_regular),
-        name = "Caveat"
+        name = "Caveat",
+        variable = true
     )
 
-    data object System : UiFontFam(FontFamily.Default, null)
+    data object System : UiFontFam(
+        fontFamily = FontFamily.Default,
+        name = null,
+        variable = true
+    )
 
     data object Comfortaa : UiFontFam(
         fontFamily = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             fontFamilyResource(R.font.comfortaa_varibale)
         } else fontFamilyResource(R.font.comfortaa_regular),
-        "Comfortaa"
+        name = "Comfortaa",
+        variable = true
     )
 
     data object Handjet : UiFontFam(
         fontFamily = fontFamilyResource(R.font.handjet_varibale),
-        "Handjet"
+        name = "Handjet",
+        variable = true
     )
 
     data object YsabeauSC : UiFontFam(
         fontFamily = fontFamilyResource(R.font.ysabeau_sc_variable),
-        "YsabeauSC"
+        name = "YsabeauSC",
+        variable = true
     )
 
     data object Jura : UiFontFam(
         fontFamily = fontFamilyResource(R.font.jura_variable),
-        "Jura"
+        name = "Jura",
+        variable = true
     )
 
     data object Tektur : UiFontFam(
         fontFamily = fontFamilyResource(R.font.tektur_variable),
-        "Tektur"
+        name = "Tektur",
+        variable = true
     )
 
     data object Podkova : UiFontFam(
         fontFamily = fontFamilyResource(R.font.podkova_variable),
-        "Podkova"
+        name = "Podkova",
+        variable = true
     )
 
     data object DejaVu : UiFontFam(
         fontFamily = fontFamilyResource(R.font.dejavu_regular),
-        "DejaVu"
+        name = "DejaVu",
+        variable = false
+    )
+
+    data object BadScript : UiFontFam(
+        fontFamily = fontFamilyResource(R.font.bad_script_regular),
+        name = "BadScript",
+        variable = false
+    )
+
+    data object RuslanDisplay : UiFontFam(
+        fontFamily = fontFamilyResource(R.font.ruslan_display_regular),
+        name = "RuslanDisplay",
+        variable = false
     )
 
     fun asDomain(): FontFam {
@@ -78,6 +110,8 @@ sealed class UiFontFam(
             YsabeauSC -> FontFam.YsabeauSC
             Montserrat -> FontFam.Montserrat
             DejaVu -> FontFam.DejaVu
+            BadScript -> FontFam.BadScript
+            RuslanDisplay -> FontFam.RuslanDisplay
         }
     }
 
@@ -93,6 +127,8 @@ sealed class UiFontFam(
                 Tektur,
                 YsabeauSC,
                 DejaVu,
+                BadScript,
+                RuslanDisplay,
                 System
             )
         }
