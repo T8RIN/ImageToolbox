@@ -156,6 +156,7 @@ height="80">](https://github.com/t8rin/imageresizer/releases/latest)
   - [x] Fast Blur
   - [x] Bilateral Blur
   - [x] Zoom Blur
+  - [x] Pixelation 
   - [x] Swirl Distortion
   - [x] Bulge Distortion
   - [x] Sphere Refraction
@@ -172,6 +173,7 @@ height="80">](https://github.com/t8rin/imageresizer/releases/latest)
 - AES-256 GCM No Padding files encryption and decryption
 - EXIF metadata editing/deleting
 - Loading images from internet
+- Image Stitching
 - Background Removing
   - By drawing
   - Automatical
@@ -187,7 +189,9 @@ height="80">](https://github.com/t8rin/imageresizer/releases/latest)
   - Adaptive resize
   - Resize retaining aspect ratio
   - Resize by given limits
-  - Center Crop with background color changing
+  - Center Crop with
+    - Background color changing
+    - Background blur drawing
 - Image Shrinking
   - Quality compressing
   - Preset shrinking
