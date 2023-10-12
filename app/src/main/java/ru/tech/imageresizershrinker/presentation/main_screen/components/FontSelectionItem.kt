@@ -1,5 +1,6 @@
 package ru.tech.imageresizershrinker.presentation.main_screen.components
 
+import android.content.Context
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.border
@@ -13,6 +14,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.R
@@ -34,7 +36,7 @@ fun FontSelectionItem(
     ) {
         PreferenceItem(
             onClick = onClick,
-            title = "$name" ?: stringResource(id = R.string.system),
+            title = (name ?: stringResource(id = R.string.system)) + isVariable.toVariable(),
             subtitle = stringResource(R.string.alphabet_and_numbers),
             color = MaterialTheme.colorScheme.secondaryContainer.copy(
                 alpha = animateFloatAsState(
@@ -59,4 +61,11 @@ fun FontSelectionItem(
             endIcon = if (selected) Icons.Rounded.RadioButtonChecked else Icons.Rounded.RadioButtonUnchecked
         )
     }
+}
+
+@Composable
+private fun Boolean?.toVariable(context: Context = LocalContext.current): String {
+    if (this == null || this == true) return ""
+    val s = context.getString(R.string.regular)
+    return " ($s)"
 }
