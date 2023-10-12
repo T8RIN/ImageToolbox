@@ -86,6 +86,7 @@ fun PresetWidget(
 
     var showPresetInfoDialog by remember { mutableStateOf(false) }
 
+    // TODO: Add aspect ratios and fix weird image previewing and preset losing when selecting from PickImageFromUrisSheet
     SwipeToReveal(
         maxRevealDp = 88.dp,
         state = state,
