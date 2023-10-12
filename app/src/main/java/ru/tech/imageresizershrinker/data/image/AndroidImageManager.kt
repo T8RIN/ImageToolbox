@@ -23,8 +23,10 @@ import coil.request.ImageRequest
 import coil.size.Size
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.cancel
 import kotlinx.coroutines.withContext
 import ru.tech.imageresizershrinker.R
+import ru.tech.imageresizershrinker.data.image.filters.DataStackBlurFilter
 import ru.tech.imageresizershrinker.domain.image.ImageManager
 import ru.tech.imageresizershrinker.domain.image.Transformation
 import ru.tech.imageresizershrinker.domain.model.CombiningParams
@@ -833,6 +835,34 @@ class AndroidImageManager @Inject constructor(
         return Bitmap.createBitmap(image, 0, 0, image.width, image.height, matrix, true)
     }
 
+    private suspend fun compressCenterCrop(
+        scaleFactor: Float,
+        imageData: ImageData<Bitmap, ExifInterface>
+    ): ByteArray = withContext(Dispatchers.IO) {
+
+        val currentImage: Bitmap =
+            (imageData.imageInfo.resizeType as? ResizeType.CenterCrop)?.resizeWithCenterCrop(
+                image = rotate(
+                    image = imageData.image.apply { setHasAlpha(true) },
+                    degrees = imageData.imageInfo.rotationDegrees
+                ),
+                w = imageData.imageInfo.width,
+                h = imageData.imageInfo.height,
+                scaleFactor = scaleFactor
+            )?.let {
+                flip(
+                    image = it,
+                    isFlipped = imageData.imageInfo.isFlipped
+                )
+            } ?: return@withContext ByteArray(0)
+
+        return@withContext ImageCompressor.compress(
+            image = currentImage,
+            imageFormat = imageData.imageInfo.imageFormat,
+            quality = imageData.imageInfo.quality
+        )
+    }
+
     override suspend fun createPreview(
         image: Bitmap,
         imageInfo: ImageInfo,
@@ -842,24 +872,45 @@ class AndroidImageManager @Inject constructor(
         var width = imageInfo.width
         var height = imageInfo.height
 
-        ByteArrayOutputStream().use {
-            it.write(compress(ImageData(image, imageInfo.copy(width = width, height = height))))
-            onGetByteCount(it.toByteArray().size)
+        var scaleFactor = 1f
+        while (height * width * 4L >= 3096 * 3096 * 5L) {
+            height = (height * 0.7f).roundToInt()
+            width = (width * 0.7f).roundToInt()
+            scaleFactor *= 0.7f
         }
+        if (height * width >= 3096 * 3096 * 5L) cancel()
 
-        if (imageInfo.resizeType !is ResizeType.CenterCrop) {
-            while (height * width * 4L >= 3096 * 3096 * 5L) {
-                height = (height * 0.7f).roundToInt()
-                width = (width * 0.7f).roundToInt()
+        ByteArrayOutputStream().use {
+            if (imageInfo.resizeType !is ResizeType.CenterCrop) {
+                it.write(
+                    compress(
+                        ImageData(
+                            image = image,
+                            imageInfo = imageInfo.copy(
+                                width = width,
+                                height = height
+                            )
+                        )
+                    )
+                )
+            } else {
+                it.write(
+                    compressCenterCrop(
+                        scaleFactor = scaleFactor,
+                        imageData = ImageData(
+                            image = image,
+                            imageInfo = imageInfo.copy(
+                                width = width,
+                                height = height
+                            )
+                        )
+                    )
+                )
             }
-        }
-
-        ByteArrayOutputStream().use {
-            it.write(compress(ImageData(image, imageInfo.copy(width = width, height = height))))
             val bitmap = loader().execute(
                 ImageRequest.Builder(context).data(it.toByteArray()).build()
             ).drawable?.toBitmap()
-
+            onGetByteCount(it.toByteArray().size * (imageInfo.width / width))
             return@withContext bitmap!!
         }
     }
@@ -902,16 +953,57 @@ class AndroidImageManager @Inject constructor(
         }
     }
 
-    private fun ResizeType.CenterCrop.resizeWithCenterCrop(
+    private suspend fun ResizeType.CenterCrop.resizeWithCenterCrop(
         image: Bitmap,
-        w: Int, h: Int
+        w: Int,
+        h: Int,
+        scaleFactor: Float = 1f
     ): Bitmap {
         if (w == image.width && h == image.height) return image
-        val canvas = Bitmap.createBitmap(w, h, image.config).apply { setHasAlpha(true) }
+        val bitmap = transform(
+            image = image.let {
+                val xScale: Float = w.toFloat() / it.width
+                val yScale: Float = h.toFloat() / it.height
+                val scale = xScale.coerceAtLeast(yScale)
+                Bitmap.createScaledBitmap(
+                    it,
+                    (scale * it.width).toInt(),
+                    (scale * it.height).toInt(),
+                    false
+                )
+            },
+            transformations = listOf(
+                DataStackBlurFilter(
+                    context = context,
+                    value = 0.5f to blurRadius
+                )
+            )
+        )
+        val drawImage = Bitmap.createScaledBitmap(
+            image,
+            (image.width * scaleFactor).toInt(),
+            (image.height * scaleFactor).toInt(),
+            false
+        )
+        val canvas = Bitmap.createBitmap(w, h, drawImage.config).apply { setHasAlpha(true) }
         Canvas(canvas).apply {
             drawColor(Color.Transparent.toArgb(), PorterDuff.Mode.CLEAR)
-            drawColor(this@resizeWithCenterCrop.canvasColor)
-            drawBitmap(image, (width - image.width) / 2f, (height - image.height) / 2f, Paint())
+            this@resizeWithCenterCrop.canvasColor?.let {
+                drawColor(it)
+            } ?: bitmap?.let {
+                drawBitmap(
+                    bitmap,
+                    (width - bitmap.width) / 2f,
+                    (height - bitmap.height) / 2f,
+                    null
+                )
+            }
+            drawBitmap(
+                drawImage,
+                (width - drawImage.width) / 2f,
+                (height - drawImage.height) / 2f,
+                Paint()
+            )
         }
         return canvas
     }
@@ -996,5 +1088,4 @@ class AndroidImageManager @Inject constructor(
             Bitmap.createScaledBitmap(this, size.width, (size.width / aspectRatio).toInt(), false)
         }
     }
-
 }

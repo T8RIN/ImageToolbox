@@ -7,7 +7,8 @@ sealed class ResizeType : Domain {
     data object Flexible : ResizeType()
 
     data class CenterCrop(
-        val canvasColor: Int = 0
+        val canvasColor: Int? = 0,
+        val blurRadius: Int = 35
     ) : ResizeType()
 
     data object Ratio : ResizeType()

@@ -90,8 +90,6 @@ fun BitmapDrawer(
         )
     }
 
-    //TODO: AUTO SCALE PATH TO CANVAS SIZE
-
     Box(
         modifier = Modifier
             .fillMaxSize()

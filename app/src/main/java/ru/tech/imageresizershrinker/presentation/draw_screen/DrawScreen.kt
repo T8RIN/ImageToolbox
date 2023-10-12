@@ -332,7 +332,7 @@ fun DrawScreen(
         }
         if (viewModel.drawBehavior is DrawBehavior.Background) {
             DrawBackgroundSelector(
-                backgroundColor = backgroundColor,
+                value = backgroundColor,
                 onColorChange = { backgroundColor = it }
             )
         } else {

@@ -1,6 +1,11 @@
-package ru.tech.imageresizershrinker.presentation.root.widget.controls
+package ru.tech.imageresizershrinker.presentation.root.widget.controls.resize_group
 
+import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.expandVertically
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -24,8 +29,11 @@ import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -43,6 +51,9 @@ import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.domain.model.ResizeType
 import ru.tech.imageresizershrinker.presentation.draw_screen.components.DrawBackgroundSelector
 import ru.tech.imageresizershrinker.presentation.root.widget.buttons.ToggleGroupButton
+import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedButton
+import ru.tech.imageresizershrinker.presentation.root.widget.controls.resize_group.components.BlurRadiusSelector
+import ru.tech.imageresizershrinker.presentation.root.widget.controls.resize_group.components.UseBlurredBackgroundToggle
 import ru.tech.imageresizershrinker.presentation.root.widget.modifier.container
 import ru.tech.imageresizershrinker.presentation.root.widget.saver.ColorSaver
 import ru.tech.imageresizershrinker.presentation.root.widget.sheets.SimpleSheet
@@ -60,7 +71,25 @@ fun ResizeGroup(
     var canvasColor by rememberSaveable(stateSaver = ColorSaver) {
         mutableStateOf(Color.Transparent)
     }
+    var useBlurredBgInsteadOfColor by rememberSaveable {
+        mutableStateOf(true)
+    }
+    var blurRadius by remember {
+        mutableIntStateOf(35)
+    }
 
+    val modifiedResizeType by remember(canvasColor, useBlurredBgInsteadOfColor, blurRadius) {
+        derivedStateOf {
+            ResizeType.CenterCrop(
+                canvasColor = canvasColor.toArgb()
+                    .takeIf { !useBlurredBgInsteadOfColor },
+                blurRadius = blurRadius
+            )
+        }
+    }
+    val updateResizeType = {
+        onResizeChange(modifiedResizeType)
+    }
     Column(
         modifier = Modifier
             .container(shape = RoundedCornerShape(24.dp))
@@ -120,24 +149,63 @@ fun ResizeGroup(
                     when (it) {
                         0 -> ResizeType.Explicit
                         1 -> ResizeType.Flexible
-                        2 -> ResizeType.CenterCrop(canvasColor.toArgb())
+                        2 -> modifiedResizeType
                         3 -> ResizeType.Ratio
                         else -> throw IllegalStateException()
                     }
                 )
             }
         )
-        AnimatedVisibility(visible = resizeType is ResizeType.CenterCrop) {
-            DrawBackgroundSelector(
-                modifier = Modifier
-                    .padding(8.dp)
-                    .container(shape = RoundedCornerShape(16.dp)),
-                backgroundColor = canvasColor,
-                onColorChange = {
-                    canvasColor = it
-                    onResizeChange(ResizeType.CenterCrop(it.toArgb()))
+        AnimatedVisibility(
+            visible = resizeType is ResizeType.CenterCrop,
+            enter = fadeIn() + expandVertically(),
+            exit = fadeOut() + shrinkVertically()
+        ) {
+            UseBlurredBackgroundToggle(
+                modifier = Modifier.padding(top = 8.dp, start = 8.dp, end = 8.dp, bottom = 8.dp),
+                selected = useBlurredBgInsteadOfColor,
+                onCheckedChange = {
+                    useBlurredBgInsteadOfColor = it
+                    updateResizeType()
                 }
             )
+        }
+        AnimatedVisibility(
+            visible = resizeType is ResizeType.CenterCrop,
+            enter = fadeIn() + expandVertically(),
+            exit = fadeOut() + shrinkVertically()
+        ) {
+            AnimatedContent(targetState = useBlurredBgInsteadOfColor) { showBlurRadius ->
+                if (!showBlurRadius) {
+                    DrawBackgroundSelector(
+                        modifier = Modifier
+                            .padding(bottom = 8.dp, end = 8.dp, start = 8.dp)
+                            .container(
+                                shape = RoundedCornerShape(16.dp),
+                                color = MaterialTheme.colorScheme.surfaceContainer
+                            ),
+                        value = canvasColor,
+                        onColorChange = {
+                            canvasColor = it
+                            updateResizeType()
+                        }
+                    )
+                } else {
+                    BlurRadiusSelector(
+                        modifier = Modifier
+                            .padding(bottom = 8.dp, end = 8.dp, start = 8.dp)
+                            .container(
+                                shape = RoundedCornerShape(16.dp),
+                                color = MaterialTheme.colorScheme.surfaceContainer
+                            ),
+                        value = blurRadius,
+                        onValueChange = {
+                            blurRadius = it
+                            updateResizeType()
+                        }
+                    )
+                }
+            }
         }
     }
 

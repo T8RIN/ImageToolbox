@@ -55,7 +55,7 @@ import ru.tech.imageresizershrinker.presentation.root.widget.text.TitleItem
 
 @Composable
 fun DrawBackgroundSelector(
-    backgroundColor: Color,
+    value: Color,
     onColorChange: (Color) -> Unit,
     @SuppressLint("ModifierParameter")
     modifier: Modifier = Modifier
@@ -63,13 +63,14 @@ fun DrawBackgroundSelector(
         .container(
             shape = RoundedCornerShape(24.dp),
             color = MaterialTheme.colorScheme.surfaceContainer
-        )
+        ),
+    edgesColor: Color = MaterialTheme.colorScheme.surfaceContainer
 ) {
     var customColor by remember { mutableStateOf<Color?>(null) }
     val showColorPicker = remember { mutableStateOf(false) }
 
-    if (backgroundColor !in defaultColorList) {
-        customColor = backgroundColor
+    if (value !in defaultColorList) {
+        customColor = value
     }
 
     Column(modifier) {
@@ -148,7 +149,7 @@ fun DrawBackgroundSelector(
                             .size(
                                 animateDpAsState(
                                     40.dp.times(
-                                        if (backgroundColor == color && customColor == null) {
+                                        if (value == color && customColor == null) {
                                             1.3f
                                         } else 1f
                                     )
@@ -173,7 +174,7 @@ fun DrawBackgroundSelector(
                     .height(1.3.dp * 40 + 16.dp)
                     .background(
                         brush = Brush.horizontalGradient(
-                            0f to MaterialTheme.colorScheme.surfaceContainer,
+                            0f to edgesColor,
                             1f to Color.Transparent
                         )
                     )
@@ -186,7 +187,7 @@ fun DrawBackgroundSelector(
                     .background(
                         brush = Brush.horizontalGradient(
                             0f to Color.Transparent,
-                            1f to MaterialTheme.colorScheme.surfaceContainer
+                            1f to edgesColor
                         )
                     )
             )

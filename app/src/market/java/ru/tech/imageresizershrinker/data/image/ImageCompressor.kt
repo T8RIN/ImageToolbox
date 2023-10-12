@@ -2,6 +2,7 @@
 
 package ru.tech.imageresizershrinker.data.image
 
+import android.annotation.SuppressLint
 import android.graphics.Bitmap
 import android.os.Build
 import com.radzivon.bartoshyk.avif.coder.HeifCoder
@@ -10,6 +11,7 @@ import java.io.ByteArrayOutputStream
 
 internal object ImageCompressor {
 
+    @SuppressLint("StaticFieldLeak")
     private val heifCoder = HeifCoder()
 
     fun compress(image: Bitmap, imageFormat: ImageFormat, quality: Float): ByteArray {

@@ -551,7 +551,7 @@ fun DrawHost(
                         )
                     }
                     DrawBackgroundSelector(
-                        backgroundColor = sheetBackgroundColor,
+                        value = sheetBackgroundColor,
                         onColorChange = { sheetBackgroundColor = it }
                     )
                 }

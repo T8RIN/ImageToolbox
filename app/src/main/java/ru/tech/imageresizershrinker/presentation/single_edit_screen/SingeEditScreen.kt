@@ -86,8 +86,8 @@ import ru.tech.imageresizershrinker.presentation.root.widget.controls.ImageExtra
 import ru.tech.imageresizershrinker.presentation.root.widget.controls.ImageTransformBar
 import ru.tech.imageresizershrinker.presentation.root.widget.controls.PresetWidget
 import ru.tech.imageresizershrinker.presentation.root.widget.controls.QualityWidget
-import ru.tech.imageresizershrinker.presentation.root.widget.controls.ResizeGroup
 import ru.tech.imageresizershrinker.presentation.root.widget.controls.ResizeImageField
+import ru.tech.imageresizershrinker.presentation.root.widget.controls.resize_group.ResizeGroup
 import ru.tech.imageresizershrinker.presentation.root.widget.dialogs.ExitWithoutSavingDialog
 import ru.tech.imageresizershrinker.presentation.root.widget.dialogs.ResetDialog
 import ru.tech.imageresizershrinker.presentation.root.widget.image.ImageContainer

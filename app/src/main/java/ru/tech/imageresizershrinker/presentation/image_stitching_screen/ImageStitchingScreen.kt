@@ -402,7 +402,7 @@ fun ImageStitchingScreen(
                                             onCheckedChange = viewModel::toggleScaleSmallImagesToLarge
                                         )
                                         DrawBackgroundSelector(
-                                            backgroundColor = Color(viewModel.combiningParams.backgroundColor),
+                                            value = Color(viewModel.combiningParams.backgroundColor),
                                             onColorChange = {
                                                 viewModel.updateBackgroundSelector(it.toArgb())
                                             },
