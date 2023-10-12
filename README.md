@@ -21,7 +21,7 @@
       <img alt="Build" src="https://img.shields.io/github/actions/workflow/status/t8rin/imageresizer/android.yml?label=Build&style=for-the-badge"/></a>
    <img alt="GitHub commits since tagged version (branch)" src="https://img.shields.io/github/commits-since/t8rin/ImageResizer/v1.0?color=palegreen&label=Commits&style=for-the-badge">
   <img alt="GitHub code size in bytes" src="https://img.shields.io/github/languages/code-size/t8rin/imageresizer?style=for-the-badge&color=37ABB5">
-  <img src="https://wakatime.com/badge/user/7fa5ec35-3afd-4c14-984e-6ea7daf545c7/project/478f070e-48c6-4e7b-9811-c27eca408d51.svg?style=for-the-badge"/>
+  <img src="https://wakatime.com/badge/user/7fa5ec35-3afd-4c14-984e-6ea7daf545c7.svg?style=for-the-badge"/>
   </br>
   </br>
   <a href="https://hits.sh/github.com/t8rin/ImageResizer/">
