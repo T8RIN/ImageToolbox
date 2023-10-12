@@ -1,6 +1,10 @@
 package ru.tech.imageresizershrinker.presentation.root.widget.controls
 
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.expandVertically
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -21,7 +25,11 @@ import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalSettings
 
 @Composable
 fun OOMWarning(visible: Boolean) {
-    AnimatedVisibility(visible = visible) {
+    AnimatedVisibility(
+        visible = visible,
+        enter = fadeIn() + expandVertically(),
+        exit = fadeOut() + shrinkVertically()
+    ) {
         Card(
             colors = CardDefaults.cardColors(
                 containerColor = MaterialTheme.colorScheme.errorContainer.copy(

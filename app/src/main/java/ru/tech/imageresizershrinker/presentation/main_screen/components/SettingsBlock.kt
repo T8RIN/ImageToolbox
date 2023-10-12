@@ -43,11 +43,14 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.BorderStyle
 import androidx.compose.material.icons.outlined.BurstMode
+import androidx.compose.material.icons.outlined.DarkMode
 import androidx.compose.material.icons.outlined.EmojiEmotions
 import androidx.compose.material.icons.outlined.ErrorOutline
 import androidx.compose.material.icons.outlined.FolderOff
 import androidx.compose.material.icons.outlined.FolderSpecial
 import androidx.compose.material.icons.outlined.Image
+import androidx.compose.material.icons.outlined.LightMode
+import androidx.compose.material.icons.outlined.SettingsSuggest
 import androidx.compose.material.icons.rounded.AddCircleOutline
 import androidx.compose.material.icons.rounded.Block
 import androidx.compose.material.icons.rounded.BugReport
@@ -60,7 +63,6 @@ import androidx.compose.material.icons.rounded.FolderSpecial
 import androidx.compose.material.icons.rounded.FontDownload
 import androidx.compose.material.icons.rounded.ImageSearch
 import androidx.compose.material.icons.rounded.Info
-import androidx.compose.material.icons.rounded.ModeNight
 import androidx.compose.material.icons.rounded.NewReleases
 import androidx.compose.material.icons.rounded.Palette
 import androidx.compose.material.icons.rounded.Payments
@@ -71,7 +73,7 @@ import androidx.compose.material.icons.rounded.RadioButtonUnchecked
 import androidx.compose.material.icons.rounded.RestartAlt
 import androidx.compose.material.icons.rounded.Save
 import androidx.compose.material.icons.rounded.SettingsBackupRestore
-import androidx.compose.material.icons.rounded.SettingsSystemDaydream
+import androidx.compose.material.icons.rounded.ShieldMoon
 import androidx.compose.material.icons.rounded.SystemSecurityUpdate
 import androidx.compose.material.icons.rounded.TableRows
 import androidx.compose.material.icons.rounded.TextFields
@@ -79,7 +81,6 @@ import androidx.compose.material.icons.rounded.TextFormat
 import androidx.compose.material.icons.rounded.Translate
 import androidx.compose.material.icons.rounded.UploadFile
 import androidx.compose.material.icons.rounded.WaterDrop
-import androidx.compose.material.icons.rounded.WbSunny
 import androidx.compose.material.icons.twotone.Palette
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Icon
@@ -135,7 +136,6 @@ import ru.tech.imageresizershrinker.presentation.root.icons.material.CreateAlt
 import ru.tech.imageresizershrinker.presentation.root.icons.material.DownloadFile
 import ru.tech.imageresizershrinker.presentation.root.icons.material.FileSettings
 import ru.tech.imageresizershrinker.presentation.root.icons.material.Firebase
-import ru.tech.imageresizershrinker.presentation.root.icons.material.Lamp
 import ru.tech.imageresizershrinker.presentation.root.icons.material.Numeric
 import ru.tech.imageresizershrinker.presentation.root.icons.material.Prefix
 import ru.tech.imageresizershrinker.presentation.root.icons.material.Shadow
@@ -823,7 +823,7 @@ fun SettingsBlock(
                 item {
                     // Night mode
                     SettingItem(
-                        icon = Icons.Rounded.Lamp,
+                        icon = Icons.Rounded.ShieldMoon,
                         text = stringResource(R.string.night_mode),
                         initialState = false
                     ) {
@@ -831,17 +831,17 @@ fun SettingsBlock(
                             listOf(
                                 Triple(
                                     stringResource(R.string.dark),
-                                    Icons.Rounded.ModeNight,
+                                    Icons.Outlined.DarkMode,
                                     NightMode.Dark
                                 ),
                                 Triple(
                                     stringResource(R.string.light),
-                                    Icons.Rounded.WbSunny,
+                                    Icons.Outlined.LightMode,
                                     NightMode.Light
                                 ),
                                 Triple(
                                     stringResource(R.string.system),
-                                    Icons.Rounded.SettingsSystemDaydream,
+                                    Icons.Outlined.SettingsSuggest,
                                     NightMode.System
                                 ),
                             ).forEachIndexed { index, (title, icon, nightMode) ->

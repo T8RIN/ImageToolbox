@@ -6,6 +6,12 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.expandVertically
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.scaleIn
+import androidx.compose.animation.scaleOut
+import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.LocalIndication
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.indication
@@ -331,7 +337,11 @@ fun ResizeAndConvertScreen(
     val showZoomSheet = rememberSaveable { mutableStateOf(false) }
 
     val zoomButton = @Composable {
-        AnimatedVisibility(viewModel.bitmap != null && viewModel.shouldShowPreview) {
+        AnimatedVisibility(
+            visible = viewModel.bitmap != null && viewModel.shouldShowPreview,
+            enter = fadeIn() + scaleIn(),
+            exit = fadeOut() + scaleOut()
+        ) {
             IconButton(
                 onClick = {
                     showZoomSheet.value = true
@@ -344,7 +354,11 @@ fun ResizeAndConvertScreen(
 
     val showCompareSheet = rememberSaveable { mutableStateOf(false) }
     val compareButton = @Composable {
-        AnimatedVisibility(viewModel.bitmap != null && viewModel.shouldShowPreview) {
+        AnimatedVisibility(
+            visible = viewModel.bitmap != null && viewModel.shouldShowPreview,
+            enter = fadeIn() + scaleIn(),
+            exit = fadeOut() + scaleOut()
+        ) {
             IconButton(
                 onClick = {
                     showCompareSheet.value = true
@@ -404,7 +418,11 @@ fun ResizeAndConvertScreen(
             }
         )
         Spacer(Modifier.size(8.dp))
-        AnimatedVisibility(viewModel.uris?.size != 1) {
+        AnimatedVisibility(
+            visible = viewModel.uris?.size != 1,
+            enter = fadeIn() + expandVertically(),
+            exit = fadeOut() + shrinkVertically()
+        ) {
             Column {
                 SaveExifWidget(
                     imageFormat = viewModel.imageInfo.imageFormat,

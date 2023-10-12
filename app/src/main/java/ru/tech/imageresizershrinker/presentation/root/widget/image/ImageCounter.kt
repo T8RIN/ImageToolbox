@@ -1,10 +1,10 @@
 package ru.tech.imageresizershrinker.presentation.root.widget.image
 
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.expandIn
+import androidx.compose.animation.expandVertically
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
-import androidx.compose.animation.shrinkOut
+import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -26,7 +26,6 @@ import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
 import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedButton
 import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedIconButton
 import ru.tech.imageresizershrinker.presentation.root.widget.modifier.container
-import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalSettingsState
 
 @Composable
 fun ImageCounter(
@@ -35,8 +34,8 @@ fun ImageCounter(
 ) {
     AnimatedVisibility(
         visible = imageCount != null,
-        enter = fadeIn() + expandIn(expandFrom = Alignment.TopCenter),
-        exit = fadeOut() + shrinkOut(shrinkTowards = Alignment.TopCenter)
+        enter = fadeIn() + expandVertically(),
+        exit = fadeOut() + shrinkVertically()
     ) {
         Column {
             Row(

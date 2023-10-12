@@ -31,7 +31,10 @@ fun DrawAlphaSelector(
     Column(
         Modifier
             .padding(start = 16.dp, end = 16.dp, bottom = 16.dp)
-            .container(shape = RoundedCornerShape(24.dp))
+            .container(
+                shape = RoundedCornerShape(24.dp),
+                color = MaterialTheme.colorScheme.surfaceContainer
+            )
             .animateContentSize()
     ) {
         Row(

@@ -2,8 +2,10 @@ package ru.tech.imageresizershrinker.presentation.root.widget.controls
 
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.expandHorizontally
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
+import androidx.compose.animation.shrinkHorizontally
 import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
@@ -15,11 +17,14 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Fingerprint
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalContentColor
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
+import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -33,11 +38,16 @@ fun SaveExifWidget(
     selected: Boolean,
     imageFormat: ImageFormat,
     onCheckedChange: (Boolean) -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    backgroundColor: Color = MaterialTheme.colorScheme.surfaceColorAtElevation(1.dp),
 ) {
     Row(
         modifier = modifier
-            .container(shape = RoundedCornerShape(24.dp), resultPadding = 0.dp)
+            .container(
+                shape = RoundedCornerShape(24.dp),
+                resultPadding = 0.dp,
+                color = backgroundColor
+            )
             .then(
                 if (imageFormat.canWriteExif) {
                     Modifier.clickable { onCheckedChange(!selected) }
@@ -78,7 +88,11 @@ fun SaveExifWidget(
                 )
             }
         }
-        AnimatedVisibility(visible = imageFormat.canWriteExif) {
+        AnimatedVisibility(
+            visible = imageFormat.canWriteExif,
+            enter = fadeIn() + expandHorizontally(),
+            exit = fadeOut() + shrinkHorizontally()
+        ) {
             Switch(
                 checked = selected,
                 onCheckedChange = onCheckedChange

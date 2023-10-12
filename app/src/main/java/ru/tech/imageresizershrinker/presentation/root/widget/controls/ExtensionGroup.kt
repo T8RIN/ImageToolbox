@@ -46,6 +46,7 @@ import ru.tech.imageresizershrinker.presentation.root.widget.modifier.container
 @Composable
 fun ExtensionGroup(
     modifier: Modifier = Modifier,
+    backgroundColor: Color = MaterialTheme.colorScheme.surfaceColorAtElevation(1.dp),
     enabled: Boolean,
     entries: List<ImageFormat> = ImageFormat.entries,
     imageFormat: ImageFormat,
@@ -69,7 +70,7 @@ fun ExtensionGroup(
             modifier = modifier
                 .container(
                     shape = RoundedCornerShape(24.dp),
-                    color = MaterialTheme.colorScheme.surfaceColorAtElevation(1.dp),
+                    color = backgroundColor
                 ),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {

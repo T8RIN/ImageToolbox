@@ -5,6 +5,10 @@ import android.net.Uri
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.scaleIn
+import androidx.compose.animation.scaleOut
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -223,7 +227,11 @@ fun ImageStitchingScreen(
 
     val showZoomSheet = rememberSaveable { mutableStateOf(false) }
     val zoomButton = @Composable {
-        AnimatedVisibility(viewModel.previewBitmap != null) {
+        AnimatedVisibility(
+            visible = viewModel.previewBitmap != null,
+            enter = fadeIn() + scaleIn(),
+            exit = fadeOut() + scaleOut()
+        ) {
             IconButton(
                 onClick = {
                     showZoomSheet.value = true

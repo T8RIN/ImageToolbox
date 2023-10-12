@@ -52,7 +52,10 @@ fun DrawModeSelector(
     val settingsState = LocalSettingsState.current
     Column(
         modifier = modifier
-            .container(shape = RoundedCornerShape(24.dp))
+            .container(
+                shape = RoundedCornerShape(24.dp),
+                color = MaterialTheme.colorScheme.surfaceContainer
+            )
             .padding(start = 3.dp, end = 2.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
@@ -119,7 +122,7 @@ fun DrawModeSelector(
                     .height(50.dp)
                     .background(
                         brush = Brush.horizontalGradient(
-                            0f to MaterialTheme.colorScheme.surfaceColorAtElevation(1.dp),
+                            0f to MaterialTheme.colorScheme.surfaceContainer,
                             1f to Color.Transparent
                         )
                     )
@@ -132,7 +135,7 @@ fun DrawModeSelector(
                     .background(
                         brush = Brush.horizontalGradient(
                             0f to Color.Transparent,
-                            1f to MaterialTheme.colorScheme.surfaceColorAtElevation(1.dp)
+                            1f to MaterialTheme.colorScheme.surfaceContainer
                         )
                     )
             )

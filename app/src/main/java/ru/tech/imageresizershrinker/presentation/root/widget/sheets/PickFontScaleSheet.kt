@@ -1,9 +1,9 @@
 package ru.tech.imageresizershrinker.presentation.root.widget.sheets
 
-import androidx.compose.animation.expandIn
+import androidx.compose.animation.expandVertically
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
-import androidx.compose.animation.shrinkOut
+import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -141,8 +141,8 @@ fun PickFontScaleSheet(
                     ) {
                         androidx.compose.animation.AnimatedVisibility(
                             visible = context.resources.configuration.fontScale > 1.2f,
-                            enter = fadeIn() + expandIn(expandFrom = Alignment.TopCenter),
-                            exit = fadeOut() + shrinkOut(shrinkTowards = Alignment.TopCenter)
+                            enter = fadeIn() + expandVertically(),
+                            exit = fadeOut() + shrinkVertically()
                         ) {
                             Card(
                                 colors = CardDefaults.cardColors(

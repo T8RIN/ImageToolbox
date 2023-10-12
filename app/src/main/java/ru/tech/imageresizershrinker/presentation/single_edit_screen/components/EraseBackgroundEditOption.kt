@@ -5,6 +5,8 @@ import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
+import androidx.compose.animation.scaleIn
+import androidx.compose.animation.scaleOut
 import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
@@ -182,7 +184,7 @@ fun EraseBackgroundEditOption(
         var loading by remember { mutableStateOf(false) }
 
         FullscreenEditOption(
-            canGoBack = erasedBitmap == bitmap,
+            canGoBack = paths.isNotEmpty(),
             visible = visible,
             onDismiss = onDismiss,
             useScaffold = useScaffold,
@@ -258,7 +260,11 @@ fun EraseBackgroundEditOption(
                     ),
                     modifier = Modifier.drawHorizontalStroke(),
                     actions = {
-                        AnimatedVisibility(visible = erasedBitmap != bitmap) {
+                        AnimatedVisibility(
+                            visible = paths.isNotEmpty(),
+                            enter = fadeIn() + scaleIn(),
+                            exit = fadeOut() + scaleOut()
+                        ) {
                             EnhancedIconButton(
                                 containerColor = MaterialTheme.colorScheme.tertiaryContainer,
                                 onClick = {
@@ -318,8 +324,8 @@ fun EraseBackgroundEditOption(
                 AnimatedVisibility(
                     visible = loading,
                     modifier = Modifier.fillMaxSize(),
-                    enter = fadeIn(),
-                    exit = fadeOut()
+                    enter = fadeIn() + scaleIn(),
+                    exit = fadeOut() + scaleOut()
                 ) {
                     Box(
                         contentAlignment = Alignment.Center,

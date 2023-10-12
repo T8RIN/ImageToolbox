@@ -1,10 +1,10 @@
 package ru.tech.imageresizershrinker.presentation.bytes_resize_screen.components
 
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.expandIn
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
-import androidx.compose.animation.shrinkOut
+import androidx.compose.animation.scaleIn
+import androidx.compose.animation.scaleOut
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -14,7 +14,6 @@ import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -30,8 +29,8 @@ fun ImageFormatAlert(format: ImageFormat) {
     val settingsState = LocalSettingsState.current
     AnimatedVisibility(
         visible = !format.canChangeCompressionValue,
-        enter = fadeIn() + expandIn(expandFrom = Alignment.TopCenter),
-        exit = fadeOut() + shrinkOut(shrinkTowards = Alignment.TopCenter)
+        enter = scaleIn() + fadeIn(),
+        exit = scaleOut() + fadeOut()
     ) {
         Card(
             colors = CardDefaults.cardColors(

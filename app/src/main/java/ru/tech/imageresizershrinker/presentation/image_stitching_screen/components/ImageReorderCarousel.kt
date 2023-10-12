@@ -17,7 +17,6 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -33,11 +32,9 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
@@ -127,25 +124,20 @@ fun ImageReorderCarousel(
             }
         }
         Box {
-            var globalIsDragging by remember { mutableStateOf(false) }
             LazyRow(
                 state = listState,
                 modifier = Modifier
                     .reorderable(state)
-                    .detectReorderAfterLongPress(state),
+                    .detectReorderAfterLongPress(state)
+                    .animateContentSize(),
                 contentPadding = PaddingValues(12.dp),
                 horizontalArrangement = Arrangement.spacedBy(8.dp)
             ) {
-                //TODO: Add removeImage button
                 itemsIndexed(data.value, key = { _, uri -> uri.hashCode() }) { index, uri ->
                     ReorderableItem(
                         reorderableState = state,
                         key = uri.hashCode()
                     ) { isDragging ->
-                        SideEffect {
-                            globalIsDragging = isDragging
-                        }
-
                         val elevation by animateDpAsState(if (isDragging) 4.dp else 0.dp)
                         val alpha by animateFloatAsState(if (isDragging) 0.3f else 0.6f)
                         Column(
@@ -187,7 +179,7 @@ fun ImageReorderCarousel(
                                 }
                             }
                             androidx.compose.animation.AnimatedVisibility(
-                                visible = (images?.size ?: 0) > 2 && !globalIsDragging,
+                                visible = (images?.size ?: 0) > 2 && state.draggingItemKey == null,
                                 enter = scaleIn() + fadeIn(),
                                 exit = scaleOut() + fadeOut()
                             ) {
@@ -195,7 +187,9 @@ fun ImageReorderCarousel(
                                     contentPadding = PaddingValues(),
                                     onClick = { onNeedToRemoveImageAt(index) },
                                     containerColor = MaterialTheme.colorScheme.secondaryContainer,
-                                    modifier = Modifier.padding(top = 8.dp).height(30.dp)
+                                    modifier = Modifier
+                                        .padding(top = 8.dp)
+                                        .height(30.dp)
                                 ) {
                                     Text(stringResource(R.string.remove), fontSize = 11.sp)
                                 }

@@ -10,6 +10,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.ArrowCircleUp
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalContentColor
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -30,7 +31,11 @@ fun DrawArrowsSelector(
 ) {
     Row(
         modifier = modifier
-            .container(shape = RoundedCornerShape(24.dp), resultPadding = 0.dp)
+            .container(
+                shape = RoundedCornerShape(24.dp),
+                resultPadding = 0.dp,
+                color = MaterialTheme.colorScheme.surfaceContainer
+            )
             .clickable { onCheckedChange(!checked) }
             .padding(horizontal = 16.dp, vertical = 8.dp),
         verticalAlignment = Alignment.CenterVertically

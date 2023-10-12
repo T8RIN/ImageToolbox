@@ -7,6 +7,8 @@ import androidx.compose.animation.core.CubicBezierEasing
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
+import androidx.compose.animation.scaleIn
+import androidx.compose.animation.scaleOut
 import androidx.compose.animation.slideInHorizontally
 import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.foundation.ExperimentalFoundationApi
@@ -165,7 +167,11 @@ fun ImagePager(
                     }
                 },
                 actions = {
-                    AnimatedVisibility(!uris.isNullOrEmpty()) {
+                    AnimatedVisibility(
+                        visible = !uris.isNullOrEmpty(),
+                        enter = fadeIn() + scaleIn(),
+                        exit = fadeOut() + scaleOut()
+                    ) {
                         Box(
                             modifier = Modifier
                                 .minimumInteractiveComponentSize()

@@ -75,7 +75,9 @@ fun FullscreenEditOption(
         if (!canGoBack) showExitDialog = true
         else onDismiss()
     }
-    AnimatedVisibility(visible) {
+    AnimatedVisibility(
+        visible = visible
+    ) {
         Surface(Modifier.fillMaxSize()) {
             Column {
                 if (useScaffold) {

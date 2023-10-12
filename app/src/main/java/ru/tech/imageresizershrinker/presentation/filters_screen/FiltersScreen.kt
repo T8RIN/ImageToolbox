@@ -5,6 +5,10 @@ import android.net.Uri
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.scaleIn
+import androidx.compose.animation.scaleOut
 import androidx.compose.foundation.LocalIndication
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.indication
@@ -212,7 +216,11 @@ fun FiltersScreen(
 
     val showSheet = rememberSaveable { mutableStateOf(false) }
     val zoomButton = @Composable {
-        AnimatedVisibility(viewModel.bitmap != null) {
+        AnimatedVisibility(
+            visible = viewModel.bitmap != null,
+            enter = fadeIn() + scaleIn(),
+            exit = fadeOut() + scaleOut()
+        ) {
             IconButton(
                 onClick = {
                     showSheet.value = true
@@ -224,7 +232,11 @@ fun FiltersScreen(
     }
     val showCompareSheet = rememberSaveable { mutableStateOf(false) }
     val compareButton = @Composable {
-        AnimatedVisibility(viewModel.bitmap != null && filterList.isNotEmpty()) {
+        AnimatedVisibility(
+            visible = viewModel.bitmap != null && filterList.isNotEmpty(),
+            enter = fadeIn() + scaleIn(),
+            exit = fadeOut() + scaleOut()
+        ) {
             IconButton(
                 onClick = {
                     showCompareSheet.value = true

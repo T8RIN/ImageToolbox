@@ -4,6 +4,12 @@ import android.graphics.Bitmap
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.expandVertically
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.scaleIn
+import androidx.compose.animation.scaleOut
+import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
@@ -188,7 +194,7 @@ fun DrawEditOption(
 
         var stateBitmap by remember(bitmap, visible) { mutableStateOf(bitmap) }
         FullscreenEditOption(
-            canGoBack = stateBitmap == bitmap,
+            canGoBack = paths.isNotEmpty(),
             visible = visible,
             onDismiss = onDismiss,
             useScaffold = useScaffold,
@@ -208,7 +214,11 @@ fun DrawEditOption(
                     strokeWidth = strokeWidth,
                     onChangeStrokeWidth = { strokeWidth = it }
                 )
-                AnimatedVisibility(visible = drawMode !is DrawMode.Highlighter && drawMode !is DrawMode.PrivacyBlur) {
+                AnimatedVisibility(
+                    visible = drawMode !is DrawMode.Highlighter && drawMode !is DrawMode.PrivacyBlur,
+                    enter = fadeIn() + expandVertically(),
+                    exit = fadeOut() + shrinkVertically()
+                ) {
                     BrushSoftnessSelector(
                         modifier = Modifier
                             .padding(top = 16.dp, end = 16.dp, start = 16.dp),
@@ -217,13 +227,21 @@ fun DrawEditOption(
                     )
                 }
                 Spacer(modifier = Modifier.height(16.dp))
-                AnimatedVisibility(visible = drawMode !is DrawMode.PrivacyBlur) {
+                AnimatedVisibility(
+                    visible = drawMode !is DrawMode.PrivacyBlur,
+                    enter = fadeIn() + expandVertically(),
+                    exit = fadeOut() + shrinkVertically()
+                ) {
                     DrawColorSelector(
                         drawColor = drawColor,
                         onColorChange = { drawColor = it }
                     )
                 }
-                AnimatedVisibility(visible = drawMode !is DrawMode.Neon && drawMode !is DrawMode.PrivacyBlur) {
+                AnimatedVisibility(
+                    visible = drawMode !is DrawMode.Neon && drawMode !is DrawMode.PrivacyBlur,
+                    enter = fadeIn() + expandVertically(),
+                    exit = fadeOut() + shrinkVertically()
+                ) {
                     DrawAlphaSelector(
                         alpha = alpha,
                         onAlphaChange = { alpha = it }
@@ -238,7 +256,11 @@ fun DrawEditOption(
                     drawMode = drawMode,
                     onDrawModeChange = { drawMode = it }
                 )
-                AnimatedVisibility(!isEraserOn) {
+                AnimatedVisibility(
+                    visible = !isEraserOn,
+                    enter = fadeIn() + expandVertically(),
+                    exit = fadeOut() + shrinkVertically()
+                ) {
                     DrawArrowsSelector(
                         modifier = Modifier.padding(
                             start = 16.dp,
@@ -267,7 +289,11 @@ fun DrawEditOption(
                     ),
                     modifier = Modifier.drawHorizontalStroke(),
                     actions = {
-                        AnimatedVisibility(visible = stateBitmap != bitmap) {
+                        AnimatedVisibility(
+                            visible = paths.isNotEmpty(),
+                            enter = fadeIn() + scaleIn(),
+                            exit = fadeOut() + scaleOut()
+                        ) {
                             EnhancedIconButton(
                                 containerColor = MaterialTheme.colorScheme.tertiaryContainer,
                                 onClick = {

@@ -13,7 +13,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
@@ -51,7 +50,7 @@ fun Marquee(
     modifier: Modifier = Modifier,
     edgeColor: Color = MaterialTheme.colorScheme.background,
     params: MarqueeParams = defaultMarqueeParams(edgeColor),
-    content: @Composable (Modifier) -> Unit
+    content: @Composable () -> Unit
 ) {
     Marquee(modifier, edgeColor, params, keys = arrayOf(null), content)
 }
@@ -62,7 +61,7 @@ fun Marquee(
     edgeColor: Color = MaterialTheme.colorScheme.background,
     params: MarqueeParams = defaultMarqueeParams(edgeColor),
     vararg keys: Any? = arrayOf(Unit),
-    content: @Composable (Modifier) -> Unit
+    content: @Composable () -> Unit
 ) {
     val density = LocalDensity.current
     val gradientEdgeWidth = with(density) { params.gradientEdgeWidth.toPx().toInt() }
@@ -114,7 +113,7 @@ fun Marquee(
         val infiniteWidthConstraints = constraints.copy(maxWidth = Int.MAX_VALUE)
 
         var main = subcompose(MarqueeLayers.Main) {
-            content(Modifier)
+            content()
         }.first().measure(infiniteWidthConstraints)
 
         var gradient: Placeable? = null
@@ -122,7 +121,7 @@ fun Marquee(
 
         if (main.width <= constraints.maxWidth) {
             main = subcompose(MarqueeLayers.Secondary) {
-                content(Modifier.fillMaxWidth())
+                content()
             }.first().measure(constraints)
             layoutInfoState.value = null
             xOffset = 0
@@ -136,7 +135,7 @@ fun Marquee(
 
             if (secondTextSpace > 0) {
                 secondPlaceableWithOffset = subcompose(MarqueeLayers.Secondary) {
-                    content(Modifier)
+                    content()
                 }.first().measure(infiniteWidthConstraints) to secondTextOffset
             }
             gradient = if (params.gradientEnabled) subcompose(MarqueeLayers.EdgesGradient) {

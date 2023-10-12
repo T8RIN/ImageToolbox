@@ -66,10 +66,10 @@ class ImageStitchingViewModel @Inject constructor(
     }
 
     fun updateUris(uris: List<Uri>?) {
-        _uris.value = null
-        _uris.value = uris
-
-        calculatePreview()
+        if (uris != _uris.value) {
+            _uris.value = uris
+            calculatePreview()
+        }
     }
 
     private var calculationPreviewJob: Job? = null

@@ -13,8 +13,10 @@ import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.CubicBezierEasing
 import androidx.compose.animation.core.tween
+import androidx.compose.animation.expandVertically
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
+import androidx.compose.animation.shrinkVertically
 import androidx.compose.animation.slideInHorizontally
 import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.animation.togetherWith
@@ -316,7 +318,11 @@ fun DrawScreen(
             strokeWidth = strokeWidth,
             onChangeStrokeWidth = { strokeWidth = it }
         )
-        AnimatedVisibility(visible = drawMode !is DrawMode.Highlighter && drawMode !is DrawMode.PrivacyBlur) {
+        AnimatedVisibility(
+            visible = drawMode !is DrawMode.Highlighter && drawMode !is DrawMode.PrivacyBlur,
+            enter = fadeIn() + expandVertically(),
+            exit = fadeOut() + shrinkVertically()
+        ) {
             BrushSoftnessSelector(
                 modifier = Modifier
                     .padding(top = 16.dp, end = 16.dp, start = 16.dp),
@@ -332,13 +338,21 @@ fun DrawScreen(
         } else {
             Spacer(Modifier.height(16.dp))
         }
-        AnimatedVisibility(visible = drawMode !is DrawMode.PrivacyBlur) {
+        AnimatedVisibility(
+            visible = drawMode !is DrawMode.PrivacyBlur,
+            enter = fadeIn() + expandVertically(),
+            exit = fadeOut() + shrinkVertically()
+        ) {
             DrawColorSelector(
                 drawColor = drawColor,
                 onColorChange = { drawColor = it }
             )
         }
-        AnimatedVisibility(visible = drawMode !is DrawMode.Neon && drawMode !is DrawMode.PrivacyBlur) {
+        AnimatedVisibility(
+            visible = drawMode !is DrawMode.Neon && drawMode !is DrawMode.PrivacyBlur,
+            enter = fadeIn() + expandVertically(),
+            exit = fadeOut() + shrinkVertically()
+        ) {
             DrawAlphaSelector(
                 alpha = alpha,
                 onAlphaChange = { alpha = it }
@@ -353,7 +367,11 @@ fun DrawScreen(
             drawMode = drawMode,
             onDrawModeChange = { drawMode = it }
         )
-        AnimatedVisibility(!isEraserOn) {
+        AnimatedVisibility(
+            visible = !isEraserOn,
+            enter = fadeIn() + expandVertically(),
+            exit = fadeOut() + shrinkVertically()
+        ) {
             DrawArrowsSelector(
                 modifier = Modifier.padding(
                     start = 16.dp,
@@ -368,7 +386,8 @@ fun DrawScreen(
             modifier = Modifier.padding(horizontal = 16.dp),
             selected = viewModel.saveExif,
             imageFormat = viewModel.imageFormat,
-            onCheckedChange = viewModel::setSaveExif
+            onCheckedChange = viewModel::setSaveExif,
+            backgroundColor = MaterialTheme.colorScheme.surfaceContainer
         )
         ExtensionGroup(
             modifier = Modifier
@@ -378,7 +397,8 @@ fun DrawScreen(
             imageFormat = viewModel.imageFormat,
             onFormatChange = {
                 viewModel.updateMimeType(it)
-            }
+            },
+            backgroundColor = MaterialTheme.colorScheme.surfaceContainer
         )
     }
 

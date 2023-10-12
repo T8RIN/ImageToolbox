@@ -2,6 +2,10 @@ package ru.tech.imageresizershrinker.presentation.single_edit_screen.components
 
 import android.graphics.Bitmap
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.scaleIn
+import androidx.compose.animation.scaleOut
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -178,7 +182,11 @@ fun FilterEditOption(
                     ),
                     modifier = Modifier.drawHorizontalStroke(),
                     actions = {
-                        AnimatedVisibility(visible = stateBitmap != bitmap) {
+                        AnimatedVisibility(
+                            visible = stateBitmap != bitmap,
+                            enter = fadeIn() + scaleIn(),
+                            exit = fadeOut() + scaleOut()
+                        ) {
                             EnhancedIconButton(
                                 containerColor = MaterialTheme.colorScheme.tertiaryContainer,
                                 onClick = {

@@ -27,7 +27,6 @@ import androidx.compose.material.icons.rounded.Palette
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
-import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
@@ -61,7 +60,10 @@ fun DrawBackgroundSelector(
     @SuppressLint("ModifierParameter")
     modifier: Modifier = Modifier
         .padding(16.dp)
-        .container(shape = RoundedCornerShape(24.dp))
+        .container(
+            shape = RoundedCornerShape(24.dp),
+            color = MaterialTheme.colorScheme.surfaceContainer
+        )
 ) {
     var customColor by remember { mutableStateOf<Color?>(null) }
     val showColorPicker = remember { mutableStateOf(false) }
@@ -171,9 +173,7 @@ fun DrawBackgroundSelector(
                     .height(1.3.dp * 40 + 16.dp)
                     .background(
                         brush = Brush.horizontalGradient(
-                            0f to MaterialTheme.colorScheme.surfaceColorAtElevation(
-                                1.dp
-                            ),
+                            0f to MaterialTheme.colorScheme.surfaceContainer,
                             1f to Color.Transparent
                         )
                     )
@@ -186,9 +186,7 @@ fun DrawBackgroundSelector(
                     .background(
                         brush = Brush.horizontalGradient(
                             0f to Color.Transparent,
-                            1f to MaterialTheme.colorScheme.surfaceColorAtElevation(
-                                1.dp
-                            )
+                            1f to MaterialTheme.colorScheme.surfaceContainer
                         )
                     )
             )

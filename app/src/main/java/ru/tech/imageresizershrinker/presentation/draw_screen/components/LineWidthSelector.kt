@@ -31,7 +31,10 @@ fun LineWidthSelector(
 ) {
     Column(
         modifier = modifier
-            .container(shape = RoundedCornerShape(24.dp))
+            .container(
+                shape = RoundedCornerShape(24.dp),
+                color = MaterialTheme.colorScheme.surfaceContainer
+            )
             .animateContentSize()
     ) {
         Row(
