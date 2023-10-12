@@ -398,6 +398,7 @@
     <string name="regular">Regular</string>
     <string name="blur_edges">Blur edges</string>
     <string name="blur_edges_sub">Draws blurred edges under original image to fill spaces around it instead of single color if enabled</string>
+    <string name="pixelation">Pixelation</string>
     <string-array name="fab_alignment_sub">
         <item>Start</item>
         <item>Center</item>

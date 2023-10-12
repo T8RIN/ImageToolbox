@@ -102,6 +102,7 @@ import ru.tech.imageresizershrinker.presentation.root.transformation.filter.Mono
 import ru.tech.imageresizershrinker.presentation.root.transformation.filter.NegativeFilter
 import ru.tech.imageresizershrinker.presentation.root.transformation.filter.NonMaximumSuppressionFilter
 import ru.tech.imageresizershrinker.presentation.root.transformation.filter.OpacityFilter
+import ru.tech.imageresizershrinker.presentation.root.transformation.filter.PixelationFilter
 import ru.tech.imageresizershrinker.presentation.root.transformation.filter.PosterizeFilter
 import ru.tech.imageresizershrinker.presentation.root.transformation.filter.RGBFilter
 import ru.tech.imageresizershrinker.presentation.root.transformation.filter.SaturationFilter
@@ -211,7 +212,8 @@ fun AddFiltersSheet(
                 BilaterialBlurFilter(context),
                 FastBlurFilter(context),
                 StackBlurFilter(context),
-                ZoomBlurFilter(context)
+                ZoomBlurFilter(context),
+                PixelationFilter(context)
             ),
             listOf(
                 SwirlDistortionEffect(context),

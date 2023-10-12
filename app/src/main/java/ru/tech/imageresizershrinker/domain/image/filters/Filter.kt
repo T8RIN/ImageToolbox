@@ -55,5 +55,5 @@ sealed interface Filter<IMAGE, VALUE> : Transformation<IMAGE> {
     interface WeakPixel<IMAGE> : Filter<IMAGE, Unit>
     interface WhiteBalance<IMAGE> : Filter<IMAGE, Pair<Float, Float>>
     interface ZoomBlur<IMAGE> : Filter<IMAGE, Triple<Float, Float, Float>>
-
+    interface Pixelation<IMAGE> : Filter<IMAGE, Float>
 }

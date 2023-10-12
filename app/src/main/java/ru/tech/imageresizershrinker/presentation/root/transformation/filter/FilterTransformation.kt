@@ -104,6 +104,11 @@ sealed class FilterTransformation<T>(
                 context = context,
                 value = value as Pair<Float, Float>
             )
+
+            is PixelationFilter -> PixelationFilter(
+                context = context,
+                value = value as Float
+            )
         }
     }
 
@@ -159,6 +164,7 @@ sealed class FilterTransformation<T>(
             is SphereRefractionFilter -> SphereRefractionFilter(context)
             is GlassSphereRefractionFilter -> GlassSphereRefractionFilter(context)
             is HighlightsAndShadowsFilter -> HighlightsAndShadowsFilter(context)
+            is PixelationFilter -> PixelationFilter(context)
         }
     }
 
