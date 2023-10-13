@@ -379,4 +379,8 @@
     <string name="vertical">Verticale</string>
     <string name="output_image_scale">Échelle de l\'image de sortie</string>
     <string name="scale_small_images_to_large">Agrandir les petites images</string>
+    <string name="blur_edges">Bords flous</string>
+    <string name="pixelation">Pixelisation</string>
+    <string name="blur_edges_sub">Dessine des bords flous sous l\'image d\'origine pour remplir les espaces autour d\'elle au lieu d\'une seule couleur si cette option est activée</string>
+    <string name="regular">Regulié</string>
 </resources>
