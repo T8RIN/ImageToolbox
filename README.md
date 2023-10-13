@@ -263,6 +263,9 @@ height="80">](https://github.com/t8rin/imageresizer/releases/latest)
   - Podkova
   - Tektur
   - YsabeauSC
+  - DejaVu
+  - BadScript
+  - RuslanDisplay
 - In app font scale changing
 
 (Yes, app supports dynamic coloring based on wallpapers for every android version)
