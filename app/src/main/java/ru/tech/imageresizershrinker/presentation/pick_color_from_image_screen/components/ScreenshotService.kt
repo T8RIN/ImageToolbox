@@ -88,6 +88,9 @@ class ScreenshotService : Service() {
     }
 
     private fun startCapture(mediaProjection: MediaProjection, intent: Intent?) {
+        val callback = object : MediaProjection.Callback() {}
+
+        mediaProjection.registerCallback(callback, null)
         val displayMetrics = applicationContext.resources.displayMetrics
         val imageReader = ImageReader.newInstance(
             displayMetrics.widthPixels,
