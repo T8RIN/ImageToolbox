@@ -111,7 +111,7 @@ height="80">](https://github.com/t8rin/imageresizer/releases/latest)
 # ✨ Features
 
 - Batch processing
-- Applying filter chains (More than 45 various filters)
+- Applying filter chains (More than 50 various filters)
 
   <details>
   <summary>Available filters</summary>
@@ -156,7 +156,13 @@ height="80">](https://github.com/t8rin/imageresizer/releases/latest)
   - [x] Fast Blur
   - [x] Bilateral Blur
   - [x] Zoom Blur
-  - [x] Pixelation 
+  - [x] Pixelation
+  - [x] EnhancedPixelation
+  - [x] StrokePixelation
+  - [x] CirclePixelation
+  - [x] EnhancedCirclePixelation
+  - [x] DiamondPixelation
+  - [x] EnhancedDiamondPixelation
   - [x] Swirl Distortion
   - [x] Bulge Distortion
   - [x] Sphere Refraction
@@ -182,6 +188,7 @@ height="80">](https://github.com/t8rin/imageresizer/releases/latest)
   - Neon
   - Highlighter
   - Privacy Blur
+  - Pixelation Paint
   - Pointing Arrow Mode
 - Image Resizing
   - Width changing
@@ -256,6 +263,9 @@ height="80">](https://github.com/t8rin/imageresizer/releases/latest)
   - Podkova
   - Tektur
   - YsabeauSC
+  - DejaVu
+  - BadScript
+  - RuslanDisplay
 - In app font scale changing
 
 (Yes, app supports dynamic coloring based on wallpapers for every android version)
