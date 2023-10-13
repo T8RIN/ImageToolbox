@@ -116,30 +116,28 @@ class FilterViewModel @Inject constructor(
         }
     }
 
-    fun updateBitmap(bitmap: Bitmap?) {
-        viewModelScope.launch {
-            _isImageLoading.value = true
-            _bitmap.value = imageManager.scaleUntilCanShow(bitmap)?.upscale()
-            _previewBitmap.value = bitmap?.let {
-                imageManager.transform(
-                    image = it,
-                    transformations = filterList,
-                    originalSize = false
-                )?.let { image ->
-                    imageManager.createPreview(
-                        image = image,
-                        imageInfo = imageInfo.copy(
-                            width = image.width,
-                            height = image.height
-                        ),
-                        onGetByteCount = { size ->
-                            _bitmapSize.value = size.toLong()
-                        }
-                    )
-                }
-            } ?: _bitmap.value
-            _isImageLoading.value = false
-        }
+    suspend fun updateBitmap(bitmap: Bitmap?) = withContext(Dispatchers.IO) {
+        _isImageLoading.value = true
+        _bitmap.value = imageManager.scaleUntilCanShow(bitmap)?.upscale()
+        _previewBitmap.value = bitmap?.let {
+            imageManager.transform(
+                image = it,
+                transformations = filterList,
+                originalSize = false
+            )?.let { image ->
+                imageManager.createPreview(
+                    image = image,
+                    imageInfo = imageInfo.copy(
+                        width = image.width,
+                        height = image.height
+                    ),
+                    onGetByteCount = { size ->
+                        _bitmapSize.value = size.toLong()
+                    }
+                )
+            }
+        } ?: _bitmap.value
+        _isImageLoading.value = false
     }
 
     fun setKeepExif(boolean: Boolean) {
@@ -195,17 +193,18 @@ class FilterViewModel @Inject constructor(
     }
 
     fun setBitmap(uri: Uri) {
-        viewModelScope.launch {
-            withContext(Dispatchers.IO) {
-                _isImageLoading.value = true
-                updateBitmap(
-                    imageManager.getImage(uri = uri.toString(), originalSize = false)?.image
-                )
-                _selectedUri.value = uri
-                _isImageLoading.value = false
-            }
+        filterJob?.cancel()
+        filterJob = viewModelScope.launch {
+            kotlinx.coroutines.delay(200L)
+            _isImageLoading.value = true
+            updateBitmap(
+                imageManager.getImage(uri = uri.toString(), originalSize = false)?.image
+            )
+            _selectedUri.value = uri
+            _isImageLoading.value = false
         }
     }
+
 
     private fun updateCanSave() {
         _canSave.value = _bitmap.value != null && _filterList.value.isNotEmpty()
@@ -245,12 +244,14 @@ class FilterViewModel @Inject constructor(
 
     fun updateOrder(value: List<FilterTransformation<*>>) {
         _filterList.value = value
+        filterJob?.cancel()
         _needToApplyFilters.value = true
     }
 
     fun addFilter(filter: FilterTransformation<*>) {
         _filterList.value = _filterList.value + filter
         updateCanSave()
+        filterJob?.cancel()
         _needToApplyFilters.value = true
     }
 
@@ -259,6 +260,7 @@ class FilterViewModel @Inject constructor(
             removeAt(index)
         }
         updateCanSave()
+        filterJob?.cancel()
         _needToApplyFilters.value = true
     }
 
