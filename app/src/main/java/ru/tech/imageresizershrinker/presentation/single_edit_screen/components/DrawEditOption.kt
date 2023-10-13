@@ -334,7 +334,7 @@ fun DrawEditOption(
                         drawMode = drawMode,
                         modifier = Modifier
                             .padding(16.dp)
-                            .aspectRatio(aspectRatio, useScaffold)
+                            .aspectRatio(aspectRatio, !useScaffold)
                             .fillMaxSize(),
                         zoomEnabled = zoomEnabled,
                         onDraw = {

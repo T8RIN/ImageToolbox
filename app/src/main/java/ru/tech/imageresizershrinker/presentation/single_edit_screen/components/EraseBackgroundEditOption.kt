@@ -314,7 +314,7 @@ fun EraseBackgroundEditOption(
                         isRecoveryOn = isRecoveryOn,
                         modifier = Modifier
                             .padding(16.dp)
-                            .aspectRatio(aspectRatio, useScaffold)
+                            .aspectRatio(aspectRatio, !useScaffold)
                             .fillMaxSize(),
                         zoomEnabled = zoomEnabled,
                         onErased = { erasedBitmap = it }
