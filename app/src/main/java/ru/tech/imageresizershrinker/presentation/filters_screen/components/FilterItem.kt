@@ -634,7 +634,7 @@ fun <T> FilterItem(
                                                 end = 16.dp,
                                             )
                                     )
-                                    ColorSelection(
+                                    AlphaColorSelection(
                                         color = color1.toArgb(),
                                         onColorChange = { c ->
                                             color1 = Color(c)
@@ -652,7 +652,7 @@ fun <T> FilterItem(
                                                 end = 16.dp
                                             )
                                     )
-                                    ColorSelection(
+                                    AlphaColorSelection(
                                         color = color2.toArgb(),
                                         onColorChange = { c ->
                                             color2 = Color(c)
