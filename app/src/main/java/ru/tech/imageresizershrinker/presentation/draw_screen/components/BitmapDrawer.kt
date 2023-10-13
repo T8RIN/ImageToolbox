@@ -4,7 +4,6 @@ import android.graphics.Bitmap
 import android.graphics.BlurMaskFilter
 import android.graphics.Matrix
 import android.graphics.PorterDuff
-import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
@@ -14,7 +13,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
@@ -53,8 +51,10 @@ import com.smarttoolfactory.image.zoom.animatedZoom
 import com.smarttoolfactory.image.zoom.rememberAnimatedZoomState
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.domain.image.ImageManager
+import ru.tech.imageresizershrinker.domain.image.Transformation
 import ru.tech.imageresizershrinker.presentation.erase_background_screen.components.PathPaint
 import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
+import ru.tech.imageresizershrinker.presentation.root.transformation.filter.PixelationFilter
 import ru.tech.imageresizershrinker.presentation.root.transformation.filter.StackBlurFilter
 import ru.tech.imageresizershrinker.presentation.root.widget.modifier.transparencyChecker
 import kotlin.math.abs
@@ -84,13 +84,30 @@ fun BitmapDrawer(
     val scope = rememberCoroutineScope()
     val context = LocalContext.current
 
-    val transformations = remember(context) {
-        listOf(
-            StackBlurFilter(
-                context,
-                0.3f to 20
-            )
-        )
+    val transformations: List<Transformation<Bitmap>> by remember(context, drawMode) {
+        derivedStateOf {
+            when (drawMode) {
+                is DrawMode.PathEffect.PrivacyBlur -> {
+                    listOf(
+                        StackBlurFilter(
+                            context = context,
+                            value = 0.3f to 20
+                        )
+                    )
+                }
+
+                is DrawMode.PathEffect.Pixelation -> {
+                    listOf(
+                        PixelationFilter(
+                            context = context,
+                            value = 25f
+                        )
+                    )
+                }
+
+                else -> emptyList()
+            }
+        }
     }
 
     Box(
@@ -111,10 +128,6 @@ fun BitmapDrawer(
 
             var invalidations by remember {
                 mutableIntStateOf(0)
-            }
-
-            LaunchedEffect(paths) {
-                invalidations++
             }
 
             var motionEvent by remember { mutableStateOf(MotionEvent.Idle) }
@@ -158,8 +171,8 @@ fun BitmapDrawer(
                 }
             }
 
-            SideEffect {
-                onDraw(outputImage.asAndroidBitmap())
+            LaunchedEffect(invalidations) {
+                onDraw(outputImage.overlay(drawPathBitmap).asAndroidBitmap())
             }
 
             val canvas: Canvas = remember {
@@ -177,7 +190,7 @@ fun BitmapDrawer(
                         style = PaintingStyle.Stroke
                         strokeCap =
                             if (drawMode is DrawMode.Highlighter) StrokeCap.Square else StrokeCap.Round
-                        color = if (drawMode is DrawMode.PrivacyBlur) {
+                        color = if (drawMode is DrawMode.PathEffect) {
                             Color.Transparent
                         } else drawColor
                         alpha = drawColor.alpha
@@ -202,6 +215,10 @@ fun BitmapDrawer(
                 }
 
             var drawPath by remember(drawMode) { mutableStateOf(Path()) }
+
+            LaunchedEffect(paths, strokeWidth, isEraserOn, drawColor, brushSoftness, drawMode) {
+                invalidations++
+            }
 
             canvas.apply {
                 when (motionEvent) {
@@ -268,7 +285,7 @@ fun BitmapDrawer(
                             )
                         )
                         scope.launch {
-                            if (drawMode is DrawMode.PrivacyBlur && !isEraserOn) Unit
+                            if (drawMode is DrawMode.PathEffect && !isEraserOn) Unit
                             else drawPath = Path()
                         }
                     }
@@ -281,14 +298,15 @@ fun BitmapDrawer(
                     drawColor(backgroundColor.toArgb())
 
                     paths.forEach { (path, stroke, radius, drawColor, isErasing, effect) ->
-                        if (effect is DrawMode.PrivacyBlur && !isErasing) {
+                        if (effect is DrawMode.PathEffect && !isErasing) {
                             var shaderSource by remember(backgroundColor) {
                                 mutableStateOf<ImageBitmap?>(null)
                             }
                             LaunchedEffect(shaderSource) {
                                 if (shaderSource == null) {
                                     shaderSource = imageManager.transform(
-                                        image = drawImageBitmap.overlay(drawBitmap).asAndroidBitmap(),
+                                        image = drawImageBitmap.overlay(drawBitmap)
+                                            .asAndroidBitmap(),
                                         transformations = transformations
                                     )?.asImageBitmap()?.clipBitmap(
                                         path = path,
@@ -347,7 +365,7 @@ fun BitmapDrawer(
                         }
                     }
 
-                    if (drawMode !is DrawMode.PrivacyBlur || isEraserOn) {
+                    if (drawMode !is DrawMode.PathEffect || isEraserOn) {
                         drawPath(
                             drawPath.asAndroidPath(),
                             drawPaint
@@ -356,19 +374,19 @@ fun BitmapDrawer(
                 }
             }
 
-            var blurredBitmap by remember {
+            var pathEffectBitmap by remember {
                 mutableStateOf<ImageBitmap?>(null)
             }
 
             LaunchedEffect(outputImage, paths, backgroundColor) {
-                blurredBitmap = imageManager.transform(
+                pathEffectBitmap = imageManager.transform(
                     image = outputImage.asAndroidBitmap(),
                     transformations = transformations
                 )?.asImageBitmap()
             }
 
-            val shaderBitmap = remember(blurredBitmap) {
-                blurredBitmap?.asAndroidBitmap()?.let {
+            val shaderBitmap = remember(pathEffectBitmap) {
+                pathEffectBitmap?.asAndroidBitmap()?.let {
                     Bitmap.createScaledBitmap(
                         it,
                         imageWidth,
@@ -378,7 +396,7 @@ fun BitmapDrawer(
                 }
             }
 
-            if (drawMode is DrawMode.PrivacyBlur && shaderBitmap != null && !isEraserOn) {
+            if (drawMode is DrawMode.PathEffect && shaderBitmap != null && !isEraserOn) {
                 drawPathCanvas.apply {
                     with(nativeCanvas) {
                         drawColor(Color.Transparent.toArgb(), PorterDuff.Mode.CLEAR)
@@ -444,7 +462,7 @@ fun BitmapDrawer(
                     ),
                 bitmap = remember(invalidations) {
                     derivedStateOf {
-                        outputImage.overlay(drawPathBitmap).also { Log.d("COCK", it.toString()) }
+                        outputImage.overlay(drawPathBitmap)
                     }
                 }.value,
                 contentDescription = null,

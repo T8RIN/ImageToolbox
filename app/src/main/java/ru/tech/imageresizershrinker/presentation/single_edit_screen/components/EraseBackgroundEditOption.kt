@@ -183,8 +183,10 @@ fun EraseBackgroundEditOption(
 
         var loading by remember { mutableStateOf(false) }
 
+        var autoErased by remember { mutableStateOf(false) }
+
         FullscreenEditOption(
-            canGoBack = paths.isEmpty(),
+            canGoBack = paths.isEmpty() && !autoErased,
             visible = visible,
             onDismiss = onDismiss,
             useScaffold = useScaffold,
@@ -207,6 +209,7 @@ fun EraseBackgroundEditOption(
                                 loading = false
                                 bitmapState = it
                                 clearErasing(false)
+                                autoErased = true
                                 showConfetti()
                             },
                             onFailure = {
@@ -219,6 +222,7 @@ fun EraseBackgroundEditOption(
                     },
                     onReset = {
                         bitmapState = bitmap
+                        autoErased = true
                     }
                 )
                 LineWidthSelector(
@@ -261,7 +265,7 @@ fun EraseBackgroundEditOption(
                     modifier = Modifier.drawHorizontalStroke(),
                     actions = {
                         AnimatedVisibility(
-                            visible = paths.isNotEmpty(),
+                            visible = paths.isNotEmpty() || autoErased,
                             enter = fadeIn() + scaleIn(),
                             exit = fadeOut() + scaleOut()
                         ) {
@@ -324,14 +328,14 @@ fun EraseBackgroundEditOption(
                 AnimatedVisibility(
                     visible = loading,
                     modifier = Modifier.fillMaxSize(),
-                    enter = fadeIn() + scaleIn(),
-                    exit = fadeOut() + scaleOut()
+                    enter = fadeIn(),
+                    exit = fadeOut()
                 ) {
                     Box(
                         contentAlignment = Alignment.Center,
                         modifier = Modifier
                             .fillMaxSize()
-                            .background(MaterialTheme.colorScheme.surfaceColorAtElevation(6.dp))
+                            .background(MaterialTheme.colorScheme.scrim.copy(0.5f))
                     ) {
                         Loading()
                     }

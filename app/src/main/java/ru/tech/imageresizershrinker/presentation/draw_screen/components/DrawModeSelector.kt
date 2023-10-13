@@ -35,6 +35,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.max
 import ru.tech.imageresizershrinker.R
+import ru.tech.imageresizershrinker.presentation.root.icons.material.Cube
 import ru.tech.imageresizershrinker.presentation.root.icons.material.Highlighter
 import ru.tech.imageresizershrinker.presentation.root.icons.material.Laser
 import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
@@ -108,7 +109,8 @@ fun DrawModeSelector(
                                 DrawMode.Highlighter -> Icons.Rounded.Highlighter
                                 DrawMode.Neon -> Icons.Rounded.Laser
                                 DrawMode.Pen -> Icons.Rounded.Brush
-                                is DrawMode.PrivacyBlur -> Icons.Rounded.BlurCircular
+                                is DrawMode.PathEffect.PrivacyBlur -> Icons.Rounded.BlurCircular
+                                is DrawMode.PathEffect.Pixelation -> Icons.Rounded.Cube
                             },
                             contentDescription = null
                         )

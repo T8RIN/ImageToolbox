@@ -319,7 +319,7 @@ fun DrawScreen(
             onChangeStrokeWidth = { strokeWidth = it }
         )
         AnimatedVisibility(
-            visible = drawMode !is DrawMode.Highlighter && drawMode !is DrawMode.PrivacyBlur,
+            visible = drawMode !is DrawMode.Highlighter && drawMode !is DrawMode.PathEffect,
             enter = fadeIn() + expandVertically(),
             exit = fadeOut() + shrinkVertically()
         ) {
@@ -339,7 +339,7 @@ fun DrawScreen(
             Spacer(Modifier.height(16.dp))
         }
         AnimatedVisibility(
-            visible = drawMode !is DrawMode.PrivacyBlur,
+            visible = drawMode !is DrawMode.PathEffect,
             enter = fadeIn() + expandVertically(),
             exit = fadeOut() + shrinkVertically()
         ) {
@@ -349,7 +349,7 @@ fun DrawScreen(
             )
         }
         AnimatedVisibility(
-            visible = drawMode !is DrawMode.Neon && drawMode !is DrawMode.PrivacyBlur,
+            visible = drawMode !is DrawMode.Neon && drawMode !is DrawMode.PathEffect,
             enter = fadeIn() + expandVertically(),
             exit = fadeOut() + shrinkVertically()
         ) {
