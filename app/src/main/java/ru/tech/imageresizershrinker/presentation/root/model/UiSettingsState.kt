@@ -10,6 +10,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.core.net.toUri
 import com.t8rin.dynamic.theme.ColorTuple
+import ru.tech.imageresizershrinker.domain.model.AspectRatio
 import ru.tech.imageresizershrinker.domain.model.FontFam
 import ru.tech.imageresizershrinker.domain.model.NightMode
 import ru.tech.imageresizershrinker.domain.model.SettingsState
@@ -48,7 +49,8 @@ data class UiSettingsState(
     val allowCollectAnalytics: Boolean,
     val allowBetas: Boolean,
     val allowShowingShadowsInsteadOfBorders: Boolean,
-    val appOpenCount: Int
+    val appOpenCount: Int,
+    val aspectRatios: List<AspectRatio>
 )
 
 fun UiSettingsState.isFirstLaunch(
@@ -87,7 +89,8 @@ fun SettingsState.toUiState() = UiSettingsState(
     allowCollectAnalytics = allowCollectAnalytics,
     allowBetas = allowBetas,
     allowShowingShadowsInsteadOfBorders = allowShowingShadowsInsteadOfBorders,
-    appOpenCount = appOpenCount
+    appOpenCount = appOpenCount,
+    aspectRatios = aspectRatios
 )
 
 private fun FontFam.toUiFont(): UiFontFam {

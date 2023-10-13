@@ -384,9 +384,7 @@ fun SingleEditScreen(
         PresetWidget(
             selectedPreset = viewModel.presetSelected,
             includeTelegramOption = true,
-            onPresetSelected = {
-                viewModel.setPreset(it)
-            }
+            onPresetSelected = viewModel::setPreset
         )
         Spacer(Modifier.size(8.dp))
         ResizeImageField(

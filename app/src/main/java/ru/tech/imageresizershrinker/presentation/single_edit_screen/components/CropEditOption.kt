@@ -5,8 +5,6 @@ import android.net.Uri
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
-import androidx.compose.animation.scaleIn
-import androidx.compose.animation.scaleOut
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -165,14 +163,14 @@ fun CropEditOption(
                 AnimatedVisibility(
                     visible = loading,
                     modifier = Modifier.fillMaxSize(),
-                    enter = fadeIn() + scaleIn(),
-                    exit = fadeOut() + scaleOut()
+                    enter = fadeIn(),
+                    exit = fadeOut()
                 ) {
                     Box(
                         contentAlignment = Alignment.Center,
                         modifier = Modifier
                             .fillMaxSize()
-                            .background(MaterialTheme.colorScheme.surfaceColorAtElevation(6.dp))
+                            .background(MaterialTheme.colorScheme.scrim.copy(0.5f))
                     ) {
                         Loading()
                     }

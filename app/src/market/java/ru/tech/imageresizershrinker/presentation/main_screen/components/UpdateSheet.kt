@@ -3,7 +3,6 @@ package ru.tech.imageresizershrinker.presentation.main_screen.components
 import android.app.Activity
 import android.content.Intent
 import android.net.Uri
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -18,7 +17,6 @@ import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ProvideTextStyle
-import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
@@ -40,6 +38,7 @@ import ru.tech.imageresizershrinker.core.APP_RELEASES
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.ContextUtils.isInstalledFromPlayStore
 import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedButton
 import ru.tech.imageresizershrinker.presentation.root.widget.other.LocalToastHost
+import ru.tech.imageresizershrinker.presentation.root.widget.sheets.SimpleDragHandle
 import ru.tech.imageresizershrinker.presentation.root.widget.sheets.SimpleSheet
 import ru.tech.imageresizershrinker.presentation.root.widget.text.AutoSizeText
 import ru.tech.imageresizershrinker.presentation.root.widget.text.HtmlText
@@ -83,6 +82,24 @@ fun UpdateSheet(changelog: String, tag: String, visible: MutableState<Boolean>) 
             endConfirmButtonPadding = 0.dp,
             visible = visible,
             title = {},
+            dragHandle = {
+                SimpleDragHandle {
+                    Box(
+                        contentAlignment = Alignment.Center,
+                        modifier = Modifier.fillMaxWidth()
+                    ) {
+                        CompositionLocalProvider(
+                            LocalContentColor.provides(MaterialTheme.colorScheme.onSurface),
+                            LocalTextStyle.provides(MaterialTheme.typography.bodyLarge)
+                        ) {
+                            TitleItem(
+                                text = stringResource(R.string.new_version, tag),
+                                icon = Icons.Rounded.NewReleases
+                            )
+                        }
+                    }
+                }
+            },
             sheetContent = {
                 ProvideTextStyle(value = MaterialTheme.typography.bodyMedium) {
                     Box {
@@ -91,22 +108,6 @@ fun UpdateSheet(changelog: String, tag: String, visible: MutableState<Boolean>) 
                             verticalArrangement = Arrangement.Center,
                             horizontalAlignment = Alignment.CenterHorizontally
                         ) {
-                            Box(
-                                contentAlignment = Alignment.Center,
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .background(MaterialTheme.colorScheme.surfaceColorAtElevation(10.dp))
-                            ) {
-                                CompositionLocalProvider(
-                                    LocalContentColor.provides(MaterialTheme.colorScheme.onSurface),
-                                    LocalTextStyle.provides(MaterialTheme.typography.bodyLarge)
-                                ) {
-                                    TitleItem(
-                                        text = stringResource(R.string.new_version, tag),
-                                        icon = Icons.Rounded.NewReleases
-                                    )
-                                }
-                            }
                             Column(Modifier.verticalScroll(rememberScrollState())) {
                                 HtmlText(
                                     html = changelog.trimIndent(),

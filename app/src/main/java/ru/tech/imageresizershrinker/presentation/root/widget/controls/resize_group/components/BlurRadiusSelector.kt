@@ -71,7 +71,7 @@ fun BlurRadiusSelector(
                 )
                 .offset(y = (-2).dp),
             value = animateFloatAsState(targetValue = value.toFloat()).value,
-            valueRange = 5f..75f,
+            valueRange = 5f..100f,
             onValueChange = {
                 onValueChange(it.roundToInt())
             }

@@ -11,6 +11,7 @@ data class SettingsState(
     val appColorTuple: String,
     val borderWidth: Float,
     val presets: List<Preset>,
+    val aspectRatios: List<AspectRatio>,
     val fabAlignment: Int,
     val selectedEmoji: Int?,
     val imagePickerModeInt: Int,
@@ -64,7 +65,8 @@ data class SettingsState(
             allowCollectAnalytics = true,
             allowBetas = true,
             allowShowingShadowsInsteadOfBorders = true,
-            appOpenCount = 0
+            appOpenCount = 0,
+            aspectRatios = AspectRatio.defaultList
         )
     }
 }

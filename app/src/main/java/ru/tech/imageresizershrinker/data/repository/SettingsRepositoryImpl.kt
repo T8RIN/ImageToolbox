@@ -43,6 +43,7 @@ import ru.tech.imageresizershrinker.data.keys.Keys.SCREEN_ORDER
 import ru.tech.imageresizershrinker.data.keys.Keys.SELECTED_EMOJI_INDEX
 import ru.tech.imageresizershrinker.data.keys.Keys.SELECTED_FONT_INDEX
 import ru.tech.imageresizershrinker.data.keys.Keys.SHOW_UPDATE_DIALOG
+import ru.tech.imageresizershrinker.domain.model.AspectRatio
 import ru.tech.imageresizershrinker.domain.model.FontFam
 import ru.tech.imageresizershrinker.domain.model.NightMode
 import ru.tech.imageresizershrinker.domain.model.Preset
@@ -96,7 +97,8 @@ class SettingsRepositoryImpl @Inject constructor(
             allowCollectAnalytics = prefs[ALLOW_ANALYTICS] ?: true,
             allowBetas = prefs[ALLOW_BETAS] ?: true,
             allowShowingShadowsInsteadOfBorders = prefs[ALLOW_SHADOWS_INSTEAD_OF_BORDERS] ?: true,
-            appOpenCount = prefs[APP_OPEN_COUNT] ?: 0
+            appOpenCount = prefs[APP_OPEN_COUNT] ?: 0,
+            aspectRatios = AspectRatio.defaultList
         )
     }
 
@@ -132,7 +134,8 @@ class SettingsRepositoryImpl @Inject constructor(
             allowCollectAnalytics = prefs[ALLOW_ANALYTICS] ?: true,
             allowBetas = prefs[ALLOW_BETAS] ?: true,
             allowShowingShadowsInsteadOfBorders = prefs[ALLOW_SHADOWS_INSTEAD_OF_BORDERS] ?: true,
-            appOpenCount = prefs[APP_OPEN_COUNT] ?: 0
+            appOpenCount = prefs[APP_OPEN_COUNT] ?: 0,
+            aspectRatios = AspectRatio.defaultList
         )
     }
 
