@@ -19,7 +19,7 @@
     <string name="close">Kapat</string>
     <string name="reset_image">Değişiklikleri sıfırla</string>
     <string name="reset_image_sub">Görüntü değişiklikleri başlangıç değerlerine geri döndürülecektir</string>
-    <string name="values_reset">Değerler düzgün şekilde sıfırlandı</string>
+    <string name="values_reset">Değerler düzgün bir şekilde sıfırlandı</string>
     <string name="reset">Sıfırla</string>
     <string name="something_went_wrong">Bir şeyler ters gitti</string>
     <string name="copied">Panoya kopyalandı</string>
@@ -30,7 +30,7 @@
     <string name="cancel">İptal</string>
     <string name="ratio">Oran</string>
     <string name="crop">Kırp</string>
-    <string name="image_not_saved">Uyarı</string>
+    <string name="image_not_saved">Kaydediliyor</string>
     <string name="check_source_code">Kaynak kodu</string>
     <string name="pick_color">Renk seç</string>
     <string name="pick_color_sub">Görüntüden renk seçin, kopyalayın veya paylaşın</string>
@@ -77,7 +77,7 @@
     <string name="settings">Ayarlar</string>
     <string name="night_mode">Gece modu</string>
     <string name="dark">Karanlık</string>
-    <string name="light">Işık</string>
+    <string name="light">Aydınlık</string>
     <string name="system">Sistem</string>
     <string name="language">Dil</string>
     <string name="dynamic_colors">Dinamik renkler</string>
@@ -85,7 +85,7 @@
     <string name="customization">Özelleştirme</string>
     <string name="allow_image_monet_sub">Etkinleştirilirse, düzenlemek için bir görüntü seçtiğinizde, uygulama renkleri bu görüntüye uyarlanır</string>
     <string name="amoled_mode">Amoled modu</string>
-    <string name="amoled_mode_sub">Etkin yüzeylerin rengi gece modunda mutlak koyu olarak ayarlanırsa</string>
+    <string name="amoled_mode_sub">Etkinleştirilirse yüzeylerin rengi gece modunda mutlak koyu olarak ayarlanır</string>
     <string name="color_red">Kırmızı</string>
     <string name="color_green">Yeşil</string>
     <string name="color_blue">Mavi</string>
@@ -113,7 +113,7 @@
     <string name="values">Değerler</string>
     <string name="permission">İzin</string>
     <string name="grant">Kabul et</string>
-    <string name="permission_sub">Uygulamanın resimleri kaydetmek için depolama alanınıza erişim izni gerekiyor, bu olmadan çalışamaz, lütfen bir sonraki izin isteğini kabul edin.</string>
+    <string name="permission_sub">Uygulamanın resimleri kaydetmek için depolama alanınıza erişim izni gerekiyor, bu olmadan çalışamaz, lütfen bir sonraki diyalogta izin isteğini kabul edin.</string>
     <string name="grant_permission_manual">Uygulamanın çalışması için izne ihtiyacı var. Lütfen manuel olarak izini kabul ediniz.</string>
     <string name="external_storage">Harici Depolama</string>
     <string name="monet_colors">Monet renkleri</string>
