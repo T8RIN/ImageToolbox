@@ -194,7 +194,7 @@ fun DrawEditOption(
 
         var stateBitmap by remember(bitmap, visible) { mutableStateOf(bitmap) }
         FullscreenEditOption(
-            canGoBack = paths.isNotEmpty(),
+            canGoBack = paths.isEmpty(),
             visible = visible,
             onDismiss = onDismiss,
             useScaffold = useScaffold,

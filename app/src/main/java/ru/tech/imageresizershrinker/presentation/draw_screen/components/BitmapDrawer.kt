@@ -4,6 +4,7 @@ import android.graphics.Bitmap
 import android.graphics.BlurMaskFilter
 import android.graphics.Matrix
 import android.graphics.PorterDuff
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
@@ -14,7 +15,9 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.SideEffect
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -106,6 +109,14 @@ fun BitmapDrawer(
     ) {
         BoxWithConstraints(modifier) {
 
+            var invalidations by remember {
+                mutableIntStateOf(0)
+            }
+
+            LaunchedEffect(paths) {
+                invalidations++
+            }
+
             var motionEvent by remember { mutableStateOf(MotionEvent.Idle) }
             // This is our motion event we get from touch motion
             var currentPosition by remember { mutableStateOf(Offset.Unspecified) }
@@ -141,7 +152,11 @@ fun BitmapDrawer(
                     .asImageBitmap()
             }
 
-            val outputImage = drawImageBitmap.overlay(drawBitmap)
+            val outputImage by remember(invalidations) {
+                derivedStateOf {
+                    drawImageBitmap.overlay(drawBitmap)
+                }
+            }
 
             SideEffect {
                 onDraw(outputImage.asAndroidBitmap())
@@ -397,15 +412,18 @@ fun BitmapDrawer(
                     motionEvent = MotionEvent.Down
                     currentPosition = pointerInputChange.position
                     pointerInputChange.consume()
+                    invalidations++
                 },
                 onMove = { pointerInputChange ->
                     motionEvent = MotionEvent.Move
                     currentPosition = pointerInputChange.position
                     pointerInputChange.consume()
+                    invalidations++
                 },
                 onUp = { pointerInputChange ->
                     motionEvent = MotionEvent.Up
                     pointerInputChange.consume()
+                    invalidations++
                 },
                 delayAfterDownInMillis = 20
             )
@@ -424,7 +442,11 @@ fun BitmapDrawer(
                         color = MaterialTheme.colorScheme.outlineVariant(),
                         RoundedCornerShape(2.dp)
                     ),
-                bitmap = outputImage.overlay(drawPathBitmap),
+                bitmap = remember(invalidations) {
+                    derivedStateOf {
+                        outputImage.overlay(drawPathBitmap).also { Log.d("COCK", it.toString()) }
+                    }
+                }.value,
                 contentDescription = null,
                 contentScale = ContentScale.FillBounds
             )

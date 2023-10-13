@@ -184,7 +184,7 @@ fun EraseBackgroundEditOption(
         var loading by remember { mutableStateOf(false) }
 
         FullscreenEditOption(
-            canGoBack = paths.isNotEmpty(),
+            canGoBack = paths.isEmpty(),
             visible = visible,
             onDismiss = onDismiss,
             useScaffold = useScaffold,

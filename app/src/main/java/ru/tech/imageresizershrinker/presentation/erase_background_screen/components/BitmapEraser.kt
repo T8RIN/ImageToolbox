@@ -11,8 +11,10 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -81,6 +83,14 @@ fun BitmapEraser(
     ) {
         BoxWithConstraints(modifier) {
 
+            var invalidations by remember {
+                mutableIntStateOf(0)
+            }
+
+            LaunchedEffect(paths) {
+                invalidations++
+            }
+
             var motionEvent by remember { mutableStateOf(MotionEvent.Idle) }
             // This is our motion event we get from touch motion
             var currentPosition by remember { mutableStateOf(Offset.Unspecified) }
@@ -116,7 +126,9 @@ fun BitmapEraser(
                     .asImageBitmap()
             }
 
-            val outputImage = erasedBitmap.recompose()
+            val outputImage = remember(invalidations) {
+                erasedBitmap.recompose()
+            }
 
             SideEffect {
                 onErased(outputImage.asAndroidBitmap())
@@ -126,10 +138,9 @@ fun BitmapEraser(
                 Canvas(erasedBitmap)
             }
 
-
             val paint = remember { Paint() }
 
-            val drawPaint = remember(strokeWidth, isRecoveryOn) {
+            val drawPaint = remember(strokeWidth, isRecoveryOn, brushSoftness) {
                 Paint().apply {
                     blendMode = if (isRecoveryOn) blendMode else BlendMode.Clear
                     style = PaintingStyle.Stroke
@@ -231,15 +242,18 @@ fun BitmapEraser(
                     motionEvent = MotionEvent.Down
                     currentPosition = pointerInputChange.position
                     pointerInputChange.consume()
+                    invalidations++
                 },
                 onMove = { pointerInputChange ->
                     motionEvent = MotionEvent.Move
                     currentPosition = pointerInputChange.position
                     pointerInputChange.consume()
+                    invalidations++
                 },
                 onUp = { pointerInputChange ->
                     motionEvent = MotionEvent.Up
                     pointerInputChange.consume()
+                    invalidations++
                 },
                 delayAfterDownInMillis = 20
             )
