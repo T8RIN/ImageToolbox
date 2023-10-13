@@ -405,6 +405,10 @@
     <string name="diamond_pixelation">Diamond Pixelation</string>
     <string name="circle_pixelation">Circle Pixelation</string>
     <string name="enhanced_circle_pixelation">Enhanced Circle Pixelation</string>
+    <string name="replace_color">Replace Color</string>
+    <string name="tolerance">Tolerance</string>
+    <string name="color_to_replace">Color to Replace</string>
+    <string name="target_color">Target Color</string>
     <string-array name="fab_alignment_sub">
         <item>Start</item>
         <item>Center</item>

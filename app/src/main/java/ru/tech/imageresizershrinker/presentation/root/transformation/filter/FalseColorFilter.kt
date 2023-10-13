@@ -11,7 +11,15 @@ import ru.tech.imageresizershrinker.domain.image.filters.Filter
 
 class FalseColorFilter(
     private val context: Context,
-    override val value: Pair<Color, Color> = Color(0f, 0f, 0.5f) to Color(1f, 0f, 0f),
+    override val value: Pair<Color, Color> = Color(
+        red = 0f,
+        green = 0f,
+        blue = 0.5f
+    ) to Color(
+        red = 1f,
+        green = 0f,
+        blue = 0f
+    ),
 ) : FilterTransformation<Pair<Color, Color>>(
     context = context,
     title = R.string.false_color,

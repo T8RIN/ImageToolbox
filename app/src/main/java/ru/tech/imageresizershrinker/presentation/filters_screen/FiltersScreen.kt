@@ -34,13 +34,17 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.ArrowBack
+import androidx.compose.material.icons.outlined.Colorize
 import androidx.compose.material.icons.outlined.Share
+import androidx.compose.material.icons.rounded.AddPhotoAlternate
 import androidx.compose.material.icons.rounded.Compare
 import androidx.compose.material.icons.rounded.History
 import androidx.compose.material.icons.rounded.PhotoFilter
 import androidx.compose.material.icons.rounded.Tune
 import androidx.compose.material.icons.rounded.ZoomIn
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.FloatingActionButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.LargeTopAppBar
@@ -63,6 +67,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.clipToBounds
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.input.pointer.pointerInput
@@ -77,11 +82,13 @@ import dev.olshevski.navigation.reimagined.hilt.hiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.R
+import ru.tech.imageresizershrinker.presentation.draw_screen.components.PickColorFromImageSheet
 import ru.tech.imageresizershrinker.presentation.filters_screen.components.AddFiltersSheet
 import ru.tech.imageresizershrinker.presentation.filters_screen.components.FilterItem
 import ru.tech.imageresizershrinker.presentation.filters_screen.components.FilterReorderSheet
 import ru.tech.imageresizershrinker.presentation.filters_screen.viewModel.FilterViewModel
 import ru.tech.imageresizershrinker.presentation.root.theme.mixedContainer
+import ru.tech.imageresizershrinker.presentation.root.theme.onMixedContainer
 import ru.tech.imageresizershrinker.presentation.root.transformation.ImageInfoTransformation
 import ru.tech.imageresizershrinker.presentation.root.transformation.filter.SaturationFilter
 import ru.tech.imageresizershrinker.presentation.root.utils.confetti.LocalConfettiController
@@ -101,6 +108,7 @@ import ru.tech.imageresizershrinker.presentation.root.widget.image.ImageCounter
 import ru.tech.imageresizershrinker.presentation.root.widget.image.ImageNotPickedWidget
 import ru.tech.imageresizershrinker.presentation.root.widget.image.imageStickyHeader
 import ru.tech.imageresizershrinker.presentation.root.widget.modifier.container
+import ru.tech.imageresizershrinker.presentation.root.widget.modifier.containerFabBorder
 import ru.tech.imageresizershrinker.presentation.root.widget.modifier.drawHorizontalStroke
 import ru.tech.imageresizershrinker.presentation.root.widget.modifier.navBarsLandscapePadding
 import ru.tech.imageresizershrinker.presentation.root.widget.other.LoadingDialog
@@ -345,11 +353,32 @@ fun FiltersScreen(
             onPickImage = pickImage,
             onSaveBitmap = saveBitmaps,
             canSave = viewModel.canSave,
+            columnarFab = {
+                FloatingActionButton(
+                    onClick = { showFilterSheet.value = true },
+                    elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
+                    modifier = Modifier.containerFabBorder(),
+                    containerColor = MaterialTheme.colorScheme.mixedContainer,
+                    contentColor = MaterialTheme.colorScheme.onMixedContainer
+                ) {
+                    Icon(Icons.Rounded.AddPhotoAlternate, null)
+                }
+            },
             actions = {
                 if (imageInside) actions()
             }
         )
     }
+
+    val showColorPicker = remember { mutableStateOf(false) }
+    var tempColor by remember { mutableStateOf(Color.Black) }
+
+    PickColorFromImageSheet(
+        visible = showColorPicker,
+        bitmap = viewModel.previewBitmap,
+        onColorChange = { tempColor = it },
+        color = tempColor
+    )
 
     ZoomModalSheet(
         bitmap = viewModel.previewBitmap,
@@ -404,6 +433,14 @@ fun FiltersScreen(
                     },
                     actions = {
                         if (viewModel.previewBitmap != null) {
+                            IconButton(
+                                onClick = {
+                                    showColorPicker.value = true
+                                },
+                                enabled = viewModel.previewBitmap != null
+                            ) {
+                                Icon(Icons.Outlined.Colorize, null)
+                            }
                             IconButton(
                                 onClick = {
                                     viewModel.shareBitmaps { showConfetti() }

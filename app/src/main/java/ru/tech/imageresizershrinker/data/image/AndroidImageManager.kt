@@ -88,6 +88,33 @@ class AndroidImageManager @Inject constructor(
         return@withContext loader().execute(request).drawable?.toBitmap()
     }
 
+    override suspend fun transform(
+        image: Bitmap,
+        transformations: List<Transformation<Bitmap>>,
+        size: IntegerSize
+    ): Bitmap? = withContext(Dispatchers.IO) {
+        val request = ImageRequest
+            .Builder(context)
+            .data(image)
+            .transformations(
+                transformations.map { t ->
+                    object : coil.transform.Transformation {
+                        override val cacheKey: String
+                            get() = t.cacheKey
+
+                        override suspend fun transform(
+                            input: Bitmap,
+                            size: Size
+                        ): Bitmap = t.transform(input, size)
+                    }
+                }
+            )
+            .size(size.width, size.height)
+            .build()
+
+        return@withContext loader().execute(request).drawable?.toBitmap()
+    }
+
     override suspend fun getImage(
         uri: String,
         originalSize: Boolean

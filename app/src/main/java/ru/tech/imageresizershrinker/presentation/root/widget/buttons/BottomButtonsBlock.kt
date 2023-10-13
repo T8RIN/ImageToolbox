@@ -4,6 +4,7 @@ import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.Spacer
@@ -42,6 +43,7 @@ fun BottomButtonsBlock(
     onPickImage: () -> Unit,
     onSaveBitmap: () -> Unit,
     canSave: Boolean = true,
+    columnarFab: (@Composable ColumnScope.() -> Unit)? = null,
     actions: @Composable RowScope.() -> Unit
 ) {
     AnimatedContent(
@@ -114,6 +116,10 @@ fun BottomButtonsBlock(
                     containerColor = MaterialTheme.colorScheme.tertiaryContainer,
                 ) {
                     Icon(Icons.Rounded.AddPhotoAlternate, null)
+                }
+                columnarFab?.let {
+                    Spacer(Modifier.height(8.dp))
+                    it()
                 }
                 AnimatedVisibility(visible = canSave) {
                     Column {

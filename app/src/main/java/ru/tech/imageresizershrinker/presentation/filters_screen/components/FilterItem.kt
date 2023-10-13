@@ -4,32 +4,24 @@ import android.annotation.SuppressLint
 import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.detectTapGestures
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.ViewArray
 import androidx.compose.material.icons.rounded.Done
 import androidx.compose.material.icons.rounded.DragHandle
 import androidx.compose.material.icons.rounded.RemoveCircleOutline
-import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -41,25 +33,20 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
 import ru.tech.imageresizershrinker.presentation.root.transformation.filter.FilterTransformation
 import ru.tech.imageresizershrinker.presentation.root.transformation.filter.RGBFilter
 import ru.tech.imageresizershrinker.presentation.root.widget.color_picker.AlphaColorSelection
 import ru.tech.imageresizershrinker.presentation.root.widget.color_picker.ColorSelection
-import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedButton
 import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedSlider
-import ru.tech.imageresizershrinker.presentation.root.widget.modifier.alertDialogBorder
 import ru.tech.imageresizershrinker.presentation.root.widget.modifier.container
 import ru.tech.imageresizershrinker.presentation.root.widget.text.RoundedTextField
 import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalSettingsState
@@ -96,7 +83,7 @@ fun <T> FilterItem(
             ),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        if (showDragHandle && filter.value !is Color) {
+        if (showDragHandle) {
             Spacer(Modifier.width(8.dp))
             Icon(Icons.Rounded.DragHandle, null)
             Spacer(Modifier.width(8.dp))
@@ -573,6 +560,116 @@ fun <T> FilterItem(
                                 },
                                 valueRange = filter.paramsInfo[2].valueRange
                             )
+                        } else if (value.first is Number && value.second is Color && value.third is Color) {
+                            var sliderState1 by remember { mutableFloatStateOf((value.first as Number).toFloat()) }
+                            var color1 by remember(value) { mutableStateOf(value.second as Color) }
+                            var color2 by remember(value) { mutableStateOf(value.third as Color) }
+
+                            Spacer(Modifier.height(8.dp))
+                            filter.paramsInfo[0].takeIf { it.title != null }
+                                ?.let { (title, valueRange, roundTo) ->
+                                    Row(verticalAlignment = Alignment.CenterVertically) {
+                                        Row(Modifier.weight(1f)) {
+                                            Text(
+                                                text = stringResource(title!!),
+                                                modifier = Modifier
+                                                    .padding(
+                                                        top = 16.dp,
+                                                        end = 16.dp,
+                                                        start = 16.dp
+                                                    )
+                                                    .weight(1f)
+                                            )
+                                        }
+                                        var showValueDialog by remember { mutableStateOf(false) }
+                                        ValueText(
+                                            value = sliderState1,
+                                            onClick = { showValueDialog = true }
+                                        )
+                                        ValueDialog(
+                                            roundTo = roundTo,
+                                            valueRange = valueRange,
+                                            valueState = sliderState1.toString(),
+                                            expanded = showValueDialog && !previewOnly,
+                                            onDismiss = { showValueDialog = false },
+                                            onValueUpdate = {
+                                                onFilterChange(
+                                                    Triple(
+                                                        sliderState1,
+                                                        color1,
+                                                        color2
+                                                    )
+                                                )
+                                            }
+                                        )
+                                    }
+                                }
+                            EnhancedSlider(
+                                modifier = Modifier
+                                    .padding(top = 16.dp, start = 12.dp, end = 12.dp, bottom = 8.dp)
+                                    .offset(y = (-2).dp),
+                                enabled = !previewOnly,
+                                value = animateFloatAsState(sliderState1).value,
+                                onValueChange = {
+                                    sliderState1 = it.roundTo(filter.paramsInfo[0].roundTo)
+                                    onFilterChange(Triple(sliderState1, color1, color2))
+                                },
+                                valueRange = filter.paramsInfo[0].valueRange
+                            )
+                            Box(
+                                modifier = Modifier.padding(
+                                    start = 16.dp,
+                                    top = 16.dp,
+                                    end = 16.dp
+                                )
+                            ) {
+                                Column {
+                                    HorizontalDivider()
+                                    Text(
+                                        text = stringResource(filter.paramsInfo[1].title!!),
+                                        modifier = Modifier
+                                            .padding(
+                                                bottom = 16.dp,
+                                                top = 16.dp,
+                                                end = 16.dp,
+                                            )
+                                    )
+                                    ColorSelection(
+                                        color = color1.toArgb(),
+                                        onColorChange = { c ->
+                                            color1 = Color(c)
+                                            onFilterChange(Triple(sliderState1, color1, color2))
+                                        }
+                                    )
+                                    Spacer(Modifier.height(8.dp))
+                                    HorizontalDivider()
+                                    Text(
+                                        text = stringResource(filter.paramsInfo[2].title!!),
+                                        modifier = Modifier
+                                            .padding(
+                                                top = 16.dp,
+                                                bottom = 16.dp,
+                                                end = 16.dp
+                                            )
+                                    )
+                                    ColorSelection(
+                                        color = color2.toArgb(),
+                                        onColorChange = { c ->
+                                            color2 = Color(c)
+                                            onFilterChange(Triple(sliderState1, color1, color2))
+                                        }
+                                    )
+                                }
+                                if (previewOnly) {
+                                    Box(
+                                        Modifier
+                                            .matchParentSize()
+                                            .pointerInput(Unit) {
+                                                detectTapGestures { }
+                                            }
+                                    )
+                                }
+                            }
                         }
                     }
                 }
@@ -595,111 +692,3 @@ fun <T> FilterItem(
 
 private fun Float.roundTo(digits: Int = 2) =
     (this * 10f.pow(digits)).roundToInt() / (10f.pow(digits))
-
-@Composable
-private fun ValueText(
-    value: Float,
-    onClick: () -> Unit
-) {
-    Text(
-        text = "$value",
-        color = MaterialTheme.colorScheme.onSurface.copy(
-            alpha = 0.5f
-        ),
-        modifier = Modifier
-            .padding(top = 8.dp, end = 8.dp)
-            .clip(CircleShape)
-            .clickable {
-                onClick()
-            }
-            .padding(horizontal = 16.dp, vertical = 6.dp),
-        lineHeight = 18.sp
-    )
-}
-
-@Composable
-private fun ValueDialog(
-    roundTo: Int,
-    valueRange: ClosedFloatingPointRange<Float>,
-    valueState: String,
-    expanded: Boolean,
-    onDismiss: () -> Unit,
-    onValueUpdate: (Float) -> Unit
-) {
-    if (expanded) {
-        var value by remember(valueState) { mutableStateOf(valueState) }
-        AlertDialog(
-            modifier = Modifier.alertDialogBorder(),
-            onDismissRequest = onDismiss,
-            icon = {
-                Icon(Icons.Outlined.ViewArray, null)
-            },
-            title = {
-                Text(
-                    stringResource(
-                        R.string.value_in_range,
-                        valueRange.start.toInt(),
-                        valueRange.endInclusive.toInt()
-                    )
-                )
-            },
-            text = {
-                Column(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement.Center
-                ) {
-                    OutlinedTextField(
-                        shape = RoundedCornerShape(16.dp),
-                        value = value,
-                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-                        textStyle = MaterialTheme.typography.titleMedium.copy(textAlign = TextAlign.Center),
-                        maxLines = 1,
-                        onValueChange = { number ->
-                            var tempS = number.trim {
-                                it !in listOf(
-                                    '1',
-                                    '2',
-                                    '3',
-                                    '4',
-                                    '5',
-                                    '6',
-                                    '7',
-                                    '8',
-                                    '9',
-                                    '0',
-                                    '.',
-                                    '-'
-                                )
-                            }
-                            tempS = (if (tempS.firstOrNull() == '-') "-" else "").plus(
-                                tempS.replace("-", "")
-                            )
-                            val temp = tempS.split(".")
-                            value = when (temp.size) {
-                                1 -> temp[0]
-                                2 -> temp[0] + "." + temp[1]
-                                else -> {
-                                    temp[0] + "." + temp[1] + temp.drop(2).joinToString("")
-                                }
-                            }
-                        }
-                    )
-                }
-            },
-            confirmButton = {
-                EnhancedButton(
-                    containerColor = MaterialTheme.colorScheme.secondaryContainer,
-                    onClick = {
-                        onDismiss()
-                        onValueUpdate(
-                            (value.toFloatOrNull() ?: 0f).roundTo(roundTo).coerceIn(valueRange)
-                        )
-                    },
-                ) {
-                    Text(stringResource(R.string.ok))
-                }
-            }
-        )
-    }
-}

@@ -62,4 +62,5 @@ sealed interface Filter<IMAGE, VALUE> : Transformation<IMAGE> {
     interface DiamondPixelation<IMAGE> : Filter<IMAGE, Float>
     interface EnhancedCirclePixelation<IMAGE> : Filter<IMAGE, Float>
     interface EnhancedDiamondPixelation<IMAGE> : Filter<IMAGE, Float>
+    interface ReplaceColor<IMAGE, COLOR> : Filter<IMAGE, Triple<Float, COLOR, COLOR>>
 }

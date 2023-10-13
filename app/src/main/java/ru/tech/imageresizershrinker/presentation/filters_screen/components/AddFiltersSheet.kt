@@ -68,6 +68,7 @@ import androidx.exifinterface.media.ExifInterface
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.domain.image.ImageManager
+import ru.tech.imageresizershrinker.domain.model.IntegerSize
 import ru.tech.imageresizershrinker.presentation.root.icons.material.Cube
 import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
 import ru.tech.imageresizershrinker.presentation.root.transformation.filter.BilaterialBlurFilter
@@ -111,6 +112,7 @@ import ru.tech.imageresizershrinker.presentation.root.transformation.filter.Opac
 import ru.tech.imageresizershrinker.presentation.root.transformation.filter.PixelationFilter
 import ru.tech.imageresizershrinker.presentation.root.transformation.filter.PosterizeFilter
 import ru.tech.imageresizershrinker.presentation.root.transformation.filter.RGBFilter
+import ru.tech.imageresizershrinker.presentation.root.transformation.filter.ReplaceColorFilter
 import ru.tech.imageresizershrinker.presentation.root.transformation.filter.SaturationFilter
 import ru.tech.imageresizershrinker.presentation.root.transformation.filter.SepiaFilter
 import ru.tech.imageresizershrinker.presentation.root.transformation.filter.SharpenFilter
@@ -171,6 +173,7 @@ fun AddFiltersSheet(
                 SaturationFilter(context),
                 VibranceFilter(context),
                 RGBFilter(context),
+                ReplaceColorFilter(context),
                 FalseColorFilter(context),
                 CGAColorSpaceFilter(context),
                 MonochromeFilter(context),
@@ -386,7 +389,11 @@ fun AddFiltersSheet(
                 imageState = imageState.copy(position = 2)
             }
             loading = true
-            transformedBitmap = imageManager.transform(previewBitmap, listOf(previewSheetData!!))
+            transformedBitmap = imageManager.transform(
+                image = previewBitmap,
+                transformations = listOf(previewSheetData!!),
+                size = IntegerSize(2000, 2000)
+            )
             loading = false
         }
     }
@@ -452,7 +459,7 @@ fun AddFiltersSheet(
                             SimplePicture(
                                 bitmap = transformedBitmap,
                                 loading = loading,
-                                modifier = Modifier.padding(4.dp)
+                                modifier = Modifier
                             )
                         },
                         backgroundColor = backgroundColor

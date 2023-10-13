@@ -19,6 +19,7 @@ import ru.tech.imageresizershrinker.domain.image.ImageManager
 import ru.tech.imageresizershrinker.domain.model.ImageData
 import ru.tech.imageresizershrinker.domain.model.ImageFormat
 import ru.tech.imageresizershrinker.domain.model.ImageInfo
+import ru.tech.imageresizershrinker.domain.model.IntegerSize
 import ru.tech.imageresizershrinker.domain.model.ResizeType
 import ru.tech.imageresizershrinker.domain.saving.FileController
 import ru.tech.imageresizershrinker.domain.saving.SaveResult
@@ -123,7 +124,7 @@ class FilterViewModel @Inject constructor(
             imageManager.transform(
                 image = it,
                 transformations = filterList,
-                originalSize = false
+                size = IntegerSize(2000, 2000)
             )?.let { image ->
                 imageManager.createPreview(
                     image = image,
