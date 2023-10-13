@@ -376,4 +376,12 @@
     <string name="image_stitching">Объединение изображений</string>
     <string name="image_stitching_sub">Объединить входные изображения в одно большое</string>
     <string name="value_in_range">Значение в %1$d..%2$d</string>
+    <string name="horizontal">Горизонтальная</string>
+    <string name="images_order">Порядок изображений</string>
+    <string name="pick_at_least_two_images">Выберите минимум 2 изображения</string>
+    <string name="scale_small_images_to_large_sub">Маленькие изображения будут масштабироваться до самого большого в последовательности, если эта опция включена.</string>
+    <string name="image_orientation">Ориентация изображения</string>
+    <string name="vertical">Вертикальная</string>
+    <string name="output_image_scale">Масштаб выходного изображения</string>
+    <string name="scale_small_images_to_large">Масштабируйте маленькие изображения до больших</string>
 </resources>
