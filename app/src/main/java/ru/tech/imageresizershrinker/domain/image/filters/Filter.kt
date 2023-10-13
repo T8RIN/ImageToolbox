@@ -56,4 +56,10 @@ sealed interface Filter<IMAGE, VALUE> : Transformation<IMAGE> {
     interface WhiteBalance<IMAGE> : Filter<IMAGE, Pair<Float, Float>>
     interface ZoomBlur<IMAGE> : Filter<IMAGE, Triple<Float, Float, Float>>
     interface Pixelation<IMAGE> : Filter<IMAGE, Float>
+    interface EnhancedPixelation<IMAGE> : Filter<IMAGE, Float>
+    interface StrokePixelation<IMAGE> : Filter<IMAGE, Float>
+    interface CirclePixelation<IMAGE> : Filter<IMAGE, Float>
+    interface DiamondPixelation<IMAGE> : Filter<IMAGE, Float>
+    interface EnhancedCirclePixelation<IMAGE> : Filter<IMAGE, Float>
+    interface EnhancedDiamondPixelation<IMAGE> : Filter<IMAGE, Float>
 }

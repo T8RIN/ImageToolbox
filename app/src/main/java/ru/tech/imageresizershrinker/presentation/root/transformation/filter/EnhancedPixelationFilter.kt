@@ -9,16 +9,15 @@ import ru.tech.imageresizershrinker.domain.image.filters.Filter
 import ru.tech.imageresizershrinker.presentation.root.transformation.pixelation.Pixelate
 import ru.tech.imageresizershrinker.presentation.root.transformation.pixelation.PixelateLayer
 
-
-class PixelationFilter(
+class EnhancedPixelationFilter(
     private val context: Context,
-    override val value: Float = 25f,
+    override val value: Float = 48f,
 ) : FilterTransformation<Float>(
     context = context,
-    title = R.string.pixelation,
+    title = R.string.enhanced_pixelation,
     value = value,
-    valueRange = 5f..50f
-), Filter.Pixelation<Bitmap> {
+    valueRange = 10f..100f
+), Filter.EnhancedPixelation<Bitmap> {
     override val cacheKey: String
         get() = (value to context).hashCode().toString()
 
@@ -29,8 +28,16 @@ class PixelationFilter(
             input = input,
             layers = arrayOf(
                 PixelateLayer.Builder(PixelateLayer.Shape.Square)
-                    .setResolution(value - 4f)
-                    .setSize(value)
+                    .setResolution(value)
+                    .build(),
+                PixelateLayer.Builder(PixelateLayer.Shape.Diamond)
+                    .setResolution(value / 4)
+                    .setSize(value / 6)
+                    .build(),
+                PixelateLayer.Builder(PixelateLayer.Shape.Diamond)
+                    .setResolution(value / 4)
+                    .setSize(value / 6)
+                    .setOffset(value / 8)
                     .build()
             )
         )

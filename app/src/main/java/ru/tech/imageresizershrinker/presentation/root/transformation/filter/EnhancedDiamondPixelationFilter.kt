@@ -9,16 +9,15 @@ import ru.tech.imageresizershrinker.domain.image.filters.Filter
 import ru.tech.imageresizershrinker.presentation.root.transformation.pixelation.Pixelate
 import ru.tech.imageresizershrinker.presentation.root.transformation.pixelation.PixelateLayer
 
-
-class PixelationFilter(
+class EnhancedDiamondPixelationFilter(
     private val context: Context,
-    override val value: Float = 25f,
+    override val value: Float = 48f,
 ) : FilterTransformation<Float>(
     context = context,
-    title = R.string.pixelation,
+    title = R.string.enhanced_diamond_pixelation,
     value = value,
-    valueRange = 5f..50f
-), Filter.Pixelation<Bitmap> {
+    valueRange = 20f..100f
+), Filter.EnhancedDiamondPixelation<Bitmap> {
     override val cacheKey: String
         get() = (value to context).hashCode().toString()
 
@@ -29,8 +28,22 @@ class PixelationFilter(
             input = input,
             layers = arrayOf(
                 PixelateLayer.Builder(PixelateLayer.Shape.Square)
-                    .setResolution(value - 4f)
-                    .setSize(value)
+                    .setResolution(value)
+                    .build(),
+                PixelateLayer.Builder(PixelateLayer.Shape.Diamond)
+                    .setResolution(value)
+                    .setOffset(value / 4)
+                    .setAlpha(0.5f)
+                    .build(),
+                PixelateLayer.Builder(PixelateLayer.Shape.Diamond)
+                    .setResolution(value)
+                    .setOffset(value)
+                    .setAlpha(0.5f)
+                    .build(),
+                PixelateLayer.Builder(PixelateLayer.Shape.Circle)
+                    .setResolution(value / 3)
+                    .setSize(value / 6)
+                    .setOffset(value / 12)
                     .build()
             )
         )

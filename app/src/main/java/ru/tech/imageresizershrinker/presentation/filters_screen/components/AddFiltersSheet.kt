@@ -68,6 +68,7 @@ import androidx.exifinterface.media.ExifInterface
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.domain.image.ImageManager
+import ru.tech.imageresizershrinker.presentation.root.icons.material.Cube
 import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
 import ru.tech.imageresizershrinker.presentation.root.transformation.filter.BilaterialBlurFilter
 import ru.tech.imageresizershrinker.presentation.root.transformation.filter.BlackAndWhiteFilter
@@ -75,14 +76,19 @@ import ru.tech.imageresizershrinker.presentation.root.transformation.filter.BoxB
 import ru.tech.imageresizershrinker.presentation.root.transformation.filter.BrightnessFilter
 import ru.tech.imageresizershrinker.presentation.root.transformation.filter.BulgeDistortionEffect
 import ru.tech.imageresizershrinker.presentation.root.transformation.filter.CGAColorSpaceFilter
+import ru.tech.imageresizershrinker.presentation.root.transformation.filter.CirclePixelationFilter
 import ru.tech.imageresizershrinker.presentation.root.transformation.filter.ColorBalanceFilter
 import ru.tech.imageresizershrinker.presentation.root.transformation.filter.ColorFilter
 import ru.tech.imageresizershrinker.presentation.root.transformation.filter.ColorMatrixFilter
 import ru.tech.imageresizershrinker.presentation.root.transformation.filter.ContrastFilter
 import ru.tech.imageresizershrinker.presentation.root.transformation.filter.Convolution3x3Filter
 import ru.tech.imageresizershrinker.presentation.root.transformation.filter.CrosshatchFilter
+import ru.tech.imageresizershrinker.presentation.root.transformation.filter.DiamondPixelationFilter
 import ru.tech.imageresizershrinker.presentation.root.transformation.filter.DilationFilter
 import ru.tech.imageresizershrinker.presentation.root.transformation.filter.EmbossFilter
+import ru.tech.imageresizershrinker.presentation.root.transformation.filter.EnhancedCirclePixelationFilter
+import ru.tech.imageresizershrinker.presentation.root.transformation.filter.EnhancedDiamondPixelationFilter
+import ru.tech.imageresizershrinker.presentation.root.transformation.filter.EnhancedPixelationFilter
 import ru.tech.imageresizershrinker.presentation.root.transformation.filter.ExposureFilter
 import ru.tech.imageresizershrinker.presentation.root.transformation.filter.FalseColorFilter
 import ru.tech.imageresizershrinker.presentation.root.transformation.filter.FastBlurFilter
@@ -114,6 +120,7 @@ import ru.tech.imageresizershrinker.presentation.root.transformation.filter.Sobe
 import ru.tech.imageresizershrinker.presentation.root.transformation.filter.SolarizeFilter
 import ru.tech.imageresizershrinker.presentation.root.transformation.filter.SphereRefractionFilter
 import ru.tech.imageresizershrinker.presentation.root.transformation.filter.StackBlurFilter
+import ru.tech.imageresizershrinker.presentation.root.transformation.filter.StrokePixelationFilter
 import ru.tech.imageresizershrinker.presentation.root.transformation.filter.SwirlDistortionEffect
 import ru.tech.imageresizershrinker.presentation.root.transformation.filter.ToonFilter
 import ru.tech.imageresizershrinker.presentation.root.transformation.filter.VibranceFilter
@@ -145,8 +152,6 @@ fun AddFiltersSheet(
     val settingsState = LocalSettingsState.current
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
-
-    val pagerState = rememberPagerState(pageCount = { 5 })
 
     var previewSheetData by rememberSaveable { mutableStateOf<FilterTransformation<*>?>(null) }
     val showPreviewState = remember { mutableStateOf(false) }
@@ -213,7 +218,15 @@ fun AddFiltersSheet(
                 FastBlurFilter(context),
                 StackBlurFilter(context),
                 ZoomBlurFilter(context),
-                PixelationFilter(context)
+            ),
+            listOf(
+                PixelationFilter(context),
+                EnhancedPixelationFilter(context),
+                DiamondPixelationFilter(context),
+                EnhancedDiamondPixelationFilter(context),
+                CirclePixelationFilter(context),
+                EnhancedCirclePixelationFilter(context),
+                StrokePixelationFilter(context)
             ),
             listOf(
                 SwirlDistortionEffect(context),
@@ -223,6 +236,8 @@ fun AddFiltersSheet(
             )
         )
     }
+
+    val pagerState = rememberPagerState(pageCount = { filters.size })
 
     SimpleSheet(
         dragHandle = {
@@ -252,6 +267,7 @@ fun AddFiltersSheet(
                             Icons.Rounded.Light to stringResource(R.string.light_aka_illumination),
                             Icons.Rounded.FilterHdr to stringResource(R.string.effect),
                             Icons.Rounded.LensBlur to stringResource(R.string.blur),
+                            Icons.Rounded.Cube to stringResource(R.string.pixelation),
                             Icons.Rounded.Animation to stringResource(R.string.distortion)
                         ).forEachIndexed { index, (icon, title) ->
                             val selected = pagerState.currentPage == index

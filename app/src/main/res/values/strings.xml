@@ -29,7 +29,7 @@
     <string name="copied">Copied to clipboard</string>
     <string name="exception">Exception</string>
     <string name="edit_exif">Edit EXIF</string>
-    <string name="ok">Ok</string>
+    <string name="ok" tools:ignore="ButtonCase,Typos">Ok</string>
     <string name="no_exif">No EXIF data found</string>
     <string name="add_tag">Add tag</string>
     <string name="save">Save</string>
@@ -399,6 +399,12 @@
     <string name="blur_edges">Blur edges</string>
     <string name="blur_edges_sub">Draws blurred edges under original image to fill spaces around it instead of single color if enabled</string>
     <string name="pixelation">Pixelation</string>
+    <string name="enhanced_pixelation">Enhanced Pixelation</string>
+    <string name="stroke_pixelation">Stroke Pixelation</string>
+    <string name="enhanced_diamond_pixelation">Enhanced Diamond Pixelation</string>
+    <string name="diamond_pixelation">Diamond Pixelation</string>
+    <string name="circle_pixelation">Circle Pixelation</string>
+    <string name="enhanced_circle_pixelation">Enhanced Circle Pixelation</string>
     <string-array name="fab_alignment_sub">
         <item>Start</item>
         <item>Center</item>

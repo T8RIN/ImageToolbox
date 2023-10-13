@@ -109,6 +109,36 @@ sealed class FilterTransformation<T>(
                 context = context,
                 value = value as Float
             )
+
+            is EnhancedPixelationFilter -> EnhancedPixelationFilter(
+                context = context,
+                value = value as Float
+            )
+
+            is StrokePixelationFilter -> StrokePixelationFilter(
+                context = context,
+                value = value as Float
+            )
+
+            is CirclePixelationFilter -> CirclePixelationFilter(
+                context = context,
+                value = value as Float
+            )
+
+            is DiamondPixelationFilter -> DiamondPixelationFilter(
+                context = context,
+                value = value as Float
+            )
+
+            is EnhancedCirclePixelationFilter -> EnhancedCirclePixelationFilter(
+                context = context,
+                value = value as Float
+            )
+
+            is EnhancedDiamondPixelationFilter -> EnhancedDiamondPixelationFilter(
+                context = context,
+                value = value as Float
+            )
         }
     }
 
@@ -165,6 +195,12 @@ sealed class FilterTransformation<T>(
             is GlassSphereRefractionFilter -> GlassSphereRefractionFilter(context)
             is HighlightsAndShadowsFilter -> HighlightsAndShadowsFilter(context)
             is PixelationFilter -> PixelationFilter(context)
+            is EnhancedPixelationFilter -> EnhancedPixelationFilter(context)
+            is StrokePixelationFilter -> StrokePixelationFilter(context)
+            is CirclePixelationFilter -> CirclePixelationFilter(context)
+            is DiamondPixelationFilter -> DiamondPixelationFilter(context)
+            is EnhancedCirclePixelationFilter -> EnhancedCirclePixelationFilter(context)
+            is EnhancedDiamondPixelationFilter -> EnhancedDiamondPixelationFilter(context)
         }
     }
 
