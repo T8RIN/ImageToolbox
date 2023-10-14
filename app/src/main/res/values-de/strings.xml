@@ -379,4 +379,8 @@
     <string name="vertical">Vertikal</string>
     <string name="output_image_scale">Maßstab der ausgegebenen Bilder</string>
     <string name="scale_small_images_to_large">Kleine Bilder hochskalieren</string>
+    <string name="blur_edges">Ränder unscharf machen</string>
+    <string name="pixelation">Verpixelung</string>
+    <string name="blur_edges_sub">Wenn aktiviert, werden unscharfe Ränder unter das Originalbild gezeichnet, um den Raum um das Bild herum auszufüllen, anstatt nur eine Farbe zu verwenden</string>
+    <string name="regular">Regulär</string>
 </resources>
