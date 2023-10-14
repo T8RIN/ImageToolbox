@@ -1,6 +1,5 @@
 package ru.tech.imageresizershrinker.presentation.root.widget.controls
 
-import android.graphics.Bitmap
 import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -15,6 +14,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.domain.model.ImageInfo
+import ru.tech.imageresizershrinker.domain.model.IntegerSize
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.ImageUtils.restrict
 import ru.tech.imageresizershrinker.presentation.root.widget.modifier.container
 import ru.tech.imageresizershrinker.presentation.root.widget.text.RoundedTextField
@@ -22,7 +22,7 @@ import ru.tech.imageresizershrinker.presentation.root.widget.text.RoundedTextFie
 @Composable
 fun ResizeImageField(
     imageInfo: ImageInfo,
-    bitmap: Bitmap?,
+    originalSize: IntegerSize?,
     onWidthChange: (Int) -> Unit,
     onHeightChange: (Int) -> Unit,
     showWarning: Boolean = false
@@ -34,7 +34,7 @@ fun ResizeImageField(
     ) {
         Row {
             RoundedTextField(
-                enabled = bitmap != null,
+                enabled = originalSize != null,
                 value = imageInfo.width.takeIf { it != 0 }.let { it ?: "" }.toString(),
                 onValueChange = { value ->
                     onWidthChange(
@@ -49,7 +49,7 @@ fun ResizeImageField(
                     Text(
                         stringResource(
                             R.string.width,
-                            bitmap?.width?.toString() ?: ""
+                            originalSize?.width?.toString() ?: ""
                         )
                     )
                 },
@@ -63,7 +63,7 @@ fun ResizeImageField(
                     )
             )
             RoundedTextField(
-                enabled = bitmap != null,
+                enabled = originalSize != null,
                 value = imageInfo.height.takeIf { it != 0 }.let { it ?: "" }.toString(),
                 onValueChange = { value ->
                     onHeightChange(
@@ -78,7 +78,7 @@ fun ResizeImageField(
                     Text(
                         stringResource(
                             R.string.height,
-                            bitmap?.height?.toString()
+                            originalSize?.height?.toString()
                                 ?: ""
                         )
                     )

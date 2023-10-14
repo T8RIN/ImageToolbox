@@ -42,6 +42,7 @@ interface ImageManager<I, M> {
     suspend fun createPreview(
         image: I,
         imageInfo: ImageInfo,
+        transformations: List<Transformation<I>> = emptyList(),
         onGetByteCount: (Int) -> Unit
     ): I
 
@@ -54,6 +55,7 @@ interface ImageManager<I, M> {
 
     suspend fun compress(
         imageData: ImageData<I, M>,
+        onImageReadyToCompressInterceptor: suspend (I) -> I = { it },
         applyImageTransformations: Boolean = true
     ): ByteArray
 

@@ -380,7 +380,7 @@ fun LimitsResizeScreen(
                                     )
                                     ResizeImageField(
                                         imageInfo = viewModel.imageInfo,
-                                        bitmap = viewModel.bitmap,
+                                        originalSize = viewModel.originalSize,
                                         onWidthChange = viewModel::updateWidth,
                                         onHeightChange = viewModel::updateHeight
                                     )

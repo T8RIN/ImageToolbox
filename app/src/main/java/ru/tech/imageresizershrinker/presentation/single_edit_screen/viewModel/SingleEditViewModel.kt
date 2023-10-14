@@ -25,6 +25,7 @@ import ru.tech.imageresizershrinker.domain.image.Metadata
 import ru.tech.imageresizershrinker.domain.model.ImageData
 import ru.tech.imageresizershrinker.domain.model.ImageFormat
 import ru.tech.imageresizershrinker.domain.model.ImageInfo
+import ru.tech.imageresizershrinker.domain.model.IntegerSize
 import ru.tech.imageresizershrinker.domain.model.Preset
 import ru.tech.imageresizershrinker.domain.model.ResizeType
 import ru.tech.imageresizershrinker.domain.saving.FileController
@@ -40,6 +41,9 @@ class SingleEditViewModel @Inject constructor(
     private val fileController: FileController,
     private val imageManager: ImageManager<Bitmap, ExifInterface>
 ) : ViewModel() {
+
+    private val _originalSize: MutableState<IntegerSize?> = mutableStateOf(null)
+    val originalSize by _originalSize
 
     private val _erasePaths = mutableStateOf(listOf<PathPaint>())
     val erasePaths: List<PathPaint> by _erasePaths
@@ -208,6 +212,7 @@ class SingleEditViewModel @Inject constructor(
     fun updateBitmap(bitmap: Bitmap?) {
         viewModelScope.launch {
             val size = bitmap?.let { bitmap.width to bitmap.height }
+            _originalSize.value = size?.run { IntegerSize(width = first, height = second) }
             _bitmap.value =
                 imageManager.scaleUntilCanShow(bitmap).also { _internalBitmap.value = it }
             resetValues(true)
@@ -219,6 +224,7 @@ class SingleEditViewModel @Inject constructor(
     }
 
     fun updateBitmapAfterEditing(bitmap: Bitmap?, saveOriginalSize: Boolean = false) {
+        // TODO: saveOriginalSize is dummy
         viewModelScope.launch {
             val bmp = bitmap?.let {
                 imageManager.resize(
@@ -230,7 +236,8 @@ class SingleEditViewModel @Inject constructor(
                     resizeType = if (saveOriginalSize) ResizeType.Explicit else ResizeType.Flexible
                 )
             }
-            val size = bmp?.let { bmp.width to bmp.height }
+            val size = bmp?.let { it.width to it.height }
+            _originalSize.value = size?.run { IntegerSize(width = first, height = second) }
             _bitmap.value = imageManager.scaleUntilCanShow(bmp)
             resetValues()
             _imageInfo.value = _imageInfo.value.copy(

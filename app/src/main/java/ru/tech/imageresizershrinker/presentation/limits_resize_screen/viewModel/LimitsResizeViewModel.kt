@@ -19,6 +19,7 @@ import ru.tech.imageresizershrinker.domain.image.ImageManager
 import ru.tech.imageresizershrinker.domain.model.ImageData
 import ru.tech.imageresizershrinker.domain.model.ImageFormat
 import ru.tech.imageresizershrinker.domain.model.ImageInfo
+import ru.tech.imageresizershrinker.domain.model.IntegerSize
 import ru.tech.imageresizershrinker.domain.model.ResizeType
 import ru.tech.imageresizershrinker.domain.saving.FileController
 import ru.tech.imageresizershrinker.domain.saving.SaveResult
@@ -30,6 +31,9 @@ class LimitsResizeViewModel @Inject constructor(
     private val fileController: FileController,
     private val imageManager: ImageManager<Bitmap, ExifInterface>
 ) : ViewModel() {
+
+    private val _originalSize: MutableState<IntegerSize?> = mutableStateOf(null)
+    val originalSize by _originalSize
 
     private val _canSave = mutableStateOf(false)
     val canSave by _canSave
@@ -100,6 +104,8 @@ class LimitsResizeViewModel @Inject constructor(
     fun updateBitmap(bitmap: Bitmap?, preview: Bitmap? = null) {
         viewModelScope.launch {
             _isImageLoading.value = true
+            val size = bitmap?.let { it.width to it.height }
+            _originalSize.value = size?.run { IntegerSize(width = first, height = second) }
             _bitmap.value = imageManager.scaleUntilCanShow(bitmap)
             _previewBitmap.value = preview ?: _bitmap.value
             _isImageLoading.value = false

@@ -13,18 +13,21 @@ import coil.transform.Transformation as CoilTransformation
 class ImageInfoTransformation(
     private val imageInfo: ImageInfo,
     private val preset: Preset = Preset.Numeric(100),
-    private val imageManager: ImageManager<Bitmap, ExifInterface>
+    private val imageManager: ImageManager<Bitmap, ExifInterface>,
+    private val transformations: List<Transformation<Bitmap>> = emptyList()
 ) : CoilTransformation, Transformation<Bitmap> {
 
     override val cacheKey: String
-        get() = (Pair(imageInfo, preset) to imageManager).hashCode().toString()
+        get() = (imageInfo to preset to imageManager to transformations).hashCode().toString()
 
     override suspend fun transform(input: Bitmap, size: Size): Bitmap {
+        val transformedInput =
+            imageManager.resize(input, imageInfo.width, imageInfo.height, ResizeType.Flexible)!!
         var info = imageInfo
         if (!preset.isEmpty()) {
             val currentInfo = info.copy()
             info = imageManager.applyPresetBy(
-                image = input,
+                image = transformedInput,
                 preset = preset,
                 currentInfo = info
             ).let {
@@ -34,13 +37,9 @@ class ImageInfoTransformation(
             }
         }
         return imageManager.createPreview(
-            image = input,
-            imageInfo = if (info.resizeType !is ResizeType.CenterCrop) {
-                info.copy(
-                    width = if (info.width * info.height < 512 * 512) info.width * 3 else info.width,
-                    height = if (info.width * info.height < 512 * 512) info.height * 3 else info.height,
-                )
-            } else info,
+            image = transformedInput,
+            imageInfo = info,
+            transformations = transformations,
             onGetByteCount = {}
         )
     }

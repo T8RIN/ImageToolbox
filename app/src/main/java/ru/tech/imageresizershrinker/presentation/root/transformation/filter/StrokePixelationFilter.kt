@@ -16,7 +16,7 @@ class StrokePixelationFilter(
     context = context,
     title = R.string.stroke_pixelation,
     value = value,
-    valueRange = 10f..100f
+    valueRange = 5f..75f
 ), Filter.StrokePixelation<Bitmap> {
     override val cacheKey: String
         get() = (value to context).hashCode().toString()

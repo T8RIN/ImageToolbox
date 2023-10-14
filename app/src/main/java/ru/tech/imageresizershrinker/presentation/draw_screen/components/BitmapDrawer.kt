@@ -100,7 +100,7 @@ fun BitmapDrawer(
                     listOf(
                         PixelationFilter(
                             context = context,
-                            value = 50f
+                            value = 35f
                         )
                     )
                 }

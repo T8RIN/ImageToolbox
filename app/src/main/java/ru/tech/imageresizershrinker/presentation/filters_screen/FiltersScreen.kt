@@ -150,25 +150,13 @@ fun FiltersScreen(
     val filterList = viewModel.filterList
 
     LaunchedEffect(filterList) {
-        viewModel.bitmap?.let {
-            if (viewModel.needToApplyFilters) {
-                viewModel.setFilteredPreview(it)
-            }
+        if (viewModel.needToApplyFilters) {
+            viewModel.updatePreview()
         }
     }
 
     LaunchedEffect(uriState) {
-        uriState?.takeIf { it.isNotEmpty() }?.let { uris ->
-            viewModel.updateUris(uris)
-            viewModel.decodeBitmapFromUri(
-                uri = uris[0],
-                onError = {
-                    scope.launch {
-                        toastHostState.showError(context, it)
-                    }
-                }
-            )
-        }
+        uriState?.takeIf { it.isNotEmpty() }?.let(viewModel::updateUris)
     }
     LaunchedEffect(viewModel.previewBitmap) {
         viewModel.previewBitmap?.let {
@@ -184,17 +172,7 @@ fun FiltersScreen(
         rememberImagePicker(
             mode = localImagePickerMode(Picker.Multiple)
         ) { list ->
-            list.takeIf { it.isNotEmpty() }?.let { uris ->
-                viewModel.updateUris(list)
-                viewModel.decodeBitmapFromUri(
-                    uri = uris[0],
-                    onError = {
-                        scope.launch {
-                            toastHostState.showError(context, it)
-                        }
-                    }
-                )
-            }
+            list.takeIf { it.isNotEmpty() }?.let(viewModel::updateUris)
         }
 
     val pickImage = {
@@ -634,9 +612,12 @@ fun FiltersScreen(
             }
 
             PickImageFromUrisSheet(
-                transformations = filterList + ImageInfoTransformation(
-                    imageInfo = viewModel.imageInfo,
-                    imageManager = viewModel.getImageManager()
+                transformations = listOf(
+                    ImageInfoTransformation(
+                        imageInfo = viewModel.imageInfo,
+                        transformations = filterList,
+                        imageManager = viewModel.getImageManager()
+                    )
                 ),
                 visible = showPickImageFromUrisDialog,
                 uris = viewModel.uris,

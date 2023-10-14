@@ -13,14 +13,13 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import ru.tech.imageresizershrinker.domain.image.ImageManager
 import ru.tech.imageresizershrinker.domain.model.ImageData
 import ru.tech.imageresizershrinker.domain.model.ImageFormat
 import ru.tech.imageresizershrinker.domain.model.ImageInfo
-import ru.tech.imageresizershrinker.domain.model.IntegerSize
-import ru.tech.imageresizershrinker.domain.model.ResizeType
 import ru.tech.imageresizershrinker.domain.saving.FileController
 import ru.tech.imageresizershrinker.domain.saving.SaveResult
 import ru.tech.imageresizershrinker.domain.saving.model.ImageSaveTarget
@@ -80,7 +79,7 @@ class FilterViewModel @Inject constructor(
     fun updateUris(uris: List<Uri>?) {
         _uris.value = null
         _uris.value = uris
-        _selectedUri.value = uris?.firstOrNull()
+        _selectedUri.value = uris?.firstOrNull()?.also(::setBitmap)
     }
 
     fun updateUrisSilently(removedUri: Uri) {
@@ -92,20 +91,12 @@ class FilterViewModel @Inject constructor(
                     if (index == 0) {
                         uris?.getOrNull(1)?.let {
                             _selectedUri.value = it
-                            _bitmap.value = imageManager.getImageWithTransformations(
-                                uri = it.toString(),
-                                transformations = filterList,
-                                originalSize = false
-                            )?.image
+                            setBitmap(it)
                         }
                     } else {
                         uris?.getOrNull(index - 1)?.let {
                             _selectedUri.value = it
-                            _bitmap.value = imageManager.getImageWithTransformations(
-                                uri = it.toString(),
-                                transformations = filterList,
-                                originalSize = false
-                            )?.image
+                            setBitmap(it)
                         }
                     }
                 }
@@ -115,30 +106,6 @@ class FilterViewModel @Inject constructor(
                 _uris.value = u
             }
         }
-    }
-
-    suspend fun updateBitmap(bitmap: Bitmap?) = withContext(Dispatchers.IO) {
-        _isImageLoading.value = true
-        _bitmap.value = imageManager.scaleUntilCanShow(bitmap)?.upscale()
-        _previewBitmap.value = bitmap?.let {
-            imageManager.transform(
-                image = it,
-                transformations = filterList,
-                size = IntegerSize(2000, 2000)
-            )?.let { image ->
-                imageManager.createPreview(
-                    image = image,
-                    imageInfo = imageInfo.copy(
-                        width = image.width,
-                        height = image.height
-                    ),
-                    onGetByteCount = { size ->
-                        _bitmapSize.value = size.toLong()
-                    }
-                )
-            }
-        } ?: _bitmap.value
-        _isImageLoading.value = false
     }
 
     fun setKeepExif(boolean: Boolean) {
@@ -194,15 +161,22 @@ class FilterViewModel @Inject constructor(
     }
 
     fun setBitmap(uri: Uri) {
-        filterJob?.cancel()
-        filterJob = viewModelScope.launch {
-            kotlinx.coroutines.delay(200L)
-            _isImageLoading.value = true
-            updateBitmap(
-                imageManager.getImage(uri = uri.toString(), originalSize = false)?.image
-            )
-            _selectedUri.value = uri
-            _isImageLoading.value = false
+        viewModelScope.launch {
+            withContext(Dispatchers.IO) {
+                _isImageLoading.value = true
+                val req = imageManager.getImage(uri = uri.toString())
+                val tempBitmap = req?.image
+                val size = tempBitmap?.let { it.width to it.height }
+                _bitmap.value = imageManager.scaleUntilCanShow(tempBitmap)
+                _imageInfo.value = _imageInfo.value.copy(
+                    width = size?.first ?: 0,
+                    height = size?.second ?: 0,
+                    imageFormat = req?.imageInfo?.imageFormat ?: ImageFormat.Default()
+                )
+                updatePreview()
+                _selectedUri.value = uri
+                _isImageLoading.value = false
+            }
         }
     }
 
@@ -212,19 +186,6 @@ class FilterViewModel @Inject constructor(
     }
 
     private var filterJob: Job? = null
-
-    fun setFilteredPreview(bitmap: Bitmap) {
-        filterJob?.cancel()
-        filterJob = viewModelScope.launch {
-            withContext(Dispatchers.IO) {
-                kotlinx.coroutines.delay(200L)
-                _isImageLoading.value = true
-                updateBitmap(bitmap)
-                _isImageLoading.value = false
-                _needToApplyFilters.value = false
-            }
-        }
-    }
 
     fun <T : Any> updateFilter(
         value: T,
@@ -265,24 +226,6 @@ class FilterViewModel @Inject constructor(
         _needToApplyFilters.value = true
     }
 
-    private suspend fun Bitmap.upscale(): Bitmap {
-        return if (this.width * this.height < 2000 * 2000) {
-            imageManager.resize(this, 2000, 2000, ResizeType.Flexible)!!
-        } else this
-    }
-
-    fun decodeBitmapFromUri(uri: Uri, onError: (Throwable) -> Unit) {
-        imageManager.getImageAsync(
-            uri = uri.toString(),
-            originalSize = true,
-            onGetImage = {
-                setBitmap(uri)
-                setMime(it.imageInfo.imageFormat)
-            },
-            onError = onError
-        )
-    }
-
     fun canShow(): Boolean = bitmap?.let { imageManager.canShow(it) } ?: false
 
     fun shareBitmaps(onComplete: () -> Unit) {
@@ -317,13 +260,19 @@ class FilterViewModel @Inject constructor(
         updatePreview()
     }
 
-    private fun updatePreview() {
+    fun updatePreview() {
         _bitmap.value?.let { bitmap ->
             filterJob?.cancel()
             filterJob = viewModelScope.launch {
                 withContext(Dispatchers.IO) {
+                    delay(200L)
                     _isImageLoading.value = true
-                    updateBitmap(bitmap)
+                    _previewBitmap.value = imageManager.createPreview(
+                        image = bitmap,
+                        imageInfo = imageInfo,
+                        transformations = filterList,
+                        onGetByteCount = { _bitmapSize.value = it.toLong() }
+                    )
                     _isImageLoading.value = false
                     _needToApplyFilters.value = false
                 }

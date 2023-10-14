@@ -24,6 +24,7 @@ import coil.size.Size
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.cancel
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.data.image.filters.DataStackBlurFilter
@@ -823,6 +824,7 @@ class AndroidImageManager @Inject constructor(
 
     override suspend fun compress(
         imageData: ImageData<Bitmap, ExifInterface>,
+        onImageReadyToCompressInterceptor: suspend (Bitmap) -> Bitmap,
         applyImageTransformations: Boolean
     ): ByteArray = withContext(Dispatchers.IO) {
         val currentImage: Bitmap
@@ -840,8 +842,10 @@ class AndroidImageManager @Inject constructor(
                     image = it,
                     isFlipped = imageData.imageInfo.isFlipped
                 )
+            }?.let {
+                onImageReadyToCompressInterceptor(it)
             } ?: return@withContext ByteArray(0)
-        } else currentImage = imageData.image
+        } else currentImage = onImageReadyToCompressInterceptor(imageData.image)
 
         return@withContext ImageCompressor.compress(
             image = currentImage,
@@ -864,6 +868,7 @@ class AndroidImageManager @Inject constructor(
 
     private suspend fun compressCenterCrop(
         scaleFactor: Float,
+        onImageReadyToCompressInterceptor: suspend (Bitmap) -> Bitmap,
         imageData: ImageData<Bitmap, ExifInterface>
     ): ByteArray = withContext(Dispatchers.IO) {
 
@@ -881,6 +886,8 @@ class AndroidImageManager @Inject constructor(
                     image = it,
                     isFlipped = imageData.imageInfo.isFlipped
                 )
+            }?.let {
+                onImageReadyToCompressInterceptor(it)
             } ?: return@withContext ByteArray(0)
 
         return@withContext ImageCompressor.compress(
@@ -893,37 +900,77 @@ class AndroidImageManager @Inject constructor(
     override suspend fun createPreview(
         image: Bitmap,
         imageInfo: ImageInfo,
+        transformations: List<Transformation<Bitmap>>,
         onGetByteCount: (Int) -> Unit
     ): Bitmap = withContext(Dispatchers.IO) {
         if (imageInfo.height == 0 || imageInfo.width == 0) return@withContext image
         var width = imageInfo.width
         var height = imageInfo.height
 
+        launch {
+            ByteArrayOutputStream().use { byteArrayOutputStream ->
+                if (imageInfo.resizeType !is ResizeType.CenterCrop) {
+                    byteArrayOutputStream.write(
+                        compress(
+                            imageData = ImageData(
+                                image = image,
+                                imageInfo = imageInfo
+                            ),
+                            onImageReadyToCompressInterceptor = {
+                                transform(image = it, transformations = transformations)!!
+                            }
+                        )
+                    )
+                } else {
+                    byteArrayOutputStream.write(
+                        compressCenterCrop(
+                            scaleFactor = 1f,
+                            onImageReadyToCompressInterceptor = {
+                                transform(image = it, transformations = transformations)!!
+                            },
+                            imageData = ImageData(
+                                image = image,
+                                imageInfo = imageInfo
+                            )
+                        )
+                    )
+                }
+                onGetByteCount(byteArrayOutputStream.toByteArray().size)
+            }
+        }
+
         var scaleFactor = 1f
         while (height * width * 4L >= 3096 * 3096 * 5L) {
+            scaleFactor *= 0.7f
             height = (height * 0.7f).roundToInt()
             width = (width * 0.7f).roundToInt()
-            scaleFactor *= 0.7f
         }
-        if (height * width >= 3096 * 3096 * 5L) cancel()
+        if (height * width * 4L >= 3096 * 3096 * 5L) cancel()
 
-        ByteArrayOutputStream().use {
+
+        ByteArrayOutputStream().use { byteArrayOutputStream ->
             if (imageInfo.resizeType !is ResizeType.CenterCrop) {
-                it.write(
+                byteArrayOutputStream.write(
                     compress(
-                        ImageData(
+                        imageData = ImageData(
                             image = image,
                             imageInfo = imageInfo.copy(
                                 width = width,
                                 height = height
                             )
-                        )
+                        ),
+                        onImageReadyToCompressInterceptor = {
+                            transform(image = it, transformations = transformations)!!
+                        }
                     )
                 )
             } else {
-                it.write(
+                byteArrayOutputStream.write(
                     compressCenterCrop(
                         scaleFactor = scaleFactor,
+                        onImageReadyToCompressInterceptor = {
+                            transform(image = it, transformations = transformations)!!
+                        },
                         imageData = ImageData(
                             image = image,
                             imageInfo = imageInfo.copy(
@@ -934,10 +981,10 @@ class AndroidImageManager @Inject constructor(
                     )
                 )
             }
+            val bytes = byteArrayOutputStream.toByteArray()
             val bitmap = loader().execute(
-                ImageRequest.Builder(context).data(it.toByteArray()).build()
+                ImageRequest.Builder(context).data(bytes).build()
             ).drawable?.toBitmap()
-            onGetByteCount(it.toByteArray().size * (imageInfo.width / width))
             return@withContext bitmap!!
         }
     }

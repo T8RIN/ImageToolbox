@@ -20,6 +20,7 @@ import ru.tech.imageresizershrinker.domain.image.Metadata
 import ru.tech.imageresizershrinker.domain.model.ImageData
 import ru.tech.imageresizershrinker.domain.model.ImageFormat
 import ru.tech.imageresizershrinker.domain.model.ImageInfo
+import ru.tech.imageresizershrinker.domain.model.IntegerSize
 import ru.tech.imageresizershrinker.domain.model.Preset
 import ru.tech.imageresizershrinker.domain.model.ResizeType
 import ru.tech.imageresizershrinker.domain.saving.FileController
@@ -32,6 +33,9 @@ class ResizeAndConvertViewModel @Inject constructor(
     private val fileController: FileController,
     private val imageManager: ImageManager<Bitmap, ExifInterface>
 ) : ViewModel() {
+
+    private val _originalSize: MutableState<IntegerSize?> = mutableStateOf(null)
+    val originalSize by _originalSize
 
     private val _exif: MutableState<ExifInterface?> = mutableStateOf(null)
     val exif by _exif
@@ -172,7 +176,8 @@ class ResizeAndConvertViewModel @Inject constructor(
 
     fun updateBitmap(bitmap: Bitmap?) {
         viewModelScope.launch {
-            val size = bitmap?.let { bitmap.width to bitmap.height }
+            val size = bitmap?.let { it.width to it.height }
+            _originalSize.value = size?.run { IntegerSize(width = first, height = second) }
             _bitmap.value = imageManager.scaleUntilCanShow(bitmap)
             resetValues(saveMime = true, resetPreset = true)
             _imageInfo.value = _imageInfo.value.copy(
@@ -313,7 +318,8 @@ class ResizeAndConvertViewModel @Inject constructor(
                     uri = uri.toString(),
                     originalSize = false
                 )?.image
-                val size = bitmap?.let { bitmap.width to bitmap.height }
+                val size = bitmap?.let { it.width to it.height }
+                _originalSize.value = size?.run { IntegerSize(width = first, height = second) }
                 _bitmap.value = imageManager.scaleUntilCanShow(bitmap)
                 _imageInfo.value = _imageInfo.value.copy(
                     width = size?.first ?: 0,

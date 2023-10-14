@@ -434,7 +434,7 @@ fun ResizeAndConvertScreen(
         }
         ResizeImageField(
             imageInfo = bitmapInfo,
-            bitmap = viewModel.bitmap,
+            originalSize = viewModel.originalSize,
             onHeightChange = viewModel::updateHeight,
             onWidthChange = viewModel::updateWidth,
             showWarning = viewModel.showWarning
