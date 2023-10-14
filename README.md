@@ -111,7 +111,7 @@ height="80">](https://github.com/t8rin/imageresizer/releases/latest)
 # ✨ Features
 
 - Batch processing
-- Applying filter chains (More than 50 various filters)
+- Applying filter chains (More than 60 various filters)
 
   <details>
   <summary>Available filters</summary>
@@ -173,6 +173,8 @@ height="80">](https://github.com/t8rin/imageresizer/releases/latest)
   - [x] Weak Pixel Inclusion Filter
   - [x] Color Matrix
   - [x] Lookup
+  - [x] Color Replacement
+  - [x] Color Removance 
 
   </details>
 
