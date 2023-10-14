@@ -2,65 +2,66 @@ package ru.tech.imageresizershrinker.domain.image.filters
 
 import ru.tech.imageresizershrinker.domain.image.Transformation
 
-sealed interface Filter<IMAGE, VALUE> : Transformation<IMAGE> {
-    val value: VALUE
+sealed interface Filter<Image, Value> : Transformation<Image> {
+    val value: Value
 
-    interface BilaterialBlur<IMAGE> : Filter<IMAGE, Float>
-    interface BlackAndWhite<IMAGE> : Filter<IMAGE, Unit>
-    interface BoxBlur<IMAGE> : Filter<IMAGE, Float>
-    interface Brightness<IMAGE> : Filter<IMAGE, Float>
-    interface BulgeDistortion<IMAGE> : Filter<IMAGE, Pair<Float, Float>>
-    interface CGAColorSpace<IMAGE> : Filter<IMAGE, Unit>
-    interface ColorBalance<IMAGE> : Filter<IMAGE, FloatArray>
-    interface Color<IMAGE, COLOR> : Filter<IMAGE, COLOR>
-    interface ColorMatrix<IMAGE> : Filter<IMAGE, FloatArray>
-    interface Contrast<IMAGE> : Filter<IMAGE, Float>
-    interface Convolution3x3<IMAGE> : Filter<IMAGE, FloatArray>
-    interface Crosshatch<IMAGE> : Filter<IMAGE, Pair<Float, Float>>
-    interface Dilation<IMAGE> : Filter<IMAGE, Float>
-    interface Emboss<IMAGE> : Filter<IMAGE, Float>
-    interface Exposure<IMAGE> : Filter<IMAGE, Float>
-    interface FalseColor<IMAGE, COLOR> : Filter<IMAGE, Pair<COLOR, COLOR>>
-    interface FastBlur<IMAGE> : Filter<IMAGE, Pair<Float, Int>>
-    interface Gamma<IMAGE> : Filter<IMAGE, Float>
-    interface GaussianBlur<IMAGE> : Filter<IMAGE, Float>
-    interface GlassSphereRefraction<IMAGE> : Filter<IMAGE, Pair<Float, Float>>
-    interface Halftone<IMAGE> : Filter<IMAGE, Float>
-    interface Haze<IMAGE> : Filter<IMAGE, Pair<Float, Float>>
-    interface HighlightsAndShadows<IMAGE> : Filter<IMAGE, Pair<Float, Float>>
-    interface Hue<IMAGE> : Filter<IMAGE, Float>
-    interface Kuwahara<IMAGE> : Filter<IMAGE, Float>
-    interface Laplacian<IMAGE> : Filter<IMAGE, Unit>
-    interface Lookup<IMAGE> : Filter<IMAGE, Float>
-    interface LuminanceThreshold<IMAGE> : Filter<IMAGE, Float>
-    interface Monochrome<IMAGE> : Filter<IMAGE, Float>
-    interface Negative<IMAGE> : Filter<IMAGE, Unit>
-    interface NonMaximumSuppression<IMAGE> : Filter<IMAGE, Unit>
-    interface Opacity<IMAGE> : Filter<IMAGE, Float>
-    interface Posterize<IMAGE> : Filter<IMAGE, Float>
-    interface RGB<IMAGE, COLOR> : Filter<IMAGE, COLOR>
-    interface Saturation<IMAGE> : Filter<IMAGE, Float>
-    interface Sepia<IMAGE> : Filter<IMAGE, Float>
-    interface Sharpen<IMAGE> : Filter<IMAGE, Float>
-    interface Sketch<IMAGE> : Filter<IMAGE, Unit>
-    interface SmoothToon<IMAGE> : Filter<IMAGE, Triple<Float, Float, Float>>
-    interface SobelEdgeDetection<IMAGE> : Filter<IMAGE, Float>
-    interface Solarize<IMAGE> : Filter<IMAGE, Float>
-    interface SphereRefraction<IMAGE> : Filter<IMAGE, Pair<Float, Float>>
-    interface StackBlur<IMAGE> : Filter<IMAGE, Pair<Float, Int>>
-    interface SwirlDistortion<IMAGE> : Filter<IMAGE, Pair<Float, Float>>
-    interface Toon<IMAGE> : Filter<IMAGE, Pair<Float, Float>>
-    interface Vibrance<IMAGE> : Filter<IMAGE, Float>
-    interface Vignette<IMAGE> : Filter<IMAGE, Pair<Float, Float>>
-    interface WeakPixel<IMAGE> : Filter<IMAGE, Unit>
-    interface WhiteBalance<IMAGE> : Filter<IMAGE, Pair<Float, Float>>
-    interface ZoomBlur<IMAGE> : Filter<IMAGE, Triple<Float, Float, Float>>
-    interface Pixelation<IMAGE> : Filter<IMAGE, Float>
-    interface EnhancedPixelation<IMAGE> : Filter<IMAGE, Float>
-    interface StrokePixelation<IMAGE> : Filter<IMAGE, Float>
-    interface CirclePixelation<IMAGE> : Filter<IMAGE, Float>
-    interface DiamondPixelation<IMAGE> : Filter<IMAGE, Float>
-    interface EnhancedCirclePixelation<IMAGE> : Filter<IMAGE, Float>
-    interface EnhancedDiamondPixelation<IMAGE> : Filter<IMAGE, Float>
-    interface ReplaceColor<IMAGE, COLOR> : Filter<IMAGE, Triple<Float, COLOR, COLOR>>
+    interface BilaterialBlur<Image> : Filter<Image, Float>
+    interface BlackAndWhite<Image> : Filter<Image, Unit>
+    interface BoxBlur<Image> : Filter<Image, Float>
+    interface Brightness<Image> : Filter<Image, Float>
+    interface BulgeDistortion<Image> : Filter<Image, Pair<Float, Float>>
+    interface CGAColorSpace<Image> : Filter<Image, Unit>
+    interface ColorBalance<Image> : Filter<Image, FloatArray>
+    interface Color<Image, Color> : Filter<Image, Color>
+    interface ColorMatrix<Image> : Filter<Image, FloatArray>
+    interface Contrast<Image> : Filter<Image, Float>
+    interface Convolution3x3<Image> : Filter<Image, FloatArray>
+    interface Crosshatch<Image> : Filter<Image, Pair<Float, Float>>
+    interface Dilation<Image> : Filter<Image, Float>
+    interface Emboss<Image> : Filter<Image, Float>
+    interface Exposure<Image> : Filter<Image, Float>
+    interface FalseColor<Image, Color> : Filter<Image, Pair<Color, Color>>
+    interface FastBlur<Image> : Filter<Image, Pair<Float, Int>>
+    interface Gamma<Image> : Filter<Image, Float>
+    interface GaussianBlur<Image> : Filter<Image, Float>
+    interface GlassSphereRefraction<Image> : Filter<Image, Pair<Float, Float>>
+    interface Halftone<Image> : Filter<Image, Float>
+    interface Haze<Image> : Filter<Image, Pair<Float, Float>>
+    interface HighlightsAndShadows<Image> : Filter<Image, Pair<Float, Float>>
+    interface Hue<Image> : Filter<Image, Float>
+    interface Kuwahara<Image> : Filter<Image, Float>
+    interface Laplacian<Image> : Filter<Image, Unit>
+    interface Lookup<Image> : Filter<Image, Float>
+    interface LuminanceThreshold<Image> : Filter<Image, Float>
+    interface Monochrome<Image> : Filter<Image, Float>
+    interface Negative<Image> : Filter<Image, Unit>
+    interface NonMaximumSuppression<Image> : Filter<Image, Unit>
+    interface Opacity<Image> : Filter<Image, Float>
+    interface Posterize<Image> : Filter<Image, Float>
+    interface RGB<Image, Color> : Filter<Image, Color>
+    interface Saturation<Image> : Filter<Image, Float>
+    interface Sepia<Image> : Filter<Image, Float>
+    interface Sharpen<Image> : Filter<Image, Float>
+    interface Sketch<Image> : Filter<Image, Unit>
+    interface SmoothToon<Image> : Filter<Image, Triple<Float, Float, Float>>
+    interface SobelEdgeDetection<Image> : Filter<Image, Float>
+    interface Solarize<Image> : Filter<Image, Float>
+    interface SphereRefraction<Image> : Filter<Image, Pair<Float, Float>>
+    interface StackBlur<Image> : Filter<Image, Pair<Float, Int>>
+    interface SwirlDistortion<Image> : Filter<Image, Pair<Float, Float>>
+    interface Toon<Image> : Filter<Image, Pair<Float, Float>>
+    interface Vibrance<Image> : Filter<Image, Float>
+    interface Vignette<Image> : Filter<Image, Pair<Float, Float>>
+    interface WeakPixel<Image> : Filter<Image, Unit>
+    interface WhiteBalance<Image> : Filter<Image, Pair<Float, Float>>
+    interface ZoomBlur<Image> : Filter<Image, Triple<Float, Float, Float>>
+    interface Pixelation<Image> : Filter<Image, Float>
+    interface EnhancedPixelation<Image> : Filter<Image, Float>
+    interface StrokePixelation<Image> : Filter<Image, Float>
+    interface CirclePixelation<Image> : Filter<Image, Float>
+    interface DiamondPixelation<Image> : Filter<Image, Float>
+    interface EnhancedCirclePixelation<Image> : Filter<Image, Float>
+    interface EnhancedDiamondPixelation<Image> : Filter<Image, Float>
+    interface ReplaceColor<Image, Color> : Filter<Image, Triple<Float, Color, Color>>
+    interface RemoveColor<Image, Color> : Filter<Image, Pair<Float, Color>>
 }

@@ -112,6 +112,7 @@ import ru.tech.imageresizershrinker.presentation.root.transformation.filter.Opac
 import ru.tech.imageresizershrinker.presentation.root.transformation.filter.PixelationFilter
 import ru.tech.imageresizershrinker.presentation.root.transformation.filter.PosterizeFilter
 import ru.tech.imageresizershrinker.presentation.root.transformation.filter.RGBFilter
+import ru.tech.imageresizershrinker.presentation.root.transformation.filter.RemoveColorFilter
 import ru.tech.imageresizershrinker.presentation.root.transformation.filter.ReplaceColorFilter
 import ru.tech.imageresizershrinker.presentation.root.transformation.filter.SaturationFilter
 import ru.tech.imageresizershrinker.presentation.root.transformation.filter.SepiaFilter
@@ -174,6 +175,7 @@ fun AddFiltersSheet(
                 VibranceFilter(context),
                 RGBFilter(context),
                 ReplaceColorFilter(context),
+                RemoveColorFilter(context),
                 FalseColorFilter(context),
                 CGAColorSpaceFilter(context),
                 MonochromeFilter(context),

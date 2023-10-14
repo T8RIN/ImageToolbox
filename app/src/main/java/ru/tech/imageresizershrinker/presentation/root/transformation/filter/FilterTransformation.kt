@@ -144,6 +144,11 @@ sealed class FilterTransformation<T>(
                 context = context,
                 value = value as Triple<Float, Color, Color>
             )
+
+            is RemoveColorFilter -> RemoveColorFilter(
+                context = context,
+                value = value as Pair<Float, Color>
+            )
         }
     }
 
@@ -207,6 +212,7 @@ sealed class FilterTransformation<T>(
             is EnhancedCirclePixelationFilter -> EnhancedCirclePixelationFilter(context)
             is EnhancedDiamondPixelationFilter -> EnhancedDiamondPixelationFilter(context)
             is ReplaceColorFilter -> ReplaceColorFilter(context)
+            is RemoveColorFilter -> RemoveColorFilter(context)
         }
     }
 
