@@ -157,15 +157,15 @@ sealed class Screen(
                 listOf(
                     SingleEdit(),
                     ResizeAndConvert(),
+                    Crop(),
                     ResizeByBytes(),
-                    LimitResize()
+                    LimitResize(),
                 ) to Triple(
                     R.string.edit,
                     Icons.Rounded.PhotoSizeSelectLarge,
                     Icons.Outlined.PhotoSizeSelectSmall
                 ),
                 listOf(
-                    Crop(),
                     Filter(),
                     Draw(),
                     EraseBackground(),
