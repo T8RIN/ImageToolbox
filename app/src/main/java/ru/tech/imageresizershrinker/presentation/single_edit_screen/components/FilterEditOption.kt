@@ -15,6 +15,7 @@ import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.Colorize
 import androidx.compose.material.icons.rounded.Done
 import androidx.compose.material.icons.rounded.PhotoFilter
 import androidx.compose.material3.CenterAlignedTopAppBar
@@ -22,6 +23,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.FloatingActionButtonDefaults
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
@@ -37,6 +39,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clipToBounds
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
@@ -49,6 +52,7 @@ import com.smarttoolfactory.image.zoom.rememberAnimatedZoomState
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.domain.image.ImageManager
+import ru.tech.imageresizershrinker.presentation.draw_screen.components.PickColorFromImageSheet
 import ru.tech.imageresizershrinker.presentation.filters_screen.components.AddFiltersSheet
 import ru.tech.imageresizershrinker.presentation.filters_screen.components.FilterItem
 import ru.tech.imageresizershrinker.presentation.filters_screen.components.FilterReorderSheet
@@ -92,12 +96,16 @@ fun FilterEditOption(
         val showReorderSheet = rememberSaveable { mutableStateOf(false) }
 
         var stateBitmap by remember(bitmap, visible) { mutableStateOf(bitmap) }
+
+        val showColorPicker = remember { mutableStateOf(false) }
+        var tempColor by remember { mutableStateOf(Color.Black) }
+
         FullscreenEditOption(
             sheetSize = -1f,
             showControls = filterList.isNotEmpty(),
             canGoBack = stateBitmap == bitmap,
             visible = visible,
-            modifier = Modifier.heightIn(max = LocalConfiguration.current.screenHeightDp.dp / 2),
+            modifier = Modifier.heightIn(max = LocalConfiguration.current.screenHeightDp.dp / 1.5f),
             onDismiss = onDismiss,
             useScaffold = useScaffold,
             controls = {
@@ -170,6 +178,14 @@ fun FilterEditOption(
                         text = stringResource(id = R.string.add_filter),
                         modifier = Modifier.padding(horizontal = 16.dp)
                     )
+                } else {
+                    IconButton(
+                        onClick = {
+                            showColorPicker.value = true
+                        },
+                    ) {
+                        Icon(Icons.Outlined.Colorize, null)
+                    }
                 }
             },
             topAppBar = { closeButton ->
@@ -249,6 +265,13 @@ fun FilterEditOption(
             filterList = filterList,
             visible = showReorderSheet,
             updateOrder = updateOrder
+        )
+
+        PickColorFromImageSheet(
+            visible = showColorPicker,
+            bitmap = stateBitmap,
+            onColorChange = { tempColor = it },
+            color = tempColor
         )
     }
 }

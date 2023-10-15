@@ -223,22 +223,11 @@ class SingleEditViewModel @Inject constructor(
         }
     }
 
-    fun updateBitmapAfterEditing(bitmap: Bitmap?, saveOriginalSize: Boolean = false) {
-        // TODO: saveOriginalSize is dummy
+    fun updateBitmapAfterEditing(bitmap: Bitmap?) {
         viewModelScope.launch {
-            val bmp = bitmap?.let {
-                imageManager.resize(
-                    image = it,
-                    width = (if (imageInfo.rotationDegrees % 90 != 0f || imageInfo.rotationDegrees == 0f) _bitmap.value?.width else _bitmap.value?.height)
-                        ?: it.width,
-                    height = (if (imageInfo.rotationDegrees % 90 != 0f || imageInfo.rotationDegrees == 0f) _bitmap.value?.height else _bitmap.value?.width)
-                        ?: it.height,
-                    resizeType = if (saveOriginalSize) ResizeType.Explicit else ResizeType.Flexible
-                )
-            }
-            val size = bmp?.let { it.width to it.height }
+            val size = bitmap?.let { it.width to it.height }
             _originalSize.value = size?.run { IntegerSize(width = first, height = second) }
-            _bitmap.value = imageManager.scaleUntilCanShow(bmp)
+            _bitmap.value = imageManager.scaleUntilCanShow(bitmap)
             resetValues()
             _imageInfo.value = _imageInfo.value.copy(
                 width = size?.first ?: 0,

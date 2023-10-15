@@ -82,7 +82,7 @@ fun EraseBackgroundEditOption(
     useScaffold: Boolean,
     bitmap: Bitmap?,
     orientation: Int,
-    onGetBitmap: (Bitmap, Boolean) -> Unit,
+    onGetBitmap: (Bitmap) -> Unit,
     clearErasing: (Boolean) -> Unit,
     undo: () -> Unit,
     redo: () -> Unit,
@@ -276,8 +276,7 @@ fun EraseBackgroundEditOption(
                                         onGetBitmap(
                                             if (trimImage) imageManager.trimEmptyParts(
                                                 erasedBitmap
-                                            ) else erasedBitmap,
-                                            !trimImage
+                                            ) else erasedBitmap
                                         )
                                         clearErasing(false)
                                     }

@@ -589,9 +589,7 @@ fun SingleEditScreen(
         },
         useScaffold = imageInside,
         bitmap = viewModel.previewBitmap,
-        onGetBitmap = {
-            viewModel.updateBitmapAfterEditing(it, true)
-        },
+        onGetBitmap = viewModel::updateBitmapAfterEditing,
         imageManager = viewModel.getImageManager(),
         filterList = viewModel.filterList,
         updateOrder = viewModel::updateOrder,
@@ -610,7 +608,7 @@ fun SingleEditScreen(
         useScaffold = imageInside,
         bitmap = viewModel.previewBitmap,
         onGetBitmap = {
-            viewModel.updateBitmapAfterEditing(it, true)
+            viewModel.updateBitmapAfterEditing(it)
             viewModel.clearDrawing()
         },
         orientation = remember(viewModel.previewBitmap) {
