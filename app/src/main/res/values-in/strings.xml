@@ -255,7 +255,6 @@
     <string name="draw_on_background">Menggambar di latar belakang</string>
     <string name="store_file_desc">Simpan file ini di perangkat Anda atau gunakan tindakan berbagi untuk meletakkannya di mana pun Anda mau</string>
     <string name="skip">Melewati</string>
-    <string name="force">Memaksa</string>
     <string name="warning_bytes">Menyimpan dalam mode %1$s bisa jadi tidak stabil, karena merupakan format lossless</string>
     <string name="activate_files">Anda menonaktifkan aplikasi File, aktifkan untuk menggunakan fitur ini</string>
     <string name="draw">Menggambar</string>

@@ -289,7 +289,6 @@
 \n请注意：内存 (RAM) 不是存储 (ROM)。</string>
     <string name="screenshot">截屏</string>
     <string name="skip">跳过</string>
-    <string name="force">力量</string>
     <string name="secondary_customization">二次定制</string>
     <string name="fallback_option">后备选项</string>
     <string name="copy">复制</string>

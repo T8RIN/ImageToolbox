@@ -297,12 +297,11 @@
     <string name="screenshot">Print</string>
     <string name="fallback_option">Opção alternativa</string>
     <string name="skip">Pular</string>
-    <string name="force">Força</string>
     <string name="copy">cópia de</string>
     <string name="warning_bytes">Salvar no modo %1$s pode ser instável, porque é um formato sem perdas</string>
     <string name="reset_settings_sub">Isto irá restaurar suas configurações para as opções padrão, note que não pode ser desfeito com o arquivo de backup da opção acima</string>
     <string name="updates">Atualizações</string>
-    <string name="something_went_wrong_emphasis">Ooops... Algo deu errado, escreva para mim usando as opções abaixo e eu vou tentar encontrar solução</string>
+    <string name="something_went_wrong_emphasis">Ooops… Algo deu errado, escreva para mim usando as opções abaixo e eu vou tentar encontrar solução</string>
     <string name="tg_chat">Chat do Telegram</string>
     <string name="crop_mask">Recorte da máscara</string>
     <string name="nature_and_animals">Natureza e animais</string>
@@ -341,7 +340,7 @@
     <string name="backup">Backup</string>
     <string name="auto_erase_background">Apagar fundo automaticamente</string>
     <string name="crashlytics_sub">Isso permite que o app colete relatórios de erros manualmente</string>
-    <string name="saving_almost_complete">Salvando... quase concluído, se você cancelar agora, vai precisar para recomeçar a salvar</string>
+    <string name="saving_almost_complete">Salvando… quase concluído, se você cancelar agora, vai precisar para recomeçar a salvar</string>
     <string name="create_issue">Informar um problema</string>
     <string name="pipette">Conta-gotas</string>
     <string name="saved_to">Salvo na pasta %1$s com o nome %2$s</string>

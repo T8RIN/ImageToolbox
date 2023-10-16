@@ -292,7 +292,6 @@
     <string name="fallback_option">फ़ॉलबैक विकल्प</string>
     <string name="skip">छोडना</string>
     <string name="copy">प्रतिलिपि</string>
-    <string name="force">ताकत</string>
     <string name="secondary_customization">द्वितीयक अनुकूलन</string>
     <string name="warning_bytes">%1$s मोड में सेव करना अस्थिर हो सकता है, क्योंकि यह दोषरहित प्रारूप है</string>
     <string name="reset_settings_sub">यह आपकी सेटिंग्स को डिफ़ॉल्ट मानों पर वापस ले आएगा, ध्यान दें कि उपरोक्त विकल्प से बैकअप फ़ाइल के बिना इसे पहले की तरह नहीं किया जा सकता है</string>

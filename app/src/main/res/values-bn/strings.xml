@@ -258,7 +258,6 @@
     <string name="warning_bytes">%1$s মোডে সংরক্ষণ করা অস্থির হতে পারে, কারণ এটি ক্ষতিহীন বিন্যাস</string>
     <string name="invalid_password_or_not_encrypted">অবৈধ পাসওয়ার্ড বা নির্বাচিত ফাইল এনক্রিপ্ট করা হয় না</string>
     <string name="file_size">ফাইলের আকার</string>
-    <string name="force">বল</string>
     <string name="activate_files">আপনি ফাইল অ্যাপটি নিষ্ক্রিয় করেছেন, এই বৈশিষ্ট্যটি ব্যবহার করতে এটি সক্রিয় করুন৷</string>
     <string name="draw">আঁকা</string>
     <string name="fallback_option">ফলব্যাক বিকল্প</string>

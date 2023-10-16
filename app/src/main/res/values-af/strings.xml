@@ -273,7 +273,6 @@
     <string name="compatibility_sub">Neem asseblief kennis dat versoenbaarheid met ander lêerenkripsie sagteware of dienste nie gewaarborg word nie. \'n Effens ander sleutelbehandeling of syferkonfigurasie kan redes vir onverenigbaarheid wees.</string>
     <string name="group_options_by_type_sub">Groepeer opsies op die hoofskerm van hul tipe in plaas van pasgemaakte lysrangskikking</string>
     <string name="copy">Kopieer</string>
-    <string name="force">Dwing</string>
     <string name="activate_files">Jy het Files-program gedeaktiveer, aktiveer dit om hierdie kenmerk te gebruik</string>
     <string name="paint_alpha">Verf alfa</string>
     <string name="paint_color">Verf kleur</string>

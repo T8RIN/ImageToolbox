@@ -280,7 +280,6 @@
     <string name="encryption">Šifrovanie</string>
     <string name="compatibility_sub">Upozorňujeme, že kompatibilita s iným softvérom alebo službami na šifrovanie súborov nie je zaručená. Príčinou nekompatibility môže byť mierne odlišné spracovanie kľúča alebo konfigurácia šifry.</string>
     <string name="copy">Kopírovať</string>
-    <string name="force">sila</string>
     <string name="paint_color">Farba laku</string>
     <string name="paint_alpha">Farba alfa</string>
     <string name="cipher">Šifra</string>

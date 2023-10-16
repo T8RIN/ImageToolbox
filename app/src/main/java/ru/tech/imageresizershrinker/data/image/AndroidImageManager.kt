@@ -290,9 +290,9 @@ class AndroidImageManager @Inject constructor(
             }
         } else {
             return when (this) {
-                ResizeType.Limits.Copy -> image
+                ResizeType.Limits.Recode -> image
 
-                ResizeType.Limits.Force -> resize(
+                ResizeType.Limits.Zoom -> resize(
                     image = image,
                     width = width,
                     height = height,

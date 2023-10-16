@@ -246,7 +246,6 @@
     <string name="replace_sequence_number">Udskift sekvensnummer</string>
     <string name="replace_sequence_number_sub">Hvis aktiveret, erstatter standardtidsstemplet til billedsekvensnummeret, hvis du bruger batchbehandling</string>
     <string name="cache_size">Cache størrelse</string>
-    <string name="force">Kraft</string>
     <string name="activate_files">Du deaktiverede Filer-appen, aktiver den for at bruge denne funktion</string>
     <string name="draw">Tegne</string>
     <string name="draw_sub">Tegn på billede som i en skitsebog, eller tegn på selve baggrunden</string>

@@ -290,7 +290,6 @@
     <string name="warning_bytes">以 %1$s 模式儲存可能不穩定，因為它是無損格式</string>
     <string name="skip">略過</string>
     <string name="screenshot">螢幕截圖</string>
-    <string name="force">強制</string>
     <string name="copy">複製</string>
     <string name="fallback_option">後備選項</string>
     <string name="edit_screenshot">編輯螢幕截圖</string>

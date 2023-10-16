@@ -287,7 +287,6 @@
 \nKontuan izan: memoria ez da biltegiratzea.</string>
     <string name="compatibility_sub">Kontuan izan fitxategiak enkriptatzeko beste software edo zerbitzu batzuekin bateragarritasuna ez dagoela bermatuta. Gako-tratamendu edo zifratze-konfigurazio apur bat desberdina bateraezintasunaren arrazoia izan daiteke.</string>
     <string name="features_sub">Fitxategien pasahitzetan oinarritutako enkriptatzea. Jarraitutako fitxategiak hautatutako direktorioan gorde edo partekatu daitezke. Deszifratutako fitxategiak ere zuzenean ireki daitezke.</string>
-    <string name="force">Indarra</string>
     <string name="fallback_option">Atzerako aukera</string>
     <string name="secondary_customization">Bigarren mailako pertsonalizazioa</string>
     <string name="warning_bytes">%1$s moduan gordetzea ezegonkorra izan daiteke, galerarik gabeko formatua delako</string>

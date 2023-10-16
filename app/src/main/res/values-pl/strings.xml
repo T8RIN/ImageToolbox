@@ -246,7 +246,6 @@
     <string name="add_original_filename_sub">Jeśli włączone, dodaje oryginalną nazwę pliku do nazwy obrazu wyjściowego</string>
     <string name="filename_not_work_with_photopicker">Dodanie oryginalnej nazwy pliku nie działa, jeśli wybrano źródło obrazu selektora zdjęć</string>
     <string name="copy">Kopiuj</string>
-    <string name="force">Siła</string>
     <string name="draw_sub">Rysuj na obrazie jak w szkicowniku lub rysuj na samym tle</string>
     <string name="draw">Rysować</string>
     <string name="screenshot">Zrzut ekranu</string>

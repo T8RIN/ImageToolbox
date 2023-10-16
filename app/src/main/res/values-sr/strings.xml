@@ -268,7 +268,6 @@
     <string name="invalid_password_or_not_encrypted">Неважећа лозинка или изабрана датотека није шифрована</string>
     <string name="decryption">Дешифровање</string>
     <string name="screenshot">Снимак екрана</string>
-    <string name="force">Сила</string>
     <string name="draw_sub">Цртајте на слици као у књизи за цртање или цртајте по самој позадини</string>
     <string name="compatibility_sub">Имајте на уму да компатибилност са другим софтвером или услугама за шифровање датотека није загарантована. Нешто другачији третман кључа или конфигурација шифре могу бити разлози за некомпатибилност.</string>
     <string name="draw_on_image">Цртајте на слици</string>

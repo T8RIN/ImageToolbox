@@ -281,7 +281,6 @@
     <string name="encrypt">I-encrypt</string>
     <string name="decrypt">I-decrypt</string>
     <string name="key">Susi</string>
-    <string name="force">Puwersa</string>
     <string name="file_size_sub">Ang maximum na laki ng file ay pinaghihigpitan ng Android OS at ang memorya na magagamit, na halatang nakadepende sa iyong device.
 \nMangyaring tandaan: ang memorya ay hindi imbakan.</string>
     <string name="cipher">Cipher</string>

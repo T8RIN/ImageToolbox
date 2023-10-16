@@ -275,7 +275,6 @@
     <string name="background_color">Barva pozadí</string>
     <string name="pick_file_to_start">Začněte výběrem souboru</string>
     <string name="features">Funkce</string>
-    <string name="force">Platnost</string>
     <string name="warning_bytes">Ukládání v režimu %1$s může být nestabilní, protože se jedná o bezztrátový formát</string>
     <string name="paint_color">Barva laku</string>
     <string name="cipher">Šifra</string>

@@ -15,8 +15,8 @@ sealed class ResizeType : Domain {
 
     sealed class Limits : ResizeType() {
         data object Skip : Limits()
-        data object Copy : Limits()
-        data object Force : Limits()
+        data object Recode : Limits()
+        data object Zoom : Limits()
     }
 
     companion object {
@@ -29,8 +29,8 @@ sealed class ResizeType : Domain {
         val limitsEntries
             get() = listOf(
                 Limits.Skip,
-                Limits.Copy,
-                Limits.Force
+                Limits.Recode,
+                Limits.Zoom
             )
     }
 }

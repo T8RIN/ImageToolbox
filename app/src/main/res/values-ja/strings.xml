@@ -279,7 +279,6 @@
     <string name="cannot_change_arrangement_while_options_grouping_enabled">オプションのグループ化が有効になっている間は配置を変更できません</string>
     <string name="edit_screenshot">スクリーンショットの編集</string>
     <string name="copy">コピー</string>
-    <string name="force">力</string>
     <string name="warning_bytes">PNGモードでの保存は、ロスレス形式であるため不安定になることがある</string>
     <string name="activate_files">ファイル アプリを無効にしました。この機能を使用するにはファイル アプリを有効にしてください</string>
     <string name="draw">描く</string>

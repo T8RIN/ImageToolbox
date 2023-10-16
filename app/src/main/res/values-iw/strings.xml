@@ -278,7 +278,6 @@
     <string name="cache_size">גודל המטמון</string>
     <string name="decrypt">פענוח</string>
     <string name="file_size">גודל הקובץ</string>
-    <string name="force">כּוֹחַ</string>
     <string name="warning_bytes">שמירה במצב %1$s עלולה להיות לא יציבה, מכיוון שהיא פורמט ללא אובדן</string>
     <string name="background_color">צבע רקע</string>
     <string name="store_file_desc">אחסן את הקובץ הזה במכשיר שלך או השתמש בפעולת השיתוף כדי לשים אותו בכל מקום שתרצה</string>

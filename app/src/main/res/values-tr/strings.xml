@@ -292,7 +292,6 @@
     <string name="copy">kopyala</string>
     <string name="warning_bytes">%1$s modunda kaydetme, kayıpsız formatta olduğundan istikrarsız olabilir</string>
     <string name="secondary_customization">İkincil özelleştirme</string>
-    <string name="force">Güç</string>
     <string name="fallback_option">Yedek seçenek</string>
     <string name="edit_screenshot">Ekran görüntüsünü düzenle</string>
 </resources>

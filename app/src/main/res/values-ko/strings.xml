@@ -273,7 +273,6 @@
     <string name="fallback_option">폴백 옵션</string>
     <string name="skip">건너뛰다</string>
     <string name="copy">복사</string>
-    <string name="force">힘</string>
     <string name="warning_bytes">%1$s 모드는 무손실 형식이므로 저장이 불안정할 수 있습니다.</string>
     <string name="draw">그리다</string>
     <string name="pick_file">파일 선택</string>

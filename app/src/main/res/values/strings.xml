@@ -305,7 +305,6 @@
     <string name="fallback_option">Fallback option</string>
     <string name="skip">Skip</string>
     <string name="copy">Copy</string>
-    <string name="force">Force</string>
     <string name="warning_bytes">Saving in %1$s mode can be unstable, because it is lossless format</string>
     <string name="presets_sub">If you are selected preset 125 image will be saved as 125% size of original image at 100% quality, and if you will choose preset 50 then image will be saved as 50% size and 50% quality</string>
     <string name="presets_sub_bytes">Preset here determines % of output file, i.e. if you select preset 50 on 5mb image then you will get 2.5mb image after saving</string>
@@ -411,6 +410,7 @@
     <string name="target_color">Target Color</string>
     <string name="color_to_remove">Color to Remove</string>
     <string name="remove_color">Remove Color</string>
+    <string name="recode">Recode</string>
     <string-array name="fab_alignment_sub">
         <item>Start</item>
         <item>Center</item>

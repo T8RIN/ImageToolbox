@@ -283,7 +283,6 @@
     <string name="image_size_warning">Il tentativo di salvare l\'immagine con una determinata larghezza e altezza potrebbe causare un errore OOM, fallo a tuo rischio e non dire che non ti avevo avvertito!</string>
     <string name="auto_cache_clearing">Cancellazione automatica della cache</string>
     <string name="copy">copia</string>
-    <string name="force">Forza</string>
     <string name="warning_bytes">Il salvataggio in modalità %1$s può essere instabile, perché è un formato senza perdita di dati</string>
     <string name="paint_color">Colore della vernice</string>
     <string name="draw_on_image">Disegna sull\'immagine</string>

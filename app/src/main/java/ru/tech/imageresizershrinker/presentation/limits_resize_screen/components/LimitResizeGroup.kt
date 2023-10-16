@@ -49,21 +49,21 @@ fun LimitsResizeGroup(
         },
         items = listOf(
             stringResource(R.string.skip),
-            stringResource(R.string.copy),
-            stringResource(R.string.force)
+            stringResource(R.string.recode),
+            stringResource(R.string.zoom)
         ),
         selectedIndex = when (resizeType) {
             ResizeType.Limits.Skip -> 0
-            ResizeType.Limits.Copy -> 1
-            ResizeType.Limits.Force -> 2
+            ResizeType.Limits.Recode -> 1
+            ResizeType.Limits.Zoom -> 2
             else -> -1
         },
         indexChanged = {
             onResizeChange(
                 when (it) {
                     0 -> ResizeType.Limits.Skip
-                    1 -> ResizeType.Limits.Copy
-                    else -> ResizeType.Limits.Force
+                    1 -> ResizeType.Limits.Recode
+                    else -> ResizeType.Limits.Zoom
                 }
             )
         }

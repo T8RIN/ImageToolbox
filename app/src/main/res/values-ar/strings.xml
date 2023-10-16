@@ -275,7 +275,6 @@
     <string name="file_size">حجم الملف</string>
     <string name="file_size_sub">الحد الأقصى لحجم الملف مقيد بنظام التشغيل Android والذاكرة المتاحة ، والتي تعتمد بشكل واضح على جهازك.
 \nيرجى ملاحظة: الذاكرة ليست تخزين.</string>
-    <string name="force">قوة</string>
     <string name="group_options_by_type_sub">خيارات المجموعات على الشاشة الرئيسية من نوعها بدلاً من ترتيب القائمة المخصص</string>
     <string name="create">يخلق</string>
     <string name="image_size_warning">قد تتسبب محاولة حفظ الصورة بالعرض والارتفاع المحددين في حدوث خطأ OOM ، قم بذلك على مسؤوليتك الخاصة ، ولا تقل أنني لم أحذرك!</string>

@@ -263,7 +263,6 @@
     <string name="edit_screenshot">Editați captura de ecran</string>
     <string name="secondary_customization">Personalizare secundară</string>
     <string name="screenshot">Captură de ecran</string>
-    <string name="force">Forta</string>
     <string name="invalid_password_or_not_encrypted">Parola nevalidă sau fișierul ales nu este criptat</string>
     <string name="fallback_option">Opțiune de rezervă</string>
     <string name="copy">Copie</string>

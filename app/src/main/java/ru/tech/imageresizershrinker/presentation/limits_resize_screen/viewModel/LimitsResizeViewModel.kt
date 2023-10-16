@@ -62,7 +62,7 @@ class LimitsResizeViewModel @Inject constructor(
     private val _selectedUri: MutableState<Uri?> = mutableStateOf(null)
     val selectedUri by _selectedUri
 
-    private val _imageInfo = mutableStateOf(ImageInfo(resizeType = ResizeType.Limits.Copy))
+    private val _imageInfo = mutableStateOf(ImageInfo(resizeType = ResizeType.Limits.Recode))
     val imageInfo by _imageInfo
 
     fun setMime(imageFormat: ImageFormat) {

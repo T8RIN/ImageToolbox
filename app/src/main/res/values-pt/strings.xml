@@ -268,7 +268,6 @@
     <string name="fallback_option">Opção alternativa</string>
     <string name="skip">Pular</string>
     <string name="copy">cópia de</string>
-    <string name="force">Força</string>
     <string name="activate_files">Você desativou o aplicativo Arquivos, ative-o para usar este recurso</string>
     <string name="auto_cache_clearing">Limpeza automática de cache</string>
     <string name="draw_on_image">Desenhar na imagem</string>

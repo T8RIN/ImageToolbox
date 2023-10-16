@@ -258,7 +258,6 @@
     <string name="create">Tạo nên</string>
     <string name="secondary_customization">Tùy chỉnh phụ</string>
     <string name="copy">Sao chép</string>
-    <string name="force">Lực lượng</string>
     <string name="warning_bytes">Lưu ở chế độ %1$s có thể không ổn định vì đây là định dạng không mất dữ liệu</string>
     <string name="invalid_password_or_not_encrypted">Mật khẩu không hợp lệ hoặc tệp đã chọn không được mã hóa</string>
     <string name="group_options_by_type">Tùy chọn nhóm theo loại</string>

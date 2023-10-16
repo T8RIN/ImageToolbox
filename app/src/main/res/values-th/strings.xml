@@ -261,7 +261,6 @@
     <string name="cache_size">ขนาดแคช</string>
     <string name="auto_cache_clearing">การล้างแคชอัตโนมัติ</string>
     <string name="copy">สำเนา</string>
-    <string name="force">บังคับ</string>
     <string name="skip">ข้าม</string>
     <string name="warning_bytes">การบันทึกในโหมด %1$s อาจไม่เสถียร เนื่องจากเป็นรูปแบบที่ไม่สูญเสียข้อมูล</string>
     <string name="cache">แคช</string>
