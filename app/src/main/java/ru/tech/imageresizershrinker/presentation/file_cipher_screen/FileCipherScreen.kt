@@ -53,10 +53,8 @@ import androidx.compose.material.icons.rounded.Save
 import androidx.compose.material.icons.rounded.Share
 import androidx.compose.material.icons.rounded.Shuffle
 import androidx.compose.material.icons.twotone.FileOpen
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.FilledTonalButton
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.FloatingActionButtonDefaults
 import androidx.compose.material3.Icon
@@ -626,20 +624,14 @@ fun FileCipherScreen(
                                                     )
 
                                                     Row(Modifier.padding(top = 24.dp)) {
-                                                        FilledTonalButton(
+                                                        EnhancedButton(
                                                             onClick = {
                                                                 saveLauncher.launch("*/*#$name")
                                                             },
                                                             modifier = Modifier
                                                                 .weight(1f)
                                                                 .height(50.dp),
-                                                            colors = ButtonDefaults.filledTonalButtonColors(),
-                                                            border = BorderStroke(
-                                                                settingsState.borderWidth,
-                                                                MaterialTheme.colorScheme.outlineVariant(
-                                                                    onTopOf = MaterialTheme.colorScheme.secondaryContainer
-                                                                )
-                                                            ),
+                                                            containerColor = MaterialTheme.colorScheme.secondaryContainer
                                                         ) {
                                                             Row(
                                                                 verticalAlignment = Alignment.CenterVertically,
@@ -657,7 +649,7 @@ fun FileCipherScreen(
                                                             }
                                                         }
                                                         Spacer(Modifier.width(16.dp))
-                                                        FilledTonalButton(
+                                                        EnhancedButton(
                                                             onClick = {
                                                                 viewModel.byteArray?.let {
                                                                     viewModel.shareFile(
@@ -673,13 +665,7 @@ fun FileCipherScreen(
                                                             modifier = Modifier
                                                                 .weight(1f)
                                                                 .height(50.dp),
-                                                            colors = ButtonDefaults.filledTonalButtonColors(),
-                                                            border = BorderStroke(
-                                                                settingsState.borderWidth,
-                                                                MaterialTheme.colorScheme.outlineVariant(
-                                                                    onTopOf = MaterialTheme.colorScheme.secondaryContainer
-                                                                )
-                                                            ),
+                                                            containerColor = MaterialTheme.colorScheme.secondaryContainer
                                                         ) {
                                                             Row(
                                                                 verticalAlignment = Alignment.CenterVertically,
