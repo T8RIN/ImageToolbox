@@ -1643,7 +1643,9 @@ fun SettingsBlock(
                                     )
                                     .padding(horizontal = 8.dp),
                                 title = stringResource(R.string.version),
-                                subtitle = "${BuildConfig.VERSION_NAME} (${BuildConfig.VERSION_CODE})",
+                                subtitle = remember {
+                                    "${BuildConfig.VERSION_NAME}${if (BuildConfig.FLAVOR == "foss") "-foss" else ""} (${BuildConfig.VERSION_CODE})"
+                                },
                                 endContent = {
                                     Icon(
                                         painter = painterResource(R.drawable.ic_launcher_monochrome),

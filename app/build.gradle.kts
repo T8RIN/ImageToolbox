@@ -15,6 +15,8 @@ plugins {
 }
 
 android {
+    var isFoss = false
+
     namespace = "ru.tech.imageresizershrinker"
     compileSdk = 34
 
@@ -57,7 +59,7 @@ android {
             "sk",
             "be"
         )
-        archivesName.set("image-toolbox-$versionName")
+        archivesName.set("image-toolbox-$versionName${if (isFoss) "-foss" else ""}")
     }
 
     flavorDimensions += "app"
@@ -65,7 +67,7 @@ android {
     productFlavors {
         create("foss") {
             dimension = "app"
-            versionNameSuffix = "-foss"
+            isFoss = true
             extra.set("gmsEnabled", false)
         }
         create("market") {
