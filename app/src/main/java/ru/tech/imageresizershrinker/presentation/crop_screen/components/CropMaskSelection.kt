@@ -3,13 +3,10 @@ package ru.tech.imageresizershrinker.presentation.crop_screen.components
 import android.net.Uri
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateColorAsState
-import androidx.compose.animation.core.animateIntAsState
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.calculateEndPadding
@@ -50,7 +47,7 @@ import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.Picker
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.localImagePickerMode
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.rememberImagePicker
-import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedSlider
+import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedSliderItem
 import ru.tech.imageresizershrinker.presentation.root.widget.modifier.container
 import kotlin.math.roundToInt
 
@@ -144,71 +141,51 @@ fun CropMaskSelection(
             }
         }
 
-        AnimatedVisibility(selectedItem.cropOutline.id == 1 || selectedItem.cropOutline.id == 2) {
-            Column(
-                modifier = Modifier
-                    .padding(start = 16.dp, end = 16.dp, bottom = 16.dp)
-                    .container(shape = RoundedCornerShape(24.dp)),
-                verticalArrangement = Arrangement.Center,
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                Spacer(Modifier.height(8.dp))
-                Row(
-                    modifier = Modifier.padding(horizontal = 16.dp),
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.Center
-                ) {
-                    Text(
-                        text = stringResource(R.string.radius),
-                        modifier = Modifier.weight(1f)
+        EnhancedSliderItem(
+            visible = selectedItem.cropOutline.id == 1 || selectedItem.cropOutline.id == 2,
+            modifier = Modifier
+                .padding(start = 16.dp, end = 16.dp, bottom = 16.dp),
+            shape = RoundedCornerShape(24.dp),
+            value = cornerRadius,
+            title = stringResource(R.string.radius),
+            icon = null,
+            onValueChange = {
+                cornerRadius = it.roundToInt()
+                if (selectedItem.cropOutline is CutCornerCropShape) {
+                    onCropMaskChange(
+                        selectedItem.copy(
+                            cropOutline = CutCornerCropShape(
+                                id = selectedItem.cropOutline.id,
+                                title = selectedItem.cropOutline.title,
+                                cornerRadius = CornerRadiusProperties(
+                                    topStartPercent = cornerRadius,
+                                    topEndPercent = cornerRadius,
+                                    bottomStartPercent = cornerRadius,
+                                    bottomEndPercent = cornerRadius
+                                )
+                            )
+                        )
                     )
-                    Text(
-                        text = "${cornerRadius}%",
-                        color = LocalContentColor.current.copy(alpha = 0.7f)
+                } else if (selectedItem.cropOutline is RoundedCornerCropShape) {
+                    onCropMaskChange(
+                        selectedItem.copy(
+                            cropOutline = RoundedCornerCropShape(
+                                id = selectedItem.cropOutline.id,
+                                title = selectedItem.cropOutline.title,
+                                cornerRadius = CornerRadiusProperties(
+                                    topStartPercent = cornerRadius,
+                                    topEndPercent = cornerRadius,
+                                    bottomStartPercent = cornerRadius,
+                                    bottomEndPercent = cornerRadius
+                                )
+                            )
+                        )
                     )
                 }
-                EnhancedSlider(
-                    modifier = Modifier.padding(horizontal = 3.dp, vertical = 3.dp),
-                    value = animateIntAsState(cornerRadius).value.toFloat(),
-                    onValueChange = {
-                        cornerRadius = it.roundToInt()
-                        if (selectedItem.cropOutline is CutCornerCropShape) {
-                            onCropMaskChange(
-                                selectedItem.copy(
-                                    cropOutline = CutCornerCropShape(
-                                        selectedItem.cropOutline.id,
-                                        selectedItem.cropOutline.title,
-                                        CornerRadiusProperties(
-                                            topStartPercent = cornerRadius,
-                                            topEndPercent = cornerRadius,
-                                            bottomStartPercent = cornerRadius,
-                                            bottomEndPercent = cornerRadius
-                                        )
-                                    )
-                                )
-                            )
-                        } else if (selectedItem.cropOutline is RoundedCornerCropShape) {
-                            onCropMaskChange(
-                                selectedItem.copy(
-                                    cropOutline = RoundedCornerCropShape(
-                                        selectedItem.cropOutline.id,
-                                        selectedItem.cropOutline.title,
-                                        CornerRadiusProperties(
-                                            topStartPercent = cornerRadius,
-                                            topEndPercent = cornerRadius,
-                                            bottomStartPercent = cornerRadius,
-                                            bottomEndPercent = cornerRadius
-                                        )
-                                    )
-                                )
-                            )
-                        }
-                    },
-                    valueRange = 0f..50f,
-                    steps = 50
-                )
-            }
-        }
+            },
+            valueRange = 0f..50f,
+            steps = 50
+        )
         AnimatedVisibility(selectedItem.cropOutline.title == OutlineType.ImageMask.name) {
             Column(
                 modifier = Modifier

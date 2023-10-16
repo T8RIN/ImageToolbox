@@ -211,8 +211,8 @@ fun DrawEditOption(
                         end = 16.dp,
                         top = 16.dp
                     ),
-                    strokeWidth = strokeWidth,
-                    onChangeStrokeWidth = { strokeWidth = it }
+                    value = strokeWidth,
+                    onValueChange = { strokeWidth = it }
                 )
                 AnimatedVisibility(
                     visible = drawMode !is DrawMode.Highlighter && drawMode !is DrawMode.PathEffect,
@@ -243,8 +243,8 @@ fun DrawEditOption(
                     exit = fadeOut() + shrinkVertically()
                 ) {
                     DrawAlphaSelector(
-                        alpha = alpha,
-                        onAlphaChange = { alpha = it }
+                        value = alpha,
+                        onValueChange = { alpha = it }
                     )
                 }
                 DrawModeSelector(

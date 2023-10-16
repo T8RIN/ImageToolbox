@@ -227,8 +227,8 @@ fun EraseBackgroundEditOption(
                 )
                 LineWidthSelector(
                     modifier = Modifier.padding(start = 16.dp, end = 16.dp, top = 8.dp),
-                    strokeWidth = strokeWidth,
-                    onChangeStrokeWidth = { strokeWidth = it }
+                    value = strokeWidth,
+                    onValueChange = { strokeWidth = it }
                 )
                 BrushSoftnessSelector(
                     modifier = Modifier

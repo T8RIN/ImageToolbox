@@ -20,6 +20,10 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ProvideTextStyle
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -31,6 +35,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.domain.model.ImageFormat
+import ru.tech.imageresizershrinker.presentation.filters_screen.components.ValueDialog
+import ru.tech.imageresizershrinker.presentation.filters_screen.components.ValueText
 import ru.tech.imageresizershrinker.presentation.root.widget.modifier.container
 import kotlin.math.roundToInt
 
@@ -70,7 +76,7 @@ fun QualityWidget(
             ) {
                 Spacer(Modifier.height(8.dp))
                 Row(
-                    modifier = Modifier.padding(horizontal = 16.dp),
+                    modifier = Modifier.padding(start = 16.dp, end = 8.dp),
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.Center
                 ) {
@@ -83,17 +89,32 @@ fun QualityWidget(
                         )
                     }
                     AnimatedContent(compressingLiteral) { literal ->
-                        Text(
-                            text = "${
-                                quality.roundToInt().coerceIn(imageFormat.compressionRange)
-                            }$literal",
-                            color = LocalContentColor.current.copy(alpha = 0.7f)
+                        var showValueDialog by remember { mutableStateOf(false) }
+                        ValueText(
+                            modifier = Modifier,
+                            value = quality.roundToInt().coerceIn(imageFormat.compressionRange),
+                            valuePrefix = literal,
+                            onClick = {
+                                showValueDialog = true
+                            }
+                        )
+                        ValueDialog(
+                            roundTo = 0,
+                            valueState = quality.toString(),
+                            onValueUpdate = {
+                                onQualityChange(
+                                    it.toInt().coerceIn(imageFormat.compressionRange).toFloat()
+                                )
+                            },
+                            valueRange = imageFormat.compressionRange.let { it.first.toFloat()..it.last.toFloat() },
+                            expanded = visible && showValueDialog,
+                            onDismiss = { showValueDialog = false },
                         )
                     }
                 }
                 Spacer(Modifier.weight(1f))
                 EnhancedSlider(
-                    modifier = Modifier.padding(horizontal = 3.dp, vertical = 3.dp),
+                    modifier = Modifier.padding(horizontal = 6.dp, vertical = 6.dp),
                     enabled = enabled,
                     value = animateFloatAsState(quality).value,
                     onValueChange = {

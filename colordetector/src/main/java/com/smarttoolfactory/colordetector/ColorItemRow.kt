@@ -1,7 +1,6 @@
 package com.smarttoolfactory.colordetector
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -32,6 +31,7 @@ internal fun ColorItemRow(
     containerColor: Color = Color.Unspecified,
     populationPercent: String,
     style: TextStyle,
+    colorModifier: Modifier = Modifier,
     colorData: ColorData,
     onClick: (ColorData) -> Unit,
 ) {
@@ -47,13 +47,9 @@ internal fun ColorItemRow(
     ) {
         Box(
             modifier = Modifier
+                .then(colorModifier)
                 .size(38.dp)
                 .background(colorData.color, shape = CircleShape)
-                .border(
-                    1.dp,
-                    androidx.compose.material3.MaterialTheme.colorScheme.outline,
-                    CircleShape
-                )
         )
 
         Spacer(modifier = Modifier.width(8.dp))

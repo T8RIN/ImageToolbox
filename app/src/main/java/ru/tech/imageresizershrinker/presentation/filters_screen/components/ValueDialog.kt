@@ -31,7 +31,7 @@ import kotlin.math.roundToInt
 
 @Composable
 fun ValueDialog(
-    roundTo: Int,
+    roundTo: Int?,
     valueRange: ClosedFloatingPointRange<Float>,
     valueState: String,
     expanded: Boolean,
@@ -116,5 +116,8 @@ fun ValueDialog(
     }
 }
 
-private fun Float.roundTo(digits: Int = 2) =
+private fun Float.roundTo(
+    digits: Int? = 2
+) = digits?.let {
     (this * 10f.pow(digits)).roundToInt() / (10f.pow(digits))
+} ?: this

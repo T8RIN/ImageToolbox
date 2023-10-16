@@ -375,7 +375,7 @@
     <string name="donation">Пожертвование</string>
     <string name="image_stitching">Объединение изображений</string>
     <string name="image_stitching_sub">Объединить входные изображения в одно большое</string>
-    <string name="value_in_range">Значение в %1$d..%2$d</string>
+    <string name="value_in_range">Значение в диапозоне %1$d..%2$d</string>
     <string name="horizontal">Горизонтальная</string>
     <string name="images_order">Порядок изображений</string>
     <string name="pick_at_least_two_images">Выберите минимум 2 изображения</string>

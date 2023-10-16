@@ -192,12 +192,7 @@ fun ResizeGroup(
                     )
                 } else {
                     BlurRadiusSelector(
-                        modifier = Modifier
-                            .padding(bottom = 8.dp, end = 8.dp, start = 8.dp)
-                            .container(
-                                shape = RoundedCornerShape(16.dp),
-                                color = MaterialTheme.colorScheme.surfaceContainer
-                            ),
+                        modifier = Modifier.padding(bottom = 8.dp, end = 8.dp, start = 8.dp),
                         value = blurRadius,
                         onValueChange = {
                             blurRadius = it

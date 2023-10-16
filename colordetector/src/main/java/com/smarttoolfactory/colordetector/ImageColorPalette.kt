@@ -111,15 +111,14 @@ private fun ColorProfileList(
             ColorItemRow(
                 style = style,
                 modifier = Modifier
-                    .border(
-                        width = borderWidth,
-                        shape = RoundedCornerShape(50),
-                        color = MaterialTheme.colorScheme.outlineVariant
-                    )
                     .then(
-                        if (borderWidth < 0.dp) {
-                            Modifier.shadow(.5.dp, RoundedCornerShape(50))
-                        } else Modifier
+                        if (borderWidth > 0.dp) {
+                            Modifier.border(
+                                width = borderWidth,
+                                shape = RoundedCornerShape(50),
+                                color = MaterialTheme.colorScheme.outlineVariant
+                            )
+                        } else Modifier.shadow(1.dp, RoundedCornerShape(50))
                     )
                     .background(
                         MaterialTheme.colorScheme.surfaceColorAtElevation(6.dp),
@@ -127,6 +126,13 @@ private fun ColorProfileList(
                     )
                     .fillMaxWidth(),
                 colorData = colorData,
+                colorModifier = if (borderWidth > 0.dp) {
+                    Modifier.border(
+                        width = borderWidth,
+                        shape = RoundedCornerShape(50),
+                        color = MaterialTheme.colorScheme.outlineVariant
+                    )
+                } else Modifier.shadow(1.dp, RoundedCornerShape(50)),
                 populationPercent = "$percent%",
                 onClick = onColorChange,
                 contentColor = MaterialTheme.colorScheme.onSurface

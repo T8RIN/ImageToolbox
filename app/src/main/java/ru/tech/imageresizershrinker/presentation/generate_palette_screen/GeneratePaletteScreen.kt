@@ -329,8 +329,8 @@ fun GeneratePaletteScreen(
                             ) {
                                 PaletteColorsCountSelector(
                                     modifier = Modifier.padding(top = 16.dp),
-                                    count = count,
-                                    onCountChange = { count = it }
+                                    value = count,
+                                    onValueChange = { count = it }
                                 )
                                 ImageColorPalette(
                                     borderWidth = settingsState.borderWidth,
@@ -380,8 +380,8 @@ fun GeneratePaletteScreen(
                                 contentScale = ContentScale.FillWidth
                             )
                             PaletteColorsCountSelector(
-                                count = count,
-                                onCountChange = { count = it }
+                                value = count,
+                                onValueChange = { count = it }
                             )
                             ImageColorPalette(
                                 borderWidth = settingsState.borderWidth,
