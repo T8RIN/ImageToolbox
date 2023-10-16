@@ -1,5 +1,6 @@
 package ru.tech.imageresizershrinker.presentation.filters_screen.components
 
+import android.content.res.Configuration
 import android.graphics.Bitmap
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.ExperimentalFoundationApi
@@ -48,6 +49,7 @@ import androidx.compose.material3.TabRowDefaults.tabIndicatorOffset
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.surfaceColorAtElevation
+import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
@@ -60,6 +62,9 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.clipToBounds
+import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -133,6 +138,7 @@ import ru.tech.imageresizershrinker.presentation.root.transformation.filter.Zoom
 import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedButton
 import ru.tech.imageresizershrinker.presentation.root.widget.image.SimplePicture
 import ru.tech.imageresizershrinker.presentation.root.widget.image.imageStickyHeader
+import ru.tech.imageresizershrinker.presentation.root.widget.modifier.container
 import ru.tech.imageresizershrinker.presentation.root.widget.preferences.PreferenceItemOverload
 import ru.tech.imageresizershrinker.presentation.root.widget.sheets.SimpleDragHandle
 import ru.tech.imageresizershrinker.presentation.root.widget.sheets.SimpleSheet
@@ -140,6 +146,7 @@ import ru.tech.imageresizershrinker.presentation.root.widget.text.AutoSizeText
 import ru.tech.imageresizershrinker.presentation.root.widget.text.Marquee
 import ru.tech.imageresizershrinker.presentation.root.widget.text.TitleItem
 import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalSettingsState
+import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalWindowSizeClass
 import ru.tech.imageresizershrinker.presentation.root.widget.utils.middleImageState
 
 
@@ -455,46 +462,77 @@ fun AddFiltersSheet(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 modifier = Modifier.fillMaxWidth()
             ) {
-                LazyColumn(
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                ) {
-                    imageStickyHeader(
-                        visible = true,
-                        imageState = imageState,
-                        onStateChange = { imageState = it },
-                        imageBlock = {
-                            SimplePicture(
-                                bitmap = transformedBitmap,
-                                loading = loading,
-                                modifier = Modifier
-                            )
-                        },
-                        backgroundColor = backgroundColor
+                val imageBlock = @Composable {
+                    SimplePicture(
+                        bitmap = transformedBitmap,
+                        loading = loading,
+                        modifier = Modifier
                     )
-                    item {
-                        previewSheetData?.takeIf { it.value != Unit }?.let {
-                            FilterItem(
-                                backgroundColor = MaterialTheme
-                                    .colorScheme
-                                    .surfaceColorAtElevation(8.dp),
-                                modifier = Modifier.padding(horizontal = 16.dp),
-                                filter = it,
-                                showDragHandle = false,
-                                onRemove = { previewSheetData = null },
-                                onFilterChange = { v ->
-                                    previewSheetData = previewSheetData?.copy(v)
-                                }
-                            )
-                            Spacer(Modifier.height(16.dp))
+                }
+                val imageInside =
+                    LocalConfiguration.current.orientation != Configuration.ORIENTATION_LANDSCAPE || LocalWindowSizeClass.current.widthSizeClass == WindowWidthSizeClass.Compact
+
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.Center,
+                ) {
+                    if (!imageInside) {
+                        Box(
+                            Modifier
+                                .container(
+                                    shape = RectangleShape,
+                                    color = MaterialTheme.colorScheme.surfaceContainerHighest
+                                )
+                                .weight(1.2f)
+                                .padding(20.dp)
+                        ) {
+                            Box(Modifier.align(Alignment.Center)) {
+                                imageBlock()
+                            }
                         }
-                        Spacer(
-                            Modifier.height(
-                                WindowInsets
-                                    .navigationBars
-                                    .asPaddingValues()
-                                    .calculateBottomPadding()
+                    }
+
+                    LazyColumn(
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        modifier = Modifier
+                            .then(
+                                if (!imageInside) Modifier.weight(1f)
+                                else Modifier
                             )
+                            .clipToBounds()
+                    ) {
+                        imageStickyHeader(
+                            visible = imageInside,
+                            imageState = imageState,
+                            onStateChange = { imageState = it },
+                            imageBlock = imageBlock,
+                            backgroundColor = backgroundColor
                         )
+                        item {
+                            previewSheetData?.takeIf { it.value != Unit }?.let {
+                                FilterItem(
+                                    backgroundColor = MaterialTheme
+                                        .colorScheme
+                                        .surfaceColorAtElevation(8.dp),
+                                    modifier = Modifier.padding(horizontal = 16.dp),
+                                    filter = it,
+                                    showDragHandle = false,
+                                    onRemove = { previewSheetData = null },
+                                    onFilterChange = { v ->
+                                        previewSheetData = previewSheetData?.copy(v)
+                                    }
+                                )
+                                Spacer(Modifier.height(16.dp))
+                            }
+                            Spacer(
+                                Modifier.height(
+                                    WindowInsets
+                                        .navigationBars
+                                        .asPaddingValues()
+                                        .calculateBottomPadding()
+                                )
+                            )
+                        }
                     }
                 }
             }
