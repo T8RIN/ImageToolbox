@@ -382,4 +382,16 @@
     <string name="pixelation">Pixelisation</string>
     <string name="blur_edges_sub">Dessine des bords flous sous l\'image d\'origine pour remplir les espaces autour d\'elle au lieu d\'une seule couleur si cette option est activée</string>
     <string name="regular">Regulié</string>
+    <string name="tolerance">Tolérance</string>
+    <string name="enhanced_pixelation">Pixelation améliorée</string>
+    <string name="target_color">Couleur cible</string>
+    <string name="replace_color">Remplacer la couleur</string>
+    <string name="diamond_pixelation">Pixelation au diamant</string>
+    <string name="remove_color">Supprimer la couleur</string>
+    <string name="enhanced_diamond_pixelation">Pixelation Diamond améliorée</string>
+    <string name="circle_pixelation">Pixelisation du cercle</string>
+    <string name="color_to_remove">Couleur à supprimer</string>
+    <string name="color_to_replace">Couleur à remplacer</string>
+    <string name="stroke_pixelation">Pixellisation de la course</string>
+    <string name="enhanced_circle_pixelation">Pixelisation de cercle améliorée</string>
 </resources>
