@@ -56,7 +56,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -143,6 +142,12 @@ import ru.tech.imageresizershrinker.presentation.root.widget.text.TitleItem
 import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalSettingsState
 import ru.tech.imageresizershrinker.presentation.root.widget.utils.middleImageState
 
+
+private object FilterHolder {
+    val previewSheetData: MutableState<FilterTransformation<*>?> = mutableStateOf(null)
+}
+
+
 @OptIn(ExperimentalFoundationApi::class, ExperimentalMaterial3Api::class)
 @Composable
 fun AddFiltersSheet(
@@ -156,7 +161,7 @@ fun AddFiltersSheet(
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
 
-    var previewSheetData by rememberSaveable { mutableStateOf<FilterTransformation<*>?>(null) }
+    var previewSheetData by FilterHolder.previewSheetData
     val showPreviewState = remember { mutableStateOf(false) }
 
     LaunchedEffect(previewBitmap) {
