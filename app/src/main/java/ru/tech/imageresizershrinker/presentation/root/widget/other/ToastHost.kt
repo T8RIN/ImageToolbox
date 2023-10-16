@@ -163,9 +163,7 @@ class ToastHostState {
 
             if (message != other.message) return false
             if (icon != other.icon) return false
-            if (duration != other.duration) return false
-
-            return true
+            return duration == other.duration
         }
 
         override fun hashCode(): Int {
@@ -192,9 +190,7 @@ class ToastHostState {
             other as ToastDataImpl
 
             if (visuals != other.visuals) return false
-            if (continuation != other.continuation) return false
-
-            return true
+            return continuation == other.continuation
         }
 
         override fun hashCode(): Int {

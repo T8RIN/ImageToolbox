@@ -24,9 +24,7 @@ data class ImageSaveTarget<M>(
         if (sequenceNumber != other.sequenceNumber) return false
         if (filename != other.filename) return false
         if (imageFormat != other.imageFormat) return false
-        if (!data.contentEquals(other.data)) return false
-
-        return true
+        return data.contentEquals(other.data)
     }
 
     override fun hashCode(): Int {

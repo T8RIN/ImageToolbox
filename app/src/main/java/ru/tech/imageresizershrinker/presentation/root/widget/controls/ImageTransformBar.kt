@@ -15,9 +15,9 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.RotateLeft
+import androidx.compose.material.icons.automirrored.filled.RotateRight
 import androidx.compose.material.icons.filled.Flip
-import androidx.compose.material.icons.filled.RotateLeft
-import androidx.compose.material.icons.filled.RotateRight
 import androidx.compose.material.icons.rounded.Crop
 import androidx.compose.material.icons.rounded.Draw
 import androidx.compose.material.icons.rounded.Fingerprint
@@ -99,7 +99,7 @@ fun ImageTransformBar(
                 containerColor = MaterialTheme.colorScheme.secondaryContainer,
                 onClick = onRotateLeft
             ) {
-                Icon(Icons.Default.RotateLeft, null)
+                Icon(Icons.AutoMirrored.Filled.RotateLeft, null)
             }
 
             EnhancedIconButton(
@@ -113,7 +113,7 @@ fun ImageTransformBar(
                 containerColor = MaterialTheme.colorScheme.secondaryContainer,
                 onClick = onRotateRight
             ) {
-                Icon(Icons.Default.RotateRight, null)
+                Icon(Icons.AutoMirrored.Filled.RotateRight, null)
             }
         }
         FormatExifWarning(imageFormat)
