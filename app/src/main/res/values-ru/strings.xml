@@ -384,4 +384,8 @@
     <string name="vertical">Вертикальная</string>
     <string name="output_image_scale">Масштаб выходного изображения</string>
     <string name="scale_small_images_to_large">Масштабируйте маленькие изображения до больших</string>
+    <string name="blur_edges">Размытие краёв</string>
+    <string name="pixelation">Пикселизация</string>
+    <string name="blur_edges_sub">Рисует размытые края под исходным изображением, чтобы заполнить пространство вокруг него, а не одним цветом, если включено.</string>
+    <string name="regular">Обычный</string>
 </resources>
