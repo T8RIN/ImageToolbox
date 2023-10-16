@@ -33,6 +33,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.isSpecified
+import androidx.compose.ui.layout.layout
+import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.presentation.draw_screen.components.materialShadow
 import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
@@ -53,92 +56,112 @@ fun LazyListScope.imageStickyHeader(
 ) {
     if (visible) {
         stickyHeader {
-            val color = if (backgroundColor.isSpecified) {
-                backgroundColor
-            } else MaterialTheme.colorScheme.surface.copy(alpha = 0.85f)
-
-            val settingsState = LocalSettingsState.current
+            val screenWidth = LocalConfiguration.current.screenWidthDp.dp
+            val density = LocalDensity.current
             Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(
-                        rememberAvailableHeight(expanded = expanded, imageState = imageState)
-                    )
-                    .background(color)
-                    .clip(MaterialTheme.shapes.medium)
-                    .padding(vertical = 20.dp)
-                    .animateItemPlacement(),
-                verticalArrangement = Arrangement.Center,
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                Box(Modifier.weight(1f, false)) {
-                    imageBlock()
+                modifier = Modifier.layout { measurable, constraints ->
+                    val result =
+                        measurable.measure(
+                            constraints.copy(
+                                maxWidth = with(density) {
+                                    screenWidth.roundToPx()
+                                }
+                            )
+                        )
+                    layout(result.measuredWidth, result.measuredHeight) {
+                        result.place(0, 0)
+                    }
                 }
-                Spacer(Modifier.height(36.dp))
-            }
-            Box {
-                GradientEdge(
+            ) {
+                val color = if (backgroundColor.isSpecified) {
+                    backgroundColor
+                } else MaterialTheme.colorScheme.surface.copy(alpha = 0.85f)
+
+                val settingsState = LocalSettingsState.current
+                Column(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(16.dp),
-                    startColor = color,
-                    endColor = Color.Transparent
-                )
-                Row(
-                    modifier = Modifier
-                        .align(Alignment.BottomCenter)
-                        .offset(y = (-48).dp)
-                        .fillMaxWidth(0.7f),
-                    verticalAlignment = Alignment.CenterVertically
+                        .height(
+                            rememberAvailableHeight(expanded = expanded, imageState = imageState)
+                        )
+                        .background(color)
+                        .clip(MaterialTheme.shapes.medium)
+                        .padding(20.dp)
+                        .animateItemPlacement(),
+                    verticalArrangement = Arrangement.Center,
+                    horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    EnhancedSlider(
+                    Box(Modifier.weight(1f, false)) {
+                        imageBlock()
+                    }
+                    Spacer(Modifier.height(36.dp))
+                }
+                Box {
+                    GradientEdge(
                         modifier = Modifier
-                            .weight(1f)
-                            .padding(horizontal = 10.dp),
-                        value = animateFloatAsState(targetValue = imageState.position.toFloat()).value,
-                        onValueChange = {
-                            onStateChange(imageState.copy(position = it.toInt()))
-                        },
-                        colors = SliderDefaults.colors(
-                            inactiveTrackColor = MaterialTheme.colorScheme.outlineVariant(
-                                onTopOf = MaterialTheme.colorScheme.tertiaryContainer
-                            ).copy(0.5f),
-                            activeTrackColor = MaterialTheme.colorScheme.tertiary.copy(0.5f)
-                        ),
-                        thumbColor = MaterialTheme.colorScheme.onTertiary,
-                        steps = 3,
-                        valueRange = 0f..4f
+                            .fillMaxWidth()
+                            .height(16.dp),
+                        startColor = color,
+                        endColor = Color.Transparent
                     )
-                    CompositionLocalProvider(LocalMinimumInteractiveComponentEnforcement provides false) {
-                        OutlinedIconToggleButton(
-                            checked = imageState.isBlocked,
-                            onCheckedChange = {
-                                onStateChange(imageState.copy(isBlocked = it))
+                    Row(
+                        modifier = Modifier
+                            .align(Alignment.BottomCenter)
+                            .offset(y = (-48).dp)
+                            .fillMaxWidth(0.7f),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        EnhancedSlider(
+                            modifier = Modifier
+                                .weight(1f)
+                                .padding(horizontal = 10.dp),
+                            value = animateFloatAsState(targetValue = imageState.position.toFloat()).value,
+                            onValueChange = {
+                                onStateChange(imageState.copy(position = it.toInt()))
                             },
-                            modifier = Modifier.materialShadow(
-                                shape = CircleShape,
-                                elevation = if (settingsState.borderWidth > 0.dp) 0.dp else 0.5.dp
+                            colors = SliderDefaults.colors(
+                                inactiveTrackColor = MaterialTheme.colorScheme.outlineVariant(
+                                    onTopOf = MaterialTheme.colorScheme.tertiaryContainer
+                                ).copy(0.5f),
+                                activeTrackColor = MaterialTheme.colorScheme.tertiary.copy(0.5f)
                             ),
-                            border = BorderStroke(
-                                width = settingsState.borderWidth,
-                                color = MaterialTheme.colorScheme
-                                    .outlineVariant()
-                                    .copy(alpha = 0.3f)
-                            ),
-                            colors = IconButtonDefaults.filledTonalIconToggleButtonColors(
-                                checkedContainerColor = MaterialTheme.colorScheme.tertiary.copy(
-                                    0.8f
+                            thumbColor = MaterialTheme.colorScheme.onTertiary,
+                            steps = 3,
+                            valueRange = 0f..4f
+                        )
+                        CompositionLocalProvider(LocalMinimumInteractiveComponentEnforcement provides false) {
+                            OutlinedIconToggleButton(
+                                checked = imageState.isBlocked,
+                                onCheckedChange = {
+                                    onStateChange(imageState.copy(isBlocked = it))
+                                },
+                                modifier = Modifier.materialShadow(
+                                    shape = CircleShape,
+                                    elevation = if (settingsState.borderWidth > 0.dp) 0.dp else 0.5.dp
                                 ),
-                                checkedContentColor = MaterialTheme.colorScheme.onTertiary,
-                                containerColor = MaterialTheme.colorScheme.surfaceVariant.copy(0.5f),
-                                contentColor = MaterialTheme.colorScheme.onSurfaceVariant
-                            )
-                        ) {
-                            AnimatedContent(targetState = imageState.isBlocked) { blocked ->
-                                if (blocked) {
-                                    Icon(Icons.Rounded.Lock, null)
-                                } else {
-                                    Icon(Icons.Rounded.LockOpen, null)
+                                border = BorderStroke(
+                                    width = settingsState.borderWidth,
+                                    color = MaterialTheme.colorScheme
+                                        .outlineVariant()
+                                        .copy(alpha = 0.3f)
+                                ),
+                                colors = IconButtonDefaults.filledTonalIconToggleButtonColors(
+                                    checkedContainerColor = MaterialTheme.colorScheme.tertiary.copy(
+                                        0.8f
+                                    ),
+                                    checkedContentColor = MaterialTheme.colorScheme.onTertiary,
+                                    containerColor = MaterialTheme.colorScheme.surfaceVariant.copy(
+                                        0.5f
+                                    ),
+                                    contentColor = MaterialTheme.colorScheme.onSurfaceVariant
+                                )
+                            ) {
+                                AnimatedContent(targetState = imageState.isBlocked) { blocked ->
+                                    if (blocked) {
+                                        Icon(Icons.Rounded.Lock, null)
+                                    } else {
+                                        Icon(Icons.Rounded.LockOpen, null)
+                                    }
                                 }
                             }
                         }
