@@ -157,12 +157,12 @@ height="80">](https://github.com/t8rin/imageresizer/releases/latest)
   - [x] Bilateral Blur
   - [x] Zoom Blur
   - [x] Pixelation
-  - [x] EnhancedPixelation
-  - [x] StrokePixelation
-  - [x] CirclePixelation
-  - [x] EnhancedCirclePixelation
-  - [x] DiamondPixelation
-  - [x] EnhancedDiamondPixelation
+  - [x] Enhanced Pixelation
+  - [x] Stroke Pixelation
+  - [x] Circle Pixelation
+  - [x] Enhanced Circle Pixelation
+  - [x] Diamond Pixelation
+  - [x] Enhanced Diamond Pixelation
   - [x] Swirl Distortion
   - [x] Bulge Distortion
   - [x] Sphere Refraction
