@@ -11,7 +11,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.R
-import ru.tech.imageresizershrinker.presentation.root.utils.helper.readableByteCount
+import ru.tech.imageresizershrinker.core.utils.readableByteCount
 
 @Composable
 fun <T : Any> TopAppBarTitle(

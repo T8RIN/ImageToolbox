@@ -29,6 +29,7 @@ import ru.tech.imageresizershrinker.domain.image.ImageManager
 import ru.tech.imageresizershrinker.domain.model.FontFam
 import ru.tech.imageresizershrinker.domain.model.NightMode
 import ru.tech.imageresizershrinker.domain.model.SettingsState
+import ru.tech.imageresizershrinker.domain.saving.FileController
 import ru.tech.imageresizershrinker.domain.use_case.backup_and_restore.CreateBackupFileUseCase
 import ru.tech.imageresizershrinker.domain.use_case.backup_and_restore.CreateBackupFilenameUseCase
 import ru.tech.imageresizershrinker.domain.use_case.backup_and_restore.RestoreFromBackupFileUseCase
@@ -75,6 +76,7 @@ import javax.xml.parsers.DocumentBuilderFactory
 @HiltViewModel
 class MainViewModel @Inject constructor(
     private val imageManager: ImageManager<Bitmap, ExifInterface>,
+    private val fileController: FileController,
     private val getSettingsStateUseCase: GetSettingsStateUseCase,
     getSettingsStateFlowUseCase: GetSettingsStateFlowUseCase,
     private val toggleAddSequenceNumberUseCase: ToggleAddSequenceNumberUseCase,
@@ -143,6 +145,8 @@ class MainViewModel @Inject constructor(
     val toastHostState = ToastHostState()
 
     init {
+        if (settingsState.clearCacheOnLaunch) clearCache()
+
         runBlocking {
             registerAppOpenUseCase()
             _settingsState.value = getSettingsStateUseCase()
@@ -151,6 +155,10 @@ class MainViewModel @Inject constructor(
             _settingsState.value = it
         }.launchIn(viewModelScope)
     }
+
+    fun getReadableCacheSize(): String = fileController.getReadableCacheSize()
+
+    fun clearCache(onComplete: (String) -> Unit = {}) = fileController.clearCache(onComplete)
 
     fun toggleAddSequenceNumber() {
         viewModelScope.launch {
@@ -261,7 +269,7 @@ class MainViewModel @Inject constructor(
         val showDialog = settingsState.showDialogOnStartup
         if (installedFromMarket) {
             if (showDialog) {
-                _showUpdateDialog.value = true
+                _showUpdateDialog.value = newRequest
             }
         } else {
             if (!_cancelledUpdate.value || newRequest) {
@@ -451,14 +459,6 @@ class MainViewModel @Inject constructor(
         viewModelScope.launch {
             toggleAllowCollectAnalyticsUseCase()
             GlobalExceptionHandler.setAnalyticsCollectionEnabled(settingsState.allowCollectCrashlytics)
-        }
-    }
-
-    private var alreadyCleared: Boolean = false
-    fun autoClearCache(function: () -> Unit) {
-        if (settingsState.clearCacheOnLaunch && !alreadyCleared) {
-            function()
-            alreadyCleared = true
         }
     }
 

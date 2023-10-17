@@ -10,9 +10,8 @@ import androidx.compose.animation.core.infiniteRepeatable
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
@@ -23,6 +22,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.withFrameNanos
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.graphics.Brush
@@ -116,7 +116,6 @@ fun Marquee(
             content()
         }.first().measure(infiniteWidthConstraints)
 
-        var gradient: Placeable? = null
         var secondPlaceableWithOffset: Pair<Placeable, Int>? = null
 
         if (main.width <= constraints.maxWidth) {
@@ -138,22 +137,23 @@ fun Marquee(
                     content()
                 }.first().measure(infiniteWidthConstraints) to secondTextOffset
             }
-            gradient = if (params.gradientEnabled) subcompose(MarqueeLayers.EdgesGradient) {
-                Row {
-                    GradientEdge(
-                        width = params.gradientEdgeWidth,
-                        startColor = params.gradientEdgeColor,
-                        endColor = Color.Transparent
-                    )
-                    Spacer(modifier = Modifier.weight(1f))
-                    GradientEdge(
-                        width = params.gradientEdgeWidth,
-                        startColor = Color.Transparent,
-                        endColor = params.gradientEdgeColor
-                    )
-                }
-            }.first().measure(constraints = constraints.copy(maxHeight = main.height)) else null
         }
+        val gradient = subcompose(MarqueeLayers.EdgesGradient) {
+            Box(Modifier.fillMaxWidth()) {
+                GradientEdge(
+                    modifier = Modifier.align(Alignment.CenterStart),
+                    width = params.gradientEdgeWidth,
+                    startColor = params.gradientEdgeColor,
+                    endColor = Color.Transparent
+                )
+                GradientEdge(
+                    modifier = Modifier.align(Alignment.CenterEnd),
+                    width = params.gradientEdgeWidth,
+                    startColor = Color.Transparent,
+                    endColor = params.gradientEdgeColor
+                )
+            }
+        }.first().measure(constraints = constraints.copy(maxHeight = main.height))
 
         layout(
             width = constraints.maxWidth, height = main.height
@@ -162,7 +162,9 @@ fun Marquee(
             secondPlaceableWithOffset?.let {
                 it.first.place(it.second, 0)
             }
-            gradient?.place(0, 0)
+            if (params.gradientEnabled && layoutInfoState.value?.let { it.width > it.containerWidth } == true) {
+                gradient.place(0, 0)
+            }
         }
     }
 }
@@ -209,12 +211,13 @@ fun defaultMarqueeParams(
 
 @Composable
 private fun GradientEdge(
+    modifier: Modifier,
     width: Dp,
     startColor: Color,
     endColor: Color
 ) {
     Box(
-        modifier = Modifier
+        modifier = modifier
             .width(width)
             .fillMaxHeight()
             .background(

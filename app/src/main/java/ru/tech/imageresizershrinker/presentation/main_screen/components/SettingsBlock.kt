@@ -148,8 +148,6 @@ import ru.tech.imageresizershrinker.presentation.root.theme.blend
 import ru.tech.imageresizershrinker.presentation.root.theme.inverse
 import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
 import ru.tech.imageresizershrinker.presentation.root.utils.confetti.LocalConfettiController
-import ru.tech.imageresizershrinker.presentation.root.utils.helper.ContextUtils.cacheSize
-import ru.tech.imageresizershrinker.presentation.root.utils.helper.ContextUtils.clearCache
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.ContextUtils.isInstalledFromPlayStore
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.plus
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.toUiPath
@@ -1005,7 +1003,7 @@ fun SettingsBlock(
                     ) {
                         PreferenceItem(
                             shape = defaultShape,
-                            onClick = { onEditPresets() },
+                            onClick = onEditPresets,
                             title = stringResource(R.string.values),
                             subtitle = settingsState.presets.joinToString(", "),
                             color = MaterialTheme
@@ -1232,12 +1230,12 @@ fun SettingsBlock(
                         var cache by remember(
                             context,
                             LocalLifecycleOwner.current.lifecycle.observeAsState().value
-                        ) { mutableStateOf(context.cacheSize()) }
+                        ) { mutableStateOf(viewModel.getReadableCacheSize()) }
 
                         PreferenceItem(
                             shape = topShape,
                             onClick = {
-                                context.clearCache { cache = it }
+                                viewModel.clearCache { cache = it }
                             },
                             modifier = Modifier
                                 .fillMaxWidth()

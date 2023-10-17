@@ -24,7 +24,9 @@ import androidx.exifinterface.media.ExifInterface
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import ru.tech.imageresizershrinker.R
+import ru.tech.imageresizershrinker.core.utils.readableByteCount
 import ru.tech.imageresizershrinker.data.keys.Keys.ADD_ORIGINAL_NAME_TO_FILENAME
 import ru.tech.imageresizershrinker.data.keys.Keys.ADD_SEQ_NUM_TO_FILENAME
 import ru.tech.imageresizershrinker.data.keys.Keys.ADD_SIZE_TO_FILENAME
@@ -278,6 +280,36 @@ class FileControllerImpl @Inject constructor(
                 timeStamp
             }
         }.$extension"
+    }
+
+    override fun clearCache(onComplete: (String) -> Unit) = context.clearCache(onComplete)
+
+    override fun getReadableCacheSize(): String = context.cacheSize()
+
+    private fun Context.clearCache(onComplete: (cache: String) -> Unit = {}) {
+        CoroutineScope(Dispatchers.Main).launch {
+            withContext(Dispatchers.IO) {
+                cacheDir.deleteRecursively()
+                codeCacheDir.deleteRecursively()
+                externalCacheDir?.deleteRecursively()
+                externalCacheDirs.forEach {
+                    it.deleteRecursively()
+                }
+            }
+            onComplete(cacheSize())
+        }
+    }
+
+    private fun Context.cacheSize(): String {
+        return kotlin.runCatching {
+            val cache = cacheDir.walkTopDown().filter { it.isFile }.map { it.length() }.sum()
+            val code = codeCacheDir.walkTopDown().filter { it.isFile }.map { it.length() }.sum()
+            var size = cache + code
+            externalCacheDirs.forEach { file ->
+                size += file.walkTopDown().filter { it.isFile }.map { it.length() }.sum()
+            }
+            readableByteCount(size)
+        }.getOrNull() ?: "0 B"
     }
 
     private fun getFileDescriptorFor(uri: Uri?) =

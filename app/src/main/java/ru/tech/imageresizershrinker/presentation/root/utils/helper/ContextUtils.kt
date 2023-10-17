@@ -19,10 +19,6 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.documentfile.provider.DocumentFile
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import ru.tech.imageresizershrinker.BuildConfig
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.IntentUtils.parcelable
@@ -194,32 +190,6 @@ object ContextUtils {
         is Activity -> this
         is ContextWrapper -> baseContext.findActivity()
         else -> null
-    }
-
-    fun Context.clearCache(onComplete: (cache: String) -> Unit = {}) {
-        CoroutineScope(Dispatchers.Main).launch {
-            withContext(Dispatchers.IO) {
-                cacheDir.deleteRecursively()
-                codeCacheDir.deleteRecursively()
-                externalCacheDir?.deleteRecursively()
-                externalCacheDirs.forEach {
-                    it.deleteRecursively()
-                }
-            }
-            onComplete(cacheSize())
-        }
-    }
-
-    fun Context.cacheSize(): String {
-        return kotlin.runCatching {
-            val cache = cacheDir.walkTopDown().filter { it.isFile }.map { it.length() }.sum()
-            val code = codeCacheDir.walkTopDown().filter { it.isFile }.map { it.length() }.sum()
-            var size = cache + code
-            externalCacheDirs.forEach { file ->
-                size += file.walkTopDown().filter { it.isFile }.map { it.length() }.sum()
-            }
-            readableByteCount(size)
-        }.getOrNull() ?: "0 B"
     }
 
     /** Save a text into the clipboard. */

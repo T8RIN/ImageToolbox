@@ -39,7 +39,6 @@ import ru.tech.imageresizershrinker.presentation.main_screen.viewModel.MainViewM
 import ru.tech.imageresizershrinker.presentation.root.model.toUiState
 import ru.tech.imageresizershrinker.presentation.root.theme.ImageToolboxTheme
 import ru.tech.imageresizershrinker.presentation.root.utils.confetti.LocalConfettiController
-import ru.tech.imageresizershrinker.presentation.root.utils.helper.ContextUtils.clearCache
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.ContextUtils.isInstalledFromPlayStore
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.ContextUtils.parseImageFromIntent
 import ru.tech.imageresizershrinker.presentation.root.utils.navigation.LocalNavController
@@ -60,8 +59,6 @@ class MainActivity : M3Activity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        viewModel.autoClearCache { clearCache() }
 
         parseImage(intent)
 
@@ -160,7 +157,12 @@ class MainActivity : M3Activity() {
 
                     ToastHost(hostState = LocalToastHost.current)
 
-                    SideEffect { viewModel.tryGetUpdate(installedFromMarket = isInstalledFromPlayStore()) }
+                    SideEffect {
+                        viewModel.tryGetUpdate(
+                            installedFromMarket = isInstalledFromPlayStore(),
+                            newRequest = true
+                        )
+                    }
 
                     PermissionDialog()
 

@@ -1,4 +1,4 @@
-package ru.tech.imageresizershrinker.presentation.root.utils.helper
+package ru.tech.imageresizershrinker.core.utils
 
 import java.text.CharacterIterator
 import java.text.StringCharacterIterator

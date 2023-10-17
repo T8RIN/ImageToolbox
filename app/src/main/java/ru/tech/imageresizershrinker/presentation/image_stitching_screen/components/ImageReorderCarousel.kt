@@ -107,7 +107,7 @@ fun ImageReorderCarousel(
                 contentColor = MaterialTheme.colorScheme.onSurfaceVariant,
                 forceMinimumInteractiveComponentSize = false,
                 modifier = Modifier
-                    .padding(start = 8.dp)
+                    .padding(start = 8.dp, end = 8.dp)
                     .size(30.dp),
             ) {
                 Icon(
