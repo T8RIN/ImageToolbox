@@ -74,7 +74,7 @@ image type picking and tons of another options</h4>
 
   </br>
   </br>
-  Join our chat where you can discuss anything you want and also look into CI channel where i will post betas and anouncemets
+  Join our chat where you can discuss anything you want and also look into CI channel where i will post betas and announcements
   </br>
 
 # ☕ Buy me a coffee
@@ -221,7 +221,7 @@ height="80">](https://github.com/t8rin/imageresizer/releases/latest)
     - Heart
     - Star
     - Image Mask
-- Format Convertion
+- Format Conversion
   - HEIF
   - HEIC
   - AVIF
@@ -239,7 +239,7 @@ height="80">](https://github.com/t8rin/imageresizer/releases/latest)
   - Rotating
   - Flipping
   - Comparing images
-  - Previewing SVG, GIF and msotly all types of images
+  - Previewing SVG, GIF and mostly all types of images
   - Saving to any specific folder
   - Randomizing output filename
 
