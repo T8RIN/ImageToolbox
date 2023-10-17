@@ -74,7 +74,7 @@ image type picking and tons of another options</h4>
 
   </br>
   </br>
-  Join our chat where you can discuss anything you want and also look into CI channel where i will post betas and anouncemets
+  Join our chat where you can discuss anything you want and also look into CI channel where i will post betas and announcements
   </br>
 
 # ☕ Buy me a coffee
