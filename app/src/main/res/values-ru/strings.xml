@@ -387,4 +387,17 @@
     <string name="pixelation">Пикселизация</string>
     <string name="blur_edges_sub">Рисует размытые края под исходным изображением, чтобы заполнить пространство вокруг него, а не одним цветом, если включено.</string>
     <string name="regular">Обычный</string>
+    <string name="recode">Рекодирование</string>
+    <string name="tolerance">Допуск</string>
+    <string name="enhanced_pixelation">Красивая пикселизация</string>
+    <string name="target_color">Заменяющий цвет</string>
+    <string name="replace_color">Заменить цвет</string>
+    <string name="diamond_pixelation">Алмазная пикселизация</string>
+    <string name="remove_color">Удаление цвета</string>
+    <string name="enhanced_diamond_pixelation">Улучшенная алмазная пикселизация</string>
+    <string name="circle_pixelation">Круглая пикселизация</string>
+    <string name="color_to_remove">Цвет для удаления</string>
+    <string name="color_to_replace">Заменяемый цвет</string>
+    <string name="stroke_pixelation">Строчная пикселизация</string>
+    <string name="enhanced_circle_pixelation">Улучшенная круглая пикселизация</string>
 </resources>
