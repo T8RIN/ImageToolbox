@@ -927,11 +927,12 @@ fun MainScreen(
 
 private fun getVersionPreRelease(): String {
     return BuildConfig.VERSION_NAME
+        .replace(BuildConfig.FLAVOR, "")
         .split("-")
         .takeIf { it.size > 1 }
         ?.drop(1)?.first()
         ?.takeWhile { it.isLetter() }
-        ?.uppercase()?.let {
+        ?.uppercase()?.takeIf { it.isNotEmpty() }?.let {
             " $it"
         } ?: ""
 }

@@ -41,7 +41,6 @@ import ru.tech.imageresizershrinker.domain.model.ResizeType
 import ru.tech.imageresizershrinker.domain.model.withSize
 import ru.tech.imageresizershrinker.domain.saving.FileController
 import ru.tech.imageresizershrinker.domain.saving.model.ImageSaveTarget
-import ru.tech.imageresizershrinker.presentation.root.app.ImageApplication
 import java.io.ByteArrayInputStream
 import java.io.ByteArrayOutputStream
 import java.io.File
@@ -51,14 +50,25 @@ import javax.inject.Inject
 import kotlin.math.abs
 import kotlin.math.max
 import kotlin.math.roundToInt
-
+import coil.transform.Transformation as CoilTransformation
 
 class AndroidImageManager @Inject constructor(
     private val context: Context,
-    private val fileController: FileController
+    private val fileController: FileController,
+    private val imageLoader: ImageLoader
 ) : ImageManager<Bitmap, ExifInterface> {
 
-    private fun loader(): ImageLoader = ImageApplication.loader()
+    private fun toCoil(transformation: Transformation<Bitmap>): CoilTransformation {
+        return object : CoilTransformation {
+            override val cacheKey: String
+                get() = transformation.cacheKey
+
+            override suspend fun transform(
+                input: Bitmap,
+                size: Size
+            ): Bitmap = transformation.transform(input, size)
+        }
+    }
 
     override suspend fun transform(
         image: Bitmap,
@@ -69,24 +79,14 @@ class AndroidImageManager @Inject constructor(
             .Builder(context)
             .data(image)
             .transformations(
-                transformations.map { t ->
-                    object : coil.transform.Transformation {
-                        override val cacheKey: String
-                            get() = t.cacheKey
-
-                        override suspend fun transform(
-                            input: Bitmap,
-                            size: Size
-                        ): Bitmap = t.transform(input, size)
-                    }
-                }
+                transformations.map(::toCoil)
             )
             .apply {
                 if (originalSize) size(Size.ORIGINAL)
             }
             .build()
 
-        return@withContext loader().execute(request).drawable?.toBitmap()
+        return@withContext imageLoader.execute(request).drawable?.toBitmap()
     }
 
     override suspend fun transform(
@@ -98,22 +98,12 @@ class AndroidImageManager @Inject constructor(
             .Builder(context)
             .data(image)
             .transformations(
-                transformations.map { t ->
-                    object : coil.transform.Transformation {
-                        override val cacheKey: String
-                            get() = t.cacheKey
-
-                        override suspend fun transform(
-                            input: Bitmap,
-                            size: Size
-                        ): Bitmap = t.transform(input, size)
-                    }
-                }
+                transformations.map(::toCoil)
             )
             .size(size.width, size.height)
             .build()
 
-        return@withContext loader().execute(request).drawable?.toBitmap()
+        return@withContext imageLoader.execute(request).drawable?.toBitmap()
     }
 
     override suspend fun getImage(
@@ -121,7 +111,7 @@ class AndroidImageManager @Inject constructor(
         originalSize: Boolean
     ): ImageData<Bitmap, ExifInterface>? = withContext(Dispatchers.IO) {
         return@withContext kotlin.runCatching {
-            loader().execute(
+            imageLoader.execute(
                 ImageRequest
                     .Builder(context)
                     .data(uri)
@@ -147,7 +137,7 @@ class AndroidImageManager @Inject constructor(
     }
 
     override suspend fun getImage(data: Any, originalSize: Boolean): Bitmap? {
-        return loader().execute(
+        return imageLoader.execute(
             ImageRequest
                 .Builder(context)
                 .data(data)
@@ -165,7 +155,7 @@ class AndroidImageManager @Inject constructor(
         onError: (Throwable) -> Unit
     ) {
         val bmp = kotlin.runCatching {
-            loader().enqueue(
+            imageLoader.enqueue(
                 ImageRequest
                     .Builder(context)
                     .data(uri)
@@ -342,7 +332,7 @@ class AndroidImageManager @Inject constructor(
         reqWidth: Int,
         reqHeight: Int
     ): ImageData<Bitmap, ExifInterface>? = withContext(Dispatchers.IO) {
-        return@withContext loader().execute(
+        return@withContext imageLoader.execute(
             ImageRequest
                 .Builder(context)
                 .size(reqWidth, reqHeight)
@@ -473,7 +463,7 @@ class AndroidImageManager @Inject constructor(
             var maxHeight = 0
             var maxWidth = 0
             val drawables = imageUris.mapNotNull { uri ->
-                loader().execute(
+                imageLoader.execute(
                     ImageRequest
                         .Builder(context)
                         .data(uri)
@@ -660,23 +650,13 @@ class AndroidImageManager @Inject constructor(
             .Builder(context)
             .data(uri)
             .transformations(
-                transformations.map { t ->
-                    object : coil.transform.Transformation {
-                        override val cacheKey: String
-                            get() = t.cacheKey
-
-                        override suspend fun transform(
-                            input: Bitmap,
-                            size: Size
-                        ): Bitmap = t.transform(input, size)
-                    }
-                }
+                transformations.map(::toCoil)
             )
             .apply {
                 if (originalSize) size(Size.ORIGINAL)
             }
             .build()
-        return@withContext loader().execute(request).drawable?.toBitmap()?.let { bitmap ->
+        return@withContext imageLoader.execute(request).drawable?.toBitmap()?.let { bitmap ->
             val fd = context.contentResolver.openFileDescriptor(uri.toUri(), "r")
             val exif = fd?.fileDescriptor?.let { ExifInterface(it) }
             fd?.close()
@@ -982,7 +962,7 @@ class AndroidImageManager @Inject constructor(
                 )
             }
             val bytes = byteArrayOutputStream.toByteArray()
-            val bitmap = loader().execute(
+            val bitmap = imageLoader.execute(
                 ImageRequest.Builder(context).data(bytes).build()
             ).drawable?.toBitmap()
             return@withContext bitmap!!

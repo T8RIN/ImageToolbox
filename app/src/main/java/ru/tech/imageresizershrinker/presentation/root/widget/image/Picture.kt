@@ -64,17 +64,12 @@ import coil.request.ImageRequest
 import coil.transform.Transformation
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
-import ru.tech.imageresizershrinker.presentation.root.app.ImageApplication
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.ContextUtils.findActivity
 import ru.tech.imageresizershrinker.presentation.root.widget.image.StatusBarUtils.hideSystemBars
 import ru.tech.imageresizershrinker.presentation.root.widget.image.StatusBarUtils.showSystemBars
 import ru.tech.imageresizershrinker.presentation.root.widget.modifier.shimmer
 import ru.tech.imageresizershrinker.presentation.root.widget.modifier.transparencyChecker
-
-@Composable
-fun pictureImageLoader(): ImageLoader = remember {
-    ImageApplication.loader()
-}
+import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalImageLoader
 
 @Composable
 fun Picture(
@@ -110,7 +105,7 @@ fun Picture(
 
     var shimmerVisible by rememberSaveable { mutableStateOf(true) }
 
-    val imageLoader = manualImageLoader ?: pictureImageLoader()
+    val imageLoader = manualImageLoader ?: LocalImageLoader.current
 
     val request = manualImageRequest ?: ImageRequest.Builder(context)
         .data(model)

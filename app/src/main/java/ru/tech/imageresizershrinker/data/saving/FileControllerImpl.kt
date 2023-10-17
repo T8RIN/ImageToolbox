@@ -3,18 +3,14 @@
 package ru.tech.imageresizershrinker.data.saving
 
 import android.Manifest
-import android.app.Activity
 import android.content.ContentValues
 import android.content.Context
-import android.content.ContextWrapper
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Build
 import android.os.Environment
 import android.provider.MediaStore
 import android.provider.OpenableColumns
-import android.widget.Toast
-import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
 import androidx.datastore.core.DataStore
@@ -40,9 +36,6 @@ import ru.tech.imageresizershrinker.domain.saving.SaveResult
 import ru.tech.imageresizershrinker.domain.saving.SaveTarget
 import ru.tech.imageresizershrinker.domain.saving.model.FileParams
 import ru.tech.imageresizershrinker.domain.saving.model.ImageSaveTarget
-import ru.tech.imageresizershrinker.presentation.root.utils.permission.PermissionStatus
-import ru.tech.imageresizershrinker.presentation.root.utils.permission.PermissionUtils.askUserToRequestPermissionExplicitly
-import ru.tech.imageresizershrinker.presentation.root.utils.permission.PermissionUtils.checkPermissions
 import java.io.File
 import java.io.FileOutputStream
 import java.io.OutputStream
@@ -88,34 +81,6 @@ class FileControllerImpl @Inject constructor(
             this,
             Manifest.permission.WRITE_EXTERNAL_STORAGE
         ) == PackageManager.PERMISSION_GRANTED
-    }
-
-    private fun Activity.requestStoragePermission() {
-        val state = checkPermissions(
-            listOf(
-                Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                Manifest.permission.READ_EXTERNAL_STORAGE
-            )
-        )
-        when (state.permissionStatus.values.first()) {
-            PermissionStatus.NOT_GIVEN -> {
-                ActivityCompat.requestPermissions(
-                    this,
-                    arrayOf(
-                        Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                        Manifest.permission.READ_EXTERNAL_STORAGE
-                    ),
-                    0
-                )
-            }
-
-            PermissionStatus.DENIED_PERMANENTLY -> {
-                askUserToRequestPermissionExplicitly()
-                Toast.makeText(this, R.string.grant_permission_manual, Toast.LENGTH_LONG).show()
-            }
-
-            PermissionStatus.ALLOWED -> Unit
-        }
     }
 
     override fun getSize(uri: String): Long? = uri.toUri().fileSize(context)
@@ -164,7 +129,6 @@ class FileControllerImpl @Inject constructor(
         keepMetadata: Boolean
     ): SaveResult {
         if (!context.isExternalStorageWritable()) {
-            context.findActivity()?.requestStoragePermission()
             return SaveResult.Error.MissingPermissions
         }
 
@@ -396,12 +360,6 @@ class FileControllerImpl @Inject constructor(
                 )
             }
         }
-    }
-
-    private fun Context.findActivity(): Activity? = when (this) {
-        is Activity -> this
-        is ContextWrapper -> baseContext.findActivity()
-        else -> null
     }
 
     private fun Uri.toPath(

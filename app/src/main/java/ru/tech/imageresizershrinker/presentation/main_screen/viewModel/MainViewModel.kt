@@ -12,6 +12,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.exifinterface.media.ExifInterface
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import coil.ImageLoader
 import com.t8rin.dynamic.theme.ColorTuple
 import com.t8rin.dynamic.theme.extractPrimaryColor
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -111,7 +112,8 @@ class MainViewModel @Inject constructor(
     private val toggleAllowCollectAnalyticsUseCase: ToggleAllowCollectAnalyticsUseCase,
     private val toggleAllowBetasUseCase: ToggleAllowBetasUseCase,
     private val allowShowingShadowsInsteadOfBordersUseCase: AllowShowingShadowsInsteadOfBordersUseCase,
-    private val registerAppOpenUseCase: RegisterAppOpenUseCase
+    private val registerAppOpenUseCase: RegisterAppOpenUseCase,
+    val imageLoader: ImageLoader
 ) : ViewModel() {
 
     private val _settingsState = mutableStateOf(SettingsState.Default())

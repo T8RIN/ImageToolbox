@@ -49,6 +49,7 @@ import ru.tech.imageresizershrinker.presentation.root.widget.other.ToastHost
 import ru.tech.imageresizershrinker.presentation.root.widget.other.rememberToastHostState
 import ru.tech.imageresizershrinker.presentation.root.widget.sheets.ProcessImagesPreferenceSheet
 import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalEditPresetsState
+import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalImageLoader
 import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalSettingsState
 import ru.tech.imageresizershrinker.presentation.root.widget.utils.setContentWithWindowSizeClass
 
@@ -73,7 +74,8 @@ class MainActivity : M3Activity() {
                 LocalSettingsState provides viewModel.settingsState.toUiState(),
                 LocalNavController provides viewModel.navController,
                 LocalEditPresetsState provides editPresetsState,
-                LocalConfettiController provides rememberToastHostState()
+                LocalConfettiController provides rememberToastHostState(),
+                LocalImageLoader provides viewModel.imageLoader
             ) {
                 val showSelectSheet = rememberSaveable(viewModel.showSelectDialog) {
                     mutableStateOf(viewModel.showSelectDialog)
