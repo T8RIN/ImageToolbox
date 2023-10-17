@@ -7,7 +7,7 @@ sealed class DrawMode(open val ordinal: Int) {
 
     sealed class PathEffect(override val ordinal: Int) : DrawMode(ordinal) {
         data class PrivacyBlur(
-            val blurRadius: Int = 50
+            val blurRadius: Int = 20
         ) : PathEffect(1)
 
         data class Pixelation(

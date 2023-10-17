@@ -71,7 +71,7 @@ import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
 import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedIconButton
 import ru.tech.imageresizershrinker.presentation.root.widget.modifier.container
 import ru.tech.imageresizershrinker.presentation.root.widget.modifier.drawHorizontalStroke
-import ru.tech.imageresizershrinker.presentation.root.widget.other.LockScreenOrientation
+import ru.tech.imageresizershrinker.presentation.root.widget.other.DrawLockScreenOrientation
 import ru.tech.imageresizershrinker.presentation.root.widget.saver.ColorSaver
 import ru.tech.imageresizershrinker.presentation.root.widget.saver.DrawModeSaver
 import ru.tech.imageresizershrinker.presentation.root.widget.text.Marquee
@@ -357,7 +357,7 @@ fun DrawEditOption(
         )
 
         if (visible) {
-            LockScreenOrientation(
+            DrawLockScreenOrientation(
                 orientation = orientation
             )
         }

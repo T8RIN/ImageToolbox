@@ -112,9 +112,9 @@ import ru.tech.imageresizershrinker.presentation.root.widget.dialogs.ExitWithout
 import ru.tech.imageresizershrinker.presentation.root.widget.modifier.container
 import ru.tech.imageresizershrinker.presentation.root.widget.modifier.containerFabBorder
 import ru.tech.imageresizershrinker.presentation.root.widget.modifier.drawHorizontalStroke
+import ru.tech.imageresizershrinker.presentation.root.widget.other.DrawLockScreenOrientation
 import ru.tech.imageresizershrinker.presentation.root.widget.other.LoadingDialog
 import ru.tech.imageresizershrinker.presentation.root.widget.other.LocalToastHost
-import ru.tech.imageresizershrinker.presentation.root.widget.other.LockScreenOrientation
 import ru.tech.imageresizershrinker.presentation.root.widget.other.showError
 import ru.tech.imageresizershrinker.presentation.root.widget.saver.ColorSaver
 import ru.tech.imageresizershrinker.presentation.root.widget.saver.DrawModeSaver
@@ -626,7 +626,7 @@ fun DrawScreen(
 
     BackHandler(onBack = onBack)
 
-    LockScreenOrientation(
+    DrawLockScreenOrientation(
         orientation = remember(viewModel.bitmap) {
             viewModel.calculateScreenOrientationBasedOnBitmap(viewModel.bitmap)
         }

@@ -47,7 +47,9 @@ import com.smarttoolfactory.image.util.update
 import com.smarttoolfactory.image.zoom.animatedZoom
 import com.smarttoolfactory.image.zoom.rememberAnimatedZoomState
 import kotlinx.coroutines.launch
+import ru.tech.imageresizershrinker.domain.model.IntegerSize
 import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
+import ru.tech.imageresizershrinker.presentation.root.utils.helper.scaleToFitCanvas
 import ru.tech.imageresizershrinker.presentation.root.widget.modifier.transparencyChecker
 
 @Composable
@@ -157,10 +159,9 @@ fun BitmapEraser(
             var drawPath by remember { mutableStateOf(Path()) }
 
             canvas.apply {
-                val nativeCanvas = this.nativeCanvas
-                val canvasWidth = nativeCanvas.width.toFloat()
-                val canvasHeight = nativeCanvas.height.toFloat()
-
+                val canvasSize = remember(nativeCanvas) {
+                    IntegerSize(nativeCanvas.width, nativeCanvas.height)
+                }
 
                 when (motionEvent) {
 
@@ -189,7 +190,8 @@ fun BitmapEraser(
                                 path = drawPath,
                                 strokeWidth = strokeWidth,
                                 brushSoftness = brushSoftness,
-                                isErasing = isRecoveryOn
+                                isErasing = isRecoveryOn,
+                                canvasSize = canvasSize
                             )
                         )
                         scope.launch {
@@ -206,11 +208,15 @@ fun BitmapEraser(
 
                     drawImageRect(
                         image = drawImageBitmap,
-                        dstSize = IntSize(canvasWidth.toInt(), canvasHeight.toInt()),
+                        dstSize = IntSize(canvasSize.width, canvasSize.height),
                         paint = paint
                     )
 
-                    paths.forEach { (path, stroke, radius, _, isRecoveryOn) ->
+                    paths.forEach { (nonScaledPath, stroke, radius, _, isRecoveryOn, _, size) ->
+                        val path = nonScaledPath.scaleToFitCanvas(
+                            currentSize = canvasSize,
+                            oldSize = size
+                        )
                         this.drawPath(
                             path.asAndroidPath(),
                             Paint().apply {

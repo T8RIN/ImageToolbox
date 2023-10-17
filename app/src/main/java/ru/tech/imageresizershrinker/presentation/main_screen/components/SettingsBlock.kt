@@ -56,6 +56,7 @@ import androidx.compose.material.icons.rounded.Block
 import androidx.compose.material.icons.rounded.BugReport
 import androidx.compose.material.icons.rounded.Cached
 import androidx.compose.material.icons.rounded.DeleteOutline
+import androidx.compose.material.icons.rounded.Draw
 import androidx.compose.material.icons.rounded.FileDownloadOff
 import androidx.compose.material.icons.rounded.Folder
 import androidx.compose.material.icons.rounded.FolderOpen
@@ -72,6 +73,7 @@ import androidx.compose.material.icons.rounded.RadioButtonChecked
 import androidx.compose.material.icons.rounded.RadioButtonUnchecked
 import androidx.compose.material.icons.rounded.RestartAlt
 import androidx.compose.material.icons.rounded.Save
+import androidx.compose.material.icons.rounded.ScreenLockRotation
 import androidx.compose.material.icons.rounded.SettingsBackupRestore
 import androidx.compose.material.icons.rounded.ShieldMoon
 import androidx.compose.material.icons.rounded.SystemSecurityUpdate
@@ -391,7 +393,7 @@ fun SettingsBlock(
                                 subtitle = stringResource(R.string.amoled_mode_sub),
                                 checked = settingsState.isAmoledMode,
                                 onClick = {
-                                    viewModel.updateAmoledMode()
+                                    viewModel.toggleAmoledMode()
                                 }
                             )
                             PreferenceRow(
@@ -507,7 +509,7 @@ fun SettingsBlock(
                                 title = stringResource(R.string.allow_image_monet),
                                 subtitle = stringResource(R.string.allow_image_monet_sub),
                                 checked = settingsState.allowChangeColorByImage,
-                                onClick = { viewModel.updateAllowImageMonet() },
+                                onClick = { viewModel.toggleAllowImageMonet() },
                                 startContent = {
                                     Icon(
                                         Icons.Rounded.WaterDrop,
@@ -1014,6 +1016,38 @@ fun SettingsBlock(
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .padding(horizontal = 8.dp)
+                        )
+                    }
+                }
+                item {
+                    SettingItem(
+                        icon = Icons.Rounded.Draw,
+                        text = stringResource(R.string.draw),
+                    ) {
+                        PreferenceRowSwitch(
+                            shape = defaultShape,
+                            resultModifier = Modifier.padding(
+                                horizontal = 16.dp,
+                                vertical = 8.dp
+                            ),
+                            modifier = Modifier.padding(
+                                start = 8.dp,
+                                end = 8.dp
+                            ),
+                            applyHorPadding = false,
+                            onClick = {
+                                viewModel.toggleLockDrawOrientation()
+                            },
+                            title = stringResource(R.string.lock_draw_orientation),
+                            subtitle = stringResource(R.string.lock_draw_orientation_sub),
+                            checked = settingsState.lockDrawOrientation,
+                            startContent = {
+                                Icon(
+                                    imageVector = Icons.Rounded.ScreenLockRotation,
+                                    contentDescription = null,
+                                    modifier = Modifier.padding(end = 16.dp)
+                                )
+                            }
                         )
                     }
                 }

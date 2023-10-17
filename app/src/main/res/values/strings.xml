@@ -412,6 +412,8 @@
     <string name="remove_color">Remove Color</string>
     <string name="recode">Recode</string>
     <string name="pixel_size">Pixel Size</string>
+    <string name="lock_draw_orientation">Lock draw orientation</string>
+    <string name="lock_draw_orientation_sub">If enabled in drawing mode screen won\'t rotate</string>
     <string-array name="fab_alignment_sub">
         <item>Start</item>
         <item>Center</item>

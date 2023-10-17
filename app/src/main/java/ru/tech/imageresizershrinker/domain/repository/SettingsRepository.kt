@@ -80,4 +80,6 @@ interface SettingsRepository {
     suspend fun toggleAllowShowingShadowsInsteadOfBorders()
 
     suspend fun registerAppOpen()
+
+    suspend fun toggleLockDrawOrientation()
 }

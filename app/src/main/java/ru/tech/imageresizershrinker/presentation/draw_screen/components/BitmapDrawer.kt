@@ -52,14 +52,15 @@ import com.smarttoolfactory.image.zoom.rememberAnimatedZoomState
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.domain.image.ImageManager
 import ru.tech.imageresizershrinker.domain.image.Transformation
+import ru.tech.imageresizershrinker.domain.model.IntegerSize
 import ru.tech.imageresizershrinker.presentation.erase_background_screen.components.PathPaint
 import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
 import ru.tech.imageresizershrinker.presentation.root.transformation.filter.PixelationFilter
 import ru.tech.imageresizershrinker.presentation.root.transformation.filter.StackBlurFilter
+import ru.tech.imageresizershrinker.presentation.root.utils.helper.rotateVector
+import ru.tech.imageresizershrinker.presentation.root.utils.helper.scaleToFitCanvas
 import ru.tech.imageresizershrinker.presentation.root.widget.modifier.transparencyChecker
 import kotlin.math.abs
-import kotlin.math.cos
-import kotlin.math.sin
 import android.graphics.Canvas as AndroidCanvas
 
 
@@ -221,6 +222,9 @@ fun BitmapDrawer(
             }
 
             canvas.apply {
+                val canvasSize = remember(nativeCanvas) {
+                    IntegerSize(nativeCanvas.width, nativeCanvas.height)
+                }
                 when (motionEvent) {
 
                     MotionEvent.Down -> {
@@ -281,7 +285,8 @@ fun BitmapDrawer(
                                 brushSoftness = brushSoftness,
                                 drawColor = drawColor,
                                 isErasing = isEraserOn,
-                                drawMode = drawMode
+                                drawMode = drawMode,
+                                canvasSize = canvasSize
                             )
                         )
                         scope.launch {
@@ -297,12 +302,16 @@ fun BitmapDrawer(
                     drawColor(Color.Transparent.toArgb(), PorterDuff.Mode.CLEAR)
                     drawColor(backgroundColor.toArgb())
 
-                    paths.forEach { (path, stroke, radius, drawColor, isErasing, effect) ->
+                    paths.forEach { (nonScaledPath, stroke, radius, drawColor, isErasing, effect, size) ->
+                        val path = nonScaledPath.scaleToFitCanvas(
+                            currentSize = canvasSize,
+                            oldSize = size
+                        )
                         if (effect is DrawMode.PathEffect && !isErasing) {
                             var shaderSource by remember(backgroundColor) {
                                 mutableStateOf<ImageBitmap?>(null)
                             }
-                            LaunchedEffect(shaderSource) {
+                            LaunchedEffect(shaderSource, canvasSize) {
                                 if (shaderSource == null) {
                                     shaderSource = imageManager.transform(
                                         image = drawImageBitmap.overlay(drawBitmap)
@@ -471,13 +480,6 @@ fun BitmapDrawer(
         }
     }
 }
-
-private fun Offset.rotateVector(
-    angle: Double
-): Offset = Offset(
-    x = (x * cos(Math.toRadians(angle)) - y * sin(Math.toRadians(angle))).toFloat(),
-    y = (x * sin(Math.toRadians(angle)) + y * cos(Math.toRadians(angle))).toFloat()
-)
 
 private fun ImageBitmap.clipBitmap(
     path: Path,

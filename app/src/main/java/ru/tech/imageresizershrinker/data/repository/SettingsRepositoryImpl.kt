@@ -35,6 +35,7 @@ import ru.tech.imageresizershrinker.data.keys.Keys.FILENAME_PREFIX
 import ru.tech.imageresizershrinker.data.keys.Keys.FONT_SCALE
 import ru.tech.imageresizershrinker.data.keys.Keys.GROUP_OPTIONS_BY_TYPE
 import ru.tech.imageresizershrinker.data.keys.Keys.IMAGE_PICKER_MODE
+import ru.tech.imageresizershrinker.data.keys.Keys.LOCK_DRAW_ORIENTATION
 import ru.tech.imageresizershrinker.data.keys.Keys.NIGHT_MODE
 import ru.tech.imageresizershrinker.data.keys.Keys.PRESETS
 import ru.tech.imageresizershrinker.data.keys.Keys.RANDOMIZE_FILENAME
@@ -74,9 +75,7 @@ class SettingsRepositoryImpl @Inject constructor(
             borderWidth = prefs[BORDER_WIDTH] ?: -1f,
             showDialogOnStartup = prefs[SHOW_UPDATE_DIALOG] ?: true,
             selectedEmoji = prefs[SELECTED_EMOJI_INDEX] ?: 0,
-            screenList = prefs[SCREEN_ORDER]?.split("/")?.map {
-                it.toInt()
-            } ?: emptyList(),
+            screenList = emptyList(),
             emojisCount = prefs[EMOJI_COUNT] ?: 1,
             clearCacheOnLaunch = prefs[AUTO_CACHE_CLEAR] ?: false,
             groupOptionsByTypes = prefs[GROUP_OPTIONS_BY_TYPE] ?: true,
@@ -98,7 +97,8 @@ class SettingsRepositoryImpl @Inject constructor(
             allowBetas = prefs[ALLOW_BETAS] ?: true,
             allowShowingShadowsInsteadOfBorders = prefs[ALLOW_SHADOWS_INSTEAD_OF_BORDERS] ?: true,
             appOpenCount = prefs[APP_OPEN_COUNT] ?: 0,
-            aspectRatios = AspectRatio.defaultList
+            aspectRatios = AspectRatio.defaultList,
+            lockDrawOrientation = prefs[LOCK_DRAW_ORIENTATION] ?: true
         )
     }
 
@@ -135,7 +135,8 @@ class SettingsRepositoryImpl @Inject constructor(
             allowBetas = prefs[ALLOW_BETAS] ?: true,
             allowShowingShadowsInsteadOfBorders = prefs[ALLOW_SHADOWS_INSTEAD_OF_BORDERS] ?: true,
             appOpenCount = prefs[APP_OPEN_COUNT] ?: 0,
-            aspectRatios = AspectRatio.defaultList
+            aspectRatios = AspectRatio.defaultList,
+            lockDrawOrientation = prefs[LOCK_DRAW_ORIENTATION] ?: true
         )
     }
 
@@ -387,6 +388,13 @@ class SettingsRepositoryImpl @Inject constructor(
         dataStore.edit {
             val v = it[APP_OPEN_COUNT] ?: 0
             it[APP_OPEN_COUNT] = v + 1
+        }
+    }
+
+    override suspend fun toggleLockDrawOrientation() {
+        dataStore.edit {
+            val v = it[LOCK_DRAW_ORIENTATION] ?: true
+            it[LOCK_DRAW_ORIENTATION] = !v
         }
     }
 

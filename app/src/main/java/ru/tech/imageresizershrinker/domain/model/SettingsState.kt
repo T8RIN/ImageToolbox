@@ -32,7 +32,8 @@ data class SettingsState(
     val allowCollectAnalytics: Boolean,
     val allowBetas: Boolean,
     val allowShowingShadowsInsteadOfBorders: Boolean,
-    val appOpenCount: Int
+    val appOpenCount: Int,
+    val lockDrawOrientation: Boolean
 ) : Domain {
 
     companion object {
@@ -66,7 +67,8 @@ data class SettingsState(
             allowBetas = true,
             allowShowingShadowsInsteadOfBorders = true,
             appOpenCount = 0,
-            aspectRatios = AspectRatio.defaultList
+            aspectRatios = AspectRatio.defaultList,
+            lockDrawOrientation = true
         )
     }
 }

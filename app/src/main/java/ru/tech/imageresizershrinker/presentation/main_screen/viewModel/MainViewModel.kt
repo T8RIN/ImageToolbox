@@ -52,6 +52,7 @@ import ru.tech.imageresizershrinker.domain.use_case.edit_settings.ToggleAmoledMo
 import ru.tech.imageresizershrinker.domain.use_case.edit_settings.ToggleClearCacheOnLaunchUseCase
 import ru.tech.imageresizershrinker.domain.use_case.edit_settings.ToggleDynamicColorsUseCase
 import ru.tech.imageresizershrinker.domain.use_case.edit_settings.ToggleGroupOptionsByTypesUseCase
+import ru.tech.imageresizershrinker.domain.use_case.edit_settings.ToggleLockDrawOrientationUseCase
 import ru.tech.imageresizershrinker.domain.use_case.edit_settings.ToggleRandomizeFilenameUseCase
 import ru.tech.imageresizershrinker.domain.use_case.edit_settings.ToggleShowDialogUseCase
 import ru.tech.imageresizershrinker.domain.use_case.edit_settings.UpdateColorTupleUseCase
@@ -113,6 +114,7 @@ class MainViewModel @Inject constructor(
     private val toggleAllowBetasUseCase: ToggleAllowBetasUseCase,
     private val allowShowingShadowsInsteadOfBordersUseCase: AllowShowingShadowsInsteadOfBordersUseCase,
     private val registerAppOpenUseCase: RegisterAppOpenUseCase,
+    private val toggleLockDrawOrientationUseCase: ToggleLockDrawOrientationUseCase,
     val imageLoader: ImageLoader
 ) : ViewModel() {
 
@@ -234,19 +236,25 @@ class MainViewModel @Inject constructor(
         }
     }
 
+    fun toggleLockDrawOrientation() {
+        viewModelScope.launch {
+            toggleLockDrawOrientationUseCase()
+        }
+    }
+
     fun setBorderWidth(width: Float) {
         viewModelScope.launch {
             setBorderWidthUseCase(width)
         }
     }
 
-    fun updateAllowImageMonet() {
+    fun toggleAllowImageMonet() {
         viewModelScope.launch {
             toggleAllowImageMonetUseCase()
         }
     }
 
-    fun updateAmoledMode() {
+    fun toggleAmoledMode() {
         viewModelScope.launch {
             toggleAmoledModeUseCase()
         }

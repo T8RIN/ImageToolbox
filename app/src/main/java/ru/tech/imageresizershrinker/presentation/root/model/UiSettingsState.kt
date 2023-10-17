@@ -50,7 +50,8 @@ data class UiSettingsState(
     val allowBetas: Boolean,
     val allowShowingShadowsInsteadOfBorders: Boolean,
     val appOpenCount: Int,
-    val aspectRatios: List<AspectRatio>
+    val aspectRatios: List<AspectRatio>,
+    val lockDrawOrientation: Boolean
 )
 
 fun UiSettingsState.isFirstLaunch(
@@ -90,7 +91,8 @@ fun SettingsState.toUiState() = UiSettingsState(
     allowBetas = allowBetas,
     allowShowingShadowsInsteadOfBorders = allowShowingShadowsInsteadOfBorders,
     appOpenCount = appOpenCount,
-    aspectRatios = aspectRatios
+    aspectRatios = aspectRatios,
+    lockDrawOrientation = lockDrawOrientation
 )
 
 private fun FontFam.toUiFont(): UiFontFam {

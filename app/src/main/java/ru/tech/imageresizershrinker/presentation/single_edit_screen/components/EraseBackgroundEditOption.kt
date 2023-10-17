@@ -67,9 +67,9 @@ import ru.tech.imageresizershrinker.presentation.root.utils.confetti.LocalConfet
 import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedIconButton
 import ru.tech.imageresizershrinker.presentation.root.widget.modifier.container
 import ru.tech.imageresizershrinker.presentation.root.widget.modifier.drawHorizontalStroke
+import ru.tech.imageresizershrinker.presentation.root.widget.other.DrawLockScreenOrientation
 import ru.tech.imageresizershrinker.presentation.root.widget.other.Loading
 import ru.tech.imageresizershrinker.presentation.root.widget.other.LocalToastHost
-import ru.tech.imageresizershrinker.presentation.root.widget.other.LockScreenOrientation
 import ru.tech.imageresizershrinker.presentation.root.widget.other.showError
 import ru.tech.imageresizershrinker.presentation.root.widget.text.Marquee
 import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalSettingsState
@@ -343,7 +343,7 @@ fun EraseBackgroundEditOption(
         }
 
         if (visible) {
-            LockScreenOrientation(
+            DrawLockScreenOrientation(
                 orientation = orientation
             )
         }
