@@ -84,30 +84,30 @@ fun BitmapDrawer(
     val scope = rememberCoroutineScope()
     val context = LocalContext.current
 
-    val transformations: List<Transformation<Bitmap>> by remember(context, drawMode) {
-        derivedStateOf {
-            when (drawMode) {
-                is DrawMode.PathEffect.PrivacyBlur -> {
-                    listOf(
-                        StackBlurFilter(
-                            context = context,
-                            value = 0.3f to 20
-                        )
-                    )
-                }
-
-                is DrawMode.PathEffect.Pixelation -> {
-                    listOf(
-                        PixelationFilter(
-                            context = context,
-                            value = 35f
-                        )
-                    )
-                }
-
-                else -> emptyList()
-            }
+    fun transformationsForMode(drawMode: DrawMode): List<Transformation<Bitmap>> = when (drawMode) {
+        is DrawMode.PathEffect.PrivacyBlur -> {
+            listOf(
+                StackBlurFilter(
+                    context = context,
+                    value = when {
+                        drawMode.blurRadius < 10 -> 0.8f
+                        drawMode.blurRadius < 20 -> 0.5f
+                        else -> 0.3f
+                    } to drawMode.blurRadius
+                )
+            )
         }
+
+        is DrawMode.PathEffect.Pixelation -> {
+            listOf(
+                PixelationFilter(
+                    context = context,
+                    value = drawMode.pixelSize
+                )
+            )
+        }
+
+        else -> emptyList()
     }
 
     Box(
@@ -307,7 +307,7 @@ fun BitmapDrawer(
                                     shaderSource = imageManager.transform(
                                         image = drawImageBitmap.overlay(drawBitmap)
                                             .asAndroidBitmap(),
-                                        transformations = transformations
+                                        transformations = transformationsForMode(effect)
                                     )?.asImageBitmap()?.clipBitmap(
                                         path = path,
                                         paint = Paint().apply {
@@ -378,10 +378,10 @@ fun BitmapDrawer(
                 mutableStateOf<ImageBitmap?>(null)
             }
 
-            LaunchedEffect(outputImage, paths, backgroundColor) {
+            LaunchedEffect(outputImage, paths, backgroundColor, drawMode) {
                 pathEffectBitmap = imageManager.transform(
                     image = outputImage.asAndroidBitmap(),
-                    transformations = transformations
+                    transformations = transformationsForMode(drawMode)
                 )?.asImageBitmap()
             }
 

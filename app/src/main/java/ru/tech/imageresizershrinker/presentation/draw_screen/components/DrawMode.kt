@@ -6,23 +6,28 @@ sealed class DrawMode(open val ordinal: Int) {
     data object Pen : DrawMode(0)
 
     sealed class PathEffect(override val ordinal: Int) : DrawMode(ordinal) {
-        data object PrivacyBlur : PathEffect(1)
-        data object Pixelation : PathEffect(4)
+        data class PrivacyBlur(
+            val blurRadius: Int = 50
+        ) : PathEffect(1)
+
+        data class Pixelation(
+            val pixelSize: Float = 35f
+        ) : PathEffect(4)
     }
 
     companion object {
         val entries by lazy {
             listOf(
-                Pen, PathEffect.PrivacyBlur, Neon, Highlighter, PathEffect.Pixelation
+                Pen, PathEffect.PrivacyBlur(), Neon, Highlighter, PathEffect.Pixelation()
             )
         }
 
         operator fun invoke(ordinal: Int) = when (ordinal) {
             0 -> Pen
-            1 -> PathEffect.PrivacyBlur
+            1 -> PathEffect.PrivacyBlur()
             2 -> Neon
             3 -> Highlighter
-            4 -> PathEffect.Pixelation
+            4 -> PathEffect.Pixelation()
             else -> Pen
         }
     }

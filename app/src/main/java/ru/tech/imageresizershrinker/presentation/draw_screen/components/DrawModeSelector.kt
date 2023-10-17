@@ -1,6 +1,11 @@
 package ru.tech.imageresizershrinker.presentation.draw_screen.components
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.animateDpAsState
+import androidx.compose.animation.expandVertically
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.background
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
@@ -39,6 +44,7 @@ import ru.tech.imageresizershrinker.presentation.root.icons.material.Cube
 import ru.tech.imageresizershrinker.presentation.root.icons.material.Highlighter
 import ru.tech.imageresizershrinker.presentation.root.icons.material.Laser
 import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
+import ru.tech.imageresizershrinker.presentation.root.widget.controls.resize_group.components.BlurRadiusSelector
 import ru.tech.imageresizershrinker.presentation.root.widget.modifier.container
 import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalSettingsState
 
@@ -49,7 +55,6 @@ fun DrawModeSelector(
     drawMode: DrawMode,
     onDrawModeChange: (DrawMode) -> Unit
 ) {
-
     val settingsState = LocalSettingsState.current
     Column(
         modifier = modifier
@@ -140,6 +145,33 @@ fun DrawModeSelector(
                             1f to MaterialTheme.colorScheme.surfaceContainer
                         )
                     )
+            )
+        }
+        AnimatedVisibility(
+            visible = drawMode is DrawMode.PathEffect.PrivacyBlur,
+            enter = fadeIn() + expandVertically(),
+            exit = fadeOut() + shrinkVertically()
+        ) {
+            BlurRadiusSelector(
+                modifier = Modifier.padding(8.dp),
+                value = (drawMode as? DrawMode.PathEffect.PrivacyBlur)?.blurRadius ?: 0,
+                valueRange = 5f..50f,
+                onValueChange = {
+                    onDrawModeChange(DrawMode.PathEffect.PrivacyBlur(it))
+                }
+            )
+        }
+        AnimatedVisibility(
+            visible = drawMode is DrawMode.PathEffect.Pixelation,
+            enter = fadeIn() + expandVertically(),
+            exit = fadeOut() + shrinkVertically()
+        ) {
+            PixelSizeSelector(
+                modifier = Modifier.padding(8.dp),
+                value = (drawMode as? DrawMode.PathEffect.Pixelation)?.pixelSize ?: 0f,
+                onValueChange = {
+                    onDrawModeChange(DrawMode.PathEffect.Pixelation(it))
+                }
             )
         }
     }
