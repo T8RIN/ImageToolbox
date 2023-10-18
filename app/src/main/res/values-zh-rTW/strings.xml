@@ -391,4 +391,5 @@
     <string name="color_to_replace">要取代的色彩</string>
     <string name="stroke_pixelation">筆畫像素化</string>
     <string name="regular">標準</string>
+    <string name="tolerance">容錯度</string>
 </resources>
