@@ -21,7 +21,7 @@
     <string name="reset">重置</string>
     <string name="clear_exif">清除 EXIF</string>
     <string name="save">儲存</string>
-    <string name="add_tag">加入標籤</string>
+    <string name="add_tag">新增標籤</string>
     <string name="cancel">取消</string>
     <string name="presets">預設集</string>
     <string name="crop">裁切</string>
@@ -148,13 +148,13 @@
     <string name="add_original_filename_sub">如果啟用，則在輸出圖片的檔案名稱中插入原始檔名</string>
     <string name="filename_not_work_with_photopicker">如果選擇了照片選擇器圖像來源，加入原始檔案名稱將不起作用</string>
     <string name="file_explorer_picker">檔案管理器</string>
-    <string name="gallery_picker_sub">简单的图库图片选取器，只有当你有任何提供媒体选取的应用程序时，它才能工作。</string>
+    <string name="gallery_picker_sub">簡易的圖片選取器，只有當您有任何提供媒體選取的應用程式時，它才能工作。</string>
     <string name="file_explorer_picker_sub">使用 GetContent 隨時隨地挑選圖片，但在某些裝置上接收選取的圖片時也會出現問題，這不是我的錯</string>
     <string name="brightness">亮度</string>
     <string name="gamma">伽馬</string>
     <string name="highlights_shadows">高亮與陰影</string>
     <string name="fit">適合</string>
-    <string name="add_filter">加入過濾器</string>
+    <string name="add_filter">新增過濾器</string>
     <string name="color_filter">色彩過濾器</string>
     <string name="white_balance">白平衡</string>
     <string name="temperature">色溫</string>
@@ -392,4 +392,7 @@
     <string name="stroke_pixelation">筆畫像素化</string>
     <string name="regular">標準</string>
     <string name="tolerance">容錯度</string>
+    <string name="blur_edges_sub">如果啟用，在原圖之下繪製模糊的邊界而不是單色，以填充其周圍的空間。</string>
+    <string name="circle_pixelation">圓形像素化</string>
+    <string name="enhanced_circle_pixelation">增強圓形像素化</string>
 </resources>
